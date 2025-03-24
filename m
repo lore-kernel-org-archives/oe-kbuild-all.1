@@ -1,145 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0E225E444
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 13:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2B825D1E0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 13:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742823837; cv=none; b=SBnOretNb/BE2jTruTbsd92i1+99Q4fmJE5hegUHzYJ4B3sCpN8fAqeyLTVXcsuBgc+o7p+skGWgddFT4IXlEI/pqCxLhopAXPRTiLNvjTTf8CRoYR/ZWzyNlTgloU9g+4U6vHikPUwL3mkWX63tLt0kwxyS0Xu6MHzBDH0ZWpA=
+	t=1742824221; cv=none; b=l+Nen5r7Wzu5WtlBjWW8KxxV92veT7pxm3ATfL8AFZOUAMeztS8L4WwkyLVIHyBxWaYr6IPj6wNNo3EUsX0Y9XKct7MLysqvHpF8TAbnQ9sIIqbfVbSQfSsztNe2ta2MDglNzMLTox1hG/imBhGeu/HRAThwjV9waFGmtgZQRSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742823837; c=relaxed/simple;
-	bh=+P/WT2cvNcq4MrEdHKMVPe4vc5/k8h+eg0ME/bhPKyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uxx0mrHYRn/TobpPSrvgqLxYJYKMRRFB6okyPfZsER3dMwkDJkUvG4mWKAHASHaYwsZNac5mxEeg+oEDXI/sywmjzihLYMJLUJPa1Cdu8nL5Oc61wHqktCC2ayLi30ncpn4wkzOPpFls0Fo087UJoGvllbmgzSEPh4UZ1sdhYiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uj1RAheN; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742824221; c=relaxed/simple;
+	bh=idBIRQzC41pEK3vxHCsW3jlGzyWUmPmwM/kPI+tS88M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H0LfCGhUlO8KIEV8uqsJAmw3RVE6XS3Xrq+fdQ/FqitIoBUuHOJNwt9ALlv2jgX3nWeY1WRmhExYL6S4UqwsRsfY5HJ0jBpTTLPRls4ys0/w6ph5YmltgilHMwB4VicCilXEFR7oV6vf0oSCq8j2v222vXtscUyBOhycbhGSeOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LIwCr9kZ; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uj1RAheN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742823835; x=1774359835;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+P/WT2cvNcq4MrEdHKMVPe4vc5/k8h+eg0ME/bhPKyY=;
-  b=Uj1RAheNX3/Oo7Ck0aZiwuaYji48CD5ww352wsDsIsd3tQDMzXZx3Nl4
-   nD450JZ02JxIQXNtSJYG07SbJrzk8ei+/4M65OkD3zZtCTDWBbWLiWpIh
-   tTHKMFBD7PpVP7bLJ4Gt5CezlfOMVTugZkaYYNAfqq8sx/rARm88Qv5iP
-   DEEcA9ZA/1kiZjSEvx+n4S5ClCsZm6OaYzzyWWaZRGEvBEgNlkISWfyF6
-   C5BljtSFRht2KUuORwTDPxFXqjV3RjY0SNJ3WPFOVttWzpJERo2q3UQ53
-   22vwsaC5B/LVBhwI+8PUHe/krE6gkFxWnKvnc2pmz+qOEZbDHXJpJwAtX
-   Q==;
-X-CSE-ConnectionGUID: uixWU9NHST+mbt5mogTzEQ==
-X-CSE-MsgGUID: KAzJBOmjTkiqQNiOgGipIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="44192761"
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
-   d="scan'208";a="44192761"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 06:43:53 -0700
-X-CSE-ConnectionGUID: 2tSsMt8dTJ+knizt8ewVUw==
-X-CSE-MsgGUID: Oy0WZTr+T5mKFT3wlm2e9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
-   d="scan'208";a="128228975"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Mar 2025 06:43:52 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1twi5m-0003cT-1u;
-	Mon, 24 Mar 2025 13:43:50 +0000
-Date: Mon, 24 Mar 2025 21:43:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-werror 21/22] drivers/pwm/pwm-mediatek.c:142:1-7:
- WARNING: do_div() does a 64-by-32 division, please consider using div64_ul
- instead.
-Message-ID: <202503242136.gWSwF8Bh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LIwCr9kZ"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-601a4e037a5so2223147eaf.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 06:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1742824218; x=1743429018; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CdxeeM9Wzx2ULG71chhuAoOD2bPZ1lIe5eeC/XTvSI0=;
+        b=LIwCr9kZkR6f/jmDHqxeLwoT2tADp7bGM+wcWDRCTvf3QtMzPH+IA33sVUrhk1QMhD
+         Xnt0h0Xhr/xUBYKzFkaoUnoS3wh5a8qExFlHasNeBgGyU6w+gAhe0jAQHS7aycxnFlRS
+         Yt01pBmWsM+D0yMbMP7iBicmRjrWs+EWcnxQoKMAkQZCDVlpkJ58DkkbT5iKWtoYwNlJ
+         xaAKTenebRvjbbL5XBwg+iqn4IUDo5SUzVaRaqsbytoFy1nxEs8MV5G3zbwX7E15eo5H
+         rqN3omr3ZXePVj8HXZxa2ImppkNq8nhrQfRdmyx9y1UncTxy9BGDa7LDPjvgh4TL1pr/
+         PNOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742824218; x=1743429018;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CdxeeM9Wzx2ULG71chhuAoOD2bPZ1lIe5eeC/XTvSI0=;
+        b=Ai6Q3OjBpIIvv7CDaaI9rbAf4wlQtPuhwn8G1eo1eYxQWwN5UgPr/YO1OHq1JR5Ssw
+         4m2pHolwpigMcusMLRh1nbPAtl7PJE46vj4pyXpeFWObwKKUMy37g9SE50NRAmyinQPQ
+         2WXy7ig9vyTU8pRp8FRG83T0nKLuixKELbtfcf8xu1Rn1Rti47Atk45DFRXKGv51OaWv
+         HmLyN09L27qFe+OWluHChqJJppFKB13jxHruMiWhSB5SPgILrdq+OWJti6RfigcW4mGu
+         MWAuFgvWGx4yi/7qJI0WdjUwMLWI9H/DG0veGhOIi2Udh2WcPOwNKzXDnt9rv9ZCCCuK
+         3LRw==
+X-Forwarded-Encrypted: i=1; AJvYcCW1jKU4zbcgV9wePXkqcQIuXq1thmetPkmN/yub9+Q5F378Y0WVPqnAjpH5w5Iu/vXZaGTALTMJy/SF4oSC@lists.linux.dev
+X-Gm-Message-State: AOJu0YydaawGb9UfWym88cbB1aqBAh7GGuZUoZwD3wvYbGrTp+ueQMbC
+	T4rOA0t7JcwIx7sdwU9lbtJ7RXb4QA5b+tq9WnpFh8nk4HOMHNG4Cr1EhCE3vWY=
+X-Gm-Gg: ASbGnct7QvUJfGY6rgIzSVq/B1K0PktJo0JcNepkUwWnQAYIkm2QzCYwUeQLBHwljO1
+	KWVl4Wvjq7xstVtoHtHuiR505xReI6r8g2cGOQzulp1DlKzouc3laJvLGtWHIsb7MKiN4YAL6gK
+	2bax8qj66CcPFRb6OOCRsbvMBps4qLHLVxqO+y/cnHrZSTRi8W/wwmadW7mePRe1XItPUdXpEDC
+	VBqLIvnXRwnW+tMutvnCrLxo7hu46V3ycO+sR1gE4bekbKRKw6Y4ZOZ4QZAqniKl770TK/Q+u0W
+	5k2YRJ6bAIi1jBMKL1kE2++J3oMWVk0+8V+OciPO5j5H9dJC8LyVz7aYU2+LOvvApKmEN4fCim0
+	P9TMQrA==
+X-Google-Smtp-Source: AGHT+IGUKGUnBQQj8euBvc40iv5UxLc92QmBpQeJUNQcD9g9q1Gn7KRpSWRrk0DYtdOznF3qMa6O7Q==
+X-Received: by 2002:a05:6871:530b:b0:29e:3de0:d400 with SMTP id 586e51a60fabf-2c77fdcc096mr8345834fac.0.1742824217751;
+        Mon, 24 Mar 2025 06:50:17 -0700 (PDT)
+Received: from [192.168.0.113] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2c77f0f3fbcsm2025356fac.49.2025.03.24.06.50.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Mar 2025 06:50:17 -0700 (PDT)
+Message-ID: <4854b569-5032-4b75-80a6-8c5822845dc7@baylibre.com>
+Date: Mon, 24 Mar 2025 08:50:15 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel
+ info
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Angelo Dureghello <adureghello@baylibre.com>,
+ Alexandru Ardelean <aardelean@baylibre.com>,
+ Beniamin Bia <beniamin.bia@analog.com>, Stefan Popa
+ <stefan.popa@analog.com>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+References: <72d776ae-4373-4a78-ba00-fa809478b453@stanley.mountain>
+From: David Lechner <dlechner@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <72d776ae-4373-4a78-ba00-fa809478b453@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-werror
-head:   a83027487e43186e3eb3dd0a39733ee2eb102d30
-commit: b31869ae7173a6350b6b764f36a90003dedd8902 [21/22] pwm: mediatek: Prevent divide-by-zero in pwm_mediatek_config()
-config: parisc-randconfig-r052-20250324 (https://download.01.org/0day-ci/archive/20250324/202503242136.gWSwF8Bh-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.5.0
+On 3/22/25 12:25 PM, Dan Carpenter wrote:
+> Hi David,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad7606-check-for-NULL-before-calling-sw_mode_config/20250319-065737
+> base:   9f36acefb2621d980734a5bb7d74e0e24e0af166
+> patch link:    https://lore.kernel.org/r/20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c%40baylibre.com
+> patch subject: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel info
+> config: arm64-randconfig-r071-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222246.RafigmhQ-lkp@intel.com/config)
+> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202503222246.RafigmhQ-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/iio/adc/ad7606.c:1270 ad7606_probe_channels() warn: potentially one past the end of array 'channels[i]'
+> 
+> vim +1270 drivers/iio/adc/ad7606.c
+> 
+> 87cf5705725eeb David Lechner      2025-03-18  1196  static int ad7606_probe_channels(struct iio_dev *indio_dev)
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1197  {
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1198  	struct ad7606_state *st = iio_priv(indio_dev);
+> 87cf5705725eeb David Lechner      2025-03-18  1199  	struct device *dev = indio_dev->dev.parent;
+> 87cf5705725eeb David Lechner      2025-03-18  1200  	struct iio_chan_spec *channels;
+> 87cf5705725eeb David Lechner      2025-03-18  1201  	bool slow_bus;
+> 87cf5705725eeb David Lechner      2025-03-18  1202  	int ret, i;
+> 87cf5705725eeb David Lechner      2025-03-18  1203  
+> 87cf5705725eeb David Lechner      2025-03-18  1204  	slow_bus = !st->bops->iio_backend_config;
+> 87cf5705725eeb David Lechner      2025-03-18  1205  	indio_dev->num_channels = st->chip_info->num_adc_channels;
+> 87cf5705725eeb David Lechner      2025-03-18  1206  
+> 87cf5705725eeb David Lechner      2025-03-18  1207  	/* Slow buses also get 1 more channel for soft timestamp */
+> 87cf5705725eeb David Lechner      2025-03-18  1208  	if (slow_bus)
+> 87cf5705725eeb David Lechner      2025-03-18  1209  		indio_dev->num_channels++;
+> 87cf5705725eeb David Lechner      2025-03-18  1210  
+> 87cf5705725eeb David Lechner      2025-03-18  1211  	channels = devm_kcalloc(dev, indio_dev->num_channels, sizeof(*channels),
+> 87cf5705725eeb David Lechner      2025-03-18  1212  				GFP_KERNEL);
+> 87cf5705725eeb David Lechner      2025-03-18  1213  	if (!channels)
+> f3838e934dfff2 Alexandru Ardelean 2024-09-19  1214  		return -ENOMEM;
+> f3838e934dfff2 Alexandru Ardelean 2024-09-19  1215  
+> 87cf5705725eeb David Lechner      2025-03-18  1216  	for (i = 0; i < indio_dev->num_channels; i++) {
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503242136.gWSwF8Bh-lkp@intel.com/
+The fix is to change this line to:
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pwm/pwm-mediatek.c:142:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+							for (i = 0; i < st->chip_info->num_adc_channels; i++) {
 
-vim +142 drivers/pwm/pwm-mediatek.c
+> 87cf5705725eeb David Lechner      2025-03-18  1217  		struct iio_chan_spec *chan = &channels[i];
+> 87cf5705725eeb David Lechner      2025-03-18  1218  
+> 87cf5705725eeb David Lechner      2025-03-18  1219  		chan->type = IIO_VOLTAGE;
+> 87cf5705725eeb David Lechner      2025-03-18  1220  		chan->indexed = 1;
+> 87cf5705725eeb David Lechner      2025-03-18  1221  		chan->channel = i;
+> 87cf5705725eeb David Lechner      2025-03-18  1222  		chan->scan_index = i;
+> 87cf5705725eeb David Lechner      2025-03-18  1223  		chan->scan_type.sign = 's';
+> 87cf5705725eeb David Lechner      2025-03-18  1224  		chan->scan_type.realbits = st->chip_info->bits;
+> 87cf5705725eeb David Lechner      2025-03-18  1225  		chan->scan_type.storagebits = st->chip_info->bits > 16 ? 32 : 16;
+> 87cf5705725eeb David Lechner      2025-03-18  1226  		chan->scan_type.endianness = IIO_CPU;
+> f3838e934dfff2 Alexandru Ardelean 2024-09-19  1227  
+> 87cf5705725eeb David Lechner      2025-03-18  1228  		if (indio_dev->modes & INDIO_DIRECT_MODE)
+> 87cf5705725eeb David Lechner      2025-03-18  1229  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_RAW);
+> 87cf5705725eeb David Lechner      2025-03-18  1230  
+> 87cf5705725eeb David Lechner      2025-03-18  1231  		if (st->sw_mode_en) {
+> 87cf5705725eeb David Lechner      2025-03-18  1232  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_SCALE);
+> 87cf5705725eeb David Lechner      2025-03-18  1233  			chan->info_mask_separate_available |=
+> 87cf5705725eeb David Lechner      2025-03-18  1234  				BIT(IIO_CHAN_INFO_SCALE);
+> 87cf5705725eeb David Lechner      2025-03-18  1235  
+> 87cf5705725eeb David Lechner      2025-03-18  1236  			/*
+> 87cf5705725eeb David Lechner      2025-03-18  1237  			 * All chips with software mode support oversampling,
+> 87cf5705725eeb David Lechner      2025-03-18  1238  			 * so we skip the oversampling_available check. And the
+> 87cf5705725eeb David Lechner      2025-03-18  1239  			 * shared_by_type instead of shared_by_all on slow
+> 87cf5705725eeb David Lechner      2025-03-18  1240  			 * buses is for backward compatibility.
+> 87cf5705725eeb David Lechner      2025-03-18  1241  			 */
+> 87cf5705725eeb David Lechner      2025-03-18  1242  			if (slow_bus)
+> 87cf5705725eeb David Lechner      2025-03-18  1243  				chan->info_mask_shared_by_type |=
+> 87cf5705725eeb David Lechner      2025-03-18  1244  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> 87cf5705725eeb David Lechner      2025-03-18  1245  			else
+> 87cf5705725eeb David Lechner      2025-03-18  1246  				chan->info_mask_shared_by_all |=
+> 87cf5705725eeb David Lechner      2025-03-18  1247  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> 87cf5705725eeb David Lechner      2025-03-18  1248  
+> 87cf5705725eeb David Lechner      2025-03-18  1249  			chan->info_mask_shared_by_all_available |=
+> 87cf5705725eeb David Lechner      2025-03-18  1250  				BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> 87cf5705725eeb David Lechner      2025-03-18  1251  		} else {
+> 87cf5705725eeb David Lechner      2025-03-18  1252  			chan->info_mask_shared_by_type |=
+> 87cf5705725eeb David Lechner      2025-03-18  1253  				BIT(IIO_CHAN_INFO_SCALE);
+> 87cf5705725eeb David Lechner      2025-03-18  1254  
+> 87cf5705725eeb David Lechner      2025-03-18  1255  			if (st->chip_info->oversampling_avail)
+> 87cf5705725eeb David Lechner      2025-03-18  1256  				chan->info_mask_shared_by_all |=
+> 87cf5705725eeb David Lechner      2025-03-18  1257  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> 87cf5705725eeb David Lechner      2025-03-18  1258  		}
+> 87cf5705725eeb David Lechner      2025-03-18  1259  
+> 87cf5705725eeb David Lechner      2025-03-18  1260  		if (!slow_bus)
+> 87cf5705725eeb David Lechner      2025-03-18  1261  			chan->info_mask_shared_by_all |=
+> 87cf5705725eeb David Lechner      2025-03-18  1262  				BIT(IIO_CHAN_INFO_SAMP_FREQ);
+> 87cf5705725eeb David Lechner      2025-03-18  1263  
+> 87cf5705725eeb David Lechner      2025-03-18  1264  		ret = st->chip_info->scale_setup_cb(indio_dev, chan);
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1265  		if (ret)
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1266  			return ret;
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1267  	}
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1268  
+> 87cf5705725eeb David Lechner      2025-03-18  1269  	if (slow_bus)
+> 87cf5705725eeb David Lechner      2025-03-18 @1270  		channels[i] = (struct iio_chan_spec)IIO_CHAN_SOFT_TIMESTAMP(i);
+>                                                                 ^^^^^^^^^^^
+> i is == indio_dev->num_channels so this is out of bounds by one element.
+> 
+> 87cf5705725eeb David Lechner      2025-03-18  1271  
+> 87cf5705725eeb David Lechner      2025-03-18  1272  	indio_dev->channels = channels;
+> 87cf5705725eeb David Lechner      2025-03-18  1273  
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1274  	return 0;
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1275  }
+> 
 
-   117	
-   118	static int pwm_mediatek_config(struct pwm_chip *chip, struct pwm_device *pwm,
-   119				       int duty_ns, int period_ns)
-   120	{
-   121		struct pwm_mediatek_chip *pc = to_pwm_mediatek_chip(chip);
-   122		u32 clkdiv = 0, cnt_period, cnt_duty, reg_width = PWMDWIDTH,
-   123		    reg_thres = PWMTHRES;
-   124		unsigned long clk_rate;
-   125		u64 resolution;
-   126		int ret;
-   127	
-   128		ret = pwm_mediatek_clk_enable(chip, pwm);
-   129		if (ret < 0)
-   130			return ret;
-   131	
-   132		clk_rate = clk_get_rate(pc->clk_pwms[pwm->hwpwm]);
-   133		if (!clk_rate)
-   134			return -EINVAL;
-   135	
-   136		/* Make sure we use the bus clock and not the 26MHz clock */
-   137		if (pc->soc->has_ck_26m_sel)
-   138			writel(0, pc->regs + PWM_CK_26M_SEL);
-   139	
-   140		/* Using resolution in picosecond gets accuracy higher */
-   141		resolution = (u64)NSEC_PER_SEC * 1000;
- > 142		do_div(resolution, clk_rate);
-   143	
-   144		cnt_period = DIV_ROUND_CLOSEST_ULL((u64)period_ns * 1000, resolution);
-   145		while (cnt_period > 8191) {
-   146			resolution *= 2;
-   147			clkdiv++;
-   148			cnt_period = DIV_ROUND_CLOSEST_ULL((u64)period_ns * 1000,
-   149							   resolution);
-   150		}
-   151	
-   152		if (clkdiv > PWM_CLK_DIV_MAX) {
-   153			pwm_mediatek_clk_disable(chip, pwm);
-   154			dev_err(pwmchip_parent(chip), "period of %d ns not supported\n", period_ns);
-   155			return -EINVAL;
-   156		}
-   157	
-   158		if (pc->soc->pwm45_fixup && pwm->hwpwm > 2) {
-   159			/*
-   160			 * PWM[4,5] has distinct offset for PWMDWIDTH and PWMTHRES
-   161			 * from the other PWMs on MT7623.
-   162			 */
-   163			reg_width = PWM45DWIDTH_FIXUP;
-   164			reg_thres = PWM45THRES_FIXUP;
-   165		}
-   166	
-   167		cnt_duty = DIV_ROUND_CLOSEST_ULL((u64)duty_ns * 1000, resolution);
-   168		pwm_mediatek_writel(pc, pwm->hwpwm, PWMCON, BIT(15) | clkdiv);
-   169		pwm_mediatek_writel(pc, pwm->hwpwm, reg_width, cnt_period);
-   170		pwm_mediatek_writel(pc, pwm->hwpwm, reg_thres, cnt_duty);
-   171	
-   172		pwm_mediatek_clk_disable(chip, pwm);
-   173	
-   174		return 0;
-   175	}
-   176	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
