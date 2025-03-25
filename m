@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08B019ABD8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 21:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5621DD0F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 21:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742937380; cv=none; b=o0MMdvQt1U65avjiiDLsCYOGej41A2pjt1UuVN9+1rQ+ZeGkTS87NGv+hX/deVFrSNrMifL+TtsrHB7HF15rHZq0pCx5eYpGlbRD4lJ+HrEq+8iw2U9inRohv13QCikiogoRGaK+U6XH+P1aneiziv6QpxfM3NCT5s4BwYFWRi0=
+	t=1742939367; cv=none; b=tg+a30TaJGbiDLEIPzhXdcQCQjjxG/Fi795CE/82XBp926GYshENN22NFiVtdg+GuFwlSfi7qoZj9m1uEchsW+8OP1F+ERmPL4GFBuLDb8ODViuqJjOZtPQGZs3vQ7bWIBsO/YEIt3B8iY6m8F76wcPETaNzDyPpELW5+BhA5HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742937380; c=relaxed/simple;
-	bh=kVqnM6IIiekwG1nhtToL1QSNk+zUiDeseDQn3ChvGSY=;
+	s=arc-20240116; t=1742939367; c=relaxed/simple;
+	bh=x/Z+pqKf+ml1aC6CWC68ZM78e7BXsXoftjAFCsJdXPA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JOqsaV5zZwBQ+pHwRUf0OAaVmCEHg5AUQl9FhI31I6qZyiJcZJkIMjdwwgIpV8AA76cGBdvbib5qieq62RGxrD8WACZIcQ/FAhpKWupeWBjukAH0Z/DQZscx5yZqFobw7jdAfHMHlkz4oNqW2MqtOdZW08QeRrXsztDs5DpQkBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbsbHWLO; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=PPhDvwi3KdTenJB2SgZs5Fn4bTULteWrCzjIjSUX4ZHEeUWh0l3eg2QMAIaklwuEzz9LJdmjP6bqFNqgZubW5TKwjD7lEMiknR1NdGc8mfD6MplM+eK23TytMRFvaTb9OG0jCXGCNYlKHJIEwDBzktezeQSO9TfFaKIAnjslxxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JTUmvjFS; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbsbHWLO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTUmvjFS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742937377; x=1774473377;
+  t=1742939365; x=1774475365;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kVqnM6IIiekwG1nhtToL1QSNk+zUiDeseDQn3ChvGSY=;
-  b=RbsbHWLOCnaOpKWOfUnb9DsOc1LRqvMITYr8nTIJWY3LqWuvL1efHSw2
-   o8YhU5NFpZelIW8/9e3nccPy0rMm13ieBmvLzYBO4Vs+LWN3oo0HRrV3e
-   w/48D9qUr8EUEM/Nc0T2qfNWpOm45G6y6gzpHc5dmtRUKZFFbH0cSrU7J
-   iq6eYLTlrvk0Av0dAvZ/Cyc+2MK674moOJw7WCmz2xoSG93tEIdGCb2YN
-   +FiL2m4yrn/UpiqL3+CDoedRja9IeLIFVhERsv4VnErgiCArU5M0h86E4
-   mzF53XLFyooCGJNYUsydwUFciakgaP8/QCX75kyyrRCTvGwuk85KmST40
-   g==;
-X-CSE-ConnectionGUID: uLQT4pThQvy/N6XzUORhrw==
-X-CSE-MsgGUID: QZ35KY8KQoemUbREI8wFgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="55195443"
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="55195443"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 14:15:59 -0700
-X-CSE-ConnectionGUID: 5TToGPVKQ6O92rDsooDKdA==
-X-CSE-MsgGUID: CUATTIjyTSaPNE0bnVlEvA==
+  bh=x/Z+pqKf+ml1aC6CWC68ZM78e7BXsXoftjAFCsJdXPA=;
+  b=JTUmvjFSMCUs6s2q24xLMko9JcZaDmHUHZBGTTit5RpCciZxOocKGK7T
+   BPMPKZrvcwFCsHxBY6t1E40lqOA12a9yFjmhOl1YMJzA5Vm71XOhnzCQn
+   8MK/9Hyx/mWu/nP3pVIMDcUPKok+ZwOoh0Cf4Sy0QoSW4FwoKaDGmX+1r
+   fRPh/4CN3CyppVnRmZ/tDCinWe1ptkfb568JZflGgMzONbLXb4nlBcHpW
+   9MeMbUva5IvMriSpB7avBn2JEUWC22oAfWqcA+80sZuXt9OshFukYdQSq
+   7QVcwJRrTnAyL693Ab8cWItzvls6NAeu++hyeeR8Wqeq7hW+4nBnRT32U
+   Q==;
+X-CSE-ConnectionGUID: lJE7dD1ET7OcTVMjUgZcRw==
+X-CSE-MsgGUID: lc4V99uURKylJ6WlD1zl2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44093527"
+X-IronPort-AV: E=Sophos;i="6.14,276,1736841600"; 
+   d="scan'208";a="44093527"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 14:49:25 -0700
+X-CSE-ConnectionGUID: CU6eBFn7SIeEQEChALTJrA==
+X-CSE-MsgGUID: fyUWqGk9Slq0o95L2TZtuA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="147681665"
+X-IronPort-AV: E=Sophos;i="6.14,276,1736841600"; 
+   d="scan'208";a="124220756"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Mar 2025 14:15:58 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 Mar 2025 14:49:24 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txBch-0005Bj-0H;
-	Tue, 25 Mar 2025 21:15:53 +0000
-Date: Wed, 26 Mar 2025 05:15:42 +0800
+	id 1txC93-0005Ct-18;
+	Tue, 25 Mar 2025 21:49:19 +0000
+Date: Wed, 26 Mar 2025 05:48:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Hellwig <hch@lst.de>
-Subject: ERROR: modpost: "_restfpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
- undefined!
-Message-ID: <202503260509.HQzWt8U0-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 32/32] htmldocs: Makefile:83: ***
+ Cannot find a vmlinux for VMLINUX_BTF at any of "  ../../vmlinux
+ /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-2-amd64".  Stop.
+Message-ID: <202503260524.SPqeV83Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,136 +63,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Samuel,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2d09a9449ecd9a2b9fdac62408c12ee20b6307d2
-commit: a28e4b672f042eb38d9b09f9d1fdf58c07052da4 drm/amd/display: use ARCH_HAS_KERNEL_FPU_SUPPORT
-date:   10 months ago
-config: powerpc64-randconfig-002-20250326 (https://download.01.org/0day-ci/archive/20250326/202503260509.HQzWt8U0-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503260509.HQzWt8U0-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   1355a80cc32f9ae2fdcf9aefa7c97c6eee9149a9
+commit: 2e953dfef122e371d4ab9778ad628e9a18c78827 [32/32] sched_ext: Add scx_simple and scx_example_qmap example schedulers
+reproduce: (https://download.01.org/0day-ci/archive/20250326/202503260524.SPqeV83Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503260509.HQzWt8U0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503260524.SPqeV83Q-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_objpool.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/hashtable_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/kyro/kyrofb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/offb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-fractional-divider_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/gud/gud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-stadiaff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/of/of_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
->> ERROR: modpost: "_restfpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_restfpr_26" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_restfpr_22" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savegpr1_27" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savegpr1_25" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_restfpr_28" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savegpr1_29" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savefpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savefpr_22" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_restfpr_15" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-WARNING: modpost: suppressed 54 unresolved symbol warnings because there were too many)
+>> Makefile:83: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  ../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-2-amd64".  Stop.
+   make[2]: *** [Makefile:193: sched_ext_clean] Error 2
+   make[1]: *** [Makefile:1354: sched_ext] Error 2
+   make[1]: Target 'distclean' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'distclean' not remade because of errors.
+--
+>> Makefile:83: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  ../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-2-amd64".  Stop.
+   make[2]: *** [Makefile:193: sched_ext_clean] Error 2
+   make[1]: *** [Makefile:1354: sched_ext] Error 2
+   make[1]: Target 'mrproper' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'mrproper' not remade because of errors.
+
+
+vim +83 Makefile
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  81  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  82  ifeq ("$(origin V)", "command line")
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @83    KBUILD_VERBOSE = $(V)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  84  endif
+^1da177e4c3f41 Linus Torvalds 2005-04-16  85  
+
+:::::: The code at line 83 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
