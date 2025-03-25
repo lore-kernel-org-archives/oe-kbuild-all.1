@@ -1,203 +1,174 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE2719E97A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 08:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414BB9479
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 10:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742892779; cv=none; b=SREVDWUcF0frm/mFEUlSkQM3590asG1o1Obo67jyO6Ojc7a9n+94CbhJCSkhGUakQgx7MT2SbMMlMJF0wxgHuvd+jRgLvsMBFl8TrMJEBX5vOk1DEnGkS4kWAzP3cORBglhAGZcJMOw21MiKwhG3Z0kvBmatRzaFgN7dtlicu1E=
+	t=1742898919; cv=none; b=ladlKpT2L207QENeCygb43F7sS23pF4LJq2lEXakL6Hthmr88mZJ2KEQz4LXH9wgQWAerAiVGpKsfr2G/LTM6tSrfVcQ9JGQ2PYtBuGPpkMXWsN9COfCBuVmgHRafvK3PVgcE86W/+WAeSJq2o7/pBung+RNQClq2+3xrJXKLbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742892779; c=relaxed/simple;
-	bh=k2keouQN8/qCGOrcjK3pzj7qXnScNycXHz527cVZTm0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ppomZTsvh6zcgiAg6jXbSbSXtGVF4RltONoIE9jYjS893nJe7JixJiq6SqZ/2Is6zR9UqHfsBNhnBxOReK6BywZm6YW3Wyu1efmqbGkZsyFvHiynMxXzjNcx/4AhY2zi2Ln2E37g9WL5WNdVpNptlzxJeWsoz+KeOpdHxPQM1R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Plm85nxB; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1742898919; c=relaxed/simple;
+	bh=ycP3mMQPAOKzKDKjIDVVYewp4IUPamtXf7w5T6JOlUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LLs4zuygCpK/ltAyNphTe+KBPtabTCf7i/U8GvpIQkvgKExyB373KTnRSLHlBRSS1B5GeVPDIEnLTtIm8eVHKe8q3INTspAv/uCqMkPymq60cpNJdI1p/W+EwS6XsM+4yIhF9W5NBId+vizqHBU8IRQgWd7BouLzmZiUUmEkCDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KOOikI76; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Plm85nxB"
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id A44272E08740
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 10:52:46 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742892768;
-	bh=0bCygpRrm3Yx2CpXOpIVeKdCxu9w0sgpWFU8/m26N64=;
-	h=Received:From:Subject:To;
-	b=Plm85nxBcVIBg4QPAgsbL8s50qYOBUjyitQqTgelUnhkjSDc8CONoSo8/ytm+fbXI
-	 7SyvNvhj3RVKc1WGjjYu//wcQ5HawVQD3glgisHdZ5FSoYy6u7X0ERXRlEvvJUWlO4
-	 mSrcYFEqdwppoQuv536ybAd05smht6hF38O81aKA=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.174) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f174.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-30bfd4d4c63so54706281fa.2
-        for <oe-kbuild-all@lists.linux.dev>;
- Tue, 25 Mar 2025 01:52:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW53yjz7V5tCwj7y8qz7NjBB4RRvfwKN8l1R3k2w0304yDmjmLuiRrddoA7MF7AHUh+1b23oVuO17VfbRON@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWqdBbuOmahR/q1oyLLPne7XV8JZ91VLISgcylD7HVRSBmXdyZ
-	s035WSEjwVHYCjxAI5wISYAtGfy39XjF2t1iyPeI1FzcsmKP2RC4yzT6RUtFg6RQS2qaVboHvpu
-	GOKGg6uzf6GLu7f5jK0oQBWwU854=
-X-Google-Smtp-Source: 
- AGHT+IHRbr3Zgt3JTjcuCrzPWSyhQ7NbTyJY8uA2enw0MS8S7/YmeFAcMflWPRoZmdcCtqxkS3KQISgV+Jkx3u5FBKQ=
-X-Received: by 2002:a05:651c:2209:b0:30b:f775:baf5 with SMTP id
- 38308e7fff4ca-30d7e0dd9bbmr59083871fa.0.1742892765627; Tue, 25 Mar 2025
- 01:52:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KOOikI76"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742898917; x=1774434917;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ycP3mMQPAOKzKDKjIDVVYewp4IUPamtXf7w5T6JOlUU=;
+  b=KOOikI76IWmO6tH5dIKyphjSJIWAqq3WYoUbX9AIP1U9erxzt6tssk7R
+   PiG5sZA3eXb3uYv9cil4goPRGuTehb4ug2XbjLsMF7akadmitTkhA5ebH
+   +IlQi3yIK86xIN2gC+dFfFav+7Eo4/jbwuIyepVlKmiIvCtRzTTpnHBf7
+   opTGLOVG5R3C7wTv8o9aXeMwmDu1bQh0YBbv3ATP8eS6fJoRmLZjZQEJB
+   z3d2iH4TSw9Zf6tIO53ontLP/olvlYIG7bLda76Ao6XAeb1fL7J0XXvhq
+   V399eRO5b9ovE0qAaOt5jpWZMtHY/C8OXl0X8g2V/+h7fS8ApZOKPLkMT
+   A==;
+X-CSE-ConnectionGUID: Bhl5/HNhS9iVZpfjux33qQ==
+X-CSE-MsgGUID: 7NQF2aJiRGWU19k7KjMXZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="55508808"
+X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; 
+   d="scan'208";a="55508808"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 03:35:17 -0700
+X-CSE-ConnectionGUID: kdXXtvksRvaYETe9stiWug==
+X-CSE-MsgGUID: RKcen/ugQui/vaD3FKpOkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; 
+   d="scan'208";a="124294339"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 25 Mar 2025 03:35:15 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tx1cn-0004IZ-21;
+	Tue, 25 Mar 2025 10:35:13 +0000
+Date: Tue, 25 Mar 2025 18:35:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2059/2059]
+ drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: sparse: sparse: symbol
+ 'tdm_service_run' was not declared. Should it be static?
+Message-ID: <202503251859.zDW2wWzp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250324210151.6042-10-lkml@antheas.dev>
- <202503251316.lPXAIXIV-lkp@intel.com>
-In-Reply-To: <202503251316.lPXAIXIV-lkp@intel.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Tue, 25 Mar 2025 09:52:32 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwFnu+eQv+qe3XyfcNEjwjFoH23K0ixssEp7m=5Xnh4nhQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JqBK-YkWbgSprjvPh-VyZ0pO6dOIRXsCrbsZaOFk6X7TVe8A4ojrJp9DLE
-Message-ID: 
- <CAGwozwFnu+eQv+qe3XyfcNEjwjFoH23K0ixssEp7m=5Xnh4nhQ@mail.gmail.com>
-Subject: Re: [PATCH v4 09/11] HID: asus: add basic RGB support
-To: kernel test robot <lkp@intel.com>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
- "Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174289276708.8477.17824094127805289627@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-My email is not doing too well it seems. It is not just yours Luke.
-Hopefully my shared host does not bite me for abusing the IP
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   0278be80a99934144f0e708459f3475248f280c4
+commit: 3ad98583441f7c8a2553e1e8d6340ed4397033e2 [2059/2059] crypto: tdm: Support dynamic protection for SCT and IDT by HYGON TDM
+config: x86_64-randconfig-121-20250325 (https://download.01.org/0day-ci/archive/20250325/202503251859.zDW2wWzp-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503251859.zDW2wWzp-lkp@intel.com/reproduce)
 
-On Tue, 25 Mar 2025 at 07:34, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Antheas,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 38fec10eb60d687e30c8c6b5420d86e8149f7557]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-refactor-init-sequence-per-spec/20250325-051852
-> base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
-> patch link:    https://lore.kernel.org/r/20250324210151.6042-10-lkml%40antheas.dev
-> patch subject: [PATCH v4 09/11] HID: asus: add basic RGB support
-> config: riscv-randconfig-002-20250325 (https://download.01.org/0day-ci/archive/20250325/202503251316.lPXAIXIV-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503251316.lPXAIXIV-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503251316.lPXAIXIV-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    riscv64-linux-ld: drivers/hid/hid-asus.o: in function `asus_kbd_register_leds':
-> >> drivers/hid/hid-asus.c:676:(.text+0x23f8): undefined reference to `devm_led_classdev_multicolor_register_ext'
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503251859.zDW2wWzp-lkp@intel.com/
 
-Since I have been getting this error by test robot often, what is the
-canonical way to check that KConfig is correct before sending patches?
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: sparse: sparse: symbol 'tdm_service_run' was not declared. Should it be static?
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:5: sparse: sparse: symbol 'tdm_service_exit' was not declared. Should it be static?
 
-I will try to fix the KConfig and send it later today
+vim +/tdm_service_run +151 drivers/crypto/ccp/hygon/tdm-kernel-guard.c
 
+   150	
+ > 151	int tdm_service_run(struct tdm_security_enhance *data)
+   152	{
+   153		int ret = 0;
+   154		struct addr_range_info *addr_range = NULL;
+   155	
+   156		// Allocate memory for addr_range
+   157		addr_range = kzalloc(sizeof(struct addr_range_info) + sizeof(struct addr_info), GFP_KERNEL);
+   158		if (!addr_range) {
+   159			ret = -DYN_ERR_MEM;
+   160			pr_err("addr_range kzalloc memory failed\n");
+   161			goto end;
+   162		}
+   163	
+   164		// Fill in addr_range
+   165		addr_range->count = 1;
+   166		addr_range->addr[0].addr_start = data->vaddr;
+   167		addr_range->addr[0].length = data->size;
+   168		data->mem_range = addr_range;
+   169	
+   170		// Context configuration
+   171		data->context |= TASK_CREATE_VADDR;
+   172	
+   173		// Allocate memory for authcode
+   174		data->authcode = kzalloc(sizeof(struct authcode_2b) + AUTHCODE_MAX, GFP_KERNEL);
+   175		if (!data->authcode) {
+   176			ret = -DYN_ERR_MEM;
+   177			pr_err("authcode_2b kzalloc memory failed\n");
+   178			goto free_addr_range_info;
+   179		}
+   180	
+   181		data->authcode->len = AUTHCODE_MAX;
+   182	
+   183		// Measurement data configuration
+   184		data->mdata.hash_algo = HASH_ALGO_SM3;
+   185		data->mdata.period_ms = 0;
+   186		ret = calc_expected_hash((uint8_t *)data->vaddr, data->size,
+   187			data->mdata.expected_measurement);
+   188		if (ret) {
+   189			pr_err("calculate expected hash failed!\n");
+   190			goto free_authcode;
+   191		}
+   192	
+   193		// Create and start tdm task
+   194		ret = tdm_task_create_and_run(data);
+   195		if (ret) {
+   196			pr_err("tdm_task_create_and_run failed!\n");
+   197			goto free_authcode;
+   198		}
+   199	
+   200		return ret;
+   201	
+   202	free_authcode:
+   203		kfree(data->authcode);
+   204		data->authcode = NULL;
+   205	free_addr_range_info:
+   206		kfree(data->mem_range);
+   207		data->mem_range = NULL;
+   208	end:
+   209		return ret;
+   210	}
+   211	
+ > 212	int tdm_service_exit(struct tdm_security_enhance *data)
+   213	{
+   214		int ret = 0;
+   215		int task_status = 0;
+   216	
+   217		task_status = psp_startstop_measure_task(data->task_id, data->authcode, false);
+   218		if (task_status < 0) {
+   219			ret = task_status;
+   220			pr_err("task_id %d stop failed with 0x%x\n", data->task_id, ret);
+   221			goto end;
+   222		}
+   223	
+   224		// Waiting for the task to end
+   225		msleep(40);
+   226	
+   227		psp_destroy_measure_task(data->task_id, data->authcode);
+   228	
+   229		kfree(data->authcode);
+   230		data->authcode = NULL;
+   231		kfree(data->mem_range);
+   232		data->mem_range = NULL;
+   233	end:
+   234		return ret;
+   235	}
+   236	
 
-Antheas
-
->
-> vim +676 drivers/hid/hid-asus.c
->
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  645
-> af22a610bc3850 Carlo Caione        2017-04-06  646  static int asus_kbd_register_leds(struct hid_device *hdev)
-> af22a610bc3850 Carlo Caione        2017-04-06  647  {
-> af22a610bc3850 Carlo Caione        2017-04-06  648      struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
-> af22a610bc3850 Carlo Caione        2017-04-06  649      unsigned char kbd_func;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  650      struct asus_kbd_leds *leds;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  651      bool no_led;
-> af22a610bc3850 Carlo Caione        2017-04-06  652      int ret;
-> af22a610bc3850 Carlo Caione        2017-04-06  653
-> 2c82a7b20f7b7a Luke D. Jones       2024-04-16  654      ret = asus_kbd_init(hdev, FEATURE_KBD_REPORT_ID);
-> 2c82a7b20f7b7a Luke D. Jones       2024-04-16  655      if (ret < 0)
-> 2c82a7b20f7b7a Luke D. Jones       2024-04-16  656              return ret;
-> 2c82a7b20f7b7a Luke D. Jones       2024-04-16  657
-> 3ebfeb18b44e01 Antheas Kapenekakis 2025-03-24  658      /* Get keyboard functions */
-> 3ebfeb18b44e01 Antheas Kapenekakis 2025-03-24  659      ret = asus_kbd_get_functions(hdev, &kbd_func, FEATURE_KBD_REPORT_ID);
-> b92b80246e0626 Luke D Jones        2020-10-27  660      if (ret < 0)
-> b92b80246e0626 Luke D Jones        2020-10-27  661              return ret;
-> 53078a736fbc60 Luke D. Jones       2025-01-11  662
-> 53078a736fbc60 Luke D. Jones       2025-01-11  663      if (dmi_match(DMI_PRODUCT_FAMILY, "ProArt P16")) {
-> 53078a736fbc60 Luke D. Jones       2025-01-11  664              ret = asus_kbd_disable_oobe(hdev);
-> 53078a736fbc60 Luke D. Jones       2025-01-11  665              if (ret < 0)
-> 53078a736fbc60 Luke D. Jones       2025-01-11  666                      return ret;
-> 53078a736fbc60 Luke D. Jones       2025-01-11  667      }
-> af22a610bc3850 Carlo Caione        2017-04-06  668
-> af22a610bc3850 Carlo Caione        2017-04-06  669      /* Check for backlight support */
-> af22a610bc3850 Carlo Caione        2017-04-06  670      if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-> af22a610bc3850 Carlo Caione        2017-04-06  671              return -ENODEV;
-> af22a610bc3850 Carlo Caione        2017-04-06  672
-> af22a610bc3850 Carlo Caione        2017-04-06  673      drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
-> af22a610bc3850 Carlo Caione        2017-04-06  674                                            sizeof(struct asus_kbd_leds),
-> af22a610bc3850 Carlo Caione        2017-04-06  675                                            GFP_KERNEL);
-> af22a610bc3850 Carlo Caione        2017-04-06 @676      if (!drvdata->kbd_backlight)
-> af22a610bc3850 Carlo Caione        2017-04-06  677              return -ENOMEM;
-> af22a610bc3850 Carlo Caione        2017-04-06  678
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  679      leds = drvdata->kbd_backlight;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  680      leds->removed = false;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  681      leds->brightness = 3;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  682      leds->hdev = hdev;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  683      leds->listener.brightness_set = asus_kbd_listener_set;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  684
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  685      leds->rgb_colors[0] = 0;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  686      leds->rgb_colors[1] = 0;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  687      leds->rgb_colors[2] = 0;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  688      leds->rgb_init = true;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  689      leds->rgb_set = false;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  690      leds->mc_led.led_cdev.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  691                                      "asus-%s:rgb:peripheral",
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  692                                      strlen(hdev->uniq) ?
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  693                                      hdev->uniq : dev_name(&hdev->dev));
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  694      leds->mc_led.led_cdev.flags = LED_BRIGHT_HW_CHANGED;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  695      leds->mc_led.led_cdev.max_brightness = 3,
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  696      leds->mc_led.led_cdev.brightness_set = asus_kbd_brightness_set,
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  697      leds->mc_led.led_cdev.brightness_get = asus_kbd_brightness_get,
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  698      leds->mc_led.subled_info = leds->subled_info,
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  699      leds->mc_led.num_colors = ARRAY_SIZE(leds->subled_info),
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  700      leds->subled_info[0].color_index = LED_COLOR_ID_RED;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  701      leds->subled_info[1].color_index = LED_COLOR_ID_GREEN;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  702      leds->subled_info[2].color_index = LED_COLOR_ID_BLUE;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  703
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  704      INIT_WORK(&drvdata->kbd_backlight->work, asus_kbd_work);
-> 315c537068a13f Pietro Borrello     2023-02-12  705      spin_lock_init(&drvdata->kbd_backlight->lock);
-> af22a610bc3850 Carlo Caione        2017-04-06  706
-> d37db2009c913c Antheas Kapenekakis 2025-03-24  707      ret = asus_hid_register_listener(&drvdata->kbd_backlight->listener);
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  708      no_led = !!ret;
-> d37db2009c913c Antheas Kapenekakis 2025-03-24  709
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  710      if (drvdata->quirks & QUIRK_ROG_NKEY_RGB) {
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  711              ret = devm_led_classdev_multicolor_register(
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  712                      &hdev->dev, &leds->mc_led);
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  713              if (!ret)
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  714                      leds->rgb_registered = true;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  715              no_led &= !!ret;
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  716      }
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  717
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  718      if (no_led) {
-> af22a610bc3850 Carlo Caione        2017-04-06  719              /* No need to have this still around */
-> af22a610bc3850 Carlo Caione        2017-04-06  720              devm_kfree(&hdev->dev, drvdata->kbd_backlight);
-> af22a610bc3850 Carlo Caione        2017-04-06  721      }
-> af22a610bc3850 Carlo Caione        2017-04-06  722
-> 312a522531f6e5 Antheas Kapenekakis 2025-03-24  723      return no_led ? -ENODEV : 0;
-> af22a610bc3850 Carlo Caione        2017-04-06  724  }
-> af22a610bc3850 Carlo Caione        2017-04-06  725
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
