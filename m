@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092E825DB14
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 16:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3395F1A08A3;
+	Tue, 25 Mar 2025 17:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742920951; cv=none; b=ZlnuYGZ3uuSQj9mOlY0MtaxydmbcEHG2vhDkTZDmZqk8TaTAMOmf8lC49/0vaehaqJZR11IroP4yeThzGDY7Y+AqAVSavVVK/YurKM0kzdvrbEIVmpftSguy2ANI7c5LPjxJq5UBF3YSGyyr4VrX66DQW5hoeAL8wwKV2e8SeAI=
+	t=1742922297; cv=none; b=TInkDkAdVNvzxAS7NhHk4rm83MK3gYZ4JJinXDpd2pFth+MYbSYfE5hg2yyyJWmd3ARZjSqXAfmMnWIbGyWKxj+U1+a+Z64u9PTe7kDKlWUG882N4//4EBwG43tLVjqb11Rit3Z3zsqhnZlahSjIl5goR46RfjduUFZDrvw8SJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742920951; c=relaxed/simple;
-	bh=zu0A2QxiPUeG7/wvnVu3LjkQ41iUj0k2WYUY2AK08mQ=;
+	s=arc-20240116; t=1742922297; c=relaxed/simple;
+	bh=nxl/DR/n2BRiTxyRSoamxb6SUvv4f0HearQUwR/JGd4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M+HrpVbTmwX55xLr1VoKDiNiBZlcKn53MIvvA8f990bIx9g85MMPkabSf72zi/zSzdmX6FYQGEGojw6lofi6ZwDXy/hMHIPfvzFBkgBuLmGFlKdbqvqsoTmrhv1M7xcOqJbGJS0mzREVfzyUCVjlmGELYQ0ckHQm58KHTekDCEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MF/3eZPp; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=SSrwEIX77pSmlXjbfnPTsIdTLURhoTpobZMa9eFR4c7LtfDV4SGAD00njrPjRJMjCYwQGrY9vD8rLpQfQBOtkC+Br6/uLUvtnRpu+SL+Zj+U/kZTXrUWynIuGEwyPMSTRrtZzYFx+HzgTeA8dAm+9CryiYRSiPxppVHNeNEoNoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C66cUdjA; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MF/3eZPp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C66cUdjA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742920950; x=1774456950;
+  t=1742922295; x=1774458295;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zu0A2QxiPUeG7/wvnVu3LjkQ41iUj0k2WYUY2AK08mQ=;
-  b=MF/3eZPpvIHq6ts9jYxQH+Bz9NXUAF6G3SwE8e7bRNvgWOrx+HBzzIQI
-   f4WKwzemvx6VOqcNtSsyIJXQA2zI+mAxrkqgWYbX0D1Y61KlCn/w18odM
-   xsL4UJuedxvZhKXwjLhzRvnjE9DNrHVwOChwrVuQRwuUbxjGBGZU9NLis
-   9O/nQjWQdH6VrxBYYOaV9YAKzsfeXmxh/22mmNmBbwYGl76nWX4PNxTvD
-   EtGWFEdloeXMotGKq+V03kuykMKgCnE6noMdN9RSBVpBMJRzT24fFrMiZ
-   lLJnWY0mSH51UES4oZNGkNPD7g45798YWwOX+p1D9x8Gr+osPHC5sP8qa
+  bh=nxl/DR/n2BRiTxyRSoamxb6SUvv4f0HearQUwR/JGd4=;
+  b=C66cUdjAEGO8kIObAQXSOp84s6GO7EivQQhaR8pWcj4kYTcLO+JgNj/q
+   3e4MyJ0rPhcFfNHssDRfffGrFyJoX02DDAUjIfqXDuc6QazzCqxdEgzv4
+   f1pmx7EMR4xjvU+NZ8EsV44ZKpTfY8P59SOsdg1PqVhy+jBFlw31lshP1
+   GXtOgaqAXE8k32fdXzc/TBhh3+e3h/8zZDlNba7sp94BteaJ87ZYj25s4
+   5vuu6x7dQDWacgZCt/mmjmWQMWV1czE7NxQIzTl722q/W4aPtga63SNfs
+   LnoZLYnDaT5ikUowiChNTcVx8FYI/n2lLMUpDzZJVuO3d+F8mZwbKs2zE
    A==;
-X-CSE-ConnectionGUID: 2aBM5QN+TweyJPaIBrPo3w==
-X-CSE-MsgGUID: SvkU2pkdRQOoQUKix0ABAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="69540709"
+X-CSE-ConnectionGUID: umYOb0wURLmBNhlzqsU7hA==
+X-CSE-MsgGUID: YnAi4oIwTCOIo35nJsdrBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44363867"
 X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="69540709"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 09:42:30 -0700
-X-CSE-ConnectionGUID: r9u+KHFRSVCVCe+j00hj8w==
-X-CSE-MsgGUID: F+13iNMPRQeo6Jt3+45ETw==
+   d="scan'208";a="44363867"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 10:04:54 -0700
+X-CSE-ConnectionGUID: +5x37uMHSFyQ5KeROFmgEg==
+X-CSE-MsgGUID: Mw57PB4NTRauBLnyUsszyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,275,1736841600"; 
-   d="scan'208";a="161643255"
+   d="scan'208";a="125232771"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 25 Mar 2025 09:42:28 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 25 Mar 2025 10:04:54 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tx7MA-00051n-0i;
-	Tue, 25 Mar 2025 16:42:26 +0000
-Date: Wed, 26 Mar 2025 00:42:19 +0800
+	id 1tx7hr-00052V-1E;
+	Tue, 25 Mar 2025 17:04:51 +0000
+Date: Wed, 26 Mar 2025 01:04:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH] nfs: add a refcount tracker for struct net as held by
  the nfs_client
-Message-ID: <202503260024.8S4aQlWh-lkp@intel.com>
+Message-ID: <202503260032.8vbQDxxw-lkp@intel.com>
 References: <20250325-nfs-net-nef-v1-1-0142cbd7e9ea@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -75,25 +75,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/nfs-add-a-ref
 base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
 patch link:    https://lore.kernel.org/r/20250325-nfs-net-nef-v1-1-0142cbd7e9ea%40kernel.org
 patch subject: [PATCH] nfs: add a refcount tracker for struct net as held by the nfs_client
-config: csky-randconfig-002-20250325 (https://download.01.org/0day-ci/archive/20250326/202503260024.8S4aQlWh-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503260024.8S4aQlWh-lkp@intel.com/reproduce)
+config: hexagon-randconfig-002-20250325 (https://download.01.org/0day-ci/archive/20250326/202503260032.8vbQDxxw-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503260032.8vbQDxxw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503260024.8S4aQlWh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503260032.8vbQDxxw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/nfs/client.c: In function 'nfs_alloc_client':
->> fs/nfs/client.c:183:55: error: 'struct nfs_client' has no member named 'cl_ns_tracker'
+>> fs/nfs/client.c:183:50: error: no member named 'cl_ns_tracker' in 'struct nfs_client'
      183 |         clp->cl_net = get_net_track(cl_init->net, &clp->cl_ns_tracker, GFP_KERNEL);
-         |                                                       ^~
-   fs/nfs/client.c: In function 'nfs_free_client':
-   fs/nfs/client.c:253:40: error: 'struct nfs_client' has no member named 'cl_ns_track'
+         |                                                    ~~~  ^
+   fs/nfs/client.c:253:35: error: no member named 'cl_ns_track' in 'struct nfs_client'
      253 |         put_net_track(clp->cl_net, &clp->cl_ns_track);
-         |                                        ^~
+         |                                     ~~~  ^
+   2 errors generated.
 
 
 vim +183 fs/nfs/client.c
