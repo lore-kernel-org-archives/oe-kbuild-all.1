@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F8A1A0731
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 03:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FEB5228
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 04:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742872387; cv=none; b=GbsT6KijMDoz3qHejdGFe5RA9+vA6YpQfaowxF/mwoEgwwIlNXawKkedMafIH5+PiNf3bRll37Pnf0bGe6VVMobXAg+0MexhJYtq10L9U9D1zDxQ5gA1SEaCtYy+6btyUsnIWpLDMy3+oEtvPEaPcdHpNFhf+4rJC7rlvZihlEM=
+	t=1742878122; cv=none; b=JPT9V2bYQACJdq1PlSmj/JitOxH771EpcrjMVC3k9ZO7mRvegm5/5FuCwbaP42PXxNxoqYwXno40PTTn0FwgGy5kKUNdPrPpvWcsCp7DBCeNFiFgHobwPmcAymOex9SvxO4dih8pGaQJw7p93Jc90F+KbntJSIf45dHAxI10Jmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742872387; c=relaxed/simple;
-	bh=JeUGltH0NaGqMFRd4Nv0oSKt5WpngbBCXmU4xjm7aNQ=;
+	s=arc-20240116; t=1742878122; c=relaxed/simple;
+	bh=mAjipZaiPs+8a5EU3mzH59Ptu66SQyL6uPKRwFfIbg0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZwhwG3kh/sC26eR5zZfmQt+zNCOR90xpZnhjEF9dWe+0aFiubXObatVwcCci2+vTY7fMnMxmHzcKexLMBCTl9P3BV1gSJebDt26PsmJqZIky6cGYaLGw3NNxtHsAS8hmdLz5wDdxTgxAcUcuIV/Og9VxUgu5K8UKDlubAv9UDko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzpFgyVE; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=PKX9CzpCsSPPNJnPm5ByVnHN49Vy/d+pSsQfXmoF+CXKb9WKFn7zYrilAc4uavz/bbQL9Sg2t6gGqQx32fr7FbK4G4u2gNlicCpa+PrH8XMayKT4EAjeo6GlrjeTdNDaO79vxtuwESci8gWrnTMemkBdbbaGlvetar8iwiIIE68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SwO+8kIY; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzpFgyVE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwO+8kIY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742872386; x=1774408386;
+  t=1742878120; x=1774414120;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JeUGltH0NaGqMFRd4Nv0oSKt5WpngbBCXmU4xjm7aNQ=;
-  b=gzpFgyVEp+a9HwqiSoNLl0bOkqVyH7rmQk8+spw6whTAznnN/kI/+g+p
-   fnGii0uCef8JDPN3oNDMBXw7hRz9y7NstqbQeezuPZ2z3C9/5nH0XTemb
-   apq9NmQW7SoO8VMPCDAEyIPyaZFqoMM/d3gCilgtOpE2SMYHTqiKrJQnz
-   ol4DGqQ9/aeBkOAKuxIXtQW/26QJkFaOMFNUxiQaRjBEebauIZwOsq7T+
-   ItUqEN1lxjhmPN61BN0TwpMwrNIrOX6DJK7Cyc051+JBw8+o0/kj7hNR2
-   n47of18Z9Jmke8Y2Nroe3//2D/Xgf1R2Ih15Mio7voVM9N3D9Ps6VqpcZ
+  bh=mAjipZaiPs+8a5EU3mzH59Ptu66SQyL6uPKRwFfIbg0=;
+  b=SwO+8kIYPwkQq+bJRiTaLf5DpkJDHHX9pRRVkI9YX2gOrOTFrTcxdoYv
+   MFEib/nwXDD0Wxnh2HgZRMWreSJ6U4ONLK0vZSPgf69f0WTVetPwc6rSQ
+   APyo1WUW9xH61X8l4Uv80zYvdeZ7DwbFvuxOXbF854XIk9DNlS/MDVIqh
+   hs4E5VxkSM5IEexgHrfvVNuVqtv52/YVJ6TYvDkOB+ayaTGm9a6AKctUA
+   d46Bb64gne51SKGY1OB6aBmSqATUa0nNQmUs+vAVnfsy4bsEODoSTH0PG
+   OzzN3OoAi9RVOBM1TAMWa97W8GDjTrV9hzeGMWQIgn6suHrwYzEhZ8rrR
    w==;
-X-CSE-ConnectionGUID: MuOo7vDRSMqEk/Y1EVoQUA==
-X-CSE-MsgGUID: LTHVjJCmRJ+QDTWSh+OWZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="54768016"
+X-CSE-ConnectionGUID: vzIU85CqQpCLwhf9/F2fsw==
+X-CSE-MsgGUID: 7JCaOOa8Tty83mVwM3rpnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="55488346"
 X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; 
-   d="scan'208";a="54768016"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 20:13:03 -0700
-X-CSE-ConnectionGUID: /HnfaAmrREy2XcOIZbL0xw==
-X-CSE-MsgGUID: 540opKP9RteXjj5bLRQs+w==
+   d="scan'208";a="55488346"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 21:48:39 -0700
+X-CSE-ConnectionGUID: GsAiT6zkT4WX29M+vOiDJg==
+X-CSE-MsgGUID: mQcHSnsDQq23djitK1ZAIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; 
-   d="scan'208";a="161455683"
+   d="scan'208";a="124434401"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 24 Mar 2025 20:13:02 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 24 Mar 2025 21:48:38 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twuiY-00046h-09;
-	Tue, 25 Mar 2025 03:12:59 +0000
-Date: Tue, 25 Mar 2025 11:10:15 +0800
+	id 1twwCf-000499-24;
+	Tue, 25 Mar 2025 04:48:16 +0000
+Date: Tue, 25 Mar 2025 12:46:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/1] arch/arm64/kvm/arm.c:2011:39:
- error: use of undeclared identifier 'smccc_trng_available'
-Message-ID: <202503251141.YFGEn7gc-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 16/16]
+ drivers/gpu/drm/bridge/analogix/anx7625.c:2789:24: warning: variable 'dev'
+ set but not used
+Message-ID: <202503251239.pjXlbVph-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,71 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Will,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   79690c1514e424a9e114b551db43e02068191cf0
-commit: 888643ea37b504cb32afdd6430698d1e92a79a71 [1/1] ANDROID: KVM: arm64: relay entropy requests from protected guests directly to secure
-config: arm64-randconfig-r064-20250325 (https://download.01.org/0day-ci/archive/20250325/202503251141.YFGEn7gc-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503251141.YFGEn7gc-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   699322c13fb8c58442ef1b7956a600d27be2a27a
+commit: 699322c13fb8c58442ef1b7956a600d27be2a27a [16/16] CHROMIUM: drm/bridge: anx7625: Fix bandwidth mismatch issue
+config: x86_64-buildonly-randconfig-001-20250325 (https://download.01.org/0day-ci/archive/20250325/202503251239.pjXlbVph-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503251239.pjXlbVph-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503251141.YFGEn7gc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503251239.pjXlbVph-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/arm.c:2011:39: error: use of undeclared identifier 'smccc_trng_available'
-    2011 |         kvm_nvhe_sym(smccc_trng_available) = smccc_trng_available;
-         |                                              ^
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
+   drivers/gpu/drm/bridge/analogix/anx7625.c: In function 'lt_check_work_func':
+>> drivers/gpu/drm/bridge/analogix/anx7625.c:2789:24: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
+    2789 |         struct device *dev;
+         |                        ^~~
 
 
-vim +/smccc_trng_available +2011 arch/arm64/kvm/arm.c
+vim +/dev +2789 drivers/gpu/drm/bridge/analogix/anx7625.c
 
-  1997	
-  1998	static int kvm_hyp_init_protection(u32 hyp_va_bits)
-  1999	{
-  2000		void *addr = phys_to_virt(hyp_mem_base);
-  2001		int ret;
-  2002	
-  2003		kvm_nvhe_sym(id_aa64pfr0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64PFR0_EL1);
-  2004		kvm_nvhe_sym(id_aa64pfr1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64PFR1_EL1);
-  2005		kvm_nvhe_sym(id_aa64isar0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64ISAR0_EL1);
-  2006		kvm_nvhe_sym(id_aa64isar1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64ISAR1_EL1);
-  2007		kvm_nvhe_sym(id_aa64mmfr0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR0_EL1);
-  2008		kvm_nvhe_sym(id_aa64mmfr1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR1_EL1);
-  2009		kvm_nvhe_sym(id_aa64mmfr2_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR2_EL1);
-  2010		kvm_nvhe_sym(__icache_flags) = __icache_flags;
-> 2011		kvm_nvhe_sym(smccc_trng_available) = smccc_trng_available;
-  2012	
-  2013		ret = create_hyp_mappings(addr, addr + hyp_mem_size, PAGE_HYP);
-  2014		if (ret)
-  2015			return ret;
-  2016	
-  2017		ret = init_stage2_iommu();
-  2018		if (ret < 0)
-  2019			return ret;
-  2020	
-  2021		ret = do_pkvm_init(hyp_va_bits, (enum kvm_iommu_driver)ret);
-  2022		if (ret)
-  2023			return ret;
-  2024	
-  2025		free_hyp_pgds();
-  2026	
-  2027		return 0;
-  2028	}
-  2029	
+  2784	
+  2785	static void lt_check_work_func(struct work_struct *work)
+  2786	{
+  2787		struct delayed_work *dwork;
+  2788		struct anx7625_data *ctx;
+> 2789		struct device *dev;
+  2790		int ret;
+  2791		u8 lanes, rate;
+  2792		u32 downstream_max_pixel_clock;
+  2793		u8 data[2];
+  2794		struct drm_connector *conn;
+  2795	
+  2796		dwork = to_delayed_work(work);
+  2797		ctx = container_of(dwork, struct anx7625_data, lt_check_work);
+  2798		dev = ctx->dev;
+  2799	
+  2800		if (!ctx->connector)
+  2801			return;
+  2802	
+  2803		conn = ctx->connector;
+  2804	
+  2805		ret = anx7625_reg_block_read(ctx, ctx->i2c.tx_p0_client, 0xa0, 2, data);
+  2806		if (ret < 0)
+  2807			return;
+  2808	
+  2809		lanes = data[1] & 0x1F;
+  2810		rate = data[0];
+  2811		/*
+  2812		 * Lane rate equals 0x19 and lane count equals 1
+  2813		 * indicate OCM failed to do link training, then just
+  2814		 * reset lane count and lane speed to 0.
+  2815		 */
+  2816		if (lanes == 1 && rate == 0x19) {
+  2817			lanes = 0;
+  2818			rate = 0;
+  2819		}
+  2820	
+  2821		downstream_max_pixel_clock = anx7625_get_pixel_clock(lanes, rate);
+  2822	
+  2823		if (downstream_max_pixel_clock > ctx->dt.pixelclock.min)
+  2824			return;
+  2825	
+  2826		/* Grab the locks before changing connector property */
+  2827		mutex_lock(&conn->dev->mode_config.mutex);
+  2828		/*
+  2829		 * Set connector link status to BAD and send a Uevent to notify
+  2830		 * userspace to do a modeset.
+  2831		 */
+  2832		drm_connector_set_link_status_property(conn, DRM_MODE_LINK_STATUS_BAD);
+  2833		mutex_unlock(&conn->dev->mode_config.mutex);
+  2834		/* Send Hotplug uevent so userspace can reprobe */
+  2835		drm_kms_helper_hotplug_event(ctx->bridge.dev);
+  2836	}
+  2837	
 
 -- 
 0-DAY CI Kernel Test Service
