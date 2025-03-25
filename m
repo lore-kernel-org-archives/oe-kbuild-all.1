@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A9E86324
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Mar 2025 05:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001BA1FDE09;
+	Tue, 25 Mar 2025 06:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742879440; cv=none; b=r6l2ZedPuqvoa9ia2S84ne4JQtARVMDGj/edq6qNF6SRstvL9xGa+BQZLtwa4zcTEdd1ll3pmIoolG+LUAS/iHTyixADiR2SHnEAhKsaaNbHP5SAat5tJo85dmt0OOQLy9solSDolpysRfvTJyuVqxwzm3+4K52f3BA4rRvSeGg=
+	t=1742884435; cv=none; b=C4sd0jVaDxrd4SP710K/DOxnJlcY+ohi/J/AHHSWR5mn3WJNLxiV/PO0MLvuQGuSGfJrPpU+YbwMtEzFjklRjztq9mHGfHoUmKWBl9r1rAEMUJSJys2cm2zKV4zCeRYznybGeIS6/Fuy1E8EBHCmKmBHRL8iocNBvepCdJq9sOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742879440; c=relaxed/simple;
-	bh=VnUA6qIlV4kct3J+c72cj1s/FHG99gtx+RYfaqOo84U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mLAV5W/HCJXuxhai3msFaQhonxRSrz7R00xOsDGdKmffF67KI42qntLbkc569Qkrpeaxzh23tuPvFjZ/INbpyv/33PGiTAffwJmFHupXe8s3aLLHQLOU9uPW/fVrjj2XTmuWqdhHG916kSyZYdI+X5qCNerEPuQoya1T6XEYzQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rw9jfZcg; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1742884435; c=relaxed/simple;
+	bh=zqJFi6BXvfUH05c4Zk5WMj/85UfrnAU+ysG58ub1WDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gq3T/P/8cjs9fM3ZK3BT8QXI6oIZ7d9ymbLTjdn6DcalC+VwhhZB/ejZvtK52dDOhFcblBDu8RBcO2B4fVb4TKTrfWSAJI2G14m1mS0d4F25V60spDMYiIBLiQ5SfbJcar01DG1YPYYy6WoMi67nHVcH7jzxOcxcRZfQBYm7B58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDzZr/+h; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rw9jfZcg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDzZr/+h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742879439; x=1774415439;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VnUA6qIlV4kct3J+c72cj1s/FHG99gtx+RYfaqOo84U=;
-  b=Rw9jfZcg4IO/rtVXvI8OakvsyU75+W0k0etYbO0PbcTMs16YLaE8aXwE
-   S7RpCVjmNuhDsHKOdRzXQ1doj9pa9pZRzkU1o9Tuxx8yomcK3CPkimd9y
-   XVNLqoLVWkIUG9ayuvyEFZXkT9a6iT7uMjNb0kI2Htx5tNkCn91qBnzpk
-   c3zfNGrP8Or0So++iAs1fJIyS98JahOqzEGofED1S2JhDhbKwezU9RNXQ
-   yIvZYNS+jFRn0Gq9e7OVQBtDyvF0zS69lKlI+uiikyJZn/hNfHaZenZis
-   gV1R//c+aeAd+Jd7Gp8YgHOlgk+UcG4O99UMFAEIrh5TsSCpxnq36YHHJ
-   Q==;
-X-CSE-ConnectionGUID: 7Fq5JMxGQBCZdUZIr9sMtQ==
-X-CSE-MsgGUID: WdX/0IprRnKXBpM+wzTXYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="43998740"
+  t=1742884434; x=1774420434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zqJFi6BXvfUH05c4Zk5WMj/85UfrnAU+ysG58ub1WDM=;
+  b=TDzZr/+hM4dlyXv9dPRFiwyHcx6Uv7Rq6GyFTc1ReoDHHfdCPB26EoBS
+   WFbAskGp1hghUtpGED9lfvyl152awfA1iyUjUfRY/BXBmqfAW6O+H+Q53
+   OHKAoDt9GYsvn+SpG26aPq2+teQoygc9RkjXAqdqVBIqP96x9Ov2nJQql
+   GqX4MoxDjYvzrh42H9n0FuK27RfCcvDWK3UL4syiT6WV3fIMiDu8yfqDS
+   0dLlYyRP3+YGKSigJargWZmylWW3b2jcW+D3yMKEn486BB4p6mNKK5HLa
+   YBPzom/AXtQu/xURdGbcFrRgn+v+VbltiIIqTh5Xn1AXVYDb9Dre64lOO
+   A==;
+X-CSE-ConnectionGUID: 4OZ4nBh2SN22lY2/whDq6w==
+X-CSE-MsgGUID: f2kSnFgjSq2eMTGgCdEXqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="43350595"
 X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; 
-   d="scan'208";a="43998740"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 22:10:38 -0700
-X-CSE-ConnectionGUID: fzy5ybNoTC+n+S5BolDjpA==
-X-CSE-MsgGUID: j1CQXVlFSXSuzYTDJ41ONw==
+   d="scan'208";a="43350595"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 23:33:53 -0700
+X-CSE-ConnectionGUID: zRo0MWEERcGBU+oyRD0ViQ==
+X-CSE-MsgGUID: yfOOMcXrSx2MQsoRQ8Wu3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,274,1736841600"; 
-   d="scan'208";a="155276519"
+   d="scan'208";a="129335587"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Mar 2025 22:10:36 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 Mar 2025 23:33:51 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twwYT-00049j-1s;
-	Tue, 25 Mar 2025 05:10:27 +0000
-Date: Tue, 25 Mar 2025 13:09:42 +0800
+	id 1twxr5-0004Ab-1g;
+	Tue, 25 Mar 2025 06:33:44 +0000
+Date: Tue, 25 Mar 2025 14:32:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: <stdin>:4:15: error: 'cmpxchg8b_emu' undeclared here (not in a
- function)
-Message-ID: <202503251216.lE4t9Ikj-lkp@intel.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: Re: [PATCH v4 09/11] HID: asus: add basic RGB support
+Message-ID: <202503251335.BQVOomT2-lkp@intel.com>
+References: <20250324210151.6042-10-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +70,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250324210151.6042-10-lkml@antheas.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2f2d529458523f6d889a926623f4ddc7de4df063
-commit: 9c3681f9b9fd12cdbc4a542df599f1837512f3d5 kbuild: Add gendwarfksyms as an alternative to genksyms
-date:   2 months ago
-config: um-randconfig-r123-20250325 (https://download.01.org/0day-ci/archive/20250325/202503251216.lE4t9Ikj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503251216.lE4t9Ikj-lkp@intel.com/reproduce)
+Hi Antheas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 38fec10eb60d687e30c8c6b5420d86e8149f7557]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-refactor-init-sequence-per-spec/20250325-051852
+base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
+patch link:    https://lore.kernel.org/r/20250324210151.6042-10-lkml%40antheas.dev
+patch subject: [PATCH v4 09/11] HID: asus: add basic RGB support
+config: arm64-randconfig-004-20250325 (https://download.01.org/0day-ci/archive/20250325/202503251335.BQVOomT2-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503251335.BQVOomT2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503251216.lE4t9Ikj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503251335.BQVOomT2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:18,
-                    from <stdin>:1:
->> <stdin>:4:15: error: 'cmpxchg8b_emu' undeclared here (not in a function)
-   include/linux/export.h:70:23: note: in definition of macro '__EXPORT_SYMBOL'
-      70 |         extern typeof(sym) sym;                                 \
-         |                       ^~~
-   include/linux/export.h:83:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      83 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   <stdin>:4:1: note: in expansion of macro 'EXPORT_SYMBOL'
---
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:18,
-                    from <stdin>:1:
->> <stdin>:4:15: error: 'csum_partial' undeclared here (not in a function)
-   include/linux/export.h:70:23: note: in definition of macro '__EXPORT_SYMBOL'
-      70 |         extern typeof(sym) sym;                                 \
-         |                       ^~~
-   include/linux/export.h:83:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      83 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   <stdin>:4:1: note: in expansion of macro 'EXPORT_SYMBOL'
->> <stdin>:5:15: error: 'csum_partial_copy_generic' undeclared here (not in a function)
-   include/linux/export.h:70:23: note: in definition of macro '__EXPORT_SYMBOL'
-      70 |         extern typeof(sym) sym;                                 \
-         |                       ^~~
-   include/linux/export.h:83:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      83 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   <stdin>:5:1: note: in expansion of macro 'EXPORT_SYMBOL'
+>> ERROR: modpost: "devm_led_classdev_multicolor_register_ext" [drivers/hid/hid-asus.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
