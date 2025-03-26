@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9542A1B2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 13:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272651F37C3;
+	Wed, 26 Mar 2025 14:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742995169; cv=none; b=ENunGat3rNjOB5XSnEnx7M80qTUQ4lX4wE9A+2oWpqfOwHFKhGJ2fjxFqIen95s8VrkO9iAkK8g74zYAbC6duaoDH/769u8rMgJjcNlXAhu9Dt4u6uyWQZqIazcxa52cO5zl1f8hXICI3GWOH3qryOkKNrDewdMD16JS3DYTqWA=
+	t=1743000192; cv=none; b=szxBvMLklB2E1HhJAAZy6CeST8KmmvASKVVtXafvHwjv8oiOasgEwzzdtwwHIYJBov1A+46zdxtL1m9jbgSplqAbG94eAlj54Vahaf8abdxNSj5fAX1Nmv668Nke2MzpcPq2p4FfQLqbiM6H+fRvgLkMuZjueON2xndefuI+8+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742995169; c=relaxed/simple;
-	bh=RbNINfroqiCuywW9HSKY1xVu1odzlXtAoKumRfi8WlM=;
+	s=arc-20240116; t=1743000192; c=relaxed/simple;
+	bh=8ruiAexsDkLplsXd3Wz44waqyHX3oMolkpYe0zqHwws=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pVz/D7BaHoZm4/QyTc5ofYjUsEqY1rFkFkU7jb19vm4jrQOl1UbqmnimHvCeRZBeFMsbKVVEpLqzrle+dgUY/8pPn4id/WYAqHtl0kTwbr1SHxMT5xtUJUUjI9OjgJSBOX0Hp0JRby3cRSW3+MqCNnpW5RhZHLUlw44TDBJBvuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eoBSxfQM; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gd/EnIPk/ALxSCZQOMfh4JTad5BRDaryHNIRwX8S/ap+SVtxGHKvXfB3GyX6ZqcJ8yFDS9g9SZuhs6OYiJ1g0OxY0h8d5FnbPrb1Pd8lJJyA041d7DQThOStMo9hxeRhfaDEBjJCRYWR5gyUL6Gq6W8FZORi5tWbMb5EGbAtbvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SSDHVgs8; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eoBSxfQM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SSDHVgs8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742995168; x=1774531168;
+  t=1743000190; x=1774536190;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RbNINfroqiCuywW9HSKY1xVu1odzlXtAoKumRfi8WlM=;
-  b=eoBSxfQM+dxPnwfbE/A6EjS10qyxyb7ass4j3hgPZHTM8/utFpdnR3S6
-   +8OztuxrzUj84Yx7FLoqK7RMjB/Zc6PMmXiQl7bZCXCtZF+G9zR1cJ5QF
-   amg4yvTWWlt/zcUHZ7IPk6iqJ6G6Ra++eCCVcubecO9yhIFoSOyB4QhH+
-   MRukdCz6MNnpq6n+TAw04zLpInNMo/SPHbgS4nkyAEPJ2k5xxAaV8ou2s
-   q6E8mHUbrwPT9Gfq4l09XBUuB+UOPp39zSRHKy9ws06N/Ip+bnkSz4Xb+
-   HscRll4POaXpA12kO2MubeTxem/XJ8ODbPgyB5z5nAQR27IHJdQa0mHwI
-   g==;
-X-CSE-ConnectionGUID: yxt4OXrGTWi86/6C/rs6PQ==
-X-CSE-MsgGUID: 6+co/EEwShWExn7xcqF1dQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44444090"
-X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="44444090"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 06:19:28 -0700
-X-CSE-ConnectionGUID: KXopDMDuTfC6FjLlRrAxJQ==
-X-CSE-MsgGUID: v/9I6POWSJqWKsneIIa7rQ==
+  bh=8ruiAexsDkLplsXd3Wz44waqyHX3oMolkpYe0zqHwws=;
+  b=SSDHVgs80DhSOJ4IaxTDZFC4NnhPvaGqJZnSDJJbgkU06JCwJOOiBgpx
+   DeiT1qKKuHtGrEM+O3Nm/LUWjXy0uDV3BVk/moJo75uy6TOPQmFqBb8EM
+   GZCl3v+dgcz9HPTv+bUz+uGlunIY46uwXNGQlWOOAIjKwoDHlRY1PvbYi
+   1Fejm+zU8UhMKykVZzpOobE61QTvGWE4Dkqrlgp9Wg+RImu/CWQt3qxkR
+   zsu/+qfG3G5gZSLE05LnsTtOuXzbt5es0L5NXSpG5/3gIZ+NdCdGtlF+J
+   /lxGVVISn7Bl8XlJ45zECVYDVdjCzEYLHXKXUUPxHm9uVBbE5v6ariW7v
+   Q==;
+X-CSE-ConnectionGUID: 2yRLBVQJRd6SxdghIz13xg==
+X-CSE-MsgGUID: Vg/Xm9gTTROSbMwYKp38gA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44179690"
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
+   d="scan'208";a="44179690"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 07:43:09 -0700
+X-CSE-ConnectionGUID: jI/+7xQ0QY+hOlssQhJQDA==
+X-CSE-MsgGUID: oVDthJJ2SIuQ1QogZ8W1Rw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="124686297"
+X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
+   d="scan'208";a="129982866"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 26 Mar 2025 06:19:27 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Mar 2025 07:43:03 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txQfE-0005kt-0h;
-	Wed, 26 Mar 2025 13:19:24 +0000
-Date: Wed, 26 Mar 2025 21:18:39 +0800
+	id 1txRy0-0005oR-1c;
+	Wed, 26 Mar 2025 14:42:55 +0000
+Date: Wed, 26 Mar 2025 22:42:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] arm64: dts: amlogic: a4: add pinctrl node
-Message-ID: <202503262013.maulUBMC-lkp@intel.com>
-References: <20250326-pinctrl-node-a4-v1-1-8c30639480f6@amlogic.com>
+To: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	pbonzini@redhat.com, chenhuacai@kernel.org, mpe@ellerman.id.au,
+	anup@brainfault.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, seanjc@google.com, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, willy@infradead.org, akpm@linux-foundation.org,
+	xiaoyao.li@intel.com, yilun.xu@intel.com,
+	chao.p.peng@linux.intel.com, jarkko@kernel.org, amoorthy@google.com,
+	dmatlack@google.com, isaku.yamahata@intel.com, mic@digikod.net,
+	vbabka@suse.cz, vannapurve@google.com, ackerleytng@google.com,
+	mail@maciej.szmigiero.name, david@redhat.com, michael.roth@amd.com,
+	wei.w.wang@intel.com
+Subject: Re: [PATCH v7 5/9] KVM: x86: Mark KVM_X86_SW_PROTECTED_VM as
+ supporting guest_memfd shared memory
+Message-ID: <202503262202.WSGvs92t-lkp@intel.com>
+References: <20250318161823.4005529-6-tabba@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,83 +74,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250326-pinctrl-node-a4-v1-1-8c30639480f6@amlogic.com>
+In-Reply-To: <20250318161823.4005529-6-tabba@google.com>
 
-Hi Xianwei,
+Hi Fuad,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 23a708916ec7ab21c8c81d61bdb7cb933f6867d5]
+[auto build test ERROR on 4701f33a10702d5fc577c32434eb62adde0a1ae1]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/arm64-dts-amlogic-a4-add-pinctrl-node/20250326-131834
-base:   23a708916ec7ab21c8c81d61bdb7cb933f6867d5
-patch link:    https://lore.kernel.org/r/20250326-pinctrl-node-a4-v1-1-8c30639480f6%40amlogic.com
-patch subject: [PATCH] arm64: dts: amlogic: a4: add pinctrl node
-config: arm64-randconfig-003-20250326 (https://download.01.org/0day-ci/archive/20250326/202503262013.maulUBMC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503262013.maulUBMC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fuad-Tabba/mm-Consolidate-freeing-of-typed-folios-on-final-folio_put/20250319-003340
+base:   4701f33a10702d5fc577c32434eb62adde0a1ae1
+patch link:    https://lore.kernel.org/r/20250318161823.4005529-6-tabba%40google.com
+patch subject: [PATCH v7 5/9] KVM: x86: Mark KVM_X86_SW_PROTECTED_VM as supporting guest_memfd shared memory
+config: x86_64-randconfig-078-20250326 (https://download.01.org/0day-ci/archive/20250326/202503262202.WSGvs92t-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503262202.WSGvs92t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503262013.maulUBMC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503262202.WSGvs92t-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dts:8:
->> arch/arm64/boot/dts/amlogic/amlogic-a4.dtsi:8:10: fatal error: dt-bindings/pinctrl/amlogic,pinctrl.h: No such file or directory
-       8 | #include <dt-bindings/pinctrl/amlogic,pinctrl.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +8 arch/arm64/boot/dts/amlogic/amlogic-a4.dtsi
-
-   > 8	#include <dt-bindings/pinctrl/amlogic,pinctrl.h>
-     9	/ {
-    10		cpus {
-    11			#address-cells = <2>;
-    12			#size-cells = <0>;
-    13	
-    14			cpu0: cpu@0 {
-    15				device_type = "cpu";
-    16				compatible = "arm,cortex-a53";
-    17				reg = <0x0 0x0>;
-    18				enable-method = "psci";
-    19			};
-    20	
-    21			cpu1: cpu@1 {
-    22				device_type = "cpu";
-    23				compatible = "arm,cortex-a53";
-    24				reg = <0x0 0x1>;
-    25				enable-method = "psci";
-    26			};
-    27	
-    28			cpu2: cpu@2 {
-    29				device_type = "cpu";
-    30				compatible = "arm,cortex-a53";
-    31				reg = <0x0 0x2>;
-    32				enable-method = "psci";
-    33			};
-    34	
-    35			cpu3: cpu@3 {
-    36				device_type = "cpu";
-    37				compatible = "arm,cortex-a53";
-    38				reg = <0x0 0x3>;
-    39				enable-method = "psci";
-    40			};
-    41		};
-    42	
-    43		sm: secure-monitor {
-    44			compatible = "amlogic,meson-gxbb-sm";
-    45	
-    46			pwrc: power-controller {
-    47				compatible = "amlogic,a4-pwrc";
-    48				#power-domain-cells = <1>;
-    49			};
-    50		};
-    51	};
-    52	
+>> ld.lld: error: undefined symbol: kvm_gmem_handle_folio_put
+   >>> referenced by swap.c:110 (mm/swap.c:110)
+   >>>               mm/swap.o:(free_typed_folio) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
