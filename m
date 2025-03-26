@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CD819CC02
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 08:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8E815381A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 09:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742979024; cv=none; b=N37QGDnsfBRCC6aKlbjpGzjCLjfHZpss8Jr6uP/+AKfwWg61AcqO7uk0PX7lesG5yY+ip0P8hAfAgsJrrYj4MamV6Z1ioSf0aCUDooGaGGwhnpd4nIQa6mUcahFd8KtO9gJ1dNG7jE3B4eQpQ/nhSXXvfzjeTza4PDSjmRN5h4E=
+	t=1742981779; cv=none; b=V0R6sLw5Z7xmI5Ag5sdKVCD57NZ6jL7IXjPKTEgQbqcSyOP7PDBoi1+RhNtZOkyWnVp/Itmf6yUSReFAYuMN+KdvSnYoo1NpXWGMkHTyJphraz3rcTqiTnJ7fzTEnjqrBz6065kWyamdl1YbzIqDKa+9stno2yIaettIrCUB/TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742979024; c=relaxed/simple;
-	bh=hzLe7MgsbapL7VdKmwR0zULIwLdLHcy9X/alWyqwyps=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ULsjnf4obNeN4eUmcKL0A78P0Gyyd7fnmIW9+VWCxUap5Oz10HFKVGbjF/zN4cIEPC9mIxitx7JQ8Sc3Jy/DadRqMHhVlIuMxXGgtABmADGGnkNvBStamn+16Lb8YukkTTa9f6Tsud9N/V1xy7aizErUAyKvutpSpDCqKLPNtm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JWS9HCO6; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742981779; c=relaxed/simple;
+	bh=aPS1tJ4jno8OgHfjqqCfT1rUCV0Rlu9rTyQpCyd/T3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=grc7vAMNtHYHWoQR6XntclQk1LkDKEhzoIsoxOq146xxwm+zczWwLJKmNHqFrQcggDvh1Jb0lWCgHopxnjvGlwb0FVBVrNnTrR5UOx24A+LgGhtOmdqvdMtxFXUlkrkfgyD1CT4jcQQemR/oXq6wVqlg/UKQToZiJsQDBtb3qeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c5gD+Uvg; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWS9HCO6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742979022; x=1774515022;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hzLe7MgsbapL7VdKmwR0zULIwLdLHcy9X/alWyqwyps=;
-  b=JWS9HCO6DpSnD4teGltzFO4vm9sd2ZV6PXwg8S+6gfMoCk0JBvtI5Yl5
-   djue2rqU4hY37msULMpjezJTswQ1noVVaGRSnd7lG8QIQxwk701Vfqry3
-   zWSGZUARQbfAso+YG3y8gHRhxPU0PDp0UZ8acWoHi7xPZHtV5A0aLRPER
-   Ec32pok2zzw8uMzyZv8Rfib9D7ssd3sGDivkPb0qhn0cWuVCIREbHQZzU
-   K8KBd5hePWV6usengq7syCqbenTPGCnfYHHFuF7N/dzxnNHLrbHr2G2YY
-   4wUzt23HCaqkq7Oq8BX8SEWQOcbo6DApJOnkOrOlgjG3xJojkNxJopCnC
-   w==;
-X-CSE-ConnectionGUID: U7NvkI6/STGqfddkGeM3rg==
-X-CSE-MsgGUID: Ui/50gZ/TXOiWde6YstT8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44144623"
-X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="44144623"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 01:50:21 -0700
-X-CSE-ConnectionGUID: xV11y5rmQ3WLOX/JfmSHGg==
-X-CSE-MsgGUID: w98Kvy4DQzq+DVKHmTwE+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="128839802"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Mar 2025 01:50:20 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1txMSo-0005bR-1C;
-	Wed, 26 Mar 2025 08:50:18 +0000
-Date: Wed, 26 Mar 2025 16:50:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.14/zen-sauce 6/31]
- drivers/pci/controller/intel-nvme-remap.c:47:21: error: field has incomplete
- type 'struct pci_sysdata'
-Message-ID: <202503261655.ZxF5tbrU-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c5gD+Uvg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742981776;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7s6kGrJksefYUT5ouwvuh5z8KUx3QyiVOgbgLYNxiYY=;
+	b=c5gD+UvgXhRBCGdCuLW/vJA1FtYuc0TpmCdlgBRqHoafZZt2kXQeKW0QwOrb3+PI0JNfjm
+	Vanjt6GQkMBH84Yhf/hkOMgUdhAWHeWwNY1gAS01eb9IXdTTWfKlmbhgqvvgjva3GvaahR
+	pmhLQEFk+YnIxLiycblcfXRX+L+Dl5A=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-493-Ntfzn1olMPiWbWipkhq9bA-1; Wed,
+ 26 Mar 2025 05:36:12 -0400
+X-MC-Unique: Ntfzn1olMPiWbWipkhq9bA-1
+X-Mimecast-MFC-AGG-ID: Ntfzn1olMPiWbWipkhq9bA_1742981771
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 050D61809CA5;
+	Wed, 26 Mar 2025 09:36:11 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.42])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 3517919541A5;
+	Wed, 26 Mar 2025 09:36:06 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Wed, 26 Mar 2025 10:35:38 +0100 (CET)
+Date: Wed, 26 Mar 2025 10:35:33 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: kernel test robot <lkp@intel.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Phil Auld <pauld@redhat.com>
+Subject: Re: kernel/sched/isolation.c:50: undefined reference to
+ `sched_numa_find_closest'
+Message-ID: <20250326093532.GA30181@redhat.com>
+References: <202503260646.lrUqD3j5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,137 +64,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202503260646.lrUqD3j5-lkp@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.14/zen-sauce
-head:   cb33a6dc022faa07ac1e1cd544567b28a7e9afeb
-commit: 02b4d790bb05e24e7408a147f33e4e9ca0b805fa [6/31] ZEN: PCI: Add Intel remapped NVMe device support
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250326/202503261655.ZxF5tbrU-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503261655.ZxF5tbrU-lkp@intel.com/reproduce)
+On 03/26, kernel test robot wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   2d09a9449ecd9a2b9fdac62408c12ee20b6307d2
+> commit: 5097cbcb38e6e0d2627c9dde1985e91d2c9f880e sched/isolation: Prevent boot crash when the boot CPU is nohz_full
+> date:   11 months ago
+> config: sh-randconfig-r132-20250326 (https://download.01.org/0day-ci/archive/20250326/202503260646.lrUqD3j5-lkp@intel.com/config)
+...
+> >> kernel/sched/isolation.c:50: undefined reference to `sched_numa_find_closest'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503261655.ZxF5tbrU-lkp@intel.com/
+kernel/sched/isolation.c makes no sense without CONFIG_SMP, but
 
-All errors (new ones prefixed by >>):
+	config CPU_ISOLATION
+		bool "CPU isolation"
+		depends on SMP || COMPILE_TEST
 
-   In file included from drivers/pci/controller/intel-nvme-remap.c:37:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/pci/controller/intel-nvme-remap.c:37:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/pci/controller/intel-nvme-remap.c:37:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/pci/controller/intel-nvme-remap.c:47:21: error: field has incomplete type 'struct pci_sysdata'
-      47 |         struct pci_sysdata      sysdata;
-         |                                 ^
-   drivers/pci/controller/intel-nvme-remap.c:47:9: note: forward declaration of 'struct pci_sysdata'
-      47 |         struct pci_sysdata      sysdata;
-         |                ^
-   drivers/pci/controller/intel-nvme-remap.c:447:12: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     447 |                 .class = PCI_CLASS_STORAGE_RAID << 8,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci_ids.h:23:33: note: expanded from macro 'PCI_CLASS_STORAGE_RAID'
-      23 | #define PCI_CLASS_STORAGE_RAID          0x0104
-         |                                         ^
-   drivers/pci/controller/intel-nvme-remap.c:446:3: note: previous initialization is here
-     446 |                 PCI_VDEVICE(INTEL, PCI_ANY_ID),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:1049:52: note: expanded from macro 'PCI_VDEVICE'
-    1049 |         .subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, 0, 0
-         |                                                           ^
-   drivers/pci/controller/intel-nvme-remap.c:448:17: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     448 |                 .class_mask = 0xffffff00,
-         |                               ^~~~~~~~~~
-   drivers/pci/controller/intel-nvme-remap.c:446:3: note: previous initialization is here
-     446 |                 PCI_VDEVICE(INTEL, PCI_ANY_ID),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:1049:55: note: expanded from macro 'PCI_VDEVICE'
-    1049 |         .subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, 0, 0
-         |                                                              ^
-   14 warnings and 1 error generated.
+and .config above has CONFIG_COMPILE_TEST but not CONFIG_SMP.
+
+It also has CONFIG_NUMA, it doesn't depend on CONFIG_SMP in
+arch/sh/mm/Kconfig, so isolation.c can't use the dummy version
+of sched_numa_find_closest() in kernel/sched/sched.h, and
+kernel/sched/build_utility.c doesn't include topology.c without
+CONFIG_SMP.
+
+Perhaps we can should simply remove this "|| COMPILE_TEST" ?
+
+Oleg.
+
+--- x/init/Kconfig
++++ x/init/Kconfig
+@@ -709,7 +709,7 @@ endmenu # "CPU/Task time and stats accou
+ 
+ config CPU_ISOLATION
+ 	bool "CPU isolation"
+-	depends on SMP || COMPILE_TEST
++	depends on SMP
+ 	default y
+ 	help
+ 	  Make sure that CPUs running critical tasks are not disturbed by
 
 
-vim +47 drivers/pci/controller/intel-nvme-remap.c
-
-    43	
-    44	struct nvme_remap_dev {
-    45		struct pci_dev		*dev;		/* AHCI device */
-    46		struct pci_bus		*bus;		/* our fake PCI bus */
-  > 47		struct pci_sysdata	sysdata;
-    48		int			irq_base;	/* our fake interrupts */
-    49	
-    50		/*
-    51		 * When we detect an all-ones write to a BAR register, this flag
-    52		 * is set, so that we return the BAR size on the next read (a
-    53		 * standard PCI behaviour).
-    54		 * This includes the assumption that an all-ones BAR write is
-    55		 * immediately followed by a read of the same register.
-    56		 */
-    57		bool			bar_sizing;
-    58	
-    59		/*
-    60		 * Resources copied from the AHCI device, to be regarded as
-    61		 * resources on our fake bus.
-    62		 */
-    63		struct resource		ahci_resources[PCI_NUM_RESOURCES];
-    64	
-    65		/* Resources corresponding to the NVMe devices. */
-    66		struct resource		remapped_dev_mem[AHCI_MAX_REMAP];
-    67	
-    68		/* Number of remapped NVMe devices found. */
-    69		int			num_remapped_devices;
-    70	};
-    71	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
