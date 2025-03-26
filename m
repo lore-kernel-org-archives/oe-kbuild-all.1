@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88EBA55
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 00:19:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA02A11185;
+	Wed, 26 Mar 2025 01:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742948344; cv=none; b=CV/oSUABESvqo0QlkfOtSzFK09IfrJq13L08DNrLOPS2VEoB9TEPHjTCj977JSOK0OpSpz2ZRcNYid7X30qSm7w3N2p/NoKabuJer+sk25TwXnds+LO1ectgK6NhxJ/2eQu+wJ1VRF79k0CDj/01IbFKwDA6JbJuDLNnLWFZbow=
+	t=1742952169; cv=none; b=qwJ4olzIgZaUMvUF2KMoXwmvESDuK2PtRQEagApIfy+uMbCa7LqC+fMS6jJB9eiuwowoVERhD5lODTa4cXzBp6QAUSZiDNnCr8DcZO1ui+p0/Si309BVwPtlixga45RncBSiiTWgUi/BaEI56t3mS3gfH0j4FGs/RmmVIs4vkAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742948344; c=relaxed/simple;
-	bh=DIa5JrphLzDLlq69xQ2Orirc4rhT7kxJMGAQJFzZ9FA=;
+	s=arc-20240116; t=1742952169; c=relaxed/simple;
+	bh=EW2WUYnXzEeFiqZb4aNRiXPv+E5nRHDeYMd6+zBYJ/E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m9pEeDP1wVcySc8NZTjppugMnTDA2kpdJwPSa+zKuUDeUvOhRJKmWkEDD+M5liFbNyMAo1PtZyXGF0OHzy0RdlLcHI4B+bhoXI0klj/myuWHNu3kEMQs5Bj7cBwrmh0ypIJoOALfJ5FMcI0/q/uMMa/kgN+ZP+RNcOexSxqQQQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BOOPphk3; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=hr5QipnNquq5tATTEq3I0Og2tZWjuv1ENj6rWEULbcVF1Cseu+nese1SLhUrSKWYwBKyOBpZYMfGZjD+FDli0bkp9vM+ITiR6Wo17E95MRSuAGp3RtwJVcG5VV0oWFWUdQgKjrJayLGypaCE+kmn8ragQ3wUDSuoU2FeoU15gjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SI9Cp3CL; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BOOPphk3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SI9Cp3CL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742948343; x=1774484343;
+  t=1742952167; x=1774488167;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DIa5JrphLzDLlq69xQ2Orirc4rhT7kxJMGAQJFzZ9FA=;
-  b=BOOPphk3IeMk5mSMWA5KLeqW7kiH+QgPHMDyJE9+fgm239ukSSB38teT
-   pBd2Wb4u2XOV0JgLIKY296e3xO5Ur6BugcOxoa0Wu61xJO/zOJzK5q3wg
-   BgmNPfP1/V5Dy70DFTBZFPRvTXD6ULKq0YShlNLXYnnHcvb42dgP81k0p
-   RD3QdU+C3u/y/0BE5fU+TthQf/3uHxmK+fmU6t3eE9Mhd1UzaKVWjp6Xb
-   ToQkStZfEFYrTAQSagtZoBK+vhpEcdvkQSSD+ra8BDocl7ZxJYdlcrpio
-   tMZCLYPpgApuAU5DA/3kWQrfilApFH+2g96/l5BLco+bqSCeM85Ng2fX0
+  bh=EW2WUYnXzEeFiqZb4aNRiXPv+E5nRHDeYMd6+zBYJ/E=;
+  b=SI9Cp3CLYDpZsG+MsFbUQl2gprTPFiIcf0ZL6+IqDFg/l02VNQG0wmGf
+   WsLrgYt7O/Qy34N8ycpjkdzPMy7vDTO0ty0Wl2uRIWE995nKbPldnIUTJ
+   Mw24R59ksDOMfft1tT5NiPWNybFG2ocfSaSwhcIWO8Tosp0rdD5fqrPNv
+   amtY+JbeKq3bBdktyF+ovSnQARGhKVAC3LyGmVXQbFe/PWZGibjImPJfP
+   xxJRqpZp/jziqUSSAJCS8sZZHBqn2r/SLtyD07gjoXWy9QOW0VIV+4fnm
+   i914TW9leb73XnkrzPuvipdwyB8zhR6CqcuIc0vgXa+02m4ltX42HL225
    g==;
-X-CSE-ConnectionGUID: cGM2RX/fS4iLXVvkAY6Kdw==
-X-CSE-MsgGUID: gNSIK1iLQYiVU9VRWmRUsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="43946405"
+X-CSE-ConnectionGUID: LrfXrL7TRMuc6tKozRasuQ==
+X-CSE-MsgGUID: sfv1nkD0TwapHa3qvk2Ipw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="43951818"
 X-IronPort-AV: E=Sophos;i="6.14,276,1736841600"; 
-   d="scan'208";a="43946405"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 17:19:03 -0700
-X-CSE-ConnectionGUID: KmClavU2Sl+wLvV8+URyzw==
-X-CSE-MsgGUID: W+aDdoV1SJKzO+z7ytAZMw==
+   d="scan'208";a="43951818"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 18:22:47 -0700
+X-CSE-ConnectionGUID: 5oOBzU7oSCaHqS8SQxa1SA==
+X-CSE-MsgGUID: 5n/uCNutQEePq1cdGOjfgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,276,1736841600"; 
-   d="scan'208";a="147719246"
+   d="scan'208";a="125350033"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Mar 2025 17:18:59 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 25 Mar 2025 18:22:43 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txETq-0005KN-3D;
-	Wed, 26 Mar 2025 00:18:52 +0000
-Date: Wed, 26 Mar 2025 08:18:07 +0800
+	id 1txFTd-0005MR-1a;
+	Wed, 26 Mar 2025 01:22:41 +0000
+Date: Wed, 26 Mar 2025 09:21:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Anusha Srivatsa <asrivats@redhat.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
@@ -56,14 +56,13 @@ To: Anusha Srivatsa <asrivats@redhat.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Anusha Srivatsa <asrivats@redhat.com>
-Subject: Re: [PATCH 3/5] drm/panel: get/put panel reference in
- drm_panel_add/remove()
-Message-ID: <202503260710.gDo7vXVR-lkp@intel.com>
-References: <20250325-b4-panel-refcounting-v1-3-4e2bf5d19c5d@redhat.com>
+Subject: Re: [PATCH 2/5] drm/panel: Add refcount support
+Message-ID: <202503260820.3wTF0Zap-lkp@intel.com>
+References: <20250325-b4-panel-refcounting-v1-2-4e2bf5d19c5d@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,33 +71,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250325-b4-panel-refcounting-v1-3-4e2bf5d19c5d@redhat.com>
+In-Reply-To: <20250325-b4-panel-refcounting-v1-2-4e2bf5d19c5d@redhat.com>
 
 Hi Anusha,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on c8ba07caaecc622a9922cda49f24790821af8a71]
+[auto build test WARNING on c8ba07caaecc622a9922cda49f24790821af8a71]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Anusha-Srivatsa/drm-panel-Add-new-helpers-for-refcounted-panel-allocatons/20250326-012651
 base:   c8ba07caaecc622a9922cda49f24790821af8a71
-patch link:    https://lore.kernel.org/r/20250325-b4-panel-refcounting-v1-3-4e2bf5d19c5d%40redhat.com
-patch subject: [PATCH 3/5] drm/panel: get/put panel reference in drm_panel_add/remove()
-config: xtensa-randconfig-001-20250326 (https://download.01.org/0day-ci/archive/20250326/202503260710.gDo7vXVR-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503260710.gDo7vXVR-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250325-b4-panel-refcounting-v1-2-4e2bf5d19c5d%40redhat.com
+patch subject: [PATCH 2/5] drm/panel: Add refcount support
+config: s390-randconfig-002-20250326 (https://download.01.org/0day-ci/archive/20250326/202503260820.3wTF0Zap-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503260820.3wTF0Zap-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503260710.gDo7vXVR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503260820.3wTF0Zap-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/xtensa/platforms/iss/simdisk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
->> ERROR: modpost: "drm_panel_put" [drivers/gpu/drm/drm.ko] undefined!
->> ERROR: modpost: "drm_panel_get" [drivers/gpu/drm/drm.ko] undefined!
+>> drivers/gpu/drm/drm_panel.c:408: warning: expecting prototype for drm_bridge_put_void(). Prototype was for drm_panel_put_void() instead
+
+
+vim +408 drivers/gpu/drm/drm_panel.c
+
+   398	
+   399	/**
+   400	 * drm_bridge_put_void - wrapper to drm_bridge_put() taking a void pointer
+   401	 *
+   402	 * @data: pointer to @struct drm_bridge, cast to a void pointer
+   403	 *
+   404	 * Wrapper of drm_bridge_put() to be used when a function taking a void
+   405	 * pointer is needed, for example as a devm action.
+   406	 */
+   407	static void drm_panel_put_void(void *data)
+ > 408	{
+   409		struct drm_panel *panel = (struct drm_panel *)data;
+   410	
+   411		drm_panel_put(panel);
+   412	}
+   413	
 
 -- 
 0-DAY CI Kernel Test Service
