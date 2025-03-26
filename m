@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2AF2F3B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 15:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3E11F4703
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 16:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743004479; cv=none; b=bL8aFz83zZ3rktfU4w9IFyNT33yKEkbndzlmh0pB2A/si636vr82voRQTqaeNc/fdF1yYfDETkZEcNaBpkdExoB4YnCf2UjmboKA4nj4sgB9QhNxC9J7uHltPaMNBNNGZPmUUp8SjvCl+s93s7hYhowKARcSVkC92uizxknJJ3Q=
+	t=1743005020; cv=none; b=dtJJYn7HV/lzhG4i9+Skuw12JfN4L0cIwnEHoVtjpWa07/CYQPeSfakcnji0PMZoGnipEsJDEYF5mG5ryP+lAlXAL567cw4SdCeb2jN6uF3BH2P1+QWc1UcwHC9hEuc99QzgqMhSW+vxtuIf2gobQuHnjALQVoqMR1Zbt2lScks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743004479; c=relaxed/simple;
-	bh=BvbDCxbcsk8250oZ/hJOu0f2BpkvSHrbveIdnMmyhVg=;
+	s=arc-20240116; t=1743005020; c=relaxed/simple;
+	bh=DIGBvEQcDP2OyG0z/2hdZbWOODZ066I5uVepjeYcXZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eRfzhcbQi/kZVOAOJJAIbZJAAGcQ7sgifi+OWwACsyOjd7FRMgTtL2cuIKKaC/1vslOxSS0XwNiv5DjkTL8Htn5raMh8sShW1V0XxqjHDCF4o4ctisCZsv+ANchTw0dSPZYBJCbjgrt5HG/SuLSPqXkOhsQC2LacuHqHRWYLVBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PaOnzISV; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition:In-Reply-To; b=T/MAIRWGh3I9gm3WU0LmZirCLL7sjVlUbka2sI0tCG85XvtMASsf+f+kAXS65h+OuoCzLdQV1M+AXM57Z6nZxM+YibtROwH29rMPBVA2d9q4xSI7jyFev9jMoGS7U+QyzQ9KPVgT7KFJt1FJ3zfJKMKY8NwH9r3DEjwhU/wsSJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mC2uUPhD; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PaOnzISV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mC2uUPhD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743004477; x=1774540477;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BvbDCxbcsk8250oZ/hJOu0f2BpkvSHrbveIdnMmyhVg=;
-  b=PaOnzISVuz4Od8lnjIRUKv7IKWNSiW6XciROHYHAUB2mHHlQuowg0WBZ
-   4XGduoAWnoTHRJkeehDLUpu3jSzHT5pb3JmgF/xz9c0b2BrmWeD85FttL
-   /+3J+kqwE6TBHCtvm+umbr2LR4NGx8FxuydmgkyveDUgDaCUIAic0KymQ
-   fWbvbZvavHQ1C2HO9/xuwpkWbJYLQUQJRHPQRJN9gKX1Ts/7ed335gFh+
-   WOUoegfS6rH4z9KAB5sVC2POG3CfwzyRuLh5MFU7xYq7PcWFkiZuKZeZl
-   Y+1HS73jZW/mnym06fPPsZsgXaBIXHHpbUtYI5Vhf87olfe4wZO/m1k8e
+  t=1743005019; x=1774541019;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=DIGBvEQcDP2OyG0z/2hdZbWOODZ066I5uVepjeYcXZo=;
+  b=mC2uUPhDefExiVVGlieVYx4lkxixbHBawyiQbWNEvsMn7UHmOKpd24Bt
+   JoPuOkl8BA7ACkUXibi4eNiv42jCgkvQKW16p/31OOSOvb4XhubljnBED
+   v08y1gvfR3E55UjlLz/LswmO/4ls4mFbcrulRWA2Te94YtuLBdAh3Sx5M
+   bYbq+Z+NWT3j5arDAASmjaAcFXtELpSnMDLKvuERyRW2j8tU8vxa6cPW6
+   dhHKWdDTEgNVpcKe5vc1z6HwyC9xaNYh0rXmJfJEkapCFwuPMKMkBPrQL
+   xvEPNKe14XxMeJuMDvKlH50fhSxABUaRrMbd5Wv/R6YRqOqI7SkmMwGeL
    Q==;
-X-CSE-ConnectionGUID: RCgPIj1hT+eWpeb2U5YHYQ==
-X-CSE-MsgGUID: Z8jdMb0TTtWt3LvArZnR7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="31908017"
+X-CSE-ConnectionGUID: RACcbVkaSHiToV7Nzz+mDw==
+X-CSE-MsgGUID: NzK1a5L1RtG2ySHBomakGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61824244"
 X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
-   d="scan'208";a="31908017"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 08:54:36 -0700
-X-CSE-ConnectionGUID: uPW3ZRlqQCKQgUQaV1Yjlw==
-X-CSE-MsgGUID: YZKgI4gLTKiXpQkzRLwXvw==
+   d="scan'208";a="61824244"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 09:03:39 -0700
+X-CSE-ConnectionGUID: IjPzLKU/REafhqwTZEnHpA==
+X-CSE-MsgGUID: t+tr4vzWT8ypo4+9sCP/zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
-   d="scan'208";a="148010292"
+   d="scan'208";a="125326678"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Mar 2025 08:54:35 -0700
+  by orviesa007.jf.intel.com with ESMTP; 26 Mar 2025 09:03:38 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txT5N-0005rX-1l;
-	Wed, 26 Mar 2025 15:54:33 +0000
-Date: Wed, 26 Mar 2025 23:54:11 +0800
+	id 1txTE6-0005sZ-2X;
+	Wed, 26 Mar 2025 16:03:34 +0000
+Date: Thu, 27 Mar 2025 00:03:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-exit-cancel.2 9/9] io_uring/refs.h:80:25:
- sparse: sparse: cast truncates bits from constant value (8000000000000000
- becomes 0)
-Message-ID: <202503262328.QNOERG1Z-lkp@intel.com>
+To: Sidong Yang <sidong.yang@furiosa.ai>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.14] btrfs: ioctl: error on fixed buffer flag for
+ io-uring cmd
+Message-ID: <Z-QlPKOqLG7masRH@06395982a548>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,37 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250326155736.611445-1-sidong.yang@furiosa.ai>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-exit-cancel.2
-head:   a1a70bee1b2c37bb587ad61d479cab938c861a75
-commit: a1a70bee1b2c37bb587ad61d479cab938c861a75 [9/9] io_uring: switch away from percpu refcounts
-config: m68k-randconfig-r113-20250326 (https://download.01.org/0day-ci/archive/20250326/202503262328.QNOERG1Z-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250326/202503262328.QNOERG1Z-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503262328.QNOERG1Z-lkp@intel.com/
+Thanks for your patch.
 
-sparse warnings: (new ones prefixed by >>)
-   io_uring/io_uring.c: note: in included file (through include/linux/io_uring/cmd.h):
-   include/linux/io_uring_types.h:201:37: sparse: sparse: array of flexible structures
-   io_uring/io_uring.c:612:36: sparse: sparse: context imbalance in 'io_req_post_cqe' - unexpected unlock
-   io_uring/io_uring.c:614:17: sparse: sparse: context imbalance in '__io_submit_flush_completions' - different lock contexts for basic block
-   io_uring/io_uring.c: note: in included file (through io_uring/io_uring.h):
->> io_uring/refs.h:80:25: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-vim +80 io_uring/refs.h
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-    77	
-    78	static inline void io_ring_ref_kill(struct io_ring_ctx *ctx)
-    79	{
-  > 80		atomic_long_xor(IO_RING_REF_DEAD, &ctx->refs);
-    81		io_ring_ref_put(ctx);
-    82	}
-    83	
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 6.14] btrfs: ioctl: error on fixed buffer flag for io-uring cmd
+Link: https://lore.kernel.org/stable/20250326155736.611445-1-sidong.yang%40furiosa.ai
+
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
