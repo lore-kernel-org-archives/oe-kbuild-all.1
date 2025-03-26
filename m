@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0A3189B91
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 06:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03FC33F9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 07:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742970693; cv=none; b=dttL/FtPBl0SkFCxu4d4vdfECfHYym8AQoz0z6a9pveH2CEyMJAzHPRD2TMpdH2FUvkZ0vIJ2I5T9GeQCZlyXlL+qBdl4AJIKC8DaogGGfF5sMGqNR94pyVdIREZkh8FhY78iX5tDY+I86a7hoiymCR+wsw3l7HtI8vsF/KbuXQ=
+	t=1742974449; cv=none; b=oVxrOBiX/F+8/rvVbdtNeU9g/yGi0eODnEIS8wsAfHocpc5ktmvKzLbrctg2cfOYIUDgJP9fPwFV3HqRLBFX17liQwHlVPIzgq1lfUcogYa5KK7oFtTdQYFmCTFQrmWvF5R2y9HwFRg5/Z2c9sX5ztQIjDxxFsBRDE6WVxj4W2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742970693; c=relaxed/simple;
-	bh=roWBtRa5o/fsslyXy3qsTGigKgIFZfGCG03PRJ3DNPk=;
+	s=arc-20240116; t=1742974449; c=relaxed/simple;
+	bh=lh5mk7hqpaty/xF9Gz1roPB7CtqXO2cVURp7JCi2g+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jsJZRZCtXX7kEaKLix5fbQrxoJXrPRMy+wufMhXA9rxyyaz25mo8Rqzm5rpkzNXbnLUE6L6cJppxGQwe9RGAVBPIFaUnz6rZr/qgWtfk3GP4InHX7c+1mclGPgy8VTCwokqoxZ59nGfs/BOHZQBMlSghFLM4X6VNYAks23PMzbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bm4jkbKP; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=WtU0aYgY+OwqD1dTgjBSKKJ2Kc+fmcM7LZM8rdpmjV81pZJA/AiDraEkPctYm6P8T0dijYZY2fT0b3fk3hbBDIVEJcRgCv+Y0agAEvS1MWNgcDgO1hpsYaFuVvumxGVagNSVD2Izx7D/u1qk+usHcT8k95Y+KetM5Puwqk2oRyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IpPDS4ss; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bm4jkbKP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpPDS4ss"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742970692; x=1774506692;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=roWBtRa5o/fsslyXy3qsTGigKgIFZfGCG03PRJ3DNPk=;
-  b=Bm4jkbKP9PYxcQDQgGWOUu9cjKp+tqQ9LBoxrNqwXmJufPzA5tTYpO89
-   pi3Kz7pIQVW7V892pGgOe+4CeHjs4LZw43zX0GnOaFdjN3nm3kwmbCrt9
-   wv2CGazS+/tvjIVwk3COzYcKyka2YPTX1MKa+bxL0YeDSAYuUNZJI1ZvX
-   RnsPW81aZ2ksy+U/BcL1J9mSChmhi1acBGu1rYS/3v2mehNYuEdLblD2X
-   O6IxdSq2L8jdQud6em7GtpyHdjIXqNw0b5KuaX9Gcmei9HbTk2hKVd3FQ
-   mka7Ab6mVh+yFMlh96lVU6YGH199X3kw6xC1n9FCyakXOO9hNVjbgp/X8
-   g==;
-X-CSE-ConnectionGUID: lglj77QmQHu4jmu7b4M01g==
-X-CSE-MsgGUID: h8Jl83/KQrOSmEc+UXT6dQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="54445407"
+  t=1742974447; x=1774510447;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lh5mk7hqpaty/xF9Gz1roPB7CtqXO2cVURp7JCi2g+I=;
+  b=IpPDS4ssJulDWZGF8k9f6jbT/k+SVsoOUI4mss+iA3cWAuMMKufvZFEw
+   1kUeJvlvH1ummBkuwSFI5EJe6UUuKgwzQx4XKWQ4peGqVAte1yp1LCCRv
+   D+su8cag1J59Fr2lyjN2lyUEqfZtAmjxTYQ4hrRq6ejzWn4BDTJN/CD6m
+   wvTVTqJAY5pIll32EHDABa+AV6uKmzY7/BVJ3yw6l9Xf3vaY74EwgO+x9
+   8J2Wy7WvcQITtOr+yLELjzh6YYBYwi2lK83/7QnEs0JjRpNZzYcyaH6rX
+   176ADbbL1MgH1GL9GFa7Vhc1W/Lg03sorkuXdoxPzzOAB/K2LK/LlQ2a5
+   w==;
+X-CSE-ConnectionGUID: oYdUT9KwSsmlpSv0pk0AQA==
+X-CSE-MsgGUID: Hu27r6kCQc25eFnDUsS45Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44367968"
 X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="54445407"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 23:31:32 -0700
-X-CSE-ConnectionGUID: OJA5iKULSj2OTE8VH1UV5g==
-X-CSE-MsgGUID: WTDZqWFUTNCYPblnUTKFSw==
+   d="scan'208";a="44367968"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 00:34:06 -0700
+X-CSE-ConnectionGUID: jRVlxOS3RO+cFDtLIuJwzg==
+X-CSE-MsgGUID: QPh/WuRiQSap5hyAauu4UA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="129320658"
+   d="scan'208";a="129789728"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Mar 2025 23:31:30 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2025 00:34:06 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txKIS-0005VW-06;
-	Wed, 26 Mar 2025 06:31:28 +0000
-Date: Wed, 26 Mar 2025 14:30:50 +0800
+	id 1txLH1-0005Xh-1j;
+	Wed, 26 Mar 2025 07:34:03 +0000
+Date: Wed, 26 Mar 2025 15:33:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Xin Li (Intel)" <xin@zytor.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 1/1] x86/fred: Fix system hang during S4 resume with
- FRED enabled
-Message-ID: <Z-OfGoPRG2m_ZW97@06395982a548>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 32/32] make[3]: *** No rule to make
+ target 'sched_ext_clean'.
+Message-ID: <202503261556.6UQuB3mg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +61,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250326062540.820556-1-xin@zytor.com>
 
-Hi,
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   1355a80cc32f9ae2fdcf9aefa7c97c6eee9149a9
+commit: 2e953dfef122e371d4ab9778ad628e9a18c78827 [32/32] sched_ext: Add scx_simple and scx_example_qmap example schedulers
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250326/202503261556.6UQuB3mg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503261556.6UQuB3mg-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503261556.6UQuB3mg-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v1 1/1] x86/fred: Fix system hang during S4 resume with FRED enabled
-Link: https://lore.kernel.org/stable/20250326062540.820556-1-xin%40zytor.com
+>> make[3]: *** No rule to make target 'sched_ext_clean'.
+   make[2]: *** [Makefile:1354: sched_ext] Error 2
+   make[2]: Target 'distclean' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'distclean' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'distclean' not remade because of errors.
+--
+>> make[3]: *** No rule to make target 'sched_ext_clean'.
+   make[2]: *** [/kbuild/src/consumer/Makefile:1354: sched_ext] Error 2
+   make[2]: Target 'mrproper' not remade because of errors.
+   make[1]: *** [/kbuild/src/consumer/Makefile:234: __sub-make] Error 2
+   make[1]: Target 'mrproper' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'mrproper' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
