@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03FC33F9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 07:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54613145B3F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 07:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742974449; cv=none; b=oVxrOBiX/F+8/rvVbdtNeU9g/yGi0eODnEIS8wsAfHocpc5ktmvKzLbrctg2cfOYIUDgJP9fPwFV3HqRLBFX17liQwHlVPIzgq1lfUcogYa5KK7oFtTdQYFmCTFQrmWvF5R2y9HwFRg5/Z2c9sX5ztQIjDxxFsBRDE6WVxj4W2I=
+	t=1742974450; cv=none; b=V24kpWGjq4RdmqYYSCBe8NYex6pggB7lUHACc0jG8gD+kpjhCAeJDZZpOtGBJ9IuGNonsa4nyGesMGXQ6S6H3EW0VEiKV5VUsYzfDMGUv04XNpCkoxAwAfJryODdTjqoO8jRFKJYdjOr4nPwqCbRooSrSYpL/cnXYT0IPLS3yZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742974449; c=relaxed/simple;
-	bh=lh5mk7hqpaty/xF9Gz1roPB7CtqXO2cVURp7JCi2g+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WtU0aYgY+OwqD1dTgjBSKKJ2Kc+fmcM7LZM8rdpmjV81pZJA/AiDraEkPctYm6P8T0dijYZY2fT0b3fk3hbBDIVEJcRgCv+Y0agAEvS1MWNgcDgO1hpsYaFuVvumxGVagNSVD2Izx7D/u1qk+usHcT8k95Y+KetM5Puwqk2oRyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IpPDS4ss; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1742974450; c=relaxed/simple;
+	bh=bRqt9ZnlRx0YBpR5AZgDSylOjRtHgF5GmwEwLJF1QQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bKcI7Quzx9J0FNzJ9jwrKYJBBstlL9dOwyuPkVroNcjPyeyG93I7K5HbwzwyzKMxGkg7NsDmxUgvBaMdMN9seafBGYdGs1W1iL7ZAWuGBZqI65Em/L14mPkFV57PpgAMAcAhBeW5fhsE0TaLx3paRIAQ4/bFG2zzZGgpM3A1SvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JdyNRsQe; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpPDS4ss"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JdyNRsQe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742974447; x=1774510447;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lh5mk7hqpaty/xF9Gz1roPB7CtqXO2cVURp7JCi2g+I=;
-  b=IpPDS4ssJulDWZGF8k9f6jbT/k+SVsoOUI4mss+iA3cWAuMMKufvZFEw
-   1kUeJvlvH1ummBkuwSFI5EJe6UUuKgwzQx4XKWQ4peGqVAte1yp1LCCRv
-   D+su8cag1J59Fr2lyjN2lyUEqfZtAmjxTYQ4hrRq6ejzWn4BDTJN/CD6m
-   wvTVTqJAY5pIll32EHDABa+AV6uKmzY7/BVJ3yw6l9Xf3vaY74EwgO+x9
-   8J2Wy7WvcQITtOr+yLELjzh6YYBYwi2lK83/7QnEs0JjRpNZzYcyaH6rX
-   176ADbbL1MgH1GL9GFa7Vhc1W/Lg03sorkuXdoxPzzOAB/K2LK/LlQ2a5
+  t=1742974449; x=1774510449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bRqt9ZnlRx0YBpR5AZgDSylOjRtHgF5GmwEwLJF1QQY=;
+  b=JdyNRsQeP705rJoRwSe8osV43u62plQleeZuBcjaUkckEqHQytXjMICD
+   XOGJt5iosGNnID4nNlK/6z9RK9sBoFrAcW7ebGhwRY8h2LZD+9Y+z6mCU
+   qNLJHb4JpI38cu1M509nNXkyCUcP7yFQPbi/7QTTQURqsW+0CaJ2TpO/v
+   xg+/uWp2+Whqqa+M1dzU2HI0i6MiXfzdHbtKOcGkh0ejFbcpShzKbNPFZ
+   AEqr8NGGbybSgPBcpCS/KWDMev4dgOc4rLwMO3JAnju1cMj9Lu2yWC6+2
+   1/a7ePGljfdVlzykQbZSP1xyOrGMWO3CX8jmFkSyMT5TwF3/32nBE3mlb
    w==;
-X-CSE-ConnectionGUID: oYdUT9KwSsmlpSv0pk0AQA==
-X-CSE-MsgGUID: Hu27r6kCQc25eFnDUsS45Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44367968"
+X-CSE-ConnectionGUID: u2dI27YKSwm/msFIQrG6Iw==
+X-CSE-MsgGUID: xbHdzxFQQISPxuPljyDKWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="54450367"
 X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="44367968"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 00:34:06 -0700
-X-CSE-ConnectionGUID: jRVlxOS3RO+cFDtLIuJwzg==
-X-CSE-MsgGUID: QPh/WuRiQSap5hyAauu4UA==
+   d="scan'208";a="54450367"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 00:34:08 -0700
+X-CSE-ConnectionGUID: SBr8HkS9REGdiEITls17xg==
+X-CSE-MsgGUID: ydURiyz+Rca4g691sY19pw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="129789728"
+   d="scan'208";a="125600605"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2025 00:34:06 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Mar 2025 00:34:05 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txLH1-0005Xh-1j;
+	id 1txLH1-0005Xf-1f;
 	Wed, 26 Mar 2025 07:34:03 +0000
-Date: Wed, 26 Mar 2025 15:33:27 +0800
+Date: Wed, 26 Mar 2025 15:33:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 32/32] make[3]: *** No rule to make
- target 'sched_ext_clean'.
-Message-ID: <202503261556.6UQuB3mg-lkp@intel.com>
+To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com,
+	Cosmin Ratiu <cratiu@nvidia.com>
+Subject: Re: [PATCH net-next 3/9] net: use netif_disable_lro in ipv6_add_dev
+Message-ID: <202503261535.GURSr7ti-lkp@intel.com>
+References: <20250325213056.332902-4-sdf@fomichev.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,36 +64,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250325213056.332902-4-sdf@fomichev.me>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   1355a80cc32f9ae2fdcf9aefa7c97c6eee9149a9
-commit: 2e953dfef122e371d4ab9778ad628e9a18c78827 [32/32] sched_ext: Add scx_simple and scx_example_qmap example schedulers
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250326/202503261556.6UQuB3mg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503261556.6UQuB3mg-lkp@intel.com/reproduce)
+Hi Stanislav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-switch-to-netif_disable_lro-in-inetdev_init/20250326-053539
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250325213056.332902-4-sdf%40fomichev.me
+patch subject: [PATCH net-next 3/9] net: use netif_disable_lro in ipv6_add_dev
+config: csky-randconfig-002-20250326 (https://download.01.org/0day-ci/archive/20250326/202503261535.GURSr7ti-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503261535.GURSr7ti-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503261556.6UQuB3mg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503261535.GURSr7ti-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> make[3]: *** No rule to make target 'sched_ext_clean'.
-   make[2]: *** [Makefile:1354: sched_ext] Error 2
-   make[2]: Target 'distclean' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'distclean' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'distclean' not remade because of errors.
---
->> make[3]: *** No rule to make target 'sched_ext_clean'.
-   make[2]: *** [/kbuild/src/consumer/Makefile:1354: sched_ext] Error 2
-   make[2]: Target 'mrproper' not remade because of errors.
-   make[1]: *** [/kbuild/src/consumer/Makefile:234: __sub-make] Error 2
-   make[1]: Target 'mrproper' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'mrproper' not remade because of errors.
+>> ERROR: modpost: "netdev_get_by_index_lock" [net/ipv6/ipv6.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
