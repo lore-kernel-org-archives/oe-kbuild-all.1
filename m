@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B030315442C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 05:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0A3189B91
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 06:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742968756; cv=none; b=KaOHRIOm9wXgodwFdcuJR43Igp1GXUkTwT4ZLPO3ICUbZWeS2vUgfzdzKTdK/3FMZpb6hF+hRvmuliVXHAygUvaz9Q/XOvR7+LUmljWzz08U/xVwAR9N22AU+zu8rJ3lTfGB1PcSn23pXglnITz6tkM+hAvKZgTJEHAmmYWuFTs=
+	t=1742970693; cv=none; b=dttL/FtPBl0SkFCxu4d4vdfECfHYym8AQoz0z6a9pveH2CEyMJAzHPRD2TMpdH2FUvkZ0vIJ2I5T9GeQCZlyXlL+qBdl4AJIKC8DaogGGfF5sMGqNR94pyVdIREZkh8FhY78iX5tDY+I86a7hoiymCR+wsw3l7HtI8vsF/KbuXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742968756; c=relaxed/simple;
-	bh=sMfJUeixAghvz+SN81R9EpmcdILkeYRWnrxsQKcqJUY=;
+	s=arc-20240116; t=1742970693; c=relaxed/simple;
+	bh=roWBtRa5o/fsslyXy3qsTGigKgIFZfGCG03PRJ3DNPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sx46Vm3X5qjHb8kDm+ua22unR2MJg/fXAaaIv/0GvgE07wdjpY92sNQ9HLnAgIXwKNYdeTq6mJcGUPc+9oHsnG6DdjE9FeegbTynWWg87ecn/dYRZTLv1BYnyDR99DBpbQP752+wczJuDNbOomPyeIbf0A0SMGYyjA6h8ni5n34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fr7jKk72; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition:In-Reply-To; b=jsJZRZCtXX7kEaKLix5fbQrxoJXrPRMy+wufMhXA9rxyyaz25mo8Rqzm5rpkzNXbnLUE6L6cJppxGQwe9RGAVBPIFaUnz6rZr/qgWtfk3GP4InHX7c+1mclGPgy8VTCwokqoxZ59nGfs/BOHZQBMlSghFLM4X6VNYAks23PMzbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bm4jkbKP; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fr7jKk72"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bm4jkbKP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742968755; x=1774504755;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sMfJUeixAghvz+SN81R9EpmcdILkeYRWnrxsQKcqJUY=;
-  b=Fr7jKk725MOhYdGsP6ACMghCMnJ9ONzGDKEMXwjCKxwqCPBwdle+5B7K
-   IeBbckBtqnTbMBmsI8wVoZ80L41g4l4NdijgTYQ9T6mHFXivFaZp1Mq8U
-   G64SemJcPVz9KA+CCs8v3w0F79bPQhc10V9lXblZBdT8oPaev4mwHc0RM
-   HjP7x1FGYNeThR7qZpn3kgbbEd6o7bz6TyUKDfLB5+wJSDWMAB125ykAC
-   Ybr/IR20z+xLVyJIY85pHgp672ET5Vh+2XglSfRJ0eskXE/Mi34zs1vcr
-   6xZkW1nomDU1OO9ahF504K0NLriBOhBUzWYHTIZAQNsd8AtMWhJdbfNaj
-   Q==;
-X-CSE-ConnectionGUID: kgLoV7OLRVyT1YThg2XEpQ==
-X-CSE-MsgGUID: twCner4IS7yfRd6Rlx2tmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="55621226"
+  t=1742970692; x=1774506692;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=roWBtRa5o/fsslyXy3qsTGigKgIFZfGCG03PRJ3DNPk=;
+  b=Bm4jkbKP9PYxcQDQgGWOUu9cjKp+tqQ9LBoxrNqwXmJufPzA5tTYpO89
+   pi3Kz7pIQVW7V892pGgOe+4CeHjs4LZw43zX0GnOaFdjN3nm3kwmbCrt9
+   wv2CGazS+/tvjIVwk3COzYcKyka2YPTX1MKa+bxL0YeDSAYuUNZJI1ZvX
+   RnsPW81aZ2ksy+U/BcL1J9mSChmhi1acBGu1rYS/3v2mehNYuEdLblD2X
+   O6IxdSq2L8jdQud6em7GtpyHdjIXqNw0b5KuaX9Gcmei9HbTk2hKVd3FQ
+   mka7Ab6mVh+yFMlh96lVU6YGH199X3kw6xC1n9FCyakXOO9hNVjbgp/X8
+   g==;
+X-CSE-ConnectionGUID: lglj77QmQHu4jmu7b4M01g==
+X-CSE-MsgGUID: h8Jl83/KQrOSmEc+UXT6dQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="54445407"
 X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="55621226"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 22:59:14 -0700
-X-CSE-ConnectionGUID: 65Lev5kdQk+1HmTAdfVejw==
-X-CSE-MsgGUID: h3TNlTAQR6ShWDaIDtWSDg==
+   d="scan'208";a="54445407"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 23:31:32 -0700
+X-CSE-ConnectionGUID: OJA5iKULSj2OTE8VH1UV5g==
+X-CSE-MsgGUID: WTDZqWFUTNCYPblnUTKFSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="129668893"
+   d="scan'208";a="129320658"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 25 Mar 2025 22:59:12 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Mar 2025 23:31:30 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txJnC-0005US-1d;
-	Wed, 26 Mar 2025 05:59:10 +0000
-Date: Wed, 26 Mar 2025 13:58:55 +0800
+	id 1txKIS-0005VW-06;
+	Wed, 26 Mar 2025 06:31:28 +0000
+Date: Wed, 26 Mar 2025 14:30:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.14/zen-sauce 6/31]
- drivers/pci/controller/intel-nvme-remap.c:47:33: error: field 'sysdata' has
- incomplete type
-Message-ID: <202503261358.jsZcAROl-lkp@intel.com>
+To: "Xin Li (Intel)" <xin@zytor.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 1/1] x86/fred: Fix system hang during S4 resume with
+ FRED enabled
+Message-ID: <Z-OfGoPRG2m_ZW97@06395982a548>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,105 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250326062540.820556-1-xin@zytor.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.14/zen-sauce
-head:   cb33a6dc022faa07ac1e1cd544567b28a7e9afeb
-commit: 02b4d790bb05e24e7408a147f33e4e9ca0b805fa [6/31] ZEN: PCI: Add Intel remapped NVMe device support
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250326/202503261358.jsZcAROl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503261358.jsZcAROl-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503261358.jsZcAROl-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> drivers/pci/controller/intel-nvme-remap.c:47:33: error: field 'sysdata' has incomplete type
-      47 |         struct pci_sysdata      sysdata;
-         |                                 ^~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from ./arch/um/include/generated/asm/bug.h:1,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/um/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/irq.h:14,
-                    from drivers/pci/controller/intel-nvme-remap.c:37:
-   drivers/pci/controller/intel-nvme-remap.c: In function 'nrdev_from_bus':
-   include/linux/compiler_types.h:483:27: error: expression in static assertion is not an integer
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/pci/controller/intel-nvme-remap.c:74:16: note: in expansion of macro 'container_of'
-      74 |         return container_of(bus->sysdata, struct nvme_remap_dev, sysdata);
-         |                ^~~~~~~~~~~~
-   In file included from include/linux/pci.h:44,
-                    from drivers/pci/controller/intel-nvme-remap.c:40:
-   drivers/pci/controller/intel-nvme-remap.c: At top level:
-   include/linux/pci_ids.h:23:41: warning: initialized field overwritten [-Woverride-init]
-      23 | #define PCI_CLASS_STORAGE_RAID          0x0104
-         |                                         ^~~~~~
-   drivers/pci/controller/intel-nvme-remap.c:447:26: note: in expansion of macro 'PCI_CLASS_STORAGE_RAID'
-     447 |                 .class = PCI_CLASS_STORAGE_RAID << 8,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci_ids.h:23:41: note: (near initialization for 'nvme_remap_ids[0].class')
-      23 | #define PCI_CLASS_STORAGE_RAID          0x0104
-         |                                         ^~~~~~
-   drivers/pci/controller/intel-nvme-remap.c:447:26: note: in expansion of macro 'PCI_CLASS_STORAGE_RAID'
-     447 |                 .class = PCI_CLASS_STORAGE_RAID << 8,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/intel-nvme-remap.c:448:31: warning: initialized field overwritten [-Woverride-init]
-     448 |                 .class_mask = 0xffffff00,
-         |                               ^~~~~~~~~~
-   drivers/pci/controller/intel-nvme-remap.c:448:31: note: (near initialization for 'nvme_remap_ids[0].class_mask')
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +/sysdata +47 drivers/pci/controller/intel-nvme-remap.c
-
-    43	
-    44	struct nvme_remap_dev {
-    45		struct pci_dev		*dev;		/* AHCI device */
-    46		struct pci_bus		*bus;		/* our fake PCI bus */
-  > 47		struct pci_sysdata	sysdata;
-    48		int			irq_base;	/* our fake interrupts */
-    49	
-    50		/*
-    51		 * When we detect an all-ones write to a BAR register, this flag
-    52		 * is set, so that we return the BAR size on the next read (a
-    53		 * standard PCI behaviour).
-    54		 * This includes the assumption that an all-ones BAR write is
-    55		 * immediately followed by a read of the same register.
-    56		 */
-    57		bool			bar_sizing;
-    58	
-    59		/*
-    60		 * Resources copied from the AHCI device, to be regarded as
-    61		 * resources on our fake bus.
-    62		 */
-    63		struct resource		ahci_resources[PCI_NUM_RESOURCES];
-    64	
-    65		/* Resources corresponding to the NVMe devices. */
-    66		struct resource		remapped_dev_mem[AHCI_MAX_REMAP];
-    67	
-    68		/* Number of remapped NVMe devices found. */
-    69		int			num_remapped_devices;
-    70	};
-    71	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v1 1/1] x86/fred: Fix system hang during S4 resume with FRED enabled
+Link: https://lore.kernel.org/stable/20250326062540.820556-1-xin%40zytor.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
