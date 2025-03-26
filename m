@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3EE14F90;
-	Wed, 26 Mar 2025 19:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6054F253B52
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 19:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743018264; cv=none; b=nvmq+PCuOEQxGSqQkAJTbFhnHm/4aivt2JbaAdLIWK2q3iP2VKk21mBzgBGNrt7pRTwEm/whK5bbeSst4O6GOue3NFriSME3bCr9d+rhblzP0Ez+JV1CsgBn4h7LYygGYqtryR+hgvv19rtko9EgKEJZgbUdwyqs77QvDanjDgk=
+	t=1743018926; cv=none; b=uUVZ+8VdLWsMEQOuLqOSZhJP+Y8qVyEWuGWpGx1HlzGWU13VAFRLvZxM4b4OW99Og+82o6y4GAk7oW7UCj82TOoWiUafymFrERYrPyhn4PbqxoPcPimc6b7ZnIfBRL2SVKWVQABrIgDcg+aEAbJuadMQW91pR5CFA1M2gaN1REE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743018264; c=relaxed/simple;
-	bh=1p1OsE4OiOXEOVq4RGl/cvXjTmzJYkXXiZIi44VNBks=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UHqPg40U6Z8z3OIqzsYTlmMH0DIumz7sno8ilqhnhBPN7Dz5SpXIzmgav818wkeJdX4hlOYmi5idI8vFVwTeOAbZoNxG+3LhUgpfonwPFzeKhEYcG6SfwwZ9TiMiolytJIbo3D7b1Ga2tQwyXeBye3/artOgrtrMd4zeA8fVzfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVtoFYGt; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1743018926; c=relaxed/simple;
+	bh=adRAAix6DeWY9R1nR5Lr77KnAVY0W1YpaMjDvN5WTIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M2iyxj01N9V+Ye4V/jR5+xK7C/p9Ksk9naW8VOMFhMKt+49dnUVZm4Mv3kXZaG5n+WCTKylqeJh6/AOtKLSfrFmOZV8p8fWrGyAOL+BbxiKZcwv5fZVNZOUR+2VuoxwpAHGPb+Carb+1yJfUIYGHSdSe7Eq0ZrOnCKifhMlfX2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dZThqn65; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVtoFYGt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZThqn65"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743018262; x=1774554262;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1p1OsE4OiOXEOVq4RGl/cvXjTmzJYkXXiZIi44VNBks=;
-  b=kVtoFYGtgZ1NO2lVOUt4yjy2Ew9Kx4POC63dklw6tKY8/q1ETWnqeq24
-   2HTzywk5+cKe+7UpcpKgpjS3Lk1vdqkUAN3u7T4Vjz7z1ItMjhwIByEoz
-   eXd8XsWwUcEfwl67+uOVjn2C8qkutefsGXmeHvggJljyuu6RPozTSxqcd
-   eQTXOv/xqua00/smMt9lyVH5rKyCus4D/H25EBOrVD7+UwxCGXmpC+NoW
-   ggzD8NozTvMeTCk3u+DLTf3I3q20MlqXSr4IijvfMOy6RqnT1o//HcIqS
-   gBY6Apl6UVXXjgSwIT1A4SBFTXmIQ5e0b3GeiiNuEN2EFqbfcJD8GYcsO
-   A==;
-X-CSE-ConnectionGUID: qemxPJzxQ52aA77AsS2q9A==
-X-CSE-MsgGUID: icB5RoijS1aS2I7opMoRug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48205915"
+  t=1743018925; x=1774554925;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=adRAAix6DeWY9R1nR5Lr77KnAVY0W1YpaMjDvN5WTIk=;
+  b=dZThqn65mJcPmlJspNv64Be5FnLJGW3YCaRNvEtMyShf3gzb2bHhMtcr
+   W0yt6666NVU5Zs4dTXX7qrJy6vOrDjn0ab2ujSKlLNfKUy1mguwcGNwZW
+   Ik9l8o8GeYf77/BdGuKfahqhumcZe1G0ptZ7zal+SIdpzlxyCU2X8TK3t
+   6i51K2CKuOdXg3m4E978lMkdQVhIGM3EeGy21izxgM3VtuMVOh5f62duW
+   5io9uKpMN3hEFrVqPEhrUMGu00kzz8ANjHS/HCsI+/Hly6/4hzopm8PqO
+   xsO2HUzsD9wtdXvwRDhzREMji0SUJyVFYGsxWz5LZDqKSy1PcsPaYYEsr
+   g==;
+X-CSE-ConnectionGUID: iGKQGTx0Q3OYnNTOU4D+Ew==
+X-CSE-MsgGUID: 1wnWj0/6RIujP0hy3f1GRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="66792897"
 X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
-   d="scan'208";a="48205915"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 12:44:21 -0700
-X-CSE-ConnectionGUID: iS6pyx24SUWlGWviZxsAOQ==
-X-CSE-MsgGUID: CMONghc+QEaz3231BjodGw==
+   d="scan'208";a="66792897"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 12:55:24 -0700
+X-CSE-ConnectionGUID: YKrBgZ7ZRxyXZACYfzbeyg==
+X-CSE-MsgGUID: Q93VQfcJTcKsad2r+r8xXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
-   d="scan'208";a="125720033"
+   d="scan'208";a="130090910"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Mar 2025 12:44:21 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Mar 2025 12:55:21 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txWfi-00061b-1h;
-	Wed, 26 Mar 2025 19:44:18 +0000
-Date: Thu, 27 Mar 2025 03:44:13 +0800
+	id 1txWqN-00061n-0h;
+	Wed, 26 Mar 2025 19:55:19 +0000
+Date: Thu, 27 Mar 2025 03:54:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/kunit-kselftests 17/21] /usr/bin/ld:
- uapi.c:undefined reference to `kunit_log_append'
-Message-ID: <202503270317.3gK9pNVn-lkp@intel.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: Re: [PATCH v5 04/11] platform/x86: asus-wmi: Add support for
+ multiple kbd RGB handlers
+Message-ID: <202503270313.owOkR15i-lkp@intel.com>
+References: <20250325184601.10990-5-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,35 +71,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250325184601.10990-5-lkml@antheas.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
-head:   c1f41508dfc38dc5750d2b2c5b29f1f819ae053a
-commit: d85925dd2bcd0589dbb3c29bcf5d0b2f8daf2f83 [17/21] kunit: uapi: Introduce preinit executable
-config: um-randconfig-001-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270317.3gK9pNVn-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503270317.3gK9pNVn-lkp@intel.com/reproduce)
+Hi Antheas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 38fec10eb60d687e30c8c6b5420d86e8149f7557]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-refactor-init-sequence-per-spec/20250326-025845
+base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
+patch link:    https://lore.kernel.org/r/20250325184601.10990-5-lkml%40antheas.dev
+patch subject: [PATCH v5 04/11] platform/x86: asus-wmi: Add support for multiple kbd RGB handlers
+config: i386-randconfig-062-20250326 (https://download.01.org/0day-ci/archive/20250327/202503270313.owOkR15i-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503270313.owOkR15i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503270317.3gK9pNVn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503270313.owOkR15i-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/platform/x86/asus-wmi.c:1498:21: sparse: sparse: symbol 'asus_ref' was not declared. Should it be static?
+   drivers/platform/x86/asus-wmi.c:2576:33: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
+   drivers/platform/x86/asus-wmi.c:2576:33: sparse:     expected unsigned int [usertype] val
+   drivers/platform/x86/asus-wmi.c:2576:33: sparse:     got restricted __le32 [usertype]
 
-   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   /usr/bin/ld: lib/kunit/uapi.o: in function `kunit_uapi_run_kselftest':
-   uapi.c:(.text+0x2b8): undefined reference to `kunit_fail_assert_format'
-   /usr/bin/ld: uapi.c:(.text+0x2c6): undefined reference to `__kunit_do_failed_assertion'
-   /usr/bin/ld: uapi.c:(.text+0x336): undefined reference to `kunit_fail_assert_format'
-   /usr/bin/ld: uapi.c:(.text+0x344): undefined reference to `__kunit_do_failed_assertion'
->> /usr/bin/ld: uapi.c:(.text+0x4f4): undefined reference to `kunit_log_append'
-   /usr/bin/ld: uapi.c:(.text+0x6b3): undefined reference to `kunit_fail_assert_format'
-   /usr/bin/ld: uapi.c:(.text+0x6c1): undefined reference to `__kunit_do_failed_assertion'
-   /usr/bin/ld: uapi.c:(.text+0x71f): undefined reference to `kunit_fail_assert_format'
-   /usr/bin/ld: uapi.c:(.text+0x72d): undefined reference to `__kunit_do_failed_assertion'
-   /usr/bin/ld: uapi.c:(.text+0x78c): undefined reference to `kunit_fail_assert_format'
-   /usr/bin/ld: uapi.c:(.text+0x79a): undefined reference to `__kunit_do_failed_assertion'
-   clang: error: linker command failed with exit code 1 (use -v to see invocation)
+vim +/asus_ref +1498 drivers/platform/x86/asus-wmi.c
+
+  1497	
+> 1498	struct asus_hid_ref asus_ref = {
+  1499		.listeners = LIST_HEAD_INIT(asus_ref.listeners),
+  1500		.asus = NULL,
+  1501		.lock = __SPIN_LOCK_UNLOCKED(asus_ref.lock),
+  1502	};
+  1503	
 
 -- 
 0-DAY CI Kernel Test Service
