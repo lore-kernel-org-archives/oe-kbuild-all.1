@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09F128F4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 19:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3EE14F90;
+	Wed, 26 Mar 2025 19:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743015755; cv=none; b=RcRXqtsSrr3hgO8XlHnHx28bzZXDW56ebHF3vyYdRB6GMIkG2Ae75JErptZ52tWB5UxQabmplG1ZruOEC+pQB2b7csolFcFo6cmWK9gSZadIT2dpDqpaJkqQCTrBfow2bHpuPuOdMPUWfr4/ExjbdybW/z6Qc568zwmdp27oysw=
+	t=1743018264; cv=none; b=nvmq+PCuOEQxGSqQkAJTbFhnHm/4aivt2JbaAdLIWK2q3iP2VKk21mBzgBGNrt7pRTwEm/whK5bbeSst4O6GOue3NFriSME3bCr9d+rhblzP0Ez+JV1CsgBn4h7LYygGYqtryR+hgvv19rtko9EgKEJZgbUdwyqs77QvDanjDgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743015755; c=relaxed/simple;
-	bh=fgpzqy3J+/nMe48p05qeKYax0WjKVX0mnwmbSSmpwhs=;
+	s=arc-20240116; t=1743018264; c=relaxed/simple;
+	bh=1p1OsE4OiOXEOVq4RGl/cvXjTmzJYkXXiZIi44VNBks=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bKbvE+5xohQe0NJDdq0w2kU71/CILGOIIIaE/2UicJPiiiU4vjgY81cAo8WC3n93PXYIO6quNnx9aPDjuxEriAuWvXDUWdHUdWWQLZa7+OQ1yYypdU8Pr0QW1mARSSPye9DGKfh6AsaYkmL6nfbkz1eD6ndCsGFsd/d3+gn3jbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bZVNSVOa; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=UHqPg40U6Z8z3OIqzsYTlmMH0DIumz7sno8ilqhnhBPN7Dz5SpXIzmgav818wkeJdX4hlOYmi5idI8vFVwTeOAbZoNxG+3LhUgpfonwPFzeKhEYcG6SfwwZ9TiMiolytJIbo3D7b1Ga2tQwyXeBye3/artOgrtrMd4zeA8fVzfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVtoFYGt; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bZVNSVOa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVtoFYGt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743015753; x=1774551753;
+  t=1743018262; x=1774554262;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fgpzqy3J+/nMe48p05qeKYax0WjKVX0mnwmbSSmpwhs=;
-  b=bZVNSVOaap6QGLIehxaZiy8TJ0HLbEZl09GwIsu3V+2mo2wPyYKmsIJV
-   P1w/NV74G3YIIzHcwoJIRD2vkh9KmxkymsvVTZTJnR9VG73qn4rdiV+OW
-   Y0i8qrIfj0bPBhT/8Jnmz63ZJ8cSkCt8kS/UX87oKN3FIsNiTb6DmD87O
-   hD2DpABZMeI8BvNA15zi1/LK5tRIk2ILOwrKnejiDGVoE0t8i02BGNjCL
-   QSzFhTrPF93gWVORuFaVrXvIr8cDn7bRfrxHkeZGCva8Hf6s9YrNuFP1f
-   xy3CRi719/w2fbnRkMoc1TCzObgIwp3hqVDCJ0LgPGuMLv0uJwEmUoIZi
+  bh=1p1OsE4OiOXEOVq4RGl/cvXjTmzJYkXXiZIi44VNBks=;
+  b=kVtoFYGtgZ1NO2lVOUt4yjy2Ew9Kx4POC63dklw6tKY8/q1ETWnqeq24
+   2HTzywk5+cKe+7UpcpKgpjS3Lk1vdqkUAN3u7T4Vjz7z1ItMjhwIByEoz
+   eXd8XsWwUcEfwl67+uOVjn2C8qkutefsGXmeHvggJljyuu6RPozTSxqcd
+   eQTXOv/xqua00/smMt9lyVH5rKyCus4D/H25EBOrVD7+UwxCGXmpC+NoW
+   ggzD8NozTvMeTCk3u+DLTf3I3q20MlqXSr4IijvfMOy6RqnT1o//HcIqS
+   gBY6Apl6UVXXjgSwIT1A4SBFTXmIQ5e0b3GeiiNuEN2EFqbfcJD8GYcsO
    A==;
-X-CSE-ConnectionGUID: GxhmX/+MTfueSSG2fW+w+A==
-X-CSE-MsgGUID: V76ZD45CSWGvuXx/R797Ig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44217826"
+X-CSE-ConnectionGUID: qemxPJzxQ52aA77AsS2q9A==
+X-CSE-MsgGUID: icB5RoijS1aS2I7opMoRug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48205915"
 X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
-   d="scan'208";a="44217826"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 12:02:32 -0700
-X-CSE-ConnectionGUID: FwQsVO+PRkicq5DHVZsddg==
-X-CSE-MsgGUID: sUJKFK02SaerOrldjMdUXg==
+   d="scan'208";a="48205915"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 12:44:21 -0700
+X-CSE-ConnectionGUID: iS6pyx24SUWlGWviZxsAOQ==
+X-CSE-MsgGUID: CMONghc+QEaz3231BjodGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
-   d="scan'208";a="130082835"
+   d="scan'208";a="125720033"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 26 Mar 2025 12:02:31 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Mar 2025 12:44:21 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txW1E-0005zn-2s;
-	Wed, 26 Mar 2025 19:02:28 +0000
-Date: Thu, 27 Mar 2025 03:02:15 +0800
+	id 1txWfi-00061b-1h;
+	Wed, 26 Mar 2025 19:44:18 +0000
+Date: Thu, 27 Mar 2025 03:44:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova-gsp 4/4] Diff in drivers/gpu/nova-core/vbios.rs at line
- 1:
-Message-ID: <202503270254.0w4VYk4U-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/kunit-kselftests 17/21] /usr/bin/ld:
+ uapi.c:undefined reference to `kunit_log_append'
+Message-ID: <202503270317.3gK9pNVn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +62,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova-gsp
-head:   fe9f1c2329e9c32ae35ef006c8c786774241561f
-commit: fe9f1c2329e9c32ae35ef006c8c786774241561f [4/4] vbios pcir and bit
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250327/202503270254.0w4VYk4U-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503270254.0w4VYk4U-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
+head:   c1f41508dfc38dc5750d2b2c5b29f1f819ae053a
+commit: d85925dd2bcd0589dbb3c29bcf5d0b2f8daf2f83 [17/21] kunit: uapi: Introduce preinit executable
+config: um-randconfig-001-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270317.3gK9pNVn-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503270317.3gK9pNVn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503270254.0w4VYk4U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503270317.3gK9pNVn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   Diff in rust/kernel/reg.rs at line 1:
-    
-   -
-    
->> Diff in drivers/gpu/nova-core/vbios.rs at line 1:
-   -use kernel::prelude::*;
-    use core::convert::TryFrom;
-   +use kernel::prelude::*;
-    
-    /// Helper function to create u16 from two u8 values (little-endian)
-    pub fn u16_from_u8s(high: u8, low: u8) -> u16 {
-   Diff in drivers/gpu/nova-core/vbios.rs at line 179:
-            Err(ENOENT)
-        }
-    }
-   +
->> Diff in drivers/gpu/nova-core/vbios.rs at line 1:
-   -use kernel::prelude::*;
-    use core::convert::TryFrom;
-   +use kernel::prelude::*;
-    
-    /// Helper function to create u16 from two u8 values (little-endian)
-    pub fn u16_from_u8s(high: u8, low: u8) -> u16 {
-   Diff in drivers/gpu/nova-core/vbios.rs at line 179:
-            Err(ENOENT)
-        }
-    }
-   +
-   make[2]: *** [Makefile:1811: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:251: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: lib/kunit/uapi.o: in function `kunit_uapi_run_kselftest':
+   uapi.c:(.text+0x2b8): undefined reference to `kunit_fail_assert_format'
+   /usr/bin/ld: uapi.c:(.text+0x2c6): undefined reference to `__kunit_do_failed_assertion'
+   /usr/bin/ld: uapi.c:(.text+0x336): undefined reference to `kunit_fail_assert_format'
+   /usr/bin/ld: uapi.c:(.text+0x344): undefined reference to `__kunit_do_failed_assertion'
+>> /usr/bin/ld: uapi.c:(.text+0x4f4): undefined reference to `kunit_log_append'
+   /usr/bin/ld: uapi.c:(.text+0x6b3): undefined reference to `kunit_fail_assert_format'
+   /usr/bin/ld: uapi.c:(.text+0x6c1): undefined reference to `__kunit_do_failed_assertion'
+   /usr/bin/ld: uapi.c:(.text+0x71f): undefined reference to `kunit_fail_assert_format'
+   /usr/bin/ld: uapi.c:(.text+0x72d): undefined reference to `__kunit_do_failed_assertion'
+   /usr/bin/ld: uapi.c:(.text+0x78c): undefined reference to `kunit_fail_assert_format'
+   /usr/bin/ld: uapi.c:(.text+0x79a): undefined reference to `__kunit_do_failed_assertion'
+   clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 -- 
 0-DAY CI Kernel Test Service
