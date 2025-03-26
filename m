@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A321C15DBB3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 07:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B89142E67;
+	Wed, 26 Mar 2025 07:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742975825; cv=none; b=BL9B8LcsxD6Qkq0l9Gi07srm+NjeGslJp+C2bNmktD4hOxdcUzGWpUc6rDw1ZyiWL4Gt8imaHH+gQ3IINmjpnPgDoH4wL/nHRVgNuL1CSx1aIhpbJDRXVB34+x9wJzWRIIfWNxvPbkFveLq2+8C9VYjHtPyN6+23w2gPfCMen04=
+	t=1742975826; cv=none; b=BIRTNudiy7Q5HWf90ppDeBR+1CZ421ZKx7VIL8hzJfFb98TBwiXv+uc62/6qleUarO46M143kusSR1Ay9G7o8fpfgo9FCGXYozrIB5GBYf5UdHT47ifu/5IhDG0+PU87Pc5T6ZVdguE4MpCUU8GyLOy9xfuwvUSVdxv8KnicoLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742975825; c=relaxed/simple;
-	bh=4nWgzRsDAz+1AZshhJJdoB0eD+KQrBxGRUOCSZQsQqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Eoj+guf6M8vO8o3yXCtS0/kS+sTOIhSJCWFKFeTbXJYqSeQqoC/zzsK4zZmWleoehWJHgi1ZQXz/KnY+AaWnHEkIzEXHkUyrB9lDMoS3nLuASrBT21uPVKNquW1Qnr9zuqUpLEb52b1zqp6INFOPQfiIQKQtRXaqaZMPkjNyz/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wo85Vgln; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1742975826; c=relaxed/simple;
+	bh=AWdsf46TZdJCXOunqU6VUzw21vA2VAX5Xfec+s2ZhV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X1RtD8yVWPMH1EyEM85VoaWrbWDumoEdXxbQKKM1ziWE9JUsY+xlkw8V6+FB3MTNmvDU6LGGASw+4486qaJzG/G88rfI78xX+y4Eg2Eh+cXJXGshQXRd2Y87EpCIlW4VGJAkajGw2Hc+wvZLvCqMLkUHBnwHEDSMKM0A+rzidnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kp5meSt4; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wo85Vgln"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kp5meSt4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742975823; x=1774511823;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4nWgzRsDAz+1AZshhJJdoB0eD+KQrBxGRUOCSZQsQqQ=;
-  b=Wo85Vgln3cF2tO8Xf3aDXx2HY59G+RMWba/gEeBJOM9YtQ9CHZnC89Cy
-   AsLo5PG4x+tH6ZtLGRGXA1uhehWWFLyBk6YBBG6OkspA90nIbuAICk0gf
-   8AmnHms17ClN/zIVI+bYko6LdXgC5M3ofpdYblObcGzmJMNPfV32AmrJA
-   AtLsD1kMjOfX1aLOA9El0ryH31qPus+1e8J4PuQFZWDFW1imxjP3+Tv2W
-   CatTIPI84mrut4LHqQ21y7U1gcRvJhNV4Nk5LPhfDKzbITGmuIxOWr1Rs
-   grGwcIJPklPgvSzRA6/V+GybEzGMlsw+81MJFW0KEvo6AbUrhxB5BJfif
-   Q==;
-X-CSE-ConnectionGUID: +h8PputFTSSjglzU5t6D7w==
-X-CSE-MsgGUID: 2xbUmZCwSmCiBHLVbpZylA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="66707331"
+  t=1742975824; x=1774511824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AWdsf46TZdJCXOunqU6VUzw21vA2VAX5Xfec+s2ZhV4=;
+  b=Kp5meSt4IKdCl/g089Q1tXwaHvZgm2BwSkfpzcD/MB8UxE8SYhFyzx5t
+   dZrPeTtMcsJgssOrTAcBVwblZqP1kFU6LpPzjmsesxmvX1tZigoBZD1y8
+   nJef+wvJ0jCS0+me2BkNGGxbWDGZmDXxryW/wRkBkerGevB0mzbCEmsCq
+   71KGL3yaqGIRXx/9aYFmGhaFI9vquWvronUmg2Kx9TeGN3oLEAzH+ovU9
+   pXLDgOJrKF+kGrx6ldLbpyocxktesc1ktsNW48ckcwdooCbksVwo/R0I9
+   DiOPK5gVgTra2zhcViU/2Lqctk0XJ+4N9MzJVkg1ZpW22OgWU66nSKD7T
+   A==;
+X-CSE-ConnectionGUID: prmphYrFTxe/u6rbnZb0Rw==
+X-CSE-MsgGUID: A5Q0MMI4RS+U95cqUF4mbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11384"; a="44370429"
 X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="66707331"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 00:57:03 -0700
-X-CSE-ConnectionGUID: oEv9dkp/SMKNVF+CJrfXHw==
-X-CSE-MsgGUID: pZnIeEfBSLugPlp/0bmoNQ==
+   d="scan'208";a="44370429"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 00:57:04 -0700
+X-CSE-ConnectionGUID: H3EoqPTnSj+IEbUhSb4oeQ==
+X-CSE-MsgGUID: 75+gisrRQ7WaBUi8FeGGxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,277,1736841600"; 
-   d="scan'208";a="129528691"
+   d="scan'208";a="129799025"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 26 Mar 2025 00:57:01 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2025 00:57:00 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txLdC-0005Z7-2K;
+	id 1txLdC-0005Z5-2F;
 	Wed, 26 Mar 2025 07:56:58 +0000
-Date: Wed, 26 Mar 2025 15:56:06 +0800
+Date: Wed, 26 Mar 2025 15:56:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.14/zen-sauce 2/31] include/asm-generic/io.h:549:31: error:
- performing pointer arithmetic on a null pointer has undefined behavior
-Message-ID: <202503261507.rczWOZgD-lkp@intel.com>
+To: Erick Karanja <karanja99erick@gmail.com>, gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	philipp.g.hortmann@gmail.com, davidzalman.101@gmail.com,
+	vivek6429.ts@gmail.com, viro@zeniv.linux.org.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Erick Karanja <karanja99erick@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: Rename variable supportRateNum
+Message-ID: <202503261508.V1Oei42R-lkp@intel.com>
+References: <20250325091220.38601-1-karanja99erick@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,203 +67,422 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250325091220.38601-1-karanja99erick@gmail.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.14/zen-sauce
-head:   cb33a6dc022faa07ac1e1cd544567b28a7e9afeb
-commit: 6d141e3121676e9ca50d6465a622b9a5d572219a [2/31] ZEN: Add VHBA driver
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250326/202503261507.rczWOZgD-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503261507.rczWOZgD-lkp@intel.com/reproduce)
+Hi Erick,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Erick-Karanja/staging-rtl8723bs-Rename-variable-supportRateNum/20250325-171434
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250325091220.38601-1-karanja99erick%40gmail.com
+patch subject: [PATCH] staging: rtl8723bs: Rename variable supportRateNum
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250326/202503261508.V1Oei42R-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250326/202503261508.V1Oei42R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503261507.rczWOZgD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503261508.V1Oei42R-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/scsi/vhba/vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
->> include/asm-generic/io.h:549:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/scsi/vhba/vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/scsi/vhba/vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror,-Wunused-but-set-variable]
-     192 |     struct vhba_host *vhost;
-         |                       ^
-   drivers/scsi/vhba/vhba.c:541:25: error: use of undeclared identifier 'BLK_TAG_ALLOC_RR'
-     541 |     .tag_alloc_policy = BLK_TAG_ALLOC_RR,
-         |                         ^
-   14 errors generated.
---
-   In file included from vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
->> include/asm-generic/io.h:549:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from vhba.c:27:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   vhba.c:192:23: error: variable 'vhost' set but not used [-Werror,-Wunused-but-set-variable]
-     192 |     struct vhba_host *vhost;
-         |                       ^
-   vhba.c:541:25: error: use of undeclared identifier 'BLK_TAG_ALLOC_RR'
-     541 |     .tag_alloc_policy = BLK_TAG_ALLOC_RR,
-         |                         ^
-   14 errors generated.
+>> drivers/staging/rtl8723bs/core/rtw_ap.c:896:3: error: use of undeclared identifier 'support_rate_num'; did you mean 'supportRateNum'?
+     896 |                 support_rate_num = ie_len;
+         |                 ^~~~~~~~~~~~~~~~
+         |                 supportRateNum
+   drivers/staging/rtl8723bs/core/rtw_ap.c:821:6: note: 'supportRateNum' declared here
+     821 |         int supportRateNum = 0;
+         |             ^
+   drivers/staging/rtl8723bs/core/rtw_ap.c:907:24: error: use of undeclared identifier 'support_rate_num'; did you mean 'supportRateNum'?
+     907 |                 memcpy(supportRate + support_rate_num, p + 2, ie_len);
+         |                                      ^~~~~~~~~~~~~~~~
+         |                                      supportRateNum
+   drivers/staging/rtl8723bs/core/rtw_ap.c:821:6: note: 'supportRateNum' declared here
+     821 |         int supportRateNum = 0;
+         |             ^
+   drivers/staging/rtl8723bs/core/rtw_ap.c:908:3: error: use of undeclared identifier 'support_rate_num'; did you mean 'supportRateNum'?
+     908 |                 support_rate_num += ie_len;
+         |                 ^~~~~~~~~~~~~~~~
+         |                 supportRateNum
+   drivers/staging/rtl8723bs/core/rtw_ap.c:821:6: note: 'supportRateNum' declared here
+     821 |         int supportRateNum = 0;
+         |             ^
+   drivers/staging/rtl8723bs/core/rtw_ap.c:911:53: error: use of undeclared identifier 'support_rate_num'; did you mean 'supportRateNum'?
+     911 |         network_type = rtw_check_network_type(supportRate, support_rate_num,
+         |                                                            ^~~~~~~~~~~~~~~~
+         |                                                            supportRateNum
+   drivers/staging/rtl8723bs/core/rtw_ap.c:821:6: note: 'supportRateNum' declared here
+     821 |         int supportRateNum = 0;
+         |             ^
+   4 errors generated.
 
 
-vim +549 include/asm-generic/io.h
+vim +896 drivers/staging/rtl8723bs/core/rtw_ap.c
 
-3f7e212df82ca04 Arnd Bergmann   2009-05-13  534  
-9216efafc52ff99 Thierry Reding  2014-10-01  535  /*
-9216efafc52ff99 Thierry Reding  2014-10-01  536   * {in,out}{b,w,l}() access little endian I/O. {in,out}{b,w,l}_p() can be
-9216efafc52ff99 Thierry Reding  2014-10-01  537   * implemented on hardware that needs an additional delay for I/O accesses to
-9216efafc52ff99 Thierry Reding  2014-10-01  538   * take effect.
-9216efafc52ff99 Thierry Reding  2014-10-01  539   */
-9216efafc52ff99 Thierry Reding  2014-10-01  540  
-f009c89df79abea John Garry      2020-03-28  541  #if !defined(inb) && !defined(_inb)
-f009c89df79abea John Garry      2020-03-28  542  #define _inb _inb
-6f043e757445969 Niklas Schnelle 2024-10-24  543  #ifdef CONFIG_HAS_IOPORT
-214ba3584b2e2c5 Stafford Horne  2020-07-26  544  static inline u8 _inb(unsigned long addr)
-9216efafc52ff99 Thierry Reding  2014-10-01  545  {
-87fe2d543f81730 Sinan Kaya      2018-04-05  546  	u8 val;
-87fe2d543f81730 Sinan Kaya      2018-04-05  547  
-87fe2d543f81730 Sinan Kaya      2018-04-05  548  	__io_pbr();
-87fe2d543f81730 Sinan Kaya      2018-04-05 @549  	val = __raw_readb(PCI_IOBASE + addr);
-abbbbc83a210e95 Will Deacon     2019-02-22  550  	__io_par(val);
-87fe2d543f81730 Sinan Kaya      2018-04-05  551  	return val;
-9216efafc52ff99 Thierry Reding  2014-10-01  552  }
-6f043e757445969 Niklas Schnelle 2024-10-24  553  #else
-6f043e757445969 Niklas Schnelle 2024-10-24  554  u8 _inb(unsigned long addr)
-6f043e757445969 Niklas Schnelle 2024-10-24  555  	__compiletime_error("inb()) requires CONFIG_HAS_IOPORT");
-6f043e757445969 Niklas Schnelle 2024-10-24  556  #endif
-9216efafc52ff99 Thierry Reding  2014-10-01  557  #endif
-9216efafc52ff99 Thierry Reding  2014-10-01  558  
-
-:::::: The code at line 549 was first introduced by commit
-:::::: 87fe2d543f817300e13f0ea683f38c122737856e io: change inX() to have their own IO barrier overrides
-
-:::::: TO: Sinan Kaya <okaya@codeaurora.org>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+   809	
+   810	int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+   811	{
+   812		int ret = _SUCCESS;
+   813		u8 *p;
+   814		u8 *pHT_caps_ie = NULL;
+   815		u8 *pHT_info_ie = NULL;
+   816		struct sta_info *psta = NULL;
+   817		u16 cap, ht_cap = false;
+   818		uint ie_len = 0;
+   819		int group_cipher, pairwise_cipher;
+   820		u8 channel, network_type, supportRate[NDIS_802_11_LENGTH_RATES_EX];
+   821		int supportRateNum = 0;
+   822		u8 OUI1[] = {0x00, 0x50, 0xf2, 0x01};
+   823		u8 WMM_PARA_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x01, 0x01};
+   824		struct registry_priv *pregistrypriv = &padapter->registrypriv;
+   825		struct security_priv *psecuritypriv = &padapter->securitypriv;
+   826		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+   827		struct wlan_bssid_ex
+   828			*pbss_network = (struct wlan_bssid_ex *)&pmlmepriv->cur_network.network;
+   829		u8 *ie = pbss_network->ies;
+   830	
+   831		if (!check_fwstate(pmlmepriv, WIFI_AP_STATE))
+   832			return _FAIL;
+   833	
+   834		if (len < 0 || len > MAX_IE_SZ)
+   835			return _FAIL;
+   836	
+   837		pbss_network->ie_length = len;
+   838	
+   839		memset(ie, 0, MAX_IE_SZ);
+   840	
+   841		memcpy(ie, pbuf, pbss_network->ie_length);
+   842	
+   843		if (pbss_network->infrastructure_mode != Ndis802_11APMode)
+   844			return _FAIL;
+   845	
+   846		pbss_network->rssi = 0;
+   847	
+   848		memcpy(pbss_network->mac_address, myid(&padapter->eeprompriv), ETH_ALEN);
+   849	
+   850		/* beacon interval */
+   851		p = rtw_get_beacon_interval_from_ie(ie);/* ie + 8;	8: TimeStamp, 2: Beacon Interval 2:Capability */
+   852		/* pbss_network->configuration.beacon_period = le16_to_cpu(*(unsigned short*)p); */
+   853		pbss_network->configuration.beacon_period = get_unaligned_le16(p);
+   854	
+   855		/* capability */
+   856		/* cap = *(unsigned short *)rtw_get_capability_from_ie(ie); */
+   857		/* cap = le16_to_cpu(cap); */
+   858		cap = get_unaligned_le16(ie);
+   859	
+   860		/* SSID */
+   861		p = rtw_get_ie(
+   862			ie + _BEACON_IE_OFFSET_,
+   863			WLAN_EID_SSID,
+   864			&ie_len,
+   865			(pbss_network->ie_length - _BEACON_IE_OFFSET_)
+   866		);
+   867		if (p && ie_len > 0) {
+   868			memset(&pbss_network->ssid, 0, sizeof(struct ndis_802_11_ssid));
+   869			memcpy(pbss_network->ssid.ssid, (p + 2), ie_len);
+   870			pbss_network->ssid.ssid_length = ie_len;
+   871		}
+   872	
+   873		/* channel */
+   874		channel = 0;
+   875		pbss_network->configuration.length = 0;
+   876		p = rtw_get_ie(
+   877			ie + _BEACON_IE_OFFSET_,
+   878			WLAN_EID_DS_PARAMS, &ie_len,
+   879			(pbss_network->ie_length - _BEACON_IE_OFFSET_)
+   880		);
+   881		if (p && ie_len > 0)
+   882			channel = *(p + 2);
+   883	
+   884		pbss_network->configuration.ds_config = channel;
+   885	
+   886		memset(supportRate, 0, NDIS_802_11_LENGTH_RATES_EX);
+   887		/*  get supported rates */
+   888		p = rtw_get_ie(
+   889			ie + _BEACON_IE_OFFSET_,
+   890			WLAN_EID_SUPP_RATES,
+   891			&ie_len,
+   892			(pbss_network->ie_length - _BEACON_IE_OFFSET_)
+   893		);
+   894		if (p) {
+   895			memcpy(supportRate, p + 2, ie_len);
+ > 896			support_rate_num = ie_len;
+   897		}
+   898	
+   899		/* get ext_supported rates */
+   900		p = rtw_get_ie(
+   901			ie + _BEACON_IE_OFFSET_,
+   902			WLAN_EID_EXT_SUPP_RATES,
+   903			&ie_len,
+   904			pbss_network->ie_length - _BEACON_IE_OFFSET_
+   905		);
+   906		if (p) {
+   907			memcpy(supportRate + support_rate_num, p + 2, ie_len);
+   908			support_rate_num += ie_len;
+   909		}
+   910	
+   911		network_type = rtw_check_network_type(supportRate, support_rate_num,
+   912						      channel);
+   913	
+   914		rtw_set_supported_rate(pbss_network->supported_rates, network_type);
+   915	
+   916		/* parsing ERP_IE */
+   917		p = rtw_get_ie(
+   918			ie + _BEACON_IE_OFFSET_,
+   919			WLAN_EID_ERP_INFO,
+   920			&ie_len,
+   921			(pbss_network->ie_length - _BEACON_IE_OFFSET_)
+   922		);
+   923		if (p && ie_len > 0)
+   924			ERP_IE_handler(padapter, (struct ndis_80211_var_ie *)p);
+   925	
+   926		/* update privacy/security */
+   927		if (cap & BIT(4))
+   928			pbss_network->privacy = 1;
+   929		else
+   930			pbss_network->privacy = 0;
+   931	
+   932		psecuritypriv->wpa_psk = 0;
+   933	
+   934		/* wpa2 */
+   935		group_cipher = 0; pairwise_cipher = 0;
+   936		psecuritypriv->wpa2_group_cipher = _NO_PRIVACY_;
+   937		psecuritypriv->wpa2_pairwise_cipher = _NO_PRIVACY_;
+   938		p = rtw_get_ie(
+   939			ie + _BEACON_IE_OFFSET_,
+   940			WLAN_EID_RSN,
+   941			&ie_len,
+   942			(pbss_network->ie_length - _BEACON_IE_OFFSET_)
+   943		);
+   944		if (p && ie_len > 0) {
+   945			if (rtw_parse_wpa2_ie(
+   946				p,
+   947				ie_len + 2,
+   948				&group_cipher,
+   949				&pairwise_cipher,
+   950				NULL
+   951			) == _SUCCESS) {
+   952				psecuritypriv->dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
+   953	
+   954				psecuritypriv->dot8021xalg = 1;/* psk,  todo:802.1x */
+   955				psecuritypriv->wpa_psk |= BIT(1);
+   956	
+   957				psecuritypriv->wpa2_group_cipher = group_cipher;
+   958				psecuritypriv->wpa2_pairwise_cipher = pairwise_cipher;
+   959			}
+   960		}
+   961	
+   962		/* wpa */
+   963		ie_len = 0;
+   964		group_cipher = 0; pairwise_cipher = 0;
+   965		psecuritypriv->wpa_group_cipher = _NO_PRIVACY_;
+   966		psecuritypriv->wpa_pairwise_cipher = _NO_PRIVACY_;
+   967		for (p = ie + _BEACON_IE_OFFSET_; ; p += (ie_len + 2)) {
+   968			p = rtw_get_ie(
+   969				p,
+   970				WLAN_EID_VENDOR_SPECIFIC,
+   971				&ie_len,
+   972				(pbss_network->ie_length - _BEACON_IE_OFFSET_ - (ie_len + 2))
+   973			);
+   974			if ((p) && (!memcmp(p + 2, OUI1, 4))) {
+   975				if (rtw_parse_wpa_ie(
+   976					p,
+   977					ie_len + 2,
+   978					&group_cipher,
+   979					&pairwise_cipher,
+   980					NULL
+   981				) == _SUCCESS) {
+   982					psecuritypriv->dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
+   983	
+   984					psecuritypriv->dot8021xalg = 1;/* psk,  todo:802.1x */
+   985	
+   986					psecuritypriv->wpa_psk |= BIT(0);
+   987	
+   988					psecuritypriv->wpa_group_cipher = group_cipher;
+   989					psecuritypriv->wpa_pairwise_cipher = pairwise_cipher;
+   990				}
+   991	
+   992				break;
+   993			}
+   994	
+   995			if (!p || ie_len == 0)
+   996				break;
+   997		}
+   998	
+   999		/* wmm */
+  1000		ie_len = 0;
+  1001		pmlmepriv->qospriv.qos_option = 0;
+  1002		if (pregistrypriv->wmm_enable) {
+  1003			for (p = ie + _BEACON_IE_OFFSET_; ; p += (ie_len + 2)) {
+  1004				p = rtw_get_ie(
+  1005					p,
+  1006					WLAN_EID_VENDOR_SPECIFIC,
+  1007					&ie_len,
+  1008					(pbss_network->ie_length - _BEACON_IE_OFFSET_ - (ie_len + 2))
+  1009				);
+  1010				if ((p) && !memcmp(p + 2, WMM_PARA_IE, 6)) {
+  1011					pmlmepriv->qospriv.qos_option = 1;
+  1012	
+  1013					*(p + 8) |= BIT(7);/* QoS Info, support U-APSD */
+  1014	
+  1015					/* disable all ACM bits since the WMM admission */
+  1016					/* control is not supported */
+  1017					*(p + 10) &= ~BIT(4); /* BE */
+  1018					*(p + 14) &= ~BIT(4); /* BK */
+  1019					*(p + 18) &= ~BIT(4); /* VI */
+  1020					*(p + 22) &= ~BIT(4); /* VO */
+  1021	
+  1022					break;
+  1023				}
+  1024	
+  1025				if (!p || ie_len == 0)
+  1026					break;
+  1027			}
+  1028		}
+  1029	
+  1030		/* parsing HT_CAP_IE */
+  1031		p = rtw_get_ie(
+  1032			ie + _BEACON_IE_OFFSET_,
+  1033			WLAN_EID_HT_CAPABILITY,
+  1034			&ie_len,
+  1035			(pbss_network->ie_length - _BEACON_IE_OFFSET_)
+  1036		);
+  1037		if (p && ie_len > 0) {
+  1038			u8 max_rx_ampdu_factor = 0;
+  1039			struct ieee80211_ht_cap *pht_cap = (struct ieee80211_ht_cap *)(p + 2);
+  1040	
+  1041			pHT_caps_ie = p;
+  1042	
+  1043			ht_cap = true;
+  1044			network_type |= WIRELESS_11_24N;
+  1045	
+  1046			rtw_ht_use_default_setting(padapter);
+  1047	
+  1048			if (pmlmepriv->htpriv.sgi_20m == false)
+  1049				pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_20));
+  1050	
+  1051			if (pmlmepriv->htpriv.sgi_40m == false)
+  1052				pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_SGI_40));
+  1053	
+  1054			if (!TEST_FLAG(pmlmepriv->htpriv.ldpc_cap, LDPC_HT_ENABLE_RX))
+  1055				pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_LDPC_CODING));
+  1056	
+  1057			if (!TEST_FLAG(pmlmepriv->htpriv.stbc_cap, STBC_HT_ENABLE_TX))
+  1058				pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_TX_STBC));
+  1059	
+  1060			if (!TEST_FLAG(pmlmepriv->htpriv.stbc_cap, STBC_HT_ENABLE_RX))
+  1061				pht_cap->cap_info &= cpu_to_le16(~(IEEE80211_HT_CAP_RX_STBC_3R));
+  1062	
+  1063			pht_cap->ampdu_params_info &= ~(
+  1064				IEEE80211_HT_CAP_AMPDU_FACTOR | IEEE80211_HT_CAP_AMPDU_DENSITY
+  1065			);
+  1066	
+  1067			if ((psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_CCMP) ||
+  1068			    (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
+  1069				pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY &
+  1070							       (0x07 << 2));
+  1071			} else {
+  1072				pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY &
+  1073							       0x00);
+  1074			}
+  1075	
+  1076			rtw_hal_get_def_var(
+  1077				padapter,
+  1078				HW_VAR_MAX_RX_AMPDU_FACTOR,
+  1079				&max_rx_ampdu_factor
+  1080			);
+  1081			pht_cap->ampdu_params_info |= (
+  1082				IEEE80211_HT_CAP_AMPDU_FACTOR & max_rx_ampdu_factor
+  1083			); /* set  Max Rx AMPDU size  to 64K */
+  1084	
+  1085			pht_cap->mcs.rx_mask[0] = 0xff;
+  1086			pht_cap->mcs.rx_mask[1] = 0x0;
+  1087	
+  1088			memcpy(&pmlmepriv->htpriv.ht_cap, p + 2, ie_len);
+  1089		}
+  1090	
+  1091		/* parsing HT_INFO_IE */
+  1092		p = rtw_get_ie(
+  1093			ie + _BEACON_IE_OFFSET_,
+  1094			WLAN_EID_HT_OPERATION,
+  1095			&ie_len,
+  1096			(pbss_network->ie_length - _BEACON_IE_OFFSET_)
+  1097		);
+  1098		if (p && ie_len > 0)
+  1099			pHT_info_ie = p;
+  1100	
+  1101		switch (network_type) {
+  1102		case WIRELESS_11B:
+  1103			pbss_network->network_type_in_use = Ndis802_11DS;
+  1104			break;
+  1105		case WIRELESS_11G:
+  1106		case WIRELESS_11BG:
+  1107		case WIRELESS_11G_24N:
+  1108		case WIRELESS_11BG_24N:
+  1109			pbss_network->network_type_in_use = Ndis802_11OFDM24;
+  1110			break;
+  1111		default:
+  1112			pbss_network->network_type_in_use = Ndis802_11OFDM24;
+  1113			break;
+  1114		}
+  1115	
+  1116		pmlmepriv->cur_network.network_type = network_type;
+  1117	
+  1118		pmlmepriv->htpriv.ht_option = false;
+  1119	
+  1120		if ((psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
+  1121		    (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
+  1122			/* todo: */
+  1123			/* ht_cap = false; */
+  1124		}
+  1125	
+  1126		/* ht_cap */
+  1127		if (pregistrypriv->ht_enable && ht_cap) {
+  1128			pmlmepriv->htpriv.ht_option = true;
+  1129			pmlmepriv->qospriv.qos_option = 1;
+  1130	
+  1131			if (pregistrypriv->ampdu_enable == 1)
+  1132				pmlmepriv->htpriv.ampdu_enable = true;
+  1133	
+  1134			HT_caps_handler(padapter, (struct ndis_80211_var_ie *)pHT_caps_ie);
+  1135	
+  1136			HT_info_handler(padapter, (struct ndis_80211_var_ie *)pHT_info_ie);
+  1137		}
+  1138	
+  1139		pbss_network->length = get_wlan_bssid_ex_sz(
+  1140			(struct wlan_bssid_ex  *)pbss_network
+  1141		);
+  1142	
+  1143		/* issue beacon to start bss network */
+  1144		/* start_bss_network(padapter, (u8 *)pbss_network); */
+  1145		rtw_startbss_cmd(padapter, RTW_CMDF_WAIT_ACK);
+  1146	
+  1147		/* alloc sta_info for ap itself */
+  1148		psta = rtw_get_stainfo(&padapter->stapriv, pbss_network->mac_address);
+  1149		if (!psta) {
+  1150			psta = rtw_alloc_stainfo(&padapter->stapriv, pbss_network->mac_address);
+  1151			if (!psta)
+  1152				return _FAIL;
+  1153		}
+  1154	
+  1155		/*  update AP's sta info */
+  1156		update_ap_info(padapter, psta);
+  1157	
+  1158		psta->state |= WIFI_AP_STATE;		/* Aries, add, fix bug of flush_cam_entry at STOP AP mode , 0724 */
+  1159		rtw_indicate_connect(padapter);
+  1160	
+  1161		pmlmepriv->cur_network.join_res = true;/* for check if already set beacon */
+  1162	
+  1163		/* update bc/mc sta_info */
+  1164		/* update_bmc_sta(padapter); */
+  1165	
+  1166		return ret;
+  1167	}
+  1168	
 
 -- 
 0-DAY CI Kernel Test Service
