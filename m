@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6631A2541
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 20:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEC81E5218
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 21:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743022696; cv=none; b=h/yLifjnDSybImrIGLIcxZVqdVIkq0fSLD59z1fwm9KdiuDUVYzLCB7QREqZAy6mWAWakidUAbVNrwa9KJdIuCpk6waybvxswrMOnnd1vH2CXHLabcVMbisrVH/T4/Btwx8S7QWQdkM6hGB+LZdXXjaM7E5k26fuC6g8DfcrQ6U=
+	t=1743023969; cv=none; b=LEj2eRbzJEtndMs/l0e1xcMRrwoCVTFt+C/3nCaRMRcQkv2qaPSuyb94xzMSGoJtynmGi8i/Qyam8Du8AYCL1bH3igB1+TSqa0C6c1DWYIKWlWkLXpnSEKxBBvfeqz9NsEqg7f/8PqCzRObG35E3s/POENJi2cZI9c0cuyEBJ50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743022696; c=relaxed/simple;
-	bh=dFH+ukUiMghBOSWrE7ldW4a+uXo8ERhXdImArjAiSRg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bLvV/JWxtQSBywMH4C4ArWgm4QYHP/LJecFgjCCKrjH9CJ4p477NMGSbpnigSY5EWWrCSiwmwXIX816ugucCB/XoN9A/wLWMPt/dGbmP8tN4yY0qZrmBpavgb5xw8CXGTk1+uHjY6ZQozZ9xismL+8foNRz9XTlcPsAxlMdk9gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WfXoNLVp; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1743023969; c=relaxed/simple;
+	bh=Hu0LgRWcUyyVLEgb/8MX2IeiP6lnhn6n5T862wdMvuE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SmhGyMUsVxpUx6nX96kWrXuMiOsFKCGjglOcv8wuSod3wxDhMGeq/kVXO2VKj/gD7O9Hq1b9+yEV8rbzrzEtmtiIiv3zHF76pL+ONQht4GTxXtquLum3rUYa2K8DBWV886RmA0ETV6DYff8AlEUL7qwwZeJk653IqCXZxcqiSXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HuNnF2AR; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WfXoNLVp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HuNnF2AR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743022695; x=1774558695;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=dFH+ukUiMghBOSWrE7ldW4a+uXo8ERhXdImArjAiSRg=;
-  b=WfXoNLVpijXIudWxw9h2jau8b7zOQHFFN7AUAC1B2ri54BlwpcmuOwsj
-   yOHIKEiI5KYqqfy+hYnzY6zzglWAr6yBAQ0/UIblhtkDealskFVlUgI75
-   NKpDejfO0FY744T7aQHYxJPv2A0YHapiXdnKaqiQzbCT6GYP3VHaUSUHM
-   G+xp4uZZ2ZNUUYjVkVh7KWd04Kp1VhfpvSCdVE19oXaIeb6Ny+R+jqo8w
-   b1EEvGHQJGuKdvBiv2AXpzvbX/9jWH0JgoXL3r7Ru4PqYDAchm0rzXsVD
-   23u5zsp/PcrS3XxV2G7Pqm0g0/k9SL9Jjhe3AIM8clTpf7IAtk3z+9w8A
+  t=1743023968; x=1774559968;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Hu0LgRWcUyyVLEgb/8MX2IeiP6lnhn6n5T862wdMvuE=;
+  b=HuNnF2ARVUlVzWu/FSv1lf7y0E1x3GrxrLxc4BbbB9CbW3MEuFZ6umqP
+   U6yb2p49kkEybz0KJq/szB07N5AMlhgaiSp9WleNHtgISAmmo4rirWWRP
+   CYGvJ80YE5Z/ljyUjGhc4X22hximsjrtCteq9gSXbcthZZf7u+UxeUQ22
+   v6auqt7nCeq2UmsLo+bKvUgtKXLWpb7g6gMWaqZQTRX26LcB0mFfm+Gja
+   z2HOcEXjudzSRcSPUttDoLaBLeoOHetZRh0rV3jB9OltSi3qTaLt7q6Jk
+   vBC3wmW5ipPi3Y5REtUry5qq14cC//TG3/ciZH0aHi1WeUNngUp1TmvYH
    A==;
-X-CSE-ConnectionGUID: kx3W8Vc/RKGF9CEgI0SBKw==
-X-CSE-MsgGUID: pQShCB52SieyNF+HwmR7Ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44455486"
+X-CSE-ConnectionGUID: gm3VjBA2SXmxshrMj7Jo+A==
+X-CSE-MsgGUID: 36EEwFExSnS18m9YUHpugA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61731289"
 X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
-   d="scan'208";a="44455486"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 13:58:14 -0700
-X-CSE-ConnectionGUID: RLEQXjNXQAiLBnTAulmYuA==
-X-CSE-MsgGUID: 2avq7hJATQycnUngcCSJfQ==
+   d="scan'208";a="61731289"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 14:19:27 -0700
+X-CSE-ConnectionGUID: 0hIXxHHJS0aD7ZcIevd12Q==
+X-CSE-MsgGUID: mEhSnXkkRcK6U98OTXHazw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,278,1736841600"; 
-   d="scan'208";a="155827783"
+   d="scan'208";a="129075278"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 26 Mar 2025 13:58:13 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Mar 2025 14:19:24 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txXpC-00064V-2l;
-	Wed, 26 Mar 2025 20:58:10 +0000
-Date: Thu, 27 Mar 2025 04:57:11 +0800
+	id 1txY9i-00065D-0V;
+	Wed, 26 Mar 2025 21:19:22 +0000
+Date: Thu, 27 Mar 2025 05:18:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sharath Srinivasan <sharath.srinivasan@oracle.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] RDMA/cma: Fix workqueue crash in
- cma_netevent_work_handler
-Message-ID: <Z-RqJ8Rf6ziGFiQb@06395982a548>
+To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v2 1/3] PCI: Add sysfs support for exposing PTM context
+Message-ID: <202503270447.SYoXEBQd-lkp@intel.com>
+References: <20250324-pcie-ptm-v2-1-c7d8c3644b4a@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +68,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <01d53331-4b88-48bc-9266-f8862d75b156@oracle.com>
+In-Reply-To: <20250324-pcie-ptm-v2-1-c7d8c3644b4a@linaro.org>
 
-Hi,
+Hi Manivannan,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test WARNING on 1f5a69f1b3132054d8d82b8d7546d0af6a2ed4f6]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/PCI-Add-sysfs-support-for-exposing-PTM-context/20250324-181039
+base:   1f5a69f1b3132054d8d82b8d7546d0af6a2ed4f6
+patch link:    https://lore.kernel.org/r/20250324-pcie-ptm-v2-1-c7d8c3644b4a%40linaro.org
+patch subject: [PATCH v2 1/3] PCI: Add sysfs support for exposing PTM context
+config: i386-randconfig-061-20250326 (https://download.01.org/0day-ci/archive/20250327/202503270447.SYoXEBQd-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503270447.SYoXEBQd-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] RDMA/cma: Fix workqueue crash in cma_netevent_work_handler
-Link: https://lore.kernel.org/stable/01d53331-4b88-48bc-9266-f8862d75b156%40oracle.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503270447.SYoXEBQd-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/pcie/ptm.c:13:15: sparse: sparse: symbol 'ptm_device' was not declared. Should it be static?
+
+vim +/ptm_device +13 drivers/pci/pcie/ptm.c
+
+    12	
+  > 13	struct device *ptm_device;
+    14	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
