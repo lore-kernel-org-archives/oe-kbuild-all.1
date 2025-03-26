@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585414642D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 22:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD3F18801A;
+	Wed, 26 Mar 2025 22:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743029168; cv=none; b=jUt5/8YkRulhGCbJMKmUQYtmKcnvdB6gbbBKZbYy9SzVVsieyDP/8h1dJKZwemT6LWumupVKFfHtSeKiD/XVW8Dr9gCDmsy+tycAMCOPP2QFXvbqSUVxF9Go6Xq8LA7a8Pzq/nWbnIh7pPLzABH4dc8Hk1livrqMjQzS8wZydeI=
+	t=1743029855; cv=none; b=UYQX4qRIq2AufJ4iLryepD//t0SstYbH50xKpc9DUqGwWfbDm3zvxhmS6RwloB1rXe1SWEiux6zPWpwRZkUftwv9diMGu5MDdD8VZyV+CHCG8zYGL0UVyoQ/Jab5DKVQXps8dWiy0mQrune3vgiJMv6EvRjfkVzYzyM6XUaF+wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743029168; c=relaxed/simple;
-	bh=p6HmI2ory+r3NGU01o+vXcb03YTwWFe5MQReVUF4bUc=;
+	s=arc-20240116; t=1743029855; c=relaxed/simple;
+	bh=vsuDLqipq3hANjtkW7q69Vs2DD+GURrL9jkIb0Va9xM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ens2pKqQGM/NNrYAEGI1HeNIITg1T12oRiT7YgG22TTa9NO+iJHm8bZOAKbo+hsDxvcN6ODuYLz7WYUw3czwFm0arlX23zX6K44JfxMRhzsHwqnBIcP8UChAmEesZa3hnBKKh/SXLEMyDeFpC7imrS9DvJWFIJdG3KXOhXxgPpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKjjCHwQ; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=qpK9SYf6CgeLFi1+JSSQIV6jTFyC8Onk82ewpksiw5oLrs/P+EO659Dgcccru7WwMFauSI8yGet0vBFnXc0W2R4tNRxP1Y6wyVUk/y2sucqXAj1PcS6Xj7oIJOsOnsQC4aPWXWXyvRU7czpRaAyN/hEwI+4HABmJmvHbO5L765c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3fN8YUl; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKjjCHwQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3fN8YUl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743029166; x=1774565166;
+  t=1743029854; x=1774565854;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p6HmI2ory+r3NGU01o+vXcb03YTwWFe5MQReVUF4bUc=;
-  b=SKjjCHwQ13uUaXuTEFWcWby65+mIe+0buifHsOLVM4WLpdJ001s87XDW
-   RdbPEFgwHS4eLM/wXqt300UcfsX0VTtPwiXPYZlrsorU61ta62fIkcUhI
-   YwZa+kE6QLufE1eQxq+saF9cafmTyTmWvjpN9Iw0yFZm4STuq3TQA9DU1
-   2OA6tkpLlcJB0ZpQbXmTT9W3KKBGZq8aJT1WRtCXXxE4m2m5+EKOOqFKz
-   7qs+WNyBBy9QMovkd8VtY9PGufzgNLIyuDQrhbhrbGqcmhDnddyoRVUX0
-   ziKh3+Ffsas4Suze3w4236+bzghEtsbrtRans50k7g1ZNzLtxuxMJXamD
-   Q==;
-X-CSE-ConnectionGUID: /CFRD01pSI2IZ7QkFyI6yQ==
-X-CSE-MsgGUID: FAuUyHVlQ1+bsCRVy8eQnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="69705024"
+  bh=vsuDLqipq3hANjtkW7q69Vs2DD+GURrL9jkIb0Va9xM=;
+  b=T3fN8YUl/jmx8py85bdHZ4kzVVXLSVHeBcgJqXYv2vVBHEzFVau4q8Hw
+   xQA6xoJJm0sqCX2xnYHPX7vcskE8DGouHwKC/8GeJYIXAve90DtOYjWaB
+   uYHdyjPPLoDWYWtd7J26h/WDYROg6jll8w7RmRoCXDMEt5NUMMqJXUDO2
+   blh3edCPODUYKiyAFo/iFV36yMrFr+8LSztMx6WO2+J7lt0aMssK35AEG
+   sP9CFrjnlUXihLYOnnV6IuXw2XXx3q6EB5k2dkqZNmXegTtjRLuHRD79J
+   KjOR9qGUN8k6CZWUhlTO8vxJHh9HMfFF2tL641FvCoJXSPvtoFFb4pmgX
+   A==;
+X-CSE-ConnectionGUID: BMXl6xb0RxiIjYvRZo3iuQ==
+X-CSE-MsgGUID: mPNSmgnOSumJg3pYLRCkrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48218941"
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="69705024"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 15:46:05 -0700
-X-CSE-ConnectionGUID: 1P3+3OoAQtaURYemqVmSpA==
-X-CSE-MsgGUID: jl5Jr7WqRBSt+ngHzaU69A==
+   d="scan'208";a="48218941"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 15:57:33 -0700
+X-CSE-ConnectionGUID: lNADsVBHQFqicvFi4kmKVw==
+X-CSE-MsgGUID: f7izSHs2QFO/N6nS4dYYmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="129981129"
+   d="scan'208";a="129090412"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 26 Mar 2025 15:46:04 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Mar 2025 15:57:32 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txZVT-00068h-02;
-	Wed, 26 Mar 2025 22:45:57 +0000
-Date: Thu, 27 Mar 2025 06:45:09 +0800
+	id 1txZgf-000699-2Q;
+	Wed, 26 Mar 2025 22:57:29 +0000
+Date: Thu, 27 Mar 2025 06:57:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.14/zen-sauce 7/31] drivers/gpu/drm/drm_debugfs_crc.c:335:33:
- warning: ' 0x' directive writing 3 bytes into a region of size 2
-Message-ID: <202503270607.FeYwBsVX-lkp@intel.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:pr/netkit-xdp 6/8] drivers/net/netkit.c:218:40: error: no
+ member named 'pool' in 'struct netdev_rx_queue'
+Message-ID: <202503270659.vCkBxrBF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,98 +63,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.14/zen-sauce
-head:   cb33a6dc022faa07ac1e1cd544567b28a7e9afeb
-commit: f4f448a305e9d705b9a0da102ddfd58bfaac5cc0 [7/31] ZEN: Restore CONFIG_OPTIMIZE_FOR_PERFORMANCE_O3
-config: csky-randconfig-r052-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270607.FeYwBsVX-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503270607.FeYwBsVX-lkp@intel.com/reproduce)
+tree:   https://github.com/cilium/linux.git pr/netkit-xdp
+head:   6f1df43931ef06ffe83eaa6a0d3df5d4c9a53786
+commit: 65332eb9360ea7f0f0bcea9de6c4b2ec7a8ca936 [6/8] netkit: implement ndos
+config: i386-randconfig-004-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270659.vCkBxrBF-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503270659.vCkBxrBF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503270607.FeYwBsVX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503270659.vCkBxrBF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_debugfs_crc.c: In function 'crtc_crc_read':
->> drivers/gpu/drm/drm_debugfs_crc.c:335:33: warning: ' 0x' directive writing 3 bytes into a region of size 2 [-Wformat-overflow=]
-     335 |   sprintf(buf + 10 + i * 11, " 0x%08x", entry->crcs[i]);
-         |                               ~~^
-   drivers/gpu/drm/drm_debugfs_crc.c:335:3: note: 'sprintf' output 12 bytes into a destination of size 2
-     335 |   sprintf(buf + 10 + i * 11, " 0x%08x", entry->crcs[i]);
-         |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netkit.c:218:40: error: no member named 'pool' in 'struct netdev_rx_queue'
+     218 |                 return nk->lower->dev->_rx[queue_id].pool;
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+>> drivers/net/netkit.c:220:40: error: no member named 'pool' in 'struct netdev_queue'
+     220 |                 return nk->lower->dev->_tx[queue_id].pool;
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/net/netkit.c:245:33: error: no member named 'pool' in 'struct netdev_rx_queue'
+     245 |                 nk->lower->dev->_rx[queue_id].pool = pool;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/net/netkit.c:247:33: error: no member named 'pool' in 'struct netdev_queue'
+     247 |                 nk->lower->dev->_tx[queue_id].pool = pool;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/net/netkit.c:261:33: error: no member named 'pool' in 'struct netdev_rx_queue'
+     261 |                 nk->lower->dev->_rx[queue_id].pool = NULL;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/net/netkit.c:263:33: error: no member named 'pool' in 'struct netdev_queue'
+     263 |                 nk->lower->dev->_tx[queue_id].pool = NULL;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   6 errors generated.
 
 
-vim +335 drivers/gpu/drm/drm_debugfs_crc.c
+vim +218 drivers/net/netkit.c
 
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  283  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  284  static ssize_t crtc_crc_read(struct file *filep, char __user *user_buf,
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  285  			     size_t count, loff_t *pos)
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  286  {
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  287  	struct drm_crtc *crtc = filep->f_inode->i_private;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  288  	struct drm_crtc_crc *crc = &crtc->crc;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  289  	struct drm_crtc_crc_entry *entry;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  290  	char buf[MAX_LINE_LEN];
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  291  	int ret, i;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  292  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  293  	spin_lock_irq(&crc->lock);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  294  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  295  	if (!crc->source) {
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  296  		spin_unlock_irq(&crc->lock);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  297  		return 0;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  298  	}
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  299  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  300  	/* Nothing to read? */
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  301  	while (crtc_crc_data_count(crc) == 0) {
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  302  		if (filep->f_flags & O_NONBLOCK) {
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  303  			spin_unlock_irq(&crc->lock);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  304  			return -EAGAIN;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  305  		}
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  306  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  307  		ret = wait_event_interruptible_lock_irq(crc->wq,
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  308  							crtc_crc_data_count(crc),
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  309  							crc->lock);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  310  		if (ret) {
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  311  			spin_unlock_irq(&crc->lock);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  312  			return ret;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  313  		}
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  314  	}
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  315  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  316  	/* We know we have an entry to be read */
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  317  	entry = &crc->entries[crc->tail];
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  318  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  319  	if (count < LINE_LEN(crc->values_cnt)) {
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  320  		spin_unlock_irq(&crc->lock);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  321  		return -EINVAL;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  322  	}
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  323  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  324  	BUILD_BUG_ON_NOT_POWER_OF_2(DRM_CRC_ENTRIES_NR);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  325  	crc->tail = (crc->tail + 1) & (DRM_CRC_ENTRIES_NR - 1);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  326  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  327  	spin_unlock_irq(&crc->lock);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  328  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  329  	if (entry->has_frame_counter)
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  330  		sprintf(buf, "0x%08x", entry->frame);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  331  	else
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  332  		sprintf(buf, "XXXXXXXXXX");
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  333  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  334  	for (i = 0; i < crc->values_cnt; i++)
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06 @335  		sprintf(buf + 10 + i * 11, " 0x%08x", entry->crcs[i]);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  336  	sprintf(buf + 10 + crc->values_cnt * 11, "\n");
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  337  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  338  	if (copy_to_user(user_buf, buf, LINE_LEN(crc->values_cnt)))
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  339  		return -EFAULT;
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  340  
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  341  	return LINE_LEN(crc->values_cnt);
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  342  }
-9edbf1fa600a2ef Tomeu Vizoso 2016-10-06  343  
-
-:::::: The code at line 335 was first introduced by commit
-:::::: 9edbf1fa600a2ef17c7553c2103d0055d0320d15 drm: Add API for capturing frame CRCs
-
-:::::: TO: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+   207	
+   208	static struct xsk_buff_pool *
+   209	netkit_xsk_get_pool_from_qid(struct net_device *dev, u16 queue_id)
+   210	{
+   211		struct netkit *nk = netkit_priv(dev);
+   212	
+   213		if (!nk->lower || nk->primary)
+   214			return NULL;
+   215		if (!netkit_queue_valid(dev, queue_id))
+   216			return NULL;
+   217		if (queue_id < nk->lower->dev->real_num_rx_queues)
+ > 218			return nk->lower->dev->_rx[queue_id].pool;
+   219		if (queue_id < nk->lower->dev->real_num_tx_queues)
+ > 220			return nk->lower->dev->_tx[queue_id].pool;
+   221		return NULL;
+   222	}
+   223	
 
 -- 
 0-DAY CI Kernel Test Service
