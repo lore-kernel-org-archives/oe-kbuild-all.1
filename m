@@ -1,71 +1,69 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580854C74
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 05:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9E75383
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 05:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743053008; cv=none; b=P9tcz/TcsRaEOlNgxU1l46g4shfweW6VbB23a83dH8kQlNGwt3ZACBkWXlJ8JAoBDlulzF0DSCfXd9V+qAtDr4P3s2HN4vNOKqLCI1lk3F4ef0vYUYyyiHbnFIf2tptEDFsNxJGcE8KQt3d1I7jg2jzrxakHE2JYS8RPEWqoFTY=
+	t=1743053234; cv=none; b=rhYtclMxKDapta9Pep7hslaqd/OwX9TnlbJj29xwKy7/QpZXAJu4ldGDz00wFXyoCDa0lvJ1kQY8+3dHlC+3hB9Qo4YoBkBkgRYLTZpEHPQfFgwTgW2XebUkzVmEqbLNhHPH1ZGDBFIumIzP0VBs8YHrCHmrjB4kqBAq7PS8NIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743053008; c=relaxed/simple;
-	bh=vciYr/bB2Z030OzCKKWlzUHRiut4nQ8Rn0W4u8S2Avg=;
+	s=arc-20240116; t=1743053234; c=relaxed/simple;
+	bh=thMbS49qbqX11dIS6IU1v+POK8UjDMlFhVuo86bY83w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SEFb4V5VONEgEaKfBhRYk9kCPNpECDeKxNXIBKFEDOJC53WPh/0k0h5ERCPZJDe9R3xyHyV1QAzTz1dK6pA2aqskDofavX1WyD5i9B/p4rL/YHn/7k4zNwkBwladOs6wdHIhSphW7lgbS8oKWGv4ykftKydaLE4Y+xVOS2cP4GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SoCwPPAx; arc=none smtp.client-ip=209.85.128.41
+	 Content-Disposition; b=ZZkhn14cNs8GxB4ZTVw4l2dMnYu++1SZHVmhF5o2DrkYlpIHnDBLhZuM3SJ+MRsMbBcSWc1/exAEUaE7SV7IlD+rmpmpH5R1/8ZGH4KF5JMncEFAnaFCKCCZmRfTGktZ5YmyC2yKjH77cXwMdW0gi4GN4RniwjgIol7k04JQ8Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CY2GBxTC; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SoCwPPAx"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43d0618746bso3460775e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 22:23:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CY2GBxTC"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfecdd8b2so4477435e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 22:27:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743053004; x=1743657804; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1743053231; x=1743658031; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Be3xrXZBKcyj7JgwFrFZrJzYdk2fkCS3DpDGsgYxVdg=;
-        b=SoCwPPAx7nBZGr1cuw0+jxXIXpUpZZgrO0rxsXd4dBYoFuTkmGA6aQFaGHubn15481
-         BmKsQLXthIRBS69dyt2p5frDCsyT1Yh3Y4gTyVTaO/E8wIbg85WRZr7vgO1jDT3Lw4qe
-         eK8yAxCSBI+GGV5KSq9g8axcxxBE00D6YmLkkEk63853pNF3sr/CarKyJnbVpXGgj8Mo
-         ydzAbjrj0sG1D+nhv9kxT5t/MXCqH+n2+EGJLYmbX2SwZDydWGByh7EEH1K8DiOmu7aq
-         TRGIfSVqCUBKJxIjDC9yEhHa8zNwNKpx54h4oWBOE77S0eVTnSmOE/7IocXNP4T3g4kh
-         pEbA==
+        bh=bOR1/27k/4vBaaEK3EepMLA9XBiPxa8J1dvmh2SqxNw=;
+        b=CY2GBxTCPtLC+e3im1rdgbvVYAVWo/sGYIFG7GIpHgBo2956Kb8VQLjUbCP3O6i3xx
+         KT4+YVtVNI2FXhZ8Ux+E1JHrWS4E0mal3GSWBPO8hJFUazLZ+gBJ5qiZXRxMmCbR0oTO
+         nK47pN2tA4oRAFsTxjQVD7EhbZnErGybiKSv/NWx06mHVClQDDaUp0x7C3jB0xsH36zr
+         JrqELyDl/sgIl7TbShW/GVbFMy2XL4dnXLQQRaNxI57rECplUdONofemAr9jhntFLYZk
+         MoAU1+FJLMIS3w3t+0m6X+8DtKYD08O6Wjhhu36jv1kJftjnjRx9K/hSP0OMNgUbgTFI
+         VDfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743053004; x=1743657804;
+        d=1e100.net; s=20230601; t=1743053231; x=1743658031;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Be3xrXZBKcyj7JgwFrFZrJzYdk2fkCS3DpDGsgYxVdg=;
-        b=Es/cQatIseINQj3Qn/vubbDcXzKnWY5hFh3no/PfcGmiHBs3Ed1nwdYC41mOiU4kJ9
-         jh9bVPbGWGgUJj5rKSc4AzMrAMUP7Uy03PolxfXRGkFuS/tkhYyz/jFkbCz7zlqLD/4I
-         9p9qXX+Lze46giqejZOmd9IHxO2EeKXdOPOHTo/wqYVmo/pbgRIM5x3cJTWvmuFuCHht
-         pjE7fVUUViXVqk/6sg5TmgXR3EMPQ300IRI6BI3NUh+IXEu4vRboKnxS5Ysn6j+qN6ym
-         sl50oZxWNUlAupNh9lO5RvPeF+iRw6ifeT8BODZ/nNDmeSoTBwrej6nnW8R2Wk9HT3Dl
-         Eg+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVPyI+SD6+fOV5A70iYXmROW05AxLM4i1jcWddRaMWczUoFGrDkgnGGUHbETfAPkeBQF8ku/ah91TfKj2kB@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGDE1m7n6szA5fBgH1uJBV8VcoYtLEt9MJ4/PjpfD95MFWaPPX
-	lg/n9otqEfsEqdHJL5meVmSfZP61HmPNGiMxSl6joOgnc8ziBU4Is9BwH/ZDlh4=
-X-Gm-Gg: ASbGnctGIOyl8Odz7JJiLetAir4Gn5+SYexKhzhVdHlkjN+/HwIM/zBTSqcOCyRQKzR
-	/RASmk7yzSgOxGO041WnIDA4A56bKw2eZVcJSmOOPjeyI8hxaICnZuvs4ec6Zn9qeyltooiobCq
-	+b78X8pUkXTHVAyiQqfMQM1+9xGGWZMNUW0Cf/CnFT8NNwU/S3f8AAd3QDz0JYTo1jp0mdMvVHa
-	l2Jx8XGjNNpcNW1lVZN9BLxcWBPlMNDCVoSUcgeGVPhVpTOLEgikW/J3Jb4KS5ChKgFkzGKYwn0
-	rXdHvNT/S7SHAKi+lNOkqIaEYOvAY0hUY/9mNTDxiPcAsowo
-X-Google-Smtp-Source: AGHT+IF9CBeiGU2yZrZ82k/O6kOKzwqAnDoVlC04vE5L4Mi7wpTwe8x99x+/dOX3Nu3l5H5388tZow==
-X-Received: by 2002:a05:600c:4e56:b0:43d:bb9:ad00 with SMTP id 5b1f17b1804b1-43d850fd05amr16409025e9.15.1743053004471;
-        Wed, 26 Mar 2025 22:23:24 -0700 (PDT)
+        bh=bOR1/27k/4vBaaEK3EepMLA9XBiPxa8J1dvmh2SqxNw=;
+        b=bhGG3+DiNXR7bvI5t1Gt6beL1WDd5VPDX1dWNEeFBktyh3zVfe9EWM6ydoguLo9P4q
+         MUOOAyml8qPV3zM5cpzaCmoYhncORQ8vd05jF7YDLGBoZwo2TmxC43j2F9pc6kCGIwTl
+         T0Vwila9cFH5qovt1WbVlem/R53EQxysQHWysVIlaFflRXBrdkH3CiYndOsUKH3J+nSN
+         fTrBq5M0oRjtp79tX/JceFErdt0Lz4ZtZGRI9iXL8NJD951kTA/25kVeUMza1Uc16AW8
+         y7mxW+SNPCqYCnYfkTIdcEoetZnjfgc0cNdhm+GZ3sB6sF7rCsr3qT8lPnzcbm02uyTm
+         atBg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRutwOqRAwHww1ipCcmKgxVrqM22F6DHMKGfHbumQz5ALsF821PbmQp+c2ZfbK2QCsGHPVKL2qjZGYyeh8@lists.linux.dev
+X-Gm-Message-State: AOJu0Yww7wAmAgSBvYSeeEg6jG8ghP4qVNTIiMjIwCq3QBdUg6fknX7T
+	qIEGSuv0S5+Pyq1EX0CizDe7UX+hZjcJ8dLyFFXoald+IdKIxdAdK/YvGSqYugQ=
+X-Gm-Gg: ASbGncvxXnI5rShglytY7gbOLjzP4ALqgjyFLHtX7S0v1xTap1sw/z3dGqM5d8SVP33
+	glbAVbkxZAVuYf8kMcRe6f8wDVy2p4MAN+7SV/Fj6nW4QOhJSIvV6WQgfeob9RthDcWt5ttUyw5
+	HkEijKcvCE9Oy7dM/XsEvHdvBpkY7yiq8d9uzeTY9HkLz60FZGY2ar1p42VlSta3T+TQKsa8erW
+	A200nuL2BecumAy09jc+VJUfFf0/dwTWS8li/gnQ9iITjWNh0iV7gJ/qfn+WyQFEHDTt4/FG5xx
+	GTCiI2XJGc0gJadk8bVZzaw/loXkqW1Uph/vWzlp530UsAyk
+X-Google-Smtp-Source: AGHT+IFLd8YKgFKCb7L1uBamCMCBX0eWmWNcOnDWI+FLxNyMIgaY+v6wmWEz+tnV3jRSSNoPcBgWmA==
+X-Received: by 2002:a05:6000:40e1:b0:391:3fa7:bf77 with SMTP id ffacd0b85a97d-39ad1773089mr1658583f8f.31.1743053230795;
+        Wed, 26 Mar 2025 22:27:10 -0700 (PDT)
 Received: from localhost ([41.210.155.240])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d830f5708sm25814215e9.32.2025.03.26.22.23.23
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3997f9efc90sm19036327f8f.98.2025.03.26.22.27.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 22:23:23 -0700 (PDT)
-Date: Thu, 27 Mar 2025 08:23:20 +0300
+        Wed, 26 Mar 2025 22:27:10 -0700 (PDT)
+Date: Thu, 27 Mar 2025 08:27:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Tomasz Jeznach <tjeznach@rivosinc.com>
+To: oe-kbuild@lists.linux.dev, Asahi Lina <lina@asahilina.net>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Joerg Roedel <jroedel@suse.de>,
-	Nick Kossifidis <mick@ics.forth.gr>,
-	Sebastien Boeuf <seb@rivosinc.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>
-Subject: drivers/iommu/riscv/iommu-platform.c:54 riscv_iommu_platform_probe()
- warn: 'iommu->irqs_count' unsigned <= 0
-Message-ID: <d1eaa67e-3766-46c6-95cb-69cb9e91fc29@stanley.mountain>
+	Janne Grunau <j@jannau.net>, Jens Axboe <axboe@kernel.dk>,
+	Sven Peter <sven@svenpeter.dev>
+Subject: [asahilinux:bits/030-misc 1/40] drivers/soc/apple/rtkit.c:371
+ apple_rtkit_crashlog_rx() warn: passing freed memory 'bfr' (line 365)
+Message-ID: <e29ace87-880c-48f6-8f72-7dfa8101ebea@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,79 +73,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f6e0150b2003fb2b9265028a618aa1732b3edc8f
-commit: 5c0ebbd3c6c6e00af112fe053e81ac0c7cafe647 iommu/riscv: Add RISC-V IOMMU platform device driver
-date:   5 months ago
-config: riscv-randconfig-r072-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270710.nzXdpHfG-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
+tree:   https://github.com/AsahiLinux/linux bits/030-misc
+head:   da85ded736004f61e37a67eaac233c87e42ab459
+commit: 037dde44780dec39060eed27b25a910d7b6e812b [1/40] soc: apple: rtkit: Pass the crashlog to the crashed() callback
+config: sparc64-randconfig-r072-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271318.nPEG98L6-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503270710.nzXdpHfG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503271318.nPEG98L6-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/riscv/iommu-platform.c:54 riscv_iommu_platform_probe() warn: 'iommu->irqs_count' unsigned <= 0
+drivers/soc/apple/rtkit.c:371 apple_rtkit_crashlog_rx() warn: passing freed memory 'bfr' (line 365)
 
-vim +54 drivers/iommu/riscv/iommu-platform.c
+vim +/bfr +371 drivers/soc/apple/rtkit.c
 
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  20  static int riscv_iommu_platform_probe(struct platform_device *pdev)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  21  {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  22  	struct device *dev = &pdev->dev;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  23  	struct riscv_iommu_device *iommu = NULL;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  24  	struct resource *res = NULL;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  25  	int vec;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  26  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  27  	iommu = devm_kzalloc(dev, sizeof(*iommu), GFP_KERNEL);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  28  	if (!iommu)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  29  		return -ENOMEM;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  30  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  31  	iommu->dev = dev;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  32  	iommu->reg = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  33  	if (IS_ERR(iommu->reg))
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  34  		return dev_err_probe(dev, PTR_ERR(iommu->reg),
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  35  				     "could not map register region\n");
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  36  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  37  	dev_set_drvdata(dev, iommu);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  38  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  39  	/* Check device reported capabilities / features. */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  40  	iommu->caps = riscv_iommu_readq(iommu, RISCV_IOMMU_REG_CAPABILITIES);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  41  	iommu->fctl = riscv_iommu_readl(iommu, RISCV_IOMMU_REG_FCTL);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  42  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  43  	/* For now we only support WSI */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  44  	switch (FIELD_GET(RISCV_IOMMU_CAPABILITIES_IGS, iommu->caps)) {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  45  	case RISCV_IOMMU_CAPABILITIES_IGS_WSI:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  46  	case RISCV_IOMMU_CAPABILITIES_IGS_BOTH:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  47  		break;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  48  	default:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  49  		return dev_err_probe(dev, -ENODEV,
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  50  				     "unable to use wire-signaled interrupts\n");
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  51  	}
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  52  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  53  	iommu->irqs_count = platform_irq_count(pdev);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15 @54  	if (iommu->irqs_count <= 0)
-                                                    ^^^^^^^^^^^^^^^^^^^^^^
-Unsigned can't be less than zero.  platform_irq_count() returns
--EPROBE_DEFER on error.
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  334  static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  335  {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  336  	u8 type = FIELD_GET(APPLE_RTKIT_SYSLOG_TYPE, msg);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  337  	u8 *bfr;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  338  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  339  	if (type != APPLE_RTKIT_CRASHLOG_CRASH) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  340  		dev_warn(rtk->dev, "RTKit: Unknown crashlog message: %llx\n",
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  341  			 msg);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  342  		return;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  343  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  344  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  345  	if (!rtk->crashlog_buffer.size) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  346  		apple_rtkit_common_rx_get_buffer(rtk, &rtk->crashlog_buffer,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  347  						 APPLE_RTKIT_EP_CRASHLOG, msg);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  348  		return;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  349  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  350  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  351  	dev_err(rtk->dev, "RTKit: co-processor has crashed\n");
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  352  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  353  	/*
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  354  	 * create a shadow copy here to make sure the co-processor isn't able
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  355  	 * to change the log while we're dumping it. this also ensures
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  356  	 * the buffer is in normal memory and not iomem for e.g. the SMC
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  357  	 */
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  358  	bfr = kzalloc(rtk->crashlog_buffer.size, GFP_KERNEL);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  359  	if (bfr) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  360  		apple_rtkit_memcpy(rtk, bfr, &rtk->crashlog_buffer, 0,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  361  				   rtk->crashlog_buffer.size);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  362  		apple_rtkit_crashlog_dump(rtk, bfr, rtk->crashlog_buffer.size);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  363  		kfree(bfr);
+                                                              ^^^
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  364  	} else {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01 @365  		dev_err(rtk->dev,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  366  			"RTKit: Couldn't allocate crashlog shadow buffer\n");
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  367  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  368  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  369  	rtk->crashed = true;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  370  	if (rtk->ops->crashed)
+037dde44780dec Asahi Lina 2025-02-02 @371  		rtk->ops->crashed(rtk->cookie, bfr, rtk->crashlog_buffer.size);
+                                                                                       ^^^
+bfr is either NULL or freed.
 
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  55  		return dev_err_probe(dev, -ENODEV,
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  56  				     "no IRQ resources provided\n");
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  57  	if (iommu->irqs_count > RISCV_IOMMU_INTR_COUNT)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  58  		iommu->irqs_count = RISCV_IOMMU_INTR_COUNT;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  59  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  60  	for (vec = 0; vec < iommu->irqs_count; vec++)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  61  		iommu->irqs[vec] = platform_get_irq(pdev, vec);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  62  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  63  	/* Enable wire-signaled interrupts, fctl.WSI */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  64  	if (!(iommu->fctl & RISCV_IOMMU_FCTL_WSI)) {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  65  		iommu->fctl |= RISCV_IOMMU_FCTL_WSI;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  66  		riscv_iommu_writel(iommu, RISCV_IOMMU_REG_FCTL, iommu->fctl);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  67  	}
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  68  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  69  	return riscv_iommu_init(iommu);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  70  };
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  372  }
 
 -- 
 0-DAY CI Kernel Test Service
