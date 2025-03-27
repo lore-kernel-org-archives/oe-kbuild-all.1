@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8121C6BE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 03:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111E53C463
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 03:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743046659; cv=none; b=Is7V3wXNKJRroye/O389pLWF8l5NEVNivZfjL1z+jyk2inLWF7zrqJbiuAmaropfOVatPT3tlfS3LiW81oprG2h3wOb2v9NL8AlR909jXtVcm0cTb7Uzbrd3MgtXULvPJDupPbAUS0lrosOtVFwVbgY1fPjlokeCW+nYjrcvCbM=
+	t=1743046714; cv=none; b=qHlohXbDnMcdEsJExuraJ61WjWOcxL8QQvX5PGZczjTwovKcgxw3Z7dV3BKLnJ44vL2SlDqvHHdUBNaL8Z2efYm6Wpz/Kml8BTbqB8qW7rm4rQwx4iMUcPD+AyLbzjJWv5JRXVPv8M+/5EfQIcGv088kMlfYehdvn+JE5I9zWnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743046659; c=relaxed/simple;
-	bh=Vw6zOwv3qna6HIP+dTQI8DuR1ynag+boat1TIK89lxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HG4soVkjuY9KaS5zjJc5rvUA1dKQ6xr97cvXQeGgzkTFCujmy3E1KDoZH9MD1m2t9IfgbZq82kZ7BSRfEBlfmqWGod1d10ajwDKzenqjViNI1Og5O7OjpCNuwcwgq/UFHbzWJFZ/jq12cxIO5SFPFm6iZH2DTO3+mggcOgOZL/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGAHCUXU; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1743046714; c=relaxed/simple;
+	bh=GanYbABjnyFvDBvlDkCQrPUbi71BK1WBemPF+KREl5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ofyL/8hrayMfw/eWAlPlWUExQEDsI47VzNreHWf1ZAvhKWYzvy+kEx/2SWsyY9mn3MjmyybxXfh0ZMteHcRsS3dhRbmgksMGbe6+Bt1mdzi90upiGpmCxW8a4RlPMmF0dXyWdgfLpYzFxN9LKtA3r9VdtU1EzAHewmNjTADgk9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fE3RwaWE; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGAHCUXU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fE3RwaWE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743046658; x=1774582658;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Vw6zOwv3qna6HIP+dTQI8DuR1ynag+boat1TIK89lxs=;
-  b=QGAHCUXUTgFYa6jPtI1WH4qK5WxXBaKrCxzQ7bRVK1VzfPQHU1GtIbvw
-   n4LnsEHrgkJkQFK3qV+iL7foAiGGovjYpr4sYgSIAkacn7IEvL4BasIbV
-   85nIFEmgzBROqlEn6zTbaPjg9AIrjlaKGiTTrpRVK6lfecp2AYMjimhj9
-   B467MP/i8n5yOU8Rdj7VMipQRQFfhyz2KdAAqsruht57gvANhcC/X9qF3
-   2o++bTPIzTnRjdYrUeFDsYD0YTqdHna4aLofnkcU+TLjb5e+E5tb8pdrh
-   1qUXMci5gUZVuoxpl/B9Oq5rdjM1C1vYLXZKfHn/H++RWoOd2U4rqZh7j
-   w==;
-X-CSE-ConnectionGUID: Do4ICKf7R3C1HmZhuYqseg==
-X-CSE-MsgGUID: WrZF3xn3TrO38pfCDYJPZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="66825349"
+  t=1743046713; x=1774582713;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=GanYbABjnyFvDBvlDkCQrPUbi71BK1WBemPF+KREl5g=;
+  b=fE3RwaWEpZvSS6wI791aSTviJoMIPA4TwFnIFC2mbeXkEnAMjkl9aEvL
+   BvO3lqfDVXd6hy6y1FZ7qvZCxyma8UGosSwK6Segu0ecQU30w9BSWQc7B
+   u3mro/CV+cXZxjxWCvVoQIN9+ErJH96B0vnTEMOT0WLdXEG+HdZ4Rei44
+   XQd/eCCJy10Any56CgiIdLxh0aJoJZ70z/QeNKDgBH6agIsNdTJjSG3Kv
+   GcU9z/fTGeuSjF4cUYZxYhzpGQ6Eu5SrKqpiWLl/7mTE/X94t46LcfQjp
+   16jzodT0TZdGOJ7550GJNsoSeycEfvMOywPw873o3uFfDoiFa5MYVCDoG
+   g==;
+X-CSE-ConnectionGUID: BtkZX53GRrC4qCkUe4brFQ==
+X-CSE-MsgGUID: cjkoq2loQwilZmW1aw/lHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44481321"
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="66825349"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 20:37:37 -0700
-X-CSE-ConnectionGUID: lTfYX2DoQ2er7a1mTLFMNg==
-X-CSE-MsgGUID: GBwxuLjHSbSY0kAhcXWaUw==
+   d="scan'208";a="44481321"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 20:38:32 -0700
+X-CSE-ConnectionGUID: y02+3yFkTNa6L+1h8HMOIQ==
+X-CSE-MsgGUID: UklW+tDWSyS25P4CdN4w7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="124977854"
+   d="scan'208";a="156000360"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Mar 2025 20:37:31 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 26 Mar 2025 20:38:31 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txe3d-0006KN-0y;
-	Thu, 27 Mar 2025 03:37:29 +0000
-Date: Thu, 27 Mar 2025 11:37:21 +0800
+	id 1txe4b-0006KR-1H;
+	Thu, 27 Mar 2025 03:38:29 +0000
+Date: Thu, 27 Mar 2025 11:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	nifan.cxl@gmail.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, dan.j.williams@intel.com,
-	bhelgaas@google.com, mahesh@linux.ibm.com, ira.weiny@intel.com,
-	oohall@gmail.com, Benjamin.Cheatham@amd.com, rrichter@amd.com,
-	nathan.fontenot@amd.com, Smita.KoralahalliChannabasappa@amd.com,
-	lukas@wunner.de, ming.li@zohomail.com,
-	PradeepVineshReddy.Kodamati@amd.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 06/16] CXL/PCI: Introduce CXL uncorrectable protocol
- error 'recovery'
-Message-ID: <202503271130.BAWzwRWM-lkp@intel.com>
-References: <20250327014717.2988633-7-terry.bowman@amd.com>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] gpio: tegra186: fix resource handling in ACPI probe
+ path
+Message-ID: <Z-TIEgLtBPiPupAe@06395982a548>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,60 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250327014717.2988633-7-terry.bowman@amd.com>
+In-Reply-To: <20250327032006.73798-1-kanie@linux.alibaba.com>
 
-Hi Terry,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on aae0594a7053c60b82621136257c8b648c67b512]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/PCI-CXL-Introduce-PCIe-helper-function-pcie_is_cxl/20250327-095738
-base:   aae0594a7053c60b82621136257c8b648c67b512
-patch link:    https://lore.kernel.org/r/20250327014717.2988633-7-terry.bowman%40amd.com
-patch subject: [PATCH v8 06/16] CXL/PCI: Introduce CXL uncorrectable protocol error 'recovery'
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250327/202503271130.BAWzwRWM-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271130.BAWzwRWM-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503271130.BAWzwRWM-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from lib/iomap.c:7:
->> include/linux/pci.h:1873:6: warning: no previous prototype for 'pci_aer_clear_fatal_status' [-Wmissing-prototypes]
-    1873 | void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/pci/probe.c:9:
->> include/linux/pci.h:1873:6: warning: no previous prototype for 'pci_aer_clear_fatal_status' [-Wmissing-prototypes]
-    1873 | void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/pci/probe.c:16:
-   include/linux/aer.h:76:20: error: redefinition of 'pci_aer_clear_fatal_status'
-      76 | static inline void pci_aer_clear_fatal_status(struct pci_dev *dev) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/pci/probe.c:9:
-   include/linux/pci.h:1873:6: note: previous definition of 'pci_aer_clear_fatal_status' with type 'void(struct pci_dev *)'
-    1873 | void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/pci_aer_clear_fatal_status +1873 include/linux/pci.h
-
-  1867	
-  1868	#ifdef CONFIG_PCIEAER
-  1869	bool pci_aer_available(void);
-  1870	void pci_aer_clear_fatal_status(struct pci_dev *dev);
-  1871	#else
-  1872	static inline bool pci_aer_available(void) { return false; }
-> 1873	void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
-  1874	#endif
-  1875	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] gpio: tegra186: fix resource handling in ACPI probe path
+Link: https://lore.kernel.org/stable/20250327032006.73798-1-kanie%40linux.alibaba.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
