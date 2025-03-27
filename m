@@ -1,69 +1,58 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9E75383
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 05:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8874C1BC3C;
+	Thu, 27 Mar 2025 05:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743053234; cv=none; b=rhYtclMxKDapta9Pep7hslaqd/OwX9TnlbJj29xwKy7/QpZXAJu4ldGDz00wFXyoCDa0lvJ1kQY8+3dHlC+3hB9Qo4YoBkBkgRYLTZpEHPQfFgwTgW2XebUkzVmEqbLNhHPH1ZGDBFIumIzP0VBs8YHrCHmrjB4kqBAq7PS8NIw=
+	t=1743054653; cv=none; b=dSH5WwvVGJzUCUiPtHtJ9QoZy9InSJaSBXrQCRO7fp0UurNcXTxBctEHs2I6JsOBTF+QZ4fzq+fhVih16j3numeDusue4Tz79f3NyjpCBDQdqRhq1WOv1aqwt5gCjZIJnGaLEFZRRuNJp/UOsK+0t6RmdUBwlSUH5Es7Pwo6Bak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743053234; c=relaxed/simple;
-	bh=thMbS49qbqX11dIS6IU1v+POK8UjDMlFhVuo86bY83w=;
+	s=arc-20240116; t=1743054653; c=relaxed/simple;
+	bh=kjxGxePqFK4+jxNMfiIo1rW7Pw9zfVMmHZbBFG8olLs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZZkhn14cNs8GxB4ZTVw4l2dMnYu++1SZHVmhF5o2DrkYlpIHnDBLhZuM3SJ+MRsMbBcSWc1/exAEUaE7SV7IlD+rmpmpH5R1/8ZGH4KF5JMncEFAnaFCKCCZmRfTGktZ5YmyC2yKjH77cXwMdW0gi4GN4RniwjgIol7k04JQ8Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CY2GBxTC; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=kPYxk4lXyTEQKwrpLheL1vTMkdvkU1WyGBRMG0LvqGAt6r1Mu/xo6VTF0JtU7VZfp4c3iIt96uNIyOTXxy3ECl1gfPMJ6HLHzzSmW42e8lolM5WTiCOs0TevWM601aTlwQCKeqMr7tpBZD4/7EH1SE84bZqQ9yfaPLG89/ClDS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4jpvAS8; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CY2GBxTC"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfecdd8b2so4477435e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 22:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743053231; x=1743658031; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bOR1/27k/4vBaaEK3EepMLA9XBiPxa8J1dvmh2SqxNw=;
-        b=CY2GBxTCPtLC+e3im1rdgbvVYAVWo/sGYIFG7GIpHgBo2956Kb8VQLjUbCP3O6i3xx
-         KT4+YVtVNI2FXhZ8Ux+E1JHrWS4E0mal3GSWBPO8hJFUazLZ+gBJ5qiZXRxMmCbR0oTO
-         nK47pN2tA4oRAFsTxjQVD7EhbZnErGybiKSv/NWx06mHVClQDDaUp0x7C3jB0xsH36zr
-         JrqELyDl/sgIl7TbShW/GVbFMy2XL4dnXLQQRaNxI57rECplUdONofemAr9jhntFLYZk
-         MoAU1+FJLMIS3w3t+0m6X+8DtKYD08O6Wjhhu36jv1kJftjnjRx9K/hSP0OMNgUbgTFI
-         VDfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743053231; x=1743658031;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bOR1/27k/4vBaaEK3EepMLA9XBiPxa8J1dvmh2SqxNw=;
-        b=bhGG3+DiNXR7bvI5t1Gt6beL1WDd5VPDX1dWNEeFBktyh3zVfe9EWM6ydoguLo9P4q
-         MUOOAyml8qPV3zM5cpzaCmoYhncORQ8vd05jF7YDLGBoZwo2TmxC43j2F9pc6kCGIwTl
-         T0Vwila9cFH5qovt1WbVlem/R53EQxysQHWysVIlaFflRXBrdkH3CiYndOsUKH3J+nSN
-         fTrBq5M0oRjtp79tX/JceFErdt0Lz4ZtZGRI9iXL8NJD951kTA/25kVeUMza1Uc16AW8
-         y7mxW+SNPCqYCnYfkTIdcEoetZnjfgc0cNdhm+GZ3sB6sF7rCsr3qT8lPnzcbm02uyTm
-         atBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRutwOqRAwHww1ipCcmKgxVrqM22F6DHMKGfHbumQz5ALsF821PbmQp+c2ZfbK2QCsGHPVKL2qjZGYyeh8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yww7wAmAgSBvYSeeEg6jG8ghP4qVNTIiMjIwCq3QBdUg6fknX7T
-	qIEGSuv0S5+Pyq1EX0CizDe7UX+hZjcJ8dLyFFXoald+IdKIxdAdK/YvGSqYugQ=
-X-Gm-Gg: ASbGncvxXnI5rShglytY7gbOLjzP4ALqgjyFLHtX7S0v1xTap1sw/z3dGqM5d8SVP33
-	glbAVbkxZAVuYf8kMcRe6f8wDVy2p4MAN+7SV/Fj6nW4QOhJSIvV6WQgfeob9RthDcWt5ttUyw5
-	HkEijKcvCE9Oy7dM/XsEvHdvBpkY7yiq8d9uzeTY9HkLz60FZGY2ar1p42VlSta3T+TQKsa8erW
-	A200nuL2BecumAy09jc+VJUfFf0/dwTWS8li/gnQ9iITjWNh0iV7gJ/qfn+WyQFEHDTt4/FG5xx
-	GTCiI2XJGc0gJadk8bVZzaw/loXkqW1Uph/vWzlp530UsAyk
-X-Google-Smtp-Source: AGHT+IFLd8YKgFKCb7L1uBamCMCBX0eWmWNcOnDWI+FLxNyMIgaY+v6wmWEz+tnV3jRSSNoPcBgWmA==
-X-Received: by 2002:a05:6000:40e1:b0:391:3fa7:bf77 with SMTP id ffacd0b85a97d-39ad1773089mr1658583f8f.31.1743053230795;
-        Wed, 26 Mar 2025 22:27:10 -0700 (PDT)
-Received: from localhost ([41.210.155.240])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3997f9efc90sm19036327f8f.98.2025.03.26.22.27.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 22:27:10 -0700 (PDT)
-Date: Thu, 27 Mar 2025 08:27:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>, Jens Axboe <axboe@kernel.dk>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: [asahilinux:bits/030-misc 1/40] drivers/soc/apple/rtkit.c:371
- apple_rtkit_crashlog_rx() warn: passing freed memory 'bfr' (line 365)
-Message-ID: <e29ace87-880c-48f6-8f72-7dfa8101ebea@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4jpvAS8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743054651; x=1774590651;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kjxGxePqFK4+jxNMfiIo1rW7Pw9zfVMmHZbBFG8olLs=;
+  b=I4jpvAS8PgFYU7eAPjordIuhZ8/uyvHjx3guDdEEz5Cmddt8Yb6LUkFA
+   6yDrbe3h/HXDjKhzIfiM9yq8aUQeR7J3VB2lxvG0B/Jdvz49iVfVTbile
+   3bV+Yzl+bbFuuE4+V2VEYBTY2+30Z+gjOJdzOIL7pNNEcBRx6pqj4wETr
+   4zP0ld3rJR8IqikcNl6FQa0ZL0pK8aI5znH3yMeA4h+AOpBPdv1VlVJuG
+   0Kalp36D+f9PvUsHoZ+hGhZKW4nD5tWCZITpGzbWcynBWIedjQPdIi+qE
+   y16HQliwmW3vDmLd1ljZaA6eCM6Tub9unjAiIg3calh0HOtT76k6dH9Ys
+   A==;
+X-CSE-ConnectionGUID: MO6kYyDLTeeYZSrO00nWuw==
+X-CSE-MsgGUID: +ClO/zntTBO1z5HRXLbdAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44490516"
+X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
+   d="scan'208";a="44490516"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 22:50:51 -0700
+X-CSE-ConnectionGUID: vGR01uu2RPmHS5IX13JdTA==
+X-CSE-MsgGUID: 2ikHRTgvRVGRFcZP00yDzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
+   d="scan'208";a="124800182"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 26 Mar 2025 22:50:50 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1txg8d-0006PV-1C;
+	Thu, 27 Mar 2025 05:50:47 +0000
+Date: Thu, 27 Mar 2025 13:49:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/kunit-kselftests 15/21] s390x-linux-ld:
+ uapi.c:undefined reference to `kunit_fail_assert_format'
+Message-ID: <202503271314.y9TiWMiT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,68 +62,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/030-misc
-head:   da85ded736004f61e37a67eaac233c87e42ab459
-commit: 037dde44780dec39060eed27b25a910d7b6e812b [1/40] soc: apple: rtkit: Pass the crashlog to the crashed() callback
-config: sparc64-randconfig-r072-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271318.nPEG98L6-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.4.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
+head:   c1f41508dfc38dc5750d2b2c5b29f1f819ae053a
+commit: 926e32cf9160e7403dbe68341e15fc5e583c1aae [15/21] kunit: Introduce UAPI testing framework
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250327/202503271314.y9TiWMiT-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271314.y9TiWMiT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503271318.nPEG98L6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503271314.y9TiWMiT-lkp@intel.com/
 
-smatch warnings:
-drivers/soc/apple/rtkit.c:371 apple_rtkit_crashlog_rx() warn: passing freed memory 'bfr' (line 365)
+All errors (new ones prefixed by >>):
 
-vim +/bfr +371 drivers/soc/apple/rtkit.c
-
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  334  static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  335  {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  336  	u8 type = FIELD_GET(APPLE_RTKIT_SYSLOG_TYPE, msg);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  337  	u8 *bfr;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  338  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  339  	if (type != APPLE_RTKIT_CRASHLOG_CRASH) {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  340  		dev_warn(rtk->dev, "RTKit: Unknown crashlog message: %llx\n",
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  341  			 msg);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  342  		return;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  343  	}
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  344  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  345  	if (!rtk->crashlog_buffer.size) {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  346  		apple_rtkit_common_rx_get_buffer(rtk, &rtk->crashlog_buffer,
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  347  						 APPLE_RTKIT_EP_CRASHLOG, msg);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  348  		return;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  349  	}
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  350  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  351  	dev_err(rtk->dev, "RTKit: co-processor has crashed\n");
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  352  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  353  	/*
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  354  	 * create a shadow copy here to make sure the co-processor isn't able
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  355  	 * to change the log while we're dumping it. this also ensures
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  356  	 * the buffer is in normal memory and not iomem for e.g. the SMC
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  357  	 */
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  358  	bfr = kzalloc(rtk->crashlog_buffer.size, GFP_KERNEL);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  359  	if (bfr) {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  360  		apple_rtkit_memcpy(rtk, bfr, &rtk->crashlog_buffer, 0,
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  361  				   rtk->crashlog_buffer.size);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  362  		apple_rtkit_crashlog_dump(rtk, bfr, rtk->crashlog_buffer.size);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  363  		kfree(bfr);
-                                                              ^^^
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  364  	} else {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01 @365  		dev_err(rtk->dev,
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  366  			"RTKit: Couldn't allocate crashlog shadow buffer\n");
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  367  	}
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  368  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  369  	rtk->crashed = true;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  370  	if (rtk->ops->crashed)
-037dde44780dec Asahi Lina 2025-02-02 @371  		rtk->ops->crashed(rtk->cookie, bfr, rtk->crashlog_buffer.size);
-                                                                                       ^^^
-bfr is either NULL or freed.
-
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  372  }
+   s390x-linux-ld: lib/kunit/uapi.o: in function `kunit_uapi_run_kselftest':
+   uapi.c:(.text+0x39e): undefined reference to `kunit_log_append'
+>> s390x-linux-ld: uapi.c:(.text+0x5be): undefined reference to `kunit_fail_assert_format'
+>> s390x-linux-ld: uapi.c:(.text+0x5f2): undefined reference to `__kunit_do_failed_assertion'
+   s390x-linux-ld: uapi.c:(.text+0x63c): undefined reference to `kunit_fail_assert_format'
+   s390x-linux-ld: uapi.c:(.text+0x670): undefined reference to `__kunit_do_failed_assertion'
+   s390x-linux-ld: uapi.c:(.text+0x726): undefined reference to `kunit_fail_assert_format'
+   s390x-linux-ld: uapi.c:(.text+0x77a): undefined reference to `kunit_fail_assert_format'
+   s390x-linux-ld: uapi.c:(.text+0x7d2): undefined reference to `kunit_fail_assert_format'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
