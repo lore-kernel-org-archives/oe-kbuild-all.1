@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4811581E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 20:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8CA1C8634
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 21:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743107577; cv=none; b=VabXNUuwrUZyvYyV4wzOl1JYhOfBug+l98FOomcIzEAhCQkQ2reHWAFJH+CRdf0/8m3p9db/1SFIaqIulMJ8ITvw5crG+vyX+70ERuVD5K9gUnt1HkZlU+XBULuJhSnsKLK3FE5jQI/jLZe7DEX2kHmdU6ZGLSz5zUpuBzVnfXw=
+	t=1743109500; cv=none; b=t6f63B5Hw7tMCZMlvHsB2CEBl4h3o1NIkisyHJo9con3QEIYee9qZAZI9vVhQqpZ1uE19UGtriuTetU/NAOopxVw8ez4ZlWdhoYSq/eiaoQcyGFtNcoO0ZTBrnYbxJ3JhkrZcsZCmYsUTBTt8ldOReaSsLoiuaGNdSlXiShwJQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743107577; c=relaxed/simple;
-	bh=4bmaqiZMnKHPX1jvaV9L2nJXQrGRVvmwNwW33tWL1TU=;
+	s=arc-20240116; t=1743109500; c=relaxed/simple;
+	bh=0jm4SOCqqfVIZ1NKuUZ+TtWMLZJ6vIdt+IpzDGZWHR0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uNbvV4A1aN9dW54HgW/x7IZUO7p9vCEqYwl1mUiX0W3Fi4STFEJo/w4Yqdu0PQ1sY7gJACYTlV0DLMlxcsLDTXXQZZYG4ZTKpCETC5SqO7JB5sSF1TY5brihhndUbN/p4eADHdnhwYUvnuL9pXFzOWOk4MRqjNrTv8MdgWN9iqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EBnrtDG5; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=DljUGeoax0mfNwM6A9kJmRlU7mgm9blmWXGJp/DYZouwMgLAPWaNLnlVPbpFlD0ieFYabfFj8p2TJg7FeQNz/5DNOyQZgwFUyOcWxHy+GQhy5TZA/oCelGFiQ34sNgeH3z0u0yEVEn58Qq5glJqcht4DjKE9s+qkR+IZcQHQOu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iCiwxL4E; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EBnrtDG5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iCiwxL4E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743107576; x=1774643576;
+  t=1743109498; x=1774645498;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4bmaqiZMnKHPX1jvaV9L2nJXQrGRVvmwNwW33tWL1TU=;
-  b=EBnrtDG5bU1a1MtJU4R8AMYQXyiQ01A07M0X+XJyxTNF5z+xhhZ2Fr0p
-   ISgzED4XkAE71kelCPk/b66GHVkM3V5TfDxp2RM0EhulxfJEau0xkSCUs
-   KEs5uYK0hQOG87Vvn2fOT9W1Lf5JskKx7Qov62dkrMoFsesF0VYpxtkFu
-   A9uLZKXCgfBOWfckpNq05sfcu928dKanpVJWt8RpzMQ6nJsQa847nKwLF
-   JVgoLPnAc4UnzIeHWbaQhZouPhqOqghAtuha2MmAwAVjRfVQ525zjUVAQ
-   ZLm+0vT0W+CwdbHBQhp677BAOwxXwkM9Yow3407BaUJTc4LD8KK5az7nQ
-   A==;
-X-CSE-ConnectionGUID: mbGxYYMnRfKXh+76GQR+NQ==
-X-CSE-MsgGUID: n8WvY21GQl63s3wBLGHY5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48243162"
+  bh=0jm4SOCqqfVIZ1NKuUZ+TtWMLZJ6vIdt+IpzDGZWHR0=;
+  b=iCiwxL4EumUZXxeqyg2wKQ2J0KE408Oo+dBxiWUX75oi4E9GOFxBBO68
+   24UDAH8LBsxd4QueJz3Ffz4+vWVzti04Cc5WNhieWQlspkjl9ub8HlrXY
+   iQEwAeOnClUrnQGw6cAtotBmfYOp0WWs6S7kJuuws70egD/IgILDzmbi2
+   MfbCa7ytX3XkgXOjyEb41yy4eTEsUoejYVERu6Bzef2morQZrWcHPteAn
+   znwpX80vSSxgQZYdiebwDOSUcGryqzAsi8ruqflI9CMtPyOiYKhzzwOGD
+   dv44wjkqiDbjemUl0HrFsOjhkSOYsF1Eb9VtaUicggS+Aq8GlnHLdVQRK
+   w==;
+X-CSE-ConnectionGUID: mYiz2dG3QkahEzsNBQ03ig==
+X-CSE-MsgGUID: Y4T9I3StRkGxpmkmNegQzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44381427"
 X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="48243162"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 13:32:56 -0700
-X-CSE-ConnectionGUID: C6xtVWWPQVWSAHSbotW0xA==
-X-CSE-MsgGUID: p4/iEI5lQ0WmdHCESBn5oQ==
+   d="scan'208";a="44381427"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 14:04:57 -0700
+X-CSE-ConnectionGUID: eefJf67dR9+2HBpx+qdr3Q==
+X-CSE-MsgGUID: VeyfkMcWSwiMs8rVStvKmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="156184546"
+   d="scan'208";a="126064391"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 Mar 2025 13:32:54 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 27 Mar 2025 14:04:57 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txtuG-0006ws-0q;
-	Thu, 27 Mar 2025 20:32:52 +0000
-Date: Fri, 28 Mar 2025 04:32:48 +0800
+	id 1txuPG-0006xP-12;
+	Thu, 27 Mar 2025 21:04:54 +0000
+Date: Fri, 28 Mar 2025 05:04:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: stephen.smalley.work@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ssmalley-selinuxns:working-selinuxns 4/43]
- security/selinux/ss/services.c:2212:27: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202503280405.CIQjTiGW-lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [morimoto:sound-msiof-2025-03-26-2 5/25]
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c:207 rcar_gen4_pcie_common_init()
+ warn: inconsistent indenting
+Message-ID: <202503280403.Fc5yg5uk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,146 +64,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/stephensmalley/selinux-kernel working-selinuxns
-head:   e2fa496070dcff2ef6cf58fedc273879de301d7e
-commit: 262d77ae4bee830cb21123c7cbbc6c176c8707bc [4/43] selinux: dynamically allocate selinux namespace
-config: csky-randconfig-r131-20250327 (https://download.01.org/0day-ci/archive/20250328/202503280405.CIQjTiGW-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250328/202503280405.CIQjTiGW-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-msiof-2025-03-26-2
+head:   2518ccf64c65482b415e5a831057998bfe2bda1d
+commit: 36ce57f993eaf28cad2f7a37cd32d7563d4716e4 [5/25] FIXME: Special PCIe post-reset delay
+config: microblaze-randconfig-r073-20250328 (https://download.01.org/0day-ci/archive/20250328/202503280403.Fc5yg5uk-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503280405.CIQjTiGW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503280403.Fc5yg5uk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> security/selinux/ss/services.c:2212:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct policydb *p @@     got struct policydb [noderef] __rcu * @@
-   security/selinux/ss/services.c:2212:27: sparse:     expected struct policydb *p
-   security/selinux/ss/services.c:2212:27: sparse:     got struct policydb [noderef] __rcu *
->> security/selinux/ss/services.c:2214:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct selinux_policy [noderef] __rcu *policy @@
-   security/selinux/ss/services.c:2214:15: sparse:     expected void const *objp
-   security/selinux/ss/services.c:2214:15: sparse:     got struct selinux_policy [noderef] __rcu *policy
->> security/selinux/ss/services.c:2232:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct selinux_policy [noderef] __rcu *policy @@     got struct selinux_policy *policy @@
-   security/selinux/ss/services.c:2232:39: sparse:     expected struct selinux_policy [noderef] __rcu *policy
-   security/selinux/ss/services.c:2232:39: sparse:     got struct selinux_policy *policy
->> security/selinux/ss/services.c:2297:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct selinux_policy [noderef] __rcu *policy @@     got struct selinux_policy *[assigned] oldpolicy @@
-   security/selinux/ss/services.c:2297:29: sparse:     expected struct selinux_policy [noderef] __rcu *policy
-   security/selinux/ss/services.c:2297:29: sparse:     got struct selinux_policy *[assigned] oldpolicy
->> security/selinux/ss/services.c:2210:24: sparse: sparse: dereference of noderef expression
-   security/selinux/ss/services.c:2211:15: sparse: sparse: dereference of noderef expression
-   security/selinux/ss/services.c:2213:15: sparse: sparse: dereference of noderef expression
+New smatch warnings:
+drivers/pci/controller/dwc/pcie-rcar-gen4.c:207 rcar_gen4_pcie_common_init() warn: inconsistent indenting
 
-vim +2212 security/selinux/ss/services.c
+Old smatch warnings:
+drivers/pci/controller/dwc/pcie-rcar-gen4.c:212 rcar_gen4_pcie_common_init() warn: inconsistent indenting
 
-3bb56b25dbe0a4 Paul Moore      2008-01-29  2201  
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2202  static int security_preserve_bools(struct selinux_policy *oldpolicy,
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2203  				struct selinux_policy *newpolicy);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2204  
-262d77ae4bee83 Stephen Smalley 2020-08-21  2205  void selinux_policy_free(struct selinux_policy __rcu *policy)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2206  {
-461698026ffa74 Stephen Smalley 2020-08-07  2207  	if (!policy)
-461698026ffa74 Stephen Smalley 2020-08-07  2208  		return;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2209  
-c7c556f1e81bb9 Stephen Smalley 2020-08-11 @2210  	sidtab_destroy(policy->sidtab);
-461698026ffa74 Stephen Smalley 2020-08-07  2211  	kfree(policy->map.mapping);
-0256b0aa8019d9 Dan Carpenter   2020-08-26 @2212  	policydb_destroy(&policy->policydb);
-0256b0aa8019d9 Dan Carpenter   2020-08-26  2213  	kfree(policy->sidtab);
-461698026ffa74 Stephen Smalley 2020-08-07 @2214  	kfree(policy);
-461698026ffa74 Stephen Smalley 2020-08-07  2215  }
-24ed7fdae669fe Ondrej Mosnacek 2018-11-30  2216  
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2217  static void selinux_policy_cond_free(struct selinux_policy *policy)
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2218  {
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2219  	cond_policydb_destroy_dup(&policy->policydb);
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2220  	kfree(policy);
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2221  }
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2222  
-db42f318d66d66 Stephen Smalley 2024-07-30  2223  void selinux_policy_cancel(struct selinux_state *state,
-db42f318d66d66 Stephen Smalley 2024-07-30  2224  			   struct selinux_load_state *load_state)
-02a52c5c8c3b8c Stephen Smalley 2020-08-07  2225  {
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2226  	struct selinux_policy *oldpolicy;
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2227  
-9ff9abc4c6be27 Stephen Smalley 2020-08-26  2228  	oldpolicy = rcu_dereference_protected(state->policy,
-9ff9abc4c6be27 Stephen Smalley 2020-08-26  2229  					lockdep_is_held(&state->policy_mutex));
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2230  
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2231  	sidtab_cancel_convert(oldpolicy->sidtab);
-6406887a12ee5d Ondrej Mosnacek 2021-03-18 @2232  	selinux_policy_free(load_state->policy);
-6406887a12ee5d Ondrej Mosnacek 2021-03-18  2233  	kfree(load_state->convert_data);
-02a52c5c8c3b8c Stephen Smalley 2020-08-07  2234  }
-02a52c5c8c3b8c Stephen Smalley 2020-08-07  2235  
-db42f318d66d66 Stephen Smalley 2024-07-30  2236  static void selinux_notify_policy_change(struct selinux_state *state,
-db42f318d66d66 Stephen Smalley 2024-07-30  2237  					u32 seqno)
-c7c556f1e81bb9 Stephen Smalley 2020-08-11  2238  {
-c7c556f1e81bb9 Stephen Smalley 2020-08-11  2239  	/* Flush external caches and notify userspace of policy load */
-db42f318d66d66 Stephen Smalley 2024-07-30  2240  	avc_ss_reset(state->avc, seqno);
-c7c556f1e81bb9 Stephen Smalley 2020-08-11  2241  	selnl_notify_policyload(seqno);
-db42f318d66d66 Stephen Smalley 2024-07-30  2242  	selinux_status_update_policyload(state, seqno);
-c7c556f1e81bb9 Stephen Smalley 2020-08-11  2243  	selinux_netlbl_cache_invalidate();
-c7c556f1e81bb9 Stephen Smalley 2020-08-11  2244  	selinux_xfrm_notify_policyload();
-db42f318d66d66 Stephen Smalley 2024-07-30  2245  	selinux_ima_measure_state_locked(state);
-c7c556f1e81bb9 Stephen Smalley 2020-08-11  2246  }
-c7c556f1e81bb9 Stephen Smalley 2020-08-11  2247  
-db42f318d66d66 Stephen Smalley 2024-07-30  2248  void selinux_policy_commit(struct selinux_state *state,
-db42f318d66d66 Stephen Smalley 2024-07-30  2249  			   struct selinux_load_state *load_state)
-461698026ffa74 Stephen Smalley 2020-08-07  2250  {
-6406887a12ee5d Ondrej Mosnacek 2021-03-18  2251  	struct selinux_policy *oldpolicy, *newpolicy = load_state->policy;
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  2252  	unsigned long flags;
-461698026ffa74 Stephen Smalley 2020-08-07  2253  	u32 seqno;
-aa8e712cee93d5 Stephen Smalley 2018-03-01  2254  
-9ff9abc4c6be27 Stephen Smalley 2020-08-26  2255  	oldpolicy = rcu_dereference_protected(state->policy,
-9ff9abc4c6be27 Stephen Smalley 2020-08-26  2256  					lockdep_is_held(&state->policy_mutex));
-a2000050389550 Eric Paris      2010-04-20  2257  
-461698026ffa74 Stephen Smalley 2020-08-07  2258  	/* If switching between different policy types, log MLS status */
-461698026ffa74 Stephen Smalley 2020-08-07  2259  	if (oldpolicy) {
-461698026ffa74 Stephen Smalley 2020-08-07  2260  		if (oldpolicy->policydb.mls_enabled && !newpolicy->policydb.mls_enabled)
-461698026ffa74 Stephen Smalley 2020-08-07  2261  			pr_info("SELinux: Disabling MLS support...\n");
-461698026ffa74 Stephen Smalley 2020-08-07  2262  		else if (!oldpolicy->policydb.mls_enabled && newpolicy->policydb.mls_enabled)
-461698026ffa74 Stephen Smalley 2020-08-07  2263  			pr_info("SELinux: Enabling MLS support...\n");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2264  	}
-a2000050389550 Eric Paris      2010-04-20  2265  
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2266  	/* Set latest granting seqno for new policy. */
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2267  	if (oldpolicy)
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2268  		newpolicy->latest_granting = oldpolicy->latest_granting + 1;
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2269  	else
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2270  		newpolicy->latest_granting = 1;
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2271  	seqno = newpolicy->latest_granting;
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2272  
-461698026ffa74 Stephen Smalley 2020-08-07  2273  	/* Install the new policy. */
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  2274  	if (oldpolicy) {
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  2275  		sidtab_freeze_begin(oldpolicy->sidtab, &flags);
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2276  		rcu_assign_pointer(state->policy, newpolicy);
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  2277  		sidtab_freeze_end(oldpolicy->sidtab, &flags);
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  2278  	} else {
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  2279  		rcu_assign_pointer(state->policy, newpolicy);
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  2280  	}
-a2000050389550 Eric Paris      2010-04-20  2281  
-461698026ffa74 Stephen Smalley 2020-08-07  2282  	/* Load the policycaps from the new policy */
-db42f318d66d66 Stephen Smalley 2024-07-30  2283  	security_load_policycaps(state, newpolicy);
-461698026ffa74 Stephen Smalley 2020-08-07  2284  
-db42f318d66d66 Stephen Smalley 2024-07-30  2285  	if (!selinux_initialized(state)) {
-461698026ffa74 Stephen Smalley 2020-08-07  2286  		/*
-461698026ffa74 Stephen Smalley 2020-08-07  2287  		 * After first policy load, the security server is
-461698026ffa74 Stephen Smalley 2020-08-07  2288  		 * marked as initialized and ready to handle requests and
-461698026ffa74 Stephen Smalley 2020-08-07  2289  		 * any objects created prior to policy load are then labeled.
-461698026ffa74 Stephen Smalley 2020-08-07  2290  		 */
-db42f318d66d66 Stephen Smalley 2024-07-30  2291  		selinux_mark_initialized(state);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2292  		selinux_complete_init();
-461698026ffa74 Stephen Smalley 2020-08-07  2293  	}
-461698026ffa74 Stephen Smalley 2020-08-07  2294  
-461698026ffa74 Stephen Smalley 2020-08-07  2295  	/* Free the old policy */
-1b8b31a2e6120b Stephen Smalley 2020-08-19  2296  	synchronize_rcu();
-461698026ffa74 Stephen Smalley 2020-08-07 @2297  	selinux_policy_free(oldpolicy);
-6406887a12ee5d Ondrej Mosnacek 2021-03-18  2298  	kfree(load_state->convert_data);
-461698026ffa74 Stephen Smalley 2020-08-07  2299  
-c7c556f1e81bb9 Stephen Smalley 2020-08-11  2300  	/* Notify others of the policy change */
-db42f318d66d66 Stephen Smalley 2024-07-30  2301  	selinux_notify_policy_change(state, seqno);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2302  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2303  
+vim +207 drivers/pci/controller/dwc/pcie-rcar-gen4.c
 
-:::::: The code at line 2212 was first introduced by commit
-:::::: 0256b0aa8019d937a0bdce3584c6b8b47f618202 selinux: fix error handling bugs in security_load_policy()
-
-:::::: TO: Dan Carpenter <dan.carpenter@oracle.com>
-:::::: CC: Paul Moore <paul@paul-moore.com>
+   172	
+   173	static int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
+   174	{
+   175		struct dw_pcie *dw = &rcar->dw;
+   176		u32 val;
+   177		int ret;
+   178	
+   179		ret = clk_bulk_prepare_enable(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
+   180		if (ret) {
+   181			dev_err(dw->dev, "Enabling core clocks failed\n");
+   182			return ret;
+   183		}
+   184	
+   185		if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
+   186			reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+   187	
+   188		val = readl(rcar->base + PCIEMSR0);
+   189		if (rcar->drvdata->mode == DW_PCIE_RC_TYPE) {
+   190			val |= DEVICE_TYPE_RC;
+   191		} else if (rcar->drvdata->mode == DW_PCIE_EP_TYPE) {
+   192			val |= DEVICE_TYPE_EP;
+   193		} else {
+   194			ret = -EINVAL;
+   195			goto err_unprepare;
+   196		}
+   197	
+   198		if (dw->num_lanes < 4)
+   199			val |= BIFUR_MOD_SET_ON;
+   200	
+   201		writel(val, rcar->base + PCIEMSR0);
+   202	
+   203		ret = reset_control_deassert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+   204		if (ret)
+   205			goto err_unprepare;
+   206	
+ > 207	mdelay(100);
+   208	
+   209		if (rcar->drvdata->additional_common_init)
+   210			rcar->drvdata->additional_common_init(rcar);
+   211	
 
 -- 
 0-DAY CI Kernel Test Service
