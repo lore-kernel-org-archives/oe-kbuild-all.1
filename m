@@ -1,269 +1,214 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E5921422C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 14:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709521547C0;
+	Thu, 27 Mar 2025 14:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743085310; cv=none; b=lPE6pNKEWysPP2Jb5MCN72DNu248QhWscmXWuzHgOPsR37UTDPn5KwHTPaZmjjRKwPG30TGJnLXsKGUk/VEq1KZUNCMP2xxgXCfov91U1KGIOOo7W0uIyjaSo+8GbemOexrQ9Xu+EPFAejjqYwl8+EoiZ754pzxQivvHZshXL2Y=
+	t=1743086186; cv=none; b=tvman27jzb6Ajc5BXs9XtC2ppxdsnCPmZcSYxwI0hnFz4NaVp+pqKiAP0UC+PfY1t4r3SgRZleE1HDaZLvvO7xvRJ+uvTFCPuARsFuA0THFNzKiZgLdbgjFABdUKmlYcsi0x6ljh9X+5+6L9TPKOLzqHVWPn0KjB4jNNcNgqow8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743085310; c=relaxed/simple;
-	bh=YA8ArRovZcyU99UHeTX9YUKXyk6eIvGmN65bgsJbR7M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fFg0gO2b7IAfmImWWDLgePcSXBxe8rR1Jj+KnfUMiCapShaz6LA+hsc5SVzkCdNw3cVzbsqI4w3/qNrgAP4vjadQ6UGv9apK2KTV52Jja/EgdTJtGEy5jaXcFDFKnm4HjQtVfJq7XBBi5j2UKbz7eUZtU4DS3X9j2Hd+s2w9gvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=RSl8gFqj; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1743086186; c=relaxed/simple;
+	bh=aRSJEE4LF/DgyqNP78KuA37ILgQD4/DkDEBzOXdalYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m3zHnfKVQ+8FUHNF8Pbw3yUGiALdn2nlXwTustj+9BfE1uzt+CHjSeJRn23sJNDPq8RqilZqkTbl5hvs2eapg61gLqgewvV1lDyXlBs26mCKEjtwAiXT/8XePtw0tWZueRbw9Uu2TdD2zG9zZ+aLpIY84HMKWURvBzLUplgBU9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRh/kGJY; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RSl8gFqj"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e61d91a087so1754289a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 07:21:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRh/kGJY"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2255003f4c6so22232755ad.0;
+        Thu, 27 Mar 2025 07:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1743085307; x=1743690107; darn=lists.linux.dev;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=YA8ArRovZcyU99UHeTX9YUKXyk6eIvGmN65bgsJbR7M=;
-        b=RSl8gFqjh7Os+Y+bmtrXH/CV06INoM2aGhIeIcrgpLFTos0UxTWrsviXXLzaWx59qR
-         /zsThZuT8IgbOrdExeXwryifR+rFl12AI6ly28WygsGxWA4v/TfbF8/YosiBr8z9UKWP
-         g0AGkF9+yWbMjjaPveiEyTXNtDbzNRw49VZKkql9im0JHfr/1xNl6qEoeK2h9oIxnaqK
-         pzBuE/8vlYX8f/kvE7lCp6YWIFD7pPa6X6nwqVr+sNQfljIbrW/f23bqbLsHzFCmvT9s
-         YQF+L4il1QIl8v4svzG2Q6UJV82QtsEO7BUotVHWAw/tWX3yQhK5y+2nzzTB/OWJ9jEJ
-         tpPw==
+        d=gmail.com; s=20230601; t=1743086184; x=1743690984; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wCmk4hmuZJ512kbCxwIcYRx/KVLFgt2B/Rg6XnWmpH0=;
+        b=QRh/kGJYR3MZFBz1RNmkwHG07sAnVSGDaG2ye5eOE0zelsrtkONAFh45+cWToQ0cRL
+         IPWz4v5LZ6u8C0MWIxTlgWxVlGME0dKkapc3HDFyuffp8L71FSMpXiF5Tc3+un5d8pxb
+         Xpw5OwTvTZZPmeVQ6UfEsGeQzcva5eQb1diXUVb0oqeQlZT9BO2r/6gTa2xMy91hAh1x
+         LyHPsxlXIUUJiyc/Tj/KqCaI4bSl3cwHyATwktOhr7xyL+b9GF9UaRqGrQ1PpZ3LRn/a
+         sI8KgR7g0t36wJInLuo1Tt8fz51NR8mhrWaEczJlOCj6fXM53tUu9fEL9MqzGde/y6mQ
+         vyCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743085307; x=1743690107;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YA8ArRovZcyU99UHeTX9YUKXyk6eIvGmN65bgsJbR7M=;
-        b=hgkAWQ9nqbGvY6O2FgsUNYESZ/HwV0LLpXqiZWNSrEXZFNmiGcRC/WipYg/w3Vlxea
-         EPKvZl6B/3m5S7kgpb3GQRASYAP8pL6GYL18g0Ff6S1jgdBWI95l/8ETJB6e7SFOriTg
-         EOpzl/1V5f9ASEN7QFIB9h7MuPACT9Am6jsCC5H8uD3UoUbFoAe/0UVTOoMNRGg2uNIo
-         p5qFv70qiILADprNJ6V8lyrZnKuYVRgTPKQGcD8SMWNZ6mL8VeV6MrmH34uuZyhdRDZe
-         q9yrvT7lkOJuD2hIpegJLWuBgQzIh+UK/Du83jrm6Kf2rExa5wLywRS9CdcVjomjkN1m
-         vDKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVE7TQW7PjgmmBCX6Aopd6y6iJoymNbRwZCtDOnAVkhk+3YqVl0QBqOWnaCL2OGL/Nli3wkgymXMcDrH7HO@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcNcNQ2cMV+ynk+SkNXFChVfcZnoJ+Zz5tBnlJxXoYa5kUd9eV
-	jKOE7eyNgUPJZvq4m7awTJ8CAhX6fXbYyOPqMg1mySnFspno+i3DYBrVF7LS+4g=
-X-Gm-Gg: ASbGnctaodR31uXLVLZWf5ns5z9rthTLCBrbOhV1emqKKxRKJiE6N8vxxqGW5S/hGl1
-	umZ7yL9lUfa9RQO4pPsa5Cyz6nmTuOkatSkghOTjyqx4Di73FxIsBZNLoPyCd7OfofgiG4bGaE8
-	S/tZGe1eeX7b94nZ2jUO1TGZsMfi+DQzOaSEX8MVAbtc4Tp4ZgE1yZTQyn63YPmH4Qlnk1hEqIm
-	gwDgW7zlWiOmQaTOCgLg129OnqVV+MMfxAP5Qnx14bCNbMfJjraRkDU/I07aNWafpFhTvzlWn0k
-	6GSUTyvu0twbYc/uF2/6f2ipoCqFV43aBRetLnu9YPxLyFXMpHcQoHQis9M4eoYNbKoGsx8uK5V
-	IdutfZlj/my+pyk45iOtsJJqHpFfT3DF1M1DXQRvIb1mth/xqHs7sk400YwBmnVaTBGDX7g==
-X-Google-Smtp-Source: AGHT+IFCABOwtVH40dgEIF/v3SC5sQsG/SkmVq9OmnVTD5wSrbXQiYlHPDk40SIcgalxhj/beTU0Pg==
-X-Received: by 2002:a17:907:3fa3:b0:abf:6ebf:5500 with SMTP id a640c23a62f3a-ac6faeb7134mr340592566b.16.1743085306432;
-        Thu, 27 Mar 2025 07:21:46 -0700 (PDT)
-Received: from ?IPV6:2003:e5:873d:1a00:8e99:ce06:aa4a:2e7b? (p200300e5873d1a008e99ce06aa4a2e7b.dip0.t-ipconnect.de. [2003:e5:873d:1a00:8e99:ce06:aa4a:2e7b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3efb52c0bsm1249345966b.91.2025.03.27.07.21.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Mar 2025 07:21:46 -0700 (PDT)
-Message-ID: <c18a543c-4df2-4744-bf16-e888a832d634@suse.com>
-Date: Thu, 27 Mar 2025 15:21:45 +0100
+        d=1e100.net; s=20230601; t=1743086184; x=1743690984;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wCmk4hmuZJ512kbCxwIcYRx/KVLFgt2B/Rg6XnWmpH0=;
+        b=XmZlOFkYn5+r+ZI0GbLxlgXKpg8507zlxYdPUAcu/1zb8l7GFo5FYoL5Gq7URIVG8p
+         CLFEcvSZn0dFiuSx7BEHgh7aZ+ZbcPFI0Z7fU++TB06nPF71lx4tzbxjx3x+s6NVzdFx
+         Qd/Ji1q63OLwdYRalPeVlOF4dUwkaAxeHyhN5TaGap4aVAH4JP9g37AHkRDe18udnqha
+         tBKHfKyNJx8ELqJbIkHm/2sMZmOP2R1YzJY/vbIT0v6/tecmTPEQVzNC5seBnmlpW7zy
+         8fJQYkLafbtn2dGDmslJP68rW11mesxlEdYYp4UmGJHlSYSA+R5bYmaMd52jIUgtvWu9
+         TBFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3PGg5YVBVKdy1YerfV7QykU+t/+rXwxA/JVdwIyuslF50w91qoRSurr2zrT4tLQNikMqX@lists.linux.dev, AJvYcCWqAmNXOBrgPuy8d/wHNsUjEjju2GulAIpxidce/w4nq0nPpvAesQAbSATGt30hwJNI25FDd7kMPmY8hH+LXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/Zn/ZZZS9mtSw0Kg3fe77W6i0DUzKaBX/MZ+82L29VLBK2/Fk
+	m6Gux53LhtvAWqsmMAy0rHjvJ9CzwPrqTlSUTatPXvNTkkbrjKM=
+X-Gm-Gg: ASbGnctGS6ujhWbG86xxFT7zcHk/SD0GK/ZtYq03vwa/ymy49sGAUazQreL+Uk06+Jf
+	Wv9rAm454BQMlFeQ0+QoKgZNX6K2fZKGWBuQ5JqY081WP9oLs3bu3iEMLERuf4NMVxnkBhjREF+
+	xSfoLlHMrswZLIkPPlIZFofgMyur1+Jl0lm2wD2Cbt+A/U6Cf81F1q4pcXtk/SIEqBw5Ocxha33
+	w6loO7wh2amKAhtDoE9Wy5pjGaHoEv6iKa3LKQ3ADTBGC4PtJCipmNNVVAgAyEoXtnLmJtKeryt
+	ziiA0AOeC3vJ+htlUMmkRCKZDnV1l1Sw59oqYuYhimqU
+X-Google-Smtp-Source: AGHT+IGDGrmcXz0yo6x3fW0RJOxnKZihvpxzy9pmxAKnOwTngC++Wp2N8mMvV7YeUTAcRN/VCZxolA==
+X-Received: by 2002:a17:902:fc4f:b0:216:410d:4c53 with SMTP id d9443c01a7336-2280491aa7dmr60192305ad.41.1743086183439;
+        Thu, 27 Mar 2025 07:36:23 -0700 (PDT)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-2291eec73d6sm143915ad.42.2025.03.27.07.36.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Mar 2025 07:36:22 -0700 (PDT)
+Date: Thu, 27 Mar 2025 07:36:22 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: syzbot <syzbot+377b71db585c9c705f8e@syzkaller.appspotmail.com>
+Cc: andrew+netdev@lunn.ch, andrew@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, eric.dumazet@gmail.com, horms@kernel.org,
+	kuba@kernel.org, linux-kernel@vger.kernel.org,
+	linux-x25@vger.kernel.org, lkp@intel.com, llvm@lists.linux.dev,
+	ms@dev.tdt.de, netdev@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, sdf@fomichev.me,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [x25?] possible deadlock in lapbeth_device_event
+Message-ID: <Z-ViZoezAdjY8TC-@mini-arch>
+References: <67cd611c.050a0220.14db68.0073.GAE@google.com>
+ <67e55c12.050a0220.2f068f.002c.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [xen-tip:linux-next 12/12] WARNING: modpost: vmlinux: section
- mismatch in reference: mc_debug_data+0x0 (section: .data) ->
- mc_debug_data_early (section: .init.data)
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jan Beulich <jbeulich@suse.com>, oe-kbuild-all@lists.linux.dev,
- xen-devel@lists.xenproject.org, Boris Ostrovsky
- <boris.ostrovsky@oracle.com>, kernel test robot <lkp@intel.com>,
- x86-ml <x86@kernel.org>, lkml <linux-kernel@vger.kernel.org>
-References: <202407240907.u0NJHgTu-lkp@intel.com>
- <a9b1e875-5bf8-4755-ad2e-78ab2eb02c97@suse.com>
- <fc4b5a0c-19dc-4741-b184-08b704444a1b@suse.com>
- <3a847f18-750f-4bd2-9cac-37c4b9bdc84b@suse.com>
- <20250327141316.GBZ-Vc_NybN1cIEePu@fat_crate.local>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <20250327141316.GBZ-Vc_NybN1cIEePu@fat_crate.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YeV86QOqDWmfRVo404l9CPE1"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <67e55c12.050a0220.2f068f.002c.GAE@google.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YeV86QOqDWmfRVo404l9CPE1
-Content-Type: multipart/mixed; boundary="------------w3AQEZipCb3IgL39gNqeALp9";
- protected-headers="v1"
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jan Beulich <jbeulich@suse.com>, oe-kbuild-all@lists.linux.dev,
- xen-devel@lists.xenproject.org, Boris Ostrovsky
- <boris.ostrovsky@oracle.com>, kernel test robot <lkp@intel.com>,
- x86-ml <x86@kernel.org>, lkml <linux-kernel@vger.kernel.org>
-Message-ID: <c18a543c-4df2-4744-bf16-e888a832d634@suse.com>
-Subject: Re: [xen-tip:linux-next 12/12] WARNING: modpost: vmlinux: section
- mismatch in reference: mc_debug_data+0x0 (section: .data) ->
- mc_debug_data_early (section: .init.data)
-References: <202407240907.u0NJHgTu-lkp@intel.com>
- <a9b1e875-5bf8-4755-ad2e-78ab2eb02c97@suse.com>
- <fc4b5a0c-19dc-4741-b184-08b704444a1b@suse.com>
- <3a847f18-750f-4bd2-9cac-37c4b9bdc84b@suse.com>
- <20250327141316.GBZ-Vc_NybN1cIEePu@fat_crate.local>
-In-Reply-To: <20250327141316.GBZ-Vc_NybN1cIEePu@fat_crate.local>
-Autocrypt-Gossip: addr=jbeulich@suse.com; keydata=
- xsDiBFk3nEQRBADAEaSw6zC/EJkiwGPXbWtPxl2xCdSoeepS07jW8UgcHNurfHvUzogEq5xk
- hu507c3BarVjyWCJOylMNR98Yd8VqD9UfmX0Hb8/BrA+Hl6/DB/eqGptrf4BSRwcZQM32aZK
- 7Pj2XbGWIUrZrd70x1eAP9QE3P79Y2oLrsCgbZJfEwCgvz9JjGmQqQkRiTVzlZVCJYcyGGsD
- /0tbFCzD2h20ahe8rC1gbb3K3qk+LpBtvjBu1RY9drYk0NymiGbJWZgab6t1jM7sk2vuf0Py
- O9Hf9XBmK0uE9IgMaiCpc32XV9oASz6UJebwkX+zF2jG5I1BfnO9g7KlotcA/v5ClMjgo6Gl
- MDY4HxoSRu3i1cqqSDtVlt+AOVBJBACrZcnHAUSuCXBPy0jOlBhxPqRWv6ND4c9PH1xjQ3NP
- nxJuMBS8rnNg22uyfAgmBKNLpLgAGVRMZGaGoJObGf72s6TeIqKJo/LtggAS9qAUiuKVnygo
- 3wjfkS9A3DRO+SpU7JqWdsveeIQyeyEJ/8PTowmSQLakF+3fote9ybzd880fSmFuIEJldWxp
- Y2ggPGpiZXVsaWNoQHN1c2UuY29tPsJ3BBMRAgAgBQJZN5xEAhsDBgsJCAcDAgQVAggDBBYC
- AwECHgECF4AAIQkQoDSui/t3IH4WIQQ+pJkfkcoLMCa4X6CgNK6L+3cgfgn7AJ9DmMd0SMJE
- ePbc7/m22D2v04iu7ACffXTdZQhNl557tJuDXZSBxDmW/tLOwU0EWTecRBAIAIK5OMKMU5R2
- Lk2bbjgX7vyQuCFFyKf9rC/4itNwhYWFSlKzVj3WJBDsoi2KvPm7AI+XB6NIkNAkshL5C0kd
- pcNd5Xo0jRR5/WE/bT7LyrJ0OJWS/qUit5eNNvsO+SxGAk28KRa1ieVLeZi9D03NL0+HIAtZ
- tecfqwgl3Y72UpLUyt+r7LQhcI/XR5IUUaD4C/chB4Vq2QkDKO7Q8+2HJOrFIjiVli4lU+Sf
- OBp64m//Y1xys++Z4ODoKh7tkh5DxiO3QBHG7bHK0CSQsJ6XUvPVYubAuy1XfSDzSeSBl//C
- v78Fclb+gi9GWidSTG/4hsEzd1fY5XwCZG/XJJY9M/sAAwUH/09Ar9W2U1Qm+DwZeP2ii3Ou
- 14Z9VlVVPhcEmR/AFykL9dw/OV2O/7cdi52+l00reUu6Nd4Dl8s4f5n8b1YFzmkVVIyhwjvU
- jxtPyUgDOt6DRa+RaDlXZZmxQyWcMv2anAgYWGVszeB8Myzsw8y7xhBEVV1S+1KloCzw4V8Z
- DSJrcsZlyMDoiTb7FyqxwQnM0f6qHxWbmOOnbzJmBqpNpFuDcz/4xNsymJylm6oXiucHQBAP
- Xb/cE1YNHpuaH4SRhIxwQilCYEznWowQphNAbJtEKOmcocY7EbSt8VjXTzmYENkIfkrHRyXQ
- dUm5AoL51XZljkCqNwrADGkTvkwsWSvCSQQYEQIACQUCWTecRAIbDAAKCRCgNK6L+3cgfuef
- AJ9wlZQNQUp0KwEf8Tl37RmcxCL4bQCcC5alCSMzUBJ5DBIcR4BY+CyQFAs=
+On 03/27, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    1a9239bb4253 Merge tag 'net-next-6.15' of git://git.kernel..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=15503804580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=95c3bbe7ce8436a7
+> dashboard link: https://syzkaller.appspot.com/bug?extid=377b71db585c9c705f8e
+> compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=139a6bb0580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16974a4c580000
+> 
+> Downloadable assets:
+> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-1a9239bb.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/bd56e2f824c3/vmlinux-1a9239bb.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/19172b7f9497/bzImage-1a9239bb.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+377b71db585c9c705f8e@syzkaller.appspotmail.com
+> 
+> ============================================
+> WARNING: possible recursive locking detected
+> 6.14.0-syzkaller-05877-g1a9239bb4253 #0 Not tainted
+> --------------------------------------------
+> dhcpcd/5649 is trying to acquire lock:
+> ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
+> ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: netif_napi_add_weight include/linux/netdevice.h:2783 [inline]
+> ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: lapbeth_new_device drivers/net/wan/lapbether.c:415 [inline]
+> ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: lapbeth_device_event+0x586/0xbe0 drivers/net/wan/lapbether.c:460
+> 
+> but task is already holding lock:
+> ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
+> ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:42 [inline]
+> ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:39 [inline]
+> ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: dev_change_flags+0xa7/0x250 net/core/dev_api.c:67
+> 
+> other info that might help us debug this:
+>  Possible unsafe locking scenario:
+> 
+>        CPU0
+>        ----
+>   lock(&dev->lock);
+>   lock(&dev->lock);
+> 
+>  *** DEADLOCK ***
+> 
+>  May be due to missing lock nesting notation
+> 
+> 2 locks held by dhcpcd/5649:
+>  #0: ffffffff900fb268 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_net_lock include/linux/rtnetlink.h:130 [inline]
+>  #0: ffffffff900fb268 (rtnl_mutex){+.+.}-{4:4}, at: devinet_ioctl+0x26d/0x1f50 net/ipv4/devinet.c:1121
+>  #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
+>  #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:42 [inline]
+>  #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:39 [inline]
+>  #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: dev_change_flags+0xa7/0x250 net/core/dev_api.c:67
+> 
+> stack backtrace:
+> CPU: 1 UID: 0 PID: 5649 Comm: dhcpcd Not tainted 6.14.0-syzkaller-05877-g1a9239bb4253 #0 PREEMPT(full) 
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:94 [inline]
+>  dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+>  print_deadlock_bug+0x1e9/0x240 kernel/locking/lockdep.c:3042
+>  check_deadlock kernel/locking/lockdep.c:3094 [inline]
+>  validate_chain kernel/locking/lockdep.c:3896 [inline]
+>  __lock_acquire+0xff7/0x1ba0 kernel/locking/lockdep.c:5235
+>  lock_acquire kernel/locking/lockdep.c:5866 [inline]
+>  lock_acquire+0x179/0x350 kernel/locking/lockdep.c:5823
+>  __mutex_lock_common kernel/locking/mutex.c:587 [inline]
+>  __mutex_lock+0x19a/0xb00 kernel/locking/mutex.c:732
+>  netdev_lock include/linux/netdevice.h:2751 [inline]
+>  netif_napi_add_weight include/linux/netdevice.h:2783 [inline]
+>  lapbeth_new_device drivers/net/wan/lapbether.c:415 [inline]
+>  lapbeth_device_event+0x586/0xbe0 drivers/net/wan/lapbether.c:460
+>  notifier_call_chain+0xb9/0x410 kernel/notifier.c:85
+>  call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2180
+>  call_netdevice_notifiers_extack net/core/dev.c:2218 [inline]
+>  call_netdevice_notifiers net/core/dev.c:2232 [inline]
+>  __dev_notify_flags+0x12c/0x2e0 net/core/dev.c:9409
+>  netif_change_flags+0x108/0x160 net/core/dev.c:9438
+>  dev_change_flags+0xba/0x250 net/core/dev_api.c:68
+>  devinet_ioctl+0x11d5/0x1f50 net/ipv4/devinet.c:1200
+>  inet_ioctl+0x3a7/0x3f0 net/ipv4/af_inet.c:1001
+>  sock_do_ioctl+0x115/0x280 net/socket.c:1190
+>  sock_ioctl+0x227/0x6b0 net/socket.c:1311
+>  vfs_ioctl fs/ioctl.c:51 [inline]
+>  __do_sys_ioctl fs/ioctl.c:906 [inline]
+>  __se_sys_ioctl fs/ioctl.c:892 [inline]
+>  __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0xcd/0x260 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7effd384cd49
+> Code: 5c c3 48 8d 44 24 08 48 89 54 24 e0 48 89 44 24 c0 48 8d 44 24 d0 48 89 44 24 c8 b8 10 00 00 00 c7 44 24 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 76 10 48 8b 15 ae 60 0d 00 f7 d8 41 83 c8
+> RSP: 002b:00007ffedd440088 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 00007effd377e6c0 RCX: 00007effd384cd49
+> RDX: 00007ffedd450278 RSI: 0000000000008914 RDI: 000000000000001a
+> RBP: 00007ffedd460438 R08: 00007ffedd450238 R09: 00007ffedd4501e8
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007ffedd450278 R14: 0000000000000028 R15: 0000000000008914
+>  </TASK>
+> 
+> 
+> ---
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
 
---------------w3AQEZipCb3IgL39gNqeALp9
-Content-Type: multipart/mixed; boundary="------------55vb6jP6OXkfhRxpOPx3b5GE"
+#syz test
 
---------------55vb6jP6OXkfhRxpOPx3b5GE
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+diff --git a/drivers/net/wan/lapbether.c b/drivers/net/wan/lapbether.c
+index 56326f38fe8a..a022e930bd8e 100644
+--- a/drivers/net/wan/lapbether.c
++++ b/drivers/net/wan/lapbether.c
+@@ -39,6 +39,7 @@
+ #include <linux/lapb.h>
+ #include <linux/init.h>
+ 
++#include <net/netdev_lock.h>
+ #include <net/x25device.h>
+ 
+ static const u8 bcast_addr[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+@@ -372,6 +373,7 @@ static void lapbeth_setup(struct net_device *dev)
+ 	dev->hard_header_len = 0;
+ 	dev->mtu             = 1000;
+ 	dev->addr_len        = 0;
++	netdev_lockdep_set_classes(netdev);
+ }
+ 
+ /*	Setup a new device.
 
-T24gMjcuMDMuMjUgMTU6MTMsIEJvcmlzbGF2IFBldGtvdiB3cm90ZToNCj4gT24gV2VkLCBK
-dWwgMjQsIDIwMjQgYXQgMTE6NTU6MzlBTSArMDIwMCwgSsO8cmdlbiBHcm/DnyB3cm90ZToN
-Cj4+IEknZCBwcmVmZXIgYSBnZW5lcmFsIHdheSB0byBoYW5kbGUgdGhpcyBwcm9ibGVtLCBs
-aWtlIGUuZy4gc29tZSBraW5kIG9mDQo+PiBfX3JlZmRhdGEgdGFnZ2luZyBmb3IgcGVyY3B1
-IHZhcmlhYmxlcy4NCj4gDQo+IEFueSByZWFzb24gZm9yIG5vdCBkb2luZyB0aGUgdHJpdmlh
-bCB0aGluZz8NCj4gDQo+IGRpZmYgLS1naXQgYS9hcmNoL3g4Ni94ZW4vbXVsdGljYWxscy5j
-IGIvYXJjaC94ODYveGVuL211bHRpY2FsbHMuYw0KPiBpbmRleCAxMGM2NjBmYWU4YjMuLjEw
-MGJmYWJhM2Y0ZCAxMDA2NDQNCj4gLS0tIGEvYXJjaC94ODYveGVuL211bHRpY2FsbHMuYw0K
-PiArKysgYi9hcmNoL3g4Ni94ZW4vbXVsdGljYWxscy5jDQo+IEBAIC01Myw3ICs1Myw3IEBA
-IHN0cnVjdCBtY19kZWJ1Z19kYXRhIHsNCj4gICB9Ow0KPiAgIA0KPiAgIHN0YXRpYyBERUZJ
-TkVfUEVSX0NQVShzdHJ1Y3QgbWNfYnVmZmVyLCBtY19idWZmZXIpOw0KPiAtc3RhdGljIHN0
-cnVjdCBtY19kZWJ1Z19kYXRhIG1jX2RlYnVnX2RhdGFfZWFybHkgX19pbml0ZGF0YTsNCj4g
-K3N0YXRpYyBzdHJ1Y3QgbWNfZGVidWdfZGF0YSBtY19kZWJ1Z19kYXRhX2Vhcmx5Ow0KPiAg
-IHN0YXRpYyBERUZJTkVfUEVSX0NQVShzdHJ1Y3QgbWNfZGVidWdfZGF0YSAqLCBtY19kZWJ1
-Z19kYXRhKSA9DQo+ICAgCSZtY19kZWJ1Z19kYXRhX2Vhcmx5Ow0KPiAgIHN0YXRpYyBzdHJ1
-Y3QgbWNfZGVidWdfZGF0YSBfX3BlcmNwdSAqbWNfZGVidWdfZGF0YV9wdHI7DQoNCldlbGws
-IHRoYXQgaXMgd2FzdGluZyBuZWFybHkgM2tCIG9mIHRoZSBkYXRhIHNlY3Rpb24uDQoNCk1h
-eWJlIG5vdCBhIGJpZyBkZWFsLCBidXQgc3RpbGwuLi4NCg0KDQpKdWVyZ2VuDQo=
---------------55vb6jP6OXkfhRxpOPx3b5GE
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
-=3DeeAB
------END PGP PUBLIC KEY BLOCK-----
-
---------------55vb6jP6OXkfhRxpOPx3b5GE--
-
---------------w3AQEZipCb3IgL39gNqeALp9--
-
---------------YeV86QOqDWmfRVo404l9CPE1
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmflXvkFAwAAAAAACgkQsN6d1ii/Ey+D
-mwf8CB4yqf5jmA/ogrCjqXVUl+WOaKtKrKzZHAigKHobCnD1iv2TL/w9MDf0RP9KrlfwhmBqR9h7
-1M11onb+9Ijpxn23SYi/pF1U8oylIaavnQjD9r+uV4tvObSsNZdjUT5YphFbnbDwGY0X5W32utQW
-IsPab20ZsTnMwsqls2iOPWZDjjjYFHk5OOK/TsgakzzH/op8Y0pfHVnSUGWp+lv4N69wLX5O0dtu
-kvrMM/k+3DbTZyvGD9wh1tjR/k+e/1qBTB6WB9I4EwrMIh516x5NyhxAHrVM22KPR84abNC3rm7l
-RIkqGT8YpTGt0Pn595QGaZHpp5NujjNQegae03Ta9Q==
-=57eC
------END PGP SIGNATURE-----
-
---------------YeV86QOqDWmfRVo404l9CPE1--
