@@ -1,87 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9256B4A21
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 12:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C253F212B00
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 14:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743078566; cv=none; b=hXIlEWN1Iu+qchgf0CvzWBKSYP4nfHDLJrbmdRKkV+OJbzidKZPh4CEIJc0k2mdvxzCJ6omb0ZWl/tfueMisXvRtuBcM96NsRFmyKABaLbYlzmpILH2CsdrI6sSW2VpNYUryNa0Wc0RVVSvFjM1ProEB1xcGCgvzm2nHkZ71tB0=
+	t=1743084565; cv=none; b=J3m7ZTEaiwfmH7BUNE/CdfhFAMlJrnWnWijfCUmA4jTkbT4rQbd1ZRvS89clESOsxoEPwBhFmGvr/Sc/XgO5vXL2wtNYpjyEeRyE/gaLsnjqAMoK+egxP+ce6ydbsv8ShFh/k0cmHSrO331Bg910f6dWk8ozJF5zYPQAMOuhazc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743078566; c=relaxed/simple;
-	bh=k0NpObhIGqTJDw4SFC19fyTtLl1iK0ZviXAt8alM4fY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JfmhsDvkOSugEYItNPqTTjOZMDe144LWKRaDeM1lHxr0IjvsJzp9oCYYgoYFSH9Z+IagM3OUM7yJcnD36Y9RQ9Szc5+QgSqPWknwtLcewgaSf2jXjQqTCQsD7Qg4WbSLsOT/HEzo03sgTdvh8o4Ijwa3Ggimr38l13PXwfS5Cqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3QTAQld; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3QTAQld"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743078564; x=1774614564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k0NpObhIGqTJDw4SFC19fyTtLl1iK0ZviXAt8alM4fY=;
-  b=d3QTAQlduDbKtHhsS8psaPoVMi1JKmhiS6NIe9PnvkGMUS/KMyJQnpZx
-   HovMM49LSjDkIWBKrkFnGr0yTjYcs/8jcz4S9QxEYEuqTcDUJW7tnzAEv
-   kx2WYJ54BA8j2+VFWuxppbEMdAo+O5uEM18h7uQyMogUJq7X/DeeR6HUW
-   DQKJt8SqFtvNT0hKPc3UmBT5A9np5FTPK6E/ah74PyTm3opRGQeDB+klR
-   bRe4lRqNB+pvriMILiCyU8AvE4eeYG4iZnAT5UN8utxA3qJouv5h527+t
-   mZlLcXLLRTWd6Dvmt+rkah0UQXIMOz/FYOf+YnRkQkl2CmM8hbmPTk5Qw
-   g==;
-X-CSE-ConnectionGUID: 3mbCrk7mTOG5VxWCkkySkg==
-X-CSE-MsgGUID: apZRyricR5yWJUMZ3uR8rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="43561194"
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
-   d="scan'208";a="43561194"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 05:29:13 -0700
-X-CSE-ConnectionGUID: caZlC1NnSJCujK6NSsG4aQ==
-X-CSE-MsgGUID: Fr2FNomfTneFfYfpXSEPTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
-   d="scan'208";a="129809902"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Mar 2025 05:29:12 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1txmM9-0006e3-25;
-	Thu, 27 Mar 2025 12:29:09 +0000
-Date: Thu, 27 Mar 2025 20:29:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1523/1523] fs/.tmp_select.o: warning:
- objtool: poll_select_finish()+0x1aa: can't find switch jump table
-Message-ID: <202503272038.iOCRCuV8-lkp@intel.com>
+	s=arc-20240116; t=1743084565; c=relaxed/simple;
+	bh=RWuDuE5fgIAuTD9uggQMYp2kkWjsc7bWPvIMH0cW1/k=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=hcwcZGGYM2qDvsLWTdEN1Uc81Bze/R6xHJqU9ej61Rdkoo5exeYxmjV81lk6cKqyMUNga6xI6GwoZScwcG830WIagMyoWExSdVJ88khl0H6520Q73R3eQ6zz+zab9hYeIi9ZqCuobCoYu0ChXQS1IJVRSK2PHJoA64BnOtHqJJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3d5a9e7dd5aso10865395ab.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 07:09:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743084563; x=1743689363;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4LZ7mfR7Lc9EP1nYqKnYAem0aGcyUg3E8Ey9SapUJck=;
+        b=HaR6xHt6Ksv0Alw5szs+IKmwX8e1mWxbOXo4loRK1NNSM9Fbci2miJKw5Te/0FWSXr
+         GPJcJU6dNsHHmGD1LtqMXV/6SjsZsju0WF9EbkmFC0x7DQA0BejAV25Mu7SfSxGHgHwD
+         XcYrIaIgPjWLIb/OId5AWNFuPHsRTmQXB1JQEuEWp/KHJhbaeDLRqTedNliJmJWSrhDR
+         mr+OiO69Cd0isDk/xNpLQ8H8fcbPZnzxldPve9/XGqCFJD1o+6WBL6G3IBhYwwNXJE4/
+         5VdAeEVNE5sR9lGapGPHUwrqIP2js4qp7+1Rt1YZUpLFUhZEPEg/Bka63WyNP2RA/aMh
+         gRVA==
+X-Forwarded-Encrypted: i=1; AJvYcCX86NzOHL5JD0UTGfJVC+7IL+TERD4+GoZwe/Wy/YWQcgRlI5Mj3YWp6GSQMvATonCRf/cOniB/MoUimmOo@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzIzvYhBPWft+zARVvKA3C7YFokht8rJUyYdWTQ9RjgxYbzyO5
+	SorLORO8U4eAR661lqtH/wa0CbRjVbYeX3X96iT/hp0x19vb/D7NvJvD8lKD81CA4LV1bEM/nsL
+	++SSIuREaABJC7PFXSZlOMPtE7jVXc9hxT42O5wLPil/7rQ/3t0GlAsw=
+X-Google-Smtp-Source: AGHT+IHk7J352EBXlhx0rbPbcAamqA3iw7XusQRXczqxctlKg7CPQNrPQ3m6wWsEyeYOTpxlfwAuYIYSU7wU0NKSuIyavxDwU4Cs
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Received: by 2002:a92:cd8e:0:b0:3d4:700f:67e2 with SMTP id
+ e9e14a558f8ab-3d5ccdc95camr40598995ab.10.1743084562801; Thu, 27 Mar 2025
+ 07:09:22 -0700 (PDT)
+Date: Thu, 27 Mar 2025 07:09:22 -0700
+In-Reply-To: <67cd611c.050a0220.14db68.0073.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67e55c12.050a0220.2f068f.002c.GAE@google.com>
+Subject: Re: [syzbot] [x25?] possible deadlock in lapbeth_device_event
+From: syzbot <syzbot+377b71db585c9c705f8e@syzkaller.appspotmail.com>
+To: andrew+netdev@lunn.ch, andrew@lunn.ch, davem@davemloft.net, 
+	edumazet@google.com, eric.dumazet@gmail.com, horms@kernel.org, 
+	kuba@kernel.org, linux-kernel@vger.kernel.org, linux-x25@vger.kernel.org, 
+	lkp@intel.com, llvm@lists.linux.dev, ms@dev.tdt.de, netdev@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, sdf@fomichev.me, 
+	stfomichev@gmail.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Oleg,
+syzbot has found a reproducer for the following issue on:
 
-FYI, the error/warning still remains.
+HEAD commit:    1a9239bb4253 Merge tag 'net-next-6.15' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15503804580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=95c3bbe7ce8436a7
+dashboard link: https://syzkaller.appspot.com/bug?extid=377b71db585c9c705f8e
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=139a6bb0580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16974a4c580000
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   69d39b683755039471781fee8dc7ed96952f771b
-commit: 44ae3d3e5f1f99c0fd5f040e4da88b0c5b3ec76b [1523/1523] select: shift restore_saved_sigmask_unless() into poll_select_copy_remaining()
-config: x86_64-buildonly-randconfig-004-20250327 (https://download.01.org/0day-ci/archive/20250327/202503272038.iOCRCuV8-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503272038.iOCRCuV8-lkp@intel.com/reproduce)
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-1a9239bb.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/bd56e2f824c3/vmlinux-1a9239bb.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/19172b7f9497/bzImage-1a9239bb.xz
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503272038.iOCRCuV8-lkp@intel.com/
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+377b71db585c9c705f8e@syzkaller.appspotmail.com
 
-All warnings (new ones prefixed by >>):
+============================================
+WARNING: possible recursive locking detected
+6.14.0-syzkaller-05877-g1a9239bb4253 #0 Not tainted
+--------------------------------------------
+dhcpcd/5649 is trying to acquire lock:
+ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
+ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: netif_napi_add_weight include/linux/netdevice.h:2783 [inline]
+ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: lapbeth_new_device drivers/net/wan/lapbether.c:415 [inline]
+ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: lapbeth_device_event+0x586/0xbe0 drivers/net/wan/lapbether.c:460
 
->> fs/.tmp_select.o: warning: objtool: poll_select_finish()+0x1aa: can't find switch jump table
+but task is already holding lock:
+ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
+ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:42 [inline]
+ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:39 [inline]
+ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: dev_change_flags+0xa7/0x250 net/core/dev_api.c:67
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&dev->lock);
+  lock(&dev->lock);
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+2 locks held by dhcpcd/5649:
+ #0: ffffffff900fb268 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_net_lock include/linux/rtnetlink.h:130 [inline]
+ #0: ffffffff900fb268 (rtnl_mutex){+.+.}-{4:4}, at: devinet_ioctl+0x26d/0x1f50 net/ipv4/devinet.c:1121
+ #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
+ #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:42 [inline]
+ #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:39 [inline]
+ #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: dev_change_flags+0xa7/0x250 net/core/dev_api.c:67
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 5649 Comm: dhcpcd Not tainted 6.14.0-syzkaller-05877-g1a9239bb4253 #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_deadlock_bug+0x1e9/0x240 kernel/locking/lockdep.c:3042
+ check_deadlock kernel/locking/lockdep.c:3094 [inline]
+ validate_chain kernel/locking/lockdep.c:3896 [inline]
+ __lock_acquire+0xff7/0x1ba0 kernel/locking/lockdep.c:5235
+ lock_acquire kernel/locking/lockdep.c:5866 [inline]
+ lock_acquire+0x179/0x350 kernel/locking/lockdep.c:5823
+ __mutex_lock_common kernel/locking/mutex.c:587 [inline]
+ __mutex_lock+0x19a/0xb00 kernel/locking/mutex.c:732
+ netdev_lock include/linux/netdevice.h:2751 [inline]
+ netif_napi_add_weight include/linux/netdevice.h:2783 [inline]
+ lapbeth_new_device drivers/net/wan/lapbether.c:415 [inline]
+ lapbeth_device_event+0x586/0xbe0 drivers/net/wan/lapbether.c:460
+ notifier_call_chain+0xb9/0x410 kernel/notifier.c:85
+ call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2180
+ call_netdevice_notifiers_extack net/core/dev.c:2218 [inline]
+ call_netdevice_notifiers net/core/dev.c:2232 [inline]
+ __dev_notify_flags+0x12c/0x2e0 net/core/dev.c:9409
+ netif_change_flags+0x108/0x160 net/core/dev.c:9438
+ dev_change_flags+0xba/0x250 net/core/dev_api.c:68
+ devinet_ioctl+0x11d5/0x1f50 net/ipv4/devinet.c:1200
+ inet_ioctl+0x3a7/0x3f0 net/ipv4/af_inet.c:1001
+ sock_do_ioctl+0x115/0x280 net/socket.c:1190
+ sock_ioctl+0x227/0x6b0 net/socket.c:1311
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:906 [inline]
+ __se_sys_ioctl fs/ioctl.c:892 [inline]
+ __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x260 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7effd384cd49
+Code: 5c c3 48 8d 44 24 08 48 89 54 24 e0 48 89 44 24 c0 48 8d 44 24 d0 48 89 44 24 c8 b8 10 00 00 00 c7 44 24 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 76 10 48 8b 15 ae 60 0d 00 f7 d8 41 83 c8
+RSP: 002b:00007ffedd440088 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007effd377e6c0 RCX: 00007effd384cd49
+RDX: 00007ffedd450278 RSI: 0000000000008914 RDI: 000000000000001a
+RBP: 00007ffedd460438 R08: 00007ffedd450238 R09: 00007ffedd4501e8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffedd450278 R14: 0000000000000028 R15: 0000000000008914
+ </TASK>
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
