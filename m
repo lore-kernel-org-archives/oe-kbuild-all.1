@@ -1,199 +1,140 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65E646B8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 03:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37D379D2;
+	Thu, 27 Mar 2025 04:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743047244; cv=none; b=UAZbe5CuoYMwubfRiDMxTI9zIGwqNtbIJ5kHG4LtvLtrNhSIV9UWGI2Z1PonAcA90LtO6i5TasKlNeA7F8NOfzl++Ms15XVqaCmLxSCBXQXq84IL5sy/FbIgpz9O+ROcmDRzgzIFMOIHjBpDvcG3EHPI7YMlG9YcF9aPi7RWOYc=
+	t=1743049185; cv=none; b=ia3TGd+MNn2TKhPOaGSbgzXwGX5h8nhG5Tc+oiVwkn99FKF1Yp0tWwOzelrtny1Cw86BceG0mf8OJysPYwooojpu7f9D9T2UPCb2wvLicOUCr7UeR9qAZpBW9B28+n/5Oqh3kbllEWKZBCuDyFbiyw5Vg7rPxXSZ+rI68ov1IBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743047244; c=relaxed/simple;
-	bh=PSkEpKCZvYWWs/D3luDKT/kpj7XSW4wDqT+f67asZ3Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rYY/fF4K+xRNdHpeLhpIz1Ds5b52vmnnoxjeoYevquqMR3ZKAjpF8abpMpV2QlT+dEhktdR8+/IQNk2RVTxZyuNdU2zeYB75GsZrS+xYn11m807oFSYWyCaQ65Szs9RAEiemuWMeW9AaEhmdNSB42ZLY1QWnODfPwS7XSeJKXYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZUHNAXtB; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743049185; c=relaxed/simple;
+	bh=Su3bdLMcybouxNZi1ddRJgjkw76FbhVIu5fJEwGvaNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dOJvIor/B0H0SVuzX4uf0OmodDgNe6TX8XK1jHLBrFYSDZJ0HdZMH9Z7BXhAfJE+p75BOfg25QyyA0jq2hzK5EVrwmhFzte5XN0lzg0bjOH17/Fo7dywBzGmR3MorGRodWoNevvHvPW1nvE1zLJ6H+wq4hlaCu8qaKOATkpPDlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8JYseaq; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZUHNAXtB"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-227a8cdd241so13333055ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 20:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743047242; x=1743652042; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zl21HJfReBIOWKP9+7DCNBJ2nDhA5sguW+a9S/eIQ1Q=;
-        b=ZUHNAXtBenFFeDFktIm60aptxtKSwTJbG+oG8pwLALSHJZU6CkwjBjNvAqPhiUYxFA
-         /SBekjycUnjvis8Vo90cFb5Gl/vfOhDOc6A8amM5VBcE29IgI1BDXyBe2+8T5KEEPRis
-         SMsKbZL7GcRNBnXRBpA2m/wZeX0yrHgvcWB/tXLm2KMTEWRoU5ot2jR7fHSHUg1KLzxO
-         qu0KD4sYPx62mrKE4x3lOtdgz87j6SmpHXiAB4bya2eSfbKFUNqmZLB+lpNE6xdKLUkY
-         D6GKB7FpexOxHJs/myDVrzv9A/ywKfzBRCR2+E1CYoBzyaA90c3CvJYeARQtlJ7LI/Vk
-         uwyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743047242; x=1743652042;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zl21HJfReBIOWKP9+7DCNBJ2nDhA5sguW+a9S/eIQ1Q=;
-        b=qdVqWO3/7S4vxZNbaG5Tpx7nG719LZCbdpNs2BrvEVcHMRY+v0uJ0CQLKEsBuqYFLq
-         90xsAVGmLAlBXjhfSSWTFwvuyTBPprkjIip6hjkWEvJwPsEGS8WXqdy9mMJpOPk7yqaC
-         Yj4yhYzRCPyrtkzmbUVS5va9IkFvA9piROaJZlxwPgcLDwShr0j8NgBq956Y1ezd19W3
-         YWz231i5M5D4i6feTeu45AK8E8vggGa/u+jEgt8EV5lGKXYHemeVQzKxi4SRIbyLHieM
-         Nftk8ZraZ09SER15VzMpswuI53aGLZbV78YKKOf9JcSiOYsOPdW2lG0m18e4ZNFa1EXM
-         nKcw==
-X-Gm-Message-State: AOJu0YzNvMIfAgQg+Z6EELGXExbkg7Bd9jJ/MxFd+kZPzrWu6kh/UMmx
-	tzzPSsBu4wlyJsHVugAAjQ8YjvKR6kzL/WaKS0rOqBFeAEY3hFBU
-X-Gm-Gg: ASbGncs4NdpUboSkTxSImh7ip3UZ674dyxnwrh1V7Nzx1SKTaPx6R40tDypC0FTf7Im
-	iBjXDfdUOxg7ne0cX9N2H8HZScGPndkIw+fo6V/0m90dHq6zyC3KTWk63xa1c+y2q0lID+sfiXe
-	btUjAXpx6KeduleyaamC4stQ4hC9FdBQZZBRX/1S+5Y/pgLiahmzRR9aTV0DGKGcJ4f9S81mK1G
-	VhKp9HoIlCxP3sPHPQs1gBosJi99W/DtID7zhIhXYM5G09lMSMwd5KP/NIbfQJ2UtmVeCzcn3N9
-	5mDsfPBe0FxGbKHc8Xur1W12zHKNiHIZ54aJNml9jG7oI4JBz0tYRoSYbs6wdiRHfqed1vVV2fW
-	sLomuHQGa3G/kQ1Zj8v8QOcMtTmY3
-X-Google-Smtp-Source: AGHT+IFoEVSWNl2XItqcKTzbglb5lzVyrb7uEUXno6Sq6Ay8oKyDMzvYVkTWfW052hKptAiJdX0IUw==
-X-Received: by 2002:a05:6a00:4fd6:b0:736:5822:74b4 with SMTP id d2e1a72fcca58-739610cb5fcmr2829939b3a.21.1743047241717;
-        Wed, 26 Mar 2025 20:47:21 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7390615654esm13461002b3a.130.2025.03.26.20.47.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Mar 2025 20:47:21 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <57da66d1-821b-4642-9492-eaed76aba985@roeck-us.net>
-Date: Wed, 26 Mar 2025 20:47:19 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8JYseaq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743049183; x=1774585183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Su3bdLMcybouxNZi1ddRJgjkw76FbhVIu5fJEwGvaNk=;
+  b=V8JYseaqBH0GEFRJD8mnB2f3tsCIgQHQT0ONoq6CAHvuhQ/F5yT05s09
+   29gdfN4G8YLoiEP8Xx3+PVx/aptaAlzcGlSRIT/3grc0dVIuWLf5x7NRg
+   ni8uNN+zWhJGskeW+KYJC4UoJoQ+mnh0yHa44wzN2xCPCiN+Flv5Kir+b
+   a2cuGXZdNLRUWj+WfjJwZYiLHJlz12ZMROBnpqFEV2XxuEA3MvT+AcLUN
+   4u4+W2Fwema9oYrcYiXNxel4Vvj5qaVBBex6yv1OFv2++DHKJVyOJT3Yk
+   7ftu5yUnJ/SsR5KhbxCsE84hwbdTI5enef/kFnx7Oi/gxrAWYkhrgOpTV
+   w==;
+X-CSE-ConnectionGUID: xZd5G4QYRCSdcKrmFxR6kA==
+X-CSE-MsgGUID: aEpI+15zT6W/SVRMq6LUOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="47101418"
+X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
+   d="scan'208";a="47101418"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 21:19:42 -0700
+X-CSE-ConnectionGUID: U/PonzexSUKeDIPx+yv1zA==
+X-CSE-MsgGUID: 7iAryXGJTRaJiyK8/aTvMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
+   d="scan'208";a="124951010"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 26 Mar 2025 21:19:37 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1txeiL-0006MZ-2Y;
+	Thu, 27 Mar 2025 04:19:33 +0000
+Date: Thu, 27 Mar 2025 12:19:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Terry Bowman <terry.bowman@amd.com>, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	nifan.cxl@gmail.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, dan.j.williams@intel.com,
+	bhelgaas@google.com, mahesh@linux.ibm.com, ira.weiny@intel.com,
+	oohall@gmail.com, Benjamin.Cheatham@amd.com, rrichter@amd.com,
+	nathan.fontenot@amd.com, Smita.KoralahalliChannabasappa@amd.com,
+	lukas@wunner.de, ming.li@zohomail.com,
+	PradeepVineshReddy.Kodamati@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 06/16] CXL/PCI: Introduce CXL uncorrectable protocol
+ error 'recovery'
+Message-ID: <202503271128.zMRuNISx-lkp@intel.com>
+References: <20250327014717.2988633-7-terry.bowman@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 12598/12769]
- drivers/hwmon/acpi_power_meter.c:618: undefined reference to `__udivmoddi4'
-To: "lihuisong (C)" <lihuisong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-References: <202503210903.kUr36x1C-lkp@intel.com>
- <7973862d-2d11-4679-91ff-d1c7e8955f97@roeck-us.net>
- <aadbbf8a-9ee2-440c-b422-884fdc59f4fd@huawei.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <aadbbf8a-9ee2-440c-b422-884fdc59f4fd@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250327014717.2988633-7-terry.bowman@amd.com>
 
-On 3/26/25 20:22, lihuisong (C) wrote:
-> 
-> 在 2025/3/21 9:31, Guenter Roeck 写道:
->> On 3/20/25 18:08, kernel test robot wrote:
->>> tree: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->>> head:   73b8c1dbc2508188e383023080ce6a582ff5f279
->>> commit: c812cc42f92d3d0b17c01b5db9a1dee5793a1491 [12598/12769] hwmon: (acpi_power_meter) Replace the deprecated hwmon_device_register
->>> config: i386-randconfig-061-20250320 (https://download.01.org/0day-ci/archive/20250321/202503210903.kUr36x1C-lkp@intel.com/config)
->>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503210903.kUr36x1C-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202503210903.kUr36x1C-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>     ld: drivers/hwmon/acpi_power_meter.o: in function `power1_accuracy_show':
->>>>> drivers/hwmon/acpi_power_meter.c:618: undefined reference to `__udivmoddi4'
->>>
->>>
->>> vim +618 drivers/hwmon/acpi_power_meter.c
->>>
->>>     610
->>>     611    static ssize_t power1_accuracy_show(struct device *dev,
->>>     612                        struct device_attribute *attr,
->>>     613                        char *buf)
->>>     614    {
->>>     615        struct acpi_power_meter_resource *res = dev_get_drvdata(dev);
->>>     616
->>>     617        return sysfs_emit(buf, "%llu.%llu%%\n",
->>>   > 618                  res->caps.accuracy / 1000, res->caps.accuracy % 1000);
->>>     619    }
->>>     620
->>>
->>
->> Fixed up.
->>
->>
-> Hi Guenter,
-> 
-> How to fix it? I'd like to trace it. But I didn't find your modification.
-> 
+Hi Terry,
 
-Problem was that you optimized the local 'acc' variable away.
+kernel test robot noticed the following build warnings:
 
-In upstream commit 16746ce8adf:
+[auto build test WARNING on aae0594a7053c60b82621136257c8b648c67b512]
 
-[groeck: Fixed some multi-line alignment issues;
-      reverted to 32-bit arithmetic in power1_accuracy_show()
-      fixed bad return code from power_meter_is_visible()]
+url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/PCI-CXL-Introduce-PCIe-helper-function-pcie_is_cxl/20250327-095738
+base:   aae0594a7053c60b82621136257c8b648c67b512
+patch link:    https://lore.kernel.org/r/20250327014717.2988633-7-terry.bowman%40amd.com
+patch subject: [PATCH v8 06/16] CXL/PCI: Introduce CXL uncorrectable protocol error 'recovery'
+config: arm-mv78xx0_defconfig (https://download.01.org/0day-ci/archive/20250327/202503271128.zMRuNISx-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271128.zMRuNISx-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503271128.zMRuNISx-lkp@intel.com/
 
-+static ssize_t power1_accuracy_show(struct device *dev,
-+                                   struct device_attribute *attr,
-+                                   char *buf)
-+{
-+       struct acpi_power_meter_resource *res = dev_get_drvdata(dev);
-+       unsigned int acc = res->caps.accuracy;
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+       return sysfs_emit(buf, "%u.%u%%\n", acc / 1000, acc % 1000);
-                                             ^^^         ^^^
-+}
+All warnings (new ones prefixed by >>):
 
-There is no reason to believe that res->caps.accuracy is ever larger
-than UINT_MAX. If it is possible, that should have been handled separately
-anyway since it would have been a bug fix.
+   In file included from drivers/pci/access.c:2:
+>> include/linux/pci.h:1873:6: warning: no previous prototype for function 'pci_aer_clear_fatal_status' [-Wmissing-prototypes]
+    1873 | void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
+         |      ^
+   include/linux/pci.h:1873:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1873 | void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
+         | ^
+         | static 
+   1 warning generated.
+--
+   In file included from drivers/pci/probe.c:9:
+>> include/linux/pci.h:1873:6: warning: no previous prototype for function 'pci_aer_clear_fatal_status' [-Wmissing-prototypes]
+    1873 | void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
+         |      ^
+   include/linux/pci.h:1873:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1873 | void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
+         | ^
+         | static 
+   In file included from drivers/pci/probe.c:16:
+   include/linux/aer.h:76:20: error: static declaration of 'pci_aer_clear_fatal_status' follows non-static declaration
+      76 | static inline void pci_aer_clear_fatal_status(struct pci_dev *dev) { }
+         |                    ^
+   include/linux/pci.h:1873:6: note: previous definition is here
+    1873 | void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
+         |      ^
+   1 warning and 1 error generated.
 
-Guenter
 
+vim +/pci_aer_clear_fatal_status +1873 include/linux/pci.h
+
+  1867	
+  1868	#ifdef CONFIG_PCIEAER
+  1869	bool pci_aer_available(void);
+  1870	void pci_aer_clear_fatal_status(struct pci_dev *dev);
+  1871	#else
+  1872	static inline bool pci_aer_available(void) { return false; }
+> 1873	void pci_aer_clear_fatal_status(struct pci_dev *dev) { };
+  1874	#endif
+  1875	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
