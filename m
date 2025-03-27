@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D8C19A;
-	Thu, 27 Mar 2025 01:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44276219E0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 02:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743038259; cv=none; b=fusWfwx1ErFVOTLQyqmEDhFTCuvvWqtqwt1nqVofRui6WR9rUm2cMT50YUMo6rSOeF5g2kFEFOUsUZysJzHtuiAnBJbT7Y+4tPruLP1gErvvgnIogpEEGnl4ClLLo8cm7gan88y7BnAWMHErytuquotrV1yYmJMZVGf3vnVej78=
+	t=1743042169; cv=none; b=c2J7Nwv7w7ApFr/ydZbrLu73JrujSLZgaqVDes9xrP1DIHdgwCihrcksvJMKMvrCUiCqpeR8mg6bgb2bW5EvGRnk+iyqyYW29Cdv19nMEwDnIu+NE5lCxTRVkt+tZV26TiI7BzyuftvnxaOINYUJAAAkSLLg2KvYm6UbO/WX+tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743038259; c=relaxed/simple;
-	bh=+Hk5s1oFhRBpMBubVZx+RbTQHJlajqYsCNk5c4+OWUI=;
+	s=arc-20240116; t=1743042169; c=relaxed/simple;
+	bh=9NFw779GgLugtFeSBM3Tx/Wv0TI7Cnkv1V8vazPL1u0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jCogd0DEFi14eJV2Q9dFCmrmdPl2pIXm+E/OzpRJgicU9z6D8GRAHsZRWWzlE7gHVLZsMWbFRVOGXRw7HEVoRJfu7SaHFY3bu5CyYewJ27cYaeJqPytzDkVxjvVFlWH8cIClDzOy6i/vw0uohSRiqETmEsbF/ioiqj8vHSN6klc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZExYN+hq; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=cXG9vpwzHMjvzOXPjt+HEJMabxAtfirBw5t62SMKkHbb2tYKKfFOdijxsepgTXBocmmd4v33W3YZevikma3DxjqBuiq1w1bHVhYNfGIWo35xvNKGV2PWFH0ppO1PuVGtIj+mFLu9hxW+c7/HdneqqiJeOP6xIp76gZ0rXKKUlWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fq9DrPuY; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZExYN+hq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fq9DrPuY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743038257; x=1774574257;
+  t=1743042167; x=1774578167;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Hk5s1oFhRBpMBubVZx+RbTQHJlajqYsCNk5c4+OWUI=;
-  b=ZExYN+hqkhn3R5cNsXT1xpVi6guTI3CyseI9y/kbsFIG0tN7b+12Rp3x
-   1vGf4TiulS2LbUWsMXiHzJVjsm8PfwXAduGh2NJrizboh3d7Qj9/H+CQD
-   IgZk4UUhlLRAgenYW13IlHWNMaHCuAOecsVwvxyeBvCY3EIGHWXghAYo4
-   GPq8EDAfUBzOErSL14KO5XOvnkg3lA3qCvR0FRPXFFTYkLiMqyoPWre1D
-   LkeMjgEUgK8xMfk1xc96xRM1vbifEocMSf+/Rn6MQn2rn8SBRVh8nWmO3
-   9msnxV3yJOto3vF5YucMyEPDMyXDlu/Nxpaszt4nMx6yBsQ1tQr1Lwo9x
-   A==;
-X-CSE-ConnectionGUID: SwiHbuB6ReuTJHlJpx1dbw==
-X-CSE-MsgGUID: fwnCqkm/SOaGNu1ONVGS1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44514257"
+  bh=9NFw779GgLugtFeSBM3Tx/Wv0TI7Cnkv1V8vazPL1u0=;
+  b=fq9DrPuYlQVw62dzQH+J5umHgs6kEEKBdns52YSOZ9EU5LWriL/WkoCf
+   OHnMv8m9o/YDVIKP9kP8qI1/g+e9L6TMbxL5oxhagR1neAEqplwCQev7D
+   EFIDIcR5Jc+bgWLDzC/8r4DPAw/q56JUQ+XqKHyYqFsm1MwgjcRs6kPRU
+   fGgtZ42bJOHBRpTakxrRUVjWybOYWSXwM94gFNIRzGy/HBRHtXdKQkgv/
+   rCYLhREE9ulOg8Tpy4dJfLXL5w1RAGbDHu31u6SxmH5+RwVeQV/fZ5S1p
+   9R8o/l22VQ7kQOz8pW8H7wJR2LL8s3GE6r2PJ54FDuSJf63ewxNdWodO2
+   w==;
+X-CSE-ConnectionGUID: ZnUy8SvOQXqjUT49w6lHaA==
+X-CSE-MsgGUID: NoQiRb+/T96HrV+ku8RSBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61753968"
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="44514257"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 18:17:36 -0700
-X-CSE-ConnectionGUID: w/4s3eZgRC+ZT1jzxWaXRA==
-X-CSE-MsgGUID: /81fVfMGQ5SEkWwthIkKaA==
+   d="scan'208";a="61753968"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 19:22:42 -0700
+X-CSE-ConnectionGUID: m8U1e/iySE+hX83Yij8v+A==
+X-CSE-MsgGUID: oxoJOc/bTvWqkErNET31ow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="155915298"
+   d="scan'208";a="130110915"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 26 Mar 2025 18:17:35 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2025 19:22:12 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txbsC-0006GV-10;
-	Thu, 27 Mar 2025 01:17:32 +0000
-Date: Thu, 27 Mar 2025 09:16:34 +0800
+	id 1txcsa-0006I7-0m;
+	Thu, 27 Mar 2025 02:22:05 +0000
+Date: Thu, 27 Mar 2025 10:21:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes.berg@intel.com>,
-	Emmanuel Grumbach <emmanuel.grumbach@intel.com>
-Subject: [linux-next:master 9215/13775]
- drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:513:16: warning: variable
- 'ret' is uninitialized when used here
-Message-ID: <202503271133.8XFKhu8E-lkp@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova-gsp 5/7] -use kernel::error::Result;
+Message-ID: <202503271028.WGtkrwkM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,81 +61,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0e871365f7f9aeb9b590e345458b2083e067cd13
-commit: 834bfc698bf7cee3bf61c0209b410c7f97a54108 [9215/13775] wifi: iwlwifi: mld: fix build with CONFIG_PM_SLEEP undefined
-config: x86_64-randconfig-004-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271133.8XFKhu8E-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271133.8XFKhu8E-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova-gsp
+head:   d7240b42d196d03d4c8b7d5ed8febd5fbfbc7c2b
+commit: 786e85413c476ee0739f4a6f5afe5b6b5cdd8750 [5/7] Add functionality to enable rom shadowing
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250327/202503271028.WGtkrwkM-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271028.WGtkrwkM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503271133.8XFKhu8E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503271028.WGtkrwkM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:12:
-   drivers/net/wireless/intel/iwlwifi/mld/iface.h:170:5: warning: 'CONFIG_PM_SLEEP' is not defined, evaluates to 0 [-Wundef]
-     170 | #if CONFIG_PM_SLEEP
-         |     ^
->> drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:513:16: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     513 |         if (!in_d3 || ret) {
-         |                       ^~~
-   drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:487:9: note: initialize the variable 'ret' to silence this warning
-     487 |         int ret;
-         |                ^
-         |                 = 0
-   drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:1942:13: warning: unused function 'iwl_mld_set_wakeup' [-Wunused-function]
-    1942 | static void iwl_mld_set_wakeup(struct ieee80211_hw *hw, bool enabled)
-         |             ^~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:1956:1: warning: unused function 'iwl_mld_suspend' [-Wunused-function]
-    1956 | iwl_mld_suspend(struct ieee80211_hw *hw, struct cfg80211_wowlan *wowlan)
-         | ^~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mld/mac80211.c:1978:12: warning: unused function 'iwl_mld_resume' [-Wunused-function]
-    1978 | static int iwl_mld_resume(struct ieee80211_hw *hw)
-         |            ^~~~~~~~~~~~~~
-   5 warnings generated.
-
-
-vim +/ret +513 drivers/net/wireless/intel/iwlwifi/mld/mac80211.c
-
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  507  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  508  	if (mld->fw_status.in_hw_restart) {
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  509  		iwl_mld_stop_fw(mld);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  510  		iwl_mld_restart_cleanup(mld);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  511  	}
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  512  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16 @513  	if (!in_d3 || ret) {
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  514  		ret = iwl_mld_start_fw(mld);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  515  		if (ret)
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  516  			goto error;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  517  	}
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  518  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  519  	mld->scan.last_start_time_jiffies = jiffies;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  520  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  521  	iwl_dbg_tlv_time_point(&mld->fwrt, IWL_FW_INI_TIME_POINT_POST_INIT,
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  522  			       NULL);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  523  	iwl_dbg_tlv_time_point(&mld->fwrt, IWL_FW_INI_TIME_POINT_PERIODIC,
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  524  			       NULL);
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  525  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  526  	return 0;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  527  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  528  error:
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  529  	/* If we failed to restart the hw, there is nothing useful
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  530  	 * we can do but indicate we are no longer in restart.
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  531  	 */
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  532  	mld->fw_status.in_hw_restart = false;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  533  
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  534  	return ret;
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  535  }
-d1e879ec600f9b3 Miri Korenblit 2025-02-16  536  
-
-:::::: The code at line 513 was first introduced by commit
-:::::: d1e879ec600f9b3bdd253167533959facfefb17b wifi: iwlwifi: add iwlmld sub-driver
-
-:::::: TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-:::::: CC: Johannes Berg <johannes.berg@intel.com>
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make W=1 --keep-going LLVM=1 -j16 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   Diff in drivers/gpu/nova-core/regs.rs at line 238:
+    register!(RomShadow@0x00088050;
+        31:0    val => as u32
+    );
+   +
+   Diff in drivers/gpu/nova-core/vbios.rs at line 1:
+   -use kernel::prelude::*;
+   -use core::convert::TryFrom;
+    use crate::driver::Bar0;
+>> -use kernel::error::Result;
+   -use kernel::devres::Devres;
+    use crate::regs::RomShadow;
+   +use core::convert::TryFrom;
+   +use kernel::devres::Devres;
+   +use kernel::error::Result;
+   +use kernel::prelude::*;
+    
+    /// Helper function to create u16 from two u8 values (little-endian)
+    pub fn u16_from_u8s(high: u8, low: u8) -> u16 {
+   Diff in drivers/gpu/nova-core/vbios.rs at line 223:
+            Err(ENOENT)
+        }
+    }
+   +
+   Diff in drivers/gpu/nova-core/vbios.rs at line 1:
+   -use kernel::prelude::*;
+   -use core::convert::TryFrom;
+    use crate::driver::Bar0;
+>> -use kernel::error::Result;
+   -use kernel::devres::Devres;
+    use crate::regs::RomShadow;
+   +use core::convert::TryFrom;
+   +use kernel::devres::Devres;
+   +use kernel::error::Result;
+   +use kernel::prelude::*;
+    
+    /// Helper function to create u16 from two u8 values (little-endian)
+    pub fn u16_from_u8s(high: u8, low: u8) -> u16 {
+   Diff in drivers/gpu/nova-core/vbios.rs at line 223:
+            Err(ENOENT)
+        }
+    }
+   +
+   Diff in drivers/gpu/nova-core/regs.rs at line 238:
+    register!(RomShadow@0x00088050;
+        31:0    val => as u32
+    );
+   +
+   Diff in rust/kernel/reg.rs at line 1:
+    
+   -
+    
+   make[2]: *** [Makefile:1811: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:251: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
