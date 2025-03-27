@@ -1,165 +1,114 @@
-Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C253F212B00
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 14:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE2221771A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 14:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743084565; cv=none; b=J3m7ZTEaiwfmH7BUNE/CdfhFAMlJrnWnWijfCUmA4jTkbT4rQbd1ZRvS89clESOsxoEPwBhFmGvr/Sc/XgO5vXL2wtNYpjyEeRyE/gaLsnjqAMoK+egxP+ce6ydbsv8ShFh/k0cmHSrO331Bg910f6dWk8ozJF5zYPQAMOuhazc=
+	t=1743084827; cv=none; b=XTCG5nq8sulYLIsK84KtjLj3B7y2hqmEfva4iD4zrl8cqt7HEw1HV+G7qHUPaUuLUdxKnCoDVwNz+U9jIXrPMz9NZHJ5sk1Y+Vqe6tlRFuceoMnM3ThVCzqhTojDdQkTHigPOO3RqtHWwBIuMrxHFwpJqeHcpQmsjbhv7ricbMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743084565; c=relaxed/simple;
-	bh=RWuDuE5fgIAuTD9uggQMYp2kkWjsc7bWPvIMH0cW1/k=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=hcwcZGGYM2qDvsLWTdEN1Uc81Bze/R6xHJqU9ej61Rdkoo5exeYxmjV81lk6cKqyMUNga6xI6GwoZScwcG830WIagMyoWExSdVJ88khl0H6520Q73R3eQ6zz+zab9hYeIi9ZqCuobCoYu0ChXQS1IJVRSK2PHJoA64BnOtHqJJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3d5a9e7dd5aso10865395ab.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 07:09:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743084563; x=1743689363;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4LZ7mfR7Lc9EP1nYqKnYAem0aGcyUg3E8Ey9SapUJck=;
-        b=HaR6xHt6Ksv0Alw5szs+IKmwX8e1mWxbOXo4loRK1NNSM9Fbci2miJKw5Te/0FWSXr
-         GPJcJU6dNsHHmGD1LtqMXV/6SjsZsju0WF9EbkmFC0x7DQA0BejAV25Mu7SfSxGHgHwD
-         XcYrIaIgPjWLIb/OId5AWNFuPHsRTmQXB1JQEuEWp/KHJhbaeDLRqTedNliJmJWSrhDR
-         mr+OiO69Cd0isDk/xNpLQ8H8fcbPZnzxldPve9/XGqCFJD1o+6WBL6G3IBhYwwNXJE4/
-         5VdAeEVNE5sR9lGapGPHUwrqIP2js4qp7+1Rt1YZUpLFUhZEPEg/Bka63WyNP2RA/aMh
-         gRVA==
-X-Forwarded-Encrypted: i=1; AJvYcCX86NzOHL5JD0UTGfJVC+7IL+TERD4+GoZwe/Wy/YWQcgRlI5Mj3YWp6GSQMvATonCRf/cOniB/MoUimmOo@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzIzvYhBPWft+zARVvKA3C7YFokht8rJUyYdWTQ9RjgxYbzyO5
-	SorLORO8U4eAR661lqtH/wa0CbRjVbYeX3X96iT/hp0x19vb/D7NvJvD8lKD81CA4LV1bEM/nsL
-	++SSIuREaABJC7PFXSZlOMPtE7jVXc9hxT42O5wLPil/7rQ/3t0GlAsw=
-X-Google-Smtp-Source: AGHT+IHk7J352EBXlhx0rbPbcAamqA3iw7XusQRXczqxctlKg7CPQNrPQ3m6wWsEyeYOTpxlfwAuYIYSU7wU0NKSuIyavxDwU4Cs
+	s=arc-20240116; t=1743084827; c=relaxed/simple;
+	bh=ZqTip2K7gBiGsYrXmMd9TKBEaEvmfAQVy0AyjU5jGos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OlvEB3yd2vK86irDjJWIAZs7FmvLaWnUNEWfiQPl/0KERg8VaW4pAT6zI5uZrKL7PSRmcXcq/jSVlEs8g/ZO87V4uKarYMr3uSQj0TVYk3A9GvbZ25NC5SuiCb7vgyUO4SlL3SplZDUkK0CO4beS61ULt7ha4hnIMrv9t0nrfkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=j2BwqpaA reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="j2BwqpaA"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7064A40E0219;
+	Thu, 27 Mar 2025 14:13:36 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id JzESrgo2KtC2; Thu, 27 Mar 2025 14:13:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1743084811; bh=woRVz5b4vp99dk/fbV1QOQUcl24nf2AjIPWa1aaxd0c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j2BwqpaAefmKroUo0u/yYcpl3m6+7C/LtS8QAzwOw8jzvwtGaKStmmuY4dZT0fhMl
+	 gT4wSODMdukb0m7c/VpcQPbIs0LnC/19oeSaNyh2f3Il/nFt7tF5HeehZeiR5/3UJz
+	 BcoMZ1+93ftyZv3PRa0Z/f1qccHgoaNHHBuCG3Tf+zsasYCsM+t7BHPQXHw6zbhlC5
+	 rE4jpNDdCl00L6mo0busdZc5mz4yUgvYdaH3jWKAcrbBh/yShm3nzgg8GmDH3dzUi4
+	 KnkNAg2fbTNgHGG/Yv6kJB5YtICDIMAb17jnJmcfuJ1F5E21NCd3b4x+BXQ89QpWxa
+	 y6crmGTCZ4NNSOZY3F9q4CKUEfmemIbsFwcPeag47tcxem+YfQE0DpZQtCdHW8HS9J
+	 AAakGcdqooI8IiEdjZyzwxKFuwOgGvLAJst7oAEF8iLl37xPr/5q0amYmN/25xHQhX
+	 liEeI0CdkLFrFHuHZoYuoHSwAyDdGVoMGyF5hNqerDgqsDsRb72iKMbDYHkQImUC3U
+	 S5E9wFIy2sMlRrfHbNXUab+CZ590OH7QTDysrsndYqS1U8u+ANHv57qWCY+K/bGBif
+	 dHkM04vfrj2+KXO3H25RM2xNew27ZAFRZ9p0rkHA6Lqod609xvvuQLyEn31WRxtXsw
+	 rl9577ZmzLF6CJHNfppnSZQg=
+Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4A83340E021F;
+	Thu, 27 Mar 2025 14:13:23 +0000 (UTC)
+Date: Thu, 27 Mar 2025 15:13:16 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: =?utf-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Cc: Jan Beulich <jbeulich@suse.com>, oe-kbuild-all@lists.linux.dev,
+	xen-devel@lists.xenproject.org,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	kernel test robot <lkp@intel.com>, x86-ml <x86@kernel.org>,
+	lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [xen-tip:linux-next 12/12] WARNING: modpost: vmlinux: section
+ mismatch in reference: mc_debug_data+0x0 (section: .data) ->
+ mc_debug_data_early (section: .init.data)
+Message-ID: <20250327141316.GBZ-Vc_NybN1cIEePu@fat_crate.local>
+References: <202407240907.u0NJHgTu-lkp@intel.com>
+ <a9b1e875-5bf8-4755-ad2e-78ab2eb02c97@suse.com>
+ <fc4b5a0c-19dc-4741-b184-08b704444a1b@suse.com>
+ <3a847f18-750f-4bd2-9cac-37c4b9bdc84b@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:cd8e:0:b0:3d4:700f:67e2 with SMTP id
- e9e14a558f8ab-3d5ccdc95camr40598995ab.10.1743084562801; Thu, 27 Mar 2025
- 07:09:22 -0700 (PDT)
-Date: Thu, 27 Mar 2025 07:09:22 -0700
-In-Reply-To: <67cd611c.050a0220.14db68.0073.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67e55c12.050a0220.2f068f.002c.GAE@google.com>
-Subject: Re: [syzbot] [x25?] possible deadlock in lapbeth_device_event
-From: syzbot <syzbot+377b71db585c9c705f8e@syzkaller.appspotmail.com>
-To: andrew+netdev@lunn.ch, andrew@lunn.ch, davem@davemloft.net, 
-	edumazet@google.com, eric.dumazet@gmail.com, horms@kernel.org, 
-	kuba@kernel.org, linux-kernel@vger.kernel.org, linux-x25@vger.kernel.org, 
-	lkp@intel.com, llvm@lists.linux.dev, ms@dev.tdt.de, netdev@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, sdf@fomichev.me, 
-	stfomichev@gmail.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3a847f18-750f-4bd2-9cac-37c4b9bdc84b@suse.com>
+Content-Transfer-Encoding: quoted-printable
 
-syzbot has found a reproducer for the following issue on:
+On Wed, Jul 24, 2024 at 11:55:39AM +0200, J=C3=BCrgen Gro=C3=9F wrote:
+> I'd prefer a general way to handle this problem, like e.g. some kind of
+> __refdata tagging for percpu variables.
 
-HEAD commit:    1a9239bb4253 Merge tag 'net-next-6.15' of git://git.kernel..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15503804580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=95c3bbe7ce8436a7
-dashboard link: https://syzkaller.appspot.com/bug?extid=377b71db585c9c705f8e
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=139a6bb0580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16974a4c580000
+Any reason for not doing the trivial thing?
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-1a9239bb.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/bd56e2f824c3/vmlinux-1a9239bb.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/19172b7f9497/bzImage-1a9239bb.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+377b71db585c9c705f8e@syzkaller.appspotmail.com
-
-============================================
-WARNING: possible recursive locking detected
-6.14.0-syzkaller-05877-g1a9239bb4253 #0 Not tainted
---------------------------------------------
-dhcpcd/5649 is trying to acquire lock:
-ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
-ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: netif_napi_add_weight include/linux/netdevice.h:2783 [inline]
-ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: lapbeth_new_device drivers/net/wan/lapbether.c:415 [inline]
-ffff888023ad4d28 (&dev->lock){+.+.}-{4:4}, at: lapbeth_device_event+0x586/0xbe0 drivers/net/wan/lapbether.c:460
-
-but task is already holding lock:
-ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
-ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:42 [inline]
-ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:39 [inline]
-ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: dev_change_flags+0xa7/0x250 net/core/dev_api.c:67
-
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock(&dev->lock);
-  lock(&dev->lock);
-
- *** DEADLOCK ***
-
- May be due to missing lock nesting notation
-
-2 locks held by dhcpcd/5649:
- #0: ffffffff900fb268 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_net_lock include/linux/rtnetlink.h:130 [inline]
- #0: ffffffff900fb268 (rtnl_mutex){+.+.}-{4:4}, at: devinet_ioctl+0x26d/0x1f50 net/ipv4/devinet.c:1121
- #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock include/linux/netdevice.h:2751 [inline]
- #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:42 [inline]
- #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: netdev_lock_ops include/net/netdev_lock.h:39 [inline]
- #1: ffff888029940d28 (&dev->lock){+.+.}-{4:4}, at: dev_change_flags+0xa7/0x250 net/core/dev_api.c:67
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 5649 Comm: dhcpcd Not tainted 6.14.0-syzkaller-05877-g1a9239bb4253 #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
- print_deadlock_bug+0x1e9/0x240 kernel/locking/lockdep.c:3042
- check_deadlock kernel/locking/lockdep.c:3094 [inline]
- validate_chain kernel/locking/lockdep.c:3896 [inline]
- __lock_acquire+0xff7/0x1ba0 kernel/locking/lockdep.c:5235
- lock_acquire kernel/locking/lockdep.c:5866 [inline]
- lock_acquire+0x179/0x350 kernel/locking/lockdep.c:5823
- __mutex_lock_common kernel/locking/mutex.c:587 [inline]
- __mutex_lock+0x19a/0xb00 kernel/locking/mutex.c:732
- netdev_lock include/linux/netdevice.h:2751 [inline]
- netif_napi_add_weight include/linux/netdevice.h:2783 [inline]
- lapbeth_new_device drivers/net/wan/lapbether.c:415 [inline]
- lapbeth_device_event+0x586/0xbe0 drivers/net/wan/lapbether.c:460
- notifier_call_chain+0xb9/0x410 kernel/notifier.c:85
- call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2180
- call_netdevice_notifiers_extack net/core/dev.c:2218 [inline]
- call_netdevice_notifiers net/core/dev.c:2232 [inline]
- __dev_notify_flags+0x12c/0x2e0 net/core/dev.c:9409
- netif_change_flags+0x108/0x160 net/core/dev.c:9438
- dev_change_flags+0xba/0x250 net/core/dev_api.c:68
- devinet_ioctl+0x11d5/0x1f50 net/ipv4/devinet.c:1200
- inet_ioctl+0x3a7/0x3f0 net/ipv4/af_inet.c:1001
- sock_do_ioctl+0x115/0x280 net/socket.c:1190
- sock_ioctl+0x227/0x6b0 net/socket.c:1311
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl fs/ioctl.c:892 [inline]
- __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xcd/0x260 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7effd384cd49
-Code: 5c c3 48 8d 44 24 08 48 89 54 24 e0 48 89 44 24 c0 48 8d 44 24 d0 48 89 44 24 c8 b8 10 00 00 00 c7 44 24 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 76 10 48 8b 15 ae 60 0d 00 f7 d8 41 83 c8
-RSP: 002b:00007ffedd440088 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007effd377e6c0 RCX: 00007effd384cd49
-RDX: 00007ffedd450278 RSI: 0000000000008914 RDI: 000000000000001a
-RBP: 00007ffedd460438 R08: 00007ffedd450238 R09: 00007ffedd4501e8
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffedd450278 R14: 0000000000000028 R15: 0000000000008914
- </TASK>
-
+diff --git a/arch/x86/xen/multicalls.c b/arch/x86/xen/multicalls.c
+index 10c660fae8b3..100bfaba3f4d 100644
+--- a/arch/x86/xen/multicalls.c
++++ b/arch/x86/xen/multicalls.c
+@@ -53,7 +53,7 @@ struct mc_debug_data {
+ };
+=20
+ static DEFINE_PER_CPU(struct mc_buffer, mc_buffer);
+-static struct mc_debug_data mc_debug_data_early __initdata;
++static struct mc_debug_data mc_debug_data_early;
+ static DEFINE_PER_CPU(struct mc_debug_data *, mc_debug_data) =3D
+ 	&mc_debug_data_early;
+ static struct mc_debug_data __percpu *mc_debug_data_ptr;
 
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+
+since this breaks randbuilds:
+
+WARNING: modpost: vmlinux: section mismatch in reference: mc_debug_data+0=
+x0 (section: .data) -> mc_debug_data_early (section: .init.data)
+ERROR: modpost: Section mismatches detected.
+Set CONFIG_SECTION_MISMATCH_WARN_ONLY=3Dy to allow them.
+make[2]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
+make[2]: *** Deleting file 'Module.symvers'
+make[1]: *** [/mnt/kernel/kernel/linux/Makefile:1947: modpost] Error 2
+make: *** [Makefile:251: __sub-make] Error 2
+
+?
+
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
