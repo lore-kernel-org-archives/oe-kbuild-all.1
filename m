@@ -1,70 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D54076410
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 05:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580854C74
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 05:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743052010; cv=none; b=M4APsTZsxDSbzUnpFFaYDpfBrYEiRioVYb24xNn6YEsXDZD/neWnPxOh0S059o91M+uWt4bdAji4b/sxuPyWR6Ub+e4hFx1u1XiFbOSi3EgA5QTJpqidByCOJtGJvbwWuWLNEN4WNA644o4bYxuX3SxbM0LD3VM2iXyWVwh7M0I=
+	t=1743053008; cv=none; b=P9tcz/TcsRaEOlNgxU1l46g4shfweW6VbB23a83dH8kQlNGwt3ZACBkWXlJ8JAoBDlulzF0DSCfXd9V+qAtDr4P3s2HN4vNOKqLCI1lk3F4ef0vYUYyyiHbnFIf2tptEDFsNxJGcE8KQt3d1I7jg2jzrxakHE2JYS8RPEWqoFTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743052010; c=relaxed/simple;
-	bh=QZLA+YWmkUgWaU8UO4CO8t8Sl4UJJ33oXkNapqZpkSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LHsMYQ4VVQCMM7x0bNUe+pZT3on3MaKEEuXJ6uh5UiaspBR9g+PRQvPoRZrnwyh3IzGV/xqQca2H1HBc+VtPcaK2jvzXEAMOHikuQ3e5pn6Et2Gn2wr0RcMMqHnUd1NQMrJSBF/teWH0Hg/W6XDWVxMFR3USEPaiaHRav+18Kbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDw3Xafn; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743053008; c=relaxed/simple;
+	bh=vciYr/bB2Z030OzCKKWlzUHRiut4nQ8Rn0W4u8S2Avg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SEFb4V5VONEgEaKfBhRYk9kCPNpECDeKxNXIBKFEDOJC53WPh/0k0h5ERCPZJDe9R3xyHyV1QAzTz1dK6pA2aqskDofavX1WyD5i9B/p4rL/YHn/7k4zNwkBwladOs6wdHIhSphW7lgbS8oKWGv4ykftKydaLE4Y+xVOS2cP4GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SoCwPPAx; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDw3Xafn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743052009; x=1774588009;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QZLA+YWmkUgWaU8UO4CO8t8Sl4UJJ33oXkNapqZpkSY=;
-  b=VDw3Xafnf3mHZsgskTgkLibo5HjiPKKrXx8lEnOLcldN0eELurDFkNAa
-   Jx8qKhaLzamhOFZJYd/lzPw5ncg0eOw8MXXQ3UtVhEoz3V76DIR8L92GT
-   4UcQSvDNVx/E7GpvxlhJXxJRcBXOaAFC+mcdBHKLVJmJGI58tOvN+XVBv
-   s2OHz85PCnxmzO2qDSPhNwD9GJia6FQO1xIG9DVc9o2WxGl4gmNSQ2tT0
-   VFV7n02ZdWVs+5uf4UteduHx8ypZ3TQ/E6K4hf7yVRIoQ5GWuh0f33Waz
-   AaGRfbsjYdHUtoB/eKRZoUYCcT+m5LErU4feAdXXOu9vYpMvirPRmvkyI
-   Q==;
-X-CSE-ConnectionGUID: s+Pnr9OATcex/l+M7ZFuBA==
-X-CSE-MsgGUID: rjiVWzAARvqhx6YPBmtxBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48241852"
-X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="48241852"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 22:06:48 -0700
-X-CSE-ConnectionGUID: Z0QRF+MaQFmANCuRmqa1jw==
-X-CSE-MsgGUID: u8PPwCnlRmGXX1fBkKmIHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="130140137"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2025 22:06:43 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1txfRx-0006NX-20;
-	Thu, 27 Mar 2025 05:06:41 +0000
-Date: Thu, 27 Mar 2025 13:05:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Filipe Xavier <felipeaggger@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, daniel.almeida@collabora.com,
-	rust-for-linux@vger.kernel.org, felipe_life@live.com,
-	linux-kernel@vger.kernel.org,
-	Filipe Xavier <felipeaggger@gmail.com>,
-	Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v2] rust: add new macro for common bitmap operations
-Message-ID: <202503271256.KMMeri1M-lkp@intel.com>
-References: <20250325-feat-add-bitmask-macro-v2-1-d3beabdad90f@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SoCwPPAx"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43d0618746bso3460775e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Mar 2025 22:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743053004; x=1743657804; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Be3xrXZBKcyj7JgwFrFZrJzYdk2fkCS3DpDGsgYxVdg=;
+        b=SoCwPPAx7nBZGr1cuw0+jxXIXpUpZZgrO0rxsXd4dBYoFuTkmGA6aQFaGHubn15481
+         BmKsQLXthIRBS69dyt2p5frDCsyT1Yh3Y4gTyVTaO/E8wIbg85WRZr7vgO1jDT3Lw4qe
+         eK8yAxCSBI+GGV5KSq9g8axcxxBE00D6YmLkkEk63853pNF3sr/CarKyJnbVpXGgj8Mo
+         ydzAbjrj0sG1D+nhv9kxT5t/MXCqH+n2+EGJLYmbX2SwZDydWGByh7EEH1K8DiOmu7aq
+         TRGIfSVqCUBKJxIjDC9yEhHa8zNwNKpx54h4oWBOE77S0eVTnSmOE/7IocXNP4T3g4kh
+         pEbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743053004; x=1743657804;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Be3xrXZBKcyj7JgwFrFZrJzYdk2fkCS3DpDGsgYxVdg=;
+        b=Es/cQatIseINQj3Qn/vubbDcXzKnWY5hFh3no/PfcGmiHBs3Ed1nwdYC41mOiU4kJ9
+         jh9bVPbGWGgUJj5rKSc4AzMrAMUP7Uy03PolxfXRGkFuS/tkhYyz/jFkbCz7zlqLD/4I
+         9p9qXX+Lze46giqejZOmd9IHxO2EeKXdOPOHTo/wqYVmo/pbgRIM5x3cJTWvmuFuCHht
+         pjE7fVUUViXVqk/6sg5TmgXR3EMPQ300IRI6BI3NUh+IXEu4vRboKnxS5Ysn6j+qN6ym
+         sl50oZxWNUlAupNh9lO5RvPeF+iRw6ifeT8BODZ/nNDmeSoTBwrej6nnW8R2Wk9HT3Dl
+         Eg+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVPyI+SD6+fOV5A70iYXmROW05AxLM4i1jcWddRaMWczUoFGrDkgnGGUHbETfAPkeBQF8ku/ah91TfKj2kB@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGDE1m7n6szA5fBgH1uJBV8VcoYtLEt9MJ4/PjpfD95MFWaPPX
+	lg/n9otqEfsEqdHJL5meVmSfZP61HmPNGiMxSl6joOgnc8ziBU4Is9BwH/ZDlh4=
+X-Gm-Gg: ASbGnctGIOyl8Odz7JJiLetAir4Gn5+SYexKhzhVdHlkjN+/HwIM/zBTSqcOCyRQKzR
+	/RASmk7yzSgOxGO041WnIDA4A56bKw2eZVcJSmOOPjeyI8hxaICnZuvs4ec6Zn9qeyltooiobCq
+	+b78X8pUkXTHVAyiQqfMQM1+9xGGWZMNUW0Cf/CnFT8NNwU/S3f8AAd3QDz0JYTo1jp0mdMvVHa
+	l2Jx8XGjNNpcNW1lVZN9BLxcWBPlMNDCVoSUcgeGVPhVpTOLEgikW/J3Jb4KS5ChKgFkzGKYwn0
+	rXdHvNT/S7SHAKi+lNOkqIaEYOvAY0hUY/9mNTDxiPcAsowo
+X-Google-Smtp-Source: AGHT+IF9CBeiGU2yZrZ82k/O6kOKzwqAnDoVlC04vE5L4Mi7wpTwe8x99x+/dOX3Nu3l5H5388tZow==
+X-Received: by 2002:a05:600c:4e56:b0:43d:bb9:ad00 with SMTP id 5b1f17b1804b1-43d850fd05amr16409025e9.15.1743053004471;
+        Wed, 26 Mar 2025 22:23:24 -0700 (PDT)
+Received: from localhost ([41.210.155.240])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d830f5708sm25814215e9.32.2025.03.26.22.23.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Mar 2025 22:23:23 -0700 (PDT)
+Date: Thu, 27 Mar 2025 08:23:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Tomasz Jeznach <tjeznach@rivosinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Joerg Roedel <jroedel@suse.de>,
+	Nick Kossifidis <mick@ics.forth.gr>,
+	Sebastien Boeuf <seb@rivosinc.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: drivers/iommu/riscv/iommu-platform.c:54 riscv_iommu_platform_probe()
+ warn: 'iommu->irqs_count' unsigned <= 0
+Message-ID: <d1eaa67e-3766-46c6-95cb-69cb9e91fc29@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,47 +74,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250325-feat-add-bitmask-macro-v2-1-d3beabdad90f@gmail.com>
 
-Hi Filipe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Filipe-Xavier/rust-add-new-macro-for-common-bitmap-operations/20250325-213139
-base:   beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d
-patch link:    https://lore.kernel.org/r/20250325-feat-add-bitmask-macro-v2-1-d3beabdad90f%40gmail.com
-patch subject: [PATCH v2] rust: add new macro for common bitmap operations
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250327/202503271256.KMMeri1M-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271256.KMMeri1M-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f6e0150b2003fb2b9265028a618aa1732b3edc8f
+commit: 5c0ebbd3c6c6e00af112fe053e81ac0c7cafe647 iommu/riscv: Add RISC-V IOMMU platform device driver
+date:   5 months ago
+config: riscv-randconfig-r072-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270710.nzXdpHfG-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503271256.KMMeri1M-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503270710.nzXdpHfG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/iommu/riscv/iommu-platform.c:54 riscv_iommu_platform_probe() warn: 'iommu->irqs_count' unsigned <= 0
 
->> warning: unresolved link to `BitOr`
-   --> rust/kernel/impl_flags.rs:8:55
-   |
-   8 | /// - Implementations of common bitmask operations ([`BitOr`], [`BitAnd`], etc.).
-   |                                                       ^^^^^ no item named `BitOr` in scope
-   |
-   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
---
->> warning: unresolved link to `BitAnd`
-   --> rust/kernel/impl_flags.rs:8:66
-   |
-   8 | /// - Implementations of common bitmask operations ([`BitOr`], [`BitAnd`], etc.).
-   |                                                                  ^^^^^^ no item named `BitAnd` in scope
-   |
-   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
+vim +54 drivers/iommu/riscv/iommu-platform.c
+
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  20  static int riscv_iommu_platform_probe(struct platform_device *pdev)
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  21  {
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  22  	struct device *dev = &pdev->dev;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  23  	struct riscv_iommu_device *iommu = NULL;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  24  	struct resource *res = NULL;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  25  	int vec;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  26  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  27  	iommu = devm_kzalloc(dev, sizeof(*iommu), GFP_KERNEL);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  28  	if (!iommu)
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  29  		return -ENOMEM;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  30  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  31  	iommu->dev = dev;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  32  	iommu->reg = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  33  	if (IS_ERR(iommu->reg))
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  34  		return dev_err_probe(dev, PTR_ERR(iommu->reg),
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  35  				     "could not map register region\n");
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  36  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  37  	dev_set_drvdata(dev, iommu);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  38  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  39  	/* Check device reported capabilities / features. */
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  40  	iommu->caps = riscv_iommu_readq(iommu, RISCV_IOMMU_REG_CAPABILITIES);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  41  	iommu->fctl = riscv_iommu_readl(iommu, RISCV_IOMMU_REG_FCTL);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  42  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  43  	/* For now we only support WSI */
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  44  	switch (FIELD_GET(RISCV_IOMMU_CAPABILITIES_IGS, iommu->caps)) {
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  45  	case RISCV_IOMMU_CAPABILITIES_IGS_WSI:
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  46  	case RISCV_IOMMU_CAPABILITIES_IGS_BOTH:
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  47  		break;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  48  	default:
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  49  		return dev_err_probe(dev, -ENODEV,
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  50  				     "unable to use wire-signaled interrupts\n");
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  51  	}
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  52  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  53  	iommu->irqs_count = platform_irq_count(pdev);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15 @54  	if (iommu->irqs_count <= 0)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^
+Unsigned can't be less than zero.  platform_irq_count() returns
+-EPROBE_DEFER on error.
+
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  55  		return dev_err_probe(dev, -ENODEV,
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  56  				     "no IRQ resources provided\n");
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  57  	if (iommu->irqs_count > RISCV_IOMMU_INTR_COUNT)
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  58  		iommu->irqs_count = RISCV_IOMMU_INTR_COUNT;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  59  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  60  	for (vec = 0; vec < iommu->irqs_count; vec++)
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  61  		iommu->irqs[vec] = platform_get_irq(pdev, vec);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  62  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  63  	/* Enable wire-signaled interrupts, fctl.WSI */
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  64  	if (!(iommu->fctl & RISCV_IOMMU_FCTL_WSI)) {
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  65  		iommu->fctl |= RISCV_IOMMU_FCTL_WSI;
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  66  		riscv_iommu_writel(iommu, RISCV_IOMMU_REG_FCTL, iommu->fctl);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  67  	}
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  68  
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  69  	return riscv_iommu_init(iommu);
+5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  70  };
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
