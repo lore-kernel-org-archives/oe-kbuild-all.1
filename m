@@ -1,69 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18ECA1AF0D6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 04:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D54076410
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 05:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743050684; cv=none; b=eNCbt+SH14gCZUCpAjt8fZRPcjZg8n5DiW/PZBBO2tHKz0xpwaw98xA4y6mMPY2ljyrOBvNZyieteDpC0qwSls9vlzI4m+1kVFuN5PYyrhrplF0vUJz1ur0kHujhoCimqbgfZm7YvLET/V2Fs7q4h+7Njau/bvAxYStHJ+gQCRw=
+	t=1743052010; cv=none; b=M4APsTZsxDSbzUnpFFaYDpfBrYEiRioVYb24xNn6YEsXDZD/neWnPxOh0S059o91M+uWt4bdAji4b/sxuPyWR6Ub+e4hFx1u1XiFbOSi3EgA5QTJpqidByCOJtGJvbwWuWLNEN4WNA644o4bYxuX3SxbM0LD3VM2iXyWVwh7M0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743050684; c=relaxed/simple;
-	bh=P0chp4xBDlotGj0tXaHNNVwUIHgI3UJNb25DwM9py+Q=;
+	s=arc-20240116; t=1743052010; c=relaxed/simple;
+	bh=QZLA+YWmkUgWaU8UO4CO8t8Sl4UJJ33oXkNapqZpkSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jck4RgTzl0itnfe6CL9ymYvm251qavkqJr5I1R/u/fVAMU6VBDVgddAomD+ko3Srenc88UvjGCGmX0lfOQz7yDQdtPbSVLjj7ipuE50pPAp+zAwbFvqsNhXUirDd+3K2ZSu2gSieemK3RWqaPUlR+LjfmOzAsw3HGMsJ1yKcpEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDqfHARe; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=LHsMYQ4VVQCMM7x0bNUe+pZT3on3MaKEEuXJ6uh5UiaspBR9g+PRQvPoRZrnwyh3IzGV/xqQca2H1HBc+VtPcaK2jvzXEAMOHikuQ3e5pn6Et2Gn2wr0RcMMqHnUd1NQMrJSBF/teWH0Hg/W6XDWVxMFR3USEPaiaHRav+18Kbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDw3Xafn; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDqfHARe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDw3Xafn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743050683; x=1774586683;
+  t=1743052009; x=1774588009;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=P0chp4xBDlotGj0tXaHNNVwUIHgI3UJNb25DwM9py+Q=;
-  b=fDqfHAReLfGtVdhOFbMfH3b7AOzGiLVKL2UuyNAbNvxWad2XTogMcUSv
-   tpUHafwc2D/t0oONVKz62DjDQuSE3mKuJWDU6SK6ZaUTaWSVXgVpjOSQX
-   vJKJSoxoQubqRgydQcW37H8ZvOefc47zeDgaAKeklJq5lmhv2o4Vlz+Il
-   Re9/vjQWeKToEWmirpur1XxOJ+0/D3gOrPgvyx6wyBkQ4Bco0p7fM9P1Q
-   17I9IaYxHKCfYLqCXM08+6cJhCsRajmUVi3ILQdLCISHiSh5eT8vduCIO
-   PkiqtAeTMy/t0Guis2UQEzOshYaLEJzMG9FR4Eg1/VMqIdQpIx/9OVzWe
-   A==;
-X-CSE-ConnectionGUID: UrBYYcaDRS6ZifAysd425w==
-X-CSE-MsgGUID: df1wrH48QnWSbfEN12AAnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44089226"
+  bh=QZLA+YWmkUgWaU8UO4CO8t8Sl4UJJ33oXkNapqZpkSY=;
+  b=VDw3Xafnf3mHZsgskTgkLibo5HjiPKKrXx8lEnOLcldN0eELurDFkNAa
+   Jx8qKhaLzamhOFZJYd/lzPw5ncg0eOw8MXXQ3UtVhEoz3V76DIR8L92GT
+   4UcQSvDNVx/E7GpvxlhJXxJRcBXOaAFC+mcdBHKLVJmJGI58tOvN+XVBv
+   s2OHz85PCnxmzO2qDSPhNwD9GJia6FQO1xIG9DVc9o2WxGl4gmNSQ2tT0
+   VFV7n02ZdWVs+5uf4UteduHx8ypZ3TQ/E6K4hf7yVRIoQ5GWuh0f33Waz
+   AaGRfbsjYdHUtoB/eKRZoUYCcT+m5LErU4feAdXXOu9vYpMvirPRmvkyI
+   Q==;
+X-CSE-ConnectionGUID: s+Pnr9OATcex/l+M7ZFuBA==
+X-CSE-MsgGUID: rjiVWzAARvqhx6YPBmtxBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48241852"
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="44089226"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 21:44:42 -0700
-X-CSE-ConnectionGUID: HRTvteAlTBuFFUrHSDtvlg==
-X-CSE-MsgGUID: X9vNkrnpSXSC3XIiLqHy0w==
+   d="scan'208";a="48241852"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 22:06:48 -0700
+X-CSE-ConnectionGUID: Z0QRF+MaQFmANCuRmqa1jw==
+X-CSE-MsgGUID: u8PPwCnlRmGXX1fBkKmIHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="125482753"
+   d="scan'208";a="130140137"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Mar 2025 21:44:38 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Mar 2025 22:06:43 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txf6Z-0006Mt-27;
-	Thu, 27 Mar 2025 04:44:35 +0000
-Date: Thu, 27 Mar 2025 12:43:43 +0800
+	id 1txfRx-0006NX-20;
+	Thu, 27 Mar 2025 05:06:41 +0000
+Date: Thu, 27 Mar 2025 13:05:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	nifan.cxl@gmail.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, dan.j.williams@intel.com,
-	bhelgaas@google.com, mahesh@linux.ibm.com, ira.weiny@intel.com,
-	oohall@gmail.com, Benjamin.Cheatham@amd.com, rrichter@amd.com,
-	nathan.fontenot@amd.com, Smita.KoralahalliChannabasappa@amd.com,
-	lukas@wunner.de, ming.li@zohomail.com,
-	PradeepVineshReddy.Kodamati@amd.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 05/16] PCI/AER: CXL driver dequeues CXL error
- forwarded from AER service driver
-Message-ID: <202503271234.IKMoGynt-lkp@intel.com>
-References: <20250327014717.2988633-6-terry.bowman@amd.com>
+To: Filipe Xavier <felipeaggger@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, daniel.almeida@collabora.com,
+	rust-for-linux@vger.kernel.org, felipe_life@live.com,
+	linux-kernel@vger.kernel.org,
+	Filipe Xavier <felipeaggger@gmail.com>,
+	Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH v2] rust: add new macro for common bitmap operations
+Message-ID: <202503271256.KMMeri1M-lkp@intel.com>
+References: <20250325-feat-add-bitmask-macro-v2-1-d3beabdad90f@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,80 +73,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250327014717.2988633-6-terry.bowman@amd.com>
+In-Reply-To: <20250325-feat-add-bitmask-macro-v2-1-d3beabdad90f@gmail.com>
 
-Hi Terry,
+Hi Filipe,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on aae0594a7053c60b82621136257c8b648c67b512]
+[auto build test WARNING on beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/PCI-CXL-Introduce-PCIe-helper-function-pcie_is_cxl/20250327-095738
-base:   aae0594a7053c60b82621136257c8b648c67b512
-patch link:    https://lore.kernel.org/r/20250327014717.2988633-6-terry.bowman%40amd.com
-patch subject: [PATCH v8 05/16] PCI/AER: CXL driver dequeues CXL error forwarded from AER service driver
-config: loongarch-randconfig-001-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271234.IKMoGynt-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271234.IKMoGynt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Filipe-Xavier/rust-add-new-macro-for-common-bitmap-operations/20250325-213139
+base:   beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d
+patch link:    https://lore.kernel.org/r/20250325-feat-add-bitmask-macro-v2-1-d3beabdad90f%40gmail.com
+patch subject: [PATCH v2] rust: add new macro for common bitmap operations
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250327/202503271256.KMMeri1M-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271256.KMMeri1M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503271234.IKMoGynt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503271256.KMMeri1M-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/cxl/core/ras.c: In function 'cxl_handle_prot_error':
->> drivers/cxl/core/ras.c:202:33: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
-     202 |                 int aer = pdev->aer_cap;
-         |                                 ^~~~~~~
-         |                                 ats_cap
-
-
-vim +202 drivers/cxl/core/ras.c
-
-   185	
-   186	static void cxl_handle_prot_error(struct pci_dev *pdev, struct cxl_prot_error_info *err_info)
-   187	{
-   188		if (!pdev || !err_info)
-   189			return;
-   190	
-   191		/*
-   192		 * Internal errors of an RCEC indicate an AER error in an
-   193		 * RCH's downstream port. Check and handle them in the CXL.mem
-   194		 * device driver.
-   195		 */
-   196		if (pci_pcie_type(pdev) == PCI_EXP_TYPE_RC_EC)
-   197			return pcie_walk_rcec(pdev, cxl_rch_handle_error_iter, err_info);
-   198	
-   199		if (err_info->severity == AER_CORRECTABLE) {
-   200			struct device *dev __free(put_device) = get_device(err_info->dev);
-   201			struct cxl_driver *pdrv;
- > 202			int aer = pdev->aer_cap;
-   203	
-   204			if (!dev || !dev->driver)
-   205				return;
-   206	
-   207			if (aer) {
-   208				int ras_status;
-   209	
-   210				pci_read_config_dword(pdev, aer + PCI_ERR_COR_STATUS, &ras_status);
-   211				pci_write_config_dword(pdev, aer + PCI_ERR_COR_STATUS,
-   212						       ras_status);
-   213			}
-   214	
-   215			pdrv = to_cxl_drv(dev->driver);
-   216			if (!pdrv || !pdrv->err_handler ||
-   217			    !pdrv->err_handler->cor_error_detected)
-   218				return;
-   219	
-   220			pdrv->err_handler->cor_error_detected(dev, err_info);
-   221			pcie_clear_device_status(pdev);
-   222		} else {
-   223			cxl_do_recovery(pdev);
-   224		}
-   225	}
-   226	
+>> warning: unresolved link to `BitOr`
+   --> rust/kernel/impl_flags.rs:8:55
+   |
+   8 | /// - Implementations of common bitmask operations ([`BitOr`], [`BitAnd`], etc.).
+   |                                                       ^^^^^ no item named `BitOr` in scope
+   |
+   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
+   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+--
+>> warning: unresolved link to `BitAnd`
+   --> rust/kernel/impl_flags.rs:8:66
+   |
+   8 | /// - Implementations of common bitmask operations ([`BitOr`], [`BitAnd`], etc.).
+   |                                                                  ^^^^^^ no item named `BitAnd` in scope
+   |
+   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
 
 -- 
 0-DAY CI Kernel Test Service
