@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6D5DDD3;
-	Thu, 27 Mar 2025 04:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18ECA1AF0D6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 04:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743049960; cv=none; b=rLBtk6Pkj8RFvVSXX083/glKC9jCBLbPgeRLxP6RkFh5s2uXhAkM5xJ9qZ+9TuVbYjVbK5tqJP7xChAVn265Wv9R5KhuqV2cJJzE+TRFfASb03r2V2vHv1zrLX5NYYYOKDg2jlIsojOi1NgcYfYRe1dsubDRx1xr34YjeASTSpw=
+	t=1743050684; cv=none; b=eNCbt+SH14gCZUCpAjt8fZRPcjZg8n5DiW/PZBBO2tHKz0xpwaw98xA4y6mMPY2ljyrOBvNZyieteDpC0qwSls9vlzI4m+1kVFuN5PYyrhrplF0vUJz1ur0kHujhoCimqbgfZm7YvLET/V2Fs7q4h+7Njau/bvAxYStHJ+gQCRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743049960; c=relaxed/simple;
-	bh=Ma01mfL5sO61e0NAWimrdWmyVLokXOLQRJbTQtMdMCI=;
+	s=arc-20240116; t=1743050684; c=relaxed/simple;
+	bh=P0chp4xBDlotGj0tXaHNNVwUIHgI3UJNb25DwM9py+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T8eoN8b2O+0fc/wBCv4UkD8cj5oM8VpVRAMmrNxpRxkDbUbwUexU78m7PQUKRpGygw0Nb2BCK2gVpwhxpd7EJ4NzSB2lkOxVYF/PdXS4hxCQBN3Njulgt+yAKf5eVbtmmM7Wj/8xVDsZLuf1hf6yxTcXMl3TiUQ11u1yDGBOYqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HsvK5flM; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=jck4RgTzl0itnfe6CL9ymYvm251qavkqJr5I1R/u/fVAMU6VBDVgddAomD+ko3Srenc88UvjGCGmX0lfOQz7yDQdtPbSVLjj7ipuE50pPAp+zAwbFvqsNhXUirDd+3K2ZSu2gSieemK3RWqaPUlR+LjfmOzAsw3HGMsJ1yKcpEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDqfHARe; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HsvK5flM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDqfHARe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743049959; x=1774585959;
+  t=1743050683; x=1774586683;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ma01mfL5sO61e0NAWimrdWmyVLokXOLQRJbTQtMdMCI=;
-  b=HsvK5flMZvBWO1rSBN/iWwOuSRZRcEtUA6wAyC6un9CWOPJR7bgUd2oH
-   cV0RzkqjmMSb9OJG4P7jaEY5SAC/7gu3gqkNpc3wSgZ5E2GxaahcAcWMR
-   D0HrUJPMBeLsLY6NsFWEVRV4sH0wfhugN9T6oVPCF9JgoY42OHHL6weqg
-   MKCXe1lRl1qfRUmddZ4XsGbuyRXH7vrPoWcVMyAlI6beQlF3jQKEeaAL+
-   zFjfTX7Stct3HhSyaAmhBFjZu6u57BiFuo3EHErOWzVLKrcS69sYBDM5Q
-   xNGxbNOT80Fm1eRhb2NpSTwDB1uzJ1F/fztWFv1AcjjGF4ByhhsMmvu4x
-   Q==;
-X-CSE-ConnectionGUID: t+A5HrnVRliEffsLbHlxTw==
-X-CSE-MsgGUID: G9MojEqCTY66jgJqj3Ti6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="66829639"
+  bh=P0chp4xBDlotGj0tXaHNNVwUIHgI3UJNb25DwM9py+Q=;
+  b=fDqfHAReLfGtVdhOFbMfH3b7AOzGiLVKL2UuyNAbNvxWad2XTogMcUSv
+   tpUHafwc2D/t0oONVKz62DjDQuSE3mKuJWDU6SK6ZaUTaWSVXgVpjOSQX
+   vJKJSoxoQubqRgydQcW37H8ZvOefc47zeDgaAKeklJq5lmhv2o4Vlz+Il
+   Re9/vjQWeKToEWmirpur1XxOJ+0/D3gOrPgvyx6wyBkQ4Bco0p7fM9P1Q
+   17I9IaYxHKCfYLqCXM08+6cJhCsRajmUVi3ILQdLCISHiSh5eT8vduCIO
+   PkiqtAeTMy/t0Guis2UQEzOshYaLEJzMG9FR4Eg1/VMqIdQpIx/9OVzWe
+   A==;
+X-CSE-ConnectionGUID: UrBYYcaDRS6ZifAysd425w==
+X-CSE-MsgGUID: df1wrH48QnWSbfEN12AAnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44089226"
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="66829639"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 21:32:38 -0700
-X-CSE-ConnectionGUID: iMih4Ei4QsWsD1rXTZUW5g==
-X-CSE-MsgGUID: rtewMiu2RQutQSrUzcCnpA==
+   d="scan'208";a="44089226"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 21:44:42 -0700
+X-CSE-ConnectionGUID: HRTvteAlTBuFFUrHSDtvlg==
+X-CSE-MsgGUID: X9vNkrnpSXSC3XIiLqHy0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="125528631"
+   d="scan'208";a="125482753"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 26 Mar 2025 21:32:37 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 26 Mar 2025 21:44:38 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txeuw-0006Ml-2a;
-	Thu, 27 Mar 2025 04:32:34 +0000
-Date: Thu, 27 Mar 2025 12:31:40 +0800
+	id 1txf6Z-0006Mt-27;
+	Thu, 27 Mar 2025 04:44:35 +0000
+Date: Thu, 27 Mar 2025 12:43:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [net-next RFC PATCH v3 1/4] net: phy: pass PHY driver to
- .match_phy_device OP
-Message-ID: <202503271208.yqdElxUG-lkp@intel.com>
-References: <20250326233512.17153-2-ansuelsmth@gmail.com>
+To: Terry Bowman <terry.bowman@amd.com>, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	nifan.cxl@gmail.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, dan.j.williams@intel.com,
+	bhelgaas@google.com, mahesh@linux.ibm.com, ira.weiny@intel.com,
+	oohall@gmail.com, Benjamin.Cheatham@amd.com, rrichter@amd.com,
+	nathan.fontenot@amd.com, Smita.KoralahalliChannabasappa@amd.com,
+	lukas@wunner.de, ming.li@zohomail.com,
+	PradeepVineshReddy.Kodamati@amd.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 05/16] PCI/AER: CXL driver dequeues CXL error
+ forwarded from AER service driver
+Message-ID: <202503271234.IKMoGynt-lkp@intel.com>
+References: <20250327014717.2988633-6-terry.bowman@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,149 +72,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250326233512.17153-2-ansuelsmth@gmail.com>
+In-Reply-To: <20250327014717.2988633-6-terry.bowman@amd.com>
 
-Hi Christian,
+Hi Terry,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on aae0594a7053c60b82621136257c8b648c67b512]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-pass-PHY-driver-to-match_phy_device-OP/20250327-073812
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250326233512.17153-2-ansuelsmth%40gmail.com
-patch subject: [net-next RFC PATCH v3 1/4] net: phy: pass PHY driver to .match_phy_device OP
-config: arm-randconfig-003-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271208.yqdElxUG-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271208.yqdElxUG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/PCI-CXL-Introduce-PCIe-helper-function-pcie_is_cxl/20250327-095738
+base:   aae0594a7053c60b82621136257c8b648c67b512
+patch link:    https://lore.kernel.org/r/20250327014717.2988633-6-terry.bowman%40amd.com
+patch subject: [PATCH v8 05/16] PCI/AER: CXL driver dequeues CXL error forwarded from AER service driver
+config: loongarch-randconfig-001-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271234.IKMoGynt-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271234.IKMoGynt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503271208.yqdElxUG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503271234.IKMoGynt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/phy/nxp-c45-tja11xx.c:2089:23: error: incompatible function pointer types initializing 'int (*)(struct phy_device *, const struct phy_driver *)' with an expression of type 'int (struct phy_device *)' [-Wincompatible-function-pointer-types]
-    2089 |                 .match_phy_device       = tja1103_match_phy_device,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/nxp-c45-tja11xx.c:2113:23: error: incompatible function pointer types initializing 'int (*)(struct phy_device *, const struct phy_driver *)' with an expression of type 'int (struct phy_device *)' [-Wincompatible-function-pointer-types]
-    2113 |                 .match_phy_device       = tja1104_match_phy_device,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/nxp-c45-tja11xx.c:2138:23: error: incompatible function pointer types initializing 'int (*)(struct phy_device *, const struct phy_driver *)' with an expression of type 'int (struct phy_device *)' [-Wincompatible-function-pointer-types]
-    2138 |                 .match_phy_device       = tja1120_match_phy_device,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/nxp-c45-tja11xx.c:2163:23: error: incompatible function pointer types initializing 'int (*)(struct phy_device *, const struct phy_driver *)' with an expression of type 'int (struct phy_device *)' [-Wincompatible-function-pointer-types]
-    2163 |                 .match_phy_device       = tja1121_match_phy_device,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+   drivers/cxl/core/ras.c: In function 'cxl_handle_prot_error':
+>> drivers/cxl/core/ras.c:202:33: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+     202 |                 int aer = pdev->aer_cap;
+         |                                 ^~~~~~~
+         |                                 ats_cap
 
 
-vim +2089 drivers/net/phy/nxp-c45-tja11xx.c
+vim +202 drivers/cxl/core/ras.c
 
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2065) 
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2066) static struct phy_driver nxp_c45_driver[] = {
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2067) 	{
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2068) 		.name			= "NXP C45 TJA1103",
-369da333569eb8 Radu Pirea (NXP OSS  2023-07-31  2069) 		.get_features		= nxp_c45_get_features,
-6c0c85da044e92 Radu Pirea (NXP OSS  2023-07-31  2070) 		.driver_data		= &tja1103_phy_data,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2071) 		.probe			= nxp_c45_probe,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2072) 		.soft_reset		= nxp_c45_soft_reset,
-ac0687e821cffa Radu Pirea (NXP OSS  2023-07-31  2073) 		.config_aneg		= genphy_c45_config_aneg,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2074) 		.config_init		= nxp_c45_config_init,
-425c8348df7b86 Radu Pirea (NXP OSS  2023-07-31  2075) 		.config_intr		= tja1103_config_intr,
-b2f0ca00e6b34b Radu Pirea (NXP OSS  2021-04-23  2076) 		.handle_interrupt	= nxp_c45_handle_interrupt,
-ac0687e821cffa Radu Pirea (NXP OSS  2023-07-31  2077) 		.read_status		= genphy_c45_read_status,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2078) 		.suspend		= genphy_c45_pma_suspend,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2079) 		.resume			= genphy_c45_pma_resume,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2080) 		.get_sset_count		= nxp_c45_get_sset_count,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2081) 		.get_strings		= nxp_c45_get_strings,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2082) 		.get_stats		= nxp_c45_get_stats,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2083) 		.cable_test_start	= nxp_c45_cable_test_start,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2084) 		.cable_test_get_status	= nxp_c45_cable_test_get_status,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2085) 		.set_loopback		= genphy_c45_loopback,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2086) 		.get_sqi		= nxp_c45_get_sqi,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2087) 		.get_sqi_max		= nxp_c45_get_sqi_max,
-a4506722dc39ca Radu Pirea (OSS      2023-04-06  2088) 		.remove			= nxp_c45_remove,
-a06a868a0cd96b Andrei Botila        2025-02-28 @2089  		.match_phy_device	= tja1103_match_phy_device,
-a06a868a0cd96b Andrei Botila        2025-02-28  2090  	},
-a06a868a0cd96b Andrei Botila        2025-02-28  2091  	{
-a06a868a0cd96b Andrei Botila        2025-02-28  2092  		.name			= "NXP C45 TJA1104",
-a06a868a0cd96b Andrei Botila        2025-02-28  2093  		.get_features		= nxp_c45_get_features,
-a06a868a0cd96b Andrei Botila        2025-02-28  2094  		.driver_data		= &tja1103_phy_data,
-a06a868a0cd96b Andrei Botila        2025-02-28  2095  		.probe			= nxp_c45_probe,
-a06a868a0cd96b Andrei Botila        2025-02-28  2096  		.soft_reset		= nxp_c45_soft_reset,
-a06a868a0cd96b Andrei Botila        2025-02-28  2097  		.config_aneg		= genphy_c45_config_aneg,
-a06a868a0cd96b Andrei Botila        2025-02-28  2098  		.config_init		= nxp_c45_config_init,
-a06a868a0cd96b Andrei Botila        2025-02-28  2099  		.config_intr		= tja1103_config_intr,
-a06a868a0cd96b Andrei Botila        2025-02-28  2100  		.handle_interrupt	= nxp_c45_handle_interrupt,
-a06a868a0cd96b Andrei Botila        2025-02-28  2101  		.read_status		= genphy_c45_read_status,
-a06a868a0cd96b Andrei Botila        2025-02-28  2102  		.suspend		= genphy_c45_pma_suspend,
-a06a868a0cd96b Andrei Botila        2025-02-28  2103  		.resume			= genphy_c45_pma_resume,
-a06a868a0cd96b Andrei Botila        2025-02-28  2104  		.get_sset_count		= nxp_c45_get_sset_count,
-a06a868a0cd96b Andrei Botila        2025-02-28  2105  		.get_strings		= nxp_c45_get_strings,
-a06a868a0cd96b Andrei Botila        2025-02-28  2106  		.get_stats		= nxp_c45_get_stats,
-a06a868a0cd96b Andrei Botila        2025-02-28  2107  		.cable_test_start	= nxp_c45_cable_test_start,
-a06a868a0cd96b Andrei Botila        2025-02-28  2108  		.cable_test_get_status	= nxp_c45_cable_test_get_status,
-a06a868a0cd96b Andrei Botila        2025-02-28  2109  		.set_loopback		= genphy_c45_loopback,
-a06a868a0cd96b Andrei Botila        2025-02-28  2110  		.get_sqi		= nxp_c45_get_sqi,
-a06a868a0cd96b Andrei Botila        2025-02-28  2111  		.get_sqi_max		= nxp_c45_get_sqi_max,
-a06a868a0cd96b Andrei Botila        2025-02-28  2112  		.remove			= nxp_c45_remove,
-a06a868a0cd96b Andrei Botila        2025-02-28  2113  		.match_phy_device	= tja1104_match_phy_device,
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2114) 	},
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2115) 	{
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2116) 		.name			= "NXP C45 TJA1120",
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2117) 		.get_features		= nxp_c45_get_features,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2118) 		.driver_data		= &tja1120_phy_data,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2119) 		.probe			= nxp_c45_probe,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2120) 		.soft_reset		= nxp_c45_soft_reset,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2121) 		.config_aneg		= genphy_c45_config_aneg,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2122) 		.config_init		= nxp_c45_config_init,
-425c8348df7b86 Radu Pirea (NXP OSS  2023-07-31  2123) 		.config_intr		= tja1120_config_intr,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2124) 		.handle_interrupt	= nxp_c45_handle_interrupt,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2125) 		.read_status		= genphy_c45_read_status,
-68c6af72047ca7 Radu Pirea (NXP OSS  2023-07-31  2126) 		.link_change_notify	= tja1120_link_change_notify,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2127) 		.suspend		= genphy_c45_pma_suspend,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2128) 		.resume			= genphy_c45_pma_resume,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2129) 		.get_sset_count		= nxp_c45_get_sset_count,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2130) 		.get_strings		= nxp_c45_get_strings,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2131) 		.get_stats		= nxp_c45_get_stats,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2132) 		.cable_test_start	= nxp_c45_cable_test_start,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2133) 		.cable_test_get_status	= nxp_c45_cable_test_get_status,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2134) 		.set_loopback		= genphy_c45_loopback,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2135) 		.get_sqi		= nxp_c45_get_sqi,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2136) 		.get_sqi_max		= nxp_c45_get_sqi_max,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2137) 		.remove			= nxp_c45_remove,
-7215e9375694db Andrei Botila        2025-02-28  2138  		.match_phy_device	= tja1120_match_phy_device,
-7215e9375694db Andrei Botila        2025-02-28  2139  	},
-7215e9375694db Andrei Botila        2025-02-28  2140  	{
-7215e9375694db Andrei Botila        2025-02-28  2141  		.name			= "NXP C45 TJA1121",
-7215e9375694db Andrei Botila        2025-02-28  2142  		.get_features		= nxp_c45_get_features,
-7215e9375694db Andrei Botila        2025-02-28  2143  		.driver_data		= &tja1120_phy_data,
-7215e9375694db Andrei Botila        2025-02-28  2144  		.probe			= nxp_c45_probe,
-7215e9375694db Andrei Botila        2025-02-28  2145  		.soft_reset		= nxp_c45_soft_reset,
-7215e9375694db Andrei Botila        2025-02-28  2146  		.config_aneg		= genphy_c45_config_aneg,
-7215e9375694db Andrei Botila        2025-02-28  2147  		.config_init		= nxp_c45_config_init,
-7215e9375694db Andrei Botila        2025-02-28  2148  		.config_intr		= tja1120_config_intr,
-7215e9375694db Andrei Botila        2025-02-28  2149  		.handle_interrupt	= nxp_c45_handle_interrupt,
-7215e9375694db Andrei Botila        2025-02-28  2150  		.read_status		= genphy_c45_read_status,
-7215e9375694db Andrei Botila        2025-02-28  2151  		.link_change_notify	= tja1120_link_change_notify,
-7215e9375694db Andrei Botila        2025-02-28  2152  		.suspend		= genphy_c45_pma_suspend,
-7215e9375694db Andrei Botila        2025-02-28  2153  		.resume			= genphy_c45_pma_resume,
-7215e9375694db Andrei Botila        2025-02-28  2154  		.get_sset_count		= nxp_c45_get_sset_count,
-7215e9375694db Andrei Botila        2025-02-28  2155  		.get_strings		= nxp_c45_get_strings,
-7215e9375694db Andrei Botila        2025-02-28  2156  		.get_stats		= nxp_c45_get_stats,
-7215e9375694db Andrei Botila        2025-02-28  2157  		.cable_test_start	= nxp_c45_cable_test_start,
-7215e9375694db Andrei Botila        2025-02-28  2158  		.cable_test_get_status	= nxp_c45_cable_test_get_status,
-7215e9375694db Andrei Botila        2025-02-28  2159  		.set_loopback		= genphy_c45_loopback,
-7215e9375694db Andrei Botila        2025-02-28  2160  		.get_sqi		= nxp_c45_get_sqi,
-7215e9375694db Andrei Botila        2025-02-28  2161  		.get_sqi_max		= nxp_c45_get_sqi_max,
-7215e9375694db Andrei Botila        2025-02-28  2162  		.remove			= nxp_c45_remove,
-7215e9375694db Andrei Botila        2025-02-28  2163  		.match_phy_device	= tja1121_match_phy_device,
-f1fe5dff2b8aa8 Radu Pirea (NXP OSS  2023-07-31  2164) 	},
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2165) };
-b050f2f15e04f0 Radu Pirea (NXP OSS  2021-04-19  2166) 
+   185	
+   186	static void cxl_handle_prot_error(struct pci_dev *pdev, struct cxl_prot_error_info *err_info)
+   187	{
+   188		if (!pdev || !err_info)
+   189			return;
+   190	
+   191		/*
+   192		 * Internal errors of an RCEC indicate an AER error in an
+   193		 * RCH's downstream port. Check and handle them in the CXL.mem
+   194		 * device driver.
+   195		 */
+   196		if (pci_pcie_type(pdev) == PCI_EXP_TYPE_RC_EC)
+   197			return pcie_walk_rcec(pdev, cxl_rch_handle_error_iter, err_info);
+   198	
+   199		if (err_info->severity == AER_CORRECTABLE) {
+   200			struct device *dev __free(put_device) = get_device(err_info->dev);
+   201			struct cxl_driver *pdrv;
+ > 202			int aer = pdev->aer_cap;
+   203	
+   204			if (!dev || !dev->driver)
+   205				return;
+   206	
+   207			if (aer) {
+   208				int ras_status;
+   209	
+   210				pci_read_config_dword(pdev, aer + PCI_ERR_COR_STATUS, &ras_status);
+   211				pci_write_config_dword(pdev, aer + PCI_ERR_COR_STATUS,
+   212						       ras_status);
+   213			}
+   214	
+   215			pdrv = to_cxl_drv(dev->driver);
+   216			if (!pdrv || !pdrv->err_handler ||
+   217			    !pdrv->err_handler->cor_error_detected)
+   218				return;
+   219	
+   220			pdrv->err_handler->cor_error_detected(dev, err_info);
+   221			pcie_clear_device_status(pdev);
+   222		} else {
+   223			cxl_do_recovery(pdev);
+   224		}
+   225	}
+   226	
 
 -- 
 0-DAY CI Kernel Test Service
