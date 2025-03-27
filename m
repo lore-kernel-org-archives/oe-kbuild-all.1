@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF451D0E2B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 07:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6341E1E10;
+	Thu, 27 Mar 2025 07:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743059705; cv=none; b=SRH01dMpIhGf1eKfc3ILr8Yr4ebBgsrMcCXcw1yvWitWtnchu3MyupSXPkM+J49s8DzHmxn71qY6U1SGxtYbPLXxqEp51MYQJOz9fzL1EWOd3mx10xAnPJ6YY/nVr+/23lSplKB0QVfHfP/HklhI21SzYIAyLg9zEmRAV3SVAUg=
+	t=1743060142; cv=none; b=S48bFVcQlMaqcuha5qKIPE6Q6JAllx8Jjmw5KSMGwuarizQY1NsTHsSr0FGsqUw2d0y0PWH81McvIvwlyhqaIJsdqD5layZO8HgdVIXqsXHoNxaPIzzhxesBfLMSPlV/7dafh9hIBtwNM1HaVUXPHTFXONpMDnqkLDCQ2BuEToU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743059705; c=relaxed/simple;
-	bh=/dV8Dsrd/Vo9rGSZiJ22sGbsfoz+QocOB6Hn/HBVflI=;
+	s=arc-20240116; t=1743060142; c=relaxed/simple;
+	bh=vxJW2l18axeAXkYulnRPg1B27S05azCpN2XT8ogc1CI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hAmufrJyf7HsKnZ6egKmtojiEYwmLPzg6hdXmW3avIUsedXIwae0Lxj4Iizu5mhzDsxJJ9CHbE7P4i2EJOHK2o9i7/kKvzVVUDS6qyCa2ODZff9Hcx5c+IC366z361wAYMG4TTj9L5u65e5jgVPdHI6Rf5Xgy9tKBi0Jlj2t9uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l23I14Uf; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=D5D/VtRLJK81ORgLLFlpiwFSFMUROpFP1R94KbRe0TFXCZJmhIsLcmHjqD3jbo0HisCSjCzuG4zEQ/95cRpZk5n/PSG2qEjXNkDYfmE3JSoQPMIKJw1q7GInh/UwPjhTbaw5SfcDFpFf5nnmloM2REJr7LxXJYd73B/h/Soe7D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QBhquX5J; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l23I14Uf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBhquX5J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743059703; x=1774595703;
+  t=1743060140; x=1774596140;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/dV8Dsrd/Vo9rGSZiJ22sGbsfoz+QocOB6Hn/HBVflI=;
-  b=l23I14UfTYB4RHPolzkFiVSLzdaf+LjCxbikhNPgs7L1BJgZaaFo7woN
-   gt83iqkB4fb62BVDBit3Uy5kLrGwzd14qweOtIxqHLJ++MgtLon9GtFRo
-   ama1jg5QtcttPqlOO7ptjrIdfkj8s5YG4PG5hrwJaMIF3sWebtffYiejT
-   dvM6lOMSvD3WWkL5wxhYS2mfmCuUtY0AQDBwfHKGsEiyOLRXlcqFGSNDP
-   h/RlvYYowo6JZZFtt8Z46WUx0t7vyP8Uus/d3Y9FRUcmFi4O/orxcKyY8
-   5uz8+zevKs3pm/G8DOcIOg0BYRa1YSf9clzSvpshqHohelbRu/Bl9/jEa
-   g==;
-X-CSE-ConnectionGUID: W18b8dMBQtKF4qwneWpNoA==
-X-CSE-MsgGUID: KGnrj0z0TPe/X7hQDTM1Rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="54579610"
+  bh=vxJW2l18axeAXkYulnRPg1B27S05azCpN2XT8ogc1CI=;
+  b=QBhquX5JFlfJsigYKxVuBlyAQsOYGnDsBdZlDr0fUxbabyMGnng2Noig
+   uMTLHpLitT+na1EtALFOEnFYws+huP+b53PU1TM6rjtI4J8LgVwH5FEGB
+   JVbaVJmBZmPM/og2Od/KaciuhFXvzh3ymD3vmkA/R5ZTp7zCUtW+NUYum
+   uJX8PNCLs5J+7aQJV+yklLcDizrTToNQh/0O5ggiTqyq+j8+KCPkTcaQr
+   Y/fV2vhC2EqIquiB7BjGuAWCYJdXBMMfCQCCJpoMqmp91YTMHVwmHBCTV
+   oVY7AJF4Wc9a+txJ7dhQ/UOQLxjvBfW8glDLZfTlnt7JouxsmSNjJnyvn
+   Q==;
+X-CSE-ConnectionGUID: 9GWMBXfqQze5+E50UabVeA==
+X-CSE-MsgGUID: Z86DIlrkQUaWez7/gQso6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44560483"
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="54579610"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 00:15:03 -0700
-X-CSE-ConnectionGUID: cjuauYm2RjOwuqXMFaj9cA==
-X-CSE-MsgGUID: PZwxGz5GQmqgYhPDkbBpOw==
+   d="scan'208";a="44560483"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 00:22:19 -0700
+X-CSE-ConnectionGUID: DxUY8+3PSBieDHtVcMb2gA==
+X-CSE-MsgGUID: xRrEiH4mSQS13bn3sfKTMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="129204736"
+   d="scan'208";a="124818023"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Mar 2025 00:14:54 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Mar 2025 00:22:18 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txhRw-0006TL-2u;
-	Thu, 27 Mar 2025 07:14:49 +0000
-Date: Thu, 27 Mar 2025 15:13:52 +0800
+	id 1txhZ9-0006Tt-2t;
+	Thu, 27 Mar 2025 07:22:15 +0000
+Date: Thu, 27 Mar 2025 15:21:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1523/1523] drivers/edac/skx_common.o:
- warning: objtool: missing symbol for section .exit.text
-Message-ID: <202503271455.zeSbmwpC-lkp@intel.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova-gsp 25/48] error: cannot find macro `register` in this
+ scope
+Message-ID: <202503271532.6ZuniB3h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +62,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   69d39b683755039471781fee8dc7ed96952f771b
-commit: e34047f6dc606c123911c6db8fa424bb4a035262 [1523/1523] EDAC, skx_edac: Delete duplicated code
-config: x86_64-buildonly-randconfig-002-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271455.zeSbmwpC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271455.zeSbmwpC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova-gsp
+head:   8a5d4dee8e431c4d46aa04b30d0928d29a4d3522
+commit: e8b2fbb30d806d93bbd9cede710958aa0b76a843 [25/48] [RFC] rust: add macros to define registers layout
+config: x86_64-randconfig-072-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271532.6ZuniB3h-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503271532.6ZuniB3h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503271455.zeSbmwpC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503271532.6ZuniB3h-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/edac/skx_common.c: In function 'skx_mce_output_error':
-   drivers/edac/skx_common.c:470:15: warning: variable 'type' set but not used [-Wunused-but-set-variable]
-     470 |         char *type, *optype;
-         |               ^~~~
->> drivers/edac/skx_common.o: warning: objtool: missing symbol for section .exit.text
+>> error: cannot find macro `register` in this scope
+   --> rust/doctests_kernel_generated.rs:3748:1
+   |
+   3748 | register!(Boot0@0x00000100, "Basic revision information about the chip";
+   | ^^^^^^^^
+   |
+   help: consider importing this macro
+   |
+   3    + use kernel::register;
+   |
+--
+>> error[E0425]: cannot find value `bar` in this scope
+   --> rust/doctests_kernel_generated.rs:3799:26
+   |
+   3799 | let boot0 = Boot0::read(&bar);
+   |                          ^^^ not found in this scope
+--
+>> error[E0425]: cannot find value `bar` in this scope
+   --> rust/doctests_kernel_generated.rs:3807:49
+   |
+   3807 | boot0.set_major_rev(3).set_minor_rev(10).write(&bar);
+   |                                                 ^^^ not found in this scope
+--
+>> error[E0425]: cannot find value `bar` in this scope
+   --> rust/doctests_kernel_generated.rs:3810:15
+   |
+   3810 | Boot0::alter(&bar, |r| r.set_major_rev(3).set_minor_rev(10));
+   |               ^^^ not found in this scope
+--
+>> error[E0433]: failed to resolve: use of undeclared type `Boot0`
+   --> rust/doctests_kernel_generated.rs:3799:13
+   |
+   3799 | let boot0 = Boot0::read(&bar);
+   |             ^^^^^ use of undeclared type `Boot0`
+--
+>> error[E0433]: failed to resolve: use of undeclared type `Boot0`
+   --> rust/doctests_kernel_generated.rs:3810:1
+   |
+   3810 | Boot0::alter(&bar, |r| r.set_major_rev(3).set_minor_rev(10));
+   | ^^^^^ use of undeclared type `Boot0`
 
 -- 
 0-DAY CI Kernel Test Service
