@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1343C0C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 15:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9421D41C7F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 16:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743174044; cv=none; b=neOMCmbOqfwl1JJ2CmASsxjLzVEv7qcA4W3O2E9l7RJ8TU4MPI5eSmFJLowjqFUxtGwJ56WMuEIXeDOb6A9ZXAr7f9aoWc1qMUpFMMnNVYXiPe/TKuP0m+Q/RJyhV5Awf00Cu2A4vDys9ddcgAVGDaq9OPMLHBKk1PK2ZDGCJ5U=
+	t=1743177802; cv=none; b=u5M9WwdKwF3f2N99hlp5b9cmg1eyZ7GIClMt4kOLUOFbByGv67N9IOtutd4gw9HRcI0wW5SLoLcReVGYwvHiUF61JK2hIE+Y4vygwYuXyYk7g1+D4y+tn+gKbo0JdF9K4lpDj1jt8TsyuvK/grQD9yXQ6Uk23+iBn1KAu+7Ml64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743174044; c=relaxed/simple;
-	bh=myVqDEXSnnwWJys2/shupeSKQBZhVmXXDEAnKSmggXs=;
+	s=arc-20240116; t=1743177802; c=relaxed/simple;
+	bh=wU+/++w8WtnNX+OSE/vtxBn0JHfKuRPEU6iejSnmV5g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eGh7yBab5tpS3N8kSUpNJ1Te6+DMAE5ahddkmqHoaS069JX4VqrmSylXIcZISH4NxjF8VNNWbTzdey9mwQDavrdPOfDyyhzKO4C6WapdWBdfMh5RR4oo6csfulVbQJ48+ZUZ+nzUAMBp2BTKyWZPJCwWf+nFevTj+Ts+sNn65kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjNHBNht; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=LsO1eSBOq+ln31K8nkGFbCCUhsEMqdNRDOnh4mobafXU/P9/rU7j5li9HtO7T/a07gQ4N6iCmmZr5B9Y36N6Xpi/gYwZOyZGbQMFiKh0gRKdGgXBQNCCN7YxdV7srYK1GBQXENAI5g+CegORTn9QB/gLwbcnRW1f2ppTP2YFE0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bg+GCgKW; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjNHBNht"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bg+GCgKW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743174041; x=1774710041;
+  t=1743177799; x=1774713799;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=myVqDEXSnnwWJys2/shupeSKQBZhVmXXDEAnKSmggXs=;
-  b=WjNHBNhttOr1usRofHpgwM4UK/Ao9hyfRP1AHSKfa7RpKTtl8eZFpFE2
-   D/sKpn3ZofpLy+EaxaHMA2SsY2zrSQ2HmSdEeo/3tHMwo84KsEz47jOWW
-   JneTP3yAf68yC80sXbelbuMsPFu3PEAXNxdc1aD3xhD3Xepx0FOIVjBoT
-   XZGxSLaSgndP/+D1KelNsM/BOz4zLc/vZESsAtKA8x0xvVwNTJQ3ii5w6
-   xQ71IWYpoqPR2JohPeQm4MBTuXi35BRSvkfwL48kZ1dPRrd0Acd2gd5Ej
-   G9XLNzz5OszW07tT14SXJIHKH+2f0btVrP5R9tM6Dr62rUrkqC3cZKg7f
-   Q==;
-X-CSE-ConnectionGUID: mNPzcRMtSwiXqRXSoSrotg==
-X-CSE-MsgGUID: CPhZ0SutQzm2wqAH9SbB2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="55197903"
+  bh=wU+/++w8WtnNX+OSE/vtxBn0JHfKuRPEU6iejSnmV5g=;
+  b=bg+GCgKWRpxfm7EjHKqF0yCI5IRMy6v6NVfLeOdhdPoUsMSjxjaPC0MU
+   aLgHzJWb7TLJDqFBnxbR2w2Degjjv1qkhoY3pxy98gc70NwIfRnuDGn7l
+   Dn7JlgPO/RrW5ud/LRIbLA4x4aVQBAOZQg/5C4AV/4PDEjxxsf7HMaXbB
+   QOTw85Pd3IG9QldXXbPU74144VdGyuMfab+E4scvu+I/aGdZB+jGOCrMl
+   odS7Pzhnb6gg97Dn7sJDKQsxohnuHEOOJlxdgCxKRIaUsOdGjvRyFAMv+
+   o64xH1e9iMBynD8dlT4FCqUJezjhuv+CYPe1eCINuaNghb6SU57sxJSGj
+   A==;
+X-CSE-ConnectionGUID: gA2l3DgcR+Sht97iBykhaA==
+X-CSE-MsgGUID: 6v6IoYuCTdGIxaoqgFDNZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44725158"
 X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="55197903"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 08:00:39 -0700
-X-CSE-ConnectionGUID: TG/jBMKKTJu0HHxzHx3cvQ==
-X-CSE-MsgGUID: Xn3rxUHyQJ6PEv30CMqMSQ==
+   d="scan'208";a="44725158"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 09:03:18 -0700
+X-CSE-ConnectionGUID: L3ah0ERnQ4agT27o6pEUAw==
+X-CSE-MsgGUID: 43JblK2fQoieCrU/RYpQxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="162698887"
+   d="scan'208";a="125377445"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2025 08:00:37 -0700
+  by orviesa010.jf.intel.com with ESMTP; 28 Mar 2025 09:03:18 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tyBCE-0007Vr-2P;
-	Fri, 28 Mar 2025 15:00:34 +0000
-Date: Fri, 28 Mar 2025 22:59:59 +0800
+	id 1tyCAt-0007Ys-28;
+	Fri, 28 Mar 2025 16:03:15 +0000
+Date: Sat, 29 Mar 2025 00:02:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:incoming-android15-6.6-desktop-chromeos 499/499]
- drivers/dma-buf/heaps/restricted_heap.c:201:21: error: initialization of
- 'struct dma_buf * (*)(struct dma_heap *, long unsigned int,  u32,  u64)'
- {aka 'struct dma_buf * (*)(struct dma_heap *, long unsigned int,  unsigned
- int,  long long unsigned int)'} fr...
-Message-ID: <202503282249.SKSXbxvI-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1528/1528]
+ drivers/crypto/.tmp_qcom-rng.o: warning: objtool: missing symbol for section
+ .init.text
+Message-ID: <202503282324.X867QbB6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,39 +63,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common incoming-android15-6.6-desktop-chromeos
-head:   05387f6649b8b2e90387b0f30e788b96413e54d0
-commit: 05387f6649b8b2e90387b0f30e788b96413e54d0 [499/499] Revert "FROMLIST: dma-buf: system_heap: Add a system-uncached heap re-using the system heap"
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250328/202503282249.SKSXbxvI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503282249.SKSXbxvI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4d1e247486ffeef035a5a55a97f2659f68177357
+commit: c5f5aeef9b55b362ad5a0e04e4b41cd63b208842 [1528/1528] Merge git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux
+config: x86_64-buildonly-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503282324.X867QbB6-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503282324.X867QbB6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503282249.SKSXbxvI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503282324.X867QbB6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/dma-buf/heaps/restricted_heap.c:201:21: error: initialization of 'struct dma_buf * (*)(struct dma_heap *, long unsigned int,  u32,  u64)' {aka 'struct dma_buf * (*)(struct dma_heap *, long unsigned int,  unsigned int,  long long unsigned int)'} from incompatible pointer type 'struct dma_buf * (*)(struct dma_heap *, long unsigned int,  long unsigned int,  long unsigned int)' [-Wincompatible-pointer-types]
-     201 |         .allocate = restricted_heap_allocate,
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/dma-buf/heaps/restricted_heap.c:201:21: note: (near initialization for 'rheap_ops.allocate')
-
-
-vim +201 drivers/dma-buf/heaps/restricted_heap.c
-
-7250c068a51cbf Yong Wu 2024-05-15  199  
-7250c068a51cbf Yong Wu 2024-05-15  200  static const struct dma_heap_ops rheap_ops = {
-7250c068a51cbf Yong Wu 2024-05-15 @201  	.allocate = restricted_heap_allocate,
-7250c068a51cbf Yong Wu 2024-05-15  202  };
-7250c068a51cbf Yong Wu 2024-05-15  203  
-
-:::::: The code at line 201 was first introduced by commit
-:::::: 7250c068a51cbf472372ddd41d02087ccab05175 FROMLIST: dma-buf: heaps: Initialize a restricted heap
-
-:::::: TO: Yong Wu <yong.wu@mediatek.com>
-:::::: CC: Hubert Mazur <hmazur@google.com>
+>> drivers/crypto/.tmp_qcom-rng.o: warning: objtool: missing symbol for section .init.text
 
 -- 
 0-DAY CI Kernel Test Service
