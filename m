@@ -1,60 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09632AEF5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 00:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91588158535
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 00:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743121279; cv=none; b=Zn4v+JUiBjZyz4QOoxZ9KhPcOttWiK0gVVL0cuOqSUWivRRJrku2in1R3Pj1kWWI7Mc96WGAdwRj+NZULJeDWFI9Pt85oKvncoYUxiRUO6Ajiyef6n8X6QSK7E1qsyNbxNH5nZp0Ba+h89xh08Avqfw9zC1G7BDHZzlkf2gTgQA=
+	t=1743123347; cv=none; b=Mf2xYrTctXM/5fMZr2vt2R551dgWgPoqEBVQG+FnzIsngx38cwbV0DASBhabKRJBjtqhujyzcvJo1v1rugA3gb5G3iavUFFpcRb/9hhDHi3r+5ritGuX905pxxTW5tQnvQi0HeJ8ffaGpqnF3iECc8arOSfUel1EF2vEQxPlXjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743121279; c=relaxed/simple;
-	bh=vozR5mSLW6aEeNh9vpMa2OMhi/85aLyJAS/8TUnPcYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Almx50KwYYkhWNXJdGo5QYFPvZwa7f65oT8O1JIFfC7f73CLRytjnw2tJE2Bpbjy4U3hQbbKTLQxnY0HeaAinsqeV67zyd+dpdOxPxsmKaxnCLCC01uF4eqHiQ4bTzTa4RWWz+uTxV/HaYB10gdeuVJCUckO/T7G6/5GN8il9l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mja/khlh; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743123347; c=relaxed/simple;
+	bh=OjLhi8L/AkXCkcXackWSSokwtCg9FEOekmeNmSMyg30=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dUe6r1cNz7BQZAL9u4RaBVeyxMXpe503ikYw8EjqO4eRbYFdrvyv3d6F0CGi4gUCs+0C6uNaHPgUe0R4txBam4lDAAPHlXYBizkpXF8N789ghJpFl+pdwVPZW0z9KvAMbgfp+84eBV1rEn3HhrR++/wWi/owgtWLJPxRbZdAWUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V1dZ7bxk; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mja/khlh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743121278; x=1774657278;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vozR5mSLW6aEeNh9vpMa2OMhi/85aLyJAS/8TUnPcYU=;
-  b=Mja/khlh2KS+aQTxRjcyC7/KjvKYgf9edQrofveDlNWU+UQSID4saTLB
-   S+/lgMvg+uJJ21OBMV2qhdiGHBshbHplRPEiDp2y/TtmAer8pGq0hm2Sb
-   vDqKb+UR5i7qXnKng/v2hG8XQU4po3t84xaFu7NnjKUN3P3oQQ5KsAIPR
-   +wJDInAfIQCSiTGpQH7Aoq1nJ1zChMpF4TbLZb5HMnP1I+oofyIQHTpRN
-   S8gljc5U6tqcpIwbHkYszwwDegJBxV52OjtZQ1pvNfDHK6G8pnsOSJZOv
-   Kurl8gEFIvhgn5XTyWdm3xlq+qWDAKaza6XkI7nF3k+eEeqfKs3XsJlWE
-   g==;
-X-CSE-ConnectionGUID: BBgSmSWSTNOOiQzCxqVd0Q==
-X-CSE-MsgGUID: 3jzw7HHfSaOnG+Emm6a33g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44394394"
-X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="44394394"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 17:21:16 -0700
-X-CSE-ConnectionGUID: eGui0ovKQSu4VgXSL5ixwQ==
-X-CSE-MsgGUID: NRW3rO2tSiatYK3s2HqbEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="162537948"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 27 Mar 2025 17:21:15 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1txxTA-00071e-1Y;
-	Fri, 28 Mar 2025 00:21:09 +0000
-Date: Fri, 28 Mar 2025 08:20:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 23/23]
- arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /: failed to match
- any schema with compatible: ['google,navi-sku2', 'google,navi-sku7',
- 'google,navi', 'mediatek,mt8196']
-Message-ID: <202503280840.zIZxTHWo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V1dZ7bxk"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5e5e0caa151so3092670a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Mar 2025 17:55:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743123344; x=1743728144; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y8G81JEz2uI2RDXTwyc99Q5aIzsfFZJ1dMtQvoEzCQ4=;
+        b=V1dZ7bxkQWjuA+Xi9kfgNblbl7fpEvxlZTk78/LqfytT4zFXU4S71Q1RaxSPW3lApL
+         hx4Vs/CcXFnpdsEMlrn70r6rpBvhuqHNhM50A2YHpZEBcEUi+99wUJEjbv6jPW0+EZYN
+         s5CPO5bjN6oEdmztQQS+jdPBifAPD2ee5CuPPfCneHb47b3FGCTmjdLQJmr8yj3OZMBe
+         BE/bok0nbwwcnFuW1ozJpL/JNqtbh8YOY7QGgfvrxSy/ew+1SMHrx3xD0qKQUzoaVRRN
+         /WuwGI5zj35svJV4ijWo66ERPuA+YZrjv8WQZd2RqeXxZ7z7CO8QmHkWiGVUHBR4uHbu
+         6Obg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743123344; x=1743728144;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=y8G81JEz2uI2RDXTwyc99Q5aIzsfFZJ1dMtQvoEzCQ4=;
+        b=orcZ58bSullCKeYcdJtheHYSGw74Eo9sQfj4XigHKC8mruqXktSVz/8+Z+qKBoG1N2
+         Qfju5VCiWNa4CJZI23qdtkuI4GNEJzk1d/43eU61OH7cuvqYmwmdQ7qjuoxPFAaR2/4V
+         ync5MMgj80hU4HyfFwz2yNcK+fQZSyJ6GHfIVe0y6yKJiZVo1EBMHg5GOuwxIdUHPwtw
+         OJjoXhH0NOlywZfUGxqOBG1RDliyDDwOc1uSxdIgU06s5kzZ3oLn746cO1Fr4R7HhrBS
+         MaET+JgD+hoZq5eW5mvrvJ1EZOzt6rlduadPX52hO8QopLLxlETIVoMn0+8UF/uMI6NV
+         0rYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVcKGggtmDG1l9U3C2UyFRdygGxRlk7yvHkpBnCCq02EIaMjWiT8yLoWtWii2HdLrbJMsIpvg0wUxVKas/S@lists.linux.dev
+X-Gm-Message-State: AOJu0YzypjBwxhoPcic8gzUcXD5RSdtkX3GYsLAMC0/sSUrrzztq+nLD
+	C2qNbpZlSCs9dY6IoDX8dYTYJQ7K81/xq09+1GPtgG12uwFth369
+X-Gm-Gg: ASbGnctkJ0y+vpxNHSfW5AEZ9tH9xfzC3Z3PZyGz7pDl/kYzNk7PhO0Pe9AfPY+TDrz
+	pPTP2CGWae3hNx2F743763Bx/0qPfCjONyu7BvJZu3LFICWlrCCqiEWe32Vh7gmNvmcGWrT8GoY
+	QB4lx+LoA61fW10OiKaiPbP5cJBJLvLadfhdfcux3l0nWKxiqiX/NesjyUZodEN8w4DG5+G5oJE
+	O0X1r6aWSG0sUpNCdcCgVO2MEY5Y/pcoEc+IdHi9GJ1XDN7wM36d9Ebq4yM1WuPq8vUOFzICpOA
+	vKv+2Ps3itGbVmpiamTeho7ZtBcjxURVkGuL4FJtdUOs
+X-Google-Smtp-Source: AGHT+IGDo0+yCIbyrvl6erWfoKV5FSSUnDNahplQfwCA25cuWKidVAHgKmI6fhzo4C8M81dxJCIWqA==
+X-Received: by 2002:a17:907:9611:b0:ac2:7d72:c2aa with SMTP id a640c23a62f3a-ac6fb1bd18dmr568959066b.51.1743123343637;
+        Thu, 27 Mar 2025 17:55:43 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac71961f8b7sm73949566b.121.2025.03.27.17.55.42
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 27 Mar 2025 17:55:42 -0700 (PDT)
+Date: Fri, 28 Mar 2025 00:55:42 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Wei Yang <richard.weiyang@gmail.com>, kernel test robot <lkp@intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
+ mm_cmdline_setup+0x94 (section: .text.unlikely) -> memblock (section:
+ .init.data)
+Message-ID: <20250328005542.q7oumy7v2bvpuyyd@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <202503241259.kJV3U7Xj-lkp@intel.com>
+ <20250327011312.mj55byrfatiprddh@master>
+ <20250327123624.bd59f1307d5c5b29b1b9ac08@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +80,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250327123624.bd59f1307d5c5b29b1b9ac08@linux-foundation.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   b227f84ea4ccd17e73548d7b3f3e0edce97652aa
-commit: 1acc3205880162fc9ada137f8281f32f835519d6 [23/23] CHROMIUM: arm64: dts: mediatek: mt8196: navi: add SKUs with Elan fingerprint sensor
-config: arm64-randconfig-051-20250327 (https://download.01.org/0day-ci/archive/20250328/202503280840.zIZxTHWo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503280840.zIZxTHWo-lkp@intel.com/reproduce)
+On Thu, Mar 27, 2025 at 12:36:24PM -0700, Andrew Morton wrote:
+>On Thu, 27 Mar 2025 01:13:12 +0000 Wei Yang <richard.weiyang@gmail.com> wrote:
+>
+>> Since it is only used by mmu_init() which is annotated by __init, I think the
+>> proper way is to add __init to mm_cmdline_setup.
+>> 
+>> 
+>> diff --git a/arch/microblaze/mm/init.c b/arch/microblaze/mm/init.c
+>> index 4520c5741579..e98cfaf1c62b 100644
+>> --- a/arch/microblaze/mm/init.c
+>> +++ b/arch/microblaze/mm/init.c
+>> @@ -143,7 +143,7 @@ int page_is_ram(unsigned long pfn)
+>>  /*
+>>   * Check for command-line options that affect what MMU_init will do.
+>>   */
+>> -static void mm_cmdline_setup(void)
+>> +static void __init mm_cmdline_setup(void)
+>>  {
+>>  	unsigned long maxmem = 0;
+>>  	char *p = cmd_line;
+>
+>That's a correct change anyway.  Please send along a patch sometime?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503280840.zIZxTHWo-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196.dtsi:1144.37-1169.5: Warning (avoid_unnecessary_addr_size): /soc/interrupt-controller@c400000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi.dtsi:94.25-142.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@13a30000/anx7625@58: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8196.dtsi:1269.25-1299.5: Warning (unique_unit_address_if_enabled): /soc/nsmpu@1046f000: duplicate unit-address (also used in node /soc/nkp@1046f000)
-   arch/arm64/boot/dts/mediatek/mt8196.dtsi:1301.24-1328.5: Warning (unique_unit_address_if_enabled): /soc/ssmpu@1056f000: duplicate unit-address (also used in node /soc/skp@1056f000)
-   arch/arm64/boot/dts/mediatek/mt8196.dtsi:2692.28-2697.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a110000: duplicate unit-address (also used in node /soc/mt8196-afe-pcm@1a110000)
-   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi.dtsi:110.9-120.5: Warning (graph_child_address): /soc/i2c@13a30000/anx7625@58/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi.dtsi:130.11-139.7: Warning (graph_child_address): /soc/i2c@13a30000/anx7625@58/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8196-rauru.dtsi:250.8-260.4: Warning (graph_child_address): /soc/dp-intf@32430000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8196-rauru.dtsi:266.8-276.4: Warning (graph_child_address): /soc/dp-intf@32440000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   propagate-bits: size (1) error for type uint32-array
->> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /: failed to match any schema with compatible: ['google,navi-sku2', 'google,navi-sku7', 'google,navi', 'mediatek,mt8196']
->> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /: failed to match any schema with compatible: ['google,navi-sku2', 'google,navi-sku7', 'google,navi', 'mediatek,mt8196']
->> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /: failed to match any schema with compatible: ['google,navi-sku2', 'google,navi-sku7', 'google,navi', 'mediatek,mt8196']
->> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /: failed to match any schema with compatible: ['google,navi-sku2', 'google,navi-sku7', 'google,navi', 'mediatek,mt8196']
-   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: idle-states: entry-method:0: 'psci' was expected
-   	from schema $id: http://devicetree.org/schemas/cpu/idle-states.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: idle-states: 'clusteroff-b', 'clusteroff-l', 'clusteroff-m', 'cpuoff-b', 'cpuoff-l', 'cpuoff-m', 'mcusysoff-b', 'mcusysoff-l', 'mcusysoff-m', 's2idle', 'system-vcore' do not match any of the regexes: '^(cpu|cluster)-', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/cpu/idle-states.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: clk-ao: $nodename:0: 'clk-ao' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: clk-ao: #size-cells: 0 is not one of [1, 2]
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: clk-ao: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+Sure.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Wei Yang
+Help you, Help me
