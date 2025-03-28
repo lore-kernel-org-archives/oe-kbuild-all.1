@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE34224CC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 01:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A2522094
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 02:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743126035; cv=none; b=uLiOuXimtKirdorU5aq5QcyWKGYvw9i+rjOOm5w/em9eyhfA+vwoDFdYZWHu4sD9cBNKP3wTI4Ah9xuaSbpM2xj6s0BvJ/e6/a/od2zV5Iw8scO9QxDfnxw4xahB/Jdz/HnYnmSXvmcScXncW4/XX0SMdLBX9LOnAP0/V5PmRhQ=
+	t=1743127428; cv=none; b=R/9R/eh4B5NpICVMak10N00wPIN3ekwbcwMMM3xieZfRZJevP6sGAmiXI4BU2Si5VToheRTpxFrPlZkYtluvdFj5xjzF0cKRsJ31JeAZQukWHLwp4WTfqSpoVKWj37qdRHf0GycrNzTTuMnY4BzTofGejDQf7ZDWn3TcVvVbhQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743126035; c=relaxed/simple;
-	bh=VEfL0vPeGfnKhpKoBEiCC1gkXEfNqytprvdgN15tH90=;
+	s=arc-20240116; t=1743127428; c=relaxed/simple;
+	bh=01WJuUX1tIHgkaMkGlMn387UDgHl3nzMv4W6KG2ks9Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OFlGT6BbbaN8f8qyMlc7nzLiC4UkFe3qQAsgzQmOaJKHfDpOFiqgaeUS0bVIKD2wTIQZ5cDcEOs7fNo0EYxeOQKKn0EpEidUap6ddTx2v5isbxlRNuMpAb1qVzt4uaNN6UahmjP0k+SXzMoyJOT2KkK0ek7bjfO8kzTBbYU5gbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBJjihz4; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=tAn+0Cc753MP+T9LGUR7CaZstl4i+Gc319X58zvwFvbhRqBUc0OijUGQqDKV6hYzRhdLJrV2o20iO4NBzweyScWR0vxrMmSECVogVclULOsTl0wwMwug0e7PQ/QbAmJCo3vnJzu+44/t/GGBdH1gd9jI8Vb6r6NZoHdvzpKNYRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B4+A/Gh3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBJjihz4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B4+A/Gh3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743126033; x=1774662033;
+  t=1743127426; x=1774663426;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VEfL0vPeGfnKhpKoBEiCC1gkXEfNqytprvdgN15tH90=;
-  b=LBJjihz4KGNT1kTHNFqJ+lg6t4QKVAaXDrnuymOg2590TRzUw03bS6S0
-   dPCyod2LbQ5F7Fcwlc7lVDobevScr8bHuW3NbjXTZNcDA3MGo8Ey+nvvs
-   YBxttS/wyR3RDopwK+PP8/EHnYmgoXAqmfSkMHG2qel3RMTook0KixzYm
-   KMvYbbTBoWiVBkM6iGqOaoHT7/wECCKyyHDWFVUaINGyU6k0iUclys03e
-   SSaOFSdZBpDUQn0IB9o3yGKvw4Wx8LGOVvZPahEBF/RRyjW0b4bFLIZhd
-   z6eqMyj3WPPeo2jUzGg59I3+PtyF7ABneIe10i/W9GWhTRg36YkIgpeqA
-   w==;
-X-CSE-ConnectionGUID: SGTfzN5zRKmyVj+FUUuBHg==
-X-CSE-MsgGUID: qSwZA4aFT52qCFo+5qHRlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="32084926"
-X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="32084926"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 18:40:31 -0700
-X-CSE-ConnectionGUID: lI1BvDiBSVi94Pj/5wgpcg==
-X-CSE-MsgGUID: d/eoDIvLQqGEUxge62vJaw==
+  bh=01WJuUX1tIHgkaMkGlMn387UDgHl3nzMv4W6KG2ks9Q=;
+  b=B4+A/Gh3de0mAnjyXZ06FjDHLn0NT6APJ5Qw2HvsbIVsLgOUmyv8QRGe
+   e46CZgKGNGF55ZzgNoEbmWryzX+70LJxbldxVjN30RA1BPW+TI/az6eBI
+   b+89P152gxEOc+UMdT07AN/4uF/CulCYD7msP8Px/1JZQVL21c4U2KsAs
+   rd/g+q/Sl9BlrkqUaWB887+UMlHaPY8/qHmbkk5xnK+gGv1UiE4kLA4Ki
+   aBPcBIRIesK27UHFfEcuZPaq35GxiGKumaSuTLpSjfHPT/friOc71jvPz
+   vYZkJIVHv4GseGiE0WaY89XJL9LhWR3Fq/OzfeusTBwRvlXElMTdTZ4KA
+   g==;
+X-CSE-ConnectionGUID: DW+xy1IiRsmMhtb0RL07hQ==
+X-CSE-MsgGUID: oqxMB6+iQU+MBxr/uSNrRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="66956671"
+X-IronPort-AV: E=Sophos;i="6.14,282,1736841600"; 
+   d="scan'208";a="66956671"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 19:03:46 -0700
+X-CSE-ConnectionGUID: O3oL04dMTGqZfV7T8w1Ayw==
+X-CSE-MsgGUID: ABjKGcUxRwa4w/aiIeUm0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="125763909"
+X-IronPort-AV: E=Sophos;i="6.14,282,1736841600"; 
+   d="scan'208";a="130419114"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Mar 2025 18:40:31 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Mar 2025 19:03:43 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txyhw-00074Q-1W;
-	Fri, 28 Mar 2025 01:40:28 +0000
-Date: Fri, 28 Mar 2025 09:40:26 +0800
+	id 1txz4I-00074s-1y;
+	Fri, 28 Mar 2025 02:03:37 +0000
+Date: Fri, 28 Mar 2025 10:02:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2024-10 2/2]
- crypto/fips140-module.c:575:8: error: call to undeclared function
- 'register_trace_android_vh_sha256'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202503280934.8FaK7wHJ-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-nonmm-unstable 25/40] lib/sort.c:222: warning: Function
+ parameter or struct member 'may_schedule' not described in '__sort_r'
+Message-ID: <202503280953.FpTcyG1h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,148 +64,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ard,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-10
-head:   da759a1462b23348c55a6399190d67bd1d1051b9
-commit: 8a99ad0b72e2f0a56d72221a9a20f4f261dfa3c7 [2/2] ANDROID: fips140: add kernel crypto module
-config: arm64-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503280934.8FaK7wHJ-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503280934.8FaK7wHJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   ae518c1c1d4f910c2a4f255ec5d52f5a5b138f77
+commit: f79965d13aa1a65047fbc47565794cc9fc763f5f [25/40] lib/sort.c: add _nonatomic() variants with cond_resched()
+config: i386-buildonly-randconfig-001-20250328 (https://download.01.org/0day-ci/archive/20250328/202503280953.FpTcyG1h-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503280953.FpTcyG1h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503280934.8FaK7wHJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503280953.FpTcyG1h-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from crypto/fips140-module.c:37:
-   crypto/internal.h:85:2: error: call to undeclared function 'static_key_enable'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           static_branch_enable(&__crypto_boot_test_finished);
-           ^
-   include/linux/jump_label.h:553:35: note: expanded from macro 'static_branch_enable'
-   #define static_branch_enable(x)                 static_key_enable(&(x)->key)
-                                                   ^
-   crypto/internal.h:85:2: note: did you mean 'static_key_false'?
-   include/linux/jump_label.h:553:35: note: expanded from macro 'static_branch_enable'
-   #define static_branch_enable(x)                 static_key_enable(&(x)->key)
-                                                   ^
-   include/linux/jump_label.h:207:29: note: 'static_key_false' declared here
-   static __always_inline bool static_key_false(struct static_key *key)
-                               ^
->> crypto/fips140-module.c:575:8: error: call to undeclared function 'register_trace_android_vh_sha256'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
-                 ^
-   crypto/fips140-module.c:575:8: note: did you mean 'trace_android_vh_sha256'?
-   include/trace/hooks/fips140.h:18:1: note: 'trace_android_vh_sha256' declared here
-   DECLARE_HOOK(android_vh_sha256,
-   ^
-   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
-   #define DECLARE_HOOK DECLARE_EVENT_NOP
-                        ^
-   include/linux/tracepoint.h:584:21: note: expanded from macro 'DECLARE_EVENT_NOP'
-           static inline void trace_##name(proto)                          \
-                              ^
-   <scratch space>:16:1: note: expanded from here
-   trace_android_vh_sha256
-   ^
->> crypto/fips140-module.c:576:8: error: call to undeclared function 'register_trace_android_vh_aes_expandkey'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                 register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
-                 ^
-   crypto/fips140-module.c:576:8: note: did you mean 'trace_android_vh_aes_expandkey'?
-   include/trace/hooks/fips140.h:25:1: note: 'trace_android_vh_aes_expandkey' declared here
-   DECLARE_HOOK(android_vh_aes_expandkey,
-   ^
-   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
-   #define DECLARE_HOOK DECLARE_EVENT_NOP
-                        ^
-   include/linux/tracepoint.h:584:21: note: expanded from macro 'DECLARE_EVENT_NOP'
-           static inline void trace_##name(proto)                          \
-                              ^
-   <scratch space>:19:1: note: expanded from here
-   trace_android_vh_aes_expandkey
-   ^
->> crypto/fips140-module.c:577:8: error: call to undeclared function 'register_trace_android_vh_aes_encrypt'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                 register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
-                 ^
->> crypto/fips140-module.c:578:8: error: call to undeclared function 'register_trace_android_vh_aes_decrypt'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                 register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
-                 ^
-   5 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+>> lib/sort.c:222: warning: Function parameter or struct member 'may_schedule' not described in '__sort_r'
+>> lib/sort.c:222: warning: expecting prototype for sort_r(). Prototype was for __sort_r() instead
 
 
-vim +/register_trace_android_vh_sha256 +575 crypto/fips140-module.c
+vim +222 lib/sort.c
 
-   570	
-   571	static bool update_fips140_library_routines(void)
-   572	{
-   573		int ret;
-   574	
- > 575		ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
- > 576		      register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
- > 577		      register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
- > 578		      register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
-   579	
-   580		return ret == 0;
-   581	}
-   582	
+f79965d13aa1a6 Kent Overstreet  2025-03-26  190  
+72fd4a35a82433 Robert P. J. Day 2007-02-10  191  /**
+4333fb96ca1086 Rasmus Villemoes 2019-08-16  192   * sort_r - sort an array of elements
+^1da177e4c3f41 Linus Torvalds   2005-04-16  193   * @base: pointer to data to sort
+^1da177e4c3f41 Linus Torvalds   2005-04-16  194   * @num: number of elements
+^1da177e4c3f41 Linus Torvalds   2005-04-16  195   * @size: size of each element
+b53907c0100a35 Wu Fengguang     2009-01-07  196   * @cmp_func: pointer to comparison function
+b53907c0100a35 Wu Fengguang     2009-01-07  197   * @swap_func: pointer to swap function or NULL
+4333fb96ca1086 Rasmus Villemoes 2019-08-16  198   * @priv: third argument passed to comparison function
+^1da177e4c3f41 Linus Torvalds   2005-04-16  199   *
+37d0ec34d111ac George Spelvin   2019-05-14  200   * This function does a heapsort on the given array.  You may provide
+37d0ec34d111ac George Spelvin   2019-05-14  201   * a swap_func function if you need to do something more than a memory
+37d0ec34d111ac George Spelvin   2019-05-14  202   * copy (e.g. fix up pointers or auxiliary data), but the built-in swap
+8fb583c4258d08 George Spelvin   2019-05-14  203   * avoids a slow retpoline and so is significantly faster.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  204   *
+4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  205   * The comparison function must adhere to specific mathematical
+4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  206   * properties to ensure correct and stable sorting:
+4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  207   * - Antisymmetry: cmp_func(a, b) must return the opposite sign of
+4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  208   * cmp_func(b, a).
+4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  209   * - Transitivity: if cmp_func(a, b) <= 0 and cmp_func(b, c) <= 0, then
+4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  210   * cmp_func(a, c) <= 0.
+4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  211   *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  212   * Sorting time is O(n log n) both on average and worst-case. While
+22a241ccb2c199 George Spelvin   2019-05-14  213   * quicksort is slightly faster on average, it suffers from exploitable
+^1da177e4c3f41 Linus Torvalds   2005-04-16  214   * O(n*n) worst-case behavior and extra memory requirements that make
+^1da177e4c3f41 Linus Torvalds   2005-04-16  215   * it less suitable for kernel use.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  216   */
+f79965d13aa1a6 Kent Overstreet  2025-03-26  217  static void __sort_r(void *base, size_t num, size_t size,
+52ae533b8a18e7 Andy Shevchenko  2019-10-07  218  		     cmp_r_func_t cmp_func,
+a0019cd7d41a19 Jiri Olsa        2022-03-16  219  		     swap_r_func_t swap_func,
+f79965d13aa1a6 Kent Overstreet  2025-03-26  220  		     const void *priv,
+f79965d13aa1a6 Kent Overstreet  2025-03-26  221  		     bool may_schedule)
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @222  {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  223  	/* pre-scale counters for performance */
+22a241ccb2c199 George Spelvin   2019-05-14  224  	size_t n = num * size, a = (num/2) * size;
+22a241ccb2c199 George Spelvin   2019-05-14  225  	const unsigned int lsbit = size & -size;  /* Used to find parent */
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  226  	size_t shift = 0;
+22a241ccb2c199 George Spelvin   2019-05-14  227  
+22a241ccb2c199 George Spelvin   2019-05-14  228  	if (!a)		/* num < 2 || size == 0 */
+22a241ccb2c199 George Spelvin   2019-05-14  229  		return;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  230  
+a0019cd7d41a19 Jiri Olsa        2022-03-16  231  	/* called from 'sort' without swap function, let's pick the default */
+a0019cd7d41a19 Jiri Olsa        2022-03-16  232  	if (swap_func == SWAP_WRAPPER && !((struct wrapper *)priv)->swap)
+a0019cd7d41a19 Jiri Olsa        2022-03-16  233  		swap_func = NULL;
+a0019cd7d41a19 Jiri Olsa        2022-03-16  234  
+ca96ab859ab4b5 Daniel Wagner    2015-06-25  235  	if (!swap_func) {
+37d0ec34d111ac George Spelvin   2019-05-14  236  		if (is_aligned(base, size, 8))
+8fb583c4258d08 George Spelvin   2019-05-14  237  			swap_func = SWAP_WORDS_64;
+37d0ec34d111ac George Spelvin   2019-05-14  238  		else if (is_aligned(base, size, 4))
+8fb583c4258d08 George Spelvin   2019-05-14  239  			swap_func = SWAP_WORDS_32;
+ca96ab859ab4b5 Daniel Wagner    2015-06-25  240  		else
+8fb583c4258d08 George Spelvin   2019-05-14  241  			swap_func = SWAP_BYTES;
+ca96ab859ab4b5 Daniel Wagner    2015-06-25  242  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  243  
+22a241ccb2c199 George Spelvin   2019-05-14  244  	/*
+22a241ccb2c199 George Spelvin   2019-05-14  245  	 * Loop invariants:
+22a241ccb2c199 George Spelvin   2019-05-14  246  	 * 1. elements [a,n) satisfy the heap property (compare greater than
+22a241ccb2c199 George Spelvin   2019-05-14  247  	 *    all of their children),
+22a241ccb2c199 George Spelvin   2019-05-14  248  	 * 2. elements [n,num*size) are sorted, and
+22a241ccb2c199 George Spelvin   2019-05-14  249  	 * 3. a <= b <= c <= d <= n (whenever they are valid).
+22a241ccb2c199 George Spelvin   2019-05-14  250  	 */
+22a241ccb2c199 George Spelvin   2019-05-14  251  	for (;;) {
+22a241ccb2c199 George Spelvin   2019-05-14  252  		size_t b, c, d;
+22a241ccb2c199 George Spelvin   2019-05-14  253  
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  254  		if (a)			/* Building heap: sift down a */
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  255  			a -= size << shift;
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  256  		else if (n > 3 * size) { /* Sorting: Extract two largest elements */
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  257  			n -= size;
+a0019cd7d41a19 Jiri Olsa        2022-03-16  258  			do_swap(base, base + n, size, swap_func, priv);
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  259  			shift = do_cmp(base + size, base + 2 * size, cmp_func, priv) <= 0;
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  260  			a = size << shift;
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  261  			n -= size;
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  262  			do_swap(base + a, base + n, size, swap_func, priv);
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  263  		} else {		/* Sort complete */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  264  			break;
+0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  265  		}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  266  
+22a241ccb2c199 George Spelvin   2019-05-14  267  		/*
+22a241ccb2c199 George Spelvin   2019-05-14  268  		 * Sift element at "a" down into heap.  This is the
+22a241ccb2c199 George Spelvin   2019-05-14  269  		 * "bottom-up" variant, which significantly reduces
+22a241ccb2c199 George Spelvin   2019-05-14  270  		 * calls to cmp_func(): we find the sift-down path all
+22a241ccb2c199 George Spelvin   2019-05-14  271  		 * the way to the leaves (one compare per level), then
+22a241ccb2c199 George Spelvin   2019-05-14  272  		 * backtrack to find where to insert the target element.
+22a241ccb2c199 George Spelvin   2019-05-14  273  		 *
+22a241ccb2c199 George Spelvin   2019-05-14  274  		 * Because elements tend to sift down close to the leaves,
+22a241ccb2c199 George Spelvin   2019-05-14  275  		 * this uses fewer compares than doing two per level
+22a241ccb2c199 George Spelvin   2019-05-14  276  		 * on the way down.  (A bit more than half as many on
+22a241ccb2c199 George Spelvin   2019-05-14  277  		 * average, 3/4 worst-case.)
+22a241ccb2c199 George Spelvin   2019-05-14  278  		 */
+22a241ccb2c199 George Spelvin   2019-05-14  279  		for (b = a; c = 2*b + size, (d = c + size) < n;)
+db946a42226052 Kuan-Wei Chiu    2024-01-13  280  			b = do_cmp(base + c, base + d, cmp_func, priv) > 0 ? c : d;
+22a241ccb2c199 George Spelvin   2019-05-14  281  		if (d == n)	/* Special case last leaf with no sibling */
+22a241ccb2c199 George Spelvin   2019-05-14  282  			b = c;
+22a241ccb2c199 George Spelvin   2019-05-14  283  
+22a241ccb2c199 George Spelvin   2019-05-14  284  		/* Now backtrack from "b" to the correct location for "a" */
+4333fb96ca1086 Rasmus Villemoes 2019-08-16  285  		while (b != a && do_cmp(base + a, base + b, cmp_func, priv) >= 0)
+22a241ccb2c199 George Spelvin   2019-05-14  286  			b = parent(b, lsbit, size);
+22a241ccb2c199 George Spelvin   2019-05-14  287  		c = b;			/* Where "a" belongs */
+22a241ccb2c199 George Spelvin   2019-05-14  288  		while (b != a) {	/* Shift it into place */
+22a241ccb2c199 George Spelvin   2019-05-14  289  			b = parent(b, lsbit, size);
+a0019cd7d41a19 Jiri Olsa        2022-03-16  290  			do_swap(base + b, base + c, size, swap_func, priv);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  291  		}
+f79965d13aa1a6 Kent Overstreet  2025-03-26  292  
+f79965d13aa1a6 Kent Overstreet  2025-03-26  293  		if (may_schedule)
+f79965d13aa1a6 Kent Overstreet  2025-03-26  294  			cond_resched();
+^1da177e4c3f41 Linus Torvalds   2005-04-16  295  	}
+41ed7804350839 Kuan-Wei Chiu    2024-05-28  296  
+41ed7804350839 Kuan-Wei Chiu    2024-05-28  297  	n -= size;
+41ed7804350839 Kuan-Wei Chiu    2024-05-28  298  	do_swap(base, base + n, size, swap_func, priv);
+41ed7804350839 Kuan-Wei Chiu    2024-05-28  299  	if (n == size * 2 && do_cmp(base, base + size, cmp_func, priv) > 0)
+41ed7804350839 Kuan-Wei Chiu    2024-05-28  300  		do_swap(base, base + size, size, swap_func, priv);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  301  }
+f79965d13aa1a6 Kent Overstreet  2025-03-26  302  
+
+:::::: The code at line 222 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
