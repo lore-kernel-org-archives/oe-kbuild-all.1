@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C949D3208
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 12:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AC44C83
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 13:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743165189; cv=none; b=UWWSyc2gZKwRLH6EMRZ/wXSb9bq+5CfByUO7tGTDtYX4G5q2uFX7vZl3plYFWy2m5aVFF/OfscWez86wgw+m3DT9s5jXjLjHoWV2swyESvME8O60Z810We+PiDmXPp/yFqrSC/BSwJS+P09GUmDRi+otvSU2BNytN/QBqOVJS1I=
+	t=1743167753; cv=none; b=luMA4QXktArjVd9l7AZY52CfpPtnCMohEFZiLf5cvurDTX0EOwTV2gtwIpxSvAkYmD+8CjldnIhuFyp74BWaojWdo/B98opE0tOViVEZ5FHXlhqi2Y0RUbr5ZKJTqer1g3d0LshxwdmeBFtiSh/pW+ZSdTFI4SYVm70JVrrGCAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743165189; c=relaxed/simple;
-	bh=q8bKHVL6pB8J+AtOmNlBwJ3zl4qZj5T6Qp+MRFa1IMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m32udRq9c3Ka1zN8KLFfWrRxVEwynRpIoQAgQ1huyEFMVrkDp0gxgh9ASWan0G2DHNE8Yr0Zu6O+4sM/AWNiTzhpDDCtLkAnjlSuBvWnn+xC0joS8xfm2NL5n6FcgMMs7iGsaqlA9rYcBHp1WGQBC3V4gOIONLVuSgPWTXDeTK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AYGU11+B; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1743167753; c=relaxed/simple;
+	bh=QwSIXy+3yg65uEoLr+hIy5mMBOunDFf0avciADMFhc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CApnKcJbDAi/4yihbktoDZ4MzadOnLkGRZXlRg+xGY2F6KJHV5RWazlUYGtvqGFXdYOranFWQhP52bWIaUbQSRhSHkVKB/SdN+2Q4VL0ca8VlqY4vvcHao+5Ry/dBeQoA1NSH1au4Qi+x6/0Kv3/jtt1C2MYw9bRCuar2xacjfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mqx4g0fi; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AYGU11+B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mqx4g0fi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743165188; x=1774701188;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q8bKHVL6pB8J+AtOmNlBwJ3zl4qZj5T6Qp+MRFa1IMc=;
-  b=AYGU11+BCnvnSKoJNiPAqckiPKowXfFE1QRPaHXuZfwsntukhbpW+klC
-   S8ar+/IbNjLlMJrYRGX0pBDaWMjG74V5BOYBWZFhk6U4MFLcftjQd5wWE
-   lTZi21taE0I7ZJoqGFAXXmAROwrmGv9r/eyb0LEQkdDvVNWErJQaXCUkK
-   sJ8nb1SLPnpGs0VI7LaA/vHYF4SCkxuU0ZOePbIjnnsU6ysQeuOLS0eF8
-   rNjU4sE3pbvDl/0moEZ7J2iS6vNf+JnQWYaY7eRl/24zPmjZgzxzLUF7M
-   O8gdnoUl9QnugpgAZkoHtBRe9N6PdEz8w0k7wQMkOtRQ7gJaL7v5s7S43
+  t=1743167752; x=1774703752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QwSIXy+3yg65uEoLr+hIy5mMBOunDFf0avciADMFhc0=;
+  b=Mqx4g0fi35vwEMQtaE6axkv8tCvfKKu1/Oqrsu0sn+5YidOQjGQj7w++
+   9k0v2yuQSovZbraT+Bme8ppbkLUvLd6eKeqxosZYmykhPBsuqoX0HQGXj
+   3Vnw5QWCEtXOMvFH8cRO/We1Q1b/Y5MUyUnCxu1cuxIHSBFtJAMdN3K7z
+   jeMg8cAKDnPLula+0PR9rGyPqolijbrGIJKzjqg2uJ6vN3DQFhtIDewTz
+   ayF2rPpHEzzanDbkH+FfqxJth/bH7GlxCBoRT89NzQuhSxnVNfcEiVeEs
+   rXzw14fbnsZ3ra05Pg83+yPtnTTbKGJPqZZkLCEQ8toeqUHz6MECGDUvQ
    g==;
-X-CSE-ConnectionGUID: bJ1yF5KRRGGDhWDHja4Gqg==
-X-CSE-MsgGUID: xIUICnmgS4+Ng6J+9/FK+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44245819"
+X-CSE-ConnectionGUID: q5flOYiLSZ6uyuvmvGRrMg==
+X-CSE-MsgGUID: /UMjOO+qSYqVq++FnsZqCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44657839"
 X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="44245819"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 05:33:07 -0700
-X-CSE-ConnectionGUID: XK8XL53dQUGzHKcidPntcQ==
-X-CSE-MsgGUID: WdQvG5FpQTyRKgcOvvAY9A==
+   d="scan'208";a="44657839"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 06:15:51 -0700
+X-CSE-ConnectionGUID: EwJ9838WTrSb5sfy554dUg==
+X-CSE-MsgGUID: g0gX6VhxRGS1RHFNcamB7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="126360850"
+   d="scan'208";a="129583228"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 28 Mar 2025 05:33:05 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 Mar 2025 06:15:46 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ty8tS-0007Ri-28;
-	Fri, 28 Mar 2025 12:33:02 +0000
-Date: Fri, 28 Mar 2025 20:32:38 +0800
+	id 1ty9Ym-0007SU-10;
+	Fri, 28 Mar 2025 13:15:44 +0000
+Date: Fri, 28 Mar 2025 21:15:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:hack/ppi 17/17] kernel/irq/manage.c:2619:22: warning:
- assignment makes pointer from integer without a cast
-Message-ID: <202503282049.7rjXBkvh-lkp@intel.com>
+To: Yuquan Wang <wangyuquan1236@phytium.com.cn>,
+	Jonathan.Cameron@huawei.com, dan.j.williams@intel.com,
+	rppt@kernel.org, rafael@kernel.org, lenb@kernel.org,
+	akpm@linux-foundation.org, alison.schofield@intel.com,
+	rrichter@amd.com, bfaccini@nvidia.com, haibo1.xu@intel.com,
+	david@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	chenbaozi@phytium.com.cn,
+	Yuquan Wang <wangyuquan1236@phytium.com.cn>
+Subject: Re: [PATCH v2] mm: numa_memblks: introduce numa_add_reserved_memblk
+Message-ID: <202503282026.QNaOAK79-lkp@intel.com>
+References: <20250328092132.2695299-1-wangyuquan1236@phytium.com.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,137 +70,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250328092132.2695299-1-wangyuquan1236@phytium.com.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git hack/ppi
-head:   e9141d0584201dc14a70533175804e111ab53f36
-commit: e9141d0584201dc14a70533175804e111ab53f36 [17/17] WIP
-config: sparc-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503282049.7rjXBkvh-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503282049.7rjXBkvh-lkp@intel.com/reproduce)
+Hi Yuquan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuquan-Wang/mm-numa_memblks-introduce-numa_add_reserved_memblk/20250328-172428
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250328092132.2695299-1-wangyuquan1236%40phytium.com.cn
+patch subject: [PATCH v2] mm: numa_memblks: introduce numa_add_reserved_memblk
+config: loongarch-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503282026.QNaOAK79-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503282026.QNaOAK79-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503282049.7rjXBkvh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503282026.QNaOAK79-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/sparc/include/asm/irq_32.h:16:0,
-                    from arch/sparc/include/asm/irq.h:7,
-                    from include/linux/irq.h:23,
-                    from kernel/irq/manage.c:11:
-   include/linux/interrupt.h:130:2: error: expected identifier or '(' before 'struct'
-     struct irqaction *next;
-     ^~~~~~
-   In file included from kernel/irq/manage.c:25:0:
-   kernel/irq/manage.c: In function 'irq_set_thread_affinity':
-   kernel/irq/internals.h:173:41: error: 'struct irqaction' has no member named 'next'
-     for (act = desc->action; act; act = act->next)
-                                            ^
-   kernel/irq/manage.c:194:2: note: in expansion of macro 'for_each_action_of_desc'
-     for_each_action_of_desc(desc, action) {
-     ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/manage.c: In function 'irq_wake_thread':
-   kernel/irq/internals.h:173:41: error: 'struct irqaction' has no member named 'next'
-     for (act = desc->action; act; act = act->next)
-                                            ^
-   kernel/irq/manage.c:1350:2: note: in expansion of macro 'for_each_action_of_desc'
-     for_each_action_of_desc(desc, action) {
-     ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/manage.c: In function '__setup_irq':
-   kernel/irq/manage.c:1662:18: error: 'struct irqaction' has no member named 'next'
-       old_ptr = &old->next;
-                     ^~
-   kernel/irq/manage.c: In function '__free_irq':
-   kernel/irq/manage.c:1902:23: error: 'struct irqaction' has no member named 'next'
-      action_ptr = &action->next;
-                          ^~
-   kernel/irq/manage.c:1906:22: error: 'struct irqaction' has no member named 'next'
-     *action_ptr = action->next;
-                         ^~
-   kernel/irq/manage.c: In function '__request_percpu_irq':
-   kernel/irq/manage.c:2619:24: error: implicit declaration of function 'alloc_cpumask'; did you mean 'alloc_cpumask_var'? [-Werror=implicit-function-declaration]
-      action->valid_mask = alloc_cpumask()
-                           ^~~~~~~~~~~~~
-                           alloc_cpumask_var
->> kernel/irq/manage.c:2619:22: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-      action->valid_mask = alloc_cpumask()
-                         ^
-   kernel/irq/manage.c:2620:2: error: expected ';' before '}' token
-     }
-     ^
-   cc1: some warnings being treated as errors
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/acpi/numa/srat.c:10:
+   drivers/acpi/numa/srat.c: In function 'acpi_parse_cfmws':
+>> drivers/acpi/numa/srat.c:461:13: error: implicit declaration of function 'numa_add_reserved_memblk' [-Wimplicit-function-declaration]
+     461 |         if (numa_add_reserved_memblk(node, start, end) < 0) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   drivers/acpi/numa/srat.c:461:9: note: in expansion of macro 'if'
+     461 |         if (numa_add_reserved_memblk(node, start, end) < 0) {
+         |         ^~
 
 
-vim +2619 kernel/irq/manage.c
+vim +/numa_add_reserved_memblk +461 drivers/acpi/numa/srat.c
 
-  2577	
-  2578	/**
-  2579	 *	__request_percpu_irq - allocate a percpu interrupt line
-  2580	 *	@irq: Interrupt line to allocate
-  2581	 *	@handler: Function to be called when the IRQ occurs.
-  2582	 *	@flags: Interrupt type flags (IRQF_TIMER only)
-  2583	 *	@devname: An ascii name for the claiming device
-  2584	 *	@dev_id: A percpu cookie passed back to the handler function
-  2585	 *
-  2586	 *	This call allocates interrupt resources and enables the
-  2587	 *	interrupt on the local CPU. If the interrupt is supposed to be
-  2588	 *	enabled on other CPUs, it has to be done on each CPU using
-  2589	 *	enable_percpu_irq().
-  2590	 *
-  2591	 *	Dev_id must be globally unique. It is a per-cpu variable, and
-  2592	 *	the handler gets called with the interrupted CPU's instance of
-  2593	 *	that variable.
-  2594	 */
-  2595	int __request_percpu_irq(unsigned int irq, irq_handler_t handler,
-  2596				 unsigned long flags, const char *devname,
-  2597				 const cpumask_t *valid_mask, void __percpu *dev_id)
-  2598	{
-  2599		struct irqaction *action;
-  2600		struct irq_desc *desc;
-  2601		int retval;
-  2602	
-  2603		if (!dev_id)
-  2604			return -EINVAL;
-  2605	
-  2606		desc = irq_to_desc(irq);
-  2607		if (!desc || !irq_settings_can_request(desc) ||
-  2608		    !irq_settings_is_per_cpu_devid(desc))
-  2609			return -EINVAL;
-  2610	
-  2611		if (flags && flags != IRQF_TIMER)
-  2612			return -EINVAL;
-  2613	
-  2614		action = kzalloc(sizeof(struct irqaction), GFP_KERNEL);
-  2615		if (!action)
-  2616			return -ENOMEM;
-  2617	
-  2618		if (valid_mask != cpu_possible_mask) {
-> 2619			action->valid_mask = alloc_cpumask()
-  2620		}
-  2621	
-  2622		action->handler = handler;
-  2623		action->flags = flags | IRQF_PERCPU | IRQF_NO_SUSPEND;
-  2624		action->name = devname;
-  2625		action->percpu_dev_id = dev_id;
-  2626	
-  2627		retval = irq_chip_pm_get(&desc->irq_data);
-  2628		if (retval < 0) {
-  2629			kfree(action);
-  2630			return retval;
-  2631		}
-  2632	
-  2633		retval = __setup_irq(irq, desc, action);
-  2634	
-  2635		if (retval) {
-  2636			irq_chip_pm_put(&desc->irq_data);
-  2637			kfree(action);
-  2638		}
-  2639	
-  2640		return retval;
-  2641	}
-  2642	EXPORT_SYMBOL_GPL(__request_percpu_irq);
-  2643	
+   431	
+   432	static int __init acpi_parse_cfmws(union acpi_subtable_headers *header,
+   433					   void *arg, const unsigned long table_end)
+   434	{
+   435		struct acpi_cedt_cfmws *cfmws;
+   436		int *fake_pxm = arg;
+   437		u64 start, end;
+   438		int node;
+   439	
+   440		cfmws = (struct acpi_cedt_cfmws *)header;
+   441		start = cfmws->base_hpa;
+   442		end = cfmws->base_hpa + cfmws->window_size;
+   443	
+   444		/*
+   445		 * The SRAT may have already described NUMA details for all,
+   446		 * or a portion of, this CFMWS HPA range. Extend the memblks
+   447		 * found for any portion of the window to cover the entire
+   448		 * window.
+   449		 */
+   450		if (!numa_fill_memblks(start, end))
+   451			return 0;
+   452	
+   453		/* No SRAT description. Create a new node. */
+   454		node = acpi_map_pxm_to_node(*fake_pxm);
+   455	
+   456		if (node == NUMA_NO_NODE) {
+   457			pr_err("ACPI NUMA: Too many proximity domains while processing CFMWS.\n");
+   458			return -EINVAL;
+   459		}
+   460	
+ > 461		if (numa_add_reserved_memblk(node, start, end) < 0) {
+   462			/* CXL driver must handle the NUMA_NO_NODE case */
+   463			pr_warn("ACPI NUMA: Failed to add memblk for CFMWS node %d [mem %#llx-%#llx]\n",
+   464				node, start, end);
+   465		}
+   466		node_set(node, numa_nodes_parsed);
+   467	
+   468		/* Set the next available fake_pxm value */
+   469		(*fake_pxm)++;
+   470		return 0;
+   471	}
+   472	
 
 -- 
 0-DAY CI Kernel Test Service
