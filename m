@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A07717A2E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 02:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9B946B8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 04:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743130561; cv=none; b=XeiqSjCuOiBr1jxFwENz3V3jxsfX78jBeZTzZyWLYGRbVZUwSxdJTOPfokN5tElR6oLySUJABpiDNbb9VK15V3YHXss3AZUwF8wf0ihfLFXxwm7TRHTlXcoD3XmBb66sHiMQYVMZt03c0hLmABCyKnZkJyRO4DEZHae8qFPZLWo=
+	t=1743136271; cv=none; b=Hq4RJiK0Muz9oQ7MYOYnX3e4Fn1GzPAFmNLcAzP9zgd4LpBBZakbjQffZEyD4/Sh8RDIzfdwZy/+Gj7/9xgewNpTw5Yl1t2u1/k6+tqb9ChKzrfS7CJCmhbHBnCIz84BJXzKagHF0FCZnil3vG9kf2sgRheT4MUfGwQBtjNy5oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743130561; c=relaxed/simple;
-	bh=4BoihZjGp9WJcyeY843noOemfFah2O9q+/hqhwvm3+w=;
+	s=arc-20240116; t=1743136271; c=relaxed/simple;
+	bh=09BNolcDnEOyazOuVIRWmZrcaT3/gCLreqxN3NrzpdA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=erulMjKZXQGmCwYJHyW7jMxYgrwM2pGoGoEsbSOg4GeTA20xmNNCloyDPVk24QPiUHo3NSJEddonk6zYbmO56EyzRmoAzifJZi1eqD5tzCRbuSCDL42pJnUTmF8lH+ZHrGChdVYdQQItIxKXOZD93CGGVWhAXUlaO/jgi0XILTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kFp9pDqm; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=tAzOUnVuhgoa8Pg7h8CycgXSuLust2eyO3l3faA2ltP9ClyKmdmpKXudYaiehiOQnwPX9mFeTYnfKxx3/3OH9pNesV0SeSlIlYa6RIDFa728NkSFHVTlNxNVoAWf/weHV9TWpmk4lgpct1bc3P+tFyt/7N8Lrc8NJZreqhuW12w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UWM2XvII; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kFp9pDqm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWM2XvII"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743130559; x=1774666559;
+  t=1743136268; x=1774672268;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4BoihZjGp9WJcyeY843noOemfFah2O9q+/hqhwvm3+w=;
-  b=kFp9pDqmI2AUeqPIo1LFAUxRnIQ7d6XJpYQMGHebPA/4TBS50odQ7lp+
-   2uNxGD6VUPfm3DPrSCPPXeFHuTVkSbnX/K4gk+OXhhIh2EyABMZZ+y7If
-   b9upEeUCJa9mwdN5jNkEenYUxgXRyxYQck6BEBWUzDd7w04wmmc1sFtTG
-   9NBqv2SzTkMlt7kml/6e1uhrjXZMlqxba1LPd7EfPbFwcEs9G+4ejzckA
-   lD4YjBIsCacz7kQDp7mf5B1Au7YVwazi0zXfvP36nysHLj0lfwDIuJ8Ez
-   IObaDNst8EYnGpwk49LGMhX2A+FG0pQxugDUgUG87RneyozbiAJIDtN8T
-   w==;
-X-CSE-ConnectionGUID: xUqXWqpqQjqbyuNZdB2fpw==
-X-CSE-MsgGUID: dVJH6acgSeKzmZuun/T0eA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="32088276"
+  bh=09BNolcDnEOyazOuVIRWmZrcaT3/gCLreqxN3NrzpdA=;
+  b=UWM2XvIIunbQtbRDh1chlJ2xsBpkH0KV9ziU0MGnotx/uILkxnay9EkN
+   VQvAsX3QzCuOhkPUOXMlCiFUPoYKXYhwoU6RSGKAqfKZUb4AtkDgU3Ebq
+   MaUpgBBCaZrXy1o4wL66YXKD4t9aSgHVaTdHE2xW5a9gtgv8Wer2V46kK
+   ftNKqtbCetvSS0fwcMLAzjMqSTJE3v4WeTnD/LD377F0qAzPPIef+G9DN
+   kVxb6rplExiX1m6JY9Hp1s267PgefguKi38Td9iS/A64dkAGeLi3y0YCT
+   k5ktxD/83wRNB7J/PYtADnCj0q5nobtZQxBWsTVC+LKvbejDH4YQMgWOF
+   g==;
+X-CSE-ConnectionGUID: yUGoe7RSSO6OKaVf5qrVdg==
+X-CSE-MsgGUID: Oj/f1UOcSrmQXBSL2btlnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="62024124"
 X-IronPort-AV: E=Sophos;i="6.14,282,1736841600"; 
-   d="scan'208";a="32088276"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 19:55:59 -0700
-X-CSE-ConnectionGUID: ixh//qx+Q1eomozbP1AcQg==
-X-CSE-MsgGUID: 0zzU80DnQiKGoUXswRqbbw==
+   d="scan'208";a="62024124"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 21:31:08 -0700
+X-CSE-ConnectionGUID: RYcB/61vTgS6mf4vt0sS2w==
+X-CSE-MsgGUID: IAGog663TMCjpeP3Qvotpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,282,1736841600"; 
-   d="scan'208";a="130039448"
+   d="scan'208";a="130199353"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Mar 2025 19:55:57 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Mar 2025 21:31:07 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txzsx-00076K-2M;
-	Fri, 28 Mar 2025 02:55:55 +0000
-Date: Fri, 28 Mar 2025 10:55:13 +0800
+	id 1ty1N2-00078c-29;
+	Fri, 28 Mar 2025 04:31:04 +0000
+Date: Fri, 28 Mar 2025 12:30:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-efi-zboot 9/9] arch/x86/boot/compressed/la57toggle.S:28:
- Error: `pushq' is only supported in 64-bit mode
-Message-ID: <202503281031.qZkr8L7D-lkp@intel.com>
+Subject: [android-common:incoming-android15-6.6-desktop-chromeos 498/498]
+ drivers/cpufreq/mediatek-cpufreq-hw_main.c:620:63-68: WARNING: conversion to
+ bool not needed here
+Message-ID: <202503281257.BmX4sfnQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,144 +63,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-zboot
-head:   668422543f4fba0346351fa5e549ab9199a1676d
-commit: 668422543f4fba0346351fa5e549ab9199a1676d [9/9] efi zboot for x86
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250328/202503281031.qZkr8L7D-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503281031.qZkr8L7D-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common incoming-android15-6.6-desktop-chromeos
+head:   971c23c737d79895eb40ddbbed5817f6ee6ea162
+commit: 3c107c736a59f5d566bc0d7ef4910c92040f0017 [498/498] CHROMIUM: cpufreq: Add cpufreq-hw drivers for MT8196
+config: arm-randconfig-r061-20250328 (https://download.01.org/0day-ci/archive/20250328/202503281257.BmX4sfnQ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503281031.qZkr8L7D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503281257.BmX4sfnQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/cpufreq/mediatek-cpufreq-hw_main.c:620:63-68: WARNING: conversion to bool not needed here
+--
+>> drivers/cpufreq/mediatek-cpufreq-hw_fdvfs.c:77:1-7: ERROR: missing put_device; call of_find_device_by_node on line 54, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_fdvfs.c:83:1-7: ERROR: missing put_device; call of_find_device_by_node on line 54, but without a corresponding object release within this function.
+--
+>> drivers/cpufreq/mediatek-cpufreq-hw_main.c:583:2-8: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:589:2-8: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:627:3-9: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:636:3-9: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:643:3-9: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:649:4-10: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:656:4-10: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:664:2-8: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:669:1-7: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
+   drivers/cpufreq/mediatek-cpufreq-hw_main.c:673:1-7: ERROR: missing put_device; call of_find_device_by_node on line 574, but without a corresponding object release within this function.
 
-   arch/x86/boot/compressed/la57toggle.S: Assembler messages:
->> arch/x86/boot/compressed/la57toggle.S:28: Error: `pushq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:29: Error: `pushq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:30: Error: `pushq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:31: Error: `pushq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:32: Error: `pushq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:33: Error: `pushq' is only supported in 64-bit mode
->> arch/x86/boot/compressed/la57toggle.S:36: Error: bad register name `%rsp'
->> arch/x86/boot/compressed/la57toggle.S:37: Error: `shrq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:40: Error: `pushq' is only supported in 64-bit mode
->> arch/x86/boot/compressed/la57toggle.S:41: Error: `leaq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:42: Error: `pushq' is only supported in 64-bit mode
->> arch/x86/boot/compressed/la57toggle.S:43: Error: `lretq' is only supported in 64-bit mode
->> arch/x86/boot/compressed/la57toggle.S:52: Error: `shlq' is only supported in 64-bit mode
->> arch/x86/boot/compressed/la57toggle.S:53: Error: `orq' is only supported in 64-bit mode
->> arch/x86/boot/compressed/la57toggle.S:56: Error: `popq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:57: Error: `popq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:58: Error: `popq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:59: Error: `popq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:60: Error: `popq' is only supported in 64-bit mode
-   arch/x86/boot/compressed/la57toggle.S:61: Error: `popq' is only supported in 64-bit mode
->> arch/x86/boot/compressed/la57toggle.S:62: Error: `retq' is only supported in 64-bit mode
+vim +620 drivers/cpufreq/mediatek-cpufreq-hw_main.c
 
-
-vim +28 arch/x86/boot/compressed/la57toggle.S
-
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13    9  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   10  /*
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   11   * This is the 32-bit trampoline that will be copied over to low memory. It
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   12   * will be called using the ordinary 64-bit calling convention from code
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   13   * running in 64-bit mode.
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   14   *
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   15   * Return address is at the top of the stack (might be above 4G).
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   16   * The first argument (EDI) contains the address of the temporary PGD level
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   17   * page table in 32-bit addressable memory which will be programmed into
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   18   * register CR3.
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   19   */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   20  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   21  	.section ".rodata", "a", @progbits
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   22  SYM_CODE_START(trampoline_32bit_src)
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   23  	/*
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   24  	 * Preserve callee save 64-bit registers on the stack: this is
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   25  	 * necessary because the architecture does not guarantee that GPRs will
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   26  	 * retain their full 64-bit values across a 32-bit mode switch.
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   27  	 */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @28  	pushq	%r15
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   29  	pushq	%r14
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   30  	pushq	%r13
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   31  	pushq	%r12
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   32  	pushq	%rbp
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   33  	pushq	%rbx
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   34  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   35  	/* Preserve top half of RSP in a legacy mode GPR to avoid truncation */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @36  	movq	%rsp, %rbx
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @37  	shrq	$32, %rbx
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   38  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   39  	/* Switch to compatibility mode (CS.L = 0 CS.D = 1) via far return */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   40  	pushq	$__KERNEL32_CS
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @41  	leaq	0f(%rip), %rax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   42  	pushq	%rax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @43  	lretq
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   44  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   45  	/*
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   46  	 * The 32-bit code below will do a far jump back to long mode and end
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   47  	 * up here after reconfiguring the number of paging levels. First, the
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   48  	 * stack pointer needs to be restored to its full 64-bit value before
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   49  	 * the callee save register contents can be popped from the stack.
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   50  	 */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   51  .Lret:
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @52  	shlq	$32, %rbx
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @53  	orq	%rbx, %rsp
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   54  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   55  	/* Restore the preserved 64-bit registers */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @56  	popq	%rbx
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   57  	popq	%rbp
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   58  	popq	%r12
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   59  	popq	%r13
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   60  	popq	%r14
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   61  	popq	%r15
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  @62  	retq
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   63  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   64  	.code32
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   65  0:
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   66  	/* Disable paging */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   67  	movl	%cr0, %eax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   68  	btrl	$X86_CR0_PG_BIT, %eax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   69  	movl	%eax, %cr0
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   70  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   71  	/* Point CR3 to the trampoline's new top level page table */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   72  	movl	%edi, %cr3
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   73  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   74  	/* Set EFER.LME=1 as a precaution in case hypervsior pulls the rug */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   75  	movl	$MSR_EFER, %ecx
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   76  	rdmsr
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   77  	btsl	$_EFER_LME, %eax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   78  	/* Avoid writing EFER if no change was made (for TDX guest) */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   79  	jc	1f
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   80  	wrmsr
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   81  1:
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   82  	/* Toggle CR4.LA57 */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   83  	movl	%cr4, %eax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   84  	btcl	$X86_CR4_LA57_BIT, %eax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   85  	movl	%eax, %cr4
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   86  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   87  	/* Enable paging again. */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   88  	movl	%cr0, %eax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   89  	btsl	$X86_CR0_PG_BIT, %eax
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   90  	movl	%eax, %cr0
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   91  
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   92  	/*
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   93  	 * Return to the 64-bit calling code using LJMP rather than LRET, to
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   94  	 * avoid the need for a 32-bit addressable stack. The destination
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   95  	 * address will be adjusted after the template code is copied into a
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   96  	 * 32-bit addressable buffer.
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   97  	 */
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   98  .Ljmp:	ljmpl	$__KERNEL_CS, $(.Lret - trampoline_32bit_src)
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13   99  SYM_CODE_END(trampoline_32bit_src)
-e27dffba1b1d6c0 Ard Biesheuvel 2025-03-13  100  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: e27dffba1b1d6c047b48c325adcb1342d3e3fa69 x86/boot: Move the LA57 trampoline to separate source file
-
-:::::: TO: Ard Biesheuvel <ardb@kernel.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   551	
+   552	static int mtk_cpufreq_hw_driver_probe(struct platform_device *pdev)
+   553	{
+   554		struct device_node *cpu_np;
+   555		struct device_node *hvfs_node, *csram_sys_node;
+   556		struct of_phandle_args args;
+   557		struct resource *csram_res;
+   558		struct platform_device *pdev_c;
+   559		static void __iomem *csram_base;
+   560		const u16 *offsets;
+   561		unsigned int cpu;
+   562		int ret;
+   563	
+   564		offsets = of_device_get_match_data(&pdev->dev);
+   565		if (!offsets)
+   566			return -EINVAL;
+   567	
+   568		hvfs_node = of_find_compatible_node(NULL, NULL, "mediatek,cpufreq-hybrid");
+   569		if (!hvfs_node) {
+   570			dev_err(&pdev->dev, "failed to find node @ %s\n", __func__);
+   571			return -ENODEV;
+   572		}
+   573	
+ > 574		pdev_c = of_find_device_by_node(hvfs_node);
+   575		if (!pdev_c) {
+   576			dev_err(&pdev->dev, "failed to find pdev @ %s\n", __func__);
+   577			return -EINVAL;
+   578		}
+   579	
+   580		csram_res = platform_get_resource(pdev_c, IORESOURCE_MEM, 1);
+   581		if (!csram_res) {
+   582			dev_err(&pdev->dev, "failed to get mem resource @ %s\n", __func__);
+ > 583			return -ENODEV;
+   584		}
+   585	
+   586		if (!request_mem_region(csram_res->start, resource_size(csram_res),
+   587				csram_res->name)) {
+   588			dev_err(&pdev->dev, "failed to request resource %pR\n", csram_res);
+   589			return -EBUSY;
+   590		}
+   591	
+   592		csram_base = ioremap(csram_res->start, resource_size(csram_res));
+   593		if (!csram_base) {
+   594			dev_err(&pdev->dev, "failed to map csram_base @ %s\n", __func__);
+   595			ret = -ENOMEM;
+   596			goto release_region;
+   597		}
+   598	
+   599		csram_sys_node = of_parse_phandle(hvfs_node, "csram-sys-base", 0);
+   600		if (csram_sys_node != NULL) {
+   601			static void __iomem *csram_sys_base;
+   602	
+   603			csram_sys_base = of_iomap(csram_sys_node, 0);
+   604			if (readl_relaxed(csram_sys_base) != CHECK_VAL ||
+   605			    !readl_relaxed(csram_sys_base + CSRAM_BASE_ADD +
+   606					   cpufreq_mtk_offsets[REG_FREQ_HW_STATE])) {
+   607				dev_err(&pdev->dev, "%s: cpufreq hardware not enable\n", __func__);
+   608				ret = -EIO;
+   609				iounmap(csram_base);
+   610				goto release_region;
+   611			}
+   612			dev_dbg(&pdev->dev, "%s: cpufreq hardware enable\n", __func__);
+   613		}
+   614	
+   615		if (readl_relaxed(csram_base + REG_FREQ_SCALING)){
+   616			freq_scaling_disabled = false;
+   617			iounmap(csram_base);
+   618			release_mem_region(csram_res->start, resource_size(csram_res));
+   619		}
+ > 620		fdvfs_enabled = check_fdvfs_support(&pdev->dev) == 1 ? true : false;
+   621		per_core_enabled = check_per_core_enabled(&pdev->dev);
+   622	
+   623		if (per_core_enabled) {
+   624			per_core_base = ioremap(csram_res->start + PER_CORE_OFF, PER_CORE_SIZE);
+   625			if (!per_core_base) {
+   626				dev_err(&pdev->dev, "failed to map per_core_base @ %s\n", __func__);
+   627				return -ENOMEM;
+   628			}
+   629		}
+   630	
+   631		for_each_possible_cpu(cpu) {
+   632			cpu_np = of_cpu_device_node_get(cpu);
+   633			if (!cpu_np) {
+   634				dev_err(&pdev->dev, "Failed to get cpu %d device\n",
+   635					cpu);
+   636				return -ENODEV;
+   637			}
+   638	
+   639			ret = of_parse_phandle_with_args(cpu_np, "performance-domains",
+   640							 "#performance-domain-cells", 0,
+   641							 &args);
+   642			if (ret < 0)
+   643				return ret;
+   644	
+   645			if (per_core_enabled) {
+   646				ret = mtk_per_core_cpu_resources_init(pdev, cpu, args.args[0], offsets);
+   647				if (ret) {
+   648					dev_err(&pdev->dev, "per-core CPUFreq resource init failed\n");
+   649					return ret;
+   650				}
+   651			} else {
+   652				/* Get the bases of cpufreq for domains */
+   653				ret = mtk_cpu_resources_init(pdev, cpu, args.args[0], offsets);
+   654				if (ret) {
+   655					dev_err(&pdev->dev, "CPUFreq resource init failed\n");
+   656					return ret;
+   657				}
+   658			}
+   659		}
+   660	
+   661		ret = cpufreq_register_driver(&cpufreq_mtk_hw_driver);
+   662		if (ret) {
+   663			dev_err(&pdev->dev, "CPUFreq HW driver failed to register\n");
+   664			return ret;
+   665		}
+   666		register_die_notifier(&die_blk);
+   667		atomic_notifier_chain_register(&panic_notifier_list, &panic_blk);
+   668	
+   669		return 0;
+   670	
+   671	release_region:
+   672		release_mem_region(csram_res->start, resource_size(csram_res));
+   673		return ret;
+   674	}
+   675	
 
 -- 
 0-DAY CI Kernel Test Service
