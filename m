@@ -1,92 +1,153 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FAA212F8F;
-	Fri, 28 Mar 2025 08:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F5B14375D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 08:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743149980; cv=none; b=dQIzMqQkpA+oEIcvI69KoxUwhpZhrZlLrLp0+bstux4gZFv3/uhc/b1LjgMvoFj7SYiEAmcpocZP4L6PsDSHjDFUPZdLgy8Le0fzQBqc8Bn6SY+YQzPVwz7mGmn/TMjR3unjKWoffoXBTmXypo+PdTxtPDVa7UPPTNdfRnkXPF0=
+	t=1743152001; cv=none; b=tDzizuO52IeUMdTx3qMIl+En5YU0R2f60Gwm4jXTfYnxhZTf9m2ULARC68/QcVjdUVNb6QODjGWqzXEqKiDHyEzJ7tbSnQGhHNgqn9mbuT/2sZczxdZn58aqNL6DLFdZuYtq8QFLCfYyGSZI1qXhqoU3OR0/OrmxaSlNAFcxuMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743149980; c=relaxed/simple;
-	bh=dG8Kk5eXzvdbp81i+MgQHGycYLnKTqRZKMJ2FxelLk8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tVdowRLkZ2DabidmrLbvp/fcpQfXtdDA+WziUjveoQUS9RklW57iP7bUlgqlcqT2t1SOyY8bploaF+AuTw6XKGEGhyprc5DZ0OW920iIjPjFIh9/SKVsYDklKyzD6A9MePdX5TDZHCU2kef3I5ABI5fQGjjihf7slvtyRvYFsfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VhiBO6tb; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743152001; c=relaxed/simple;
+	bh=EniF395fCHbpk0CzouBsudBE2lP7sqqzOvYFGIZ0S5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BTBVODdHFjaLfxvhbpupDu3X7roNtul3uwe2fb6cEL/xDtSXhFjxK43Jve5tkfV0L8uYoDKJi6gsVEJottOzPmtwng6lFsLIfEW+yGnyhyDbUMgWSOgs6muxl66s6zWyA3wnKKv+WMfURLYCEueL+L1kNkRffyDtEcAks8bMFr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YMoROvwj; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VhiBO6tb"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2264aefc3b5so4725895ad.0;
-        Fri, 28 Mar 2025 01:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743149978; x=1743754778; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g9unC9bRNCOdbQsHq9ldD0TFRGSKuPU7FMP0NBYOBHc=;
-        b=VhiBO6tbGimigUS8JblQ0Y3SFCqrGFdonY8UfEUJM37HCMRFMgZgiBbPOfWIlXgaJX
-         kA0lnw15l0fKfrWoqLNAZLw/rBdrksLqNJUaYRgN1W1hJucm3dxobEMwTHJHaZFqJyQP
-         ZT4Lm4SgUHpmh+9AhjZoYKTG2cNXgnQA+8KYjPxFhSbWGSEq9KehKhY3dQkDJYNe7NJD
-         m22+20OdsR8WcVpNwNTw2EycecpAVzRdeAKXyakN2u2MgItEO++3EP0XHLPrVxig8UXU
-         pGT9kjpqNmTVWHYC3HGTkTde6hlWKKTkc2AID4cROyC9LQwmd/aoBn6lQ3eRbL2Z0XbO
-         vUpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743149978; x=1743754778;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g9unC9bRNCOdbQsHq9ldD0TFRGSKuPU7FMP0NBYOBHc=;
-        b=iQVuQLXa8R/nRGCtTfGnyDblbneTtCW4mu6Joue6maoSaTGETIMMTgcAcbkS1yAeqC
-         hTBUkfqTmImHk9X+6OJIgh6+C/xrjs5TgqD37hUDAYP3xG+xrjSB8OfaY2Uy3KnFqw93
-         /7xSx34me1dvVGZeIEP4e/NV82NGg118yFu31HyZapLV4rVsFmaWHJW5GVMVCa2tl7rB
-         0vPIU5C58AA26uL05mlxWNkt9kgHAN0tqh51WBuTTRZVAqZx/m+TeLKS1hX4Llubb6YA
-         UBYObBxwekdO9tlIYWf2G2VsepiF6cptmtT2sqR8k5GkqFCmkq9v2T9fTHIBmQbZBiKt
-         4dhg==
-X-Forwarded-Encrypted: i=1; AJvYcCW1ZO+aFU7REJfsxLm8VZrdkFKy4Eq1pdQJOkiqGoiQRNZk7gb3T5T3p3zWcGDsUEasCEbL8sP7aw==@lists.linux.dev, AJvYcCXlfeIZJ/V09cI4JQTwgsrBlwwiqmfBqJhobwMQc0raLzP21wi6Ks917L5wajQS5jj3f08LHQQtI4ddtQLX@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCkKmyBEgFx2B/BCsFgQ8Kw4nf5PpfrZYLoutmkuguPOEie0go
-	0E1Z08zCDcAwDy9ok3aEraMa+tBcMMn/6ydaWiceDpn7IU+atByuH1d1IYATw20Yh5N00eYiNKP
-	tzV39taRoAFhuTcPt761CF/DnzOM=
-X-Gm-Gg: ASbGnct2YkugZwnhUdjVkUlaYprCS9TRmUz+xxYPuJHCT3CDvy32eISAS53nfcYNP2g
-	65yPAd6YfQdPLhwLLsg+KjuWE+cc9yFj9uFt64ujNyOCjyDsSXZ/pr45TeoTQdsLrYY5KQ+j85m
-	blQkSdplDgSTGOZXze+/oml5IV+g==
-X-Google-Smtp-Source: AGHT+IF0//qcBT07gmUhcVUDFpY/xo2mTXg5BmPOxNGcp0uk0KKm0Mli050rUH/yXJPkHTE2qILIWhXLdoGYB2AUjwA=
-X-Received: by 2002:a17:903:192:b0:215:3862:603a with SMTP id
- d9443c01a7336-22806909490mr36453705ad.10.1743149978273; Fri, 28 Mar 2025
- 01:19:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YMoROvwj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743152000; x=1774688000;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EniF395fCHbpk0CzouBsudBE2lP7sqqzOvYFGIZ0S5g=;
+  b=YMoROvwjI5qWFUX8Gwrj8JLaLFd/JmG15833mO//mL984gNxcnC3eB+h
+   u25oGMmIQ/Bmfnh7F4tqsW+hd6Eap+gNAMr6oVsWjFQ6vAKsNiLcJ129R
+   m6D92rI4PNZgbfR3/cyfyDs2/j++nRyAxZhN0leron+2dUJcnu9Rkz3jQ
+   WEu0M4ZPsbTHGRf6xEwTw6VKXZADmMDKaW9cCC/n6m7ywheAmFZmccutx
+   h3CtmLuufncx2XN11/zT5oTpZ3UnOHxZJmDEEpA+TMV7f/fmU8WKQZImR
+   BudoUlTStD2NM6K6ynqF5KsoPOKTbjBBrGkLdGt7kEgNW7JwA0G6Kb/jA
+   w==;
+X-CSE-ConnectionGUID: 0PSRJl4RSXGS6eevv7x96w==
+X-CSE-MsgGUID: mzjBQxAcQNCI0dNx9xhYtg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="66980607"
+X-IronPort-AV: E=Sophos;i="6.14,282,1736841600"; 
+   d="scan'208";a="66980607"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 01:53:19 -0700
+X-CSE-ConnectionGUID: UEQqIG28T2m4DY9IZjx0jg==
+X-CSE-MsgGUID: 97KM/IMpRECtUkSgebx0HQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,282,1736841600"; 
+   d="scan'208";a="162631241"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2025 01:53:18 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ty5Sa-0007Gg-2T;
+	Fri, 28 Mar 2025 08:53:08 +0000
+Date: Fri, 28 Mar 2025 16:52:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Li Zetao <lizetao1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1528/1528]
+ include/asm-generic/io.h:742:19: warning: 'reg' may be used uninitialized in
+ this function
+Message-ID: <202503281620.pNXaYE13-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250327211302.286313-1-ojeda@kernel.org> <202503280805.Oq84ECdB-lkp@intel.com>
-In-Reply-To: <202503280805.Oq84ECdB-lkp@intel.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 28 Mar 2025 09:19:25 +0100
-X-Gm-Features: AQ5f1Jp5M1SVPjlM3lBMbr_cReSlOrVe1dKVs1dHDt1dHT-S8Pb1bd9lKvRUvJk
-Message-ID: <CANiq72ngUCVnYT9rQ9+ebTfTOUv7zuhJduXDO=VRRZ4myT1iqA@mail.gmail.com>
-Subject: Re: [PATCH] rust: clarify the language unstable features in use
-To: kernel test robot <lkp@intel.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Mar 28, 2025 at 1:10=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
->    rustfmtcheck
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4d1e247486ffeef035a5a55a97f2659f68177357
+commit: e44716ed4262a467260fccb7814e4c89588f438d [1528/1528] arm64: asm-bug: Add .align 2 to the end of __BUG_ENTRY
+config: arm64-randconfig-003-20250328 (https://download.01.org/0day-ci/archive/20250328/202503281620.pNXaYE13-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503281620.pNXaYE13-lkp@intel.com/reproduce)
 
-I will replace the newlines with an empty `//`; otherwise it reads worse.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503281620.pNXaYE13-lkp@intel.com/
 
-Most of these lines will go away in some months, so I don't think it
-is worth diverging from the default even if `rustfmt` had a config for
-this.
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-Cheers,
-Miguel
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c: In function 'nv40_fifo_dma_engine_init':
+   drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c:111:37: warning: 'ctx' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     111 |  nvkm_wo32(imem->ramfc, chan->ramfc + ctx, inst);
+         |                                     ^
+   In file included from arch/arm64/include/asm/io.h:213,
+                    from include/linux/io.h:25,
+                    from include/linux/pci.h:34,
+                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/engine.h:5,
+                    from drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h:5,
+                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.h:5,
+                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv04.h:5,
+                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c:24:
+>> include/asm-generic/io.h:742:19: warning: 'reg' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     742 | #define iowrite32 iowrite32
+         |                   ^~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c:97:12: note: 'reg' was declared here
+      97 |  u32 inst, reg, ctx;
+         |            ^~~
+   drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c: In function 'nv40_fifo_dma_engine_fini':
+   drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c:80:37: warning: 'ctx' may be used uninitialized in this function [-Wmaybe-uninitialized]
+      80 |  nvkm_wo32(imem->ramfc, chan->ramfc + ctx, 0x00000000);
+         |                                     ^
+   In file included from arch/arm64/include/asm/io.h:213,
+                    from include/linux/io.h:25,
+                    from include/linux/pci.h:34,
+                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/engine.h:5,
+                    from drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h:5,
+                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.h:5,
+                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv04.h:5,
+                    from drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c:24:
+>> include/asm-generic/io.h:742:19: warning: 'reg' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     742 | #define iowrite32 iowrite32
+         |                   ^~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv40.c:67:6: note: 'reg' was declared here
+      67 |  u32 reg, ctx;
+         |      ^~~
+
+
+vim +/reg +742 include/asm-generic/io.h
+
+9216efafc52ff9 Thierry Reding 2014-10-01  740  
+9216efafc52ff9 Thierry Reding 2014-10-01  741  #ifndef iowrite32
+9216efafc52ff9 Thierry Reding 2014-10-01 @742  #define iowrite32 iowrite32
+9216efafc52ff9 Thierry Reding 2014-10-01  743  static inline void iowrite32(u32 value, volatile void __iomem *addr)
+9216efafc52ff9 Thierry Reding 2014-10-01  744  {
+9216efafc52ff9 Thierry Reding 2014-10-01  745  	writel(value, addr);
+9216efafc52ff9 Thierry Reding 2014-10-01  746  }
+9216efafc52ff9 Thierry Reding 2014-10-01  747  #endif
+9216efafc52ff9 Thierry Reding 2014-10-01  748  
+
+:::::: The code at line 742 was first introduced by commit
+:::::: 9216efafc52ff99e9351ef60de5fcafc2bc8adb6 asm-generic/io.h: Reconcile I/O accessor overrides
+
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
