@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E631E52D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 01:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE34224CC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 01:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743124763; cv=none; b=WFH2LO5FZXdfqdgh5bhmj2v5cBuhrCi5SFjlMQGKBB4pCyP+SotlXAA2D1+MgXtkqvG3o5a7+cCgnQ7iSqwE7yF3Vo4Kev5QOChkcO+yDmSHM3eK1JLiV4Pre17WCZtTRMSN03gZUnLMBkGvFgv9bF7jhDMTQiPR+yhRzibOFGM=
+	t=1743126035; cv=none; b=uLiOuXimtKirdorU5aq5QcyWKGYvw9i+rjOOm5w/em9eyhfA+vwoDFdYZWHu4sD9cBNKP3wTI4Ah9xuaSbpM2xj6s0BvJ/e6/a/od2zV5Iw8scO9QxDfnxw4xahB/Jdz/HnYnmSXvmcScXncW4/XX0SMdLBX9LOnAP0/V5PmRhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743124763; c=relaxed/simple;
-	bh=nbe6Pi8tlh6LZT+q5xurltwfuX2F6rU4c5Dmj0Pz8eg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nPMj3tUSYYgBSPkKJ3Z+XB8aoWfoj9kq4K72wn7D7dcebp/P6a0ZJtweIV4gkQtaMfVMRkc2LM76JQSZ2ALoXwOKvsHGK2bmh1eJO9VPmDkuivshKOxzoYk19NrHdm9BuC9vC5FBRmTicUKg1ekTVWKbizJFvOXqXI4XQqEancE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjvCnl5X; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1743126035; c=relaxed/simple;
+	bh=VEfL0vPeGfnKhpKoBEiCC1gkXEfNqytprvdgN15tH90=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OFlGT6BbbaN8f8qyMlc7nzLiC4UkFe3qQAsgzQmOaJKHfDpOFiqgaeUS0bVIKD2wTIQZ5cDcEOs7fNo0EYxeOQKKn0EpEidUap6ddTx2v5isbxlRNuMpAb1qVzt4uaNN6UahmjP0k+SXzMoyJOT2KkK0ek7bjfO8kzTBbYU5gbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBJjihz4; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjvCnl5X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBJjihz4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743124762; x=1774660762;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nbe6Pi8tlh6LZT+q5xurltwfuX2F6rU4c5Dmj0Pz8eg=;
-  b=hjvCnl5XNVnTR1dO0SWATArLRekIKKTWEVeb6/T6xAMkHYu8UNW51+KC
-   1gTx0SDpfa4Ic+8P30T+HoLgiKkhXfRSQgCDXo+JlvRc3IkHJMI0anQBC
-   IRkwrhw9H5M8YgThNceAxD+lKfALTuoGsfmAnwq1gmd5IZiR6EzWqHs3i
-   rjM9GunR0tQH8kC/pju8/w6ThDyC+UQ5ycVj7aB34PRL7ZZvqGiJs3WdG
-   q3ZCa6LTWrtyxFZB7yuPnm8CI91tkr1SwSBtJrleJjYpSw7oN8K6dNiyL
-   njgQXRsTvW0a2c+G0Yi4v3mq2z6g7OOw8pDRkJdgoPckD0bUUseQd+mbF
+  t=1743126033; x=1774662033;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VEfL0vPeGfnKhpKoBEiCC1gkXEfNqytprvdgN15tH90=;
+  b=LBJjihz4KGNT1kTHNFqJ+lg6t4QKVAaXDrnuymOg2590TRzUw03bS6S0
+   dPCyod2LbQ5F7Fcwlc7lVDobevScr8bHuW3NbjXTZNcDA3MGo8Ey+nvvs
+   YBxttS/wyR3RDopwK+PP8/EHnYmgoXAqmfSkMHG2qel3RMTook0KixzYm
+   KMvYbbTBoWiVBkM6iGqOaoHT7/wECCKyyHDWFVUaINGyU6k0iUclys03e
+   SSaOFSdZBpDUQn0IB9o3yGKvw4Wx8LGOVvZPahEBF/RRyjW0b4bFLIZhd
+   z6eqMyj3WPPeo2jUzGg59I3+PtyF7ABneIe10i/W9GWhTRg36YkIgpeqA
    w==;
-X-CSE-ConnectionGUID: KbtsW4ZqRoyv3uOEeDtaqA==
-X-CSE-MsgGUID: G60TebigSAeylCGzhOV5Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="47213317"
+X-CSE-ConnectionGUID: SGTfzN5zRKmyVj+FUUuBHg==
+X-CSE-MsgGUID: qSwZA4aFT52qCFo+5qHRlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="32084926"
 X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="47213317"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 18:19:21 -0700
-X-CSE-ConnectionGUID: VF0u9KfwSPyPHHyPFMvJIg==
-X-CSE-MsgGUID: npAypc4PTEGOR8C32fBsjw==
+   d="scan'208";a="32084926"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 18:40:31 -0700
+X-CSE-ConnectionGUID: lI1BvDiBSVi94Pj/5wgpcg==
+X-CSE-MsgGUID: d/eoDIvLQqGEUxge62vJaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="125525419"
+   d="scan'208";a="125763909"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Mar 2025 18:19:16 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Mar 2025 18:40:31 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txyNO-00073S-0Z;
-	Fri, 28 Mar 2025 01:19:14 +0000
-Date: Fri, 28 Mar 2025 09:18:24 +0800
+	id 1txyhw-00074Q-1W;
+	Fri, 28 Mar 2025 01:40:28 +0000
+Date: Fri, 28 Mar 2025 09:40:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	nifan.cxl@gmail.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, dan.j.williams@intel.com,
-	bhelgaas@google.com, mahesh@linux.ibm.com, ira.weiny@intel.com,
-	oohall@gmail.com, Benjamin.Cheatham@amd.com, rrichter@amd.com,
-	nathan.fontenot@amd.com, Smita.KoralahalliChannabasappa@amd.com,
-	lukas@wunner.de, ming.li@zohomail.com,
-	PradeepVineshReddy.Kodamati@amd.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 16/16] CXL/PCI: Disable CXL protocol errors during CXL
- Port cleanup
-Message-ID: <202503280816.M7DZmSDT-lkp@intel.com>
-References: <20250327014717.2988633-17-terry.bowman@amd.com>
+Subject: [android-common:android15-6.6-2024-10 2/2]
+ crypto/fips140-module.c:575:8: error: call to undeclared function
+ 'register_trace_android_vh_sha256'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202503280934.8FaK7wHJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,83 +63,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250327014717.2988633-17-terry.bowman@amd.com>
 
-Hi Terry,
+Hi Ard,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on aae0594a7053c60b82621136257c8b648c67b512]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/PCI-CXL-Introduce-PCIe-helper-function-pcie_is_cxl/20250327-095738
-base:   aae0594a7053c60b82621136257c8b648c67b512
-patch link:    https://lore.kernel.org/r/20250327014717.2988633-17-terry.bowman%40amd.com
-patch subject: [PATCH v8 16/16] CXL/PCI: Disable CXL protocol errors during CXL Port cleanup
-config: csky-randconfig-r122-20250327 (https://download.01.org/0day-ci/archive/20250328/202503280816.M7DZmSDT-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250328/202503280816.M7DZmSDT-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-10
+head:   da759a1462b23348c55a6399190d67bd1d1051b9
+commit: 8a99ad0b72e2f0a56d72221a9a20f4f261dfa3c7 [2/2] ANDROID: fips140: add kernel crypto module
+config: arm64-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503280934.8FaK7wHJ-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503280934.8FaK7wHJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503280816.M7DZmSDT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503280934.8FaK7wHJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/cxl/port.c:68:33: sparse: sparse: symbol 'cxl_ep_error_handlers' was not declared. Should it be static?
->> drivers/cxl/port.c:104:6: sparse: sparse: symbol 'cxl_disable_prot_errors' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/cxl_disable_prot_errors +104 drivers/cxl/port.c
+   In file included from crypto/fips140-module.c:37:
+   crypto/internal.h:85:2: error: call to undeclared function 'static_key_enable'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           static_branch_enable(&__crypto_boot_test_finished);
+           ^
+   include/linux/jump_label.h:553:35: note: expanded from macro 'static_branch_enable'
+   #define static_branch_enable(x)                 static_key_enable(&(x)->key)
+                                                   ^
+   crypto/internal.h:85:2: note: did you mean 'static_key_false'?
+   include/linux/jump_label.h:553:35: note: expanded from macro 'static_branch_enable'
+   #define static_branch_enable(x)                 static_key_enable(&(x)->key)
+                                                   ^
+   include/linux/jump_label.h:207:29: note: 'static_key_false' declared here
+   static __always_inline bool static_key_false(struct static_key *key)
+                               ^
+>> crypto/fips140-module.c:575:8: error: call to undeclared function 'register_trace_android_vh_sha256'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
+                 ^
+   crypto/fips140-module.c:575:8: note: did you mean 'trace_android_vh_sha256'?
+   include/trace/hooks/fips140.h:18:1: note: 'trace_android_vh_sha256' declared here
+   DECLARE_HOOK(android_vh_sha256,
+   ^
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+   #define DECLARE_HOOK DECLARE_EVENT_NOP
+                        ^
+   include/linux/tracepoint.h:584:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+           static inline void trace_##name(proto)                          \
+                              ^
+   <scratch space>:16:1: note: expanded from here
+   trace_android_vh_sha256
+   ^
+>> crypto/fips140-module.c:576:8: error: call to undeclared function 'register_trace_android_vh_aes_expandkey'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                 register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
+                 ^
+   crypto/fips140-module.c:576:8: note: did you mean 'trace_android_vh_aes_expandkey'?
+   include/trace/hooks/fips140.h:25:1: note: 'trace_android_vh_aes_expandkey' declared here
+   DECLARE_HOOK(android_vh_aes_expandkey,
+   ^
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+   #define DECLARE_HOOK DECLARE_EVENT_NOP
+                        ^
+   include/linux/tracepoint.h:584:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+           static inline void trace_##name(proto)                          \
+                              ^
+   <scratch space>:19:1: note: expanded from here
+   trace_android_vh_aes_expandkey
+   ^
+>> crypto/fips140-module.c:577:8: error: call to undeclared function 'register_trace_android_vh_aes_encrypt'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                 register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
+                 ^
+>> crypto/fips140-module.c:578:8: error: call to undeclared function 'register_trace_android_vh_aes_decrypt'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                 register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
+                 ^
+   5 errors generated.
 
-    67	
-  > 68	const struct cxl_error_handlers cxl_ep_error_handlers = {
-    69		.error_detected = cxl_error_detected,
-    70		.cor_error_detected = cxl_cor_error_detected,
-    71	};
-    72	
-    73	static void cxl_assign_error_handlers(struct device *_dev,
-    74					      const struct cxl_error_handlers *handlers)
-    75	{
-    76		struct device *dev __free(put_device) = get_device(_dev);
-    77		struct cxl_driver *pdrv;
-    78	
-    79		if (!dev)
-    80			return;
-    81	
-    82		pdrv = to_cxl_drv(dev->driver);
-    83		pdrv->err_handler = handlers;
-    84	}
-    85	
-    86	void cxl_enable_prot_errors(struct device *dev)
-    87	{
-    88		struct pci_dev *pdev = to_pci_dev(dev);
-    89		struct device *pci_dev __free(put_device) = get_device(&pdev->dev);
-    90	
-    91		if (!pci_dev)
-    92			return;
-    93	
-    94		if (!pdev->aer_cap) {
-    95			pdev->aer_cap = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ERR);
-    96			if (!pdev->aer_cap)
-    97				return;
-    98		}
-    99	
-   100		pci_aer_unmask_internal_errors(pdev);
-   101	}
-   102	EXPORT_SYMBOL_NS_GPL(cxl_enable_prot_errors, "CXL");
-   103	
- > 104	void cxl_disable_prot_errors(void *_dev)
-   105	{
-   106		struct device *dev = _dev;
-   107		struct pci_dev *pdev = to_pci_dev(dev);
-   108		struct device *pci_dev __free(put_device) = get_device(&pdev->dev);
-   109	
-   110		if (!pci_dev || !pdev->aer_cap)
-   111			return;
-   112	
-   113		pci_aer_mask_internal_errors(pdev);
-   114	}
-   115	EXPORT_SYMBOL_NS_GPL(cxl_disable_prot_errors, "CXL");
-   116	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+
+vim +/register_trace_android_vh_sha256 +575 crypto/fips140-module.c
+
+   570	
+   571	static bool update_fips140_library_routines(void)
+   572	{
+   573		int ret;
+   574	
+ > 575		ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
+ > 576		      register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
+ > 577		      register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
+ > 578		      register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
+   579	
+   580		return ret == 0;
+   581	}
+   582	
 
 -- 
 0-DAY CI Kernel Test Service
