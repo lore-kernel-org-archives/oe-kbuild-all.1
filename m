@@ -1,180 +1,198 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB89C3BBF2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 12:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C949D3208
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 12:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743163643; cv=none; b=b8/srKhng1RHP1JKMe9UrJYNJt+z8lDp3TmbQmYcX3JMZ/dv88cWdMpw6mLcX5C+WBZi8dyLX8X57ejsbOLIgRUPhEuTim8cgTykzVSQz4N+1t3+4LL70tpDMNDLay1syXzv9XI2XdqHb9sZQxKY+AnJfFhwAjImdct0f0em07o=
+	t=1743165189; cv=none; b=UWWSyc2gZKwRLH6EMRZ/wXSb9bq+5CfByUO7tGTDtYX4G5q2uFX7vZl3plYFWy2m5aVFF/OfscWez86wgw+m3DT9s5jXjLjHoWV2swyESvME8O60Z810We+PiDmXPp/yFqrSC/BSwJS+P09GUmDRi+otvSU2BNytN/QBqOVJS1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743163643; c=relaxed/simple;
-	bh=7d+6QNSuDC6KwrLysg6VBznBKhWYjfkfU7W7RNm9/1g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F21qRKBLR+KI166nedYFuOW7IXqj49cC9OlMT2fADkuqb+T5eb0Y5KpqUfZTBKbBxgEcNiGKh86VowPUpv4E4lMCGs+LQXLk71gAtfUYUZ6lIuWS+vvUc3UTWugOtTNBECCK2TvUai33Nn77qcECrvBIuQsZiZXfXxvYX3PFKf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=m8DYsBmS; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1743165189; c=relaxed/simple;
+	bh=q8bKHVL6pB8J+AtOmNlBwJ3zl4qZj5T6Qp+MRFa1IMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m32udRq9c3Ka1zN8KLFfWrRxVEwynRpIoQAgQ1huyEFMVrkDp0gxgh9ASWan0G2DHNE8Yr0Zu6O+4sM/AWNiTzhpDDCtLkAnjlSuBvWnn+xC0joS8xfm2NL5n6FcgMMs7iGsaqlA9rYcBHp1WGQBC3V4gOIONLVuSgPWTXDeTK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AYGU11+B; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="m8DYsBmS"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e6c18e2c7dso3811412a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 05:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1743163637; x=1743768437; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=09+GMoGHkdHczaMyTmOv+EAAirFwS/ZKLc5EZlU9OOI=;
-        b=m8DYsBmSVsqjJbWNGnuv3qc1Cd8wwtmJBLHvvzExAMFb5DXrmhmbx038Vvvq4JrjxH
-         ae4jFVR4Br0rDBJhbqPcRfSmfz33MeR0E44XOtF4c8nzTv8mEE0rbrbR576/uImdK4Mb
-         FmMGA3K54G3eaIZOb6GMU1/mnyJ7+wJur7ueOhRMo3yjvdUI9eqZlTqQftJAeIZmakQ3
-         N0kRPuC+XXlEeF5Vt6w/r2KhznreoDvndSUGXJ4fw1IMQ+qkZKF/hVid0wjxhxJFCB07
-         CVVr5jhgHhMXXds7lUqh6/ZHty9/54cpLnhFdDMpPes1WZsCapIyu/ni5hlTrm2A1wF6
-         U4/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743163637; x=1743768437;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=09+GMoGHkdHczaMyTmOv+EAAirFwS/ZKLc5EZlU9OOI=;
-        b=ijSkgnc3/y4iImvSNg/HYz9j9LhAK6fzvxIHmctbhX5JrX5YBuqZvIty77bFyge6wS
-         5wJKY77jpdJMfBO/1ERnnuCAQSlaoOA3KNkq4Qi3xU8ABKFpEZhybdBT7x5V7hzt7l0F
-         GFyi/G7N8eGwdz52vXRYrX1js+Odzg1qy6ky0h4k7cROFgErneGnlSw2w4cD/9sFVNqv
-         0ylHDNCuZ9FanVpVkXk2N/sXBTJ8JPWAwKUYuA01SKJC5NxXiphQRyo0Yr3xqSXvOLAH
-         cxyUgRy3GRIHs+ejMjizi0YYHX8IHWjkVrDR4eoe4v43Xcv3fd6KLy3R3oC7quZCbN0I
-         Os0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWhYpAIOw8stWagYdGNq+ulpQfwZq3cI3Q+Igk50ZtViCMzxvQ45PTVfG99vFJmxawA0oCA6xa69y3PU/OV@lists.linux.dev
-X-Gm-Message-State: AOJu0YyR1YUcjW/+bKj/Hc0xgtLnheo8CLoI0VYZdyBF28s7NRyK2djh
-	tkyVn46qq1veN9TOREHGmEVNV7bfUY8+RI17n1o6bqxT0j6QSuaFucxQrGmVaH/DHcrsWjEqmWJ
-	q8FP+h9wYifxEzXAGE7JebDOfrJGxL9qB0stWVjptLOGDVxLHj0M=
-X-Gm-Gg: ASbGnctICvPNrmxK0edmDqhxAce3EQ4hvRyMioe9kNQg/GAoq5RkbnQK4wy2NsKDBwl
-	TMrnV4NZM2gUGquixTK747tsZ49m4ngWl49x4DOQkCHuY3m75GchdRwvWLf1UtIBDRoickaEES0
-	2ozA7HxNw7QaGcxkwDbOWmq1xN4A==
-X-Google-Smtp-Source: AGHT+IEvuoX9oBJaqHNYv5Dz0eUnUDxchxNgE45fespyLtPPlnCY/Td7egXvxePpplAljN1oAsouobB/WBhk3Vu+e/E=
-X-Received: by 2002:a05:6402:524d:b0:5e4:c119:7ff8 with SMTP id
- 4fb4d7f45d1cf-5ed8df6b4e1mr5956743a12.4.1743163636552; Fri, 28 Mar 2025
- 05:07:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AYGU11+B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743165188; x=1774701188;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=q8bKHVL6pB8J+AtOmNlBwJ3zl4qZj5T6Qp+MRFa1IMc=;
+  b=AYGU11+BCnvnSKoJNiPAqckiPKowXfFE1QRPaHXuZfwsntukhbpW+klC
+   S8ar+/IbNjLlMJrYRGX0pBDaWMjG74V5BOYBWZFhk6U4MFLcftjQd5wWE
+   lTZi21taE0I7ZJoqGFAXXmAROwrmGv9r/eyb0LEQkdDvVNWErJQaXCUkK
+   sJ8nb1SLPnpGs0VI7LaA/vHYF4SCkxuU0ZOePbIjnnsU6ysQeuOLS0eF8
+   rNjU4sE3pbvDl/0moEZ7J2iS6vNf+JnQWYaY7eRl/24zPmjZgzxzLUF7M
+   O8gdnoUl9QnugpgAZkoHtBRe9N6PdEz8w0k7wQMkOtRQ7gJaL7v5s7S43
+   g==;
+X-CSE-ConnectionGUID: bJ1yF5KRRGGDhWDHja4Gqg==
+X-CSE-MsgGUID: xIUICnmgS4+Ng6J+9/FK+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44245819"
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
+   d="scan'208";a="44245819"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 05:33:07 -0700
+X-CSE-ConnectionGUID: XK8XL53dQUGzHKcidPntcQ==
+X-CSE-MsgGUID: WdQvG5FpQTyRKgcOvvAY9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
+   d="scan'208";a="126360850"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 28 Mar 2025 05:33:05 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ty8tS-0007Ri-28;
+	Fri, 28 Mar 2025 12:33:02 +0000
+Date: Fri, 28 Mar 2025 20:32:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:hack/ppi 17/17] kernel/irq/manage.c:2619:22: warning:
+ assignment makes pointer from integer without a cast
+Message-ID: <202503282049.7rjXBkvh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202503281836.8pntHm6I-lkp@intel.com>
-In-Reply-To: <202503281836.8pntHm6I-lkp@intel.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Fri, 28 Mar 2025 13:07:04 +0100
-X-Gm-Features: AQ5f1Jog71HzA_x7rx0ngc8U5aLe4l_CqsEtPzKn0fR8IXVByQR2yIYcCfIb5Vw
-Message-ID: <CAHVXubgrx_R7+_tf4OD8yrAhx_m5LighWJc-MpwCg1BFg3dE4g@mail.gmail.com>
-Subject: Re: [linux-next:master 12126/14010] fs/dcache.c:145: Error:
- unrecognized opcode `add.uw s1,s1,a5'
-To: kernel test robot <lkp@intel.com>
-Cc: Charlie Jenkins <charlie@rivosinc.com>, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Mar 28, 2025 at 11:07=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   e21edb1638e82460f126a6e49bcdd958d452929c
-> commit: a44fb5722199de8338d991db5ad3d509192179bb [12126/14010] riscv: Add=
- runtime constant support
-> config: riscv-randconfig-001-20250328 (https://download.01.org/0day-ci/ar=
-chive/20250328/202503281836.8pntHm6I-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250328/202503281836.8pntHm6I-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503281836.8pntHm6I-lkp=
-@intel.com/
->
-> All error/warnings (new ones prefixed by >>):
->
->    fs/dcache.c: Assembler messages:
-> >> fs/dcache.c:143: Warning: Unrecognized .option directive: arch,+zba
-> --
-> >> fs/dcache.c:145: Error: unrecognized opcode `add.uw s1,s1,a5'
-> >> fs/dcache.c:143: Warning: Unrecognized .option directive: arch,+zba
-> --
-> >> fs/dcache.c:145: Error: unrecognized opcode `add.uw a4,a4,a5'
-> >> fs/dcache.c:143: Warning: Unrecognized .option directive: arch,+zba
-> --
-> >> fs/dcache.c:145: Error: unrecognized opcode `add.uw s4,s4,a5'
-> >> fs/dcache.c:143: Warning: Unrecognized .option directive: arch,+zba
-> --
-> >> fs/dcache.c:145: Error: unrecognized opcode `add.uw s1,s1,a5'
-> >> fs/dcache.c:152: Error: attempt to move .org backwards
-> >> fs/dcache.c:152: Error: attempt to move .org backwards
-> >> fs/dcache.c:152: Error: attempt to move .org backwards
-> >> fs/dcache.c:152: Error: attempt to move .org backwards
->
->
-> vim +145 fs/dcache.c
->
-> 312d3ca856d369 Christoph Hellwig 2010-10-10  139
-> 312d3ca856d369 Christoph Hellwig 2010-10-10  140  #if defined(CONFIG_SYSC=
-TL) && defined(CONFIG_PROC_FS)
-> c8c0c239d5ab1e Luis Chamberlain  2022-01-21  141  /* Statistics gathering=
-. */
-> c8c0c239d5ab1e Luis Chamberlain  2022-01-21  142  static struct dentry_st=
-at_t dentry_stat =3D {
-> c8c0c239d5ab1e Luis Chamberlain  2022-01-21 @143        .age_limit =3D 45=
-,
-> c8c0c239d5ab1e Luis Chamberlain  2022-01-21  144  };
-> 62d36c77035219 Dave Chinner      2013-08-28 @145
-> 62d36c77035219 Dave Chinner      2013-08-28  146  /*
-> 62d36c77035219 Dave Chinner      2013-08-28  147   * Here we resort to ou=
-r own counters instead of using generic per-cpu counters
-> 62d36c77035219 Dave Chinner      2013-08-28  148   * for consistency with=
- what the vfs inode code does. We are expected to harvest
-> 62d36c77035219 Dave Chinner      2013-08-28  149   * better code and perf=
-ormance by having our own specialized counters.
-> 62d36c77035219 Dave Chinner      2013-08-28  150   *
-> 62d36c77035219 Dave Chinner      2013-08-28  151   * Please note that the=
- loop is done over all possible CPUs, not over all online
-> 62d36c77035219 Dave Chinner      2013-08-28 @152   * CPUs. The reason for=
- this is that we don't want to play games with CPUs going
-> 62d36c77035219 Dave Chinner      2013-08-28  153   * on and off. If one o=
-f them goes off, we will just keep their counters.
-> 62d36c77035219 Dave Chinner      2013-08-28  154   *
-> 62d36c77035219 Dave Chinner      2013-08-28  155   * glommer: See cffbc8a=
- for details, and if you ever intend to change this,
-> 62d36c77035219 Dave Chinner      2013-08-28  156   * please update all vf=
-s counters to match.
-> 62d36c77035219 Dave Chinner      2013-08-28  157   */
-> 3942c07ccf98e6 Glauber Costa     2013-08-28  158  static long get_nr_dent=
-ry(void)
-> 3e880fb5e4bb6a Nicholas Piggin   2011-01-07  159  {
-> 3e880fb5e4bb6a Nicholas Piggin   2011-01-07  160        int i;
-> 3942c07ccf98e6 Glauber Costa     2013-08-28  161        long sum =3D 0;
-> 3e880fb5e4bb6a Nicholas Piggin   2011-01-07  162        for_each_possible=
-_cpu(i)
-> 3e880fb5e4bb6a Nicholas Piggin   2011-01-07  163                sum +=3D =
-per_cpu(nr_dentry, i);
-> 3e880fb5e4bb6a Nicholas Piggin   2011-01-07  164        return sum < 0 ? =
-0 : sum;
-> 3e880fb5e4bb6a Nicholas Piggin   2011-01-07  165  }
-> 3e880fb5e4bb6a Nicholas Piggin   2011-01-07  166
->
-> :::::: The code at line 145 was first introduced by commit
-> :::::: 62d36c77035219ac776d1882ed3a662f2b75f258 dcache: convert dentry_st=
-at.nr_unused to per-cpu counters
->
-> :::::: TO: Dave Chinner <dchinner@redhat.com>
-> :::::: CC: Al Viro <viro@zeniv.linux.org.uk>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git hack/ppi
+head:   e9141d0584201dc14a70533175804e111ab53f36
+commit: e9141d0584201dc14a70533175804e111ab53f36 [17/17] WIP
+config: sparc-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503282049.7rjXBkvh-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503282049.7rjXBkvh-lkp@intel.com/reproduce)
 
-https://lore.kernel.org/linux-riscv/20250328115422.253670-1-alexghiti@rivos=
-inc.com/T/#u
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503282049.7rjXBkvh-lkp@intel.com/
 
-Thanks for the report!
+All warnings (new ones prefixed by >>):
 
-Alex
+   In file included from arch/sparc/include/asm/irq_32.h:16:0,
+                    from arch/sparc/include/asm/irq.h:7,
+                    from include/linux/irq.h:23,
+                    from kernel/irq/manage.c:11:
+   include/linux/interrupt.h:130:2: error: expected identifier or '(' before 'struct'
+     struct irqaction *next;
+     ^~~~~~
+   In file included from kernel/irq/manage.c:25:0:
+   kernel/irq/manage.c: In function 'irq_set_thread_affinity':
+   kernel/irq/internals.h:173:41: error: 'struct irqaction' has no member named 'next'
+     for (act = desc->action; act; act = act->next)
+                                            ^
+   kernel/irq/manage.c:194:2: note: in expansion of macro 'for_each_action_of_desc'
+     for_each_action_of_desc(desc, action) {
+     ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/manage.c: In function 'irq_wake_thread':
+   kernel/irq/internals.h:173:41: error: 'struct irqaction' has no member named 'next'
+     for (act = desc->action; act; act = act->next)
+                                            ^
+   kernel/irq/manage.c:1350:2: note: in expansion of macro 'for_each_action_of_desc'
+     for_each_action_of_desc(desc, action) {
+     ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/manage.c: In function '__setup_irq':
+   kernel/irq/manage.c:1662:18: error: 'struct irqaction' has no member named 'next'
+       old_ptr = &old->next;
+                     ^~
+   kernel/irq/manage.c: In function '__free_irq':
+   kernel/irq/manage.c:1902:23: error: 'struct irqaction' has no member named 'next'
+      action_ptr = &action->next;
+                          ^~
+   kernel/irq/manage.c:1906:22: error: 'struct irqaction' has no member named 'next'
+     *action_ptr = action->next;
+                         ^~
+   kernel/irq/manage.c: In function '__request_percpu_irq':
+   kernel/irq/manage.c:2619:24: error: implicit declaration of function 'alloc_cpumask'; did you mean 'alloc_cpumask_var'? [-Werror=implicit-function-declaration]
+      action->valid_mask = alloc_cpumask()
+                           ^~~~~~~~~~~~~
+                           alloc_cpumask_var
+>> kernel/irq/manage.c:2619:22: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+      action->valid_mask = alloc_cpumask()
+                         ^
+   kernel/irq/manage.c:2620:2: error: expected ';' before '}' token
+     }
+     ^
+   cc1: some warnings being treated as errors
+
+
+vim +2619 kernel/irq/manage.c
+
+  2577	
+  2578	/**
+  2579	 *	__request_percpu_irq - allocate a percpu interrupt line
+  2580	 *	@irq: Interrupt line to allocate
+  2581	 *	@handler: Function to be called when the IRQ occurs.
+  2582	 *	@flags: Interrupt type flags (IRQF_TIMER only)
+  2583	 *	@devname: An ascii name for the claiming device
+  2584	 *	@dev_id: A percpu cookie passed back to the handler function
+  2585	 *
+  2586	 *	This call allocates interrupt resources and enables the
+  2587	 *	interrupt on the local CPU. If the interrupt is supposed to be
+  2588	 *	enabled on other CPUs, it has to be done on each CPU using
+  2589	 *	enable_percpu_irq().
+  2590	 *
+  2591	 *	Dev_id must be globally unique. It is a per-cpu variable, and
+  2592	 *	the handler gets called with the interrupted CPU's instance of
+  2593	 *	that variable.
+  2594	 */
+  2595	int __request_percpu_irq(unsigned int irq, irq_handler_t handler,
+  2596				 unsigned long flags, const char *devname,
+  2597				 const cpumask_t *valid_mask, void __percpu *dev_id)
+  2598	{
+  2599		struct irqaction *action;
+  2600		struct irq_desc *desc;
+  2601		int retval;
+  2602	
+  2603		if (!dev_id)
+  2604			return -EINVAL;
+  2605	
+  2606		desc = irq_to_desc(irq);
+  2607		if (!desc || !irq_settings_can_request(desc) ||
+  2608		    !irq_settings_is_per_cpu_devid(desc))
+  2609			return -EINVAL;
+  2610	
+  2611		if (flags && flags != IRQF_TIMER)
+  2612			return -EINVAL;
+  2613	
+  2614		action = kzalloc(sizeof(struct irqaction), GFP_KERNEL);
+  2615		if (!action)
+  2616			return -ENOMEM;
+  2617	
+  2618		if (valid_mask != cpu_possible_mask) {
+> 2619			action->valid_mask = alloc_cpumask()
+  2620		}
+  2621	
+  2622		action->handler = handler;
+  2623		action->flags = flags | IRQF_PERCPU | IRQF_NO_SUSPEND;
+  2624		action->name = devname;
+  2625		action->percpu_dev_id = dev_id;
+  2626	
+  2627		retval = irq_chip_pm_get(&desc->irq_data);
+  2628		if (retval < 0) {
+  2629			kfree(action);
+  2630			return retval;
+  2631		}
+  2632	
+  2633		retval = __setup_irq(irq, desc, action);
+  2634	
+  2635		if (retval) {
+  2636			irq_chip_pm_put(&desc->irq_data);
+  2637			kfree(action);
+  2638		}
+  2639	
+  2640		return retval;
+  2641	}
+  2642	EXPORT_SYMBOL_GPL(__request_percpu_irq);
+  2643	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
