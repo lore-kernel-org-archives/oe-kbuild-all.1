@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C864542A97
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 09:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017ED214A60;
+	Fri, 28 Mar 2025 10:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743155851; cv=none; b=fM2e1Cg6JeGXSVkHHTFUNFP5ZPU4JyJCgYQdjRtFZfqgIGsM8FVq84NVmVA/TFAXor45E7SKfKbHqdb+3zFa6C0K5eLmYCDG2F55iIoCRYRVZts2opSL7Fjq/m/WiZRgqek/a6ARc1NKxWMP/jdQtYVq8Y5qXy6QzkWmVehPZLY=
+	t=1743156469; cv=none; b=epnPZFEpaP5YpGaATgNqr/FsRyuIx6rD2YO5Rjieyqkl1D1l+LF1gxVLSKMEIkJhVQHHg6MkHu3JF9DYrdJ2pwZ1oYhE7V2Toq6sKI2jZ/4OtgJcnARcinsUtKcrVP35ph0yF5CKv6yk33Arukm8Ro3ju18my3jEMrk5t3zaPhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743155851; c=relaxed/simple;
-	bh=K8gxjDw0WhvBk/ycGdKwFKgnlnc56MRvEZKw6PQdCuc=;
+	s=arc-20240116; t=1743156469; c=relaxed/simple;
+	bh=lA+gR+1W97YVj37Wt8iOp1re6Z0hZyRbDm0G/GoSsAo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DTYiXrXAJzmfwiGG8hiBhXEliWWY9IqpzO4Ole3DS5TvVYP4xLAAj602vfYzeV3LPlNhxRH//upl2TWEBShUXRd5VLUvSCiF8mWHsUAt+05lw1O7x3Rv+2Fx7TotwuCdPInRG8TfkPrPwL3GOttF+5p52NKh2QjzxfBIP40hObI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=agakUqUw; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=HXGeGAPA8aO0/2FdrjgYHXTsT2g1issVuW1+/Qgdt4ZJ5JJaaU5mcwWWIRE3Q8SziDSxOdlrJpmdJUpOBzAkTXC/KxMYasAZffktCxnL6OPM5D7ElERQA4UAqBMuhUyQzoQfdlY3UTJ4dcr+QnZjxLmzFkUNRcYWhx3w1G4BnlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTrbWrQz; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="agakUqUw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTrbWrQz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743155850; x=1774691850;
+  t=1743156468; x=1774692468;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K8gxjDw0WhvBk/ycGdKwFKgnlnc56MRvEZKw6PQdCuc=;
-  b=agakUqUwQ0dirv6gQPRbiydx7gFUlZIKlJe/5QJQIWQS+F1Ao+0uIUaK
-   MwaebvPy9BxdJUiDl4sJZE982K2BVYzRbITNMeaJa30kIeoqppBP+zDOu
-   JfvqIcj7by15+4YochtSkE6TOAf93K3MoXlFWMGBAC3+g8jvMetQT2YTW
-   03EYwJ043HxRVy4wnR+HEcj4lQhjmpfwc73CsHRZKH9fNyYx4zTsT7jRd
-   q8GF3/8Bb5zxBEvapoys1eRUKKCRntdLvE7vkFJRLq7muxEiulIoFhQX3
-   QlO9O0JNbdS1NiBokSDvmNv9WPjS9CpaDaZLeds0IQCI5Mgsp3rfyHK3L
-   w==;
-X-CSE-ConnectionGUID: Ye+UsA/7SgWP9b8JkcYDYw==
-X-CSE-MsgGUID: YLltBuIBRI+PPrTgUUaDkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="55886697"
+  bh=lA+gR+1W97YVj37Wt8iOp1re6Z0hZyRbDm0G/GoSsAo=;
+  b=OTrbWrQz6Q7MhDfS0n4Cp+1nbOdSglWExqIHTVVqakTAUgf3QacrivyV
+   Kcn/cdq/E+Oco3p1Nr9qBkue/KxUzoHpgKdLZeIVgz01Adw0e2/aktioi
+   S6FirWnliIZMs4Dn9KehldNglS6Z+XPLrXO1swsMCPtaTmRI6y1GVb1wR
+   P0Ld+b0ifZKjO0l1TMA77dZYVpjDtbAFEqEX48n5R0E5oo5R1AFMsLP9A
+   +EKRjEfJ3U/SEcHji3S645G8DUXTn0CXUIlQC5q9kCvhNstnDXJuuvDmR
+   adiWBa+lmiBC3t7asuc0EGDQSp6PjxLoGMCQkUg1v/NxQdl0B/41BBQ95
+   A==;
+X-CSE-ConnectionGUID: yIwFTt9oSOWMA5m61C4KtA==
+X-CSE-MsgGUID: fy4BeUXxTEunfO1pXsYzCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44395770"
 X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="55886697"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 02:57:29 -0700
-X-CSE-ConnectionGUID: 9W7lOXmFR4WqJH3x9httkQ==
-X-CSE-MsgGUID: o9QkT99UQ5iYrv+GkzizHA==
+   d="scan'208";a="44395770"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 03:07:47 -0700
+X-CSE-ConnectionGUID: 3JJ6q19CR2ORiXr3/9+Bbg==
+X-CSE-MsgGUID: cQXoGUKOSvCHYwxMDbUCog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="125214752"
+   d="scan'208";a="125863199"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Mar 2025 02:57:28 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Mar 2025 03:07:46 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ty6SM-0007L2-38;
-	Fri, 28 Mar 2025 09:57:05 +0000
-Date: Fri, 28 Mar 2025 17:56:00 +0800
+	id 1ty6cg-0007LE-1E;
+	Fri, 28 Mar 2025 10:07:36 +0000
+Date: Fri, 28 Mar 2025 18:06:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/common 5/5] fs/f2fs/dir.c:370:35: error: 'inode'
- undeclared
-Message-ID: <202503281731.XvnfbHIk-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Subject: [chao:bugfix/common 5/5] fs/f2fs/dir.c:370:35: error: use of
+ undeclared identifier 'inode'
+Message-ID: <202503281735.NGPfccfP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,31 +66,21 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
 head:   221d9fea44a3b5a03030a89853dfb5e78a1cdc9f
 commit: 221d9fea44a3b5a03030a89853dfb5e78a1cdc9f [5/5] f2fs: support to disable linear lookup fallback
-config: riscv-randconfig-001-20250328 (https://download.01.org/0day-ci/archive/20250328/202503281731.XvnfbHIk-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503281731.XvnfbHIk-lkp@intel.com/reproduce)
+config: hexagon-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503281735.NGPfccfP-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503281735.NGPfccfP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503281731.XvnfbHIk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503281735.NGPfccfP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/f2fs/dir.c:9:
-   fs/f2fs/dir.c: In function '__f2fs_find_entry':
->> fs/f2fs/dir.c:370:35: error: 'inode' undeclared (first use in this function)
-      !sb_no_casefold_compat_fallback(inode->i_sb)) {
-                                      ^~~~~
-   include/linux/fs.h:1259:3: note: in definition of macro 'sb_no_casefold_compat_fallback'
-     (sb->s_encoding_flags & SB_ENC_NO_COMPAT_FALLBACK_FL)
-      ^~
-   fs/f2fs/dir.c:370:35: note: each undeclared identifier is reported only once for each function it appears in
-      !sb_no_casefold_compat_fallback(inode->i_sb)) {
-                                      ^~~~~
-   include/linux/fs.h:1259:3: note: in definition of macro 'sb_no_casefold_compat_fallback'
-     (sb->s_encoding_flags & SB_ENC_NO_COMPAT_FALLBACK_FL)
-      ^~
+>> fs/f2fs/dir.c:370:35: error: use of undeclared identifier 'inode'
+                   !sb_no_casefold_compat_fallback(inode->i_sb)) {
+                                                   ^
+   1 error generated.
 
 
 vim +/inode +370 fs/f2fs/dir.c
