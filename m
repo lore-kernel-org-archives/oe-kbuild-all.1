@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017ED214A60;
-	Fri, 28 Mar 2025 10:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8220F21ABB7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 10:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743156469; cv=none; b=epnPZFEpaP5YpGaATgNqr/FsRyuIx6rD2YO5Rjieyqkl1D1l+LF1gxVLSKMEIkJhVQHHg6MkHu3JF9DYrdJ2pwZ1oYhE7V2Toq6sKI2jZ/4OtgJcnARcinsUtKcrVP35ph0yF5CKv6yk33Arukm8Ro3ju18my3jEMrk5t3zaPhI=
+	t=1743156477; cv=none; b=stPqV4fopHlUD6S1YLnTDjK8AoukqxdjA/57+GDXTegbP1qbIfyMiGJFlKulTeG9KVHsgaHHlwTBLZBf4WGWM4VLuAqOIfrvwjd5sN1ADkKxCYz8ZZX1tCaAO0ZNNK+XWv5xyf/ghFupBtrIa0lUDOZH8C3UzIDnaQg+0+zlwmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743156469; c=relaxed/simple;
-	bh=lA+gR+1W97YVj37Wt8iOp1re6Z0hZyRbDm0G/GoSsAo=;
+	s=arc-20240116; t=1743156477; c=relaxed/simple;
+	bh=nCd9KgJpZ+5hKOLV1zpot083qcdKbrKVDqBAWSnBwtE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HXGeGAPA8aO0/2FdrjgYHXTsT2g1issVuW1+/Qgdt4ZJ5JJaaU5mcwWWIRE3Q8SziDSxOdlrJpmdJUpOBzAkTXC/KxMYasAZffktCxnL6OPM5D7ElERQA4UAqBMuhUyQzoQfdlY3UTJ4dcr+QnZjxLmzFkUNRcYWhx3w1G4BnlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTrbWrQz; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=X7GZfnPV2MBIe4Dg2JtJqBiwPtqFztVFlTe6+yxGj83rvP+/axPcSmmZdDmomTPpYAcxwdT5UiNdQEOIba2XJMS/fDK10J+Fwvba7QMVVL4745rw1nq2lONODZaKPOS/RK2k2QW6IcD90lrV0PZW41vXWk3c651VBFBYkj8oU7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a8o/4MLh; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTrbWrQz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a8o/4MLh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743156468; x=1774692468;
+  t=1743156475; x=1774692475;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lA+gR+1W97YVj37Wt8iOp1re6Z0hZyRbDm0G/GoSsAo=;
-  b=OTrbWrQz6Q7MhDfS0n4Cp+1nbOdSglWExqIHTVVqakTAUgf3QacrivyV
-   Kcn/cdq/E+Oco3p1Nr9qBkue/KxUzoHpgKdLZeIVgz01Adw0e2/aktioi
-   S6FirWnliIZMs4Dn9KehldNglS6Z+XPLrXO1swsMCPtaTmRI6y1GVb1wR
-   P0Ld+b0ifZKjO0l1TMA77dZYVpjDtbAFEqEX48n5R0E5oo5R1AFMsLP9A
-   +EKRjEfJ3U/SEcHji3S645G8DUXTn0CXUIlQC5q9kCvhNstnDXJuuvDmR
-   adiWBa+lmiBC3t7asuc0EGDQSp6PjxLoGMCQkUg1v/NxQdl0B/41BBQ95
-   A==;
-X-CSE-ConnectionGUID: yIwFTt9oSOWMA5m61C4KtA==
-X-CSE-MsgGUID: fy4BeUXxTEunfO1pXsYzCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44395770"
+  bh=nCd9KgJpZ+5hKOLV1zpot083qcdKbrKVDqBAWSnBwtE=;
+  b=a8o/4MLhmjsYjKCuxkmsali/IiwLzQOKczbgTu3WA9n995nNy4VGHt1r
+   zdPSuYVs8T7iTZOX9Z9z2nCnTCNzZscuUE+IfXCZ2YJhLerSPrA7z6wOD
+   o+Y68BPXZxUQYT8mJZjCBISDCp4jJv1aCWSbD6tuDWXLt5DoBenABGksD
+   HtsCM8+jTfwdexLmjpPuDACqqYHZapwkIAB4yh3thXoqVHHi6Yc67WZ4J
+   y3ka+bpbGThk8riCXW/HOWY5ES5qwRmKykIvINX0E+7n8m4dVBmk5cW5U
+   m+IWJvmk0KpeXetekfj+A+nWdLJWFh6G5rApVBAJos2rUbEp2Zk3DNCtk
+   Q==;
+X-CSE-ConnectionGUID: h/1ySzP1QT62ZYqVXZ70hw==
+X-CSE-MsgGUID: 3vwS1r6PSQSGE7odABmpQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44395810"
 X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="44395770"
+   d="scan'208";a="44395810"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 03:07:47 -0700
-X-CSE-ConnectionGUID: 3JJ6q19CR2ORiXr3/9+Bbg==
-X-CSE-MsgGUID: cQXoGUKOSvCHYwxMDbUCog==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 03:07:55 -0700
+X-CSE-ConnectionGUID: FVEiHmrRSNOIX56C8NuHmw==
+X-CSE-MsgGUID: SRL8OA+NQz+746R3PXSSxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="125863199"
+   d="scan'208";a="125863208"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Mar 2025 03:07:46 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Mar 2025 03:07:54 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ty6cg-0007LE-1E;
-	Fri, 28 Mar 2025 10:07:36 +0000
-Date: Fri, 28 Mar 2025 18:06:42 +0800
+	id 1ty6cp-0007LI-3B;
+	Fri, 28 Mar 2025 10:07:47 +0000
+Date: Fri, 28 Mar 2025 18:06:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/common 5/5] fs/f2fs/dir.c:370:35: error: use of
- undeclared identifier 'inode'
-Message-ID: <202503281735.NGPfccfP-lkp@intel.com>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [linux-next:master 12126/14010] fs/dcache.c:145: Error: unrecognized
+ opcode `add.uw s1,s1,a5'
+Message-ID: <202503281836.8pntHm6I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,80 +62,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
-head:   221d9fea44a3b5a03030a89853dfb5e78a1cdc9f
-commit: 221d9fea44a3b5a03030a89853dfb5e78a1cdc9f [5/5] f2fs: support to disable linear lookup fallback
-config: hexagon-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503281735.NGPfccfP-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503281735.NGPfccfP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e21edb1638e82460f126a6e49bcdd958d452929c
+commit: a44fb5722199de8338d991db5ad3d509192179bb [12126/14010] riscv: Add runtime constant support
+config: riscv-randconfig-001-20250328 (https://download.01.org/0day-ci/archive/20250328/202503281836.8pntHm6I-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503281836.8pntHm6I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503281735.NGPfccfP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503281836.8pntHm6I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> fs/f2fs/dir.c:370:35: error: use of undeclared identifier 'inode'
-                   !sb_no_casefold_compat_fallback(inode->i_sb)) {
-                                                   ^
-   1 error generated.
+   fs/dcache.c: Assembler messages:
+>> fs/dcache.c:143: Warning: Unrecognized .option directive: arch,+zba
+--
+>> fs/dcache.c:145: Error: unrecognized opcode `add.uw s1,s1,a5'
+>> fs/dcache.c:143: Warning: Unrecognized .option directive: arch,+zba
+--
+>> fs/dcache.c:145: Error: unrecognized opcode `add.uw a4,a4,a5'
+>> fs/dcache.c:143: Warning: Unrecognized .option directive: arch,+zba
+--
+>> fs/dcache.c:145: Error: unrecognized opcode `add.uw s4,s4,a5'
+>> fs/dcache.c:143: Warning: Unrecognized .option directive: arch,+zba
+--
+>> fs/dcache.c:145: Error: unrecognized opcode `add.uw s1,s1,a5'
+>> fs/dcache.c:152: Error: attempt to move .org backwards
+>> fs/dcache.c:152: Error: attempt to move .org backwards
+>> fs/dcache.c:152: Error: attempt to move .org backwards
+>> fs/dcache.c:152: Error: attempt to move .org backwards
 
 
-vim +/inode +370 fs/f2fs/dir.c
+vim +145 fs/dcache.c
 
-   329	
-   330	struct f2fs_dir_entry *__f2fs_find_entry(struct inode *dir,
-   331						 const struct f2fs_filename *fname,
-   332						 struct page **res_page)
-   333	{
-   334		unsigned long npages = dir_blocks(dir);
-   335		struct f2fs_dir_entry *de = NULL;
-   336		unsigned int max_depth;
-   337		unsigned int level;
-   338		bool use_hash = true;
-   339	
-   340		*res_page = NULL;
-   341	
-   342	#if IS_ENABLED(CONFIG_UNICODE)
-   343	start_find_entry:
-   344	#endif
-   345		if (f2fs_has_inline_dentry(dir)) {
-   346			de = f2fs_find_in_inline_dir(dir, fname, res_page, use_hash);
-   347			goto out;
-   348		}
-   349	
-   350		if (npages == 0)
-   351			goto out;
-   352	
-   353		max_depth = F2FS_I(dir)->i_current_depth;
-   354		if (unlikely(max_depth > MAX_DIR_HASH_DEPTH)) {
-   355			f2fs_warn(F2FS_I_SB(dir), "Corrupted max_depth of %lu: %u",
-   356				  dir->i_ino, max_depth);
-   357			max_depth = MAX_DIR_HASH_DEPTH;
-   358			f2fs_i_depth_write(dir, max_depth);
-   359		}
-   360	
-   361		for (level = 0; level < max_depth; level++) {
-   362			de = find_in_level(dir, level, fname, res_page, use_hash);
-   363			if (de || IS_ERR(*res_page))
-   364				break;
-   365		}
-   366	
-   367	out:
-   368	#if IS_ENABLED(CONFIG_UNICODE)
-   369		if (IS_CASEFOLDED(dir) && !de && use_hash &&
- > 370			!sb_no_casefold_compat_fallback(inode->i_sb)) {
-   371			use_hash = false;
-   372			goto start_find_entry;
-   373		}
-   374	#endif
-   375		/* This is to increase the speed of f2fs_create */
-   376		if (!de)
-   377			F2FS_I(dir)->task = current;
-   378		return de;
-   379	}
-   380	
+312d3ca856d369 Christoph Hellwig 2010-10-10  139  
+312d3ca856d369 Christoph Hellwig 2010-10-10  140  #if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
+c8c0c239d5ab1e Luis Chamberlain  2022-01-21  141  /* Statistics gathering. */
+c8c0c239d5ab1e Luis Chamberlain  2022-01-21  142  static struct dentry_stat_t dentry_stat = {
+c8c0c239d5ab1e Luis Chamberlain  2022-01-21 @143  	.age_limit = 45,
+c8c0c239d5ab1e Luis Chamberlain  2022-01-21  144  };
+62d36c77035219 Dave Chinner      2013-08-28 @145  
+62d36c77035219 Dave Chinner      2013-08-28  146  /*
+62d36c77035219 Dave Chinner      2013-08-28  147   * Here we resort to our own counters instead of using generic per-cpu counters
+62d36c77035219 Dave Chinner      2013-08-28  148   * for consistency with what the vfs inode code does. We are expected to harvest
+62d36c77035219 Dave Chinner      2013-08-28  149   * better code and performance by having our own specialized counters.
+62d36c77035219 Dave Chinner      2013-08-28  150   *
+62d36c77035219 Dave Chinner      2013-08-28  151   * Please note that the loop is done over all possible CPUs, not over all online
+62d36c77035219 Dave Chinner      2013-08-28 @152   * CPUs. The reason for this is that we don't want to play games with CPUs going
+62d36c77035219 Dave Chinner      2013-08-28  153   * on and off. If one of them goes off, we will just keep their counters.
+62d36c77035219 Dave Chinner      2013-08-28  154   *
+62d36c77035219 Dave Chinner      2013-08-28  155   * glommer: See cffbc8a for details, and if you ever intend to change this,
+62d36c77035219 Dave Chinner      2013-08-28  156   * please update all vfs counters to match.
+62d36c77035219 Dave Chinner      2013-08-28  157   */
+3942c07ccf98e6 Glauber Costa     2013-08-28  158  static long get_nr_dentry(void)
+3e880fb5e4bb6a Nicholas Piggin   2011-01-07  159  {
+3e880fb5e4bb6a Nicholas Piggin   2011-01-07  160  	int i;
+3942c07ccf98e6 Glauber Costa     2013-08-28  161  	long sum = 0;
+3e880fb5e4bb6a Nicholas Piggin   2011-01-07  162  	for_each_possible_cpu(i)
+3e880fb5e4bb6a Nicholas Piggin   2011-01-07  163  		sum += per_cpu(nr_dentry, i);
+3e880fb5e4bb6a Nicholas Piggin   2011-01-07  164  	return sum < 0 ? 0 : sum;
+3e880fb5e4bb6a Nicholas Piggin   2011-01-07  165  }
+3e880fb5e4bb6a Nicholas Piggin   2011-01-07  166  
+
+:::::: The code at line 145 was first introduced by commit
+:::::: 62d36c77035219ac776d1882ed3a662f2b75f258 dcache: convert dentry_stat.nr_unused to per-cpu counters
+
+:::::: TO: Dave Chinner <dchinner@redhat.com>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
