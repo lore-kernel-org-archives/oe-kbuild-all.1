@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A2522094
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 02:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8479F22094
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 02:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743127428; cv=none; b=R/9R/eh4B5NpICVMak10N00wPIN3ekwbcwMMM3xieZfRZJevP6sGAmiXI4BU2Si5VToheRTpxFrPlZkYtluvdFj5xjzF0cKRsJ31JeAZQukWHLwp4WTfqSpoVKWj37qdRHf0GycrNzTTuMnY4BzTofGejDQf7ZDWn3TcVvVbhQA=
+	t=1743127441; cv=none; b=sjOqfB6thijxBBGBEWaak+pq6XfFKaE3W+XrcaL2WRedkog+VmscsKw1qYrtU8R8FoTir7jhKQTM2F9Ztxy53S7UYnARFuvl/QKYX2cCJF4hD+Y++dKJSwoOAQ6x2CBywpCLuBWnET7cj/1NFI+fYQ87OFtmpmnd8V8bNrSHe6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743127428; c=relaxed/simple;
-	bh=01WJuUX1tIHgkaMkGlMn387UDgHl3nzMv4W6KG2ks9Q=;
+	s=arc-20240116; t=1743127441; c=relaxed/simple;
+	bh=lKBftAVfGV04q2FEpkDuf2JoCorSdT2fcvOywSduL3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tAn+0Cc753MP+T9LGUR7CaZstl4i+Gc319X58zvwFvbhRqBUc0OijUGQqDKV6hYzRhdLJrV2o20iO4NBzweyScWR0vxrMmSECVogVclULOsTl0wwMwug0e7PQ/QbAmJCo3vnJzu+44/t/GGBdH1gd9jI8Vb6r6NZoHdvzpKNYRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B4+A/Gh3; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=LD1IXSM2Hm5hZMkMf7Om+LTDLNF6k3esxpcf36f7iaUHpGp965TOtTzvcrCnXHmDjAnzZK3qVfxU74L8sxW13GPAoPCJu5ssGMdEqyDoFbl7KilWGVXvohlmlLCtW1fIf/E2bAeJCmfBNBU/xWeWI1FrJJdoMDnFYa/IWVcMs2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfZQVJBa; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B4+A/Gh3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfZQVJBa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743127426; x=1774663426;
+  t=1743127440; x=1774663440;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=01WJuUX1tIHgkaMkGlMn387UDgHl3nzMv4W6KG2ks9Q=;
-  b=B4+A/Gh3de0mAnjyXZ06FjDHLn0NT6APJ5Qw2HvsbIVsLgOUmyv8QRGe
-   e46CZgKGNGF55ZzgNoEbmWryzX+70LJxbldxVjN30RA1BPW+TI/az6eBI
-   b+89P152gxEOc+UMdT07AN/4uF/CulCYD7msP8Px/1JZQVL21c4U2KsAs
-   rd/g+q/Sl9BlrkqUaWB887+UMlHaPY8/qHmbkk5xnK+gGv1UiE4kLA4Ki
-   aBPcBIRIesK27UHFfEcuZPaq35GxiGKumaSuTLpSjfHPT/friOc71jvPz
-   vYZkJIVHv4GseGiE0WaY89XJL9LhWR3Fq/OzfeusTBwRvlXElMTdTZ4KA
-   g==;
-X-CSE-ConnectionGUID: DW+xy1IiRsmMhtb0RL07hQ==
-X-CSE-MsgGUID: oqxMB6+iQU+MBxr/uSNrRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="66956671"
+  bh=lKBftAVfGV04q2FEpkDuf2JoCorSdT2fcvOywSduL3c=;
+  b=NfZQVJBa5PLxspn6AhHY4Z0va/6g4IOy/7hfO9z3XvcM9A1gQLuNcISI
+   l4aszNu2v4F17/8NlGyV0tQ0jTG5yRBuzrGwHFvzpyq+jGhWq9eHljkf9
+   tTdH1Brzjdi0QxUZEvd08v00xdCMEvDbrrma4H1x9Uc5ROLQFJX9OnJCa
+   /eTTX+g8UsIO4W+IC9prIxy1+JXGDy30v9ILnO+ePb4aro/c9MvTfulgs
+   iVFmCJVNvRL1S6MKMjLLJV6hcfE8AIOFTnzD/xTBs3Pg6+Sz55kb6t5d/
+   YdKNvTo6VSwS+plxszu58oMS8/EuHbwbD0OtAlPlRf431197DAjkEswQP
+   A==;
+X-CSE-ConnectionGUID: kCC3UYPaSbeZneCciwvOBQ==
+X-CSE-MsgGUID: 4bRE6oIlRaOA/SEHIi2TmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="54684994"
 X-IronPort-AV: E=Sophos;i="6.14,282,1736841600"; 
-   d="scan'208";a="66956671"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 19:03:46 -0700
-X-CSE-ConnectionGUID: O3oL04dMTGqZfV7T8w1Ayw==
-X-CSE-MsgGUID: ABjKGcUxRwa4w/aiIeUm0g==
+   d="scan'208";a="54684994"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 19:03:59 -0700
+X-CSE-ConnectionGUID: sHZGfosMQG6pdxnhg21uSg==
+X-CSE-MsgGUID: 9a3MvxApRSmUxZE7MSWu7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,282,1736841600"; 
-   d="scan'208";a="130419114"
+   d="scan'208";a="130521451"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Mar 2025 19:03:43 -0700
+  by orviesa005.jf.intel.com with ESMTP; 27 Mar 2025 19:03:58 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txz4I-00074s-1y;
-	Fri, 28 Mar 2025 02:03:37 +0000
-Date: Fri, 28 Mar 2025 10:02:40 +0800
+	id 1txz4P-00074v-3D;
+	Fri, 28 Mar 2025 02:03:43 +0000
+Date: Fri, 28 Mar 2025 10:02:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-nonmm-unstable 25/40] lib/sort.c:222: warning: Function
- parameter or struct member 'may_schedule' not described in '__sort_r'
-Message-ID: <202503280953.FpTcyG1h-lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1525/1525] drivers/char/svm.c:353:35:
+ sparse: sparse: Using plain integer as NULL pointer
+Message-ID: <202503280904.ByoMg5CF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,145 +62,173 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   ae518c1c1d4f910c2a4f255ec5d52f5a5b138f77
-commit: f79965d13aa1a65047fbc47565794cc9fc763f5f [25/40] lib/sort.c: add _nonatomic() variants with cond_resched()
-config: i386-buildonly-randconfig-001-20250328 (https://download.01.org/0day-ci/archive/20250328/202503280953.FpTcyG1h-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503280953.FpTcyG1h-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   3f8283040b83a49bdad8dc3dd4ccd3f50910af28
+commit: b8c0480a3eba11ee6616019a3aaa75ee38f06f02 [1525/1525] svm: serach dts to init children device
+config: arm64-randconfig-r112-20250328 (https://download.01.org/0day-ci/archive/20250328/202503280904.ByoMg5CF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250328/202503280904.ByoMg5CF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503280953.FpTcyG1h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503280904.ByoMg5CF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/char/svm.c:353:35: sparse: sparse: Using plain integer as NULL pointer
 
->> lib/sort.c:222: warning: Function parameter or struct member 'may_schedule' not described in '__sort_r'
->> lib/sort.c:222: warning: expecting prototype for sort_r(). Prototype was for __sort_r() instead
+vim +353 drivers/char/svm.c
 
-
-vim +222 lib/sort.c
-
-f79965d13aa1a6 Kent Overstreet  2025-03-26  190  
-72fd4a35a82433 Robert P. J. Day 2007-02-10  191  /**
-4333fb96ca1086 Rasmus Villemoes 2019-08-16  192   * sort_r - sort an array of elements
-^1da177e4c3f41 Linus Torvalds   2005-04-16  193   * @base: pointer to data to sort
-^1da177e4c3f41 Linus Torvalds   2005-04-16  194   * @num: number of elements
-^1da177e4c3f41 Linus Torvalds   2005-04-16  195   * @size: size of each element
-b53907c0100a35 Wu Fengguang     2009-01-07  196   * @cmp_func: pointer to comparison function
-b53907c0100a35 Wu Fengguang     2009-01-07  197   * @swap_func: pointer to swap function or NULL
-4333fb96ca1086 Rasmus Villemoes 2019-08-16  198   * @priv: third argument passed to comparison function
-^1da177e4c3f41 Linus Torvalds   2005-04-16  199   *
-37d0ec34d111ac George Spelvin   2019-05-14  200   * This function does a heapsort on the given array.  You may provide
-37d0ec34d111ac George Spelvin   2019-05-14  201   * a swap_func function if you need to do something more than a memory
-37d0ec34d111ac George Spelvin   2019-05-14  202   * copy (e.g. fix up pointers or auxiliary data), but the built-in swap
-8fb583c4258d08 George Spelvin   2019-05-14  203   * avoids a slow retpoline and so is significantly faster.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  204   *
-4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  205   * The comparison function must adhere to specific mathematical
-4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  206   * properties to ensure correct and stable sorting:
-4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  207   * - Antisymmetry: cmp_func(a, b) must return the opposite sign of
-4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  208   * cmp_func(b, a).
-4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  209   * - Transitivity: if cmp_func(a, b) <= 0 and cmp_func(b, c) <= 0, then
-4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  210   * cmp_func(a, c) <= 0.
-4e0a15f8b4bd47 Kuan-Wei Chiu    2025-01-07  211   *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  212   * Sorting time is O(n log n) both on average and worst-case. While
-22a241ccb2c199 George Spelvin   2019-05-14  213   * quicksort is slightly faster on average, it suffers from exploitable
-^1da177e4c3f41 Linus Torvalds   2005-04-16  214   * O(n*n) worst-case behavior and extra memory requirements that make
-^1da177e4c3f41 Linus Torvalds   2005-04-16  215   * it less suitable for kernel use.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  216   */
-f79965d13aa1a6 Kent Overstreet  2025-03-26  217  static void __sort_r(void *base, size_t num, size_t size,
-52ae533b8a18e7 Andy Shevchenko  2019-10-07  218  		     cmp_r_func_t cmp_func,
-a0019cd7d41a19 Jiri Olsa        2022-03-16  219  		     swap_r_func_t swap_func,
-f79965d13aa1a6 Kent Overstreet  2025-03-26  220  		     const void *priv,
-f79965d13aa1a6 Kent Overstreet  2025-03-26  221  		     bool may_schedule)
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @222  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  223  	/* pre-scale counters for performance */
-22a241ccb2c199 George Spelvin   2019-05-14  224  	size_t n = num * size, a = (num/2) * size;
-22a241ccb2c199 George Spelvin   2019-05-14  225  	const unsigned int lsbit = size & -size;  /* Used to find parent */
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  226  	size_t shift = 0;
-22a241ccb2c199 George Spelvin   2019-05-14  227  
-22a241ccb2c199 George Spelvin   2019-05-14  228  	if (!a)		/* num < 2 || size == 0 */
-22a241ccb2c199 George Spelvin   2019-05-14  229  		return;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  230  
-a0019cd7d41a19 Jiri Olsa        2022-03-16  231  	/* called from 'sort' without swap function, let's pick the default */
-a0019cd7d41a19 Jiri Olsa        2022-03-16  232  	if (swap_func == SWAP_WRAPPER && !((struct wrapper *)priv)->swap)
-a0019cd7d41a19 Jiri Olsa        2022-03-16  233  		swap_func = NULL;
-a0019cd7d41a19 Jiri Olsa        2022-03-16  234  
-ca96ab859ab4b5 Daniel Wagner    2015-06-25  235  	if (!swap_func) {
-37d0ec34d111ac George Spelvin   2019-05-14  236  		if (is_aligned(base, size, 8))
-8fb583c4258d08 George Spelvin   2019-05-14  237  			swap_func = SWAP_WORDS_64;
-37d0ec34d111ac George Spelvin   2019-05-14  238  		else if (is_aligned(base, size, 4))
-8fb583c4258d08 George Spelvin   2019-05-14  239  			swap_func = SWAP_WORDS_32;
-ca96ab859ab4b5 Daniel Wagner    2015-06-25  240  		else
-8fb583c4258d08 George Spelvin   2019-05-14  241  			swap_func = SWAP_BYTES;
-ca96ab859ab4b5 Daniel Wagner    2015-06-25  242  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  243  
-22a241ccb2c199 George Spelvin   2019-05-14  244  	/*
-22a241ccb2c199 George Spelvin   2019-05-14  245  	 * Loop invariants:
-22a241ccb2c199 George Spelvin   2019-05-14  246  	 * 1. elements [a,n) satisfy the heap property (compare greater than
-22a241ccb2c199 George Spelvin   2019-05-14  247  	 *    all of their children),
-22a241ccb2c199 George Spelvin   2019-05-14  248  	 * 2. elements [n,num*size) are sorted, and
-22a241ccb2c199 George Spelvin   2019-05-14  249  	 * 3. a <= b <= c <= d <= n (whenever they are valid).
-22a241ccb2c199 George Spelvin   2019-05-14  250  	 */
-22a241ccb2c199 George Spelvin   2019-05-14  251  	for (;;) {
-22a241ccb2c199 George Spelvin   2019-05-14  252  		size_t b, c, d;
-22a241ccb2c199 George Spelvin   2019-05-14  253  
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  254  		if (a)			/* Building heap: sift down a */
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  255  			a -= size << shift;
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  256  		else if (n > 3 * size) { /* Sorting: Extract two largest elements */
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  257  			n -= size;
-a0019cd7d41a19 Jiri Olsa        2022-03-16  258  			do_swap(base, base + n, size, swap_func, priv);
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  259  			shift = do_cmp(base + size, base + 2 * size, cmp_func, priv) <= 0;
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  260  			a = size << shift;
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  261  			n -= size;
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  262  			do_swap(base + a, base + n, size, swap_func, priv);
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  263  		} else {		/* Sort complete */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  264  			break;
-0e02ca29a5634d Kuan-Wei Chiu    2024-01-13  265  		}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  266  
-22a241ccb2c199 George Spelvin   2019-05-14  267  		/*
-22a241ccb2c199 George Spelvin   2019-05-14  268  		 * Sift element at "a" down into heap.  This is the
-22a241ccb2c199 George Spelvin   2019-05-14  269  		 * "bottom-up" variant, which significantly reduces
-22a241ccb2c199 George Spelvin   2019-05-14  270  		 * calls to cmp_func(): we find the sift-down path all
-22a241ccb2c199 George Spelvin   2019-05-14  271  		 * the way to the leaves (one compare per level), then
-22a241ccb2c199 George Spelvin   2019-05-14  272  		 * backtrack to find where to insert the target element.
-22a241ccb2c199 George Spelvin   2019-05-14  273  		 *
-22a241ccb2c199 George Spelvin   2019-05-14  274  		 * Because elements tend to sift down close to the leaves,
-22a241ccb2c199 George Spelvin   2019-05-14  275  		 * this uses fewer compares than doing two per level
-22a241ccb2c199 George Spelvin   2019-05-14  276  		 * on the way down.  (A bit more than half as many on
-22a241ccb2c199 George Spelvin   2019-05-14  277  		 * average, 3/4 worst-case.)
-22a241ccb2c199 George Spelvin   2019-05-14  278  		 */
-22a241ccb2c199 George Spelvin   2019-05-14  279  		for (b = a; c = 2*b + size, (d = c + size) < n;)
-db946a42226052 Kuan-Wei Chiu    2024-01-13  280  			b = do_cmp(base + c, base + d, cmp_func, priv) > 0 ? c : d;
-22a241ccb2c199 George Spelvin   2019-05-14  281  		if (d == n)	/* Special case last leaf with no sibling */
-22a241ccb2c199 George Spelvin   2019-05-14  282  			b = c;
-22a241ccb2c199 George Spelvin   2019-05-14  283  
-22a241ccb2c199 George Spelvin   2019-05-14  284  		/* Now backtrack from "b" to the correct location for "a" */
-4333fb96ca1086 Rasmus Villemoes 2019-08-16  285  		while (b != a && do_cmp(base + a, base + b, cmp_func, priv) >= 0)
-22a241ccb2c199 George Spelvin   2019-05-14  286  			b = parent(b, lsbit, size);
-22a241ccb2c199 George Spelvin   2019-05-14  287  		c = b;			/* Where "a" belongs */
-22a241ccb2c199 George Spelvin   2019-05-14  288  		while (b != a) {	/* Shift it into place */
-22a241ccb2c199 George Spelvin   2019-05-14  289  			b = parent(b, lsbit, size);
-a0019cd7d41a19 Jiri Olsa        2022-03-16  290  			do_swap(base + b, base + c, size, swap_func, priv);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  291  		}
-f79965d13aa1a6 Kent Overstreet  2025-03-26  292  
-f79965d13aa1a6 Kent Overstreet  2025-03-26  293  		if (may_schedule)
-f79965d13aa1a6 Kent Overstreet  2025-03-26  294  			cond_resched();
-^1da177e4c3f41 Linus Torvalds   2005-04-16  295  	}
-41ed7804350839 Kuan-Wei Chiu    2024-05-28  296  
-41ed7804350839 Kuan-Wei Chiu    2024-05-28  297  	n -= size;
-41ed7804350839 Kuan-Wei Chiu    2024-05-28  298  	do_swap(base, base + n, size, swap_func, priv);
-41ed7804350839 Kuan-Wei Chiu    2024-05-28  299  	if (n == size * 2 && do_cmp(base, base + size, cmp_func, priv) > 0)
-41ed7804350839 Kuan-Wei Chiu    2024-05-28  300  		do_swap(base, base + size, size, swap_func, priv);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  301  }
-f79965d13aa1a6 Kent Overstreet  2025-03-26  302  
-
-:::::: The code at line 222 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   221	
+   222	static int svm_init_core(struct svm_device *sdev)
+   223	{
+   224		int err = 0;
+   225		struct device *dev = sdev->dev;
+   226		struct acpi_device *adev = ACPI_COMPANION(sdev->dev);
+   227		struct acpi_device *cdev = NULL;
+   228		int id = 0;
+   229	
+   230		down_write(&svm_sem);
+   231		if (!svm_bus_type.iommu_ops) {
+   232			err = bus_register(&svm_bus_type);
+   233			if (err) {
+   234				up_write(&svm_sem);
+   235				dev_err(dev, "failed to register svm_bus_type\n");
+   236				return err;
+   237			}
+   238	
+   239			err = bus_set_iommu(&svm_bus_type, dev->bus->iommu_ops);
+   240			if (err) {
+   241				up_write(&svm_sem);
+   242				dev_err(dev, "failed to set iommu for svm_bus_type\n");
+   243				goto err_unregister_bus;
+   244			}
+   245		} else if (svm_bus_type.iommu_ops != dev->bus->iommu_ops) {
+   246			err = -EBUSY;
+   247			up_write(&svm_sem);
+   248			dev_err(dev, "iommu_ops configured, but changed!\n");
+   249			goto err_unregister_bus;
+   250		}
+   251		up_write(&svm_sem);
+   252	
+   253		list_for_each_entry(cdev, &adev->children, node) {
+   254			err = svm_acpi_add_core(sdev, cdev, id++);
+   255			if (err)
+   256				device_for_each_child(dev, NULL, svm_remove_core);
+   257		}
+   258	
+   259		return err;
+   260	
+   261	err_unregister_bus:
+   262		bus_unregister(&svm_bus_type);
+   263	
+   264		return err;
+   265	}
+   266	#else
+   267	static int svm_of_add_core(struct svm_device *sdev, struct device_node *np)
+   268	{
+   269		int err;
+   270		struct resource res;
+   271		struct core_device *cdev = NULL;
+   272		char *name = NULL;
+   273	
+   274		name = devm_kasprintf(sdev->dev, GFP_KERNEL, "svm%llu_%s",
+   275				sdev->id, np->name);
+   276		if (name == NULL)
+   277			return -ENOMEM;
+   278	
+   279		cdev = kzalloc(sizeof(*cdev), GFP_KERNEL);
+   280		if (cdev == NULL)
+   281			return -ENOMEM;
+   282	
+   283		cdev->dev.of_node = np;
+   284		cdev->dev.parent = sdev->dev;
+   285		cdev->dev.bus = &svm_bus_type;
+   286		cdev->dev.release = cdev_device_release;
+   287		cdev->smmu_bypass = of_property_read_bool(np, "hisi,smmu_bypass");
+   288		dev_set_name(&cdev->dev, "%s", name);
+   289	
+   290		err = device_register(&cdev->dev);
+   291		if (err) {
+   292			dev_info(&cdev->dev, "core_device register failed\n");
+   293			put_device(&cdev->dev);
+   294			kfree(cdev);
+   295			return err;
+   296		}
+   297	
+   298		err = of_dma_configure(&cdev->dev, np, true);
+   299		if (err) {
+   300			dev_dbg(&cdev->dev, "of_dma_configure failed\n");
+   301			goto err_unregister_dev;
+   302		}
+   303	
+   304		err = of_address_to_resource(np, 0, &res);
+   305		if (err) {
+   306			dev_info(&cdev->dev, "no reg, FW should install the sid\n");
+   307		} else {
+   308			/* If the reg specified, install sid for the core */
+   309			void __iomem *core_base = NULL;
+   310			int sid = cdev->dev.iommu_fwspec->ids[0];
+   311	
+   312			core_base = ioremap(res.start, resource_size(&res));
+   313			if (core_base == NULL) {
+   314				err = -ENOMEM;
+   315				dev_err(&cdev->dev, "ioremap failed\n");
+   316				goto err_unregister_dev;
+   317			}
+   318	
+   319			writel_relaxed(sid, core_base + CORE_SID);
+   320			iounmap(core_base);
+   321		}
+   322	
+   323		/* If core device is smmu bypass, request direct map. */
+   324		if (cdev->smmu_bypass) {
+   325			err = iommu_request_dm_for_dev(&cdev->dev);
+   326			if (err)
+   327				goto err_unregister_dev;
+   328	
+   329			return 0;
+   330		}
+   331	
+   332		cdev->group = iommu_group_get(&cdev->dev);
+   333		if (IS_ERR_OR_NULL(cdev->group)) {
+   334			err = -ENXIO;
+   335			dev_err(&cdev->dev, "smmu is not right configured\n");
+   336			goto err_unregister_dev;
+   337		}
+   338	
+   339		cdev->domain = iommu_domain_alloc(sdev->dev->bus);
+   340		if (cdev->domain == NULL) {
+   341			err = -ENOMEM;
+   342			dev_info(&cdev->dev, "failed to alloc domain\n");
+   343			goto err_unregister_dev;
+   344		}
+   345	
+   346		err = iommu_attach_group(cdev->domain, cdev->group);
+   347		if (err) {
+   348			dev_err(&cdev->dev, "failed group to domain\n");
+   349			goto err_free_domain;
+   350		}
+   351	
+   352		err = iommu_sva_device_init(&cdev->dev, IOMMU_SVA_FEAT_IOPF,
+ > 353				UINT_MAX, 0);
+   354		if (err) {
+   355			dev_err(&cdev->dev, "failed to init sva device\n");
+   356			goto err_detach_group;
+   357		}
+   358	
+   359		return 0;
+   360	
+   361	err_detach_group:
+   362		iommu_detach_group(cdev->domain, cdev->group);
+   363	err_free_domain:
+   364		iommu_domain_free(cdev->domain);
+   365	err_unregister_dev:
+   366		device_unregister(&cdev->dev);
+   367	
+   368		return err;
+   369	}
+   370	
 
 -- 
 0-DAY CI Kernel Test Service
