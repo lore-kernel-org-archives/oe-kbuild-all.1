@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A42D14D70E;
-	Fri, 28 Mar 2025 16:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AC91DED5B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 17:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743180878; cv=none; b=ei+aH+BqiXKB0nLM6zhrOhzOcgLOLuA0sg3GKaW3RUiqo4QwCMJBY1vsP2HwgnwbW0AkpoWILHSHIgotZOap5k9Jtlei8FqNuW99QhMW25b8LDpuKargmMxUcWcB4DcFLmE7ot8kIsEDv1CWIIpRjl8BsJY9UmqbxfZTiJfCD5I=
+	t=1743184632; cv=none; b=gs4FT80DDTHvlkO4YpnX/seE1rHWkVm8Iuvn+GeCKq9aas9BV70s/D0yX2kGD4uQmsxLxopnJ9OVLirAfXGHuVruL1xlBK2zvFSACoubBYtPB12nySlf4k7h9/V8YTKckEWN7kExWsZetTwbFVdMFccCmyJWRkL5tV2O0yMORis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743180878; c=relaxed/simple;
-	bh=qXaW0Zadz4blAQX7mFXbHyYMTPkoMtEdHjKgemnjRX0=;
+	s=arc-20240116; t=1743184632; c=relaxed/simple;
+	bh=vYdCtrpTRun4aPznadKbcXoijDS9Uc18WRGRWRjFMLc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nmvkgmwc2kVIpUrw6V7rk2Xaro5IaBZ/f/WbYyMZi8OBbJpRI4UewDAf8t0eeGoSvuLIOkNE6GO9i15BgsYG41XkP/UFi1PnoE541pOQmud+BDz0JzNOV/GIJ3M75oRTracu4mi1hMU+hPIXBVrqLCKMifEvzbvEbZzvOQDL7rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQdHm+Fu; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=LvO2LO02WP+EfHhnsFqHwPX0rEeOGYdpj4A+ZbeCQm94OaieT+Zzt+zp1I3naJTDPE4XOwhrCNFNkc7R1gYYZJ2Rxn8D7j5lO2KFcmSJIumZ68rlMXb8tMFcDXY/wZeP5LRcU2x5Gue+L3KjtJcu77GrVUj+ygX5Jfl+LLaCKpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BTlEae+A; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQdHm+Fu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTlEae+A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743180876; x=1774716876;
+  t=1743184630; x=1774720630;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qXaW0Zadz4blAQX7mFXbHyYMTPkoMtEdHjKgemnjRX0=;
-  b=JQdHm+Fu1uMM6wWn39eZUPJBNr2U8zcnZQX6rsqPFSw2Dr3kum+LXV7V
-   HMdUPPuR/1rRFrHVq7kG+fgjd/W1qK28OHt87JjmKlIb7FiHnm+xGxIDX
-   31+yzRc16scwrdzhT7t2BOiWxmWRsW16045CHNdirMOZ89wKQ8m3mqrd6
-   aa3FoI8wA0lSDzHBC/lttEiUHkCHLtM3uo5g+rNTgKEFCw7/E+KnaI/Ke
-   ZDuq8QGeoajHU/8l/0zO4rQDBVJxZCzJZV1LekqD9OkhJ8JrL/Bfq1fI0
-   eZY+MyNxa5aJIG6lcSjVfxhZKvFgei9Pp4MMT5e3/69U7AxLPtKJb8G6H
-   g==;
-X-CSE-ConnectionGUID: fVuSr/kOSbaMd0+hCoFRGw==
-X-CSE-MsgGUID: +tnVkNvmTJqb4e6Oyv4XjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44463651"
-X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="44463651"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 09:54:35 -0700
-X-CSE-ConnectionGUID: wQYS+dyWRh+omzm0x3PPXQ==
-X-CSE-MsgGUID: 5VM/2BchRHG3LBJHcCVYDQ==
+  bh=vYdCtrpTRun4aPznadKbcXoijDS9Uc18WRGRWRjFMLc=;
+  b=BTlEae+AwPiZf8qEhwT1GNPU9EEaK3gZRM0gFmz54hkaNL1/lfbELvq7
+   KdSS74/JaTuLTZ1RP+qzhQeqxQ2y2Pv25eT43lxjMDMUoMDBtb5dmCcBQ
+   r52kGBfQxVs0IxYgN+lkWOJP9umS7uJuTZgfgN4cPzNGkzokGv9Kn0uMG
+   77SimAC3tEbotdc3malL30Um8O3SxJA1ILIQ6REwue6yioQo1SHt+bqKn
+   K/IZl/A2O69rkMzL0bO6sLJ1XIIlXTia2+wMGroY89E0E1ZK9quto2c/J
+   icON9hVylFBFqnO2w//xwYdWHOP9oy04UyvEefEulva+eeBuEdHlCMR4k
+   Q==;
+X-CSE-ConnectionGUID: e8gFB08QSz6Qtw5sc/ytYg==
+X-CSE-MsgGUID: 65PGIoA1RvCaZg0/4Ld6pA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="48337670"
+X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; 
+   d="scan'208";a="48337670"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 10:57:09 -0700
+X-CSE-ConnectionGUID: UOnSdfpnRYe4x5sbc/Szjw==
+X-CSE-MsgGUID: lvItsPvLTcq/9BBy41NWVQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,283,1736841600"; 
-   d="scan'208";a="125720466"
+X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; 
+   d="scan'208";a="130614439"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Mar 2025 09:54:34 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2025 10:57:07 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tyCyL-0007b0-2x;
-	Fri, 28 Mar 2025 16:54:24 +0000
-Date: Sat, 29 Mar 2025 00:54:11 +0800
+	id 1tyDx3-0007cA-1f;
+	Fri, 28 Mar 2025 17:57:05 +0000
+Date: Sat, 29 Mar 2025 01:56:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 13920/14010] arch/riscv/mm/tlbflush.c:195:16:
- error: redefinition of 'start'
-Message-ID: <202503290040.CiWtsZNi-lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1528/1528] drivers/fpga/dfl.o: warning:
+ objtool: build_info_commit_dev()+0x5b: unreachable instruction
+Message-ID: <202503290119.FlNWiz0A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,50 +62,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e21edb1638e82460f126a6e49bcdd958d452929c
-commit: 5744739d8ce78876d4b62a20fd6bc65f01ba142e [13920/14010] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
-config: riscv-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250329/202503290040.CiWtsZNi-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503290040.CiWtsZNi-lkp@intel.com/reproduce)
+Hi Scott,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4d1e247486ffeef035a5a55a97f2659f68177357
+commit: 99e28159a079ea6af5a5b789e83b68240d67f9ff [1528/1528] fpga: dfl: Add lockdep classes for pdata->lock
+config: x86_64-buildonly-randconfig-006-20250328 (https://download.01.org/0day-ci/archive/20250329/202503290119.FlNWiz0A-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503290119.FlNWiz0A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503290040.CiWtsZNi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503290119.FlNWiz0A-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/riscv/mm/tlbflush.c:195:16: error: redefinition of 'start'
-     195 |         unsigned long start = uaddr & PAGE_MASK;
-         |                       ^
-   arch/riscv/mm/tlbflush.c:193:39: note: previous definition is here
-     193 |                 struct mm_struct *mm, unsigned long start, unsigned long end)
-         |                                                     ^
->> arch/riscv/mm/tlbflush.c:195:24: error: use of undeclared identifier 'uaddr'
-     195 |         unsigned long start = uaddr & PAGE_MASK;
-         |                               ^
-   2 errors generated.
-
-
-vim +/start +195 arch/riscv/mm/tlbflush.c
-
-54d7431af73e2f Alexandre Ghiti 2024-01-08  191  
-54d7431af73e2f Alexandre Ghiti 2024-01-08  192  void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
-2f4ab3ac10e147 Barry Song      2025-02-14  193  		struct mm_struct *mm, unsigned long start, unsigned long end)
-54d7431af73e2f Alexandre Ghiti 2024-01-08  194  {
-d9be2b9b60497a Alexandre Ghiti 2025-01-13 @195  	unsigned long start = uaddr & PAGE_MASK;
-d9be2b9b60497a Alexandre Ghiti 2025-01-13  196  
-54d7431af73e2f Alexandre Ghiti 2024-01-08  197  	cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
-d9be2b9b60497a Alexandre Ghiti 2025-01-13  198  	mmu_notifier_arch_invalidate_secondary_tlbs(mm, start, start + PAGE_SIZE);
-54d7431af73e2f Alexandre Ghiti 2024-01-08  199  }
-54d7431af73e2f Alexandre Ghiti 2024-01-08  200  
-
-:::::: The code at line 195 was first introduced by commit
-:::::: d9be2b9b60497a82aeceec3a98d8b37fdd2960f2 riscv: Call secondary mmu notifier when flushing the tlb
-
-:::::: TO: Alexandre Ghiti <alexghiti@rivosinc.com>
-:::::: CC: Alexandre Ghiti <alexghiti@rivosinc.com>
+   drivers/fpga/dfl.c:57: warning: cannot understand function prototype: 'struct dfl_dev_info '
+   drivers/fpga/dfl.c:77: warning: cannot understand function prototype: 'struct dfl_chardev_info '
+>> drivers/fpga/dfl.o: warning: objtool: build_info_commit_dev()+0x5b: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
