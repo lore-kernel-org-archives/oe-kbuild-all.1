@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5064DDC5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 18:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700E41DF72F;
+	Fri, 28 Mar 2025 18:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743185301; cv=none; b=AteNOGtF5LgTX4WgwUDHRZUu3AHYqtGBjsxaQas3BpNXV01wVCF/jnTXmAmrCRYC7ya142pPyfnXO2drenZ6TmXJNWynd8IdADKBq+UUGlosaXvLA+vObH+xoc5aa3VIdUitqiMnyqqgovuVg8y88Epjkc8coWAFy+F2mlTxcwk=
+	t=1743186510; cv=none; b=dwSx8HYAmP5drm0BUnNSamb+FpFrJ9v4WdlCedn0pEe7Og9Gc+Etgf0wQivedxxRKwutGiXSuUP3eygS8kL25nfV1tHrzf61jD7jJGTNbD2ig0aMvxhUWlFDi87fHIH3PICcOP14jUyFMdAXvLBR6/vh2fXdGtbExOpzFomiwks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743185301; c=relaxed/simple;
-	bh=1+2OY/R9qEW7BtTYgjOqKZGG1SwSepPaJDRtuO0wMvs=;
+	s=arc-20240116; t=1743186510; c=relaxed/simple;
+	bh=heWJyGVjzqaT+WCJXTAuSkwIwCGqctjljBgF1ZeXxpI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G5Lh4T3D34VtJvc8Fb1V+EYzFJ7vIB+KvOuli4TFqk4OI2tce5YUUcJMViyFNRb7EulXttBEsqtwBt960ZU53jJZIKM283XMyAI4aNzATgfNoQFL9lm6ApF2pTe54FGWoof6Sn6Sgh1bhK3caDiylxC9bdR7K/ubdAHt1bJVrIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P+ySwVjr; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Jo9xXgOH6Sj7CAeYq1c3DWkWD8uUZD2Smh/SGv3mnRQC94NpnFlMnap8raNXq0B0PCT9cQ5FZHlblWyL83p90hVlhkMmOOedi3KYsbMwWaLTWrXW94rWHqXHPucB1V18olTNXWUWG0t7IqHTK6Q4wVNLfEr1Rb4FCOkwd0ftLoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ft+6wXZE; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P+ySwVjr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ft+6wXZE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743185300; x=1774721300;
+  t=1743186509; x=1774722509;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1+2OY/R9qEW7BtTYgjOqKZGG1SwSepPaJDRtuO0wMvs=;
-  b=P+ySwVjrfQlRhWe9B2BcUgZJD1OP7e4MVAUG4RZmvkK9jL3HNcgGMgry
-   Xg7FNkLFKZaim0Abyk2OjnV2FFr8C0yNGZz0JzS/u1UYKvcY1m3D0kXGg
-   zlIKHzaGMi8yAnVUbQFn9MvamWnroYHJZjYdsFzxi9KakuuMumA2Z2Vdt
-   EJlcSxmo65e3QglPKbf+ZBK4/TLRG3qiH/w7n4V0uMh4uVQXhi/Sxy049
-   zbfga6D5UsbUv6kcgISeomLz49nc7US1AnVkwn8a4BLvyd4TjooRseNxW
-   x+EUW2n3V15PCkvYZXE3mOcET09OUy48Gw0dG2NSw053/8TikVQZG//dC
+  bh=heWJyGVjzqaT+WCJXTAuSkwIwCGqctjljBgF1ZeXxpI=;
+  b=Ft+6wXZEt82cN48zivG3Dlz8xUghIn/4s2SyCnqXClZUbcEAFsTSAC5X
+   XjnyQc+2UMSpVi8UKDntNjO/cJdYMDKFFIaYMO6z1WZkY5qvMScy0+3sB
+   8OpG3F6glrqJT74rQS9XZRG+MnjSuojvx6MNNziN7aOYltn083ekqFzqS
+   Ji6DLmgJiBT8jq7aVKvqf5J4nJkosnypNEpMd1fjIT77p0QupPN1rKP7/
+   Qc/8/IxXhxdyjeNM1wyF8HC8ZyE8v3qmMbzR0W7nGbol4/Qt4dYctv+41
+   TLduB6tEJNzFrKnQQIqGZ1Za5q/zqofuYdqDlDfkN/TC2z+rYmf0fiEct
    A==;
-X-CSE-ConnectionGUID: DygCaREfRnan2oAVBqyUGA==
-X-CSE-MsgGUID: p8wvgJoTS/q0Pv4jllqksw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44450485"
+X-CSE-ConnectionGUID: 4XsZTO8iTdevLbJU3rMNKQ==
+X-CSE-MsgGUID: bllM6JPkRqi0Y8QFmRAgoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44452552"
 X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; 
-   d="scan'208";a="44450485"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 11:08:18 -0700
-X-CSE-ConnectionGUID: PgxsfXzETOmQOwnwis4GvQ==
-X-CSE-MsgGUID: AEySXamASoa25ac/FiphqA==
+   d="scan'208";a="44452552"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 11:28:28 -0700
+X-CSE-ConnectionGUID: RzIePqphSjyh1FR52/lWrg==
+X-CSE-MsgGUID: 0jQpNG+3RrmNhLmq+dALSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; 
-   d="scan'208";a="125277700"
+   d="scan'208";a="125502815"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 28 Mar 2025 11:08:17 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 28 Mar 2025 11:28:26 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tyE7o-0007ci-0U;
-	Fri, 28 Mar 2025 18:08:13 +0000
-Date: Sat, 29 Mar 2025 02:07:13 +0800
+	id 1tyERJ-0007d8-1d;
+	Fri, 28 Mar 2025 18:28:22 +0000
+Date: Sat, 29 Mar 2025 02:27:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2] fs/proc/base.c:3819:2-3: Unneeded
- semicolon
-Message-ID: <202503290128.GVOos0yH-lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:hack/ppi 17/17]
+ drivers/irqchip/irq-stm32-exti.c:382:22: warning: shift count >= width of
+ type
+Message-ID: <202503290229.BUv4UWwI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +64,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   eafcd29b88b645eaef132d334fd1ffe290c10435
-commit: dce8f8ed1de1d9d6d27c5ccd202ce4ec163b100c [2/2] document while_each_thread(), change first_tid() to use for_each_thread()
-config: x86_64-randconfig-103-20250326 (https://download.01.org/0day-ci/archive/20250329/202503290128.GVOos0yH-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git hack/ppi
+head:   e9141d0584201dc14a70533175804e111ab53f36
+commit: e9141d0584201dc14a70533175804e111ab53f36 [17/17] WIP
+config: arm-randconfig-001-20250328 (https://download.01.org/0day-ci/archive/20250329/202503290229.BUv4UWwI-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503290229.BUv4UWwI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503290128.GVOos0yH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503290229.BUv4UWwI-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/proc/base.c:3819:2-3: Unneeded semicolon
+All warnings (new ones prefixed by >>):
 
-vim +3819 fs/proc/base.c
+   In file included from drivers/irqchip/irq-stm32-exti.c:9:
+   include/linux/interrupt.h:130:2: error: expected member name or ';' after declaration specifiers
+     129 |         cpumask_t               *valid_mask,
+         |         ~~~~~~~~~
+     130 |         struct irqaction        *next;
+         |         ^
+   include/linux/interrupt.h:129:25: error: expected ';' at end of declaration list
+     129 |         cpumask_t               *valid_mask,
+         |                                             ^
+         |                                             ;
+>> drivers/irqchip/irq-stm32-exti.c:382:22: warning: shift count >= width of type [-Wshift-count-overflow]
+     382 |                 gc->wake_enabled = IRQ_MSK(IRQS_PER_BANK);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/irq.h:1223:41: note: expanded from macro 'IRQ_MSK'
+    1223 | #define IRQ_MSK(n) (u32)((n) < 32 ? ((1 << (n)) - 1) : UINT_MAX)
+         |                                         ^  ~~~
+   1 warning and 2 errors generated.
 
-  3775	
-  3776	/*
-  3777	 * Find the first tid of a thread group to return to user space.
-  3778	 *
-  3779	 * Usually this is just the thread group leader, but if the users
-  3780	 * buffer was too small or there was a seek into the middle of the
-  3781	 * directory we have more work todo.
-  3782	 *
-  3783	 * In the case of a short read we start with find_task_by_pid.
-  3784	 *
-  3785	 * In the case of a seek we start with the leader and walk nr
-  3786	 * threads past it.
-  3787	 */
-  3788	static struct task_struct *first_tid(struct pid *pid, int tid, loff_t f_pos,
-  3789						struct pid_namespace *ns)
-  3790	{
-  3791		struct task_struct *pos, *task;
-  3792		unsigned long nr = f_pos;
-  3793	
-  3794		if (nr != f_pos)	/* 32bit overflow? */
-  3795			return NULL;
-  3796	
-  3797		rcu_read_lock();
-  3798		task = pid_task(pid, PIDTYPE_PID);
-  3799		if (!task)
-  3800			goto fail;
-  3801	
-  3802		/* Attempt to start with the tid of a thread */
-  3803		if (tid && nr) {
-  3804			pos = find_task_by_pid_ns(tid, ns);
-  3805			if (pos && same_thread_group(pos, task))
-  3806				goto found;
-  3807		}
-  3808	
-  3809		/* If nr exceeds the number of threads there is nothing todo */
-  3810		if (nr >= get_nr_threads(task))
-  3811			goto fail;
-  3812	
-  3813		/* If we haven't found our starting place yet start
-  3814		 * with the leader and walk nr threads forward.
-  3815		 */
-  3816		for_each_thread(task, pos) {
-  3817			if (!nr--)
-  3818				goto found;
-> 3819		};
-  3820	fail:
-  3821		pos = NULL;
-  3822		goto out;
-  3823	found:
-  3824		get_task_struct(pos);
-  3825	out:
-  3826		rcu_read_unlock();
-  3827		return pos;
-  3828	}
-  3829	
+
+vim +382 drivers/irqchip/irq-stm32-exti.c
+
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  333  
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  334  static int __init stm32_exti_init(const struct stm32_exti_drv_data *drv_data,
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  335  				  struct device_node *node)
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  336  {
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  337  	struct stm32_exti_host_data *host_data;
+e072041688ca73f Alexandre TORGUE 2016-09-20  338  	unsigned int clr = IRQ_NOREQUEST | IRQ_NOPROBE | IRQ_NOAUTOEN;
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  339  	int nr_irqs, ret, i;
+e072041688ca73f Alexandre TORGUE 2016-09-20  340  	struct irq_chip_generic *gc;
+e072041688ca73f Alexandre TORGUE 2016-09-20  341  	struct irq_domain *domain;
+e072041688ca73f Alexandre TORGUE 2016-09-20  342  
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  343  	host_data = stm32_exti_host_init(drv_data, node);
+4096165d55218a6 Dan Carpenter    2018-08-08  344  	if (!host_data)
+4096165d55218a6 Dan Carpenter    2018-08-08  345  		return -ENOMEM;
+e072041688ca73f Alexandre TORGUE 2016-09-20  346  
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  347  	domain = irq_domain_add_linear(node, drv_data->bank_nr * IRQS_PER_BANK,
+e072041688ca73f Alexandre TORGUE 2016-09-20  348  				       &irq_exti_domain_ops, NULL);
+e072041688ca73f Alexandre TORGUE 2016-09-20  349  	if (!domain) {
+f9c75bca44d4754 Yangtao Li       2018-11-23  350  		pr_err("%pOFn: Could not register interrupt domain.\n",
+f9c75bca44d4754 Yangtao Li       2018-11-23  351  		       node);
+e072041688ca73f Alexandre TORGUE 2016-09-20  352  		ret = -ENOMEM;
+e072041688ca73f Alexandre TORGUE 2016-09-20  353  		goto out_unmap;
+e072041688ca73f Alexandre TORGUE 2016-09-20  354  	}
+e072041688ca73f Alexandre TORGUE 2016-09-20  355  
+6dd64ee17e04c39 Ludovic Barre    2017-11-06  356  	ret = irq_alloc_domain_generic_chips(domain, IRQS_PER_BANK, 1, "exti",
+e072041688ca73f Alexandre TORGUE 2016-09-20  357  					     handle_edge_irq, clr, 0, 0);
+e072041688ca73f Alexandre TORGUE 2016-09-20  358  	if (ret) {
+e81f54c668d89e5 Rob Herring      2017-07-18  359  		pr_err("%pOF: Could not allocate generic interrupt chip.\n",
+e81f54c668d89e5 Rob Herring      2017-07-18  360  		       node);
+e072041688ca73f Alexandre TORGUE 2016-09-20  361  		goto out_free_domain;
+e072041688ca73f Alexandre TORGUE 2016-09-20  362  	}
+e072041688ca73f Alexandre TORGUE 2016-09-20  363  
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  364  	for (i = 0; i < drv_data->bank_nr; i++) {
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  365  		const struct stm32_exti_bank *stm32_bank;
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  366  		struct stm32_exti_chip_data *chip_data;
+6dd64ee17e04c39 Ludovic Barre    2017-11-06  367  
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  368  		stm32_bank = drv_data->exti_banks[i];
+cfbf9e497094dcf Fabien Dessenne  2019-04-17  369  		chip_data = stm32_exti_chip_init(host_data, i, node);
+d9e2b19b0274406 Ludovic Barre    2018-04-26  370  
+6dd64ee17e04c39 Ludovic Barre    2017-11-06  371  		gc = irq_get_domain_generic_chip(domain, i * IRQS_PER_BANK);
+6dd64ee17e04c39 Ludovic Barre    2017-11-06  372  
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  373  		gc->reg_base = host_data->base;
+e072041688ca73f Alexandre TORGUE 2016-09-20  374  		gc->chip_types->type = IRQ_TYPE_EDGE_BOTH;
+be6230f0c2bd5d2 Ludovic Barre    2018-04-26  375  		gc->chip_types->chip.irq_ack = stm32_irq_ack;
+e072041688ca73f Alexandre TORGUE 2016-09-20  376  		gc->chip_types->chip.irq_mask = irq_gc_mask_clr_bit;
+e072041688ca73f Alexandre TORGUE 2016-09-20  377  		gc->chip_types->chip.irq_unmask = irq_gc_mask_set_bit;
+e072041688ca73f Alexandre TORGUE 2016-09-20  378  		gc->chip_types->chip.irq_set_type = stm32_irq_set_type;
+d9e2b19b0274406 Ludovic Barre    2018-04-26  379  		gc->chip_types->chip.irq_set_wake = irq_gc_set_wake;
+d9e2b19b0274406 Ludovic Barre    2018-04-26  380  		gc->suspend = stm32_irq_suspend;
+d9e2b19b0274406 Ludovic Barre    2018-04-26  381  		gc->resume = stm32_irq_resume;
+d9e2b19b0274406 Ludovic Barre    2018-04-26 @382  		gc->wake_enabled = IRQ_MSK(IRQS_PER_BANK);
+d9e2b19b0274406 Ludovic Barre    2018-04-26  383  
+6dd64ee17e04c39 Ludovic Barre    2017-11-06  384  		gc->chip_types->regs.mask = stm32_bank->imr_ofst;
+d9e2b19b0274406 Ludovic Barre    2018-04-26  385  		gc->private = (void *)chip_data;
+6dd64ee17e04c39 Ludovic Barre    2017-11-06  386  	}
+e072041688ca73f Alexandre TORGUE 2016-09-20  387  
+e072041688ca73f Alexandre TORGUE 2016-09-20  388  	nr_irqs = of_irq_count(node);
+e072041688ca73f Alexandre TORGUE 2016-09-20  389  	for (i = 0; i < nr_irqs; i++) {
+e072041688ca73f Alexandre TORGUE 2016-09-20  390  		unsigned int irq = irq_of_parse_and_map(node, i);
+e072041688ca73f Alexandre TORGUE 2016-09-20  391  
+e072041688ca73f Alexandre TORGUE 2016-09-20  392  		irq_set_handler_data(irq, domain);
+e072041688ca73f Alexandre TORGUE 2016-09-20  393  		irq_set_chained_handler(irq, stm32_irq_handler);
+e072041688ca73f Alexandre TORGUE 2016-09-20  394  	}
+e072041688ca73f Alexandre TORGUE 2016-09-20  395  
+e072041688ca73f Alexandre TORGUE 2016-09-20  396  	return 0;
+e072041688ca73f Alexandre TORGUE 2016-09-20  397  
+e072041688ca73f Alexandre TORGUE 2016-09-20  398  out_free_domain:
+e072041688ca73f Alexandre TORGUE 2016-09-20  399  	irq_domain_remove(domain);
+e072041688ca73f Alexandre TORGUE 2016-09-20  400  out_unmap:
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  401  	iounmap(host_data->base);
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  402  	kfree(host_data->chips_data);
+f9fc1745501e7b9 Ludovic Barre    2018-04-26  403  	kfree(host_data);
+e072041688ca73f Alexandre TORGUE 2016-09-20  404  	return ret;
+e072041688ca73f Alexandre TORGUE 2016-09-20  405  }
+e072041688ca73f Alexandre TORGUE 2016-09-20  406  
+
+:::::: The code at line 382 was first introduced by commit
+:::::: d9e2b19b02744068b1cc16ca7d5249a62e789601 irqchip/stm32: Add suspend support
+
+:::::: TO: Ludovic Barre <ludovic.barre@st.com>
+:::::: CC: Marc Zyngier <marc.zyngier@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
