@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE08158535
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 00:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E631E52D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Mar 2025 01:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743123435; cv=none; b=C5SfCzvr5iXuPADKdRTpSYNJeeu4UVofuDznSJW38azudABbnEiCd11LI1C8FffGTGr2fdUdf3rEkbL2A5gu+/+vWvGHBd6h2NAX6OjMIx9V6zTteaTcxUpUR1uz5atQ8b5WLXWfwkemAApoYouEZlBpZC7Golw0SQ+QWD6UhII=
+	t=1743124763; cv=none; b=WFH2LO5FZXdfqdgh5bhmj2v5cBuhrCi5SFjlMQGKBB4pCyP+SotlXAA2D1+MgXtkqvG3o5a7+cCgnQ7iSqwE7yF3Vo4Kev5QOChkcO+yDmSHM3eK1JLiV4Pre17WCZtTRMSN03gZUnLMBkGvFgv9bF7jhDMTQiPR+yhRzibOFGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743123435; c=relaxed/simple;
-	bh=7x/q/rv83rVCkDwmCGg7VoBHVoaDzQJx8aCXQKCndkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XpTxq5nhv2kVR/Hs5HY/4apbl/JDGostwM7FAO9dbC3pcbnVSMsSp/NdsD/fJjhSMvzw3YpV0ImVV13MK/nkxDgutSGOq5C0fiQqAp9tvtxP8VuXO8yE7HeK+/HTNPuO24r1mKE9axZPONGCY/8Bu/CiJboCJqWmPsK2kSGs6v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cc58NfvL; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1743124763; c=relaxed/simple;
+	bh=nbe6Pi8tlh6LZT+q5xurltwfuX2F6rU4c5Dmj0Pz8eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nPMj3tUSYYgBSPkKJ3Z+XB8aoWfoj9kq4K72wn7D7dcebp/P6a0ZJtweIV4gkQtaMfVMRkc2LM76JQSZ2ALoXwOKvsHGK2bmh1eJO9VPmDkuivshKOxzoYk19NrHdm9BuC9vC5FBRmTicUKg1ekTVWKbizJFvOXqXI4XQqEancE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjvCnl5X; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cc58NfvL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjvCnl5X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743123434; x=1774659434;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7x/q/rv83rVCkDwmCGg7VoBHVoaDzQJx8aCXQKCndkw=;
-  b=Cc58NfvLlhsvyXK4qWDQWnMaSlw+f8VNQpb8flnVIywCU2tb1FiycA9B
-   lPMntK/DoT2HJLbtoNt/m0xZOEUyKNbMRQosJn+pyWC9iwj9KSaSkxZSE
-   JROsXO4NepfT0h5NB554dcV353LLT5kl31GKd46vINaiTvmfEKarDqZMA
-   M6uwS8ZZ5AM6XPU9mCpyIp8/xXVlvySKZJRRPohEeYYU473Pp2ucrJbSG
-   6L4KnLM2LSJ51IKxIXQVGSpCmbiVNt4DnSHysfuICCVoIKowTsz6893zQ
-   wriQYBU8SYqhf+3T9Q6qMjNmLBuD+kt4te6MvCUoEtvLAJ9pk9IYuopJX
-   A==;
-X-CSE-ConnectionGUID: 0JNXCDbJQ8yTvi1vbdhMfA==
-X-CSE-MsgGUID: L5bNsg8nTzugaG31okisMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="69842953"
+  t=1743124762; x=1774660762;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nbe6Pi8tlh6LZT+q5xurltwfuX2F6rU4c5Dmj0Pz8eg=;
+  b=hjvCnl5XNVnTR1dO0SWATArLRekIKKTWEVeb6/T6xAMkHYu8UNW51+KC
+   1gTx0SDpfa4Ic+8P30T+HoLgiKkhXfRSQgCDXo+JlvRc3IkHJMI0anQBC
+   IRkwrhw9H5M8YgThNceAxD+lKfALTuoGsfmAnwq1gmd5IZiR6EzWqHs3i
+   rjM9GunR0tQH8kC/pju8/w6ThDyC+UQ5ycVj7aB34PRL7ZZvqGiJs3WdG
+   q3ZCa6LTWrtyxFZB7yuPnm8CI91tkr1SwSBtJrleJjYpSw7oN8K6dNiyL
+   njgQXRsTvW0a2c+G0Yi4v3mq2z6g7OOw8pDRkJdgoPckD0bUUseQd+mbF
+   w==;
+X-CSE-ConnectionGUID: KbtsW4ZqRoyv3uOEeDtaqA==
+X-CSE-MsgGUID: G60TebigSAeylCGzhOV5Pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="47213317"
 X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="69842953"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 17:57:13 -0700
-X-CSE-ConnectionGUID: Z0q15JWfQT+EBeTA1JbHkQ==
-X-CSE-MsgGUID: avHq4QztR42mTxphEvxsYw==
+   d="scan'208";a="47213317"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 18:19:21 -0700
+X-CSE-ConnectionGUID: VF0u9KfwSPyPHHyPFMvJIg==
+X-CSE-MsgGUID: npAypc4PTEGOR8C32fBsjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
-   d="scan'208";a="156289947"
+   d="scan'208";a="125525419"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Mar 2025 17:57:12 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 27 Mar 2025 18:19:16 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txy22-00072o-1A;
-	Fri, 28 Mar 2025 00:57:10 +0000
-Date: Fri, 28 Mar 2025 08:56:16 +0800
+	id 1txyNO-00073S-0Z;
+	Fri, 28 Mar 2025 01:19:14 +0000
+Date: Fri, 28 Mar 2025 09:18:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Terry Bowman <terry.bowman@amd.com>, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	nifan.cxl@gmail.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, dan.j.williams@intel.com,
+	bhelgaas@google.com, mahesh@linux.ibm.com, ira.weiny@intel.com,
+	oohall@gmail.com, Benjamin.Cheatham@amd.com, rrichter@amd.com,
+	nathan.fontenot@amd.com, Smita.KoralahalliChannabasappa@amd.com,
+	lukas@wunner.de, ming.li@zohomail.com,
+	PradeepVineshReddy.Kodamati@amd.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:incoming-android15-6.6-desktop-chromeos 498/498]
- drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c:310:10: warning:
- returning 'int' from a function with return type 'struct mtk_apu_hw_logger
- *' makes pointer from integer without a cast
-Message-ID: <202503280822.VoMCynL1-lkp@intel.com>
+Subject: Re: [PATCH v8 16/16] CXL/PCI: Disable CXL protocol errors during CXL
+ Port cleanup
+Message-ID: <202503280816.M7DZmSDT-lkp@intel.com>
+References: <20250327014717.2988633-17-terry.bowman@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +72,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250327014717.2988633-17-terry.bowman@amd.com>
 
-Hi Karl,
+Hi Terry,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common incoming-android15-6.6-desktop-chromeos
-head:   971c23c737d79895eb40ddbbed5817f6ee6ea162
-commit: 6861d60ceacc0798de74530b42a39ef0c801434e [498/498] CHROMIUM: remoteproc: mediatek: Enable APU rproc building
-config: arm-randconfig-004-20250328 (https://download.01.org/0day-ci/archive/20250328/202503280822.VoMCynL1-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503280822.VoMCynL1-lkp@intel.com/reproduce)
+[auto build test WARNING on aae0594a7053c60b82621136257c8b648c67b512]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/PCI-CXL-Introduce-PCIe-helper-function-pcie_is_cxl/20250327-095738
+base:   aae0594a7053c60b82621136257c8b648c67b512
+patch link:    https://lore.kernel.org/r/20250327014717.2988633-17-terry.bowman%40amd.com
+patch subject: [PATCH v8 16/16] CXL/PCI: Disable CXL protocol errors during CXL Port cleanup
+config: csky-randconfig-r122-20250327 (https://download.01.org/0day-ci/archive/20250328/202503280816.M7DZmSDT-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce: (https://download.01.org/0day-ci/archive/20250328/202503280816.M7DZmSDT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503280822.VoMCynL1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503280816.M7DZmSDT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/cxl/port.c:68:33: sparse: sparse: symbol 'cxl_ep_error_handlers' was not declared. Should it be static?
+>> drivers/cxl/port.c:104:6: sparse: sparse: symbol 'cxl_disable_prot_errors' was not declared. Should it be static?
 
-   drivers/remoteproc/mediatek_apusys/mtk_apu_config.c: In function 'mtk_apu_config_setup':
->> drivers/remoteproc/mediatek_apusys/mtk_apu_config.c:120:19: warning: assignment to 'uint64_t' {aka 'long long unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
-     mdla_rv_mem->buf = mdla_buf;
-                      ^
---
-   In file included from drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c:11:
-   drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c: In function 'ioread32_atf':
-   drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c:132:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-       dev_err(dev, "Not support addr: 0x%llx", (unsigned long long)addr[i]);
-                                                ^
-   include/linux/dev_printk.h:110:23: note: in definition of macro 'dev_printk_index_wrap'
-      _p_func(dev, fmt, ##__VA_ARGS__);   \
-                          ^~~~~~~~~~~
-   drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c:132:4: note: in expansion of macro 'dev_err'
-       dev_err(dev, "Not support addr: 0x%llx", (unsigned long long)addr[i]);
-       ^~~~~~~
-   drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c: In function 'get_mtk_apu_hw_logger_device':
->> drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c:310:10: warning: returning 'int' from a function with return type 'struct mtk_apu_hw_logger *' makes pointer from integer without a cast [-Wint-conversion]
-      return -EPROBE_DEFER;
-             ^
-   drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c:313:10: warning: returning 'int' from a function with return type 'struct mtk_apu_hw_logger *' makes pointer from integer without a cast [-Wint-conversion]
-      return -EINVAL;
-             ^
+vim +/cxl_disable_prot_errors +104 drivers/cxl/port.c
 
-
-vim +310 drivers/remoteproc/mediatek_apusys/mtk_apu_hw_logger.c
-
-1516d6dc338235 Karl Li 2025-01-02  295  
-1516d6dc338235 Karl Li 2025-01-02  296  static struct platform_driver hw_logger_driver;
-1516d6dc338235 Karl Li 2025-01-02  297  struct mtk_apu_hw_logger *get_mtk_apu_hw_logger_device(struct device_node *hw_logger_np)
-1516d6dc338235 Karl Li 2025-01-02  298  {
-1516d6dc338235 Karl Li 2025-01-02  299  	struct platform_device *pdev;
-1516d6dc338235 Karl Li 2025-01-02  300  	struct device *dev;
-1516d6dc338235 Karl Li 2025-01-02  301  	struct mtk_apu_hw_logger *hw_logger_data;
-1516d6dc338235 Karl Li 2025-01-02  302  
-1516d6dc338235 Karl Li 2025-01-02  303  	pdev = of_find_device_by_node(hw_logger_np);
-1516d6dc338235 Karl Li 2025-01-02  304  	if (!pdev)
-1516d6dc338235 Karl Li 2025-01-02  305  		return ERR_PTR(-ENODEV);
-1516d6dc338235 Karl Li 2025-01-02  306  
-1516d6dc338235 Karl Li 2025-01-02  307  	dev = &pdev->dev;
-1516d6dc338235 Karl Li 2025-01-02  308  
-1516d6dc338235 Karl Li 2025-01-02  309  	if (!dev->driver)
-1516d6dc338235 Karl Li 2025-01-02 @310  		return -EPROBE_DEFER;
-1516d6dc338235 Karl Li 2025-01-02  311  
-1516d6dc338235 Karl Li 2025-01-02  312  	if (dev->driver != &hw_logger_driver.driver)
-1516d6dc338235 Karl Li 2025-01-02  313  		return -EINVAL;
-1516d6dc338235 Karl Li 2025-01-02  314  
-1516d6dc338235 Karl Li 2025-01-02  315  	hw_logger_data = dev_get_drvdata(dev);
-1516d6dc338235 Karl Li 2025-01-02  316  	put_device(dev);
-1516d6dc338235 Karl Li 2025-01-02  317  
-1516d6dc338235 Karl Li 2025-01-02  318  	return hw_logger_data;
-1516d6dc338235 Karl Li 2025-01-02  319  }
-1516d6dc338235 Karl Li 2025-01-02  320  
-
-:::::: The code at line 310 was first introduced by commit
-:::::: 1516d6dc33823500488342fce50de7ad8c838abf CHROMIUM: remoteproc: mediatek: Add APU hw_logger
-
-:::::: TO: Karl Li <karl.li@mediatek.corp-partner.google.com>
-:::::: CC: Hubert Mazur <hmazur@google.com>
+    67	
+  > 68	const struct cxl_error_handlers cxl_ep_error_handlers = {
+    69		.error_detected = cxl_error_detected,
+    70		.cor_error_detected = cxl_cor_error_detected,
+    71	};
+    72	
+    73	static void cxl_assign_error_handlers(struct device *_dev,
+    74					      const struct cxl_error_handlers *handlers)
+    75	{
+    76		struct device *dev __free(put_device) = get_device(_dev);
+    77		struct cxl_driver *pdrv;
+    78	
+    79		if (!dev)
+    80			return;
+    81	
+    82		pdrv = to_cxl_drv(dev->driver);
+    83		pdrv->err_handler = handlers;
+    84	}
+    85	
+    86	void cxl_enable_prot_errors(struct device *dev)
+    87	{
+    88		struct pci_dev *pdev = to_pci_dev(dev);
+    89		struct device *pci_dev __free(put_device) = get_device(&pdev->dev);
+    90	
+    91		if (!pci_dev)
+    92			return;
+    93	
+    94		if (!pdev->aer_cap) {
+    95			pdev->aer_cap = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ERR);
+    96			if (!pdev->aer_cap)
+    97				return;
+    98		}
+    99	
+   100		pci_aer_unmask_internal_errors(pdev);
+   101	}
+   102	EXPORT_SYMBOL_NS_GPL(cxl_enable_prot_errors, "CXL");
+   103	
+ > 104	void cxl_disable_prot_errors(void *_dev)
+   105	{
+   106		struct device *dev = _dev;
+   107		struct pci_dev *pdev = to_pci_dev(dev);
+   108		struct device *pci_dev __free(put_device) = get_device(&pdev->dev);
+   109	
+   110		if (!pci_dev || !pdev->aer_cap)
+   111			return;
+   112	
+   113		pci_aer_mask_internal_errors(pdev);
+   114	}
+   115	EXPORT_SYMBOL_NS_GPL(cxl_disable_prot_errors, "CXL");
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
