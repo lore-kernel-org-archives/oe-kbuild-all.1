@@ -1,158 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011002.outbound.protection.outlook.com [40.107.74.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA2017BCE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 07:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743232796; cv=none; b=PD+NRJSG8feTP+4Y1bjmH83+3+ppZjoVdWeinwZXg1V70TOs11OOQYjRtONz+NWUepuHSps+k8seYzg10BtdC+rbWllLcLW9kvVXy0ZIMsycPU4IEs5oTchlu6HErSZBjc1lbT/BfL5aV3N2VfgGxEAYmZniKL7W/9SL60sVBFU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743232796; c=relaxed/simple;
-	bh=acz5zNgJPG6u9pSWs2BhWJPnqIIDdyLTc1B/5cd7j/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fqxUzqtnVq9qSk6zLwLNenWY2Y7DThAwo/4TubByJhYeAVt+rp8qoW7U34yHiLq2n7AHULoA5AKtZWsjUQZ7L0AU4HHIzBbsWNqcGdXRCrPZn2v4OLXiUMD3gYzJsUKJ5O8RcZ1eRhp+0ag8twj24KRkpuoljXUQISuDv97VP6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQts6BRg; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB71DDC5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 07:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743233060; cv=fail; b=tGeXDIhKV2AmiwQKL/GUsoFu4c39/Z++uuqocf3GqUnf//lqEZQ2LdWjqUQRVaWgyef1+5mNY6idzH321XXeqK8taoYNmU8uADbETMjR04d38rt/TAK0x64alkMhlp7HMvMgh1yAYkS/2hq4DVZvWfLYyaJP73RPoEKsnb8GdTU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743233060; c=relaxed/simple;
+	bh=awndgTdd0AdHgYTUCrFbFirZU/v0eb0vuHJWVHVPXGY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=eqyQZF0142WkmUzT3tRtXXd2PB1821jBVP62WQing67JVu/rN2QQJb6bqEZlbZua80fdjMn8KEQTY27jgoh1hkV2UiI5FWjbn2HbcBqd/DNtLUB2dcGJQ2PiFlM6p1DYSWPt2PmXi64Ju8yHwQZqqwvOB/aHbn75GLzpIbpwltA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=ThDVdFy3; arc=fail smtp.client-ip=40.107.74.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQts6BRg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743232794; x=1774768794;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=acz5zNgJPG6u9pSWs2BhWJPnqIIDdyLTc1B/5cd7j/4=;
-  b=IQts6BRgUfFXfozMZK3ryjOUKcB0tD5J3+sASBsCvOrokhzYxHjXUQFJ
-   cwfp0SE6iYrdHu86n1w3Og92qSLkwIHs44NrUgfNXQ2w5V2/RpN3a49jP
-   S9VAak9JWApwFJDKjnRYTJg3xAiDNje3HWo4hgdWmDd5xWZQP+QcdSWkB
-   udCykT0AqSSZxRIHMs9iHDcRIVcMsf8LJHQe2d4yUbU4k1oHiyCfVykFr
-   pYwEaud9ZuGnMqG9SL03gbFMnETcYKV2itwBFPJKmUdt4begqvdZKAR7p
-   hfdhLK9xt8QHoDfzk8vsf8WjehftVaS6tJ8w7KVUqg19FIjxK9l7xWLXF
-   w==;
-X-CSE-ConnectionGUID: MH/Vhbf9Tf6DGRX7tpVKDg==
-X-CSE-MsgGUID: 7bdelAzUSqaQ/bwynp46Kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="43752915"
-X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="43752915"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 00:19:53 -0700
-X-CSE-ConnectionGUID: YrLnXYwRTjyvSiyhguBazA==
-X-CSE-MsgGUID: 19uR5jexSTmXxoPMQr7t2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="125637278"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Mar 2025 00:19:52 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tyQTu-0007y6-0g;
-	Sat, 29 Mar 2025 07:19:50 +0000
-Date: Sat, 29 Mar 2025 15:18:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.14-rsslro2 37/58]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /: memory:
- False schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
-Message-ID: <202503291553.Q77BY6G8-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="ThDVdFy3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VZa3XvMCam/mLf6PoSfrDb/CpKDMTnzRfwVIfC7UI3mX2bCRtZrZTdlOc42qzesT9I9WZnmRjXBZpjxqFzUZg8mt+Poj46nNkTs7AH2+owyu1ce7lhyUCT9naTwWnSz+nLlVrTLr+M6skVpZ2qStxgQ7fY//I2whx9jINGTyZj1xmdENhsv0hbdh0r1N3qlCeyA/TV2ltN+tmjN1HEAeFfg9bqreVAeJiGtJf3GNsRSvoZNjec6P3f6B5L3W8J/9xT5a8WX8vMOt3R4G9WoWv5H+Gx+vbVagSV40InncCfIZ15L2SNt5RND7ExlthB3/2MBxtc4nZsR7S93nNr0zTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=awndgTdd0AdHgYTUCrFbFirZU/v0eb0vuHJWVHVPXGY=;
+ b=yZ4QULGl1EpPXBezTnqNh5U+pWiugUIhq+kWCZ/P2DJYOgRv7lMIM0e+mI39PiV9V8L7Kye8EjNn5gCy8T5KjGxoenAbM3JIsjr86Wm+ef0N9flRtiEuvo8zUbEXQmL8w5gQnd1AC7NQvje+WydIeMO+e5oXkCHwsXX7WbR2Zb6xGCSPU0k3G4gKCojalcLD0Cdt0q9w7KX1eOyZ/GPeIUi4I+rKFnljlNKF2XnNJnFycqBa3KWJAqM3YOZ9zxb4CYixADoG9ZfPS+NkbXTyiXGBnyxSUQ5JK5Pkug8RWVDVwWGcRrEiLXg0lk0ru5yTQ6SWR/7I9GMKSkR09+2PmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=awndgTdd0AdHgYTUCrFbFirZU/v0eb0vuHJWVHVPXGY=;
+ b=ThDVdFy3I/8UmJT42xfW+5Ix5/pGRjv63UAc/nFJ2JFf07c3fV5bWMOTjlvrAnm7t6LP5gM/RJurn62GjJyvbaYkcWzK6ykoLDXlnVGnYQwW6lRJvK6x2RFkjQo6XHjSldH6ehdFndItR2/aEEDoUvyim2xtCsyFviKgibY4eDQ=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OSCPR01MB14411.jpnprd01.prod.outlook.com (2603:1096:604:3a0::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.27; Sat, 29 Mar
+ 2025 07:24:12 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8534.043; Sat, 29 Mar 2025
+ 07:24:12 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+CC: kernel test robot <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>
+Subject: RE: drivers/mmc/host/renesas_sdhi_core.c:951: undefined reference to
+ `rdev_get_drvdata'
+Thread-Topic: drivers/mmc/host/renesas_sdhi_core.c:951: undefined reference to
+ `rdev_get_drvdata'
+Thread-Index: AQHboCqIh2PpJ3xvmE+hCIj3H/jjabOJpxvwgAAN0QCAAABNYA==
+Date: Sat, 29 Mar 2025 07:24:12 +0000
+Message-ID:
+ <TY3PR01MB11346D7FE2EC7FA3631C48A0C86A32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <202503290554.zASQT70Q-lkp@intel.com>
+ <TY3PR01MB11346FEE53574DBF768BA9B8686A32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <Z-eeiMFsQQNMt2nn@shikoro>
+In-Reply-To: <Z-eeiMFsQQNMt2nn@shikoro>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSCPR01MB14411:EE_
+x-ms-office365-filtering-correlation-id: 40d50ddf-9424-4a00-6fee-08dd6e92b415
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?HGiWcqDslUW7PTE0aGQNlYBSuYB9onHeaZcTyFuP8MOJ+nYiVOPp4fToWXmx?=
+ =?us-ascii?Q?S+3V8Z0VeDco/Mryw84D01cKmWwSqtMzVb+T4nMYwMzLVispkXui8qukXJUB?=
+ =?us-ascii?Q?uHoqpx2Wcwn+loGwElWla4P4RMdfcrKVXSwSXSsM5PncPHILqFf6qzmAaiCo?=
+ =?us-ascii?Q?IhG89ceYxawsMCOxmGQRPzHwWP9YOVBwVU5XOYrtacPkFfLaiZI6QrETmgBX?=
+ =?us-ascii?Q?rA71YYEcO74fibGa+Q5POlRbJJmgm4hnKVq54dbhzszv53wx3sC5SACEKhNN?=
+ =?us-ascii?Q?cvLHfHwr6YzdWESPUWxbDW0HEodhmm8RQvsvkG8FhOn8Tgpm9qqiN2ao3ZXD?=
+ =?us-ascii?Q?tid2CWQ0g+pcvdOKK7T/1UzwXzJ312JwngeFSanjaFge8O/Z899pvlRgFiDC?=
+ =?us-ascii?Q?TtgASa5VL+yrzbUrgM6nnayTJ3cNAZkEzcSrS39XwbTJ+vS4JfJ/0GIgPnbS?=
+ =?us-ascii?Q?njvo06lVRAhny0S/vJ4Bnz6HwnZcGEG7mhseDcbOaMXAyJ9E4ljDRmdIEosB?=
+ =?us-ascii?Q?2FQGgi1Cy+uzqwOGFWfOZMK/vmS86gtVL3QC44zwavMp2+jFz946bA2lXuaZ?=
+ =?us-ascii?Q?YOgaiU5Xmyv9srrovuSyVUwFts/jUrhM7O8s5YT4Tkpu24ftufA5N8z5YTb9?=
+ =?us-ascii?Q?ZqBt1eUNut55BiXQopgLagmmDVB/UbIcuiOGY4kGzZcGNQS0065YCe0Lgyvd?=
+ =?us-ascii?Q?45CBw8Rb72cTnGOz6NTdrelJzIUCUSA+tdoAuJFb5sUpF5i53RCrQxjy4SuM?=
+ =?us-ascii?Q?7dr5KdqktOC87d5ewmdF4P6PltbrY5P+Tu7JWo766S5mqqNT3i2PDW6iH3Rc?=
+ =?us-ascii?Q?zlVGFaY3HNQrWgmHG7R+ut42gLfCcL58yWix1cqiX6OT6/Tmlm41ntJXCj2z?=
+ =?us-ascii?Q?biB7crDpYB3r+LlK9A3qtVIqhG75gm3gQ3Ni1CSHIU60282tZBXNrnT5Yuyh?=
+ =?us-ascii?Q?ijOL/0tDd+Zu/b7eVjKcXP68GxDx+nLkTY1AI4RM9Zg3zTkntgFwc/wxhK4H?=
+ =?us-ascii?Q?UHLa9er4x3F1Ci8WFm8aOTDWL+FjFGfZ0foY2uf2TA10d0gB4XmTg84mXSb3?=
+ =?us-ascii?Q?7TH9APr+MzZd3PekrUYZlylfDwVCLuBqMH3VjNcRDZ62AVBRM4QUiKSPVDqA?=
+ =?us-ascii?Q?VQWHSt/pF9VoKNFhGtSpkJBTaLpFIYHh1TcXsEBuR0C7o/61ADoTX2g4aUB4?=
+ =?us-ascii?Q?CBgjpJplctwmsbsEG0do5iLzYjh5B93eEXhr9NjS/L3picAEj+HamT2LAsnW?=
+ =?us-ascii?Q?xInjLsE0zsnEXf7uPbFBZSVc/z07APNG4B85+T/FG+qvmupegruW2QKFsxdW?=
+ =?us-ascii?Q?+HmNvAXZ+IW2pNFQS8dsuTmadEhpArjXj9CTj+/3kl9fq2TFe4gCjM/1I98B?=
+ =?us-ascii?Q?bJDpzjHtTfUqgUuL7J35vYT0k9gPq4Czy0HcvVMMndfr6xK6RtWuXfEgXsVe?=
+ =?us-ascii?Q?ir9T7H84tAH/JMQ7Iqu8iBsbm/JbSCCW?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?oKkkRiE4aDRxgJZdlgkBKqA/EjTdmyK8HHeKVeEDooJi+DBUsezqp1ImDnWd?=
+ =?us-ascii?Q?h9H0q2IKy/PywnrwIsneUFjVwx6bXmwWQ8CFcxIDnp95atztPojwZRA7kFgI?=
+ =?us-ascii?Q?7DTT8+gdI6gvac+g49LfjYbucTfAQMlGDcRHSKaTacYRvJLSEl6WnBg0hYDE?=
+ =?us-ascii?Q?5BOYOP0Fr/5h28u53Ayi5W4/2TBZznwqPvot9D+WQRVS7GOTJEsNDU6OFONX?=
+ =?us-ascii?Q?9VJjeUu7Rg/3KDKaIZqalNvpaMU7HRTDVR04pskr8QUlcAZweHaExHFR0Id7?=
+ =?us-ascii?Q?/eflrBNAGgwevhaUX1rgBJSAo/ukrCxAhCiOKagoP+UtBAnOdzZnTPjoB0nI?=
+ =?us-ascii?Q?qSo6nVrFu9puOUzb8upT3Qwog8a8nSgCwDggs07PMk7EjENtDPZqldJxa1Xj?=
+ =?us-ascii?Q?580ndrqX+TLIqqebSTSZ0VJaznOSyk9ewFT3kiEaWOjC5sZ4lp9BTW+WIEy9?=
+ =?us-ascii?Q?Bqsjg11fNKigMCdrcPLdX6nm0Isq8c8vLisFe5vLMie2HPAB7f3F80NkMBPv?=
+ =?us-ascii?Q?rT3rCNM5Hz60D0tHMHLWhTyYXhJqWybf6R+znGa+328XzOS9j/EWxXVzyMHC?=
+ =?us-ascii?Q?6Jno1IjZe4NuWM4Ti4Ua8BGuakhvbjt3e1cX+vp9ZXwJp/lC7IrDi6fwYqR3?=
+ =?us-ascii?Q?14R25othEmK3UdG2wZ1DExXxvf1VMFJnM5UtSffrQj1eGHGLGGwNKpse8L3o?=
+ =?us-ascii?Q?BrIKoEPUwDHfguoJwuPeCKyCcxor5aJC1lVEO/EZM0HZnXZArlD9deWBUPIq?=
+ =?us-ascii?Q?nG5jb9rpDGHcE/jOOaBgM08cCSIWRjfK5vwt441W4KH66vpyXYej2+gbJZjH?=
+ =?us-ascii?Q?x3CQ9bE9mmCyEuVGBiLDKRK3UA/LfI59r4sQCrIb7DJyfKxqa+NqWBBkFhR2?=
+ =?us-ascii?Q?pI+KhQ0FV1Tp7oR9FHoPB3KWgWBI0IgIQfIKgdwnVGeXWfqTTkw4MOJsR6W+?=
+ =?us-ascii?Q?9lYRjSf+6yy4+O/ick89uXkRtEFFuy/w1FBWJRGlRcTNtjGwT/vvrECjC0et?=
+ =?us-ascii?Q?wdoCErs+SidmNU7jgjo4L045/JBoD6+LUejb0ZkHbv+bMCYhQISUipwRK6k4?=
+ =?us-ascii?Q?6kv6fAdpO7hHEyjeyVRdU99Zp9Ua9L/evPuBbh4VzNhDCgNpKqE3neF2sKK4?=
+ =?us-ascii?Q?JQHO1nzFLknNDqbOrG4YdjJvQ2akK36kYjqVWPW9fMPn/29opFP7aQsNf5Z2?=
+ =?us-ascii?Q?r59if7gofAbLPIWQMXGSvlfKlodl8pEI6OyUIL5dK1TXPSi8U6qqmh2HxuLH?=
+ =?us-ascii?Q?Nis9DcG96gHaqGyMa7qC6QpS5gLW6HW2SqEmqDgPIA3VRIYxm4fhs4BpEq7m?=
+ =?us-ascii?Q?5gCuiY7v4qXdRdX6TNqNvrYjYoXvpJ8ZHEXyYVXinbrU2/zCGAB6HhK9Y/Rx?=
+ =?us-ascii?Q?5aX9fl9u2wmnDmv2Kdf1Af8P8E3TW0Zw4CSeW2bkHVmgbtbJdXIHL5uXcoyK?=
+ =?us-ascii?Q?k9IPmAw9v5Plpo3B1R5+Bat4DZ4wnYv2/HGoO5CLbmCrF03/B9WNTDwCzbdS?=
+ =?us-ascii?Q?BeJlHlgA9MtM6/KE8oi2pxxpMMcfwzaW+HjfhGbZcu8IULAOk4FzFQhZ3UcL?=
+ =?us-ascii?Q?EfTap/uhOZj6z1gtpMEhPvUcNfdm+Obr0imfL4bkgXt8xGL1OiJUNKtNdSpG?=
+ =?us-ascii?Q?iQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40d50ddf-9424-4a00-6fee-08dd6e92b415
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2025 07:24:12.1997
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 932CdaMTXQVOOuaUfok+DVPtb2p+n1BEehoOZjv77gqOByHia2egGqW8lWUvaGzTHC4rHt/xVC26Q6oYPowJQiqcAHN075Qoo2ufkZr+g3g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB14411
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.14-rsslro2
-head:   9b73048865d89da6f43aff7b0b3b5ed838ce3160
-commit: dc898fe7e5e4196b3f39ff8783ba22a6ab05e2d8 [37/58] arm64: dts: update bpi-r4.dtsi to actual state
-config: arm64-randconfig-051-20250326 (https://download.01.org/0day-ci/archive/20250329/202503291553.Q77BY6G8-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
-dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291553.Q77BY6G8-lkp@intel.com/reproduce)
+Hi Wolfram,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503291553.Q77BY6G8-lkp@intel.com/
+Thanks for the feedback.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:671.24-692.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:704.19-726.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi:33.9-35.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:671.24-692.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:704.19-726.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:787.27-952.5: Warning (avoid_unnecessary_addr_size): /soc/switch@15020000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /: memory: False schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /: memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: cci: compatible:0: 'mediatek,mt7988-cci' is not one of ['mediatek,mt8183-cci', 'mediatek,mt8186-cci']
-   	from schema $id: http://devicetree.org/schemas/interconnect/mediatek,cci.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: cci: compatible: ['mediatek,mt7988-cci', 'mediatek,mt8183-cci'] is too long
-   	from schema $id: http://devicetree.org/schemas/interconnect/mediatek,cci.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /cci: failed to match any schema with compatible: ['mediatek,mt7988-cci', 'mediatek,mt8183-cci']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: opp_table_cci: $nodename:0: 'opp_table_cci' does not match '^opp-table(-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: opp_table_cci: Unevaluated properties are not allowed ('opp-shared', 'opp00', 'opp01', 'opp02', 'opp03' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pinctrl@1001f000: compatible: ['mediatek,mt7988-pinctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pinctrl@1001f000: reg: [[0, 268562432, 0, 4096], [0, 297861120, 0, 4096], [0, 298844160, 0, 4096], [0, 298975232, 0, 4096], [0, 299892736, 0, 4096], [0, 300941312, 0, 4096], [0, 268480512, 0, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pcs@10080000: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pcs@10081000: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: eeprom@57: Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: spi_nand@0: $nodename:0: 'spi_nand@0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/spi-nand.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: spi_nand@0: Unevaluated properties are not allowed ('partitions', 'spi-rx-buswidth', 'spi-tx-buswidth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/spi-nand.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000: volumes:ubi-volume-ubootenv:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000: volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000: Unevaluated properties are not allowed ('volumes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/spi_nand@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/spi_nand@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: switch@15020000: ports:port@6:phy-mode:0: 'internal' is not one of ['rgmii', 'trgmii']
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: switch@15020000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'mdio' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: ethernet-phy@0: leds: 'gsw-phy0-led0@0', 'gsw-phy0-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: ethernet-phy@1: leds: 'gsw-phy1-led0@0', 'gsw-phy1-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: ethernet-phy@2: leds: 'gsw-phy2-led0@0', 'gsw-phy2-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: ethernet-phy@3: leds: 'gsw-phy3-led0@0', 'gsw-phy3-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: gpio-keys: 'wps' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+> -----Original Message-----
+> From: Wolfram Sang <wsa-dev@sang-engineering.com>
+> Sent: 29 March 2025 07:17
+> Subject: Re: drivers/mmc/host/renesas_sdhi_core.c:951: undefined referenc=
+e to `rdev_get_drvdata'
+>=20
+>=20
+> > CONFIG_REGULATOR is not enabled in arm-randconfig-r111-20250328 that
+> > is leading to this build issue.
+> >
+> > I will send a fix by "select REGULATOR" in config MMC_SDHI
+>=20
+> What about using MMC_SDHI_INTERNAL_DMAC? So we leave out at least older S=
+DHI instances. Ideally, we
+> would say "select ... if <family>" but this will easily be missed in upda=
+tes. Maybe the above is a
+> fair compromise.
+> Those systems will likely have regulators enabled anyhow.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The changes were done in SDHI core (renesas_sdhi_core.c).
+
+Like this, if a random config in that architecture has CONFIG_REGULATOR und=
+efined
+will lead to the same error.
+
+Cheers,
+Biju
