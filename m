@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ABE1C460A;
-	Sat, 29 Mar 2025 21:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27D2149DFF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 22:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743285031; cv=none; b=oIYyuHT7SfdlvEPT6Dy7mCSWEX/iYI1deRg1hoUjfbhP7/h5FexDN+wP4FlFVyF0hepOkribiNmORwRRwY/AIkpCqsMqwgZ+9M/UKXOuH8eqagLiKNIAjmRle+TltUDM6XYQz8qp9EsDTNECw55v7hXGbqKZZ6A4rkD5bnu66UY=
+	t=1743288154; cv=none; b=Yz4cgXp0aCFcLC/1xF/9uw5Ey6vBRoCmJClO6ZMkzwppyk7SCQ+bG9KaH+eL8ecOHsEbFqYYoLi1YydrCwqzNy2rYZqyEk6hWNW6kL5GEqktLM/VcZJ7dZf62IM5Q3Ce0f59a10Fm44BM1TfgGhLlSTYiyCs9T7ETfIJkzxPYTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743285031; c=relaxed/simple;
-	bh=iPxZ8Ldb6PYOZVa90GDdFztH1FU38pAny2gaWtOz47w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=maP//ZW4pnk7eUPqBObpJz1atrF7IlCBp2KtXTzeTZjag8vRF5NTYbf47XNHtiKPPj6DMfDWpRlQTSJO3R6Xgzalyfi5L5SZt1+tTkJjFv6MMs6oV8V2mqqr51kICc88Ye9NsVgBt4yFrjYovPGcmwyTa93JhEKIEAaTaFetLtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CLCzGBTu; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1743288154; c=relaxed/simple;
+	bh=5F7PLCycf8m26vkR9hMMvu+BSgLkQRrHLwUuxrnyZQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ls8NcWZWX5nmJ/PK17TRSGyMBiraHCHGmtpVNNxDUz+vkVpN6osjtusLkrOtDuysD0lmXAcmJvXaSWnIchUvy7H4PiWofHAyKFqdfLFZViDz35MqbJovohqD2MIlCqp6SowoZfchjxm5HJLcd5GO3Cw7FDKVkJqNYEDaxlm6OaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IPr8zFkP; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CLCzGBTu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPr8zFkP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743285029; x=1774821029;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iPxZ8Ldb6PYOZVa90GDdFztH1FU38pAny2gaWtOz47w=;
-  b=CLCzGBTurQRs2MuYAWbOuNp9Eb05NLPBOhNGCsRQcTGa5US17x6ecpwh
-   tWBqXxlEl2bXN5dctfgnhepCdWdQFMeX7pMldwedQsxaEMqXxSQllxBcH
-   5ENCMloJoa2zZYRcijs3qSmxdbSkq3tvc3ziXjkeQthCYuG/PB6FFuMu6
-   8P3XewR5V6eBCJrSHN9/LdXekoYfhrEzfaWKHRwX4BPkZzK9JNQcSGLeM
-   C3AMdZZDxN8AWz+VOEaKyNHT7JuXMhC1/sGKjZK7e67MvNpAE49KCBhGN
-   zeTtBdfgUknEW1kTpUYo9aWiHLDCW2DJ3jiXjLthGEukxTmlTaS9Pc9b1
+  t=1743288152; x=1774824152;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5F7PLCycf8m26vkR9hMMvu+BSgLkQRrHLwUuxrnyZQ0=;
+  b=IPr8zFkPoi69lj5/GW7OJlF2brOzkWd8P1fEh4bLvXfVTPxPnaJ2v7sW
+   HXcCkQ5Z+Hs1GYzPD3TU8MHIhlP3xJyf0XiojTXgaKv2IbYyWiv1tK4E8
+   xM59ooiSRjju831VUpBxe1i3hhDnsmKGyIPKvZi7DHcEm33Lb3WSnB9yh
+   jDl+4DCiRkBcd2jluxkI3fRgT06hk+Vp+IQEVw9qDlzciN0SHBWHgAoqn
+   tXoDOEf6Znqe1p4w4VtEnX47Mv9KADOBTyuYb/5bEXcXMKfUOFLzJH0Sf
+   sVDFmdjaxFt/+bozJVA23TVaOZ0vgDb5b/FdH/MeT13QbqyV0xBL4k7EY
    w==;
-X-CSE-ConnectionGUID: TwVM1iwyT9+j3YDCCwf0fw==
-X-CSE-MsgGUID: Qd3v+58FQH2CyLMwUezorw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="62011075"
+X-CSE-ConnectionGUID: aT3gb8bfR6uYWX8ox3GbNg==
+X-CSE-MsgGUID: j5scXybNTYCXt1u1aAoNUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="48281292"
 X-IronPort-AV: E=Sophos;i="6.14,286,1736841600"; 
-   d="scan'208";a="62011075"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 14:50:29 -0700
-X-CSE-ConnectionGUID: J3P1M3csQLirtuyqwSQyIg==
-X-CSE-MsgGUID: DPKxeR4sQ3SiXpkalLyorA==
+   d="scan'208";a="48281292"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 15:42:31 -0700
+X-CSE-ConnectionGUID: f1PAU4HzSCKTKZos8QPROQ==
+X-CSE-MsgGUID: gwuN8ddzQqOH0QhN5QQaeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,286,1736841600"; 
-   d="scan'208";a="125749777"
+   d="scan'208";a="130595593"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 29 Mar 2025 14:50:26 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Mar 2025 15:42:30 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tye4N-0008Ne-27;
-	Sat, 29 Mar 2025 21:50:23 +0000
-Date: Sun, 30 Mar 2025 05:49:35 +0800
+	id 1tyesl-0008P8-2k;
+	Sat, 29 Mar 2025 22:42:27 +0000
+Date: Sun, 30 Mar 2025 06:41:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, Cosmin Ratiu <cratiu@nvidia.com>
-Subject: Re: [PATCH net v3 01/11] net: switch to netif_disable_lro in
- inetdev_init
-Message-ID: <202503300552.i2jDOcpl-lkp@intel.com>
-References: <20250329185704.676589-2-sdf@fomichev.me>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1531/1531]
+ drivers/xen/events/events_base.o: warning: objtool:
+ xen_test_irq_shared()+0xe1: unreachable instruction
+Message-ID: <202503300608.WYcT007F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,61 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250329185704.676589-2-sdf@fomichev.me>
 
-Hi Stanislav,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-switch-to-netif_disable_lro-in-inetdev_init/20250330-030132
-base:   net/main
-patch link:    https://lore.kernel.org/r/20250329185704.676589-2-sdf%40fomichev.me
-patch subject: [PATCH net v3 01/11] net: switch to netif_disable_lro in inetdev_init
-config: s390-randconfig-002-20250330 (https://download.01.org/0day-ci/archive/20250330/202503300552.i2jDOcpl-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250330/202503300552.i2jDOcpl-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5b56c883c34a890a3f9ca7baa8aea426538c88a8
+commit: fc0f59c16e93291923fcebd942b78c9bddfecc56 [1531/1531] xen/events: avoid removing an event channel while handling it
+config: x86_64-buildonly-randconfig-005-20250329 (https://download.01.org/0day-ci/archive/20250330/202503300608.WYcT007F-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250330/202503300608.WYcT007F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503300552.i2jDOcpl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503300608.WYcT007F-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/core/dev.c:1774:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Werror,-Wimplicit-int]
-   EXPORT_IPV6_MOD(netif_disable_lro);
-   ^
-   int
->> net/core/dev.c:1774:17: error: a parameter list without types is only allowed in a function definition
-   EXPORT_IPV6_MOD(netif_disable_lro);
-                   ^
-   2 errors generated.
-
-
-vim +/int +1774 net/core/dev.c
-
-  1756	
-  1757	void netif_disable_lro(struct net_device *dev)
-  1758	{
-  1759		struct net_device *lower_dev;
-  1760		struct list_head *iter;
-  1761	
-  1762		dev->wanted_features &= ~NETIF_F_LRO;
-  1763		netdev_update_features(dev);
-  1764	
-  1765		if (unlikely(dev->features & NETIF_F_LRO))
-  1766			netdev_WARN(dev, "failed to disable LRO!\n");
-  1767	
-  1768		netdev_for_each_lower_dev(dev, lower_dev, iter) {
-  1769			netdev_lock_ops(lower_dev);
-  1770			netif_disable_lro(lower_dev);
-  1771			netdev_unlock_ops(lower_dev);
-  1772		}
-  1773	}
-> 1774	EXPORT_IPV6_MOD(netif_disable_lro);
-  1775	
+   drivers/xen/events/events_base.c:1697:6: warning: no previous prototype for function 'xen_callback_vector' [-Wmissing-prototypes]
+    1697 | void xen_callback_vector(void) {}
+         |      ^
+   drivers/xen/events/events_base.c:1697:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1697 | void xen_callback_vector(void) {}
+         | ^
+         | static 
+   1 warning generated.
+>> drivers/xen/events/events_base.o: warning: objtool: xen_test_irq_shared()+0xe1: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
