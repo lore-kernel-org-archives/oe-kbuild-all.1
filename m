@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB55175D53
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 10:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A89A935;
+	Sat, 29 Mar 2025 11:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743243963; cv=none; b=MRS7Hfl2S0oLrqh7TDPuXzu2zEWyAfYl7MEyw9RSgtPUPb0GAl52YeXFW/3qJkojsYh3MR0fam2b6kvgso10fjevXPVo+kh56a5eyo76WscXkmbQypIW5A5nZ0bVAQAARrHOIIZUZWBzid3v5NGzIjBwWsXD8K5/edwYOHp2Brs=
+	t=1743247887; cv=none; b=BZ7CcVBBjY5Oi4renAh5LMke6Jr6Ue5s2OyA7BFOMWqRuAdE44aI9o14lljd3WW5IkBeaoNdG8plN+NuT7LqQtndZwxd5SsI7E4HOffbAxqpec7PflSu0u2BMR9QjSqpbsLU5caOBgLnbcF5jjejYHrIv49IDQROOKUH7plpuWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743243963; c=relaxed/simple;
-	bh=2J3Sysw7v6WhG9qB/Lkf43r4r/+kdacv8VVScp+H5uU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fy5/9kFIQ0RTF7RqhVa4qIkVluVjmHxajFPTVcTZxzZ/FQvRLfnMAvwIeoDAM/LGPBGlq+Tcg23QScvxIAncXF2fcYsmypSsiHf87fqUQJ97QeyhqU2x+k8pthkUBZHeOpWePohaba9Ku0XS+Q2EiGbwXu/4ubOwP3yuoFueED0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acZ0KZ5s; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1743247887; c=relaxed/simple;
+	bh=2Bsuku3h3mm/hh7WELjuYpk57CAP/XLlE3Pa7BOe418=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=grdGXmNdZB9HiVf/ynBBNXMtB/UjWlut2GtXWU3j7+RgREyrKnoCz4fvOOAjyV7yz8v++uOmKMt1MfNYBBLODT/bD50y1ip3Cy4saFI4fmhnGhFWKIM7Eiside+7pLAWVGgBoajeDMW3i4HXOPSn7mMB8vBFCLjiBEXgyUepbyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UjiGuwDY; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acZ0KZ5s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UjiGuwDY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743243962; x=1774779962;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2J3Sysw7v6WhG9qB/Lkf43r4r/+kdacv8VVScp+H5uU=;
-  b=acZ0KZ5sLh4j2k3uq7T0wOo56Blk5ygkRA4wY8XYZ6gn5YVPXG6Aky1S
-   UFulZ0QydKJJtyEAdKN5t1mbvmdQo2VHTOoR7tOFLnGejlRL3aNt424f5
-   Qk+xOEeqkcMhghKoAA8xhy52TcIf/+NhJIivy556bCDDS2RnMgpg79/oE
-   64tJa6JMZezrwyo1egbSSbE3edJrWM7GDwC8OJFSleJ13nlHKy2pFXPnX
-   hn/HrUE+LIeHDvrYSIZMrEizz2hT2/E+mnKkBppcL7QSNT0bDjMnF5AF2
-   KIIyq766BzD7AtofnmaYyta251HPILuME6NKJ11qBEpktsfClzJDiHSPR
-   g==;
-X-CSE-ConnectionGUID: XiTEkb3JTtySexNd6don6A==
-X-CSE-MsgGUID: fmKA2oB6QHqrXNFQhp4Klw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="43846085"
+  t=1743247885; x=1774783885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2Bsuku3h3mm/hh7WELjuYpk57CAP/XLlE3Pa7BOe418=;
+  b=UjiGuwDYrKQR1H5B+2zYpRYIdtbVgrx1zutk6rbUAIZje1rHxV4DCUh4
+   UrJ/kwB9H5WodqjqNjMClfNMDpErT5bpBmJB46w+Kg3i6WaD4HZ8/bfx1
+   2pFwFTZ8aFNQlxBb9/BfqDOrI/cX0oFonNLrblLly9axpOoa6ansfPk5P
+   TUjQSqG3ANYPvxwBpZLnpw40epOh83tGEciyFgt6ZkVJ2N600LohlH1D9
+   XTa7v1SXW4psKhcZgLwhXX/SjxS9YGfnDXYEw3oDnZu8iRj66CTENYmUC
+   EAoTH6liIxT5q+qFQq8MMfdqD6rc7NDf2LiXCmFDLPHRTJv+O8SdWKJko
+   w==;
+X-CSE-ConnectionGUID: cRzo7DPwQp+sa8doDxsy7g==
+X-CSE-MsgGUID: Ybm+4G70T2iEonYV67Jj8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="47325992"
 X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="43846085"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 03:26:01 -0700
-X-CSE-ConnectionGUID: /NFB0p6tS228epjgx7ZPsA==
-X-CSE-MsgGUID: aqeKE10xSVmgT7I0FLys+Q==
+   d="scan'208";a="47325992"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 04:31:24 -0700
+X-CSE-ConnectionGUID: vGArT0A1TqKM1JmR1QEviw==
+X-CSE-MsgGUID: /5jlCsR7QmKapQbyJ5nFGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="130758970"
+   d="scan'208";a="130887307"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Mar 2025 03:26:00 -0700
+  by orviesa005.jf.intel.com with ESMTP; 29 Mar 2025 04:31:23 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tyTNw-00082i-35;
-	Sat, 29 Mar 2025 10:25:57 +0000
-Date: Sat, 29 Mar 2025 18:24:19 +0800
+	id 1tyUPI-00084Q-39;
+	Sat, 29 Mar 2025 11:31:20 +0000
+Date: Sat, 29 Mar 2025 19:30:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:intel-lkp 4/17]
- arch/x86/mm/extable.c:177:19: warning: unused variable 'msr_imm_insn_prefix'
-Message-ID: <202503291853.lXNCxymw-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 6/6] super: add filesystem freezing helpers for
+ suspend and hibernate
+Message-ID: <202503291904.PAJxnbuR-lkp@intel.com>
+References: <20250329-work-freeze-v2-6-a47af37ecc3d@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,47 +63,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250329-work-freeze-v2-6-a47af37ecc3d@kernel.org>
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git intel-lkp
-head:   a9a80dfcc256aeb93a6df01a82fc9bda4b10e3b7
-commit: fe26083e06e9c7508dbdf6a9d06586ecd53a34fe [4/17] x86/extable: Add support for the immediate form MSR instructions
-config: i386-buildonly-randconfig-002-20250329 (https://download.01.org/0day-ci/archive/20250329/202503291853.lXNCxymw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291853.lXNCxymw-lkp@intel.com/reproduce)
+Hi Christian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on acb4f33713b9f6cadb6143f211714c343465411c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Brauner/super-remove-pointless-s_root-checks/20250329-164716
+base:   acb4f33713b9f6cadb6143f211714c343465411c
+patch link:    https://lore.kernel.org/r/20250329-work-freeze-v2-6-a47af37ecc3d%40kernel.org
+patch subject: [PATCH v2 6/6] super: add filesystem freezing helpers for suspend and hibernate
+config: hexagon-randconfig-002-20250329 (https://download.01.org/0day-ci/archive/20250329/202503291904.PAJxnbuR-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291904.PAJxnbuR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503291853.lXNCxymw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503291904.PAJxnbuR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/mm/extable.c: In function 'ex_handler_msr':
->> arch/x86/mm/extable.c:177:19: warning: unused variable 'msr_imm_insn_prefix' [-Wunused-variable]
-     177 |         static u8 msr_imm_insn_prefix[] = { 0xc4, 0xe7 };
-         |                   ^~~~~~~~~~~~~~~~~~~
-   arch/x86/mm/extable.c: At top level:
->> arch/x86/mm/extable.c:177:19: warning: 'msr_imm_insn_prefix' defined but not used [-Wunused-variable]
+>> fs/super.c:1183:6: warning: variable 'active' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1183 |         if (super_lock_excl(sb)) {
+         |             ^~~~~~~~~~~~~~~~~~~
+   fs/super.c:1187:9: note: uninitialized use occurs here
+    1187 |         return active;
+         |                ^~~~~~
+   fs/super.c:1183:2: note: remove the 'if' if its condition is always true
+    1183 |         if (super_lock_excl(sb)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/super.c:1181:13: note: initialize the variable 'active' to silence this warning
+    1181 |         bool active;
+         |                    ^
+         |                     = 0
+   1 warning generated.
 
 
-vim +/msr_imm_insn_prefix +177 arch/x86/mm/extable.c
+vim +1183 fs/super.c
 
-   166	
-   167	static bool ex_handler_msr(const struct exception_table_entry *fixup,
-   168				   struct pt_regs *regs, bool wrmsr, bool safe)
-   169	{
-   170		/*
-   171		 * To ensure consistency with the existing RDMSR and WRMSR(NS), the register
-   172		 * operand of the immediate form MSR access instructions is ALWAYS encoded as
-   173		 * RAX in <asm/msr.h> for the MSR value to be written or read.
-   174		 *
-   175		 * Full decoder for the immediate form MSR access instructions looks overkill.
-   176		 */
- > 177		static u8 msr_imm_insn_prefix[] = { 0xc4, 0xe7 };
-   178		bool is_imm_insn;
-   179		u32 msr;
-   180		u64 msr_val;
-   181	
+  1178	
+  1179	static inline bool get_active_super(struct super_block *sb)
+  1180	{
+  1181		bool active;
+  1182	
+> 1183		if (super_lock_excl(sb)) {
+  1184			active = atomic_inc_not_zero(&sb->s_active);
+  1185			super_unlock_excl(sb);
+  1186		}
+  1187		return active;
+  1188	}
+  1189	
 
 -- 
 0-DAY CI Kernel Test Service
