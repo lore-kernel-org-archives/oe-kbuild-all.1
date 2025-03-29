@@ -1,128 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A004A50
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 04:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405F63208;
+	Sat, 29 Mar 2025 04:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743223037; cv=none; b=W783ZPpoX73oICRYjcXTloLGlEYKvnWXexrR4Nlg2PmoeWrQsldHfneAaqbcfgcp6u9I6LORYLskfKlENkeJXgr81xQE754QzwqH3oqgrDms7rNpFdK8gi8IsYsPg1LUw9v6jZ3FB5uYu5M8m+MDOhCn2x2/kbe0685dHwxrt/I=
+	t=1743223569; cv=none; b=p2Q+T9JPIQ72XHYSUXReEPGySrUWu4qEiSQ5KfkuhdpUfenaYFEaY9ZBu5yIUxCthuIRfUf0r2qcMPnrsgNuFsIHUg9Zt/XRHUH0TmjABokQs1XbrpVsxoI18vwseIOzZd3H9/tYdfwzgGmzEbDsChAMsCTj/iNQhNl7GBNAPsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743223037; c=relaxed/simple;
-	bh=tR5wxfnXGLMP/pf5PfiF163uXtSzhbdan1uMVMQBeKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G5/WHn+Bg61hMV0HDr2CLO0F+3nzgqOYlEtSxlaAbg9BmJE3nZfQPkvODJg5Fi/x+lNaNyStb08hJS6w9s6vx4VMZ5FQnH7Qo2oEn4dztDQp/qE8W6DkE1BpkIwu6FdAnwy7oPdLlcw8j+oGnAgc6YQgTpG/89ZiKSqsuznM/jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MckTjVOe; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743223569; c=relaxed/simple;
+	bh=hZX2JbwzthWePVZTdyKWHHwVrguPQ0ymnWvrCqACnuw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VXXOEdpw7kex0YmJ2vH2X/rx+SLy2enQOstrTWzq2pOmbrgYufPciBQ2pBuZJe1Ofy3DpN6+GIjuNw2NamWzy9Q0i3DvdhBZaXZkrpwWq6tSGrpXjm9dQsvf36gTMw9fv5V9EVKTMJaoT0Bv8qrvXzK3y4PjEeKCBwNvHSIc3VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sZ6UQ1y4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MckTjVOe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743223035; x=1774759035;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tR5wxfnXGLMP/pf5PfiF163uXtSzhbdan1uMVMQBeKc=;
-  b=MckTjVOejRc3D/bjqsHngJA3JSL+l2qmKX21QFE9vfHboMclHE9XTu6Z
-   pcpmImw6zMy44vefYn/NcuDyzP2JINY0vfid/b9qZPdhwnoIvhzZLQ5b6
-   sYKjtUxgK3fjNAx0aXdNfSINIeM6odTI4SGwmeG7xwP6B8l3T8A+aPzER
-   Vujm8KiwFBHdLMtQNxYzM+Cuvje8di672SSqvrwGMgVEd1+LEupQmsgav
-   JzDspNH6delTra5PX8/zv/gQKXLHNUiUTAw/sSXgc5YSDA51l8niFz+aY
-   bun+TZSH3yJrwNeBwDPdnjf20tRl7QwwfhbsAbjWkkfNqj9/VaCKOTp0/
-   Q==;
-X-CSE-ConnectionGUID: UXy4pJJPTz2rEJ0hVUvzWA==
-X-CSE-MsgGUID: S0K3BdSCQWC0xPTt9nW3ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="55966257"
-X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="55966257"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 21:37:14 -0700
-X-CSE-ConnectionGUID: kZ21dv+wQA+ygNpgbXr7wA==
-X-CSE-MsgGUID: YzWNHu/mQqGsA+2pAxEC3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="130464296"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 28 Mar 2025 21:37:12 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tyNwU-0007tm-14;
-	Sat, 29 Mar 2025 04:37:10 +0000
-Date: Sat, 29 Mar 2025 12:36:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/unfudge_irq_bypass 71/72] arch/x86/kvm/svm/avic.c:1074:
- undefined reference to `amd_iommu_fake_irte'
-Message-ID: <202503291236.kproiZFD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sZ6UQ1y4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F8C0C4CEE2;
+	Sat, 29 Mar 2025 04:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743223568;
+	bh=hZX2JbwzthWePVZTdyKWHHwVrguPQ0ymnWvrCqACnuw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sZ6UQ1y4+hupAywvEBDeoy02bejqdjr9k9XJENjakhn7fijgzp/OaUyXmhLkQVYEO
+	 WuZP7c3+MEjiawm4x3waM5yqJuyJ14Lrew6yZclg6DAveHRx/XaysO8/XXXiCaKf1c
+	 sUcIL1mB4G0sAY70J/sTjiT1SJXcp2aWWpJ0qMDHq28j8PyNeGGe7MZ+4QKr8Z5tln
+	 KdRnI29P8mEKCxuqeZbZAFZGDT/U8XlLVHC7hAJXr2GFXcgcbIKwStWD9IH5O6AGx9
+	 lFf37eiHMs+yDNI9i0KyW1wPGjL6sMLcYXUJHoUwoAvp0R+DsEe4aHyS2Quy6t25QE
+	 bnVAFKRGKuEpw==
+Date: Fri, 28 Mar 2025 21:46:06 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	Ingo Molnar <mingo@kernel.org>
+Subject: Re: [tip:objtool/urgent 9/23] vmlinux.o: warning: objtool:
+ cdns_mrvl_xspi_setup_clock: unexpected end of section
+ .text.cdns_mrvl_xspi_setup_clock
+Message-ID: <nbth6u2fgdbtw52ll5tzc5qfrfasikqcjbx4eltdezqcagnkkg@wwtkkf2vrjbc>
+References: <202503282236.UhfRsF3B-lkp@intel.com>
+ <az2awlpfs7wt46kwql7ke3iereryykdroymfuaxawz5gozaxyi@rhlmbjkp3sdg>
+ <20250328232449.GA2955081@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20250328232449.GA2955081@ax162>
 
-tree:   https://github.com/sean-jc/linux x86/unfudge_irq_bypass
-head:   4f099563d661ed8fc857fa56cae7425fa4ad306d
-commit: bbe82c73f0093dfe41aecd96de0fa95b6a014be9 [71/72] *** DO NOT MERGE *** iommu/amd: Hack to fake IRQ posting support
-config: x86_64-buildonly-randconfig-003-20250329 (https://download.01.org/0day-ci/archive/20250329/202503291236.kproiZFD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291236.kproiZFD-lkp@intel.com/reproduce)
+On Fri, Mar 28, 2025 at 04:24:49PM -0700, Nathan Chancellor wrote:
+> I was able to reproduce this with LLVM 20.1.1 from kernel.org [1]. This
+> configuration has full LTO enabled so the build takes some time... it
+> also has several UBSAN configurations enabled but turning off UBSAN does
+> not resolve it (could be KCOV related?).
+> 
+> $ git cite
+> ae958b12940b ("objtool, drm/vmwgfx: Don't ignore vmw_send_msg() for ORC")
+> 
+> $ curl -LSso .config https://download.01.org/0day-ci/archive/20250328/202503282236.UhfRsF3B-lkp@intel.com/config
+> 
+> $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 OBJTOOL_VERBOSE=1 olddefconfig vmlinux
+> ...
+> vmlinux.o: warning: objtool: synaptics_report_mt_data: unexpected end of section .text.synaptics_report_mt_data
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x33e: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x254: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x1d4: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x1b8: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x156: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x13a: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0xda: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0xbe: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x63: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x48: (branch)
+> vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x0: <=== (sym)
+> ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --static-call --uaccess --noinstr --link vmlinux.o.orig -o vmlinux.o
+> 
+> vmlinux.o.orig is 391MB so probably not too shareable but if there is
+> any other information I can give you, I am happy to do so.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503291236.kproiZFD-lkp@intel.com/
+Nice!  Can you share the disassembly of the function?
 
-All errors (new ones prefixed by >>):
+  objdump -drw -j .text.synaptics_report_mt_data vmlinux.o.orig
 
-   ld: vmlinux.o: in function `avic_pi_handler':
->> arch/x86/kvm/svm/avic.c:1074: undefined reference to `amd_iommu_fake_irte'
->> ld: arch/x86/kvm/svm/avic.c:1074: undefined reference to `amd_iommu_fake_irte'
->> ld: arch/x86/kvm/svm/avic.c:1074: undefined reference to `amd_iommu_fake_irte'
->> ld: arch/x86/kvm/svm/avic.c:1074: undefined reference to `amd_iommu_fake_irte'
->> ld: arch/x86/kvm/svm/avic.c:1074: undefined reference to `amd_iommu_fake_irte'
-   ld: vmlinux.o:arch/x86/kvm/svm/avic.c:1074: more undefined references to `amd_iommu_fake_irte' follow
+Also, if you happen to have CONFIG_DEBUG_INFO enabled, the line number
+of that last branch:
 
+  addr2line -fpie vmlinux.o.orig -j .text.synaptics_report_mt_data 0x33e
 
-vim +1074 arch/x86/kvm/svm/avic.c
-
-  1068	
-  1069	static void avic_pi_handler(void)
-  1070	{
-  1071		struct amd_iommu_pi_data pi;
-  1072		struct kvm_vcpu *vcpu;
-  1073	
-> 1074		memcpy(&pi, &amd_iommu_fake_irte, sizeof(pi));
-  1075	
-  1076		if (!pi.is_guest_mode) {
-  1077			pr_warn("IRQ %u arrived with !is_guest_mode\n", pi.vector);
-  1078			return;
-  1079		}
-  1080	
-  1081		vcpu = avic_ga_log_get_vcpu(pi.ga_tag);
-  1082		if (!vcpu) {
-  1083			pr_warn("No vCPU for IRQ %u\n", pi.vector);
-  1084			return;
-  1085		}
-  1086		WARN_ON_ONCE(pi.vapic_addr << 12 != avic_get_backing_page_address(to_svm(vcpu)));
-  1087	
-  1088		/*
-  1089		 * When updating a vCPU's IRTE, the fake posted IRQ can race with the
-  1090		 * IRTE update.  Take ir_list_lock so that the IRQ can be processed
-  1091		 * atomically.  In real hardware, the IOMMU will complete IRQ delivery
-  1092		 * before accepting the new IRTE.
-  1093		 */
-  1094		guard(spinlock_irqsave)(&to_svm(vcpu)->ir_list_lock);
-  1095	
-  1096		if (amd_iommu_fake_irte.ga_tag != pi.ga_tag) {
-  1097			WARN_ON_ONCE(amd_iommu_fake_irte.is_guest_mode);
-  1098			return;
-  1099		}
-  1100	
-  1101		memcpy(&pi, &amd_iommu_fake_irte, sizeof(pi));
-  1102	
+Thanks!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Josh
