@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D30199E80
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 13:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126341C726D;
+	Sat, 29 Mar 2025 13:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743254849; cv=none; b=No0b9U0Id36/WncX1LL30Augt+x9oUPvOI2uwaKE55WAGfbF+7I6yrBrBYnj+ajid9ENDkU6rWJ4WoVK0wFrNfbu2Y6GuKEq4BT9tpX3YIde/dStbNm8SAz4G4TJS7AmG5w4cas94XvbfHEV23p4Sqnb+NIKzchYuWrSImhCbIM=
+	t=1743256779; cv=none; b=AH6xZpQM3ZaRWPiJ/9fbnwox1ljF5wytbx0vTfEcpLLG5ynif+Kc8bbd0RnZArmE6scWsIlDR640pK0y0wvcKrHKQhFdH8MOEr0tEcgIO4Z65HLxalTw6tMbeeB6931OZsCApUWnubJcmGsPcUUIiqZsXtx4eKjPcnJKVgKh32c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743254849; c=relaxed/simple;
-	bh=+OgdubdukT2/EFsOfru43+LM2Ue4GZ52pj94cItxxGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pjsXq9IT70aFtup/C1hG9ONIEb9J6Pv82/tJVrHJ28g65biKK5AXoT24TkPPN+vHAmCDj37WaduF0UvlyX0umH26iETcwFOuIm702uW/DfDnsp9HLZOaTAgaBLJc6pt4FdsHR+Tr2i0YR0I+v1s0KqxO/axxHmlEJXVUfePxv8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzTZuER+; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1743256779; c=relaxed/simple;
+	bh=cEda95NqDNZjXPgue2Gp3hasGnBx8dCzYXE9/5wwWmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d/bsWlAhe6+olWiLPb6YT8m9euLyvQ6Fi5PYhxVpkb2MYxfrP2wz9YlCtHDvNWCuvkQHRb5I8Q97C+UbaVkg5JKyBNDSKMEe7+sroI7BEZ0JrE1LaUYRfOL41LDI1Vx8jcWKm42eoks61IL5omV0YY+Unqw0w1ecuxeOeZ0QCok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVwDqGQN; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzTZuER+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVwDqGQN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743254848; x=1774790848;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+OgdubdukT2/EFsOfru43+LM2Ue4GZ52pj94cItxxGs=;
-  b=SzTZuER+/CdUZgEvBVI3s3H3HzeVu13FO0GEUjpKDuwbdv4bTDuRnjkM
-   nEJpzUnkJSMtaehZ0rko48/Cb3e5xt8XEqSTQFXPOxByZyW128flfqFRq
-   S7CzVH81siHSvMNMUI+7/lOXTU7TfjLSaY/eONfbWjUNsn7zPWZ9FjW/L
-   xaO/HYsaGpZAJcuMAjnKNJHbEJ676kyU+6U1+18LjOZgeMC4MVEN5tFwU
-   AhAIJNV00uVYe0aeJ39obZsfrmY8pqnhfqfsckqCSFU8+jvFQWMf2WjBI
-   E53alk4yajVodp7SL8W+4EaXBvLG1gGHwIg4UWAirKIkikdKuqiVS7YU8
-   Q==;
-X-CSE-ConnectionGUID: UpJo4sIcQkSOL3V9b36Iaw==
-X-CSE-MsgGUID: o9zBdqaUSCW/VX4TbgK8vQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="55264137"
+  t=1743256777; x=1774792777;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cEda95NqDNZjXPgue2Gp3hasGnBx8dCzYXE9/5wwWmM=;
+  b=GVwDqGQNfF9zoNHIOyU5EQ/ZfONLibUzqT01ipqFGYhIeynrbp/8fNqf
+   dyyyWayumsyWajolQNcAsi/iSbwM0aoI92ckFb/Y1/021Xx59JGK/k25U
+   eD5y046awKpkNOv/p7OoAOSCHkLEPfhCAHUuKgro1bgoocyJwjlXREP8k
+   lxRUxLmZar4GIDfERWibSpKdfsy2tbXIGpUvnW9BYBNGWR/zb7uQ+I0e+
+   crt2wo+UEhO+AL+Ie2S5K9vViTeibqBveq37cR7Qfmy+FBh4R3HF/3n3g
+   wgULIlxzy0zHT7YEJnE/mdhdZKSlJ4eWj9pPQv2uPb0QJje/r5oYK9o4b
+   A==;
+X-CSE-ConnectionGUID: eAMjL+3kTryPsg2Hp6ap4w==
+X-CSE-MsgGUID: g4W5dWTFQnymbtJ+01aQkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="62136979"
 X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="55264137"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 06:27:27 -0700
-X-CSE-ConnectionGUID: LqttO1o/TYGoL983Korhew==
-X-CSE-MsgGUID: hbIn19GtSbWw9CHUXjkRtA==
+   d="scan'208";a="62136979"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 06:59:36 -0700
+X-CSE-ConnectionGUID: 65b7cnBdT7K6chN6SRvfMg==
+X-CSE-MsgGUID: Tn3uKAB+Q/WQK3IDLHquSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="130903160"
+   d="scan'208";a="162938653"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 29 Mar 2025 06:27:26 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Mar 2025 06:59:35 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tyWDb-000882-2O;
-	Sat, 29 Mar 2025 13:27:23 +0000
-Date: Sat, 29 Mar 2025 21:27:20 +0800
+	id 1tyWii-00089K-1y;
+	Sat, 29 Mar 2025 13:59:32 +0000
+Date: Sat, 29 Mar 2025 21:59:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.14-rsslro2 50/58]
- arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb:
- ethernet@15100000: interrupts: [[0, 189, 4], [0, 190, 4], [0, 191, 4], [0,
- 192, 4], [0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too long
-Message-ID: <202503292148.aZAJjOaU-lkp@intel.com>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/2] zsmalloc: let callers select NUMA node to store
+ the compressed objects
+Message-ID: <202503292135.ZBvAK1oY-lkp@intel.com>
+References: <20250329110230.2459730-2-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +63,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250329110230.2459730-2-nphamcs@gmail.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.14-rsslro2
-head:   33c7677746e06467ff53077b884250c034ad320a
-commit: 87520135dab5aceb010c91e8c53cf269d7f54bf6 [50/58] arm64: dts: mediatek: mt7986: add interrupts for RSS
-config: arm64-randconfig-051-20250326 (https://download.01.org/0day-ci/archive/20250329/202503292148.aZAJjOaU-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
-dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503292148.aZAJjOaU-lkp@intel.com/reproduce)
+Hi Nhat,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4135040c342ba080328891f1b7e523c8f2f04c58]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/zsmalloc-let-callers-select-NUMA-node-to-store-the-compressed-objects/20250329-190441
+base:   4135040c342ba080328891f1b7e523c8f2f04c58
+patch link:    https://lore.kernel.org/r/20250329110230.2459730-2-nphamcs%40gmail.com
+patch subject: [RFC PATCH 1/2] zsmalloc: let callers select NUMA node to store the compressed objects
+config: hexagon-randconfig-001-20250329 (https://download.01.org/0day-ci/archive/20250329/202503292135.ZBvAK1oY-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503292135.ZBvAK1oY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503292148.aZAJjOaU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503292135.ZBvAK1oY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts:98.10-154.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1100a000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: ethernet@15100000: interrupts: [[0, 189, 4], [0, 190, 4], [0, 191, 4], [0, 192, 4], [0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: ethernet@15100000: interrupts: [[0, 189, 4], [0, 190, 4], [0, 191, 4], [0, 192, 4], [0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: switch@31: 'interrupts' is a dependency of 'interrupt-controller'
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: ethernet@15100000: interrupts: [[0, 189, 4], [0, 190, 4], [0, 191, 4], [0, 192, 4], [0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: ethernet@15100000: interrupts: [[0, 189, 4], [0, 190, 4], [0, 191, 4], [0, 192, 4], [0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: ethernet@15100000: interrupts: [[0, 189, 4], [0, 190, 4], [0, 191, 4], [0, 192, 4], [0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+All errors (new ones prefixed by >>):
+
+>> mm/zsmalloc.c:1354:9: error: call to undeclared function 'zs_malloc_node'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1354 |         return zs_malloc_node(pool, size, gfp, NULL);
+         |                ^
+>> mm/zsmalloc.c:1357:22: error: static declaration of 'zs_malloc_node' follows non-static declaration
+    1357 | static unsigned long zs_malloc_node(struct zs_pool *pool, size_t size,
+         |                      ^
+   mm/zsmalloc.c:1354:9: note: previous implicit declaration is here
+    1354 |         return zs_malloc_node(pool, size, gfp, NULL);
+         |                ^
+   2 errors generated.
+
+
+vim +/zs_malloc_node +1354 mm/zsmalloc.c
+
+  1340	
+  1341	
+  1342	/**
+  1343	 * zs_malloc - Allocate block of given size from pool.
+  1344	 * @pool: pool to allocate from
+  1345	 * @size: size of block to allocate
+  1346	 * @gfp: gfp flags when allocating object
+  1347	 *
+  1348	 * On success, handle to the allocated object is returned,
+  1349	 * otherwise an ERR_PTR().
+  1350	 * Allocation requests with size > ZS_MAX_ALLOC_SIZE will fail.
+  1351	 */
+  1352	unsigned long zs_malloc(struct zs_pool *pool, size_t size, gfp_t gfp)
+  1353	{
+> 1354		return zs_malloc_node(pool, size, gfp, NULL);
+  1355	}
+  1356	
+> 1357	static unsigned long zs_malloc_node(struct zs_pool *pool, size_t size,
+  1358					gfp_t gfp, int *nid)
+  1359	{
+  1360		unsigned long handle;
+  1361		struct size_class *class;
+  1362		int newfg;
+  1363		struct zspage *zspage;
+  1364	
+  1365		if (unlikely(!size))
+  1366			return (unsigned long)ERR_PTR(-EINVAL);
+  1367	
+  1368		if (unlikely(size > ZS_MAX_ALLOC_SIZE))
+  1369			return (unsigned long)ERR_PTR(-ENOSPC);
+  1370	
+  1371		handle = cache_alloc_handle(pool, gfp);
+  1372		if (!handle)
+  1373			return (unsigned long)ERR_PTR(-ENOMEM);
+  1374	
+  1375		/* extra space in chunk to keep the handle */
+  1376		size += ZS_HANDLE_SIZE;
+  1377		class = pool->size_class[get_size_class_index(size)];
+  1378	
+  1379		/* class->lock effectively protects the zpage migration */
+  1380		spin_lock(&class->lock);
+  1381		zspage = find_get_zspage(class);
+  1382		if (likely(zspage)) {
+  1383			obj_malloc(pool, zspage, handle);
+  1384			/* Now move the zspage to another fullness group, if required */
+  1385			fix_fullness_group(class, zspage);
+  1386			class_stat_add(class, ZS_OBJS_INUSE, 1);
+  1387	
+  1388			goto out;
+  1389		}
+  1390	
+  1391		spin_unlock(&class->lock);
+  1392	
+  1393		zspage = alloc_zspage(pool, class, gfp, nid);
+  1394		if (!zspage) {
+  1395			cache_free_handle(pool, handle);
+  1396			return (unsigned long)ERR_PTR(-ENOMEM);
+  1397		}
+  1398	
+  1399		spin_lock(&class->lock);
+  1400		obj_malloc(pool, zspage, handle);
+  1401		newfg = get_fullness_group(class, zspage);
+  1402		insert_zspage(class, zspage, newfg);
+  1403		atomic_long_add(class->pages_per_zspage, &pool->pages_allocated);
+  1404		class_stat_add(class, ZS_OBJS_ALLOCATED, class->objs_per_zspage);
+  1405		class_stat_add(class, ZS_OBJS_INUSE, 1);
+  1406	
+  1407		/* We completely set up zspage so mark them as movable */
+  1408		SetZsPageMovable(pool, zspage);
+  1409	out:
+  1410		spin_unlock(&class->lock);
+  1411	
+  1412		return handle;
+  1413	}
+  1414	EXPORT_SYMBOL_GPL(zs_malloc);
+  1415	
 
 -- 
 0-DAY CI Kernel Test Service
