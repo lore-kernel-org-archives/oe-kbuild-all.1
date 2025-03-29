@@ -1,215 +1,249 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010052.outbound.protection.outlook.com [52.101.229.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9523F9FB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 04:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743224362; cv=none; b=t23pfrh5dbrkTs+XHb6CPxf4hnzcEyQUNN+C2doPA0OqV/shqw8VIb/iFMZp7+1BLjTh6nVSSDYfQmHYVUJnsuZj7xy8J0+9NenMqv68xHN/Nac471r6Iua5ImYWzQ4ffbd0logtjLb8usewGj2qRXJDzIRllrA6+I7V96AHgHI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743224362; c=relaxed/simple;
-	bh=2Yne1QbhxA+8CZWwW8yAQd6QasSrkff6bi9RqIVQxpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RQSp014BshvfSIDtDt/H51WUVSdp5PZkWhzhnX3t/oXIEi7YGBgfwE2itZub2ZTjjSDOU1Ex72WVSVgctFeWrXYIo2yV1x1r/vdlQuCB08AohbCD7aDXpvQpV3DOUWPVTUhP7YffE2+hkkncPUjs8PDB6VqWt0QIEhI5WwwBAaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEdQ9NRu; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EE51531E3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 06:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743230506; cv=fail; b=Udgn9eNkN/F8ZS+DF6PCXe9ePmfzRyeAHhT8OE112dWQhOVdbc/dpmunUuMi0pkmVodjZyv+PgoKHvm9Im9acGeLqeUL2w+S3gZU5k8Lhs9KTmtcM+Ds+xFc9JlCC1cA9F/nv8RYQnr0S+QbuC6JkGBLbqoaFyq8EvrXN0UNZRU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743230506; c=relaxed/simple;
+	bh=703LwFNLjwBlmsyY1fNufNVYEC7l5JtcHkIp/rAlr2E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=JZ8MT8A3jYLCiSWO0Yvwcr2J2KJbZyUMzal+PcT1UO5boxd2fzh0qkRfB2G7EhvWAvoM4z5F0RaEJlwz8CDv76iyJbrHYdYNIWgGISBk7xjnvilIElcDMdpU0y0ozxHm8xkVxyTyVQxdHP+pF42Tz9kSyWzzSU4LvxK3xkRRabU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=bG5FkRFv; arc=fail smtp.client-ip=52.101.229.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEdQ9NRu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743224360; x=1774760360;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Yne1QbhxA+8CZWwW8yAQd6QasSrkff6bi9RqIVQxpI=;
-  b=TEdQ9NRu0LFXPuSRSLroRu4EVg5zH02MyEnnFF3xbjSAmrxRif3kH4in
-   kpO9d8g19Ara3KmQg01iRu4AQeTts1hbiY8T7sskGxm/RScq6RLcCHFm2
-   Nj6tUGNdUEha2sR9ii4xCH7UBFKF8cSe8A6xpYVDs7X9tC8SNenOzy67p
-   u3nkARKzVc6LXpUhPGz26mXr5lJEGVkYg9ncLwWrukpUT46XMU2oibj/A
-   wPmppALNcR2XgZJoVurxZIZPHh3xjGxz4dvSNI7ntR9YTDVhaEF09d+Pd
-   lHkXVT4d9MbpRAjjHYwaCHu1B9UgKbLjuF8M2W/y1/Tn/jXBS42CZ0R9x
-   g==;
-X-CSE-ConnectionGUID: u9dOrQGgTFCGevBhYw+erQ==
-X-CSE-MsgGUID: fz4VITFBS8i1i7hMn1psOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44718739"
-X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="44718739"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 21:59:20 -0700
-X-CSE-ConnectionGUID: IhXeNcEpQXmA46pvyVZ4WQ==
-X-CSE-MsgGUID: 52fOeOn6QNehvEx91wWYZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="162869118"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2025 21:59:15 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tyOHo-0007uc-2j;
-	Sat, 29 Mar 2025 04:59:12 +0000
-Date: Sat, 29 Mar 2025 12:58:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-Subject: Re: [PATCH v3 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-Message-ID: <202503291204.imMRd3l7-lkp@intel.com>
-References: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-3-7f457073282d@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="bG5FkRFv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XUXx+XVMkpAWkQ80B8Xc918kalBfKJkpZW7ArrM2imuacLtBYnOu7qHGpoSzV1wquplqKDV5EXs5moXeHgUJRVZu27YOVxZKVWmXyTIZN5CyAXAb52QQ+PcSDjnDROPHeVvHE6hgY1JD2+J1DjRP2kIAk1Ye8lwjxXqh/vI1S/YrOW7poipSNsdy4NhIX3j1HK5JBUkc0cIYrAbzTxn43fnrB2zds0dV8IzGHSb5o24XIozVrZb/X9Ot20DNs9KDOwW244K2XhapJ9Tk0CMpIwM68eNN2qbvT7cnKVhITSObNOV6B/sDloqq65hK+6wigqtyEAmKXCFAte+nrTDBIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BVlcxJ4W0YU/DuJSaFNcIDo4QeQ6zLPrY+40jdxUblE=;
+ b=GDVSfCa48rbDFFtEwCvI94Y9L433N5REoDRhMpa/tPtmNv0wkch5fR5AOcvKmXQQ0JN/fQlrG96AhyNzLv1ekj2NkaRlOJoQUAigjHAluwwYzqZ3Wp3iI+sD012Xyc8YpHgdcSHA3pnykAd2DHH5YxQ/N71bVs9iT10w1P/tEfRG4LcGxfAiiKt++eHS5+LQGUeH7g2S3fYFo0k8HJ2x4bfWlgGsLz9EzXZ4OBUkz1693SfSVvexxFuGdJX1vibCSEGhX1q/l0nYZ4DTUtGTvw+hWxOP0waWz6sLTzxuHAw4Fm9jiFPGeYddE10PX7w4UtyoDWoKVgI4Y0Nigaa0Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BVlcxJ4W0YU/DuJSaFNcIDo4QeQ6zLPrY+40jdxUblE=;
+ b=bG5FkRFv3/+/3hKVM/2m9N2DhWNHhuu2EtI8Di37ZzNViEhyMDJc8JFH1yEniU+VPzNJBnsrDBeBN1ZT0QqNALV/00GOvfSK4Og9SYsYoTdjucNeBMts2jZxfK+s+9bv5Tl8ylHBP7mB/TJN5REijziAdIsU7gag4STrmVCoo7w=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OSCPR01MB13676.jpnprd01.prod.outlook.com (2603:1096:604:37d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.27; Sat, 29 Mar
+ 2025 06:41:39 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8534.043; Sat, 29 Mar 2025
+ 06:41:38 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: kernel test robot <lkp@intel.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Ulf Hansson
+	<ulf.hansson@linaro.org>, Wolfram Sang <wsa-dev@sang-engineering.com>
+Subject: RE: drivers/mmc/host/renesas_sdhi_core.c:951: undefined reference to
+ `rdev_get_drvdata'
+Thread-Topic: drivers/mmc/host/renesas_sdhi_core.c:951: undefined reference to
+ `rdev_get_drvdata'
+Thread-Index: AQHboCqIh2PpJ3xvmE+hCIj3H/jjabOJpxvw
+Date: Sat, 29 Mar 2025 06:41:38 +0000
+Message-ID:
+ <TY3PR01MB11346FEE53574DBF768BA9B8686A32@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <202503290554.zASQT70Q-lkp@intel.com>
+In-Reply-To: <202503290554.zASQT70Q-lkp@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSCPR01MB13676:EE_
+x-ms-office365-filtering-correlation-id: 52badbca-965f-4132-4a46-08dd6e8cc201
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700018|7053199007;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?NRl7GL2STPKSHXXi60hiZyr+P/+hJrVlceqJ/wgrT6Jsim1mIrd1D3yzY/6l?=
+ =?us-ascii?Q?fezITItOxcJtz+HN+3DEBLdKLIQF1iqZGWgeiWWxPgrsstHsZIsrDKcs8IdJ?=
+ =?us-ascii?Q?sAH+7YVPrueVHuj2oKIJRntHegbz8iQXmlTrcCgJX1iV/eGJSQAcg5h9Z1aa?=
+ =?us-ascii?Q?Puv6Th21MqTW3MBiFkf4myt8SDsTkBTFNdPtQyz6kvzuBG+xJajp7xRbOvkB?=
+ =?us-ascii?Q?zKatWoGj4KAocVhQKXbfsmH6HlJA1sbEXjget1TkGOuyXilWKaztYQwX3lJm?=
+ =?us-ascii?Q?oJvvpYx22jDBiK3aryrj54CBiji009kNVqJHvHp8WtZwGH54V6qkftymzcnm?=
+ =?us-ascii?Q?J5Xk/nGRvVShL0bzzP/tPMnjHmEEUW72U4TAOdVAnjXHPQ11iY0L9K53KZsC?=
+ =?us-ascii?Q?Sr9s1XXLLbFyQCI8zaGww7FrT+3A2lAIE8X3yrizcYaUuYUQaac43++XI9vM?=
+ =?us-ascii?Q?L0Dc4ojEjTR8hfbklj4+cAfnZlCmFirqDP4EGjHyg3gUNvR0TAdEN9QJUoy/?=
+ =?us-ascii?Q?7+1e+LpSmfykb3VeNZQ9RJY3lBKjdAGEqzesG6YKTM/GI7xGYCQx3p1DNVBT?=
+ =?us-ascii?Q?0cxuMy1ZTRMnCy8y4SjvElxoOkZVQdzZRXL/gmMplccJlmrChLm9OltWar5V?=
+ =?us-ascii?Q?Fcrnh/iKfraAtL5t5HUQRpG8TjZhJrPqbf1pYLEAdPEYXY02t1yrmK7AVZU3?=
+ =?us-ascii?Q?hFKrwTPqoxPWprfBfaMv8p45HiCSgE9BHRzgUTSmLTT/qxG9Sfmb7Er1s37x?=
+ =?us-ascii?Q?xHfr6roxI/godblhI1UvFoKn/l6b+ZB5s2oB7fK81ma3AxPPC0IItIoLr+SQ?=
+ =?us-ascii?Q?ercs5tHlyR+hH9cPTejjWbUKMe0ixMoTUtSGLu4EUCIDJ3m2n4cI5k3L1HB8?=
+ =?us-ascii?Q?dM6ZaIokLoh5h6uk0Zb3KD+V97xDbl4UTfGtsoapDDzNrCXVwFZEOWZYUG8t?=
+ =?us-ascii?Q?0xrPLGFpt6pKZduOlfiSvSwFBeJHqhSHpQQYRtGUDpFQe7oQb3VsJaDQTozK?=
+ =?us-ascii?Q?MyjndPS1fsJwcpy0Uq6lyLvEt85+fIVaADUqpneXRWmcWN2+g4MZfkKpOJDs?=
+ =?us-ascii?Q?2pEWOcoN1E0HTdKdxDJsuoDKIqHnqx9FRS6gnR4mqoQ/q1NZGyG5x79BBLbh?=
+ =?us-ascii?Q?Uh0l/CxLA8qEtYNp9iuuU9aSLVEHRkUUUtd7gmYyBymi7IilGsIQvxgcEj7B?=
+ =?us-ascii?Q?D9rGqBIuqh2fpaSr5WzR4m4x6xfuM4oCWHtKvTjz1sxEuWeWXG3XJ0wKhsvE?=
+ =?us-ascii?Q?Ql603gRTm78Avlo0xTDPtLcioeLGzHm74fBfgASxs64+jzZXhDb8FosmyYFJ?=
+ =?us-ascii?Q?MLKt6nyqBxJ9Cn7sn4TdfUwmGUY0+JT7gcycEbKiDga7sVsPfnK0zjg+1y7e?=
+ =?us-ascii?Q?KD1Djssxv2TMv1H6zF2Hvdzn60SS3wM6xYYhMfJ7JymHT/ZJaQ=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?xNiwjkVmIGw20Rq74GcwROihlLobvee+YpiyHpMSmfmm9mXKBylXY07sTpSN?=
+ =?us-ascii?Q?NuNbEcBuUedrnfZBVtW3N6xFjHVjn6xqjERunDgXEuGr0p+1Ni0f9vIORfax?=
+ =?us-ascii?Q?pkgd2Pj3sXZ7o7a6guFtoU8XqyXYHC9P6+CNP5IFfJZZ3KNj2MUvQPvxMYp1?=
+ =?us-ascii?Q?Sv4/+aBJDMZSrZxlYAobkW7FE8n9LPMuI2QCe8eeWR/jqGj7d8t2jYKx1FCX?=
+ =?us-ascii?Q?W0P2h+P03pAku9Hqsv7sew6OxcUk9jJecTao2uRQyVDNZRlQ5TGkGhW81Z/E?=
+ =?us-ascii?Q?axU8n6TnG65fogLBeZCrt7y8xOyCnrjjMrWSsPZ33r2by3QPszhAegZ74iGa?=
+ =?us-ascii?Q?gTHi9Z07hDXmcYTa/Scmrpl6iiMRbCywYS85U8ldiezS+ClW8erB77CkPTyK?=
+ =?us-ascii?Q?HvO0aAK0NHk+w6TU9KmB/asDqedvOBTXiS1i34thbnMD9HZraxbUp/Tvpn8b?=
+ =?us-ascii?Q?dvzXCSHPwTGc41ijrXR7MRjwY/BpgD1ViTo3BOGxcUTysRYjnmFAfJgXN6Si?=
+ =?us-ascii?Q?j+1yBGvYXtUad/M0/jXU4ij+VtUKO1oY9985nImCfsthdZP5XJs1ak4DPxn7?=
+ =?us-ascii?Q?EKDYClxpcldOYkIhjhqHx2AYXyNfRL1XQ+W8lUfNKxlraOFdUfVYQCxciklu?=
+ =?us-ascii?Q?hv+zWT8SGc07BQlk9jt3pEEEWFtMgZHJVq6RSzD5T5LcLQwGiTsc+/gcV1ts?=
+ =?us-ascii?Q?cFXzWMKC3mxhmiZZ52S+6foEJP2O9Y6L71fq06yVuOtbh2HbDPlLQq6VOfxr?=
+ =?us-ascii?Q?YJ8K+9qJbxWDtUYn+CjrY2kVzS7c8nCP6nw/l6m+DNI8mCB0EwjxM72Dp8jU?=
+ =?us-ascii?Q?6l0pLgfZ087hkyVHlVYHWZJBq0caQ9TqXEnxOCXsAoCPLbvH+w42MqnH6yto?=
+ =?us-ascii?Q?vxmFaphc7WUH7xYb8IZyFPzPxwy1LgkFrj8L6Ap7N2Cg8EvlRYLanQeolDGH?=
+ =?us-ascii?Q?WY2HDGieA5qZBD4YCPnSpi1KMynqmxZthXcsWESPLIlYUZKwSp6+fSPL3H2f?=
+ =?us-ascii?Q?44WROOq24b9+rtc2lUttL+baWg3hMsSgR3TkLK5hCNlQwegCv82XW7jD6N5F?=
+ =?us-ascii?Q?l1wDZFJgJCCMIi0wZuU3a6nAgFwieZmud185Q4dRn5NPnry4Pd0o99pYZH6v?=
+ =?us-ascii?Q?FbgzrhgrL1IueSDzIMpxo9Z7ZYI2f1HHmORDwEbKk+/UJJe8KIw8eF3VoxcO?=
+ =?us-ascii?Q?jBZpilkfWh4O83RTfOAtDNoDlJwEdjjhGBeDT6OFhUGNeS/5I7NVuxUnfPJ5?=
+ =?us-ascii?Q?yi58fuZ+ouC1tMrR5PT2jrkB00XSVxwTkzRKf8S+tK3C1BOEqX0fFZmlObnM?=
+ =?us-ascii?Q?Ymg0YJ9M/OZe8enFSp+J7KJ0SbKUyzr1g1aqbWEGzLJS/01HXsLPHnnUXORn?=
+ =?us-ascii?Q?1Uz567UxxFuRvsLtpRS4uuYkFmMYk5c3TDQ9vGqgX9/fnivp30NHBqZ1LJx4?=
+ =?us-ascii?Q?iZOfjQdMKxkkUygojzYvVfQg0swfG1ZVWLIUghd3k0NlJG63HD3DF3CULHIF?=
+ =?us-ascii?Q?GamKCJkkBKHBOWCdnhv0xdWCPaH84gsDJXYG4mQp/qUa9cYd1fV9yVz3etq5?=
+ =?us-ascii?Q?+AWi7RubWXGwfMk7L3SIVNpYifuJnBRXYqp+3oYxy5dugIfTGCgUJnijVOXx?=
+ =?us-ascii?Q?lg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-3-7f457073282d@oss.qualcomm.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52badbca-965f-4132-4a46-08dd6e8cc201
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2025 06:41:38.5790
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PaEXXGrpsmKjorkc9k7F3qO+sRdFC6Q48jG544q2g8X7hBgr472+kxKlqHmMcA5M577N34iaqOlszBDgQNossvbDMMmYaxYqmrnRPX4LkcQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB13676
 
-Hi Amirreza,
+Hi all,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on db8da9da41bced445077925f8a886c776a47440c]
+> -----Original Message-----
+> From: kernel test robot <lkp@intel.com>
+> Sent: 28 March 2025 21:44
+> Subject: drivers/mmc/host/renesas_sdhi_core.c:951: undefined reference to=
+ `rdev_get_drvdata'
+>=20
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   acb4f33713b9f6cadb6143f211714c343465411c
+> commit: fae80a99dc0320be854aa789cbe7ed0e1e574c61 mmc: renesas_sdhi: Add s=
+upport for RZ/G3E SoC
+> date:   2 weeks ago
+> config: arm-randconfig-r111-20250328 (https://download.01.org/0day-
+> ci/archive/20250329/202503290554.zASQT70Q-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+> reproduce: (https://download.01.org/0day-ci/archive/20250329/202503290554=
+.zASQT70Q-
+> lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of the same
+> patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:
+> | https://lore.kernel.org/oe-kbuild-all/202503290554.zASQT70Q-lkp@intel.
+> | com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    arm-linux-gnueabi-ld: drivers/mmc/host/renesas_sdhi_core.o: in functio=
+n
+> `renesas_sdhi_regulator_is_enabled':
+> >> drivers/mmc/host/renesas_sdhi_core.c:951: undefined reference to `rdev=
+_get_drvdata'
+>    arm-linux-gnueabi-ld: drivers/mmc/host/renesas_sdhi_core.o: in functio=
+n
+> `renesas_sdhi_regulator_get_voltage':
+>    drivers/mmc/host/renesas_sdhi_core.c:961: undefined reference to `rdev=
+_get_drvdata'
+>    arm-linux-gnueabi-ld: drivers/mmc/host/renesas_sdhi_core.o: in functio=
+n
+> `renesas_sdhi_regulator_disable':
+>    drivers/mmc/host/renesas_sdhi_core.c:927: undefined reference to `rdev=
+_get_drvdata'
+>    arm-linux-gnueabi-ld: drivers/mmc/host/renesas_sdhi_core.o: in functio=
+n
+> `renesas_sdhi_regulator_enable':
+>    drivers/mmc/host/renesas_sdhi_core.c:939: undefined reference to `rdev=
+_get_drvdata'
+>    arm-linux-gnueabi-ld: drivers/mmc/host/renesas_sdhi_core.o: in functio=
+n
+> `renesas_sdhi_regulator_set_voltage':
+>    drivers/mmc/host/renesas_sdhi_core.c:973: undefined reference to `rdev=
+_get_drvdata'
+>    arm-linux-gnueabi-ld: drivers/mmc/host/renesas_sdhi_core.o: in functio=
+n `renesas_sdhi_probe':
+> >> drivers/mmc/host/renesas_sdhi_core.c:1177: undefined reference to `dev=
+m_regulator_register'
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250328-104950
-base:   db8da9da41bced445077925f8a886c776a47440c
-patch link:    https://lore.kernel.org/r/20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-3-7f457073282d%40oss.qualcomm.com
-patch subject: [PATCH v3 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-config: x86_64-randconfig-122-20250329 (https://download.01.org/0day-ci/archive/20250329/202503291204.imMRd3l7-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291204.imMRd3l7-lkp@intel.com/reproduce)
+CONFIG_REGULATOR is not enabled in arm-randconfig-r111-20250328 that is lea=
+ding
+to this build issue.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503291204.imMRd3l7-lkp@intel.com/
+I will send a fix by "select REGULATOR" in config MMC_SDHI
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/tee/tee_core.c:410:48: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] uaddr @@     got void [noderef] __user * @@
-   drivers/tee/tee_core.c:410:48: sparse:     expected void *[noderef] uaddr
-   drivers/tee/tee_core.c:410:48: sparse:     got void [noderef] __user *
->> drivers/tee/tee_core.c:413:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got void *[noderef] uaddr @@
-   drivers/tee/tee_core.c:413:30: sparse:     expected void const [noderef] __user *ptr
-   drivers/tee/tee_core.c:413:30: sparse:     got void *[noderef] uaddr
-   drivers/tee/tee_core.c:802:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] uaddr @@     got void [noderef] __user * @@
-   drivers/tee/tee_core.c:802:41: sparse:     expected void *[noderef] uaddr
-   drivers/tee/tee_core.c:802:41: sparse:     got void [noderef] __user *
-   drivers/tee/tee_core.c:805:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got void *[noderef] uaddr @@
-   drivers/tee/tee_core.c:805:30: sparse:     expected void const [noderef] __user *ptr
-   drivers/tee/tee_core.c:805:30: sparse:     got void *[noderef] uaddr
->> drivers/tee/tee_core.c:413:30: sparse: sparse: dereference of noderef expression
->> drivers/tee/tee_core.c:413:30: sparse: sparse: dereference of noderef expression
-   drivers/tee/tee_core.c:694:37: sparse: sparse: dereference of noderef expression
-   drivers/tee/tee_core.c:805:30: sparse: sparse: dereference of noderef expression
-   drivers/tee/tee_core.c:805:30: sparse: sparse: dereference of noderef expression
+Cheers,
+Biju
 
-vim +410 drivers/tee/tee_core.c
-
-   378	
-   379	static int params_from_user(struct tee_context *ctx, struct tee_param *params,
-   380				    size_t num_params,
-   381				    struct tee_ioctl_param __user *uparams)
-   382	{
-   383		size_t n;
-   384	
-   385		for (n = 0; n < num_params; n++) {
-   386			struct tee_shm *shm;
-   387			struct tee_ioctl_param ip;
-   388	
-   389			if (copy_from_user(&ip, uparams + n, sizeof(ip)))
-   390				return -EFAULT;
-   391	
-   392			/* All unused attribute bits has to be zero */
-   393			if (ip.attr & ~TEE_IOCTL_PARAM_ATTR_MASK)
-   394				return -EINVAL;
-   395	
-   396			params[n].attr = ip.attr;
-   397			switch (ip.attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
-   398			case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
-   399			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
-   400				break;
-   401			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
-   402			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
-   403				params[n].u.value.a = ip.a;
-   404				params[n].u.value.b = ip.b;
-   405				params[n].u.value.c = ip.c;
-   406				break;
-   407			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
-   408			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-   409			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
- > 410				params[n].u.ubuf.uaddr = u64_to_user_ptr(ip.a);
-   411				params[n].u.ubuf.size = ip.b;
-   412	
- > 413				if (!access_ok(params[n].u.ubuf.uaddr,
-   414					       params[n].u.ubuf.size))
-   415					return -EFAULT;
-   416	
-   417				break;
-   418			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
-   419			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
-   420			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-   421				/*
-   422				 * If a NULL pointer is passed to a TA in the TEE,
-   423				 * the ip.c IOCTL parameters is set to TEE_MEMREF_NULL
-   424				 * indicating a NULL memory reference.
-   425				 */
-   426				if (ip.c != TEE_MEMREF_NULL) {
-   427					/*
-   428					 * If we fail to get a pointer to a shared
-   429					 * memory object (and increase the ref count)
-   430					 * from an identifier we return an error. All
-   431					 * pointers that has been added in params have
-   432					 * an increased ref count. It's the callers
-   433					 * responibility to do tee_shm_put() on all
-   434					 * resolved pointers.
-   435					 */
-   436					shm = tee_shm_get_from_id(ctx, ip.c);
-   437					if (IS_ERR(shm))
-   438						return PTR_ERR(shm);
-   439	
-   440					/*
-   441					 * Ensure offset + size does not overflow
-   442					 * offset and does not overflow the size of
-   443					 * the referred shared memory object.
-   444					 */
-   445					if ((ip.a + ip.b) < ip.a ||
-   446					    (ip.a + ip.b) > shm->size) {
-   447						tee_shm_put(shm);
-   448						return -EINVAL;
-   449					}
-   450				} else if (ctx->cap_memref_null) {
-   451					/* Pass NULL pointer to OP-TEE */
-   452					shm = NULL;
-   453				} else {
-   454					return -EINVAL;
-   455				}
-   456	
-   457				params[n].u.memref.shm_offs = ip.a;
-   458				params[n].u.memref.size = ip.b;
-   459				params[n].u.memref.shm = shm;
-   460				break;
-   461			default:
-   462				/* Unknown attribute */
-   463				return -EINVAL;
-   464			}
-   465		}
-   466		return 0;
-   467	}
-   468	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>=20
+>=20
+> vim +951 drivers/mmc/host/renesas_sdhi_core.c
+>=20
+>    948
+>    949	static int renesas_sdhi_regulator_is_enabled(struct regulator_dev =
+*rdev)
+>    950	{
+>  > 951		struct tmio_mmc_host *host =3D rdev_get_drvdata(rdev);
+>    952		u32 sd_status;
+>    953
+>    954		sd_status =3D sd_ctrl_read32(host, CTL_SD_STATUS);
+>    955
+>    956		return (sd_status & SD_STATUS_PWEN) ? 1 : 0;
+>    957	}
+>    958
+>    959	static int renesas_sdhi_regulator_get_voltage(struct regulator_dev=
+ *rdev)
+>    960	{
+>  > 961		struct tmio_mmc_host *host =3D rdev_get_drvdata(rdev);
+>    962		u32 sd_status;
+>    963
+>    964		sd_status =3D sd_ctrl_read32(host, CTL_SD_STATUS);
+>    965
+>    966		return (sd_status & SD_STATUS_IOVS) ? 1800000 : 3300000;
+>    967	}
+>    968
+>=20
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
