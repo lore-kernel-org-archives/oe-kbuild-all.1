@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27D2149DFF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 22:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F2279CD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Mar 2025 00:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743288154; cv=none; b=Yz4cgXp0aCFcLC/1xF/9uw5Ey6vBRoCmJClO6ZMkzwppyk7SCQ+bG9KaH+eL8ecOHsEbFqYYoLi1YydrCwqzNy2rYZqyEk6hWNW6kL5GEqktLM/VcZJ7dZf62IM5Q3Ce0f59a10Fm44BM1TfgGhLlSTYiyCs9T7ETfIJkzxPYTw=
+	t=1743295119; cv=none; b=h0+qcfRX8B9HheE3BDRWh3DTymXCSdTlsus86wleG4sqHS0H9TPq0x/eqVf4j5P6tr7lXmzppWyk+HRrvQSCDtF7GMOQG2hC3JIp4ujLgEUUwIh7RyOB78/Wg4gi5GhVztsl2CUpgPQNEoQurWRexc63lySMzn3zHihcFOT4Ap8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743288154; c=relaxed/simple;
-	bh=5F7PLCycf8m26vkR9hMMvu+BSgLkQRrHLwUuxrnyZQ0=;
+	s=arc-20240116; t=1743295119; c=relaxed/simple;
+	bh=WO5FMS8kbpXGy7RXv6RQa6IJb/8q/1RyuHgH7E6XOkI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ls8NcWZWX5nmJ/PK17TRSGyMBiraHCHGmtpVNNxDUz+vkVpN6osjtusLkrOtDuysD0lmXAcmJvXaSWnIchUvy7H4PiWofHAyKFqdfLFZViDz35MqbJovohqD2MIlCqp6SowoZfchjxm5HJLcd5GO3Cw7FDKVkJqNYEDaxlm6OaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IPr8zFkP; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition:In-Reply-To; b=q0AnrIq6S6EBbiTt8L2BwxJR8vXECLagqO3OXCNk/6i8eBfSO9a1WIJo/KAmYpbtcE6230oT2YM1pTgR9OCYmWk4/A9kiGbsYUlBbm5a7VYABBD54CRBrfzsOPVifSYEFTgvJmOdReWVVU2vKKXV3p4BwHUipd+1vgCb6weoyTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8U4njPO; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPr8zFkP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8U4njPO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743288152; x=1774824152;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5F7PLCycf8m26vkR9hMMvu+BSgLkQRrHLwUuxrnyZQ0=;
-  b=IPr8zFkPoi69lj5/GW7OJlF2brOzkWd8P1fEh4bLvXfVTPxPnaJ2v7sW
-   HXcCkQ5Z+Hs1GYzPD3TU8MHIhlP3xJyf0XiojTXgaKv2IbYyWiv1tK4E8
-   xM59ooiSRjju831VUpBxe1i3hhDnsmKGyIPKvZi7DHcEm33Lb3WSnB9yh
-   jDl+4DCiRkBcd2jluxkI3fRgT06hk+Vp+IQEVw9qDlzciN0SHBWHgAoqn
-   tXoDOEf6Znqe1p4w4VtEnX47Mv9KADOBTyuYb/5bEXcXMKfUOFLzJH0Sf
-   sVDFmdjaxFt/+bozJVA23TVaOZ0vgDb5b/FdH/MeT13QbqyV0xBL4k7EY
-   w==;
-X-CSE-ConnectionGUID: aT3gb8bfR6uYWX8ox3GbNg==
-X-CSE-MsgGUID: j5scXybNTYCXt1u1aAoNUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="48281292"
+  t=1743295116; x=1774831116;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=WO5FMS8kbpXGy7RXv6RQa6IJb/8q/1RyuHgH7E6XOkI=;
+  b=I8U4njPOzQE7GKLZRMgINQ/7WfxR1r2AipP9Iuw8y5xyzneEKy3+ZDMx
+   O4lhi3KH9vgx4NS+amHVnEUlnl9TQVYXhbOdmPaqrww3juFFYMBxMSzkM
+   qc6j4WZbYg4WdHI/1KIh29JI1uS/6zD2txHZ6kWa04KR9AeRRHx3Jo1hv
+   UFq7qnpMnPjjJht8g1QHEApUyv6jxfejWh066zGGSi8Ei9at1YfhabH2p
+   3OEKwyW6ugYRSipxGT9kFjvbeRU8+by8UM1u/jQS8zDATUnaEgpQwciE1
+   42g6k+KLIautNqJnmXqVnmVh35ZWaRXPfdXv+h/itBhozazhlGB/86EDD
+   A==;
+X-CSE-ConnectionGUID: wqqorSRGTC+LXsnCfEZ9Sg==
+X-CSE-MsgGUID: vIsJqL5tSj6kEr3UVQKlaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="44534949"
 X-IronPort-AV: E=Sophos;i="6.14,286,1736841600"; 
-   d="scan'208";a="48281292"
+   d="scan'208";a="44534949"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 15:42:31 -0700
-X-CSE-ConnectionGUID: f1PAU4HzSCKTKZos8QPROQ==
-X-CSE-MsgGUID: gwuN8ddzQqOH0QhN5QQaeg==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 17:38:36 -0700
+X-CSE-ConnectionGUID: p5e6QtJ4SpaqQppTa0QEog==
+X-CSE-MsgGUID: ILQ+Jzw2RPmJ58FDfOFoeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,286,1736841600"; 
-   d="scan'208";a="130595593"
+   d="scan'208";a="130613367"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 29 Mar 2025 15:42:30 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Mar 2025 17:38:35 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tyesl-0008P8-2k;
-	Sat, 29 Mar 2025 22:42:27 +0000
-Date: Sun, 30 Mar 2025 06:41:49 +0800
+	id 1tygh7-0008SD-0K;
+	Sun, 30 Mar 2025 00:38:33 +0000
+Date: Sun, 30 Mar 2025 08:38:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1531/1531]
- drivers/xen/events/events_base.o: warning: objtool:
- xen_test_irq_shared()+0xe1: unreachable instruction
-Message-ID: <202503300608.WYcT007F-lkp@intel.com>
+To: Ryo Takakura <ryotkkr98@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] serial: sifive: lock port in startup()/shutdown()
+ callbacks
+Message-ID: <Z-iSb0ryR-tiUCj0@42be267012b8>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250330003522.386632-1-ryotkkr98@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5b56c883c34a890a3f9ca7baa8aea426538c88a8
-commit: fc0f59c16e93291923fcebd942b78c9bddfecc56 [1531/1531] xen/events: avoid removing an event channel while handling it
-config: x86_64-buildonly-randconfig-005-20250329 (https://download.01.org/0day-ci/archive/20250330/202503300608.WYcT007F-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250330/202503300608.WYcT007F-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503300608.WYcT007F-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   drivers/xen/events/events_base.c:1697:6: warning: no previous prototype for function 'xen_callback_vector' [-Wmissing-prototypes]
-    1697 | void xen_callback_vector(void) {}
-         |      ^
-   drivers/xen/events/events_base.c:1697:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1697 | void xen_callback_vector(void) {}
-         | ^
-         | static 
-   1 warning generated.
->> drivers/xen/events/events_base.o: warning: objtool: xen_test_irq_shared()+0xe1: unreachable instruction
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2 1/2] serial: sifive: lock port in startup()/shutdown() callbacks
+Link: https://lore.kernel.org/stable/20250330003522.386632-1-ryotkkr98%40gmail.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
