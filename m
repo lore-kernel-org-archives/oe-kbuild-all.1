@@ -1,144 +1,173 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0209F13C82E;
-	Sun, 30 Mar 2025 16:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547821D61BC;
+	Sun, 30 Mar 2025 18:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743352041; cv=none; b=VowQgL6Xr4pPMKVGBTAD3G+7EF/Z/7CkbtIV64XbMy/zcgpN0M/EI0tRQ9oFjHwt63aivYou+z1CNSKzNnE4CqBH3szUoiC8/r6sHGe+jn88CQV/qu+vNNnV8ya1qIKX2bpu3K3Bd+K+QVTqZcDDcGk7KeUvJJtr/I2KNPrx4ag=
+	t=1743358033; cv=none; b=jlEjS5sm17dGgGdeo8k/1hkSMA9ZBjDtlanJcl3MN1CQBRwVc2Xr8rOhyTN8KPKy6412ypKOcJxCpAns7NiEVLbvs+nYIV4mGH6wuxlbDl0I4fv6heLHDvQBTrzEazUVbZ6+t8Xx3bHRl9euQX9Op1shKnDSECgoMeMzNbnDX6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743352041; c=relaxed/simple;
-	bh=yuMDCsvKposzeCXdACJMvrgg4d8ecEbiYd0TqCc6xDA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cpN7xGO1QWr+YX4lXTRCjrGhYLJ8PSYhHypcRKIQjleWFTuvuaiztQAB+CFsxvaiJ9yRtTIRcwDkFpd2Nsc5GY4DJ+pGMQ0c8rYbVJgkoP0kzEAjuJkuM2EGyRRtAMlHWPhu1Qx1VNCTmeKnfrcWv+yiLkVToQVuRIdIXw2CJLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D4jFHaHR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743358033; c=relaxed/simple;
+	bh=9L+rkjvLISsAkTy8wBCwcU83sAKXupjGFDQkxg92qx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=roxoEJ3cjJb1uFOiRC5kQm+2uwTbvfnXsd02ZzINrfYJoiYVOujcAEHjIhA96l1LrNKp6nrEUOllcEupe9iq1XiX2CzNFAkDiCUoohF9Tgllqr979VOp1OiutNUbvZqAfRxkscfJiP5FjXCY7MoCQHU73D8ecg/00cvb2yZC4ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRqsi6n3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D4jFHaHR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C723C4CEDD;
-	Sun, 30 Mar 2025 16:27:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRqsi6n3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054E8C4CEDD;
+	Sun, 30 Mar 2025 18:07:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743352039;
-	bh=yuMDCsvKposzeCXdACJMvrgg4d8ecEbiYd0TqCc6xDA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=D4jFHaHRI12716bfNvJgcPxS24ys+wqORlM92WFk5+YD677HEPa1+CiV40JyA1vyl
-	 9TlXBWePxEj143MYOjzwsSRFKFl1w/N3lJ/EjS/XynRGalo+jWShUGzWC1S2C0h7qa
-	 owgE/ZFgsZGU1ZgPDtocRYMNXSxwIrxIChpSr0G5z5vdevPpqqB78hxaLmlQeddDWQ
-	 wqXYPkzxOgO1E5Kq4fz3jaXtfLq+hHY8WSyATN17SmZ0GE/DOz/9HiONNY2b6tpezx
-	 eQaO4RbHC1YU63hDr6QPvXXCo3jsuUD4aKLE2wI5njAVJot7MNzZPPN80yotW7au94
-	 WpoDT1Fgc1z3w==
-Message-ID: <af51edd9-20c2-4a51-856f-49bfebd1e46b@kernel.org>
-Date: Sun, 30 Mar 2025 18:27:15 +0200
+	s=k20201202; t=1743358032;
+	bh=9L+rkjvLISsAkTy8wBCwcU83sAKXupjGFDQkxg92qx0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FRqsi6n39l45qx8OyexNvZRR8ud3YvcOOy05DcKkNVydnBEakybz+2UDFidBhE6PG
+	 +M7o8Z1fb01/KcWTOrax0iWNKcpRBUkUYUNfcsYqHs5MIslZjFQbx7jK59/nCvdHpM
+	 KvC7i+uIlHXgk2H5eGWAx6Ua6Wus4nk1M57u0rNk7tNawn19h1p+bH8l/MtWUu997e
+	 pi3wpI+75y6ZSey3TV4OGSyTufnWrP6t9hqIxOowwegRm+9QrswL3ib3D78YB0LxNX
+	 rRsmNAJ2h9xJItQQEdp2x1oyZZDpDr3gTl4fnqbiUb34JRZdmWiP7VutAnQ7z1npU4
+	 1W+2eHhj+PpIA==
+Date: Sun, 30 Mar 2025 19:07:03 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ linux-iio@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Michael Hennerich <Michael.Hennerich@analog.com>, Angelo Dureghello
+ <adureghello@baylibre.com>, Alexandru Ardelean <aardelean@baylibre.com>,
+ Beniamin Bia <beniamin.bia@analog.com>, Stefan Popa
+ <stefan.popa@analog.com>, linux-kernel@vger.kernel.org, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>
+Subject: Re: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel
+ info
+Message-ID: <20250330190703.51e97942@jic23-huawei>
+In-Reply-To: <4854b569-5032-4b75-80a6-8c5822845dc7@baylibre.com>
+References: <72d776ae-4373-4a78-ba00-fa809478b453@stanley.mountain>
+	<4854b569-5032-4b75-80a6-8c5822845dc7@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool:
- .text.wcd934x_slim_irq_handler: unexpected end of section
-To: Oliver Sang <oliver.sang@intel.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-References: <202503180044.oH9gyPeg-lkp@intel.com>
- <80b1351d-3860-4849-b18a-0e736fe458fc@kernel.org>
- <Z9y/1xAN/08UFp9h@xsang-OptiPlex-9020>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <Z9y/1xAN/08UFp9h@xsang-OptiPlex-9020>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 21/03/2025 02:24, Oliver Sang wrote:
-> hi, Krzysztof,
-> 
-> On Mon, Mar 17, 2025 at 06:02:14PM +0100, Krzysztof Kozlowski wrote:
->> On 17/03/2025 17:24, kernel test robot wrote:
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->>> head:   4701f33a10702d5fc577c32434eb62adde0a1ae1
->>> commit: 9ea22713227397b56a2b36a68c8bda13f0b43d70 ASoC: codecs: wcd934x: Handle nicer probe deferral and simplify with dev_err_probe()
->>> date:   9 months ago
->>> config: x86_64-randconfig-102-20250317 (https://download.01.org/0day-ci/archive/20250318/202503180044.oH9gyPeg-lkp@intel.com/config)
->>> compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503180044.oH9gyPeg-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202503180044.oH9gyPeg-lkp@intel.com/
->>>
->>> All warnings (new ones prefixed by >>):
->>>
->>>>> sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section
->>
->> I cannot reproduce it on clang-18 and clang-19 (I do not have clang-20
->> in my distros) and I do not see how original commit could trigger this
->> warning.
-> 
-> we double confirmed, the issue is really only reproduced on clang-20
-> 
-> linux$make W=1 LLVM=1 -j32 ARCH=x86_64
-> 
-> ...
-> 
->   LD [M]  sound/soc/codecs/snd-soc-lpass-va-macro.o
-> sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section   <----
-> 
-> 
-> but cannot be reproduced on clang-19
-> 
-> linux$make W=1 LLVM=1 -j32 ARCH=x86_64
+On Mon, 24 Mar 2025 08:50:15 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
+> On 3/22/25 12:25 PM, Dan Carpenter wrote:
+> > Hi David,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad7606-check-for-NULL-before-calling-sw_mode_config/20250319-065737
+> > base:   9f36acefb2621d980734a5bb7d74e0e24e0af166
+> > patch link:    https://lore.kernel.org/r/20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c%40baylibre.com
+> > patch subject: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel info
+> > config: arm64-randconfig-r071-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222246.RafigmhQ-lkp@intel.com/config)
+> > compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202503222246.RafigmhQ-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/iio/adc/ad7606.c:1270 ad7606_probe_channels() warn: potentially one past the end of array 'channels[i]'
+> > 
+> > vim +1270 drivers/iio/adc/ad7606.c
+> > 
+> > 87cf5705725eeb David Lechner      2025-03-18  1196  static int ad7606_probe_channels(struct iio_dev *indio_dev)
+> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1197  {
+> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1198  	struct ad7606_state *st = iio_priv(indio_dev);
+> > 87cf5705725eeb David Lechner      2025-03-18  1199  	struct device *dev = indio_dev->dev.parent;
+> > 87cf5705725eeb David Lechner      2025-03-18  1200  	struct iio_chan_spec *channels;
+> > 87cf5705725eeb David Lechner      2025-03-18  1201  	bool slow_bus;
+> > 87cf5705725eeb David Lechner      2025-03-18  1202  	int ret, i;
+> > 87cf5705725eeb David Lechner      2025-03-18  1203  
+> > 87cf5705725eeb David Lechner      2025-03-18  1204  	slow_bus = !st->bops->iio_backend_config;
+> > 87cf5705725eeb David Lechner      2025-03-18  1205  	indio_dev->num_channels = st->chip_info->num_adc_channels;
+> > 87cf5705725eeb David Lechner      2025-03-18  1206  
+> > 87cf5705725eeb David Lechner      2025-03-18  1207  	/* Slow buses also get 1 more channel for soft timestamp */
+> > 87cf5705725eeb David Lechner      2025-03-18  1208  	if (slow_bus)
+> > 87cf5705725eeb David Lechner      2025-03-18  1209  		indio_dev->num_channels++;
+> > 87cf5705725eeb David Lechner      2025-03-18  1210  
+> > 87cf5705725eeb David Lechner      2025-03-18  1211  	channels = devm_kcalloc(dev, indio_dev->num_channels, sizeof(*channels),
+> > 87cf5705725eeb David Lechner      2025-03-18  1212  				GFP_KERNEL);
+> > 87cf5705725eeb David Lechner      2025-03-18  1213  	if (!channels)
+> > f3838e934dfff2 Alexandru Ardelean 2024-09-19  1214  		return -ENOMEM;
+> > f3838e934dfff2 Alexandru Ardelean 2024-09-19  1215  
+> > 87cf5705725eeb David Lechner      2025-03-18  1216  	for (i = 0; i < indio_dev->num_channels; i++) {  
+> 
+> The fix is to change this line to:
+> 
+> 							for (i = 0; i < st->chip_info->num_adc_channels; i++) {
+> 
+Tweaked and applied.
 
+> > 87cf5705725eeb David Lechner      2025-03-18  1217  		struct iio_chan_spec *chan = &channels[i];
+> > 87cf5705725eeb David Lechner      2025-03-18  1218  
+> > 87cf5705725eeb David Lechner      2025-03-18  1219  		chan->type = IIO_VOLTAGE;
+> > 87cf5705725eeb David Lechner      2025-03-18  1220  		chan->indexed = 1;
+> > 87cf5705725eeb David Lechner      2025-03-18  1221  		chan->channel = i;
+> > 87cf5705725eeb David Lechner      2025-03-18  1222  		chan->scan_index = i;
+> > 87cf5705725eeb David Lechner      2025-03-18  1223  		chan->scan_type.sign = 's';
+> > 87cf5705725eeb David Lechner      2025-03-18  1224  		chan->scan_type.realbits = st->chip_info->bits;
+> > 87cf5705725eeb David Lechner      2025-03-18  1225  		chan->scan_type.storagebits = st->chip_info->bits > 16 ? 32 : 16;
+> > 87cf5705725eeb David Lechner      2025-03-18  1226  		chan->scan_type.endianness = IIO_CPU;
+> > f3838e934dfff2 Alexandru Ardelean 2024-09-19  1227  
+> > 87cf5705725eeb David Lechner      2025-03-18  1228  		if (indio_dev->modes & INDIO_DIRECT_MODE)
+> > 87cf5705725eeb David Lechner      2025-03-18  1229  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_RAW);
+> > 87cf5705725eeb David Lechner      2025-03-18  1230  
+> > 87cf5705725eeb David Lechner      2025-03-18  1231  		if (st->sw_mode_en) {
+> > 87cf5705725eeb David Lechner      2025-03-18  1232  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_SCALE);
+> > 87cf5705725eeb David Lechner      2025-03-18  1233  			chan->info_mask_separate_available |=
+> > 87cf5705725eeb David Lechner      2025-03-18  1234  				BIT(IIO_CHAN_INFO_SCALE);
+> > 87cf5705725eeb David Lechner      2025-03-18  1235  
+> > 87cf5705725eeb David Lechner      2025-03-18  1236  			/*
+> > 87cf5705725eeb David Lechner      2025-03-18  1237  			 * All chips with software mode support oversampling,
+> > 87cf5705725eeb David Lechner      2025-03-18  1238  			 * so we skip the oversampling_available check. And the
+> > 87cf5705725eeb David Lechner      2025-03-18  1239  			 * shared_by_type instead of shared_by_all on slow
+> > 87cf5705725eeb David Lechner      2025-03-18  1240  			 * buses is for backward compatibility.
+> > 87cf5705725eeb David Lechner      2025-03-18  1241  			 */
+> > 87cf5705725eeb David Lechner      2025-03-18  1242  			if (slow_bus)
+> > 87cf5705725eeb David Lechner      2025-03-18  1243  				chan->info_mask_shared_by_type |=
+> > 87cf5705725eeb David Lechner      2025-03-18  1244  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> > 87cf5705725eeb David Lechner      2025-03-18  1245  			else
+> > 87cf5705725eeb David Lechner      2025-03-18  1246  				chan->info_mask_shared_by_all |=
+> > 87cf5705725eeb David Lechner      2025-03-18  1247  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> > 87cf5705725eeb David Lechner      2025-03-18  1248  
+> > 87cf5705725eeb David Lechner      2025-03-18  1249  			chan->info_mask_shared_by_all_available |=
+> > 87cf5705725eeb David Lechner      2025-03-18  1250  				BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> > 87cf5705725eeb David Lechner      2025-03-18  1251  		} else {
+> > 87cf5705725eeb David Lechner      2025-03-18  1252  			chan->info_mask_shared_by_type |=
+> > 87cf5705725eeb David Lechner      2025-03-18  1253  				BIT(IIO_CHAN_INFO_SCALE);
+> > 87cf5705725eeb David Lechner      2025-03-18  1254  
+> > 87cf5705725eeb David Lechner      2025-03-18  1255  			if (st->chip_info->oversampling_avail)
+> > 87cf5705725eeb David Lechner      2025-03-18  1256  				chan->info_mask_shared_by_all |=
+> > 87cf5705725eeb David Lechner      2025-03-18  1257  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> > 87cf5705725eeb David Lechner      2025-03-18  1258  		}
+> > 87cf5705725eeb David Lechner      2025-03-18  1259  
+> > 87cf5705725eeb David Lechner      2025-03-18  1260  		if (!slow_bus)
+> > 87cf5705725eeb David Lechner      2025-03-18  1261  			chan->info_mask_shared_by_all |=
+> > 87cf5705725eeb David Lechner      2025-03-18  1262  				BIT(IIO_CHAN_INFO_SAMP_FREQ);
+> > 87cf5705725eeb David Lechner      2025-03-18  1263  
+> > 87cf5705725eeb David Lechner      2025-03-18  1264  		ret = st->chip_info->scale_setup_cb(indio_dev, chan);
+> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1265  		if (ret)
+> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1266  			return ret;
+> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1267  	}
+> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1268  
+> > 87cf5705725eeb David Lechner      2025-03-18  1269  	if (slow_bus)
+> > 87cf5705725eeb David Lechner      2025-03-18 @1270  		channels[i] = (struct iio_chan_spec)IIO_CHAN_SOFT_TIMESTAMP(i);
+> >                                                                 ^^^^^^^^^^^
+> > i is == indio_dev->num_channels so this is out of bounds by one element.
+> > 
+> > 87cf5705725eeb David Lechner      2025-03-18  1271  
+> > 87cf5705725eeb David Lechner      2025-03-18  1272  	indio_dev->channels = channels;
+> > 87cf5705725eeb David Lechner      2025-03-18  1273  
+> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1274  	return 0;
+> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1275  }
+> >   
+> 
 
-Thanks, I still think this is a bug in clang because of two reasons:
-1. Code looks correct,
-2. I really, really, really do not see how
-9ea22713227397b56a2b36a68c8bda13f0b43d70, which is marked as as the
-culprit, could cause it.
-
-Best regards,
-Krzysztof
