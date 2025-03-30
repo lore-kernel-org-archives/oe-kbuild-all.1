@@ -1,87 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0102E2594
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Mar 2025 02:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06B8320F;
+	Sun, 30 Mar 2025 02:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743301551; cv=none; b=nhPBJnfTPQICUfDVog8mns/eGPpS9DysCCU4uooG3Q5kvQEaTqOqEmXH2Re62rqzVlxSC6hVBfZ5zNke6KFMYP3OzN0Hc3tBCwnG7h75rk/DH/4tgRvSlAKvOOS7kiIt8dkoa1fEflWyInbjIGew5OEamobh3TbFrNtjfSqSPRo=
+	t=1743302670; cv=none; b=NquVSNjT9dwSZ/DP0lqYbW+LTbrF4OGrepgqs28JdCSFP5XHLvFOmEF6VQrIRIPJ3zzkA/uiTfOI/ErxvHmCsZk57KFChgWLjRKS+9p819CNkxSrhEKqKD11HSd8o+Uw8hChQaQ1j5FlM0sSP+aMUjOjbap6+fcy3IzS6PWpeNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743301551; c=relaxed/simple;
-	bh=MxjsXHq4Qn73+x27HdeXst3ZF8+cblBHvvBqyvCoNDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bJnw/bQcRZoKiTLSSp+K34ytvjvSkvCHoPrMFaZL55GWyjHykDcjFUEsfoNsoenHKu5IJ02BqJ6miLTNvrk7e+QuGFZ2qPA0GY7AjkCxU9RloLb0Dc+jU/RBT8bDEMG+cB0/Uob8gQNZU95fwjTC7x7H1ur1/p2GBA1vf3E8sbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+nkAVbi; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743302670; c=relaxed/simple;
+	bh=bUzG6iHMdOHdWj6cWwdHg2M6/1+L2tvVKFq6qVVQydg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FrJURInAs3i6Lx2IBd4QOUR26Xz4klAqWy3uabd/SmZWBPaovfmab2sUXR+GB7MA8Y1QvPz8pAKDpFSW1stMFPNggNx7OZfyxQSdjT94X8RemhNi2QDO9bxaCKzNsrv7JlCjq4wNDVd2ZN4dTM+8QuIfyZu822Xsthylwm2fHlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=heUNqwVA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+nkAVbi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743301549; x=1774837549;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MxjsXHq4Qn73+x27HdeXst3ZF8+cblBHvvBqyvCoNDI=;
-  b=I+nkAVbirE56+6vdNLG8euxynxZPnroeevI9aSBwsn4qPRat9h/3E2vW
-   A9YOrebxeLeNvpLbYldzeSge0R9aZfXY2cgqyJv4K5T+QF/hmu+UWPzov
-   zyCUAVy4xQlM2afhNX8HmwbN6eipKtgg6f/LSyuKKAs9cambx9mjuHdm6
-   E1mfSL3hhblXRarTgT5rUFLODnrnnu3sdyNrKo/7jZVUhbPx/fW7xxk2r
-   Nt1mmKrPWY4qhtO5OQLDtjpAZ64ljaCne56efzdZirR5ZE1pG7+4+4VzS
-   FlJy2UXaECnKKRU+EE3S+NvGrLHUWkqVxwMdFEjitAKWsQJhd5T58PBfx
-   g==;
-X-CSE-ConnectionGUID: 1XM4uIb0StyKDrjNMibuSA==
-X-CSE-MsgGUID: Ql69pxI4TVSXsfZoW/PdgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="48286646"
-X-IronPort-AV: E=Sophos;i="6.14,287,1736841600"; 
-   d="scan'208";a="48286646"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 19:25:48 -0700
-X-CSE-ConnectionGUID: SkNq6dH9TS2GL9nGCSZs9Q==
-X-CSE-MsgGUID: pcWGE7PJQ8GHIDHJuQcAdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,287,1736841600"; 
-   d="scan'208";a="156773104"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Mar 2025 19:25:47 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tyiMr-0008Tm-04;
-	Sun, 30 Mar 2025 02:25:45 +0000
-Date: Sun, 30 Mar 2025 10:25:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1531/1531] block/blk-mq.o: warning:
- objtool: blk_mq_unfreeze_queue()+0x75: unreachable instruction
-Message-ID: <202503301024.26J3J3nq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="heUNqwVA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02478C4CEE2;
+	Sun, 30 Mar 2025 02:44:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743302669;
+	bh=bUzG6iHMdOHdWj6cWwdHg2M6/1+L2tvVKFq6qVVQydg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=heUNqwVAKv5Ln40Suv3V4UVj5eQxLD1nDvfA399+VbFU6zRBgkLCmWNowbozLRj3e
+	 3efZsPNHIqAR1xJ7jYr4cTpT6HiXfhEkkIoyYCpzXTEqo0KhxULDF1wH1HReJDNAgq
+	 8z0xt+L5KAjAnlDx/W1ZBYX2eqPLdGDD984f2Mmtc1HDbNmQE0i93H6q3nNDmcqaXL
+	 I9JX6g3yzkHKbji0a3iNKk4J/FeQaJs9v0y9w151fEy8o1DRf4xZjU8cI8ksgQ/FVl
+	 IZv6aZaJXaL8+dFQXZsoZLiKnUftmT1Bg1V903pP0R85QcNr0y2yaYy1u158jx8NUr
+	 0SkjVZQxohP4Q==
+Date: Sat, 29 Mar 2025 19:44:26 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	Ingo Molnar <mingo@kernel.org>
+Subject: Re: [tip:objtool/urgent 9/23] vmlinux.o: warning: objtool:
+ cdns_mrvl_xspi_setup_clock: unexpected end of section
+ .text.cdns_mrvl_xspi_setup_clock
+Message-ID: <rza3hjwh5j4trizohbc4um53mej4nz7ie6adydbepncxjpoqd2@l67idl6i5mmy>
+References: <202503282236.UhfRsF3B-lkp@intel.com>
+ <az2awlpfs7wt46kwql7ke3iereryykdroymfuaxawz5gozaxyi@rhlmbjkp3sdg>
+ <20250328232449.GA2955081@ax162>
+ <nbth6u2fgdbtw52ll5tzc5qfrfasikqcjbx4eltdezqcagnkkg@wwtkkf2vrjbc>
+ <20250329200656.GA127272@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20250329200656.GA127272@ax162>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5b56c883c34a890a3f9ca7baa8aea426538c88a8
-commit: cbd9fe6e727ed12c1e542f74514e6dd4419f1cf6 [1531/1531] blk-mq: fix hang caused by freeze/unfreeze sequence
-config: x86_64-buildonly-randconfig-005-20250329 (https://download.01.org/0day-ci/archive/20250330/202503301024.26J3J3nq-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250330/202503301024.26J3J3nq-lkp@intel.com/reproduce)
+On Sat, Mar 29, 2025 at 01:06:56PM -0700, Nathan Chancellor wrote:
+> On Fri, Mar 28, 2025 at 09:46:06PM -0700, Josh Poimboeuf wrote:
+> > On Fri, Mar 28, 2025 at 04:24:49PM -0700, Nathan Chancellor wrote:
+> > > vmlinux.o: warning: objtool: synaptics_report_mt_data: unexpected end of section .text.synaptics_report_mt_data
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x33e: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x254: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x1d4: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x1b8: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x156: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x13a: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0xda: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0xbe: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x63: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x48: (branch)
+> > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x0: <=== (sym)
+> > > ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --static-call --uaccess --noinstr --link vmlinux.o.orig -o vmlinux.o
+> > 
+> > Nice!  Can you share the disassembly of the function?
+> 
+> Sure thing!
+> 
+> >   objdump -drw -j .text.synaptics_report_mt_data vmlinux.o.orig
+> 
+> 0000000000000000 <synaptics_report_mt_data>:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503301024.26J3J3nq-lkp@intel.com/
+This is KCOV leaving dead code again.  I thought I had silenced those
+with
 
-All warnings (new ones prefixed by >>):
+  6b023c784204 ("objtool: Silence more KCOV warnings")
 
-   block/blk-mq.c:600:44: warning: passing 8-byte aligned argument to 32-byte aligned parameter 2 of 'smp_call_function_single_async' may result in an unaligned pointer access [-Walign-mismatch]
-     600 |                 smp_call_function_single_async(ctx->cpu, &rq->csd);
-         |                                                          ^
-   1 warning generated.
->> block/blk-mq.o: warning: objtool: blk_mq_unfreeze_queue()+0x75: unreachable instruction
+but it looks like I mixed up GCOV_KERNEL with KCOV.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Can you confirm this fixes?
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index b93597420daf..4d543054f723 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -275,7 +275,7 @@ objtool-args-$(CONFIG_MITIGATION_SLS)			+= --sls
+ objtool-args-$(CONFIG_STACK_VALIDATION)			+= --stackval
+ objtool-args-$(CONFIG_HAVE_STATIC_CALL_INLINE)		+= --static-call
+ objtool-args-$(CONFIG_HAVE_UACCESS_VALIDATION)		+= --uaccess
+-objtool-args-$(CONFIG_GCOV_KERNEL)			+= --no-unreachable
++objtool-args-$(or $(CONFIG_GCOV_KERNEL),$(CONFIG_KCOV))	+= --no-unreachable
+ objtool-args-$(CONFIG_PREFIX_SYMBOLS)			+= --prefix=$(CONFIG_FUNCTION_PADDING_BYTES)
+ objtool-args-$(CONFIG_OBJTOOL_WERROR)			+= --Werror
+ 
