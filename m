@@ -1,158 +1,104 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0441A524F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Mar 2025 18:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6B820E6;
+	Sun, 30 Mar 2025 19:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743359884; cv=none; b=BF4BMTlB0+VtyUxXWg8+b3mnuvL9pO9Wbs5+PG01Dt6kdVMvUYjfYF8oTcJxjBuAtAM1toH7MiOCK7GZY+VnfLS23fydyGbJhVX+4YAH8cvL/Z/A42wxjMItLQP8d2CSatbFlJTmC+Et6Uhda5uSu5EVHwduYb1JxIspQj5ImfM=
+	t=1743363494; cv=none; b=pU2GJ+HFiH+ZL6tZIQOjF+24LOLScvbgTIJOvGBK60TnHk1Kvd6l5EeNvehqS8DRcew62pMYTDFhxA/dPUrUezXDfd5xJ55beJkxW1Bsoe7O2QemXHl2VEOpS0yv+Gk5z/RoEBH82xGB05Z3WdIt0V2siRg8J2Legk8O9+Ghk7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743359884; c=relaxed/simple;
-	bh=pkY4c8FHlxzdFNGqG+eb9HZyAmPvfA00bP0RLScqCb8=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=fcIVIw0jzgeCh4s+ZdhMOSFWcDbhZJQdOXEF7kOpA5NZZbLSia0yZODJ6p0IYC31OBc2/CL+aWKJXY5xqNyFKVI+9YOkIz3tCPDF8Z7qV30w+qNqapk8/jZi4foM4GW3Z45om2M5y+jI6DcHLm5m7D1CiUa+n27Yd6GinAcZZn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=LGpCoIzb; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1743363494; c=relaxed/simple;
+	bh=jmWW0iE1sq3mbul0/uhjRIUyrnnYPzrWGh+NNUJaLaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G45HjgOdyQMtbm7fWvmhN2FbYdVhS3oFIWHi+8JLn1OZ3Wqt9hYUvAU1hDJAXNJnp4KjTjsFIOBCCqImadW39Rh1JOHOMIX4gq6AtIwwzwZ49R+o0GV0UURB2+Ziio8nM9kjTJa1olKkU58UbFCX5WwBVwI7obysSzZuXyMtNgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rvlOc3zQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="LGpCoIzb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PxIQWxjk0JSpOwy5cDVIhfRPf0gWcG0YhaYFdxmbneo=;
-  b=LGpCoIzb7carg5oYs4IP+88YEyngeq/Syt/lqU+c/Vuba/PYx0zV58jx
-   IWZ4GQy7Nk/LOQFOlcPsrIR/jtVY+jKzfpk4CMa6BDVWJPQIU0kLMjpEB
-   vftdjUtZR8ICqLpkoy/VTXu8A5cA8VEN8YSMohZ9UlDFBEgNdroe15DO6
-   Y=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.14,289,1736809200"; 
-   d="scan'208";a="112970248"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2025 20:38:01 +0200
-Date: Sun, 30 Mar 2025 20:37:59 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Gabriele Monaco <gmonaco@redhat.com>
-cc: "Steven Rostedt (Google)" <rostedt@goodmis.org>, 
-    linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: kernel/trace/rv/rv.c:812:2-8: preceding lock on line 790 (fwd)
-Message-ID: <alpine.DEB.2.22.394.2503302037080.23941@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rvlOc3zQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6052C4CEDD;
+	Sun, 30 Mar 2025 19:38:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743363494;
+	bh=jmWW0iE1sq3mbul0/uhjRIUyrnnYPzrWGh+NNUJaLaQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rvlOc3zQDU6tIYZS1hbc8qWgrnNVUdqOPGvxd/WD8/CiYxoLifMFL7ubIoHkAmaZc
+	 EeAHs7PAdJHGqFAEF+XO/DGyQa55GC8o/4mJ/ML9WlhNLr0FlsJxMA936lAQnPwwxu
+	 Lj3m95kxi58erV5dYY6s1j0J7swQhUXQB4lI55nsMRD2Mbfoug8EpJ6cIEwxhTA35f
+	 8zVanFi2Asbp6RrACVCRXAVxGLWb1vGPAq4b9jOHLtqtGwn+DPU1hO57scoihtziE4
+	 kvEN56oJ4keJU95ox9N9RKFGKWqokeQOXI/zGxJ2H9cRjwki2hZ/h/Ip0wAbdwz93P
+	 E8x8q2qjWxltA==
+Date: Sun, 30 Mar 2025 12:38:09 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
+Subject: Re: [tip:objtool/urgent 9/23] vmlinux.o: warning: objtool:
+ cdns_mrvl_xspi_setup_clock: unexpected end of section
+ .text.cdns_mrvl_xspi_setup_clock
+Message-ID: <20250330193809.GA62063@ax162>
+References: <202503282236.UhfRsF3B-lkp@intel.com>
+ <az2awlpfs7wt46kwql7ke3iereryykdroymfuaxawz5gozaxyi@rhlmbjkp3sdg>
+ <20250328232449.GA2955081@ax162>
+ <nbth6u2fgdbtw52ll5tzc5qfrfasikqcjbx4eltdezqcagnkkg@wwtkkf2vrjbc>
+ <20250329200656.GA127272@ax162>
+ <rza3hjwh5j4trizohbc4um53mej4nz7ie6adydbepncxjpoqd2@l67idl6i5mmy>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <rza3hjwh5j4trizohbc4um53mej4nz7ie6adydbepncxjpoqd2@l67idl6i5mmy>
 
-Please check on whether line 812 needs an unlock.
+On Sat, Mar 29, 2025 at 07:44:26PM -0700, Josh Poimboeuf wrote:
+> On Sat, Mar 29, 2025 at 01:06:56PM -0700, Nathan Chancellor wrote:
+> > On Fri, Mar 28, 2025 at 09:46:06PM -0700, Josh Poimboeuf wrote:
+> > > On Fri, Mar 28, 2025 at 04:24:49PM -0700, Nathan Chancellor wrote:
+> > > > vmlinux.o: warning: objtool: synaptics_report_mt_data: unexpected end of section .text.synaptics_report_mt_data
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x33e: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x254: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x1d4: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x1b8: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x156: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x13a: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0xda: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0xbe: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x63: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x48: (branch)
+> > > > vmlinux.o: warning: objtool:   synaptics_report_mt_data+0x0: <=== (sym)
+> > > > ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --static-call --uaccess --noinstr --link vmlinux.o.orig -o vmlinux.o
+> > > 
+> > > Nice!  Can you share the disassembly of the function?
+> > 
+> > Sure thing!
+> > 
+> > >   objdump -drw -j .text.synaptics_report_mt_data vmlinux.o.orig
+> > 
+> > 0000000000000000 <synaptics_report_mt_data>:
+> 
+> This is KCOV leaving dead code again.  I thought I had silenced those
+> with
+> 
+>   6b023c784204 ("objtool: Silence more KCOV warnings")
+> 
+> but it looks like I mixed up GCOV_KERNEL with KCOV.
+> 
+> Can you confirm this fixes?
 
-julia
+Can confirm, that makes both warnings disappear in this configuration.
 
----------- Forwarded message ----------
-Date: Mon, 31 Mar 2025 02:25:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/trace/rv/rv.c:812:2-8: preceding lock on line 790
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Gabriele Monaco <gmonaco@redhat.com>
-CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7f2ff7b6261742ed52aa973ccdf99151b7cc3a50
-commit: cb85c660fcd4b3a03ed993affa0b2d1a8af2f06b rv: Add option for nested monitors and include sched
-date:   6 days ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 6 days ago
-config: loongarch-randconfig-r061-20250330 (https://download.01.org/0day-ci/archive/20250331/202503310200.UBXGitB4-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202503310200.UBXGitB4-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> kernel/trace/rv/rv.c:812:2-8: preceding lock on line 790
-
-vim +812 kernel/trace/rv/rv.c
-
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  771
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  772  /**
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  773   * rv_register_monitor - register a rv monitor.
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  774   * @monitor:    The rv_monitor to be registered.
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  775   * @parent:     The parent of the monitor to be registered, NULL if not nested.
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  776   *
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  777   * Returns 0 if successful, error otherwise.
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  778   */
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  779  int rv_register_monitor(struct rv_monitor *monitor, struct rv_monitor *parent)
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  780  {
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  781  	struct rv_monitor_def *r, *p = NULL;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  782  	int retval = 0;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  783
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  784  	if (strlen(monitor->name) >= MAX_RV_MONITOR_NAME_SIZE) {
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  785  		pr_info("Monitor %s has a name longer than %d\n", monitor->name,
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  786  			MAX_RV_MONITOR_NAME_SIZE);
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  787  		return -EINVAL;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  788  	}
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  789
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29 @790  	mutex_lock(&rv_interface_lock);
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  791
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  792  	list_for_each_entry(r, &rv_monitors_list, list) {
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  793  		if (strcmp(monitor->name, r->monitor->name) == 0) {
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  794  			pr_info("Monitor %s is already registered\n", monitor->name);
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  795  			retval = -EEXIST;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  796  			goto out_unlock;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  797  		}
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  798  	}
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  799
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  800  	if (parent) {
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  801  		list_for_each_entry(r, &rv_monitors_list, list) {
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  802  			if (strcmp(parent->name, r->monitor->name) == 0) {
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  803  				p = r;
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  804  				break;
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  805  			}
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  806  		}
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  807  	}
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  808
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  809  	if (p && rv_is_nested_monitor(p)) {
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  810  		pr_info("Parent monitor %s is already nested, cannot nest further\n",
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  811  			parent->name);
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05 @812  		return -EINVAL;
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  813  	}
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  814
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  815  	r = kzalloc(sizeof(struct rv_monitor_def), GFP_KERNEL);
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  816  	if (!r) {
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  817  		retval = -ENOMEM;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  818  		goto out_unlock;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  819  	}
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  820
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  821  	r->monitor = monitor;
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  822  	r->parent = parent;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  823
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  824  	retval = create_monitor_dir(r, p);
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  825  	if (retval) {
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  826  		kfree(r);
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  827  		goto out_unlock;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  828  	}
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  829
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  830  	/* keep children close to the parent for easier visualisation */
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  831  	if (p)
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  832  		list_add(&r->list, &p->list);
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  833  	else
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  834  		list_add_tail(&r->list, &rv_monitors_list);
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  835
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  836  out_unlock:
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  837  	mutex_unlock(&rv_interface_lock);
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  838  	return retval;
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  839  }
-102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  840
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index b93597420daf..4d543054f723 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -275,7 +275,7 @@ objtool-args-$(CONFIG_MITIGATION_SLS)			+= --sls
+>  objtool-args-$(CONFIG_STACK_VALIDATION)			+= --stackval
+>  objtool-args-$(CONFIG_HAVE_STATIC_CALL_INLINE)		+= --static-call
+>  objtool-args-$(CONFIG_HAVE_UACCESS_VALIDATION)		+= --uaccess
+> -objtool-args-$(CONFIG_GCOV_KERNEL)			+= --no-unreachable
+> +objtool-args-$(or $(CONFIG_GCOV_KERNEL),$(CONFIG_KCOV))	+= --no-unreachable
+>  objtool-args-$(CONFIG_PREFIX_SYMBOLS)			+= --prefix=$(CONFIG_FUNCTION_PADDING_BYTES)
+>  objtool-args-$(CONFIG_OBJTOOL_WERROR)			+= --Werror
+>  
