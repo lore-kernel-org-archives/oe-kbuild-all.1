@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFCC13C82E;
-	Sun, 30 Mar 2025 16:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0209F13C82E;
+	Sun, 30 Mar 2025 16:27:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743351869; cv=none; b=K5OkvVRxB356A9Px+kol8qnwfmpBIVzbDagfHOLvGYB57+0ywqPkCakyWwpFEWaCo9s/ycIEaW4co9/rO36WkZSj6PxdKA8fcb/AmZQ4bFhvbog7k+nbsmsZ1W1kIlcZ+9s3VRLhG4nltYpRwUwLe0azT5MQVlqmI5jKwTicMRY=
+	t=1743352041; cv=none; b=VowQgL6Xr4pPMKVGBTAD3G+7EF/Z/7CkbtIV64XbMy/zcgpN0M/EI0tRQ9oFjHwt63aivYou+z1CNSKzNnE4CqBH3szUoiC8/r6sHGe+jn88CQV/qu+vNNnV8ya1qIKX2bpu3K3Bd+K+QVTqZcDDcGk7KeUvJJtr/I2KNPrx4ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743351869; c=relaxed/simple;
-	bh=aI2M4oNuU25NFaZ5L72s+Ko/IYnhFbuKKcTZ2fxSHQE=;
+	s=arc-20240116; t=1743352041; c=relaxed/simple;
+	bh=yuMDCsvKposzeCXdACJMvrgg4d8ecEbiYd0TqCc6xDA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kCfc74dnZE7oOs/SXaYGySsh+MHaGMfs/Kz6qQnEPOZ1a7VYMVH06iE6t+tgJTJkf6jfLDOuiLJu37Ln1wRFhAwiWISJZsoG0ugIMQGYWJC3R3yFp+7Qe37Ecv0PaEFiSbUSXDI/QTbqC34D1xG9OvcRb51OFEBojy0cyuwFqVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dahyYVlf; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=cpN7xGO1QWr+YX4lXTRCjrGhYLJ8PSYhHypcRKIQjleWFTuvuaiztQAB+CFsxvaiJ9yRtTIRcwDkFpd2Nsc5GY4DJ+pGMQ0c8rYbVJgkoP0kzEAjuJkuM2EGyRRtAMlHWPhu1Qx1VNCTmeKnfrcWv+yiLkVToQVuRIdIXw2CJLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D4jFHaHR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dahyYVlf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C8F2C4CEDD;
-	Sun, 30 Mar 2025 16:24:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D4jFHaHR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C723C4CEDD;
+	Sun, 30 Mar 2025 16:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743351868;
-	bh=aI2M4oNuU25NFaZ5L72s+Ko/IYnhFbuKKcTZ2fxSHQE=;
+	s=k20201202; t=1743352039;
+	bh=yuMDCsvKposzeCXdACJMvrgg4d8ecEbiYd0TqCc6xDA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dahyYVlffMud7/eq0MB0yxag1CVbkor/nYaUVciV5oZ+zuSZiiqZfmgmo4M63jItn
-	 QzmcHIwo0ToI/E4VD4V0akftvusJokf9Ql4mPzBhnxoYR28Q9mGrL9rJIel1kxGsza
-	 o0IWY3i3wlxo92KkHn6DEVhrxzPjNaOZk+CGAvwhzGDKxzVbjFWJmXYEcOV3tFPA8g
-	 POWRCkh/eVxFDUHJXVRnZgHrKmgAVjVtTagRcilHOim5/Gst1zVC9PlT8W6Wcl+zMD
-	 iBLwxEAS4F8TG1QgcQyWLfEfjYbmgneX3fGQ4ydrTfohorqVd88bOxEdKJEQZWFsHu
-	 vq+s/2bNZjNCA==
-Message-ID: <bfb4739a-abfc-424b-87a0-889316767810@kernel.org>
-Date: Sun, 30 Mar 2025 18:24:23 +0200
+	b=D4jFHaHRI12716bfNvJgcPxS24ys+wqORlM92WFk5+YD677HEPa1+CiV40JyA1vyl
+	 9TlXBWePxEj143MYOjzwsSRFKFl1w/N3lJ/EjS/XynRGalo+jWShUGzWC1S2C0h7qa
+	 owgE/ZFgsZGU1ZgPDtocRYMNXSxwIrxIChpSr0G5z5vdevPpqqB78hxaLmlQeddDWQ
+	 wqXYPkzxOgO1E5Kq4fz3jaXtfLq+hHY8WSyATN17SmZ0GE/DOz/9HiONNY2b6tpezx
+	 eQaO4RbHC1YU63hDr6QPvXXCo3jsuUD4aKLE2wI5njAVJot7MNzZPPN80yotW7au94
+	 WpoDT1Fgc1z3w==
+Message-ID: <af51edd9-20c2-4a51-856f-49bfebd1e46b@kernel.org>
+Date: Sun, 30 Mar 2025 18:27:15 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,10 +35,14 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] dmaengine: pxa: Enable compile test
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <171f0c41-b88e-4e27-8819-4195417136fa@stanley.mountain>
+Subject: Re: sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool:
+ .text.wcd934x_slim_irq_handler: unexpected end of section
+To: Oliver Sang <oliver.sang@intel.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+References: <202503180044.oH9gyPeg-lkp@intel.com>
+ <80b1351d-3860-4849-b18a-0e736fe458fc@kernel.org>
+ <Z9y/1xAN/08UFp9h@xsang-OptiPlex-9020>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -84,59 +88,57 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <171f0c41-b88e-4e27-8819-4195417136fa@stanley.mountain>
+In-Reply-To: <Z9y/1xAN/08UFp9h@xsang-OptiPlex-9020>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 21/03/2025 15:57, Dan Carpenter wrote:
-> [ Ancient email got eaten by msmtp. Resending.  -dan ]
+On 21/03/2025 02:24, Oliver Sang wrote:
+> hi, Krzysztof,
 > 
-> Hi Krzysztof,
+> On Mon, Mar 17, 2025 at 06:02:14PM +0100, Krzysztof Kozlowski wrote:
+>> On 17/03/2025 17:24, kernel test robot wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>> head:   4701f33a10702d5fc577c32434eb62adde0a1ae1
+>>> commit: 9ea22713227397b56a2b36a68c8bda13f0b43d70 ASoC: codecs: wcd934x: Handle nicer probe deferral and simplify with dev_err_probe()
+>>> date:   9 months ago
+>>> config: x86_64-randconfig-102-20250317 (https://download.01.org/0day-ci/archive/20250318/202503180044.oH9gyPeg-lkp@intel.com/config)
+>>> compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503180044.oH9gyPeg-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202503180044.oH9gyPeg-lkp@intel.com/
+>>>
+>>> All warnings (new ones prefixed by >>):
+>>>
+>>>>> sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section
+>>
+>> I cannot reproduce it on clang-18 and clang-19 (I do not have clang-20
+>> in my distros) and I do not see how original commit could trigger this
+>> warning.
 > 
-> kernel test robot noticed the following build warnings:
+> we double confirmed, the issue is really only reproduced on clang-20
 > 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> linux$make W=1 LLVM=1 -j32 ARCH=x86_64
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/dmaengine-pxa-Enable-compile-test/20250115-031547
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-> patch link:    https://lore.kernel.org/r/20250114191316.857154-1-krzysztof.kozlowski%40linaro.org
-> patch subject: [PATCH v2 2/2] dmaengine: pxa: Enable compile test
-> config: parisc-randconfig-r072-20250124 (https://download.01.org/0day-ci/archive/20250125/202501252153.wCMpgWlF-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 14.2.0
+> ...
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202501252153.wCMpgWlF-lkp@intel.com/
+>   LD [M]  sound/soc/codecs/snd-soc-lpass-va-macro.o
+> sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section   <----
 > 
-> New smatch warnings:
-> drivers/dma/pxa_dma.c:595 clear_chan_irq() warn: variable dereferenced before check 'phy->vchan' (see line 593)
 > 
-> vim +595 drivers/dma/pxa_dma.c
+> but cannot be reproduced on clang-19
 > 
-> a57e16cf03339c Robert Jarzmik 2015-05-25  584  static unsigned int clear_chan_irq(struct pxad_phy *phy)
-> a57e16cf03339c Robert Jarzmik 2015-05-25  585  {
-> a57e16cf03339c Robert Jarzmik 2015-05-25  586  	u32 dcsr;
-> a57e16cf03339c Robert Jarzmik 2015-05-25  587  	u32 dint = readl(phy->base + DINT);
-> a57e16cf03339c Robert Jarzmik 2015-05-25  588  
-> a57e16cf03339c Robert Jarzmik 2015-05-25  589  	if (!(dint & BIT(phy->idx)))
-> a57e16cf03339c Robert Jarzmik 2015-05-25  590  		return PXA_DCSR_RUN;
-> a57e16cf03339c Robert Jarzmik 2015-05-25  591  
-> a57e16cf03339c Robert Jarzmik 2015-05-25  592  	/* clear irq */
-> a57e16cf03339c Robert Jarzmik 2015-05-25 @593  	dcsr = phy_readl_relaxed(phy, DCSR);
->                                                                          ^^^
-> if phy->vchan is NULL this will crash
+> linux$make W=1 LLVM=1 -j32 ARCH=x86_64
 
 
-Correct, but my commit only enabled compile testing thus allowed this to
-be checked on some popular platforms. Issue was already there.
 
-The code is called pxad_chan_handler(), which already has BUG_ON() on
-this, so I expect that condition is not possible.
-
-It would be nice to rewrite the code, but I am afraid it is way too old
-platform and no one cares enough.
+Thanks, I still think this is a bug in clang because of two reasons:
+1. Code looks correct,
+2. I really, really, really do not see how
+9ea22713227397b56a2b36a68c8bda13f0b43d70, which is marked as as the
+culprit, could cause it.
 
 Best regards,
 Krzysztof
