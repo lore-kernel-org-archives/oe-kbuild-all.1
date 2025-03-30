@@ -1,154 +1,87 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CB4360
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Mar 2025 01:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0102E2594
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Mar 2025 02:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743297425; cv=none; b=ONKQUWTBGAeYm+V7dpa93gUk9If0csRFViIksN638UdraANS+fn++tHvZGTBLJKglWUwDimYh3vZcPFfV8L3qreEx862oIk7R+aAevWa/j6p5ojDLxpN6TQhyqjrzYx6+hyOSIP4c47bKDuVZhhwcuhlxJNbGvsc+5lozuFY/kE=
+	t=1743301551; cv=none; b=nhPBJnfTPQICUfDVog8mns/eGPpS9DysCCU4uooG3Q5kvQEaTqOqEmXH2Re62rqzVlxSC6hVBfZ5zNke6KFMYP3OzN0Hc3tBCwnG7h75rk/DH/4tgRvSlAKvOOS7kiIt8dkoa1fEflWyInbjIGew5OEamobh3TbFrNtjfSqSPRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743297425; c=relaxed/simple;
-	bh=JH5PhsEjqUV63zXAEJGLPDt8Og1iMsdPVSrpr74+ndc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UwgqSj5l7vqQa+GvbyeItCFMzUAMD9vH2/iwrB057mFsDykfxseyVbhcJe+EKWuWoFz6nVPkNSMu15WJG0eF9kkhJIgWnmwV2ZWggqYA1/BfrLLgmyQNaqhhbuKlj+OtYhLw/4SU4pFpxPIeW5YiASCZcdmWMm+OOYybeHkb7lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kSylVVWN; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743301551; c=relaxed/simple;
+	bh=MxjsXHq4Qn73+x27HdeXst3ZF8+cblBHvvBqyvCoNDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bJnw/bQcRZoKiTLSSp+K34ytvjvSkvCHoPrMFaZL55GWyjHykDcjFUEsfoNsoenHKu5IJ02BqJ6miLTNvrk7e+QuGFZ2qPA0GY7AjkCxU9RloLb0Dc+jU/RBT8bDEMG+cB0/Uob8gQNZU95fwjTC7x7H1ur1/p2GBA1vf3E8sbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+nkAVbi; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kSylVVWN"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-227cf12df27so49765145ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Mar 2025 18:17:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743297423; x=1743902223; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ovcY3FlJhLAlcHfJCYvAAuLol4KahlQ6od7r+edeYnQ=;
-        b=kSylVVWNO2PjTM/RX8SI52Xjm56H+1T1KW0M2qjpCUxsfI+N9Nd9JnkJlNShMQe2m2
-         rvo7h6TMo9Z7YDTY0j+duzxi/6yiXfnZg1nn0RB7b6B0yBjh6vXubNus+PUKXdL+/qxe
-         MMKzvUEZ2O1nS+5VroCUliARwmqJLgao66vrbVBZPJZ3//QX4mB2FDL6QePaG2uJkLUH
-         Im1KO7D9LcqTl2YYhiyTEXG+5v88lQHNL38PAgMgys2O0GsSiE7oSdx9IKYNcxULhxeb
-         tkw/9szMjahWlGwPtqfZpwpjVJVxdV+mv9rrkTrIzRlsaSICmEMCOqULQufRn3ydi+cz
-         TTSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743297423; x=1743902223;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ovcY3FlJhLAlcHfJCYvAAuLol4KahlQ6od7r+edeYnQ=;
-        b=uLdppXiO50f2hITJb7LTsav7faioLeUDAq7ssTFg+pGvP+o/vDN1KnQf0N4g1KO793
-         8AQEjVM/OCdxZS92zEd3ApC21ni0wCdQ2Whk+KTpQUPBWOh4dMwESSFm1PIy3dt5fdbv
-         HEhCTz+8GdL5ySycp9KkIsdXZzw5hGtQu0iSJXxnCx1JTSruPIMGX8QmUPyyJUsLqK1a
-         gwGOE3KDPfnR1+zMh/06SdXGmjS23YJHZHXorFsfwy1o6615Qk9iW5ncHJSCEcyjlIGh
-         1EZLxnqoJ9HP6bT2UbRtGeEEaMqbyrk5ZqiOFkg7irn4ZfAjtc1O7/r9W0IRC89lkJVX
-         Qy0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWUkxTFPcIbnedmw7V98BUvV+4YulxqVgGeabntFLS+H/4+ScN3UCERxtoYAE0/ZpSlxLiCE0IyE+eZzd5G@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDELbfB334ktyZpBWl0bPp/mXbcqKTPLsVYNQDb5yg6TV7ajyN
-	yZqunQgx/i0w94NiIykMLqWcEfoJePFexqTlo5bp4q4UEXsQKrkV
-X-Gm-Gg: ASbGncsrvyF02JRES3tT9osYfvXmPNJC/EZI+vitd9dL5r8bSbLcVRfllfj3ICfhLJ/
-	7urhC/PeyKSjClmTDyiXjKJXH11k6vg5ROxf1GTh6WhQHpL7G8vzo7QodKsioCxp59NzB707r0J
-	LWcnLyvV7RwNde9kQoDZfP87yfMAYHJBpE1vNrm3gLKSz8eRbe8Ttng3iALN/5ipJrszEb8tnt1
-	ooxfNqpw8lrsn6PxH3+qfugBvAiuW0aVzKFWlqRv2bP6p9NeD+8DbVhkBrP56026OYE9rdblDw2
-	zelhCpzJZ7xqzLvhNx3TRCq69uOf8SKOy9EBZLG8aJi9y0svsqQKo9l80akerrgyEWLZUD1NPm+
-	+zwuVQSYcreV+wWi8VYzuv9Ef9aeYO3A=
-X-Google-Smtp-Source: AGHT+IExY0Kwk0LiQcVFg3q5/x15pk5JiYTn786iSOPSIwCtGaKXfANA/cjX9M8xUqFQ2DVybK8rug==
-X-Received: by 2002:a17:902:e5cd:b0:225:abd2:5e5a with SMTP id d9443c01a7336-22921c7af8dmr108875945ad.4.1743297423271;
-        Sat, 29 Mar 2025 18:17:03 -0700 (PDT)
-Received: from localhost.localdomain (p12284229-ipxg45101marunouchi.tokyo.ocn.ne.jp. [60.39.60.229])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee210csm43496455ad.70.2025.03.29.18.16.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Mar 2025 18:17:02 -0700 (PDT)
-From: Ryo Takakura <ryotkkr98@gmail.com>
-To: alex@ghiti.fr,
-	aou@eecs.berkeley.edu,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	john.ogness@linutronix.de,
-	palmer@dabbelt.com,
-	paul.walmsley@sifive.com,
-	pmladek@suse.com,
-	samuel.holland@sifive.com,
-	bigeasy@linutronix.de,
-	conor.dooley@microchip.com,
-	u.kleine-koenig@baylibre.com,
-	lkp@intel.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-serial@vger.kernel.org,
-	stable@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Ryo Takakura <ryotkkr98@gmail.com>
-Subject: Re: [PATCH v2 1/2] serial: sifive: lock port in startup()/shutdown() callbacks
-Date: Sun, 30 Mar 2025 10:16:10 +0900
-Message-Id: <20250330011610.388077-1-ryotkkr98@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <Z-iSb0ryR-tiUCj0@42be267012b8>
-References: <Z-iSb0ryR-tiUCj0@42be267012b8>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+nkAVbi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743301549; x=1774837549;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MxjsXHq4Qn73+x27HdeXst3ZF8+cblBHvvBqyvCoNDI=;
+  b=I+nkAVbirE56+6vdNLG8euxynxZPnroeevI9aSBwsn4qPRat9h/3E2vW
+   A9YOrebxeLeNvpLbYldzeSge0R9aZfXY2cgqyJv4K5T+QF/hmu+UWPzov
+   zyCUAVy4xQlM2afhNX8HmwbN6eipKtgg6f/LSyuKKAs9cambx9mjuHdm6
+   E1mfSL3hhblXRarTgT5rUFLODnrnnu3sdyNrKo/7jZVUhbPx/fW7xxk2r
+   Nt1mmKrPWY4qhtO5OQLDtjpAZ64ljaCne56efzdZirR5ZE1pG7+4+4VzS
+   FlJy2UXaECnKKRU+EE3S+NvGrLHUWkqVxwMdFEjitAKWsQJhd5T58PBfx
+   g==;
+X-CSE-ConnectionGUID: 1XM4uIb0StyKDrjNMibuSA==
+X-CSE-MsgGUID: Ql69pxI4TVSXsfZoW/PdgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="48286646"
+X-IronPort-AV: E=Sophos;i="6.14,287,1736841600"; 
+   d="scan'208";a="48286646"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 19:25:48 -0700
+X-CSE-ConnectionGUID: SkNq6dH9TS2GL9nGCSZs9Q==
+X-CSE-MsgGUID: pcWGE7PJQ8GHIDHJuQcAdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,287,1736841600"; 
+   d="scan'208";a="156773104"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 29 Mar 2025 19:25:47 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tyiMr-0008Tm-04;
+	Sun, 30 Mar 2025 02:25:45 +0000
+Date: Sun, 30 Mar 2025 10:25:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1531/1531] block/blk-mq.o: warning:
+ objtool: blk_mq_unfreeze_queue()+0x75: unreachable instruction
+Message-ID: <202503301024.26J3J3nq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-startup()/shutdown() callbacks access SIFIVE_SERIAL_IE_OFFS.
-The register is also accessed from write() callback.
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5b56c883c34a890a3f9ca7baa8aea426538c88a8
+commit: cbd9fe6e727ed12c1e542f74514e6dd4419f1cf6 [1531/1531] blk-mq: fix hang caused by freeze/unfreeze sequence
+config: x86_64-buildonly-randconfig-005-20250329 (https://download.01.org/0day-ci/archive/20250330/202503301024.26J3J3nq-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250330/202503301024.26J3J3nq-lkp@intel.com/reproduce)
 
-If console were printing and startup()/shutdown() callback
-gets called, its access to the register could be overwritten.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503301024.26J3J3nq-lkp@intel.com/
 
-Add port->lock to startup()/shutdown() callbacks to make sure
-their access to SIFIVE_SERIAL_IE_OFFS is synchronized against
-write() callback.
+All warnings (new ones prefixed by >>):
 
-Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
-Cc: stable@vger.kernel.org
----
+   block/blk-mq.c:600:44: warning: passing 8-byte aligned argument to 32-byte aligned parameter 2 of 'smp_call_function_single_async' may result in an unaligned pointer access [-Walign-mismatch]
+     600 |                 smp_call_function_single_async(ctx->cpu, &rq->csd);
+         |                                                          ^
+   1 warning generated.
+>> block/blk-mq.o: warning: objtool: blk_mq_unfreeze_queue()+0x75: unreachable instruction
 
-Hi,
-
-I'm sorry that I wasn't aware of how Cc stable should be done. 
-
-I added Cc for stable but please tell me if this patch should be
-resent or if there is any that is missing.
-
-Sincerely,
-Ryo Takakura
-
----
- drivers/tty/serial/sifive.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/tty/serial/sifive.c b/drivers/tty/serial/sifive.c
-index 5904a2d4c..054a8e630 100644
---- a/drivers/tty/serial/sifive.c
-+++ b/drivers/tty/serial/sifive.c
-@@ -563,8 +563,11 @@ static void sifive_serial_break_ctl(struct uart_port *port, int break_state)
- static int sifive_serial_startup(struct uart_port *port)
- {
- 	struct sifive_serial_port *ssp = port_to_sifive_serial_port(port);
-+	unsigned long flags;
- 
-+	uart_port_lock_irqsave(&ssp->port, &flags);
- 	__ssp_enable_rxwm(ssp);
-+	uart_port_unlock_irqrestore(&ssp->port, flags);
- 
- 	return 0;
- }
-@@ -572,9 +575,12 @@ static int sifive_serial_startup(struct uart_port *port)
- static void sifive_serial_shutdown(struct uart_port *port)
- {
- 	struct sifive_serial_port *ssp = port_to_sifive_serial_port(port);
-+	unsigned long flags;
- 
-+	uart_port_lock_irqsave(&ssp->port, &flags);
- 	__ssp_disable_rxwm(ssp);
- 	__ssp_disable_txwm(ssp);
-+	uart_port_unlock_irqrestore(&ssp->port, flags);
- }
- 
- /**
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
