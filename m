@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B0DBE49
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Mar 2025 01:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D644A28
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Mar 2025 02:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743384036; cv=none; b=rhE+78raylnKnnHtVl5FdGOrPHuBPuN+FZ17mdnF3wiHIuXD0qRu2nnyAIHLiyOt5GvttpXwXIAyGbDpuTzCwZlywZyE0e1hemHKwdbyyOZyrc9jkDWQ8KBTL1gAWVGWrtjYaGxbbWK0C4bgaPeOQeiB7tWyrHzBwE9HZZftbUM=
+	t=1743386451; cv=none; b=KQDA8DwtsI2RWbl2iRMwm/xDTTWw1/NKSBQz00p2aa8nZN2SjslyK/+7vVVUvgRljgOdOm0bfRc/hIMkJG5AUp/CbWRXwcvaD5szDTffLBBUC8k4BSbacECfx9xMQGLwmeNwkUvOpCvmUm530cf5a1Z+grdtVA0yLT7PclYQH/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743384036; c=relaxed/simple;
-	bh=PuKvP21z0et4f0DiAMN74z9Ja9rLglh/y7bGfVONQy4=;
+	s=arc-20240116; t=1743386451; c=relaxed/simple;
+	bh=kSdImsx4Y05CjiE+40r3JBIu0egFr1FfqPvVTHKzMoI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mf6mbZy40+rkXLKObdJR4brV6O4phccuGq5f1v22CcoAHT37vSbG/cFFalHOKynYpPsIV+QZa+Elpi5itfL+ewEIYqOVtGdP9ZED9hin5nR8m0ZvCBs6FU6DDhIRGPM2rfwpGt2so8j2mZ741IXEo5r6V10/1RH5UrmMWmKycm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6eNcoSM; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=JOi5f4Af+vlPocEd07s08WShYOjKJz5LqhFXvmXrF9vc8IdyBVOYryBrqn5Ja9JXM3HzOfIMbSwoPRV7vZ5UUoSomE/E6u8Yw1fX8nqC/RlwclURIOgx4wcUulYzWVPuAGfR9MlnQF7hDbn0MM0bGD2GSMfTWhAzi55WSTi6nvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gb3v++4i; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6eNcoSM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gb3v++4i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743384034; x=1774920034;
+  t=1743386448; x=1774922448;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PuKvP21z0et4f0DiAMN74z9Ja9rLglh/y7bGfVONQy4=;
-  b=O6eNcoSM2KvlHwOX4BNCSFTBTx7nZBAN6CU59EYom5zvT/mT0oj7eTXr
-   WZ8LC15/xzUtQOBhVX2djKdV4dBpOQuB831Bhte5CwzznQ8bl7Kas8xS6
-   9yds/e01yMRHdIupwHKmU2YGbrkKIHU91AtdmdxAfbOHN1FoTHxGmOOaw
-   5I00S8Wf+MnBvbuBxwkCOWlHZC8qdtC8g1z6kIIdT0r+FpMFNGAK8C2O7
-   ao9yLiDhSi9MpOfuO1KYeLNXymunQ7dHUARO41eUh6dzDejyosVA4J2b2
-   UAKJNfkegrDu1tvtId9l0I07rEcKDcI6zPQM5aCl/DPQ/6cvvZe8QWL8K
-   g==;
-X-CSE-ConnectionGUID: SDrllFs7RICI5NhVRfHOug==
-X-CSE-MsgGUID: LBr/U8ckSGKZ6qsQZdDq5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="44844676"
+  bh=kSdImsx4Y05CjiE+40r3JBIu0egFr1FfqPvVTHKzMoI=;
+  b=gb3v++4isr9BKDTcjcEpp35PUiGLqGaX+G4A46n54P2k63lh8JujwbPi
+   VFwNKHElLGPqMnV6M4yoVWIXoz0jDT5TViX8guMMaLzOTMmgn5R7qgaqp
+   aSpI2cHuBTz8DbBX8vUgCmqKKG1w8WANLXzEty2oaUuVjASswAEp+Pa0w
+   ivRoo2KlACTueC8hzIdoaMHPPKTqCOBlNJZVxHJVQ5DVY6DPGNhAbZLKp
+   oVozO3u4LlQVSx3DxjNC8o5BotXcz85jxBexvbRNjgrxm/rBSJ1cajvFs
+   9kxM437wbUI+LYg0F1cI0kRC4wYgtnsExqvZ0WYD0ViUlD0sy/UY5fRoW
+   A==;
+X-CSE-ConnectionGUID: td9aTyT0S1iQaugQKiFBoA==
+X-CSE-MsgGUID: HhfagspDSYabmA11o9dcfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="44674204"
 X-IronPort-AV: E=Sophos;i="6.14,289,1736841600"; 
-   d="scan'208";a="44844676"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2025 18:20:33 -0700
-X-CSE-ConnectionGUID: gubPM03sRuuyLRIryvt7qA==
-X-CSE-MsgGUID: 2j3ZzKdIRKyaYN1OlWMMLQ==
+   d="scan'208";a="44674204"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2025 19:00:47 -0700
+X-CSE-ConnectionGUID: qRisoUGSTdu0rDNcxXU6GA==
+X-CSE-MsgGUID: LdXwJG/XQz2BH5JTVMTdLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,289,1736841600"; 
-   d="scan'208";a="131176332"
+   d="scan'208";a="156958471"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 30 Mar 2025 18:20:32 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Mar 2025 19:00:46 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tz3pG-0008xe-0C;
-	Mon, 31 Mar 2025 01:20:30 +0000
-Date: Mon, 31 Mar 2025 09:19:55 +0800
+	id 1tz4SC-0008yu-0O;
+	Mon, 31 Mar 2025 02:00:44 +0000
+Date: Mon, 31 Mar 2025 10:00:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2829/2829]
- drivers/net/ethernet/netswift/ngbe/ngbe_hw.c:2340: multiple definition of
- `fmgr_cmd_op';
- drivers/net/ethernet/netswift/txgbe/txgbe_hw.o:drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2854:
- first defined here
-Message-ID: <202503310959.wgczfMA5-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1425/1425] kernel/sched/debug.c:990:17:
+ error: no member named 'nr_wakeups_preferred_cpus' in 'struct
+ dyn_affinity_stats'
+Message-ID: <202503310934.WNROVBec-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,184 +63,321 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi DuanqiangWen,
+Hi Hui,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   0e7e8faca7062a439fd0a56574c2c3860ceb2088
-commit: 3ddd74dceeba1f4ea8b20db59276ea3c6eded3d5 [2829/2829] openeuler: net: txgbe: Fix some known bugs, merge net-swift txgbe-1.2.3 out-of-tree
-config: x86_64-randconfig-122-20250330 (https://download.01.org/0day-ci/archive/20250331/202503310959.wgczfMA5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250331/202503310959.wgczfMA5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5b56c883c34a890a3f9ca7baa8aea426538c88a8
+commit: ebca52abe099caa97d7669d0acc71209ea80cfec [1425/1425] sched: Add statistics for scheduler dynamic affinity
+config: x86_64-randconfig-103-20250219 (https://download.01.org/0day-ci/archive/20250331/202503310934.WNROVBec-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250331/202503310934.WNROVBec-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503310959.wgczfMA5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503310934.WNROVBec-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/net/ethernet/netswift/ngbe/ngbe_hw.o: in function `fmgr_cmd_op':
->> drivers/net/ethernet/netswift/ngbe/ngbe_hw.c:2340: multiple definition of `fmgr_cmd_op'; drivers/net/ethernet/netswift/txgbe/txgbe_hw.o:drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2854: first defined here
-   ld: drivers/net/ethernet/netswift/ngbe/ngbe_hw.o: in function `fmgr_usr_cmd_op':
->> drivers/net/ethernet/netswift/ngbe/ngbe_hw.c:2361: multiple definition of `fmgr_usr_cmd_op'; drivers/net/ethernet/netswift/txgbe/txgbe_hw.o:drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2875: first defined here
-   ld: drivers/net/ethernet/netswift/ngbe/ngbe_hw.o: in function `flash_erase_chip':
->> drivers/net/ethernet/netswift/ngbe/ngbe_hw.c:2371: multiple definition of `flash_erase_chip'; drivers/net/ethernet/netswift/txgbe/txgbe_hw.o:drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2885: first defined here
-   ld: drivers/net/ethernet/netswift/ngbe/ngbe_hw.o: in function `flash_erase_sector':
->> drivers/net/ethernet/netswift/ngbe/ngbe_hw.c:2377: multiple definition of `flash_erase_sector'; drivers/net/ethernet/netswift/txgbe/txgbe_hw.o:drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2891: first defined here
-   ld: drivers/net/ethernet/netswift/ngbe/ngbe_hw.o: in function `flash_write_dword':
->> drivers/net/ethernet/netswift/ngbe/ngbe_hw.c:2393: multiple definition of `flash_write_dword'; drivers/net/ethernet/netswift/txgbe/txgbe_hw.o:drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2908: first defined here
+   kernel/sched/debug.c:815:6: warning: no previous prototype for function 'sysrq_sched_debug_tidy' [-Wmissing-prototypes]
+     815 | void sysrq_sched_debug_tidy(void)
+         |      ^
+   kernel/sched/debug.c:815:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     815 | void sysrq_sched_debug_tidy(void)
+         | ^
+         | static 
+>> kernel/sched/debug.c:990:17: error: no member named 'nr_wakeups_preferred_cpus' in 'struct dyn_affinity_stats'
+     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
+         |                     ~~~~~~~~  ^
+   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |                                                       ^
+   kernel/sched/debug.c:21:17: note: expanded from macro 'SEQ_printf'
+      21 |                 seq_printf(m, x);               \
+         |                               ^
+>> kernel/sched/debug.c:990:17: error: no member named 'nr_wakeups_preferred_cpus' in 'struct dyn_affinity_stats'
+     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
+         |                     ~~~~~~~~  ^
+   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |                                                       ^
+   kernel/sched/debug.c:23:11: note: expanded from macro 'SEQ_printf'
+      23 |                 pr_cont(x);                     \
+         |                         ^
+   include/linux/printk.h:362:26: note: expanded from macro 'pr_cont'
+     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~
+>> kernel/sched/debug.c:991:17: error: no member named 'nr_wakeups_force_preferred_cpus' in 'struct dyn_affinity_stats'
+     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
+         |                     ~~~~~~~~  ^
+   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |                                                       ^
+   kernel/sched/debug.c:21:17: note: expanded from macro 'SEQ_printf'
+      21 |                 seq_printf(m, x);               \
+         |                               ^
+>> kernel/sched/debug.c:991:17: error: no member named 'nr_wakeups_force_preferred_cpus' in 'struct dyn_affinity_stats'
+     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
+         |                     ~~~~~~~~  ^
+   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |                                                       ^
+   kernel/sched/debug.c:23:11: note: expanded from macro 'SEQ_printf'
+      23 |                 pr_cont(x);                     \
+         |                         ^
+   include/linux/printk.h:362:26: note: expanded from macro 'pr_cont'
+     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~
+   1 warning and 4 errors generated.
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:625:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:625:9: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:625:9: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:1004:6: sparse: sparse: symbol 'txgbe_add_uc_addr' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:1138:6: sparse: sparse: symbol 'txgbe_set_mta' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2604:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2604:9: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2604:9: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2707:5: sparse: sparse: symbol 'txgbe_setup_mac_link_hostif' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2744:5: sparse: sparse: symbol 'txgbe_crc16_ccitt' was not declared. Should it be static?
->> drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2897:5: sparse: sparse: symbol 'flash_read_dword' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2922:5: sparse: sparse: symbol 'txgbe_flash_write_cab' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2944:5: sparse: sparse: symbol 'txgbe_flash_read_cab' was not declared. Should it be static?
->> drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2975:5: sparse: sparse: symbol 'txgbe_flash_write_unlock' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:2998:5: sparse: sparse: symbol 'txgbe_flash_write_lock' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:3451:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:3451:17: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:3451:17: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:3496:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:3496:17: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:3496:17: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:4396:5: sparse: sparse: symbol 'txgbe_enable_rx_adapter' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:4417:5: sparse: sparse: symbol 'txgbe_set_sgmii_an37_ability' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:4972:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:4972:9: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:4972:9: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:5345:5: sparse: sparse: symbol 'txgbe_reset_misc' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6426:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6426:17: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6426:17: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6428:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6428:17: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6428:17: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6593:5: sparse: sparse: symbol 'txgbe_read_ee_hostif_data' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6642:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6642:17: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6642:17: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6724:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6724:9: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6724:9: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6737:5: sparse: sparse: symbol 'txgbe_write_ee_hostif_data' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6847:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6847:17: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6847:17: sparse:    int
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6890:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6890:9: sparse:    void
-   drivers/net/ethernet/netswift/txgbe/txgbe_hw.c:6890:9: sparse:    int
---
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:132:5: sparse: sparse: symbol 'txgbe_poll_for_msg' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:162:5: sparse: sparse: symbol 'txgbe_poll_for_ack' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:263:5: sparse: sparse: symbol 'txgbe_read_v2p_mailbox' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:284:5: sparse: sparse: symbol 'txgbe_check_for_bit_vf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:300:5: sparse: sparse: symbol 'txgbe_check_for_msg_vf' was not declared. Should it be static?
->> drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:320:5: sparse: sparse: symbol 'txgbe_check_for_ack_vf' was not declared. Should it be static?
->> drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:340:5: sparse: sparse: symbol 'txgbe_check_for_rst_vf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:359:5: sparse: sparse: symbol 'txgbe_obtain_mbx_lock_vf' was not declared. Should it be static?
->> drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:387:5: sparse: sparse: symbol 'txgbe_write_mbx_vf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:425:5: sparse: sparse: symbol 'txgbe_read_mbx_vf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:483:5: sparse: sparse: symbol 'txgbe_check_for_bit_pf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:503:5: sparse: sparse: symbol 'txgbe_check_for_msg_pf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:525:5: sparse: sparse: symbol 'txgbe_check_for_ack_pf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:547:5: sparse: sparse: symbol 'txgbe_check_for_rst_pf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:572:5: sparse: sparse: symbol 'txgbe_obtain_mbx_lock_pf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:601:5: sparse: sparse: symbol 'txgbe_write_mbx_pf' was not declared. Should it be static?
-   drivers/net/ethernet/netswift/txgbe/txgbe_mbx.c:644:5: sparse: sparse: symbol 'txgbe_read_mbx_pf' was not declared. Should it be static?
 
-vim +2340 drivers/net/ethernet/netswift/ngbe/ngbe_hw.c
+vim +990 kernel/sched/debug.c
 
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2333  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2334  /**
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2335   * cmd_addr is used for some special command:
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2336   * 1. to be sector address, when implemented erase sector command
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2337   * 2. to be flash address when implemented read, write flash address
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2338   **/
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2339  u8 fmgr_cmd_op(struct ngbe_hw *hw, u32 cmd, u32 cmd_addr)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01 @2340  {
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2341  	u32 cmd_val = 0;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2342  	u32 time_out = 0;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2343  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2344  	cmd_val = (cmd << SPI_CLK_CMD_OFFSET) | (SPI_CLK_DIV << SPI_CLK_DIV_OFFSET) | cmd_addr;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2345  	wr32(hw, SPI_H_CMD_REG_ADDR, cmd_val);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2346  	while (1) {
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2347  		if (rd32(hw, SPI_H_STA_REG_ADDR) & 0x1)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2348  			break;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2349  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2350  		if (time_out == SPI_TIME_OUT_VALUE)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2351  			return 1;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2352  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2353  		time_out = time_out + 1;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2354  		udelay(10);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2355  	}
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2356  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2357  	return 0;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2358  }
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2359  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2360  u8 fmgr_usr_cmd_op(struct ngbe_hw *hw, u32 usr_cmd)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01 @2361  {
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2362  	u8 status = 0;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2363  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2364  	wr32(hw, SPI_H_USR_CMD_REG_ADDR, usr_cmd);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2365  	status = fmgr_cmd_op(hw, SPI_CMD_USER_CMD, 0);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2366  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2367  	return status;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2368  }
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2369  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2370  u8 flash_erase_chip(struct ngbe_hw *hw)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01 @2371  {
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2372  	u8 status = fmgr_cmd_op(hw, SPI_CMD_ERASE_CHIP, 0);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2373  	return status;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2374  }
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2375  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2376  u8 flash_erase_sector(struct ngbe_hw *hw, u32 sec_addr)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01 @2377  {
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2378  	u8 status = fmgr_cmd_op(hw, SPI_CMD_ERASE_SECTOR, sec_addr);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2379  	return status;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2380  }
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2381  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2382  u32 ngbe_flash_read_dword(struct ngbe_hw *hw, u32 addr)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2383  {
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2384  	u8 status = fmgr_cmd_op(hw, SPI_CMD_READ_DWORD, addr);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2385  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2386  	if (status)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2387  		return (u32)status;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2388  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2389  	return rd32(hw, SPI_H_DAT_REG_ADDR);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2390  }
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2391  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2392  u8 flash_write_dword(struct ngbe_hw *hw, u32 addr, u32 dword)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01 @2393  {
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2394  	u8 status = 0;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2395  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2396  	wr32(hw, SPI_H_DAT_REG_ADDR, dword);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2397  	status = fmgr_cmd_op(hw, SPI_CMD_WRITE_DWORD, addr);
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2398  	if (status)
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2399  		return status;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2400  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2401  	if (dword != ngbe_flash_read_dword(hw, addr))
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2402  		return 1;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2403  
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2404  	return 0;
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2405  }
-a5961b4bc6ce09 Duanqiang Wen 2022-12-01  2406  
-
-:::::: The code at line 2340 was first introduced by commit
-:::::: a5961b4bc6ce09a70902686ecc848a47493a9251 openeuler: net: ngbe: add ngbe module support
-
-:::::: TO: Duanqiang Wen <duanqiangwen@net-swift.com>
-:::::: CC: Duanqiang Wen <duanqiangwen@net-swift.com>
+   814	
+ > 815	void sysrq_sched_debug_tidy(void)
+   816	{
+   817		int cpu;
+   818	
+   819		SEQ_printf(NULL, "Sched Debug Version: v0.11, %s %.*s\n",
+   820			init_utsname()->release,
+   821			(int)strcspn(init_utsname()->version, " "),
+   822			init_utsname()->version);
+   823	
+   824		for_each_online_cpu(cpu)
+   825			print_cpu_tidy(NULL, cpu);
+   826	}
+   827	
+   828	/*
+   829	 * This itererator needs some explanation.
+   830	 * It returns 1 for the header position.
+   831	 * This means 2 is CPU 0.
+   832	 * In a hotplugged system some CPUs, including CPU 0, may be missing so we have
+   833	 * to use cpumask_* to iterate over the CPUs.
+   834	 */
+   835	static void *sched_debug_start(struct seq_file *file, loff_t *offset)
+   836	{
+   837		unsigned long n = *offset;
+   838	
+   839		if (n == 0)
+   840			return (void *) 1;
+   841	
+   842		n--;
+   843	
+   844		if (n > 0)
+   845			n = cpumask_next(n - 1, cpu_online_mask);
+   846		else
+   847			n = cpumask_first(cpu_online_mask);
+   848	
+   849		*offset = n + 1;
+   850	
+   851		if (n < nr_cpu_ids)
+   852			return (void *)(unsigned long)(n + 2);
+   853	
+   854		return NULL;
+   855	}
+   856	
+   857	static void *sched_debug_next(struct seq_file *file, void *data, loff_t *offset)
+   858	{
+   859		(*offset)++;
+   860		return sched_debug_start(file, offset);
+   861	}
+   862	
+   863	static void sched_debug_stop(struct seq_file *file, void *data)
+   864	{
+   865	}
+   866	
+   867	static const struct seq_operations sched_debug_sops = {
+   868		.start		= sched_debug_start,
+   869		.next		= sched_debug_next,
+   870		.stop		= sched_debug_stop,
+   871		.show		= sched_debug_show,
+   872	};
+   873	
+   874	static int __init init_sched_debug_procfs(void)
+   875	{
+   876		if (!proc_create_seq("sched_debug", 0444, NULL, &sched_debug_sops))
+   877			return -ENOMEM;
+   878		return 0;
+   879	}
+   880	
+   881	__initcall(init_sched_debug_procfs);
+   882	
+   883	#define __P(F)	SEQ_printf(m, "%-45s:%21Ld\n",	     #F, (long long)F)
+   884	#define   P(F)	SEQ_printf(m, "%-45s:%21Ld\n",	     #F, (long long)p->F)
+   885	#define __PN(F)	SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)F))
+   886	#define   PN(F)	SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)p->F))
+   887	
+   888	
+   889	#ifdef CONFIG_NUMA_BALANCING
+   890	void print_numa_stats(struct seq_file *m, int node, unsigned long tsf,
+   891			unsigned long tpf, unsigned long gsf, unsigned long gpf)
+   892	{
+   893		SEQ_printf(m, "numa_faults node=%d ", node);
+   894		SEQ_printf(m, "task_private=%lu task_shared=%lu ", tpf, tsf);
+   895		SEQ_printf(m, "group_private=%lu group_shared=%lu\n", gpf, gsf);
+   896	}
+   897	#endif
+   898	
+   899	
+   900	static void sched_show_numa(struct task_struct *p, struct seq_file *m)
+   901	{
+   902	#ifdef CONFIG_NUMA_BALANCING
+   903		struct mempolicy *pol;
+   904	
+   905		if (p->mm)
+   906			P(mm->numa_scan_seq);
+   907	
+   908		task_lock(p);
+   909		pol = p->mempolicy;
+   910		if (pol && !(pol->flags & MPOL_F_MORON))
+   911			pol = NULL;
+   912		mpol_get(pol);
+   913		task_unlock(p);
+   914	
+   915		P(numa_pages_migrated);
+   916		P(numa_preferred_nid);
+   917		P(total_numa_faults);
+   918		SEQ_printf(m, "current_node=%d, numa_group_id=%d\n",
+   919				task_node(p), task_numa_group_id(p));
+   920		show_numa_stats(p, m);
+   921		mpol_put(pol);
+   922	#endif
+   923	}
+   924	
+   925	void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
+   926							  struct seq_file *m)
+   927	{
+   928	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
+   929		struct dyn_affinity_stats	*dyn_affi = p->se.dyn_affi_stats;
+   930	#endif
+   931		unsigned long nr_switches;
+   932	
+   933		SEQ_printf(m, "%s (%d, #threads: %d)\n", p->comm, task_pid_nr_ns(p, ns),
+   934							get_nr_threads(p));
+   935		SEQ_printf(m,
+   936			"---------------------------------------------------------"
+   937			"----------\n");
+   938	#define __P(F) \
+ > 939		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+   940	#define P(F) \
+   941		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)p->F)
+   942	#define P_SCHEDSTAT(F) \
+   943		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)schedstat_val(p->F))
+   944	#define __PN(F) \
+   945		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)F))
+   946	#define PN(F) \
+   947		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)p->F))
+   948	#define PN_SCHEDSTAT(F) \
+   949		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)schedstat_val(p->F)))
+   950	
+   951		PN(se.exec_start);
+   952		PN(se.vruntime);
+   953		PN(se.sum_exec_runtime);
+   954	
+   955		nr_switches = p->nvcsw + p->nivcsw;
+   956	
+   957		P(se.nr_migrations);
+   958	
+   959		if (schedstat_enabled()) {
+   960			u64 avg_atom, avg_per_cpu;
+   961	
+   962			PN_SCHEDSTAT(se.statistics.sum_sleep_runtime);
+   963			PN_SCHEDSTAT(se.statistics.wait_start);
+   964			PN_SCHEDSTAT(se.statistics.sleep_start);
+   965			PN_SCHEDSTAT(se.statistics.block_start);
+   966			PN_SCHEDSTAT(se.statistics.sleep_max);
+   967			PN_SCHEDSTAT(se.statistics.block_max);
+   968			PN_SCHEDSTAT(se.statistics.exec_max);
+   969			PN_SCHEDSTAT(se.statistics.slice_max);
+   970			PN_SCHEDSTAT(se.statistics.wait_max);
+   971			PN_SCHEDSTAT(se.statistics.wait_sum);
+   972			P_SCHEDSTAT(se.statistics.wait_count);
+   973			PN_SCHEDSTAT(se.statistics.iowait_sum);
+   974			P_SCHEDSTAT(se.statistics.iowait_count);
+   975			P_SCHEDSTAT(se.statistics.nr_migrations_cold);
+   976			P_SCHEDSTAT(se.statistics.nr_failed_migrations_affine);
+   977			P_SCHEDSTAT(se.statistics.nr_failed_migrations_running);
+   978			P_SCHEDSTAT(se.statistics.nr_failed_migrations_hot);
+   979			P_SCHEDSTAT(se.statistics.nr_forced_migrations);
+   980			P_SCHEDSTAT(se.statistics.nr_wakeups);
+   981			P_SCHEDSTAT(se.statistics.nr_wakeups_sync);
+   982			P_SCHEDSTAT(se.statistics.nr_wakeups_migrate);
+   983			P_SCHEDSTAT(se.statistics.nr_wakeups_local);
+   984			P_SCHEDSTAT(se.statistics.nr_wakeups_remote);
+   985			P_SCHEDSTAT(se.statistics.nr_wakeups_affine);
+   986			P_SCHEDSTAT(se.statistics.nr_wakeups_affine_attempts);
+   987			P_SCHEDSTAT(se.statistics.nr_wakeups_passive);
+   988			P_SCHEDSTAT(se.statistics.nr_wakeups_idle);
+   989	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
+ > 990			__P(dyn_affi->nr_wakeups_preferred_cpus);
+ > 991			__P(dyn_affi->nr_wakeups_force_preferred_cpus);
+   992	#endif
+   993	
+   994			avg_atom = p->se.sum_exec_runtime;
+   995			if (nr_switches)
+   996				avg_atom = div64_ul(avg_atom, nr_switches);
+   997			else
+   998				avg_atom = -1LL;
+   999	
+  1000			avg_per_cpu = p->se.sum_exec_runtime;
+  1001			if (p->se.nr_migrations) {
+  1002				avg_per_cpu = div64_u64(avg_per_cpu,
+  1003							p->se.nr_migrations);
+  1004			} else {
+  1005				avg_per_cpu = -1LL;
+  1006			}
+  1007	
+  1008			__PN(avg_atom);
+  1009			__PN(avg_per_cpu);
+  1010		}
+  1011	
+  1012		__P(nr_switches);
+  1013		SEQ_printf(m, "%-45s:%21Ld\n",
+  1014			   "nr_voluntary_switches", (long long)p->nvcsw);
+  1015		SEQ_printf(m, "%-45s:%21Ld\n",
+  1016			   "nr_involuntary_switches", (long long)p->nivcsw);
+  1017	
+  1018		P(se.load.weight);
+  1019		P(se.runnable_weight);
+  1020	#ifdef CONFIG_SMP
+  1021		P(se.avg.load_sum);
+  1022		P(se.avg.runnable_load_sum);
+  1023		P(se.avg.util_sum);
+  1024		P(se.avg.load_avg);
+  1025		P(se.avg.runnable_load_avg);
+  1026		P(se.avg.util_avg);
+  1027		P(se.avg.last_update_time);
+  1028		P(se.avg.util_est.ewma);
+  1029		P(se.avg.util_est.enqueued);
+  1030	#endif
+  1031		P(policy);
+  1032		P(prio);
+  1033		if (task_has_dl_policy(p)) {
+  1034			P(dl.runtime);
+  1035			P(dl.deadline);
+  1036		}
+  1037	#undef PN_SCHEDSTAT
+  1038	#undef PN
+  1039	#undef __PN
+  1040	#undef P_SCHEDSTAT
+  1041	#undef P
+  1042	#undef __P
+  1043	
+  1044		{
+  1045			unsigned int this_cpu = raw_smp_processor_id();
+  1046			u64 t0, t1;
+  1047	
+  1048			t0 = cpu_clock(this_cpu);
+  1049			t1 = cpu_clock(this_cpu);
+  1050			SEQ_printf(m, "%-45s:%21Ld\n",
+  1051				   "clock-delta", (long long)(t1-t0));
+  1052		}
+  1053	
+  1054		sched_show_numa(p, m);
+  1055	}
+  1056	
 
 -- 
 0-DAY CI Kernel Test Service
