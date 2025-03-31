@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71301CAA80
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Mar 2025 07:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C489746BF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Mar 2025 08:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743407436; cv=none; b=bYBpdXCvM2yJAyLo3PM9+gdq+7vP85DyyNSzviVFWBZ5ECuxnF2MOCKUEKdZ8eTjBRo3tzYzr1laK/B5OjvMciU9OaH9nCbvTkoDHFbgxzwSKNeRt/cig88taGEDXhHs7PKbU1SrZWG9MR49vd82MalPKbiYrAhaz8uVuB2+lNw=
+	t=1743408992; cv=none; b=D24QXgxmLgrlMhR8sm88sqKhsQu/vt6f7l5FkWLAaTVhv2y2Q9/jE0KZBlyN/398rRH4311KvXonldX41uDdwXhMBTjG3AN+NtgjmzsABkx/d5YB6sKQGjFKhaVWjleW6Bts2vseHZuGUyosjuwxI7YS60EEWg9psaqpfDoi6QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743407436; c=relaxed/simple;
-	bh=Ay+DBSn09gRJRUD/1eVGW53zGuJbkj0V+TZ3+r1UmbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=UwclbDEzB9NdOhTOGUMAX4SLWcABhgF5jCKdyT+mgDDcNi1pUdAlAeKluMcvne4Hu6mS4+Fq0GORm0GmrAKMqmMAYoc5D2XO/fHpPC2NA9/+fi+9QMHICnkG/iZij8gG8N3orEW12WAhMghAXoajk89Jx3gbJPOTY4QNsmBHUwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqOQnQX6; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1743408992; c=relaxed/simple;
+	bh=QGqKdfPSBPoe0ePQ6nTPzXqBmsVZuUhxOCBg+SqfvXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CdAjIarQjP5ikrxpekp3sBpQWGDVNvAuIH2cIS+W2i6xF7mdLG2tK/xaZlQmQndO4XAh0KqD1HuYfYkdzYIw/O/ATEgqNDkErTTEz3AzR5ovdzU0ZTvk0HVlV/NB30lhJ88zxsfRl3UnXf6iIwi5ZmyMB4o4evncgLH9lcY6vHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSGrLJEd; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqOQnQX6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSGrLJEd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743407435; x=1774943435;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=Ay+DBSn09gRJRUD/1eVGW53zGuJbkj0V+TZ3+r1UmbQ=;
-  b=UqOQnQX6p93ktXaQjv+rGNmdMiwWLawToK4Qh3fjxUFshzzhMjZmsA0b
-   LQys+lIik13O0SXf2FZJPi0d7n0/d+2hAd4oCbFXi1HQglmZTq7fu+GIF
-   NT6QrRymNMITDOzwGwo3qG8lzZzsp+RwF3qpwY9N9POBnCoaTXitmsWLl
-   h9+mM4S21diYOr5GUZnCKqW++l+Oo/jCvzfjUoBY2ZZGOcbwoEg1EKg8u
-   38PuaaeZblVFHRxnUdwZc7x5eRhn23QoHD/QEc3Y89qX+EO2YtTmZzfGQ
-   XlBo7OhtvNZ/U0rMcQiJKJ/uKX2yOFybe6840zEGuGntY57S36BmO4mX0
-   A==;
-X-CSE-ConnectionGUID: DXGSDKhkR/ekuxUhEgTmLA==
-X-CSE-MsgGUID: hiVmL/ETTdaOiPirgMHt8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="56056396"
+  t=1743408990; x=1774944990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QGqKdfPSBPoe0ePQ6nTPzXqBmsVZuUhxOCBg+SqfvXg=;
+  b=LSGrLJEdB3mmXmkPNeheflDyKNofWu4JjzA78Hpg8tnTF8ph/aQX+Cem
+   X4a2CR4189ZRvmBEWPl0V062QKN5vQMkqkhKzNIWb4nY7qAJGg15+hqUL
+   +c9fBF3A5a4Nyc9nBHgjBq2sPtG66+8VBpAXniG25oAWy/q9/1CcO3Jin
+   k1ISyKNoI9qRlFgTYsCRBzXqVr5Ao0e3i9rj2KTF9WMU8hhSnQx3Hvy87
+   MAMpfhVlgd5tIzpJIVXEusPrlJ8kNT1cCr3D6BOtNBxLetb5k25MkMMGw
+   jba1BJWHTwViEf4rp4AFQTs/YFI/cf2t8TzP4srsi6IDpzf9Vgwxb0enP
+   Q==;
+X-CSE-ConnectionGUID: 9cHI1ohcSRC8USVYkJzuIQ==
+X-CSE-MsgGUID: 4FzbTUo7S3GecppOwE+0uA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="48350877"
 X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
-   d="scan'208";a="56056396"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 00:50:34 -0700
-X-CSE-ConnectionGUID: oF+ScC03RhqPF51IdCKQTg==
-X-CSE-MsgGUID: FwhYG3dbRdSVNvUjjtgXpg==
+   d="scan'208";a="48350877"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 01:16:30 -0700
+X-CSE-ConnectionGUID: 9FkABt1SRSqJZ+qcfb5pog==
+X-CSE-MsgGUID: tY7RLoEiRtijHRLb6HPV3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
-   d="scan'208";a="130860498"
+   d="scan'208";a="126932615"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 31 Mar 2025 00:50:32 -0700
+  by orviesa008.jf.intel.com with ESMTP; 31 Mar 2025 01:16:27 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tz9uf-00097a-3B;
-	Mon, 31 Mar 2025 07:50:29 +0000
-Date: Mon, 31 Mar 2025 15:50:04 +0800
+	id 1tzAJk-00098A-0h;
+	Mon, 31 Mar 2025 08:16:24 +0000
+Date: Mon, 31 Mar 2025 16:15:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Hewitt <christianshewitt@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] net: mdio: mux-meson-gxl: set 28th bit in eth_reg2
-Message-ID: <Z-pJLLzjbfkTez38@42be267012b8>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH 4/5] media: vcodec: Implement manual request completion
+Message-ID: <202503311620.hhbFrG8T-lkp@intel.com>
+References: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +74,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250331074420.3443748-1-christianshewitt@gmail.com>
+In-Reply-To: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b@collabora.com>
 
-Hi,
+Hi Sebastian,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on f2151613e040973c868d28c8b00885dfab69eb75]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Fricke/media-mc-add-manual-request-completion/20250314-213005
+base:   f2151613e040973c868d28c8b00885dfab69eb75
+patch link:    https://lore.kernel.org/r/20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b%40collabora.com
+patch subject: [PATCH 4/5] media: vcodec: Implement manual request completion
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250331/202503311620.hhbFrG8T-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250331/202503311620.hhbFrG8T-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2] net: mdio: mux-meson-gxl: set 28th bit in eth_reg2
-Link: https://lore.kernel.org/stable/20250331074420.3443748-1-christianshewitt%40gmail.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503311620.hhbFrG8T-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   mips-linux-ld: drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.o: in function `state_to_str':
+>> mtk_vcodec_dec_drv.c:(.text.state_to_str+0x0): multiple definition of `state_to_str'; drivers/media/platform/chips-media/wave5/wave5-helper.o:wave5-helper.c:(.text.state_to_str+0x0): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
