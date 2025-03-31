@@ -1,66 +1,58 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655941B6CE3;
-	Mon, 31 Mar 2025 07:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71301CAA80
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Mar 2025 07:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743405606; cv=none; b=gwkktnMXQT46nFEZTQIVYtzeOfhxDLhGMoQRQNOYu2zP8ALsF1s+PBdkNF9tPnCXNNrQyZubiBZeA+iWbj0N357JCNFMBddxostRt8bgk1Q8pvwbt6UzW/e4X53MvgmKcBloFJ4Ilj2AhYV41cvZp8ibo7v3AjVivchsD+EKwz8=
+	t=1743407436; cv=none; b=bYBpdXCvM2yJAyLo3PM9+gdq+7vP85DyyNSzviVFWBZ5ECuxnF2MOCKUEKdZ8eTjBRo3tzYzr1laK/B5OjvMciU9OaH9nCbvTkoDHFbgxzwSKNeRt/cig88taGEDXhHs7PKbU1SrZWG9MR49vd82MalPKbiYrAhaz8uVuB2+lNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743405606; c=relaxed/simple;
-	bh=UTqJO7b/EnZPMj44DRFz/sH3r70AVvKKCl0oERDr37k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iGvCKZvPoLoDN9XS9shXJ1CJUhP1XWc0cTkIvqneVyGwqjhUE/QoxwZLxyD6zgf2+rTaea466Q0MYNFh5HiDE76c69MTmUP8Jv6WMc1lqMwDLc+vjCLW7IWlUCrfCmeqarKziE709bmOTXr3Z3wZGPa0iRqBRBqWEajb33RnGow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=oSSbzYb3; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1743407436; c=relaxed/simple;
+	bh=Ay+DBSn09gRJRUD/1eVGW53zGuJbkj0V+TZ3+r1UmbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=UwclbDEzB9NdOhTOGUMAX4SLWcABhgF5jCKdyT+mgDDcNi1pUdAlAeKluMcvne4Hu6mS4+Fq0GORm0GmrAKMqmMAYoc5D2XO/fHpPC2NA9/+fi+9QMHICnkG/iZij8gG8N3orEW12WAhMghAXoajk89Jx3gbJPOTY4QNsmBHUwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqOQnQX6; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="oSSbzYb3"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52UKdrT3014553;
-	Mon, 31 Mar 2025 07:20:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=TrvU5gxl61CPKW00bfzGYGxhF3mkLV
-	HsW/CK3OIi1is=; b=oSSbzYb3lJ6SJQU2T+0C3sa35MEZxgglYjVPa9oVLqe7Zf
-	cy9udUXNw0AYoZ9am2hB+IkRbmD3DNDy/k0Kh59AEMvetkYWIODWq21Ie/8iKBKB
-	ox9Emr+9f7+JUkXKGjPPVA9A7iW+pTMmwlX3fnR8vo6UdV/l9Aw+Sl5DAuhdr6Ti
-	neMo1ZrT35faEiMsbPvjXpLLKYQ9Dz2PXrbcGZjcBmhvdhJQ2+1ykc+v533QUpkA
-	u9kxR34IJFq2oa0FJHfELq9mKIXMRTZfKhq5Sar0XMpZf1E99xKGyFFHWzTJuba8
-	LnBW41n5OKlrO5C3XwsP+w99GtFbdDDyIsaQJo4A==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45qd601tm5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Mar 2025 07:20:02 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52V3t2KM004757;
-	Mon, 31 Mar 2025 07:20:01 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45pujymy21-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Mar 2025 07:20:01 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52V7Jxbq32834194
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 31 Mar 2025 07:19:59 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6B84920049;
-	Mon, 31 Mar 2025 07:19:59 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 21D6020040;
-	Mon, 31 Mar 2025 07:19:59 +0000 (GMT)
-Received: from li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com (unknown [9.179.15.102])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 31 Mar 2025 07:19:59 +0000 (GMT)
-Date: Mon, 31 Mar 2025 09:19:57 +0200
-From: Sumanth Korikkar <sumanthk@linux.ibm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Subject: Re: s390-linux-ld: Error: unable to disambiguate: -no-pie (did you
- mean --no-pie ?)
-Message-ID: <Z-pCHdB0uXDUCki0@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
-References: <202503291141.yTqSRdTX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqOQnQX6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743407435; x=1774943435;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Ay+DBSn09gRJRUD/1eVGW53zGuJbkj0V+TZ3+r1UmbQ=;
+  b=UqOQnQX6p93ktXaQjv+rGNmdMiwWLawToK4Qh3fjxUFshzzhMjZmsA0b
+   LQys+lIik13O0SXf2FZJPi0d7n0/d+2hAd4oCbFXi1HQglmZTq7fu+GIF
+   NT6QrRymNMITDOzwGwo3qG8lzZzsp+RwF3qpwY9N9POBnCoaTXitmsWLl
+   h9+mM4S21diYOr5GUZnCKqW++l+Oo/jCvzfjUoBY2ZZGOcbwoEg1EKg8u
+   38PuaaeZblVFHRxnUdwZc7x5eRhn23QoHD/QEc3Y89qX+EO2YtTmZzfGQ
+   XlBo7OhtvNZ/U0rMcQiJKJ/uKX2yOFybe6840zEGuGntY57S36BmO4mX0
+   A==;
+X-CSE-ConnectionGUID: DXGSDKhkR/ekuxUhEgTmLA==
+X-CSE-MsgGUID: hiVmL/ETTdaOiPirgMHt8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="56056396"
+X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
+   d="scan'208";a="56056396"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 00:50:34 -0700
+X-CSE-ConnectionGUID: oF+ScC03RhqPF51IdCKQTg==
+X-CSE-MsgGUID: FwhYG3dbRdSVNvUjjtgXpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
+   d="scan'208";a="130860498"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 31 Mar 2025 00:50:32 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tz9uf-00097a-3B;
+	Mon, 31 Mar 2025 07:50:29 +0000
+Date: Mon, 31 Mar 2025 15:50:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Hewitt <christianshewitt@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] net: mdio: mux-meson-gxl: set 28th bit in eth_reg2
+Message-ID: <Z-pJLLzjbfkTez38@42be267012b8>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,44 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202503291141.yTqSRdTX-lkp@intel.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 9zvbuRIULWZjvjT11wx3x6FZwv7k-u9Q
-X-Proofpoint-GUID: 9zvbuRIULWZjvjT11wx3x6FZwv7k-u9Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-31_03,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 priorityscore=1501 mlxlogscore=881 impostorscore=0
- clxscore=1011 malwarescore=0 suspectscore=0 phishscore=0 adultscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503310048
+In-Reply-To: <20250331074420.3443748-1-christianshewitt@gmail.com>
 
-On Sat, Mar 29, 2025 at 11:11:17AM +0800, kernel test robot wrote:
-> Hi Sumanth,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0c86b42439b6c11d758b3392a21117934fef00c1
-> commit: 00cda11d3b2ea07295490b7d67942014f1cbc5c1 s390: Compile kernel with -fPIC and link with -no-pie
-> date:   11 months ago
-> config: s390-randconfig-001-20250329 (https://download.01.org/0day-ci/archive/20250329/202503291141.yTqSRdTX-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291141.yTqSRdTX-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503291141.yTqSRdTX-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> s390-linux-ld: Error: unable to disambiguate: -no-pie (did you mean --no-pie ?)
+Hi,
 
-Thanks for reporting.
+Thanks for your patch.
 
-I have worked on it. The fix should be available in the very near future.
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-Best Regards,
-Sumanth
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] net: mdio: mux-meson-gxl: set 28th bit in eth_reg2
+Link: https://lore.kernel.org/stable/20250331074420.3443748-1-christianshewitt%40gmail.com
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
