@@ -1,59 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2C61EE00C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Apr 2025 23:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B582AF04
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Apr 2025 23:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743549797; cv=none; b=FU8ySWM0vJUCri4snXQ0689x3l4u59++9PWJ0eeZ8vcUzt6TYdcGtvqhWf8sus2ahyBLGK9jIcvuJYMqU4yzPQ8/tR7g+k0YRFEe4OqhE1187PliXmN/+59raQmawaQznuduRXDtREYhDXIfnpZtzqSuPiV5aUMSNhgkxNEhY8E=
+	t=1743551170; cv=none; b=mPfmAtzhdO8dDH8ynG5Ox0Yei4PrZ+c22e17Qyyo0htmPYyYlnNKm8nXrA5pYDkylxYSSTmxO9cYS5jH3uEF97PaAxVPNEXV+CjpbBFbDSt26OkSjYYSFDgiYHEhFrfEMa1sP0bXSkR+1U2vUqDscvQ8eh2dlVz+2KpkUEOjTZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743549797; c=relaxed/simple;
-	bh=1C4/flTgm4yhbZchW88GM9l3BMY5jb7cC0Fh/PG49oo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eZiZs2H+4SVqcftEXyZ59vN+1nz8Ky9ZLqMFvJa7j1OD9+sYFb3SEEE9Sdozq0HEfCiJnFfRlaEzUyG0T/Ntxpr5+1gUJN9mK8Hzjpqvjq8zF8uFug5r8Eoefd1kyEBgYG1AgQTtBSpavNCPUh1O0q8yQA6jNqqGkayVE1p2eRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asDdGwIh; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743551170; c=relaxed/simple;
+	bh=qBYqN8SVkCA17kTx85IOE+i4BuFRLmQl5ELVW9VJBuA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTzJLdb/F90gi4whv2zbT3iKaHt1+nqkwiHHM5sQeKIJ/LGKepTLCqDbboZLWVs5gtZSqNJ+RKIJ67XCP77TrTfGWvBvcA2jVwouGrXavJzi/zzYg3j7VbbDYFir/6ECqq1x64vRV94PmgMBwKagXR8WtU/Z7fm5RRbiGtUMK0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CK7DergB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asDdGwIh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743549795; x=1775085795;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1C4/flTgm4yhbZchW88GM9l3BMY5jb7cC0Fh/PG49oo=;
-  b=asDdGwIhOTI2kdAudsbRqcVFqZcZyA5C6r3ijfyP7/98aZNU8iTCwHbv
-   L9cu0Yqe5b8BGmbAUuk24NjAiFfzuyc/HYL+6oxQ9Xx0NJFLApkrxscGD
-   528t7NrQnPYPV8yVbxVtg99DmoJ9LmX52r643bMzt9MDtG/4s2Ea3LWIM
-   rM5aYHIFr7kBaI7BPHSXMm172TcXka+EJ6bbG8IS6k+9SOMKsAHMXejn+
-   09mjbzV0E6no58t2IgYxaG4lEEeUSXAhQnSlJ+N86efV5xGmqjb21MCC7
-   Pvkxnri1Lfq1N0aulAxgHgm8MT1mHTlaxE0CrrQEkJ8oN8WD1orXabo9J
-   Q==;
-X-CSE-ConnectionGUID: MLzh1/NkRc2/G1Ehloq/sg==
-X-CSE-MsgGUID: 62jOdGbyRWiTshuXCqGHFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="45040939"
-X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
-   d="scan'208";a="45040939"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 16:23:15 -0700
-X-CSE-ConnectionGUID: L/c1/m4FTryXfaa1bKfyTw==
-X-CSE-MsgGUID: OZjm3H1HS8OFz0QxYvXT4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
-   d="scan'208";a="131667325"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Apr 2025 16:23:13 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tzkwp-000AFU-1L;
-	Tue, 01 Apr 2025 23:23:11 +0000
-Date: Wed, 2 Apr 2025 07:22:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bigeasy-staging:futex_local_v11-rc4 14/16]
- include/linux/rcupdate.h:561:36: error: dereferencing pointer to incomplete
- type 'struct futex_private_hash'
-Message-ID: <202504020737.vw7EqGiC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CK7DergB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 265D7C4CEE4;
+	Tue,  1 Apr 2025 23:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743551169;
+	bh=qBYqN8SVkCA17kTx85IOE+i4BuFRLmQl5ELVW9VJBuA=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=CK7DergBUT5HcjHNwmbk5ImPJP8GqDX6/yeLvg7JfVSqnY242ruKqmjMcAnYE+ngR
+	 3/KrPpL40ZRSrlTpzzY4ovARwK1Itpt5paAdxOVVHx+4058SCTIEZufuGCOLFURf9i
+	 DlOZhuWjgLk7ic9b1J+iQuH++NapIM883vuRTwk+q4aaFPr5eeohpza7/B2Th3yfz/
+	 DaPNFdWpPDVx2m3gabaed6akMYiQUZKgJkgvlVPCmBP02lkya+55LmCy78Gd0wZSJQ
+	 PM6SVRACYQ6larXvwq4ZSdpht53z+f7StybZEXb4mIe/kWjiCtBP09EpoDYTNfslsn
+	 RXRJbZ+9hnwaA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id C06E6CE160D; Tue,  1 Apr 2025 16:46:08 -0700 (PDT)
+Date: Tue, 1 Apr 2025 16:46:08 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, lucvoo@kernel.org
+Subject: Re: [paulmckrcu:dev.2025.03.25a 45/45]
+ fs/btrfs/extent-io-tree.c:71:17: sparse: sparse: Initializer entry defined
+ twice
+Message-ID: <12f099bc-effb-49d3-8094-5b981e577eda@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202504020500.Svb9JN2H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +46,1405 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <202504020500.Svb9JN2H-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git futex_local_v11-rc4
-head:   158467dbbaf35716220d878f2604361e7af4926b
-commit: 7b5ed8f7a614e50d923249374cd9d25c773070a3 [14/16] futex: Allow to re-allocate the private local hash.
-config: riscv-randconfig-002-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020737.vw7EqGiC-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504020737.vw7EqGiC-lkp@intel.com/reproduce)
+On Wed, Apr 02, 2025 at 05:33:50AM +0800, kernel test robot wrote:
+> tree:   https://github.com/paulmckrcu/linux dev.2025.03.25a
+> head:   cedfad9ced72fc8c873e11a4c6a089a415489166
+> commit: cedfad9ced72fc8c873e11a4c6a089a415489166 [45/45] ratelimit: Reduc=
+e ratelimit's false-positive misses
+> config: nios2-randconfig-r122-20250402 (https://download.01.org/0day-ci/a=
+rchive/20250402/202504020500.Svb9JN2H-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 10.5.0
+> reproduce: (https://download.01.org/0day-ci/archive/20250402/202504020500=
+=2ESvb9JN2H-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504020500.Svb9JN2H-lkp=
+@intel.com/
+>=20
+> sparse warnings: (new ones prefixed by >>)
+> >> fs/btrfs/extent-io-tree.c:71:17: sparse: sparse: Initializer entry def=
+ined twice
+>    fs/btrfs/extent-io-tree.c:71:17: sparse:   also defined here
+> >> fs/btrfs/extent-io-tree.c:71:17: sparse: sparse: Initializer entry def=
+ined twice
+>    fs/btrfs/extent-io-tree.c:71:17: sparse:   also defined here
+> >> fs/btrfs/extent-io-tree.c:71:17: sparse: sparse: Initializer entry def=
+ined twice
+>    fs/btrfs/extent-io-tree.c:71:17: sparse:   also defined here
+> --
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504020737.vw7EqGiC-lkp@intel.com/
+For line 71 of fs/btrfs/extent-io-tree.c, the C preprocessor gives
+me this:
 
-All errors (new ones prefixed by >>):
+  do { static struct _ddebug __attribute__((__aligned__(8))) __attribute__(=
+(__section__("__dyndbg"))) __UNIQUE_ID_ddebug469 =3D { .modname =3D "btrfs"=
+, .function =3D __func__, .filename =3D "fs/btrfs/extent-io-tree.c", .forma=
+t =3D ("%s: ino %llu isize %llu odd range [%llu,%llu]"), .lineno =3D 71, .f=
+lags =3D 0, .class_id =3D ((1 << 6) - 1), .key.dd_key_false =3D ((struct st=
+atic_key_false){ .key =3D { .enabled =3D { 0 }, { .type =3D 0UL } }, }) }; =
+do { __attribute__((__noreturn__)) extern void __compiletime_assert_470(voi=
+d) __attribute__((__error__("classid value overflow"))); if (!(!(((1 << 6) =
+- 1) > ((1 << 6) - 1)))) __compiletime_assert_470(); } while (0); if (({ bo=
+ol branch; if (__builtin_types_compatible_p(typeof(*&__UNIQUE_ID_ddebug469.=
+key.dd_key_false), struct static_key_true)) branch =3D arch_static_branch_j=
+ump(&(&__UNIQUE_ID_ddebug469.key.dd_key_false)->key, false); else if (__bui=
+ltin_types_compatible_p(typeof(*&__UNIQUE_ID_ddebug469.key.dd_key_false), s=
+truct static_key_false)) branch =3D arch_static_branch(&(&__UNIQUE_ID_ddebu=
+g469.key.dd_key_false)->key, false); else branch =3D ____wrong_branch_error=
+(); __builtin_expect(!!(branch), 0); })) do { static struct ratelimit_state=
+ _rs =3D { .lock =3D (raw_spinlock_t) { .raw_lock =3D { }, }, .interval =3D=
+ (5 * 1000), .burst =3D 10, .rs_n_left =3D { (10) }, .flags =3D 0, }; if (_=
+__ratelimit(&_rs, __func__)) _btrfs_printk(inode->root->fs_info, "\001" "7"=
+ "%s: ino %llu isize %llu odd range [%llu,%llu]", caller, btrfs_ino(inode),=
+ isize, start, end); } while (0); } while (0)
 
-   In file included from ./arch/riscv/include/generated/asm/rwonce.h:1:0,
-                    from include/linux/compiler.h:354,
-                    from arch/riscv/include/asm/bug.h:9,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from kernel/exit.c:8:
-   include/linux/futex.h: In function 'futex_mm_init':
->> include/linux/rcupdate.h:561:36: error: dereferencing pointer to incomplete type 'struct futex_private_hash'
-    #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
-                                       ^~~~
-   include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
-     *(volatile typeof(x) *)&(x) = (val);    \
-                                    ^~~
-   arch/riscv/include/asm/barrier.h:63:2: note: in expansion of macro 'WRITE_ONCE'
-     WRITE_ONCE(*p, v);      \
-     ^~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-                                                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:602:3: note: in expansion of macro 'smp_store_release'
-      smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
-      ^~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:602:25: note: in expansion of macro 'RCU_INITIALIZER'
-      smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
-                            ^~~~~~~~~~~~~~~
-   include/linux/futex.h:88:2: note: in expansion of macro 'rcu_assign_pointer'
-     rcu_assign_pointer(mm->futex_phash, NULL);
-     ^~~~~~~~~~~~~~~~~~
+There are things that might look like initializer entries being defined
+twice, for example ".flags".  But the two ".flags" entries are for different
+data structures, so this appears to be a false positive.
 
+Or am I missing a turn in here somewhere?
 
-vim +561 include/linux/rcupdate.h
+							Thanx, Paul
 
-ca5ecddfa8fcbd Paul E. McKenney 2010-04-28  556  
-462225ae47d717 Paul E. McKenney 2013-11-11  557  /**
-462225ae47d717 Paul E. McKenney 2013-11-11  558   * RCU_INITIALIZER() - statically initialize an RCU-protected global variable
-462225ae47d717 Paul E. McKenney 2013-11-11  559   * @v: The value to statically initialize with.
-462225ae47d717 Paul E. McKenney 2013-11-11  560   */
-462225ae47d717 Paul E. McKenney 2013-11-11 @561  #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
-462225ae47d717 Paul E. McKenney 2013-11-11  562  
-
-:::::: The code at line 561 was first introduced by commit
-:::::: 462225ae47d7175f886281d8a91708550cd5178c rcu: Add an RCU_INITIALIZER for global RCU-protected pointers
-
-:::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    drivers/hid/hid-cherry.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-ezkey.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-monterey.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-dr.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-apple.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-ite.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-lcpower.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-microsoft.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-gyration.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-lenovo.c:786:58: sparse: sparse: cast to restricted __=
+le32
+>    drivers/hid/hid-lenovo.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-input.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-petalynx.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-razer.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-topseed.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> --
+>    drivers/hid/hid-twinhan.c: note: in included file:
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+> >> include/linux/hid.h:1079:17: sparse: sparse: Initializer entry defined=
+ twice
+>    include/linux/hid.h:1079:17: sparse:   also defined here
+>=20
+> vim +71 fs/btrfs/extent-io-tree.c
+>=20
+> 6962541e964ff3 Josef Bacik  2022-09-09  55 =20
+> d8038a1f46f376 Josef Bacik  2022-09-09  56  #define btrfs_debug_check_ext=
+ent_io_range(tree, start, end)		\
+> d8038a1f46f376 Josef Bacik  2022-09-09  57  	__btrfs_debug_check_extent_i=
+o_range(__func__, (tree), (start), (end))
+> d8038a1f46f376 Josef Bacik  2022-09-09  58  static inline void __btrfs_de=
+bug_check_extent_io_range(const char *caller,
+> d8038a1f46f376 Josef Bacik  2022-09-09  59  						       struct extent_io=
+_tree *tree,
+> d8038a1f46f376 Josef Bacik  2022-09-09  60  						       u64 start, u64 e=
+nd)
+> 6962541e964ff3 Josef Bacik  2022-09-09  61  {
+> 738290c056e28d David Sterba 2023-11-21  62  	const struct btrfs_inode *in=
+ode;
+> 6962541e964ff3 Josef Bacik  2022-09-09  63  	u64 isize;
+> 6962541e964ff3 Josef Bacik  2022-09-09  64 =20
+> 738290c056e28d David Sterba 2023-11-21  65  	if (tree->owner !=3D IO_TREE=
+_INODE_IO)
+> 6962541e964ff3 Josef Bacik  2022-09-09  66  		return;
+> 6962541e964ff3 Josef Bacik  2022-09-09  67 =20
+> 738290c056e28d David Sterba 2023-11-21  68  	inode =3D extent_io_tree_to_=
+inode_const(tree);
+> 0988fc7bda79fe David Sterba 2022-10-28  69  	isize =3D i_size_read(&inode=
+->vfs_inode);
+> 6962541e964ff3 Josef Bacik  2022-09-09  70  	if (end >=3D PAGE_SIZE && (e=
+nd % 2) =3D=3D 0 && end !=3D isize - 1) {
+> 0988fc7bda79fe David Sterba 2022-10-28 @71  		btrfs_debug_rl(inode->root-=
+>fs_info,
+> 6962541e964ff3 Josef Bacik  2022-09-09  72  		    "%s: ino %llu isize %ll=
+u odd range [%llu,%llu]",
+> 0988fc7bda79fe David Sterba 2022-10-28  73  			caller, btrfs_ino(inode), =
+isize, start, end);
+> 6962541e964ff3 Josef Bacik  2022-09-09  74  	}
+> 6962541e964ff3 Josef Bacik  2022-09-09  75  }
+> 83cf709a89fb97 Josef Bacik  2022-09-09  76  #else
+> 83cf709a89fb97 Josef Bacik  2022-09-09  77  #define btrfs_leak_debug_add_=
+state(state)		do {} while (0)
+> 83cf709a89fb97 Josef Bacik  2022-09-09  78  #define btrfs_leak_debug_del_=
+state(state)		do {} while (0)
+> 83cf709a89fb97 Josef Bacik  2022-09-09  79  #define btrfs_extent_state_le=
+ak_debug_check()		do {} while (0)
+> d8038a1f46f376 Josef Bacik  2022-09-09  80  #define btrfs_debug_check_ext=
+ent_io_range(c, s, e)	do {} while (0)
+> 83cf709a89fb97 Josef Bacik  2022-09-09  81  #endif
+> 83cf709a89fb97 Josef Bacik  2022-09-09  82 =20
+> 83cf709a89fb97 Josef Bacik  2022-09-09  83 =20
+>=20
+> :::::: The code at line 71 was first introduced by commit
+> :::::: 0988fc7bda79feff046056f032fd149ab08e03d1 btrfs: switch extent_io_t=
+ree::private_data to btrfs_inode and rename
+>=20
+> :::::: TO: David Sterba <dsterba@suse.com>
+> :::::: CC: David Sterba <dsterba@suse.com>
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
