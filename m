@@ -1,59 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E98194080
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Apr 2025 09:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2371EDA08;
+	Tue,  1 Apr 2025 09:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743499169; cv=none; b=E462KsS62SULzBhiaJB3aSnsDC9M0qIGi2MfKqsKvTGlKNPyyqGP0oHnPUmAEfq0L2FA0oJnRZ1ak50L9F8Sttk62mou5JCwEh45p3PZ6fySK9BecNjVOzjxm5gWtRPLyXBHrgfmd930dLTvG7OvoquE9z7UeExcYAelEM/qcU0=
+	t=1743500940; cv=none; b=lanF9H2BJkdBPZlRU7mt4VO4YcRzFq2Elrpv/HVHI43Wina5N5xYjSfkl5NO2Yae3K355M4rlDi6db64OFSs1Flm1etANGcb4w9ofT2vkM03Cp/GSbhhjp6IsGA8opzHUopXnX4kcnikZjTxWnqBfZWC+g3IRIpEfDM+1VxwQQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743499169; c=relaxed/simple;
-	bh=I63E1YBhN5toye/WTgKKCieJLqMvHBpGoYSpNnG06Wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l/ZZCZikwG6Ru1ieJ6CS+JvwQVwMbaoRrYqP0LVOHZg8HJjGcvJjvTcQwbHA1qu6OBp9dy+3dC+Wa2CImI9BSw8WBz4vE0v4Q9HJdqQGkBYjMaaWhJRQIe5mcURngD07ZY9pOVk53F99cCNs2DNaOor2aJx+nQgxWSTPBa/9iZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XqwkKVJ1; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743500940; c=relaxed/simple;
+	bh=9bnqrnpwLGWSks6EY0r4FvvY1vEkPMWJJMXKZ4Duj5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJpSpEIUIZ9vjfoGnFVVDoQNbOK2PHal5tzAqrsB/1zM6f7JaDkhrksoovIelLt4lqV3CuqrxoXb7fFiA/zFkKMD/cnwlzvh1Mrf86w+TROOKylWHLxGfNDzfBhXSLMhB/XwRcvb/YO/yeyL45OOonWwS4hZBA9GP1/RetIKYEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XjA3DkC9; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XqwkKVJ1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743499168; x=1775035168;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I63E1YBhN5toye/WTgKKCieJLqMvHBpGoYSpNnG06Wc=;
-  b=XqwkKVJ1a+/rxH5Akt7cE2AJCpFefN6g+6+s6rys2JZ2HYJ8VTGQFEAV
-   BgyHUT02oeZqJDV9asQ+HWOzypFyOGE2otbJsu9FukeojaPMR7+a85P39
-   VE6gtFxmlMRz3j4dSnUDiMt4y5jE+i9/eoOstH9YbNYz38nkDOZb/eyUA
-   dmKPSM9fVWEc8odfuUtClhxJQceWHH6+Yg5lnzePJVk79sTyioPrSMkZ2
-   vmnK5nKy7KsFx2diRAf8dd2Ih9tsgyqbdz8ezmGzwsy3z7/325IRLvIgd
-   4kfli09QkZd8/dITmcL+cY+MDWRVRXRW+SjJFqt2qz0JKDXrR/+c+qlOn
-   A==;
-X-CSE-ConnectionGUID: capXmn+0TaCGABUq1tovLg==
-X-CSE-MsgGUID: 5KLImyxSTueSNHvQIandOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="55472267"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="55472267"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 02:19:27 -0700
-X-CSE-ConnectionGUID: wQ50jNTnTL+QZEN/tHpeSQ==
-X-CSE-MsgGUID: nND3DnzAQP69zf1ramQzlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="126852688"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Apr 2025 02:19:25 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tzXlt-0009kO-2l;
-	Tue, 01 Apr 2025 09:19:06 +0000
-Date: Tue, 1 Apr 2025 17:18:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1544/1544] mm/share_pool.c:2263:24:
- error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you
- mean 'vmalloc_hugepage'?
-Message-ID: <202504011702.UDJZ2vxB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XjA3DkC9"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-47698757053so61902741cf.0;
+        Tue, 01 Apr 2025 02:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743500937; x=1744105737; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j04JkGotAQcNyhSuNSCcQJ7BrnBfb5gjge3QJgcJHbs=;
+        b=XjA3DkC9FIaD/FOofAIBYvmd8StQ/9rPJ8fKuggevOe6YM05NfB8COTHtbjHvs3LbP
+         8Gv2I8WgK3zqKqAovv8pKbJJLMoTAtz6oNUjQUM5xvRlAvRjLrmFan+L+1/7BZyEugtx
+         IBcolADP0rezgwBj9PNJ6RLf4Qsg7XKvzE26Y/hCBzxISbirLP915U03JyKV452O4IyH
+         4L9jTytqCTeR8fOSgxYiAkEis8rNCsU5+Yj/nUzeUceKjeSZwlUfXpEela05hVQEOz45
+         /9cKfN9UHDBFjpsWFrZCHYUkxl52QuxV83NWSffUrEhjx8YP7Bc2Pntyh5IT0Weh4T84
+         b/hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743500937; x=1744105737;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j04JkGotAQcNyhSuNSCcQJ7BrnBfb5gjge3QJgcJHbs=;
+        b=FetbAOTme0t3duxdkzaf910oemOiJMQrcfBDL0VH1AYEhgDdcrZYMVM2AzioZ9MgJw
+         ZHP1NKfRZN2pRLeyoAct5+oi32Iy4Ruso3VXru+bkevEpIyh5I9dk8+1kCGkKr7Cu6BE
+         bB1nozHhsia4Uuc5WRVdbWcnZqTMWYsIywlZzYpxWRigoTdpy8NC6rSb+jaZc81pYxgI
+         zbFYi86vwR97OQovXrLap4e3koBED/jloSStdDuKkmHI/MVjI2g36uVUeeGQ2A4V8I7Y
+         lC4NSFYbvhhzkhO+78taomIiXY3p7dvym/DmfjhQWADeUlxV/3qcoCmK65SV3zIjUN0Q
+         djog==
+X-Forwarded-Encrypted: i=1; AJvYcCWgpL5V5BrKbtb72+rj2S0HH6NfDWKQAI7z9L0I1/sNPVp0tBypSjjAfumfIEtViECMg6Rn1gMbObiwnHkB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyxbug4jxqJgrvdfMSdgEpNzw8q+FIRgyUmUpQb418ldNyxtztw
+	QYgjrbFjCPcG8ytZcUFX85t4nodl7bNNOFeGYFtCBnRgzMXwJODx
+X-Gm-Gg: ASbGncsxeVIzQSDG1tWFowy+sbGEU/HNLibD2woMlEUN3mgcSISkH2+A1PBf0+H7rEK
+	WbZrPfs+Ry6M+YXWc1LRXw90ZyVY+v1Hlwis1b3oZaso0EHff/egr2a4/X4wywhJl7rtZdbqIGU
+	qDO0wpr0aqaI0FVNGgnWQ+I1plniwX2nhme7oJVfnHQQHYHBBFFumvVordzUFYckChMil1whgr9
+	7ISA2nXGaiYIM+VxMXLqJbeTeSVY4QqtB0yZQQ/XlP6Z2M297TXEm4U3k1UF+9wfhvaa/Hyb1zQ
+	l/iGxFoOudNN9VykuAsYWdffY3myUapOm3opFsqgiPgUcHO3JeBb26l8Tyn081VVAThZ6nkYtVD
+	wBNfQ+CZUar/3eiSsB7gTh+bz1blleg==
+X-Google-Smtp-Source: AGHT+IEG6ezGqp8kvzeb+xYmRLTIN2+0jFBjPPmOrsBKgTMxExPbmADYseQ87fRPaR1fv6LhnR871A==
+X-Received: by 2002:ac8:7e95:0:b0:477:1f59:2876 with SMTP id d75a77b69052e-477e4b94f90mr203632791cf.28.1743500936758;
+        Tue, 01 Apr 2025 02:48:56 -0700 (PDT)
+Received: from errol.ini.cmu.edu (pool-96-235-17-192.pitbpa.fios.verizon.net. [96.235.17.192])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4778317b7dasm64030251cf.64.2025.04.01.02.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 02:48:56 -0700 (PDT)
+Date: Tue, 1 Apr 2025 05:48:54 -0400
+From: "Gabriel L. Somlo" <gsomlo@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Robert Winkler <rwinkler@internships.antmicro.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, Marek Czerski <m.czerski@ap-tech.pl>,
+	Stafford Horne <shorne@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [litex-hub:litex-rebase 6/15] drivers/gpio/gpio-litex.c:228
+ litex_gpio_irq_set_type() warn: inconsistent returns '&gpio_s->gpio_lock'.
+Message-ID: <Z-u2hqjCjqUDA4PS@errol.ini.cmu.edu>
+References: <f8480c68-70e3-478b-927f-d21f9d0cef14@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,92 +77,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f8480c68-70e3-478b-927f-d21f9d0cef14@stanley.mountain>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-Hi Ding,
+Thanks for the report!
 
-FYI, the error/warning still remains.
+I've added a fix as `28882b03f381` in the current (for now) litex-rebase
+against current (for now) master `08733088b566`.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   54ad6c4559d2bcbb5d7a03050b2f417a326a1ce2
-commit: 4a280fac30d27ae2aff096f9f99aa12d50f83426 [1544/1544] ascend: share_pool: support share pool features for ascend platform
-config: arm64-randconfig-r131-20250401 (https://download.01.org/0day-ci/archive/20250401/202504011702.UDJZ2vxB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250401/202504011702.UDJZ2vxB-lkp@intel.com/reproduce)
+I will eventually squash it on top of the original commit, unless
+anyone (Geert?) notices anything still amiss... :)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504011702.UDJZ2vxB-lkp@intel.com/
+Thanks much,
+--Gabriel
 
-All errors (new ones prefixed by >>):
-
-   mm/share_pool.c:55:5: sparse: sparse: symbol 'enable_mdc_default_group' was not declared. Should it be static?
-   mm/share_pool.c:172:6: sparse: sparse: symbol 'host_svm_sp_enable' was not declared. Should it be static?
-   mm/share_pool.c:1542:21: sparse: sparse: undefined identifier 'huge_ptep_get'
-   mm/share_pool.c:1542:34: sparse: sparse: invalid initializer
-   mm/share_pool.c:2263:24: sparse: sparse: undefined identifier 'hugetlb_alloc_hugepage'
-   mm/share_pool.c:236:28: sparse: sparse: context imbalance in 'spa_dec_usage' - unexpected unlock
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:1542:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    1542 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:1542:21: error: invalid initializer
-   mm/share_pool.c: In function 'sp_alloc_pages':
->> mm/share_pool.c:2263:24: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
-    2263 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        vmalloc_hugepage
->> mm/share_pool.c:2263:61: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
-    2263 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                                                             ^~~~~~~~~~~~~~~~~~
-         |                                                             HUGETLB_ANON_FILE
-   mm/share_pool.c:2263:61: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:2266:1: warning: control reaches end of non-void function [-Wreturn-type]
-    2266 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-sparse warnings: (new ones prefixed by >>)
-   mm/share_pool.c:55:5: sparse: sparse: symbol 'enable_mdc_default_group' was not declared. Should it be static?
-   mm/share_pool.c:172:6: sparse: sparse: symbol 'host_svm_sp_enable' was not declared. Should it be static?
-   mm/share_pool.c:1542:21: sparse: sparse: undefined identifier 'huge_ptep_get'
->> mm/share_pool.c:1542:34: sparse: sparse: invalid initializer
-   mm/share_pool.c:2263:24: sparse: sparse: undefined identifier 'hugetlb_alloc_hugepage'
-   mm/share_pool.c:236:28: sparse: sparse: context imbalance in 'spa_dec_usage' - unexpected unlock
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:1542:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    1542 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:1542:21: error: invalid initializer
-   mm/share_pool.c: In function 'sp_alloc_pages':
-   mm/share_pool.c:2263:24: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
-    2263 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        vmalloc_hugepage
-   mm/share_pool.c:2263:61: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
-    2263 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                                                             ^~~~~~~~~~~~~~~~~~
-         |                                                             HUGETLB_ANON_FILE
-   mm/share_pool.c:2263:61: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:2266:1: warning: control reaches end of non-void function [-Wreturn-type]
-    2266 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-vim +2263 mm/share_pool.c
-
-  2257	
-  2258	
-  2259	struct page *sp_alloc_pages(struct vm_struct *area, gfp_t mask,
-  2260						  unsigned int page_order, int node)
-  2261	{
-  2262		if (area->flags & VM_HUGE_PAGES)
-> 2263			return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-  2264		else
-  2265			return alloc_pages_node(node, mask, page_order);
-  2266	}
-  2267	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Mon, Mar 31, 2025 at 12:38:43PM +0300, Dan Carpenter wrote:
+> tree:   https://github.com/litex-hub/linux litex-rebase
+> head:   896969d069ea7223671dd1aac991c551baa91bac
+> commit: 3eb679a2997bf7eb6be1760544632505440a563f [6/15] LiteX: driver for LiteGPIO interface
+> config: s390-randconfig-r072-20250330 (https://download.01.org/0day-ci/archive/20250330/202503301335.C7M94pcE-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202503301335.C7M94pcE-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/gpio/gpio-litex.c:228 litex_gpio_irq_set_type() warn: inconsistent returns '&gpio_s->gpio_lock'.
+> 
+> vim +228 drivers/gpio/gpio-litex.c
+> 
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  188  static int litex_gpio_irq_set_type(struct irq_data *idata, unsigned int type)
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  189  {
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  190  	struct gpio_chip *chip = irq_data_get_irq_chip_data(idata);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  191  	struct litex_gpio *gpio_s = gpiochip_get_data(chip);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  192  	int offset = irqd_to_hwirq(idata) % GPIO_PINS_MAX;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  193  	unsigned long flags;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  194  	u32 bit = BIT(offset);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  195  	u32 mode, edge;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  196  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  197  	spin_lock_irqsave(&gpio_s->gpio_lock, flags);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  198  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  199  	mode = litex_gpio_get_reg(gpio_s, LITEX_GPIO_MODE_OFFSET);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  200  	edge = litex_gpio_get_reg(gpio_s, LITEX_GPIO_EDGE_OFFSET);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  201  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  202  	switch (type & IRQ_TYPE_SENSE_MASK) {
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  203  		case IRQ_TYPE_NONE:
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  204  			break;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  205  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  206  		case IRQ_TYPE_EDGE_RISING:
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  207              mode &= ~bit;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  208  			edge &= ~bit;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  209  			break;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  210  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  211  		case IRQ_TYPE_EDGE_FALLING:
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  212              mode &= ~bit;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  213  			edge |= bit;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  214  			break;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  215  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  216          case IRQ_TYPE_EDGE_BOTH:
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  217  			mode |= bit;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  218              break;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  219  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  220  		default:
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  221  			return -EINVAL;
+> 
+> unlock before returning.
+> 
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  222  	}
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  223  	litex_gpio_set_reg(gpio_s, LITEX_GPIO_MODE_OFFSET, mode);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  224  	litex_gpio_set_reg(gpio_s, LITEX_GPIO_EDGE_OFFSET, edge);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  225  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  226  	spin_unlock_irqrestore(&gpio_s->gpio_lock, flags);
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  227  
+> 3eb679a2997bf7 Robert Winkler 2020-12-22 @228  	return 0;
+> 3eb679a2997bf7 Robert Winkler 2020-12-22  229  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
