@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DF020E318
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Apr 2025 16:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966BE2EAF7
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Apr 2025 17:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743525817; cv=none; b=k4z4DPvPAhEryTYOj1zmMmpbqi6aBbpAkSQ/jZ69jktTQW8nGh6rveJtACwne+8lodb9UQip5v/9+O1ZPrveSQo5eupcUk4pj0yB1+z1ZgBfLu24I4VgCQl7UnPpTBNwInkkSct8VIb8xnsJ1Qc0etXKvRORJMRfLTwprkHP5s0=
+	t=1743527022; cv=none; b=rs6yDqo85JtBj9+okwfi2CprNdBbKF3icrNajxyHd90eXMw+3WrhCfNMTmQiZxh08y0y4Y0kDQnH7n1qjjqmU4QhVe9AypG+AoMjgJLtNsQqizRQo4DmR8Gdh5QsSuIFChqnIzevkkeyE9BNUIsyGJlre+p8LdrYqIRNAF7d1j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743525817; c=relaxed/simple;
-	bh=6jHnPjbI6qAHh8BsU/3ue+JOITcQMLqFxeV0yIlRHWs=;
+	s=arc-20240116; t=1743527022; c=relaxed/simple;
+	bh=EYq9uCpwMXf8ridC0NbiyaRLzftVJ+gwyp+FARk2EiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tHnDWhz0I7FqibPVxlxqhLc4Dc208qeq927EiVuFh5XIn1wjzEeEu8G5kLkY9f81WtO1mkK57j+mPtdh8gX+WUUvcUSf1+r56oq5g+4snXw1Vhs7jg176XuHS24z1GBHzs4xg0Vz0kVRtzcSJWFcEPjonRynUDiqrnSvuf9Dmt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lNjNqPKi; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=kcZh7BxKfMLVT4si4K0FW130MbdAJEzJgCgrjZlDBCrS3zgWMfeyVCYmd1yfqN1LuZWk8OFphQtRHpKlyA0oY01zyELUzi3Q4mQXmcrmIqyn9XuUyulcdpi93wJko4EQ15mcUXohcuYsvHB1GhaKg6m6kaaHjJiaKZiGsr67c9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ip7Z4zea; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lNjNqPKi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ip7Z4zea"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743525816; x=1775061816;
+  t=1743527019; x=1775063019;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6jHnPjbI6qAHh8BsU/3ue+JOITcQMLqFxeV0yIlRHWs=;
-  b=lNjNqPKitKa2NXZQVAWuy5p+1QmysfSsjLTNjoqvxNDUkzMIzV1XSql9
-   kx0Zq6crCnYPK+FgRW/gyaYBbVPbuPIHZ7L34JgRAfYEnAa9dw0tTwHTA
-   vStiZ0hWbLVVGLP3BAiSQo4UCmvpZu/AomeoYMw/vOuVU6lIRi8+mFQgA
-   QdIJejOQ4pL7arLsWyI7ia001t37AlldTjrVPNU4rHh2WmudRy5J/yYRk
-   lwD7bAtWV6NwQ3cb55zIzA3kkjxVFw7AhUOqI40MC3V8PBUczsxEvaCTh
-   QmGJGjnUNipCDjcuswikRVoPSzJ4qgmE3O+U5xJwlbpJBwVPTCsB6EPP0
-   g==;
-X-CSE-ConnectionGUID: tiwZlQurS2aaFfRHN3+lOw==
-X-CSE-MsgGUID: mqAnsDDUT0+wH410UzVXHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="45033082"
+  bh=EYq9uCpwMXf8ridC0NbiyaRLzftVJ+gwyp+FARk2EiI=;
+  b=ip7Z4zea1+2VL4Nlhzq53bNFWp/C8M2k1Q26f/WAo5StKiwkD7Uh2Csf
+   XY557+VB8LTopQc803BNJfoQdGglllFoAcN248CxS/0DGNX76obPcB8tm
+   aPgldVCnED+z/BBepHV091iA8opTWUrz5svWvaQxvgqOqiVlKcK6T8AKa
+   S/BU/NIu76y96RpU2JTPQRXJOVOhVDdYWl38qvLSFYJIKobwxkiDcV07o
+   3xmxoK+AzEjkBssJLaDIjchF+Qk2Pidyrj1osOWWGZaMKaWthpOcRZ3uA
+   t7v5Ctore3V/iWtxqZRhND1Lk2dMoPbg6A238UFmbWQYEOZnpalG7AQfO
+   Q==;
+X-CSE-ConnectionGUID: +EIAuI7hTwWJ/3m8ceYfxQ==
+X-CSE-MsgGUID: EVnaaYoWS2CBXSMIPPnGPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="62263376"
 X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="45033082"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 09:43:35 -0700
-X-CSE-ConnectionGUID: 5bOuBSatSDSYgQd71wigWw==
-X-CSE-MsgGUID: vfpx9sePQ/ijA+UlTeLplQ==
+   d="scan'208";a="62263376"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 10:03:39 -0700
+X-CSE-ConnectionGUID: zBG2SU/hQPeKSEpDxUewrQ==
+X-CSE-MsgGUID: zWm0RsKaSMKjK27QTPIHAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="126198302"
+   d="scan'208";a="126969270"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Apr 2025 09:43:33 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Apr 2025 10:03:38 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzei2-000A0m-2o;
-	Tue, 01 Apr 2025 16:43:30 +0000
-Date: Wed, 2 Apr 2025 00:43:10 +0800
+	id 1tzf1T-000A1W-18;
+	Tue, 01 Apr 2025 17:03:35 +0000
+Date: Wed, 2 Apr 2025 01:03:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: Gabriel Somlo <gsomlo@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1544/1544] mm/share_pool.c:2435:30:
- error: implicit declaration of function 'huge_pte_none'; did you mean
- 'huge_pte_lock'?
-Message-ID: <202504020010.TmMNnpc4-lkp@intel.com>
+Subject: [litex-hub:litex-rebase 8/18] drivers/gpio/gpio-litex.c:157:9:
+ error: cleanup argument not a function
+Message-ID: <202504020038.n7zQoDwK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,162 +62,435 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Weilong,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   54ad6c4559d2bcbb5d7a03050b2f417a326a1ce2
-commit: 4e851c2bb53e45d92e266c65cf0c203624e74710 [1544/1544] ascend: share_pool: Use sharepool_no_page to alloc hugepage
-config: arm64-randconfig-r131-20250401 (https://download.01.org/0day-ci/archive/20250402/202504020010.TmMNnpc4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250402/202504020010.TmMNnpc4-lkp@intel.com/reproduce)
+tree:   https://github.com/litex-hub/linux litex-rebase
+head:   27cd831fb75ec1b1667350dcdad43e58d34ac9f5
+commit: 639fd3757f161027e4f8ec56033e598bf06d7923 [8/18] fixup: use scoped_guard() with LiteGPIO
+config: csky-randconfig-002-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020038.n7zQoDwK-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504020038.n7zQoDwK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504020010.TmMNnpc4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504020038.n7zQoDwK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/share_pool.c:58:5: sparse: sparse: symbol 'enable_mdc_default_group' was not declared. Should it be static?
-   mm/share_pool.c:1685:21: sparse: sparse: undefined identifier 'huge_ptep_get'
-   mm/share_pool.c:1685:34: sparse: sparse: invalid initializer
-   mm/share_pool.c:2435:30: sparse: sparse: undefined identifier 'huge_pte_none'
-   mm/share_pool.c:2448:23: sparse: sparse: undefined identifier 'huge_add_to_page_cache'
-   mm/share_pool.c:2464:14: sparse: sparse: undefined identifier 'huge_pte_none'
-   mm/share_pool.c:2470:9: sparse: sparse: undefined identifier 'set_huge_pte_at'
-   mm/share_pool.c:2472:9: sparse: sparse: undefined identifier 'hugetlb_count_add'
-   mm/share_pool.c:2508:24: sparse: sparse: undefined identifier 'hugetlb_alloc_hugepage'
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:1685:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
-    1685 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
-   mm/share_pool.c:1685:21: error: invalid initializer
-   mm/share_pool.c: In function 'sharepool_no_page':
->> mm/share_pool.c:2435:30: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-    2435 |                         if (!huge_pte_none(huge_ptep_get(ptep))) {
-         |                              ^~~~~~~~~~~~~
-         |                              huge_pte_lock
->> mm/share_pool.c:2448:23: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-    2448 |                 err = huge_add_to_page_cache(page, mapping, idx);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       add_to_page_cache
->> mm/share_pool.c:2470:9: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-    2470 |         set_huge_pte_at(mm, haddr, ptep, new_pte);
-         |         ^~~~~~~~~~~~~~~
-         |         set_huge_swap_pte_at
->> mm/share_pool.c:2472:9: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-    2472 |         hugetlb_count_add(pages_per_huge_page(h), mm);
-         |         ^~~~~~~~~~~~~~~~~
-         |         hugetlb_count_sub
-   mm/share_pool.c: In function 'sp_alloc_pages':
-   mm/share_pool.c:2508:24: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
-    2508 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        vmalloc_hugepage
-   mm/share_pool.c:2508:61: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
-    2508 |                 return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-         |                                                             ^~~~~~~~~~~~~~~~~~
-         |                                                             HUGETLB_ANON_FILE
-   mm/share_pool.c:2508:61: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:2511:1: warning: control reaches end of non-void function [-Wreturn-type]
-    2511 | }
-         | ^
+   In file included from include/linux/irqflags.h:17,
+                    from include/asm-generic/cmpxchg.h:15,
+                    from arch/csky/include/asm/cmpxchg.h:162,
+                    from include/asm-generic/atomic.h:12,
+                    from arch/csky/include/asm/atomic.h:199,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/csky/include/asm/bitops.h:69,
+                    from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/csky/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/gpio/gpio-litex.c:19:
+   drivers/gpio/gpio-litex.c: In function 'litex_gpio_irq_unmask':
+>> include/linux/cleanup.h:258:9: error: unknown type name 'class_spin_lock_irqsave_t'; did you mean 'class_spinlock_irqsave_t'?
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> drivers/gpio/gpio-litex.c:157:9: error: cleanup argument not a function
+>> include/linux/cleanup.h:259:17: error: implicit declaration of function 'class_spin_lock_irqsave_constructor'; did you mean 'class_spinlock_irqsave_constructor'? [-Werror=implicit-function-declaration]
+     259 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:334:9: error: declaration of non-variable 'class_spin_lock_irqsave_constructor' in 'for' loop initial declaration
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |         ^~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:321:28: error: implicit declaration of function 'class_spin_lock_irqsave_lock_ptr'; did you mean 'class_spinlock_irqsave_lock_ptr'? [-Werror=implicit-function-declaration]
+     321 | #define __guard_ptr(_name) class_##_name##_lock_ptr
+         |                            ^~~~~~
+   include/linux/cleanup.h:335:14: note: in expansion of macro '__guard_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |              ^~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:322:30: error: 'class_spin_lock_irqsave_is_conditional' undeclared (first use in this function); did you mean 'class_spinlock_irqsave_is_conditional'?
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   include/linux/cleanup.h:322:30: note: each undeclared identifier is reported only once for each function it appears in
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c: In function 'litex_gpio_irq_mask':
+>> include/linux/cleanup.h:258:9: error: unknown type name 'class_spin_lock_irqsave_t'; did you mean 'class_spinlock_irqsave_t'?
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:173:9: note: in expansion of macro 'scoped_guard'
+     173 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:173:9: error: cleanup argument not a function
+>> include/linux/cleanup.h:334:9: error: declaration of non-variable 'class_spin_lock_irqsave_constructor' in 'for' loop initial declaration
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |         ^~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:173:9: note: in expansion of macro 'scoped_guard'
+     173 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:322:30: error: 'class_spin_lock_irqsave_is_conditional' undeclared (first use in this function); did you mean 'class_spinlock_irqsave_is_conditional'?
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:173:9: note: in expansion of macro 'scoped_guard'
+     173 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c: In function 'litex_gpio_irq_set_type':
+>> include/linux/cleanup.h:258:9: error: unknown type name 'class_spin_lock_irqsave_t'; did you mean 'class_spinlock_irqsave_t'?
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:191:9: note: in expansion of macro 'scoped_guard'
+     191 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:191:9: error: cleanup argument not a function
+>> include/linux/cleanup.h:334:9: error: declaration of non-variable 'class_spin_lock_irqsave_constructor' in 'for' loop initial declaration
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |         ^~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:191:9: note: in expansion of macro 'scoped_guard'
+     191 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:322:30: error: 'class_spin_lock_irqsave_is_conditional' undeclared (first use in this function); did you mean 'class_spinlock_irqsave_is_conditional'?
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:191:9: note: in expansion of macro 'scoped_guard'
+     191 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c: In function 'litex_gpio_irq_eoi':
+>> include/linux/cleanup.h:258:9: error: unknown type name 'class_spin_lock_irqsave_t'; did you mean 'class_spinlock_irqsave_t'?
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:231:9: note: in expansion of macro 'scoped_guard'
+     231 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock)
+         |         ^~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:231:9: error: cleanup argument not a function
+>> include/linux/cleanup.h:334:9: error: declaration of non-variable 'class_spin_lock_irqsave_constructor' in 'for' loop initial declaration
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |         ^~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:231:9: note: in expansion of macro 'scoped_guard'
+     231 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock)
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:322:30: error: 'class_spin_lock_irqsave_is_conditional' undeclared (first use in this function); did you mean 'class_spinlock_irqsave_is_conditional'?
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-litex.c:231:9: note: in expansion of macro 'scoped_guard'
+     231 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock)
+         |         ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/irqflags.h:17,
+                    from include/asm-generic/cmpxchg.h:15,
+                    from arch/csky/include/asm/cmpxchg.h:162,
+                    from include/asm-generic/atomic.h:12,
+                    from arch/csky/include/asm/atomic.h:199,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/csky/include/asm/bitops.h:69,
+                    from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/csky/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from gpio-litex.c:19:
+   gpio-litex.c: In function 'litex_gpio_irq_unmask':
+>> include/linux/cleanup.h:258:9: error: unknown type name 'class_spin_lock_irqsave_t'; did you mean 'class_spinlock_irqsave_t'?
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   gpio-litex.c:157:9: error: cleanup argument not a function
+>> include/linux/cleanup.h:259:17: error: implicit declaration of function 'class_spin_lock_irqsave_constructor'; did you mean 'class_spinlock_irqsave_constructor'? [-Werror=implicit-function-declaration]
+     259 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:334:9: error: declaration of non-variable 'class_spin_lock_irqsave_constructor' in 'for' loop initial declaration
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |         ^~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:321:28: error: implicit declaration of function 'class_spin_lock_irqsave_lock_ptr'; did you mean 'class_spinlock_irqsave_lock_ptr'? [-Werror=implicit-function-declaration]
+     321 | #define __guard_ptr(_name) class_##_name##_lock_ptr
+         |                            ^~~~~~
+   include/linux/cleanup.h:335:14: note: in expansion of macro '__guard_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |              ^~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:322:30: error: 'class_spin_lock_irqsave_is_conditional' undeclared (first use in this function); did you mean 'class_spinlock_irqsave_is_conditional'?
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   include/linux/cleanup.h:322:30: note: each undeclared identifier is reported only once for each function it appears in
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:157:9: note: in expansion of macro 'scoped_guard'
+     157 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   gpio-litex.c: In function 'litex_gpio_irq_mask':
+>> include/linux/cleanup.h:258:9: error: unknown type name 'class_spin_lock_irqsave_t'; did you mean 'class_spinlock_irqsave_t'?
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:173:9: note: in expansion of macro 'scoped_guard'
+     173 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   gpio-litex.c:173:9: error: cleanup argument not a function
+>> include/linux/cleanup.h:334:9: error: declaration of non-variable 'class_spin_lock_irqsave_constructor' in 'for' loop initial declaration
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |         ^~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:173:9: note: in expansion of macro 'scoped_guard'
+     173 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:322:30: error: 'class_spin_lock_irqsave_is_conditional' undeclared (first use in this function); did you mean 'class_spinlock_irqsave_is_conditional'?
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:173:9: note: in expansion of macro 'scoped_guard'
+     173 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   gpio-litex.c: In function 'litex_gpio_irq_set_type':
+>> include/linux/cleanup.h:258:9: error: unknown type name 'class_spin_lock_irqsave_t'; did you mean 'class_spinlock_irqsave_t'?
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:191:9: note: in expansion of macro 'scoped_guard'
+     191 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   gpio-litex.c:191:9: error: cleanup argument not a function
+>> include/linux/cleanup.h:334:9: error: declaration of non-variable 'class_spin_lock_irqsave_constructor' in 'for' loop initial declaration
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |         ^~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:191:9: note: in expansion of macro 'scoped_guard'
+     191 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:322:30: error: 'class_spin_lock_irqsave_is_conditional' undeclared (first use in this function); did you mean 'class_spinlock_irqsave_is_conditional'?
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:191:9: note: in expansion of macro 'scoped_guard'
+     191 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+         |         ^~~~~~~~~~~~
+   gpio-litex.c: In function 'litex_gpio_irq_eoi':
+>> include/linux/cleanup.h:258:9: error: unknown type name 'class_spin_lock_irqsave_t'; did you mean 'class_spinlock_irqsave_t'?
+     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^~~~~~
+   include/linux/cleanup.h:334:14: note: in expansion of macro 'CLASS'
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |              ^~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:231:9: note: in expansion of macro 'scoped_guard'
+     231 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock)
+         |         ^~~~~~~~~~~~
+   gpio-litex.c:231:9: error: cleanup argument not a function
+>> include/linux/cleanup.h:334:9: error: declaration of non-variable 'class_spin_lock_irqsave_constructor' in 'for' loop initial declaration
+     334 |         for (CLASS(_name, scope)(args);                                 \
+         |         ^~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:231:9: note: in expansion of macro 'scoped_guard'
+     231 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock)
+         |         ^~~~~~~~~~~~
+>> include/linux/cleanup.h:322:30: error: 'class_spin_lock_irqsave_is_conditional' undeclared (first use in this function); did you mean 'class_spinlock_irqsave_is_conditional'?
+     322 | #define __is_cond_ptr(_name) class_##_name##_is_conditional
+         |                              ^~~~~~
+   include/linux/cleanup.h:335:45: note: in expansion of macro '__is_cond_ptr'
+     335 |              __guard_ptr(_name)(&scope) || !__is_cond_ptr(_name);       \
+         |                                             ^~~~~~~~~~~~~
+   include/linux/cleanup.h:343:9: note: in expansion of macro '__scoped_guard'
+     343 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^~~~~~~~~~~~~~
+   gpio-litex.c:231:9: note: in expansion of macro 'scoped_guard'
+     231 |         scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock)
+         |         ^~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +2435 mm/share_pool.c
+vim +157 drivers/gpio/gpio-litex.c
 
-  2403	
-  2404	vm_fault_t sharepool_no_page(struct mm_struct *mm,
-  2405				struct vm_area_struct *vma,
-  2406				struct address_space *mapping, pgoff_t idx,
-  2407				unsigned long address, pte_t *ptep, unsigned int flags)
-  2408	{
-  2409		struct hstate *h = hstate_vma(vma);
-  2410		vm_fault_t ret = VM_FAULT_SIGBUS;
-  2411		unsigned long size;
-  2412		struct page *page;
-  2413		pte_t new_pte;
-  2414		spinlock_t *ptl;
-  2415		unsigned long haddr = address & huge_page_mask(h);
-  2416		bool new_page = false;
-  2417		int err;
-  2418	
-  2419	retry:
-  2420		page = find_lock_page(mapping, idx);
-  2421		if (!page) {
-  2422			size = i_size_read(mapping->host) >> huge_page_shift(h);
-  2423			if (idx >= size)
-  2424				goto out;
-  2425	
-  2426			page = alloc_huge_page(vma, haddr, 0);
-  2427			if (IS_ERR(page)) {
-  2428				page = alloc_huge_page_node(hstate_file(vma->vm_file),
-  2429							    numa_mem_id());
-  2430				if (!page)
-  2431					page = ERR_PTR(-ENOMEM);
-  2432			}
-  2433			if (IS_ERR(page)) {
-  2434				ptl = huge_pte_lock(h, mm, ptep);
-> 2435				if (!huge_pte_none(huge_ptep_get(ptep))) {
-  2436					ret = 0;
-  2437					spin_unlock(ptl);
-  2438					goto out;
-  2439				}
-  2440				spin_unlock(ptl);
-  2441				ret = vmf_error(PTR_ERR(page));
-  2442				goto out;
-  2443			}
-  2444			__SetPageUptodate(page);
-  2445			new_page = true;
-  2446	
-  2447			/* sharepool pages are all shared */
-> 2448			err = huge_add_to_page_cache(page, mapping, idx);
-  2449			if (err) {
-  2450				put_page(page);
-  2451				if (err == -EEXIST)
-  2452					goto retry;
-  2453				goto out;
-  2454			}
-  2455		}
-  2456	
-  2457	
-  2458		ptl = huge_pte_lock(h, mm, ptep);
-  2459		size = i_size_read(mapping->host) >> huge_page_shift(h);
-  2460		if (idx >= size)
-  2461			goto backout;
-  2462	
-  2463		ret = 0;
-  2464		if (!huge_pte_none(huge_ptep_get(ptep)))
-  2465			goto backout;
-  2466	
-  2467		page_dup_rmap(page, true);
-  2468		new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
-  2469					&& (vma->vm_flags & VM_SHARED)));
-> 2470		set_huge_pte_at(mm, haddr, ptep, new_pte);
-  2471	
-> 2472		hugetlb_count_add(pages_per_huge_page(h), mm);
-  2473	
-  2474		spin_unlock(ptl);
-  2475	
-  2476		if (new_page) {
-  2477			SetPagePrivate(&page[1]);
-  2478		}
-  2479	
-  2480		unlock_page(page);
-  2481	out:
-  2482		return ret;
-  2483	
-  2484	backout:
-  2485		spin_unlock(ptl);
-  2486		unlock_page(page);
-  2487		put_page(page);
-  2488		goto out;
-  2489	}
-  2490	EXPORT_SYMBOL(sharepool_no_page);
-  2491	
+   145	
+   146	static void litex_gpio_irq_unmask(struct irq_data *idata)
+   147	{
+   148		struct gpio_chip *chip = irq_data_get_irq_chip_data(idata);
+   149		struct litex_gpio *gpio_s = gpiochip_get_data(chip);
+   150		int offset = irqd_to_hwirq(idata) % GPIO_PINS_MAX;
+   151		u32 bit = BIT(offset);
+   152		u32 enable;
+   153	
+   154		gpiochip_enable_irq(chip, idata->hwirq);
+   155	
+   156		/* Clear any sticky pending interrupts */
+ > 157		scoped_guard(spin_lock_irqsave, &gpio_s->gpio_lock) {
+   158			litex_gpio_set_reg(gpio_s, LITEX_GPIO_PENDING_OFFSET, bit);
+   159			enable = litex_gpio_get_reg(gpio_s, LITEX_GPIO_ENABLE_OFFSET);
+   160			enable |= bit;
+   161			litex_gpio_set_reg(gpio_s, LITEX_GPIO_ENABLE_OFFSET, enable);
+   162		}
+   163	}
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
