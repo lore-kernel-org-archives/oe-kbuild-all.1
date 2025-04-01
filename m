@@ -1,189 +1,472 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3342620B7E1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Apr 2025 19:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BC2149C7D;
+	Tue,  1 Apr 2025 19:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743536429; cv=none; b=SG587CgCttGKLqDZN9gUIshHqC/AkWq9G7rjuRHdfW2W0+IdOxAoLN8MP5OiiM0O3AIflXOOj3wlr5gpjpxpoAszcaq/xy/fTAJ0IhbLnqYpN46NNDV9jc5O9WMaSzNE7m95xkHJ2Wds6gflTGs2cLvYco3q4h3EqKj+EssqB7Y=
+	t=1743536746; cv=none; b=ikli/8eow0KZ6P0IXL5V8f85Y0nz24+ecaRxbPA53eEkd+BV9Jad17nLkVk+rO4EEgiQ/8AAUo+jrCbCB219hbHOE0q3A5EwMT/XUGhqfFRXX6Hbs+Sz8xp9Vr3Ypdh8HvaPYYKzwORGz2bJODuxsAv0+tWtm6MtFIxeNFHW+do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743536429; c=relaxed/simple;
-	bh=bQXzFW1GkJoSxJJ4R5XooKdR/q4ZxNDeuQbyNl5GSyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l0lqj2OWYQZgXXZ5nGvOPZPjBp+HHhCu2JHLAKNUslHKBfqMxv7HU+E4obDcdeymEUuOcBQIgUnDf+/7YC6t/DrCfrlmaKQSm9eYT8Dkxu9C3E8IUG80BqEoetOo0nHekQueo6sldTfEtpe89rSy7gp1vxzxy+RpQsRiSVeLnAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DkvZZoMC; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743536746; c=relaxed/simple;
+	bh=TwX5OaqDYnptYUoV1VfrVdMnHt4LWp+L48CJwUkLQBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cwyG4wbUI0ggwwKcVqA88CvGEq+EgKFLGxMr+gTdrxl2ujIj94bdP7lp3zhfXaZohJ7rfWEY6DEhcDvbHkNa+SdLQqWtziwlg2jJ+C6cfc1MaPb8u+7Z3Ui9R/f4UL2kGEi496qWGC5W6mC/9EAwqeThyWZ4egENtmaHqPDezQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKfSa25M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DkvZZoMC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743536427; x=1775072427;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bQXzFW1GkJoSxJJ4R5XooKdR/q4ZxNDeuQbyNl5GSyc=;
-  b=DkvZZoMCi+kuNQn0dCiQo1xSEL+2iY3dFY8XhOtbLvhd2EhIrSy0cTTB
-   7reZZSXhEX9el3qWPQFCeHJpoevkkR2i0lWBWji5INqp5PycjYQV5sGJE
-   ogTs1AbS3oAiCwsJOXoQ3ZWyLfv7hkBmc3eo//k1HQWW2IUDHeKajOr1X
-   HidzO74vH0p822Ccbh7ayZyqej/twMlw6hEdpPJO/eDcTUMwd5aejmygq
-   YuM/AEohT7kSMKPWpH7Fka06yRGgEgaCQuTM+MU86nliXrP80Adm1/p79
-   brgsk+iZXRYbGMdKmIIybXTzWyS53P4+rW9BR7nYceeJgn16Pd+nn8B1d
-   w==;
-X-CSE-ConnectionGUID: PfB8EUDHRBaXYzvTfjQqVQ==
-X-CSE-MsgGUID: cpXuR8StQ9Sx3e3Ez+mAKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="45051658"
-X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
-   d="scan'208";a="45051658"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 12:40:27 -0700
-X-CSE-ConnectionGUID: sNDSr2OIQwyHX0xpaSS+Yg==
-X-CSE-MsgGUID: /1OMp8ZYShq7E+3+Jyyr7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
-   d="scan'208";a="126462612"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Apr 2025 12:40:26 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tzhTD-000A5e-1X;
-	Tue, 01 Apr 2025 19:40:23 +0000
-Date: Wed, 2 Apr 2025 03:40:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 253/257]
- fs/bcachefs/alloc_foreground.c:509: warning: Excess function parameter
- 'usage' description in 'bch2_bucket_alloc_trans'
-Message-ID: <202504020324.KJDMTUBN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKfSa25M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9EB2C4CEE4;
+	Tue,  1 Apr 2025 19:45:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743536745;
+	bh=TwX5OaqDYnptYUoV1VfrVdMnHt4LWp+L48CJwUkLQBg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JKfSa25M0djsGVdwu2s6ex7VU+YN/F4U+Bo+G4rkIruxmeuiM1enQGaiXAU62qIBV
+	 adHyV9qCIil8jgnUYzL+Be2A1FwfhHxngwJ0QbAlTjfV32azNiFpUrZvz0LtrqKPzs
+	 ImNQoroSIb7P0+ken5XFlH1YuwjCkarwMHnSe85QQS4cqo2klyXqyx0O8QOmF8zmK/
+	 I8mD9XLq3Lov4rkSH42PoGKM70TwjvaavalaqShmggIxAw5YW2euMgOnvZVi9iiqGY
+	 QyJU9T297V02vPH/Sya2cQYMqub+SxwvBjhKekD3lA1LDn4SVWRl6n+MQVl2HATT+S
+	 o+/cJ9Ll7fzjg==
+Date: Tue, 1 Apr 2025 12:45:43 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Philip Li <philip.li@intel.com>, Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: kernel test robot <lkp@intel.com>, Guenter Roeck <linux@roeck-us.net>, 
+	oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Alessandro Carminati <acarmina@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
+Subject: Re: [linux-next:master 12681/13861] drivers/i2c/i2c-core-base.o:
+ warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0
+ reg2[24]=-2-24
+Message-ID: <xqfrt2rueezh3upug2umvuw2r44luoaxfqycnmvkh5sezaosw6@h77yjfio4ws6>
+References: <202504011011.jyZ6NtXx-lkp@intel.com>
+ <Z+ttzRArSBMqfABz@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <Z+ttzRArSBMqfABz@rli9-mobl>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   7c713306773a5eb4693733e9a2aff3a188b46c08
-commit: 114ea0537c6a20fc464be95e6fb63e69c935d58f [253/257] bcachefs: alloc_request.usage
-config: nios2-randconfig-001-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020324.KJDMTUBN-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504020324.KJDMTUBN-lkp@intel.com/reproduce)
+On Tue, Apr 01, 2025 at 12:38:37PM +0800, Philip Li wrote:
+> On Tue, Apr 01, 2025 at 10:44:57AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   405e2241def89c88f008dcb899eb5b6d4be8b43c
+> > commit: 9016dad4dca4bbe61c48ffd5a273cad980caa0d1 [12681/13861] loongarch: add support for suppressing warning backtraces
+> > config: loongarch-randconfig-001-20250401 (https://download.01.org/0day-ci/archive/20250401/202504011011.jyZ6NtXx-lkp@intel.com/config)
+> > compiler: loongarch64-linux-gcc (GCC) 14.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250401/202504011011.jyZ6NtXx-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202504011011.jyZ6NtXx-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> drivers/i2c/i2c-core-base.o: warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504020324.KJDMTUBN-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/bcachefs/alloc_foreground.c:509: warning: Excess function parameter 'usage' description in 'bch2_bucket_alloc_trans'
+Tiezhu, this looks like a loongarch GCC bug with asm goto, or am I
+confused?  See analysis below.
 
 
-vim +509 fs/bcachefs/alloc_foreground.c
+make-loongarch -j12 -s drivers/i2c/i2c-core-base.o OBJTOOL_ARGS="--sec-address --backtrace"
+drivers/i2c/i2c-core-base.o: warning: objtool: __i2c_transfer+0x120 (.text+0x2e78): stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
+drivers/i2c/i2c-core-base.o: warning: objtool:   __i2c_transfer+0x168 (.text+0x2ec0): (alt)
+drivers/i2c/i2c-core-base.o: warning: objtool:   __i2c_transfer+0x6c (.text+0x2dc4): (branch)
+drivers/i2c/i2c-core-base.o: warning: objtool:   __i2c_transfer+0x58 (.text+0x2db0): (alt)
+drivers/i2c/i2c-core-base.o: warning: objtool:   __i2c_transfer+0x44 (.text+0x2d9c): (branch)
+drivers/i2c/i2c-core-base.o: warning: objtool:   __i2c_transfer+0x0 (.text+0x2d58): <=== (sym)
 
-40574946b8a517 Kent Overstreet 2024-05-04  492  
-f25d8215f49941 Kent Overstreet 2022-01-09  493  /**
-96dea3d599dbc3 Kent Overstreet 2023-09-12  494   * bch2_bucket_alloc_trans - allocate a single bucket from a specific device
-96dea3d599dbc3 Kent Overstreet 2023-09-12  495   * @trans:	transaction object
-a0f858ba39869f Kent Overstreet 2025-03-31  496   * @req:	state for the entire allocation
-96dea3d599dbc3 Kent Overstreet 2023-09-12  497   * @ca:		device to allocate from
-96dea3d599dbc3 Kent Overstreet 2023-09-12  498   * @cl:		if not NULL, closure to be used to wait if buckets not available
-2f8d5edf556a74 Yang Li         2024-11-29  499   * @nowait:	if true, do not wait for buckets to become available
-96dea3d599dbc3 Kent Overstreet 2023-09-12  500   * @usage:	for secondarily also returning the current device usage
-f25d8215f49941 Kent Overstreet 2022-01-09  501   *
-96dea3d599dbc3 Kent Overstreet 2023-09-12  502   * Returns:	an open_bucket on success, or an ERR_PTR() on failure.
-3e3e02e6bce627 Kent Overstreet 2022-10-19  503   */
-f25d8215f49941 Kent Overstreet 2022-01-09  504  static struct open_bucket *bch2_bucket_alloc_trans(struct btree_trans *trans,
-1a926cc1580a76 Kent Overstreet 2025-03-21  505  						   struct alloc_request *req,
-f25d8215f49941 Kent Overstreet 2022-01-09  506  						   struct bch_dev *ca,
-ed80c5699a23c4 Kent Overstreet 2022-10-21  507  						   struct closure *cl,
-114ea0537c6a20 Kent Overstreet 2025-03-31  508  						   bool nowait)
-f25d8215f49941 Kent Overstreet 2022-01-09 @509  {
-f25d8215f49941 Kent Overstreet 2022-01-09  510  	struct bch_fs *c = trans->c;
-f25d8215f49941 Kent Overstreet 2022-01-09  511  	struct open_bucket *ob = NULL;
-f2b542ba42a8b3 Kent Overstreet 2022-12-11  512  	bool freespace = READ_ONCE(ca->mi.freespace_initialized);
-822835ffeae411 Kent Overstreet 2022-04-01  513  	u64 avail;
-c6705091342c06 Kent Overstreet 2024-04-20  514  	struct bucket_alloc_state s = {
-1a926cc1580a76 Kent Overstreet 2025-03-21  515  		.btree_bitmap = req->data_type == BCH_DATA_btree,
-c6705091342c06 Kent Overstreet 2024-04-20  516  	};
-a977f3e162924e Kent Overstreet 2024-09-01  517  	bool waiting = nowait;
-f25d8215f49941 Kent Overstreet 2022-01-09  518  again:
-114ea0537c6a20 Kent Overstreet 2025-03-31  519  	bch2_dev_usage_read_fast(ca, &req->usage);
-114ea0537c6a20 Kent Overstreet 2025-03-31  520  	avail = dev_buckets_free(ca, req->usage, req->watermark);
-822835ffeae411 Kent Overstreet 2022-04-01  521  
-114ea0537c6a20 Kent Overstreet 2025-03-31  522  	if (req->usage.buckets[BCH_DATA_need_discard] > avail)
-64ee1431cc7d11 Kent Overstreet 2024-06-23  523  		bch2_dev_do_discards(ca);
-822835ffeae411 Kent Overstreet 2022-04-01  524  
-114ea0537c6a20 Kent Overstreet 2025-03-31  525  	if (req->usage.buckets[BCH_DATA_need_gc_gens] > avail)
-103304021e54bf Kent Overstreet 2024-04-19  526  		bch2_gc_gens_async(c);
-822835ffeae411 Kent Overstreet 2022-04-01  527  
-114ea0537c6a20 Kent Overstreet 2025-03-31  528  	if (should_invalidate_buckets(ca, req->usage))
-64ee1431cc7d11 Kent Overstreet 2024-06-23  529  		bch2_dev_do_invalidates(ca);
-822835ffeae411 Kent Overstreet 2022-04-01  530  
-f25d8215f49941 Kent Overstreet 2022-01-09  531  	if (!avail) {
-1a926cc1580a76 Kent Overstreet 2025-03-21  532  		if (req->watermark > BCH_WATERMARK_normal &&
-828552ca74a458 Kent Overstreet 2024-11-24  533  		    c->curr_recovery_pass <= BCH_RECOVERY_PASS_check_allocations)
-828552ca74a458 Kent Overstreet 2024-11-24  534  			goto alloc;
-828552ca74a458 Kent Overstreet 2024-11-24  535  
-822835ffeae411 Kent Overstreet 2022-04-01  536  		if (cl && !waiting) {
-f25d8215f49941 Kent Overstreet 2022-01-09  537  			closure_wait(&c->freelist_wait, cl);
-822835ffeae411 Kent Overstreet 2022-04-01  538  			waiting = true;
-f25d8215f49941 Kent Overstreet 2022-01-09  539  			goto again;
-f25d8215f49941 Kent Overstreet 2022-01-09  540  		}
-f25d8215f49941 Kent Overstreet 2022-01-09  541  
-f1ca1abfb0275d Kent Overstreet 2024-03-13  542  		track_event_change(&c->times[BCH_TIME_blocked_allocate], true);
-f25d8215f49941 Kent Overstreet 2022-01-09  543  
-615f867c14b2d7 Kent Overstreet 2022-07-17  544  		ob = ERR_PTR(-BCH_ERR_freelist_empty);
-f25d8215f49941 Kent Overstreet 2022-01-09  545  		goto err;
-f25d8215f49941 Kent Overstreet 2022-01-09  546  	}
-f25d8215f49941 Kent Overstreet 2022-01-09  547  
-822835ffeae411 Kent Overstreet 2022-04-01  548  	if (waiting)
-822835ffeae411 Kent Overstreet 2022-04-01  549  		closure_wake_up(&c->freelist_wait);
-f2b542ba42a8b3 Kent Overstreet 2022-12-11  550  alloc:
-f2b542ba42a8b3 Kent Overstreet 2022-12-11  551  	ob = likely(freespace)
-1a926cc1580a76 Kent Overstreet 2025-03-21  552  		? bch2_bucket_alloc_freelist(trans, ca, req->watermark, &s, cl)
-1a926cc1580a76 Kent Overstreet 2025-03-21  553  		: bch2_bucket_alloc_early(trans, ca, req->watermark, &s, cl);
-ae10fe017bf546 Kent Overstreet 2022-11-04  554  
-9e9033522ad1e4 Kent Overstreet 2025-01-27  555  	if (s.need_journal_commit * 2 > avail)
-f25d8215f49941 Kent Overstreet 2022-01-09  556  		bch2_journal_flush_async(&c->journal, NULL);
-f2b542ba42a8b3 Kent Overstreet 2022-12-11  557  
-c6705091342c06 Kent Overstreet 2024-04-20  558  	if (!ob && s.btree_bitmap != BTREE_BITMAP_ANY) {
-c6705091342c06 Kent Overstreet 2024-04-20  559  		s.btree_bitmap = BTREE_BITMAP_ANY;
-c6705091342c06 Kent Overstreet 2024-04-20  560  		goto alloc;
-c6705091342c06 Kent Overstreet 2024-04-20  561  	}
-c6705091342c06 Kent Overstreet 2024-04-20  562  
-067d228bb0c405 Kent Overstreet 2023-07-07  563  	if (!ob && freespace && c->curr_recovery_pass <= BCH_RECOVERY_PASS_check_alloc_info) {
-f2b542ba42a8b3 Kent Overstreet 2022-12-11  564  		freespace = false;
-f2b542ba42a8b3 Kent Overstreet 2022-12-11  565  		goto alloc;
-f2b542ba42a8b3 Kent Overstreet 2022-12-11  566  	}
-f25d8215f49941 Kent Overstreet 2022-01-09  567  err:
-f25d8215f49941 Kent Overstreet 2022-01-09  568  	if (!ob)
-615f867c14b2d7 Kent Overstreet 2022-07-17  569  		ob = ERR_PTR(-BCH_ERR_no_buckets_found);
-f25d8215f49941 Kent Overstreet 2022-01-09  570  
-e7f63c67fcb4a4 Kent Overstreet 2024-04-20  571  	if (!IS_ERR(ob))
-1a926cc1580a76 Kent Overstreet 2025-03-21  572  		ob->data_type = req->data_type;
-e7f63c67fcb4a4 Kent Overstreet 2024-04-20  573  
-674cfc26240b78 Kent Overstreet 2022-08-27  574  	if (!IS_ERR(ob))
-40574946b8a517 Kent Overstreet 2024-05-04  575  		count_event(c, bucket_alloc);
-adf16c6dfa279f Kent Overstreet 2022-10-17  576  	else if (!bch2_err_matches(PTR_ERR(ob), BCH_ERR_transaction_restart))
-40574946b8a517 Kent Overstreet 2024-05-04  577  		count_event(c, bucket_alloc_fail);
-40574946b8a517 Kent Overstreet 2024-05-04  578  
-40574946b8a517 Kent Overstreet 2024-05-04  579  	if (!IS_ERR(ob)
-40574946b8a517 Kent Overstreet 2024-05-04  580  	    ? trace_bucket_alloc_enabled()
-40574946b8a517 Kent Overstreet 2024-05-04  581  	    : trace_bucket_alloc_fail_enabled())
-114ea0537c6a20 Kent Overstreet 2025-03-31  582  		trace_bucket_alloc2(c, ca, req, cl, &s, ob);
-f25d8215f49941 Kent Overstreet 2022-01-09  583  
-f25d8215f49941 Kent Overstreet 2022-01-09  584  	return ob;
-f25d8215f49941 Kent Overstreet 2022-01-09  585  }
-f25d8215f49941 Kent Overstreet 2022-01-09  586  
 
-:::::: The code at line 509 was first introduced by commit
-:::::: f25d8215f499418c17dfde0b3158a66e03c758dc bcachefs: Kill allocator threads & freelists
+Below I reconstructed the code path indicated by the above backtrace.
 
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+(On a side note, I wonder why the toolchain doesn't strip the ".L" local
+symbols, they're rather distracting.)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Here's the jump table to explain the static branches below:
+
+Relocation section '.rela__jump_table' at offset 0xc7f0 contains 9 entries:
+    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+0000000000000000  00000a6d00000063 R_LARCH_32_PCREL       0000000000002db0 .L1^B1 + 0
+0000000000000004  00000a6e00000063 R_LARCH_32_PCREL       0000000000002db4 .L849 + 0
+0000000000000008  0000059c0000006d R_LARCH_64_PCREL       0000000000000010 i2c_trace_msg_key + 0
+0000000000000010  00000a6f00000063 R_LARCH_32_PCREL       0000000000002e64 .L1^B2 + 0
+0000000000000014  00000a7000000063 R_LARCH_32_PCREL       0000000000002e78 .L845 + 0
+0000000000000018  0000059c0000006d R_LARCH_64_PCREL       0000000000000010 i2c_trace_msg_key + 0
+0000000000000020  00000a7100000063 R_LARCH_32_PCREL       0000000000002ec0 .L1^B3 + 0
+0000000000000024  00000a7000000063 R_LARCH_32_PCREL       0000000000002e78 .L845 + 0
+0000000000000028  0000059c0000006d R_LARCH_64_PCREL       0000000000000010 i2c_trace_msg_key + 0
+
+
+---------------
+start execution
+---------------
+
+0000000000002d58 <__i2c_transfer>:
+    2d58:	02fe8063 	addi.d      	$sp, $sp, -96
+    2d5c:	29c14077 	st.d        	$s0, $sp, 80
+    2d60:	29c16061 	st.d        	$ra, $sp, 88
+    2d64:	28c0408c 	ld.d        	$t0, $a0, 16
+    2d68:	00150097 	move        	$s0, $a0
+    2d6c:	2600018c 	ldptr.d     	$t0, $t0, 0
+    2d70:	40021980 	beqz        	$t0, 536	# 2f88 <.LVL1023>
+    2d74:	29c12078 	st.d        	$s1, $sp, 72
+    2d78:	001500b8 	move        	$s1, $a1
+
+-----------------------
+$s1 saved and clobbered
+-----------------------
+
+0000000000002d7c <.LBB2114>:
+    2d7c:	400150a0 	beqz        	$a1, 336	# 2ecc <.LVL999+0x4>
+    2d80:	29c10079 	st.d        	$s2, $sp, 64
+    2d84:	001500d9 	move        	$s2, $a2
+
+-----------------------
+$s2 saved and clobbered
+-----------------------
+
+    2d88:	64014006 	blez        	$a2, 320	# 2ec8 <.LVL999>
+
+0000000000002d8c <.LBB2115>:
+    2d8c:	28c9a08c 	ld.d        	$t0, $a0, 616
+    2d90:	0340058c 	andi        	$t0, $t0, 0x1
+    2d94:	44016180 	bnez        	$t0, 352	# 2ef4 <.LBB2119>
+
+0000000000002d98 <.LVL978>:
+    2d98:	28cc008c 	ld.d        	$t0, $a0, 768
+    2d9c:	40000d80 	beqz        	$t0, 12	# 2da8 <.LVL979+0x4>
+
+--------------
+branch -> 2da8 (adal->quirks == NULL)
+--------------
+
+    2da8:	29c0e07a 	st.d        	$s3, $sp, 56
+    2dac:	29c0607e 	st.d        	$s7, $sp, 24
+
+-----------------
+$s3 and $s7 saved
+-----------------
+
+0000000000002db0 <.L1^B1>:
+    2db0:	03400000 	nop
+
+---------------------
+static branch -> 2db4 (i2c_trace_msg_key enabled; branch to next insn
+		       b/c clause is empty due to !CONFIG_TRACEPOINTS)
+---------------------
+
+0000000000002db4 <.L849>:
+    2db4:	1a00001a 	pcalau12i   	$s3, 0	2db4: R_LARCH_GOT_PC_HI20	jiffies
+
+-------------
+$s3 clobbered
+-------------
+
+    2db8:	28c0035a 	ld.d        	$s3, $s3, 0	2db8: R_LARCH_GOT_PC_LO12	jiffies
+    2dbc:	24006eec 	ldptr.w     	$t0, $s0, 108
+    2dc0:	2600035e 	ldptr.d     	$s7, $s3, 0
+
+-------------
+$s7 clobbered
+-------------
+
+0000000000002dc4 <.LVL982>:
+    2dc4:	6000f980 	bltz        	$t0, 248	# 2ebc <.LVL997>
+
+--------------
+branch -> 2ebc (adap->retries < 0)
+--------------
+
+0000000000002ebc <.LVL997>:
+    2ebc:	00150004 	move        	$a0, $zero
+
+0000000000002ec0 <.L1^B3>:
+    2ec0:	03400000 	nop
+
+-----------------------------
+BROKEN: static branch -> 2e78 (i2c_trace_msg_key enabled; again tries to
+			       skip empty tracepoint clause but branches
+			       to the wrong place in epilogue, skipping
+			       reg restores of callee saved registers
+			       $s1, $s2, $s3, $s7)
+-----------------------------
+
+0000000000002e78 <.L845>:
+    2e78:	28c16061 	ld.d        	$ra, $sp, 88
+    2e7c:	28c14077 	ld.d        	$s0, $sp, 80
+
+0000000000002e80 <.LVL994>:
+    2e80:	02c18063 	addi.d      	$sp, $sp, 96
+
+--------------------------------------
+return without restoring $s1, $s2, $s3
+--------------------------------------
+
+    2e84:	4c000020 	ret
+
+
+
+Full disassembly below:
+
+0000000000002d58 <__i2c_transfer>:
+    2d58:	02fe8063 	addi.d      	$sp, $sp, -96
+    2d5c:	29c14077 	st.d        	$s0, $sp, 80
+    2d60:	29c16061 	st.d        	$ra, $sp, 88
+    2d64:	28c0408c 	ld.d        	$t0, $a0, 16
+    2d68:	00150097 	move        	$s0, $a0
+    2d6c:	2600018c 	ldptr.d     	$t0, $t0, 0
+    2d70:	40021980 	beqz        	$t0, 536	# 2f88 <.LVL1023>
+    2d74:	29c12078 	st.d        	$s1, $sp, 72
+    2d78:	001500b8 	move        	$s1, $a1
+
+0000000000002d7c <.LBB2114>:
+    2d7c:	400150a0 	beqz        	$a1, 336	# 2ecc <.LVL999+0x4>
+    2d80:	29c10079 	st.d        	$s2, $sp, 64
+    2d84:	001500d9 	move        	$s2, $a2
+    2d88:	64014006 	blez        	$a2, 320	# 2ec8 <.LVL999>
+
+0000000000002d8c <.LBB2115>:
+    2d8c:	28c9a08c 	ld.d        	$t0, $a0, 616
+    2d90:	0340058c 	andi        	$t0, $t0, 0x1
+    2d94:	44016180 	bnez        	$t0, 352	# 2ef4 <.LBB2119>
+
+0000000000002d98 <.LVL978>:
+    2d98:	28cc008c 	ld.d        	$t0, $a0, 768
+    2d9c:	40000d80 	beqz        	$t0, 12	# 2da8 <.LVL979+0x4>
+    2da0:	57fcdbff 	bl          	-808	# 2a78 <i2c_check_for_quirks>
+
+0000000000002da4 <.LVL979>:
+    2da4:	44018480 	bnez        	$a0, 388	# 2f28 <.LVL1010>
+    2da8:	29c0e07a 	st.d        	$s3, $sp, 56
+    2dac:	29c0607e 	st.d        	$s7, $sp, 24
+
+0000000000002db0 <.L1^B1>:
+    2db0:	03400000 	nop
+
+0000000000002db4 <.L849>:
+    2db4:	1a00001a 	pcalau12i   	$s3, 0	2db4: R_LARCH_GOT_PC_HI20	jiffies
+    2db8:	28c0035a 	ld.d        	$s3, $s3, 0	2db8: R_LARCH_GOT_PC_LO12	jiffies
+    2dbc:	24006eec 	ldptr.w     	$t0, $s0, 108
+    2dc0:	2600035e 	ldptr.d     	$s7, $s3, 0
+
+0000000000002dc4 <.LVL982>:
+    2dc4:	6000f980 	bltz        	$t0, 248	# 2ebc <.LVL997>
+    2dc8:	29c0c07b 	st.d        	$s4, $sp, 48
+    2dcc:	1a00001b 	pcalau12i   	$s4, 0	2dcc: R_LARCH_GOT_PC_HI20	system_state
+    2dd0:	29c0a07c 	st.d        	$s5, $sp, 40
+    2dd4:	29c0807d 	st.d        	$s6, $sp, 32
+    2dd8:	29c0407f 	st.d        	$s8, $sp, 16
+
+0000000000002ddc <.LBB2138>:
+    2ddc:	02800c1d 	li.w        	$s6, 3
+    2de0:	0015001f 	move        	$s8, $zero
+    2de4:	02bfd41c 	li.w        	$s5, -11
+    2de8:	28c0037b 	ld.d        	$s4, $s4, 0	2de8: R_LARCH_GOT_PC_LO12	system_state
+
+0000000000002dec <.LVL983>:
+    2dec:	03400000 	nop
+
+0000000000002df0 <.LBI2138>:
+    2df0:	2400036c 	ldptr.w     	$t0, $s4, 0
+    2df4:	6c00afac 	bgeu        	$s6, $t0, 172	# 2ea0 <.LVL995+0x18>
+
+0000000000002df8 <.LBB2140>:
+    2df8:	24001c4c 	ldptr.w     	$t0, $tp, 28
+    2dfc:	0040818c 	slli.w      	$t0, $t0, 0x0
+    2e00:	44001180 	bnez        	$t0, 16	# 2e10 <.LVL984+0x8>
+
+0000000000002e04 <.LBB2145>:
+    2e04:	0400000c 	csrrd       	$t0, 0x0
+
+0000000000002e08 <.LVL984>:
+    2e08:	0340118c 	andi        	$t0, $t0, 0x4
+    2e0c:	44009580 	bnez        	$t0, 148	# 2ea0 <.LVL995+0x18>
+    2e10:	28c042ec 	ld.d        	$t0, $s0, 16
+    2e14:	28c0218d 	ld.d        	$t1, $t0, 8
+    2e18:	40008da0 	beqz        	$t1, 140	# 2ea4 <.LVL995+0x1c>
+    2e1c:	00150326 	move        	$a2, $s2
+    2e20:	00150305 	move        	$a1, $s1
+    2e24:	001502e4 	move        	$a0, $s0
+    2e28:	4c0001a1 	jirl        	$ra, $t1, 0
+
+0000000000002e2c <.LVL987>:
+    2e2c:	5c00289c 	bne         	$a0, $s5, 40	# 2e54 <.LVL988+0x4>
+
+0000000000002e30 <.LBB2152>:
+    2e30:	29c02060 	st.d        	$zero, $sp, 8
+    2e34:	2600034d 	ldptr.d     	$t1, $s3, 0
+    2e38:	24006aec 	ldptr.w     	$t0, $s0, 104
+    2e3c:	0011b7cd 	sub.d       	$t1, $s7, $t1
+    2e40:	0010b58c 	add.d       	$t0, $t0, $t1
+    2e44:	60001180 	bltz        	$t0, 16	# 2e54 <.LVL988+0x4>
+    2e48:	24006eec 	ldptr.w     	$t0, $s0, 108
+    2e4c:	028007ff 	addi.w      	$s8, $s8, 1
+
+0000000000002e50 <.LVL988>:
+    2e50:	67ffa19f 	bge         	$t0, $s8, -96	# 2df0 <.LBI2138>
+    2e54:	28c0c07b 	ld.d        	$s4, $sp, 48
+    2e58:	28c0a07c 	ld.d        	$s5, $sp, 40
+    2e5c:	28c0807d 	ld.d        	$s6, $sp, 32
+    2e60:	28c0407f 	ld.d        	$s8, $sp, 16
+
+0000000000002e64 <.L1^B2>:
+    2e64:	03400000 	nop
+    2e68:	28c12078 	ld.d        	$s1, $sp, 72
+
+0000000000002e6c <.LVL991>:
+    2e6c:	28c10079 	ld.d        	$s2, $sp, 64
+
+0000000000002e70 <.LVL992>:
+    2e70:	28c0e07a 	ld.d        	$s3, $sp, 56
+    2e74:	28c0607e 	ld.d        	$s7, $sp, 24
+
+0000000000002e78 <.L845>:
+    2e78:	28c16061 	ld.d        	$ra, $sp, 88
+    2e7c:	28c14077 	ld.d        	$s0, $sp, 80
+
+0000000000002e80 <.LVL994>:
+    2e80:	02c18063 	addi.d      	$sp, $sp, 96
+    2e84:	4c000020 	ret
+
+0000000000002e88 <.LVL995>:
+    2e88:	03400000 	nop
+    2e8c:	03400000 	nop
+    2e90:	03400000 	nop
+    2e94:	03400000 	nop
+    2e98:	03400000 	nop
+    2e9c:	03400000 	nop
+    2ea0:	28c042ec 	ld.d        	$t0, $s0, 16
+    2ea4:	2600018c 	ldptr.d     	$t0, $t0, 0
+    2ea8:	00150326 	move        	$a2, $s2
+    2eac:	00150305 	move        	$a1, $s1
+    2eb0:	001502e4 	move        	$a0, $s0
+    2eb4:	4c000181 	jirl        	$ra, $t0, 0
+
+0000000000002eb8 <.LVL996>:
+    2eb8:	53ff77ff 	b           	-140	# 2e2c <.LVL987>
+
+0000000000002ebc <.LVL997>:
+    2ebc:	00150004 	move        	$a0, $zero
+
+0000000000002ec0 <.L1^B3>:
+    2ec0:	03400000 	nop
+    2ec4:	53ffa7ff 	b           	-92	# 2e68 <.L1^B2+0x4>
+
+0000000000002ec8 <.LVL999>:
+    2ec8:	28c10079 	ld.d        	$s2, $sp, 64
+    2ecc:	1a000004 	pcalau12i   	$a0, 0	2ecc: R_LARCH_PCALA_HI20	.LANCHOR0
+
+0000000000002ed0 <.LVL1000>:
+    2ed0:	02c00084 	addi.d      	$a0, $a0, 0	2ed0: R_LARCH_PCALA_LO12	.LANCHOR0
+    2ed4:	02c5a084 	addi.d      	$a0, $a0, 360
+    2ed8:	54000000 	bl          	0	# 2ed8 <.LVL1000+0x8>	2ed8: R_LARCH_B26	__kunit_is_suppressed_warning
+
+0000000000002edc <.LVL1001>:
+    2edc:	0015008c 	move        	$t0, $a0
+    2ee0:	02bfa804 	li.w        	$a0, -22
+    2ee4:	44003d80 	bnez        	$t0, 60	# 2f20 <.LVL1008+0x8>
+
+0000000000002ee8 <.L10001^B7>:
+    2ee8:	002a0001 	break       	0x1
+    2eec:	28c12078 	ld.d        	$s1, $sp, 72
+
+0000000000002ef0 <.LVL1002>:
+    2ef0:	53ff8bff 	b           	-120	# 2e78 <.L845>
+
+0000000000002ef4 <.LBB2119>:
+    2ef4:	0280080d 	li.w        	$t1, 2
+    2ef8:	02c9a08e 	addi.d      	$t2, $a0, 616
+    2efc:	386cb5cc 	amor_db.d   	$t0, $t1, $t2
+
+0000000000002f00 <.LVL1004>:
+    2f00:	0340098c 	andi        	$t0, $t0, 0x2
+    2f04:	40003580 	beqz        	$t0, 52	# 2f38 <.LBB2126>
+
+0000000000002f08 <.LVL1006>:
+    2f08:	28c12078 	ld.d        	$s1, $sp, 72
+    2f0c:	28c10079 	ld.d        	$s2, $sp, 64
+
+0000000000002f10 <.LVL1007>:
+    2f10:	02be5004 	li.w        	$a0, -108
+    2f14:	53ff67ff 	b           	-156	# 2e78 <.L845>
+
+0000000000002f18 <.LVL1008>:
+    2f18:	03400000 	nop
+    2f1c:	03400000 	nop
+    2f20:	28c12078 	ld.d        	$s1, $sp, 72
+
+0000000000002f24 <.LVL1009>:
+    2f24:	53ff57ff 	b           	-172	# 2e78 <.L845>
+
+0000000000002f28 <.LVL1010>:
+    2f28:	28c12078 	ld.d        	$s1, $sp, 72
+
+0000000000002f2c <.LVL1011>:
+    2f2c:	28c10079 	ld.d        	$s2, $sp, 64
+
+0000000000002f30 <.LVL1012>:
+    2f30:	02be8404 	li.w        	$a0, -95
+    2f34:	53ff47ff 	b           	-188	# 2e78 <.L845>
+
+0000000000002f38 <.LBB2126>:
+    2f38:	1a000018 	pcalau12i   	$s1, 0	2f38: R_LARCH_PCALA_HI20	.LANCHOR0
+    2f3c:	02c00318 	addi.d      	$s1, $s1, 0	2f3c: R_LARCH_PCALA_LO12	.LANCHOR0
+    2f40:	02c5e318 	addi.d      	$s1, $s1, 376
+    2f44:	00150304 	move        	$a0, $s1
+
+0000000000002f48 <.LVL1014>:
+    2f48:	54000000 	bl          	0	# 2f48 <.LVL1014>	2f48: R_LARCH_B26	__kunit_is_suppressed_warning
+
+0000000000002f4c <.LVL1015>:
+    2f4c:	47ffbc9f 	bnez        	$a0, -68	# 2f08 <.LVL1006>
+    2f50:	02c1c2e4 	addi.d      	$a0, $s0, 112
+    2f54:	54000000 	bl          	0	# 2f54 <.LVL1015+0x8>	2f54: R_LARCH_B26	dev_driver_string
+
+0000000000002f58 <.LBB2127>:
+    2f58:	28c302e6 	ld.d        	$a2, $s0, 192
+    2f5c:	00150085 	move        	$a1, $a0
+
+0000000000002f60 <.LBI2127>:
+    2f60:	440008c0 	bnez        	$a2, 8	# 2f68 <.LBB2129+0x4>
+
+0000000000002f64 <.LBB2129>:
+    2f64:	28c1c2e6 	ld.d        	$a2, $s0, 112
+    2f68:	1a000004 	pcalau12i   	$a0, 0	2f68: R_LARCH_PCALA_HI20	.LC70
+    2f6c:	02c00084 	addi.d      	$a0, $a0, 0	2f6c: R_LARCH_PCALA_LO12	.LC70
+    2f70:	54000000 	bl          	0	# 2f70 <.LBB2129+0xc>	2f70: R_LARCH_B26	__warn_printk
+
+0000000000002f74 <.LVL1020>:
+    2f74:	00150304 	move        	$a0, $s1
+    2f78:	54000000 	bl          	0	# 2f78 <.LVL1020+0x4>	2f78: R_LARCH_B26	__kunit_is_suppressed_warning
+
+0000000000002f7c <.LVL1021>:
+    2f7c:	47ff8c9f 	bnez        	$a0, -116	# 2f08 <.LVL1006>
+
+0000000000002f80 <.L10001^B8>:
+    2f80:	002a0001 	break       	0x1
+
+
+0000000000002f84 <.LVL1022>:
+    2f84:	53ff87ff 	b           	-124	# 2f08 <.LVL1006>
+
+0000000000002f88 <.LVL1023>:
+    2f88:	1a000006 	pcalau12i   	$a2, 0	2f88: R_LARCH_PCALA_HI20	.LC69
+
+0000000000002f8c <.LVL1024>:
+    2f8c:	1a000004 	pcalau12i   	$a0, 0	2f8c: R_LARCH_PCALA_HI20	.LC9
+
+0000000000002f90 <.LVL1025>:
+    2f90:	02c00084 	addi.d      	$a0, $a0, 0	2f90: R_LARCH_PCALA_LO12	.LC9
+    2f94:	02c1c2e5 	addi.d      	$a1, $s0, 112
+
+0000000000002f98 <.LVL1026>:
+    2f98:	02c000c6 	addi.d      	$a2, $a2, 0	2f98: R_LARCH_PCALA_LO12	.LC69
+    2f9c:	54000000 	bl          	0	# 2f9c <.LVL1026+0x4>	2f9c: R_LARCH_B26	_dev_printk
+
+0000000000002fa0 <.LVL1027>:
+    2fa0:	02be8404 	li.w        	$a0, -95
+    2fa4:	53fed7ff 	b           	-300	# 2e78 <.L845>
