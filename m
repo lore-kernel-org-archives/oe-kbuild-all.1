@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9A72E336E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 07:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844D52AE77
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 08:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743579409; cv=none; b=tNm/y+2WYiA/PsTnIXHe/kqr1jvA4jkufpIQYM1JRnLFNUYtlhhSyxV2PnPM6eDnX8xRCZz7N0dl/5ApLgZ5elD3g6FT3fbQ8XsmNgcyEajYd3vJM/EXLqSmIZXz0Wzbwk+nPBamU61p/kox26bmHuNbKJi4UP6NjDQmjuZ9jM0=
+	t=1743581241; cv=none; b=a2n4cCUzItsWM/DNOMzrWnpUUxmGmREYK+rFQ+Hlxfqx4JePmLlM7QdQvBrm/3CqYzD66arMVumrLVpNsxp7tIOk5GZKMd+Je2MDo1fTkGBq4WHkcltoyNUOY3+77/TjKLKivFQ0igYlcYE8WHydT3nsXW/UegIKolo72awtDPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743579409; c=relaxed/simple;
-	bh=F7pdwd3MfJlyZWraB6FNiufwjsGrJUmNf+1FDtcLlDw=;
+	s=arc-20240116; t=1743581241; c=relaxed/simple;
+	bh=gIE6MwH3D4GmffYqwAik+RCda6KbxzF08P7t34FEoVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f5NBjqxL8MtsJImljvqt5kdnCV4+ZiBd+k7NMne5+CT5TdqG4H8oXFp/6iHgOnv21MYTgn8Qi/HMJWeaDf2zHcFvGiTk2/zvTtK2I34ZvrgDKv9Df0cfREKIkA1ZI9joCbOWtZuSeFRXbssbF7opXg1Z22NEwUIGSQ3+cIaTqPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apxg44Jl; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Uwj9pAoCj0AAVam7KBEKaOdx7OIAovUuvolPuZaAl0yvCkGPp7KhDMoM+Pif2lQSnyGnPWlKGU9uqUk7Sej3dEL3GeNg+L1s5tgpYtQNyRExdzRH+w7hvetDo0VQWRFVSVgWwYNbRcKlBitGY6mLPEkpOaCh7fm7VtNRdiX87oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/jvmHic; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apxg44Jl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/jvmHic"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743579408; x=1775115408;
+  t=1743581239; x=1775117239;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F7pdwd3MfJlyZWraB6FNiufwjsGrJUmNf+1FDtcLlDw=;
-  b=apxg44Jl2xHFdJj8g6Q3bZUoF87yI1DRYeXRCpNtOQz8BHriWbqGD/5u
-   5fxy6bsaQkni0LnjO/RhzaaaPYqAdpyAJ7z17QioGSgItz7lfXhEc4Pw3
-   F8WK+L1ZVEI3EXdJvhh+noQu6RqN3yixSny2KsAsXdvC2OmMhqonljiYv
-   AsKRPulS80zt5WV8Uj2pVUmXJbal3fxPFvVEYHujwAJpc6/VVWhGNdUJY
-   OpYwPK+Fgvh6ESGkZWjlYISBTi0gRW4Eboa3y5s2cvU7i+sIMNHkxcZMu
-   tAiGKG+CrpFqYunzIAjIqg1Jox/rh10V91uOz4HBtgZVW3DliFggznQwI
-   Q==;
-X-CSE-ConnectionGUID: Q6FWtxk9QD6251Q8jP7DQg==
-X-CSE-MsgGUID: 6pmqfQlQQemcCxt4M31lWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44634863"
+  bh=gIE6MwH3D4GmffYqwAik+RCda6KbxzF08P7t34FEoVs=;
+  b=T/jvmHicHBftEuBT0EM1ss0USOKLwRcVWFtlbXzhkmR64zgP5JzcR4F0
+   wSw2cI/LmjiEKu3Kl2y0pMCqBQ6Ip50ZxnbpWmdWMMrtngfsK2tdX9Nk8
+   PfI4UQ47XDdefaGmMAXJmC1yVT9Ofc79ADB2AmmAtN6KgGfechLTtD9/X
+   yXl7q0j06ZaYdCaClyY9/XL3gXryW10SOdDHQLgyoDMtDxVUTUarrSmKz
+   YX487Stoqo1WI3c+mp3k5dzspe1Cy8uOAfHlQ+ERoq30DI4c7yDlH7XQ0
+   RzTUvvBz1uEtA42EhjssIIJTA+dL2Na4Y84rtRRsUfJ2qV3m1Lu7Jio2i
+   w==;
+X-CSE-ConnectionGUID: 6Lfl+ShfRmGF4NdQkE3/5A==
+X-CSE-MsgGUID: Mcxz3TVrQEua2QjuQB7cFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="48801036"
 X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
-   d="scan'208";a="44634863"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 00:36:47 -0700
-X-CSE-ConnectionGUID: KYUrQS6aQUOsN7eiw5bC2w==
-X-CSE-MsgGUID: BVKbadV+TESdn8JdNOJibA==
+   d="scan'208";a="48801036"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 01:07:16 -0700
+X-CSE-ConnectionGUID: e9vCZx0HQ1aW5rwJdIkgow==
+X-CSE-MsgGUID: e+0+HqZTTf2EmY6iNJqGew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
-   d="scan'208";a="126376240"
+   d="scan'208";a="131487946"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 02 Apr 2025 00:36:46 -0700
+  by orviesa003.jf.intel.com with ESMTP; 02 Apr 2025 01:07:16 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzseS-000AXk-0j;
-	Wed, 02 Apr 2025 07:36:44 +0000
-Date: Wed, 2 Apr 2025 15:35:47 +0800
+	id 1tzt7x-000AYk-1E;
+	Wed, 02 Apr 2025 08:07:13 +0000
+Date: Wed, 2 Apr 2025 16:06:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paulo Alcantara <pc@manguebit.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Subject: [linux-next:master 14083/14328] fs/smb/client/cifssmb.c:3094:5:
- error: conflicting types for 'cifs_do_set_acl'; have 'int(const unsigned
- int,  struct cifs_tcon *, const unsigned char *, const struct posix_acl *,
- const int,  const struct nls_table *, int)'
-Message-ID: <202504021549.evbuYKS3-lkp@intel.com>
+To: kernel@openeuler.org, Laibin Qiu <qiulaibin@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1537/1537] kernel/seccomp.o: warning:
+ objtool: do_seccomp()+0xa8a: unreachable instruction
+Message-ID: <202504021615.GKzmsAcB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,47 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fefb886b1344e222b3218f3c0165b0fd770e8b88
-commit: 9f043ebda20bc29a856721ba7432d5541d89c14f [14083/14328] smb: client: optimize pathname checking
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20250402/202504021549.evbuYKS3-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021549.evbuYKS3-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   7951fd324625a8af5097e1476cdc8c33c6009b48
+commit: e5d58f5ee731b2ff4e5c801cb875c804c63593e4 [1537/1537] seccomp: Invalidate seccomp mode to catch death failures
+config: x86_64-buildonly-randconfig-004-20250331 (https://download.01.org/0day-ci/archive/20250402/202504021615.GKzmsAcB-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021615.GKzmsAcB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504021549.evbuYKS3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504021615.GKzmsAcB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/smb/client/cifssmb.c:3094:5: error: conflicting types for 'cifs_do_set_acl'; have 'int(const unsigned int,  struct cifs_tcon *, const unsigned char *, const struct posix_acl *, const int,  const struct nls_table *, int)'
-    3094 | int cifs_do_set_acl(const unsigned int xid, struct cifs_tcon *tcon,
-         |     ^~~~~~~~~~~~~~~
-   In file included from fs/smb/client/cifssmb.c:33:
-   fs/smb/client/cifsproto.h:556:5: note: previous declaration of 'cifs_do_set_acl' with type 'int(const unsigned int,  struct cifs_tcon *, const unsigned char *, const struct posix_acl *, const int,  struct cifs_sb_info *)'
-     556 | int cifs_do_set_acl(const unsigned int xid, struct cifs_tcon *tcon,
-         |     ^~~~~~~~~~~~~~~
-
-
-vim +3094 fs/smb/client/cifssmb.c
-
-dc1af4c4b4721a fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3093  
-dc1af4c4b4721a fs/cifs/cifssmb.c Christian Brauner 2022-09-22 @3094  int cifs_do_set_acl(const unsigned int xid, struct cifs_tcon *tcon,
-dc1af4c4b4721a fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3095  		    const unsigned char *fileName, const struct posix_acl *acl,
-dc1af4c4b4721a fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3096  		    const int acl_type, const struct nls_table *nls_codepage,
-dc1af4c4b4721a fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3097  		    int remap)
-dc1af4c4b4721a fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3098  {
-dc1af4c4b4721a fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3099  	return -EOPNOTSUPP;
-dc1af4c4b4721a fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3100  }
-bd9684b042dcbb fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3101  #endif /* CONFIG_FS_POSIX_ACL */
-bd9684b042dcbb fs/cifs/cifssmb.c Christian Brauner 2022-09-22  3102  
-
-:::::: The code at line 3094 was first introduced by commit
-:::::: dc1af4c4b4721abfa07b351063825acc7e69cc66 cifs: implement set acl method
-
-:::::: TO: Christian Brauner <brauner@kernel.org>
-:::::: CC: Christian Brauner (Microsoft) <brauner@kernel.org>
+   kernel/seccomp.c:190: warning: Function parameter or member 'ret' not described in 'ACTION_ONLY'
+   kernel/seccomp.c:190: warning: Excess function parameter 'sd' description in 'ACTION_ONLY'
+   kernel/seccomp.c:190: warning: Excess function parameter 'match' description in 'ACTION_ONLY'
+   kernel/seccomp.c:320: warning: Function parameter or member 'flags' not described in 'seccomp_sync_threads'
+>> kernel/seccomp.o: warning: objtool: do_seccomp()+0xa8a: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
