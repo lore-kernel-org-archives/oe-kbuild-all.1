@@ -1,42 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F1D175D48;
-	Wed,  2 Apr 2025 19:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C6113635E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 19:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743620512; cv=none; b=S1xO3qvylT2jJxdIB5smBGyNdk8y3D2XT0iedUSuWJGQZHbm/xspPI9uJY3CfFo8rTUUT8gR4XkxPf7xLoKGxtPnJ68D8oFprggvDt+SIYyXjtA1AlpQFRPeDe8SzfoXoTuBRmF/pjP17NLECxxOUPgXBHow8lFMX5GFuZpzYpc=
+	t=1743622928; cv=none; b=kFq9NEu1yuC+vbUsA9XQs2heZ9/2RgEn7jJa22jz9e1Ospzb3OyuoJMaNJRSzQ5rl501j1zZK6zGLbjITpeYPOtBptZGGE4lmMCl2XI4Y9mwQkexP1z8yT6YXGQ+b+tNzY7RFGb6Gf/OQPtqTfPXiVva/HQ4DoUm20+Q7x+PFnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743620512; c=relaxed/simple;
-	bh=Ad0D4Nmq48N9Axx7h3Uu2peBfyDSSXV8vifzJ8bY5E8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aFpavIRzFSt9cSm0YB24nLJeydoTynyPoM4y284ClyMkyiORXZ6siidCmejoDqAg/+OdpudWo/eALlPu3YwqUo26/8fkChBjpFDuVKeYEGO55yAGlaYASimLz7IohwbWacIgbpHuR98pzGWsSZ7m5+jWvihSkbXgUpp2ZPxL7KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MusOZlmK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743622928; c=relaxed/simple;
+	bh=XDDFThK64IHjP4reGkjaW/Bk5civDiSbEujizPth1rQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bbRoxlN6OtDDK+WqcHyv2d9rV4EwhO/2Ni6Ak+Yf3uZK427UNrOWup5NC6BstzBh1TQEUHeRcqU3kfiuT9z+bmjTrDKEPA5tCZO5eJ2bBxW/M7feLLJ6rffYGWlSkzqPatGLSnFcmub5MdsY+cUdvT0CHLZt1EasyNrcresjnP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RB74w1t8; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MusOZlmK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EEF9C4CEDD;
-	Wed,  2 Apr 2025 19:01:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743620512;
-	bh=Ad0D4Nmq48N9Axx7h3Uu2peBfyDSSXV8vifzJ8bY5E8=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=MusOZlmKjvjatndrDiJQdmQ5itYaD62uDimyiklO+ngZ/7t2xozh+8PpYGRTBYjoM
-	 T7w499vcqJaqS+yOink/mUltFG8sOuRhCVRVeuYkgUyF/QS8hqwim8lEeYJ4MTPNVW
-	 cWumy9w3UH+KYWipWTlutgSHwrnMwUZeqz6lHWMRBK5ibQHjPmlWNwLIOe9wMOy5QV
-	 8/OmbreuFE3Yv9IPLLSRcOioQi/HNmitD87TYaFhjmR5Bw+ajvw8pfJ+VspEl/amLl
-	 YZZLR5uftwiadjepH69VQZqrOXlXEunFB5JMxODhwBLTDq3yuOqTTicvbF7PKrfrLE
-	 ibsvJ6V0qbB+w==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id E3D53CE079A; Wed,  2 Apr 2025 12:01:51 -0700 (PDT)
-Date: Wed, 2 Apr 2025 12:01:51 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev.2025.03.25a 45/45] lib/ratelimit.c:45
- ___ratelimit() warn: 'burst' unsigned <= 0
-Message-ID: <26b2c948-2c1f-48b5-8136-fa96a39c854e@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <922c17a3-d075-47f8-9af1-f14e0bbf6da2@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RB74w1t8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743622927; x=1775158927;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XDDFThK64IHjP4reGkjaW/Bk5civDiSbEujizPth1rQ=;
+  b=RB74w1t8SH/jFdQqpvdorUr4KLjOBFRE+WQngPP9BYVLVxjz9yodGJDB
+   WAP/4hnJG5qr19Yd1VzV+ttPsuWPhyEhW5ca1sCSBtia36UcvlyeytLON
+   gD4F9Hs8JmeR2kvI9Rfc2RcQrMHGxGzXzGijS2KorTsWL1TT6MkkxVVe+
+   gxun0SaCYEjWEPkSDR/fYJj6b5qxooZZu2JYU/gKM1YmINevSeMF4Ip0p
+   SZrWfyLZh4e+d23t/bLkHIoFqD/3Jqc95WkVROQBZJWzQyEeMy+VAamrL
+   nB5Ry0ymaxmbjGkbmVirxbTflm4IpX1eUXV1GqxKBk7zQ96Frs0izvv+t
+   A==;
+X-CSE-ConnectionGUID: AdqA+pJlSuemT2X0AKP7Yw==
+X-CSE-MsgGUID: Y0o125s3Tl+CDbJmAIwDjg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="67476277"
+X-IronPort-AV: E=Sophos;i="6.15,183,1739865600"; 
+   d="scan'208";a="67476277"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 12:42:06 -0700
+X-CSE-ConnectionGUID: 2ctdbVscQ7mrkoNz75mRBw==
+X-CSE-MsgGUID: 9LnJ1A0uSRWzGJNCTN01aQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,183,1739865600"; 
+   d="scan'208";a="130924017"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 02 Apr 2025 12:42:04 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u03yM-000B02-31;
+	Wed, 02 Apr 2025 19:42:02 +0000
+Date: Thu, 3 Apr 2025 03:41:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [boqun:rust-thread 2/2] Diff in rust/kernel/task/thread.rs at line
+ 302:
+Message-ID: <202504030323.OiqcwBjE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,57 +61,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <922c17a3-d075-47f8-9af1-f14e0bbf6da2@stanley.mountain>
 
-On Wed, Apr 02, 2025 at 11:33:36AM +0300, Dan Carpenter wrote:
-> tree:   https://github.com/paulmckrcu/linux dev.2025.03.25a
-> head:   cedfad9ced72fc8c873e11a4c6a089a415489166
-> commit: cedfad9ced72fc8c873e11a4c6a089a415489166 [45/45] ratelimit: Reduce ratelimit's false-positive misses
-> config: x86_64-randconfig-161-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020656.TgN4JCta-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202504020656.TgN4JCta-lkp@intel.com/
-> 
-> New smatch warnings:
-> lib/ratelimit.c:45 ___ratelimit() warn: 'burst' unsigned <= 0
-> lib/ratelimit.c:45 ___ratelimit() warn: 'interval' unsigned <= 0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-thread
+head:   49cb8471b5a4815cafe2503033d20615c5b6b1f3
+commit: 49cb8471b5a4815cafe2503033d20615c5b6b1f3 [2/2] rust: task: Add kernel thread support
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250403/202504030323.OiqcwBjE-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504030323.OiqcwBjE-lkp@intel.com/reproduce)
 
-Good catch, those two should just be "int".  I am folding the fix in
-with attributions, thank you!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504030323.OiqcwBjE-lkp@intel.com/
 
-							Thanx, Paul
+All errors (new ones prefixed by >>):
 
-> vim +/burst +45 lib/ratelimit.c
-> 
-> 5c828713358cb9 Christian Borntraeger 2009-10-23  27  int ___ratelimit(struct ratelimit_state *rs, const char *func)
-> 5f97a5a8799b8d Dave Young            2008-04-29  28  {
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  29  	unsigned long begin;
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  30  	unsigned long burst = READ_ONCE(rs->burst);
->                                                         ^^^^^^^^^^^^^^^^^^^
-> 
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  31  	int delta = 0;
-> 4d9c377c81d377 Alexey Dobriyan       2008-07-28  32  	unsigned long flags;
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  33  	bool gotlock = false;
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  34  	bool initialized;
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  35  	unsigned long interval = READ_ONCE(rs->interval);
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  36  	unsigned long j;
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  37  	int n_left;
-> 5f97a5a8799b8d Dave Young            2008-04-29  38  
-> edaac8e3167501 Ingo Molnar           2009-09-22  39  	/*
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  40  	 * If the burst or interval settings mark this ratelimit_state
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  41  	 * structure as disabled, then clear the RATELIMIT_INITIALIZED bit
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  42  	 * in ->flags to force resetting of the ratelimiting interval when
-> cedfad9ced72fc Paul E. McKenney      2025-03-31  43  	 * this ratelimit_state structure is next re-enabled.
-> edaac8e3167501 Ingo Molnar           2009-09-22  44  	 */
-> cedfad9ced72fc Paul E. McKenney      2025-03-31 @45  	if (burst <= 0 || interval <= 0) {
->                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> unsigned can't be less than zero.
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/task/thread.rs at line 302:
+            let t = Self::try_new(name, f)?;
+    
+            // SAFETY: `t` is newly created thread, so it's safe to start.
+   -        unsafe { bindings::kthread_start(t.raw.task.0.get()); }
+   +        unsafe {
+   +            bindings::kthread_start(t.raw.task.0.get());
+   +        }
+    
+            Ok(t)
+        }
+>> Diff in rust/kernel/task/thread.rs at line 302:
+            let t = Self::try_new(name, f)?;
+    
+            // SAFETY: `t` is newly created thread, so it's safe to start.
+   -        unsafe { bindings::kthread_start(t.raw.task.0.get()); }
+   +        unsafe {
+   +            bindings::kthread_start(t.raw.task.0.get());
+   +        }
+    
+            Ok(t)
+        }
+>> Diff in rust/kernel/task/thread.rs at line 302:
+            let t = Self::try_new(name, f)?;
+    
+            // SAFETY: `t` is newly created thread, so it's safe to start.
+   -        unsafe { bindings::kthread_start(t.raw.task.0.get()); }
+   +        unsafe {
+   +            bindings::kthread_start(t.raw.task.0.get());
+   +        }
+    
+            Ok(t)
+        }
+   make[2]: *** [Makefile:1811: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:251: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
