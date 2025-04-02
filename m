@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDC014286
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 01:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988BF1853
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 01:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743558180; cv=none; b=Wv9r0PLpLB6b/0vj+hwkmNIN5FcGCH+smSsxZv8vePaXAy0e6lBcBs/1YLA7b3z/et/vajdxy1GbpwRNEftwZ4eYa0Zh/6Il76IoVLzFiGo1/CX0PMjv4XRmOpIiXo+Uj2NcHkvRPhYTzoAC2+PLSvrkQ1/5vzNj07xFbNoc5cY=
+	t=1743558780; cv=none; b=hF3Ea8YGh8UvtO9H2joiGE3al+VXV69iTGSr8pWoMhH9+V1dfGKycUXqBYJciaB1DiqIC9eT2ULqp8bqlNFfmhwLL0PrC11mlk1zOKySVCVC8Lfs1ITjzcndJS6DpDh8zXQ1ZFXopOyr3YGTAo7YpvaV3oButcwbMm8mPZXsS0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743558180; c=relaxed/simple;
-	bh=EP0QjyDeDMzQWEnJguROgR5Anzq1XpYtA9f9+0L+768=;
+	s=arc-20240116; t=1743558780; c=relaxed/simple;
+	bh=1CLP1Tv/pmtryaeFHoE1xZVwinNuMoeV/dEPY5a++4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tLeDdcvxH77vey9qFYXFn/7ANihFzDUulyUjesLjAV5f3vjfEwfKaQEt+EUo8VLzELNc0Y9duPcxXiNpFJMHOCB7TGlVi79V4KdEsah0PghFBf0j1MWMKvV7DZ0NoF0469yyt/yIkKeuY01HApZVolQAYsOUlzH9FujxiQimaS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+YGj8P9; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=IRNqzpXSQkrDdlNbtvE9669ppxN/uVqdxlC4gGI2umwjeWKTSDmqWQ++w+TQtMqzUIXRcwAf8iNEg+zKRxRrbRkJ1B7q7HcBwXKWOATpp/HRp62JJrwBE/LstDnnOERNh+aj2bt2tmMHIB1gM91T9ZaSdFFFrxxK+HJjFLjzxwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQEuOYDk; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+YGj8P9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQEuOYDk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743558179; x=1775094179;
+  t=1743558778; x=1775094778;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EP0QjyDeDMzQWEnJguROgR5Anzq1XpYtA9f9+0L+768=;
-  b=U+YGj8P9HG29q09lELHHI73AKM3eOcJ3h1tmBhulMeY1uIu7mlMgoUKd
-   qWyroAEOTaim4g2duf05WoG5UuI9+nf7uzFUVTKhyqadCHPuDjan55Pk/
-   y/S3+VArXAgpZpSkq5kVXU9ocINfaK+ZgEkrlLUUZSA1b0quAh+QNXLFm
-   4yXAkY/Za9JdRkAJ1QAAP/fLUF352mmqHx/0Qc82MuvBp7/wfbhBpZTw0
-   PpsAnsnvXAwBDOW4vR87vQypVUoCyOn+o2iKmfeHxdsPgkEYJddsMPJTW
-   3WvWufQgnZy04aPhFElDHQ28hX/SGfFZYbpFKCEugk2p+K+3FuKphK/ji
-   w==;
-X-CSE-ConnectionGUID: rAz2SlmXRL2rWKBwcMVoEg==
-X-CSE-MsgGUID: WcGsm5nPRhSalz7eTncDRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="56273288"
+  bh=1CLP1Tv/pmtryaeFHoE1xZVwinNuMoeV/dEPY5a++4g=;
+  b=PQEuOYDk53g45BZUj9EQKzdVibHvyWEtMnl/JWY4h5NytxkabbedkVAg
+   JWmB624nBhE4bImL/WkDJ+FQTP9qHKhxiCbYqEhl5jda90D5Q9f3/CWYr
+   gxLREaiBRcInzV7pVz4dtJC0C2knuUgtNclAY/6xbyogUCeog329mbs14
+   WuK2rkvlfHLh9KiGiYfo2L8/2TWwSR+UzTK7Nf1WXVDl2j1MsGSzZeIK2
+   v3VkDIbXInS8loxNrtLrRUEO0+BJ0ObfSqTPkOHwuMYxzMr+HDwF3foNW
+   WbqpE/bCrlMZzAiUlaUFhUhQR1E5QN0DNOA/O7Yheo7M6tfFTbGtKnY9E
+   Q==;
+X-CSE-ConnectionGUID: MwoDWVIeRnW2qJa+wOsJRA==
+X-CSE-MsgGUID: ySGmXBZgQQOEuZorPwMr/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44797038"
 X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
-   d="scan'208";a="56273288"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 18:42:58 -0700
-X-CSE-ConnectionGUID: 1WAlJT2SSrqQ8o7IosuoUA==
-X-CSE-MsgGUID: 4UwRKH4KQVua9mT7djmmRg==
+   d="scan'208";a="44797038"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 18:52:58 -0700
+X-CSE-ConnectionGUID: N5ktuU3vS1eTBZhgp40pNg==
+X-CSE-MsgGUID: Wrvhti0FQNWKkDB96JZYIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
-   d="scan'208";a="127377326"
+   d="scan'208";a="131540959"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Apr 2025 18:42:56 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Apr 2025 18:52:57 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzn82-000AKI-0j;
-	Wed, 02 Apr 2025 01:42:54 +0000
-Date: Wed, 2 Apr 2025 09:41:55 +0800
+	id 1tznHj-000AKU-0C;
+	Wed, 02 Apr 2025 01:52:55 +0000
+Date: Wed, 2 Apr 2025 09:52:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Oliver Upton <oliver.upton@linux.dev>
-Subject: drivers/firmware/smccc/kvm_guest.c:106:2-3: Unneeded semicolon
-Message-ID: <202504020941.VEeL6nVJ-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:keys-graveyard 16/16] security/keys/proc.c:118:38:
+ error: use of undeclared identifier 'irqflags'
+Message-ID: <202504020906.o1LOt41s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,79 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   91e5bfe317d8f8471fbaa3e70cf66cae1314a516
-commit: 44ff44cadbd144ee1159f5687a852c49c4290262 smccc: kvm_guest: Fix kernel builds for 32 bit arm
-date:   4 weeks ago
-config: arm-randconfig-r053-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020941.VEeL6nVJ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git keys-graveyard
+head:   13c6debc9b86b8bec9747d10085092d3149dce3b
+commit: 13c6debc9b86b8bec9747d10085092d3149dce3b [16/16] KEYS: Add a list for unreferenced keys
+config: hexagon-randconfig-002-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020906.o1LOt41s-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504020906.o1LOt41s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504020941.VEeL6nVJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504020906.o1LOt41s-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/firmware/smccc/kvm_guest.c:106:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +106 drivers/firmware/smccc/kvm_guest.c
+>> security/keys/proc.c:118:38: error: use of undeclared identifier 'irqflags'
+     118 |         spin_lock_irqsave(&key_serial_lock, irqflags);
+         |                                             ^
+>> security/keys/proc.c:118:38: error: use of undeclared identifier 'irqflags'
+   security/keys/proc.c:150:43: error: use of undeclared identifier 'irqflags'
+     150 |         spin_unlock_irqrestore(&key_serial_lock, irqflags);
+         |                                                  ^
+   3 errors generated.
 
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   57  
-44ff44cadbd144 Shameer Kolothum 2025-03-06   58  #ifdef CONFIG_ARM64
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   59  void  __init kvm_arm_target_impl_cpu_init(void)
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   60  {
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   61  	int i;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   62  	u32 ver;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   63  	u64 max_cpus;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   64  	struct arm_smccc_res res;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   65  	struct target_impl_cpu *target;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   66  
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   67  	if (!kvm_arm_hyp_service_available(ARM_SMCCC_KVM_FUNC_DISCOVER_IMPL_VER) ||
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   68  	    !kvm_arm_hyp_service_available(ARM_SMCCC_KVM_FUNC_DISCOVER_IMPL_CPUS))
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   69  		return;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   70  
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   71  	arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_DISCOVER_IMPL_VER_FUNC_ID,
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   72  			     0, &res);
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   73  	if (res.a0 != SMCCC_RET_SUCCESS)
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   74  		return;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   75  
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   76  	/* Version info is in lower 32 bits and is in SMMCCC_VERSION format */
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   77  	ver = lower_32_bits(res.a1);
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   78  	if (PSCI_VERSION_MAJOR(ver) != 1) {
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   79  		pr_warn("Unsupported target CPU implementation version v%d.%d\n",
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   80  			PSCI_VERSION_MAJOR(ver), PSCI_VERSION_MINOR(ver));
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   81  		return;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   82  	}
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   83  
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   84  	if (!res.a2) {
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   85  		pr_warn("No target implementation CPUs specified\n");
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   86  		return;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   87  	}
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   88  
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   89  	max_cpus = res.a2;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   90  	target = memblock_alloc(sizeof(*target) * max_cpus,  __alignof__(*target));
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   91  	if (!target) {
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   92  		pr_warn("Not enough memory for struct target_impl_cpu\n");
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   93  		return;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   94  	}
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   95  
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   96  	for (i = 0; i < max_cpus; i++) {
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   97  		arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_DISCOVER_IMPL_CPUS_FUNC_ID,
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   98  				     i, &res);
-86edf6bdcf0571 Shameer Kolothum 2025-02-21   99  		if (res.a0 != SMCCC_RET_SUCCESS) {
-86edf6bdcf0571 Shameer Kolothum 2025-02-21  100  			pr_warn("Discovering target implementation CPUs failed\n");
-86edf6bdcf0571 Shameer Kolothum 2025-02-21  101  			goto mem_free;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21  102  		}
-86edf6bdcf0571 Shameer Kolothum 2025-02-21  103  		target[i].midr = res.a1;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21  104  		target[i].revidr = res.a2;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21  105  		target[i].aidr = res.a3;
-86edf6bdcf0571 Shameer Kolothum 2025-02-21 @106  	};
 
-:::::: The code at line 106 was first introduced by commit
-:::::: 86edf6bdcf0571c07103b8751e9d792a4b808e97 smccc/kvm_guest: Enable errata based on implementation CPUs
+vim +/irqflags +118 security/keys/proc.c
 
-:::::: TO: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-:::::: CC: Oliver Upton <oliver.upton@linux.dev>
+   111	
+   112	static void *proc_keys_start(struct seq_file *p, loff_t *_pos)
+   113		__acquires(key_serial_lock)
+   114	{
+   115		key_serial_t pos = *_pos;
+   116		struct key *key;
+   117	
+ > 118		spin_lock_irqsave(&key_serial_lock, irqflags);
+   119	
+   120		if (*_pos > INT_MAX)
+   121			return NULL;
+   122		key = find_ge_key(p, pos);
+   123		if (!key)
+   124			return NULL;
+   125		*_pos = key->serial;
+   126		return &key->serial_node;
+   127	}
+   128	
 
 -- 
 0-DAY CI Kernel Test Service
