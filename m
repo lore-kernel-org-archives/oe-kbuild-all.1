@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8B123718F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 11:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3ED23718F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 11:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743595141; cv=none; b=p8lnM2P1RfX+30KyQYxx2gGZ8OV1SGfWT2ch+9qg38Z79uKaU3UQ7eQ4tpM0GgTueiTUWuTYggP2r2mdQmezz2DY2nvIDUV23GcEEdEOOQp7uDyLLzkOPKJIgJljYdOX6LpWOjkhv9Y/kCAEu7mTsar8eTW0PAOFXjuZFodeSUI=
+	t=1743595143; cv=none; b=VJJ7/U2ExFMluP/h8C32I8XsxiYzmYopdfcOBiQ9j+VbZbQkssQoYb2Xp6c6p0OkzRBhb0fqutheW4mK/JGXN+g8/euEN7dcXPzmbHZ0Iy/TTUBbdi+e3lRD8b4b8w0nvfAW9hYRvFJWjZPFMEcMj1gLYzwUKFJX44+Rz+LgWs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743595141; c=relaxed/simple;
-	bh=qLdlH2P3sqSuod/uEg0Pgd+4bExQh3mgzPre5P6S5dw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gOuRhArVFBRy2RnG5Kbh5Xdrq1HYvzzWQxA8kv0Eo8u5s5pw6f+Esq06ir6GPkFDWGGpVsXzPaW8Ii28iyXd6JGxvVFMZeHYb316fNsfxtvrG5xsNibmJWJzzTcJjiU3TPPwmKm7MIyIP9QJn0OgHgn/ylYdkPXxB032p/1OpRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7f1OEkh; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1743595143; c=relaxed/simple;
+	bh=lEgXEGc4oeSLWNn+tNIIYFjH345uNAMY4TODj7ii6hQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ovQpz04qdC6Dk3pPXBylboIzARYbBWi5Q7nF2gXCAsmBLDUy9J8bQfognPZoFtLtJtyv0IjhpuXsZd1q5uzDjnYLdgE12LdzkRNp6G1FCVG5M/lXT6Mve7mSH59+TImlzHE3ksbK3MCE8gZigVdN6x+CHPd/r+KkP50b0KratZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZTolIx0x; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7f1OEkh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZTolIx0x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743595139; x=1775131139;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qLdlH2P3sqSuod/uEg0Pgd+4bExQh3mgzPre5P6S5dw=;
-  b=Q7f1OEkhKQgz2oOgC5CdXvULLAtF1paeOFBqEX0qAVP0AWltpUm2uZGp
-   5AuE/9A6AFmx+NxRCVpmFHL4H0R18rfvTC54MJ3bBTNRlZ+SZ7EigjEeG
-   lDX87iuFf5GHz4LuTkSSvyIpHXcvL96SeCR6V84acd6U/bzWukNi0Kkt5
-   PlvhFKmSRI6CEkWNZuidUCNNdaJmpfwOQgMJt50ts9ZXTAwph1NxA8b07
-   xXEWxIJh4mvfrD8y2O09Q20RUHqswonTki9qWW51K7HR4py0o8YY7T9tE
-   VQWTxUuyHLrHzazsgshx2nzkR03/sncV21zmf4WWMKVBgdTNdNMG78g0l
-   Q==;
-X-CSE-ConnectionGUID: 3vtQSfcuS9imZDr+3abjNQ==
-X-CSE-MsgGUID: ht2l/GtlRo2tbiUkJKZOBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="44862409"
+  t=1743595142; x=1775131142;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lEgXEGc4oeSLWNn+tNIIYFjH345uNAMY4TODj7ii6hQ=;
+  b=ZTolIx0xUsEnuob2xUOMBzm9gkSjl7TiC3Fy8BWH3y6AisZykptwgWAV
+   SqbbK1EcdJvehytJL+Qr2h4OdpqO0PAZ+XN62+7iZQ/DNPYqrnBD/COjY
+   QRTdJ/56h5cAW1jgsdObZD/2xEc6a1Cl2PY9VAnJhiTA1uDvJsLkIqocO
+   INus2wBz7uuvkhyVpqFTMQRyhVorkAdEUYoZ6cYmcpSGBIrDT10uJ2GKn
+   CvHJWDBZuibyUACp0JVCjxGDhrQz/9xRmOantpdGK9c+3FujR09UT1UyM
+   WDBal8ZGmZIne5RR3qG7nbztx0CzpV/hxaq3wHklTyUDJqS6GZPIG7x3f
+   w==;
+X-CSE-ConnectionGUID: JZJayXU9SuKswkhaNcoxTw==
+X-CSE-MsgGUID: ar4YtConRBa3fnHrPLOEng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="48619363"
 X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; 
-   d="scan'208";a="44862409"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 04:58:59 -0700
-X-CSE-ConnectionGUID: NTgxKmLdRUuBhbQkQLQEjQ==
-X-CSE-MsgGUID: iK2KT02wSheDimBlzqwcYQ==
+   d="scan'208";a="48619363"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 04:59:01 -0700
+X-CSE-ConnectionGUID: oW1R1pqPSH+xKuAfFo/IGg==
+X-CSE-MsgGUID: bR0HajQ8S0KfDxFBNx12MA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; 
-   d="scan'208";a="126437590"
+   d="scan'208";a="126577539"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 02 Apr 2025 04:58:57 -0700
+  by orviesa010.jf.intel.com with ESMTP; 02 Apr 2025 04:58:58 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzwkB-000Afo-0J;
+	id 1tzwkB-000Afi-03;
 	Wed, 02 Apr 2025 11:58:55 +0000
-Date: Wed, 2 Apr 2025 19:58:04 +0800
+Date: Wed, 2 Apr 2025 19:58:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Tengda Wu <wutengda2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1555/1555] kernel/trace/trace_output.o:
- warning: objtool: missing symbol for section .init.text
-Message-ID: <202504021912.9ieuHMMu-lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	bhelgaas@google.com
+Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, ilpo.jarvinen@linux.intel.com,
+	robh@kernel.org, jingoohan1@gmail.com, thomas.richard@bootlin.com,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hans Zhang <18255117159@163.com>
+Subject: Re: [v7 3/5] PCI: dwc: Use common PCI host bridge APIs for finding
+ the capabilities
+Message-ID: <202504021958.YeTPCsW1-lkp@intel.com>
+References: <20250402042020.48681-4-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +68,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250402042020.48681-4-18255117159@163.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   7951fd324625a8af5097e1476cdc8c33c6009b48
-commit: 31bf327231bb582ec7dca0490cc90c364b36e095 [1555/1555] tracing: Make sure trace_printk() can output as soon as it can be used
-config: x86_64-buildonly-randconfig-001-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021912.9ieuHMMu-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021912.9ieuHMMu-lkp@intel.com/reproduce)
+Hi Hans,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on acb4f33713b9f6cadb6143f211714c343465411c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Refactor-capability-search-into-common-macros/20250402-122544
+base:   acb4f33713b9f6cadb6143f211714c343465411c
+patch link:    https://lore.kernel.org/r/20250402042020.48681-4-18255117159%40163.com
+patch subject: [v7 3/5] PCI: dwc: Use common PCI host bridge APIs for finding the capabilities
+config: loongarch-randconfig-001-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021958.YeTPCsW1-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021958.YeTPCsW1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504021912.9ieuHMMu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504021958.YeTPCsW1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/trace/trace_output.o: warning: objtool: missing symbol for section .init.text
+   In file included from drivers/pci/controller/dwc/pcie-designware.c:23:
+   drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_find_capability':
+>> drivers/pci/controller/dwc/pcie-designware.c:218:38: error: 'pcie' undeclared (first use in this function); did you mean 'pci'?
+     218 |                                      pcie);
+         |                                      ^~~~
+   drivers/pci/controller/dwc/../../pci.h:114:18: note: in definition of macro 'PCI_FIND_NEXT_CAP_TTL'
+     114 |         read_cfg(args, __pos, 1, (u32 *)&__pos);                        \
+         |                  ^~~~
+   drivers/pci/controller/dwc/pcie-designware.c:218:38: note: each undeclared identifier is reported only once for each function it appears in
+     218 |                                      pcie);
+         |                                      ^~~~
+   drivers/pci/controller/dwc/../../pci.h:114:18: note: in definition of macro 'PCI_FIND_NEXT_CAP_TTL'
+     114 |         read_cfg(args, __pos, 1, (u32 *)&__pos);                        \
+         |                  ^~~~
+   drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_find_ext_capability':
+   drivers/pci/controller/dwc/pcie-designware.c:224:71: error: 'pcie' undeclared (first use in this function); did you mean 'pci'?
+     224 |         return PCI_FIND_NEXT_EXT_CAPABILITY(dw_pcie_read_cfg, 0, cap, pcie);
+         |                                                                       ^~~~
+   drivers/pci/controller/dwc/../../pci.h:156:34: note: in definition of macro 'PCI_FIND_NEXT_EXT_CAPABILITY'
+     156 |                 __ret = read_cfg(args, __pos, 4, &__header);                    \
+         |                                  ^~~~
+
+
+vim +218 drivers/pci/controller/dwc/pcie-designware.c
+
+   214	
+   215	u8 dw_pcie_find_capability(struct dw_pcie *pci, u8 cap)
+   216	{
+   217		return PCI_FIND_NEXT_CAP_TTL(dw_pcie_read_cfg, PCI_CAPABILITY_LIST, cap,
+ > 218					     pcie);
+   219	}
+   220	EXPORT_SYMBOL_GPL(dw_pcie_find_capability);
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
