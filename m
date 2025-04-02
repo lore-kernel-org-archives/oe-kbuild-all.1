@@ -1,129 +1,135 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58DF234973
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 08:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86897233705
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 09:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743583412; cv=none; b=cVs+7QKyF+/NykC9L8mdLs1wyMAhGaID09kxUNyRu5RCnGAIQCEtSmcI5l56X7JP2I0kxUeA2eAiVSiYg7AMLX5AAnT+eADZ9rabxgbzGeWuhUObTN/c8olqGWg/YZelu+jNBJtXgj5i6O7JFpRZlagKGDK5l7GhpVrB3siITOE=
+	t=1743585633; cv=none; b=l9G0sOLw7tc3rSS7hvgCZA7+A+lGgwU/JoY/M0nC3pJvCsK6y4oxJVRFhcXwTJZmOUvj7nsDAzJjgtY/MM+s+MAB4rR17gRZNDZEX7JXfNf73yKTpVjx3GZveUTwwH7GVKQTpL0mWq4wueAQsySNr659VnAnlLfwmuO7LSIpxZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743583412; c=relaxed/simple;
-	bh=Kveb9atVJLnju8DdyOzVv8KDNpYBCjT9yUm3lhdIbSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=khsPhjIVIoOasEqUY5ujNe6fdAaPYIrjRlfm1DjmE0JPKRykX8Ys9C49PVHq6MZ5GdzwC8CdPmNuHj7uiWMWqE7EwAC6nWjKZSCfNr8D07dLXkK6RSC0JADvaanWg3h+2dJS4ngHJ2wITdFotB0XU9t0KzOXLgtFo+4OcJ2aUhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=py4vCzSO; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743585633; c=relaxed/simple;
+	bh=wPE7WwhGeI3LRwBB24cAH+qILm+nUf5fr4GrEUahx+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qHsvq8RU/pm2iAAx8D1gqxJjHG+MszCssryfUvrZTxJVVqydYDkZ1IQx/XHHFsWqaRwNMYzxPBndVaUW9eRwVT9p9JVZZdKAUUkNA4iLp0ad2CeRfCsiH52A4SqETfGW90odPZa/IX9tyRdFwhwbozUp7GDp7K8R3b/77T8mZvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWDp5X7z; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="py4vCzSO"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3913d129c1aso445846f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Apr 2025 01:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743583408; x=1744188208; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MywdYD3IK46xGltB4W9LLSjkk8V2I4wOGeWZw0m6r78=;
-        b=py4vCzSOHF2U5+ZuZp78lqsXJkc5ycgqx0iBF5sruccT5h0sQ4R0Lq1Pl/jpNsGNti
-         uJ31Sp1svH539VcjoXMhdjlBu4ftKG9JPymj22PQan+GC+KwAJiziovmLl0sUTnd4tEX
-         wIPY0Fvo5tKBq2PVUdDJYVQA5GqZH7GqAZsPB+WO6abshZJ8BBcVOBzAj8Mh0Gh59QBb
-         26oaZg4z2swxp96NRs/ys0oiA5b5LiU0Lh7AGq1ex3/fsSLqznfWeJcDN9dRNlyGXm/0
-         CoEMdru1qXpdpar4nORYf4JMXWnD6NhsvKA198EEW50DqdSuzQK3v6q4d0uiP7mxBwHL
-         /XLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743583408; x=1744188208;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MywdYD3IK46xGltB4W9LLSjkk8V2I4wOGeWZw0m6r78=;
-        b=QtOMkc4UGIMRb3hNZZDzytkyxJbI3lLxLQbtjn/bMuMCKhUxabn8n9V8pKYx9aMgKe
-         ejqOb9+LcUbohQrJ8+HiXXPTK1OXaqMOwepOfRpF7Dz6d2A+q7wVVoDvCC4mCmH9IEdh
-         5B7//735ujFU+5BosUZivQ3OSE3G+gDWTepckAcgBXw0QGCmQiQs0pq0V2rEGYadyY7P
-         DKG93Hu3VsQzPrhCE7dBjEY0fKGGcazC1cmMSWmK6OpwuIh5e6a5QSpG39BICCqUbHF7
-         f+ZTJqh2PALuPF9q8GrPGRqLHHggO3xbZ8COgk7DXlWowXSaeOrxP78/0n5t6iFuU0fd
-         MIng==
-X-Forwarded-Encrypted: i=1; AJvYcCWz4pkNmX/J8kra7OHOZIU8PV3MmIU3SNCrbvi4vbVtLMvJAfqPSbMitCRxbQwqILKeaETuj2mg8jMPhm+C@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8xuCbxM4W5gHXGryxsl/IlfAvY+NxE8UHU00jT2TetGdyq2eO
-	j8OSm8p7Gr88eSItgnxPR8FZaN0V+2lSHHzUKVO5Gxj3T0LYInJL5OYeRnenc40=
-X-Gm-Gg: ASbGncuR7yXAtxSc7jhC9xodueWm0j/d1YYX8FIRsZ/K244yNUZkIUolXwmkSH40qT/
-	l1oM7Cm/pJowk62eXhHqEVHrtvxr8FW/PxlvPgzplS3pcyKOmQx8XsUy5DR4Jq0ZTU8TN8H3DpW
-	v8fJvRK04x4THDa8l7DNc1izxDWkmVHcPe0OYwC5CDsvAywvMhgyLTTn00fklNP50H33d3IVRik
-	3O/v81SW4B5HuU+OHrO+sTQbuiOvBEndDm0tYg7kmEKGFlcbAR4fEYwpznunHDndm4tltRD1iRq
-	8ex7x8JZvTO26RimX8T5GWUzf2hnIKxN/+w30ITBTp6u8RSIbA==
-X-Google-Smtp-Source: AGHT+IE5eJjzFzKgLbEhHe/LWXL3GWvq9N0z7X0b0Tq6//QeucYYtfOz5/gw451nA9yosCEuAa7qpQ==
-X-Received: by 2002:a5d:584f:0:b0:38d:ba8e:7327 with SMTP id ffacd0b85a97d-39c2a668cb9mr1095356f8f.8.1743583408087;
-        Wed, 02 Apr 2025 01:43:28 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c0b7a3d66sm16162069f8f.81.2025.04.02.01.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 01:43:27 -0700 (PDT)
-Date: Wed, 2 Apr 2025 11:43:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Melissa Wen <mwen@igalia.com>
-Subject: drivers/gpu/drm/vc4/vc4_gem.c:604 vc4_lock_bo_reservations() error:
- uninitialized symbol 'ret'.
-Message-ID: <f5dd7fb6-6a99-407f-846f-0de2d0abe177@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWDp5X7z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743585632; x=1775121632;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wPE7WwhGeI3LRwBB24cAH+qILm+nUf5fr4GrEUahx+c=;
+  b=BWDp5X7zr2uJcHz3HHnS29va2xzxoUljXq7ZFPgShON6URtt+RejL7Rr
+   5Kt2Rj1u/Gy5GZqWrpJP4NwO1LbL8CH/Yi+Pxzc7XYBuv5eQUjY1sQ5ko
+   GJ+wyjlKaFyoX11jgjq2LafA/WKvRjWKz4XzlQLfINGxZNCdcH0hLkUeq
+   PESgoHA37gYE9bh7PTXuyKWyLcgWT7qHHsjewuqPubdV7r0JHq/fCOi6E
+   27tsxVJlU5B/oJXZrYbWEb41Wojc9A1xdHtqvMwKqhb2A/Ogyc6OTs4Wt
+   osD1JM6xKlK0HpphBGORPkjOE5NmDCaOyBXuPjvUcuVTlDayyBi5a972u
+   w==;
+X-CSE-ConnectionGUID: HTouW7T1Sv6Q+K902Daa6Q==
+X-CSE-MsgGUID: v04twHQWQea4gyyyLue9yA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="45083616"
+X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
+   d="scan'208";a="45083616"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 02:20:31 -0700
+X-CSE-ConnectionGUID: 7VV9JwBDQoauM69SpulY/g==
+X-CSE-MsgGUID: amQFqQTIRhWsfkxk5mOAmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
+   d="scan'208";a="127542263"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 02 Apr 2025 02:20:25 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tzuGk-000Ab0-0A;
+	Wed, 02 Apr 2025 09:20:22 +0000
+Date: Wed, 2 Apr 2025 17:19:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	bhelgaas@google.com
+Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, ilpo.jarvinen@linux.intel.com,
+	robh@kernel.org, jingoohan1@gmail.com, thomas.richard@bootlin.com,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hans Zhang <18255117159@163.com>
+Subject: Re: [v7 2/5] PCI: Refactor capability search functions to eliminate
+ code duplication
+Message-ID: <202504021623.LgnqoZPE-lkp@intel.com>
+References: <20250402042020.48681-3-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250402042020.48681-3-18255117159@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   acc4d5ff0b61eb1715c498b6536c38c1feb7f3c1
-commit: 04630796c437a9285643097825cbd3cd06603f47 drm/vc4: Use DRM Execution Contexts
-date:   2 months ago
-config: arm64-randconfig-r073-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021500.3AM1hKKS-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Hans,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on acb4f33713b9f6cadb6143f211714c343465411c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Refactor-capability-search-into-common-macros/20250402-122544
+base:   acb4f33713b9f6cadb6143f211714c343465411c
+patch link:    https://lore.kernel.org/r/20250402042020.48681-3-18255117159%40163.com
+patch subject: [v7 2/5] PCI: Refactor capability search functions to eliminate code duplication
+config: loongarch-randconfig-001-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021623.LgnqoZPE-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021623.LgnqoZPE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202504021500.3AM1hKKS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504021623.LgnqoZPE-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/vc4/vc4_gem.c:604 vc4_lock_bo_reservations() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>):
 
-vim +/ret +604 drivers/gpu/drm/vc4/vc4_gem.c
+   drivers/pci/pci.c: In function '__pci_find_next_ht_cap':
+>> drivers/pci/pci.c:627:17: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
+     627 |                 rc = pci_read_config_byte(dev, pos + 3, &cap);
+         |                 ^~
+         |                 rq
+   drivers/pci/pci.c:627:17: note: each undeclared identifier is reported only once for each function it appears in
 
-cdec4d3613230f Eric Anholt 2017-04-12  589  static int
-04630796c437a9 Maíra Canal 2024-12-20  590  vc4_lock_bo_reservations(struct vc4_exec_info *exec,
-04630796c437a9 Maíra Canal 2024-12-20  591  			 struct drm_exec *exec_ctx)
-cdec4d3613230f Eric Anholt 2017-04-12  592  {
-04630796c437a9 Maíra Canal 2024-12-20  593  	int ret;
-cdec4d3613230f Eric Anholt 2017-04-12  594  
-cdec4d3613230f Eric Anholt 2017-04-12  595  	/* Reserve space for our shared (read-only) fence references,
-cdec4d3613230f Eric Anholt 2017-04-12  596  	 * before we commit the CL to the hardware.
-cdec4d3613230f Eric Anholt 2017-04-12  597  	 */
-04630796c437a9 Maíra Canal 2024-12-20  598  	drm_exec_init(exec_ctx, DRM_EXEC_INTERRUPTIBLE_WAIT, exec->bo_count);
-04630796c437a9 Maíra Canal 2024-12-20  599  	drm_exec_until_all_locked(exec_ctx) {
-04630796c437a9 Maíra Canal 2024-12-20  600  		ret = drm_exec_prepare_array(exec_ctx, exec->bo,
-04630796c437a9 Maíra Canal 2024-12-20  601  					     exec->bo_count, 1);
 
-This is a false positive in Smatch.  I can silence the warning on my
-end easily enough to say that we always enter the drm_exec_until_all_locked()
-loop.  But the question is why do we only test the last "ret" instead of
-testing all of them?
+vim +627 drivers/pci/pci.c
 
-04630796c437a9 Maíra Canal 2024-12-20  602  	}
-cdec4d3613230f Eric Anholt 2017-04-12  603  
-cdec4d3613230f Eric Anholt 2017-04-12 @604  	if (ret) {
-04630796c437a9 Maíra Canal 2024-12-20  605  		drm_exec_fini(exec_ctx);
-cdec4d3613230f Eric Anholt 2017-04-12  606  		return ret;
-7edabee06a5622 Eric Anholt 2016-09-27  607  	}
-d5b1a78a772f1e Eric Anholt 2015-11-30  608  
-cdec4d3613230f Eric Anholt 2017-04-12  609  	return 0;
-cdec4d3613230f Eric Anholt 2017-04-12  610  }
+70c0923b0ef10b Jacob Keller     2020-03-02  614  
+f646c2a0a6685a Puranjay Mohan   2020-11-29  615  static u8 __pci_find_next_ht_cap(struct pci_dev *dev, u8 pos, int ht_cap)
+687d5fe3dc3379 Michael Ellerman 2006-11-22  616  {
+687d5fe3dc3379 Michael Ellerman 2006-11-22  617  	u8 cap, mask;
+687d5fe3dc3379 Michael Ellerman 2006-11-22  618  
+687d5fe3dc3379 Michael Ellerman 2006-11-22  619  	if (ht_cap == HT_CAPTYPE_SLAVE || ht_cap == HT_CAPTYPE_HOST)
+687d5fe3dc3379 Michael Ellerman 2006-11-22  620  		mask = HT_3BIT_CAP_MASK;
+687d5fe3dc3379 Michael Ellerman 2006-11-22  621  	else
+687d5fe3dc3379 Michael Ellerman 2006-11-22  622  		mask = HT_5BIT_CAP_MASK;
+687d5fe3dc3379 Michael Ellerman 2006-11-22  623  
+687d5fe3dc3379 Michael Ellerman 2006-11-22  624  	pos = __pci_find_next_cap_ttl(dev->bus, dev->devfn, pos,
+2675dfd086c109 Hans Zhang       2025-04-02  625  				      PCI_CAP_ID_HT);
+687d5fe3dc3379 Michael Ellerman 2006-11-22  626  	while (pos) {
+687d5fe3dc3379 Michael Ellerman 2006-11-22 @627  		rc = pci_read_config_byte(dev, pos + 3, &cap);
+687d5fe3dc3379 Michael Ellerman 2006-11-22  628  		if (rc != PCIBIOS_SUCCESSFUL)
+687d5fe3dc3379 Michael Ellerman 2006-11-22  629  			return 0;
+687d5fe3dc3379 Michael Ellerman 2006-11-22  630  
+687d5fe3dc3379 Michael Ellerman 2006-11-22  631  		if ((cap & mask) == ht_cap)
+687d5fe3dc3379 Michael Ellerman 2006-11-22  632  			return pos;
+687d5fe3dc3379 Michael Ellerman 2006-11-22  633  
+47a4d5be7c50b2 Brice Goglin     2007-01-10  634  		pos = __pci_find_next_cap_ttl(dev->bus, dev->devfn,
+47a4d5be7c50b2 Brice Goglin     2007-01-10  635  					      pos + PCI_CAP_LIST_NEXT,
+2675dfd086c109 Hans Zhang       2025-04-02  636  					      PCI_CAP_ID_HT);
+687d5fe3dc3379 Michael Ellerman 2006-11-22  637  	}
+687d5fe3dc3379 Michael Ellerman 2006-11-22  638  
+687d5fe3dc3379 Michael Ellerman 2006-11-22  639  	return 0;
+687d5fe3dc3379 Michael Ellerman 2006-11-22  640  }
+f646c2a0a6685a Puranjay Mohan   2020-11-29  641  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
