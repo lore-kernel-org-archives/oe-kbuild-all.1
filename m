@@ -1,137 +1,175 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06F82236429
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 10:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBB3233727
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 11:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743590570; cv=none; b=C3oa+lVv1z4OpzQNdFPIlu8LkXFqGTdstcI4O6aYCapdKB/EhDQFCwXvYzjd6Rqlx/nnv6vCdpLp/huDsPo+DSZO2uTEbYam2cA0P50cR1a0cxIDJW8maW6MsB3R05y8djUB5Y3DHrYnA7KHxi9pW533i7TvBlOb/Rrgchy+bo8=
+	t=1743592723; cv=none; b=Hdw3wHcG1jvex+mB2la+tjrYZg74o6SFBM4MY3NMb5k246A15hGhbOKlTKCNMBtjpUYhsc74aQ2WWQWv9vbU1+fggoEPirkoaZtwD4UxTTriBzbSFMRoHqdGIdBAV5RjNAyIw4O+c4Q+5T3MVbvREG43+B8Z+Z8WCxRKnWJF2yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743590570; c=relaxed/simple;
-	bh=jvCPXBkMR01+H0/gE+9GrtRjlN3dPzEAtl91KC/IW4w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mgZgbcWcLs3YV2WE7sVC4+MrPpSYRdWeiXNEmcD2AeuI4OLyCurcZOkNtrF6K5/ZNJhsvrVK8BQsbBsU6FJ55wewWEWcYoRBEjBnV4XVtvuxehWwIy9+viVYeHq9HU2YD7L3XzPyoF1Ni+UIRsC+CSns9nWtn2mlV7T9Hm79jfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ontMlA/B; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1743592723; c=relaxed/simple;
+	bh=4zw2XxD/lazYdn6ObIwPethXbgBPAkjmsXSYybr3Lq8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SAhcV5TP4RGI+Gu2QObvnAlXTUe8Qx5HuzyluTMZRiaj8DihPbJYLeVMZWsT6Ac9r1BEp8VyM/ioBAjM1sluVftJfv1NNN9c06nwoOCAOQfqY6Qpinu+O5E3frRcv0mCztL5Robxdv8/XUzMtoHrpa+r53kenuN+Bfu15MbsCl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LMUHbdj0; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ontMlA/B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
-	Content-Type; bh=VR24xgoS8feUSFAEGMRfyNjAAFTUtLrhNnAA7b/J2oQ=;
-	b=ontMlA/BsnHycNKnU5V1TKXGfrKx9JFjrDc24A5L2nRx868+k+2lhbk6+1Ebuq
-	0993Wi1YEXVj0zyvhMQh3XbNZBl4au2YzUawOk7QdmkOpqbB/NMtwYTJfyeqsi7s
-	ji6UOJfLSZZC9j/NJrGXRopkZe+YlevPIXBUPlanEIVuI=
-Received: from [192.168.60.52] (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgCn8qF6FO1nmwyABA--.39487S2;
-	Wed, 02 Apr 2025 18:42:06 +0800 (CST)
-Message-ID: <b0dc232e-fdd8-4df3-a55e-d21b90441a4c@163.com>
-Date: Wed, 2 Apr 2025 18:42:01 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LMUHbdj0"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-39bf44be22fso3450250f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Apr 2025 04:18:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743592719; x=1744197519; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0Pe81jop8Ll7ztioIZQS1clySmVs5CptZvcTXW3TsFI=;
+        b=LMUHbdj0L3UIRO5iU2pJ395nugVpSZY8xBmDr0U1Dv3jfDoPa3XVSH1ShCCmC7ClvJ
+         AVHLLiZ2gkZz4iyNBiO4rcDmKX89rGX6An+1A700zFIc4zMruNParCsKn90ooJRALpA0
+         P8ixk6MGkhu5Q/2Q9T3RL0cTTTpXqXWwKWIqCguZrAsk4RH+1u/i3DAYSQoh3+W2U4xg
+         UN1wGjRjHm38Gg87rrbZxZfYBCm6evro/oJ5vM/S8Hvif6ZX+r+yDW3vg+mda9Us9+to
+         kSYSs8+mEoBm6Iu271C26LThKb1+0WbncldyiLA1NRC/eNlooQ9yybtjQBLB4HiSRGLP
+         7lYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743592719; x=1744197519;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Pe81jop8Ll7ztioIZQS1clySmVs5CptZvcTXW3TsFI=;
+        b=CQJwqNqtW1CqLKZs6bb8j2XRQ8HZnYDxpYotd9fmOmEI5NelAPYmoIErzr7kQP+U5/
+         jyl1lCD4p5KYnCrVn8lzOeLdmXEG10tmClJN5WmXPo4ibqWLofdyKuCRYjyG/DMuhZeg
+         dLSSzub4thy6QxuBtik/hxf/JiHWjmqwpX9aKfaDYZjZl/g5aWpa3mIWzMAcW0JQjgAl
+         x+ufbmxf90YJNr2z8hazSoBxl/8iof+AcBicomEV2QFKGjij4dZLlwWYItRebvr1XHFS
+         yWZzrtGkopU42iF1b3dlIZxRUrpeFL9oXeETmDADMnc1pUyb9eDRiKHKBDEns1b4MySN
+         z2Mw==
+X-Forwarded-Encrypted: i=1; AJvYcCXa/6LCHvzxesFUR6RRTD3ZF3J4/Cge91QaUeAgR13YnPPsRbEJAG5NiwCzCbyWTaTgNWST6HAwv9ArXDnS@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGj+lxbE3h4R1bUPgBA1wpzcUew4zkXPpr58xJ5d5kICiYqFpl
+	YgbAgQF7Y/rEYw5yA2QaddwkYg/jYQ5Betq3n84jEahXiNZFNgiV41YtgMuIJSU=
+X-Gm-Gg: ASbGnctCEXqdtyf2LMOt0ug6NY8zr8J6xDTw6jEpMplsvgGUuffF08apV2JacAMynmn
+	uI4rTNQER2sJbW2IgwBRjbQj9Pb2U62fM0fx/CjS8hDEYlONezSHo5lcCDYeXOdpahMts1zerZR
+	iGPJFEknUIOpnKDmBJDpRLr5jzdb2aQhzj6EPrTWEhSWKNSHg4Oti+ksKw+ADdtFadIYNK/yjE3
+	GPf0CSqDxmmgXSw97B9Ixb6JPselU+gV39B+bO4/N4ehOWfBgm1TfgvUqgHkq07pHSFQktHdKoB
+	yPBYyCPhb8tNQ3my1SgXLSyRL69lSjMvZ10pMjKTWs3NpGOUNFiDnjZt1kUG
+X-Google-Smtp-Source: AGHT+IHQRoQJa2mTQNLyy8U+kE0q2bREN0pW+4OWNG0b+gLWh2w0Dnh3vEPbOrElFvpZkpi8WgtQ+w==
+X-Received: by 2002:a05:6000:1449:b0:38d:dffc:c133 with SMTP id ffacd0b85a97d-39c297e465amr1484283f8f.44.1743592719227;
+        Wed, 02 Apr 2025 04:18:39 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c0b79e393sm16898932f8f.72.2025.04.02.04.18.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Apr 2025 04:18:38 -0700 (PDT)
+Date: Wed, 2 Apr 2025 14:18:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1672
+ _dpu_encoder_trigger_start() warn: variable dereferenced before check 'phys'
+ (see line 1670)
+Message-ID: <36935440-aa60-469e-876c-f0a0cb7074c5@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v7 2/5] PCI: Refactor capability search functions to eliminate
- code duplication
-To: kernel test robot <lkp@intel.com>, lpieralisi@kernel.org,
- bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
- manivannan.sadhasivam@linaro.org, ilpo.jarvinen@linux.intel.com,
- robh@kernel.org, jingoohan1@gmail.com, thomas.richard@bootlin.com,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250402042020.48681-3-18255117159@163.com>
- <202504021623.LgnqoZPE-lkp@intel.com>
-Content-Language: en-US
-From: Hans Zhang <18255117159@163.com>
-In-Reply-To: <202504021623.LgnqoZPE-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:PygvCgCn8qF6FO1nmwyABA--.39487S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAr17tF17urW5tr1rKrW5GFg_yoWrXw4xpa
-	yxXFy7u3yUGw1vganrAa1Iyr92qaykArW7XFWDGwn8AF1DA345ZFWSgFWfJa47KF98KFy3
-	Xa98G34xJF12v3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UJkucUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/1tbiOgUjo2ftDGf+6gAAsK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   acc4d5ff0b61eb1715c498b6536c38c1feb7f3c1
+commit: 8144d17a81d9ea742be5a02da62f5a7b2a8f95c1 drm/msm/dpu: Skip trigger flush and start for CWB
+date:   4 weeks ago
+config: arm64-randconfig-r073-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021825.IW2340OS-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202504021825.IW2340OS-lkp@intel.com/
 
-On 2025/4/2 17:19, kernel test robot wrote:
-> Hi Hans,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on acb4f33713b9f6cadb6143f211714c343465411c]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Refactor-capability-search-into-common-macros/20250402-122544
-> base:   acb4f33713b9f6cadb6143f211714c343465411c
-> patch link:    https://lore.kernel.org/r/20250402042020.48681-3-18255117159%40163.com
-> patch subject: [v7 2/5] PCI: Refactor capability search functions to eliminate code duplication
-> config: loongarch-randconfig-001-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021623.LgnqoZPE-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021623.LgnqoZPE-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504021623.LgnqoZPE-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     drivers/pci/pci.c: In function '__pci_find_next_ht_cap':
->>> drivers/pci/pci.c:627:17: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
->       627 |                 rc = pci_read_config_byte(dev, pos + 3, &cap);
->           |                 ^~
->           |                 rq
->     drivers/pci/pci.c:627:17: note: each undeclared identifier is reported only once for each function it appears in
-> 
+smatch warnings:
+drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1672 _dpu_encoder_trigger_start() warn: variable dereferenced before check 'phys' (see line 1670)
+drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1814 _dpu_encoder_kickoff_phys() error: we previously assumed 'dpu_enc->cur_master' could be null (see line 1807)
 
-  static u8 __pci_find_next_ht_cap(struct pci_dev *dev, u8 pos, int ht_cap)
-  {
--	int rc, ttl = PCI_FIND_CAP_TTL;
-  	u8 cap, mask;
+vim +/phys +1672 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 
-The rc variable was deleted by mistake and will be changed in the next 
-version.
+58fba464eaeff6 Sean Paul         2018-09-20  1668  static void _dpu_encoder_trigger_start(struct dpu_encoder_phys *phys)
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1669  {
+8144d17a81d9ea Jessica Zhang     2025-02-14 @1670  	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(phys->parent);
+                                                                                                               ^^^^^^^^^^^^
+Dereference
 
-  static u8 __pci_find_next_ht_cap(struct pci_dev *dev, u8 pos, int ht_cap)
-  {
--	int rc;
-  	u8 cap, mask;
+8144d17a81d9ea Jessica Zhang     2025-02-14  1671  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @1672  	if (!phys) {
+                                                            ^^^^^
+Checked too late.
 
-Best regards,
-Hans
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1673  		DPU_ERROR("invalid argument(s)\n");
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1674  		return;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1675  	}
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1676  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1677  	if (!phys->hw_pp) {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1678  		DPU_ERROR("invalid pingpong hw\n");
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1679  		return;
 
-> 
-> vim +627 drivers/pci/pci.c
-> 
-> 70c0923b0ef10b Jacob Keller     2020-03-02  614
-> f646c2a0a6685a Puranjay Mohan   2020-11-29  615  static u8 __pci_find_next_ht_cap(struct pci_dev *dev, u8 pos, int ht_cap)
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  616  {
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  617  	u8 cap, mask;
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  618
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  619  	if (ht_cap == HT_CAPTYPE_SLAVE || ht_cap == HT_CAPTYPE_HOST)
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  620  		mask = HT_3BIT_CAP_MASK;
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  621  	else
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  622  		mask = HT_5BIT_CAP_MASK;
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  623
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  624  	pos = __pci_find_next_cap_ttl(dev->bus, dev->devfn, pos,
-> 2675dfd086c109 Hans Zhang       2025-04-02  625  				      PCI_CAP_ID_HT);
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  626  	while (pos) {
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22 @627  		rc = pci_read_config_byte(dev, pos + 3, &cap);
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  628  		if (rc != PCIBIOS_SUCCESSFUL)
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  629  			return 0;
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  630
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  631  		if ((cap & mask) == ht_cap)
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  632  			return pos;
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  633
-> 47a4d5be7c50b2 Brice Goglin     2007-01-10  634  		pos = __pci_find_next_cap_ttl(dev->bus, dev->devfn,
-> 47a4d5be7c50b2 Brice Goglin     2007-01-10  635  					      pos + PCI_CAP_LIST_NEXT,
-> 2675dfd086c109 Hans Zhang       2025-04-02  636  					      PCI_CAP_ID_HT);
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  637  	}
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  638
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  639  	return 0;
-> 687d5fe3dc3379 Michael Ellerman 2006-11-22  640  }
-> f646c2a0a6685a Puranjay Mohan   2020-11-29  641
-> 
+[ snip ]
+
+b4bb9f15b44392 Rob Clark         2019-08-29  1771  static void _dpu_encoder_kickoff_phys(struct dpu_encoder_virt *dpu_enc)
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1772  {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1773  	struct dpu_hw_ctl *ctl;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1774  	uint32_t i, pending_flush;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1775  	unsigned long lock_flags;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1776  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1777  	pending_flush = 0x0;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1778  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1779  	/* update pending counts and trigger kickoff ctl flush atomically */
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1780  	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1781  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1782  	/* don't perform flush/start operations for slave encoders */
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1783  	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1784  		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1785  
+b6fadcade62704 Drew Davenport    2019-12-06  1786  		if (phys->enable_state == DPU_ENC_DISABLED)
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1787  			continue;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1788  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1789  		ctl = phys->hw_ctl;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1790  
+f98baa3109cea4 Sean Paul         2019-01-30  1791  		/*
+f98baa3109cea4 Sean Paul         2019-01-30  1792  		 * This is cleared in frame_done worker, which isn't invoked
+f98baa3109cea4 Sean Paul         2019-01-30  1793  		 * for async commits. So don't set this for async, since it'll
+f98baa3109cea4 Sean Paul         2019-01-30  1794  		 * roll over to the next commit.
+f98baa3109cea4 Sean Paul         2019-01-30  1795  		 */
+b4bb9f15b44392 Rob Clark         2019-08-29  1796  		if (phys->split_role != ENC_ROLE_SLAVE)
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1797  			set_bit(i, dpu_enc->frame_busy_mask);
+f98baa3109cea4 Sean Paul         2019-01-30  1798  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1799  		if (!phys->ops.needs_single_flush ||
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1800  				!phys->ops.needs_single_flush(phys))
+b4bb9f15b44392 Rob Clark         2019-08-29  1801  			_dpu_encoder_trigger_flush(&dpu_enc->base, phys, 0x0);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1802  		else if (ctl->ops.get_pending_flush)
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1803  			pending_flush |= ctl->ops.get_pending_flush(ctl);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1804  	}
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1805  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1806  	/* for split flush, combine pending flush masks and send to master */
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @1807  	if (pending_flush && dpu_enc->cur_master) {
+                                                                             ^^^^^^^^^^^^^^^^^^^
+Check for NULL
+
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1808  		_dpu_encoder_trigger_flush(
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1809  				&dpu_enc->base,
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1810  				dpu_enc->cur_master,
+b4bb9f15b44392 Rob Clark         2019-08-29  1811  				pending_flush);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1812  	}
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1813  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @1814  	_dpu_encoder_trigger_start(dpu_enc->cur_master);
+                                                                                   ^^^^^^^^^^^^^^^^^^^
+Unchecked dereference
+
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1815  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1816  	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1817  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
