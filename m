@@ -1,121 +1,150 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3DCA1F3B96
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 12:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94573469D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 12:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743596350; cv=none; b=QBA5u80v7QZZ+c7vs02kQEesP/RjIeyDkL3tE7/uldKsExNJu5dvxopOj6E3l+j3WwWr2vmqYV8Ypd/4dSxkqPHF8JDE7Z2JNJO6YrF9VueXFMzw/J3bnGzK08FoKrh6CK2qjXKv/qQlMtNHNAjjRNJSyx4+Krjfw3ziFg510es=
+	t=1743596462; cv=none; b=Fgx5J9eehmk4KuOOIqkOd+sphD8Ri5OlIqYKlyIpOKvvBbS2EXT++XWpOt98npwGHiwFyRN5JSN/UKw47Z7pN1mCMA7akRfXFsyR4YULwMSOG+2v3YPMbwe2YYZIQKXJm6xIEHE1lZPLBO71a/2zaS2CKvoeWdRRgXGN/qfJzeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743596350; c=relaxed/simple;
-	bh=v9o/0GsG9hlpEVMILiuT/UXu6Gay+7R0EoqjQXNBKw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PN1OGz6cByVp5DgJIyX/lQbkWN/iUBDkJjvPPB+fZCWRoLH4evFhDeGVizak56XkV6a1xzAACoFHW3LWNCPJ16sUdTUQFVrZ2O/+iS7B869cwq6UDT7FA081JG19Mx64kN1akEUwn/yn0u3hJOVY8bBHldqrHTDsaltK5f4KAGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=p3QW2AVX; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1743596462; c=relaxed/simple;
+	bh=HFmkqUAoEzXGQRRzC6FD/GXKKaeCq7x+eELVu3Lf60c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=j4ReuoaYaA4ncu3RxNUB+PxAkATJFQSCArVPU7XEz8uqd5SqBKobUVCUt+Zi5lDfGUft5u6CMldxF+S0JOdiqP9we/I4PLcSDRM2uaaUALbevBFdh5ZuogqPjJbswFf3R8AQTkteHibTzbciyqehhl8pzka7tH0psgRK32XvHNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L/7wlCNG; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="p3QW2AVX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
-	Content-Type; bh=1K93p+jfwwbKax5M8o/f4XaPFLFEtqliG2k63r4obes=;
-	b=p3QW2AVXL9zWuzV1dY8TkMfEAeCT3p/8khNHcr/3YBtVlrVNnqbA56Uk5aGT8c
-	L8KLxkvlKSjEWI2udr55Nf9//va0LYD8e3GKX0FDOUq7/tPwo01etlwR0S3Bc/Ch
-	ZEaFxorIdTmey363pUQpg/7N4d4YAuePZD+//XgyXQBDQ=
-Received: from [192.168.60.52] (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD3t9gUK+1nh2qGDg--.42426S2;
-	Wed, 02 Apr 2025 20:18:30 +0800 (CST)
-Message-ID: <ad119d32-0755-4ca1-9db8-28f6a8f17c43@163.com>
-Date: Wed, 2 Apr 2025 20:18:28 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L/7wlCNG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743596460; x=1775132460;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HFmkqUAoEzXGQRRzC6FD/GXKKaeCq7x+eELVu3Lf60c=;
+  b=L/7wlCNG4PQbMVcZkR30GIxzleyQD5fND1GAOozmtJCIRxWbW54/E4c+
+   4PFCsA8dp6Kz3rRrxMonWHTShhNEA04hXUagbK1BE3+IVsowDApzoI/Tv
+   onx55YLPDYXxsjCaLu5NKsxUAnJ/dv5/pxUFOhJi8NhgEno8KNxLccUEK
+   F7CpTld7wuwBaEg2x8qHSATi0k9rF5jCatz4t3YWZkqudekEUz7P8LAOm
+   Mz0OIpjV8Jx1P/l7Jq3tYYqsz8Ys/s4iboz82TjNw/UksBFQSklSwcpC3
+   QtLfHE0h8x/HW4wFFVq0dCM03FxBuHgVLYdvRRoOfaodPggZqnXQNA4nt
+   Q==;
+X-CSE-ConnectionGUID: CZ87ht/FRya3rLD6fmohZw==
+X-CSE-MsgGUID: wH3DAbitTW68HojHIpEDSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="44841029"
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; 
+   d="scan'208";a="44841029"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 05:21:00 -0700
+X-CSE-ConnectionGUID: 5ypRmTwGSSCE3++TarhTSQ==
+X-CSE-MsgGUID: iNEpyZqzQ4KEzt1IrZ1ocA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; 
+   d="scan'208";a="163910116"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 02 Apr 2025 05:20:58 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tzx5U-000AgS-1l;
+	Wed, 02 Apr 2025 12:20:56 +0000
+Date: Wed, 2 Apr 2025 20:20:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:keys-graveyard 16/16] security/keys/gc.c:209:48:
+ error: 'flags' undeclared
+Message-ID: <202504022005.kyikMYqP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v7 3/5] PCI: dwc: Use common PCI host bridge APIs for finding
- the capabilities
-To: kernel test robot <lkp@intel.com>, lpieralisi@kernel.org,
- bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
- manivannan.sadhasivam@linaro.org, ilpo.jarvinen@linux.intel.com,
- robh@kernel.org, jingoohan1@gmail.com, thomas.richard@bootlin.com,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250402042020.48681-4-18255117159@163.com>
- <202504021958.YeTPCsW1-lkp@intel.com>
-Content-Language: en-US
-From: Hans Zhang <18255117159@163.com>
-In-Reply-To: <202504021958.YeTPCsW1-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_____wD3t9gUK+1nh2qGDg--.42426S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAr17tF17urW5tr1rZw13Arb_yoW5Cr4xpa
-	yUAa13ZFyrJF4Sgw48t3WF93WaqF1DAry7G3ykG3W7WFy7Zry5GryIkFyagFy7tw4qgrya
-	kryqq3Z7Ars8AaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07ULyCXUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbBDwQjo2ftJx1vAgAAsW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git keys-graveyard
+head:   ca5b76e45c384d9a7e84116d2c4524642eda3273
+commit: ca5b76e45c384d9a7e84116d2c4524642eda3273 [16/16] KEYS: Add a list for unreferenced keys
+config: csky-randconfig-002-20250402 (https://download.01.org/0day-ci/archive/20250402/202504022005.kyikMYqP-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504022005.kyikMYqP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504022005.kyikMYqP-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/spinlock.h:55,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from security/keys/gc.c:8:
+   security/keys/gc.c: In function 'key_garbage_collector':
+>> security/keys/gc.c:209:48: error: 'flags' undeclared (first use in this function)
+     209 |         spin_lock_irqsave(&key_graveyard_lock, flags);
+         |                                                ^~~~~
+   include/linux/typecheck.h:11:16: note: in definition of macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                ^
+   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   security/keys/gc.c:209:9: note: in expansion of macro 'spin_lock_irqsave'
+     209 |         spin_lock_irqsave(&key_graveyard_lock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   security/keys/gc.c:209:48: note: each undeclared identifier is reported only once for each function it appears in
+     209 |         spin_lock_irqsave(&key_graveyard_lock, flags);
+         |                                                ^~~~~
+   include/linux/typecheck.h:11:16: note: in definition of macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                ^
+   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   security/keys/gc.c:209:9: note: in expansion of macro 'spin_lock_irqsave'
+     209 |         spin_lock_irqsave(&key_graveyard_lock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/spinlock.h:243:17: note: in expansion of macro 'typecheck'
+     243 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   security/keys/gc.c:209:9: note: in expansion of macro 'spin_lock_irqsave'
+     209 |         spin_lock_irqsave(&key_graveyard_lock, flags);
+         |         ^~~~~~~~~~~~~~~~~
 
 
+vim +/flags +209 security/keys/gc.c
 
-On 2025/4/2 19:58, kernel test robot wrote:
-> Hi Hans,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on acb4f33713b9f6cadb6143f211714c343465411c]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Refactor-capability-search-into-common-macros/20250402-122544
-> base:   acb4f33713b9f6cadb6143f211714c343465411c
-> patch link:    https://lore.kernel.org/r/20250402042020.48681-4-18255117159%40163.com
-> patch subject: [v7 3/5] PCI: dwc: Use common PCI host bridge APIs for finding the capabilities
-> config: loongarch-randconfig-001-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021958.YeTPCsW1-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021958.YeTPCsW1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504021958.YeTPCsW1-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from drivers/pci/controller/dwc/pcie-designware.c:23:
->     drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_find_capability':
->>> drivers/pci/controller/dwc/pcie-designware.c:218:38: error: 'pcie' undeclared (first use in this function); did you mean 'pci'?
->       218 |                                      pcie);
->           |                                      ^~~~
->     drivers/pci/controller/dwc/../../pci.h:114:18: note: in definition of macro 'PCI_FIND_NEXT_CAP_TTL'
->       114 |         read_cfg(args, __pos, 1, (u32 *)&__pos);                        \
->           |                  ^~~~
->     drivers/pci/controller/dwc/pcie-designware.c:218:38: note: each undeclared identifier is reported only once for each function it appears in
->       218 |                                      pcie);
->           |                                      ^~~~
->     drivers/pci/controller/dwc/../../pci.h:114:18: note: in definition of macro 'PCI_FIND_NEXT_CAP_TTL'
->       114 |         read_cfg(args, __pos, 1, (u32 *)&__pos);                        \
->           |                  ^~~~
->     drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_find_ext_capability':
->     drivers/pci/controller/dwc/pcie-designware.c:224:71: error: 'pcie' undeclared (first use in this function); did you mean 'pci'?
->       224 |         return PCI_FIND_NEXT_EXT_CAPABILITY(dw_pcie_read_cfg, 0, cap, pcie);
->           |                                                                       ^~~~
->     drivers/pci/controller/dwc/../../pci.h:156:34: note: in definition of macro 'PCI_FIND_NEXT_EXT_CAPABILITY'
->       156 |                 __ret = read_cfg(args, __pos, 4, &__header);                    \
->           |                                  ^~~~
-> 
+   188	
+   189		struct rb_node *cursor;
+   190		struct key *key;
+   191		time64_t new_timer, limit, expiry;
+   192	
+   193		kenter("[%lx,%x]", key_gc_flags, gc_state);
+   194	
+   195		limit = ktime_get_real_seconds();
+   196	
+   197		/* Work out what we're going to be doing in this pass */
+   198		gc_state &= KEY_GC_REAPING_DEAD_1 | KEY_GC_REAPING_DEAD_2;
+   199		gc_state <<= 1;
+   200		if (test_and_clear_bit(KEY_GC_KEY_EXPIRED, &key_gc_flags))
+   201			gc_state |= KEY_GC_REAPING_LINKS;
+   202	
+   203		if (test_and_clear_bit(KEY_GC_REAP_KEYTYPE, &key_gc_flags))
+   204			gc_state |= KEY_GC_REAPING_DEAD_1;
+   205		kdebug("new pass %x", gc_state);
+   206	
+   207		new_timer = TIME64_MAX;
+   208	
+ > 209		spin_lock_irqsave(&key_graveyard_lock, flags);
 
-Copy the errors carried over. Will change.
-
-Best regards,
-Hans
-
-> 
-> vim +218 drivers/pci/controller/dwc/pcie-designware.c
-> 
->     214	
->     215	u8 dw_pcie_find_capability(struct dw_pcie *pci, u8 cap)
->     216	{
->     217		return PCI_FIND_NEXT_CAP_TTL(dw_pcie_read_cfg, PCI_CAPABILITY_LIST, cap,
->   > 218					     pcie);
->     219	}
->     220	EXPORT_SYMBOL_GPL(dw_pcie_find_capability);
->     221	
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
