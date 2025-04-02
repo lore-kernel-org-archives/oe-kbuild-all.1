@@ -1,311 +1,262 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACF4231A2A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 06:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D39232386
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 06:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743575138; cv=none; b=fGVBXu/Iu34aCqC9tye5PI4LTdhW+LYyhb4O508UfGnigBVrkZ5qWG5OrH3GheFKRSFqB2I0J7jmu8WequeWU+FILklwaZgsCQ3WM84t0mNJTwLulcZ9hMpdI0ON7yTq+6DomOKH5X1nZJXR140jif3b2L/LWQUGp6q+yZ34cUs=
+	t=1743575407; cv=none; b=EspUXxk6736bhmWV9+UznAPy1ZRxQjKjgUq/zNrj+FMcWjnmev6q1x7ebA7kcln5IXqACv8VSh05eZ0Z+e8bMgyJicRvMRkWtAt9gjrqMba+BFE24viCcSMXkCq00qQo3s+CxHVkaYkSvapl1zfJCpMjf/XBqVI+tgQQiCGUyL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743575138; c=relaxed/simple;
-	bh=3NsDwcBbr2jcVYXYtmGA0Uo912W09NmkE06iL1oliOo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gf4rzBsbbhQChjuz6/TsITT1y11t1SGlFiAI8jiBwp/XTibDiMEO0jV/2WSLqZ1AJiZxKhL8eXVuBB+qMSUwrbdrVpsPGDyT3xmjOoTsEJUhzuWUc8fvOG6shMK12Io5uNs2zM15OA5rRL+XdCvmdSFDZ9HvCsomasdJvRaMQJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UYHog4mn; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1743575407; c=relaxed/simple;
+	bh=BAFfE802gVTdPFPQz4Q3r6o+DtQlJB8TGNzFhyxc7Gk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hVgegITXC4NwyxGTRCFrC3VY6w6c8Dp9PXMUacrn9kKCN37qHXnxiuclg8ZveOGT6Gus4qjWsDCex0WL/s2UcoUS7DPhgCN999OiMk8XEdAnktFjSyZuHaOXn4npiQ2rXvnfdq91Nft0b1v12aLcRQYLndAgScB95Ai245eTvYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n02NuZ7H; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UYHog4mn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743575133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NsDwcBbr2jcVYXYtmGA0Uo912W09NmkE06iL1oliOo=;
-	b=UYHog4mnJgVRNa3O2V+ovHtl997xbN8rXF2e6DqUhTzAXhSHw26LBj6RmJ9hiQ8MlvHsXa
-	MZI2jnFQJjrpBsZFdJafcFu6kD+j6AV1MwjYA8tX+rssLONQtmx8SKk8MivxaEHL3ZhQDf
-	Ih6fZWiu58c8W509f5LoDzp7av1sQxM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-427-09pjspZZP3aeMuv9xSWGBQ-1; Wed, 02 Apr 2025 02:25:32 -0400
-X-MC-Unique: 09pjspZZP3aeMuv9xSWGBQ-1
-X-Mimecast-MFC-AGG-ID: 09pjspZZP3aeMuv9xSWGBQ_1743575131
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-43d209dc2d3so37003005e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 01 Apr 2025 23:25:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743575131; x=1744179931;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qvV1YhVY5dvLsPQdy2Zi4rEWCEocbwVNJGT6HPwCUqY=;
-        b=Z0n+djYrUCYQzLehJAn8lq2tOyf0eA4A74LkNV+3maa10AHTE/D5+isnXESgRyzWIs
-         NYGrz2hC3yQEHXsXijDg6PLxgeRonLGdUWBBheLfZRHN39jD+NeW2Tb3Wz5qijz3l/QI
-         DGbb9my1QAtp7xUcchYpJ1jnmEJMHb0MExzzgrN5bF7pL+LPvp48pICmcUjrU9oUICsK
-         p6FzIeVqRC2L8a1+mb4H5TDdiMkNRv7lrrS3cjL3dpeY+bS9Xa2uVhB46vtWOqVUgDIp
-         XOQsRJbfa542/cgGZqfdjkNbb1YeKVgjFyL5ULwWrac5O98vNx57FMmXzSowEZyuI4O/
-         Huxw==
-X-Forwarded-Encrypted: i=1; AJvYcCWe/dRXdYtWHYx8ymR/1KJFicFW8PdECYXdLJMP1HEvZURNRUnMYyoeSNFlVN0R+xrGyGNTbHPtK98eZUKs@lists.linux.dev
-X-Gm-Message-State: AOJu0YzP9pbVTI7GC9N6OKcEbj069RTH4pfXzu9IGfQIvkUaPMYb3qYB
-	sa4hNY9PB/dv8BB3CaGoijrbrlq5FhGnEpKrMHVokowpl6XiefFQgO+jh4cjdTwENBE4ckIEXzp
-	xghQSEoMIV9UYZviLtmBNUjRfcB7ecEZtun9B94XfTmCcuhVbFGyySxjzGCDjRAk=
-X-Gm-Gg: ASbGncsnjO89vc5bPYy0wuBygIBr85uWQeU/QNPyNa1nGWrn+hEwJzIpSXWxT1Dtm5b
-	5YnuIwwCnB9rEi987NhT8LIXKyw5mwS0GIvDCkohqzy770Yulhdoe7lOb4G/Iu+f56fmRUF/8Wx
-	F0zUMvtAHWYow5ulwZqZuzYm7aIhtPHs2Z8IEIauznJtz17Its6EmFk+nLmIfqgpMAO/eAn6CuB
-	jo9FyaFytwWNXU5vMXd1xGSmTqdgV8p6KntN/lGIWNxTSz+DbJjC6qdZp7WPdf0lE2Ee3/Lm8qW
-	8A2Jvy9fib/16Z7l2mSqJHN2lBlvUTaJmLlb4L/kuA==
-X-Received: by 2002:a05:600c:1e21:b0:43c:ec28:d301 with SMTP id 5b1f17b1804b1-43eb5c70cc3mr10367355e9.26.1743575131360;
-        Tue, 01 Apr 2025 23:25:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEPAzxHdlEpnGzGgTqA+vZ1NUCwpIrUUVvSWK/I6PRmRH3CslgeHNanASjsRfkoY169xiAy8Q==
-X-Received: by 2002:a05:600c:1e21:b0:43c:ec28:d301 with SMTP id 5b1f17b1804b1-43eb5c70cc3mr10367185e9.26.1743575130954;
-        Tue, 01 Apr 2025 23:25:30 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b79e31csm16248786f8f.68.2025.04.01.23.25.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 23:25:30 -0700 (PDT)
-Message-ID: <b728fb6ae53531e23ed068c5572b70041abb51dd.camel@redhat.com>
-Subject: Re: kernel/trace/rv/rv.c:812:2-8: preceding lock on line 790 (fwd)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: "Steven Rostedt (Google)" <rostedt@goodmis.org>, 
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Date: Wed, 02 Apr 2025 08:25:28 +0200
-In-Reply-To: <alpine.DEB.2.22.394.2503302037080.23941@hadrien>
-References: <alpine.DEB.2.22.394.2503302037080.23941@hadrien>
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n02NuZ7H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743575405; x=1775111405;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BAFfE802gVTdPFPQz4Q3r6o+DtQlJB8TGNzFhyxc7Gk=;
+  b=n02NuZ7HVRS/n4Aw7adQhVg+3DO8Ql75S2uiNv84d2K70Qopno7pCKki
+   Z2TfdpcPYRmiBw+LJvOao/ST9RomJ8fZepkKD0Up48rV2fr+2v2NFE+lH
+   LyYVawo6Gn6AzjJ/hzB8oxxD1RAx10nvd/bD2vXB7SUEKx2yJKFX769bX
+   OsYo6c6XhD/8AtZqcpxc/5+hVXZdhS9CqJHTp8F5LfC5Te6SVbbqggpmx
+   HKuq5+LqjTNb9/GpEk1K2qbSDPt3Cw3bxNN8OdcvZAbZTww4SYaHJzYFN
+   H36O5ZCzbsaVCG6/KuC2184JDmwBTtimK16B26qoTdDbXLPPNoT3f+7L3
+   g==;
+X-CSE-ConnectionGUID: kdHKOtQiTXeqXoF9xKY8gQ==
+X-CSE-MsgGUID: xeK37cliTYSk+vmpB91cAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="45045575"
+X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
+   d="scan'208";a="45045575"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 23:30:04 -0700
+X-CSE-ConnectionGUID: 2GPPQw6ZTESYAwIX+9TpMQ==
+X-CSE-MsgGUID: Zetf+yDTT0eJ5jCi4YtMLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
+   d="scan'208";a="157589705"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 01 Apr 2025 23:30:03 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tzrbg-000AVm-2L;
+	Wed, 02 Apr 2025 06:29:53 +0000
+Date: Wed, 2 Apr 2025 14:29:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	Farrah Chen <farrah.chen@intel.com>
+Subject: [kvm:planes-20250401 43/62]
+ arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:269:33: error: invalid type argument of
+ '->' (have 'struct stat')
+Message-ID: <202504021409.aXa06kaD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 7YbepI0tt9U7KaeSrXTY4lVMUl-4bXZ6oSXI2QzbQZ0_1743575131
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 2025-03-30 at 20:37 +0200, Julia Lawall wrote:
-> Please check on whether line 812 needs an unlock.
->=20
+Hi Paolo,
 
-Hi,
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-thanks for reporting!
-Indeed that needs an unlock, I missed it after moving some code around,
-preparing the fix.
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git planes-20250401
+head:   73685d9c23b7122b44f07d59244416f8b56ed48e
+commit: 6249af4632166284e82033226a1679e38cb3e6e8 [43/62] KVM: share statistics for same vCPU id on different planes
+config: arm64-randconfig-003-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021409.aXa06kaD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021409.aXa06kaD-lkp@intel.com/reproduce)
 
-Gabriele
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504021409.aXa06kaD-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c: In function 'init_elf':
+>> arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:269:33: error: invalid type argument of '->' (have 'struct stat')
+     269 |         elf.begin = mmap(0, stat->st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+         |                                 ^~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:279:23: error: invalid type argument of '->' (have 'struct stat')
+     279 |         assert_ge(stat->st_size, sizeof(*elf.ehdr), "%lu");
+         |                       ^~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:182:24: note: in definition of macro 'assert_op'
+     182 |                 typeof(lhs) _lhs = (lhs);                               \
+         |                        ^~~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:279:9: note: in expansion of macro 'assert_ge'
+     279 |         assert_ge(stat->st_size, sizeof(*elf.ehdr), "%lu");
+         |         ^~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:279:23: error: invalid type argument of '->' (have 'struct stat')
+     279 |         assert_ge(stat->st_size, sizeof(*elf.ehdr), "%lu");
+         |                       ^~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:182:37: note: in definition of macro 'assert_op'
+     182 |                 typeof(lhs) _lhs = (lhs);                               \
+         |                                     ^~~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:279:9: note: in expansion of macro 'assert_ge'
+     279 |         assert_ge(stat->st_size, sizeof(*elf.ehdr), "%lu");
+         |         ^~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:166:33: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'int' [-Wformat=]
+     166 |                 fprintf(stderr, "error: %s: " fmt "\n",                 \
+         |                                 ^~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:186:25: note: in expansion of macro 'fatal_error'
+     186 |                         fatal_error("assertion " #lhs " " #op " " #rhs  \
+         |                         ^~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:195:41: note: in expansion of macro 'assert_op'
+     195 | #define assert_ge(lhs, rhs, fmt)        assert_op(lhs, rhs, fmt, >=)
+         |                                         ^~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/gen-hyprel.c:279:9: note: in expansion of macro 'assert_ge'
+     279 |         assert_ge(stat->st_size, sizeof(*elf.ehdr), "%lu");
+         |         ^~~~~~~~~
 
 
-> julia
->=20
-> ---------- Forwarded message ----------
-> Date: Mon, 31 Mar 2025 02:25:17 +0800
-> From: kernel test robot <lkp@intel.com>
-> To: oe-kbuild@lists.linux.dev
-> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> Subject: kernel/trace/rv/rv.c:812:2-8: preceding lock on line 790
->=20
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> CC: linux-kernel@vger.kernel.org
-> TO: Gabriele Monaco <gmonaco@redhat.com>
-> CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
->=20
-> tree:=C2=A0=C2=A0
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=C2=A0m=
-a
-> ster
-> head:=C2=A0=C2=A0 7f2ff7b6261742ed52aa973ccdf99151b7cc3a50
-> commit: cb85c660fcd4b3a03ed993affa0b2d1a8af2f06b rv: Add option for
-> nested monitors and include sched
-> date:=C2=A0=C2=A0 6 days ago
-> :::::: branch date: 17 hours ago
-> :::::: commit date: 6 days ago
-> config: loongarch-randconfig-r061-20250330
-> (https://download.01.org/0day-ci/archive/20250331/202503310200.UBXGit
-> B4-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.2.0
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> > Closes:
-> > https://lore.kernel.org/r/202503310200.UBXGitB4-lkp@intel.com/
->=20
-> cocci warnings: (new ones prefixed by >>)
-> > > kernel/trace/rv/rv.c:812:2-8: preceding lock on line 790
->=20
-> vim +812 kernel/trace/rv/rv.c
->=20
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 771
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 772=C2=A0 /**
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 773=C2=A0=C2=
-=A0 *
-> rv_register_monitor - register a rv monitor.
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 774=C2=A0=C2=
-=A0 *
-> @monitor:=C2=A0=C2=A0=C2=A0 The rv_monitor to be registered.
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 775=C2=A0=C2=A0 *
-> @parent:=C2=A0=C2=A0=C2=A0=C2=A0 The parent of the monitor to be register=
-ed, NULL if not
-> nested.
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 776=C2=A0=C2=
-=A0 *
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 777=C2=A0=C2=
-=A0 *
-> Returns 0 if successful, error otherwise.
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 778=C2=A0=C2=
-=A0 */
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 779=C2=A0 int
-> rv_register_monitor(struct rv_monitor *monitor, struct rv_monitor
-> *parent)
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 780=C2=A0 {
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 781=C2=A0=C2=A0=09struct rv_monitor_def *r, *p =3D NULL;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 782=C2=A0=C2=
-=A0=09int
-> retval =3D 0;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 783
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 784=C2=A0=C2=
-=A0=09if
-> (strlen(monitor->name) >=3D MAX_RV_MONITOR_NAME_SIZE) {
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 785=C2=A0=C2=A0=09=09pr_info("Monitor %s has a name longer than %d\n", mo=
-nitor->name,
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 786=C2=A0=C2=A0=09=09=09MAX_RV_MONITOR_NAME_SIZE);
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 787=C2=A0=C2=A0=09=09return -EINVAL;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 788=C2=A0=C2=
-=A0=09}
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 789
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29
-> @790=C2=A0=C2=A0=09mutex_lock(&rv_interface_lock);
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 791
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 792=C2=A0=C2=A0=09list_for_each_entry(r, &rv_monitors_list, list) {
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 793=C2=A0=C2=A0=09=09if (strcmp(monitor->name, r->monitor->name) =3D=3D 0=
-) {
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 794=C2=A0=C2=A0=09=09=09pr_info("Monitor %s is already registered\n", mon=
-itor->name);
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 795=C2=A0=C2=A0=09=09=09retval =3D -EEXIST;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 796=C2=A0=C2=A0=09=09=09goto out_unlock;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 797=C2=A0=C2=A0=09=09}
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 798=C2=A0=C2=
-=A0=09}
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 799
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 800=C2=A0=C2=A0=09if
-> (parent) {
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 801=C2=A0=C2=A0=09=09list_for_each_entry(r, &rv_monitors_list, list) {
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 802=C2=A0=C2=A0=09=09=09if (strcmp(parent->name, r->monitor->name) =3D=3D=
- 0) {
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 803=C2=A0=C2=A0=09=09=09=09p =3D r;
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 804=C2=A0=C2=A0=09=09=09=09break;
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 805=C2=A0=C2=A0=09=09=09}
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 806=C2=A0=C2=A0=09=09}
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 807=C2=A0=C2=A0=09}
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 808
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 809=C2=A0=C2=A0=09if
-> (p && rv_is_nested_monitor(p)) {
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 810=C2=A0=C2=A0=09=09pr_info("Parent monitor %s is already nested, cannot=
- nest further\n",
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 811=C2=A0=C2=A0=09=09=09parent->name);
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05
-> @812=C2=A0=C2=A0=09=09return -EINVAL;
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 813=C2=A0=C2=A0=09}
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 814
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 815=C2=A0=C2=
-=A0=09r =3D
-> kzalloc(sizeof(struct rv_monitor_def), GFP_KERNEL);
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 816=C2=A0=C2=
-=A0=09if
-> (!r) {
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 817=C2=A0=C2=A0=09=09retval =3D -ENOMEM;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 818=C2=A0=C2=A0=09=09goto out_unlock;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 819=C2=A0=C2=
-=A0=09}
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 820
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 821=C2=A0=C2=
-=A0=09r-
-> >monitor =3D monitor;
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 822=C2=A0=C2=A0=09r-
-> >parent =3D parent;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 823
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 824=C2=A0=C2=A0=09retval =3D create_monitor_dir(r, p);
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 825=C2=A0=C2=
-=A0=09if
-> (retval) {
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 826=C2=A0=C2=A0=09=09kfree(r);
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 827=C2=A0=C2=A0=09=09goto out_unlock;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 828=C2=A0=C2=
-=A0=09}
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 829
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 830=C2=A0=C2=A0=09/*
-> keep children close to the parent for easier visualisation */
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 831=C2=A0=C2=A0=09if
-> (p)
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0
-> 832=C2=A0=C2=A0=09=09list_add(&r->list, &p->list);
-> cb85c660fcd4b3a Gabriele Monaco=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 2025-03-05=C2=A0 833=C2=A0=C2=A0=09else
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 834=C2=A0=C2=A0=09=09list_add_tail(&r->list, &rv_monitors_list);
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 835
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 836=C2=A0
-> out_unlock:
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 837=C2=A0=C2=A0=09mutex_unlock(&rv_interface_lock);
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0
-> 838=C2=A0=C2=A0=09return retval;
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 839=C2=A0 }
-> 102227b970a1525 Daniel Bristot de Oliveira 2022-07-29=C2=A0 840
->=20
+vim +269 arch/arm64/kvm/hyp/nvhe/gen-hyprel.c
 
+   163	
+   164	#define fatal_error(fmt, ...)						\
+   165		({								\
+ > 166			fprintf(stderr, "error: %s: " fmt "\n",			\
+   167				elf.path, ## __VA_ARGS__);			\
+   168			exit(EXIT_FAILURE);					\
+   169			__builtin_unreachable();				\
+   170		})
+   171	
+   172	#define fatal_perror(msg)						\
+   173		({								\
+   174			fprintf(stderr, "error: %s: " msg ": %s\n",		\
+   175				elf.path, strerror(errno));			\
+   176			exit(EXIT_FAILURE);					\
+   177			__builtin_unreachable();				\
+   178		})
+   179	
+   180	#define assert_op(lhs, rhs, fmt, op)					\
+   181		({								\
+   182			typeof(lhs) _lhs = (lhs);				\
+   183			typeof(rhs) _rhs = (rhs);				\
+   184										\
+   185			if (!(_lhs op _rhs)) {					\
+   186				fatal_error("assertion " #lhs " " #op " " #rhs	\
+   187					" failed (lhs=" fmt ", rhs=" fmt	\
+   188					", line=%d)", _lhs, _rhs, __LINE__);	\
+   189			}							\
+   190		})
+   191	
+   192	#define assert_eq(lhs, rhs, fmt)	assert_op(lhs, rhs, fmt, ==)
+   193	#define assert_ne(lhs, rhs, fmt)	assert_op(lhs, rhs, fmt, !=)
+   194	#define assert_lt(lhs, rhs, fmt)	assert_op(lhs, rhs, fmt, <)
+   195	#define assert_ge(lhs, rhs, fmt)	assert_op(lhs, rhs, fmt, >=)
+   196	
+   197	/*
+   198	 * Return a pointer of a given type at a given offset from
+   199	 * the beginning of the ELF file.
+   200	 */
+   201	#define elf_ptr(type, off) ((type *)(elf.begin + (off)))
+   202	
+   203	/* Iterate over all sections in the ELF. */
+   204	#define for_each_section(var) \
+   205		for (var = elf.sh_table; var < elf.sh_table + elf16toh(elf.ehdr->e_shnum); ++var)
+   206	
+   207	/* Iterate over all Elf64_Rela relocations in a given section. */
+   208	#define for_each_rela(shdr, var)					\
+   209		for (var = elf_ptr(Elf64_Rela, elf64toh(shdr->sh_offset));	\
+   210		     var < elf_ptr(Elf64_Rela, elf64toh(shdr->sh_offset) + elf64toh(shdr->sh_size)); var++)
+   211	
+   212	/* True if a string starts with a given prefix. */
+   213	static inline bool starts_with(const char *str, const char *prefix)
+   214	{
+   215		return memcmp(str, prefix, strlen(prefix)) == 0;
+   216	}
+   217	
+   218	/* Returns a string containing the name of a given section. */
+   219	static inline const char *section_name(Elf64_Shdr *shdr)
+   220	{
+   221		return elf.sh_string + elf32toh(shdr->sh_name);
+   222	}
+   223	
+   224	/* Returns a pointer to the first byte of section data. */
+   225	static inline const char *section_begin(Elf64_Shdr *shdr)
+   226	{
+   227		return elf_ptr(char, elf64toh(shdr->sh_offset));
+   228	}
+   229	
+   230	/* Find a section by its offset from the beginning of the file. */
+   231	static inline Elf64_Shdr *section_by_off(Elf64_Off off)
+   232	{
+   233		assert_ne(off, 0UL, "%lu");
+   234		return elf_ptr(Elf64_Shdr, off);
+   235	}
+   236	
+   237	/* Find a section by its index. */
+   238	static inline Elf64_Shdr *section_by_idx(uint16_t idx)
+   239	{
+   240		assert_ne(idx, SHN_UNDEF, "%u");
+   241		return &elf.sh_table[idx];
+   242	}
+   243	
+   244	/*
+   245	 * Memory-map the given ELF file, perform sanity checks, and
+   246	 * populate global state.
+   247	 */
+   248	static void init_elf(const char *path)
+   249	{
+   250		int fd, ret;
+   251		struct stat stat;
+   252	
+   253		/* Store path in the global struct for error printing. */
+   254		elf.path = path;
+   255	
+   256		/* Open the ELF file. */
+   257		fd = open(path, O_RDONLY);
+   258		if (fd < 0)
+   259			fatal_perror("Could not open ELF file");
+   260	
+   261		/* Get status of ELF file to obtain its size. */
+   262		ret = fstat(fd, &stat);
+   263		if (ret < 0) {
+   264			close(fd);
+   265			fatal_perror("Could not get status of ELF file");
+   266		}
+   267	
+   268		/* mmap() the entire ELF file read-only at an arbitrary address. */
+ > 269		elf.begin = mmap(0, stat->st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+   270		if (elf.begin == MAP_FAILED) {
+   271			close(fd);
+   272			fatal_perror("Could not mmap ELF file");
+   273		}
+   274	
+   275		/* mmap() was successful, close the FD. */
+   276		close(fd);
+   277	
+   278		/* Get pointer to the ELF header. */
+   279		assert_ge(stat->st_size, sizeof(*elf.ehdr), "%lu");
+   280		elf.ehdr = elf_ptr(Elf64_Ehdr, 0);
+   281	
+   282		/* Check the ELF magic. */
+   283		assert_eq(elf.ehdr->e_ident[EI_MAG0], ELFMAG0, "0x%x");
+   284		assert_eq(elf.ehdr->e_ident[EI_MAG1], ELFMAG1, "0x%x");
+   285		assert_eq(elf.ehdr->e_ident[EI_MAG2], ELFMAG2, "0x%x");
+   286		assert_eq(elf.ehdr->e_ident[EI_MAG3], ELFMAG3, "0x%x");
+   287	
+   288		/* Sanity check that this is an ELF64 relocatable object for AArch64. */
+   289		assert_eq(elf.ehdr->e_ident[EI_CLASS], ELFCLASS64, "%u");
+   290		assert_eq(elf.ehdr->e_ident[EI_DATA], ELFENDIAN, "%u");
+   291		assert_eq(elf16toh(elf.ehdr->e_type), ET_REL, "%u");
+   292		assert_eq(elf16toh(elf.ehdr->e_machine), EM_AARCH64, "%u");
+   293	
+   294		/* Populate fields of the global struct. */
+   295		elf.sh_table = section_by_off(elf64toh(elf.ehdr->e_shoff));
+   296		elf.sh_string = section_begin(section_by_idx(elf16toh(elf.ehdr->e_shstrndx)));
+   297	}
+   298	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
