@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C65B674
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 00:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9C7D299
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 01:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743554922; cv=none; b=dmwq0HeiY5U2YwoBt1470qns0Fi5qvVKRF+mqk7KSfH5xwzB1G/4kSxd94ktAEg9epWW0DH9OitXhsoaYy9lKikU/8wfxTvH8DmyCMsWXEg0UjuGh+IMIIpSJjC4RGAkk30o6tjYYdDXaj2O4fC5Q1iNC8QTG/LQq7GiiizpBww=
+	t=1743556254; cv=none; b=hnSNwpx8UcxRcL2a9Gu4N1t2/7O0ptpn/j469vIEI1yXAqEgzkyXzMF45dBt23r5e0jZNK2ZpPo7PfMiZobri4CmQOiQdRGZv1hSYkGPG4/GzgeyD7y5gEk4VFkK5EIGFLIpAoobBmRE/Nz8tiTeY3y6pbGxjHZ1M7W90HLNTvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743554922; c=relaxed/simple;
-	bh=8ETY+Dan+UkianXEienbuvl10xPfm3HoQaDGwRiOHBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DousdGuyKTA9DCLWETPA0zENNNMJN0Um3v1sOJ7Oz6VAOtQLPSO8y+6NrxowyZ5QY5SQ4RhXv84ZzrUG62ksocH1onD1G6TC5XulzKB0CiJ8RNDeCAipkhYdM1oo1uwtzjHZUv2prZU+4z1ne8+DZF1uqmO83MK6svSKacIjpzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BCxOIqqA; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1743556254; c=relaxed/simple;
+	bh=yobEfPdvLGT2LuLPEMUSZ7qNptH3/YvNa+vijI6VvWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MbOlLEeFvLirrCyiUN5eLH3i0wyxtdH/M22fsCxHGmEqnBAQQutxXdsFiV/BoqP2j+vVLzi4UTuV9/xrXxXcX6aOuHCotQnwDkq6nBVfZj2dTfgZTwN6ovXC/AnmNp05BRJVZUSeE6LAi5E7ME2AmOxELl6aTH2P/d3pAkNeCD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtzPBZAm; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCxOIqqA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtzPBZAm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743554921; x=1775090921;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8ETY+Dan+UkianXEienbuvl10xPfm3HoQaDGwRiOHBU=;
-  b=BCxOIqqAsRcPa+15BmTGzcs4ZAVfISyjo1aPE0qFQL4BCVS6aSrYFIWe
-   KRSfvxUA3IH8JDGEcLVSMjh6KvvA3meO8h55nnoiAj24DhiEtTwmUJ7C8
-   7ma91GmBOWT1uKD+Hqd0GCqbbFJAIjqxm6ebVHsGqaJJb6dZBDz2tV3P6
-   zCs8MHtXEmIj7lSqxibPAvKvwrE+buVRZ1yvZ8TAedK0BLYLLLwHOvOIz
-   XfXk7Hy1qewonBdGqeTSgCROSyoKVJ0/GXkKs4+GR39unGpNvGVEOJtti
-   pENF02GeQ7amlW8G6lL+hgyUlJOO0YV6lpGE/E9cCtVSbfPPb/iGn1SWX
-   A==;
-X-CSE-ConnectionGUID: DRojPE3pTDGWTba1S55sww==
-X-CSE-MsgGUID: Q4KM/TR9RrKW8Pqe0Yl9SQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="45073470"
+  t=1743556252; x=1775092252;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yobEfPdvLGT2LuLPEMUSZ7qNptH3/YvNa+vijI6VvWg=;
+  b=JtzPBZAmih21f5aQY0obbU1v+jhst3Xuu5XVobs4R3LfAtLhmUeJAdtq
+   p9/PgiGfGL9HnFfDCkebfic3XAwFHqZEHP3zIL7NZ6gFyyW96XJZrTZ4R
+   OkAgbWKQEhoNR8y4p4jz+65OdLKf4QQan/u3wBK5/uKDdnbWdbZHjNeLC
+   7wTqHj6EpseQdttuEiy12SDrUBnHZ7k4DhtG/vFTvfTls16F5tlxqP7mf
+   jLDcBgdMxXRIbgo5gLql3F2V6cG3LvtBRXxmeKrdyO7obWie6fRwk6f2N
+   xIlCTxfvAMAeApwbXIM2rlwaS+rklcNMxbzLYfj0j2QBmrmhjdwTDGrF7
+   g==;
+X-CSE-ConnectionGUID: kIb7fzfTQ8qAA1gqVwvQMA==
+X-CSE-MsgGUID: hH9VHjNkQNaN1k+69nF0BQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="56271540"
 X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
-   d="scan'208";a="45073470"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 17:48:40 -0700
-X-CSE-ConnectionGUID: pVXNCBo7TG6TfR8iKgOtFA==
-X-CSE-MsgGUID: ylugMa00SGGGHPnPPFioWA==
+   d="scan'208";a="56271540"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 18:10:51 -0700
+X-CSE-ConnectionGUID: MBtw/jbzRxWBvg5RTDgsHg==
+X-CSE-MsgGUID: xpPVMDo7TAKv4nHyVE1fgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,294,1736841600"; 
-   d="scan'208";a="127059326"
+   d="scan'208";a="130657242"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Apr 2025 17:48:39 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 01 Apr 2025 18:10:49 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzmHU-000AIa-2B;
-	Wed, 02 Apr 2025 00:48:36 +0000
-Date: Wed, 2 Apr 2025 08:47:44 +0800
+	id 1tzmcw-000AJe-20;
+	Wed, 02 Apr 2025 01:10:46 +0000
+Date: Wed, 2 Apr 2025 09:09:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:keys-graveyard 16/16] security/keys/proc.c:118:45:
- error: 'irqflags' undeclared; did you mean 'ifr_flags'?
-Message-ID: <202504020822.hqShwarn-lkp@intel.com>
+To: Alexandru Dadu <alexandru.dadu@imgtec.com>,
+	Frank Binns <frank.binns@imgtec.com>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	Alexandru Dadu <alexandru.dadu@imgtec.com>
+Subject: Re: [PATCH] drm/imagination: loop counters moved to loop scope
+Message-ID: <202504020813.vjg3Thjg-lkp@intel.com>
+References: <20250401-for-loop-counter-scope-v1-1-5ba75770be52@imgtec.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,91 +70,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250401-for-loop-counter-scope-v1-1-5ba75770be52@imgtec.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git keys-graveyard
-head:   13c6debc9b86b8bec9747d10085092d3149dce3b
-commit: 13c6debc9b86b8bec9747d10085092d3149dce3b [16/16] KEYS: Add a list for unreferenced keys
-config: csky-randconfig-002-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020822.hqShwarn-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504020822.hqShwarn-lkp@intel.com/reproduce)
+Hi Alexandru,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2f9d51740cc30e0d2c8a23a55b1e20cf2513c250]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandru-Dadu/drm-imagination-loop-counters-moved-to-loop-scope/20250401-204252
+base:   2f9d51740cc30e0d2c8a23a55b1e20cf2513c250
+patch link:    https://lore.kernel.org/r/20250401-for-loop-counter-scope-v1-1-5ba75770be52%40imgtec.com
+patch subject: [PATCH] drm/imagination: loop counters moved to loop scope
+config: arm64-randconfig-002-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020813.vjg3Thjg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504020813.vjg3Thjg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504020822.hqShwarn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504020813.vjg3Thjg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bitops.h:7,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/csky/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from security/keys/proc.c:9:
-   security/keys/proc.c: In function 'proc_keys_start':
->> security/keys/proc.c:118:45: error: 'irqflags' undeclared (first use in this function); did you mean 'ifr_flags'?
-     118 |         spin_lock_irqsave(&key_serial_lock, irqflags);
-         |                                             ^~~~~~~~
-   include/linux/typecheck.h:11:16: note: in definition of macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                ^
-   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
-     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   security/keys/proc.c:118:9: note: in expansion of macro 'spin_lock_irqsave'
-     118 |         spin_lock_irqsave(&key_serial_lock, irqflags);
-         |         ^~~~~~~~~~~~~~~~~
-   security/keys/proc.c:118:45: note: each undeclared identifier is reported only once for each function it appears in
-     118 |         spin_lock_irqsave(&key_serial_lock, irqflags);
-         |                                             ^~~~~~~~
-   include/linux/typecheck.h:11:16: note: in definition of macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                ^
-   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
-     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   security/keys/proc.c:118:9: note: in expansion of macro 'spin_lock_irqsave'
-     118 |         spin_lock_irqsave(&key_serial_lock, irqflags);
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
-      12 |         (void)(&__dummy == &__dummy2); \
-         |                         ^~
-   include/linux/spinlock.h:243:17: note: in expansion of macro 'typecheck'
-     243 |                 typecheck(unsigned long, flags);        \
-         |                 ^~~~~~~~~
-   include/linux/spinlock.h:381:9: note: in expansion of macro 'raw_spin_lock_irqsave'
-     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   security/keys/proc.c:118:9: note: in expansion of macro 'spin_lock_irqsave'
-     118 |         spin_lock_irqsave(&key_serial_lock, irqflags);
-         |         ^~~~~~~~~~~~~~~~~
-   security/keys/proc.c: In function 'proc_keys_stop':
-   security/keys/proc.c:150:50: error: 'irqflags' undeclared (first use in this function); did you mean 'ifr_flags'?
-     150 |         spin_unlock_irqrestore(&key_serial_lock, irqflags);
-         |                                                  ^~~~~~~~
-         |                                                  ifr_flags
+   drivers/gpu/drm/imagination/pvr_fw.c: In function 'pvr_fw_validate':
+>> drivers/gpu/drm/imagination/pvr_fw.c:98:6: warning: unused variable 'entry' [-Wunused-variable]
+     u32 entry;
+         ^~~~~
 
 
-vim +118 security/keys/proc.c
+vim +/entry +98 drivers/gpu/drm/imagination/pvr_fw.c
 
-   111	
-   112	static void *proc_keys_start(struct seq_file *p, loff_t *_pos)
-   113		__acquires(key_serial_lock)
-   114	{
-   115		key_serial_t pos = *_pos;
-   116		struct key *key;
-   117	
- > 118		spin_lock_irqsave(&key_serial_lock, irqflags);
-   119	
-   120		if (*_pos > INT_MAX)
-   121			return NULL;
-   122		key = find_ge_key(p, pos);
-   123		if (!key)
-   124			return NULL;
-   125		*_pos = key->serial;
-   126		return &key->serial_node;
-   127	}
-   128	
+cc1aeedb98ad34 Sarah Walker   2023-11-22   79  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   80  /**
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   81   * pvr_fw_validate() - Parse firmware header and check compatibility
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   82   * @pvr_dev: Device pointer.
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   83   *
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   84   * Returns:
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   85   *  * 0 on success, or
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   86   *  * -EINVAL if firmware is incompatible.
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   87   */
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   88  static int
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   89  pvr_fw_validate(struct pvr_device *pvr_dev)
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   90  {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   91  	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   92  	const struct firmware *firmware = pvr_dev->fw_dev.firmware;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   93  	const struct pvr_fw_layout_entry *layout_entries;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   94  	const struct pvr_fw_info_header *header;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   95  	const u8 *fw = firmware->data;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   96  	u32 fw_offset = firmware->size - SZ_4K;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   97  	u32 layout_table_size;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  @98  	u32 entry;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22   99  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  100  	if (firmware->size < SZ_4K || (firmware->size % FW_BLOCK_SIZE))
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  101  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  102  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  103  	header = (const struct pvr_fw_info_header *)&fw[fw_offset];
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  104  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  105  	if (header->info_version != PVR_FW_INFO_VERSION) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  106  		drm_err(drm_dev, "Unsupported fw info version %u\n",
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  107  			header->info_version);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  108  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  109  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  110  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  111  	if (header->header_len != sizeof(struct pvr_fw_info_header) ||
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  112  	    header->layout_entry_size != sizeof(struct pvr_fw_layout_entry) ||
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  113  	    header->layout_entry_num > PVR_FW_INFO_MAX_NUM_ENTRIES) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  114  		drm_err(drm_dev, "FW info format mismatch\n");
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  115  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  116  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  117  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  118  	if (!(header->flags & PVR_FW_FLAGS_OPEN_SOURCE) ||
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  119  	    header->fw_version_major > FW_MAX_SUPPORTED_MAJOR_VERSION ||
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  120  	    header->fw_version_major == 0) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  121  		drm_err(drm_dev, "Unsupported FW version %u.%u (build: %u%s)\n",
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  122  			header->fw_version_major, header->fw_version_minor,
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  123  			header->fw_version_build,
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  124  			(header->flags & PVR_FW_FLAGS_OPEN_SOURCE) ? " OS" : "");
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  125  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  126  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  127  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  128  	if (pvr_gpu_id_to_packed_bvnc(&pvr_dev->gpu_id) != header->bvnc) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  129  		struct pvr_gpu_id fw_gpu_id;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  130  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  131  		packed_bvnc_to_pvr_gpu_id(header->bvnc, &fw_gpu_id);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  132  		drm_err(drm_dev, "FW built for incorrect GPU ID %i.%i.%i.%i (expected %i.%i.%i.%i)\n",
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  133  			fw_gpu_id.b, fw_gpu_id.v, fw_gpu_id.n, fw_gpu_id.c,
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  134  			pvr_dev->gpu_id.b, pvr_dev->gpu_id.v, pvr_dev->gpu_id.n, pvr_dev->gpu_id.c);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  135  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  136  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  137  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  138  	fw_offset += header->header_len;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  139  	layout_table_size =
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  140  		header->layout_entry_size * header->layout_entry_num;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  141  	if ((fw_offset + layout_table_size) > firmware->size)
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  142  		return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  143  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  144  	layout_entries = (const struct pvr_fw_layout_entry *)&fw[fw_offset];
+318bb30bc58c60 Alexandru Dadu 2025-04-01  145  	for (u32 entry = 0; entry < header->layout_entry_num; entry++) {
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  146  		u32 start_addr = layout_entries[entry].base_addr;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  147  		u32 end_addr = start_addr + layout_entries[entry].alloc_size;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  148  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  149  		if (start_addr >= end_addr)
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  150  			return -EINVAL;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  151  	}
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  152  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  153  	fw_offset = (firmware->size - SZ_4K) - header->device_info_size;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  154  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  155  	drm_info(drm_dev, "FW version v%u.%u (build %u OS)\n", header->fw_version_major,
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  156  		 header->fw_version_minor, header->fw_version_build);
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  157  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  158  	pvr_dev->fw_version.major = header->fw_version_major;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  159  	pvr_dev->fw_version.minor = header->fw_version_minor;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  160  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  161  	pvr_dev->fw_dev.header = header;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  162  	pvr_dev->fw_dev.layout_entries = layout_entries;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  163  
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  164  	return 0;
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  165  }
+f99f5f3ea7efd5 Sarah Walker   2023-11-22  166  
 
 -- 
 0-DAY CI Kernel Test Service
