@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2737A2BD1B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 03:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361F2230BFA;
+	Wed,  2 Apr 2025 04:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743566263; cv=none; b=cwzqSOQZygJ/jHR4v1JsMUHPLj6nt/EEim6bosRjPNyW6cBJrr+yamwReeqRpvXlgobdADL9zb62cYlfDshVl2RDJvqHWl2vAyYXqb/Ae4tPSfVcXs89tMRmNSAFsCCRFDNBteCKUtMkg3fy+E9eybcr3JpacnpOBk8LBoggjoo=
+	t=1743567826; cv=none; b=PGyqivmrqWQnypbqe0CqbYJNSdLpawrc6htDLvHu72rinfLCQCo4iatuFZkTVF34qksVa+czGfZYYPSBcSAyc1KWfff0iPxKPNH8D+M4K8O9uHBdC93Vnapb6Szogh4ZPeUOFW/4RqJPMrmeb1CwlEz5VYcWNbnyX8/nVJXB2GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743566263; c=relaxed/simple;
-	bh=r3W0F0uflv5MOlvDyKDiM2oqrl0KmyDnLdobVoEdwr8=;
+	s=arc-20240116; t=1743567826; c=relaxed/simple;
+	bh=uk+jCp/FuYXV7XyCCDRWAs858M7p/r7TeKVlBYXv6ZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FUaCI6AMSQ0aVIgDT0cDlYz6sKfy0RwY/Wymo6LH4LhOVDktx/MgaLKxPGo6f50H9q4K+vkfPnHTJippkYeVDJpm/SjCNBAhsnJ5iI/ugCn2kKTmlYpAEZvdkM8UZkPxiL08Bo6yynIijLjloZmgqVkcMKKwUlyAE6GYTYz0LfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QmUE6kW2; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Fsz6Q1nJKFcz6NsZu9ZUA2i86aV3jJjw4QuH1Sq35F5MZdw1K98n1St4siTEfR58v3EgAFWAskAHSUt5RI2+CD90wZsHuIrLnhn9o+veBic1n9dRsH9hu7o+MDtCHCPqSevEvykVZyos1fxD4cx3zT1cCw4fS6uz8bUcZ4q1i9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S39IRO3A; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QmUE6kW2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S39IRO3A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743566262; x=1775102262;
+  t=1743567824; x=1775103824;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r3W0F0uflv5MOlvDyKDiM2oqrl0KmyDnLdobVoEdwr8=;
-  b=QmUE6kW2pp07CD0dSx+sd87RtQWF0ps3xubCFM2o+o84ZTkhEWtyAlhm
-   AQysfauHHFV3Lo9uuHD/HCk1fcmNDhGopxiyYqzK3vcqr25ht5NFFPt94
-   oIDJbIong9vs7/9Zqf7akPqoO78lnfyFTvexi5i+1oVGkaKZrmGuVsvXp
-   h2OMlylt+3TWjlxhVuN0Jw3hV1+GoSKRzVnd2rykQPoPl+3UXz9m3KKGC
-   6W2rv5LvPzW7Bu8XpyWxINIdW/8kYfQow3wjFBldSxiBev6D8fvNmQNMK
-   8RXRfUCdABDyGxjiD7STNHgdTkaTLt6J1urTjoyLWqo6icadi7bpS+5GM
-   A==;
-X-CSE-ConnectionGUID: ciTYwmJETPGy31fyh6EVIg==
-X-CSE-MsgGUID: rLGYQN0SSwapNw1hhp9DHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="62447473"
+  bh=uk+jCp/FuYXV7XyCCDRWAs858M7p/r7TeKVlBYXv6ZQ=;
+  b=S39IRO3A9ESB3vwMxGBpG2PiEGUHyyJCxkmHBlEVAkF0KguQWbiRYPYq
+   SY63kz27lRE+gV/+42O763wF2ke2Um/wQVk7FLbU+sWk90jJa94TEFEK2
+   yDDnPBtFVc5j3+h+33zrzWINadY/pULp/SFVtUNChUGFAgj4v6x8HVaM0
+   AAEeSBR7iaBT5an6iqDed1AHPOrVs8dkCk2A03eydeV8uexTmpAsLlsFp
+   jYQZqC0vzVVtTsdtMJakz4frpF2thVSW7bagGA3F9Zzii7H2Xkpwyrng2
+   ODTC7WtDqe/RwfA04yQr/8RY2QCvGZkFlO31kmkqo1oLhe315jPq/lGGe
+   w==;
+X-CSE-ConnectionGUID: b7B1TXu8TJuA0Bq0gHZPkA==
+X-CSE-MsgGUID: 9qLyCgUCQH+PfIuI+0Y48w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="56280098"
 X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
-   d="scan'208";a="62447473"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 20:57:41 -0700
-X-CSE-ConnectionGUID: K16Wv/viRAmd84QkSJGDDQ==
-X-CSE-MsgGUID: Cxuzf0vsRsSGvFJJXy8zNw==
+   d="scan'208";a="56280098"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 21:23:43 -0700
+X-CSE-ConnectionGUID: wAbpNMTFTPWsb+vc4b+HPg==
+X-CSE-MsgGUID: cy35nKcVTMe3J5HTUsyGZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
-   d="scan'208";a="157560383"
+   d="scan'208";a="126828673"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Apr 2025 20:57:41 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 01 Apr 2025 21:23:42 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzpEQ-000ASc-0w;
-	Wed, 02 Apr 2025 03:57:38 +0000
-Date: Wed, 2 Apr 2025 11:57:19 +0800
+	id 1tzpdc-000AT8-0A;
+	Wed, 02 Apr 2025 04:23:40 +0000
+Date: Wed, 2 Apr 2025 12:23:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-desktop 1/1] kismet: WARNING: unmet
- direct dependencies detected for ACPI_THERMAL_LIB when selected by
- GKI_HIDDEN_THERMAL_CONFIGS
-Message-ID: <202504021122.9wo9AjsJ-lkp@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm@vger.kernel.org, Farrah Chen <farrah.chen@intel.com>
+Subject: [kvm:planes-20250401 58/62] arch/x86/kvm/lapic.c:1327:37: error:
+ incompatible pointer types passing 'atomic_t *' to parameter of type
+ 'volatile unsigned long *'
+Message-ID: <202504021219.U3GWMel8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +64,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
-head:   68d4a6392d8b6a8598e9882ab3a4077b85d11b04
-commit: c9e60fd1823c5aa4950d3a00ed2f76deb56fb0c7 [1/1] ANDROID: [TEMP] GKI: x86: Add hidden thermal configs
-config: i386-kismet-CONFIG_ACPI_THERMAL_LIB-CONFIG_GKI_HIDDEN_THERMAL_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250402/202504021122.9wo9AjsJ-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250402/202504021122.9wo9AjsJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git planes-20250401
+head:   73685d9c23b7122b44f07d59244416f8b56ed48e
+commit: 08db55297a7b060909a0121cb4ce6abbc3e6b2ea [58/62] KVM: x86: handle interrupt priorities for planes
+config: i386-buildonly-randconfig-006-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021219.U3GWMel8-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021219.U3GWMel8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504021122.9wo9AjsJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504021219.U3GWMel8-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB when selected by GKI_HIDDEN_THERMAL_CONFIGS
-   WARNING: unmet direct dependencies detected for USB_PHY
-     Depends on [n]: USB_SUPPORT [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_USB_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for INTEL_TCC
-     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=n]) && X86 [=y]
-     Selected by [y]:
-     - GKI_HIDDEN_THERMAL_CONFIGS [=y] && X86 [=y]
-   
-   WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB
-     Depends on [n]: ACPI [=y] && THERMAL [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_THERMAL_CONFIGS [=y] && X86 [=y] && ACPI [=y]
+All errors (new ones prefixed by >>):
+
+>> arch/x86/kvm/lapic.c:1327:37: error: incompatible pointer types passing 'atomic_t *' to parameter of type 'volatile unsigned long *' [-Werror,-Wincompatible-pointer-types]
+    1327 |         if (!test_and_set_bit(vcpu->plane, &plane0_vcpu->arch.irr_pending_planes)) {
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/instrumented-atomic.h:68:79: note: passing argument to parameter 'addr' here
+      68 | static __always_inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
+         |                                                                               ^
+   1 error generated.
+--
+>> arch/x86/kvm/x86.c:11745:23: error: incompatible pointer types passing 'atomic_t *' to parameter of type 'volatile unsigned long *' [-Werror,-Wincompatible-pointer-types]
+    11745 |                 clear_bit(plane_id, &plane0_vcpu->arch.irr_pending_planes);
+          |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/instrumented-atomic.h:39:72: note: passing argument to parameter 'addr' here
+      39 | static __always_inline void clear_bit(long nr, volatile unsigned long *addr)
+         |                                                                        ^
+   1 error generated.
+
+
+vim +1327 arch/x86/kvm/lapic.c
+
+  1313	
+  1314	static void kvm_lapic_deliver_interrupt(struct kvm_vcpu *vcpu, struct kvm_lapic *apic,
+  1315						int delivery_mode, int trig_mode, int vector)
+  1316	{
+  1317		struct kvm_vcpu *plane0_vcpu = vcpu->plane0;
+  1318		struct kvm_plane *running_plane;
+  1319		u16 req_exit_planes;
+  1320	
+  1321		kvm_x86_call(deliver_interrupt)(apic, delivery_mode, trig_mode, vector);
+  1322	
+  1323		/*
+  1324		 * test_and_set_bit implies a memory barrier, so IRR is written before
+  1325		 * reading irr_pending_planes below...
+  1326		 */
+> 1327		if (!test_and_set_bit(vcpu->plane, &plane0_vcpu->arch.irr_pending_planes)) {
+  1328			/*
+  1329			 * ... and also running_plane and req_exit_planes are read after writing
+  1330			 * irr_pending_planes.  Both barriers pair with kvm_arch_vcpu_ioctl_run().
+  1331			 */
+  1332			smp_mb__after_atomic();
+  1333	
+  1334			running_plane = READ_ONCE(plane0_vcpu->running_plane);
+  1335			if (!running_plane)
+  1336				return;
+  1337	
+  1338			req_exit_planes = READ_ONCE(plane0_vcpu->req_exit_planes);
+  1339			if (!(req_exit_planes & BIT(vcpu->plane)))
+  1340				return;
+  1341	
+  1342			kvm_make_request(KVM_REQ_PLANE_INTERRUPT,
+  1343					 kvm_get_plane_vcpu(running_plane, vcpu->vcpu_id));
+  1344		}
+  1345	}
+  1346	
 
 -- 
 0-DAY CI Kernel Test Service
