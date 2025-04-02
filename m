@@ -1,71 +1,58 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBB3233727
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 11:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168ED230BF1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 11:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743592723; cv=none; b=Hdw3wHcG1jvex+mB2la+tjrYZg74o6SFBM4MY3NMb5k246A15hGhbOKlTKCNMBtjpUYhsc74aQ2WWQWv9vbU1+fggoEPirkoaZtwD4UxTTriBzbSFMRoHqdGIdBAV5RjNAyIw4O+c4Q+5T3MVbvREG43+B8Z+Z8WCxRKnWJF2yo=
+	t=1743593215; cv=none; b=VsYsSsYzHmrfbMRip76sRiCfdpSZtd5K7m2OFzvZyu7RyrUAXQdEKCk902EN60NjPPWWXsG09BYkXDIHZ9w6liIHCj2/rDoFq8LBibU7bV58CcHZ9shwbZa07nqqNWql5oc4GTxwYhwTZws2D/MxX8WYGKZFPKQlCDHm6cu0dAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743592723; c=relaxed/simple;
-	bh=4zw2XxD/lazYdn6ObIwPethXbgBPAkjmsXSYybr3Lq8=;
+	s=arc-20240116; t=1743593215; c=relaxed/simple;
+	bh=fX6ph3owOtXAoNfcm0nwUzg5ir9KLLg3RBoyq0T4Mvc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SAhcV5TP4RGI+Gu2QObvnAlXTUe8Qx5HuzyluTMZRiaj8DihPbJYLeVMZWsT6Ac9r1BEp8VyM/ioBAjM1sluVftJfv1NNN9c06nwoOCAOQfqY6Qpinu+O5E3frRcv0mCztL5Robxdv8/XUzMtoHrpa+r53kenuN+Bfu15MbsCl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LMUHbdj0; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=inke5qsWIomd7USqwKPTsna7hrLJ854uX3SIAM52/feppLBxuu6RbdsDp8lw8wtxfuJfc/E121IgOKEjqFegd1mN+ASW1qg7mn2EZmWE8h/DVy2m4NnprBd8v2A6VoJnty+CYnXYHyDNNfqseu6R1obmKm/O57uEhI147xAkrMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPm8LyVU; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LMUHbdj0"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-39bf44be22fso3450250f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Apr 2025 04:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743592719; x=1744197519; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0Pe81jop8Ll7ztioIZQS1clySmVs5CptZvcTXW3TsFI=;
-        b=LMUHbdj0L3UIRO5iU2pJ395nugVpSZY8xBmDr0U1Dv3jfDoPa3XVSH1ShCCmC7ClvJ
-         AVHLLiZ2gkZz4iyNBiO4rcDmKX89rGX6An+1A700zFIc4zMruNParCsKn90ooJRALpA0
-         P8ixk6MGkhu5Q/2Q9T3RL0cTTTpXqXWwKWIqCguZrAsk4RH+1u/i3DAYSQoh3+W2U4xg
-         UN1wGjRjHm38Gg87rrbZxZfYBCm6evro/oJ5vM/S8Hvif6ZX+r+yDW3vg+mda9Us9+to
-         kSYSs8+mEoBm6Iu271C26LThKb1+0WbncldyiLA1NRC/eNlooQ9yybtjQBLB4HiSRGLP
-         7lYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743592719; x=1744197519;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0Pe81jop8Ll7ztioIZQS1clySmVs5CptZvcTXW3TsFI=;
-        b=CQJwqNqtW1CqLKZs6bb8j2XRQ8HZnYDxpYotd9fmOmEI5NelAPYmoIErzr7kQP+U5/
-         jyl1lCD4p5KYnCrVn8lzOeLdmXEG10tmClJN5WmXPo4ibqWLofdyKuCRYjyG/DMuhZeg
-         dLSSzub4thy6QxuBtik/hxf/JiHWjmqwpX9aKfaDYZjZl/g5aWpa3mIWzMAcW0JQjgAl
-         x+ufbmxf90YJNr2z8hazSoBxl/8iof+AcBicomEV2QFKGjij4dZLlwWYItRebvr1XHFS
-         yWZzrtGkopU42iF1b3dlIZxRUrpeFL9oXeETmDADMnc1pUyb9eDRiKHKBDEns1b4MySN
-         z2Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCXa/6LCHvzxesFUR6RRTD3ZF3J4/Cge91QaUeAgR13YnPPsRbEJAG5NiwCzCbyWTaTgNWST6HAwv9ArXDnS@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGj+lxbE3h4R1bUPgBA1wpzcUew4zkXPpr58xJ5d5kICiYqFpl
-	YgbAgQF7Y/rEYw5yA2QaddwkYg/jYQ5Betq3n84jEahXiNZFNgiV41YtgMuIJSU=
-X-Gm-Gg: ASbGnctCEXqdtyf2LMOt0ug6NY8zr8J6xDTw6jEpMplsvgGUuffF08apV2JacAMynmn
-	uI4rTNQER2sJbW2IgwBRjbQj9Pb2U62fM0fx/CjS8hDEYlONezSHo5lcCDYeXOdpahMts1zerZR
-	iGPJFEknUIOpnKDmBJDpRLr5jzdb2aQhzj6EPrTWEhSWKNSHg4Oti+ksKw+ADdtFadIYNK/yjE3
-	GPf0CSqDxmmgXSw97B9Ixb6JPselU+gV39B+bO4/N4ehOWfBgm1TfgvUqgHkq07pHSFQktHdKoB
-	yPBYyCPhb8tNQ3my1SgXLSyRL69lSjMvZ10pMjKTWs3NpGOUNFiDnjZt1kUG
-X-Google-Smtp-Source: AGHT+IHQRoQJa2mTQNLyy8U+kE0q2bREN0pW+4OWNG0b+gLWh2w0Dnh3vEPbOrElFvpZkpi8WgtQ+w==
-X-Received: by 2002:a05:6000:1449:b0:38d:dffc:c133 with SMTP id ffacd0b85a97d-39c297e465amr1484283f8f.44.1743592719227;
-        Wed, 02 Apr 2025 04:18:39 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c0b79e393sm16898932f8f.72.2025.04.02.04.18.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 04:18:38 -0700 (PDT)
-Date: Wed, 2 Apr 2025 14:18:36 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1672
- _dpu_encoder_trigger_start() warn: variable dereferenced before check 'phys'
- (see line 1670)
-Message-ID: <36935440-aa60-469e-876c-f0a0cb7074c5@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPm8LyVU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743593213; x=1775129213;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fX6ph3owOtXAoNfcm0nwUzg5ir9KLLg3RBoyq0T4Mvc=;
+  b=NPm8LyVUApj5n8akieoNzUwNzKhBhOdqTwR0t7EFvmP22ox2Lv2Bfhm/
+   4WxmUosup3E2NC63Jnwjk9TTGrDSVB4s6IdOCTOKq9mYMae79+ftXwTx5
+   lYkgAnPWwx8ZVLu00M19bOSnnMCOeW9pzg5rreR6WQojfC0SP0L53T3ik
+   YE8hs4FsxMKKAvFfWzMU6DBxOQTqcqzwGa5uSdwqoUlEp+eHyzdSdUFRU
+   1BPjOAIdwBjmJaqCjLlChpspoCZPd4kyFV+Vt0o8aZyeIRW7tRGFn17hk
+   KdTJB62od9CnbLmT8+h0BJk9s0aElAQmWHB5TASyxzW7MJF9ZqMcegbGS
+   g==;
+X-CSE-ConnectionGUID: FrBiZU4KS+W+cT2qb0JLyw==
+X-CSE-MsgGUID: q4XFTAEsScG5LBHqtK+OMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="56321645"
+X-IronPort-AV: E=Sophos;i="6.14,182,1736841600"; 
+   d="scan'208";a="56321645"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 04:26:52 -0700
+X-CSE-ConnectionGUID: xeotsdMcRtWAPsimgfViJQ==
+X-CSE-MsgGUID: WmUb2kSPQCCEoJwqsSrd7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,182,1736841600"; 
+   d="scan'208";a="126921796"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 02 Apr 2025 04:26:51 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tzwF7-000Aec-0K;
+	Wed, 02 Apr 2025 11:26:49 +0000
+Date: Wed, 2 Apr 2025 19:26:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 7/7] drivers/crypto/ccp/vpsp.c:593:6:
+ warning: no previous prototype for 'vpsp_set_default_vid_permission'
+Message-ID: <202504021936.iQIWAwFb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,101 +62,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   acc4d5ff0b61eb1715c498b6536c38c1feb7f3c1
-commit: 8144d17a81d9ea742be5a02da62f5a7b2a8f95c1 drm/msm/dpu: Skip trigger flush and start for CWB
-date:   4 weeks ago
-config: arm64-randconfig-r073-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021825.IW2340OS-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   5bcfae793917ca097364501bd3ff69d749df729e
+commit: c8cee0acc0683f57bf575e08a0509c5836301720 [7/7] anolis: crypto: ccp: move vpsp-related functions to vpsp.c
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250402/202504021936.iQIWAwFb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021936.iQIWAwFb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202504021825.IW2340OS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504021936.iQIWAwFb-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1672 _dpu_encoder_trigger_start() warn: variable dereferenced before check 'phys' (see line 1670)
-drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1814 _dpu_encoder_kickoff_phys() error: we previously assumed 'dpu_enc->cur_master' could be null (see line 1807)
+All warnings (new ones prefixed by >>):
 
-vim +/phys +1672 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> drivers/crypto/ccp/vpsp.c:593:6: warning: no previous prototype for 'vpsp_set_default_vid_permission' [-Wmissing-prototypes]
+     593 | void vpsp_set_default_vid_permission(uint32_t is_allow)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/crypto/ccp/vpsp.c:111: warning: Function parameter or member 'vpsp' not described in 'kvm_pv_psp_cmd_pre_op'
+   drivers/crypto/ccp/vpsp.c:111: warning: Function parameter or member 'data_gpa' not described in 'kvm_pv_psp_cmd_pre_op'
+   drivers/crypto/ccp/vpsp.c:111: warning: Function parameter or member 'hbuf' not described in 'kvm_pv_psp_cmd_pre_op'
+   drivers/crypto/ccp/vpsp.c:355: warning: Cannot understand  * @brief Directly convert the gpa address into hpa and forward it to PSP,
+    on line 355 - I thought it was a doc line
+   drivers/crypto/ccp/vpsp.c:450: warning: Cannot understand  * @brief copy data in gpa to host memory and send it to psp for processing.
+    on line 450 - I thought it was a doc line
+>> drivers/crypto/ccp/vpsp.c:592: warning: cannot understand function prototype: 'uint32_t allow_default_vid = 1; '
+   drivers/crypto/ccp/vpsp.c:607: warning: Function parameter or member 'ctx' not described in 'vpsp_get_context'
+   drivers/crypto/ccp/vpsp.c:607: warning: Function parameter or member 'pid' not described in 'vpsp_get_context'
+>> drivers/crypto/ccp/vpsp.c:633: warning: Function parameter or member 'vid' not described in 'vpsp_add_vid'
 
-58fba464eaeff6 Sean Paul         2018-09-20  1668  static void _dpu_encoder_trigger_start(struct dpu_encoder_phys *phys)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1669  {
-8144d17a81d9ea Jessica Zhang     2025-02-14 @1670  	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(phys->parent);
-                                                                                                               ^^^^^^^^^^^^
-Dereference
 
-8144d17a81d9ea Jessica Zhang     2025-02-14  1671  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @1672  	if (!phys) {
-                                                            ^^^^^
-Checked too late.
+vim +/vpsp_set_default_vid_permission +593 drivers/crypto/ccp/vpsp.c
 
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1673  		DPU_ERROR("invalid argument(s)\n");
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1674  		return;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1675  	}
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1676  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1677  	if (!phys->hw_pp) {
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1678  		DPU_ERROR("invalid pingpong hw\n");
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1679  		return;
-
-[ snip ]
-
-b4bb9f15b44392 Rob Clark         2019-08-29  1771  static void _dpu_encoder_kickoff_phys(struct dpu_encoder_virt *dpu_enc)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1772  {
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1773  	struct dpu_hw_ctl *ctl;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1774  	uint32_t i, pending_flush;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1775  	unsigned long lock_flags;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1776  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1777  	pending_flush = 0x0;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1778  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1779  	/* update pending counts and trigger kickoff ctl flush atomically */
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1780  	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1781  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1782  	/* don't perform flush/start operations for slave encoders */
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1783  	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1784  		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1785  
-b6fadcade62704 Drew Davenport    2019-12-06  1786  		if (phys->enable_state == DPU_ENC_DISABLED)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1787  			continue;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1788  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1789  		ctl = phys->hw_ctl;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1790  
-f98baa3109cea4 Sean Paul         2019-01-30  1791  		/*
-f98baa3109cea4 Sean Paul         2019-01-30  1792  		 * This is cleared in frame_done worker, which isn't invoked
-f98baa3109cea4 Sean Paul         2019-01-30  1793  		 * for async commits. So don't set this for async, since it'll
-f98baa3109cea4 Sean Paul         2019-01-30  1794  		 * roll over to the next commit.
-f98baa3109cea4 Sean Paul         2019-01-30  1795  		 */
-b4bb9f15b44392 Rob Clark         2019-08-29  1796  		if (phys->split_role != ENC_ROLE_SLAVE)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1797  			set_bit(i, dpu_enc->frame_busy_mask);
-f98baa3109cea4 Sean Paul         2019-01-30  1798  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1799  		if (!phys->ops.needs_single_flush ||
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1800  				!phys->ops.needs_single_flush(phys))
-b4bb9f15b44392 Rob Clark         2019-08-29  1801  			_dpu_encoder_trigger_flush(&dpu_enc->base, phys, 0x0);
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1802  		else if (ctl->ops.get_pending_flush)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1803  			pending_flush |= ctl->ops.get_pending_flush(ctl);
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1804  	}
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1805  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1806  	/* for split flush, combine pending flush masks and send to master */
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @1807  	if (pending_flush && dpu_enc->cur_master) {
-                                                                             ^^^^^^^^^^^^^^^^^^^
-Check for NULL
-
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1808  		_dpu_encoder_trigger_flush(
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1809  				&dpu_enc->base,
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1810  				dpu_enc->cur_master,
-b4bb9f15b44392 Rob Clark         2019-08-29  1811  				pending_flush);
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1812  	}
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1813  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @1814  	_dpu_encoder_trigger_start(dpu_enc->cur_master);
-                                                                                   ^^^^^^^^^^^^^^^^^^^
-Unchecked dereference
-
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1815  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1816  	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  1817  }
+   586	
+   587	/**
+   588	 * When 'allow_default_vid' is set to 1,
+   589	 * QEMU is allowed to use 'vid 0' by default
+   590	 * in the absence of a valid 'vid' setting.
+   591	 */
+ > 592	uint32_t allow_default_vid = 1;
+ > 593	void vpsp_set_default_vid_permission(uint32_t is_allow)
+   594	{
+   595		allow_default_vid = is_allow;
+   596	}
+   597	
+   598	int vpsp_get_default_vid_permission(void)
+   599	{
+   600		return allow_default_vid;
+   601	}
+   602	
+   603	/**
+   604	 * get a vpsp context from pid
+   605	 */
+   606	int vpsp_get_context(struct vpsp_context **ctx, pid_t pid)
+   607	{
+   608		struct vpsp_context new_entry = {.pid = pid};
+   609		struct vpsp_context *existing_entry = NULL;
+   610	
+   611		read_lock(&vpsp_rwlock);
+   612		existing_entry = bsearch(&new_entry, g_vpsp_context_array, g_vpsp_vid_num,
+   613					sizeof(struct vpsp_context), compare_vid_entries);
+   614		read_unlock(&vpsp_rwlock);
+   615	
+   616		if (!existing_entry)
+   617			return -ENOENT;
+   618	
+   619		if (ctx)
+   620			*ctx = existing_entry;
+   621	
+   622		return 0;
+   623	}
+   624	
+   625	/**
+   626	 * Upon qemu startup, this section checks whether
+   627	 * the '-device psp,vid' parameter is specified.
+   628	 * If set, it utilizes the 'vpsp_add_vid' function
+   629	 * to insert the 'vid' and 'pid' values into the 'g_vpsp_context_array'.
+   630	 * The insertion is done in ascending order of 'pid'.
+   631	 */
+   632	static int vpsp_add_vid(uint32_t vid)
+ > 633	{
+   634		pid_t cur_pid = task_pid_nr(current);
+   635		struct vpsp_context new_entry = {.vid = vid, .pid = cur_pid};
+   636	
+   637		if (vpsp_get_context(NULL, cur_pid) == 0)
+   638			return -EEXIST;
+   639		if (g_vpsp_vid_num == VPSP_VID_MAX_ENTRIES)
+   640			return -ENOMEM;
+   641		if (vid >= VPSP_VID_NUM_MAX)
+   642			return -EINVAL;
+   643	
+   644		write_lock(&vpsp_rwlock);
+   645		memcpy(&g_vpsp_context_array[g_vpsp_vid_num++], &new_entry, sizeof(struct vpsp_context));
+   646		sort(g_vpsp_context_array, g_vpsp_vid_num, sizeof(struct vpsp_context),
+   647					compare_vid_entries, swap_vid_entries);
+   648		pr_info("PSP: add vid %d, by pid %d, total vid num is %d\n", vid, cur_pid, g_vpsp_vid_num);
+   649		write_unlock(&vpsp_rwlock);
+   650		return 0;
+   651	}
+   652	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
