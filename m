@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EA81078F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 10:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC2D2356DF;
+	Wed,  2 Apr 2025 10:14:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743588873; cv=none; b=hfCSf8GIThaLeFk5a+Ecjt2Y+mxYcsoYSl6FFv/1o5xmkx11HRaQMMov9FVYC/6iDv1fOMM00Cl3jdLQjRl9Zt+k7X32UWy8U+aVJLEqCvkhRdjxv583i46nTqmNhcZ87REZNChvfuMkJyDQlprz3BtUTJ2HFLBMxKIf3FtEjEA=
+	t=1743588875; cv=none; b=jJ6Gfn7VhCpnZOoEjnZ5l62NtJMB1QDAwwgBkKDh7zXOWot1KvDJ3TzdUedv6Qr2r07CW58pucp//unRxryqaPCP7TWgxlG3WBOh3ehbFzRG3GEx4J9+SIiana80rW2rf7HQNxNVFrAQqBEoFWcO3RNADocEOXSabjdB9O5/dFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743588873; c=relaxed/simple;
-	bh=VyembnBotM04Ug8Lahll5QDca4jj7Ran8Uf8iPjo0Ps=;
+	s=arc-20240116; t=1743588875; c=relaxed/simple;
+	bh=spwZgUUW68l601UPwfZqsDc3aNAf9mIku+yRkw6rcKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u68KuT/y/P6/GmaOrFCgOSoXxKFrSVS5LEzgEirXusw0AJqjwhmsHyDHBpZCBz3GvD/HY+MKI9L/oOYZQtfdfvfkfOyV5k52GT+nhaJR3tFgfJY7Wqs6bZ2+WwJ3EclcmCNMPfkviNQerQsjAn+KqsZr/3pX14i9cK61HD9uoBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RwAW4i0/; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=cnIi5HuIGQdrTyn+Y8AGlB1de2l9S+DbgAai/j5Zs28s2VrJ/rIE5bsrn5QdAj8aKU5OBfsUBoYlm9kjQAIhan0ujg7EFSbyPOZH9QRKSwwC0iwA4odYGPUBsUAvEuYYQXC8KQY00SVROIefoq2KIXpDGQ07+qLMRsAw8WV1QaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eTlJeqrD; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RwAW4i0/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eTlJeqrD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743588871; x=1775124871;
+  t=1743588873; x=1775124873;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VyembnBotM04Ug8Lahll5QDca4jj7Ran8Uf8iPjo0Ps=;
-  b=RwAW4i0/wJeWuZb8+ZzwQ7bPr4xAck0ImB28V3XYxufs9lIFELjZkILN
-   HvSPYv43urStf4vBm33x9qWzkWXOYh9eqTkULy/TOD26rPSXHl7dp+d9z
-   0SMlk0MpJ47PCra17+sGwV6OCZupiARHCUNgyuEqZI3BwkiQCG78bb0Lo
-   EeEvMKU86RBwKbMVdbPGW4r5vs0Zgd8mYW7JtaUagISxReWeyF+b/9tK0
-   dHhCm0SiLftkVKCn4jGKAt71a95GxeTqV2QHcPd6e21jOpnhwf1uCTwPl
-   fsJxLXF/UkepLEAIM90PcIptL7SbBBhMg2JS6jPnlMO9jkq38wsDMgBqn
+  bh=spwZgUUW68l601UPwfZqsDc3aNAf9mIku+yRkw6rcKs=;
+  b=eTlJeqrDehr4z0SZ+H/EEd6kC8Ru2OzJG7PTOaAkuj0aO0joFiTeQpcC
+   xbz3Itt47J3Gtt/ze4NQhUftEP75QzJUfUTtBFkju6Y5qQ1nN2Tt+8PGx
+   B6eueV18Y/asdtmOmNX2T+80mQHI6x/HRjXkrl5u6KeDLs9Fil7yo47MQ
+   uBsh+o6Wl6X5Yye3+fRfihIWN85YPl4f18b0mr0SVAPgJzeeiajVtf5np
+   mODfpVInSs4zXkG1yvxL2CqSLuMplZQbiH85BwxFy6CyRcZAdDe2KNusS
+   liqmwcc5waa1mtxDKr4ICAhmzRY95jh4IsWiMHvOOUH18uxEWdRszOROZ
    Q==;
-X-CSE-ConnectionGUID: wdV9kLlmQOGkmFVaxZkfkQ==
-X-CSE-MsgGUID: ms1KbG7cQ428kIjd9lNdZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="32547257"
+X-CSE-ConnectionGUID: ni8UiQt2R9W+WTfC7Po8Tg==
+X-CSE-MsgGUID: u3d+zhy/S6Cg+ykys3PdmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="32547259"
 X-IronPort-AV: E=Sophos;i="6.14,182,1736841600"; 
-   d="scan'208";a="32547257"
+   d="scan'208";a="32547259"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 03:14:30 -0700
-X-CSE-ConnectionGUID: /Rr5M2xdR1KQ65I5EvKksA==
-X-CSE-MsgGUID: wkNDy2RaQpSKfW+HfR+fHA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 03:14:31 -0700
+X-CSE-ConnectionGUID: kty9moIYRn6UHGcMOBnQxw==
+X-CSE-MsgGUID: PYImLbUjSKS5laH9rhiK1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,181,1736841600"; 
-   d="scan'208";a="149842399"
+   d="scan'208";a="149842400"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 02 Apr 2025 03:14:29 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzv74-000Aby-2j;
+	id 1tzv74-000Ac0-2m;
 	Wed, 02 Apr 2025 10:14:26 +0000
-Date: Wed, 2 Apr 2025 18:13:32 +0800
+Date: Wed, 2 Apr 2025 18:13:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1546/1546]
- include/linux/uaccess.h:115:17: warning: 'stats' may be used uninitialized
-Message-ID: <202504021807.twewxnJE-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/stale_mmio_cleanup 70/72]
+ arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in
+ 'struct kvm_arch'
+Message-ID: <202504021847.1a4Hp0Cp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,99 +63,218 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Guillaume,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   7951fd324625a8af5097e1476cdc8c33c6009b48
-commit: 528534f0deda05c668756313a22974429a9df05a [1546/1546] l2tp: remove pppol2tp_tunnel_ioctl()
-config: arm64-randconfig-002-20250401 (https://download.01.org/0day-ci/archive/20250402/202504021807.twewxnJE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021807.twewxnJE-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/stale_mmio_cleanup
+head:   1f284ca401d9620d6f0e4aea289cc2a50c4403e9
+commit: 7df9be2ef92ca4407a365455e0670f4f07af7e25 [70/72] KVM: VMX: Apply MMIO mitigation if KVM maps MMIO into the guest
+config: i386-buildonly-randconfig-006-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021847.1a4Hp0Cp-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021847.1a4Hp0Cp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504021807.twewxnJE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504021847.1a4Hp0Cp-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+All errors (new ones prefixed by >>):
 
-All warnings (new ones prefixed by >>):
+>> arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in 'struct kvm_arch'
+    7364 |                  READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+         |                            ~~~~~~~~~~~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:509:10: note: expanded from macro '__native_word'
+     509 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+         |                 ^
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in 'struct kvm_arch'
+    7364 |                  READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+         |                            ~~~~~~~~~~~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:509:39: note: expanded from macro '__native_word'
+     509 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+         |                                              ^
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in 'struct kvm_arch'
+    7364 |                  READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+         |                            ~~~~~~~~~~~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:510:10: note: expanded from macro '__native_word'
+     510 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+         |                 ^
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in 'struct kvm_arch'
+    7364 |                  READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+         |                            ~~~~~~~~~~~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                          ^
+   include/linux/compiler_types.h:510:38: note: expanded from macro '__native_word'
+     510 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+         |                                             ^
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in 'struct kvm_arch'
+    7364 |                  READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+         |                            ~~~~~~~~~~~~~~~ ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                                                       ^
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in 'struct kvm_arch'
+    7364 |                  READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+         |                            ~~~~~~~~~~~~~~~ ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |                     ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                  ^
+   include/linux/compiler_types.h:498:13: note: expanded from macro '__unqual_scalar_typeof'
+     498 |                 _Generic((x),                                           \
+         |                           ^
+>> arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in 'struct kvm_arch'
+    7364 |                  READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+         |                            ~~~~~~~~~~~~~~~ ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |                     ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                  ^
+   include/linux/compiler_types.h:505:15: note: expanded from macro '__unqual_scalar_typeof'
+     505 |                          default: (x)))
+         |                                    ^
+>> arch/x86/kvm/vmx/vmx.c:7364:30: error: no member named 'mapped_host_mmio' in 'struct kvm_arch'
+    7364 |                  READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+         |                            ~~~~~~~~~~~~~~~ ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |                     ^
+   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   8 errors generated.
 
-   net/l2tp/l2tp_ppp.c: In function 'pppol2tp_ioctl':
-   net/l2tp/l2tp_ppp.c:1122:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-    1122 |         int val;
-         |             ^~~
-   In file included from net/l2tp/l2tp_ppp.c:62:
-   net/l2tp/l2tp_ppp.c: At top level:
-   include/linux/module.h:132:13: warning: 'init_module' specifies less restrictive attribute than its target 'pppol2tp_init': 'cold' [-Wmissing-attributes]
-     132 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   net/l2tp/l2tp_ppp.c:1802:1: note: in expansion of macro 'module_init'
-    1802 | module_init(pppol2tp_init);
-         | ^~~~~~~~~~~
-   net/l2tp/l2tp_ppp.c:1754:19: note: 'init_module' target declared here
-    1754 | static int __init pppol2tp_init(void)
-         |                   ^~~~~~~~~~~~~
-   include/linux/module.h:138:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'pppol2tp_exit': 'cold' [-Wmissing-attributes]
-     138 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   net/l2tp/l2tp_ppp.c:1803:1: note: in expansion of macro 'module_exit'
-    1803 | module_exit(pppol2tp_exit);
-         | ^~~~~~~~~~~
-   net/l2tp/l2tp_ppp.c:1792:20: note: 'cleanup_module' target declared here
-    1792 | static void __exit pppol2tp_exit(void)
-         |                    ^~~~~~~~~~~~~
-   In file included from net/l2tp/l2tp_ppp.c:65:
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:147:7,
-       inlined from 'pppol2tp_ioctl' at net/l2tp/l2tp_ppp.c:1163:8:
->> include/linux/uaccess.h:115:17: warning: 'stats' may be used uninitialized [-Wmaybe-uninitialized]
-     115 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler.h:246,
-                    from include/linux/kernel.h:10,
-                    from include/linux/list.h:9,
-                    from include/linux/module.h:9:
-   include/linux/kasan-checks.h: In function 'pppol2tp_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   net/l2tp/l2tp_ppp.c:1120:35: note: 'stats' declared here
-    1120 |         struct pppol2tp_ioc_stats stats;
-         |                                   ^~~~~
 
+vim +7364 arch/x86/kvm/vmx/vmx.c
 
-vim +/stats +115 include/linux/uaccess.h
-
-d597580d373774 Al Viro 2017-03-20  107  
-d597580d373774 Al Viro 2017-03-20  108  #ifdef INLINE_COPY_FROM_USER
-d597580d373774 Al Viro 2017-03-20  109  static inline unsigned long
-d597580d373774 Al Viro 2017-03-20  110  _copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro 2017-03-20  111  {
-d597580d373774 Al Viro 2017-03-20  112  	unsigned long res = n;
-9c5f6908de03a4 Al Viro 2017-06-29  113  	might_fault();
-9c5f6908de03a4 Al Viro 2017-06-29  114  	if (likely(access_ok(VERIFY_READ, from, n))) {
-9c5f6908de03a4 Al Viro 2017-06-29 @115  		kasan_check_write(to, n);
-d597580d373774 Al Viro 2017-03-20  116  		res = raw_copy_from_user(to, from, n);
-9c5f6908de03a4 Al Viro 2017-06-29  117  	}
-d597580d373774 Al Viro 2017-03-20  118  	if (unlikely(res))
-d597580d373774 Al Viro 2017-03-20  119  		memset(to + (n - res), 0, res);
-d597580d373774 Al Viro 2017-03-20  120  	return res;
-d597580d373774 Al Viro 2017-03-20  121  }
-d597580d373774 Al Viro 2017-03-20  122  #else
-d597580d373774 Al Viro 2017-03-20  123  extern unsigned long
-d597580d373774 Al Viro 2017-03-20  124  _copy_from_user(void *, const void __user *, unsigned long);
-d597580d373774 Al Viro 2017-03-20  125  #endif
-d597580d373774 Al Viro 2017-03-20  126  
-
-:::::: The code at line 115 was first introduced by commit
-:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  7347	
+  7348	static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
+  7349						unsigned int flags)
+  7350	{
+  7351		struct vcpu_vmx *vmx = to_vmx(vcpu);
+  7352	
+  7353		guest_state_enter_irqoff();
+  7354	
+  7355		/*
+  7356		 * L1D Flush includes CPU buffer clear to mitigate MDS, but VERW
+  7357		 * mitigation for MDS is done late in VMentry and is still
+  7358		 * executed in spite of L1D Flush. This is because an extra VERW
+  7359		 * should not matter much after the big hammer L1D Flush.
+  7360		 */
+  7361		if (static_branch_unlikely(&vmx_l1d_should_flush))
+  7362			vmx_l1d_flush(vcpu);
+  7363		else if (static_branch_unlikely(&mmio_stale_data_clear) &&
+> 7364			 READ_ONCE(vcpu->kvm->arch.mapped_host_mmio))
+  7365			mds_clear_cpu_buffers();
+  7366	
+  7367		vmx_disable_fb_clear(vmx);
+  7368	
+  7369		if (vcpu->arch.cr2 != native_read_cr2())
+  7370			native_write_cr2(vcpu->arch.cr2);
+  7371	
+  7372		vmx->fail = __vmx_vcpu_run(vmx, (unsigned long *)&vcpu->arch.regs,
+  7373					   flags);
+  7374	
+  7375		vcpu->arch.cr2 = native_read_cr2();
+  7376		vcpu->arch.regs_avail &= ~VMX_REGS_LAZY_LOAD_SET;
+  7377	
+  7378		vmx->idt_vectoring_info = 0;
+  7379	
+  7380		vmx_enable_fb_clear(vmx);
+  7381	
+  7382		if (unlikely(vmx->fail)) {
+  7383			vmx->exit_reason.full = 0xdead;
+  7384			goto out;
+  7385		}
+  7386	
+  7387		vmx->exit_reason.full = vmcs_read32(VM_EXIT_REASON);
+  7388		if (likely(!vmx->exit_reason.failed_vmentry))
+  7389			vmx->idt_vectoring_info = vmcs_read32(IDT_VECTORING_INFO_FIELD);
+  7390	
+  7391		if ((u16)vmx->exit_reason.basic == EXIT_REASON_EXCEPTION_NMI &&
+  7392		    is_nmi(vmx_get_intr_info(vcpu))) {
+  7393			kvm_before_interrupt(vcpu, KVM_HANDLING_NMI);
+  7394			if (cpu_feature_enabled(X86_FEATURE_FRED))
+  7395				fred_entry_from_kvm(EVENT_TYPE_NMI, NMI_VECTOR);
+  7396			else
+  7397				vmx_do_nmi_irqoff();
+  7398			kvm_after_interrupt(vcpu);
+  7399		}
+  7400	
+  7401	out:
+  7402		guest_state_exit_irqoff();
+  7403	}
+  7404	
 
 -- 
 0-DAY CI Kernel Test Service
