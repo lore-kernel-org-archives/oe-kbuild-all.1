@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86897233705
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 09:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EA81078F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Apr 2025 10:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743585633; cv=none; b=l9G0sOLw7tc3rSS7hvgCZA7+A+lGgwU/JoY/M0nC3pJvCsK6y4oxJVRFhcXwTJZmOUvj7nsDAzJjgtY/MM+s+MAB4rR17gRZNDZEX7JXfNf73yKTpVjx3GZveUTwwH7GVKQTpL0mWq4wueAQsySNr659VnAnlLfwmuO7LSIpxZ8=
+	t=1743588873; cv=none; b=hfCSf8GIThaLeFk5a+Ecjt2Y+mxYcsoYSl6FFv/1o5xmkx11HRaQMMov9FVYC/6iDv1fOMM00Cl3jdLQjRl9Zt+k7X32UWy8U+aVJLEqCvkhRdjxv583i46nTqmNhcZ87REZNChvfuMkJyDQlprz3BtUTJ2HFLBMxKIf3FtEjEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743585633; c=relaxed/simple;
-	bh=wPE7WwhGeI3LRwBB24cAH+qILm+nUf5fr4GrEUahx+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qHsvq8RU/pm2iAAx8D1gqxJjHG+MszCssryfUvrZTxJVVqydYDkZ1IQx/XHHFsWqaRwNMYzxPBndVaUW9eRwVT9p9JVZZdKAUUkNA4iLp0ad2CeRfCsiH52A4SqETfGW90odPZa/IX9tyRdFwhwbozUp7GDp7K8R3b/77T8mZvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWDp5X7z; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1743588873; c=relaxed/simple;
+	bh=VyembnBotM04Ug8Lahll5QDca4jj7Ran8Uf8iPjo0Ps=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u68KuT/y/P6/GmaOrFCgOSoXxKFrSVS5LEzgEirXusw0AJqjwhmsHyDHBpZCBz3GvD/HY+MKI9L/oOYZQtfdfvfkfOyV5k52GT+nhaJR3tFgfJY7Wqs6bZ2+WwJ3EclcmCNMPfkviNQerQsjAn+KqsZr/3pX14i9cK61HD9uoBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RwAW4i0/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWDp5X7z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RwAW4i0/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743585632; x=1775121632;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wPE7WwhGeI3LRwBB24cAH+qILm+nUf5fr4GrEUahx+c=;
-  b=BWDp5X7zr2uJcHz3HHnS29va2xzxoUljXq7ZFPgShON6URtt+RejL7Rr
-   5Kt2Rj1u/Gy5GZqWrpJP4NwO1LbL8CH/Yi+Pxzc7XYBuv5eQUjY1sQ5ko
-   GJ+wyjlKaFyoX11jgjq2LafA/WKvRjWKz4XzlQLfINGxZNCdcH0hLkUeq
-   PESgoHA37gYE9bh7PTXuyKWyLcgWT7qHHsjewuqPubdV7r0JHq/fCOi6E
-   27tsxVJlU5B/oJXZrYbWEb41Wojc9A1xdHtqvMwKqhb2A/Ogyc6OTs4Wt
-   osD1JM6xKlK0HpphBGORPkjOE5NmDCaOyBXuPjvUcuVTlDayyBi5a972u
-   w==;
-X-CSE-ConnectionGUID: HTouW7T1Sv6Q+K902Daa6Q==
-X-CSE-MsgGUID: v04twHQWQea4gyyyLue9yA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="45083616"
-X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
-   d="scan'208";a="45083616"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 02:20:31 -0700
-X-CSE-ConnectionGUID: 7VV9JwBDQoauM69SpulY/g==
-X-CSE-MsgGUID: amQFqQTIRhWsfkxk5mOAmw==
+  t=1743588871; x=1775124871;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VyembnBotM04Ug8Lahll5QDca4jj7Ran8Uf8iPjo0Ps=;
+  b=RwAW4i0/wJeWuZb8+ZzwQ7bPr4xAck0ImB28V3XYxufs9lIFELjZkILN
+   HvSPYv43urStf4vBm33x9qWzkWXOYh9eqTkULy/TOD26rPSXHl7dp+d9z
+   0SMlk0MpJ47PCra17+sGwV6OCZupiARHCUNgyuEqZI3BwkiQCG78bb0Lo
+   EeEvMKU86RBwKbMVdbPGW4r5vs0Zgd8mYW7JtaUagISxReWeyF+b/9tK0
+   dHhCm0SiLftkVKCn4jGKAt71a95GxeTqV2QHcPd6e21jOpnhwf1uCTwPl
+   fsJxLXF/UkepLEAIM90PcIptL7SbBBhMg2JS6jPnlMO9jkq38wsDMgBqn
+   Q==;
+X-CSE-ConnectionGUID: wdV9kLlmQOGkmFVaxZkfkQ==
+X-CSE-MsgGUID: ms1KbG7cQ428kIjd9lNdZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="32547257"
+X-IronPort-AV: E=Sophos;i="6.14,182,1736841600"; 
+   d="scan'208";a="32547257"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 03:14:30 -0700
+X-CSE-ConnectionGUID: /Rr5M2xdR1KQ65I5EvKksA==
+X-CSE-MsgGUID: wkNDy2RaQpSKfW+HfR+fHA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
-   d="scan'208";a="127542263"
+X-IronPort-AV: E=Sophos;i="6.14,181,1736841600"; 
+   d="scan'208";a="149842399"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Apr 2025 02:20:25 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 02 Apr 2025 03:14:29 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzuGk-000Ab0-0A;
-	Wed, 02 Apr 2025 09:20:22 +0000
-Date: Wed, 2 Apr 2025 17:19:55 +0800
+	id 1tzv74-000Aby-2j;
+	Wed, 02 Apr 2025 10:14:26 +0000
+Date: Wed, 2 Apr 2025 18:13:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
-	bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, ilpo.jarvinen@linux.intel.com,
-	robh@kernel.org, jingoohan1@gmail.com, thomas.richard@bootlin.com,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hans Zhang <18255117159@163.com>
-Subject: Re: [v7 2/5] PCI: Refactor capability search functions to eliminate
- code duplication
-Message-ID: <202504021623.LgnqoZPE-lkp@intel.com>
-References: <20250402042020.48681-3-18255117159@163.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1546/1546]
+ include/linux/uaccess.h:115:17: warning: 'stats' may be used uninitialized
+Message-ID: <202504021807.twewxnJE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,67 +61,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250402042020.48681-3-18255117159@163.com>
 
-Hi Hans,
+Hi Guillaume,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on acb4f33713b9f6cadb6143f211714c343465411c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Refactor-capability-search-into-common-macros/20250402-122544
-base:   acb4f33713b9f6cadb6143f211714c343465411c
-patch link:    https://lore.kernel.org/r/20250402042020.48681-3-18255117159%40163.com
-patch subject: [v7 2/5] PCI: Refactor capability search functions to eliminate code duplication
-config: loongarch-randconfig-001-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021623.LgnqoZPE-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021623.LgnqoZPE-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   7951fd324625a8af5097e1476cdc8c33c6009b48
+commit: 528534f0deda05c668756313a22974429a9df05a [1546/1546] l2tp: remove pppol2tp_tunnel_ioctl()
+config: arm64-randconfig-002-20250401 (https://download.01.org/0day-ci/archive/20250402/202504021807.twewxnJE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250402/202504021807.twewxnJE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504021623.LgnqoZPE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504021807.twewxnJE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-   drivers/pci/pci.c: In function '__pci_find_next_ht_cap':
->> drivers/pci/pci.c:627:17: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
-     627 |                 rc = pci_read_config_byte(dev, pos + 3, &cap);
-         |                 ^~
-         |                 rq
-   drivers/pci/pci.c:627:17: note: each undeclared identifier is reported only once for each function it appears in
+All warnings (new ones prefixed by >>):
+
+   net/l2tp/l2tp_ppp.c: In function 'pppol2tp_ioctl':
+   net/l2tp/l2tp_ppp.c:1122:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
+    1122 |         int val;
+         |             ^~~
+   In file included from net/l2tp/l2tp_ppp.c:62:
+   net/l2tp/l2tp_ppp.c: At top level:
+   include/linux/module.h:132:13: warning: 'init_module' specifies less restrictive attribute than its target 'pppol2tp_init': 'cold' [-Wmissing-attributes]
+     132 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   net/l2tp/l2tp_ppp.c:1802:1: note: in expansion of macro 'module_init'
+    1802 | module_init(pppol2tp_init);
+         | ^~~~~~~~~~~
+   net/l2tp/l2tp_ppp.c:1754:19: note: 'init_module' target declared here
+    1754 | static int __init pppol2tp_init(void)
+         |                   ^~~~~~~~~~~~~
+   include/linux/module.h:138:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'pppol2tp_exit': 'cold' [-Wmissing-attributes]
+     138 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   net/l2tp/l2tp_ppp.c:1803:1: note: in expansion of macro 'module_exit'
+    1803 | module_exit(pppol2tp_exit);
+         | ^~~~~~~~~~~
+   net/l2tp/l2tp_ppp.c:1792:20: note: 'cleanup_module' target declared here
+    1792 | static void __exit pppol2tp_exit(void)
+         |                    ^~~~~~~~~~~~~
+   In file included from net/l2tp/l2tp_ppp.c:65:
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:147:7,
+       inlined from 'pppol2tp_ioctl' at net/l2tp/l2tp_ppp.c:1163:8:
+>> include/linux/uaccess.h:115:17: warning: 'stats' may be used uninitialized [-Wmaybe-uninitialized]
+     115 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/compiler.h:246,
+                    from include/linux/kernel.h:10,
+                    from include/linux/list.h:9,
+                    from include/linux/module.h:9:
+   include/linux/kasan-checks.h: In function 'pppol2tp_ioctl':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   net/l2tp/l2tp_ppp.c:1120:35: note: 'stats' declared here
+    1120 |         struct pppol2tp_ioc_stats stats;
+         |                                   ^~~~~
 
 
-vim +627 drivers/pci/pci.c
+vim +/stats +115 include/linux/uaccess.h
 
-70c0923b0ef10b Jacob Keller     2020-03-02  614  
-f646c2a0a6685a Puranjay Mohan   2020-11-29  615  static u8 __pci_find_next_ht_cap(struct pci_dev *dev, u8 pos, int ht_cap)
-687d5fe3dc3379 Michael Ellerman 2006-11-22  616  {
-687d5fe3dc3379 Michael Ellerman 2006-11-22  617  	u8 cap, mask;
-687d5fe3dc3379 Michael Ellerman 2006-11-22  618  
-687d5fe3dc3379 Michael Ellerman 2006-11-22  619  	if (ht_cap == HT_CAPTYPE_SLAVE || ht_cap == HT_CAPTYPE_HOST)
-687d5fe3dc3379 Michael Ellerman 2006-11-22  620  		mask = HT_3BIT_CAP_MASK;
-687d5fe3dc3379 Michael Ellerman 2006-11-22  621  	else
-687d5fe3dc3379 Michael Ellerman 2006-11-22  622  		mask = HT_5BIT_CAP_MASK;
-687d5fe3dc3379 Michael Ellerman 2006-11-22  623  
-687d5fe3dc3379 Michael Ellerman 2006-11-22  624  	pos = __pci_find_next_cap_ttl(dev->bus, dev->devfn, pos,
-2675dfd086c109 Hans Zhang       2025-04-02  625  				      PCI_CAP_ID_HT);
-687d5fe3dc3379 Michael Ellerman 2006-11-22  626  	while (pos) {
-687d5fe3dc3379 Michael Ellerman 2006-11-22 @627  		rc = pci_read_config_byte(dev, pos + 3, &cap);
-687d5fe3dc3379 Michael Ellerman 2006-11-22  628  		if (rc != PCIBIOS_SUCCESSFUL)
-687d5fe3dc3379 Michael Ellerman 2006-11-22  629  			return 0;
-687d5fe3dc3379 Michael Ellerman 2006-11-22  630  
-687d5fe3dc3379 Michael Ellerman 2006-11-22  631  		if ((cap & mask) == ht_cap)
-687d5fe3dc3379 Michael Ellerman 2006-11-22  632  			return pos;
-687d5fe3dc3379 Michael Ellerman 2006-11-22  633  
-47a4d5be7c50b2 Brice Goglin     2007-01-10  634  		pos = __pci_find_next_cap_ttl(dev->bus, dev->devfn,
-47a4d5be7c50b2 Brice Goglin     2007-01-10  635  					      pos + PCI_CAP_LIST_NEXT,
-2675dfd086c109 Hans Zhang       2025-04-02  636  					      PCI_CAP_ID_HT);
-687d5fe3dc3379 Michael Ellerman 2006-11-22  637  	}
-687d5fe3dc3379 Michael Ellerman 2006-11-22  638  
-687d5fe3dc3379 Michael Ellerman 2006-11-22  639  	return 0;
-687d5fe3dc3379 Michael Ellerman 2006-11-22  640  }
-f646c2a0a6685a Puranjay Mohan   2020-11-29  641  
+d597580d373774 Al Viro 2017-03-20  107  
+d597580d373774 Al Viro 2017-03-20  108  #ifdef INLINE_COPY_FROM_USER
+d597580d373774 Al Viro 2017-03-20  109  static inline unsigned long
+d597580d373774 Al Viro 2017-03-20  110  _copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro 2017-03-20  111  {
+d597580d373774 Al Viro 2017-03-20  112  	unsigned long res = n;
+9c5f6908de03a4 Al Viro 2017-06-29  113  	might_fault();
+9c5f6908de03a4 Al Viro 2017-06-29  114  	if (likely(access_ok(VERIFY_READ, from, n))) {
+9c5f6908de03a4 Al Viro 2017-06-29 @115  		kasan_check_write(to, n);
+d597580d373774 Al Viro 2017-03-20  116  		res = raw_copy_from_user(to, from, n);
+9c5f6908de03a4 Al Viro 2017-06-29  117  	}
+d597580d373774 Al Viro 2017-03-20  118  	if (unlikely(res))
+d597580d373774 Al Viro 2017-03-20  119  		memset(to + (n - res), 0, res);
+d597580d373774 Al Viro 2017-03-20  120  	return res;
+d597580d373774 Al Viro 2017-03-20  121  }
+d597580d373774 Al Viro 2017-03-20  122  #else
+d597580d373774 Al Viro 2017-03-20  123  extern unsigned long
+d597580d373774 Al Viro 2017-03-20  124  _copy_from_user(void *, const void __user *, unsigned long);
+d597580d373774 Al Viro 2017-03-20  125  #endif
+d597580d373774 Al Viro 2017-03-20  126  
+
+:::::: The code at line 115 was first introduced by commit
+:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
