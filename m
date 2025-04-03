@@ -1,139 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8313624EAA2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Apr 2025 14:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4241F4CB1;
+	Thu,  3 Apr 2025 14:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743690622; cv=none; b=DBlOJbOBfnuRbX6qEmHDgDqgnE49yBM3r/fkreQP6pZSDZjpycwx4P5GplsvHLEDk/PenYvwPCN3Ml8+OY1twH5Y6YEWqA86x4n5vpUoA/lSMfv3ERhXPW1klhoQHN32rv3jxcGJVetDjTeqK4vnZxIybH0zr8sCSw5L12da/bo=
+	t=1743691077; cv=none; b=MMvClMvddA4nyigViMTzfSRdoEWyucm9sJcseKT5IhFjdpXWeFeUKAnPbAl33QJaYRviQVHsQjBsrslOW9+xDf4qZOA5qlnNa/1qNxtsg63rI4hZxNpjpKrULC5V/v0DhrWZscmRwW0nu5+IJKZUGkAw4Kd27NfG4arjDfG8r1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743690622; c=relaxed/simple;
-	bh=TVsSRx9QynlJfBafWHZrcF5aLohLqyQw3NetePgLW6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B8FR4PCUT4wGgg5xsnQ1CQCdkOJmitD+aoLDgpJmLQpn0OK80eJ/zCeBk+I0DNoBrZHBLrtO5JxRWeQ6DgMH5T96nJh5nbyksNcNiJk4VWhZSm1/tkUtAK88HKmidzMSnoLXZgCBufl7ucPUKaDOWwFg/Tbzjn0Ng9KJNhULDIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S2kpWIHi; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743691077; c=relaxed/simple;
+	bh=HwJlTt/e0qaK+PhaHQ1s/8UlFlBGWC9KoWIgqNb5+0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hsjsBb/D6nJE9VdSP5gngo8W7jG2Xozxfv+8x7sJxgXtW08PeKEi7Eocb9o0HlTRtXgP/fLX2yCA/CT376ITBO/dlAbyiA6JHbzjdd9xqvLiwOF3EFMVkOhMgl6GsZTsCqyyAU9s7p4aPwl5opWYOoAB8iuJ2NCBik2VQiNomsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f7fnG9L6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S2kpWIHi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743690621; x=1775226621;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TVsSRx9QynlJfBafWHZrcF5aLohLqyQw3NetePgLW6o=;
-  b=S2kpWIHiQ97SEbcJlc/NE7A9DrQsAqC/+QwdZB8foLobjStrfdBsWvL2
-   ohosT34P4jg3TVGubD4u2ISKzmVmBoh0fsMenBKYwActoVYOMh/sTaxhM
-   f2/hmYug9pM1Q5hRauR0oQFjQsq9ZR0QPQ06ZafLkAFNw9GvPj15HYlk3
-   0tAdUFIyCc+3Ax3jV/gL1bpQ4fiWe3/wEHu1cmsTFdW5G7vXALOBnAe0T
-   zQZmdn/N701cBCdqvc2sTr0cbJNdb8tf7JZbT9/4KNYX7woQEg9kHX8Ur
-   ZpAf66LIgiXmB1MJM7Y4NLdO076siF/xndE1FaZQAo+jsMaKMqoR7XT+M
-   A==;
-X-CSE-ConnectionGUID: g3Ez5K5ORSOMpLSaE62Eaw==
-X-CSE-MsgGUID: VyQO88QKQ1mofOLV6RSD5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45015239"
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="45015239"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 07:30:18 -0700
-X-CSE-ConnectionGUID: xnLZBVMgQbCNYPyVycQ+aA==
-X-CSE-MsgGUID: wfx6Bk03RKq+g0EJiGY2+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="131738206"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Apr 2025 07:30:17 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0LaA-0000Sn-2P;
-	Thu, 03 Apr 2025 14:30:14 +0000
-Date: Thu, 3 Apr 2025 22:29:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/hrtick 1/6] kernel/sched/fair.c:6813:17: error:
- implicit declaration of function 'cpu_util_dl'; did you mean 'cpu_util_irq'?
-Message-ID: <202504032218.WqQFUgr5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f7fnG9L6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 146E1C4CEE3;
+	Thu,  3 Apr 2025 14:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743691077;
+	bh=HwJlTt/e0qaK+PhaHQ1s/8UlFlBGWC9KoWIgqNb5+0c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f7fnG9L61AcTg5asIweNwtN59M2R1LZjVkrqxDDvY8s8Iudgdv2CnDs8j8NRJA0LH
+	 GnWBRapes85/eDUZbAf1jgMs0kgMPgIT6yGz+Yg54xkzXJrkr5IMMCPxj9Kryirlw5
+	 JLXn8dj/z6cZwsHECZCsDGvrveEd9oWnQOj3nrq6+ad+mxUQ4FaOa/+Ae0lOdwwWqR
+	 1YSnMjWhSfcD+mXJ0nGzq8y1VwDzjrynHIBptYzndo4G5LPn7tEaL1TnRvz5SiEO69
+	 dRi+M0PYq6+RTNyxPONilRMt++JeAXrLgW60m7/r549GgjlCDRVxMuV+2HaP8VCvJ9
+	 hRsPcxKhX6ETg==
+Date: Thu, 3 Apr 2025 07:37:54 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>, 
+	Guenter Roeck <linux@roeck-us.net>, oe-kbuild-all@lists.linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Alessandro Carminati <acarmina@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
+Subject: Re: [linux-next:master 12681/13861] drivers/i2c/i2c-core-base.o:
+ warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0
+ reg2[24]=-2-24
+Message-ID: <lcozyamcrcuff6a3pgly7sptluuj7ubzvy4na2vrus7hfmwmb6@zv7tooy3pmkh>
+References: <202504011011.jyZ6NtXx-lkp@intel.com>
+ <Z+ttzRArSBMqfABz@rli9-mobl>
+ <xqfrt2rueezh3upug2umvuw2r44luoaxfqycnmvkh5sezaosw6@h77yjfio4ws6>
+ <348cdb14-f8cf-1e7b-44b2-79dc4dda4e35@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <348cdb14-f8cf-1e7b-44b2-79dc4dda4e35@loongson.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/hrtick
-head:   7ca06092f4a1b8dfd501b5cb1749854a13d5a898
-commit: deebcd729d011e54806d9026965fcb0c18111129 [1/6] sched/eevdf: Fix HRTICK duration
-config: sh-randconfig-002-20250403 (https://download.01.org/0day-ci/archive/20250403/202504032218.WqQFUgr5-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504032218.WqQFUgr5-lkp@intel.com/reproduce)
+On Thu, Apr 03, 2025 at 05:35:51PM +0800, Tiezhu Yang wrote:
+> On 04/02/2025 03:45 AM, Josh Poimboeuf wrote:
+> > On Tue, Apr 01, 2025 at 12:38:37PM +0800, Philip Li wrote:
+> > > On Tue, Apr 01, 2025 at 10:44:57AM +0800, kernel test robot wrote:
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > > head:   405e2241def89c88f008dcb899eb5b6d4be8b43c
+> > > > commit: 9016dad4dca4bbe61c48ffd5a273cad980caa0d1 [12681/13861] loongarch: add support for suppressing warning backtraces
+> > > > config: loongarch-randconfig-001-20250401 (https://download.01.org/0day-ci/archive/20250401/202504011011.jyZ6NtXx-lkp@intel.com/config)
+> > > > compiler: loongarch64-linux-gcc (GCC) 14.2.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250401/202504011011.jyZ6NtXx-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202504011011.jyZ6NtXx-lkp@intel.com/
+> > > > 
+> > > > All warnings (new ones prefixed by >>):
+> > > > 
+> > > > > > drivers/i2c/i2c-core-base.o: warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
+> > 
+> > Tiezhu, this looks like a loongarch GCC bug with asm goto, or am I
+> > confused?  See analysis below.
+> 
+> This is related with GCC optimization "-fshrink-wrap" which is default y
+> on LoongArch, use "-fno-shrink-wrap" can avoid such issues, like this:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504032218.WqQFUgr5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/sched/fair.c: In function 'hrtick_start_fair':
->> kernel/sched/fair.c:6813:17: error: implicit declaration of function 'cpu_util_dl'; did you mean 'cpu_util_irq'? [-Wimplicit-function-declaration]
-    6813 |         util += cpu_util_dl(rq);
-         |                 ^~~~~~~~~~~
-         |                 cpu_util_irq
->> kernel/sched/fair.c:6814:17: error: implicit declaration of function 'cpu_util_rt'; did you mean 'cpu_util_irq'? [-Wimplicit-function-declaration]
-    6814 |         util += cpu_util_rt(rq);
-         |                 ^~~~~~~~~~~
-         |                 cpu_util_irq
-
-
-vim +6813 kernel/sched/fair.c
-
-  6780	
-  6781	/**************************************************
-  6782	 * CFS operations on tasks:
-  6783	 */
-  6784	
-  6785	#ifdef CONFIG_SCHED_HRTICK
-  6786	static void hrtick_start_fair(struct rq *rq, struct task_struct *p)
-  6787	{
-  6788		struct sched_entity *se = &p->se;
-  6789		unsigned long scale = 1024;
-  6790		unsigned long util = 0;
-  6791		u64 vdelta;
-  6792		u64 delta;
-  6793	
-  6794		WARN_ON_ONCE(task_rq(p) != rq);
-  6795	
-  6796		if (rq->cfs.h_nr_queued <= 1)
-  6797			return;
-  6798	
-  6799		/*
-  6800		 * Compute time until virtual deadline
-  6801		 */
-  6802		vdelta = se->deadline - se->vruntime;
-  6803		if ((s64)vdelta < 0) {
-  6804			if (task_current_donor(rq, p))
-  6805				resched_curr(rq);
-  6806			return;
-  6807		}
-  6808		delta = (se->load.weight * vdelta) / NICE_0_LOAD;
-  6809	
-  6810		/*
-  6811		 * Correct for instantaneous load of other classes.
-  6812		 */
-> 6813		util += cpu_util_dl(rq);
-> 6814		util += cpu_util_rt(rq);
-  6815		util += cpu_util_irq(rq);
-  6816		if (util && util < 1024) {
-  6817			scale *= 1024;
-  6818			scale /= (1024 - util);
-  6819		}
-  6820	
-  6821		hrtick_start(rq, (scale * delta) / 1024);
-  6822	}
-  6823	
+As I showed, it looks like an actual runtime bug, not an objtool false
+positive.  Disabling it only for CONFIG_OBJTOOLonly wouldn't fix that.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Josh
