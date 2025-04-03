@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DD11714A1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Apr 2025 05:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD3A1A76D4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Apr 2025 05:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743658224; cv=none; b=nvZeTFV5mo8VbNELyc8qcQacZdkD4tiKTNLnBLoaKZB5ryvjFkRoeK3eoLkScOSlSrpNkfuAIJ0qOKS6vYnyTPjv8lAVvuW5fYlN9cY1EGgohblfZgw94cOKIH+XGm0NYFE0xKiI5exFqBzbhD7gg89Ehy2Nx5mT6gu9soUO1T4=
+	t=1743658885; cv=none; b=t6jOJ4/gwmzP5rAICAjIKWf3MzIL4xIeo2WpwGbCQ4wVT9YL45FMZN41WUAp1C7y0rl5OlIynGYpaGk7P80XN5DrxnE234wFxyPWAYkecEAzNQ3oMLCdfbwnbi5GU1LCaXRnXH6pOMf073p8pdfHksyrPX4iraj3maJDAl/cLnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743658224; c=relaxed/simple;
-	bh=nUsxrZ18FHsEJHN5O3GCI3AHDJd4iHDBmHxZycHLdPo=;
+	s=arc-20240116; t=1743658885; c=relaxed/simple;
+	bh=Gb1V3cYwdplWqRDFaIXTPZIRUKkcCMr1TfjU6hcZ7UE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=drxNU+M2wBTutOWUG3daXLtpqYE/bkzg+lApMWXA0M5q1QjxIY8P4R6besmjFVaX3e3X34vHwVHpbUwizNiubewUmWFNBhyWu58LsYG7FmCXE9/R9ZPD+L6EB9PKAi+RWsgqfCTGM57U6/zyPpnBTkuxDt9NONm0cWUH0L1KTiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BMH6+SRt; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=tnIypqJLC404oDSiCSL7OhkmsfLoJ4xCWhemE6OWPn3AddcIL3zaE1sjGf4kmk6zUqjL8sB4UKiO/nYp53pqJHqTcy20SERn2b5qf1tXyvZMtZ2GeqCn6wvRHmzjjj5F8BkjoEecXi8UhnTTk6M9g4HxoFx550DFfPbS/JCUi0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKLsNoY+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BMH6+SRt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKLsNoY+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743658222; x=1775194222;
+  t=1743658883; x=1775194883;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nUsxrZ18FHsEJHN5O3GCI3AHDJd4iHDBmHxZycHLdPo=;
-  b=BMH6+SRtAnRiHCWhL1H31WEXdddkew6uSefypDkz+JcJx/9IVUq6qDRj
-   y/t1CD4PxDj+q3rnQKRpT+h4eF01j6u3k7chwtfzAcc+DKUcN4vdcEgMu
-   Z2FwYXCcnYXbuJAq9iAoOoGYbi8xRd1pftohFQesIYNyiLRpGtpxtL3YI
-   SN6gsdLqkGsmrDWjIqWm+eLJWNDkoi+DFbVu6j65QM/PVd6KzU9wDw+T4
-   MJCvm46m0sE/nxS6MZZ2EWfuhHb7LcnbHwcTZ84JO9oN2boUtnRdbLoxT
-   d19ddHAc+A/kEJplP0rZcABbyyOLwrUPvT14rahf4C7pTz+fEcNXIGB2P
-   A==;
-X-CSE-ConnectionGUID: q0/xEHMgRvynm0cQh+y0qg==
-X-CSE-MsgGUID: pgIl9poYRcWVnK8cHJRXzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="62587134"
+  bh=Gb1V3cYwdplWqRDFaIXTPZIRUKkcCMr1TfjU6hcZ7UE=;
+  b=XKLsNoY+YLpdLDTgX2Qt7cEAQy9cx8jFqirrzSB4u7a1g+n1SqOuSK1I
+   fanm+1R+VN5ZlhqzyAiwXp3oO3qLAphuSsQ/Fg0e6zlJ/uY7Q8dQjQ5A9
+   6ROeCb5VDl7Yr55U/BTNz466clUav+2SjFn2yC+TDuuO3/u0WxWn/nWBJ
+   4+FJ6XOMTTuDHjrku+KkyOJJfG7eLyPAU9kVGzLfOpnnIgyhXzRE62NDW
+   ty4rIb5fJ6oPWBM7PWGVZwR5jP+7E0JhgWnzADJjhNUONtks6QaINdBxY
+   iKDD8QbY0jfINSJc6e8msrL/itGZHma5/83kx+DZ8BcC3CHdN5jbeq+xd
+   g==;
+X-CSE-ConnectionGUID: MsMvEgDnTLiQOgeC8gqZ9A==
+X-CSE-MsgGUID: 3ze+sWaURZOhqmcKMOG4gA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="56413353"
 X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="62587134"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 22:30:21 -0700
-X-CSE-ConnectionGUID: J1Zerh7NTMidUf/XAdKEwQ==
-X-CSE-MsgGUID: jaqKheyURqafBpa6rcVGTA==
+   d="scan'208";a="56413353"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 22:41:22 -0700
+X-CSE-ConnectionGUID: RYj6bE9VQfKG0GsR/SXlbg==
+X-CSE-MsgGUID: NUbcymSJQGmugiBO0JoqNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="126666677"
+   d="scan'208";a="150109535"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 02 Apr 2025 22:30:21 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 02 Apr 2025 22:41:21 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0D9e-00006J-2K;
-	Thu, 03 Apr 2025 05:30:18 +0000
-Date: Thu, 3 Apr 2025 13:30:12 +0800
+	id 1u0DKJ-00006t-2e;
+	Thu, 03 Apr 2025 05:41:19 +0000
+Date: Thu, 3 Apr 2025 13:40:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ukleinek:pwm/for-next 17/18] drivers/pwm/pwm-rcar.c:114:19: error:
- implicit declaration of function 'FIELD_MAX'
-Message-ID: <202504031354.VJtxScP5-lkp@intel.com>
+Subject: [dwmw2:for_each_valid_pfn 2/3] mm/mm_init.c:782:8: error: macro
+ "max_t" requires 3 arguments, but only 2 given
+Message-ID: <202504031359.ztaDG2Zz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +62,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-next
-head:   4fe924e43a5aabe586ab696651c483c25a8a3abb
-commit: edd549f4956be84ebd6a3900975544adeb0f3b50 [17/18] pwm: rcar: Improve register calculation
-config: arc-randconfig-002-20250403 (https://download.01.org/0day-ci/archive/20250403/202504031354.VJtxScP5-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504031354.VJtxScP5-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux for_each_valid_pfn
+head:   d631358395f81d22f3df81ec055aa651c63b4e62
+commit: 9b52dd6530f19b4948e6a5068c6870807349322d [2/3] mm: Implement for_each_valid_pfn() for CONFIG_FLATMEM
+config: i386-buildonly-randconfig-004-20250403 (https://download.01.org/0day-ci/archive/20250403/202504031359.ztaDG2Zz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504031359.ztaDG2Zz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504031354.VJtxScP5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504031359.ztaDG2Zz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pwm/pwm-rcar.c: In function 'rcar_pwm_set_counter':
->> drivers/pwm/pwm-rcar.c:114:19: error: implicit declaration of function 'FIELD_MAX' [-Werror=implicit-function-declaration]
-     114 |         if (tmp > FIELD_MAX(RCAR_PWMCNT_CYC0_MASK))
-         |                   ^~~~~~~~~
->> drivers/pwm/pwm-rcar.c:117:15: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     117 |         cyc = FIELD_PREP(RCAR_PWMCNT_CYC0_MASK, tmp);
-         |               ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+   mm/mm_init.c: In function 'reserve_bootmem_region':
+>> mm/mm_init.c:782:8: error: macro "max_t" requires 3 arguments, but only 2 given
+     782 |         for_each_valid_pfn (pfn, PFN_DOWN(start), PFN_UP(end)) {
+         | ^       ~~
+   In file included from include/linux/kernel.h:28,
+                    from mm/mm_init.c:9:
+   include/linux/minmax.h:169: note: macro "max_t" defined here
+     169 | #define max_t(type, x, y) __cmp_once(max, type, x, y)
+         | 
+   In file included from arch/x86/include/asm/page.h:89,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:60,
+                    from include/linux/smp.h:118,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from mm/mm_init.c:11:
+>> include/asm-generic/memory_model.h:53:20: error: 'max_t' undeclared (first use in this function); did you mean 'rmap_t'?
+      53 |         for (pfn = max_t(unsigned long  start_pfn, ARCH_PFN_OFFSET);           \
+         |                    ^~~~~
+   mm/mm_init.c:782:9: note: in expansion of macro 'for_each_valid_pfn'
+     782 |         for_each_valid_pfn (pfn, PFN_DOWN(start), PFN_UP(end)) {
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/memory_model.h:53:20: note: each undeclared identifier is reported only once for each function it appears in
+      53 |         for (pfn = max_t(unsigned long  start_pfn, ARCH_PFN_OFFSET);           \
+         |                    ^~~~~
+   mm/mm_init.c:782:9: note: in expansion of macro 'for_each_valid_pfn'
+     782 |         for_each_valid_pfn (pfn, PFN_DOWN(start), PFN_UP(end)) {
+         |         ^~~~~~~~~~~~~~~~~~
 
 
-vim +/FIELD_MAX +114 drivers/pwm/pwm-rcar.c
+vim +/max_t +782 mm/mm_init.c
 
-   104	
-   105	static int rcar_pwm_set_counter(struct rcar_pwm_chip *rp, int div, u64 duty_ns,
-   106					u64 period_ns)
-   107	{
-   108		unsigned long long tmp;
-   109		unsigned long clk_rate = clk_get_rate(rp->clk);
-   110		u32 cyc, ph;
-   111	
-   112		/* div <= 24 == RCAR_PWM_MAX_DIVISION, so the shift doesn't overflow. */
-   113		tmp = mul_u64_u64_div_u64(period_ns, clk_rate, (u64)NSEC_PER_SEC << div);
- > 114		if (tmp > FIELD_MAX(RCAR_PWMCNT_CYC0_MASK))
-   115			tmp = FIELD_MAX(RCAR_PWMCNT_CYC0_MASK);
-   116	
- > 117		cyc = FIELD_PREP(RCAR_PWMCNT_CYC0_MASK, tmp);
-   118	
-   119		tmp = mul_u64_u64_div_u64(duty_ns, clk_rate, (u64)NSEC_PER_SEC << div);
-   120		if (tmp > FIELD_MAX(RCAR_PWMCNT_PH0_MASK))
-   121			tmp = FIELD_MAX(RCAR_PWMCNT_PH0_MASK);
-   122		ph = FIELD_PREP(RCAR_PWMCNT_PH0_MASK, tmp);
-   123	
-   124		/* Avoid prohibited setting */
-   125		if (cyc == 0 || ph == 0)
-   126			return -EINVAL;
-   127	
-   128		rcar_pwm_write(rp, cyc | ph, RCAR_PWMCNT);
-   129	
-   130		return 0;
-   131	}
-   132	
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  770) 
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  771) /*
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  772)  * Initialised pages do not have PageReserved set. This function is
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  773)  * called for each range allocated by the bootmem allocator and
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  774)  * marks the pages PageReserved. The remaining valid pages are later
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  775)  * sent to the buddy page allocator.
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  776)  */
+61167ad5fecdea Yajun Deng          2023-06-19  777  void __meminit reserve_bootmem_region(phys_addr_t start,
+61167ad5fecdea Yajun Deng          2023-06-19  778  				      phys_addr_t end, int nid)
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  779) {
+928aaaa953c4b3 David Woodhouse     2025-04-02  780  	unsigned long pfn;
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  781) 
+928aaaa953c4b3 David Woodhouse     2025-04-02 @782  	for_each_valid_pfn (pfn, PFN_DOWN(start), PFN_UP(end)) {
+928aaaa953c4b3 David Woodhouse     2025-04-02  783  		struct page *page = pfn_to_page(pfn);
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  784) 
+928aaaa953c4b3 David Woodhouse     2025-04-02  785  		init_deferred_page(pfn, nid);
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  786) 
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  787) 		/*
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  788) 		 * no need for atomic set_bit because the struct
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  789) 		 * page is not visible yet so nobody should
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  790) 		 * access it yet.
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  791) 		 */
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  792) 		__SetPageReserved(page);
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  793) 	}
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  794) }
+9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  795) 
+
+:::::: The code at line 782 was first introduced by commit
+:::::: 928aaaa953c4b3f31da75231989522934a140282 mm: Introduce for_each_valid_pfn() and use it from reserve_bootmem_region()
+
+:::::: TO: David Woodhouse <dwmw@amazon.co.uk>
+:::::: CC: David Woodhouse <dwmw@amazon.co.uk>
 
 -- 
 0-DAY CI Kernel Test Service
