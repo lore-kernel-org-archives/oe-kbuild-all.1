@@ -1,162 +1,270 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87F11A5BB7;
-	Thu,  3 Apr 2025 19:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743710280; cv=none; b=daHqKke84dd2RZmGu7ADlMNuOGG2wedgwL0hO4jz410LsrjYNof8inm6N5XVyMsEJIbPC6gBLGLesUslpEHm7LnLwIgCFwk+grOe75UUlDlyTtFS9Jl1On55tzXxUSy3gwwHJTWTEtjAVaRs3Q7DseR7H4FDFXGOl419Tl4zovk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743710280; c=relaxed/simple;
-	bh=IjAcaogJEfwe1QULvS0sPgg/YGtkzTNEh+GLxUY+kf4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PbKXqQAzWFbGKKDEW2HA7HzmpIZBHXQ8vH0+dNJ68e0SzMDzWLMVCho6z5JGNy9OqF9Xg8bGesQv1f+ghfzc57MfmiJgrMZFCO9QMCBgiMVxmkhneXQGgzjZYqcteHbPoK0uOwIvEkqdz+2ZyEILkKEMjbiNf5BbJOSIUxRSfg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1WItLgw; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4859019EED2;
+	Thu,  3 Apr 2025 21:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743714113; cv=fail; b=upjU4yzMtBNJ6gfUcpk9e2upNpIpG20Wl3RRU6fJ0aldLebnpQaoFf4GcAr9LV6MfEAsu7tBeaHNVgm+EiAjD+0UXo/pZy/7VomMIzjWjRmHLXNPrKVhSC+EZWur3By0g5AwL8fGx7I3ncDJDCJNUMOZ7It+sbtFlQndIPsp5MM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743714113; c=relaxed/simple;
+	bh=KUodNTW1X1mNht48GXRCp6GGy1L9c8oI58TZTNqet2M=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qaHK8r1mLlJBWmyEHQUWNxNYSj5wi/QN0ICiTH48IS/QYmn2BsuVlIsyWl9Ct+c/FSMGK5TcW0DCFvgcjJG8IU1ZmkSozU/IPb9YRiJgqnuzyxpmPfZBH2oFTe9dbs8FL/e3WjnV6N0JP5B+WvmGxj75DjwnhKp1EuPMiGto6U0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QuAWdIsf; arc=fail smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1WItLgw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QuAWdIsf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743710278; x=1775246278;
+  t=1743714111; x=1775250111;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IjAcaogJEfwe1QULvS0sPgg/YGtkzTNEh+GLxUY+kf4=;
-  b=I1WItLgwrCPu8b25xFTGU1GiRZ2VbL4Y6X8iEgz5Msd+43D810rC3BQb
-   MHqSWm1W+DKZhS4bKRM63H8+QZX+c09OFIdSCj27vUIxg3ykal7/H/DJU
-   jzgOH5T2YHTf++bO1n1KSNmoW6CWgNEvzGcyx9KIqlR9AJ8BLBBxGrxD8
-   0XCIuebqF5MpIXVbmgTOKTA0WhgF+czP+s7n3mBXS+DJrLK1RjlZzoCXK
-   kf4GEBSG9ncMzilp9wWQlvPkrDY0RmS8CW+89cF0o5tcg7qDyx/CsLAzy
-   FMoqV1dv7QK0xe0Y4MlQXYCkTUTq4QL2aQBYmGrvJ5BaNntrHWzhl5pig
+   in-reply-to:mime-version;
+  bh=KUodNTW1X1mNht48GXRCp6GGy1L9c8oI58TZTNqet2M=;
+  b=QuAWdIsfVjrrfwKw12TVQAtQvPno5i4MX3RP7FdmHem7up24ylLHt4v2
+   3/jKYD/72Q6sruZ5qaHRCkPT5aW0ZYsBjalVfVNxueKeL1S+Zrwx/+wJi
+   hNX+9THxn7ru9TLV+NQZnTuunGBW3Q3hdev1Z+2Vq9CN3XuYJppHXyxmx
+   BkfR5rLT0CqA76pQz4qeMsvn/pV9aJXkZRLVSwYBr36wqPodeVPYzq8oV
+   mWCG53iZ1BMVeDDHpRL2V1CnboCTVT/6xh9cs7iO9kuYFkM65sDMNodjT
+   PeFFPBxCM4wq1F462SlbGoxSWGPFigCVSniLKStOY+eiSS3lY11ywqN0X
    A==;
-X-CSE-ConnectionGUID: CqFqcI7sQ22GiGv/cPjA3A==
-X-CSE-MsgGUID: TDJZ6IDqTYGRAMHmcQcHLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="67611718"
+X-CSE-ConnectionGUID: IzJjtBlaRTummzUXB53Qcw==
+X-CSE-MsgGUID: QMIklwrySiGyECCNVFiSNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="56132697"
 X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; 
-   d="scan'208";a="67611718"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 12:57:58 -0700
-X-CSE-ConnectionGUID: mRRrpAwESFaktxFDiOsS0Q==
-X-CSE-MsgGUID: 61Ht4NWSTWCHq56j/Ob+og==
+   d="scan'208";a="56132697"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 14:01:50 -0700
+X-CSE-ConnectionGUID: n+0ef/BjS0GtEHzZiCVP0g==
+X-CSE-MsgGUID: UNFvUSUxS1O5RF27s3ZpYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; 
-   d="scan'208";a="158085692"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Apr 2025 12:57:54 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0QhD-0000lb-0S;
-	Thu, 03 Apr 2025 19:57:51 +0000
-Date: Fri, 4 Apr 2025 03:57:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: shao.mingyin@zte.com.cn, jonnyc@amazon.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	bhelgaas@google.com, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn,
-	xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn
-Subject: Re: [PATCH] PCI: al: Use devm_platform_ioremap_resource_byname
-Message-ID: <202504040353.k5kLpniy-lkp@intel.com>
-References: <20250403154833001aNpIIRBQWEw67Oo8nChch@zte.com.cn>
+   d="scan'208";a="158112591"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 14:01:48 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 3 Apr 2025 14:01:47 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Thu, 3 Apr 2025 14:01:47 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.46) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 3 Apr 2025 14:01:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LvFbhP0IE7lQmMpt2yZXtIp0clnIfPSAlajN+/XEl2BLYYbl5CfEscsuQRYsmfstTuaikZq31MBQ3v9tSwOZma32KUGI8SgFOJzDepOpsAPIUcRrfsVYdc99l6Glc60Oih086pSGrENduBuyIdj8uADDaKJaas0SIrspdLC2Na4Jza0cTstepW6LqdETGe/1byrTWQUTze6KXn3zt5xRNAoq3ivTxNwfRxwyuaDo3fYxxr4WF+co5T/hVhDZE3GgAjD//nlqUUmVjTj/Q5059zK90ETTxHNEPZTSEp3kM9sUjTgU5mTkPS05KjxtCB9pOvlt0OdFPoFFN0s8xDxwFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pIeW1Ux1GJ8FuGZdyMwpQoZHQERuQrn5ILkOOZL0pcw=;
+ b=aPPVAV1Q+hb9ZRpCY3+o0NH3gKUxnNDFuvEtLIz8v1HeDGeylUTWWRNLPs8XQGGupyuynoJDa0nCVhg2iD6Xa0X/Jc0ByqRs/qwub9oQBUNvN29gtB5pEXj0spXIMZyFmr4b44QTPtHSvV7Ap1cpyiy297zkP1/C92c3wIuS9hKvxsfvGrcTwYbjcWoMpNVoP2FJnynv6pe+0N9/4xAcBKJ+0s2TN/8jD8jkyp51XS9z6Ax35ISPCzo6gWqsdSnhvPosjw3DssLJKXTSM9rfVsSijmkj1U2HOgNC5Nm1r85MGoq5l27qup/tr6B+5auPi0FoUnCGSpxiHRMw11oX6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by MW3PR11MB4601.namprd11.prod.outlook.com (2603:10b6:303:59::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 3 Apr
+ 2025 21:01:28 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%3]) with mapi id 15.20.8583.041; Thu, 3 Apr 2025
+ 21:01:28 +0000
+Date: Thu, 3 Apr 2025 14:01:24 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+To: kernel test robot <lkp@intel.com>, Yuquan Wang
+	<wangyuquan1236@phytium.com.cn>, <Jonathan.Cameron@huawei.com>,
+	<dan.j.williams@intel.com>, <rppt@kernel.org>, <rafael@kernel.org>,
+	<lenb@kernel.org>, <akpm@linux-foundation.org>, <alison.schofield@intel.com>,
+	<rrichter@amd.com>, <bfaccini@nvidia.com>, <haibo1.xu@intel.com>,
+	<david@redhat.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-acpi@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<chenbaozi@phytium.com.cn>, Yuquan Wang <wangyuquan1236@phytium.com.cn>,
+	<linux-cxl@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<chenhuacai@kernel.org>, <kernel@xen0n.name>
+Subject: Re: [PATCH v2] mm: numa_memblks: introduce numa_add_reserved_memblk
+Message-ID: <67eef72411bec_464ec29434@dwillia2-xfh.jf.intel.com.notmuch>
+References: <20250328092132.2695299-1-wangyuquan1236@phytium.com.cn>
+ <202503282026.QNaOAK79-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202503282026.QNaOAK79-lkp@intel.com>
+X-ClientProxiedBy: MW4PR04CA0178.namprd04.prod.outlook.com
+ (2603:10b6:303:85::33) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250403154833001aNpIIRBQWEw67Oo8nChch@zte.com.cn>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|MW3PR11MB4601:EE_
+X-MS-Office365-Filtering-Correlation-Id: e78213a1-492b-4d88-d5d3-08dd72f2b3f3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?higcMwvAiNU1lisWu2dyidp5BNXYavcLXB8pjZyWSiSJk19wJvzBSEyqbze+?=
+ =?us-ascii?Q?cSAX0vSLFQSRLDPj1heQOMsP1sxgOFXWiREu7YmFXNw8UDwyjVRgRIOVSpI8?=
+ =?us-ascii?Q?gPfBvdxJQvc7eqGksVuWRe/qFOrYb40+Kulhvrv4mL+wn31xzktJqtG0M9IB?=
+ =?us-ascii?Q?dZr8e6JXS/6tSZwchKZNofO6DRutIkMjVhOsQ0Jb1RtrzrPBZIwL2Ttn2AON?=
+ =?us-ascii?Q?AZEqCBu2prnWRIUKr3D+aXBqbJ8L61MFm8IreJi6rcRCvQ2VQe1dzSwGjVty?=
+ =?us-ascii?Q?YuHWU7GdJhkLRGNWT+c9JGe/MwlZno8IB15Z8A95DoUKL5tfZ+n1MTYjjUu8?=
+ =?us-ascii?Q?d8GS8k3hp08ci1Dw8/eHDPcvXF8CyDJheAnsU/BVt1OWtVrvTbM8Lp9Fktrm?=
+ =?us-ascii?Q?sLnLSBavacqOoF9/MgXrDsqMUHcJDBjAgTnz5SyCLTyTh4WJD/Zh8ItJsp5L?=
+ =?us-ascii?Q?Hdb1hplJuWyovuMmzFTh7/Ee6QPoiA+gr9Q6rPrIvHl/ikdxT1HEMqtxUpUr?=
+ =?us-ascii?Q?+LO5iZkHaYClklU6WVturpyqUlbmMX3Owl1sexJ9dcPHTzFhnuyiwVaAoq2P?=
+ =?us-ascii?Q?Rxu8rk2pO6nb8+v/OUVnl73NPyPxyLepNwFvubeOEk4ShFTqjZrST5ybORS5?=
+ =?us-ascii?Q?Ey0IwTTu6nomvFQNO3WEoVlE3L24wjNBzpG2af27iovlRQ7BYjQNCLN6S74/?=
+ =?us-ascii?Q?M7EG+C6UWzayairUYthaYeSjW6H/FoKybewah8CLBLAw7OKW45OaAbFsc+os?=
+ =?us-ascii?Q?KxYV+6zpZr2F5lgXihM85Unw4RuP9jdnlEqswW1KkA9ZGY9K9J/MVbvd7d7f?=
+ =?us-ascii?Q?T7160CsYpK5UDQIcYkjj5S5zRcyvc+ELcfVjo2+xeq/xTIyOxapJpmlJ/15C?=
+ =?us-ascii?Q?eK/BtbELwKNOS/Icib8aBbdxvD4EwmR1g5zJyzHm8m4FvyjVjMLVVcRI/FTn?=
+ =?us-ascii?Q?Fsm1KQHTpovnZ17pUv4g273j6LOiUdiAw7PbRiZ7AhlRyXP+UizhPKicZ1fD?=
+ =?us-ascii?Q?Onoqj9mwkwXY0C3U/Fxj40jZiRGfvazlueHFZ2CUZLr3xKLgzp64jn4X5UE1?=
+ =?us-ascii?Q?dCuhvbLmW1icobTXS0JQ3V5wXH2lC/KBFp7HmJ8/+H2dk2AujNjSeiHr6lfa?=
+ =?us-ascii?Q?PCP6/W4LNWkNX00X949zIfdIIn5hXOOpku2dGQMVKe4+1zLp9Lxh6qyA7Jw7?=
+ =?us-ascii?Q?AluTcvBB9YdeaHiY2mGo+Hb9rpBPaH2mgUiisxRXnaupYEL2z/Puz5FBBsq5?=
+ =?us-ascii?Q?aT+sx2hVZZrEhzW7u4eGmuk5q/FGOW6Ifrga2B3DSMQoEFceO2BouJZ5ymDn?=
+ =?us-ascii?Q?Vxupv8yXshUOBaOkTTLW8nl7jaUWa2C0uBzsAJIRxHUt8Pw2TYZI4rcKErrh?=
+ =?us-ascii?Q?wUc2De1yd4VhA3HXEV1lAqClfygM?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?X06mOzojTO3JOYOsltUcxoge3BNNdZJ5I1up5LeEChUiRc03FnZwkdWFBKsI?=
+ =?us-ascii?Q?uV3WUY/sOCdUfanIFF26C4k9AaQWif5ovJKQwNhLKdbC4Agoy7AG/m1eGL1T?=
+ =?us-ascii?Q?Ryk1Bnra5fhGUWLair5joXQKn+RudWkNXwEbZ0YSqgS63xhJi83s2Hubwmt6?=
+ =?us-ascii?Q?QZuUxbg6Ru0J31y7hko2OLlXi6IxTHgf3oA10lCG9EHErcnwHNjk+/xup+Dt?=
+ =?us-ascii?Q?sU7psE765iBpJfgZkE3W0hnbDs6ssMx+NWh07QL/lFYfUwVnL1NK1BAFzO0P?=
+ =?us-ascii?Q?TemUV+KeuEhWMNi818trvwnYFJ6iRXqjb3Rc5/v5jwXAu0tRS2YN15gYOKJu?=
+ =?us-ascii?Q?VA3CRGD3ht/wnfOx73MvNFIhEv4WeB/HlZbxgxp8IhZM2VjNfoBaMqF0FLnp?=
+ =?us-ascii?Q?faxoSEefxjROFkEQnpXvUx6hRH3YfcOANGYPGa5AbMCFkQezMRnnZ1QDerMq?=
+ =?us-ascii?Q?LH08v4xy7JSvTs+u7noZAycd77y2cl1cUfCYzFxZYFtAAdrUScmPG/lkPHpP?=
+ =?us-ascii?Q?tJs5immdbYrfUB6kKi2Aj+5vS5ut6KeJX4PHyjHLoMVKUXPjCWTC7URY59HF?=
+ =?us-ascii?Q?x+RAdRsodp4T92fyH9hI+M7zZYNS6JZjA5MOiLh75qfk/4rzyZp53p7WfutL?=
+ =?us-ascii?Q?bRlKL0T56XYgsnwHpn0iU+Wk4+HE8lSMhP4e6UaLE83zlXeysyuCWVTmhUaJ?=
+ =?us-ascii?Q?dxHoFgXiDFK4E9r/40mSGTvspLK+LeAuTAHFU7L/gMew3T7XTpwEFJWm6Olu?=
+ =?us-ascii?Q?CpRjPzVYyklIju0HUA/DCFipO1K4jp9RNCniGfWo2iZB/jQhFPgSUZTMju6t?=
+ =?us-ascii?Q?tfu0pMDMq+zeHzap12//WJy2856StcnojXH+fs+fxZPhKmu2SHjEz0kUnijo?=
+ =?us-ascii?Q?dvJGkrKhDfJfYvNmCwXUIdiIvreFhiq7xgXGMk/xGBGnjX9Bs/7wTSG0A4Qe?=
+ =?us-ascii?Q?LZISSKH/dwWgB/deOf3xwdeEf00m9N4/izh68mZjVIDt+LVmeDXIaKJHjlY0?=
+ =?us-ascii?Q?G44xhG9t/OtLjTm/4hdk0onkY4UykJ1dKej0Mk+rBf5vErns+A3YaZ/HKsdf?=
+ =?us-ascii?Q?y2/uX+5xpv+8/cW1ysl6/704u6kVam+ItBjRKL6Dsy26VPUPsFv0EBEocQ1C?=
+ =?us-ascii?Q?NuZzsa6CgABalQern9ojR9rSxXJxkvu4x/9LGLtHuOHexWZBYClvMs0fq38V?=
+ =?us-ascii?Q?k6M7UeMsHTFUSI0XvjQEscFAsKL8kKhtLZYPIoDnKBLw9pWmCyLWmpqjTEBs?=
+ =?us-ascii?Q?qYlgAzQlzdA67n46/a6t3tyGopcl0nYGcOmbu1LbUbADQkt9K3Ti6DPfKait?=
+ =?us-ascii?Q?IiGIVAhbKVTgAep63H6R6y8ZvDVTFPSkyfvKYZGnyx1D3yqmjgNnJlByAkl3?=
+ =?us-ascii?Q?N6gwG6+mUr9CfAAYqCFtOHNz1OxhEI4rr4yOCl3SIY4ogix1ODCEaYVfAn/c?=
+ =?us-ascii?Q?lB2IA1snmPAerjcJ4g7w1Lnlxz/UcicnwrF4vZXBxDlp+dwn0MyzkOdspZA8?=
+ =?us-ascii?Q?UlYaR/dwDumBRnuSJbuD3KHUJDuikZwXHL2TISnLt6yF1OoRGdGJE5hmR/Ol?=
+ =?us-ascii?Q?trHFhKcAm9nvVopu9lpvvhUDb9pWom3M59OX+xEEUd3PzVrRNVwALJbY/Kkd?=
+ =?us-ascii?Q?aw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e78213a1-492b-4d88-d5d3-08dd72f2b3f3
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2025 21:01:28.5229
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Qq7o97kvbyQaG6dkFMYtYVNQ3jMFiTtmDiz6EDv/Ro46Ba26wRMQQ4ZunEytg8SrXrX/Q+7o4cDzu2G+WDhJhKULuXratGsY+ccXRLsOZE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4601
+X-OriginatorOrg: intel.com
 
-Hi,
+[add loongarch folks, cc linux-cxl ]
 
-kernel test robot noticed the following build warnings:
+kernel test robot wrote:
+> Hi Yuquan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on akpm-mm/mm-everything]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yuquan-Wang/mm-numa_memblks-introduce-numa_add_reserved_memblk/20250328-172428
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20250328092132.2695299-1-wangyuquan1236%40phytium.com.cn
+> patch subject: [PATCH v2] mm: numa_memblks: introduce numa_add_reserved_memblk
+> config: loongarch-randconfig-002-20250328 (https://download.01.org/0day-ci/archive/20250328/202503282026.QNaOAK79-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503282026.QNaOAK79-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503282026.QNaOAK79-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/build_bug.h:5,
+>                     from include/linux/container_of.h:5,
+>                     from include/linux/list.h:5,
+>                     from include/linux/module.h:12,
+>                     from drivers/acpi/numa/srat.c:10:
+>    drivers/acpi/numa/srat.c: In function 'acpi_parse_cfmws':
+> >> drivers/acpi/numa/srat.c:461:13: error: implicit declaration of function 'numa_add_reserved_memblk' [-Wimplicit-function-declaration]
+>      461 |         if (numa_add_reserved_memblk(node, start, end) < 0) {
+>          |             ^~~~~~~~~~~~~~~~~~~~~~~~
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.14 next-20250403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+So it looks like loongarch was left out of the numa_memblks conversion:
+87482708210f ("mm: introduce numa_memblks")
 
-url:    https://github.com/intel-lab-lkp/linux/commits/shao-mingyin-zte-com-cn/PCI-al-Use-devm_platform_ioremap_resource_byname/20250403-155111
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250403154833001aNpIIRBQWEw67Oo8nChch%40zte.com.cn
-patch subject: [PATCH] PCI: al: Use devm_platform_ioremap_resource_byname
-config: s390-randconfig-002-20250404 (https://download.01.org/0day-ci/archive/20250404/202504040353.k5kLpniy-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504040353.k5kLpniy-lkp@intel.com/reproduce)
+I think the update needed is something like this (untested):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504040353.k5kLpniy-lkp@intel.com/
+diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+index 2b8bd27a852f..cac16c827159 100644
+--- a/arch/loongarch/Kconfig
++++ b/arch/loongarch/Kconfig
+@@ -183,6 +183,7 @@ config LOONGARCH
+ 	select MODULES_USE_ELF_RELA if MODULES
+ 	select NEED_PER_CPU_EMBED_FIRST_CHUNK
+ 	select NEED_PER_CPU_PAGE_FIRST_CHUNK
++	select NUMA_MEMBLKS
+ 	select OF
+ 	select OF_EARLY_FLATTREE
+ 	select PCI
+diff --git a/arch/loongarch/include/asm/numa.h b/arch/loongarch/include/asm/numa.h
+index b5f9de9f102e..bbf9f70bd25f 100644
+--- a/arch/loongarch/include/asm/numa.h
++++ b/arch/loongarch/include/asm/numa.h
+@@ -22,20 +22,6 @@ extern int numa_off;
+ extern s16 __cpuid_to_node[CONFIG_NR_CPUS];
+ extern nodemask_t numa_nodes_parsed __initdata;
+ 
+-struct numa_memblk {
+-	u64			start;
+-	u64			end;
+-	int			nid;
+-};
+-
+-#define NR_NODE_MEMBLKS		(MAX_NUMNODES*2)
+-struct numa_meminfo {
+-	int			nr_blks;
+-	struct numa_memblk	blk[NR_NODE_MEMBLKS];
+-};
+-
+-extern int __init numa_add_memblk(int nodeid, u64 start, u64 end);
+-
+ extern void __init early_numa_add_cpu(int cpuid, s16 node);
+ extern void numa_add_cpu(unsigned int cpu);
+ extern void numa_remove_cpu(unsigned int cpu);
+diff --git a/arch/loongarch/kernel/numa.c b/arch/loongarch/kernel/numa.c
+index 84fe7f854820..57b21082e893 100644
+--- a/arch/loongarch/kernel/numa.c
++++ b/arch/loongarch/kernel/numa.c
+@@ -18,6 +18,7 @@
+ #include <linux/efi.h>
+ #include <linux/irq.h>
+ #include <linux/pci.h>
++#include <linux/numa_memblks.h>
+ #include <asm/bootinfo.h>
+ #include <asm/loongson.h>
+ #include <asm/numa.h>
 
-All warnings (new ones prefixed by >>):
-
->> drivers/pci/controller/dwc/pcie-al.c:359:4: warning: variable 'controller_res' is uninitialized when used here [-Wuninitialized]
-     359 |                         controller_res);
-         |                         ^~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-al.c:330:33: note: initialize the variable 'controller_res' to silence this warning
-     330 |         struct resource *controller_res;
-         |                                        ^
-         |                                         = NULL
-   1 warning generated.
-
-
-vim +/controller_res +359 drivers/pci/controller/dwc/pcie-al.c
-
-a8daea94754989 Jonathan Chocron 2019-09-12  326  
-a8daea94754989 Jonathan Chocron 2019-09-12  327  static int al_pcie_probe(struct platform_device *pdev)
-a8daea94754989 Jonathan Chocron 2019-09-12  328  {
-a8daea94754989 Jonathan Chocron 2019-09-12  329  	struct device *dev = &pdev->dev;
-a8daea94754989 Jonathan Chocron 2019-09-12  330  	struct resource *controller_res;
-a8daea94754989 Jonathan Chocron 2019-09-12  331  	struct resource *ecam_res;
-a8daea94754989 Jonathan Chocron 2019-09-12  332  	struct al_pcie *al_pcie;
-a8daea94754989 Jonathan Chocron 2019-09-12  333  	struct dw_pcie *pci;
-a8daea94754989 Jonathan Chocron 2019-09-12  334  
-a8daea94754989 Jonathan Chocron 2019-09-12  335  	al_pcie = devm_kzalloc(dev, sizeof(*al_pcie), GFP_KERNEL);
-a8daea94754989 Jonathan Chocron 2019-09-12  336  	if (!al_pcie)
-a8daea94754989 Jonathan Chocron 2019-09-12  337  		return -ENOMEM;
-a8daea94754989 Jonathan Chocron 2019-09-12  338  
-a8daea94754989 Jonathan Chocron 2019-09-12  339  	pci = devm_kzalloc(dev, sizeof(*pci), GFP_KERNEL);
-a8daea94754989 Jonathan Chocron 2019-09-12  340  	if (!pci)
-a8daea94754989 Jonathan Chocron 2019-09-12  341  		return -ENOMEM;
-a8daea94754989 Jonathan Chocron 2019-09-12  342  
-a8daea94754989 Jonathan Chocron 2019-09-12  343  	pci->dev = dev;
-60f5b73fa0f298 Rob Herring      2020-11-05  344  	pci->pp.ops = &al_pcie_host_ops;
-a8daea94754989 Jonathan Chocron 2019-09-12  345  
-a8daea94754989 Jonathan Chocron 2019-09-12  346  	al_pcie->pci = pci;
-a8daea94754989 Jonathan Chocron 2019-09-12  347  	al_pcie->dev = dev;
-a8daea94754989 Jonathan Chocron 2019-09-12  348  
-a8daea94754989 Jonathan Chocron 2019-09-12  349  	ecam_res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "config");
-a8daea94754989 Jonathan Chocron 2019-09-12  350  	if (!ecam_res) {
-a8daea94754989 Jonathan Chocron 2019-09-12  351  		dev_err(dev, "couldn't find 'config' reg in DT\n");
-a8daea94754989 Jonathan Chocron 2019-09-12  352  		return -ENOENT;
-a8daea94754989 Jonathan Chocron 2019-09-12  353  	}
-a8daea94754989 Jonathan Chocron 2019-09-12  354  	al_pcie->ecam_size = resource_size(ecam_res);
-a8daea94754989 Jonathan Chocron 2019-09-12  355  
-99f4e0afd9fbe4 Xie Ludan        2025-04-03  356  	al_pcie->controller_base = devm_platform_ioremap_resource_byname(pdev, "controller");
-a8daea94754989 Jonathan Chocron 2019-09-12  357  	if (IS_ERR(al_pcie->controller_base)) {
-a8daea94754989 Jonathan Chocron 2019-09-12  358  		dev_err(dev, "couldn't remap controller base %pR\n",
-a8daea94754989 Jonathan Chocron 2019-09-12 @359  			controller_res);
-a8daea94754989 Jonathan Chocron 2019-09-12  360  		return PTR_ERR(al_pcie->controller_base);
-a8daea94754989 Jonathan Chocron 2019-09-12  361  	}
-a8daea94754989 Jonathan Chocron 2019-09-12  362  
-a0fd361db8e508 Rob Herring      2020-11-05  363  	dev_dbg(dev, "From DT: controller_base: %pR\n", controller_res);
-a8daea94754989 Jonathan Chocron 2019-09-12  364  
-a8daea94754989 Jonathan Chocron 2019-09-12  365  	platform_set_drvdata(pdev, al_pcie);
-a8daea94754989 Jonathan Chocron 2019-09-12  366  
-60f5b73fa0f298 Rob Herring      2020-11-05  367  	return dw_pcie_host_init(&pci->pp);
-a8daea94754989 Jonathan Chocron 2019-09-12  368  }
-a8daea94754989 Jonathan Chocron 2019-09-12  369  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Could someone from the loongarch side propose the fixups needed here so
+Yuquan can land this patch?
