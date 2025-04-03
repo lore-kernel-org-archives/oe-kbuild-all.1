@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CACE610B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Apr 2025 00:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398259461;
+	Thu,  3 Apr 2025 00:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743639188; cv=none; b=H7XdRGICIoZVkyUvsDulAdu/L63z7s+bj8+MZy+YCSyTkbUbU1BmLnWwGxDEtjHUMwvOeDnscuEADUOoxBp20adK3yJS3JSOU6DBYaIJ1xTo63NALkG5cmZ0Aoy4HrSqYYJ9JNFLdfxEsXUOPTyQj27rawBTTct9pUuv3oZjKP8=
+	t=1743639189; cv=none; b=IqIJuqtOzvNUbO4abCGG7wMgxTDtICf3b1a81r3ogJ/7YlAzoYqYMUfb9j2yoxZJGkyO+pwx9GjLt+UU0JcQ2lKQwkNswxa9KqRQFw9qCbhnHFrOFiQWDopFchxnB8IOibPHK7E4AGzGWNsiElxqjPyNYUeMriUBtXqtbRAuqeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743639188; c=relaxed/simple;
-	bh=vGpWq7EjgfAHpuJsZtQ5vfD4ZxQJBCO93sSz4EMQUZ0=;
+	s=arc-20240116; t=1743639189; c=relaxed/simple;
+	bh=W7+SBiatRAtjmUljTkkT7alatlE4Y4bCiwLl8PaOB8Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SCzHPfz6oSUySkby09vXDNU0/ZQA08PMYS4AUbyHjoa3rHRFjP9r0GJaVmu7wU4QA+foLgc9eUjpjWTfPmmhU5PnZf494mLwGMxShvI2U0qcWU11ipLzZKe0k9OX3inINUGLoOTGfQwOJrzl8wdU2K4rDbB298Bj4zT28URybe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R4OIssu6; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=UpWASEP1Ziw0P955ED9MNgHi0Yu1KHSkI2iQvGTvZYtVBY04QvI/3ZxxrWcUbt00M3D8B6zvi9mNV9uWEP0FKtoOyyCDzWD+59ijfT/ZYMERqXcvsaH25EVxRUSvrga1SWfDMV64b/NXxN/wr5Bcyp5qn78VO4uAeiTgWmwT9nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1REhMol; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R4OIssu6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1REhMol"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743639183; x=1775175183;
+  t=1743639187; x=1775175187;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vGpWq7EjgfAHpuJsZtQ5vfD4ZxQJBCO93sSz4EMQUZ0=;
-  b=R4OIssu6U0gVeCCH1oACcWA6wkcpWmuk7sDeq1b+3WNVKDU2yXeKHqJq
-   IhcFxOrAkEeASq/+XZbHLTSllH/MF3BLzXB2Kvs3klVf4GvqNdh6F9iak
-   QlaMyw+gyG7D/t53/go5TDaWfxDC7eKXyX5Waq/pHM1UU5zQzuAPxysWM
-   FQbrh2YNPBuDjLprhr9XCkM6QUY7G4V48OPlhDq9x0ghI3RJLZ6VtQiBS
-   NO0r/ObYuf6HIcnD+vLfGyLApVij/ZjcxJerc83IA+195Uz3XdmtDSSn3
-   wJfJatDAkEajUydTlt/4hKQTCkg1DwcJEzT0+FpjJa+tZ3POJ/oBMg5hV
-   Q==;
-X-CSE-ConnectionGUID: mGFyIPyERcieO+VsSjvf8w==
-X-CSE-MsgGUID: 6NrmjljITPuYEItSvUWWIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="56394354"
+  bh=W7+SBiatRAtjmUljTkkT7alatlE4Y4bCiwLl8PaOB8Q=;
+  b=a1REhMolJT/wWvzAwBvKmg2IKMOjq7ttJz5TAKkJxR5+kokB/BDtcxys
+   l6YbguxFRt1pe2EzruS8YGi7W3nO+GedjHv8eU3PoCG/RdYs3mgLEXPUV
+   kOTbgA2pTK3By4sWYJ6dSI+jVvEC+rZH3u/ZD/wmvhxZAPKnU4gXfT7Lm
+   NAGypbXQg1WguD7l+WLDgDH9nE3mUsY18a5j72JNK8Oty7To+otu05QRC
+   WBq7wVY77WrKdGVs6OEBAa2uQxHvh8BxmrNtVJbl4j8X8SwSZ5L2AzLMx
+   N9fgk9nOimkUVNXVxLGxggEkTwdTW5u8dxsNWOv6PUHV/saMK6yYaYvoQ
+   A==;
+X-CSE-ConnectionGUID: pLM6oZG2RSuQRZrWc72riw==
+X-CSE-MsgGUID: H+WDDBTOR8COOBUfhu0t7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="44176737"
 X-IronPort-AV: E=Sophos;i="6.15,183,1739865600"; 
-   d="scan'208";a="56394354"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 17:13:03 -0700
-X-CSE-ConnectionGUID: hPWT7FdnTZyQSaRJ+f5izw==
-X-CSE-MsgGUID: lsSqM0G6TGq/t0bvj5gHEw==
+   d="scan'208";a="44176737"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 17:13:07 -0700
+X-CSE-ConnectionGUID: 8ATRVow4Rh6e1ji4eQ9lUw==
+X-CSE-MsgGUID: L6mdSNooTjqmFoBgGl/IhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,183,1739865600"; 
-   d="scan'208";a="126613706"
+   d="scan'208";a="126749326"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 02 Apr 2025 17:13:01 -0700
+  by orviesa010.jf.intel.com with ESMTP; 02 Apr 2025 17:13:05 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u08CU-000B7C-1Z;
-	Thu, 03 Apr 2025 00:12:55 +0000
-Date: Thu, 3 Apr 2025 08:12:31 +0800
+	id 1u08CY-000B7E-1v;
+	Thu, 03 Apr 2025 00:12:59 +0000
+Date: Thu, 3 Apr 2025 08:12:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:main-16k-gs-shusky-5.15 17/17]
- drivers/cma_test/cma_alloc_test_drv.c:93:24: error: no member named
- 'cma_area' in 'struct device'
-Message-ID: <202504030806.vva3HEtW-lkp@intel.com>
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: [tip:x86/mm 7/9] arch/x86/include/asm/mwait.h:30:15: error: invalid
+ operand for instruction
+Message-ID: <202504030802.2lEVBSpN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,124 +64,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
-head:   f344ab3d86fe50dc56c87b7a96c07b8210635ec5
-commit: f13d84382b42c33d4a27e09136721a997da6b225 [17/17] ANDROID: cma: Init the CMA reserved memory during probing
-config: arm-randconfig-003-20250403 (https://download.01.org/0day-ci/archive/20250403/202504030806.vva3HEtW-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504030806.vva3HEtW-lkp@intel.com/reproduce)
+Hi Uros,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/mm
+head:   6c921984e75c78e1c509d99b8cde04f1eadd46fb
+commit: cd3b85b27542968198e3d588a2bc0591930ee2ee [7/9] x86/idle: Use MONITOR and MWAIT mnemonics in <asm/mwait.h>
+config: x86_64-buildonly-randconfig-003-20250403 (https://download.01.org/0day-ci/archive/20250403/202504030802.2lEVBSpN-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504030802.2lEVBSpN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504030806.vva3HEtW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504030802.2lEVBSpN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/cma_test/cma_alloc_test_drv.c:93:24: error: no member named 'cma_area' in 'struct device'
-      93 |         if (ret || !pdev->dev.cma_area) {
-         |                     ~~~~~~~~~ ^
-   drivers/cma_test/cma_alloc_test_drv.c:140:12: error: incompatible function pointer types initializing 'int (*)(struct platform_device *)' with an expression of type 'void (struct platform_device *)' [-Wincompatible-function-pointer-types]
-     140 |         .remove = cma_test_remove,
-         |                   ^~~~~~~~~~~~~~~
+   In file included from arch/x86/kernel/process.c:36:
+>> arch/x86/include/asm/mwait.h:30:15: error: invalid operand for instruction
+      30 |         asm volatile("monitor %0, %1, %2" :: "a" (eax), "c" (ecx), "d" (edx));
+         |                      ^
+   <inline asm>:1:16: note: instantiated into assembly here
+       1 |         monitor %rax, %ecx, %edx
+         |                       ^~~~~
+   In file included from arch/x86/kernel/process.c:36:
+>> arch/x86/include/asm/mwait.h:95:15: error: instruction requires: Not 64-bit mode
+      95 |         asm volatile("sti; mwait %0, %1" :: "a" (eax), "c" (ecx));
+         |                      ^
+   <inline asm>:1:7: note: instantiated into assembly here
+       1 |         sti; mwait %eax, %ecx
+         |              ^
    2 errors generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_TTM
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
 
+vim +30 arch/x86/include/asm/mwait.h
 
-vim +93 drivers/cma_test/cma_alloc_test_drv.c
-
-    78	
-    79	static int cma_test_probe(struct platform_device *pdev)
-    80	{
-    81		int ret;
-    82		const struct of_device_id *of_id;
-    83	
-    84		pr_info("Probing device");
-    85	
-    86		of_id = of_match_device(cma_test_dt_ids, &pdev->dev);
-    87		if (!of_id) {
-    88			pr_info("The node was not found in DTB");
-    89			return -ENODEV;
-    90		}
-    91	
-    92		ret = of_reserved_mem_device_init(&pdev->dev);
-  > 93		if (ret || !pdev->dev.cma_area) {
-    94			dev_err(&pdev->dev,
-    95				"The CMA reserved area is not assigned (ret %d)\n",
-    96				ret);
-    97			return -EINVAL;
-    98		}
-    99	
-   100		ret = devm_add_action(&pdev->dev, rmem_remove_callback, &pdev->dev);
-   101		if (ret) {
-   102			of_reserved_mem_device_release(&pdev->dev);
-   103			return ret;
-   104		}
-   105	
-   106		return 0;
-   107	}
-   108	
+    27	
+    28	static __always_inline void __monitor(const void *eax, u32 ecx, u32 edx)
+    29	{
+  > 30		asm volatile("monitor %0, %1, %2" :: "a" (eax), "c" (ecx), "d" (edx));
+    31	}
+    32	
+    33	static __always_inline void __monitorx(const void *eax, u32 ecx, u32 edx)
+    34	{
+    35		/* "monitorx %eax, %ecx, %edx;" */
+    36		asm volatile(".byte 0x0f, 0x01, 0xfa;"
+    37			     :: "a" (eax), "c" (ecx), "d"(edx));
+    38	}
+    39	
+    40	static __always_inline void __mwait(u32 eax, u32 ecx)
+    41	{
+    42		mds_idle_clear_cpu_buffers();
+    43	
+    44		asm volatile("mwait %0, %1" :: "a" (eax), "c" (ecx));
+    45	}
+    46	
+    47	/*
+    48	 * MWAITX allows for a timer expiration to get the core out a wait state in
+    49	 * addition to the default MWAIT exit condition of a store appearing at a
+    50	 * monitored virtual address.
+    51	 *
+    52	 * Registers:
+    53	 *
+    54	 * MWAITX ECX[1]: enable timer if set
+    55	 * MWAITX EBX[31:0]: max wait time expressed in SW P0 clocks. The software P0
+    56	 * frequency is the same as the TSC frequency.
+    57	 *
+    58	 * Below is a comparison between MWAIT and MWAITX on AMD processors:
+    59	 *
+    60	 *                 MWAIT                           MWAITX
+    61	 * opcode          0f 01 c9           |            0f 01 fb
+    62	 * ECX[0]                  value of RFLAGS.IF seen by instruction
+    63	 * ECX[1]          unused/#GP if set  |            enable timer if set
+    64	 * ECX[31:2]                     unused/#GP if set
+    65	 * EAX                           unused (reserve for hint)
+    66	 * EBX[31:0]       unused             |            max wait time (P0 clocks)
+    67	 *
+    68	 *                 MONITOR                         MONITORX
+    69	 * opcode          0f 01 c8           |            0f 01 fa
+    70	 * EAX                     (logical) address to monitor
+    71	 * ECX                     #GP if not zero
+    72	 */
+    73	static __always_inline void __mwaitx(u32 eax, u32 ebx, u32 ecx)
+    74	{
+    75		/* No MDS buffer clear as this is AMD/HYGON only */
+    76	
+    77		/* "mwaitx %eax, %ebx, %ecx;" */
+    78		asm volatile(".byte 0x0f, 0x01, 0xfb;"
+    79			     :: "a" (eax), "b" (ebx), "c" (ecx));
+    80	}
+    81	
+    82	/*
+    83	 * Re-enable interrupts right upon calling mwait in such a way that
+    84	 * no interrupt can fire _before_ the execution of mwait, ie: no
+    85	 * instruction must be placed between "sti" and "mwait".
+    86	 *
+    87	 * This is necessary because if an interrupt queues a timer before
+    88	 * executing mwait, it would otherwise go unnoticed and the next tick
+    89	 * would not be reprogrammed accordingly before mwait ever wakes up.
+    90	 */
+    91	static __always_inline void __sti_mwait(u32 eax, u32 ecx)
+    92	{
+    93		mds_idle_clear_cpu_buffers();
+    94	
+  > 95		asm volatile("sti; mwait %0, %1" :: "a" (eax), "c" (ecx));
+    96	}
+    97	
 
 -- 
 0-DAY CI Kernel Test Service
