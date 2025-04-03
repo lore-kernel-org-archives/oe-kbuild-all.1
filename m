@@ -1,134 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1259635949;
-	Thu,  3 Apr 2025 05:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F37DA24418E;
+	Thu,  3 Apr 2025 09:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743659487; cv=none; b=EVqDkGZnOfxiOfYVsLGt8GSROeV5MpQBSPUrRAAPq+QkDp22yQg2BckDBEssPrIkmFGVjWWhs3nZsh4a+/41/JL+mOPSTmwS8Pm6EdRzPzV8dZNLmOJKWadvW3eiIWYr2xAW4f3B68GgSxY+jjNla1kI6l4PQ18Gw8OVVbONiFA=
+	t=1743672972; cv=none; b=uYNZo15fqmqO0QdqWBDKUE3fakgPnBs5bHU44jo/hYPLy2yx0l6qozDWj2i2elid+h5TrVWw+pSORCvXS7Vguxm+jBr8NgypTzsXGhH5zQCma34zB/yRu8OwfhCjvFzpCpAzYN3pPmxddcC5dcLc3kJ8sb9Q5ntd1LRy5GViRTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743659487; c=relaxed/simple;
-	bh=OW+m2PrBq3ypCeQb74HrdgQXTRSWQklEQYIOYsfAtTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hAcAe+oO971/dWYU7xsv7GKWaLL/1CxjaD1knpKlGHNDqQPbXFLw3EvX6CZSMs/Hb9c5gidIy8v55UgmXcUOmD2hk9YtCrpuRxjNBu9DOxwftMvGac3Mzk8ICfi0Bp6LsBfi41xOp4Mn+8xPWpP9QCARxCp47WyX5s77kSUXzPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBWSzEAh; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBWSzEAh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743659486; x=1775195486;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OW+m2PrBq3ypCeQb74HrdgQXTRSWQklEQYIOYsfAtTA=;
-  b=dBWSzEAhI5AjIOLb4eFnF96naPDm7Uwp06KN3zQfNx6GpRaeIlxMuscB
-   TQGZj1v17627Jr5OFyiwfR0RQ8KqXXVBHO93gwaIHZGMr6bug2buWgn+X
-   kNRyC2yjGzI0iTnJPAUfI5SrjheE77F8cmq3Ljtct4ufktVPxgxe27AUv
-   ljyxm4jQG+MfKGZeOTmcxdUU/D5rOb47hIP7Z70xhhOkaGJ3UrgydaG7D
-   gV81+Q3oF94KDJ6UIT+HVw0oj80E6tRC+CcnN0v4ceUYNPx9sV4+Yd9ER
-   FPkKJHl6+XdeqREOED2WhNzOOoRSk8bZs5A81OaNxQsCzD9kflr0FFM/Y
-   Q==;
-X-CSE-ConnectionGUID: AwMfypO8ThShimpgUmbR9g==
-X-CSE-MsgGUID: bW0LCIsTSGqT1qhNZzFhbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="56424741"
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="56424741"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 22:51:25 -0700
-X-CSE-ConnectionGUID: P1fUhWp4TWyOwv3encuRuA==
-X-CSE-MsgGUID: ozc2xbYWRnafyO7ItTBTtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="131880022"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Apr 2025 22:51:23 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0DU0-00007P-2R;
-	Thu, 03 Apr 2025 05:51:20 +0000
-Date: Thu, 3 Apr 2025 13:50:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:for_each_valid_pfn 2/3] mm/mm_init.c:782:2: error: use of
- undeclared identifier 'max_t'
-Message-ID: <202504031347.jIh7zYLg-lkp@intel.com>
+	s=arc-20240116; t=1743672972; c=relaxed/simple;
+	bh=6tKPEyRrOoKoMd0e8cKWhIb4UdWyLCd4SdxpyxMSD7A=;
+	h=Subject:To:References:Cc:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=Ku544BnA7ZIoBpMY1iOBBPusSsDYGY1ySsS4e/DgHI2X5Vy1GgD1ujECt0I/ZF2OcAKchWlamnKgB3rBavcuQuwlWmbXC245qJckp2HyzLTlM33Vku6FGE5Hgt4X8SVjzKPKseJv6mEorwMLeF0Wwrt8ua3n0v7PzfnQLhb49A8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8CxyuCFVu5nNhewAA--.31660S3;
+	Thu, 03 Apr 2025 17:36:05 +0800 (CST)
+Received: from [10.130.0.149] (unknown [113.200.148.30])
+	by front1 (Coremail) with SMTP id qMiowMAxj8V3Vu5n9YBtAA--.1829S3;
+	Thu, 03 Apr 2025 17:35:52 +0800 (CST)
+Subject: Re: [linux-next:master 12681/13861] drivers/i2c/i2c-core-base.o:
+ warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0
+ reg2[24]=-2-24
+To: Josh Poimboeuf <jpoimboe@kernel.org>, Philip Li <philip.li@intel.com>
+References: <202504011011.jyZ6NtXx-lkp@intel.com> <Z+ttzRArSBMqfABz@rli9-mobl>
+ <xqfrt2rueezh3upug2umvuw2r44luoaxfqycnmvkh5sezaosw6@h77yjfio4ws6>
+Cc: kernel test robot <lkp@intel.com>, Guenter Roeck <linux@roeck-us.net>,
+ oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Alessandro Carminati <acarmina@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <348cdb14-f8cf-1e7b-44b2-79dc4dda4e35@loongson.cn>
+Date: Thu, 3 Apr 2025 17:35:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <xqfrt2rueezh3upug2umvuw2r44luoaxfqycnmvkh5sezaosw6@h77yjfio4ws6>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:qMiowMAxj8V3Vu5n9YBtAA--.1829S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoW7Cr15Zw4fWw1rCrWUKr13ZFc_yoW8uw4xpa
+	y3Aa1vyr48Xry0q39rtas0ga1Dtr4DGw13WFyY9ryUZF42vry3uFyIyFZ8WF9FywnrC340
+	qrWSq3Z3tF4jv3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
+	twAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+	k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l
+	4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxV
+	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+	1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j5o7tUUUUU=
 
-tree:   git://git.infradead.org/users/dwmw2/linux for_each_valid_pfn
-head:   d631358395f81d22f3df81ec055aa651c63b4e62
-commit: 9b52dd6530f19b4948e6a5068c6870807349322d [2/3] mm: Implement for_each_valid_pfn() for CONFIG_FLATMEM
-config: i386-buildonly-randconfig-002-20250403 (https://download.01.org/0day-ci/archive/20250403/202504031347.jIh7zYLg-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504031347.jIh7zYLg-lkp@intel.com/reproduce)
+On 04/02/2025 03:45 AM, Josh Poimboeuf wrote:
+> On Tue, Apr 01, 2025 at 12:38:37PM +0800, Philip Li wrote:
+>> On Tue, Apr 01, 2025 at 10:44:57AM +0800, kernel test robot wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>>> head:   405e2241def89c88f008dcb899eb5b6d4be8b43c
+>>> commit: 9016dad4dca4bbe61c48ffd5a273cad980caa0d1 [12681/13861] loongarch: add support for suppressing warning backtraces
+>>> config: loongarch-randconfig-001-20250401 (https://download.01.org/0day-ci/archive/20250401/202504011011.jyZ6NtXx-lkp@intel.com/config)
+>>> compiler: loongarch64-linux-gcc (GCC) 14.2.0
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250401/202504011011.jyZ6NtXx-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202504011011.jyZ6NtXx-lkp@intel.com/
+>>>
+>>> All warnings (new ones prefixed by >>):
+>>>
+>>>>> drivers/i2c/i2c-core-base.o: warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
+>
+> Tiezhu, this looks like a loongarch GCC bug with asm goto, or am I
+> confused?  See analysis below.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504031347.jIh7zYLg-lkp@intel.com/
+This is related with GCC optimization "-fshrink-wrap" which is default y
+on LoongArch, use "-fno-shrink-wrap" can avoid such issues, like this:
 
-All errors (new ones prefixed by >>):
+---8<---
 
->> mm/mm_init.c:782:2: error: too few arguments provided to function-like macro invocation
-     782 |         for_each_valid_pfn (pfn, PFN_DOWN(start), PFN_UP(end)) {
-         |         ^
-   include/asm-generic/memory_model.h:53:60: note: expanded from macro 'for_each_valid_pfn'
-      53 |         for (pfn = max_t(unsigned long  start_pfn, ARCH_PFN_OFFSET);           \
-         |                                                                   ^
-   include/linux/minmax.h:169:9: note: macro 'max_t' defined here
-     169 | #define max_t(type, x, y) __cmp_once(max, type, x, y)
-         |         ^
->> mm/mm_init.c:782:2: error: use of undeclared identifier 'max_t'
-     782 |         for_each_valid_pfn (pfn, PFN_DOWN(start), PFN_UP(end)) {
-         |         ^
-   include/asm-generic/memory_model.h:53:13: note: expanded from macro 'for_each_valid_pfn'
-      53 |         for (pfn = max_t(unsigned long  start_pfn, ARCH_PFN_OFFSET);           \
-         |                    ^
-   2 errors generated.
+diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
+index 0304eabbe606..2d5529322357 100644
+--- a/arch/loongarch/Makefile
++++ b/arch/loongarch/Makefile
+@@ -106,6 +106,7 @@ KBUILD_CFLAGS                       += 
+-mannotate-tablejump
+  else
+  KBUILD_CFLAGS                  += -fno-jump-tables # keep 
+compatibility with older compilers
+  endif
++KBUILD_CFLAGS                  += -fno-shrink-wrap
+  endif
 
+  KBUILD_RUSTFLAGS               += 
+--target=loongarch64-unknown-none-softfloat -Ccode-model=small
 
-vim +/max_t +782 mm/mm_init.c
+If you are OK with this change, I will send a formal patch after the
+merge window.
 
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  770) 
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  771) /*
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  772)  * Initialised pages do not have PageReserved set. This function is
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  773)  * called for each range allocated by the bootmem allocator and
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  774)  * marks the pages PageReserved. The remaining valid pages are later
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  775)  * sent to the buddy page allocator.
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  776)  */
-61167ad5fecdea Yajun Deng          2023-06-19  777  void __meminit reserve_bootmem_region(phys_addr_t start,
-61167ad5fecdea Yajun Deng          2023-06-19  778  				      phys_addr_t end, int nid)
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  779) {
-928aaaa953c4b3 David Woodhouse     2025-04-02  780  	unsigned long pfn;
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  781) 
-928aaaa953c4b3 David Woodhouse     2025-04-02 @782  	for_each_valid_pfn (pfn, PFN_DOWN(start), PFN_UP(end)) {
-928aaaa953c4b3 David Woodhouse     2025-04-02  783  		struct page *page = pfn_to_page(pfn);
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  784) 
-928aaaa953c4b3 David Woodhouse     2025-04-02  785  		init_deferred_page(pfn, nid);
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  786) 
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  787) 		/*
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  788) 		 * no need for atomic set_bit because the struct
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  789) 		 * page is not visible yet so nobody should
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  790) 		 * access it yet.
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  791) 		 */
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  792) 		__SetPageReserved(page);
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  793) 	}
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  794) }
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  795) 
+Thanks,
+Tiezhu
 
-:::::: The code at line 782 was first introduced by commit
-:::::: 928aaaa953c4b3f31da75231989522934a140282 mm: Introduce for_each_valid_pfn() and use it from reserve_bootmem_region()
-
-:::::: TO: David Woodhouse <dwmw@amazon.co.uk>
-:::::: CC: David Woodhouse <dwmw@amazon.co.uk>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
