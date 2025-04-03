@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667EDB672
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Apr 2025 03:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B772E339D;
+	Thu,  3 Apr 2025 03:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743651434; cv=none; b=aIh0PrN4apTrCvE6kCwlJKH9lySFbRHjJHO+i96FzwVKcPChfDtmCZ9EM3aPn5ZiJix50A4yvooopnNDL79YDrDel2+If8vRIIGYgZqgHRRZrSDqoWRv+Vmv/+xZ/h5Rfzmht86TyYTmhpZnttpixyCzzfqt8avr7v2k6J0c7qs=
+	t=1743652035; cv=none; b=L81CQeL/bVRxgOrizaif4i8v9cQC+1x7Zlc9hbynAIrxWQhBdZisH6YOWFIoxWLCkkeQ+Xn6XCN1Wgmst8VqOhozQeYywe9/ROIOnsro8/TmcEgAaOeLoZyrzeaEibXXddoIuJRi+qnxmkLZPJvkXnwicxyXbsMnUGCmaML5k+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743651434; c=relaxed/simple;
-	bh=sXkJM6R83dNz9qTR9VIDmEJyAIXNYtLVRSAlSn7d+pQ=;
+	s=arc-20240116; t=1743652035; c=relaxed/simple;
+	bh=g4ykxFkOxio+rO/eRFM+AuZ1Ex7MTyb84JiaC7xlu9U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NbFUFTSTV8gsCHMnq9pP+GVGFgvENP3LmgzqC9FwA+bPL8Cgk+MPT3JVZC0nMiWEHDl7b1ynanrDv+R5VSE0rOmydFEJRmwAHGwwRE188WK3cRZC5S4l7fdT4z/kHFo7y1dDmm1YIIjf5Rkh1huWW98+k8nDuSOIz6ceU1G3TlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ast2a0m9; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=AoWjhMhhhjGDlqQ9yfoZx3F5kUsiia05Xe7cbFthNYdrFU0Sk5dBrAuunhovTSgNckbHuIr3cIq6a8A0ah/0+9Ss1ZgZhi5f+uRYefPCyJUPKjeVeJus6gHpk5IoVvUscDwVkdH8yO2ZeIcTWSNngtxyQXv+SGQCfVKhrItdEbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/zwhl8h; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ast2a0m9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/zwhl8h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743651432; x=1775187432;
+  t=1743652034; x=1775188034;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sXkJM6R83dNz9qTR9VIDmEJyAIXNYtLVRSAlSn7d+pQ=;
-  b=ast2a0m93tA+7zcHaXyfGc/v9/86MupmK6btRXeIvQV+kYI8WbCR0Qfp
-   OdeFfEXIwetjuUy6zr3HFCz0dHw/YXW87E+BRFx4OdiH7XuSooU1Pw9Gl
-   ucfJX+dn6GiID3lRGXX4DyV19z60Two49dLEvVuhetAmhr0Y7ksu5EU0J
-   VBwfbIJCK2tC/Xc6qdj8wYYsjpWLsxhsAk6pHx6/00e9WpKP4crvxav7q
-   nVndDDbRbfjnooAGepQnh9st5TmJarAXayzLxD/wazwTi9qgrhfjlB8Xz
-   NBjy9AbO7IX+Hi1AyTwFeqTO6UQ+jIijXgrnk9t3y5WxTN1w5vXl5CcXX
-   g==;
-X-CSE-ConnectionGUID: K10cCJm+Sk2+KxGkNL2M6g==
-X-CSE-MsgGUID: litDyOeeQwifN6fLQ+o1xQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="62580515"
+  bh=g4ykxFkOxio+rO/eRFM+AuZ1Ex7MTyb84JiaC7xlu9U=;
+  b=H/zwhl8hWaMQR9Z/gsNPo4MnxLZS7ispPPWMcQVUNElaGaCK11OEQSzX
+   MYp4uauV2oarEg/QTY9aBKtzJWWSW2S35KHLIT6Pf+bgeTvDnLgHkKp+q
+   KQIrrzEDBRcUa2Mnlotr34gVQiXOcrF1AHb/dpQSE6S1l9UyE8xWY+/O+
+   hIY3DFEmWP8nv+tmrZ0veI8DAiYEoUUJqtgXcnMSrc/z89osGRuZdvoeE
+   Ro6yRvpsb6D2rccCGEDyAwbSpFDz4m84/Zwr10He5HrhE2QcpzxOAMMu6
+   hxDungCnyPlFUKDTRmGzRKKsLj7kRejttkAPJ3yRIn8K5RrJkpbL7KJkT
+   A==;
+X-CSE-ConnectionGUID: LJ7Od+JUT3GIc0vFnrNR4Q==
+X-CSE-MsgGUID: QaBzts/cSkGFtKhndZd9WA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="56416717"
 X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="62580515"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 20:37:11 -0700
-X-CSE-ConnectionGUID: qFoHuouCTx6oIbHhmQ1LvQ==
-X-CSE-MsgGUID: sw0BJbDaS5+C3fBVBa/Oiw==
+   d="scan'208";a="56416717"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 20:47:13 -0700
+X-CSE-ConnectionGUID: j4UQ3kn8TwCsGbnoZNmg4A==
+X-CSE-MsgGUID: 1+C12AcdTGKcg+PQyEythQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="131862923"
+   d="scan'208";a="127797216"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Apr 2025 20:37:11 -0700
+  by orviesa008.jf.intel.com with ESMTP; 02 Apr 2025 20:47:11 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0BO8-000035-0l;
-	Thu, 03 Apr 2025 03:37:08 +0000
-Date: Thu, 3 Apr 2025 11:36:29 +0800
+	id 1u0BXp-00003X-1P;
+	Thu, 03 Apr 2025 03:47:09 +0000
+Date: Thu, 3 Apr 2025 11:46:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 7/7]
- drivers/crypto/ccp/sev-dev.c:1744: warning: Function parameter or member
- 'prio' not described in 'vpsp_queue_overcommit_entry_inactive'
-Message-ID: <202504031112.8fQeNT4R-lkp@intel.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [hare-scsi-devel:ns-migration 17/18]
+ drivers/nvme/host/multipath.c:709:11: warning: variable 'old_instance' set
+ but not used
+Message-ID: <202504031140.v7ySR5D9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +63,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   5bcfae793917ca097364501bd3ff69d749df729e
-commit: 1b2ead5b056310461d551d9ef40b061b6d7200be [7/7] anolis: crypto: ccp: Support vpsp ringbuffer overcommit
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250403/202504031112.8fQeNT4R-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504031112.8fQeNT4R-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git ns-migration
+head:   1cd2ac8db713fdf42bc7bb10329d795f7aee4f1f
+commit: c99bbaa789ad558a900b867b376d68801acbbf9a [17/18] nvme: namespace migration
+config: hexagon-randconfig-002-20250403 (https://download.01.org/0day-ci/archive/20250403/202504031140.v7ySR5D9-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504031140.v7ySR5D9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504031112.8fQeNT4R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504031140.v7ySR5D9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/crypto/ccp/sev-dev.c:1744: warning: Function parameter or member 'prio' not described in 'vpsp_queue_overcommit_entry_inactive'
-   drivers/crypto/ccp/sev-dev.c:2036: warning: Function parameter or member 'api_major' not described in 'user_data_status'
-   drivers/crypto/ccp/sev-dev.c:2036: warning: Function parameter or member 'api_minor' not described in 'user_data_status'
-   drivers/crypto/ccp/sev-dev.c:2036: warning: Function parameter or member 'reserved1' not described in 'user_data_status'
+>> drivers/nvme/host/multipath.c:709:11: warning: variable 'old_instance' set but not used [-Wunused-but-set-variable]
+     709 |         int ret, old_instance;
+         |                  ^
+   1 warning generated.
 
 
-vim +1744 drivers/crypto/ccp/sev-dev.c
+vim +/old_instance +709 drivers/nvme/host/multipath.c
 
-  1738	
-  1739	/**
-  1740	 * Ensure that the 'status' field of cmd statval
-  1741	 * in the range from tail to overcommit tail in the queue is 0.
-  1742	 */
-  1743	static void vpsp_queue_overcommit_entry_inactive(int prio)
-> 1744	{
-  1745		int tail = 0, overcommit_tail = 0, i = 0;
-  1746	
-  1747		mutex_lock(&vpsp_rb_mutex);
-  1748	
-  1749		tail = get_queue_tail(prio);
-  1750		overcommit_tail = get_queue_overcommit_tail(prio);
-  1751		for (i = tail; i < overcommit_tail; ++i)
-  1752			vpsp_set_cmd_status(prio, i, 0);
-  1753	
-  1754		mutex_unlock(&vpsp_rb_mutex);
-  1755	}
-  1756	
+   705	
+   706	int nvme_mpath_move_head(struct nvme_ns_head *head, struct nvme_subsystem *subsys)
+   707	{
+   708		struct nvme_subsystem *old_subsys = head->subsys;
+ > 709		int ret, old_instance;
+   710	
+   711		ret = ida_alloc_min(&subsys->ns_ida, 1, GFP_KERNEL);
+   712		if (ret < 0)
+   713			return ret;
+   714	
+   715		mutex_lock(&old_subsys->lock);
+   716		list_del_init(&head->entry);
+   717		mutex_unlock(&old_subsys->lock);
+   718		list_add_tail(&head->entry, &subsys->nsheads);
+   719		head->subsys = subsys;
+   720		old_instance = head->instance;
+   721		head->instance = ret;
+   722		ret = device_move(disk_to_dev(head->disk), &subsys->dev,
+   723			    DPM_ORDER_DEV_AFTER_PARENT);
+   724		if (ret) {
+   725			mutex_lock(&old_subsys->lock);
+   726			list_del_init(&head->entry);
+   727			list_add_tail(&head->entry, &old_subsys->nsheads);
+   728			head->subsys = old_subsys;
+   729			mutex_unlock(&old_subsys->lock);
+   730		} else {
+   731			ida_free(&old_subsys->ns_ida, head->instance);
+   732		}
+   733		return ret;
+   734	}
+   735	
 
 -- 
 0-DAY CI Kernel Test Service
