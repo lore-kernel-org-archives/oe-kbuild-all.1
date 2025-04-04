@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF76219306
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 17:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72392195B1A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 18:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743789417; cv=none; b=UBKDdjDUTw2MgxVNk0TsXdi16rEQ3rTKtrZ6j8qvBCwfkiyZtDkp/VGb9m1N9b5UxzRf+hMt6x+D9cx/x2FRzlLLkIFf/3PyeIYaSuPd+9NJZQZPATZ4PwsWA3iopSJ1qMVSKH7yXo1nhVWaTeojhPjwTf7IcvqXCwHZhCCyhyE=
+	t=1743793141; cv=none; b=r7mikwxnuN6pLlcYEBfy4Zss/Q+VhVyUXRQ0F6IC4WBeaKM+WOJL9Tmyh+Nd65+6lYaG6PawJNGSDKGG6An5Erg6UIlirruP/KpzqSCibUdc3IWPwXTGJg3E7QVlzy3gtr8xMZ179Lq3NSlTOjCenFBiwFjiFIne6C8NXZPfUtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743789417; c=relaxed/simple;
-	bh=Dg2hW/aBpaDRA1oxjhtV/3dt/FgK15LMLusch/AwBEA=;
+	s=arc-20240116; t=1743793141; c=relaxed/simple;
+	bh=AWwijYRw7YUcMRIIsF8D4h/R9ylAWro6iDUPnZ9Rl0Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qTQDNc8CSgYD9OOBGSRRN4FNK5ZIKP/nZf6P1ggqfqoPAdChNgMOHvc1xA0/KhfG8WgQ7li0yL1yGHQ8qNWKhyMaJg1rECSh2HmlUGzZAWFscUjCYV0lv/m84r4R66gK/PolCAijvJhN6IAuw1DbOv0S89VhjomwLZxKm6Ltrq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iTuWCNW0; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=bSvRyLq3R2Ypf0hUe2AuHUw0c2JFjT9jN56EKXbfeG14k//pf/ioz4siVkL4W5OTn4RGtQln8D/pdl2Sa02HjJ5KwSf/p9RamgI8FgEb2marR3fC5PXpQHKEXhOxYkJdBKd/VlpulTH+VOAUec16LfNuVwrRepitGE5COci9FiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BbP6iZKW; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iTuWCNW0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BbP6iZKW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743789415; x=1775325415;
+  t=1743793136; x=1775329136;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Dg2hW/aBpaDRA1oxjhtV/3dt/FgK15LMLusch/AwBEA=;
-  b=iTuWCNW0XB4cnMIh43BCTBNFGDjGZx7HUbk3B6l6bUKq+LxaRmre0tY5
-   uzigfxqKRGrllo2HZNjttlaBflcIC3rBRE/NRMLBJdOsWZ4/FIEuJ2uP1
-   bCyTQJVnNAgZICMVFNBderxYU3BLaV+F7bKJkNhPhj5ZyhugttCyje2fG
-   azAg8/n4hSS13SLfnbZqD37/mAkP3XzH0lnVZ9bHncli1LIduieX7bzz+
-   eSfTu6xCQegNsaYs1GxY/NbTUXwMZkJ3DKESI6tTUAnz1gbnJE9kT1Ba5
-   wwIFs64QqJ4R4lq3FmmH/I1/+HO476BeU6aC0NhnnV4j4jPj+sxjU4GOn
-   w==;
-X-CSE-ConnectionGUID: uJzgIqHlQDmE9BjKyReGEg==
-X-CSE-MsgGUID: sTqatPtXSFylvYGFaDinQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="45142913"
+  bh=AWwijYRw7YUcMRIIsF8D4h/R9ylAWro6iDUPnZ9Rl0Q=;
+  b=BbP6iZKW1JNXlSpXeexcs3PNPUezPFbXQXJe3HVCx5JsnWCIoTla300y
+   ILXg0KZoYnc0TR6BQg0WhhA4PtAhAxWM71GiX+CRsdStGy9mNE62dlRvT
+   ZFiUeGOUfi49tVtd71udTSUWy/bvkhcC0T45tlvkz7keKabCF9bYb6jsb
+   0GAWI7mBcQkCeB+YrK33uoW8Dh6FXbmkDMwQAV8WKzuCm4p3UKeeNJH0F
+   7uEemGiu7jAAtRBzKj02IE2KyIZHq6mwgoKbxuxcRkQ/NXW8HfjqI3DRk
+   pQ2DFpP4P3Fle7/KL6GeE2qdA/TY+p7uKvqPs1sX+f21TBZfHWHhuoeF3
+   A==;
+X-CSE-ConnectionGUID: HPuBFl8VRUC8A4Tr9BqLMQ==
+X-CSE-MsgGUID: Q/fQwmRoSSuOyaws1HoGOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="62643093"
 X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
-   d="scan'208";a="45142913"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:56:51 -0700
-X-CSE-ConnectionGUID: /2xYXwjTR9aZPEhmvjgUsQ==
-X-CSE-MsgGUID: GkWhimOFQKm1WCN8kzfHgw==
+   d="scan'208";a="62643093"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 11:58:55 -0700
+X-CSE-ConnectionGUID: Rwwtf8PoRr6sWzn9mNse1w==
+X-CSE-MsgGUID: OIRq1tC0SdinwHg2zpCu/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
-   d="scan'208";a="127261980"
+   d="scan'208";a="150602652"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 04 Apr 2025 10:56:48 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Apr 2025 11:58:53 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0lHZ-0001RH-2B;
-	Fri, 04 Apr 2025 17:56:45 +0000
-Date: Sat, 5 Apr 2025 01:56:23 +0800
+	id 1u0mFf-0001TD-1U;
+	Fri, 04 Apr 2025 18:58:51 +0000
+Date: Sat, 5 Apr 2025 02:58:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: "bo.kong" <bo.kong@mediatek.com>, Rob Herring <robh@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	zhaoyuan.chen@mediatek.com, Teddy.Chen@mediatek.com,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v5 4/4] media: mediatek: add MT8188 AIE driver
-Message-ID: <202504050137.vMfW5SAb-lkp@intel.com>
-References: <20250403074005.21472-5-bo.kong@mediatek.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Subject: Re: [PATCH v1 1/1] leds: pca955x: Avoid potential overflow when
+ filling default_label
+Message-ID: <202504050256.SYq06TxB-lkp@intel.com>
+References: <20250404162849.3650361-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,299 +65,200 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250403074005.21472-5-bo.kong@mediatek.com>
+In-Reply-To: <20250404162849.3650361-1-andriy.shevchenko@linux.intel.com>
 
-Hi bo.kong,
+Hi Andy,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.14 next-20250404]
+[auto build test WARNING on v6.14]
+[cannot apply to lee-leds/for-leds-next linus/master next-20250404]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/bo-kong/media-dt-bindings-add-MT8188-AIE/20250403-154205
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250403074005.21472-5-bo.kong%40mediatek.com
-patch subject: [PATCH v5 4/4] media: mediatek: add MT8188 AIE driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250405/202504050137.vMfW5SAb-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050137.vMfW5SAb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-pca955x-Avoid-potential-overflow-when-filling-default_label/20250405-003054
+base:   v6.14
+patch link:    https://lore.kernel.org/r/20250404162849.3650361-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] leds: pca955x: Avoid potential overflow when filling default_label
+config: powerpc-randconfig-003-20250405 (https://download.01.org/0day-ci/archive/20250405/202504050256.SYq06TxB-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050256.SYq06TxB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504050137.vMfW5SAb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504050256.SYq06TxB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/mediatek/aie/mtk_aie_v4l2.c:14:
->> drivers/media/platform/mediatek/aie/mtk_aie.h:569:27: warning: 'fld_face_info_0' defined but not used [-Wunused-const-variable=]
-     569 | static const unsigned int fld_face_info_0[FLD_MAX_FRAME] = {
-         |                           ^~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:540:27: warning: 'attr_wdma_size' defined but not used [-Wunused-const-variable=]
-     540 | static const unsigned int attr_wdma_size[ATTR_LOOP_NUM][OUTPUT_WDMA_WRA_NUM] = {
-         |                           ^~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:511:25: warning: 'attr_rdma_en' defined but not used [-Wunused-const-variable=]
-     511 | static const signed int attr_rdma_en[ATTR_LOOP_NUM][INPUT_WDMA_WRA_NUM][2] = {
-         |                         ^~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:503:27: warning: 'attr_out_2size' defined but not used [-Wunused-const-variable=]
-     503 | static const unsigned int attr_out_2size[ATTR_LOOP_NUM] = { /* O */
-         |                           ^~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:498:27: warning: 'attr_out_stride2_as_in' defined but not used [-Wunused-const-variable=]
-     498 | static const unsigned int attr_out_stride2_as_in[ATTR_LOOP_NUM] = {
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:488:27: warning: 'attr_ker_rdma_size' defined but not used [-Wunused-const-variable=]
-     488 | static const unsigned int attr_ker_rdma_size[ATTR_LOOP_NUM] = {
-         |                           ^~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:478:27: warning: 'attr_wdma_en' defined but not used [-Wunused-const-variable=]
-     478 | static const unsigned int attr_wdma_en[ATTR_LOOP_NUM][OUTPUT_WDMA_WRA_NUM] = {
-         |                           ^~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:388:25: warning: 'fd_rdma_en' defined but not used [-Wunused-const-variable=]
-     388 | static const signed int fd_rdma_en[FD_LOOP_NUM][INPUT_WDMA_WRA_NUM][2] = {
-         |                         ^~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:380:27: warning: 'out_ch_pack' defined but not used [-Wunused-const-variable=]
-     380 | static const unsigned int out_ch_pack[FD_LOOP_NUM] = {
-         |                           ^~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:373:27: warning: 'outlayer' defined but not used [-Wunused-const-variable=]
-     373 | static const unsigned int outlayer[FD_LOOP_NUM] = {
-         |                           ^~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:365:27: warning: 'in_ch_pack' defined but not used [-Wunused-const-variable=]
-     365 | static const unsigned int in_ch_pack[FD_LOOP_NUM] = {
-         |                           ^~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:358:27: warning: 'out_2size' defined but not used [-Wunused-const-variable=]
-     358 | static const unsigned int out_2size[FD_LOOP_NUM] = {
-         |                           ^~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:354:27: warning: 'fd_maxpool_indices' defined but not used [-Wunused-const-variable=]
-     354 | static const unsigned int fd_maxpool_indices[FD_MAXPOOL_SIZE] = {
-         |                           ^~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:350:27: warning: 'fd_stride_indices' defined but not used [-Wunused-const-variable=]
-     350 | static const unsigned int fd_stride_indices[FD_STRIDE_SIZE] = {
-         |                           ^~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:343:27: warning: 'fd_out_stride2_in' defined but not used [-Wunused-const-variable=]
-     343 | static const unsigned int fd_out_stride2_in[FD_LOOP_NUM] = {
-         |                           ^~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:332:27: warning: 'fd_ker_rdma_size' defined but not used [-Wunused-const-variable=]
-     332 | static const unsigned int fd_ker_rdma_size[RPN_LOOP_NUM] = {
-         |                           ^~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/aie/mtk_aie.h:307:27: warning: 'out_stride_size' defined but not used [-Wunused-const-variable=]
-     307 | static const unsigned int out_stride_size[FD_LOOP_NUM][OUTPUT_WDMA_WRA_NUM] = {
-         |                           ^~~~~~~~~~~~~~~
---
-   drivers/media/platform/mediatek/aie/mtk_aie_drv.c: In function 'aie_arrange_fddma_buf':
->> drivers/media/platform/mediatek/aie/mtk_aie_drv.c:577:20: warning: variable 'current_pa' set but not used [-Wunused-but-set-variable]
-     577 |         dma_addr_t current_pa;
-         |                    ^~~~~~~~~~
---
->> drivers/media/platform/mediatek/aie/mtk_aie_drv.c:872: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * The aie driver just loads the bin file provided by algorithm.
+   drivers/leds/leds-pca955x.c: In function 'pca955x_probe':
+>> drivers/leds/leds-pca955x.c:554:53: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Wformat-truncation=]
+        snprintf(default_label, sizeof(default_label), "%u", i);
+                                                        ^~
+   drivers/leds/leds-pca955x.c:554:52: note: directive argument in the range [0, 4294967294]
+        snprintf(default_label, sizeof(default_label), "%u", i);
+                                                       ^~~~
+   drivers/leds/leds-pca955x.c:554:5: note: 'snprintf' output between 2 and 11 bytes into a destination of size 8
+        snprintf(default_label, sizeof(default_label), "%u", i);
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/fld_face_info_0 +569 drivers/media/platform/mediatek/aie/mtk_aie.h
+vim +554 drivers/leds/leds-pca955x.c
 
-   372	
- > 373	static const unsigned int outlayer[FD_LOOP_NUM] = {
-   374		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
-   375		1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   376		0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   377		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0
-   378	};
-   379	
- > 380	static const unsigned int out_ch_pack[FD_LOOP_NUM] = {
-   381		16, 16, 16, 16, 16, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
-   382		32, 16, 16, 16, 32, 32, 32, 32, 32, 32, 0, 16, 16, 16, 16, 16, 32, 32,
-   383		32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 16, 16, 16, 32, 32, 32,
-   384		32, 32, 32, 0, 16, 16, 16, 16, 16, 32, 32, 32, 32, 32, 32, 32, 32, 32,
-   385		32, 32, 32, 32, 32, 16, 16, 16, 32, 32, 32, 32, 32, 32, 0
-   386	};
-   387	
- > 388	static const signed int fd_rdma_en[FD_LOOP_NUM][INPUT_WDMA_WRA_NUM][2] = {
-   389		{ { 99, 99 }, { 99, 99 }, { 99, 99 }, { -1, -1 } },
-   390		{ { 0, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   391		{ { 1, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   392		{ { 1, 0 }, { 2, 0 }, { -1, -1 }, { -1, -1 } },
-   393		{ { 3, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   394		{ { 1, 2 }, { 2, 2 }, { 4, 2 }, { 4, 3 } },
-   395		{ { 5, 0 }, { 5, 1 }, { -1, -1 }, { -1, -1 } },
-   396		{ { 6, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   397		{ { 5, 0 }, { 5, 1 }, { 7, 0 }, { -1, -1 } },
-   398		{ { 8, 0 }, { 8, 1 }, { -1, -1 }, { -1, -1 } },
-   399		{ { 9, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   400		{ { 5, 2 }, { 5, 3 }, { 7, 2 }, { 10, 2 } },
-   401		{ { 11, 0 }, { 11, 1 }, { -1, -1 }, { -1, -1 } },
-   402		{ { 12, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   403		{ { 13, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   404		{ { 11, 0 }, { 11, 1 }, { 14, 0 }, { -1, -1 } },
-   405		{ { 15, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   406		{ { 16, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   407		{ { 11, 0 }, { 11, 1 }, { 14, 0 }, { 17, 0 } },
-   408		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   409		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   410		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   411		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   412		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   413		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   414		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   415		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   416		{ { 18, 0 }, { 18, 1 }, { -1, -1 }, { -1, -1 } },
-   417		{ { 19, 0 }, { 22, 0 }, { 22, 1 }, { 25, 0 } },
-   418		{ { 99, 99 }, { 99, 99 }, { 99, 99 }, { -1, -1 } },
-   419		{ { 29, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   420		{ { 30, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   421		{ { 30, 0 }, { 31, 0 }, { -1, -1 }, { -1, -1 } },
-   422		{ { 32, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   423		{ { 30, 2 }, { 31, 2 }, { 33, 2 }, { 33, 3 } },
-   424		{ { 34, 0 }, { 34, 1 }, { -1, -1 }, { -1, -1 } },
-   425		{ { 35, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   426		{ { 34, 0 }, { 34, 1 }, { 36, 0 }, { -1, -1 } },
-   427		{ { 37, 0 }, { 37, 1 }, { -1, -1 }, { -1, -1 } },
-   428		{ { 38, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   429		{ { 34, 2 }, { 34, 3 }, { 36, 2 }, { 39, 2 } },
-   430		{ { 40, 0 }, { 40, 1 }, { -1, -1 }, { -1, -1 } },
-   431		{ { 41, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   432		{ { 42, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   433		{ { 40, 0 }, { 40, 1 }, { 43, 0 }, { -1, -1 } },
-   434		{ { 44, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   435		{ { 45, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   436		{ { 40, 0 }, { 40, 1 }, { 43, 0 }, { 46, 0 } },
-   437		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   438		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   439		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   440		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   441		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   442		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   443		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   444		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   445		{ { 47, 0 }, { 47, 1 }, { -1, -1 }, { -1, -1 } },
-   446		{ { 48, 0 }, { 51, 0 }, { 51, 1 }, { 54, 0 } },
-   447		{ { 99, 99 }, { 99, 99 }, { 99, 99 }, { -1, -1 } },
-   448		{ { 58, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   449		{ { 59, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   450		{ { 59, 0 }, { 60, 0 }, { -1, -1 }, { -1, -1 } },
-   451		{ { 61, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   452		{ { 59, 2 }, { 60, 2 }, { 62, 2 }, { 62, 3 } },
-   453		{ { 63, 0 }, { 63, 1 }, { -1, -1 }, { -1, -1 } },
-   454		{ { 64, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   455		{ { 63, 0 }, { 63, 1 }, { 65, 0 }, { -1, -1 } },
-   456		{ { 66, 0 }, { 66, 1 }, { -1, -1 }, { -1, -1 } },
-   457		{ { 67, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   458		{ { 63, 2 }, { 63, 3 }, { 65, 2 }, { 68, 2 } },
-   459		{ { 69, 0 }, { 69, 1 }, { -1, -1 }, { -1, -1 } },
-   460		{ { 70, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   461		{ { 71, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   462		{ { 69, 0 }, { 69, 1 }, { 72, 0 }, { -1, -1 } },
-   463		{ { 73, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   464		{ { 74, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   465		{ { 69, 0 }, { 69, 1 }, { 72, 0 }, { 75, 0 } },
-   466		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   467		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   468		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   469		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   470		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   471		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   472		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   473		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   474		{ { 76, 0 }, { 76, 1 }, { -1, -1 }, { -1, -1 } },
-   475		{ { 77, 0 }, { 80, 0 }, { 80, 1 }, { 83, 0 } }
-   476	};
-   477	
- > 478	static const unsigned int attr_wdma_en[ATTR_LOOP_NUM][OUTPUT_WDMA_WRA_NUM] = {
-   479		{ 1, 0, 1, 0 }, { 1, 0, 1, 0 }, { 1, 0, 0, 0 }, { 1, 1, 1, 1 },
-   480		{ 1, 1, 1, 1 }, { 1, 0, 1, 0 }, { 1, 1, 0, 0 }, { 1, 0, 1, 0 },
-   481		{ 1, 1, 0, 0 }, { 1, 0, 0, 0 }, { 1, 0, 0, 0 }, { 1, 0, 0, 0 },
-   482		{ 1, 0, 0, 0 }, { 1, 0, 0, 0 }, { 1, 0, 0, 0 }, { 1, 1, 0, 0 },
-   483		{ 1, 0, 0, 0 }, { 1, 0, 0, 0 }, { 1, 0, 0, 0 }, { 1, 0, 0, 0 },
-   484		{ 1, 0, 0, 0 }, { 1, 0, 0, 0 }, { 1, 0, 0, 0 }, { 1, 0, 0, 0 },
-   485		{ 1, 0, 0, 0 }, { 1, 0, 0, 0 }
-   486	};
+   449	
+   450	static int pca955x_probe(struct i2c_client *client)
+   451	{
+   452		struct pca955x *pca955x;
+   453		struct pca955x_led *pca955x_led;
+   454		const struct pca955x_chipdef *chip;
+   455		struct led_classdev *led;
+   456		struct led_init_data init_data;
+   457		struct i2c_adapter *adapter;
+   458		struct pca955x_platform_data *pdata;
+   459		bool set_default_label = false;
+   460		bool keep_pwm = false;
+   461		char default_label[8];
+   462		unsigned int i;
+   463		int err;
+   464	
+   465		chip = i2c_get_match_data(client);
+   466		if (!chip)
+   467			return dev_err_probe(&client->dev, -ENODEV, "unknown chip\n");
+   468	
+   469		adapter = client->adapter;
+   470		pdata = dev_get_platdata(&client->dev);
+   471		if (!pdata) {
+   472			pdata =	pca955x_get_pdata(client, chip);
+   473			if (IS_ERR(pdata))
+   474				return PTR_ERR(pdata);
+   475		}
+   476	
+   477		/* Make sure the slave address / chip type combo given is possible */
+   478		if ((client->addr & ~((1 << chip->slv_addr_shift) - 1)) !=
+   479		    chip->slv_addr) {
+   480			dev_err(&client->dev, "invalid slave address %02x\n",
+   481				client->addr);
+   482			return -ENODEV;
+   483		}
+   484	
+   485		dev_info(&client->dev, "Using %s %u-bit LED driver at slave address 0x%02x\n",
+   486			 client->name, chip->bits, client->addr);
    487	
- > 488	static const unsigned int attr_ker_rdma_size[ATTR_LOOP_NUM] = {
-   489		240, 1168, 272, 2320,
-   490		2080, 9232, 3104, 9232,
-   491		4128, 1040, 4624, 4624,
-   492		1552, 4624, 4624, 4128,
-   493		9232, 272, 9232, 2320,
-   494		144, 9232, 272, 9232,
-   495		2320, 144
-   496	};
+   488		if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+   489			return -EIO;
+   490	
+   491		if (pdata->num_leds != chip->bits) {
+   492			dev_err(&client->dev,
+   493				"board info claims %d LEDs on a %u-bit chip\n",
+   494				pdata->num_leds, chip->bits);
+   495			return -ENODEV;
+   496		}
    497	
- > 498	static const unsigned int attr_out_stride2_as_in[ATTR_LOOP_NUM] = {
-   499		0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0,
-   500		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-   501	};
-   502	
- > 503	static const unsigned int attr_out_2size[ATTR_LOOP_NUM] = { /* O */
-   504		1, 1, 0, 1, 1, 1, 0,
-   505		1, 0, 0, 0, 0, 0, 0,
-   506		0, 0, 0, 0, 0, 0, 0,
-   507		0, 0, 0, 0, 0
-   508	};
-   509	
-   510	/* [loop][ch][output_index] */
- > 511	static const signed int attr_rdma_en[ATTR_LOOP_NUM][INPUT_WDMA_WRA_NUM][2] = {
-   512		{ { 99, 99 }, { 99, 99 }, { 99, 99 }, { -1, -1 } },
-   513		{ { 0, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   514		{ { 0, 0 }, { 1, 0 }, { -1, -1 }, { -1, -1 } },
-   515		{ { 2, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   516		{ { 0, 2 }, { 1, 2 }, { 3, 2 }, { 3, 3 } },
-   517		{ { 4, 0 }, { 4, 1 }, { -1, -1 }, { -1, -1 } },
-   518		{ { 4, 0 }, { 4, 1 }, { 5, 0 }, { -1, -1 } },
-   519		{ { 6, 0 }, { 6, 1 }, { -1, -1 }, { -1, -1 } },
-   520		{ { 4, 2 }, { 4, 3 }, { 5, 2 }, { 7, 2 } },
-   521		{ { 8, 0 }, { 8, 1 }, { -1, -1 }, { -1, -1 } },
-   522		{ { 9, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   523		{ { 10, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   524		{ { 8, 0 }, { 8, 1 }, { 11, 0 }, { -1, -1 } },
-   525		{ { 12, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   526		{ { 13, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   527		{ { 8, 0 }, { 8, 1 }, { 11, 0 }, { 14, 0 } },
-   528		{ { 15, 0 }, { 15, 1 }, { -1, -1 }, { -1, -1 } },
-   529		{ { 16, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   530		{ { 15, 0 }, { 15, 1 }, { -1, -1 }, { -1, -1 } },
-   531		{ { 18, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   532		{ { 19, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   533		{ { 15, 0 }, { 15, 1 }, { -1, -1 }, { -1, -1 } },
-   534		{ { 21, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   535		{ { 15, 0 }, { 15, 1 }, { -1, -1 }, { -1, -1 } },
-   536		{ { 23, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } },
-   537		{ { 24, 0 }, { -1, -1 }, { -1, -1 }, { -1, -1 } }
-   538	};
-   539	
- > 540	static const unsigned int attr_wdma_size[ATTR_LOOP_NUM][OUTPUT_WDMA_WRA_NUM] = {
-   541		{ 16384, 0, 4096, 0 },
-   542		{ 16384, 0, 4096, 0 },
-   543		{ 16384, 0, 0, 0 },
-   544		{ 16384, 16384, 4096, 4096 },
-   545		{ 8192, 8192, 2048, 2048 },
-   546		{ 8192, 0, 2048, 0 },
-   547		{ 8192, 8192, 0, 0 },
-   548		{ 8192, 0, 2048, 0 },
-   549		{ 2048, 2048, 0, 0 },
-   550		{ 2048, 0, 0, 0 },
-   551		{ 2048, 0, 0, 0 },
-   552		{ 2048, 0, 0, 0 },
-   553		{ 2048, 0, 0, 0 },
-   554		{ 2048, 0, 0, 0 },
-   555		{ 2048, 0, 0, 0 },
-   556		{ 2048, 2048, 0, 0 },
-   557		{ 2048, 0, 0, 0 },
-   558		{ 0, 0, 0, 0 },
-   559		{ 2048, 0, 0, 0 },
-   560		{ 1024, 0, 0, 0 },
-   561		{ 0, 0, 0, 0 },
-   562		{ 2048, 0, 0, 0 },
-   563		{ 0, 0, 0, 0 },
-   564		{ 2048, 0, 0, 0 },
-   565		{ 1024, 0, 0, 0 },
-   566		{ 0, 0, 0, 0 }
-   567	};
-   568	
- > 569	static const unsigned int fld_face_info_0[FLD_MAX_FRAME] = {
-   570		0x440, 0x44C, 0x458, 0x464, 0x470, 0x47C, 0x488, 0x494, 0x4A4,
-   571		0x4B0, 0x4BC, 0x4C8, 0x4D4, 0x4E0, 0x4EC
-   572	};
-   573	
+   498		pca955x = devm_kzalloc(&client->dev, sizeof(*pca955x), GFP_KERNEL);
+   499		if (!pca955x)
+   500			return -ENOMEM;
+   501	
+   502		pca955x->leds = devm_kcalloc(&client->dev, chip->bits,
+   503					     sizeof(*pca955x_led), GFP_KERNEL);
+   504		if (!pca955x->leds)
+   505			return -ENOMEM;
+   506	
+   507		i2c_set_clientdata(client, pca955x);
+   508	
+   509		mutex_init(&pca955x->lock);
+   510		pca955x->client = client;
+   511		pca955x->chipdef = chip;
+   512	
+   513		init_data.devname_mandatory = false;
+   514		init_data.devicename = "pca955x";
+   515	
+   516		for (i = 0; i < chip->bits; i++) {
+   517			pca955x_led = &pca955x->leds[i];
+   518			pca955x_led->led_num = i;
+   519			pca955x_led->pca955x = pca955x;
+   520			pca955x_led->type = pdata->leds[i].type;
+   521	
+   522			switch (pca955x_led->type) {
+   523			case PCA955X_TYPE_NONE:
+   524			case PCA955X_TYPE_GPIO:
+   525				break;
+   526			case PCA955X_TYPE_LED:
+   527				led = &pca955x_led->led_cdev;
+   528				led->brightness_set_blocking = pca955x_led_set;
+   529				led->brightness_get = pca955x_led_get;
+   530	
+   531				if (pdata->leds[i].default_state == LEDS_DEFSTATE_OFF) {
+   532					err = pca955x_led_set(led, LED_OFF);
+   533					if (err)
+   534						return err;
+   535				} else if (pdata->leds[i].default_state == LEDS_DEFSTATE_ON) {
+   536					err = pca955x_led_set(led, LED_FULL);
+   537					if (err)
+   538						return err;
+   539				}
+   540	
+   541				init_data.fwnode = pdata->leds[i].fwnode;
+   542	
+   543				if (is_of_node(init_data.fwnode)) {
+   544					if (to_of_node(init_data.fwnode)->name[0] ==
+   545					    '\0')
+   546						set_default_label = true;
+   547					else
+   548						set_default_label = false;
+   549				} else {
+   550					set_default_label = true;
+   551				}
+   552	
+   553				if (set_default_label) {
+ > 554					snprintf(default_label, sizeof(default_label), "%u", i);
+   555					init_data.default_label = default_label;
+   556				} else {
+   557					init_data.default_label = NULL;
+   558				}
+   559	
+   560				err = devm_led_classdev_register_ext(&client->dev, led,
+   561								     &init_data);
+   562				if (err)
+   563					return err;
+   564	
+   565				set_bit(i, &pca955x->active_pins);
+   566	
+   567				/*
+   568				 * For default-state == "keep", let the core update the
+   569				 * brightness from the hardware, then check the
+   570				 * brightness to see if it's using PWM1. If so, PWM1
+   571				 * should not be written below.
+   572				 */
+   573				if (pdata->leds[i].default_state == LEDS_DEFSTATE_KEEP) {
+   574					if (led->brightness != LED_FULL &&
+   575					    led->brightness != LED_OFF &&
+   576					    led->brightness != LED_HALF)
+   577						keep_pwm = true;
+   578				}
+   579			}
+   580		}
+   581	
+   582		/* PWM0 is used for half brightness or 50% duty cycle */
+   583		err = pca955x_write_pwm(client, 0, 255 - LED_HALF);
+   584		if (err)
+   585			return err;
+   586	
+   587		if (!keep_pwm) {
+   588			/* PWM1 is used for variable brightness, default to OFF */
+   589			err = pca955x_write_pwm(client, 1, 0);
+   590			if (err)
+   591				return err;
+   592		}
+   593	
+   594		/* Set to fast frequency so we do not see flashing */
+   595		err = pca955x_write_psc(client, 0, 0);
+   596		if (err)
+   597			return err;
+   598		err = pca955x_write_psc(client, 1, 0);
+   599		if (err)
+   600			return err;
+   601	
 
 -- 
 0-DAY CI Kernel Test Service
