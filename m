@@ -1,46 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69962E62B6;
-	Fri,  4 Apr 2025 01:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E944DF5C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 02:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743731479; cv=none; b=k68tLFvkDKY81+xHI06emVNcD0RknQuMvGgpr+2ZdhNdGZn+113/qb/QvVh5aPsC8It/paqHt3ScSWxQNPVaIWVWMm2qOsgmwLr7aKn9yKnzEqF02kWNkRvYIPcHHyhuNkCGmpM04MS/i02dHz7iQKAc62eFzhOG8W8mNr7LKxM=
+	t=1743733592; cv=none; b=aZYmn4PqkRv+S2kD265KuM6ujDyrOZOR83oOLGlU+2NJmlb/4RdGpNJ0nOAmxbAHXqB1E5Hd7CUCN9uQ3H9OxefFahZ3gQiCvJORTzyqdFhVxN3BoIQYTmAUrvuagdmZEQQyAC71DFgRZSK5hQYu9WYG0YAfy+K+K0pr3ZjwMqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743731479; c=relaxed/simple;
-	bh=9BoW4B3ZGSIAPStsSTAkrF11eLh+Pal6bHutBUTfweI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q36WUzs5TmpVK7mSmVOzty125V8Os8eXrB460RUSXj+YBAuNntmDgeE35z610BjAqZJU3tKJC5bqO67UHm6UHpFdR3m6fE+hW3KC9sp+XYc1LCTCyUKmqSJdAxAIX3G7PnZCPIC1xa5FQEYbgLUxbgP3URPnIXEtllCq3izs2zY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mlzPqpQM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743733592; c=relaxed/simple;
+	bh=IZa+Ryfe0cRInrTdslRNVibjEZlrl11gOjTc63NDrCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=i3mS1DSbzAICQh4DlHmE+RO0q0jW1ZNdMRnhkZJBEDBer04RkvPmZKJiydflfXHRCe1zQwWYcMy1UXiUAAm2qAo84mbL0lRf/09a9/xtTaEZw61EbJe0VgXif3PDpfqmAJ1FT/cEppjvEU5oIniInXl2GLPSrtKMjlNeZnWSpoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFJq0DDq; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mlzPqpQM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A0BFC4CEE7;
-	Fri,  4 Apr 2025 01:51:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743731474;
-	bh=9BoW4B3ZGSIAPStsSTAkrF11eLh+Pal6bHutBUTfweI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mlzPqpQMtxka8dg4h0lb/M46ArxUyLQIZqOH1ccPbgdTlOKZZTO6v8jYWON1cHta3
-	 rFA0Cc60/MthP3RsQdcHw6Q0sCFuCWB5PVMy+CYUudkH7XgPxe2/WMkgFT4g78I2VC
-	 kqqT7aPrcDCnf5TIHJ4wjnPuKuB4PZUvBymnlSbyhd607+hD4VWrJbYXWhXE/Na3jB
-	 sy2/FxQSxSShqZXHEMIFOW/gNH91OYCz/BSN2Y+MnWLIlN/hd4+SyptGTFCGLKXUlH
-	 1GfRw7N7xUgqy0w/lsDvK3V3vqT3ExmnaV6xhR/j+RFaL0bUjO92XqlDvcfCvPfUJ4
-	 zSHuzlF+DWDEg==
-Date: Thu, 3 Apr 2025 18:51:12 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Uros Bizjak <ubizjak@gmail.com>
-Cc: linux-crypto@vger.kernel.org, kernel test robot <lkp@intel.com>,
-	x86@kernel.org, linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH 3/3] crypto: x86 - Remove CONFIG_AS_AVX512
-Message-ID: <20250404015112.GA96368@sol.localdomain>
-References: <20250403094527.349526-3-ubizjak@gmail.com>
- <202504040855.mr885Pz1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFJq0DDq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743733590; x=1775269590;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IZa+Ryfe0cRInrTdslRNVibjEZlrl11gOjTc63NDrCs=;
+  b=hFJq0DDqVnwIa9UVH8lG2XjZhcM00YtJi75E9lmEeKYRvACt7VktUs+/
+   Re1n/MtJeXqbHxfTP9VnjiIz+2ReLSfPppKOF7zS9fIWGoSCvtHrp/R/2
+   QSsOhw8PBtC5vRYTxPue2PHHs2sMiBvRbQkNIpEVkB+MizJ4Yid2xpDIM
+   9quETeyFNQ0qp0SpUfOVVVKEjyrMJlGZq3JZTddD0NJ6IisStrh385Tk5
+   P+BjMOss7bwUGwaI2ckB/TCTvFCaxsdZFZyzvfzgZgJeJyMtpFXGBVg3Z
+   dVcXcGJhbBVVPdZuFHy70zbIfJHk0u4GExiNkMz8l9TtomnW0Re7xSlks
+   g==;
+X-CSE-ConnectionGUID: nKJ+kF8ZRpiv6GvQOTRcqw==
+X-CSE-MsgGUID: kF/1vG8YTJuF95Rc0M2oJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45262959"
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
+   d="scan'208";a="45262959"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 19:26:29 -0700
+X-CSE-ConnectionGUID: pK7NvGhuTqGfA+dkFJzkfw==
+X-CSE-MsgGUID: LfqZrTYUT2Wnml6eFHkYvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
+   d="scan'208";a="127713404"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 03 Apr 2025 19:26:27 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u0WlF-0000wV-1P;
+	Fri, 04 Apr 2025 02:26:25 +0000
+Date: Fri, 4 Apr 2025 10:25:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Li Ming <ming.li@zohomail.com>
+Subject: drivers/cxl/core/features.c:441 cxlctl_validate_hw_command() warn:
+ always true condition '(scope >= 0) => (0-u32max >= 0)'
+Message-ID: <202504041033.2HBboAZR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,48 +65,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202504040855.mr885Pz1-lkp@intel.com>
 
-On Fri, Apr 04, 2025 at 09:13:40AM +0800, kernel test robot wrote:
-> Hi Uros,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on herbert-cryptodev-2.6/master]
-> [also build test WARNING on herbert-crypto-2.6/master tip/x86/core linus/master v6.14]
-> [cannot apply to next-20250403]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/crypto-x86-Remove-CONFIG_AS_SHA256_NI/20250403-174814
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-> patch link:    https://lore.kernel.org/r/20250403094527.349526-3-ubizjak%40gmail.com
-> patch subject: [PATCH 3/3] crypto: x86 - Remove CONFIG_AS_AVX512
-> config: i386-buildonly-randconfig-001-20250404 (https://download.01.org/0day-ci/archive/20250404/202504040855.mr885Pz1-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504040855.mr885Pz1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504040855.mr885Pz1-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> lib/raid6/recov_avx512.c:382:2: warning: #warning "your version of binutils lacks AVX512 support" [-Wcpp]
->      382 | #warning "your version of binutils lacks AVX512 support"
->          |  ^~~~~~~
-> 
-> 
-> vim +382 lib/raid6/recov_avx512.c
-> 
-> 13c520b2993c9fa Gayatri Kammela 2016-08-12  380  
-> 13c520b2993c9fa Gayatri Kammela 2016-08-12  381  #else
-> 13c520b2993c9fa Gayatri Kammela 2016-08-12 @382  #warning "your version of binutils lacks AVX512 support"
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   06a22366d6a11ca8ed03c738171822ac9b714cfd
+commit: 4d1c09cef2c244bd19467c016a3e56ba28ecc59d cxl: Add support for fwctl RPC command to enable CXL feature commands
+date:   2 weeks ago
+config: loongarch-randconfig-r071-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041033.2HBboAZR-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
-Yeah, CONFIG_AS_AVX512 needs to be removed from lib/raid6/ too.  It looked like
-that directory was rolling its own CONFIG_AS_AVX512 in lib/raid6/test/Makefile,
-but that's a makefile for a test program and not the actual kernel makefile.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504041033.2HBboAZR-lkp@intel.com/
 
-- Eric
+smatch warnings:
+drivers/cxl/core/features.c:441 cxlctl_validate_hw_command() warn: always true condition '(scope >= 0) => (0-u32max >= 0)'
+
+vim +441 drivers/cxl/core/features.c
+
+   429	
+   430	static bool cxlctl_validate_hw_command(struct cxl_features_state *cxlfs,
+   431					       const struct fwctl_rpc_cxl *rpc_in,
+   432					       enum fwctl_rpc_scope scope,
+   433					       u16 opcode)
+   434	{
+   435		struct cxl_mailbox *cxl_mbox = &cxlfs->cxlds->cxl_mbox;
+   436	
+   437		switch (opcode) {
+   438		case CXL_MBOX_OP_GET_SUPPORTED_FEATURES:
+   439			if (cxl_mbox->feat_cap < CXL_FEATURES_RO)
+   440				return false;
+ > 441			if (scope >= FWCTL_RPC_CONFIGURATION)
+   442				return true;
+   443			return false;
+   444		default:
+   445			return false;
+   446		}
+   447	}
+   448	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
