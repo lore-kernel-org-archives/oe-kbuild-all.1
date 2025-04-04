@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1824689;
-	Fri,  4 Apr 2025 03:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB80199BC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 03:47:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743737859; cv=none; b=S5xrd90C+TfbxYWtkTryNzH6OdG3IbiZYCZhtqiK6PTuDO0dtSu3BIkoroOTmqPnTYcVt8GsiHSkvhWQ5lmFBLGwKIqxvYQfrD5/ZYfFcO8lma5bo50wRaEUT+rdZShpXymhmV/E35pFSaVw4QWVItj59qIYohW6PzrRuVYivz0=
+	t=1743738458; cv=none; b=KNpxGbwGRGl2e/rnpkCoCSvJURg0OsWmPQxd7qAgbxjdboqHBM4oq36DGnslS2+DR07b/sunKw7LcF/U4cdDpLcYjyDV1ZIKibXFbc0w72WydFsCJxnSczUTaDzYqhR/QxEu1UmyDyuoVmds2X4N6phplaV/nk02Y0FnveBdXaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743737859; c=relaxed/simple;
-	bh=gaUqbhlmpYbyXdcwh4oY+66+ybScMq2zJQp1bAN1Css=;
+	s=arc-20240116; t=1743738458; c=relaxed/simple;
+	bh=n3FkhTFfQlo/pQJHpBtlL1WUuvU0LLQ8e8C9crTcuMs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=glZm8wG7N0tU6wfqFXYxTPXUDs+N34AxashETTifvLnabvrz0rBamGg74bHd5g2YJHLcajlg/xFLKaE78L285/SgT8g89bItSlJ858B40AtUAbsO3arAgEVIWO20GZpKfL7+SAbG1nY3/Li2zoyY/OuhnTgheC+0fmQkgi3lfRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=no8YPtpc; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=PuwIElLNeXhhGGv13a00VZsRtjhRbFTalPcsTHh5/EgHvTRid5HChRrrnJyokiPpMKOeUh/8wtHLm+IPVu/+D7xj04tBqWpmYrd/4hbpQgep2806JRzDsQtUMlbl5LLj2Ms7Mu4JxkLmWvGlOYlhRqitgzdw8vC7o3AM+Ct4fAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4rGfo3x; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="no8YPtpc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4rGfo3x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743737857; x=1775273857;
+  t=1743738456; x=1775274456;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gaUqbhlmpYbyXdcwh4oY+66+ybScMq2zJQp1bAN1Css=;
-  b=no8YPtpc07lUqRf4DFZiEKdUhazrP6Cx5ZlPl8pS55Tmh41UYj9Ca2rl
-   H1wq+RzvCsNjeuOHX8a/1a06AzZsA+pA4Rf2/lC0T7dT6TWx90HhaRVKz
-   noF1vMiaVKOnL7r9RLbSUaTIDMROQYJu8+WQ3zRJBwCrAVf1AsYi+CzfA
-   co9PPiYm/8jAWR4OyBMNDhCUi8j88DfTusQovmGtWF1rLUyn0FjVRiF9+
-   glzj/QT4UzzZK9afJKHC3lPUkBmgMYX2G6u0wZcJRONOSDB+7Cshk1qle
-   dD5Tj6r4YcAve0QyTZLcwrKRyflUM0DillT5wMVNbc0F3j0/t2+2EZg3M
-   g==;
-X-CSE-ConnectionGUID: jNuSYYgTQTqdpCGjtwe3aQ==
-X-CSE-MsgGUID: BL9svxo0T1K9u81AfU9Yrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="67643542"
+  bh=n3FkhTFfQlo/pQJHpBtlL1WUuvU0LLQ8e8C9crTcuMs=;
+  b=K4rGfo3xjUZ7yU/fN/jcJzNdZQmOc0ccUSygyXsTw/iygjt+g0uxTbsC
+   FlmIMIK8wdAuKsQdof1Ba9JIsQNS4JXCcDAnqGnd7piZ0PfstWarYWT8J
+   wllOwnlzSnbnvj+B3RUzUsyYHFH6L9VsllJDeyTylsVcN4y7h1TkTUKSH
+   ERsSB+eCckMWe4ip/sf5XOX23pjA9lLSmM5PimLFlvju97kNoOCiNKJEE
+   cpC8CIPhp2HoS0/x0jc3aR6C/J9HzTeLX/2M3//68ZzE3PzRD0yjajTMg
+   dZnrAm+HEmFStSlQK4qIVnL35cWzZsnxHWQN8Et6i0EPVfk65Vrf6FPdZ
+   A==;
+X-CSE-ConnectionGUID: Frg7qvQJRuq3qZMkgxAv3Q==
+X-CSE-MsgGUID: X8owebpXQBmXhggAhT7+OA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="67644166"
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="67643542"
+   d="scan'208";a="67644166"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 20:37:35 -0700
-X-CSE-ConnectionGUID: d35pSv77S+qcwzCDQfzw2g==
-X-CSE-MsgGUID: nDYcY4n1SjGjkWNMBn7lKA==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 20:47:36 -0700
+X-CSE-ConnectionGUID: I9rkXyn0RqK38CF4m19osg==
+X-CSE-MsgGUID: oCkc5ZShTfamMveeq3Zz1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="158190378"
+   d="scan'208";a="158191812"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Apr 2025 20:37:33 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Apr 2025 20:47:34 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0Xs3-0000yJ-2R;
-	Fri, 04 Apr 2025 03:37:31 +0000
-Date: Fri, 4 Apr 2025 11:36:35 +0800
+	id 1u0Y1k-0000yV-1T;
+	Fri, 04 Apr 2025 03:47:32 +0000
+Date: Fri, 4 Apr 2025 11:46:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Brost <matthew.brost@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU
  for non-visible access
-Message-ID: <202504041302.vLhBU2QJ-lkp@intel.com>
+Message-ID: <202504041115.bbGTufbJ-lkp@intel.com>
 References: <20250403202705.18488-3-matthew.brost@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,55 +80,39 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-xe-Add-
 base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
 patch link:    https://lore.kernel.org/r/20250403202705.18488-3-matthew.brost%40intel.com
 patch subject: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU for non-visible access
-config: x86_64-buildonly-randconfig-003-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041302.vLhBU2QJ-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041302.vLhBU2QJ-lkp@intel.com/reproduce)
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250404/202504041115.bbGTufbJ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041115.bbGTufbJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504041302.vLhBU2QJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504041115.bbGTufbJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/xe/xe_migrate.c:1819:12: error: use of undeclared identifier 'XE_CACHELINE_MASK'
+   drivers/gpu/drm/xe/xe_migrate.c: In function 'xe_migrate_access_memory':
+>> drivers/gpu/drm/xe/xe_migrate.c:1819:19: error: 'XE_CACHELINE_MASK' undeclared (first use in this function)
     1819 |         if (len & XE_CACHELINE_MASK ||
-         |                   ^
-   drivers/gpu/drm/xe/xe_migrate.c:1820:34: error: use of undeclared identifier 'XE_CACHELINE_MASK'
-    1820 |             ((uintptr_t)buf | offset) & XE_CACHELINE_MASK) {
-         |                                         ^
->> drivers/gpu/drm/xe/xe_migrate.c:1828:14: error: use of undeclared identifier 'XE_CACHELINE_BYTES'
+         |                   ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_migrate.c:1819:19: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/xe/xe_migrate.c:1828:35: error: 'XE_CACHELINE_BYTES' undeclared (first use in this function); did you mean 'L1_CACHE_BYTES'?
     1828 |                         u8 bounce[XE_CACHELINE_BYTES];
-         |                                   ^
-   drivers/gpu/drm/xe/xe_migrate.c:1833:23: error: use of undeclared identifier 'XE_CACHELINE_MASK'
-    1833 |                                                (offset & XE_CACHELINE_MASK));
-         |                                                          ^
-   drivers/gpu/drm/xe/xe_migrate.c:1832:13: error: use of undeclared identifier 'XE_CACHELINE_BYTES'
-    1832 |                                                XE_CACHELINE_BYTES -
-         |                                                ^
-   drivers/gpu/drm/xe/xe_migrate.c:1834:30: error: use of undeclared identifier 'XE_CACHELINE_MASK'
-    1834 |                         int ptr_offset = offset & XE_CACHELINE_MASK;
-         |                                                   ^
-   drivers/gpu/drm/xe/xe_migrate.c:1838:15: error: use of undeclared identifier 'XE_CACHELINE_MASK'
-    1838 |                                                        ~XE_CACHELINE_MASK,
-         |                                                         ^
-   drivers/gpu/drm/xe/xe_migrate.c:1852:24: error: use of undeclared identifier 'XE_CACHELINE_MASK'
-    1852 |                                                        offset & ~XE_CACHELINE_MASK,
-         |                                                                  ^
->> drivers/gpu/drm/xe/xe_migrate.c:1888:13: error: call to undeclared function 'xe_migrate_vram'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                   ^~~~~~~~~~~~~~~~~~
+         |                                   L1_CACHE_BYTES
+   drivers/gpu/drm/xe/xe_migrate.c:1828:28: warning: unused variable 'bounce' [-Wunused-variable]
+    1828 |                         u8 bounce[XE_CACHELINE_BYTES];
+         |                            ^~~~~~
+>> drivers/gpu/drm/xe/xe_migrate.c:1888:27: error: implicit declaration of function 'xe_migrate_vram'; did you mean 'xe_migrate_to_vram'? [-Wimplicit-function-declaration]
     1888 |                 __fence = xe_migrate_vram(m, current_bytes,
-         |                           ^
-   drivers/gpu/drm/xe/xe_migrate.c:1888:13: note: did you mean 'xe_migrate_to_vram'?
-   drivers/gpu/drm/xe/xe_migrate.h:98:19: note: 'xe_migrate_to_vram' declared here
-      98 | struct dma_fence *xe_migrate_to_vram(struct xe_migrate *m,
-         |                   ^
->> drivers/gpu/drm/xe/xe_migrate.c:1892:8: error: use of undeclared identifier 'XE_MIGRATE_COPY_TO_VRAM'
+         |                           ^~~~~~~~~~~~~~~
+         |                           xe_migrate_to_vram
+>> drivers/gpu/drm/xe/xe_migrate.c:1892:43: error: 'XE_MIGRATE_COPY_TO_VRAM' undeclared (first use in this function)
     1892 |                                           XE_MIGRATE_COPY_TO_VRAM :
-         |                                           ^
->> drivers/gpu/drm/xe/xe_migrate.c:1893:8: error: use of undeclared identifier 'XE_MIGRATE_COPY_TO_SRAM'
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_migrate.c:1893:43: error: 'XE_MIGRATE_COPY_TO_SRAM' undeclared (first use in this function)
     1893 |                                           XE_MIGRATE_COPY_TO_SRAM);
-         |                                           ^
-   11 errors generated.
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/XE_CACHELINE_MASK +1819 drivers/gpu/drm/xe/xe_migrate.c
