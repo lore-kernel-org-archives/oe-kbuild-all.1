@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBF11A83E2
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 11:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE2D1E00A0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 12:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743766821; cv=none; b=eps755y60vaUjM1UuO+AfGp4yCMquSzjRCdwoTNCXL6YDd5yLQ4A/inQzdXTDzFUTbTZbKsF6zWj5uN3j8BxH6fhaI/yu+cdZspb8hw3d5e2jWeGvTjDlxioUM88yryID8r/rAgIFSEVBX8p4nM3YRW4CTsRtr7iOzwnIlYXBtE=
+	t=1743768023; cv=none; b=r2BflhXRHtHSMDpqGveCSf2H/FWo+R3bMFbO7IyRZVN/td94C6WQ/6MpKQ9ftsjobkC04WQSNx4+mB/kH2wIu0o+QSM7ed5GQ4rZNf3+tdFflbsZ2V1jH2o4olIYEZJ5ErRX1EvW+rRJyOCX+Wv09BfjZfVcTpfsxJiW1Mdr76k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743766821; c=relaxed/simple;
-	bh=9b45S75utZYYfge2O1DXivXuvb2z6jJYNv6lm027wpM=;
+	s=arc-20240116; t=1743768023; c=relaxed/simple;
+	bh=GWjSo5aSfDtZUIQNVp2QpPj0kXwfTgDipP/FO55SnjI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X3Go1C7hvrt7o9LacL9Ba7BOiBWWjQtoKFPk3ODPK8Cc+1IsDrOBKldI6PcFpWjhhgExeIkLVKKxxleSk35bdPChZcDzf2w30R6ZNnwkEftHuoh6U3fSghlMCpMvpNRje79o3019syguml8n323mF28Wxu3I1NdhR8J82PjKKTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8sWvlmo; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=d4J7vGfatb4bhCF1cohRXib3/NZEme2j7lqMD66X9JS58WDKQjaSckHeMOsegG1ZfGYWHUobz0oidR5aGc67bioGAz7qy+miDDsvilQyAkKbcq9AVNSdB9+Usco35+3wcb1YssCiUgiB6fSC/lHSxuqCkmdeDO2xJohhL6P3Ozc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RKifZara; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8sWvlmo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RKifZara"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743766820; x=1775302820;
+  t=1743768022; x=1775304022;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9b45S75utZYYfge2O1DXivXuvb2z6jJYNv6lm027wpM=;
-  b=O8sWvlmod9x2mFSW2C1eXFUtIv0+ovKqZQjaI2m8NhcPkJC+zzzrBmYe
-   LNipD9bwG6P0j569Z2eZJli0tc7BGRFF7G4fELnyiwTPRBRQc21tZREQf
-   g2GETdnBtIP1ks1+Fr85QMUq1Iw4dtVcoIDnJyMeFcFBieFn7rQwLLtu6
-   Rf6Umpz8rEuinjeyntuP1VvFaKqXztILDVmvd05mVoiFuK99YFugQZDLY
-   o99e2LjKQEkBFWFnSdXnohSE2E+8mYNV9F/mRXvrqd0l3s39YCpspSr20
-   04sM1u6tiYXsadIOGWVpuEeXelVs6p0OLED8MZ1Kl8hWfoit86vJ9ADDK
-   Q==;
-X-CSE-ConnectionGUID: vEpp8UzuS2udDXPySYkOdw==
-X-CSE-MsgGUID: 79jmvKHZRL6n6hfmOGbx6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="56190947"
+  bh=GWjSo5aSfDtZUIQNVp2QpPj0kXwfTgDipP/FO55SnjI=;
+  b=RKifZaraLYrWnD3b3wymWP0djniqIFg0lkNyrX8Cm1um9EHwDTeZtoFl
+   9UYrjq2WQihwtM62KEgi3ie0HvihtEFhaICb0oS2anRqnpP44c0hwfKeP
+   OdpN5su+Kv8kWY0WDtg8LZoFaae/bteLqEQFat0o02HdfOBQwGHVzy4Sv
+   4rRc+y2NmfSbqN+1ceoofGWHtokWbwuI92K0s4qwaudwK2W/94R4w7TI2
+   yZhaaRDWw+Q8Bco8XXP5KUrogs3d79PT9m10obQJPkCPnIEaygL9dlmeu
+   wHW6+BVF1D8i5LWJwR/aJvqtpvj5faV8Gt1sBykvpLCxVkSHwuDLFHon1
+   g==;
+X-CSE-ConnectionGUID: fYN/vEYfT1S5h4AWNOxNWg==
+X-CSE-MsgGUID: 4I8m3w1LQlKYC4CJ7xQoVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45114259"
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="56190947"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 04:40:19 -0700
-X-CSE-ConnectionGUID: SOL4dQJCTMi8nBpfVI+NLw==
-X-CSE-MsgGUID: 9zq669XaQguh4n9RfXZa6Q==
+   d="scan'208";a="45114259"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 05:00:21 -0700
+X-CSE-ConnectionGUID: /MbJ3UplRDydapNBUfLGqA==
+X-CSE-MsgGUID: dsSjATMAQDuwaIWZGXy/0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="127586898"
+   d="scan'208";a="131999906"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Apr 2025 04:40:16 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 04 Apr 2025 05:00:18 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0fPC-0001Cd-25;
-	Fri, 04 Apr 2025 11:40:14 +0000
-Date: Fri, 4 Apr 2025 19:39:50 +0800
+	id 1u0fia-0001D5-0g;
+	Fri, 04 Apr 2025 12:00:16 +0000
+Date: Fri, 4 Apr 2025 20:00:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthias Fend <matthias.fend@emfend.at>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -59,7 +59,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
 	Matthias Fend <matthias.fend@emfend.at>,
 	bsp-development.geo@leica-geosystems.com
 Subject: Re: [PATCH 2/2] media: i2c: add Himax HM1246 image sensor driver
-Message-ID: <202504041952.OcJvDWaM-lkp@intel.com>
+Message-ID: <202504041909.gfi5uwYd-lkp@intel.com>
 References: <20250403-hm1246-v1-2-30990d71bc42@emfend.at>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,21 +81,19 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Matthias-Fend/media-dt-bi
 base:   a2cc6ff5ec8f91bc463fd3b0c26b61166a07eb11
 patch link:    https://lore.kernel.org/r/20250403-hm1246-v1-2-30990d71bc42%40emfend.at
 patch subject: [PATCH 2/2] media: i2c: add Himax HM1246 image sensor driver
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250404/202504041952.OcJvDWaM-lkp@intel.com/config)
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250404/202504041909.gfi5uwYd-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041952.OcJvDWaM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041909.gfi5uwYd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504041952.OcJvDWaM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504041909.gfi5uwYd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   m68k-linux-ld: drivers/media/i2c/hm1246.o: in function `hm1246_calc_pll.constprop.0':
->> hm1246.c:(.text+0x956): undefined reference to `__udivdi3'
-   m68k-linux-ld: drivers/media/i2c/hm1246.o: in function `hm1246_update_controls.isra.0':
->> hm1246.c:(.text+0xd1e): undefined reference to `__divdi3'
+>> ERROR: modpost: "__udivdi3" [drivers/media/i2c/hm1246.ko] undefined!
+>> ERROR: modpost: "__divdi3" [drivers/media/i2c/hm1246.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
