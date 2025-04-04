@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9C018DB0C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 07:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F29715C15F;
+	Fri,  4 Apr 2025 08:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743750839; cv=none; b=sltE8wfe8+MxpGbTSH9jaz6CJLKuiCwTjNwuB7O1DGu87fR1qgm0R/+aJaQyhbjCXUrWZU2+7/RRsD6gc7t8uczc/Y+G9Zhbx+ipv1dRQJdDA5IPTyDCKmkevmjCJijlM+/tQmR/EgXfctXrSV37xSrcBQqTFVZwaB9hzMwFkDA=
+	t=1743753963; cv=none; b=ZlTpSpawDP7B2QX3rN3W+SzaZOsTjKpnZZfuM/Yel0AQePuE8rYP1Kofmm51HpIxaKgbwRS6aZbWYIPl69CawHGf5REc3aWoINukU05TZ4tlZIcIuvdpEs6VZX2rzrBnbJAmXUf4Qh2QLmo0N7cK49dSpopGnBwPNc71l7tvdyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743750839; c=relaxed/simple;
-	bh=6Zd0QkeN/5EhwaOPCIp2aYWl503Ch90RMX9tpRtU45Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iavutAwKlxolx0FSyYJADTbd0G7r0UQzNMVvAs50k3U57zk08Fn/1DdA+iFWKB9M37Yo7lbYcH8aWea4v/cvfx8rd1nDhOTm8iDFprtq/0meOwGlQDlWvSIPeZxxiWMCwwF1oC8CxA6CjDmXfepkSPxBzGkXzw/fhKKvq1XXIB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ar+k/TSl; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1743753963; c=relaxed/simple;
+	bh=Tfa/yybm5CsqfeEOMUp9kIWHth41E2TgjvduwZq36R8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DyxblP4DKbllHAPT02MERZl2DK8dQ9RMcsN+eD+FHVNZFBA85u9mQ1M5gbWihf4YXcjWp+iab98lV7lEg4Sf3F1F9nQAlGcfrte923k1uP/rsdZy3wTvp1eFEd3m7E7DG8eTI5bLLsojv827g1A/RHFCqbaLV+w2RKljyX6HFCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mWS6TFpR; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ar+k/TSl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mWS6TFpR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743750837; x=1775286837;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6Zd0QkeN/5EhwaOPCIp2aYWl503Ch90RMX9tpRtU45Q=;
-  b=ar+k/TSl7qbxo27uYFFX1wgqip5eK0lProCC5ipZJ/aWFK2hgTyaqkfE
-   7aiukJGzvGDBNLedA3V8fYP1i+nvnN2lMEvqm+nVVBheVKOBrVln7Rbcg
-   SoZbCoh0jhEab2Ew0rIgHc9jGh80aCQGBwMhB9Ft9cX2e6fXUKpLGIyOS
-   Oal2n/HXkgkwjBLDaUC1MtpFJO1BdY/s3GDBxrs8AnUlV3tLxWMA/IZTP
-   rI6l3mSEbDw1To51tXi66wLzetjxm/inyVcQgWqy17r9hvxQfevb/DRt4
-   91WFp4dS8v/Nzf10nHNCxyR2mu94EqEkTam71NN5nOGAMfM0pvzBsJ7K3
-   A==;
-X-CSE-ConnectionGUID: gVcSLMj8SCmlrKTg2RFy+A==
-X-CSE-MsgGUID: KL3pfCbeRWO3X1XVFJHR3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="56170108"
+  t=1743753961; x=1775289961;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tfa/yybm5CsqfeEOMUp9kIWHth41E2TgjvduwZq36R8=;
+  b=mWS6TFpRaGLPOolEjQxKjw6eJ46un4975dwwDaD/H+E5nxWxTMpUuQ+C
+   zQShQLNgalRrt6Gvr7rq0/fFBZVk0WzAr5HnqDyywyyRXgzOgOGTzd/HE
+   JYIsNebn8IKMdFKsdLIKvOeKRtR5wvI2kQFlk+k0VWOQN1m9Gi1GqEQ8e
+   DOpyP0rr2aQmCIm863E7u26KL+Jqg64WdaIqPTjEfMntrJPrSM4Oyi+0p
+   /aTMozW1zjk+Yds8MNo0z8i76nsTSxMGJa+vqZoYvt70Jq+qU1r4N64tG
+   sjS1d1UFpQm4b5/AzoYLKmJ8RjCVrRhBpB+an9dS3/2/OWu+Ze0Y26+Sb
+   Q==;
+X-CSE-ConnectionGUID: C8PRV6PvTgCNJ0JE/n/E4w==
+X-CSE-MsgGUID: 3w/tuehBQwaaP+dIyNCVIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45071901"
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="56170108"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 00:13:54 -0700
-X-CSE-ConnectionGUID: a330aC0VRVK4/5egbNvdyQ==
-X-CSE-MsgGUID: t1BzENuZQz++OTzF111PBw==
+   d="scan'208";a="45071901"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:06:00 -0700
+X-CSE-ConnectionGUID: UsxmuIBoSTG5iI2LOfkssQ==
+X-CSE-MsgGUID: 1IMoFxbxTOCJW4BpgdX77A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="132094174"
+   d="scan'208";a="158233880"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Apr 2025 00:13:54 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 04 Apr 2025 01:05:59 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0bFP-00013P-0T;
-	Fri, 04 Apr 2025 07:13:51 +0000
-Date: Fri, 4 Apr 2025 15:13:01 +0800
+	id 1u0c3o-00014x-2k;
+	Fri, 04 Apr 2025 08:05:56 +0000
+Date: Fri, 4 Apr 2025 16:04:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10-2024-05 17/17]
- sound/soc/hisilicon/hi3660-i2s.c:377:15: error: implicit declaration of
- function 'devm_pinctrl_get'
-Message-ID: <202504041532.U1umWlVx-lkp@intel.com>
+To: Donet Tom <donettom@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2]  mm/swap.c: Enable promotion of unmapped MGLRU
+ page cache pages
+Message-ID: <202504041529.Z00E8TJC-lkp@intel.com>
+References: <20250403141032.22743-1-donettom@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,171 +63,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250403141032.22743-1-donettom@linux.ibm.com>
 
-Hi Youlin,
+Hi Donet,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10-2024-05
-head:   2387d220c2a30a75a6b9335d405ec66cb4821617
-commit: b4b11198edb99eb17a4d032c3a80854d3a817b0d [17/17] ANDROID: sound: Add hikey960 i2s audio driver
-config: i386-randconfig-051-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041532.U1umWlVx-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041532.U1umWlVx-lkp@intel.com/reproduce)
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.14 next-20250404]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Donet-Tom/mm-swap-c-Enable-promotion-of-unmapped-MGLRU-page-cache-pages/20250403-221222
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250403141032.22743-1-donettom%40linux.ibm.com
+patch subject: [RFC PATCH v2]  mm/swap.c: Enable promotion of unmapped MGLRU page cache pages
+config: hexagon-randconfig-002-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041529.Z00E8TJC-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041529.Z00E8TJC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504041532.U1umWlVx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504041529.Z00E8TJC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> sound/soc/hisilicon/hi3660-i2s.c:377:15: error: implicit declaration of function 'devm_pinctrl_get' [-Werror,-Wimplicit-function-declaration]
-     377 |         i2s->pctrl = devm_pinctrl_get(dev);
-         |                      ^
-   sound/soc/hisilicon/hi3660-i2s.c:377:15: note: did you mean 'of_pinctrl_get'?
-   include/linux/pinctrl/pinctrl.h:193:21: note: 'of_pinctrl_get' declared here
-     193 | struct pinctrl_dev *of_pinctrl_get(struct device_node *np)
-         |                     ^
->> sound/soc/hisilicon/hi3660-i2s.c:377:13: error: incompatible integer to pointer conversion assigning to 'struct pinctrl *' from 'int' [-Wint-conversion]
-     377 |         i2s->pctrl = devm_pinctrl_get(dev);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/hisilicon/hi3660-i2s.c:384:21: error: implicit declaration of function 'pinctrl_lookup_state' [-Werror,-Wimplicit-function-declaration]
-     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
-         |                            ^
->> sound/soc/hisilicon/hi3660-i2s.c:384:19: error: incompatible integer to pointer conversion assigning to 'struct pinctrl_state *' from 'int' [-Wint-conversion]
-     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
-         |                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     385 |                                         PINCTRL_STATE_DEFAULT);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/hisilicon/hi3660-i2s.c:394:6: error: implicit declaration of function 'pinctrl_select_state' [-Werror,-Wimplicit-function-declaration]
-     394 |         if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
-         |             ^
->> sound/soc/hisilicon/hi3660-i2s.c:422:2: error: implicit declaration of function 'pinctrl_put' [-Werror,-Wimplicit-function-declaration]
-     422 |         pinctrl_put(i2s->pctrl);
-         |         ^
-   6 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+>> mm/swap.c:401:8: error: use of undeclared identifier 'sysctl_numa_balancing_mode'
+     401 |                                   (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
+         |                                    ^
+>> mm/swap.c:401:37: error: use of undeclared identifier 'NUMA_BALANCING_MEMORY_TIERING'
+     401 |                                   (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
+         |                                                                 ^
+>> mm/swap.c:402:8: error: use of undeclared identifier 'numa_pagecache_promotion_enabled'
+     402 |                                    numa_pagecache_promotion_enabled) {
+         |                                    ^
+>> mm/swap.c:403:5: error: call to undeclared function 'promotion_candidate'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     403 |                                 promotion_candidate(folio);
+         |                                 ^
+   4 errors generated.
 
 
-vim +/devm_pinctrl_get +377 sound/soc/hisilicon/hi3660-i2s.c
+vim +/sysctl_numa_balancing_mode +401 mm/swap.c
 
-   332	
-   333	static int hi3660_i2s_probe(struct platform_device *pdev)
-   334	{
-   335		struct device *dev = &pdev->dev;
-   336		struct hi3660_i2s *i2s;
-   337		struct resource *res;
-   338		int ret;
-   339	
-   340		i2s = devm_kzalloc(dev, sizeof(*i2s), GFP_KERNEL);
-   341		if (!i2s)
-   342			return -ENOMEM;
-   343	
-   344		i2s->dev = dev;
-   345		spin_lock_init(&i2s->lock);
-   346	
-   347		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   348		if (!res) {
-   349			ret = -ENODEV;
-   350			return ret;
-   351		}
-   352		i2s->base_phys = (phys_addr_t)res->start;
-   353	
-   354		i2s->dai = dai_init;
-   355		dev_set_drvdata(&pdev->dev, i2s);
-   356	
-   357		i2s->base = devm_ioremap_resource(dev, res);
-   358		if (IS_ERR(i2s->base)) {
-   359			dev_err(&pdev->dev, "ioremap failed\n");
-   360			ret = PTR_ERR(i2s->base);
-   361			return ret;
-   362		}
-   363	
-   364		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-   365		if (!res) {
-   366			ret = -ENODEV;
-   367			return ret;
-   368		}
-   369		i2s->base_syscon = devm_ioremap(dev, res->start, resource_size(res));
-   370		if (IS_ERR(i2s->base_syscon)) {
-   371			dev_err(&pdev->dev, "ioremap failed\n");
-   372			ret = PTR_ERR(i2s->base_syscon);
-   373			return ret;
-   374		}
-   375	
-   376		/* i2s iomux config */
- > 377		i2s->pctrl = devm_pinctrl_get(dev);
-   378		if (IS_ERR(i2s->pctrl)) {
-   379			dev_err(dev, "could not get pinctrl\n");
-   380			ret = -EIO;
-   381			return ret;
-   382		}
-   383	
- > 384		i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
-   385						PINCTRL_STATE_DEFAULT);
-   386		if (IS_ERR(i2s->pin_default)) {
-   387			dev_err(dev,
-   388				"could not get default state (%li)\n",
-   389				PTR_ERR(i2s->pin_default));
-   390			ret = -EIO;
-   391			return ret;
-   392		}
-   393	
- > 394		if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
-   395			dev_err(dev, "could not set pins to default state\n");
-   396			ret = -EIO;
-   397			return ret;
-   398		}
-   399	
-   400		ret = devm_snd_dmaengine_pcm_register(&pdev->dev,
-   401					&dmaengine_pcm_config, 0);
-   402		if (ret)
-   403			return ret;
-   404	
-   405		ret = snd_soc_register_component(&pdev->dev, &component_driver,
-   406					&i2s->dai, 1);
-   407		if (ret) {
-   408			dev_err(&pdev->dev, "Failed to register dai\n");
-   409			return ret;
-   410		}
+   382	
+   383	static void lru_gen_inc_refs(struct folio *folio)
+   384	{
+   385		unsigned long new_flags, old_flags = READ_ONCE(folio->flags);
+   386	
+   387		if (folio_test_unevictable(folio))
+   388			return;
+   389	
+   390		/* see the comment on LRU_REFS_FLAGS */
+   391		if (!folio_test_referenced(folio)) {
+   392			set_mask_bits(&folio->flags, LRU_REFS_MASK, BIT(PG_referenced));
+   393			return;
+   394		}
+   395	
+   396		do {
+   397			if ((old_flags & LRU_REFS_MASK) == LRU_REFS_MASK) {
+   398				if (!folio_test_workingset(folio)) {
+   399					folio_set_workingset(folio);
+   400				} else if (!folio_test_isolated(folio) &&
+ > 401					  (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
+ > 402					   numa_pagecache_promotion_enabled) {
+ > 403					promotion_candidate(folio);
+   404				}
+   405				return;
+   406			}
+   407	
+   408			new_flags = old_flags + BIT(LRU_REFS_PGOFF);
+   409		} while (!try_cmpxchg(&folio->flags, &old_flags, new_flags));
+   410	}
    411	
-   412		return 0;
-   413	}
-   414	
-   415	static int hi3660_i2s_remove(struct platform_device *pdev)
-   416	{
-   417		struct hi3660_i2s *i2s = dev_get_drvdata(&pdev->dev);
-   418	
-   419		snd_soc_unregister_component(&pdev->dev);
-   420		dev_set_drvdata(&pdev->dev, NULL);
-   421	
- > 422		pinctrl_put(i2s->pctrl);
-   423	
-   424		return 0;
-   425	}
-   426	
 
 -- 
 0-DAY CI Kernel Test Service
