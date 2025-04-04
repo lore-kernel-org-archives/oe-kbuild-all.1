@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB80199BC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 03:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3352E62B8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 04:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743738458; cv=none; b=KNpxGbwGRGl2e/rnpkCoCSvJURg0OsWmPQxd7qAgbxjdboqHBM4oq36DGnslS2+DR07b/sunKw7LcF/U4cdDpLcYjyDV1ZIKibXFbc0w72WydFsCJxnSczUTaDzYqhR/QxEu1UmyDyuoVmds2X4N6phplaV/nk02Y0FnveBdXaw=
+	t=1743740924; cv=none; b=GZSoO6mvUOkBPD9OrkrS3qJRXzIrhOy5ChJKIji2J49xAnPUYWILpbZIH+KHgAFKEkTzq7YVY+lX8Uc6rPaITUxCjKbtNJJaLyqZdQLc/15CJAc0CjAGUYa4vgNyjMA7hoD33u9UajFGq+xOVcvJFhNREm8b4odmJzTKewE2wXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743738458; c=relaxed/simple;
-	bh=n3FkhTFfQlo/pQJHpBtlL1WUuvU0LLQ8e8C9crTcuMs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PuwIElLNeXhhGGv13a00VZsRtjhRbFTalPcsTHh5/EgHvTRid5HChRrrnJyokiPpMKOeUh/8wtHLm+IPVu/+D7xj04tBqWpmYrd/4hbpQgep2806JRzDsQtUMlbl5LLj2Ms7Mu4JxkLmWvGlOYlhRqitgzdw8vC7o3AM+Ct4fAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4rGfo3x; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1743740924; c=relaxed/simple;
+	bh=awfPBZvTvJfJJfgk5qGaoz0cX53rXtiEvNLx59uAYog=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c1/UR207ybF4hOgjGlaJf6b7PLROp3B1sunm1PkVY2WseVjKaRazAbY8T2WovvR3quODjrznJY3q7sAcMl0HFNTrVsXoDsqL5zqYN9/vtQY5Fv6YhYm78GizcpZBbO1zl9Ewt19yEHJYmMwNrWEUWjz1VrpeWvmhhdkadVZdWVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RPZHfqY8; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4rGfo3x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPZHfqY8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743738456; x=1775274456;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n3FkhTFfQlo/pQJHpBtlL1WUuvU0LLQ8e8C9crTcuMs=;
-  b=K4rGfo3xjUZ7yU/fN/jcJzNdZQmOc0ccUSygyXsTw/iygjt+g0uxTbsC
-   FlmIMIK8wdAuKsQdof1Ba9JIsQNS4JXCcDAnqGnd7piZ0PfstWarYWT8J
-   wllOwnlzSnbnvj+B3RUzUsyYHFH6L9VsllJDeyTylsVcN4y7h1TkTUKSH
-   ERsSB+eCckMWe4ip/sf5XOX23pjA9lLSmM5PimLFlvju97kNoOCiNKJEE
-   cpC8CIPhp2HoS0/x0jc3aR6C/J9HzTeLX/2M3//68ZzE3PzRD0yjajTMg
-   dZnrAm+HEmFStSlQK4qIVnL35cWzZsnxHWQN8Et6i0EPVfk65Vrf6FPdZ
-   A==;
-X-CSE-ConnectionGUID: Frg7qvQJRuq3qZMkgxAv3Q==
-X-CSE-MsgGUID: X8owebpXQBmXhggAhT7+OA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="67644166"
+  t=1743740921; x=1775276921;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=awfPBZvTvJfJJfgk5qGaoz0cX53rXtiEvNLx59uAYog=;
+  b=RPZHfqY8/bVjrx8qt1DVd5vasEkqqxeruZWHib2Vonr4jsP+6j5NtgQO
+   PEbbEL3GG7Vc9yP/6TnyV/QRF1OSoiKRtV1XWtYLlfgRNxzvcM9YlWCDk
+   UfqGXW/76wPQXbplPn6+Ca8f0KwMYA1CrnE4gkA5GKzWKJ8ZVlHo4SroR
+   1o0F3imwd9r6MJL/OCeH2JjRvaQiAOQoWqqczT4QQR3hljeBuEEk1DWfY
+   7gHDP7xvVCBHrbyOjUwt+ao+X2uz5wqMaTi3g1w4ldHTkCpd4YvtK+KpQ
+   RQ7ZrJqhFWXQf1XUnssEeWQi6szngPduDZSaXZfdmJ5mPq6wC2uKtATbJ
+   Q==;
+X-CSE-ConnectionGUID: A4WdJcBrSEuBZvMTlkIaBA==
+X-CSE-MsgGUID: AQQysG7wQNKE320TwMwfqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45064719"
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="67644166"
+   d="scan'208";a="45064719"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 20:47:36 -0700
-X-CSE-ConnectionGUID: I9rkXyn0RqK38CF4m19osg==
-X-CSE-MsgGUID: oCkc5ZShTfamMveeq3Zz1A==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 21:28:40 -0700
+X-CSE-ConnectionGUID: A0YBCYjaSYKkyMNyX0m49w==
+X-CSE-MsgGUID: HyI7JFy9R+ucAYJ1KHbNag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="158191812"
+   d="scan'208";a="158198289"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Apr 2025 20:47:34 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Apr 2025 21:28:38 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0Y1k-0000yV-1T;
-	Fri, 04 Apr 2025 03:47:32 +0000
-Date: Fri, 4 Apr 2025 11:46:50 +0800
+	id 1u0YfU-0000zD-1a;
+	Fri, 04 Apr 2025 04:28:36 +0000
+Date: Fri, 4 Apr 2025 12:28:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU
- for non-visible access
-Message-ID: <202504041115.bbGTufbJ-lkp@intel.com>
-References: <20250403202705.18488-3-matthew.brost@intel.com>
+Subject: [android-common:android16-6.12-desktop 0/1] fs/f2fs/f2fs.h:2189:42:
+ error: no member named 'read_waiters' in 'struct f2fs_rwsem'
+Message-ID: <202504041249.I9zbFmeM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,196 +61,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250403202705.18488-3-matthew.brost@intel.com>
 
-Hi Matthew,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on next-20250403]
-[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.14]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-xe-Add-devcoredump-chunking/20250404-042700
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250403202705.18488-3-matthew.brost%40intel.com
-patch subject: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU for non-visible access
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250404/202504041115.bbGTufbJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041115.bbGTufbJ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   18c0dbd488a87918fed6132a8975b90444454472
+commit: 7a9cbd82c8b5f839a256b5b24b9775b2b09c7cf5 [0/1] ANDROID: vendor_hooks: add hooks for f2fs down read
+config: x86_64-buildonly-randconfig-003-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041249.I9zbFmeM-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041249.I9zbFmeM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504041115.bbGTufbJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504041249.I9zbFmeM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/xe/xe_migrate.c: In function 'xe_migrate_access_memory':
->> drivers/gpu/drm/xe/xe_migrate.c:1819:19: error: 'XE_CACHELINE_MASK' undeclared (first use in this function)
-    1819 |         if (len & XE_CACHELINE_MASK ||
-         |                   ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_migrate.c:1819:19: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/gpu/drm/xe/xe_migrate.c:1828:35: error: 'XE_CACHELINE_BYTES' undeclared (first use in this function); did you mean 'L1_CACHE_BYTES'?
-    1828 |                         u8 bounce[XE_CACHELINE_BYTES];
-         |                                   ^~~~~~~~~~~~~~~~~~
-         |                                   L1_CACHE_BYTES
-   drivers/gpu/drm/xe/xe_migrate.c:1828:28: warning: unused variable 'bounce' [-Wunused-variable]
-    1828 |                         u8 bounce[XE_CACHELINE_BYTES];
-         |                            ^~~~~~
->> drivers/gpu/drm/xe/xe_migrate.c:1888:27: error: implicit declaration of function 'xe_migrate_vram'; did you mean 'xe_migrate_to_vram'? [-Wimplicit-function-declaration]
-    1888 |                 __fence = xe_migrate_vram(m, current_bytes,
-         |                           ^~~~~~~~~~~~~~~
-         |                           xe_migrate_to_vram
->> drivers/gpu/drm/xe/xe_migrate.c:1892:43: error: 'XE_MIGRATE_COPY_TO_VRAM' undeclared (first use in this function)
-    1892 |                                           XE_MIGRATE_COPY_TO_VRAM :
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/xe/xe_migrate.c:1893:43: error: 'XE_MIGRATE_COPY_TO_SRAM' undeclared (first use in this function)
-    1893 |                                           XE_MIGRATE_COPY_TO_SRAM);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/f2fs/data.c:25:
+>> fs/f2fs/f2fs.h:2189:42: error: no member named 'read_waiters' in 'struct f2fs_rwsem'
+    2189 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
+         |                                            ~~~  ^
+   1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for DIMLIB
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y] && 64BIT [=y]
 
 
-vim +/XE_CACHELINE_MASK +1819 drivers/gpu/drm/xe/xe_migrate.c
+vim +2189 fs/f2fs/f2fs.h
 
-  1785	
-  1786	/**
-  1787	 * xe_migrate_access_memory - Access memory of a BO via GPU
-  1788	 *
-  1789	 * @m: The migration context.
-  1790	 * @bo: buffer object
-  1791	 * @offset: access offset into buffer object
-  1792	 * @buf: pointer to caller memory to read into or write from
-  1793	 * @len: length of access
-  1794	 * @write: write access
-  1795	 *
-  1796	 * Access memory of a BO via GPU either reading in or writing from a passed in
-  1797	 * pointer. Pointer is dma mapped for GPU access and GPU commands are issued to
-  1798	 * read to or write from pointer.
-  1799	 *
-  1800	 * Returns:
-  1801	 * 0 if successful, negative error code on failure.
-  1802	 */
-  1803	int xe_migrate_access_memory(struct xe_migrate *m, struct xe_bo *bo,
-  1804				     unsigned long offset, void *buf, int len,
-  1805				     int write)
-  1806	{
-  1807		struct xe_tile *tile = m->tile;
-  1808		struct xe_device *xe = tile_to_xe(tile);
-  1809		struct xe_res_cursor cursor;
-  1810		struct dma_fence *fence = NULL;
-  1811		dma_addr_t *dma_addr;
-  1812		unsigned long page_offset = (unsigned long)buf & ~PAGE_MASK;
-  1813		int bytes_left = len, current_page = 0;
-  1814		void *orig_buf = buf;
-  1815	
-  1816		xe_bo_assert_held(bo);
-  1817	
-  1818		/* Use bounce buffer for small access and unaligned access */
-> 1819		if (len & XE_CACHELINE_MASK ||
-  1820		    ((uintptr_t)buf | offset) & XE_CACHELINE_MASK) {
-  1821			int buf_offset = 0;
-  1822	
-  1823			/*
-  1824			 * Less than ideal for large unaligned access but this should be
-  1825			 * fairly rare, can fixup if this becomes common.
-  1826			 */
-  1827			do {
-> 1828				u8 bounce[XE_CACHELINE_BYTES];
-  1829				void *ptr = (void *)bounce;
-  1830				int err;
-  1831				int copy_bytes = min_t(int, bytes_left,
-  1832						       XE_CACHELINE_BYTES -
-  1833						       (offset & XE_CACHELINE_MASK));
-  1834				int ptr_offset = offset & XE_CACHELINE_MASK;
-  1835	
-  1836				err = xe_migrate_access_memory(m, bo,
-  1837							       offset &
-  1838							       ~XE_CACHELINE_MASK,
-  1839							       (void *)ptr,
-  1840							       sizeof(bounce), 0);
-  1841				if (err)
-  1842					return err;
-  1843	
-  1844				if (!write) {
-  1845					memcpy(buf + buf_offset, ptr + ptr_offset,
-  1846					       copy_bytes);
-  1847					goto next;
-  1848				}
-  1849	
-  1850				memcpy(ptr + ptr_offset, buf + buf_offset, copy_bytes);
-  1851				err = xe_migrate_access_memory(m, bo,
-  1852							       offset & ~XE_CACHELINE_MASK,
-  1853							       (void *)ptr,
-  1854							       sizeof(bounce), 0);
-  1855				if (err)
-  1856					return err;
-  1857	
-  1858	next:
-  1859				bytes_left -= copy_bytes;
-  1860				buf_offset += copy_bytes;
-  1861				offset += copy_bytes;
-  1862			} while (bytes_left);
-  1863	
-  1864			return 0;
-  1865		}
-  1866	
-  1867		dma_addr = xe_migrate_dma_map(xe, buf, len + page_offset, write);
-  1868		if (IS_ERR(dma_addr))
-  1869			return PTR_ERR(dma_addr);
-  1870	
-  1871		xe_res_first(bo->ttm.resource, offset, bo->size - offset, &cursor);
-  1872	
-  1873		do {
-  1874			struct dma_fence *__fence;
-  1875			u64 vram_addr = vram_region_gpu_offset(bo->ttm.resource) +
-  1876				cursor.start;
-  1877			int current_bytes;
-  1878	
-  1879			if (cursor.size > MAX_PREEMPTDISABLE_TRANSFER)
-  1880				current_bytes = min_t(int, bytes_left,
-  1881						      MAX_PREEMPTDISABLE_TRANSFER);
-  1882			else
-  1883				current_bytes = min_t(int, bytes_left, cursor.size);
-  1884	
-  1885			if (fence)
-  1886				dma_fence_put(fence);
-  1887	
-> 1888			__fence = xe_migrate_vram(m, current_bytes,
-  1889						  (unsigned long)buf & ~PAGE_MASK,
-  1890						  dma_addr + current_page,
-  1891						  vram_addr, write ?
-> 1892						  XE_MIGRATE_COPY_TO_VRAM :
-> 1893						  XE_MIGRATE_COPY_TO_SRAM);
-  1894			if (IS_ERR(__fence)) {
-  1895				if (fence)
-  1896					dma_fence_wait(fence, false);
-  1897				fence = __fence;
-  1898				goto out_err;
-  1899			}
-  1900			fence = __fence;
-  1901	
-  1902			buf += current_bytes;
-  1903			offset += current_bytes;
-  1904			current_page = (int)(buf - orig_buf) / PAGE_SIZE;
-  1905			bytes_left -= current_bytes;
-  1906			if (bytes_left)
-  1907				xe_res_next(&cursor, current_bytes);
-  1908		} while (bytes_left);
-  1909	
-  1910		dma_fence_wait(fence, false);
-  1911		dma_fence_put(fence);
-  1912		xe_migrate_dma_unmap(xe, dma_addr, len + page_offset, write);
-  1913	
-  1914		return 0;
-  1915	
-  1916	out_err:
-  1917		xe_migrate_dma_unmap(xe, dma_addr, len + page_offset, write);
-  1918		return PTR_ERR(fence);
-  1919	}
-  1920	
+  2182	
+  2183	void _trace_android_rvh_f2fs_down_read(wait_queue_head_t *read_waiters,
+  2184					   struct rw_semaphore *rwsem, bool *skip);
+  2185	
+  2186	static inline void f2fs_down_read(struct f2fs_rwsem *sem)
+  2187	{
+  2188		bool skip = false;
+> 2189		_trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
+  2190		if (skip)
+  2191			return;
+  2192	#ifdef CONFIG_F2FS_UNFAIR_RWSEM
+  2193		wait_event(sem->read_waiters, down_read_trylock(&sem->internal_rwsem));
+  2194	#else
+  2195		down_read(&sem->internal_rwsem);
+  2196	#endif
+  2197	}
+  2198	
 
 -- 
 0-DAY CI Kernel Test Service
