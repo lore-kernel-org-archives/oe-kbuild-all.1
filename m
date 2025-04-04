@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7971D20B7E1;
-	Fri,  4 Apr 2025 17:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC77113D539
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 17:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743786290; cv=none; b=jOWZALa31BMMW2xlBs7TTAIVBQ0+Axyw9AaoyzrryjGQ6B6e/8QSRciZc2t0J185Hjt8ugN4ZyDyIp1alMi7gbobB/279/9hecbd3hKbelQ1XE+uIgFzm9B/daJIcLShMSE9QP2s5D0IRY3tUbawHCQ78WlmwIQGYs3GCMpydJQ=
+	t=1743787488; cv=none; b=VmtXYutScr4tBYpedsIWB7/0h3unL5Xyfu6SWwzC06fkbREDSP+4NInGxohclG4RvtJLG1EOVo+JqIEl++NesdKLWG/D5nkYmiRwHJRrdRMyhhEv3JOBXb/LrZ1z7jdKqG/FCyczpYmGE8xz5L1HE0Qm1i9WKvo7XVr8IhJ41LA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743786290; c=relaxed/simple;
-	bh=PQ6GEgfzTsDd4LfloGZIp4yubtkGdlsZsPlhKlMxjt0=;
+	s=arc-20240116; t=1743787488; c=relaxed/simple;
+	bh=ndAQcWlankOjE/MTbpHioDrbPpoO/Lec/2elSBkD6wM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kK9VUvqLo2Eqp1LBiEDfxDmTz+d9rmVorVy8KskN4Qr5snkd1kpMx8CduGVBXPb8gf7lo3YtqngkxtRkUK9slgBezW2yfdhVrGNJ8iBLqqijAlUDTI1IVyF8FmW/RcgNgwJow21TU3i6gWQR363JzHmisvtkYerT/96sUHnB2Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwgUf7GO; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=nJ9sM4i9g5DsT1cSSKmeq3NGKxJmKqkqvoISwRPsJyfxBMY1Ws7vDKbx38mpcSgu0PXSKOybjGJarTMhr+EDvtuz8rtoBo+wWuMZeC6zEPENlxiVpVhPmxlBRnFcp6bsJVMopKPiHACNbAr5iB8UyOK8YlxMjiyWW4oaUOVe8Vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maYZoq5p; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwgUf7GO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maYZoq5p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743786289; x=1775322289;
+  t=1743787487; x=1775323487;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PQ6GEgfzTsDd4LfloGZIp4yubtkGdlsZsPlhKlMxjt0=;
-  b=kwgUf7GOStDgG5qxGDFyHYeGcGJtz3CzJGoRR0a/+DRqoC5sh1BQg7hK
-   Aqsfg3qLLQo99ydqGy4ZoHUFlvHNjWjV1YPqZo4fCno8eDqg24QLhNyPu
-   G0GXOgLR/dwfPVKRKnWZWbChO4MMl4CD+Iy+TO+qNZRX2q/aGVttRvUk5
-   QT1YqTP64ShLtLk39S4EqBDUEWN1sVCktaK8ZaCMgMM/rpnROIKPzlqsW
-   PW+UzN4HhU79RwIBGx0gbXkrwtc716CzyPtx83uMhkOqfnFPGyUlik7yD
-   retD+g1v/f+6Svzjd4N7cYeims/okRg0PG/t/RYiKJscRAJtjUEAaXvTt
-   g==;
-X-CSE-ConnectionGUID: MPxUeMPYTr+BFmkXzFeUuQ==
-X-CSE-MsgGUID: NtnnbzqQRnemu9h1JI015w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="49027887"
+  bh=ndAQcWlankOjE/MTbpHioDrbPpoO/Lec/2elSBkD6wM=;
+  b=maYZoq5pU87GDK+3u3fqc/f1xxu5Pn16K1xDpd8TdJwRrz43iFLnSb6l
+   VxomFm0PioaGL/5TC7Reh92k0OaTzu+u+Uhl4bw5USYjHochB5ggzcFCX
+   YST8StktzFYjLx6Gh+LyY3cwNASoTbd5F6j5Uv7OLJ+AaCDg4V+id+0Qw
+   8qZ7gBxtL/TJy36z6Nl59V5JrCAM4FGqWgVCDugd1BP/xcU2RMo5W8Adj
+   dw5lhkJ+z94kdh5JhP7UHN9fwnzvQnIY8+h3cJajafjHCKtWTShFahvw2
+   l7YGOr5HTYVo5K5K8kpT0jaO4/O4gn9m9L0KG1EYbEzOC9tnSWa44v+Ul
+   w==;
+X-CSE-ConnectionGUID: mhn6eM+HQOGxViwU/pA52g==
+X-CSE-MsgGUID: Osi3t9vdRbivf8WG7q8HJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="45325985"
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="49027887"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:04:46 -0700
-X-CSE-ConnectionGUID: v3LFnNyOSYSbfGh5wqXLTg==
-X-CSE-MsgGUID: etzyF26PQNCgTOf30FaNag==
+   d="scan'208";a="45325985"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:24:46 -0700
+X-CSE-ConnectionGUID: 5CgG+WbbQgG1eiUgV+2Szg==
+X-CSE-MsgGUID: gklP56+IR8WOTzAdlHJE9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="132564002"
+   d="scan'208";a="127880514"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Apr 2025 10:04:43 -0700
+  by orviesa007.jf.intel.com with ESMTP; 04 Apr 2025 10:24:45 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0kTB-0001PV-1d;
-	Fri, 04 Apr 2025 17:04:41 +0000
-Date: Sat, 5 Apr 2025 01:04:04 +0800
+	id 1u0kmY-0001Q1-2k;
+	Fri, 04 Apr 2025 17:24:42 +0000
+Date: Sat, 5 Apr 2025 01:24:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [tip:timers/cleanups 5/10] kernel/time/timer_list.c:49:77: error:
- too few arguments provided to function-like macro invocation
-Message-ID: <202504050045.fyyfMGEQ-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:ufs-lrbp-as-priv-data 6/25] drivers/scsi/scsi.c:208:
+ warning: Function parameter or struct member 'host' not described in
+ 'scsi_host_update_can_queue'
+Message-ID: <202504050126.gla8wYKS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,49 +63,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/cleanups
-head:   5c4da3a96bf484f965057c281f1ef48ac46987bc
-commit: 9453228aa82f20c07670d22c3d54f1be6c4244b4 [5/10] hrtimers: Make callback function pointer private
-config: hexagon-randconfig-002-20250404 (https://download.01.org/0day-ci/archive/20250405/202504050045.fyyfMGEQ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050045.fyyfMGEQ-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux ufs-lrbp-as-priv-data
+head:   64402c397d056783699e6297d4631c9185a14c04
+commit: ea8688494a0addd615787accc07b434f4686e20a [6/25] scsi: core: Introduce scsi_host_update_can_queue()
+config: i386-buildonly-randconfig-004-20250404 (https://download.01.org/0day-ci/archive/20250405/202504050126.gla8wYKS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050126.gla8wYKS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504050045.fyyfMGEQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504050126.gla8wYKS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/time/timer_list.c:49:77: error: too few arguments provided to function-like macro invocation
-      49 |         SEQ_printf(m, " #%d: <%p>, %ps", idx, taddr, ACCESS_PRIVATE(timer->function));
-         |                                                                                    ^
-   include/linux/compiler_types.h:78:10: note: macro 'ACCESS_PRIVATE' defined here
-      78 | # define ACCESS_PRIVATE(p, member) ((p)->member)
-         |          ^
->> kernel/time/timer_list.c:49:47: error: use of undeclared identifier 'ACCESS_PRIVATE'
-      49 |         SEQ_printf(m, " #%d: <%p>, %ps", idx, taddr, ACCESS_PRIVATE(timer->function));
-         |                                                      ^
-   2 errors generated.
+>> drivers/scsi/scsi.c:208: warning: Function parameter or struct member 'host' not described in 'scsi_host_update_can_queue'
+>> drivers/scsi/scsi.c:208: warning: Function parameter or struct member 'can_queue' not described in 'scsi_host_update_can_queue'
 
 
-vim +49 kernel/time/timer_list.c
+vim +208 drivers/scsi/scsi.c
 
-    44	
-    45	static void
-    46	print_timer(struct seq_file *m, struct hrtimer *taddr, struct hrtimer *timer,
-    47		    int idx, u64 now)
-    48	{
-  > 49		SEQ_printf(m, " #%d: <%p>, %ps", idx, taddr, ACCESS_PRIVATE(timer->function));
-    50		SEQ_printf(m, ", S:%02x", timer->state);
-    51		SEQ_printf(m, "\n");
-    52		SEQ_printf(m, " # expires at %Lu-%Lu nsecs [in %Ld to %Ld nsecs]\n",
-    53			(unsigned long long)ktime_to_ns(hrtimer_get_softexpires(timer)),
-    54			(unsigned long long)ktime_to_ns(hrtimer_get_expires(timer)),
-    55			(long long)(ktime_to_ns(hrtimer_get_softexpires(timer)) - now),
-    56			(long long)(ktime_to_ns(hrtimer_get_expires(timer)) - now));
-    57	}
-    58	
+   200	
+   201	/**
+   202	 * scsi_host_update_can_queue - Modify @host->can_queue
+   203	 *
+   204	 * @host->__devices must be empty and I/O must have been quiesced before this
+   205	 * function is called.
+   206	 */
+   207	int scsi_host_update_can_queue(struct Scsi_Host *host, int can_queue)
+ > 208	{
+   209		struct blk_mq_tag_set prev_set;
+   210		int prev_can_queue, ret;
+   211	
+   212		if (!list_empty(&host->__devices))
+   213			return -EINVAL;
+   214	
+   215		prev_can_queue = host->can_queue;
+   216		prev_set = host->tag_set;
+   217		host->can_queue = can_queue;
+   218		ret = scsi_mq_setup_tags(host);
+   219		if (ret) {
+   220			host->can_queue = prev_can_queue;
+   221			return ret;
+   222		}
+   223		blk_mq_free_tag_set(&prev_set);
+   224		return 0;
+   225	}
+   226	EXPORT_SYMBOL_GPL(scsi_host_update_can_queue);
+   227	
 
 -- 
 0-DAY CI Kernel Test Service
