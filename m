@@ -1,110 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4776615B54A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 05:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE39216F8E5
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 05:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743745911; cv=none; b=u+edC3srjrWEZNgCIQBuKyXBaxDS8Sg6/1kADMIwE7hcZDLtx7+xgs7hAoZjDIrs199WuZ9f4nenboKYSkwVH3SRVOy0JFQF/tgDXqtOVT29zNLfgQqyWcKQEFUUZeiMInuZj906f59goOauExM/BcQQuXUXxaOVWnJA5sQ0Zps=
+	t=1743746156; cv=none; b=tc0rdYxHIsfVGreEU/VqSUkraaVmi3wbBhVeX/cd9v2RHNxqIz8pSpIbNkLGC58JXqumdux0Mo2XmYfPjaZPh7XZlb+SxKUfHbcKpYYFaGT/9XpAxhQFrF1LZNyg5sO44pqtgEDj87KPf+2aMcBfc5zNGNSfA/73xXpVLkbEfyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743745911; c=relaxed/simple;
-	bh=duAYRq244lKghXLjwlUPtR96qqOm7CqC4g55tLgHcK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bg+oEkwyjL9IN3mPBDe4xnTiCbo3GE/ZIoHcVUXTJ6UlUYDyGK3wLqvWdEPvBNpTsDT7QQZGSenntYJGHb1q1rW8QHTTuadzij1LEe/E71oZhOACbgUCWVCu16tk0gwQdfP+vM5BUUBkJG85bGvzpaChZXwmf3sj/SIfD2JDKO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SMlXbCGP; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743746156; c=relaxed/simple;
+	bh=m3Wf1exXRQJ0ctdB9DJLeYyEFT0zavPZvNni4xpRWm0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BIElWDxzRajn1+o94GlY9YNasy2bkA3YrSC7Jxy1SLa+Z310c8iz/sXTuEibHOMFXmvnvcWhaF1etNllJpyRXxiS/EuHCHUS+OMp8QX5Ud+gO+B7Dn1eIimKmRTi7PsITRkX59GOdT1mZtlz+hPCBnGqIFq/DKxoIPVHKBLRLII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PucI3vyJ; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SMlXbCGP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743745909; x=1775281909;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=duAYRq244lKghXLjwlUPtR96qqOm7CqC4g55tLgHcK8=;
-  b=SMlXbCGPqsUrLySXhR+WYCM/yf7kaNp6eqw8Dq8arIKOt97VJLuuYWQt
-   lwuTtsVDngPqAJCz28h7FxbfpZoZMyLtt4edMyUm87pvAopmREAzsT1eQ
-   X/uHpjO8SGcb73G1aT9hjZTE3Z/BCqjN8OwADS5UL1Y4HuTxtkjHP9AIO
-   ls88fpp84+SbmP1rwjECF9k6C1TUIagfR0vW+ZnEK3nYR8276uNEyLjEh
-   nI2MXpdkLqdW8tqDwc8rqs+/Qz7Hzo+YlQJHGwfT/0xPC/obMRLHkVPL/
-   ygI3kJ9Ef/tUrkJXGlS/LCclV4UDc39cfZOhqX4f1xUapA6fOSp8ghL+4
-   g==;
-X-CSE-ConnectionGUID: /PMzRUveTlK5+Ve1zRHgUA==
-X-CSE-MsgGUID: 6fmfC41cRv2Pc/JbbOjUdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="49036176"
-X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="49036176"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 22:51:49 -0700
-X-CSE-ConnectionGUID: EPim8gilRX2xDSLhfsQhCw==
-X-CSE-MsgGUID: j56jmjC5TESUcP4qGnnCUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="127025444"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Apr 2025 22:51:46 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0Zxv-00011n-2A;
-	Fri, 04 Apr 2025 05:51:43 +0000
-Date: Fri, 4 Apr 2025 13:51:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sukrut Bellary <sbellary@baylibre.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Sukrut Bellary <sbellary@baylibre.com>,
-	Tero Kristo <kristo@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Andreas Kemnade <andreas@kemnade.info>, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] dt-bindings: clock: ti: Convert to yaml
-Message-ID: <202504041306.Dxlb0inM-lkp@intel.com>
-References: <20250404014500.2789830-3-sbellary@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PucI3vyJ"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30bd21f887aso12587751fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 03 Apr 2025 22:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743746152; x=1744350952; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T4m4Lgv/G0HSWsRrxvRHFcyOI0AOUZXlAU03wGqymqg=;
+        b=PucI3vyJV+9iIRk7XAL1b6fEdAUPSvY4gcKEZ2ofelSD550XNXahhUsj6/2eybHMZW
+         rN8zKa5JP5CkMQ7xmdfbYG2ieFzYDP+lmpfK+CXV71jyhkqZF5MsIhygqgt8lTjtjPv/
+         m9PzIgEr+B8jLlEmIjuruMFT+JgHHJjA/La28zjsU9kGYkbGlspRu+pZoPpndqfUq9Un
+         g1W+fK9Kq44Fa8TUP0cHgQKKfge5JlOgMV354duWwgHgaxvLsk+0+E62O1jxRBsQyjUV
+         gRc3yzDbxCiWYGTuQrIbadLnwcYi0HVGJ91Psv20ZKaGv5RqM9jxK27yIFGtqkHcYdT+
+         KamA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743746152; x=1744350952;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T4m4Lgv/G0HSWsRrxvRHFcyOI0AOUZXlAU03wGqymqg=;
+        b=b6/Sk9ILxN9VHFghjabl+0Qw9YNpF4S21HyP9q9XuAsVX8Fd2tKOSnX/5Nt+YM1Qpn
+         pdatOEQcVhoaomZeflIZcrZAU55IQNiSnr4Kau4KeGBZDNZF74/vwA2bCbbmvoNucrlY
+         SeJYq6iiCNJEYPA9dx2dS4m9UAkidwP2O4J1BFJYwbpf+ZZ7cZ0hYWG/3nLDzFMxm0GS
+         k8Y7TJyHl5GCZdZOKk5DSaXxB1TEw98jjxU9oWMGLkLV9f8PJK0PS47MXb2Oql4gV+IJ
+         mRVnhbZ2fFSriqeBlrC9IdY+Ww+GoQEirUQ3q0vWuYtrVYnjMl49L0xNK2lNP9T62AdZ
+         6R+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUzxv2v7IkQwCInLxX3wFt26ZE6qCvdgpx3U35PYVo/ZR1RMkaaUNlNmrbjvtJeAElumeZpmOmMmWyUgBwo@lists.linux.dev
+X-Gm-Message-State: AOJu0YwN3y7Y8l+pENNmudHqRs+dvz8mBWmL2Pk9x6HYkgZr4CJNTC2Y
+	PupEqsz0l+jmr6DP6h30x8ePpD2saQrxXKz78C9ZStSfEX9oB9bFEClqlazgjIwtlH2NkDd12Kq
+	+TNQ7/Expw0Z170FZfW39keMaiSk=
+X-Gm-Gg: ASbGncuBTicyAL5F7iD2Lirf6KgEQqtm0cvrG7nyv9zt4vdlxbirFeGYQfKQcdkHz6d
+	4jgoyvn55gyC50LuzJb2gGyymQOYGUemOWdwah5BYqKvC9K5WABjBKN6dMc1Ft1FhaZxqLrN/Cz
+	Ku0ZeLJg4M7fmIL6fmGdqWH7z56Q==
+X-Google-Smtp-Source: AGHT+IGTy1lG5z/lKToJqLPpKeMMyAygaCW/W5NO8s5KV8h/yzeNHSQV1ViJFpeSbZCYHzC1pamHt+ktBZwIl25G9jM=
+X-Received: by 2002:a2e:ad92:0:b0:30d:e104:cd58 with SMTP id
+ 38308e7fff4ca-30f0c08d73cmr3440681fa.41.1743746151616; Thu, 03 Apr 2025
+ 22:55:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250404014500.2789830-3-sbellary@baylibre.com>
+References: <20250403094527.349526-3-ubizjak@gmail.com> <202504040855.mr885Pz1-lkp@intel.com>
+ <20250404015112.GA96368@sol.localdomain>
+In-Reply-To: <20250404015112.GA96368@sol.localdomain>
+From: Uros Bizjak <ubizjak@gmail.com>
+Date: Fri, 4 Apr 2025 07:55:40 +0200
+X-Gm-Features: ATxdqUHvxKjaAuNJAyKxretVYKicCee6aHgEDOIqcSNJgt7UxehAOrZAXyC0sC4
+Message-ID: <CAFULd4YrG-7DCXabke+uuLwLw2azciogG1nPGeAkMxLACw+0og@mail.gmail.com>
+Subject: Re: [PATCH 3/3] crypto: x86 - Remove CONFIG_AS_AVX512
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, kernel test robot <lkp@intel.com>, x86@kernel.org, 
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sukrut,
+On Fri, Apr 4, 2025 at 3:51=E2=80=AFAM Eric Biggers <ebiggers@kernel.org> w=
+rote:
+>
+> On Fri, Apr 04, 2025 at 09:13:40AM +0800, kernel test robot wrote:
+> > Hi Uros,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on herbert-cryptodev-2.6/master]
+> > [also build test WARNING on herbert-crypto-2.6/master tip/x86/core linu=
+s/master v6.14]
+> > [cannot apply to next-20250403]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Uros-Bizjak/cryp=
+to-x86-Remove-CONFIG_AS_SHA256_NI/20250403-174814
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptod=
+ev-2.6.git master
+> > patch link:    https://lore.kernel.org/r/20250403094527.349526-3-ubizja=
+k%40gmail.com
+> > patch subject: [PATCH 3/3] crypto: x86 - Remove CONFIG_AS_AVX512
+> > config: i386-buildonly-randconfig-001-20250404 (https://download.01.org=
+/0day-ci/archive/20250404/202504040855.mr885Pz1-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250404/202504040855.mr885Pz1-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202504040855.mr885Pz1-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> > >> lib/raid6/recov_avx512.c:382:2: warning: #warning "your version of b=
+inutils lacks AVX512 support" [-Wcpp]
+> >      382 | #warning "your version of binutils lacks AVX512 support"
+> >          |  ^~~~~~~
+> >
+> >
+> > vim +382 lib/raid6/recov_avx512.c
+> >
+> > 13c520b2993c9fa Gayatri Kammela 2016-08-12  380
+> > 13c520b2993c9fa Gayatri Kammela 2016-08-12  381  #else
+> > 13c520b2993c9fa Gayatri Kammela 2016-08-12 @382  #warning "your version=
+ of binutils lacks AVX512 support"
+>
+> Yeah, CONFIG_AS_AVX512 needs to be removed from lib/raid6/ too.  It looke=
+d like
+> that directory was rolling its own CONFIG_AS_AVX512 in lib/raid6/test/Mak=
+efile,
+> but that's a makefile for a test program and not the actual kernel makefi=
+le.
 
-kernel test robot noticed the following build warnings:
+I think the best approach to avoid patch dependencies is not to remove
+the test for AS_AVX512 from Kconfig.assembler in this patch, but in a
+separate patch that will be eventually committed late in the merge
+cycle (or for the next version), after all other users are removed
+from the tree. I have patches for other parts ready.
 
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on robh/for-next linus/master v6.14 next-20250403]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I'll post v2 of this series with the above adjustment.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sukrut-Bellary/dt-bindings-clock-ti-Convert-to-yaml/20250404-094647
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20250404014500.2789830-3-sbellary%40baylibre.com
-patch subject: [PATCH 2/4] dt-bindings: clock: ti: Convert to yaml
-reproduce: (https://download.01.org/0day-ci/archive/20250404/202504041306.Dxlb0inM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504041306.Dxlb0inM-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/arch/powerpc/cxl.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-cxl
-   Warning: Documentation/devicetree/bindings/clock/ti/fixed-factor-clock.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/ti/autoidle.txt
-   Warning: Documentation/devicetree/bindings/clock/ti/ti,divider-clock.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/ti/autoidle.txt
->> Warning: Documentation/devicetree/bindings/clock/ti/ti,gate-clock.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/ti/clockdomain.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Uros.
