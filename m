@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B635190477;
-	Thu,  3 Apr 2025 23:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D7B634
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 01:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743723740; cv=none; b=Okx2NAxWTrh39FmlP3dx7JshS7zyBlRgiQFGmej1as0B61yoAaJLvryKk0DFPWomMFZiEFbRJ3JkWMpNkUUTpT6u2iySdTe7Her5QSwaqodd2mjG2EyAPjOcerzMn6f7w3ABkEnEV/mMaWyKVVifYPTO0f5Z7nsHkzw3C1Vr560=
+	t=1743728665; cv=none; b=IiV22ISHkxYNuFngn3fP1dBpm2U8BGH17ES8fR6xYtV/nAFVYL705hRfXPbnWkyrVGZDMAPd5TTkfXzZKpRVnR9HqeMNjOZOkbLNbfHrh2RlMk3O3bBfXPHoXXNF7GVRcHdQGObeQ1j1CbVOGPwm1On602yr1vtaYbbBCs33/8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743723740; c=relaxed/simple;
-	bh=6fEK0YGz76MGudSMKDrMDuNMNr3oIg0Oe7KszbeabK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lYfxCKexaB9wfh5RNf8KUy5PAqu9erUkhfDYHYVXgA+Bis04wdghup6ib3fwP3vcDe9TQUPd2UHybsZmWccGHZ653fW1ncIcH06keche8AGpyOmGxOWxVATFvAZr5UpQuohgcrKNHU0vTyy3tJDp4jQ4LXTJVKII6EBqfX9gZhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WzF2kszw; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1743728665; c=relaxed/simple;
+	bh=qoA1PqKxlDZ111sdTNxZr8f7mGlRmFRScSxqlwAuNmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y68wZ44e1uVJVVlscjhqMXkAxcLb6G2QB7xI0hVB4GZ9TGZ1/e1PvCTlvR0V1nm5fU1c9jdJ+HMycGH89dpk07+C5rdOheaQgc1gwqgIt2FKnOSxJW5+qXSr9Wf+6yJ0u5+nfxmU/XebYQy9nT3E8yPxgyOslLjMnlsD/0PgxPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hh+ZP1nx; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WzF2kszw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hh+ZP1nx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743723738; x=1775259738;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6fEK0YGz76MGudSMKDrMDuNMNr3oIg0Oe7KszbeabK8=;
-  b=WzF2kszwvaXq9a8gGYU/+ZyTyK41qbeMopUmKhyq8R+FJD6jsRvXdR+9
-   yAkmuO5ORe6DAjzLIJ8hATryXKvuZvF7REiPAIInF3GQVuMBHUymPE8J+
-   8d/SJIhvBDcbiJ6ZLl1KyYwm5uanvxa8mm+ij87EcVez49IQDFsPbixvI
-   z7QcTgQVfaxfrBuqzodCfrgKiecaabLTLnu/xoCxkvmybCo30vIdF7YaW
-   QWmsVYp5bOSnWHblE8x+Tr8b6WP0+d7o72efTiGXWBsL4JijyPmzv8msa
-   dnqgEwUxqy2si5cJccYnWzQLIbhCtFUVNT8YIuOcqPogAgtZBp+VhQUwN
-   A==;
-X-CSE-ConnectionGUID: Sn1ihXoVQZOiMn/4IkkLAw==
-X-CSE-MsgGUID: YmkNopMGSUK86dz9nNcLDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="67629970"
+  t=1743728663; x=1775264663;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qoA1PqKxlDZ111sdTNxZr8f7mGlRmFRScSxqlwAuNmM=;
+  b=Hh+ZP1nxFNuO8x3CrteElpklCYHak+iCWekJj7DDPg6sDsR2frqYUKBh
+   mcXi0LS3ggAvpvlZkEsemvxE/ibiHSbTD4wLGSoAeSZuMh4JQqiZxcRmt
+   p+Q3zgdWLcD37Ou52ufyVU5ByhR0jD0z/futlX3aLSvlAI/z6lPfxql+T
+   dg92Hs/gZPAAQ00e9W1VM63BSvXaMDDCXtfKL+ILLu0x9C3A+HHe+aFnP
+   HQSKV7DhwhLLbfaM9UEqxMdQdggEwLoleNS0ul3AddF0/aMhGUC5qoDJQ
+   I6vToxXFMlU23paMxbShsYkIg4E0XlZMWw819eWBKgW4+vgwk55nhXNV+
+   w==;
+X-CSE-ConnectionGUID: S3Jw16jURTubrOOlpfuiCQ==
+X-CSE-MsgGUID: Bkd3EvVPTJSdOmDzccVVBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="47879203"
 X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; 
-   d="scan'208";a="67629970"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 16:42:17 -0700
-X-CSE-ConnectionGUID: 1Z+kOqcER6qVTMGMHpovIg==
-X-CSE-MsgGUID: rdwsdumoSWWh3MIDEwh/vw==
+   d="scan'208";a="47879203"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 18:04:22 -0700
+X-CSE-ConnectionGUID: h6gRinZTRmKeKmucMeIpmg==
+X-CSE-MsgGUID: /MkVPBmKQ+2u8FOoWjMErA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,186,1739865600"; 
-   d="scan'208";a="127669687"
+   d="scan'208";a="126952697"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Apr 2025 16:42:15 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 Apr 2025 18:04:21 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0UCK-0000sN-38;
-	Thu, 03 Apr 2025 23:42:12 +0000
-Date: Fri, 4 Apr 2025 07:41:57 +0800
+	id 1u0VTn-0000tn-0i;
+	Fri, 04 Apr 2025 01:04:19 +0000
+Date: Fri, 4 Apr 2025 09:03:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: arch/x86/include/asm/msr.h:122: undefined reference to
- `__tracepoint_read_msr'
-Message-ID: <202504040729.wlM9odB8-lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU
+ for non-visible access
+Message-ID: <202504040820.oEc4vaWF-lkp@intel.com>
+References: <20250403202705.18488-3-matthew.brost@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +63,196 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250403202705.18488-3-matthew.brost@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e8b471285262d1561feb2eb266aab6ebe7094124
-commit: 4a8840af5f53f2902eba91130fae650879f18e7a tracepoints: Use new static branch API
-date:   6 months ago
-config: um-randconfig-002-20250404 (https://download.01.org/0day-ci/archive/20250404/202504040729.wlM9odB8-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504040729.wlM9odB8-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20250403]
+[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.14]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-xe-Add-devcoredump-chunking/20250404-042700
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250403202705.18488-3-matthew.brost%40intel.com
+patch subject: [PATCH v2 2/4] drm/xe: Update xe_ttm_access_memory to use GPU for non-visible access
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250404/202504040820.oEc4vaWF-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504040820.oEc4vaWF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504040729.wlM9odB8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504040820.oEc4vaWF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_init_one':
->> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
-   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_cable_detect':
->> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
-   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_set_piomode':
->> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:149: undefined reference to `__tracepoint_write_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:150: undefined reference to `do_trace_write_msr'
-   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_set_dmamode':
->> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:149: undefined reference to `__tracepoint_write_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:150: undefined reference to `do_trace_write_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
-   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_program_dtc':
->> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:149: undefined reference to `__tracepoint_write_msr'
->> /usr/bin/ld: arch/x86/include/asm/msr.h:150: undefined reference to `do_trace_write_msr'
-   clang: error: linker command failed with exit code 1 (use -v to see invocation)
+   drivers/gpu/drm/xe/xe_migrate.c: In function 'xe_migrate_access_memory':
+   drivers/gpu/drm/xe/xe_migrate.c:1819:19: error: 'XE_CACHELINE_MASK' undeclared (first use in this function)
+    1819 |         if (len & XE_CACHELINE_MASK ||
+         |                   ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_migrate.c:1819:19: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/xe/xe_migrate.c:1828:35: error: 'XE_CACHELINE_BYTES' undeclared (first use in this function); did you mean 'L1_CACHE_BYTES'?
+    1828 |                         u8 bounce[XE_CACHELINE_BYTES];
+         |                                   ^~~~~~~~~~~~~~~~~~
+         |                                   L1_CACHE_BYTES
+>> drivers/gpu/drm/xe/xe_migrate.c:1828:28: warning: unused variable 'bounce' [-Wunused-variable]
+    1828 |                         u8 bounce[XE_CACHELINE_BYTES];
+         |                            ^~~~~~
+   drivers/gpu/drm/xe/xe_migrate.c:1888:27: error: implicit declaration of function 'xe_migrate_vram'; did you mean 'xe_migrate_to_vram'? [-Wimplicit-function-declaration]
+    1888 |                 __fence = xe_migrate_vram(m, current_bytes,
+         |                           ^~~~~~~~~~~~~~~
+         |                           xe_migrate_to_vram
+   drivers/gpu/drm/xe/xe_migrate.c:1892:43: error: 'XE_MIGRATE_COPY_TO_VRAM' undeclared (first use in this function)
+    1892 |                                           XE_MIGRATE_COPY_TO_VRAM :
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_migrate.c:1893:43: error: 'XE_MIGRATE_COPY_TO_SRAM' undeclared (first use in this function)
+    1893 |                                           XE_MIGRATE_COPY_TO_SRAM);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +122 arch/x86/include/asm/msr.h
+vim +/bounce +1828 drivers/gpu/drm/xe/xe_migrate.c
 
-c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  108  
-c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  109  #define native_wrmsr(msr, low, high)			\
-c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  110  	__wrmsr(msr, low, high)
-c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  111  
-c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  112  #define native_wrmsrl(msr, val)				\
-c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  113  	__wrmsr((msr), (u32)((u64)(val)),		\
-c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  114  		       (u32)((u64)(val) >> 32))
-c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  115  
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  116  static inline unsigned long long native_read_msr(unsigned int msr)
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  117  {
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  118  	unsigned long long val;
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  119  
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  120  	val = __rdmsr(msr);
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  121  
-fdb46faeab2f3f arch/x86/include/asm/msr.h Steven Rostedt (VMware    2020-09-25 @122) 	if (tracepoint_enabled(read_msr))
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20 @123  		do_trace_read_msr(msr, val, 0);
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  124  
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  125  	return val;
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  126  }
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  127  
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  128  static inline unsigned long long native_read_msr_safe(unsigned int msr,
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  129  						      int *err)
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  130  {
-c210d24986dc19 include/asm-x86/msr.h      Glauber de Oliveira Costa 2008-01-30  131  	DECLARE_ARGS(val, low, high);
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  132  
-d52a7344bdfa9c arch/x86/include/asm/msr.h Peter Zijlstra            2021-11-10  133  	asm volatile("1: rdmsr ; xor %[err],%[err]\n"
-d52a7344bdfa9c arch/x86/include/asm/msr.h Peter Zijlstra            2021-11-10  134  		     "2:\n\t"
-d52a7344bdfa9c arch/x86/include/asm/msr.h Peter Zijlstra            2021-11-10  135  		     _ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_RDMSR_SAFE, %[err])
-08970fc4e03857 include/asm-x86/msr.h      H. Peter Anvin            2008-08-25  136  		     : [err] "=r" (*err), EAX_EDX_RET(val, low, high)
-d52a7344bdfa9c arch/x86/include/asm/msr.h Peter Zijlstra            2021-11-10  137  		     : "c" (msr));
-fdb46faeab2f3f arch/x86/include/asm/msr.h Steven Rostedt (VMware    2020-09-25  138) 	if (tracepoint_enabled(read_msr))
-7f47d8cc039f87 arch/x86/include/asm/msr.h Andi Kleen                2015-12-01  139  		do_trace_read_msr(msr, EAX_EDX_VAL(val, low, high), *err);
-c210d24986dc19 include/asm-x86/msr.h      Glauber de Oliveira Costa 2008-01-30  140  	return EAX_EDX_VAL(val, low, high);
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  141  }
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  142  
-b2c5ea4f759190 arch/x86/include/asm/msr.h Wanpeng Li                2016-11-07  143  /* Can be uninlined because referenced by paravirt */
-5d07c2cc1962fa arch/x86/include/asm/msr.h Borislav Petkov           2016-11-02  144  static inline void notrace
-5d07c2cc1962fa arch/x86/include/asm/msr.h Borislav Petkov           2016-11-02  145  native_write_msr(unsigned int msr, u32 low, u32 high)
-b2c5ea4f759190 arch/x86/include/asm/msr.h Wanpeng Li                2016-11-07  146  {
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  147  	__wrmsr(msr, low, high);
-a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  148  
-fdb46faeab2f3f arch/x86/include/asm/msr.h Steven Rostedt (VMware    2020-09-25 @149) 	if (tracepoint_enabled(write_msr))
-7f47d8cc039f87 arch/x86/include/asm/msr.h Andi Kleen                2015-12-01 @150  		do_trace_write_msr(msr, ((u64)high << 32 | low), 0);
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  151  }
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  152  
-
-:::::: The code at line 122 was first introduced by commit
-:::::: fdb46faeab2f3fa2b43a55059b33b8f98b2e1442 x86: Use tracepoint_enabled() for msr tracepoints instead of open coding it
-
-:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
+  1785	
+  1786	/**
+  1787	 * xe_migrate_access_memory - Access memory of a BO via GPU
+  1788	 *
+  1789	 * @m: The migration context.
+  1790	 * @bo: buffer object
+  1791	 * @offset: access offset into buffer object
+  1792	 * @buf: pointer to caller memory to read into or write from
+  1793	 * @len: length of access
+  1794	 * @write: write access
+  1795	 *
+  1796	 * Access memory of a BO via GPU either reading in or writing from a passed in
+  1797	 * pointer. Pointer is dma mapped for GPU access and GPU commands are issued to
+  1798	 * read to or write from pointer.
+  1799	 *
+  1800	 * Returns:
+  1801	 * 0 if successful, negative error code on failure.
+  1802	 */
+  1803	int xe_migrate_access_memory(struct xe_migrate *m, struct xe_bo *bo,
+  1804				     unsigned long offset, void *buf, int len,
+  1805				     int write)
+  1806	{
+  1807		struct xe_tile *tile = m->tile;
+  1808		struct xe_device *xe = tile_to_xe(tile);
+  1809		struct xe_res_cursor cursor;
+  1810		struct dma_fence *fence = NULL;
+  1811		dma_addr_t *dma_addr;
+  1812		unsigned long page_offset = (unsigned long)buf & ~PAGE_MASK;
+  1813		int bytes_left = len, current_page = 0;
+  1814		void *orig_buf = buf;
+  1815	
+  1816		xe_bo_assert_held(bo);
+  1817	
+  1818		/* Use bounce buffer for small access and unaligned access */
+> 1819		if (len & XE_CACHELINE_MASK ||
+  1820		    ((uintptr_t)buf | offset) & XE_CACHELINE_MASK) {
+  1821			int buf_offset = 0;
+  1822	
+  1823			/*
+  1824			 * Less than ideal for large unaligned access but this should be
+  1825			 * fairly rare, can fixup if this becomes common.
+  1826			 */
+  1827			do {
+> 1828				u8 bounce[XE_CACHELINE_BYTES];
+  1829				void *ptr = (void *)bounce;
+  1830				int err;
+  1831				int copy_bytes = min_t(int, bytes_left,
+  1832						       XE_CACHELINE_BYTES -
+  1833						       (offset & XE_CACHELINE_MASK));
+  1834				int ptr_offset = offset & XE_CACHELINE_MASK;
+  1835	
+  1836				err = xe_migrate_access_memory(m, bo,
+  1837							       offset &
+  1838							       ~XE_CACHELINE_MASK,
+  1839							       (void *)ptr,
+  1840							       sizeof(bounce), 0);
+  1841				if (err)
+  1842					return err;
+  1843	
+  1844				if (!write) {
+  1845					memcpy(buf + buf_offset, ptr + ptr_offset,
+  1846					       copy_bytes);
+  1847					goto next;
+  1848				}
+  1849	
+  1850				memcpy(ptr + ptr_offset, buf + buf_offset, copy_bytes);
+  1851				err = xe_migrate_access_memory(m, bo,
+  1852							       offset & ~XE_CACHELINE_MASK,
+  1853							       (void *)ptr,
+  1854							       sizeof(bounce), 0);
+  1855				if (err)
+  1856					return err;
+  1857	
+  1858	next:
+  1859				bytes_left -= copy_bytes;
+  1860				buf_offset += copy_bytes;
+  1861				offset += copy_bytes;
+  1862			} while (bytes_left);
+  1863	
+  1864			return 0;
+  1865		}
+  1866	
+  1867		dma_addr = xe_migrate_dma_map(xe, buf, len + page_offset, write);
+  1868		if (IS_ERR(dma_addr))
+  1869			return PTR_ERR(dma_addr);
+  1870	
+  1871		xe_res_first(bo->ttm.resource, offset, bo->size - offset, &cursor);
+  1872	
+  1873		do {
+  1874			struct dma_fence *__fence;
+  1875			u64 vram_addr = vram_region_gpu_offset(bo->ttm.resource) +
+  1876				cursor.start;
+  1877			int current_bytes;
+  1878	
+  1879			if (cursor.size > MAX_PREEMPTDISABLE_TRANSFER)
+  1880				current_bytes = min_t(int, bytes_left,
+  1881						      MAX_PREEMPTDISABLE_TRANSFER);
+  1882			else
+  1883				current_bytes = min_t(int, bytes_left, cursor.size);
+  1884	
+  1885			if (fence)
+  1886				dma_fence_put(fence);
+  1887	
+  1888			__fence = xe_migrate_vram(m, current_bytes,
+  1889						  (unsigned long)buf & ~PAGE_MASK,
+  1890						  dma_addr + current_page,
+  1891						  vram_addr, write ?
+  1892						  XE_MIGRATE_COPY_TO_VRAM :
+  1893						  XE_MIGRATE_COPY_TO_SRAM);
+  1894			if (IS_ERR(__fence)) {
+  1895				if (fence)
+  1896					dma_fence_wait(fence, false);
+  1897				fence = __fence;
+  1898				goto out_err;
+  1899			}
+  1900			fence = __fence;
+  1901	
+  1902			buf += current_bytes;
+  1903			offset += current_bytes;
+  1904			current_page = (int)(buf - orig_buf) / PAGE_SIZE;
+  1905			bytes_left -= current_bytes;
+  1906			if (bytes_left)
+  1907				xe_res_next(&cursor, current_bytes);
+  1908		} while (bytes_left);
+  1909	
+  1910		dma_fence_wait(fence, false);
+  1911		dma_fence_put(fence);
+  1912		xe_migrate_dma_unmap(xe, dma_addr, len + page_offset, write);
+  1913	
+  1914		return 0;
+  1915	
+  1916	out_err:
+  1917		xe_migrate_dma_unmap(xe, dma_addr, len + page_offset, write);
+  1918		return PTR_ERR(fence);
+  1919	}
+  1920	
 
 -- 
 0-DAY CI Kernel Test Service
