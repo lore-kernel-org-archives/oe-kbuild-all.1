@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F29715C15F;
-	Fri,  4 Apr 2025 08:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E12117A305
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Apr 2025 08:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743753963; cv=none; b=ZlTpSpawDP7B2QX3rN3W+SzaZOsTjKpnZZfuM/Yel0AQePuE8rYP1Kofmm51HpIxaKgbwRS6aZbWYIPl69CawHGf5REc3aWoINukU05TZ4tlZIcIuvdpEs6VZX2rzrBnbJAmXUf4Qh2QLmo0N7cK49dSpopGnBwPNc71l7tvdyQ=
+	t=1743755765; cv=none; b=RODaHecizv5DSkznHDsaGKoHy/UaMT9K1sULF27mRveWRBlUwZ9O/4DFwdXQnNkue5A5TLRKfwyxOjis0w+rVplWS9yTJOa4z8cHqlMdcl76GjKAvLHRMkhYPmPPprTnBnJm4Oml2y5kkWb6Cf4HeTCWYDONQIsMwArnXE+z5kE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743753963; c=relaxed/simple;
-	bh=Tfa/yybm5CsqfeEOMUp9kIWHth41E2TgjvduwZq36R8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DyxblP4DKbllHAPT02MERZl2DK8dQ9RMcsN+eD+FHVNZFBA85u9mQ1M5gbWihf4YXcjWp+iab98lV7lEg4Sf3F1F9nQAlGcfrte923k1uP/rsdZy3wTvp1eFEd3m7E7DG8eTI5bLLsojv827g1A/RHFCqbaLV+w2RKljyX6HFCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mWS6TFpR; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1743755765; c=relaxed/simple;
+	bh=1NOVPT45p0ESeXjMNdgGRc6+XJJNl3cL2NcayYX/Vms=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RrrLPtfNV6zbq0SBmbJYX0+uaDEyqD1A4au4A94UMxGoHw6kmH0C8OpaAoKCmncEESUWcp11GZOgADNk69I3Url2XNstf54MCkXyChx1mDiABvbJwXzVvfPAhd9ED3edgpU8CZ0+ON2vK9bJmdeq2w9Qt3UGAKyAgNP0FlhWXA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqnhqbcs; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mWS6TFpR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqnhqbcs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743753961; x=1775289961;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Tfa/yybm5CsqfeEOMUp9kIWHth41E2TgjvduwZq36R8=;
-  b=mWS6TFpRaGLPOolEjQxKjw6eJ46un4975dwwDaD/H+E5nxWxTMpUuQ+C
-   zQShQLNgalRrt6Gvr7rq0/fFBZVk0WzAr5HnqDyywyyRXgzOgOGTzd/HE
-   JYIsNebn8IKMdFKsdLIKvOeKRtR5wvI2kQFlk+k0VWOQN1m9Gi1GqEQ8e
-   DOpyP0rr2aQmCIm863E7u26KL+Jqg64WdaIqPTjEfMntrJPrSM4Oyi+0p
-   /aTMozW1zjk+Yds8MNo0z8i76nsTSxMGJa+vqZoYvt70Jq+qU1r4N64tG
-   sjS1d1UFpQm4b5/AzoYLKmJ8RjCVrRhBpB+an9dS3/2/OWu+Ze0Y26+Sb
+  t=1743755763; x=1775291763;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1NOVPT45p0ESeXjMNdgGRc6+XJJNl3cL2NcayYX/Vms=;
+  b=nqnhqbcszMP2w2c1bJDDyY1lQt89jVb7WhCKyscsUWOZQEtELhaBoc50
+   JnPzJhRe3qqOzszma/j9RJmwmBzxcR4n81pCQfOwdVLxMDLeTqXOFrMDh
+   YT35smYYrN07SRwskcmdbkWhnzcSQHUrdPnSs+1NPdQBDCWknvS37hg09
+   ZnW3/Jy1NkA3HCdZvZ20O+mcYiaMiJU/+/iFKGfD9bm5BOo85TOJkuizz
+   FbBp6ds4wFqKhDTBkFR0iI5DQdlhAOrH4tcGbGnOb114xCnmQaA+SPXj4
+   0E+jh84WCd44NjTcaVlWX1LCRduxLwYYeTOETCHNzEOgp3E1DVe3CusfN
    Q==;
-X-CSE-ConnectionGUID: C8PRV6PvTgCNJ0JE/n/E4w==
-X-CSE-MsgGUID: 3w/tuehBQwaaP+dIyNCVIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45071901"
+X-CSE-ConnectionGUID: tjDEFJZZSjmLQuDZ5lo6cw==
+X-CSE-MsgGUID: nysAxZfFQ8m9YLnPBc7ROw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="62589090"
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="45071901"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:06:00 -0700
-X-CSE-ConnectionGUID: UsxmuIBoSTG5iI2LOfkssQ==
-X-CSE-MsgGUID: 1IMoFxbxTOCJW4BpgdX77A==
+   d="scan'208";a="62589090"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:36:03 -0700
+X-CSE-ConnectionGUID: JVFv/yFbS1SBuFLIwxWnng==
+X-CSE-MsgGUID: lVsmJzBxRFqeY0Aim1Zhfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="158233880"
+   d="scan'208";a="127149086"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Apr 2025 01:05:59 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 Apr 2025 01:36:01 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0c3o-00014x-2k;
-	Fri, 04 Apr 2025 08:05:56 +0000
-Date: Fri, 4 Apr 2025 16:04:59 +0800
+	id 1u0cWt-00015r-0x;
+	Fri, 04 Apr 2025 08:35:59 +0000
+Date: Fri, 4 Apr 2025 16:35:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Donet Tom <donettom@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2]  mm/swap.c: Enable promotion of unmapped MGLRU
- page cache pages
-Message-ID: <202504041529.Z00E8TJC-lkp@intel.com>
-References: <20250403141032.22743-1-donettom@linux.ibm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:main-16k-gs-shusky-5.15 17/17]
+ drivers/usb/gadget/configfs.c:1614:9: error: implicit declaration of
+ function 'acc_disconnect'
+Message-ID: <202504041620.NdMtDy8I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,81 +62,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250403141032.22743-1-donettom@linux.ibm.com>
 
-Hi Donet,
+Hi Ronak,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.14 next-20250404]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Donet-Tom/mm-swap-c-Enable-promotion-of-unmapped-MGLRU-page-cache-pages/20250403-221222
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250403141032.22743-1-donettom%40linux.ibm.com
-patch subject: [RFC PATCH v2]  mm/swap.c: Enable promotion of unmapped MGLRU page cache pages
-config: hexagon-randconfig-002-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041529.Z00E8TJC-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041529.Z00E8TJC-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
+head:   f344ab3d86fe50dc56c87b7a96c07b8210635ec5
+commit: 36cfd6f81afc6d2eab297f686f00eafd5a807cec [17/17] ANDROID: usb: gadget: Resolve NULL pointer dereference in composite_disconnect
+config: i386-randconfig-062-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041620.NdMtDy8I-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041620.NdMtDy8I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504041529.Z00E8TJC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504041620.NdMtDy8I-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/swap.c:401:8: error: use of undeclared identifier 'sysctl_numa_balancing_mode'
-     401 |                                   (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
-         |                                    ^
->> mm/swap.c:401:37: error: use of undeclared identifier 'NUMA_BALANCING_MEMORY_TIERING'
-     401 |                                   (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
-         |                                                                 ^
->> mm/swap.c:402:8: error: use of undeclared identifier 'numa_pagecache_promotion_enabled'
-     402 |                                    numa_pagecache_promotion_enabled) {
-         |                                    ^
->> mm/swap.c:403:5: error: call to undeclared function 'promotion_candidate'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     403 |                                 promotion_candidate(folio);
-         |                                 ^
-   4 errors generated.
+   drivers/usb/gadget/configfs.c: In function 'configfs_composite_disconnect':
+>> drivers/usb/gadget/configfs.c:1614:9: error: implicit declaration of function 'acc_disconnect' [-Werror=implicit-function-declaration]
+    1614 |         acc_disconnect();
+         |         ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
 
 
-vim +/sysctl_numa_balancing_mode +401 mm/swap.c
+vim +/acc_disconnect +1614 drivers/usb/gadget/configfs.c
 
-   382	
-   383	static void lru_gen_inc_refs(struct folio *folio)
-   384	{
-   385		unsigned long new_flags, old_flags = READ_ONCE(folio->flags);
-   386	
-   387		if (folio_test_unevictable(folio))
-   388			return;
-   389	
-   390		/* see the comment on LRU_REFS_FLAGS */
-   391		if (!folio_test_referenced(folio)) {
-   392			set_mask_bits(&folio->flags, LRU_REFS_MASK, BIT(PG_referenced));
-   393			return;
-   394		}
-   395	
-   396		do {
-   397			if ((old_flags & LRU_REFS_MASK) == LRU_REFS_MASK) {
-   398				if (!folio_test_workingset(folio)) {
-   399					folio_set_workingset(folio);
-   400				} else if (!folio_test_isolated(folio) &&
- > 401					  (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
- > 402					   numa_pagecache_promotion_enabled) {
- > 403					promotion_candidate(folio);
-   404				}
-   405				return;
-   406			}
-   407	
-   408			new_flags = old_flags + BIT(LRU_REFS_PGOFF);
-   409		} while (!try_cmpxchg(&folio->flags, &old_flags, new_flags));
-   410	}
-   411	
+  1597	
+  1598	static void configfs_composite_disconnect(struct usb_gadget *gadget)
+  1599	{
+  1600		struct usb_composite_dev *cdev;
+  1601		struct gadget_info *gi;
+  1602		unsigned long flags;
+  1603	
+  1604		cdev = get_gadget_data(gadget);
+  1605		if (!cdev)
+  1606			return;
+  1607	
+  1608	#ifdef CONFIG_USB_CONFIGFS_F_ACC
+  1609		/*
+  1610		 * accessory HID support can be active while the
+  1611		 * accessory function is not actually enabled,
+  1612		 * so we need to inform it when we are disconnected.
+  1613		 */
+> 1614		acc_disconnect();
+  1615	#endif
+  1616		gi = container_of(cdev, struct gadget_info, cdev);
+  1617		spin_lock_irqsave(&gi->spinlock, flags);
+  1618		cdev = get_gadget_data(gadget);
+  1619		if (!cdev || gi->unbind) {
+  1620			spin_unlock_irqrestore(&gi->spinlock, flags);
+  1621			return;
+  1622		}
+  1623	
 
 -- 
 0-DAY CI Kernel Test Service
