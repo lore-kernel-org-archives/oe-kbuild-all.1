@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393BA2F36
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 00:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390E24A1A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 00:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743813388; cv=none; b=ifx/4t3E9incxAvlqaaLFhMy1jNNSE33I31NzPfyV9xGna89hvjHexaYxr6efDLVYc0CkgLE3QAq/pKE2BRKUUs+vOT+4tdg1z8TT1MDeOb60NFwf0dpcevJ2HEIUQasKton5nxq8vqCR2eZDMLe5vuIj3ctNloLqLEsc4VXf2Y=
+	t=1743814225; cv=none; b=unB3aDiIWTFvIqjLuk9070Zzc+hi9E4O91mFFq0MtdRYsJrYABntdO6eGu8EYeujwdPyf5xihB88H8KsZYinYlCR9CL9JGnlVlVFKOEJsPHjGTrFJKDJsASJOEvnJwd24gwmYiJBJ41PN2j90xFnjJM3U30U+f7WoKHIpp2ZAFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743813388; c=relaxed/simple;
-	bh=D04GQjJVTbdj0EI/o3qCLXYgkzKbBu3RBBIdJTEG6Dg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rQGdBiFerUdSSEAaUFt/p8MNxnhODi18zkNKG6lAE1L0jiAQFSN3hgKNMMUVH4/wmRp/gR1XjiKbkMm26ZDcmIi1y5VPbVjY5r+A6GvEVlsLbqlaUvKBPTGi3ex3/tKxaOEB3loCydLs7onNF82ax7nkJYcwaAK1MYQ70T7LSSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cd7MLgxn; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1743814225; c=relaxed/simple;
+	bh=O4yebv23wWu2Rl3woPvvindNbicgo1+ivVEobi4sei8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UAYaNKUZBIOdapU4rnnwcZAeSkWzyYzlWXdUcRXDkPjKqk4AmhF4skFv2muQ+xCmFSxX5q15eZPCNl0xYQqLqV0fjTuPgFfKa8WrqLSJZgdRJfmZKZV5Cx/ONh6xAhj9AIBQGZkQShL93S3jPKAiEFM44Rn8HaK4olxy6cPcDWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQRA1GuV; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cd7MLgxn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQRA1GuV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743813386; x=1775349386;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D04GQjJVTbdj0EI/o3qCLXYgkzKbBu3RBBIdJTEG6Dg=;
-  b=Cd7MLgxn7uFUaxrrH3YCCuyNqSSDYWaMKtH0MuNO8B01xqrhTo0yXr0F
-   lSvfoqvT1bvJZs4UOnOTCGWBeErbXe/C7ds4iQuTfzQ+OIy1l6qQVwLHZ
-   em2JvQMvSrlDSWiEOr7tcIIDQgftQJ/9Rtz08naXvd0Usqud3Z3PmnpCa
-   qyhAmBlWDrBGV88Tz/m3X/tKuJ9Ht3SwOLbWuF6VtJvV1BqJ8tJ+cE3Mv
-   hyBf7e6Z41iyXEjPN4PjMPqGIKvBzg7exxjT1B/vxlKnxFNprn8eQGLzq
-   ME6BuzHv3KO1N06tcU4FaKgwy1tMbVBTh8ZesplFmJEOPEknxfVCGlwlY
-   w==;
-X-CSE-ConnectionGUID: hiP70bI3Q76P1csPW8zUrQ==
-X-CSE-MsgGUID: V/2hnYQnRfWrVVH9DB4Kqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="55901705"
+  t=1743814224; x=1775350224;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O4yebv23wWu2Rl3woPvvindNbicgo1+ivVEobi4sei8=;
+  b=UQRA1GuVO+0hkABJmi/ID50IXlFUzsG0qUlSwj0w8B6mqOKCvR1KnsSy
+   4Scmwi0T9zI7Km/74WH4mOuNKKXY6vLB9nMGy8ZPB+mQeulR0x1G0D/UO
+   dzu8RJE0FrHufvCuHHwdhn1/X4kWWqxpXA/qtwk2vUTAoFuwJMbFXfsW9
+   fRvQJq574vTeuMBlBB7Vlmg3BfoyjHYWWjdR4J86ZEkhe320vQxLIZ4Un
+   m+fl3QXFaRGYqvox7SO0iqVByu6lVIjTD4eloI7hxEe62cM7x9ZYtuZyU
+   Lbd/WMHd852c6+KUIoG7B5IWTZ60iwzgse3YUsssTK7W8ziaNRyOlzSTD
+   A==;
+X-CSE-ConnectionGUID: V8kjDEgTSsy/pzQG807Bbw==
+X-CSE-MsgGUID: GuO+z8EqQFyPcswTEp/IdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="45362637"
 X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
-   d="scan'208";a="55901705"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 17:36:25 -0700
-X-CSE-ConnectionGUID: 5BF7QoSpT1CL0i0rilUFFA==
-X-CSE-MsgGUID: R95ij1hERPy+PpOJt1Ockg==
+   d="scan'208";a="45362637"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 17:50:24 -0700
+X-CSE-ConnectionGUID: 4cpiKMJ3RcSIPOEAaC0/nw==
+X-CSE-MsgGUID: AzPWGb9eRx+m7w4gqVmlXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
-   d="scan'208";a="131593006"
+   d="scan'208";a="127438794"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Apr 2025 17:36:21 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 04 Apr 2025 17:50:22 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0rWF-0001hT-0p;
-	Sat, 05 Apr 2025 00:36:19 +0000
-Date: Sat, 5 Apr 2025 08:36:10 +0800
+	id 1u0rjo-0001hv-1H;
+	Sat, 05 Apr 2025 00:50:20 +0000
+Date: Sat, 5 Apr 2025 08:49:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Vidya Sagar <vidyas@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.li@nxp.com>,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: PCI: Remove obsolete .txt docs
-Message-ID: <202504050824.95rb99r8-lkp@intel.com>
-References: <20250404221559.552201-1-robh@kernel.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Juergen Gross <jgross@suse.com>
+Subject: [jpoimboe:objtool-werror 1/3] vmlinux.o: warning: objtool:
+ asm_load_gs_index+0x0: stack state mismatch: cfa1=4+8 cfa2=4+0
+Message-ID: <202504050802.B6gCLJGB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,41 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250404221559.552201-1-robh@kernel.org>
 
-Hi Rob,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.14 next-20250404]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-PCI-Remove-obsolete-txt-docs/20250405-061754
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250404221559.552201-1-robh%40kernel.org
-patch subject: [PATCH] dt-bindings: PCI: Remove obsolete .txt docs
-reproduce: (https://download.01.org/0day-ci/archive/20250405/202504050824.95rb99r8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-werror
+head:   449363264d269ad1a7708447c2ed718e7170143c
+commit: b1c60a498c6146de0706572d3f47d3723ca91743 [1/3] objtool: Fix SYSCALL instruction handling and INSN_CONTEXT_SWITCH
+config: x86_64-buildonly-randconfig-005-20250405 (https://download.01.org/0day-ci/archive/20250405/202504050802.B6gCLJGB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050802.B6gCLJGB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504050824.95rb99r8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504050802.B6gCLJGB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->> Warning: Documentation/devicetree/bindings/virtio/pci-iommu.yaml references a file that doesn't exist: Documentation/devicetree/bindings/pci/pci.txt
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> vmlinux.o: warning: objtool: asm_load_gs_index+0x0: stack state mismatch: cfa1=4+8 cfa2=4+0
+>> vmlinux.o: warning: objtool: asm_exc_nmi+0xd9: stack state mismatch: cfa1=4+0 cfa2=4+8
 
 -- 
 0-DAY CI Kernel Test Service
