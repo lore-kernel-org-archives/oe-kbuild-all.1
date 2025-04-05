@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA101E8349
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 13:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2964C74;
+	Sat,  5 Apr 2025 13:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743859647; cv=none; b=d92fvlC1GPABHYW7kQAxBf4kqp6Nv04IJFnwGEGFGpP4TrYV9RChXrpFiAm+KhWiIMLeRbS0iyD34y9yfPtkOoK6v6WyBbqF41X++fp+iDruBS1i7qTOnjNxsl4cGmYjHb46Dfm61IrhLA5JadzVynnG3iMjsPKY8Coxj+AGOH0=
+	t=1743861508; cv=none; b=hwF3g/Sw25gR+Zw7tbAAOEAdVo9oEfrHCNij3GLZNTKiC8Di0QOBtz5/5oc+20cL7ndgSkWuSqlZ7X6fmYO7CcLz5J2HuoBPbC1w8Xa9qjseSrgQoKj2Mn5uZmu6zKvYKVvVYuOoJmm6ttXMo+7wcJIWMQesuE6xre20C5+Zrnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743859647; c=relaxed/simple;
-	bh=PhxZXSsULPsD4mO8+edV5H0C2P/rskNqBj+w/eJH1Ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D/P/QGUTMmF+dFaEFABvSPg36YG0wcVxudEysf4hflQ7G6CTV+ZuSuqMuyq71w+FgpnIV4PSns/RMOvHVSXclEAV4VearD5XMNfuZvg/MMAcos5rkhuEBG0F4b5CLakiQG3ytC5wZSvzVNRY9xIsCTLRdWAdvQhSZsbAJqR01dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6s95YUK; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1743861508; c=relaxed/simple;
+	bh=TlcOy/LVXLNv4yOlY3OkbohiJ6xwZanBVIKgTD9Hyoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kmGy+2xbckOOp3sbEvxW97yoehZOkRsETS+hOwBRaS8PLuoboO/xC6sYxYbljj9nPF6rxZqV9MQuOvs8NqwcatfYjakAiQ5me/ce4vSAr7yAufKKCw9GdH0Y+UyllLmJ5owIg2obHfrAJ9yCgokTLmjYiGJA1cbuSwJJXqLyp54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C/uMKtKf; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6s95YUK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/uMKtKf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743859646; x=1775395646;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PhxZXSsULPsD4mO8+edV5H0C2P/rskNqBj+w/eJH1Ss=;
-  b=R6s95YUK4Zuy0LQerUic+IBq1Sz2ZvaOtLzUOVZ6KD3okB3zbfOX0Etp
-   0HmQnWvg3VoFfsaR/IoYeQX7NVe2gYzQ9Qg5exL1ihNKZ6jt6ijLm66Hq
-   AZ3nkAyouLdT5twtTH3+PKJCi//IzVCJN60S3rBSQrJij9ftpucVv9jb0
-   vomS3jhlgHLtR9c0oNoyy4VKmbMJs69/RuOQHTslPjejToXQu3XNocMbj
-   ejcxOvPx2X7A2UqKbAUGMT3VAEW+YIJF9cYCGVyWX0PG+0lHq8gURKbvp
-   B6UrnyoWXNQe71S625F267OmsL0Eq0qOBpUXk0L2mMQWvT2XhqPeJMfCy
+  t=1743861507; x=1775397507;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TlcOy/LVXLNv4yOlY3OkbohiJ6xwZanBVIKgTD9Hyoc=;
+  b=C/uMKtKfq1f6rcMWQ9jgbAufwg2Ff1vNFAM4sfrlYohOUVhxuGvdPdyz
+   7wQKiakBrJkvsvM3+G7UfdNyErTuyUHSuBygpa1MW846fl884qKN+0PdN
+   3lNO5VsTIFF0VHP5P4uInAAlR7+kOird6C+jclRoSKDv8HvpjGiY19fbt
+   5TjWQpFHYjk4nT6yrU9K3Jt5om77P+MoG1lXJut+lGfovwTSqzA/Jcgvf
+   t6QB83xOpLEcfPe1wtYV5E5v5R4n+Xuq3LKNh6Dcbvt6+g/sNXBL65q6R
+   bhleIpExwzgLj+TbWip8+cmE4/XPTiV2GNCTO5vHl0u87BsBkXLfEAmHJ
    Q==;
-X-CSE-ConnectionGUID: 0Pil+ZvoSBe9tj1jM8b33w==
-X-CSE-MsgGUID: UnAbBfYERmOcsGIMe6VMhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="45428668"
+X-CSE-ConnectionGUID: dz9eEPCsR3qwkTQ7QsXjvw==
+X-CSE-MsgGUID: UllqRi0aQK67JG0VcTFd8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="55925189"
 X-IronPort-AV: E=Sophos;i="6.15,191,1739865600"; 
-   d="scan'208";a="45428668"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 06:27:24 -0700
-X-CSE-ConnectionGUID: 6q9IScSFQve322yI6xyTFg==
-X-CSE-MsgGUID: uTkR2OvDRHezxOJrTbFY7Q==
+   d="scan'208";a="55925189"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 06:58:26 -0700
+X-CSE-ConnectionGUID: JyKenM7OSU2LlvYNeODZiQ==
+X-CSE-MsgGUID: H9qPe6F9R1aqu8H1I6IjEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,191,1739865600"; 
-   d="scan'208";a="127853495"
+   d="scan'208";a="132517891"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Apr 2025 06:27:22 -0700
+  by orviesa004.jf.intel.com with ESMTP; 05 Apr 2025 06:58:24 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u13YO-00022q-0Q;
-	Sat, 05 Apr 2025 13:27:20 +0000
-Date: Sat, 5 Apr 2025 21:26:45 +0800
+	id 1u142Q-00024B-1V;
+	Sat, 05 Apr 2025 13:58:22 +0000
+Date: Sat, 5 Apr 2025 21:58:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel'
- directive output may be truncated writing 4 bytes into a region of size
- between 3 and 13
-Message-ID: <202504052118.HCpNF13P-lkp@intel.com>
+To: Jesper Dangaard Brouer <hawk@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH net-next] veth: apply qdisc backpressure on full
+ ptr_ring to reduce TX drops
+Message-ID: <202504052130.3cm740O3-lkp@intel.com>
+References: <174377814192.3376479.16481605648460889310.stgit@firesoul>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,159 +63,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <174377814192.3376479.16481605648460889310.stgit@firesoul>
 
-Hi Jani,
+Hi Jesper,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a8662bcd2ff152bfbc751cab20f33053d74d0963
-commit: 03ee752f00fd0daa082b43774cfd03a7f9a17385 drm/imx: prefer snprintf over sprintf
-date:   1 year, 2 months ago
-config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250405/202504052118.HCpNF13P-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504052118.HCpNF13P-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jesper-Dangaard-Brouer/veth-apply-qdisc-backpressure-on-full-ptr_ring-to-reduce-TX-drops/20250404-225209
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/174377814192.3376479.16481605648460889310.stgit%40firesoul
+patch subject: [RFC PATCH net-next] veth: apply qdisc backpressure on full ptr_ring to reduce TX drops
+config: arm-randconfig-001-20250405 (https://download.01.org/0day-ci/archive/20250405/202504052130.3cm740O3-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504052130.3cm740O3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504052118.HCpNF13P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504052130.3cm740O3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/imx/ipuv3/imx-ldb.c: In function 'imx_ldb_probe':
->> drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel' directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Wformat-truncation=]
-     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
-         |                                                         ^~~~
-   drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:17: note: 'snprintf' output between 8 and 18 bytes into a destination of size 16
-     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/veth.c:399:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     399 |                 struct netdev_queue *txq = netdev_get_tx_queue(dev, rxq);
+         |                 ^
+   1 warning generated.
 
 
-vim +/_sel +658 drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+vim +399 drivers/net/veth.c
 
-   617	
-   618	static int imx_ldb_probe(struct platform_device *pdev)
-   619	{
-   620		struct device *dev = &pdev->dev;
-   621		struct device_node *np = dev->of_node;
-   622		struct device_node *child;
-   623		struct imx_ldb *imx_ldb;
-   624		int dual;
-   625		int ret;
-   626		int i;
-   627	
-   628		imx_ldb = devm_kzalloc(dev, sizeof(*imx_ldb), GFP_KERNEL);
-   629		if (!imx_ldb)
-   630			return -ENOMEM;
-   631	
-   632		imx_ldb->regmap = syscon_regmap_lookup_by_phandle(np, "gpr");
-   633		if (IS_ERR(imx_ldb->regmap)) {
-   634			dev_err(dev, "failed to get parent regmap\n");
-   635			return PTR_ERR(imx_ldb->regmap);
-   636		}
-   637	
-   638		/* disable LDB by resetting the control register to POR default */
-   639		regmap_write(imx_ldb->regmap, IOMUXC_GPR2, 0);
-   640	
-   641		imx_ldb->dev = dev;
-   642		imx_ldb->lvds_mux = device_get_match_data(dev);
-   643	
-   644		dual = of_property_read_bool(np, "fsl,dual-channel");
-   645		if (dual)
-   646			imx_ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
-   647	
-   648		/*
-   649		 * There are three different possible clock mux configurations:
-   650		 * i.MX53:  ipu1_di0_sel, ipu1_di1_sel
-   651		 * i.MX6q:  ipu1_di0_sel, ipu1_di1_sel, ipu2_di0_sel, ipu2_di1_sel
-   652		 * i.MX6dl: ipu1_di0_sel, ipu1_di1_sel, lcdif_sel
-   653		 * Map them all to di0_sel...di3_sel.
-   654		 */
-   655		for (i = 0; i < 4; i++) {
-   656			char clkname[16];
-   657	
- > 658			snprintf(clkname, sizeof(clkname), "di%d_sel", i);
-   659			imx_ldb->clk_sel[i] = devm_clk_get(imx_ldb->dev, clkname);
-   660			if (IS_ERR(imx_ldb->clk_sel[i])) {
-   661				ret = PTR_ERR(imx_ldb->clk_sel[i]);
-   662				imx_ldb->clk_sel[i] = NULL;
-   663				break;
-   664			}
-   665	
-   666			imx_ldb->clk_parent[i] = clk_get_parent(imx_ldb->clk_sel[i]);
-   667		}
-   668		if (i == 0)
-   669			return ret;
-   670	
-   671		for_each_child_of_node(np, child) {
-   672			struct imx_ldb_channel *channel;
-   673			int bus_format;
-   674	
-   675			ret = of_property_read_u32(child, "reg", &i);
-   676			if (ret || i < 0 || i > 1) {
-   677				ret = -EINVAL;
-   678				goto free_child;
-   679			}
-   680	
-   681			if (!of_device_is_available(child))
-   682				continue;
-   683	
-   684			if (dual && i > 0) {
-   685				dev_warn(dev, "dual-channel mode, ignoring second output\n");
-   686				continue;
-   687			}
-   688	
-   689			channel = &imx_ldb->channel[i];
-   690			channel->ldb = imx_ldb;
-   691			channel->chno = i;
-   692	
-   693			/*
-   694			 * The output port is port@4 with an external 4-port mux or
-   695			 * port@2 with the internal 2-port mux.
-   696			 */
-   697			ret = drm_of_find_panel_or_bridge(child,
-   698							  imx_ldb->lvds_mux ? 4 : 2, 0,
-   699							  &channel->panel, &channel->bridge);
-   700			if (ret && ret != -ENODEV)
-   701				goto free_child;
-   702	
-   703			/* panel ddc only if there is no bridge */
-   704			if (!channel->bridge) {
-   705				ret = imx_ldb_panel_ddc(dev, channel, child);
-   706				if (ret)
-   707					goto free_child;
-   708			}
-   709	
-   710			bus_format = of_get_bus_format(dev, child);
-   711			if (bus_format == -EINVAL) {
-   712				/*
-   713				 * If no bus format was specified in the device tree,
-   714				 * we can still get it from the connected panel later.
-   715				 */
-   716				if (channel->panel && channel->panel->funcs &&
-   717				    channel->panel->funcs->get_modes)
-   718					bus_format = 0;
-   719			}
-   720			if (bus_format < 0) {
-   721				dev_err(dev, "could not determine data mapping: %d\n",
-   722					bus_format);
-   723				ret = bus_format;
-   724				goto free_child;
-   725			}
-   726			channel->bus_format = bus_format;
-   727			channel->child = child;
-   728		}
-   729	
-   730		platform_set_drvdata(pdev, imx_ldb);
-   731	
-   732		return component_add(&pdev->dev, &imx_ldb_ops);
-   733	
-   734	free_child:
-   735		of_node_put(child);
-   736		return ret;
-   737	}
-   738	
+   355	
+   356	static netdev_tx_t veth_xmit(struct sk_buff *skb, struct net_device *dev)
+   357	{
+   358		struct veth_priv *rcv_priv, *priv = netdev_priv(dev);
+   359		struct veth_rq *rq = NULL;
+   360		struct net_device *rcv;
+   361		int length = skb->len;
+   362		bool use_napi = false;
+   363		int ret, rxq;
+   364	
+   365		rcu_read_lock();
+   366		rcv = rcu_dereference(priv->peer);
+   367		if (unlikely(!rcv) || !pskb_may_pull(skb, ETH_HLEN)) {
+   368			kfree_skb(skb);
+   369			goto drop;
+   370		}
+   371	
+   372		rcv_priv = netdev_priv(rcv);
+   373		rxq = skb_get_queue_mapping(skb);
+   374		if (rxq < rcv->real_num_rx_queues) {
+   375			rq = &rcv_priv->rq[rxq];
+   376	
+   377			/* The napi pointer is available when an XDP program is
+   378			 * attached or when GRO is enabled
+   379			 * Don't bother with napi/GRO if the skb can't be aggregated
+   380			 */
+   381			use_napi = rcu_access_pointer(rq->napi) &&
+   382				   veth_skb_is_eligible_for_gro(dev, rcv, skb);
+   383		}
+   384	
+   385		skb_tx_timestamp(skb);
+   386	
+   387		ret = veth_forward_skb(rcv, skb, rq, use_napi);
+   388		switch(ret) {
+   389		case NET_RX_SUCCESS: /* same as NETDEV_TX_OK */
+   390			if (!use_napi)
+   391				dev_sw_netstats_tx_add(dev, 1, length);
+   392			else
+   393				__veth_xdp_flush(rq);
+   394			break;
+   395		case NETDEV_TX_BUSY:
+   396			/* If a qdisc is attached to our virtual device, returning
+   397			 * NETDEV_TX_BUSY is allowed.
+   398			 */
+ > 399			struct netdev_queue *txq = netdev_get_tx_queue(dev, rxq);
+   400	
+   401			if (!txq_has_qdisc(txq)) {
+   402				dev_kfree_skb_any(skb);
+   403				goto drop;
+   404			}
+   405			netif_tx_stop_queue(txq); /* Unconditional netif_txq_try_stop */
+   406			if (use_napi)
+   407				__veth_xdp_flush(rq);
+   408	
+   409			break;
+   410		case NET_RX_DROP: /* same as NET_XMIT_DROP */
+   411	drop:
+   412			atomic64_inc(&priv->dropped);
+   413			ret = NET_XMIT_DROP;
+   414			break;
+   415		default:
+   416			net_crit_ratelimited("veth_xmit(%s): Invalid return code(%d)",
+   417					     dev->name, ret);
+   418		}
+   419		rcu_read_unlock();
+   420	
+   421		return ret;
+   422	}
+   423	
 
 -- 
 0-DAY CI Kernel Test Service
