@@ -1,56 +1,58 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A3222615;
-	Sat,  5 Apr 2025 01:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA90B2E62BD
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 02:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743816700; cv=none; b=TQL/hr/ZLMi7mNNSoHBrZZb1vZooTTL6EuYZbttddviUVehwl4Hsr2kKzss5VQczCqSQ8bn03xfBpJMqPHWEM1Ju1kIOA8Th8R4fHfnCnJhzGS5I+oEq/a2O/59l6lU0xQ/ObBF15bmcs7H+sWfZrKlmhba9Bos9jDj/86mWu3o=
+	t=1743818552; cv=none; b=gIuxXo+CB/BRDcEM+IbD7vIo0nlz0dsksAf0XdaqIx2Ibykg1ryv0POIcbN0jsjnYU+8V+I9EXVD4KYzonVzcFMSgmCeiM7uQywyvjtgT8l0IMCMm8uSG7L48nGEdXvCETXvG7PstdPZtLxfpui2pYuZvSYUV3zD+GLCiPiRZYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743816700; c=relaxed/simple;
-	bh=EEdUgnUojoRXpiTbpkEarFeVfjlVtp7QnFJ0ZqhbxKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Clcmb3XW8rZlELEN25RnHfi3r2y65lPiKHYhIqnetv7wQEhDbpmZst+aSKhQQjdIEaNhBCm/M4XUVN65gsjDvsGRSohWGtIg6i0+dkpOLQ0DHK40/MeP6b+NsYaU1JxgB2SQC72QlPkhp6bc6Px+KGpkza63jEkToc/9/wfchtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=ZpK6BsFn; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1743818552; c=relaxed/simple;
+	bh=Y+tP+FaB7gZUahbodtkI84cMpvjeSJw4tRHn3kTILWI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iiXvkjlLpI8ByhxVDuCmrtLzkCVWq9bCh+3feM3ZthgYGRTwuZwxpVg4yo8C053vQEPjaNLOc/oFcjevvArM+mV9xuog6V1pof1db4z/7WXsSwLKtNPYbh4DZI7x2YpwSyHDhtITsP/xVfmdX/4Y90DtRAhu3Jed+8sKe+GE3XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PGGUJVw5; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="ZpK6BsFn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=+n/TUQrYZeqTM9M0hCWSCER7aL7XLQiMb5zOS4sSbB8=; b=ZpK6BsFn8fJTsVdbG5+wsa7mCm
-	lwlUq0TI6t1B/fN/URaf1387HgqqbX9l8t2hwb+DN14ZSOB1m1aeAc52dawLLW9peYc2WnYpttgJn
-	S2B/USeL1FCVsQUu4f8uO8SXuDjmNzqzZjDi45a6E2qW2Qi4fQLcIU5hG1r9riaav11uDlRYFK1KQ
-	MlkXy3FYFp+U+bedbvtommWwMnr7lrGfSrg2tWc0v1ffHBhUl+Nvu+3jzaCr69bjL1cBt+zwEgu+V
-	2RJXdEdzZZpCwYeSriFgUDZQshty8WUxt6PT2LnNrgfIluXWDtERkvcCgz9bmQ4ikybhP971nC4W7
-	gsaYaojg==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1u0sNd-00CxRq-2r;
-	Sat, 05 Apr 2025 09:31:30 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 05 Apr 2025 09:31:29 +0800
-Date: Sat, 5 Apr 2025 09:31:29 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Uros Bizjak <ubizjak@gmail.com>, linux-crypto@vger.kernel.org,
-	kernel test robot <lkp@intel.com>, x86@kernel.org,
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai3@huawei.com>, linux-raid@vger.kernel.org
-Subject: Re: [PATCH 3/3] crypto: x86 - Remove CONFIG_AS_AVX512
-Message-ID: <Z_CH8RAVeqTlPrDO@gondor.apana.org.au>
-References: <20250403094527.349526-3-ubizjak@gmail.com>
- <202504040855.mr885Pz1-lkp@intel.com>
- <20250404015112.GA96368@sol.localdomain>
- <CAFULd4YrG-7DCXabke+uuLwLw2azciogG1nPGeAkMxLACw+0og@mail.gmail.com>
- <20250404190923.GB1622@sol.localdomain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PGGUJVw5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743818550; x=1775354550;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Y+tP+FaB7gZUahbodtkI84cMpvjeSJw4tRHn3kTILWI=;
+  b=PGGUJVw5rHVHgLx82lROg0oGQNwTHJsXC5emiHVC22xyKpZBKWO9orme
+   jd69J2lBOmvkaW4lbwyANddgOII0Ya0HHolaynXGC3k4O38B4F3UZsfr7
+   P9HjtBrd1Nl1soHN0cSFuxUYxq+e3M1H6CZGvp/xuIqYg6Kih0JpZ+uPQ
+   QsJFPxngp0wad/Vh0iQ7AW3W+0RUhgPOkSjudb0O3imMxhY+1FvfjX1gu
+   7uSGfgHr9OyF1UZVz4QkABR6lgF9kMDmKNSaTxfmR78Xbd2E46mhzSXUe
+   GPTsxnXwzMS4ivDxEFIarBSur+WNsL029GoyAG5ZkGWD9Tq+blSA3sEXb
+   w==;
+X-CSE-ConnectionGUID: ETLWrwQMRFOmcwUOvswX1w==
+X-CSE-MsgGUID: 44R3FhqbSnuGlBzuL13/RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="67745325"
+X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
+   d="scan'208";a="67745325"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 19:02:29 -0700
+X-CSE-ConnectionGUID: yHLk9ZDkRRmu55XGPwdnjw==
+X-CSE-MsgGUID: v4IIPEZZQROwIcU1JZzCrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
+   d="scan'208";a="150671838"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Apr 2025 19:02:28 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u0srZ-0001jd-2M;
+	Sat, 05 Apr 2025 02:02:25 +0000
+Date: Sat, 5 Apr 2025 10:01:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1] mm/vmscan.c:2623:15: warning: no
+ previous prototype for 'shrink_inactive_list'
+Message-ID: <202504050938.V8e259Rk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,33 +61,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250404190923.GB1622@sol.localdomain>
 
-On Fri, Apr 04, 2025 at 12:09:23PM -0700, Eric Biggers wrote:
->
-> $ ./scripts/get_maintainer.pl lib/raid6/avx512.c
-> linux-kernel@vger.kernel.org (open list)
-> 
-> Whee, more unmaintained code...
+Hi xiaofeng,
 
-I think it's maintained as a part of the software RAID code:
+FYI, the error/warning still remains.
 
-SOFTWARE RAID (Multiple Disks) SUPPORT
-M:      Song Liu <song@kernel.org>
-M:      Yu Kuai <yukuai3@huawei.com>
-L:      linux-raid@vger.kernel.org
-S:      Supported
-Q:      https://patchwork.kernel.org/project/linux-raid/list/
-T:      git git://git.kernel.org/pub/scm/linux/kernel/git/mdraid/linux.git
-F:      drivers/md/Kconfig
-F:      drivers/md/Makefile
-F:      drivers/md/md*
-F:      drivers/md/raid*
-F:      include/linux/raid/
-F:      include/uapi/linux/raid/
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   42a23db4192ac6aa2f17440b3f90f3fe562c51c7
+commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [1/1] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20250405/202504050938.V8e259Rk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050938.V8e259Rk-lkp@intel.com/reproduce)
 
-Cheers,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504050938.V8e259Rk-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   mm/vmscan.c:1043:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
+    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^~~~~~~~~~~
+>> mm/vmscan.c:2623:15: warning: no previous prototype for 'shrink_inactive_list' [-Wmissing-prototypes]
+    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+         |               ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/shrink_inactive_list +2623 mm/vmscan.c
+
+  2618	
+  2619	/*
+  2620	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
+  2621	 * of reclaimed pages
+  2622	 */
+> 2623	unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+  2624			struct lruvec *lruvec, struct scan_control *sc,
+  2625			enum lru_list lru)
+  2626	{
+  2627		LIST_HEAD(folio_list);
+  2628		unsigned long nr_scanned;
+  2629		unsigned int nr_reclaimed = 0;
+  2630		unsigned long nr_taken;
+  2631		struct reclaim_stat stat;
+  2632		bool file = is_file_lru(lru);
+  2633		enum vm_event_item item;
+  2634		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+  2635		bool stalled = false;
+  2636	
+  2637		while (unlikely(too_many_isolated(pgdat, file, sc))) {
+  2638			if (stalled)
+  2639				return 0;
+  2640	
+  2641			/* wait a bit for the reclaimer. */
+  2642			stalled = true;
+  2643			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
+  2644	
+  2645			/* We are about to die and free our memory. Return now. */
+  2646			if (fatal_signal_pending(current))
+  2647				return SWAP_CLUSTER_MAX;
+  2648		}
+  2649	
+  2650		lru_add_drain();
+  2651	
+  2652		spin_lock_irq(&lruvec->lru_lock);
+  2653	
+  2654		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
+  2655					     &nr_scanned, sc, lru);
+  2656	
+  2657		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
+  2658		item = PGSCAN_KSWAPD + reclaimer_offset();
+  2659		if (!cgroup_reclaim(sc))
+  2660			__count_vm_events(item, nr_scanned);
+  2661		__count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
+  2662		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
+  2663	
+  2664		spin_unlock_irq(&lruvec->lru_lock);
+  2665	
+  2666		if (nr_taken == 0)
+  2667			return 0;
+  2668	
+  2669		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false);
+  2670		trace_android_vh_handle_trylock_failed_folio(&folio_list);
+  2671	
+  2672		spin_lock_irq(&lruvec->lru_lock);
+  2673		move_folios_to_lru(lruvec, &folio_list);
+  2674	
+  2675		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
+  2676		item = PGSTEAL_KSWAPD + reclaimer_offset();
+  2677		if (!cgroup_reclaim(sc))
+  2678			__count_vm_events(item, nr_reclaimed);
+  2679		__count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
+  2680		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
+  2681		spin_unlock_irq(&lruvec->lru_lock);
+  2682	
+  2683		lru_note_cost(lruvec, file, stat.nr_pageout, nr_scanned - nr_reclaimed);
+  2684		mem_cgroup_uncharge_list(&folio_list);
+  2685		free_unref_page_list(&folio_list);
+  2686	
+  2687		/*
+  2688		 * If dirty folios are scanned that are not queued for IO, it
+  2689		 * implies that flushers are not doing their job. This can
+  2690		 * happen when memory pressure pushes dirty folios to the end of
+  2691		 * the LRU before the dirty limits are breached and the dirty
+  2692		 * data has expired. It can also happen when the proportion of
+  2693		 * dirty folios grows not through writes but through memory
+  2694		 * pressure reclaiming all the clean cache. And in some cases,
+  2695		 * the flushers simply cannot keep up with the allocation
+  2696		 * rate. Nudge the flusher threads in case they are asleep.
+  2697		 */
+  2698		if (stat.nr_unqueued_dirty == nr_taken) {
+  2699			wakeup_flusher_threads(WB_REASON_VMSCAN);
+  2700			/*
+  2701			 * For cgroupv1 dirty throttling is achieved by waking up
+  2702			 * the kernel flusher here and later waiting on folios
+  2703			 * which are in writeback to finish (see shrink_folio_list()).
+  2704			 *
+  2705			 * Flusher may not be able to issue writeback quickly
+  2706			 * enough for cgroupv1 writeback throttling to work
+  2707			 * on a large system.
+  2708			 */
+  2709			if (!writeback_throttling_sane(sc))
+  2710				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
+  2711		}
+  2712	
+  2713		sc->nr.dirty += stat.nr_dirty;
+  2714		sc->nr.congested += stat.nr_congested;
+  2715		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
+  2716		sc->nr.writeback += stat.nr_writeback;
+  2717		sc->nr.immediate += stat.nr_immediate;
+  2718		sc->nr.taken += nr_taken;
+  2719		if (file)
+  2720			sc->nr.file_taken += nr_taken;
+  2721	
+  2722		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
+  2723				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
+  2724		return nr_reclaimed;
+  2725	}
+  2726	EXPORT_SYMBOL(shrink_inactive_list);
+  2727	
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
