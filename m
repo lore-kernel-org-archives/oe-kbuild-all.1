@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2964C74;
-	Sat,  5 Apr 2025 13:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFE53A1BA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 14:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743861508; cv=none; b=hwF3g/Sw25gR+Zw7tbAAOEAdVo9oEfrHCNij3GLZNTKiC8Di0QOBtz5/5oc+20cL7ndgSkWuSqlZ7X6fmYO7CcLz5J2HuoBPbC1w8Xa9qjseSrgQoKj2Mn5uZmu6zKvYKVvVYuOoJmm6ttXMo+7wcJIWMQesuE6xre20C5+Zrnk=
+	t=1743862954; cv=none; b=eVHbQq5iDPmKBEgaZoGpvqhgxhgV1qqpa5sr1n2G4kqJ7krnbQyzRqDZ24ZZalEWF0qlpwfT7N5Zk51Heg7VWgqCyw/wWcGJBq/L7REbx6tfULNvXheRvBy5XX4PIzCbpkBu51Ap/P43gGJWtsAUIdu9RrZgvJ0xCLDjVP7E0E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743861508; c=relaxed/simple;
-	bh=TlcOy/LVXLNv4yOlY3OkbohiJ6xwZanBVIKgTD9Hyoc=;
+	s=arc-20240116; t=1743862954; c=relaxed/simple;
+	bh=4TlZYBczBvOtge2KRLN9HBOYe1GtJnM1LarhN79o9NI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kmGy+2xbckOOp3sbEvxW97yoehZOkRsETS+hOwBRaS8PLuoboO/xC6sYxYbljj9nPF6rxZqV9MQuOvs8NqwcatfYjakAiQ5me/ce4vSAr7yAufKKCw9GdH0Y+UyllLmJ5owIg2obHfrAJ9yCgokTLmjYiGJA1cbuSwJJXqLyp54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C/uMKtKf; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=MXWLImI6HrZyNlhYHFvcsq04wywyjv/yLfWF9Elfjz98tGMGy97K2kje7Egg/dCDFhhUhBzdpLuNkn4QP+PlQYp6qckrVJMQYjt/PtWLnJYWpXbv6H5AiXFd5udOP/1IxzoRp/kDhOc8mksW77WNtyaK7PdTLe5C4mmTGGpY90w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CaniO4sJ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/uMKtKf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CaniO4sJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743861507; x=1775397507;
+  t=1743862951; x=1775398951;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TlcOy/LVXLNv4yOlY3OkbohiJ6xwZanBVIKgTD9Hyoc=;
-  b=C/uMKtKfq1f6rcMWQ9jgbAufwg2Ff1vNFAM4sfrlYohOUVhxuGvdPdyz
-   7wQKiakBrJkvsvM3+G7UfdNyErTuyUHSuBygpa1MW846fl884qKN+0PdN
-   3lNO5VsTIFF0VHP5P4uInAAlR7+kOird6C+jclRoSKDv8HvpjGiY19fbt
-   5TjWQpFHYjk4nT6yrU9K3Jt5om77P+MoG1lXJut+lGfovwTSqzA/Jcgvf
-   t6QB83xOpLEcfPe1wtYV5E5v5R4n+Xuq3LKNh6Dcbvt6+g/sNXBL65q6R
-   bhleIpExwzgLj+TbWip8+cmE4/XPTiV2GNCTO5vHl0u87BsBkXLfEAmHJ
-   Q==;
-X-CSE-ConnectionGUID: dz9eEPCsR3qwkTQ7QsXjvw==
-X-CSE-MsgGUID: UllqRi0aQK67JG0VcTFd8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="55925189"
+  bh=4TlZYBczBvOtge2KRLN9HBOYe1GtJnM1LarhN79o9NI=;
+  b=CaniO4sJ9ogqQfQgofKFJl29SnTIj9EwY2bsZkui7Ipg/41K/sh0wyVl
+   BYG0e3e5TZoQy5oh+7LXwtlmXzGhHYNW0cxU66H///SbakZdQZXNlL/NQ
+   jN2VswzgQNj7kqizQJUPF16VXAMbS7J58hqHAwUnxcPctMypzJrCm03AU
+   WusklESXzm2RWo6IArbw2I/fVM90gnKnDXYLkSdkuQXqrltdN3yj8GOmC
+   vhY8AJeQicoFW1mXEGW8gvIBL9+xCJwDq+MiQVEJpfl3GcffdbPZAHS7f
+   8zKVk3OPwpB9xDZJu6xQAGFFP/f5vjGb0zkMnhvY9LUo7EK60mGmwkPQd
+   A==;
+X-CSE-ConnectionGUID: AkgWqQ5ATw6XqDw/avNJ6Q==
+X-CSE-MsgGUID: 9fNBSzRjTjynOCsZEupnTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="62693246"
 X-IronPort-AV: E=Sophos;i="6.15,191,1739865600"; 
-   d="scan'208";a="55925189"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 06:58:26 -0700
-X-CSE-ConnectionGUID: JyKenM7OSU2LlvYNeODZiQ==
-X-CSE-MsgGUID: H9qPe6F9R1aqu8H1I6IjEw==
+   d="scan'208";a="62693246"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 07:22:30 -0700
+X-CSE-ConnectionGUID: 2kRR535sQ+2ZOiH1PAhaow==
+X-CSE-MsgGUID: YNTyaPyDTs2VGc+DlORbOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,191,1739865600"; 
-   d="scan'208";a="132517891"
+   d="scan'208";a="127428025"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Apr 2025 06:58:24 -0700
+  by orviesa010.jf.intel.com with ESMTP; 05 Apr 2025 07:22:27 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u142Q-00024B-1V;
-	Sat, 05 Apr 2025 13:58:22 +0000
-Date: Sat, 5 Apr 2025 21:58:05 +0800
+	id 1u14Pg-000255-1f;
+	Sat, 05 Apr 2025 14:22:24 +0000
+Date: Sat, 5 Apr 2025 22:21:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jesper Dangaard Brouer <hawk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH net-next] veth: apply qdisc backpressure on full
- ptr_ring to reduce TX drops
-Message-ID: <202504052130.3cm740O3-lkp@intel.com>
-References: <174377814192.3376479.16481605648460889310.stgit@firesoul>
+To: cy_huang@richtek.com, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	Otto lin <otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] ASoC: codecs: Add support for Richtek rt9123
+Message-ID: <202504052206.HFqFRXUk-lkp@intel.com>
+References: <cff65757c4665a81397ef5f559b277f96d4236c3.1743774849.git.cy_huang@richtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,107 +70,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <174377814192.3376479.16481605648460889310.stgit@firesoul>
+In-Reply-To: <cff65757c4665a81397ef5f559b277f96d4236c3.1743774849.git.cy_huang@richtek.com>
 
-Hi Jesper,
+Hi,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on a2cc6ff5ec8f91bc463fd3b0c26b61166a07eb11]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jesper-Dangaard-Brouer/veth-apply-qdisc-backpressure-on-full-ptr_ring-to-reduce-TX-drops/20250404-225209
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/174377814192.3376479.16481605648460889310.stgit%40firesoul
-patch subject: [RFC PATCH net-next] veth: apply qdisc backpressure on full ptr_ring to reduce TX drops
-config: arm-randconfig-001-20250405 (https://download.01.org/0day-ci/archive/20250405/202504052130.3cm740O3-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504052130.3cm740O3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/cy_huang-richtek-com/ASoC-dt-bindings-Add-bindings-for-Richtek-rt9123/20250404-223054
+base:   a2cc6ff5ec8f91bc463fd3b0c26b61166a07eb11
+patch link:    https://lore.kernel.org/r/cff65757c4665a81397ef5f559b277f96d4236c3.1743774849.git.cy_huang%40richtek.com
+patch subject: [PATCH 2/4] ASoC: codecs: Add support for Richtek rt9123
+config: loongarch-randconfig-001-20250405 (https://download.01.org/0day-ci/archive/20250405/202504052206.HFqFRXUk-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504052206.HFqFRXUk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504052130.3cm740O3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504052206.HFqFRXUk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/veth.c:399:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     399 |                 struct netdev_queue *txq = netdev_get_tx_queue(dev, rxq);
-         |                 ^
-   1 warning generated.
+   sound/soc/codecs/rt9123.c: In function 'rt9123_dai_hw_params':
+>> sound/soc/codecs/rt9123.c:233:18: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     233 |         fmtval = FIELD_GET(SND_SOC_DAIFMT_FORMAT_MASK, rt9123->dai_fmt);
+         |                  ^~~~~~~~~
+   In file included from include/linux/cpumask.h:11,
+                    from arch/loongarch/include/asm/processor.h:9,
+                    from arch/loongarch/include/asm/thread_info.h:15,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/loongarch/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from sound/soc/codecs/rt9123.c:7:
+   sound/soc/codecs/rt9123.c: At top level:
+>> sound/soc/codecs/rt9123.c:476:31: error: 'rt9123_dev_pm_ops' undeclared here (not in a function); did you mean 'rt9123_dai_ops'?
+     476 |                 .pm = pm_ptr(&rt9123_dev_pm_ops),
+         |                               ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:48:44: note: in definition of macro 'PTR_IF'
+      48 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^~~
+   sound/soc/codecs/rt9123.c:476:23: note: in expansion of macro 'pm_ptr'
+     476 |                 .pm = pm_ptr(&rt9123_dev_pm_ops),
+         |                       ^~~~~~
 
 
-vim +399 drivers/net/veth.c
+vim +/FIELD_GET +233 sound/soc/codecs/rt9123.c
 
-   355	
-   356	static netdev_tx_t veth_xmit(struct sk_buff *skb, struct net_device *dev)
-   357	{
-   358		struct veth_priv *rcv_priv, *priv = netdev_priv(dev);
-   359		struct veth_rq *rq = NULL;
-   360		struct net_device *rcv;
-   361		int length = skb->len;
-   362		bool use_napi = false;
-   363		int ret, rxq;
-   364	
-   365		rcu_read_lock();
-   366		rcv = rcu_dereference(priv->peer);
-   367		if (unlikely(!rcv) || !pskb_may_pull(skb, ETH_HLEN)) {
-   368			kfree_skb(skb);
-   369			goto drop;
-   370		}
-   371	
-   372		rcv_priv = netdev_priv(rcv);
-   373		rxq = skb_get_queue_mapping(skb);
-   374		if (rxq < rcv->real_num_rx_queues) {
-   375			rq = &rcv_priv->rq[rxq];
-   376	
-   377			/* The napi pointer is available when an XDP program is
-   378			 * attached or when GRO is enabled
-   379			 * Don't bother with napi/GRO if the skb can't be aggregated
-   380			 */
-   381			use_napi = rcu_access_pointer(rq->napi) &&
-   382				   veth_skb_is_eligible_for_gro(dev, rcv, skb);
-   383		}
-   384	
-   385		skb_tx_timestamp(skb);
-   386	
-   387		ret = veth_forward_skb(rcv, skb, rq, use_napi);
-   388		switch(ret) {
-   389		case NET_RX_SUCCESS: /* same as NETDEV_TX_OK */
-   390			if (!use_napi)
-   391				dev_sw_netstats_tx_add(dev, 1, length);
-   392			else
-   393				__veth_xdp_flush(rq);
-   394			break;
-   395		case NETDEV_TX_BUSY:
-   396			/* If a qdisc is attached to our virtual device, returning
-   397			 * NETDEV_TX_BUSY is allowed.
-   398			 */
- > 399			struct netdev_queue *txq = netdev_get_tx_queue(dev, rxq);
-   400	
-   401			if (!txq_has_qdisc(txq)) {
-   402				dev_kfree_skb_any(skb);
-   403				goto drop;
-   404			}
-   405			netif_tx_stop_queue(txq); /* Unconditional netif_txq_try_stop */
-   406			if (use_napi)
-   407				__veth_xdp_flush(rq);
-   408	
-   409			break;
-   410		case NET_RX_DROP: /* same as NET_XMIT_DROP */
-   411	drop:
-   412			atomic64_inc(&priv->dropped);
-   413			ret = NET_XMIT_DROP;
-   414			break;
-   415		default:
-   416			net_crit_ratelimited("veth_xmit(%s): Invalid return code(%d)",
-   417					     dev->name, ret);
-   418		}
-   419		rcu_read_unlock();
-   420	
-   421		return ret;
-   422	}
-   423	
+   223	
+   224	static int rt9123_dai_hw_params(struct snd_pcm_substream *substream,
+   225					struct snd_pcm_hw_params *param, struct snd_soc_dai *dai)
+   226	{
+   227		struct rt9123_priv *rt9123 = snd_soc_dai_get_drvdata(dai);
+   228		struct snd_soc_component *comp = dai->component;
+   229		unsigned int fmtval, width, slot_width;
+   230		struct device *dev = dai->dev;
+   231		unsigned int audfmt, audbit;
+   232	
+ > 233		fmtval = FIELD_GET(SND_SOC_DAIFMT_FORMAT_MASK, rt9123->dai_fmt);
+   234		if (rt9123->tdm_slots && fmtval != SND_SOC_DAIFMT_DSP_A && fmtval != SND_SOC_DAIFMT_DSP_B) {
+   235			dev_err(dev, "TDM only can support DSP_A or DSP_B format\n");
+   236			return -EINVAL;
+   237		}
+   238	
+   239		switch (fmtval) {
+   240		case SND_SOC_DAIFMT_I2S:
+   241			audfmt = 0;
+   242			break;
+   243		case SND_SOC_DAIFMT_LEFT_J:
+   244			audfmt = 1;
+   245			break;
+   246		case SND_SOC_DAIFMT_RIGHT_J:
+   247			audfmt = 2;
+   248			break;
+   249		case SND_SOC_DAIFMT_DSP_B:
+   250			audfmt = rt9123->tdm_slots ? 4 : 3;
+   251			break;
+   252		case SND_SOC_DAIFMT_DSP_A:
+   253			audfmt = rt9123->tdm_slots ? 12 : 11;
+   254			break;
+   255		default:
+   256			dev_err(dev, "Unsupported format %d\n", fmtval);
+   257			return -EINVAL;
+   258		}
+   259	
+   260		switch (width = params_width(param)) {
+   261		case 16:
+   262			audbit = 0;
+   263			break;
+   264		case 20:
+   265			audbit = 1;
+   266			break;
+   267		case 24:
+   268			audbit = 2;
+   269			break;
+   270		case 32:
+   271			audbit = 3;
+   272			break;
+   273		case 8:
+   274			audbit = 4;
+   275			break;
+   276		default:
+   277			dev_err(dev, "Unsupported width %d\n", width);
+   278			return -EINVAL;
+   279		}
+   280	
+   281		slot_width = params_physical_width(param);
+   282		if (rt9123->tdm_slots && slot_width > rt9123->tdm_slot_width) {
+   283			dev_err(dev, "Slot width is larger than TDM slot width\n");
+   284			return -EINVAL;
+   285		}
+   286	
+   287		snd_soc_component_write_field(comp, RT9123_REG_I2SOPT, RT9123_MASK_AUDFMT, audfmt);
+   288		snd_soc_component_write_field(comp, RT9123_REG_I2SOPT, RT9123_MASK_AUDBIT, audbit);
+   289	
+   290		return 0;
+   291	}
+   292	
 
 -- 
 0-DAY CI Kernel Test Service
