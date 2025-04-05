@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DE51A8F84
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 20:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A511624DD
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 22:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743884639; cv=none; b=G8Dr9jFQa3WrH0SvtdZJHB1oHWW+F4WYGfKx+WqLI8eq46JwLBwmK8f2+n0gHgq4J4qWswT+DyCAxVujLyoGq+eTf6OONkU4WiG6Uk1Ekwg83LP6/JG5QXrSioFTICw9x+IfrrsYK2HWlNGd1a2wkOgzCAk3bPSgB3fh0BJPwxY=
+	t=1743891369; cv=none; b=IUxF3sCdIWfwnHL72xGMie60q5nxZ1eoTyAxRvpctRWyi3UROrcT00AaLx4XpNjzGrMGYWD4lmQdwBEZq5r8ltHHX4Xc264dnuKe0+3OsDf+tOH7JaZBGEGEk1SPuDjmpTwaxRZut/xWgno2ONDlR1tz8Wsqn0mkPSGhIGzHuMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743884639; c=relaxed/simple;
-	bh=fh4fhO7DysILE4HFhiyQJnBUyimnb1egD9ssIF0CkWI=;
+	s=arc-20240116; t=1743891369; c=relaxed/simple;
+	bh=xXUS4GgMNiPbO1jwMYGA+GWr2ekyWvBCCBz0RyIJHDM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=paPNVVmzWPhzaRUeS1HHjbYYdzCQD2W9d+iYqdsSXcSb+Dxuz+80F7lfNkdQCzd/zsMnaruSTFEYXblU9qb6b/zo4Rq5jP5sqsSC27pgJlF0CUQ58JqsEYgXyMzdS1TKXhhkMoBUkVI+0Vtdt4P6oxZf6MtwCjR5KF1ug7VGm/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=je58f/Ej; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=CdbsfSeCSudjr4iMJZoixuBBQ7TH+AtGudbb43rnW85GtQ4l3IHwyhcfYr9BE8/02ZOagXPcgpvneH7V5HseWcWanuMW4kFwehlDn3gYdFFO67f1nrjzXMpKo6gWOhtulRroa80yR0tFztt3w04QdxB7ytzEubGSoAK/ZIH6ba0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrKCwQhv; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="je58f/Ej"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrKCwQhv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743884637; x=1775420637;
+  t=1743891367; x=1775427367;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fh4fhO7DysILE4HFhiyQJnBUyimnb1egD9ssIF0CkWI=;
-  b=je58f/EjC8m0sO54V+G7bRXYe5W89zca1/mtvswS9v4tsERRKL0+dqec
-   9qtdolFqtJzasnoMWY0oz4EJBDez/feTKkdXR3Qo+Tl/w3172miTBvmWs
-   qbvu6e6dM8VMneI9pZOqV8L4hec7eJ2fa9OXxrg65j1nEWiMORRTvZHyT
-   EF39WrJlKk6r7DHb1OIOrgnWga0NAcufX5UPs2b1RbiIBt9DiQ6hrIZ6n
-   pyGCffA6B+1HJ9NSuTB0AyLrOU6nDFdXDEtXBtMiEdYGog9FoQy/XsqUK
-   ghc35Chb9yVLWBBTVjVRt6fZXw1KSd+Rs/202UtR08piikO5eSP8MMcJ8
-   g==;
-X-CSE-ConnectionGUID: w9Ve3Y+lRDyPhshwgPMRpA==
-X-CSE-MsgGUID: pj1pPKWsRhycRQnkHDbdzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="56669987"
+  bh=xXUS4GgMNiPbO1jwMYGA+GWr2ekyWvBCCBz0RyIJHDM=;
+  b=lrKCwQhvpTnMwSii3OI/oBUwnxNR9Swv5WbZ1an/oLFTObx9unTEQcpy
+   93VMz/6JUMeIdUTuacWXuomvzPSpkafR5Ur5rFoD+XW5xmpEM372rDijT
+   nkjogkzqGLVle/Rodbmf6HjWPqwsVTGznc3vquiBkpAsk4ELRMWPGIMo1
+   FECpaPYTBedIBE7t2HADvHG5YS9ks77gv2D8bTRPCpY38dcAondk9wnIF
+   d24tuuXTzehLp8as6qaQMbnpZlKL4N/lbqh2ESnIaMFswsm1/TL+WrPHH
+   TYXMGc9eO+h82+UbeG5pb28JHw0IOAekJuFm5CY35r5QyijsObWRrM9uU
+   A==;
+X-CSE-ConnectionGUID: NwYCEqgCQCSG8LkddKhboA==
+X-CSE-MsgGUID: XIEDXa5QS6K0TUkfFCxrHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="48018100"
 X-IronPort-AV: E=Sophos;i="6.15,192,1739865600"; 
-   d="scan'208";a="56669987"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 13:23:57 -0700
-X-CSE-ConnectionGUID: 7P33FXzyTu+eI8hwTJJimQ==
-X-CSE-MsgGUID: MIAg6A41SISX6Sr1BR6H4Q==
+   d="scan'208";a="48018100"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 15:16:06 -0700
+X-CSE-ConnectionGUID: g4MEpJ50TTiUgcuNLPmOSw==
+X-CSE-MsgGUID: C0wrrevxTpKJWYkd9AmLDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,192,1739865600"; 
-   d="scan'208";a="128502188"
+   d="scan'208";a="128116775"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 05 Apr 2025 13:23:56 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 Apr 2025 15:16:04 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1A3V-0002Fb-0r;
-	Sat, 05 Apr 2025 20:23:53 +0000
-Date: Sun, 6 Apr 2025 04:23:43 +0800
+	id 1u1Bo2-0002Jz-06;
+	Sat, 05 Apr 2025 22:16:02 +0000
+Date: Sun, 6 Apr 2025 06:15:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 06/10] ASoC: tas2764: Crop SDOUT zero-out mask based
- on BCLK ratio
-Message-ID: <202504060453.uisGt8Me-lkp@intel.com>
-References: <20250405-apple-codec-changes-v4-6-d007e46ce4a2@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	linux-pwm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] pwm: stm32: Emit debug output also for corner cases
+ of the rounding callbacks
+Message-ID: <202504060517.dHXuUANs-lkp@intel.com>
+References: <fe154e79319da5ff4159cdc71201a9d3b395e491.1743844730.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,81 +69,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250405-apple-codec-changes-v4-6-d007e46ce4a2@gmail.com>
+In-Reply-To: <fe154e79319da5ff4159cdc71201a9d3b395e491.1743844730.git.u.kleine-koenig@baylibre.com>
 
-Hi James,
+Hi Uwe,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 3a0f0a4355df0240485ed62b6bd6afa5b3e689c5]
+[auto build test ERROR on e48e99b6edf41c69c5528aa7ffb2daf3c59ee105]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Calligeros/ASoC-tas2770-Power-cycle-amp-on-ISENSE-VSENSE-change/20250405-081800
-base:   3a0f0a4355df0240485ed62b6bd6afa5b3e689c5
-patch link:    https://lore.kernel.org/r/20250405-apple-codec-changes-v4-6-d007e46ce4a2%40gmail.com
-patch subject: [PATCH v4 06/10] ASoC: tas2764: Crop SDOUT zero-out mask based on BCLK ratio
-config: arc-randconfig-001-20250406 (https://download.01.org/0day-ci/archive/20250406/202504060453.uisGt8Me-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250406/202504060453.uisGt8Me-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/pwm-Let-pwm_set_waveform-succeed-even-if-lowlevel-driver-rounded-up/20250405-173024
+base:   e48e99b6edf41c69c5528aa7ffb2daf3c59ee105
+patch link:    https://lore.kernel.org/r/fe154e79319da5ff4159cdc71201a9d3b395e491.1743844730.git.u.kleine-koenig%40baylibre.com
+patch subject: [PATCH 4/6] pwm: stm32: Emit debug output also for corner cases of the rounding callbacks
+config: arm-randconfig-004-20250406 (https://download.01.org/0day-ci/archive/20250406/202504060517.dHXuUANs-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250406/202504060517.dHXuUANs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504060453.uisGt8Me-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504060517.dHXuUANs-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/soc/codecs/tas2764.c: In function 'tas2764_write_sdout_zero_mask':
->> sound/soc/codecs/tas2764.c:377:21: error: 'struct tas2764_priv' has no member named 'sdout_zero_mask'
-     377 |         if (!tas2764->sdout_zero_mask)
-         |                     ^~
-   sound/soc/codecs/tas2764.c:380:31: error: 'struct tas2764_priv' has no member named 'sdout_zero_mask'
-     380 |         cropped_mask = tas2764->sdout_zero_mask & GENMASK(nsense_slots - 1, 0);
-         |                               ^~
->> sound/soc/codecs/tas2764.c:383:58: error: 'TAS2764_SDOUT_HIZ_1' undeclared (first use in this function)
-     383 |                 ret = snd_soc_component_write(component, TAS2764_SDOUT_HIZ_1 + i,
-         |                                                          ^~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/tas2764.c:383:58: note: each undeclared identifier is reported only once for each function it appears in
->> sound/soc/codecs/tas2764.c:390:56: error: 'TAS2764_SDOUT_HIZ_9' undeclared (first use in this function)
-     390 |         ret = snd_soc_component_update_bits(component, TAS2764_SDOUT_HIZ_9,
-         |                                                        ^~~~~~~~~~~~~~~~~~~
->> sound/soc/codecs/tas2764.c:391:45: error: 'TAS2764_SDOUT_HIZ_9_FORCE_0_EN' undeclared (first use in this function)
-     391 |                                             TAS2764_SDOUT_HIZ_9_FORCE_0_EN,
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/dmaengine.h:8,
+                    from include/linux/mfd/stm32-timers.h:11,
+                    from drivers/pwm/pwm-stm32.c:12:
+   drivers/pwm/pwm-stm32.c: In function 'stm32_pwm_round_waveform_fromhw':
+>> drivers/pwm/pwm-stm32.c:246:60: error: 'rate' undeclared (first use in this function)
+     246 |   pwm->hwpwm, wfhw->ccer, wfhw->psc, wfhw->arr, wfhw->ccr, rate,
+         |                                                            ^~~~
+   include/linux/dev_printk.h:139:35: note: in definition of macro 'dev_no_printk'
+     139 |    _dev_printk(level, dev, fmt, ##__VA_ARGS__); \
+         |                                   ^~~~~~~~~~~
+   drivers/pwm/pwm-stm32.c:245:2: note: in expansion of macro 'dev_dbg'
+     245 |  dev_dbg(&chip->dev, "pwm#%u: CCER: %08x, PSC: %08x, ARR: %08x, CCR: %08x @%lu -> %lld/%lld [+%lld]\n",
+         |  ^~~~~~~
+   drivers/pwm/pwm-stm32.c:246:60: note: each undeclared identifier is reported only once for each function it appears in
+     246 |   pwm->hwpwm, wfhw->ccer, wfhw->psc, wfhw->arr, wfhw->ccr, rate,
+         |                                                            ^~~~
+   include/linux/dev_printk.h:139:35: note: in definition of macro 'dev_no_printk'
+     139 |    _dev_printk(level, dev, fmt, ##__VA_ARGS__); \
+         |                                   ^~~~~~~~~~~
+   drivers/pwm/pwm-stm32.c:245:2: note: in expansion of macro 'dev_dbg'
+     245 |  dev_dbg(&chip->dev, "pwm#%u: CCER: %08x, PSC: %08x, ARR: %08x, CCR: %08x @%lu -> %lld/%lld [+%lld]\n",
+         |  ^~~~~~~
 
 
-vim +377 sound/soc/codecs/tas2764.c
+vim +/rate +246 drivers/pwm/pwm-stm32.c
 
-   369	
-   370	static int tas2764_write_sdout_zero_mask(struct tas2764_priv *tas2764, int bclk_ratio)
-   371	{
-   372		struct snd_soc_component *component = tas2764->component;
-   373		int nsense_slots = bclk_ratio / 8;
-   374		u32 cropped_mask;
-   375		int i, ret;
-   376	
- > 377		if (!tas2764->sdout_zero_mask)
-   378			return 0;
-   379	
-   380		cropped_mask = tas2764->sdout_zero_mask & GENMASK(nsense_slots - 1, 0);
-   381	
-   382		for (i = 0; i < 4; i++) {
- > 383			ret = snd_soc_component_write(component, TAS2764_SDOUT_HIZ_1 + i,
-   384						      (cropped_mask >> (i * 8)) & 0xff);
-   385	
-   386			if (ret < 0)
-   387				return ret;
-   388		}
-   389	
- > 390		ret = snd_soc_component_update_bits(component, TAS2764_SDOUT_HIZ_9,
- > 391						    TAS2764_SDOUT_HIZ_9_FORCE_0_EN,
-   392						    TAS2764_SDOUT_HIZ_9_FORCE_0_EN);
-   393	
-   394		if (ret < 0)
-   395			return ret;
-   396	
-   397		return 0;
-   398	}
-   399	
+   208	
+   209	static int stm32_pwm_round_waveform_fromhw(struct pwm_chip *chip,
+   210						   struct pwm_device *pwm,
+   211						   const void *_wfhw,
+   212						   struct pwm_waveform *wf)
+   213	{
+   214		const struct stm32_pwm_waveform *wfhw = _wfhw;
+   215		struct stm32_pwm *priv = to_stm32_pwm_dev(chip);
+   216		unsigned int ch = pwm->hwpwm;
+   217	
+   218		if (wfhw->ccer & TIM_CCER_CCxE(ch + 1)) {
+   219			unsigned long rate = clk_get_rate(priv->clk);
+   220			u64 ccr_ns;
+   221	
+   222			/* The result doesn't overflow for rate >= 15259 */
+   223			wf->period_length_ns = stm32_pwm_mul_u64_u64_div_u64_roundup(((u64)wfhw->psc + 1) * (wfhw->arr + 1),
+   224										     NSEC_PER_SEC, rate);
+   225	
+   226			ccr_ns = stm32_pwm_mul_u64_u64_div_u64_roundup(((u64)wfhw->psc + 1) * wfhw->ccr,
+   227								       NSEC_PER_SEC, rate);
+   228	
+   229			if (wfhw->ccer & TIM_CCER_CCxP(ch + 1)) {
+   230				wf->duty_length_ns =
+   231					stm32_pwm_mul_u64_u64_div_u64_roundup(((u64)wfhw->psc + 1) * (wfhw->arr + 1 - wfhw->ccr),
+   232									      NSEC_PER_SEC, rate);
+   233	
+   234				wf->duty_offset_ns = ccr_ns;
+   235			} else {
+   236				wf->duty_length_ns = ccr_ns;
+   237				wf->duty_offset_ns = 0;
+   238			}
+   239		} else {
+   240			*wf = (struct pwm_waveform){
+   241				.period_length_ns = 0,
+   242			};
+   243		}
+   244	
+   245		dev_dbg(&chip->dev, "pwm#%u: CCER: %08x, PSC: %08x, ARR: %08x, CCR: %08x @%lu -> %lld/%lld [+%lld]\n",
+ > 246			pwm->hwpwm, wfhw->ccer, wfhw->psc, wfhw->arr, wfhw->ccr, rate,
+   247			wf->duty_length_ns, wf->period_length_ns, wf->duty_offset_ns);
+   248	
+   249		return 0;
+   250	}
+   251	
 
 -- 
 0-DAY CI Kernel Test Service
