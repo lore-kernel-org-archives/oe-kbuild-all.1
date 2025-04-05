@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF381CAA6D;
-	Sat,  5 Apr 2025 13:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA101E8349
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 13:27:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743859645; cv=none; b=oRAEEiDQhU5Na8mSXjLj2z83TbJRFKxKUQ8wZdnhRZpCNzjqDDeuams4P+oUXbwXY6pFBhQOHwQEDFDOGYGGoy7KJKmvnMyQJZHRE2zgBGXr+VqN0vYdJxOyeuYdQxpEP6L6Y4l72Kz9wpUTwsnzbeptWw2rJ2c1RbryffN+4mU=
+	t=1743859647; cv=none; b=d92fvlC1GPABHYW7kQAxBf4kqp6Nv04IJFnwGEGFGpP4TrYV9RChXrpFiAm+KhWiIMLeRbS0iyD34y9yfPtkOoK6v6WyBbqF41X++fp+iDruBS1i7qTOnjNxsl4cGmYjHb46Dfm61IrhLA5JadzVynnG3iMjsPKY8Coxj+AGOH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743859645; c=relaxed/simple;
-	bh=bwmSzUzijE9HjSXI1UDBlEbEhh9nHZTmo3ZguXrGXd0=;
+	s=arc-20240116; t=1743859647; c=relaxed/simple;
+	bh=PhxZXSsULPsD4mO8+edV5H0C2P/rskNqBj+w/eJH1Ss=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u/RWKzDgnJ9DbahF3NwQ+51hU3Qm5/+wScZe86i9Z7tLipc+8AT69AkwS1wWOQrfMQRfNbWz9el+eJsk9REo/p2aZNPvvKCJbwQijRApyz0/XF9UwMMyEb2AzolUo9eQ4olZCzqBoaMQbkp26r9M7e8AMYsq6pQ2LnZLtbALwio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LCkSaU6C; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=D/P/QGUTMmF+dFaEFABvSPg36YG0wcVxudEysf4hflQ7G6CTV+ZuSuqMuyq71w+FgpnIV4PSns/RMOvHVSXclEAV4VearD5XMNfuZvg/MMAcos5rkhuEBG0F4b5CLakiQG3ytC5wZSvzVNRY9xIsCTLRdWAdvQhSZsbAJqR01dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6s95YUK; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LCkSaU6C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6s95YUK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743859645; x=1775395645;
+  t=1743859646; x=1775395646;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bwmSzUzijE9HjSXI1UDBlEbEhh9nHZTmo3ZguXrGXd0=;
-  b=LCkSaU6CebMBrGvzkmEBPcQr4A2+vcLoBkUSrvzaklj0o3ngqhQq3EpV
-   sT6+pr2MPtINVn0epQuq+xlkJdpdLQJvVQaon+4OsT+k6UyaRVv73/84f
-   V9uwrHl2u7UbAdc19Y3PivQp/HR59E08+1HquOfZ8YcubIoir8NZXR2eM
-   PbX7JXmGETCrEWDkXsUNd1iaW58YK0JMTznT398dZnQ7g5539kTC9j9Q/
-   fDjFCXThHM5qudCRZ4rZP6DYpkj0BpiVZFAoVgcVIuRBwTlV28WO5Psjt
-   PnSSU6cnsaR/IQTxcqE7N82U98XWff8KJbh7xiAtQR/NgsjnXzypHmlcn
-   w==;
-X-CSE-ConnectionGUID: 3vLKWc66S/WOPKm/JxS16A==
-X-CSE-MsgGUID: jFCfWVITTfeqr54SvMaewQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="45428666"
+  bh=PhxZXSsULPsD4mO8+edV5H0C2P/rskNqBj+w/eJH1Ss=;
+  b=R6s95YUK4Zuy0LQerUic+IBq1Sz2ZvaOtLzUOVZ6KD3okB3zbfOX0Etp
+   0HmQnWvg3VoFfsaR/IoYeQX7NVe2gYzQ9Qg5exL1ihNKZ6jt6ijLm66Hq
+   AZ3nkAyouLdT5twtTH3+PKJCi//IzVCJN60S3rBSQrJij9ftpucVv9jb0
+   vomS3jhlgHLtR9c0oNoyy4VKmbMJs69/RuOQHTslPjejToXQu3XNocMbj
+   ejcxOvPx2X7A2UqKbAUGMT3VAEW+YIJF9cYCGVyWX0PG+0lHq8gURKbvp
+   B6UrnyoWXNQe71S625F267OmsL0Eq0qOBpUXk0L2mMQWvT2XhqPeJMfCy
+   Q==;
+X-CSE-ConnectionGUID: 0Pil+ZvoSBe9tj1jM8b33w==
+X-CSE-MsgGUID: UnAbBfYERmOcsGIMe6VMhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="45428668"
 X-IronPort-AV: E=Sophos;i="6.15,191,1739865600"; 
-   d="scan'208";a="45428666"
+   d="scan'208";a="45428668"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 06:27:24 -0700
-X-CSE-ConnectionGUID: 1r9g4Yx4Tqq5vm7924jILQ==
-X-CSE-MsgGUID: fAzEKcdXTMCurr6FzG22Lg==
+X-CSE-ConnectionGUID: 6q9IScSFQve322yI6xyTFg==
+X-CSE-MsgGUID: uTkR2OvDRHezxOJrTbFY7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,191,1739865600"; 
-   d="scan'208";a="127853489"
+   d="scan'208";a="127853495"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 05 Apr 2025 06:27:22 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u13YO-00022n-0N;
+	id 1u13YO-00022q-0Q;
 	Sat, 05 Apr 2025 13:27:20 +0000
-Date: Sat, 5 Apr 2025 21:26:46 +0800
+Date: Sat, 5 Apr 2025 21:26:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 14547/14595] arch/riscv/mm/tlbflush.c:195:16:
- error: redefinition of 'start'
-Message-ID: <202504052159.1sI48GPM-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel'
+ directive output may be truncated writing 4 bytes into a region of size
+ between 3 and 13
+Message-ID: <202504052118.HCpNF13P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,50 +64,158 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a4cda136f021ad44b8b52286aafd613030a6db5f
-commit: c0a813cbda64fd2f027ddd6dce3187fc89564f65 [14547/14595] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20250405/202504052159.1sI48GPM-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504052159.1sI48GPM-lkp@intel.com/reproduce)
+Hi Jani,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a8662bcd2ff152bfbc751cab20f33053d74d0963
+commit: 03ee752f00fd0daa082b43774cfd03a7f9a17385 drm/imx: prefer snprintf over sprintf
+date:   1 year, 2 months ago
+config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250405/202504052118.HCpNF13P-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504052118.HCpNF13P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504052159.1sI48GPM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504052118.HCpNF13P-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/riscv/mm/tlbflush.c:195:16: error: redefinition of 'start'
-     195 |         unsigned long start = uaddr & PAGE_MASK;
-         |                       ^
-   arch/riscv/mm/tlbflush.c:193:39: note: previous definition is here
-     193 |                 struct mm_struct *mm, unsigned long start, unsigned long end)
-         |                                                     ^
->> arch/riscv/mm/tlbflush.c:195:24: error: use of undeclared identifier 'uaddr'
-     195 |         unsigned long start = uaddr & PAGE_MASK;
-         |                               ^
-   2 errors generated.
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c: In function 'imx_ldb_probe':
+>> drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel' directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Wformat-truncation=]
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                                                         ^~~~
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:17: note: 'snprintf' output between 8 and 18 bytes into a destination of size 16
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/start +195 arch/riscv/mm/tlbflush.c
+vim +/_sel +658 drivers/gpu/drm/imx/ipuv3/imx-ldb.c
 
-54d7431af73e2f Alexandre Ghiti 2024-01-08  191  
-54d7431af73e2f Alexandre Ghiti 2024-01-08  192  void arch_tlbbatch_add_pending(struct arch_tlbflush_unmap_batch *batch,
-2f4ab3ac10e147 Barry Song      2025-02-14  193  		struct mm_struct *mm, unsigned long start, unsigned long end)
-54d7431af73e2f Alexandre Ghiti 2024-01-08  194  {
-d9be2b9b60497a Alexandre Ghiti 2025-01-13 @195  	unsigned long start = uaddr & PAGE_MASK;
-d9be2b9b60497a Alexandre Ghiti 2025-01-13  196  
-54d7431af73e2f Alexandre Ghiti 2024-01-08  197  	cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
-d9be2b9b60497a Alexandre Ghiti 2025-01-13  198  	mmu_notifier_arch_invalidate_secondary_tlbs(mm, start, start + PAGE_SIZE);
-54d7431af73e2f Alexandre Ghiti 2024-01-08  199  }
-54d7431af73e2f Alexandre Ghiti 2024-01-08  200  
-
-:::::: The code at line 195 was first introduced by commit
-:::::: d9be2b9b60497a82aeceec3a98d8b37fdd2960f2 riscv: Call secondary mmu notifier when flushing the tlb
-
-:::::: TO: Alexandre Ghiti <alexghiti@rivosinc.com>
-:::::: CC: Alexandre Ghiti <alexghiti@rivosinc.com>
+   617	
+   618	static int imx_ldb_probe(struct platform_device *pdev)
+   619	{
+   620		struct device *dev = &pdev->dev;
+   621		struct device_node *np = dev->of_node;
+   622		struct device_node *child;
+   623		struct imx_ldb *imx_ldb;
+   624		int dual;
+   625		int ret;
+   626		int i;
+   627	
+   628		imx_ldb = devm_kzalloc(dev, sizeof(*imx_ldb), GFP_KERNEL);
+   629		if (!imx_ldb)
+   630			return -ENOMEM;
+   631	
+   632		imx_ldb->regmap = syscon_regmap_lookup_by_phandle(np, "gpr");
+   633		if (IS_ERR(imx_ldb->regmap)) {
+   634			dev_err(dev, "failed to get parent regmap\n");
+   635			return PTR_ERR(imx_ldb->regmap);
+   636		}
+   637	
+   638		/* disable LDB by resetting the control register to POR default */
+   639		regmap_write(imx_ldb->regmap, IOMUXC_GPR2, 0);
+   640	
+   641		imx_ldb->dev = dev;
+   642		imx_ldb->lvds_mux = device_get_match_data(dev);
+   643	
+   644		dual = of_property_read_bool(np, "fsl,dual-channel");
+   645		if (dual)
+   646			imx_ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
+   647	
+   648		/*
+   649		 * There are three different possible clock mux configurations:
+   650		 * i.MX53:  ipu1_di0_sel, ipu1_di1_sel
+   651		 * i.MX6q:  ipu1_di0_sel, ipu1_di1_sel, ipu2_di0_sel, ipu2_di1_sel
+   652		 * i.MX6dl: ipu1_di0_sel, ipu1_di1_sel, lcdif_sel
+   653		 * Map them all to di0_sel...di3_sel.
+   654		 */
+   655		for (i = 0; i < 4; i++) {
+   656			char clkname[16];
+   657	
+ > 658			snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+   659			imx_ldb->clk_sel[i] = devm_clk_get(imx_ldb->dev, clkname);
+   660			if (IS_ERR(imx_ldb->clk_sel[i])) {
+   661				ret = PTR_ERR(imx_ldb->clk_sel[i]);
+   662				imx_ldb->clk_sel[i] = NULL;
+   663				break;
+   664			}
+   665	
+   666			imx_ldb->clk_parent[i] = clk_get_parent(imx_ldb->clk_sel[i]);
+   667		}
+   668		if (i == 0)
+   669			return ret;
+   670	
+   671		for_each_child_of_node(np, child) {
+   672			struct imx_ldb_channel *channel;
+   673			int bus_format;
+   674	
+   675			ret = of_property_read_u32(child, "reg", &i);
+   676			if (ret || i < 0 || i > 1) {
+   677				ret = -EINVAL;
+   678				goto free_child;
+   679			}
+   680	
+   681			if (!of_device_is_available(child))
+   682				continue;
+   683	
+   684			if (dual && i > 0) {
+   685				dev_warn(dev, "dual-channel mode, ignoring second output\n");
+   686				continue;
+   687			}
+   688	
+   689			channel = &imx_ldb->channel[i];
+   690			channel->ldb = imx_ldb;
+   691			channel->chno = i;
+   692	
+   693			/*
+   694			 * The output port is port@4 with an external 4-port mux or
+   695			 * port@2 with the internal 2-port mux.
+   696			 */
+   697			ret = drm_of_find_panel_or_bridge(child,
+   698							  imx_ldb->lvds_mux ? 4 : 2, 0,
+   699							  &channel->panel, &channel->bridge);
+   700			if (ret && ret != -ENODEV)
+   701				goto free_child;
+   702	
+   703			/* panel ddc only if there is no bridge */
+   704			if (!channel->bridge) {
+   705				ret = imx_ldb_panel_ddc(dev, channel, child);
+   706				if (ret)
+   707					goto free_child;
+   708			}
+   709	
+   710			bus_format = of_get_bus_format(dev, child);
+   711			if (bus_format == -EINVAL) {
+   712				/*
+   713				 * If no bus format was specified in the device tree,
+   714				 * we can still get it from the connected panel later.
+   715				 */
+   716				if (channel->panel && channel->panel->funcs &&
+   717				    channel->panel->funcs->get_modes)
+   718					bus_format = 0;
+   719			}
+   720			if (bus_format < 0) {
+   721				dev_err(dev, "could not determine data mapping: %d\n",
+   722					bus_format);
+   723				ret = bus_format;
+   724				goto free_child;
+   725			}
+   726			channel->bus_format = bus_format;
+   727			channel->child = child;
+   728		}
+   729	
+   730		platform_set_drvdata(pdev, imx_ldb);
+   731	
+   732		return component_add(&pdev->dev, &imx_ldb_ops);
+   733	
+   734	free_child:
+   735		of_node_put(child);
+   736		return ret;
+   737	}
+   738	
 
 -- 
 0-DAY CI Kernel Test Service
