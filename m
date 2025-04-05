@@ -1,66 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFE53A1BA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Apr 2025 14:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3E64086A;
+	Sat,  5 Apr 2025 15:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743862954; cv=none; b=eVHbQq5iDPmKBEgaZoGpvqhgxhgV1qqpa5sr1n2G4kqJ7krnbQyzRqDZ24ZZalEWF0qlpwfT7N5Zk51Heg7VWgqCyw/wWcGJBq/L7REbx6tfULNvXheRvBy5XX4PIzCbpkBu51Ap/P43gGJWtsAUIdu9RrZgvJ0xCLDjVP7E0E8=
+	t=1743866017; cv=none; b=qS5NadQp7NK7mC3PmkBlcX9aQNMsVLo2zPyfAcQnO7H/Gmg5SS6VKTqvk/R/QkSyAyUei8AoMalcfbMHMQlt8FRKQgt2tiA8agtFKpxES/fhnpFPwlyt3M45WLqXzC5x+JfLBlWDxYIvyd//LyrqYFwoKqEyfiR3pD9771Oprwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743862954; c=relaxed/simple;
-	bh=4TlZYBczBvOtge2KRLN9HBOYe1GtJnM1LarhN79o9NI=;
+	s=arc-20240116; t=1743866017; c=relaxed/simple;
+	bh=exAiWMVcVghnujtvzA2RVuKbjqWm3hf7kt/Likz2WQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MXWLImI6HrZyNlhYHFvcsq04wywyjv/yLfWF9Elfjz98tGMGy97K2kje7Egg/dCDFhhUhBzdpLuNkn4QP+PlQYp6qckrVJMQYjt/PtWLnJYWpXbv6H5AiXFd5udOP/1IxzoRp/kDhOc8mksW77WNtyaK7PdTLe5C4mmTGGpY90w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CaniO4sJ; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=BbYZittmkqYV72/igV3YNTkz+JXgrSCCBlWvcuLwnpxOwRXiIgb/Fr1FSOlhj02Cb6d1KFsphRnjkfjQR6ibCME/BEHFiI7aDto5SRrY4RARh8qBMi0xJrTK66uDXk2y/I3c8u76NKHJ8UTz3zVuk0dm6IYWHI+Hrslvu+iUK08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdZShphc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CaniO4sJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdZShphc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743862951; x=1775398951;
+  t=1743866015; x=1775402015;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4TlZYBczBvOtge2KRLN9HBOYe1GtJnM1LarhN79o9NI=;
-  b=CaniO4sJ9ogqQfQgofKFJl29SnTIj9EwY2bsZkui7Ipg/41K/sh0wyVl
-   BYG0e3e5TZoQy5oh+7LXwtlmXzGhHYNW0cxU66H///SbakZdQZXNlL/NQ
-   jN2VswzgQNj7kqizQJUPF16VXAMbS7J58hqHAwUnxcPctMypzJrCm03AU
-   WusklESXzm2RWo6IArbw2I/fVM90gnKnDXYLkSdkuQXqrltdN3yj8GOmC
-   vhY8AJeQicoFW1mXEGW8gvIBL9+xCJwDq+MiQVEJpfl3GcffdbPZAHS7f
-   8zKVk3OPwpB9xDZJu6xQAGFFP/f5vjGb0zkMnhvY9LUo7EK60mGmwkPQd
-   A==;
-X-CSE-ConnectionGUID: AkgWqQ5ATw6XqDw/avNJ6Q==
-X-CSE-MsgGUID: 9fNBSzRjTjynOCsZEupnTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="62693246"
+  bh=exAiWMVcVghnujtvzA2RVuKbjqWm3hf7kt/Likz2WQQ=;
+  b=gdZShphcTgnxsCsPBfG28QLK81F9aBdURZzJB9/0G/svronP66qQCHs6
+   LZSupYZDSWM07O3epBsgwWbIEZfWwPfz81452q+VPoLTCUN+puL0lKE7z
+   COfupvblyL5vEi8RBUhFDJDEvwxlw+XuzJ3cuKrxJi6B8WqvDZmd8sCEd
+   qGRguqWjZQa+q1Uxb7aSmJ/F6W90wZdGCHa51x6kLnN1WSw1XBMyddPhu
+   YHe+UyBJa5tl/TbodIXN2gUR7dFHYAjuJI5I5DxUIIRoYbIZI25FX3F69
+   CJNFP/Tt5UORuc6C4IKop8UDeVgw7kbFnZVP7wr5HT4DdbvlPk0V9A4Z8
+   g==;
+X-CSE-ConnectionGUID: wGvRONjdS8+p/7H3ml81Iw==
+X-CSE-MsgGUID: FUnST05ARjmkQ3qzVhDU3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="45014099"
 X-IronPort-AV: E=Sophos;i="6.15,191,1739865600"; 
-   d="scan'208";a="62693246"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 07:22:30 -0700
-X-CSE-ConnectionGUID: 2kRR535sQ+2ZOiH1PAhaow==
-X-CSE-MsgGUID: YNTyaPyDTs2VGc+DlORbOQ==
+   d="scan'208";a="45014099"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 08:13:35 -0700
+X-CSE-ConnectionGUID: 95EZI4G0TZOmXHh6xGe3nQ==
+X-CSE-MsgGUID: IRo0FDanT9qEpCbFSvqdgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,191,1739865600"; 
-   d="scan'208";a="127428025"
+   d="scan'208";a="132688010"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Apr 2025 07:22:27 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Apr 2025 08:13:30 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u14Pg-000255-1f;
-	Sat, 05 Apr 2025 14:22:24 +0000
-Date: Sat, 5 Apr 2025 22:21:51 +0800
+	id 1u15D6-00026t-2E;
+	Sat, 05 Apr 2025 15:13:28 +0000
+Date: Sat, 5 Apr 2025 23:13:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: cy_huang@richtek.com, Mark Brown <broonie@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Rob Herring <robh@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	ChiYuan Huang <cy_huang@richtek.com>,
 	Otto lin <otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>,
 	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/4] ASoC: codecs: Add support for Richtek rt9123
-Message-ID: <202504052206.HFqFRXUk-lkp@intel.com>
+Message-ID: <202504052244.bgS5yxev-lkp@intel.com>
 References: <cff65757c4665a81397ef5f559b277f96d4236c3.1743774849.git.cy_huang@richtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,119 +82,56 @@ url:    https://github.com/intel-lab-lkp/linux/commits/cy_huang-richtek-com/ASoC
 base:   a2cc6ff5ec8f91bc463fd3b0c26b61166a07eb11
 patch link:    https://lore.kernel.org/r/cff65757c4665a81397ef5f559b277f96d4236c3.1743774849.git.cy_huang%40richtek.com
 patch subject: [PATCH 2/4] ASoC: codecs: Add support for Richtek rt9123
-config: loongarch-randconfig-001-20250405 (https://download.01.org/0day-ci/archive/20250405/202504052206.HFqFRXUk-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504052206.HFqFRXUk-lkp@intel.com/reproduce)
+config: powerpc64-randconfig-003-20250405 (https://download.01.org/0day-ci/archive/20250405/202504052244.bgS5yxev-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504052244.bgS5yxev-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504052206.HFqFRXUk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504052244.bgS5yxev-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/soc/codecs/rt9123.c: In function 'rt9123_dai_hw_params':
->> sound/soc/codecs/rt9123.c:233:18: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     233 |         fmtval = FIELD_GET(SND_SOC_DAIFMT_FORMAT_MASK, rt9123->dai_fmt);
-         |                  ^~~~~~~~~
-   In file included from include/linux/cpumask.h:11,
-                    from arch/loongarch/include/asm/processor.h:9,
-                    from arch/loongarch/include/asm/thread_info.h:15,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/loongarch/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from sound/soc/codecs/rt9123.c:7:
-   sound/soc/codecs/rt9123.c: At top level:
->> sound/soc/codecs/rt9123.c:476:31: error: 'rt9123_dev_pm_ops' undeclared here (not in a function); did you mean 'rt9123_dai_ops'?
+>> sound/soc/codecs/rt9123.c:476:17: error: use of undeclared identifier 'rt9123_dev_pm_ops'; did you mean 'rt9123_dai_ops'?
      476 |                 .pm = pm_ptr(&rt9123_dev_pm_ops),
          |                               ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:48:44: note: in definition of macro 'PTR_IF'
+         |                               rt9123_dai_ops
+   include/linux/pm.h:471:53: note: expanded from macro 'pm_ptr'
+     471 | #define pm_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM), (_ptr))
+         |                                                     ^
+   include/linux/kernel.h:48:38: note: expanded from macro 'PTR_IF'
       48 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   sound/soc/codecs/rt9123.c:476:23: note: in expansion of macro 'pm_ptr'
+         |                                            ^
+   sound/soc/codecs/rt9123.c:293:37: note: 'rt9123_dai_ops' declared here
+     293 | static const struct snd_soc_dai_ops rt9123_dai_ops = {
+         |                                     ^
+>> sound/soc/codecs/rt9123.c:476:9: error: incompatible pointer types initializing 'const struct dev_pm_ops *' with an expression of type 'const struct snd_soc_dai_ops *' [-Werror,-Wincompatible-pointer-types]
      476 |                 .pm = pm_ptr(&rt9123_dev_pm_ops),
-         |                       ^~~~~~
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:471:22: note: expanded from macro 'pm_ptr'
+     471 | #define pm_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM), (_ptr))
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:48:27: note: expanded from macro 'PTR_IF'
+      48 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +/FIELD_GET +233 sound/soc/codecs/rt9123.c
+vim +476 sound/soc/codecs/rt9123.c
 
-   223	
-   224	static int rt9123_dai_hw_params(struct snd_pcm_substream *substream,
-   225					struct snd_pcm_hw_params *param, struct snd_soc_dai *dai)
-   226	{
-   227		struct rt9123_priv *rt9123 = snd_soc_dai_get_drvdata(dai);
-   228		struct snd_soc_component *comp = dai->component;
-   229		unsigned int fmtval, width, slot_width;
-   230		struct device *dev = dai->dev;
-   231		unsigned int audfmt, audbit;
-   232	
- > 233		fmtval = FIELD_GET(SND_SOC_DAIFMT_FORMAT_MASK, rt9123->dai_fmt);
-   234		if (rt9123->tdm_slots && fmtval != SND_SOC_DAIFMT_DSP_A && fmtval != SND_SOC_DAIFMT_DSP_B) {
-   235			dev_err(dev, "TDM only can support DSP_A or DSP_B format\n");
-   236			return -EINVAL;
-   237		}
-   238	
-   239		switch (fmtval) {
-   240		case SND_SOC_DAIFMT_I2S:
-   241			audfmt = 0;
-   242			break;
-   243		case SND_SOC_DAIFMT_LEFT_J:
-   244			audfmt = 1;
-   245			break;
-   246		case SND_SOC_DAIFMT_RIGHT_J:
-   247			audfmt = 2;
-   248			break;
-   249		case SND_SOC_DAIFMT_DSP_B:
-   250			audfmt = rt9123->tdm_slots ? 4 : 3;
-   251			break;
-   252		case SND_SOC_DAIFMT_DSP_A:
-   253			audfmt = rt9123->tdm_slots ? 12 : 11;
-   254			break;
-   255		default:
-   256			dev_err(dev, "Unsupported format %d\n", fmtval);
-   257			return -EINVAL;
-   258		}
-   259	
-   260		switch (width = params_width(param)) {
-   261		case 16:
-   262			audbit = 0;
-   263			break;
-   264		case 20:
-   265			audbit = 1;
-   266			break;
-   267		case 24:
-   268			audbit = 2;
-   269			break;
-   270		case 32:
-   271			audbit = 3;
-   272			break;
-   273		case 8:
-   274			audbit = 4;
-   275			break;
-   276		default:
-   277			dev_err(dev, "Unsupported width %d\n", width);
-   278			return -EINVAL;
-   279		}
-   280	
-   281		slot_width = params_physical_width(param);
-   282		if (rt9123->tdm_slots && slot_width > rt9123->tdm_slot_width) {
-   283			dev_err(dev, "Slot width is larger than TDM slot width\n");
-   284			return -EINVAL;
-   285		}
-   286	
-   287		snd_soc_component_write_field(comp, RT9123_REG_I2SOPT, RT9123_MASK_AUDFMT, audfmt);
-   288		snd_soc_component_write_field(comp, RT9123_REG_I2SOPT, RT9123_MASK_AUDBIT, audbit);
-   289	
-   290		return 0;
-   291	}
-   292	
+   470	
+   471	static struct i2c_driver rt9123_i2c_driver = {
+   472		.driver = {
+   473			.name = "rt9123",
+   474			.of_match_table = of_match_ptr(rt9123_device_id),
+   475			.acpi_match_table = ACPI_PTR(rt9123_acpi_match),
+ > 476			.pm = pm_ptr(&rt9123_dev_pm_ops),
+   477		},
+   478		.probe	= rt9123_i2c_probe,
+   479	};
+   480	module_i2c_driver(rt9123_i2c_driver);
+   481	
 
 -- 
 0-DAY CI Kernel Test Service
