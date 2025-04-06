@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A858C1F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Apr 2025 00:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3512017BD9;
+	Sun,  6 Apr 2025 02:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743900504; cv=none; b=JvpLnCFqCGwFGBPtvPzSZKI+w4+WLc/rD418LUqPK94KnwyENMJBBQxIiIc47h3k5Gyp9+DW+lBkeRGjg+65fyhYdfwFIZd8MBahGNn5yyU8Si0xZfiarb2B7h55uKUK90etVV10/vWAWwYXxKO079FSKv8eOoCvxJMAXum/+wE=
+	t=1743905426; cv=none; b=atiAeHf1O1/2946SpuZXk4NH1sNLyxrgA9WBC9jOcZzncTSt2K35Rny2NE8IgNm3iOOCS7xEYTuiGCEuapQQBz08Oi4boEAgFL47+AnxTyVopqIm/vAHzEoMNmPFCUWEE7+Q6Jc30trh/fnP/VftSvySYs9ZWS7i8iS+4qmGBqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743900504; c=relaxed/simple;
-	bh=RJrdvsw7uqqwA7zJ6qMZB+2wurHbFcb+WAtKDoSw9X4=;
+	s=arc-20240116; t=1743905426; c=relaxed/simple;
+	bh=rq+UJuHUiO3etF702qVSpgpAY5zF9H86GYrlKDApfSc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ge662DoXA8W5rCHvQilFmPoobayazKbXU3LNN3Ao7X0kNIrv8PDcCHkeNaot8Yh2uM0c41BCtXpYlbxOsg64RX08yNzP7YGeaceS/wF7tvJD8gs0dvhpT9CiN+uworbd+23cswqaRsV1NCIJRfG8EPzIH5i+tHg10k/6k+8qJ9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LX/2WUfm; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=P7NQMd7SUgpzzMZKklOicNmJurHmxbYSNT+adsygF7DBsXjVrPePjv0GSgjWPJ6zCh9fMvDR30YOsQOPhmxUFNU6c6EhljQtFlhfFTTWFmpNsyARh4sJXlgL9q0iUl04hCEZnBEC9PQG7AudmnGSec5vScO8zn/uljkD/GeZ0/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmuVZBQe; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LX/2WUfm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmuVZBQe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743900502; x=1775436502;
+  t=1743905424; x=1775441424;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RJrdvsw7uqqwA7zJ6qMZB+2wurHbFcb+WAtKDoSw9X4=;
-  b=LX/2WUfm/1dH+XTYXKSn0OA33SRj861ekPMHSuEDL0jYKFhfNI+acy1D
-   CoZtGzaDbTK6Ny1kEts49wLZMiXOmfkSM1pel/cLrfYy61I4IXgNV6f+Q
-   gaOuLN1O9Rhw24mWyxxmzoltI9p2apBPSDpvre4JcNQGLyvqZ+Fm5sYhV
-   yDq8Sbi593PWf4kZDnx5WzRXBdUD2doVQhNW9TZwTygpMMZpzhGVovGEA
-   F/ysx67eb+spN64m7L6TNIsbJXvRMUJKJBSDqWR82EFpA0ychYDRZY8W+
-   keBfgk1NfPA7OFbFxFvXlyt1o7WEZbhBxy/+7vqz7I1vqTfkDkIiM5EEj
-   g==;
-X-CSE-ConnectionGUID: jxeNGs5fTHOYOWtxya+VHA==
-X-CSE-MsgGUID: hg7xWrxKShmCbfCMDftkEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="45199363"
+  bh=rq+UJuHUiO3etF702qVSpgpAY5zF9H86GYrlKDApfSc=;
+  b=NmuVZBQe6U7+VIHQGgNkZsC7FgncDZR5oxDBqeOT7G3/pEYuHD+uifH5
+   u6hBgu9d2fxpDsft8Kn4C37xTk3hWcHh406zPkweDuq+fuk7HdnPlqKnO
+   ck/XH67s4zdFz6d0kwZT/ktG25Oz83scavk0g5Z5L9nGndDdyVhPRLawv
+   pmQ1qJCdoV/OXABgsjiAFXyp9Fl+94fSYh0zHG/veO/LCabREDsN4tFUf
+   s+8iLqVOjrnykXLbZxI+srN3RW9sf17i/snwssz3SkTI6uPfowSpKkjjK
+   wm5g1ECqlKJNIsb5/WSdlwss5ddoYZ8++r6ErfiBZnol99+kR1JabK6t8
+   A==;
+X-CSE-ConnectionGUID: 1qW3yVDCQFmeX3cI2KFjvQ==
+X-CSE-MsgGUID: cE66MQcFQLWPiIqurStxaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="45433992"
 X-IronPort-AV: E=Sophos;i="6.15,192,1739865600"; 
-   d="scan'208";a="45199363"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 17:48:20 -0700
-X-CSE-ConnectionGUID: LR/a94YdQj6cF0zO347ilQ==
-X-CSE-MsgGUID: SNZ8YTh2SNyTuVKI89Ubxw==
+   d="scan'208";a="45433992"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 19:10:23 -0700
+X-CSE-ConnectionGUID: X//MYxyTR5SfRgEcP7kAVA==
+X-CSE-MsgGUID: BU1KU/RWShiZAEYwyV93TA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,192,1739865600"; 
-   d="scan'208";a="127499625"
+   d="scan'208";a="132763052"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Apr 2025 17:48:16 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Apr 2025 19:10:21 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1EBJ-0002NJ-1k;
-	Sun, 06 Apr 2025 00:48:13 +0000
-Date: Sun, 6 Apr 2025 08:48:12 +0800
+	id 1u1FSk-0002OX-37;
+	Sun, 06 Apr 2025 02:10:18 +0000
+Date: Sun, 6 Apr 2025 10:10:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryo Takakura <ryotkkr98@gmail.com>, alex@ghiti.fr,
-	aou@eecs.berkeley.edu, bigeasy@linutronix.de,
-	conor.dooley@microchip.com, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, john.ogness@linutronix.de, palmer@dabbelt.com,
-	paul.walmsley@sifive.com, pmladek@suse.com,
-	samuel.holland@sifive.com, u.kleine-koenig@baylibre.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-serial@vger.kernel.org,
-	Ryo Takakura <ryotkkr98@gmail.com>
-Subject: Re: [PATCH v2] serial: sifive: Switch to nbcon console
-Message-ID: <202504060816.EWk91sJS-lkp@intel.com>
-References: <20250405145915.493173-1-ryotkkr98@gmail.com>
+To: Wentao Liang <vulab@iscas.ac.cn>, gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH v4] staging: rtl8723bs: Add error handling for sd_read()
+Message-ID: <202504060905.XvK4ueHM-lkp@intel.com>
+References: <20250405160546.2639-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,64 +65,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250405145915.493173-1-ryotkkr98@gmail.com>
+In-Reply-To: <20250405160546.2639-1-vulab@iscas.ac.cn>
 
-Hi Ryo,
+Hi Wentao,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.14 next-20250404]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryo-Takakura/serial-sifive-Switch-to-nbcon-console/20250405-230051
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20250405145915.493173-1-ryotkkr98%40gmail.com
-patch subject: [PATCH v2] serial: sifive: Switch to nbcon console
-config: arm-randconfig-002-20250406 (https://download.01.org/0day-ci/archive/20250406/202504060816.EWk91sJS-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250406/202504060816.EWk91sJS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/staging-rtl8723bs-Add-error-handling-for-sd_read/20250406-001458
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250405160546.2639-1-vulab%40iscas.ac.cn
+patch subject: [PATCH v4] staging: rtl8723bs: Add error handling for sd_read()
+config: arm64-randconfig-001-20250406 (https://download.01.org/0day-ci/archive/20250406/202504060905.XvK4ueHM-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250406/202504060905.XvK4ueHM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504060816.EWk91sJS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504060905.XvK4ueHM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/tty/serial/sifive.c:155: warning: Function parameter or struct member 'console_line_ended' not described in 'sifive_serial_port'
+>> drivers/staging/rtl8723bs/hal/sdio_ops.c:190:17: error: expected ';' after expression
+     190 |                         kfree(tmpbuf)
+         |                                      ^
+         |                                      ;
+   1 error generated.
 
 
-vim +155 drivers/tty/serial/sifive.c
+vim +190 drivers/staging/rtl8723bs/hal/sdio_ops.c
 
-45c054d0815b15 Paul Walmsley 2019-04-12  131  
-45c054d0815b15 Paul Walmsley 2019-04-12  132  /*
-45c054d0815b15 Paul Walmsley 2019-04-12  133   *
-45c054d0815b15 Paul Walmsley 2019-04-12  134   */
-45c054d0815b15 Paul Walmsley 2019-04-12  135  
-45c054d0815b15 Paul Walmsley 2019-04-12  136  /**
-180bb243de730c Lee Jones     2020-11-04  137   * struct sifive_serial_port - driver-specific data extension to struct uart_port
-45c054d0815b15 Paul Walmsley 2019-04-12  138   * @port: struct uart_port embedded in this struct
-45c054d0815b15 Paul Walmsley 2019-04-12  139   * @dev: struct device *
-45c054d0815b15 Paul Walmsley 2019-04-12  140   * @ier: shadowed copy of the interrupt enable register
-45c054d0815b15 Paul Walmsley 2019-04-12  141   * @baud_rate: UART serial line rate (e.g., 115200 baud)
-180bb243de730c Lee Jones     2020-11-04  142   * @clk: reference to this device's clock
-45c054d0815b15 Paul Walmsley 2019-04-12  143   * @clk_notifier: clock rate change notifier for upstream clock changes
-45c054d0815b15 Paul Walmsley 2019-04-12  144   *
-45c054d0815b15 Paul Walmsley 2019-04-12  145   * Configuration data specific to this SiFive UART.
-45c054d0815b15 Paul Walmsley 2019-04-12  146   */
-45c054d0815b15 Paul Walmsley 2019-04-12  147  struct sifive_serial_port {
-45c054d0815b15 Paul Walmsley 2019-04-12  148  	struct uart_port	port;
-45c054d0815b15 Paul Walmsley 2019-04-12  149  	struct device		*dev;
-45c054d0815b15 Paul Walmsley 2019-04-12  150  	unsigned char		ier;
-45c054d0815b15 Paul Walmsley 2019-04-12  151  	unsigned long		baud_rate;
-45c054d0815b15 Paul Walmsley 2019-04-12  152  	struct clk		*clk;
-45c054d0815b15 Paul Walmsley 2019-04-12  153  	struct notifier_block	clk_notifier;
-328ee9dbff3941 Ryo Takakura  2025-04-05  154  	bool			console_line_ended;
-45c054d0815b15 Paul Walmsley 2019-04-12 @155  };
-45c054d0815b15 Paul Walmsley 2019-04-12  156  
+   150	
+   151	static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
+   152	{
+   153		struct adapter *adapter;
+   154		u8 mac_pwr_ctrl_on;
+   155		u8 device_id;
+   156		u16 offset;
+   157		u32 ftaddr;
+   158		u8 shift;
+   159		u32 val;
+   160		s32 __maybe_unused err;
+   161		__le32 le_tmp;
+   162	
+   163		adapter = intfhdl->padapter;
+   164		ftaddr = _cvrt2ftaddr(addr, &device_id, &offset);
+   165	
+   166		rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
+   167		if (
+   168			((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
+   169			(!mac_pwr_ctrl_on) ||
+   170			(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+   171		) {
+   172			err = sd_cmd52_read(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
+   173			return le32_to_cpu(le_tmp);
+   174		}
+   175	
+   176		/*  4 bytes alignment */
+   177		shift = ftaddr & 0x3;
+   178		if (shift == 0) {
+   179			val = sd_read32(intfhdl, ftaddr, NULL);
+   180		} else {
+   181			u8 *tmpbuf;
+   182	
+   183			tmpbuf = rtw_malloc(8);
+   184			if (!tmpbuf)
+   185				return SDIO_ERR_VAL32;
+   186	
+   187			ftaddr &= ~(u16)0x3;
+   188			err = sd_read(intfhdl, ftaddr, 8, tmpbuf);
+   189			if (err) {
+ > 190				kfree(tmpbuf)
+   191				return SDIO_ERR_VAL32;
+   192			}
+   193	
+   194			memcpy(&le_tmp, tmpbuf + shift, 4);
+   195			val = le32_to_cpu(le_tmp);
+   196	
+   197			kfree(tmpbuf);
+   198		}
+   199		return val;
+   200	}
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
