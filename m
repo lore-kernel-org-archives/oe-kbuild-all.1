@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8827B1E502
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Apr 2025 12:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0DB1A2643
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Apr 2025 12:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743942740; cv=none; b=CxXqKvpwhrE1AOQQ9PVZaU00+RBSj1ItEHLJjPk8HxTn8vTm6P1heJdgUz+KtmbVVmeAuhvE6XUTNEaoH4SBS/Pm2bXE3TuQ2tjDEODGWBD8UVPgwklWiehVGwaUgrLMV0OKoQcunC6IChPgMsRah6d6AcApluSLMAJkqPf4I+c=
+	t=1743943064; cv=none; b=HMtiLh27bJvBgp7Fjdiuk3HLcUHhtGUNrnoGVdU6iOdefq/sFAPcX2Ft4e9Ds5giv4E0i6MHqjNvz3ybZ30PcsUIF8+sp8Rj1byXoJ6q5wIxqSrefnFTTKrgoM2zGWcd5U4RPH2kJoJzl/F82XkKXNFBZEKfZrQkVWCpwdYf/JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743942740; c=relaxed/simple;
-	bh=6vxDDxQWZgwqS5gsY4zTEcG+2MjYYRSZcFaC5ZErpo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ketz60svz1mbVa1vOl4IJoPL68RtSXBlfFNDydiufJEmkn/kyd+mfjpUnndSHMXnodLM6uqkyhva7rfALo90uyGnMr/aolaNZweye7y5plqCVpTgrL9pcHmiRrYcRlieG3bu4ligqBMnMxEPD58ulnMsnSi4Z5FY/tAuL3I5Ttc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7mP3uMk; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743943064; c=relaxed/simple;
+	bh=sXA9qv75igJGtLZcRB/vSFTExIhtqUFpo52VyF6a9wQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YMhAGeH04KHSZW/iKiXJd7B85rlKHQ5szeESt1tz7ZEvuSCdsyl90Y3Q4Cn8ESBR/1yVCQwTH59Y3RG+zGoSn4gS0wA3V13x3qh0VpWVlDL8abMG/cvbgsdLxxIG3VgIIionM5ba0WpCIq1pqFfjpVIO4XUBsenQOlME5sy+gzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A1MP2YPR; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7mP3uMk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A1MP2YPR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743942739; x=1775478739;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6vxDDxQWZgwqS5gsY4zTEcG+2MjYYRSZcFaC5ZErpo8=;
-  b=X7mP3uMkme6n7QqMANEpZlO8m4srE07FhoQLP8EewlXgfNknm1F940xP
-   jmJ32kGr1BoG101F4SNen/dsyDqjtCXpyhj0QrVDNLLcIksj2oJv0/fbl
-   yBkZdlpSURtwsYsQp+7qOtqvSXKOomTkG1IAvHCxKPvza36fZ3BbUsvi9
-   7r5/lgCiCprnhQZp7w5dMltvLTL8c7GpYf8azOKrZdyxV+YPw3eUdb0Cs
-   GQhYaqNyzF6+U8d6BftoPY3bkavfZau42mkf1u6HP+3yONUoUjLjAjeeE
-   rSPF579OySB4NuQ959DGhcJrqDgK0bU4jFdVAflEbE+fagCW9w7f4x41P
+  t=1743943063; x=1775479063;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sXA9qv75igJGtLZcRB/vSFTExIhtqUFpo52VyF6a9wQ=;
+  b=A1MP2YPRAGG9two5HcWixo7k27aYmwdw4RgqPpzJCPsh/lakzq0zLj5u
+   2yIyq4h5y47a2IMSZfsVYFdAv8izyij3pqRQ6slQZFuIFte9KNojL4EFm
+   vk1TKqXHObxluyBppit3y1xfo5RRet5Lx9auYgLtDaMRMp/P+/U9Dtv4A
+   s3XtI1voaVgevtTDZC0nENXva9pqKb09UiC6Y5iEYAwzze0UhejvPRDeM
+   ztHkAjbFaBz6KM7KEmrRC6uhHRM85NNPCHFUSgPSg7FsySBsLtopmK7y5
+   xq3mxfErsgsGNe6tMH5fxGNMGExEbiOgtVogg2HPLrC5jqC5iSPO8UYC4
    g==;
-X-CSE-ConnectionGUID: EJLhYed3R3G1P0kZsoulew==
-X-CSE-MsgGUID: XVfSqyFGSsOhlR9KHMRE1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="62730087"
+X-CSE-ConnectionGUID: 5mpdwVMzS/2lkJ7TMXNWDg==
+X-CSE-MsgGUID: gkVWlp1/Rwyrghu+in1ezA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="45348431"
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="62730087"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 05:32:11 -0700
-X-CSE-ConnectionGUID: 1pDOLMtmSnqRBHOSavKmrQ==
-X-CSE-MsgGUID: g5VEhLesTk6mcMUJLFDg/A==
+   d="scan'208";a="45348431"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 05:37:43 -0700
+X-CSE-ConnectionGUID: yvoGIRNCR8KJj21q9gKvDw==
+X-CSE-MsgGUID: E09wiPGEQSCfreJE5TRGLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="158683562"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Apr 2025 05:32:07 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u1PAT-0002al-0p;
-	Sun, 06 Apr 2025 12:32:05 +0000
-Date: Sun, 6 Apr 2025 20:31:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
-Subject: [leon-rdma:dma-split-wip 23/25] drivers/nvme/host/pci.c:901
- nvme_pci_setup_meta_sgls() warn: inconsistent indenting
-Message-ID: <202504062030.Ydkvsgxh-lkp@intel.com>
+   d="scan'208";a="164900186"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 05:37:40 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u1PFp-00000009kLi-2xzN;
+	Sun, 06 Apr 2025 15:37:37 +0300
+Date: Sun, 6 Apr 2025 15:37:37 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>
+Subject: Re: [PATCH v1 1/1] leds: pca955x: Avoid potential overflow when
+ filling default_label
+Message-ID: <Z_J1kV6P3CgaE5WF@smile.fi.intel.com>
+References: <20250404162849.3650361-1-andriy.shevchenko@linux.intel.com>
+ <202504050256.SYq06TxB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,72 +66,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202504050256.SYq06TxB-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-wip
-head:   39bd337e840fee4fec27a2472f99c74308e9fd95
-commit: 71e72f9e14306c8f1b95e2371f3607dbd16f1873 [23/25] nvme-pci: convert to blk_rq_dma_map
-config: i386-randconfig-141-20250406 (https://download.01.org/0day-ci/archive/20250406/202504062030.Ydkvsgxh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+On Sat, Apr 05, 2025 at 02:58:17AM +0800, kernel test robot wrote:
+> Hi Andy,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on v6.14]
+> [cannot apply to lee-leds/for-leds-next linus/master next-20250404]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-pca955x-Avoid-potential-overflow-when-filling-default_label/20250405-003054
+> base:   v6.14
+> patch link:    https://lore.kernel.org/r/20250404162849.3650361-1-andriy.shevchenko%40linux.intel.com
+> patch subject: [PATCH v1 1/1] leds: pca955x: Avoid potential overflow when filling default_label
+> config: powerpc-randconfig-003-20250405 (https://download.01.org/0day-ci/archive/20250405/202504050256.SYq06TxB-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050256.SYq06TxB-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504050256.SYq06TxB-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/leds/leds-pca955x.c: In function 'pca955x_probe':
+> >> drivers/leds/leds-pca955x.c:554:53: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Wformat-truncation=]
+>         snprintf(default_label, sizeof(default_label), "%u", i);
+>                                                         ^~
+>    drivers/leds/leds-pca955x.c:554:52: note: directive argument in the range [0, 4294967294]
+>         snprintf(default_label, sizeof(default_label), "%u", i);
+>                                                        ^~~~
+>    drivers/leds/leds-pca955x.c:554:5: note: 'snprintf' output between 2 and 11 bytes into a destination of size 8
+>         snprintf(default_label, sizeof(default_label), "%u", i);
+>         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504062030.Ydkvsgxh-lkp@intel.com/
-
-smatch warnings:
-drivers/nvme/host/pci.c:901 nvme_pci_setup_meta_sgls() warn: inconsistent indenting
-
-vim +901 drivers/nvme/host/pci.c
-
-   859	
-   860	static blk_status_t nvme_pci_setup_meta_sgls(struct nvme_dev *dev,
-   861						     struct request *req)
-   862	{
-   863		unsigned int entries = req->nr_integrity_segments;
-   864		struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-   865		struct nvme_rw_command *cmd = &iod->cmd.rw;
-   866		struct nvme_sgl_desc *sg_list;
-   867		struct blk_dma_iter iter;
-   868		unsigned int mapped = 0;
-   869		dma_addr_t sgl_dma;
-   870	
-   871		cmd->flags = NVME_CMD_SGL_METASEG;
-   872	
-   873		if (!blk_rq_dma_map_iter_start(req, dev->dev, &iod->dma_meta_state,
-   874					       &iter))
-   875			return iter.status;
-   876	
-   877		sg_list = dma_pool_alloc(dev->prp_small_pool, GFP_ATOMIC, &sgl_dma);
-   878		if (!sg_list)
-   879			return BLK_STS_RESOURCE;
-   880	
-   881		iod->meta_list = sg_list;
-   882		iod->meta_dma = sgl_dma;
-   883		cmd->metadata = cpu_to_le64(sgl_dma);
-   884	
-   885		if (entries == 1 || blk_rq_dma_map_coalesce(&iod->dma_meta_state)) {
-   886			nvme_pci_sgl_set_data(sg_list, &iter);
-   887			iod->total_meta_len += iter.len;
-   888			return BLK_STS_OK;
-   889		}
-   890	
-   891		do {
-   892			if (WARN_ON_ONCE(mapped == entries)) {
-   893				iter.status = BLK_STS_IOERR;
-   894				break;
-   895			}
-   896			nvme_pci_sgl_set_data(&sg_list[mapped++], &iter);
-   897			iod->total_len += iter.len;
-   898		} while (blk_rq_dma_map_iter_next(req, dev->dev, &iod->dma_meta_state,
-   899					 &iter));
-   900	
- > 901			nvme_pci_sgl_set_seg(sg_list, sgl_dma, mapped);
-   902		if (unlikely(iter.status))
-   903			nvme_unmap_metadata(dev, req);
-   904		return iter.status;
-   905	}
-   906	
+Nice, different GCC have different level of issue here. I will address this
+in v2.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
