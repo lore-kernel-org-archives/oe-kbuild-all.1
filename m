@@ -1,58 +1,82 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829A428373
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Apr 2025 16:28:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015081487F6;
+	Sun,  6 Apr 2025 20:42:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743956917; cv=none; b=KkM7pXgpbY6lwn0pv++AkeBUpNoFs7HDTPYx6V3u4+U/eZsnLskbfPHtS08Pb8YbbhiUU7M2bSMyZ/R3t0w5Vt7b0vIWzoMJUoqc351oGnkGPUqCaSU4fZqyuI6OWSmos+xVoCh9r/lcw4ZSVvtOklD0bYETIcc/XtcN6Axa86I=
+	t=1743972181; cv=none; b=bgm0eekQ3B+hIjs8lpyo+G++2io0x4o1U/st52vf4WJ4nJgLyjVfh1MrQTnB2PdRcJ4flcLTedVf1DUeMkebYVPb5phnypBtESyLBu6TV9/6BPRXZj2ax8frItA5SmDC9nTBOBSsePavWAktw+5yp+zTsraNbbgOjk5gmNHSULo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743956917; c=relaxed/simple;
-	bh=2tnRdVF34BFIEQ+j55XIsruwWYVdNafgaJHyI9uxk2o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kSUgnB9Eu4di27gs+AONV9Qeut4kAuqMZ0A5YaOAbpHx20otuovnkku2+EmG9Mj908R1mIJzu3GOjGWu0hBjtdXEo9XAO7GjbKc7GtY0/IAbm+liDMOu4HvcZemvfujVN6Iu/jgfVbpPwq3EwJN+/JAtlEndDdKRNKLBRsWah1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JgHQMeAU; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1743972181; c=relaxed/simple;
+	bh=ucTOR97qFqJDSGh++Oi8YunL4fytJwroFSyVVKXhxw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OrL0VgCytP82HWBSkFiJYod98afnPmiRXB/pJDRR+OTFkRZBPnmZhqWwVuCbtZuRF+b70V7hVAE4FTvFkOT3yHROQDHH0NfcTDewmJ8Xg9cvkeqDOErbzvTK91axo7p+FLhB6+VOX98b/FRs1b4L4wjbc8zcnmGeOa5a40t2U4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCfRAANi; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgHQMeAU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCfRAANi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743956915; x=1775492915;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2tnRdVF34BFIEQ+j55XIsruwWYVdNafgaJHyI9uxk2o=;
-  b=JgHQMeAUg1ZPBAk4REDoqjRDfffVSPtj/zpoOs71lRN3ro+J82nGOCDE
-   recYhvroPN8oQKliQMxtG1J9Nev+UdrOKB4bVxE5BdngaPgaj36wU9vuk
-   WUWe7FMM7M1Ay0WQzLIesFPBepZp+s4pYvZRCgxcPMqrAYC0WvXqD7Yzs
-   ojT2rFLH4StO0EQFjXlErbFoGxd/ReIsHOMT9tbepme6L2fyNPWlNQYeX
-   2W70LAqzHgIgUGgSJyuuApm8oEFp1eTUBBwvLSvTw0I09NMGWMNROmjKA
-   Ua8A116CIDp9YrRzJ+Xh4c3aKPlkQyQ8c6OTeXoWvEGQKfblwnd85I6Am
-   g==;
-X-CSE-ConnectionGUID: QkUxICwpR7WBxwKU9wLADQ==
-X-CSE-MsgGUID: sVyhX/PXRCuyVfWMClZx5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="62885255"
+  t=1743972180; x=1775508180;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ucTOR97qFqJDSGh++Oi8YunL4fytJwroFSyVVKXhxw8=;
+  b=RCfRAANiFlsffxsLkeOrf3D2ZxEdUtpkJ7iUEcGjAYGGPvkwsIydz1Fl
+   4Fcdra37AWaAzXnc7mtm8SV0gjrTuOcaOQ3NvmykOBiJo71gtMg2NhanK
+   0YY9JmBAcZSmDiUlg9e6lpAaaZbmNRnsez8C9syFOQ9Y+f9fhNDG82/Lt
+   cE0amL0ZwPPLmALE0ts9ebCRM9R3V4yiOKac6HszOgbG1m2aZLVMNlb/v
+   Ay6V/fkQy9bVdgBpWVE1HbkcI/IJBq+xIF6XgHxQexJb3u9UKwsUomWhG
+   HCzyuKbowCSBZxBxWXct4hGXQJnwoKm0Fq2zKP3meO6/1KTmgT9wAnnWX
+   w==;
+X-CSE-ConnectionGUID: FsTNiKbLQ8CORUCsT4EAgQ==
+X-CSE-MsgGUID: QnM53cZfTV2RVbhXIYct7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="62893346"
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="62885255"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 09:28:33 -0700
-X-CSE-ConnectionGUID: nWxip8bcQx2MgZw8wTu0Qg==
-X-CSE-MsgGUID: F2Aq/NdYSHu/2VL8+1QM3Q==
+   d="scan'208";a="62893346"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 13:42:59 -0700
+X-CSE-ConnectionGUID: 7A1SZ+9HQaeEOp+zSzOO2A==
+X-CSE-MsgGUID: 1Mu686fJRWm6vbVCtSdAXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="128257378"
+   d="scan'208";a="128624589"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 Apr 2025 09:28:32 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 06 Apr 2025 13:42:53 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1SrF-0002hG-2T;
-	Sun, 06 Apr 2025 16:28:29 +0000
-Date: Mon, 7 Apr 2025 00:27:58 +0800
+	id 1u1WpO-0002lj-2N;
+	Sun, 06 Apr 2025 20:42:50 +0000
+Date: Mon, 7 Apr 2025 04:42:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:hack/ppi 8/13] include/linux/irqdomain.h:765:12:
- warning: 'irq_populate_fwspec_info' defined but not used
-Message-ID: <202504070043.zBFNF505-lkp@intel.com>
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Howells <dhowells@redhat.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+	llvm@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+Message-ID: <202504070413.eDHSjWGP-lkp@intel.com>
+References: <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,81 +85,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git hack/ppi
-head:   2eb268faef9c9204898770ee24a676c213566794
-commit: 069b6b94df996439ad61f8ad9f15617097a09fa9 [8/13] fixup! new affinity retrieval API
-config: powerpc64-randconfig-002-20250406 (https://download.01.org/0day-ci/archive/20250407/202504070043.zBFNF505-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504070043.zBFNF505-lkp@intel.com/reproduce)
+Hi Blaise,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes herbert-cryptodev-2.6/master herbert-crypto-2.6/master masahiroy-kbuild/for-next masahiroy-kbuild/fixes v6.14]
+[cannot apply to linus/master next-20250404]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Blaise-Boscaccy/security-Hornet-LSM/20250405-055741
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20250404215527.1563146-2-bboscaccy%40linux.microsoft.com
+patch subject: [PATCH v2 security-next 1/4] security: Hornet LSM
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250407/202504070413.eDHSjWGP-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504070413.eDHSjWGP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504070043.zBFNF505-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504070413.eDHSjWGP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/of_irq.h:8:0,
-                    from drivers/crypto/inside-secure/safexcel.c:16:
->> include/linux/irqdomain.h:765:12: warning: 'irq_populate_fwspec_info' defined but not used [-Wunused-function]
-    static int irq_populate_fwspec_info(struct irq_fwspec_info *info)
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/inside-secure/safexcel.c: In function 'safexcel_probe_generic.constprop':
-   drivers/crypto/inside-secure/safexcel.c:1162:30: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-      snprintf(irq_name, 6, "ring%d", irqid);
-                                 ^~
-   drivers/crypto/inside-secure/safexcel.c:1162:25: note: directive argument in the range [0, 2147483647]
-      snprintf(irq_name, 6, "ring%d", irqid);
-                            ^~~~~~~~
-   drivers/crypto/inside-secure/safexcel.c:1162:3: note: 'snprintf' output between 6 and 15 bytes into a destination of size 6
-      snprintf(irq_name, 6, "ring%d", irqid);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/inside-secure/safexcel.c:1667:32: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-      snprintf(wq_name, 9, "wq_ring%d", i);
-                                   ^~
-   drivers/crypto/inside-secure/safexcel.c:1667:24: note: directive argument in the range [0, 2147483647]
-      snprintf(wq_name, 9, "wq_ring%d", i);
-                           ^~~~~~~~~~~
-   drivers/crypto/inside-secure/safexcel.c:1667:3: note: 'snprintf' output between 9 and 18 bytes into a destination of size 9
-      snprintf(wq_name, 9, "wq_ring%d", i);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/of_irq.h:8:0,
-                    from safexcel.c:16:
->> include/linux/irqdomain.h:765:12: warning: 'irq_populate_fwspec_info' defined but not used [-Wunused-function]
-    static int irq_populate_fwspec_info(struct irq_fwspec_info *info)
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   safexcel.c: In function 'safexcel_probe_generic.constprop':
-   safexcel.c:1162:30: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-      snprintf(irq_name, 6, "ring%d", irqid);
-                                 ^~
-   safexcel.c:1162:25: note: directive argument in the range [0, 2147483647]
-      snprintf(irq_name, 6, "ring%d", irqid);
-                            ^~~~~~~~
-   safexcel.c:1162:3: note: 'snprintf' output between 6 and 15 bytes into a destination of size 6
-      snprintf(irq_name, 6, "ring%d", irqid);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   safexcel.c:1667:32: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-      snprintf(wq_name, 9, "wq_ring%d", i);
-                                   ^~
-   safexcel.c:1667:24: note: directive argument in the range [0, 2147483647]
-      snprintf(wq_name, 9, "wq_ring%d", i);
-                           ^~~~~~~~~~~
-   safexcel.c:1667:3: note: 'snprintf' output between 9 and 18 bytes into a destination of size 9
-      snprintf(wq_name, 9, "wq_ring%d", i);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> security/hornet/hornet_lsm.c:221:31: error: incompatible function pointer types initializing 'int (*)(struct bpf_prog *, union bpf_attr *, struct bpf_token *)' with an expression of type 'int (struct bpf_prog *, union bpf_attr *, struct bpf_token *, bool)' (aka 'int (struct bpf_prog *, union bpf_attr *, struct bpf_token *, _Bool)') [-Wincompatible-function-pointer-types]
+     221 |         LSM_HOOK_INIT(bpf_prog_load, hornet_bpf_prog_load),
+         |                                      ^~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hooks.h:136:21: note: expanded from macro 'LSM_HOOK_INIT'
+     136 |                 .hook = { .NAME = HOOK }                \
+         |                                   ^~~~
+   1 error generated.
 
 
-vim +/irq_populate_fwspec_info +765 include/linux/irqdomain.h
+vim +221 security/hornet/hornet_lsm.c
 
-   764	
- > 765	static int irq_populate_fwspec_info(struct irq_fwspec_info *info)
-   766	{
-   767		return -EINVAL;
-   768	}
-   769	#endif	/* CONFIG_IRQ_DOMAIN_HIERARCHY */
-   770	
+   219	
+   220	static struct security_hook_list hornet_hooks[] __ro_after_init = {
+ > 221		LSM_HOOK_INIT(bpf_prog_load, hornet_bpf_prog_load),
+   222	};
+   223	
 
 -- 
 0-DAY CI Kernel Test Service
