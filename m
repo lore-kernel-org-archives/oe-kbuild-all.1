@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DC522A7E4
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 11:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9929248896
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 12:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744025617; cv=none; b=b3q6R3S8MCiyWazoUwzq+fVfRDXM0SuPSIe3nQnv++PU0tWBgUMkCisdjYm1/Js/vyySci42IYPy40V9xMP7wNFSFniW+XWEySYJ81WpBo3cedXGHDqBTeSUA6LqcCZe/Wd8Q6VobcyMXD/56HBbF38+Ut6aTnVvs3cLukaVLZw=
+	t=1744027414; cv=none; b=nP7iXVEpGBcLeYPtKPXBAGqj/fOKJ0F633ycasjSSaT0Pi3SSWgb0RX9LAizdVqBAtR2hFFkJjSOy/aQ7/UKkEgjPRGnoCbews9T8KSXlykIUJ13Apd8NR48q/+FanE4PvoZ1XGEAFAwG7chn+cIQxRNL9LNIfRokym647GIJdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744025617; c=relaxed/simple;
-	bh=Q1eMsGD77kqSuzN8Pl36F2hS9uVTPWcv09IiLoIqkAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G344hSUtJ7ucJZkw010GncSMDUqI49r+LINGbXUVgAhkIsZKscrx0dgPHWIfGo0CX7Z3ym8YpuLcmUq0QrmA6GTCb8+dBdUXYRNcdboTMaQSOLJnHZMVnd8s3injEEdhv0vOpxT6dASldkH4DlQKkK47eKdbzlCbsqw8DTJRv94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWpEr2PI; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1744027414; c=relaxed/simple;
+	bh=rQdEHuve06/HByvBcIzeFfwJ+bNO/a8E1n7x9H/xF4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QQl7INM7FOWyPyjDCO4oWzwCZy77fUW86g/A9MrEiJ6MBMuCCQGzKcj51DIznf7iCaJLDo73nX0iBwYHlsy1cWwtmY3V5nI967enyT7bhsxav4vbhMw/TGBpDrflaC2nRg49dDPGZ7ZB2BsYRvDvkD0jLKdT664orbeizl4tcm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BQH5P1nh; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWpEr2PI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQH5P1nh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744025616; x=1775561616;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q1eMsGD77kqSuzN8Pl36F2hS9uVTPWcv09IiLoIqkAE=;
-  b=YWpEr2PIHlwkAolsXZ4hDyP7dHUUdyCyAnSb1/lfsapCWWEzG7DTo0ss
-   f5vi8/VHUwMuQVnBeKU/SD2+cI+msQi1IkDNVXaBvqtU+bbjywEaqw7bX
-   Iwd29YHeaTIMXGSIg/Mx3ppsvsQLwNI1VTyA5gXzF1nGgi2M6tLMHU3ov
-   vjQf8dZboiHlR//XkO6rUueB0ZSbYj7EgWAXgTDSvVKVVeW4nvpQRlEFP
-   wYE7S3cV/vDB6WCvPdII9kZ5hnZeDmX6a7myFL8KLE1/z5Xvj0RiqqjbZ
-   rqKoxck37zTJEuAXAmvvXavklC4Cibj9n5nQTu0P171YT+fzNOsEOkpEy
+  t=1744027412; x=1775563412;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rQdEHuve06/HByvBcIzeFfwJ+bNO/a8E1n7x9H/xF4Y=;
+  b=BQH5P1nh5QXPiCTGMIsO0WNAs4EyNhL+nsv4erixAyPMb0YhZgQ1BI30
+   z5GLwTNr6pRblwCnqWdMChpyfi2SqzqqOydird2xUV7vU/b/x1kWq/VAY
+   3Kr53CzMmIulW7XqprJUAyBfXZ/f8aVpyaIJdgIhV1nSj/mpM8V+7XbIZ
+   0xJor9ghfqu5bgO8eKfQ9eq3PG62VWVuasghIJWmkTVSuokMdoVyEm/tn
+   FKX3JuduZJ87pWdyinuEKvQovdLH91hCEl7bXhOnJr34pKuibRSRDMvOY
+   VGs/6bJglT1r8o+mESAy1oVp2IErrGs+/sWe9ih1veoRVuF8N2ahiREUZ
    g==;
-X-CSE-ConnectionGUID: SR8lOWHVQhex1qjeshAjAQ==
-X-CSE-MsgGUID: CaR1vmOXR4eE+DA8FKuMjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45296086"
+X-CSE-ConnectionGUID: yEM51JP+S1e5VxMyzigYqA==
+X-CSE-MsgGUID: ud/T8vmoQSCIi3UJaxp9IA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45500968"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="45296086"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 04:33:33 -0700
-X-CSE-ConnectionGUID: 9oTHmomUTcStGqEGwEdmdg==
-X-CSE-MsgGUID: CmnV3hNEQcK7kLRdDpBDUw==
+   d="scan'208";a="45500968"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 05:03:32 -0700
+X-CSE-ConnectionGUID: 4a4RBE4jTLS4IEiYA6c3bQ==
+X-CSE-MsgGUID: /Pso3oEuRhKUBn4d8GjLPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="127683970"
+   d="scan'208";a="132075591"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Apr 2025 04:33:28 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 Apr 2025 05:03:30 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1kjF-0003M3-0O;
-	Mon, 07 Apr 2025 11:33:25 +0000
-Date: Mon, 7 Apr 2025 19:32:39 +0800
+	id 1u1lCJ-0003NJ-35;
+	Mon, 07 Apr 2025 12:03:27 +0000
+Date: Mon, 7 Apr 2025 20:03:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
-	david.m.ertman@intel.com, ira.weiny@intel.com, lee@kernel.org,
-	andriy.shevchenko@linux.intel.com
+To: Nam Cao <namcao@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v2] mfd: core: Support auxiliary device
-Message-ID: <202504071910.eL0mjen2-lkp@intel.com>
-References: <20250407074614.1665575-1-raag.jadav@intel.com>
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: kernel/time/hrtimer.c:369:18: sparse: sparse: dereference of noderef
+ expression
+Message-ID: <202504071931.vOVl13tt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,111 +63,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250407074614.1665575-1-raag.jadav@intel.com>
 
-Hi Raag,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-mfd/for-mfd-next]
-[also build test ERROR on lee-mfd/for-mfd-fixes linus/master v6.15-rc1 next-20250407]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/mfd-core-Support-auxiliary-device/20250407-154807
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20250407074614.1665575-1-raag.jadav%40intel.com
-patch subject: [PATCH v2] mfd: core: Support auxiliary device
-config: arm-socfpga_defconfig (https://download.01.org/0day-ci/archive/20250407/202504071910.eL0mjen2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071910.eL0mjen2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0af2f6be1b4281385b618cb86ad946eded089ac8
+commit: 04257da0c99c9d4ff7c5bb93046482e1f7d34938 hrtimers: Make callback function pointer private
+date:   2 days ago
+config: i386-randconfig-r123-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071931.vOVl13tt-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071931.vOVl13tt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504071910.eL0mjen2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504071931.vOVl13tt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/time/hrtimer.c:369:18: sparse: sparse: dereference of noderef expression
 
-   arm-linux-gnueabi-ld: drivers/mfd/mfd-core.o: in function `mfd_add_auxiliary_device':
->> drivers/mfd/mfd-core.c:209:(.text+0x360): undefined reference to `auxiliary_device_init'
->> arm-linux-gnueabi-ld: drivers/mfd/mfd-core.c:213:(.text+0x3d0): undefined reference to `__auxiliary_device_add'
+vim +369 kernel/time/hrtimer.c
 
+237fc6e7a35076f kernel/hrtimer.c Thomas Gleixner   2008-04-30  366  
+997772884036e6e kernel/hrtimer.c Stanislaw Gruszka 2011-03-07  367  static void *hrtimer_debug_hint(void *addr)
+997772884036e6e kernel/hrtimer.c Stanislaw Gruszka 2011-03-07  368  {
+997772884036e6e kernel/hrtimer.c Stanislaw Gruszka 2011-03-07 @369  	return ((struct hrtimer *) addr)->function;
+997772884036e6e kernel/hrtimer.c Stanislaw Gruszka 2011-03-07  370  }
+997772884036e6e kernel/hrtimer.c Stanislaw Gruszka 2011-03-07  371  
 
-vim +209 drivers/mfd/mfd-core.c
+:::::: The code at line 369 was first introduced by commit
+:::::: 997772884036e6e121de39322179989154437d9f debugobjects: Add hint for better object identification
 
-   156	
-   157	static int mfd_add_auxiliary_device(struct device *parent, int id, const struct mfd_cell *cell,
-   158					    struct resource *mem_base, int irq_base,
-   159					    struct irq_domain *domain)
-   160	{
-   161		struct mfd_aux_device *mfd_aux;
-   162		struct auxiliary_device *auxdev;
-   163		int r, ret;
-   164	
-   165		mfd_aux = kzalloc(sizeof(*mfd_aux), GFP_KERNEL);
-   166		if (!mfd_aux)
-   167			return -ENOMEM;
-   168	
-   169		for (r = 0; r < cell->num_resources; r++) {
-   170			/* Find out base to use */
-   171			if ((cell->resources[r].flags & IORESOURCE_MEM) && mem_base) {
-   172				mfd_aux->mem.name = cell->resources[r].name;
-   173				mfd_aux->mem.flags = cell->resources[r].flags;
-   174	
-   175				mfd_aux->mem.parent = mem_base;
-   176				mfd_aux->mem.start = mem_base->start + cell->resources[r].start;
-   177				mfd_aux->mem.end = mem_base->start + cell->resources[r].end;
-   178			} else if (cell->resources[r].flags & IORESOURCE_IRQ) {
-   179				mfd_aux->irq.name = cell->resources[r].name;
-   180				mfd_aux->irq.flags = cell->resources[r].flags;
-   181	
-   182				if (domain) {
-   183					/* Unable to create mappings for IRQ ranges */
-   184					WARN_ON(cell->resources[r].start != cell->resources[r].end);
-   185					mfd_aux->irq.start = mfd_aux->irq.end = irq_create_mapping(
-   186							domain, cell->resources[r].start);
-   187				} else {
-   188					mfd_aux->irq.start = irq_base + cell->resources[r].start;
-   189					mfd_aux->irq.end = irq_base + cell->resources[r].end;
-   190				}
-   191			} else {
-   192				mfd_aux->ext.name = cell->resources[r].name;
-   193				mfd_aux->ext.flags = cell->resources[r].flags;
-   194				mfd_aux->ext.parent = cell->resources[r].parent;
-   195				mfd_aux->ext.start = cell->resources[r].start;
-   196				mfd_aux->ext.end = cell->resources[r].end;
-   197			}
-   198		}
-   199	
-   200		auxdev = &mfd_aux->auxdev;
-   201		auxdev->name = cell->name;
-   202		/* Use parent id for discoverable devices */
-   203		auxdev->id = dev_is_pci(parent) ? pci_dev_id(to_pci_dev(parent)) : cell->id;
-   204	
-   205		auxdev->dev.parent = parent;
-   206		auxdev->dev.type = &mfd_dev_type[MFD_AUX_DEV];
-   207		auxdev->dev.release = mfd_release_auxiliary_device;
-   208	
- > 209		ret = auxiliary_device_init(auxdev);
-   210		if (ret)
-   211			goto fail_aux_init;
-   212	
- > 213		ret = __auxiliary_device_add(auxdev, parent->driver->name);
-   214		if (ret)
-   215			goto fail_aux_add;
-   216	
-   217		return 0;
-   218	
-   219	fail_aux_add:
-   220		/* auxdev will be freed with the put_device() and .release sequence */
-   221		auxiliary_device_uninit(auxdev);
-   222	fail_aux_init:
-   223		kfree(mfd_aux);
-   224		return ret;
-   225	}
-   226	
+:::::: TO: Stanislaw Gruszka <sgruszka@redhat.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
