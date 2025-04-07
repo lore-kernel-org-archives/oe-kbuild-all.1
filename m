@@ -1,157 +1,139 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A9621766A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 12:39:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE7F24502D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 12:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744029571; cv=none; b=pbCocS/5w8kr+iJQ2HxDRdE3w+lXtO9LI+/0q46jO6g/FSe1sW58k8XjGX78vhh9tCqSrAEePUtJYmP5gmvLLRjqt3FLMeMlg1flhUj6rKTZmpLscvWqgX3KHxirTEiaW/KcWyrP8z2irfxCG/ZhJDy9dKww9chm6u320YRULCY=
+	t=1744029939; cv=none; b=saAREuGulwr462xZcltMJrox4Gt+zaa2aQ72pfCRKikVfTO2pEUbySm8Ag+v+jDarO5/mAkYo+yRK9cEGGMZjm55oOzQAj8YXoVH22pklr0fu0WDt92tqesTod/PCixJaVJ+y1xdpJXGb2I2/foMXna31eG/LgbBOKL/DFaqm4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744029571; c=relaxed/simple;
-	bh=gVwXd919qwdVvBnlix5/kGCGSDzwuyFY8SUtVZrZ+gg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JSsOcjIa7IzsVFhmj/pFexHa5bZvmGiFJFkZjWyn2FA2lNXnBChKryqMKaGwxxHSqNMxi6c/bijtITQqVzlwuyFYwItZJjshZ23SDjgkvUl7ajaXiAujwQEhfZ1n3iPRePyI7yRCV7zl9eGQqV4lEevUHa6f3smHpoEaiMM7rv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lgTF5Av+; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744029939; c=relaxed/simple;
+	bh=oi7xvK7sq6Mk30ayGug3Cz0ce7Qbzy8vn4VUDnl94Fk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jIsQCgYTAL6C4wzXWcxwKGpP8mQ1zJoFym0WAHD9ItPf8nM+1x5jZbpnBBz5XX/rd+yYtKP6zw3y+N2qWvMY/BMQZJEZ61xjkuMUaChIWbCM/T17YBLRL4LlcyeHJodxDEPWcDTLYynhBIBDMLOrTvP2Jb3pBxfI5LLLPi6aKEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q4DkUFiO; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lgTF5Av+"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22409077c06so51499425ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Apr 2025 05:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744029569; x=1744634369; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jqcszFjiY+Y27P7zL5H3ARQuOUut/C9C9Lyd9JHvtz8=;
-        b=lgTF5Av+mIDBxND1G0UKiK2rf3pCbgkHcORXDq/EB8ocj6qGeArtOqFTHhRAeToJ+u
-         HGdkPHw44PYuwFcekywx3HPxrPV9dhi1BkSJnjwd+e2m5gh8/zd3tThA0IKSp7733TVO
-         jvbbDTrDzyfMS7lt75NQcCNK58Uy9vFTYciufeXNSoZDTfa22ncH/qDEDmCZqgjAMd1N
-         beh/FUJo4fee4kEw96bZClt0mDdmYXvhDZviecH64+pmSKh3x1pC1L40himVboC1R1j8
-         0CbMPO+r4l5YxvOFfM0ZijdJ1rouw6fY+JWqACYks9QP8t5XwCyTrTDxX8OupOaYkoX9
-         O3tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744029569; x=1744634369;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jqcszFjiY+Y27P7zL5H3ARQuOUut/C9C9Lyd9JHvtz8=;
-        b=uy09G7q/mQFtfsqp9hx1Oxq7d8wen8aXe4XcCinp4uTdfWr2u1BTHtur0IHupt1+cY
-         JjO/z/ecr9AdTKmQPDClPjrQ8cgPa1/CzDKHNxC4wIb6C0xgeG12yFJeR4jVf2qPHFff
-         uV3RRJPyUGd7TSkaoJ/cn0ON72gg+DhcQtBjxD8BWPHhe3i7W4l2aUyXIeCdRnijuooN
-         DmxoZQAOqMt9Yybtx7kyQPxoJns6KqkSwjaOmrvpx5nXqmNinxZxlf9b6kkAyKoNaJSk
-         bowANPakP1KKsdeSa2hQGhOr/OR7QYv1E1dgUt0EZGj39NyqHt+bAR1Pm0qbUaMQnVl0
-         qdQw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8R6v/a/xGbWYVlpXNBsDoQnIsarboLXQnTquZtZg/DoNnKshycLDEXNfx7r60iwu85jHviEetcUCFlNzi@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxy/4Bl0idfKbaPer5sHBmYsUVOeW12lUTkDNUB/K57TkCqPZ3c
-	O3uxkp5racuHdx3mFzMIaoEQpofKdWjZIW1BsekfvLvMbq+CZ9gA
-X-Gm-Gg: ASbGncvfaZ2QigC3BXMZnfP9c9TZ0CX2Ch7hHxfQstKG+sa5xxt7oGZ+Mgu5YZNFLuY
-	JPtCoOzbKrrmuzVKLnkJ5naXaA3VPsHRCzSUz7N/98opo2coEtcg+C61OA0v3H4Mjq2RgbDzGHZ
-	6yYQ82L8WEMoFDvPgcp8ZsHyfzGZPUUwLaxoXr+SeWgulyl3+10+Gi49juJjs7SkAsZvHf+HGkv
-	Hw4nPscEuGvuQTQxALMdxGBaGOv8fwF52RM9V/VKvTbw4rQHjlNpiBFRWhW+8L/6nGmI/dpWqa7
-	YKHgMVciQFBhpGv8KcGqaQdGeD5uR3umCI8hOkx5ywL8blG4trXF1hn8WJtAy2h8qpcZ00oCi75
-	Ot2xG1YLZsnX2vBRDhcPGpGCF7nX6pxNwuTGmN+9mAB0qXjVL+hu+
-X-Google-Smtp-Source: AGHT+IFEVGUSoYS1JmDqtU019RQE7MA11l/maqzFklmFLnc6Zt4IppcP3qxlg0IP1WUL3SYihQNhrw==
-X-Received: by 2002:a17:902:e541:b0:224:24d5:f20a with SMTP id d9443c01a7336-22a8a8d3173mr178795425ad.48.1744029569090;
-        Mon, 07 Apr 2025 05:39:29 -0700 (PDT)
-Received: from DESKTOP-NBGHJ1C.flets-east.jp (p12284229-ipxg45101marunouchi.tokyo.ocn.ne.jp. [60.39.60.229])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22978777259sm79456365ad.251.2025.04.07.05.39.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 05:39:28 -0700 (PDT)
-From: Ryo Takakura <ryotkkr98@gmail.com>
-To: lkp@intel.com
-Cc: alex@ghiti.fr,
-	aou@eecs.berkeley.edu,
-	bigeasy@linutronix.de,
-	conor.dooley@microchip.com,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	john.ogness@linutronix.de,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-serial@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	palmer@dabbelt.com,
-	paul.walmsley@sifive.com,
-	pmladek@suse.com,
-	ryotkkr98@gmail.com,
-	samuel.holland@sifive.com,
-	u.kleine-koenig@baylibre.com
-Subject: Re: [PATCH v2] serial: sifive: Switch to nbcon console
-Date: Mon,  7 Apr 2025 21:39:20 +0900
-Message-Id: <20250407123920.14443-1-ryotkkr98@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <202504060816.EWk91sJS-lkp@intel.com>
-References: <202504060816.EWk91sJS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q4DkUFiO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744029937; x=1775565937;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oi7xvK7sq6Mk30ayGug3Cz0ce7Qbzy8vn4VUDnl94Fk=;
+  b=Q4DkUFiOhFowklIqPzGtu3CwTt1Ua2c3AnBn0Easq2fyZfO1Gcm0NPzg
+   InRLUH9+Mr/4ccMFnYrY5Q7M9hqDtZqT/CHAoK8YdqhQ5qw4szTej+2AC
+   Ay8SkNFFQ7d/SUm5X+LMI1T0UeJCJhPkw42dHy5tEyDGSFzx0nzd0kiFk
+   tfvbrvzByZsct/keSi+Da9NiR9SSZizHbTX0MKoKmMJiDfZQpi4ZKCCoU
+   9btS4r4Wq9ZR8NLYhqi+WkGONyuTDFV69gKtcIbj9jA2/hVVv50JZKSCr
+   Z7Zu578OGubQI0QUgtBc6BlZ6gr92u0v0G4+D6UCV6CwKDTqym0L61/UF
+   Q==;
+X-CSE-ConnectionGUID: i9gyf4kESXO9TNfvf/Qn6Q==
+X-CSE-MsgGUID: Q9N+7N3kTv+R7khLo/ptDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44660997"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="44660997"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 05:45:37 -0700
+X-CSE-ConnectionGUID: 9P08ZSozR0Kdsb1iejdrkw==
+X-CSE-MsgGUID: S8frljUTRLKrkL7PDqw5QQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="127829153"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 07 Apr 2025 05:45:34 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u1lr2-0003OR-0T;
+	Mon, 07 Apr 2025 12:45:32 +0000
+Date: Mon, 7 Apr 2025 20:45:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 2/6] i2c: core: Unify the firmware node type check
+Message-ID: <202504072041.Bv9mOk4o-lkp@intel.com>
+References: <20250407095852.215809-3-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250407095852.215809-3-andriy.shevchenko@linux.intel.com>
 
-On Sun, 6 Apr 2025 08:48:12 +0800, kernel test robot wrote:
->kernel test robot noticed the following build warnings:
->
->[auto build test WARNING on tty/tty-testing]
->[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.14 next-20250404]
->[If your patch is applied to the wrong git tree, kindly drop us a note.
->And when submitting patch, we suggest to use '--base' as documented in
->https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Ryo-Takakura/serial-sifive-Switch-to-nbcon-console/20250405-230051
->base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
->patch link:    https://lore.kernel.org/r/20250405145915.493173-1-ryotkkr98%40gmail.com
->patch subject: [PATCH v2] serial: sifive: Switch to nbcon console
->config: arm-randconfig-002-20250406 (https://download.01.org/0day-ci/archive/20250406/202504060816.EWk91sJS-lkp@intel.com/config)
->compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
->reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250406/202504060816.EWk91sJS-lkp@intel.com/reproduce)
->
->If you fix the issue in a separate patch/commit (i.e. not just a new version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes: https://lore.kernel.org/oe-kbuild-all/202504060816.EWk91sJS-lkp@intel.com/
->
->All warnings (new ones prefixed by >>):
->
->>> drivers/tty/serial/sifive.c:155: warning: Function parameter or struct member 'console_line_ended' not described in 'sifive_serial_port'
+Hi Andy,
 
-Thank you for reporting.
-I overlooked this... I'll add a description for it.
+kernel test robot noticed the following build errors:
 
-Sincerely,
-Ryo Takakura
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on linus/master v6.15-rc1 next-20250407]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->vim +155 drivers/tty/serial/sifive.c
->
->45c054d0815b15 Paul Walmsley 2019-04-12  131  
->45c054d0815b15 Paul Walmsley 2019-04-12  132  /*
->45c054d0815b15 Paul Walmsley 2019-04-12  133   *
->45c054d0815b15 Paul Walmsley 2019-04-12  134   */
->45c054d0815b15 Paul Walmsley 2019-04-12  135  
->45c054d0815b15 Paul Walmsley 2019-04-12  136  /**
->180bb243de730c Lee Jones     2020-11-04  137   * struct sifive_serial_port - driver-specific data extension to struct uart_port
->45c054d0815b15 Paul Walmsley 2019-04-12  138   * @port: struct uart_port embedded in this struct
->45c054d0815b15 Paul Walmsley 2019-04-12  139   * @dev: struct device *
->45c054d0815b15 Paul Walmsley 2019-04-12  140   * @ier: shadowed copy of the interrupt enable register
->45c054d0815b15 Paul Walmsley 2019-04-12  141   * @baud_rate: UART serial line rate (e.g., 115200 baud)
->180bb243de730c Lee Jones     2020-11-04  142   * @clk: reference to this device's clock
->45c054d0815b15 Paul Walmsley 2019-04-12  143   * @clk_notifier: clock rate change notifier for upstream clock changes
->45c054d0815b15 Paul Walmsley 2019-04-12  144   *
->45c054d0815b15 Paul Walmsley 2019-04-12  145   * Configuration data specific to this SiFive UART.
->45c054d0815b15 Paul Walmsley 2019-04-12  146   */
->45c054d0815b15 Paul Walmsley 2019-04-12  147  struct sifive_serial_port {
->45c054d0815b15 Paul Walmsley 2019-04-12  148  	struct uart_port	port;
->45c054d0815b15 Paul Walmsley 2019-04-12  149  	struct device		*dev;
->45c054d0815b15 Paul Walmsley 2019-04-12  150  	unsigned char		ier;
->45c054d0815b15 Paul Walmsley 2019-04-12  151  	unsigned long		baud_rate;
->45c054d0815b15 Paul Walmsley 2019-04-12  152  	struct clk		*clk;
->45c054d0815b15 Paul Walmsley 2019-04-12  153  	struct notifier_block	clk_notifier;
->328ee9dbff3941 Ryo Takakura  2025-04-05  154  	bool			console_line_ended;
->45c054d0815b15 Paul Walmsley 2019-04-12 @155  };
->45c054d0815b15 Paul Walmsley 2019-04-12  156  
->
->-- 
->0-DAY CI Kernel Test Service
->https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-core-Drop-duplicate-check-before-calling-OF-APIs/20250407-180528
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/20250407095852.215809-3-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 2/6] i2c: core: Unify the firmware node type check
+config: arc-randconfig-002-20250407 (https://download.01.org/0day-ci/archive/20250407/202504072041.Bv9mOk4o-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504072041.Bv9mOk4o-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504072041.Bv9mOk4o-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/i2c/i2c-core-slave.c: In function 'i2c_detect_slave_mode':
+>> drivers/i2c/i2c-core-slave.c:117:17: error: implicit declaration of function 'for_each_child_node_scoped'; did you mean 'for_each_child_of_node_scoped'? [-Wimplicit-function-declaration]
+     117 |                 for_each_child_node_scoped(fwnode, child) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 for_each_child_of_node_scoped
+>> drivers/i2c/i2c-core-slave.c:117:52: error: 'child' undeclared (first use in this function)
+     117 |                 for_each_child_node_scoped(fwnode, child) {
+         |                                                    ^~~~~
+   drivers/i2c/i2c-core-slave.c:117:52: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/i2c/i2c-core-slave.c:117:58: error: expected ';' before '{' token
+     117 |                 for_each_child_node_scoped(fwnode, child) {
+         |                                                          ^~
+         |                                                          ;
+>> drivers/i2c/i2c-core-slave.c:115:21: warning: unused variable 'reg' [-Wunused-variable]
+     115 |                 u32 reg;
+         |                     ^~~
+
+
+vim +117 drivers/i2c/i2c-core-slave.c
+
+    97	
+    98	/**
+    99	 * i2c_detect_slave_mode - detect operation mode
+   100	 * @dev: The device owning the bus
+   101	 *
+   102	 * This checks the device nodes for an I2C slave by checking the address
+   103	 * used in the reg property. If the address match the I2C_OWN_SLAVE_ADDRESS
+   104	 * flag this means the device is configured to act as a I2C slave and it will
+   105	 * be listening at that address.
+   106	 *
+   107	 * Returns true if an I2C own slave address is detected, otherwise returns
+   108	 * false.
+   109	 */
+   110	bool i2c_detect_slave_mode(struct device *dev)
+   111	{
+   112		struct fwnode_handle *fwnode = dev_fwnode(dev);
+   113	
+   114		if (is_of_node(fwnode)) {
+ > 115			u32 reg;
+   116	
+ > 117			for_each_child_node_scoped(fwnode, child) {
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
