@@ -1,309 +1,150 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 721B5226CF9;
-	Mon,  7 Apr 2025 10:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E72D14B092
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 11:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744023144; cv=none; b=fSLdEnEN3CWyMQWQ2yNgZPjhHku004cOcV2FOh1Cmzgkr4Ssb6gYmLWQEyowGP0FeH4pdGt+FcGgYeTusmhlaoVmOLtIaqzhe10PWUfytAEQNCc8q543LIMTng0DnKIxY1M9MmvAlA0D3DuyGM4dodgdj7q+cTatB7IV5UO3KPA=
+	t=1744025615; cv=none; b=f4w80FxJqy4XbNLvAahm7J21s1HvwE9tOOfBptHIpCM4UHfaCep6fWJ1xCvJh++1Is+RJ0UJzuFelbHLyL6kvYhFqlv8bEijtrhbtJcericArAgi0zCwWO1AWtJY/zmMuVixwfttyb1kPPU53RVLTI2edC5MrLH/Pv54w7U2NTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744023144; c=relaxed/simple;
-	bh=azv7dy+V9qtN/B4MRwCfouvh1u0P9FFBepJiCoKsfiQ=;
-	h=Subject:To:References:Cc:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=X5kVUBti9AsM8vxsDQG7JWxYL9jhZbBssjKMQuC8UagMDwJ9zTX3BWY6aXm1sL/FYnO7yYq1PYogVlJep1pvnNoQdUBMxxedCPGvfcHFjmGnmjV1qPe+Ib8sFBOPfRdid9hqwa6h+CVZbf3lcRcTh8TcFk8EClnBYoeLBZR17Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [113.200.148.30])
-	by gateway (Coremail) with SMTP id _____8CxieBhrvNn8kW0AA--.59091S3;
-	Mon, 07 Apr 2025 18:52:17 +0800 (CST)
-Received: from [10.130.0.149] (unknown [113.200.148.30])
-	by front1 (Coremail) with SMTP id qMiowMCxbsVbrvNn4VJzAA--.18984S3;
-	Mon, 07 Apr 2025 18:52:12 +0800 (CST)
-Subject: Re: [linux-next:master 12681/13861] drivers/i2c/i2c-core-base.o:
- warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0
- reg2[24]=-2-24
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-References: <202504011011.jyZ6NtXx-lkp@intel.com> <Z+ttzRArSBMqfABz@rli9-mobl>
- <xqfrt2rueezh3upug2umvuw2r44luoaxfqycnmvkh5sezaosw6@h77yjfio4ws6>
- <348cdb14-f8cf-1e7b-44b2-79dc4dda4e35@loongson.cn>
- <lcozyamcrcuff6a3pgly7sptluuj7ubzvy4na2vrus7hfmwmb6@zv7tooy3pmkh>
-Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>,
- Guenter Roeck <linux@roeck-us.net>, oe-kbuild-all@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Alessandro Carminati <acarmina@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-Message-ID: <0cbe7ab8-bd87-b5f7-0513-07c82a7e76c9@loongson.cn>
-Date: Mon, 7 Apr 2025 18:52:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+	s=arc-20240116; t=1744025615; c=relaxed/simple;
+	bh=FYxiIEU2VLo1DmEYWG5f8SshPaSF1p4qN6/7e4Pp9g0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cWhyauSlKo3GVdgqb1TSYvIJippvEen0GFoDvV24i65E1M3u70H0MZyHnkwqKSFZXREF8rjM0hWJBjh9xA27AMn+0SQF9BQIRwPRDM7e8/AIB+thLNFPwcZlHxT/5A2rEfnjNhNxAmuf1epMaNvblDe2bcLmebJudOYuDUbZggs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+74kgKS; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+74kgKS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744025614; x=1775561614;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FYxiIEU2VLo1DmEYWG5f8SshPaSF1p4qN6/7e4Pp9g0=;
+  b=X+74kgKSjN/CJHAjWYJowk0y5JqL2B3lHVEYvOnm+Z22i1b3lobGUSOF
+   IzuMCvkj/HL0z3l8hP2+hnxZVT0ivfIOTli/yaRnEEimER9Xig6l7tHwi
+   njj9xw28ijeqcW6LbLzTwnLYNtMLLU3rzIn/XEytI7G814oIe5RquWSIa
+   D3cr6+tafWENiZmD0myZXW7Fh3aqPvy2L9lJuPGZ49I/TQLH8WWNx0cAd
+   W4xWqV83hXBHjp+AbCoPYSWNEmJcZHrsUYHaIT9qAt9MwFP8VQUBnqKBQ
+   551SB/ZBZ9BCuOje1TwntziotbhamKj0ewDdA4IuyVYk1mJg2FrVsr0m9
+   w==;
+X-CSE-ConnectionGUID: hozcz6+9RG6CbjYwas3PeQ==
+X-CSE-MsgGUID: q7IQtEhsR/6CzDWfCSHVZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45296082"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="45296082"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 04:33:33 -0700
+X-CSE-ConnectionGUID: g0Om+OuXQnyGI0ugHpVowg==
+X-CSE-MsgGUID: bU/KWGk6QJ2+hseKZqW8dA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="127683950"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 07 Apr 2025 04:33:28 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u1kjF-0003M5-0S;
+	Mon, 07 Apr 2025 11:33:25 +0000
+Date: Mon, 7 Apr 2025 19:32:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-2024-05 0/1]
+ drivers/net/ethernet/litex/litex_liteeth.c:247:2-9: line 247 is redundant
+ because platform_get_irq() already prints an error
+Message-ID: <202504071934.7aQnH1EO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <lcozyamcrcuff6a3pgly7sptluuj7ubzvy4na2vrus7hfmwmb6@zv7tooy3pmkh>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:qMiowMCxbsVbrvNn4VJzAA--.18984S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxtry8XF1rXrWDGry3tFy7Arc_yoW3uFWfpa
-	1IvFs8GF4kGr10vwnrtF1YgrnxtFs5AF15Wry3JF1jvas0qF97W3Wftr4UuF1kJr47Za40
-	q393AwnxtF1jywcCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUP0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	GcCE3s1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
-	x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
-	McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
-	I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF
-	x2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r
-	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
-	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
-	0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-	0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Dl1DUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 04/03/2025 10:37 PM, Josh Poimboeuf wrote:
-> On Thu, Apr 03, 2025 at 05:35:51PM +0800, Tiezhu Yang wrote:
->> On 04/02/2025 03:45 AM, Josh Poimboeuf wrote:
->>> On Tue, Apr 01, 2025 at 12:38:37PM +0800, Philip Li wrote:
->>>> On Tue, Apr 01, 2025 at 10:44:57AM +0800, kernel test robot wrote:
->>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->>>>> head:   405e2241def89c88f008dcb899eb5b6d4be8b43c
->>>>> commit: 9016dad4dca4bbe61c48ffd5a273cad980caa0d1 [12681/13861] loongarch: add support for suppressing warning backtraces
->>>>> config: loongarch-randconfig-001-20250401 (https://download.01.org/0day-ci/archive/20250401/202504011011.jyZ6NtXx-lkp@intel.com/config)
->>>>> compiler: loongarch64-linux-gcc (GCC) 14.2.0
->>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250401/202504011011.jyZ6NtXx-lkp@intel.com/reproduce)
->>>>>
->>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>> the same patch/commit), kindly add following tags
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202504011011.jyZ6NtXx-lkp@intel.com/
->>>>>
->>>>> All warnings (new ones prefixed by >>):
->>>>>
->>>>>>> drivers/i2c/i2c-core-base.o: warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
->>>
->>> Tiezhu, this looks like a loongarch GCC bug with asm goto, or am I
->>> confused?  See analysis below.
->>
->> This is related with GCC optimization "-fshrink-wrap" which is default y
->> on LoongArch, use "-fno-shrink-wrap" can avoid such issues, like this:
->
-> As I showed, it looks like an actual runtime bug, not an objtool false
-> positive.  Disabling it only for CONFIG_OBJTOOLonly wouldn't fix that.
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2024-05
+head:   96ddb774d408960590543f104a10aba091d123d6
+commit: ee7da21ac4c3be1f618b6358e0a38739a5d1773e [0/1] net: Add driver for LiteX's LiteETH network interface
+config: i386-randconfig-052-20250403 (https://download.01.org/0day-ci/archive/20250407/202504071934.7aQnH1EO-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
-Here are my thoughts:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504071934.7aQnH1EO-lkp@intel.com/
 
-(1) -fshrink-wrap
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/litex/litex_liteeth.c:247:2-9: line 247 is redundant because platform_get_irq() already prints an error
 
-The prologue may perform a variety of target dependent tasks such
-as saving callee-saved registers, saving the return address, etc.
+vim +247 drivers/net/ethernet/litex/litex_liteeth.c
 
-On some targets some of these tasks may be independent of others
-and thus may be shrink-wrapped separately. These independent tasks
-are referred to as components and are handled generically by the
-target independent parts of GCC.
+   225	
+   226	static int liteeth_probe(struct platform_device *pdev)
+   227	{
+   228		struct net_device *netdev;
+   229		void __iomem *buf_base;
+   230		struct resource *res;
+   231		struct liteeth *priv;
+   232		int irq, err;
+   233	
+   234		netdev = devm_alloc_etherdev(&pdev->dev, sizeof(*priv));
+   235		if (!netdev)
+   236			return -ENOMEM;
+   237	
+   238		SET_NETDEV_DEV(netdev, &pdev->dev);
+   239		platform_set_drvdata(pdev, netdev);
+   240	
+   241		priv = netdev_priv(netdev);
+   242		priv->netdev = netdev;
+   243		priv->dev = &pdev->dev;
+   244	
+   245		irq = platform_get_irq(pdev, 0);
+   246		if (irq < 0) {
+ > 247			dev_err(&pdev->dev, "Failed to get IRQ %d\n", irq);
+   248			return irq;
+   249		}
+   250		netdev->irq = irq;
+   251	
+   252		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mac");
+   253		priv->base = devm_ioremap_resource(&pdev->dev, res);
+   254		if (IS_ERR(priv->base))
+   255			return PTR_ERR(priv->base);
+   256	
+   257		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "buffer");
+   258		buf_base = devm_ioremap_resource(&pdev->dev, res);
+   259		if (IS_ERR(buf_base))
+   260			return PTR_ERR(buf_base);
+   261	
+   262		liteeth_setup_slots(priv);
+   263	
+   264		/* Rx slots */
+   265		priv->rx_base = buf_base;
+   266		priv->rx_slot = 0;
+   267	
+   268		/* Tx slots come after Rx slots */
+   269		priv->tx_base = buf_base + priv->num_rx_slots * priv->slot_size;
+   270		priv->tx_slot = 0;
+   271	
+   272		err = of_get_mac_address(pdev->dev.of_node, netdev->dev_addr);
+   273		if (err)
+   274			eth_hw_addr_random(netdev);
+   275	
+   276		netdev->netdev_ops = &liteeth_netdev_ops;
+   277	
+   278		err = register_netdev(netdev);
+   279		if (err) {
+   280			dev_err(&pdev->dev, "Failed to register netdev %d\n", err);
+   281			return err;
+   282		}
+   283	
+   284		netdev_info(netdev, "irq %d slots: tx %d rx %d size %d\n",
+   285			    netdev->irq, priv->num_tx_slots, priv->num_rx_slots, priv->slot_size);
+   286	
+   287		return 0;
+   288	}
+   289	
 
-The initialization is not done as frequently on execution paths
-where this would unnecessary.
-
-"-fshrink-wrap" is enabled by default at -O and higher, will emit
-function prologues only before parts of the function that need it,
-rather than at the top of the function.
-
-https://gcc.gnu.org/onlinedocs/gccint/Shrink-wrapping-separate-components.html
-https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-fshrink-wrap
-
-There is a potential execution path with only using s0 and ra
-(without using s1, s2, s3, etc): 2d58-->2d70-->2f88-->2e78-->2e84
-
-0000000000002d58 <__i2c_transfer>:
-     2d58:       02fe8063        addi.d          $sp, $sp, -96
-     2d5c:       29c14077        st.d            $s0, $sp, 80
-     2d60:       29c16061        st.d            $ra, $sp, 88
-     2d64:       28c0408c        ld.d            $t0, $a0, 16
-     2d68:       00150097        or              $s0, $a0, $zero
-     2d6c:       2600018c        ldptr.d         $t0, $t0, 0
-     2d70:       40021980        beqz            $t0, 536        # 2f88 
-<.LVL1023>
-...
-0000000000002f88 <.LVL1023>:
-     2f88:       1a000006        pcalau12i       $a2, 0
-
-0000000000002f8c <.LVL1024>:
-     2f8c:       1a000004        pcalau12i       $a0, 0
-
-0000000000002f90 <.LVL1025>:
-     2f90:       02c00084        addi.d          $a0, $a0, 0
-     2f94:       02c1c2e5        addi.d          $a1, $s0, 112
-
-0000000000002f98 <.LVL1026>:
-     2f98:       02c000c6        addi.d          $a2, $a2, 0
-     2f9c:       54000000        bl              0       # 2f9c 
-<.LVL1026+0x4>
- >
-0000000000002fa0 <.LVL1027>:
-     2fa0:       02be8404        addi.w          $a0, $zero, -95
-     2fa4:       53fed7ff        b               -300    # 2e78 <.L845>
-...
-0000000000002e78 <.L845>:
-     2e78:       28c16061        ld.d            $ra, $sp, 88
-     2e7c:       28c14077        ld.d            $s0, $sp, 80
-
-0000000000002e80 <.LVL994>:
-     2e80:       02c18063        addi.d          $sp, $sp, 96
-     2e84:       4c000020        jirl            $zero, $ra, 0
-
- From this point of view, it seems that there is no problem for the
-generated instructions of the current code, it is not a runtime bug,
-just a GCC optimization.
-
-(2) Analysis
-
-In fact, the generated objtool warning is because the break instruction
-(2ee8) which is before the restoring s1 instruction (2eec) is annotated
-as dead end.
-
-0000000000002d58 <__i2c_transfer>:
-     2d58:       02fe8063        addi.d          $sp, $sp, -96
-     2d5c:       29c14077        st.d            $s0, $sp, 80
-     2d60:       29c16061        st.d            $ra, $sp, 88
-     2d64:       28c0408c        ld.d            $t0, $a0, 16
-     2d68:       00150097        or              $s0, $a0, $zero
-     2d6c:       2600018c        ldptr.d         $t0, $t0, 0
-     2d70:       40021980        beqz            $t0, 536        # 2f88 
-<.LVL1023>
-     2d74:       29c12078        st.d            $s1, $sp, 72
-     2d78:       001500b8        or              $s1, $a1, $zero
-
-0000000000002d7c <.LBB2114>:
-     2d7c:       400150a0        beqz            $a1, 336        # 2ecc 
-<.LVL999+0x4>
-...
-     2ecc:       1a000004        pcalau12i       $a0, 0
-
-0000000000002ed0 <.LVL1000>:
-     2ed0:       02c00084        addi.d          $a0, $a0, 0
-     2ed4:       02c5a084        addi.d          $a0, $a0, 360
-     2ed8:       54000000        bl              0       # 2ed8 
-<.LVL1000+0x8>
-
-0000000000002edc <.LVL1001>:
-     2edc:       0015008c        or              $t0, $a0, $zero
-     2ee0:       02bfa804        addi.w          $a0, $zero, -22
-     2ee4:       44003d80        bnez            $t0, 60 # 2f20 
-<.LVL1008+0x8>
-
-0000000000002ee8 <.L10001^B7>:
-     2ee8:       002a0001        break           0x1
-     2eec:       28c12078        ld.d            $s1, $sp, 72
-
-0000000000002ef0 <.LVL1002>:
-     2ef0:       53ff8bff        b               -120    # 2e78 <.L845>
-
-This issue is introduced by the following changes:
-
-  #define __WARN_FLAGS(flags)					\
-  do {								\
-  	instrumentation_begin();				\
--	__BUG_FLAGS(BUGFLAG_WARNING|(flags), ANNOTATE_REACHABLE(10001b));\
-+	if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))			\
-+		__BUG_FLAGS(BUGFLAG_WARNING|(flags), ANNOTATE_REACHABLE(10001b));\
-  	instrumentation_end();					\
-  } while (0)
-
-of commit e61a8b4b0d83 ("loongarch: add support for suppressing warning
-backtraces") in the linux-next.git.
-
-(3) -fno-shrink-wrap
-
-"-fno-shrink-wrap" will save callee-saved registers and the return
-address together as a whole block in the prologue at the top of the
-function, and also restores them together as a whole block in the
-epilogue.
-
-0000000000002b38 <__i2c_transfer>:
-     2b38:       02fe8063        addi.d          $sp, $sp, -96
-     2b3c:       29c14077        st.d            $s0, $sp, 80
-     2b40:       29c12078        st.d            $s1, $sp, 72
-     2b44:       29c10079        st.d            $s2, $sp, 64
-     2b48:       29c16061        st.d            $ra, $sp, 88
-     2b4c:       29c0e07a        st.d            $s3, $sp, 56
-     2b50:       29c0c07b        st.d            $s4, $sp, 48
-     2b54:       29c0a07c        st.d            $s5, $sp, 40
-     2b58:       29c0807d        st.d            $s6, $sp, 32
-     2b5c:       29c0607e        st.d            $s7, $sp, 24
-     2b60:       29c0407f        st.d            $s8, $sp, 16
-...
-0000000000002c38 <.L747>:
-     2c38:       28c16061        ld.d            $ra, $sp, 88
-     2c3c:       28c14077        ld.d            $s0, $sp, 80
-
-0000000000002c40 <.LVL937>:
-     2c40:       28c12078        ld.d            $s1, $sp, 72
-     2c44:       28c10079        ld.d            $s2, $sp, 64
-
-0000000000002c48 <.LVL938>:
-     2c48:       28c0e07a        ld.d            $s3, $sp, 56
-     2c4c:       28c0c07b        ld.d            $s4, $sp, 48
-     2c50:       28c0a07c        ld.d            $s5, $sp, 40
-     2c54:       28c0807d        ld.d            $s6, $sp, 32
-     2c58:       28c0607e        ld.d            $s7, $sp, 24
-     2c5c:       28c0407f        ld.d            $s8, $sp, 16
-     2c60:       02c18063        addi.d          $sp, $sp, 96
-     2c64:       4c000020        jirl            $zero, $ra, 0
-
-(4) Solution 1
-One way is to annotate __BUG_ENTRY() as reachable whether
-KUNIT_IS_SUPPRESSED_WARNING() is true or false, like this:
-
----8<---
-diff --git a/arch/loongarch/include/asm/bug.h 
-b/arch/loongarch/include/asm/bug.h
-index b79ff6696ce6..e41ebeaba204 100644
---- a/arch/loongarch/include/asm/bug.h
-+++ b/arch/loongarch/include/asm/bug.h
-@@ -60,8 +60,9 @@
-  #define __WARN_FLAGS(flags)                                    \
-  do {                                                           \
-         instrumentation_begin();                                \
--       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))                     \
--               __BUG_FLAGS(BUGFLAG_WARNING|(flags), 
-ANNOTATE_REACHABLE(10001b));\
-+       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))             \
-+               __BUG_FLAGS(BUGFLAG_WARNING|(flags), "");       \
-+       __BUG_FLAGS(0, ANNOTATE_REACHABLE(10001b));             \
-         instrumentation_end();                                  \
-  } while (0)
-
-(5) Solution 2
-The other way is to use "-fno-shrink-wrap" to aovid such issue under
-CONFIG_OBJTOOL at compile-time, like this:
-
----8<---
-diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-index 0304eabbe606..2d5529322357 100644
---- a/arch/loongarch/Makefile
-+++ b/arch/loongarch/Makefile
-@@ -106,6 +106,7 @@ KBUILD_CFLAGS                       +=
--mannotate-tablejump
-   else
-   KBUILD_CFLAGS                  += -fno-jump-tables # keep
-compatibility with older compilers
-   endif
-+KBUILD_CFLAGS                  += -fno-shrink-wrap
-   endif
-
-   KBUILD_RUSTFLAGS               +=
---target=loongarch64-unknown-none-softfloat -Ccode-model=small
-
-If you have more suggestion, please let me know.
-
-Thanks,
-Tiezhu
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
