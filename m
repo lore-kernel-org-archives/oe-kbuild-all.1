@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A210224B0E;
-	Mon,  7 Apr 2025 04:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C3722422A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 05:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744001202; cv=none; b=nCPWQtUAtSh7YyPwETOR4+tzJne8tjcPybd9oiaeuR5LCJ8AikjCTKSNWZ/Xp2mCBnDq8BWaKaw0eiJeDrROn+CHzwPaDWODq1OXWtaTrnlApYFVnhlxYN5pMZv5TTbARVNT/z5KI/9ht5FgZHblHklzTrwwaku5HEnwHo3ftEw=
+	t=1744004986; cv=none; b=dGICBYu3DoRe7iwNzRsU/DGZDPzbcBOkeb476byYSCHyhhbjKpEiHuNFEN5FsjGbNK/KX93kbchdrnKkWbkyhgADuXShfW58RcIm/3zlPIy117RIHxcFVxj6VBF/oS5iCFTsVJUPelILMlPvbWQQSrhkCPxR4k2uGg3x9DnOFa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744001202; c=relaxed/simple;
-	bh=cDebycVq9pZjSWmtfxT+24dkoAq4Mrn9Etuxjp80A74=;
+	s=arc-20240116; t=1744004986; c=relaxed/simple;
+	bh=+FuZ4lXffAc4LJv48Whc6SuLpxUH2pc87Bs1zC2YhxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pks+xUt/s6jbj0o8l5oxIpKu7rdqjTZCZePltmorNOLMdkNvmx1ghnJuILSNWo82H69EX8+t1wQzK46SE8E0DLzprB2dwJ18Tlv0PlnbiGs+qu66o32ea72NIztP5hcLAfeS8y5hov/CNO+zeFsaEGRCVjl5OT31RnL3/TJd7DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z7788rDd; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=k2n/bTa0MbxCZ12vd0r9df+y4W4KGiTwVPoVxItgdtytwU3D8aEXu56fUOG/gALltLKNtGW6bfmZPh4vshWZDRsuBLnykaclK4V0X83YPHW1oIDkBfilPiyOyX5y4L0atkGxe6DZ2eqw790vyNZjalxJamr3aa1p8ZRNE8UQvww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJOjkfJV; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7788rDd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJOjkfJV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744001200; x=1775537200;
+  t=1744004984; x=1775540984;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cDebycVq9pZjSWmtfxT+24dkoAq4Mrn9Etuxjp80A74=;
-  b=Z7788rDdvOTL0lQQTsqOxMLXC9C1IRXISyKwarHCZalej+Ea+rMU4cBd
-   /09ifUnxH2T23n7//ntX3PrfzrTeFPTZECEOjHQE9pW6CjT4kmOd/Yk+q
-   FFelFo6Y1nLVG2ATS52LcdcWJRg6CQi8erQGUG8iuspjola2Vj+ZlC0+K
-   DDm6N/cgZNNzsTXnQ/vLFK3rLfYEf3pzJsHAd6aTNBf/QL2OysYaEuXpn
-   ncBJUAw/0i9SIIrdXahBKFASbfJFbnjY0N9xL0McpYrV22p8Y2jQQX9aL
-   XtKiMltZlC48qKvvhjoPWJBnP8UyT8n0n+rS3TBa5vpRRP4zSNnj2y5WN
-   Q==;
-X-CSE-ConnectionGUID: DhbeTqIiTzuKoihZI0IgUg==
-X-CSE-MsgGUID: 1fFhPEYDTs22O2wrVH6jsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="45082031"
+  bh=+FuZ4lXffAc4LJv48Whc6SuLpxUH2pc87Bs1zC2YhxU=;
+  b=TJOjkfJVkRAHmC/CT0/GF2rXZwYCvWssfXCgTySEPwYhPtWTDMgwv9YN
+   Eog3VHRgPWZcV204ZTTz5ScVzJtcORZlfAQqmD0yrr5ePL+ccEDJJCVkq
+   BTtJ/AmkfhfREhyX2g4DGI14n1GH3SyU/1WPEH13gqpfsdzxCFVUiB/RK
+   EdC2wzX0qt4jSc+yOESwuWscTGKvjH5w46h8xCp6Psm2wA+CRr1a7WvEm
+   /m3wtwouGw3RFIXajhviMXOO5mB1j0iXgZjpwQXR8udsg+u7yGRriYBAx
+   nz8e8W7cxbqmILSKAJx86x5rqi49uSEfAa9GvkH78q5eXJj6YSTWuy99w
+   g==;
+X-CSE-ConnectionGUID: ycYUYd2yTXOBRskyyxE10g==
+X-CSE-MsgGUID: fbeGI0NxRia7aalyDOXIvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="56741276"
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="45082031"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 21:46:39 -0700
-X-CSE-ConnectionGUID: TiNzR/hbRMuCM2b0J0C9Kw==
-X-CSE-MsgGUID: DIZn/0IFR/aeyqsIXFmV3w==
+   d="scan'208";a="56741276"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 22:49:44 -0700
+X-CSE-ConnectionGUID: oxpQGkiUSNmubfhycnIP7A==
+X-CSE-MsgGUID: f2t+c7CFRi+XVxpyWiuDlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="128356380"
+   d="scan'208";a="151043199"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 Apr 2025 21:46:37 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 Apr 2025 22:49:42 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1eNW-0002zz-2D;
-	Mon, 07 Apr 2025 04:46:34 +0000
-Date: Mon, 7 Apr 2025 12:46:15 +0800
+	id 1u1fMZ-00031b-32;
+	Mon, 07 Apr 2025 05:49:39 +0000
+Date: Mon, 7 Apr 2025 13:49:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Wentao Liang <vulab@iscas.ac.cn>, miquel.raynal@bootlin.com,
 	richard@nod.at, vigneshr@ti.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>
 Subject: Re: [PATCH] mtd: nand: Add error log for marvell_nfc_end_cmd()
-Message-ID: <202504071221.XxGT6EaS-lkp@intel.com>
+Message-ID: <202504071218.tZSv0K1o-lkp@intel.com>
 References: <20250407020917.1242-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -72,7 +71,7 @@ Hi Wentao,
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on mtd/nand/next]
-[also build test ERROR on linus/master v6.15-rc1 next-20250404]
+[also build test ERROR on linus/master v6.15-rc1 next-20250407]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -81,49 +80,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/mtd-nand-Add
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
 patch link:    https://lore.kernel.org/r/20250407020917.1242-1-vulab%40iscas.ac.cn
 patch subject: [PATCH] mtd: nand: Add error log for marvell_nfc_end_cmd()
-config: arm64-randconfig-001-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071221.XxGT6EaS-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071221.XxGT6EaS-lkp@intel.com/reproduce)
+config: arm64-randconfig-003-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071218.tZSv0K1o-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071218.tZSv0K1o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504071221.XxGT6EaS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504071218.tZSv0K1o-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/mtd/nand/raw/marvell_nand.c:89:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mtd/nand/raw/marvell_nand.c:1354:3: error: use of undeclared identifier 'err'
-    1354 |                 err = marvell_nfc_end_cmd(chip, NDSR_RDDREQ,
-         |                 ^
-   drivers/mtd/nand/raw/marvell_nand.c:1356:7: error: use of undeclared identifier 'err'
-    1356 |                 if (err)
-         |                     ^
-   drivers/mtd/nand/raw/marvell_nand.c:1364:3: error: use of undeclared identifier 'err'
-    1364 |                 err = marvell_nfc_end_cmd(chip, NDSR_RDDREQ,
-         |                 ^
-   drivers/mtd/nand/raw/marvell_nand.c:1366:7: error: use of undeclared identifier 'err'
-    1366 |                 if (err)
-         |                     ^
-   3 warnings and 4 errors generated.
+   drivers/mtd/nand/raw/marvell_nand.c: In function 'marvell_nfc_hw_ecc_bch_read_chunk':
+>> drivers/mtd/nand/raw/marvell_nand.c:1354:3: error: 'err' undeclared (first use in this function)
+      err = marvell_nfc_end_cmd(chip, NDSR_RDDREQ,
+      ^~~
+   drivers/mtd/nand/raw/marvell_nand.c:1354:3: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/err +1354 drivers/mtd/nand/raw/marvell_nand.c
