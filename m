@@ -1,181 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCAF25DD14
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 18:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CE725D531
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 19:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744050986; cv=none; b=LF2Yee8u+Yals2SJds85MFtOViXoFfKjlFyx7hFl4ZNYRIDG7Q4F+eJjMfIgy4ddDoKOf0D2q01vbR+rFHkdlJT6SkJ90NVQ5z7C1TIZtwY4Qp9WSMIeT37yHIcU/LopPjhYuaHEwIGxLIt5WrCFxR03w9LU8Qe6k+1CrDy8+xQ=
+	t=1744052562; cv=none; b=GPLX9TvcIaeyiWF3c9tEU2gfJD81Q3MzcUshH89SV21gTikxbTWC5U36TvAu7zgxYbgBWe65eeGsTBSEw0trljAPOa9V4vA+7JvuCRimv18wvGY9C3fPXrMZgPumFSTx8bmYXpJ0wJtPMge3dg+T6/3oDtS4dCac6MKGfDtvM9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744050986; c=relaxed/simple;
-	bh=clu5ak3B8TVqiA5LPfOQC49/MbbUVBN2G57mLhXE6vc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QQcsdlyn86jV4DEcNRA4hkHzddTdiIe8MhenKNLD/QXsyK0+ZououALbTn98WEkQqi3wEMudLPLMNWpd5AFEveDAHD391i5eUM+pfBZod7/XotSa9MS+JF6AH7Jm1HC9o5FYPr5w2YnVVoQyzDfD7JUixZbzl/QV7FdwsQt2LgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WHfAUcus; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744052562; c=relaxed/simple;
+	bh=3w3CD5q6GRJnXHz6VCgaFnqsMOkdzmCYyco+Rqyxsb4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kC7Y72XvOa//E65KyTiMJqtQADnaWZheLbNY+EHyD/X3X2KLOurndSfMe9aXfgLueOQt40aklWdxvxrm5xriOBJvX+b0BBnF0sCJhlw8eWTXmFesXcJnQr3wS2krfeAnGMWxvHUqEXRLVP9roKKEGGml2dv9Z1eKGk633RsvEyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=UPP7RpKW; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WHfAUcus"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744050985; x=1775586985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=clu5ak3B8TVqiA5LPfOQC49/MbbUVBN2G57mLhXE6vc=;
-  b=WHfAUcus4yOP986nggLI7/QUbrEFhDgCfdUA0l23LAfeRAGKA6Gy7+TJ
-   Y/HHYs/rdGr5kSu1vJsUjCHVsXjmzxLylsLDYwaAraxz1gNSPzVQoaEaF
-   A1v1rJ+BYShDl5UchsADcdMDQPFXsmG5BbsW07ABCU1M6Sl6OqNhVS7Fe
-   Spx3ruywcHTq8dvfMbe2UhZFVrPiBvGQurt8spW9HBj6gy1SX3J4zp7Tw
-   lAt4oqUtY71jTtOBcsEmbExw4lxAnRXARlssdI12+qekD61tceMeyLS8g
-   vH0s0ZeQpUOmChZJTzOGx4wk6ZkzuSRL6ypvHygQ4pVeV/ygkIKZ7S+l2
-   A==;
-X-CSE-ConnectionGUID: XJp2Bk31TV2SkJtmPn2T8Q==
-X-CSE-MsgGUID: CUZ64PPBT/mYMLu0Ol8JDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45342813"
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="45342813"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 11:36:25 -0700
-X-CSE-ConnectionGUID: 8PUsYf4lQYqYrTM0PUUWaA==
-X-CSE-MsgGUID: kU95a8bLS0W3vMbxHtA+vA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="128015400"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 Apr 2025 11:36:23 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u1rKV-0003hv-0e;
-	Mon, 07 Apr 2025 18:36:19 +0000
-Date: Tue, 8 Apr 2025 02:35:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Colin Ian King <colin.king@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Song Liu <song@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] md/raid6 algorithms: scale test duration for speedier
- boots
-Message-ID: <202504080240.huURqAeM-lkp@intel.com>
-References: <20250407143105.60-1-colin.king@intel.com>
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="UPP7RpKW"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ff73032ac0so697559a91.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Apr 2025 12:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1744052560; x=1744657360; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dffV1L61lSKvHP+naQW229RneaojE7BGB9VPXZP7TKc=;
+        b=UPP7RpKWc9UxftllU/4JysZ6P0cUc6LDYlff4t/hercnxe8CpQ0ucz0BzkeWUlgjaZ
+         VRWa6LDUJisFxVlKNRqDddTN0ODdcNxqkz9On9unv5j8vXlXmribZ5YuumMdpBab2ofU
+         TH0oElFw41yHmLGm2akLIC6HXxmV2wscpS6sDVRPctV6hamHHv4R+jt+oRVVMH25z5pk
+         pHLtUwl6aIqSaegVAe2+jtzmRhHMwj8wLcEe/dw0uHp33yKXvBX4wJ+PVQjPoI4GxLcT
+         EjkavWAfAZvvBAJc+r4Bg7ANIwiW794zcL6gRD/Zc3PhkI1e3rctD6svkf4zFl8KQbvR
+         3/OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744052560; x=1744657360;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dffV1L61lSKvHP+naQW229RneaojE7BGB9VPXZP7TKc=;
+        b=w7aMxa2y4/BjHV1ZR9rYDIBfEoFzorEDdqPlIV5KIFDU9nRmfkmp1PoSVM/SRI18O5
+         YsYBRqh9xZpcedpVtWJs375DQJD9ZikYiBz1XqIUvWAXfYeBJ//yT0M8nekXTtvWR1et
+         393NIoiHYj3oVSNvWZaKKRuIl5jK9eJ77QwY5iUZOgekiaBv+wNWg3GpiKoK15fRdibD
+         rImB2HdDFJ8dD9HiFVNhJvcNkqVxUf38b41L7bM5HqgZPq0nTmQsr7AQ4TUyRrS5LWoz
+         gn0Y877HQzuLtNSLZtJqcEWjHlMbvBakJ1Lxlu7TaJMTAGCX6Vh0MV/v8U6U3g57focg
+         5s4g==
+X-Forwarded-Encrypted: i=1; AJvYcCV27Xk0lFW4PveIdQvOgORNYvaArkhVcTDcDhxRvFNJRFNcAjRdVFH4oRcg6Gq6vqGKoQ8IF1EEFxvEyPpL@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywb/AWz9GdMtCc9tC3Cbs7tdPNF95n80MZqpf4WpmDbuJHZftNm
+	2AhueqvIP2/k7Qc8/RJmgx0otJeJyQA1UQzqyVHKsQ1bWFPQi+k2litguY9iFiPj5DKg5f2wgSi
+	r57kdV5h5bn3G+dmymvYPH+lMySuCcvy+1hW6+g==
+X-Gm-Gg: ASbGnctI9CJ+uzlGFEM97bCW4jrG3ac0cm/dx4KC2vXJtN+BQOZYvigIhxNoYCJQf7S
+	f60mC9MWHUcXBD0kcSJgcRfAaWgpmZJyC6OuNrafZHiL/iRqcZGskyZbC81bV2hl6TuE5BXxo93
+	y2fkUfObTQpWWXO2/a5oFXP6PJfNOYwm1QFR9G
+X-Google-Smtp-Source: AGHT+IHxiMtBLuE7HFtmvkPpSsjkuRidn3zZS30dHJvwFFeUSCiUjfZOrL88kgkuADRqoBm6z6E9g2rmSll++4dbQAI=
+X-Received: by 2002:a17:90b:4f89:b0:2ff:4b7a:f0a4 with SMTP id
+ 98e67ed59e1d1-306a4865251mr6629267a91.3.1744052560223; Mon, 07 Apr 2025
+ 12:02:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407143105.60-1-colin.king@intel.com>
+References: <202504080139.KuphZ8ZZ-lkp@intel.com>
+In-Reply-To: <202504080139.KuphZ8ZZ-lkp@intel.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Mon, 7 Apr 2025 12:02:27 -0700
+X-Gm-Features: ATxdqUH-84qMH5h1xUTAKjO-bNIGNmH02qZY_0CIgwd8upVXFURnSidMpvgLrhU
+Message-ID: <CADUfDZpvMAGheJ-k7jTa3pfjuTXCCZPt-iprnfd_HHAfS5+ghA@mail.gmail.com>
+Subject: Re: [linux-nvme:nvme-6.15 3/4] drivers/nvme/host/core.c:4302:5:
+ warning: 'CONFIG_NVME_MULTIPATH' is not defined, evaluates to 0
+To: kernel test robot <lkp@intel.com>
+Cc: Hannes Reinecke <hare@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, 
+	Keith Busch <kbusch@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Colin,
+On Mon, Apr 7, 2025 at 11:54=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   git://git.infradead.org/nvme.git nvme-6.15
+> head:   9e270930d683ff0207fed7f303988a7ad63ddfcb
+> commit: a98aa32696a1a19814a2f97853400b28622c6a8f [3/4] nvme: re-read ANA =
+log page after ns scan completes
+> config: riscv-randconfig-002-20250408 (https://download.01.org/0day-ci/ar=
+chive/20250408/202504080139.KuphZ8ZZ-lkp@intel.com/config)
+> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 9=
+2c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250408/202504080139.KuphZ8ZZ-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504080139.KuphZ8ZZ-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> drivers/nvme/host/core.c:4302:5: warning: 'CONFIG_NVME_MULTIPATH' is n=
+ot defined, evaluates to 0 [-Wundef]
+>     4302 | #if CONFIG_NVME_MULTIPATH
+>          |     ^
+>    1 warning generated.
 
-kernel test robot noticed the following build errors:
+Looks like it should be #ifdef instead?
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on akpm-mm/mm-everything linus/master v6.15-rc1 next-20250407]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Ian-King/md-raid6-algorithms-scale-test-duration-for-speedier-boots/20250407-225435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20250407143105.60-1-colin.king%40intel.com
-patch subject: [PATCH] md/raid6 algorithms: scale test duration for speedier boots
-config: i386-buildonly-randconfig-002-20250407 (https://download.01.org/0day-ci/archive/20250408/202504080240.huURqAeM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504080240.huURqAeM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504080240.huURqAeM-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: lib/raid6/algos.o: in function `raid6_choose_gen':
->> lib/raid6/algos.c:191: undefined reference to `__udivdi3'
->> ld: lib/raid6/algos.c:209: undefined reference to `__udivdi3'
-   ld: lib/raid6/algos.c:223: undefined reference to `__udivdi3'
-
-
-vim +191 lib/raid6/algos.c
-
-   156	
-   157	static inline const struct raid6_calls *raid6_choose_gen(
-   158		void *(*const dptrs)[RAID6_TEST_DISKS], const int disks)
-   159	{
-   160		unsigned long perf;
-   161		const unsigned long max_perf = 2500;
-   162		int start = (disks>>1)-1, stop = disks-3;	/* work on the second half of the disks */
-   163		const struct raid6_calls *const *algo;
-   164		const struct raid6_calls *best;
-   165		const u64 ns_per_mb = 1000000000 >> 20;
-   166		u64 n, ns, t, ns_best = ~0ULL;
-   167	
-   168		for (best = NULL, algo = raid6_algos; *algo; algo++) {
-   169			if (!best || (*algo)->priority >= best->priority) {
-   170				if ((*algo)->valid && !(*algo)->valid())
-   171					continue;
-   172	
-   173				if (!IS_ENABLED(CONFIG_RAID6_PQ_BENCHMARK)) {
-   174					best = *algo;
-   175					break;
-   176				}
-   177	
-   178				preempt_disable();
-   179				t = local_clock();
-   180				for (perf = 0; perf < max_perf; perf++) {
-   181					(*algo)->gen_syndrome(disks, PAGE_SIZE, *dptrs);
-   182				}
-   183				ns = local_clock() - t;
-   184				preempt_enable();
-   185	
-   186				if (ns < ns_best) {
-   187					ns_best = ns;
-   188					best = *algo;
-   189				}
-   190				n = max_perf * PAGE_SIZE * ns_per_mb * (disks - 2);
- > 191				pr_info("raid6: %-8s gen() %5llu MB/s (%llu ns)\n", (*algo)->name, (ns > 0) ? n / ns : 0, ns);
-   192			}
-   193		}
-   194	
-   195		if (!best) {
-   196			pr_err("raid6: Yikes! No algorithm found!\n");
-   197			goto out;
-   198		}
-   199	
-   200		raid6_call = *best;
-   201	
-   202		if (!IS_ENABLED(CONFIG_RAID6_PQ_BENCHMARK)) {
-   203			pr_info("raid6: skipped pq benchmark and selected %s\n",
-   204				best->name);
-   205			goto out;
-   206		}
-   207	
-   208		n = max_perf * PAGE_SIZE * ns_per_mb * (disks - 2);
- > 209		pr_info("raid6: using algorithm %s gen() %llu MB/s (%llu ns)\n",
-   210			best->name, (ns_best > 0) ? n / ns_best : 0, ns_best);
-   211	
-   212		if (best->xor_syndrome) {
-   213			preempt_disable();
-   214			t = local_clock();
-   215			for (perf = 0; perf < max_perf; perf++) {
-   216				best->xor_syndrome(disks, start, stop,
-   217						   PAGE_SIZE, *dptrs);
-   218			}
-   219			ns = local_clock() - t;
-   220			preempt_enable();
-   221	
-   222			n = max_perf * PAGE_SIZE * ns_per_mb * (disks - 2);
-   223			pr_info("raid6: .... xor() %llu MB/s, rmw enabled (%llu ns)\n", (ns > 0) ? n / ns : 0, ns);
-   224		}
-   225	out:
-   226		return best;
-   227	}
-   228	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best,
+Caleb
