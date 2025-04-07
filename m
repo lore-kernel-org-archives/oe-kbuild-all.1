@@ -1,70 +1,74 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCCB21ABB2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 20:40:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E48421B9E4
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 20:40:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744058440; cv=none; b=gePDvlNG/iGkPBEvjJ2qegFQKiiK95tL6pYOcUXFChhNr3vlz6AHmL69Z3zhhs1O2Ih6iXMCf2K9fRl3Ybovf4r/jaZNMAhTA7yAK2S31KiXy5pshRD+PTklN40wBx2f2W7wbJY4pExlwW6pYKZ1cIGFtq5WAYZ367J2Ums0Dr8=
+	t=1744058441; cv=none; b=M14cIAJ7xgcCCgokqLJxDYg8JPJB0XTTl6oBsWbKfkYwAkOZjypB/GfH86Nc/KUBgBBt3otZw769zH3qadYXF4wZ9PRENDmTRxnfSrXl22yZfQJfxR1fvqlQlZADi85Y/LnjSmAJJAV4zGSeKj3S5k3omHSZNdDJfOuBCXVQE6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744058440; c=relaxed/simple;
-	bh=K3PdnfX+s+h1I1zJiyQ/vXMnprLp0KaE229U+f1lhAY=;
+	s=arc-20240116; t=1744058441; c=relaxed/simple;
+	bh=R/iykXm3KGSwjKZxScFlKn0pKd41QSyd1jKVT7l1uVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aW0nEbpLiJES1nFrQX9HFUvjiLYkrPouvH41u6lCzwps2LlcMj6kHfshyVpMnaTwM4way9hMRxWUWx2SisU8IQz7hUyiuvjSw5dLBR1tffSLmxygn0Joz0l2dXJLwxYXJNmN579rMt3BLffDEAwkIzaspAatBr5YdvTRUl+Pyw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bb4SpJ+q; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=tec6GhtKVi2L6OoRJH6OJLIye7tR4GfsJ5at7ZORwHB6WkR8nXh2JegUvnDRcI0AyNAhzuxRJMTTP+dh95lvOSWoe5zK9NokBuz42IsyiAPF7kII6faIi8N8mq+3prRKQOi4WLP62OQHHtrS8opFWVkW8iJdv24SuH5vvWwTL0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PEHMXwVb; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bb4SpJ+q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PEHMXwVb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744058438; x=1775594438;
+  t=1744058440; x=1775594440;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=K3PdnfX+s+h1I1zJiyQ/vXMnprLp0KaE229U+f1lhAY=;
-  b=Bb4SpJ+qJ9K4yC3PCCxr4PxTSHtVGiuCyivlxE59HkwBBT59HNWwvnsU
-   82Al9K4BKziqST/R7wscCXnygV3g+VeYTYlKjSnffbRDrOhOpwI4sIZrY
-   00Pb41Br1lAn5JwV83wQKTQc+teA+mhf3ggQs0BNll4rknmwNwAS+UaTG
-   zEEa+ph5uvxOTfcTlccEui2/XnqsJWbeGsDyrgEtCTKOnS2iylyTY6YOC
-   RCDVbKHM6CqORa9McNXEXkF8IwR4FIkpsZNj3Fdphc6cIxyA9RHC8F6EB
-   qWG3Y2pWlnc08Ut1+fEdSxb5Lr2HhSzgXHHhPLDZ0Dr81sCmNl79dgBgv
-   w==;
-X-CSE-ConnectionGUID: vrKJPNBcRtSocK5x+16Fqg==
-X-CSE-MsgGUID: yhd+W2AQQmOO119C8V+Irg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44716104"
+  bh=R/iykXm3KGSwjKZxScFlKn0pKd41QSyd1jKVT7l1uVc=;
+  b=PEHMXwVbPVT2GCFFjYeW01abyS9wmsHAw5WEarykR0fKXIHrMs5YDIdc
+   zLXa6XXrE+sq9l04FZaU6frGFaG9x/evw2yoDAq8QXIQh2KhS5meHDcU7
+   9w79b/yjQ3X8em3MAsAim/MPXcB1EKAbJPZb4BQJ+DSWaj+roYhum9iZI
+   8CYN3mQOZWmOyM56D8iETgx4AUK/uwZGZxLxegV1fBudojr7snPA6CS0M
+   sRtu2jR4X3HCL+fXRaG/7eZ690qikFx9QW57EgjVnwIypvd7Oba94pSU5
+   5M+OehoIsXZEXzhA1COirbU91cJowWG+mTJknOQi5VngH4jSUUz8qg8xp
+   g==;
+X-CSE-ConnectionGUID: Ft4+inbPRHS1w9uE2cCNMg==
+X-CSE-MsgGUID: biOm9qD5Qt2KYd6rD8woMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44716112"
 X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
-   d="scan'208";a="44716104"
+   d="scan'208";a="44716112"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 13:40:38 -0700
-X-CSE-ConnectionGUID: DDo2yfvjSoWlcdjsJe6z2g==
-X-CSE-MsgGUID: QPEacZQTQxKDxVCWFfocEA==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 13:40:39 -0700
+X-CSE-ConnectionGUID: j/QaJQJ9SN+MJ1y7ziQY7A==
+X-CSE-MsgGUID: gaaAwajISzSKU7kGInRnZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
-   d="scan'208";a="127929972"
+   d="scan'208";a="127929980"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 07 Apr 2025 13:40:34 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1tGh-0003ot-25;
+	id 1u1tGh-0003ov-29;
 	Mon, 07 Apr 2025 20:40:31 +0000
-Date: Tue, 8 Apr 2025 04:39:48 +0800
+Date: Tue, 8 Apr 2025 04:39:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Karol Kolacinski <karol.kolacinski@intel.com>,
-	Grzegorz Nitka <grzegorz.nitka@intel.com>,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Sergey Temerkhanov <sergey.temerkhanov@intel.com>
-Subject: Re: [PATCH iwl-net v2] ice: use DSN instead of PCI BDF for
- ice_adapter index
-Message-ID: <202504080314.X7qJw69Y-lkp@intel.com>
-References: <20250407112005.85468-1-przemyslaw.kitszel@intel.com>
+To: Ian Rogers <irogers@google.com>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Kan Liang <kan.liang@linux.intel.com>,
+	Weilin Wang <weilin.wang@intel.com>,
+	James Clark <james.clark@linaro.org>, Xu Yang <xu.yang_2@nxp.com>,
+	John Garry <john.g.garry@oracle.com>,
+	Howard Chu <howardchu95@gmail.com>, Levi Yun <yeoreum.yun@arm.com>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 13/16] perf intel-tpebs: Use stats for retirement
+ latency statistics
+Message-ID: <202504080043.E3FPjBvv-lkp@intel.com>
+References: <20250407050101.1389825-14-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,50 +77,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250407112005.85468-1-przemyslaw.kitszel@intel.com>
+In-Reply-To: <20250407050101.1389825-14-irogers@google.com>
 
-Hi Przemek,
+Hi Ian,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tnguy-net-queue/dev-queue]
+[auto build test WARNING on perf-tools-next/perf-tools-next]
+[also build test WARNING on perf-tools/perf-tools linus/master v6.15-rc1 next-20250407]
+[cannot apply to tip/perf/core acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Przemek-Kitszel/ice-use-DSN-instead-of-PCI-BDF-for-ice_adapter-index/20250407-192849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20250407112005.85468-1-przemyslaw.kitszel%40intel.com
-patch subject: [PATCH iwl-net v2] ice: use DSN instead of PCI BDF for ice_adapter index
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250408/202504080314.X7qJw69Y-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504080314.X7qJw69Y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/perf-intel-tpebs-Cleanup-header/20250407-130741
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20250407050101.1389825-14-irogers%40google.com
+patch subject: [PATCH v2 13/16] perf intel-tpebs: Use stats for retirement latency statistics
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504080314.X7qJw69Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504080043.E3FPjBvv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> tools/perf/util/intel-tpebs.c: stat.h is included more than once.
 
-   drivers/net/ethernet/intel/ice/ice_adapter.c: In function 'ice_adapter_index':
-   drivers/net/ethernet/intel/ice/ice_adapter.c:21:27: error: expected expression before 'u32'
-      21 |         return (u32)dsn ^ u32(dsn >> 32);
-         |                           ^~~
->> drivers/net/ethernet/intel/ice/ice_adapter.c:23:1: warning: control reaches end of non-void function [-Wreturn-type]
-      23 | }
-         | ^
+vim +21 tools/perf/util/intel-tpebs.c
 
-
-vim +23 drivers/net/ethernet/intel/ice/ice_adapter.c
-
-0e2bddf9e5f926 Michal Schmidt     2024-03-26  15  
-2d939bcd51ee97 Przemek Kitszel    2025-04-07  16  static unsigned long ice_adapter_index(u64 dsn)
-0e2bddf9e5f926 Michal Schmidt     2024-03-26  17  {
-2d939bcd51ee97 Przemek Kitszel    2025-04-07  18  #if BITS_PER_LONG == 64
-2d939bcd51ee97 Przemek Kitszel    2025-04-07  19  	return dsn;
-2d939bcd51ee97 Przemek Kitszel    2025-04-07  20  #else
-2d939bcd51ee97 Przemek Kitszel    2025-04-07  21  	return (u32)dsn ^ u32(dsn >> 32);
-2d939bcd51ee97 Przemek Kitszel    2025-04-07  22  #endif
-fdb7f54700b1c8 Sergey Temerkhanov 2024-08-21 @23  }
-0e2bddf9e5f926 Michal Schmidt     2024-03-26  24  
+  > 21	#include "stat.h"
+    22	#include "tool.h"
+    23	#include "cpumap.h"
+    24	#include "metricgroup.h"
+  > 25	#include "stat.h"
+  > 26	#include <sys/stat.h>
+    27	#include <sys/file.h>
+    28	#include <poll.h>
+    29	#include <math.h>
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
