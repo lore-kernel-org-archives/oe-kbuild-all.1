@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA41D25487C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 13:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456BB19D060
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 13:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744031802; cv=none; b=cRUddPLaTrf1vzXHxmirhmiF5wVWQ9TE2w90Za84TzKXQaoKRP+5LflyK8xDwxHQFopCeBUkJt/ihTmz0D3UQfq5Al/ahGsHRd6/yuaolYS6bTxbLksFfndFfx18lAJigP2Aan1L9cQBlW0aae/qPYaHx1eK/GfZ9FpDDGO+g7g=
+	t=1744033726; cv=none; b=P0DeonZjrP/Ho9fY5qmbDGlr+oMbEY3GE1h8w4YmNvMVEpkUObpFLMjCq1HYkA5eEJ9DVh5NAGI+hY0c1gU760lxX6gnGzrhZ9xzHF13lZPJ0y435UbYmCCncF+ul1OglwOt3Ve+uKUP6Yt58LxNyd0XHBBFBCouUzWQKUs/vkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744031802; c=relaxed/simple;
-	bh=sFiXCOjce2Arik6LJN+4blzXwIJFWZxpXEbeG/RlRZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=utBv+YoGKj9FNIgnJ1zQOmK5/aR+C1/LxH4/xguFqZo+YzMhYn8eDm7RKuF8ikrblpnVCfCYZ0qxrmTZIHmd3Nka5Zb0MHuiU+pI30ZFpiYR437bJEzkYSvif1NWHG9MTCqShqdRcwGkMyAvSQ/MqymmZoLpwkh6VcnXfACjwVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9klFOGN; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744033726; c=relaxed/simple;
+	bh=UD/hCz5Aq78yv+U4/JzzUE92OQB20imcFEjtRY5f7hI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tmRvUExdLcISTNiqzo37pNW2O1pPipxcKbmR9RxsZr7R12KCIDiflg85rk2T5DQD2/gmYFjIttwhOH/MinrF8hpWLJrodj8jRyTx+31fJr3NeiomGssLs838/WxwI1Phn8yW7DcNfX0M8BNU7QuTGinzyULFdjGqnimtnnginvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYEsCBdc; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9klFOGN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYEsCBdc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744031800; x=1775567800;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sFiXCOjce2Arik6LJN+4blzXwIJFWZxpXEbeG/RlRZA=;
-  b=I9klFOGNpFOTAth5ikpIiA8s6bjsaSinP4y+HfnJxdPZ9R95QoKN10mT
-   bnXXImJJt+LZyekOHAAM2aQNvvjtErNSW+nTzYQWiA+z74LDyyud3xUJT
-   mrb2Synbxsz489dSG4a32VpF+R51fmGBDpy8GmW72gNvgAgZo9D7EkFQF
-   Lx7wfl8w8aVclUe7yzNRsUVCUGj2ZIH+g5fGG3gMC61Wkw0Dz5ZzR+nZ+
-   eb4zZAsokchrWXCi4m757PsXaHUFfrLFQZOeoKjUOVRQfJeeLPx8BAgSo
-   F3Ql4YZh7T2fj++x0htRM+Q7AH/QTUKvHCbt0wNyJsg882IyhMalIwY1J
-   g==;
-X-CSE-ConnectionGUID: zQgkwK3LSw6p7crhbCAahQ==
-X-CSE-MsgGUID: Du7YOYQOTTiWVkEjw8VSlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44560191"
+  t=1744033723; x=1775569723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UD/hCz5Aq78yv+U4/JzzUE92OQB20imcFEjtRY5f7hI=;
+  b=jYEsCBdcB4MDBshwC2YbOaw7i+H05l2tTZKOBddopDYsrOD9bgd/q9Lp
+   H4xSu6lnNYsJsBfasyUhfSZZ0sN3X3R2UkOuND8hNe18nNYSR4o/N+jyd
+   AmJhRt/WjLJm/KNGFYDNPlmHUiXx/oMSOG0CuWSZ6TneeoCsp/gLn8j2e
+   g2ZHbpwb4BV8dblHK8OcNqi7f1IDArfop8jGP26wAM+x3M7NAXe455qJ4
+   CyuHEBdNEqt5kE0TcWDx4AchoESMf66FP8c3emFwGc5U1TlesBbGHnm7K
+   JMRHDhUv1dWlTMP2svj2ULSjV3bh39BuXyPYnwXqfQhY1qmUfL+NQK6sS
+   A==;
+X-CSE-ConnectionGUID: sZT7XsoaRVW8WiPq1K9eZA==
+X-CSE-MsgGUID: mfMFhlyXRHWydFF5vHv+RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56083589"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="44560191"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 06:16:39 -0700
-X-CSE-ConnectionGUID: nm+WR+MkQ0690w1hCuAelQ==
-X-CSE-MsgGUID: 6J8LletqQjut895dvahgAA==
+   d="scan'208";a="56083589"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 06:48:42 -0700
+X-CSE-ConnectionGUID: lXc2ks33Q6ex1UOCt0WGhw==
+X-CSE-MsgGUID: OhldmVnDQSKRICz6nzB5yA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="132088892"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Apr 2025 06:16:37 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u1mL5-0003Qd-1S;
-	Mon, 07 Apr 2025 13:16:35 +0000
-Date: Mon, 7 Apr 2025 21:15:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: include/linux/hrtimer.h:348:9: sparse: sparse: dereference of
- noderef expression
-Message-ID: <202504072155.5UAZjYGU-lkp@intel.com>
+   d="scan'208";a="127941572"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 06:48:41 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u1mq5-0000000A5Jr-3y1Z;
+	Mon, 07 Apr 2025 16:48:37 +0300
+Date: Mon, 7 Apr 2025 16:48:37 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Wolfram Sang <wsa-dev@sang-engineering.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 2/6] i2c: core: Unify the firmware node type check
+Message-ID: <Z_PXtXIUi4VRjICJ@smile.fi.intel.com>
+References: <20250407095852.215809-3-andriy.shevchenko@linux.intel.com>
+ <202504072041.Bv9mOk4o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,58 +65,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202504072041.Bv9mOk4o-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0af2f6be1b4281385b618cb86ad946eded089ac8
-commit: 04257da0c99c9d4ff7c5bb93046482e1f7d34938 hrtimers: Make callback function pointer private
-date:   2 days ago
-config: powerpc-randconfig-r112-20250407 (https://download.01.org/0day-ci/archive/20250407/202504072155.5UAZjYGU-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce: (https://download.01.org/0day-ci/archive/20250407/202504072155.5UAZjYGU-lkp@intel.com/reproduce)
+On Mon, Apr 07, 2025 at 08:45:14PM +0800, kernel test robot wrote:
+> Hi Andy,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on wsa/i2c/for-next]
+> [also build test ERROR on linus/master v6.15-rc1 next-20250407]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-core-Drop-duplicate-check-before-calling-OF-APIs/20250407-180528
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+> patch link:    https://lore.kernel.org/r/20250407095852.215809-3-andriy.shevchenko%40linux.intel.com
+> patch subject: [PATCH v2 2/6] i2c: core: Unify the firmware node type check
+> config: arc-randconfig-002-20250407 (https://download.01.org/0day-ci/archive/20250407/202504072041.Bv9mOk4o-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504072041.Bv9mOk4o-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504072041.Bv9mOk4o-lkp@intel.com/
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504072155.5UAZjYGU-lkp@intel.com/
+> All error/warnings (new ones prefixed by >>):
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/tty/serial/xilinx_uartps.c: note: in included file (through include/linux/pm.h, include/linux/device.h, include/linux/platform_device.h):
->> include/linux/hrtimer.h:348:9: sparse: sparse: dereference of noderef expression
->> include/linux/hrtimer.h:348:9: sparse: sparse: dereference of noderef expression
-
-vim +348 include/linux/hrtimer.h
-
-4346f65426cbce Oliver Hartkopp 2008-04-30  327  
-8f02e3563bb582 Nam Cao         2024-10-31  328  /**
-8f02e3563bb582 Nam Cao         2024-10-31  329   * hrtimer_update_function - Update the timer's callback function
-8f02e3563bb582 Nam Cao         2024-10-31  330   * @timer:	Timer to update
-8f02e3563bb582 Nam Cao         2024-10-31  331   * @function:	New callback function
-8f02e3563bb582 Nam Cao         2024-10-31  332   *
-8f02e3563bb582 Nam Cao         2024-10-31  333   * Only safe to call if the timer is not enqueued. Can be called in the callback function if the
-8f02e3563bb582 Nam Cao         2024-10-31  334   * timer is not enqueued at the same time (see the comments above HRTIMER_STATE_ENQUEUED).
-8f02e3563bb582 Nam Cao         2024-10-31  335   */
-8f02e3563bb582 Nam Cao         2024-10-31  336  static inline void hrtimer_update_function(struct hrtimer *timer,
-8f02e3563bb582 Nam Cao         2024-10-31  337  					   enum hrtimer_restart (*function)(struct hrtimer *))
-8f02e3563bb582 Nam Cao         2024-10-31  338  {
-2ea97b76d6712b Thomas Gleixner 2025-02-07  339  #ifdef CONFIG_PROVE_LOCKING
-8f02e3563bb582 Nam Cao         2024-10-31  340  	guard(raw_spinlock_irqsave)(&timer->base->cpu_base->lock);
-8f02e3563bb582 Nam Cao         2024-10-31  341  
-8f02e3563bb582 Nam Cao         2024-10-31  342  	if (WARN_ON_ONCE(hrtimer_is_queued(timer)))
-8f02e3563bb582 Nam Cao         2024-10-31  343  		return;
-8f02e3563bb582 Nam Cao         2024-10-31  344  
-8f02e3563bb582 Nam Cao         2024-10-31  345  	if (WARN_ON_ONCE(!function))
-8f02e3563bb582 Nam Cao         2024-10-31  346  		return;
-2ea97b76d6712b Thomas Gleixner 2025-02-07  347  #endif
-8f02e3563bb582 Nam Cao         2024-10-31 @348  	timer->function = function;
-8f02e3563bb582 Nam Cao         2024-10-31  349  }
-8f02e3563bb582 Nam Cao         2024-10-31  350  
-
-:::::: The code at line 348 was first introduced by commit
-:::::: 8f02e3563bb5824eb01c94f2c75f1dcee2d05625 hrtimers: Introduce hrtimer_update_function()
-
-:::::: TO: Nam Cao <namcao@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+Ah, I should compile-test the slave part as well...
+Will be fixed in v3. Since v3 is required, Tomi, I'm going to add the media
+patch to its end.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
