@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6C31DF745;
-	Mon,  7 Apr 2025 14:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A57A1FF7DD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 15:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744037393; cv=none; b=g7Mtwe6D/Aw99gt/d4gddgqvGTpDwedS7IeoHE74tUaZYtXx63p21xkvHFsd91xU/r/KB2qDIAm+TL+B6g6bCDW4hgcoAO9X/D0IgvaeumVvZQomsHCx2hP1of7yFhoviE0iqXbz5VRQC8hm9xzily0fZTWr4kfFV13GvQVWsPQ=
+	t=1744039856; cv=none; b=PAO6qMyAX/7SI9m53DwhO2Iy//2QYhczC9d3vngR0oZAS38CM6TLLQGuj/aKbTjc/2eP7AcPYGF8AVi79GulDVuKwpBsB/KVHg1vC3EEv20OnnG2TddPURX1Z7CRs8ZaOLLOjDlnanS8BqAJ5DXGC8oDCC69awWZvkIX+Bn8MAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744037393; c=relaxed/simple;
-	bh=slNcmtMSWtZm97ocEecZkuAVb+yFRv33O53uq54gA7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oLBxpvEDKM0LVBgM5VJxxR2NrzevKbkB/QEa8+5bW1PqWgDhLiFk6rXtSNa+OaWGvXeqC4I2s/8r9vpZspdetM09a8BX7uZybUbZZs1fnITeTDFTyOiLDwXPNN5IWSUJf2ZApEtw6xe3yTO9pbQ5rQsRxMhcBUvRfjgJp6uSOgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jtblmip+; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1744039856; c=relaxed/simple;
+	bh=rW2AWBgNg40ft5cy0C356YAsV5byNyjkeJ4SxvBLXu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W2O/VmmZoHQvLvVqhfxwYzdrdCKYhc4w9uLgakuPndlUVfeQe0Ml2r99ZMtsndsZliNrhiw6uLhR9fWC+onsUlU5cKMHUGPOFqYPZ5qhnWuWqMbif53WLlmzZLLz0wGHCWMBtoPfTYGhGHc6g+ybe3Y5r1Ze1fgpRySmhtalq1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2uG9e8p; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtblmip+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2uG9e8p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744037391; x=1775573391;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=slNcmtMSWtZm97ocEecZkuAVb+yFRv33O53uq54gA7g=;
-  b=jtblmip+RzQ9cv4RDdZAvhb+29Qxl0NTxnEpb0JBD1chNHjYLN2Z8Jra
-   dSmYB9ITEmA7vGWrZo/DsjFc+XIinrczMthbTynYCGlDjZGUAQvaGr16v
-   LVwDEGPbx1QnYJhm8mI6BoJ6R/Avp7L2HOZjRhPdCYoW7ZZubd6TEFa6m
-   +svBEcnTdYtrhQ7xpu3ENceGe81skT9QTqoZSVm3hkw/08D3L6JQsNCrX
-   O4QT/7/Rl92CUnqNoB2ilnyz23yQXXNVebt4FOBFQcYGK+ojS+1uqKKLr
-   hMmhcFkEODDuZQ1aDYOi6zOnnUttzr5nbJ1j3aP50OOWIFoYYHBPiT1dk
+  t=1744039854; x=1775575854;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rW2AWBgNg40ft5cy0C356YAsV5byNyjkeJ4SxvBLXu0=;
+  b=C2uG9e8ptRV1ySlxjEvBPLs/PaIF/x4Omadzg66pS9ZL72oUzdTCUf47
+   khWOayyTD64d2Vv5w61nBl3V09F+ToZaVUR7DOaLKhelLxMT8wi42R0mD
+   VAQ36zANpAubCd+Yczxe9E/PcDAaE1VAuua7IxfwMLOdiJNWqy9Tbs5Vl
+   oyIjylH+HkQdXdjoVgu0s/CAuxeB8JALGlKJYJs+B8xyyxcGM8dKUZXZu
+   PwvbmeV8QZFQxDUqS0KMc7tSpLj3PnFsVp1DFkNBOHvmGTu3nfqrK8F1K
+   qJ0CIW3KFz0cgrSwUyRmnUmieeZJsq/xkE9OfbDn5DM+5qAKuh8klT2J5
    w==;
-X-CSE-ConnectionGUID: 3zYtrgOhRfu8QfnN3gBg+w==
-X-CSE-MsgGUID: vt1i4CTnQW2/9o0cA6k/hw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44573744"
+X-CSE-ConnectionGUID: ThusiOFkRKW5SqDIlq2Mag==
+X-CSE-MsgGUID: D8OHUi0ERMmdPCbFMLyYog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="62980303"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="44573744"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 07:49:50 -0700
-X-CSE-ConnectionGUID: MSsLouzSS26qKXjV5inDoA==
-X-CSE-MsgGUID: hKXXvbF1R1eLwNtVC6GtNQ==
+   d="scan'208";a="62980303"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 08:30:53 -0700
+X-CSE-ConnectionGUID: pATk8rjBRuSe96XjEgM0NQ==
+X-CSE-MsgGUID: i7QGkcnrTnuXZNJFfYEHkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="158965169"
+   d="scan'208";a="127869355"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Apr 2025 07:49:48 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 Apr 2025 08:30:53 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1nnF-0003Ut-2l;
-	Mon, 07 Apr 2025 14:49:45 +0000
-Date: Mon, 7 Apr 2025 22:49:43 +0800
+	id 1u1oR0-0003Wm-0o;
+	Mon, 07 Apr 2025 15:30:50 +0000
+Date: Mon, 7 Apr 2025 23:30:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Eddie James <eajames@linux.ibm.com>, Lee Jones <lee@kernel.org>,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Pavel Machek <pavel@kernel.org>
-Subject: Re: [PATCH v2 1/1] leds: pca955x: Avoid potential overflow when
- filling default_label
-Message-ID: <202504072230.RoQhKH5y-lkp@intel.com>
-References: <20250407105033.324789-1-andriy.shevchenko@linux.intel.com>
+To: Jyri Sarha <jyri.sarha@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:topology2_sched_domain_support 1/1]
+ sound/soc/sof/ipc4-topology.c:510:25: error: passing argument 1 of
+ '_dev_err' from incompatible pointer type
+Message-ID: <202504072346.VVJCxKS3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,205 +62,205 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250407105033.324789-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on linus/master v6.15-rc1 next-20250407]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/leds-pca955x-Avoid-potential-overflow-when-filling-default_label/20250407-185316
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250407105033.324789-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v2 1/1] leds: pca955x: Avoid potential overflow when filling default_label
-config: hexagon-randconfig-002-20250407 (https://download.01.org/0day-ci/archive/20250407/202504072230.RoQhKH5y-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504072230.RoQhKH5y-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topology2_sched_domain_support
+head:   e7f2745320e2fae66eb1e6d7620062d5377b25b9
+commit: e7f2745320e2fae66eb1e6d7620062d5377b25b9 [1/1] ASoC: sof: ipc4-topology: Add support to sched_domain attribute
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250407/202504072346.VVJCxKS3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504072346.VVJCxKS3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504072230.RoQhKH5y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504072346.VVJCxKS3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/leds/leds-pca955x.c:698:60: warning: format specifies type 'unsigned char' but the argument has type 'unsigned int' [-Wformat]
-                                   snprintf(default_label, sizeof(default_label), "%hhu", i);
-                                                                                   ~~~~   ^
-                                                                                   %u
-   1 warning generated.
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:99,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:392,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/processor.h:20,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/sound/asound.h:11,
+                    from include/sound/pcm.h:11,
+                    from include/sound/pcm_params.h:10,
+                    from sound/soc/sof/ipc4-topology.c:12:
+   sound/soc/sof/ipc4-topology.c: In function 'sof_ipc4_widget_setup_msg':
+>> include/linux/printk.h:434:76: warning: pointer/integer type mismatch in conditional expression
+     434 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
+         |                                                                            ^
+   include/linux/printk.h:468:9: note: in expansion of macro '__printk_index_emit'
+     468 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
+     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
+     109 |                 dev_printk_index_emit(level, fmt);                      \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:9: note: in expansion of macro 'dev_printk_index_wrap'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/ipc4-topology.c:510:17: note: in expansion of macro 'dev_err'
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                 ^~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/pm_qos.h:17,
+                    from include/sound/pcm.h:17:
+>> sound/soc/sof/ipc4-topology.c:510:25: error: passing argument 1 of '_dev_err' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                         ^~~~~~~~~~~~~~~~~~~
+         |                         |
+         |                         char *
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   sound/soc/sof/ipc4-topology.c:510:17: note: in expansion of macro 'dev_err'
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                 ^~~~~~~
+   include/linux/dev_printk.h:50:36: note: expected 'const struct device *' but argument is of type 'char *'
+      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
+         |               ~~~~~~~~~~~~~~~~~~~~~^~~
+>> sound/soc/sof/ipc4-topology.c:510:53: error: incompatible type for argument 2 of '_dev_err'
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                                              ~~~~~~~^~~~~~~~~~~~~
+         |                                                     |
+         |                                                     enum sof_comp_domain
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   sound/soc/sof/ipc4-topology.c:510:17: note: in expansion of macro 'dev_err'
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                 ^~~~~~~
+   include/linux/dev_printk.h:50:53: note: expected 'const char *' but argument is of type 'enum sof_comp_domain'
+      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
+         |                                         ~~~~~~~~~~~~^~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:99,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:392,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/processor.h:20,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/sound/asound.h:11,
+                    from include/sound/pcm.h:11,
+                    from include/sound/pcm_params.h:10,
+                    from ipc4-topology.c:12:
+   ipc4-topology.c: In function 'sof_ipc4_widget_setup_msg':
+>> include/linux/printk.h:434:76: warning: pointer/integer type mismatch in conditional expression
+     434 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
+         |                                                                            ^
+   include/linux/printk.h:468:9: note: in expansion of macro '__printk_index_emit'
+     468 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
+     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
+     109 |                 dev_printk_index_emit(level, fmt);                      \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:9: note: in expansion of macro 'dev_printk_index_wrap'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   ipc4-topology.c:510:17: note: in expansion of macro 'dev_err'
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                 ^~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/pm_qos.h:17,
+                    from include/sound/pcm.h:17:
+   ipc4-topology.c:510:25: error: passing argument 1 of '_dev_err' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                         ^~~~~~~~~~~~~~~~~~~
+         |                         |
+         |                         char *
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   ipc4-topology.c:510:17: note: in expansion of macro 'dev_err'
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                 ^~~~~~~
+   include/linux/dev_printk.h:50:36: note: expected 'const struct device *' but argument is of type 'char *'
+      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
+         |               ~~~~~~~~~~~~~~~~~~~~~^~~
+   ipc4-topology.c:510:53: error: incompatible type for argument 2 of '_dev_err'
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                                              ~~~~~~~^~~~~~~~~~~~~
+         |                                                     |
+         |                                                     enum sof_comp_domain
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   ipc4-topology.c:510:17: note: in expansion of macro 'dev_err'
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                 ^~~~~~~
+   include/linux/dev_printk.h:50:53: note: expected 'const char *' but argument is of type 'enum sof_comp_domain'
+      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
+         |                                         ~~~~~~~~~~~~^~~
+   cc1: some warnings being treated as errors
 
 
-vim +698 drivers/leds/leds-pca955x.c
+vim +/_dev_err +510 sound/soc/sof/ipc4-topology.c
 
-   575	
-   576	static int pca955x_probe(struct i2c_client *client)
-   577	{
-   578		struct pca955x *pca955x;
-   579		struct pca955x_led *pca955x_led;
-   580		const struct pca955x_chipdef *chip;
-   581		struct led_classdev *led;
-   582		struct led_init_data init_data;
-   583		struct i2c_adapter *adapter;
-   584		u8 ls1[4];
-   585		u8 ls2[4];
-   586		struct pca955x_platform_data *pdata;
-   587		u8 psc0;
-   588		bool keep_psc0 = false;
-   589		bool set_default_label = false;
-   590		char default_label[8];
-   591		int bit, nls, reg;
-   592		unsigned int i;
-   593		int err;
-   594	
-   595		chip = i2c_get_match_data(client);
-   596		if (!chip)
-   597			return dev_err_probe(&client->dev, -ENODEV, "unknown chip\n");
-   598	
-   599		adapter = client->adapter;
-   600		pdata = dev_get_platdata(&client->dev);
-   601		if (!pdata) {
-   602			pdata =	pca955x_get_pdata(client, chip);
-   603			if (IS_ERR(pdata))
-   604				return PTR_ERR(pdata);
-   605		}
-   606	
-   607		/* Make sure the slave address / chip type combo given is possible */
-   608		if ((client->addr & ~((1 << chip->slv_addr_shift) - 1)) !=
-   609		    chip->slv_addr) {
-   610			dev_err(&client->dev, "invalid slave address %02x\n",
-   611				client->addr);
-   612			return -ENODEV;
-   613		}
-   614	
-   615		dev_info(&client->dev, "Using %s %u-bit LED driver at slave address 0x%02x\n",
-   616			 client->name, chip->bits, client->addr);
-   617	
-   618		if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
-   619			return -EIO;
-   620	
-   621		if (pdata->num_leds != chip->bits) {
-   622			dev_err(&client->dev,
-   623				"board info claims %d LEDs on a %u-bit chip\n",
-   624				pdata->num_leds, chip->bits);
-   625			return -ENODEV;
-   626		}
-   627	
-   628		pca955x = devm_kzalloc(&client->dev, sizeof(*pca955x), GFP_KERNEL);
-   629		if (!pca955x)
-   630			return -ENOMEM;
-   631	
-   632		pca955x->leds = devm_kcalloc(&client->dev, chip->bits,
-   633					     sizeof(*pca955x_led), GFP_KERNEL);
-   634		if (!pca955x->leds)
-   635			return -ENOMEM;
-   636	
-   637		i2c_set_clientdata(client, pca955x);
-   638	
-   639		mutex_init(&pca955x->lock);
-   640		pca955x->client = client;
-   641		pca955x->chipdef = chip;
-   642		pca955x->blink_period = PCA955X_BLINK_DEFAULT_MS;
-   643	
-   644		init_data.devname_mandatory = false;
-   645		init_data.devicename = "pca955x";
-   646	
-   647		nls = pca955x_num_led_regs(chip->bits);
-   648		/* Use auto-increment feature to read all the LED selectors at once. */
-   649		err = i2c_smbus_read_i2c_block_data(client,
-   650						    0x10 | (pca955x_num_input_regs(chip->bits) + 4), nls,
-   651						    ls1);
-   652		if (err < 0)
-   653			return err;
-   654	
-   655		for (i = 0; i < nls; i++)
-   656			ls2[i] = ls1[i];
-   657	
-   658		for (i = 0; i < chip->bits; i++) {
-   659			pca955x_led = &pca955x->leds[i];
-   660			pca955x_led->led_num = i;
-   661			pca955x_led->pca955x = pca955x;
-   662			pca955x_led->type = pdata->leds[i].type;
-   663	
-   664			switch (pca955x_led->type) {
-   665			case PCA955X_TYPE_NONE:
-   666			case PCA955X_TYPE_GPIO:
-   667				break;
-   668			case PCA955X_TYPE_LED:
-   669				bit = i % 4;
-   670				reg = i / 4;
-   671				led = &pca955x_led->led_cdev;
-   672				led->brightness_set_blocking = pca955x_led_set;
-   673				led->brightness_get = pca955x_led_get;
-   674				led->blink_set = pca955x_led_blink;
-   675	
-   676				if (pdata->leds[i].default_state == LEDS_DEFSTATE_OFF)
-   677					ls2[reg] = pca955x_ledsel(ls2[reg], bit, PCA955X_LS_LED_OFF);
-   678				else if (pdata->leds[i].default_state == LEDS_DEFSTATE_ON)
-   679					ls2[reg] = pca955x_ledsel(ls2[reg], bit, PCA955X_LS_LED_ON);
-   680				else if (pca955x_ledstate(ls2[reg], bit) == PCA955X_LS_BLINK0) {
-   681					keep_psc0 = true;
-   682					set_bit(i, &pca955x->active_blink);
-   683				}
-   684	
-   685				init_data.fwnode = pdata->leds[i].fwnode;
-   686	
-   687				if (is_of_node(init_data.fwnode)) {
-   688					if (to_of_node(init_data.fwnode)->name[0] ==
-   689					    '\0')
-   690						set_default_label = true;
-   691					else
-   692						set_default_label = false;
-   693				} else {
-   694					set_default_label = true;
-   695				}
-   696	
-   697				if (set_default_label) {
- > 698					snprintf(default_label, sizeof(default_label), "%hhu", i);
-   699					init_data.default_label = default_label;
-   700				} else {
-   701					init_data.default_label = NULL;
-   702				}
-   703	
-   704				err = devm_led_classdev_register_ext(&client->dev, led,
-   705								     &init_data);
-   706				if (err)
-   707					return err;
-   708	
-   709				set_bit(i, &pca955x->active_pins);
-   710			}
-   711		}
-   712	
-   713		for (i = 0; i < nls; i++) {
-   714			if (ls1[i] != ls2[i]) {
-   715				err = pca955x_write_ls(pca955x, i, ls2[i]);
-   716				if (err)
-   717					return err;
-   718			}
-   719		}
-   720	
-   721		if (keep_psc0) {
-   722			err = pca955x_read_psc(pca955x, 0, &psc0);
-   723		} else {
-   724			psc0 = pca955x_period_to_psc(pca955x, pca955x->blink_period);
-   725			err = pca955x_write_psc(pca955x, 0, psc0);
-   726		}
-   727	
-   728		if (err)
-   729			return err;
-   730	
-   731		pca955x->blink_period = pca955x_psc_to_period(pca955x, psc0);
-   732	
-   733		/* Set PWM1 to fast frequency so we do not see flashing */
-   734		err = pca955x_write_psc(pca955x, 1, 0);
-   735		if (err)
-   736			return err;
-   737	
+   482	
+   483	static int sof_ipc4_widget_setup_msg(struct snd_sof_widget *swidget, struct sof_ipc4_msg *msg)
+   484	{
+   485		struct sof_ipc4_fw_module *fw_module;
+   486		uint32_t type;
+   487		int ret;
+   488	
+   489		ret = sof_ipc4_widget_set_module_info(swidget);
+   490		if (ret)
+   491			return ret;
+   492	
+   493		fw_module = swidget->module_info;
+   494	
+   495		msg->primary = fw_module->man4_module_entry.id;
+   496		msg->primary |= SOF_IPC4_MSG_TYPE_SET(SOF_IPC4_MOD_INIT_INSTANCE);
+   497		msg->primary |= SOF_IPC4_MSG_DIR(SOF_IPC4_MSG_REQUEST);
+   498		msg->primary |= SOF_IPC4_MSG_TARGET(SOF_IPC4_MODULE_MSG);
+   499	
+   500		msg->extension = SOF_IPC4_MOD_EXT_CORE_ID(swidget->core);
+   501	
+   502		switch (swidget->comp_domain) {
+   503		case SOF_COMP_DOMAIN_LL:
+   504			type = 0;
+   505			break;
+   506		case SOF_COMP_DOMAIN_DP:
+   507			type = 1;
+   508			break;
+   509		default:
+ > 510			dev_err("Bad domain val %d", swidget->comp_domain);
+   511			/* fall through */
+   512		case SOF_COMP_DOMAIN_UNSET:
+   513			type = (fw_module->man4_module_entry.type & SOF_IPC4_MODULE_DP) ? 1 : 0;
+   514			break;
+   515		}
+   516		msg->extension |= SOF_IPC4_MOD_EXT_DOMAIN(type);
+   517	
+   518		return 0;
+   519	}
+   520	
 
 -- 
 0-DAY CI Kernel Test Service
