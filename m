@@ -1,71 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26CC20011B;
-	Mon,  7 Apr 2025 15:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898732066E6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 16:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744039858; cv=none; b=Na+0czhHjvkP+vaqkbwEB/K4RcFKzP1xfvgaOfu9cWyMg68dR4rCI+TlYpFgtCoWdDrcJfJnqjbUpNFWjZSnX4jTEvTd7+VdzgE7k7rbFotf5xsp2C+Bg3p7AkVng+tsLjLQFivktpd9lfzwTC+6OpMAFOLR+osMilIjyYZ/kKM=
+	t=1744041720; cv=none; b=cYIiWVjjGah4e7AubEhY4MSiEA6UVkbCnQloIAVT0c/RdhwUXTXr+ZuElpirY7drMFFeEXtgCNi3FTRbCKfx8MeAuwhDIrsaxTo4/TZ3euWf2pfdWky9GT/jtcCiVobNGqHgb3T+Ysq805eUsfhFvHERNDFc9Yiguy9KLzFzhXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744039858; c=relaxed/simple;
-	bh=vtlccTfM9VZZD5m8j+ndF1OOWgDstqM5TbodR3i3Obw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZdvDE+/8IEZ7cssh5gMtInuHQQ/yd2LV1D6eswSBMW68z473Mz7hcGJd9v/Qs0ll067foZRmjlz8ODW7c8ijFftJYHur+yuBRC0WGzYlA6lTU0TT7pB18qJHBNVH0XQDhF6TslNkuuMEXcjERJU2eVg4vBhv54YLG44KiHXtQxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7ZCVa4m; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1744041720; c=relaxed/simple;
+	bh=2PRSDaOTD+b7WmHObyjPK75/SWgrji7vEkAc/jeP/Js=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Pfd15UApMXuI16CO3IhkKePD6m4EYDzrTw1vgKgWa33ZOTRmJ4uLIDPtxuqEqBqIzucnkP5y+r9tFHQpET1wu/lH2SPEOpJAO+W44/1JkShM0+A8fQDbXGpB2JdeLXU8BflvzNcZOQDKRVY11QlLKh/5XF6n88K7u11ZhLRjrmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AEJF/A/a; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7ZCVa4m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AEJF/A/a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744039856; x=1775575856;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vtlccTfM9VZZD5m8j+ndF1OOWgDstqM5TbodR3i3Obw=;
-  b=i7ZCVa4mTjTWVUxCW+84KqUBuU777BhmQvvnDJJG0edSUBHcd8WR+IaE
-   wF+MxNq6gTgBGypGBsLMgUDoYLeGtoqGqaHrpvRdMOQ2CKINx45mT+E6g
-   Y7obvFT4cAh1K68NRFkQcBJvVUSx+yfgWbjMBf5zeJLxEKW6vyXNViDPh
-   VC827S9TUn1QVkQX9Gbh1OFyf2HNUT0uAJ6GYXjSG2QNb2cXiZovAhLSN
-   Mx+8LEMZQgMjGMU10iXoxWka+5FDszlzI0fPOWWclApX/Xf6D1Tkq2bKK
-   WOM18pVaCS1aFs33u9IvwZPSmXIoebmx223Qp6Yua1JpIcqck2amvd1ws
-   Q==;
-X-CSE-ConnectionGUID: Mnu4RKjTSZ2lnzIgfd4y6A==
-X-CSE-MsgGUID: pcI8pSsOSDSr74kwHNsy5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="62980312"
+  t=1744041718; x=1775577718;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2PRSDaOTD+b7WmHObyjPK75/SWgrji7vEkAc/jeP/Js=;
+  b=AEJF/A/a/py8prKKhPrRfC/Uwdct8ktqS3+yJScE3uj94dsFFhoUTI8w
+   LyIwtbC6Nxptyaor0hDpebo/YUNGGg/m2dS4izIVVn3N91YRlsa5PB7xs
+   2UKIWBoRinmphUadO1HBgi2z7js7uzueoyjykDPsmiIdeRV1/ENNNKC5L
+   tDwGoyfmkmQySPltA7x99shoE6Mz1NvmjqMBusIo07n6Ai8T5F38eVpbg
+   EqpbsjniPvPeYMBUv05M9pRIHGxE/pVa6VftgZ5Jb17DrxgcKeY+aBysB
+   PwZJ2qS5q2HrdbFmjZLU2Hng7AbIBsdfYSHUzav2KNkpYcbDFFIU6Qkw1
+   w==;
+X-CSE-ConnectionGUID: s3d1U2U8SIOAdM+Xgza84Q==
+X-CSE-MsgGUID: fDfOTLmcSAmszjw/K8dzEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45325980"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="62980312"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 08:30:56 -0700
-X-CSE-ConnectionGUID: OyF2CGuLQrO3ZJ0HpvmNeQ==
-X-CSE-MsgGUID: oCBZlUSSSnKQsmNOxl09Ow==
+   d="scan'208";a="45325980"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 09:01:57 -0700
+X-CSE-ConnectionGUID: gfsaiwj7QfKGHodahrAJ8Q==
+X-CSE-MsgGUID: xMQ9sIZUSD27kZmX1izvqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="127869350"
+   d="scan'208";a="128527711"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Apr 2025 08:30:53 -0700
+  by orviesa007.jf.intel.com with ESMTP; 07 Apr 2025 09:01:57 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1oR0-0003Wh-0P;
-	Mon, 07 Apr 2025 15:30:50 +0000
-Date: Mon, 7 Apr 2025 23:30:33 +0800
+	id 1u1ov3-0003Z3-1y;
+	Mon, 07 Apr 2025 16:01:53 +0000
+Date: Tue, 8 Apr 2025 00:01:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Longbin Li <looong.bin@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: oe-kbuild-all@lists.linux.dev, ghost <2990955050@qq.com>,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, Longbin Li <looong.bin@gmail.com>
-Subject: Re: [PATCH 2/2] pwm: sophgo: add driver for SG2044
-Message-ID: <202504072300.KCXJcmJK-lkp@intel.com>
-References: <20250407072056.8629-3-looong.bin@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>,
+	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Subject: [linux-next:master 602/1199]
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c:229:20: sparse: sparse: cast to
+ restricted __le32
+Message-ID: <202504072322.EwPvc4ch-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,51 +63,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250407072056.8629-3-looong.bin@gmail.com>
 
-Hi Longbin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on krzk-dt/for-next]
-[also build test WARNING on linus/master v6.15-rc1 next-20250407]
-[cannot apply to robh/for-next sophgo/for-next sophgo/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Longbin-Li/dt-bindings-pwm-sophgo-add-pwm-controller-for-SG2044/20250407-153334
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-dt.git for-next
-patch link:    https://lore.kernel.org/r/20250407072056.8629-3-looong.bin%40gmail.com
-patch subject: [PATCH 2/2] pwm: sophgo: add driver for SG2044
-config: arm-randconfig-003-20250407 (https://download.01.org/0day-ci/archive/20250407/202504072300.KCXJcmJK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504072300.KCXJcmJK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2bdde620f7f2bff2ff1cb7dc166859eaa0c78a7c
+commit: 1efdea0517384d30316acdfb006c0650804dc2ff [602/1199] cpufreq: sun50i: prevent out-of-bounds access
+config: riscv-randconfig-r111-20250407 (https://download.01.org/0day-ci/archive/20250407/202504072322.EwPvc4ch-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+reproduce: (https://download.01.org/0day-ci/archive/20250407/202504072322.EwPvc4ch-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504072300.KCXJcmJK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504072322.EwPvc4ch-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> drivers/cpufreq/sun50i-cpufreq-nvmem.c:229:20: sparse: sparse: cast to restricted __le32
 
->> drivers/pwm/pwm-sophgo-sg2042.c:57: warning: Function parameter or struct member 'lock' not described in 'sg2042_pwm_ddata'
+vim +229 drivers/cpufreq/sun50i-cpufreq-nvmem.c
 
-
-vim +57 drivers/pwm/pwm-sophgo-sg2042.c
-
-    47	
-    48	/**
-    49	 * struct sg2042_pwm_ddata - private driver data
-    50	 * @base:		base address of mapped PWM registers
-    51	 * @clk_rate_hz:	rate of base clock in HZ
-    52	 */
-    53	struct sg2042_pwm_ddata {
-    54		void __iomem *base;
-    55		unsigned long clk_rate_hz;
-    56		struct mutex lock;
-  > 57	};
-    58	
+   184	
+   185	/**
+   186	 * sun50i_cpufreq_get_efuse() - Determine speed grade from efuse value
+   187	 *
+   188	 * Returns non-negative speed bin index on success, a negative error
+   189	 * value otherwise.
+   190	 */
+   191	static int sun50i_cpufreq_get_efuse(void)
+   192	{
+   193		const struct sunxi_cpufreq_data *opp_data;
+   194		struct nvmem_cell *speedbin_nvmem;
+   195		const struct of_device_id *match;
+   196		struct device *cpu_dev;
+   197		void *speedbin_ptr;
+   198		u32 speedbin = 0;
+   199		size_t len;
+   200		int ret;
+   201	
+   202		cpu_dev = get_cpu_device(0);
+   203		if (!cpu_dev)
+   204			return -ENODEV;
+   205	
+   206		struct device_node *np __free(device_node) =
+   207			dev_pm_opp_of_get_opp_desc_node(cpu_dev);
+   208		if (!np)
+   209			return -ENOENT;
+   210	
+   211		match = of_match_node(cpu_opp_match_list, np);
+   212		if (!match)
+   213			return -ENOENT;
+   214	
+   215		opp_data = match->data;
+   216	
+   217		speedbin_nvmem = of_nvmem_cell_get(np, NULL);
+   218		if (IS_ERR(speedbin_nvmem))
+   219			return dev_err_probe(cpu_dev, PTR_ERR(speedbin_nvmem),
+   220					     "Could not get nvmem cell\n");
+   221	
+   222		speedbin_ptr = nvmem_cell_read(speedbin_nvmem, &len);
+   223		nvmem_cell_put(speedbin_nvmem);
+   224		if (IS_ERR(speedbin_ptr))
+   225			return PTR_ERR(speedbin_ptr);
+   226	
+   227		if (len <= 4)
+   228			memcpy(&speedbin, speedbin_ptr, len);
+ > 229		speedbin = le32_to_cpu(speedbin);
+   230	
+   231		ret = opp_data->efuse_xlate(speedbin);
+   232	
+   233		kfree(speedbin_ptr);
+   234	
+   235		return ret;
+   236	};
+   237	
 
 -- 
 0-DAY CI Kernel Test Service
