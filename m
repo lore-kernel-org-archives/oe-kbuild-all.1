@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C7E212D6A;
-	Mon,  7 Apr 2025 02:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24CB212D65
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 02:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743991230; cv=none; b=R6GkhjaNzI0kru9vRKh/LURG64zU+DLdqxnIzSsZ3tnd0bFL94iJfHyhM9pMo2slqMNH+dUhIBwG0IkZH7A5toSzs8i0UfVdYcNrAoZmzS6EaWFgg5TlydXYURuh1iF/EcQpeavBZkcMKFB8iR7WUdlSFrbwGHt94C4Y5Mw5Wco=
+	t=1743991830; cv=none; b=D3o2QKrfIPgF6Eq+9bj9Dz9BRFm8aMUCBzrRzNJBXNmikJ5JaTvXVOoVb6HJP3n7/9T4WvTRzfutZkB6vY2fGX1HpmT+b3jf/Fy7shPTqUgAYgct8nBpLAfXt7R10PbhVqGsZ/WS6fOSReo1tZQpLLn7yX0MJiL0ZClW+4MemMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743991230; c=relaxed/simple;
-	bh=c+LWKME/vJdR92Qt5IQfvCW4tBxBnIiP/qUH4o4NDsg=;
+	s=arc-20240116; t=1743991830; c=relaxed/simple;
+	bh=XfcLzj4u9hEabd0szkloLzxLYdzD/t+nSwjBELOsAWM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jt4SeZeTGUXikSP/rZI1BrL/alN5TgfS9Vj4W76SNJf5dxhU3lBo6iAGX/OTfrdiZKXoDqCABbzxfBsSVu7+4f0iRwpmQCFcpYJEeRFuhkLxf8Et/Xj7jBi//LpFI6edR7HIboJDfBLlzLanCSrFRpKevTBiUJW8p85/7azMwyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JfAF4ohe; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=fqf9m2IRIMTBsZmQy+RvOpXNbZI05iGcnbrvzaiy6gJybj8djFaduiRMziVrNGW/7hyJwufpIQ2bZqJ3P8RGyv2SayJhjIhtw27F8sQB1ybP03nkfJNecnYkKp7Z51l1gKvYaXeJnF64hIU9w7MBNk9gHkrDEOMBVHvd7dl85Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/jSChcO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JfAF4ohe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/jSChcO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743991228; x=1775527228;
+  t=1743991829; x=1775527829;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c+LWKME/vJdR92Qt5IQfvCW4tBxBnIiP/qUH4o4NDsg=;
-  b=JfAF4oheQGMlEAKBimYbn4lwzVHbVOatfpOjJWgndBcvGpVANv4eHR0z
-   1YYVdlURbvH2qqNbRQe1wui4uQfgiOR3p4VK4KozN77qG9NvCxcwhYy8d
-   XBD65drAm1UUS0UezYbxJwNj/LDR7QnatVwGpykKGl2CwS9DZaodXsv9w
-   MmXxE5eL/v4mcNmDNH2+xMvSwoX2Thz6AVbZ7UW58I3z/Ezyp5J2pLPvA
-   tZOZ1rhCuZafZMcSBqixp2Wqp6tSUFxt9iBPxsIofb9C48g5dp0u7Imz8
-   ONfs1vJsqGzb61AAD+hZ5AfQsQqooffLl9sEHTCc5o4kSK6EOZHq5Cuhh
+  bh=XfcLzj4u9hEabd0szkloLzxLYdzD/t+nSwjBELOsAWM=;
+  b=K/jSChcOIAOFVCbexhzkhPnQbkHQIgFDkps8kcWkR8H2nU/9lfRV3pEx
+   NDevq8dut+YFOn03vtlVakh7T46bXZhpnBbw16X8QyEHb95KFOpAfN1PN
+   C/wLtHQoXg+09I4M2Q6WpzV0Psv5ACWkChO89YQL2CikdozEQKUWY6hwD
+   XfTkMu9ZvGFAWPfsLUzbdmcnQrCfS3hiBipEHE9ZROgtIEJ65d+3PrLlh
+   4B3B3t+3iHQ9EtZTkr+XUgY/cw9eWwyia+ALfn/mWrsUPqEKpzFeVU8CT
+   w9NqEtnuh3BtFkNGY3urSSSX/3TTclbkugte99mDzqLP+xxtnr1hscai0
    g==;
-X-CSE-ConnectionGUID: Oy0wJN32TlOZdrOMZaGNCw==
-X-CSE-MsgGUID: Vt4q1bbPR8i8WLGkg+R7Rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="62902935"
+X-CSE-ConnectionGUID: a/GRrvsUSm2A0+V/oibu+g==
+X-CSE-MsgGUID: mdUx0AoNQkSOkzpeUOpusA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="67834846"
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="62902935"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 19:00:28 -0700
-X-CSE-ConnectionGUID: ytxoQhGARcKwS9Aqf4Xx9g==
-X-CSE-MsgGUID: IkyjZkLTQkCFYVauWYYaHg==
+   d="scan'208";a="67834846"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 19:10:28 -0700
+X-CSE-ConnectionGUID: gTwHepnPQy+/87yJ/JnJNg==
+X-CSE-MsgGUID: /vCHT+ryR/ijaSKwWumzNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="132949289"
+   d="scan'208";a="128331273"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Apr 2025 19:00:26 -0700
+  by orviesa007.jf.intel.com with ESMTP; 06 Apr 2025 19:10:27 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1bmh-0002t1-2s;
-	Mon, 07 Apr 2025 02:00:23 +0000
-Date: Mon, 7 Apr 2025 09:59:48 +0800
+	id 1u1bwO-0002t9-1m;
+	Mon, 07 Apr 2025 02:10:24 +0000
+Date: Mon, 7 Apr 2025 10:10:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raju Rangoju <Raju.Rangoju@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>,
-	Krishnamoorthi M <krishnamoorthi.m@amd.com>,
-	Akshata MukundShetty <akshata.mukundshetty@amd.com>
-Subject: [broonie-ci:fileH5Eyqu 4/4] drivers/spi/spi-amd-pci.c:67:1: error:
- type specifier missing, defaults to 'int'; ISO C99 and later do not support
- implicit int
-Message-ID: <202504070929.jvWcx1T3-lkp@intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: sound/soc/soc-ops-test.c:520:1: warning: the frame size of 1304
+ bytes is larger than 1280 bytes
+Message-ID: <202504071003.NtmGvvqC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,35 +63,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileH5Eyqu
-head:   b644c2776652671256edcd7a8e71161e212b59ac
-commit: b644c2776652671256edcd7a8e71161e212b59ac [4/4] spi: spi_amd: Add PCI-based driver for AMD HID2 SPI controller
-config: hexagon-randconfig-002-20250407 (https://download.01.org/0day-ci/archive/20250407/202504070929.jvWcx1T3-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504070929.jvWcx1T3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0af2f6be1b4281385b618cb86ad946eded089ac8
+commit: 7a24b876ad8cdd56457e881d384a038922b508c3 ASoC: ops-test: Add some basic kunit tests for soc-ops
+date:   3 weeks ago
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250407/202504071003.NtmGvvqC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071003.NtmGvvqC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504070929.jvWcx1T3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504071003.NtmGvvqC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-amd-pci.c:67:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Werror,-Wimplicit-int]
-   module_pci_driver(amd_spi_pci_driver);
-   ^
-   int
-   drivers/spi/spi-amd-pci.c:67:19: error: a parameter list without types is only allowed in a function definition
-   module_pci_driver(amd_spi_pci_driver);
-                     ^
-   2 errors generated.
+   sound/soc/soc-ops-test.c: In function 'soc_ops_test_access':
+>> sound/soc/soc-ops-test.c:520:1: warning: the frame size of 1304 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     520 | }
+         | ^
 
 
-vim +/int +67 drivers/spi/spi-amd-pci.c
+vim +520 sound/soc/soc-ops-test.c
 
-    66	
-  > 67	module_pci_driver(amd_spi_pci_driver);
-    68	
+   475	
+   476	static void soc_ops_test_access(struct kunit *test)
+   477	{
+   478		struct soc_ops_test_priv *priv = test->priv;
+   479		const struct access_test_param *param = test->param_value;
+   480		struct snd_kcontrol kctl = {
+   481			.private_data = &priv->component,
+   482			.private_value = (unsigned long)&param->mc,
+   483		};
+   484		struct snd_ctl_elem_value result;
+   485		unsigned int val;
+   486		int ret;
+   487	
+   488		ret = regmap_write(priv->component.regmap, 0x0, param->init);
+   489		KUNIT_ASSERT_FALSE(test, ret);
+   490		ret = regmap_write(priv->component.regmap, 0x1, param->init);
+   491		KUNIT_ASSERT_FALSE(test, ret);
+   492	
+   493		result.value.integer.value[0] = param->lctl;
+   494		result.value.integer.value[1] = param->rctl;
+   495	
+   496		ret = param->put(&kctl, &result);
+   497		KUNIT_ASSERT_EQ(test, ret, param->ret);
+   498		if (ret < 0)
+   499			return;
+   500	
+   501		ret = regmap_read(priv->component.regmap, 0x0, &val);
+   502		KUNIT_ASSERT_FALSE(test, ret);
+   503		KUNIT_EXPECT_EQ(test, val, (param->init & ~param->lmask) | param->lreg);
+   504	
+   505		ret = regmap_read(priv->component.regmap, 0x1, &val);
+   506		KUNIT_ASSERT_FALSE(test, ret);
+   507		KUNIT_EXPECT_EQ(test, val, (param->init & ~param->rmask) | param->rreg);
+   508	
+   509		result.value.integer.value[0] = 0;
+   510		result.value.integer.value[1] = 0;
+   511	
+   512		ret = param->get(&kctl, &result);
+   513		KUNIT_ASSERT_GE(test, ret, 0);
+   514	
+   515		KUNIT_EXPECT_EQ(test, result.value.integer.value[0], param->lctl);
+   516		if (param->layout != SOC_OPS_TEST_SINGLE)
+   517			KUNIT_EXPECT_EQ(test, result.value.integer.value[1], param->rctl);
+   518		else
+   519			KUNIT_EXPECT_EQ(test, result.value.integer.value[1], 0);
+ > 520	}
+   521	
 
 -- 
 0-DAY CI Kernel Test Service
