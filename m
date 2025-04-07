@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9AA20C022
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 16:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4599C215063
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 17:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744043583; cv=none; b=PhwN3i9PlyyTm/VrzBVoMu5PAf0x/Fb1m4bu2F6KBzIgHnEqmf/4z6wvfE+oUX33EJaTK98ZTFP7ILSsdL47VKgviMqAT+4ZTwBdg4W1YyW47zQWbaFno7NPx2KoiAsaHYNOZXvz6KnpumJEoPM5M+FJm3f0xVWPzGQwmY02egQ=
+	t=1744046648; cv=none; b=Jv6Nu16HhQM2xfZYXTMH1A/4REVEJ5ay9g2ijUW7a/IENhrwXrkIfed73/nUcUaZIUA74byZbBKOyouOsu7mQzSe9Tc+ex4fYPuk6QU4AGY8TeVez1fZ7CUgU4lV9n41X/QM/okGSn6TWwqprBkOTwKtO+//4lXjbIpeYtXI/AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744043583; c=relaxed/simple;
-	bh=Qz6DeCIA20LRd/iH/nj9cMu5X0fbfswgaArV9AyhO4k=;
+	s=arc-20240116; t=1744046648; c=relaxed/simple;
+	bh=tZvb47P79GQZOoIX6zoBlzP2B5OndCJrDqRKPWkUtI0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HgzpFUHld4fNRcgj6UFtGLhMff0tc5V/TpPV4r45XbSKao6gNF+tcWWs+/AFWVJdupJykvjcOsoSypIOjUNqvsCCnzEbFYe+oRyTqJuZXpmPbDJey4cKt9jcUZNc8dU7JE6O30PEC/KaifJF1wgTHrEVID8LpQ+COcoBgznzd9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n02LsLp5; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=kakFKCaqT3YVvitgUQnEI1f4cB2JjB9rSjl3iv48TNHJ41Yy4TIXyVP7qSa5oheeUyOi9wD6sh5L2ure8Ypi8XDr36PcXK3x4YfZ757Ma1dOHd3kJKcfsh8MRoHePolkVGtAJFai5bjpQSmnYzk2Qeirg/EEVdO0/vtTvOrsemI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LCRPHBkY; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n02LsLp5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LCRPHBkY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744043582; x=1775579582;
+  t=1744046647; x=1775582647;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qz6DeCIA20LRd/iH/nj9cMu5X0fbfswgaArV9AyhO4k=;
-  b=n02LsLp55Wwa3SVJkxb4A6DL9NtEutZNHhxHxoOWamqMcdBjJX76TvyA
-   3J3zU6EmYC/ghRiQiOgnIUC8e9zLQQvbTt04UioqOR/qdjwqAaBIPO4fk
-   LViCrMtXTTfPvEfhJNKk4UZROQlv2M1I7Ff1t4+UP7X/YS53H60Df5Eis
-   q6JMYDySt7DY6pPIbArqdPXffhpms/NaPTbB7QEdSdc9ibtO8/zcjJS6k
-   P58LKmtB3gspVbESEaXR/CrVl/Ualz6v3O3rVeWjdat5Jo69VDaIi1Ejj
-   9+7sowjMxp+wHUclGT+10aFWwTQRHIJfEtFp+7q1iGnv8BbeTmENG8vwX
-   Q==;
-X-CSE-ConnectionGUID: 5Y5E6kl/TfyE93FniaSHqA==
-X-CSE-MsgGUID: hi2Ho+D/SNO6ICfRdW95mQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="62841538"
+  bh=tZvb47P79GQZOoIX6zoBlzP2B5OndCJrDqRKPWkUtI0=;
+  b=LCRPHBkY6PuPerkUnbK5+F3P2wRBYIiU9qXZ1HhmXI9hWYtE71CZUvZq
+   jHEWOi9wXlw4BwHflyOjwMNnVYj2E9ubewzEZw2JuZ8s6Yld/tWNie0S9
+   V4bgQjBCM6UOU0YlzmHcDUxj1g7b15faObRx0OO0QOj1J0zwaV3QKyVpC
+   wZmL/AJe3fqyFpG1kPfj9ezMbmMxS7u6A+WvpWxnP+JBx6dLMgwJRE6RA
+   bMDEPoNZ2kH+HlfbTa7Valh9m6d1MlsnqDN+wdnxQOLFah1tDkZTVZD2U
+   LnjaY8+WWjhoN5OtC679cz3OmGmtVByxj/zK1VLI80W3S9liFwDJJhdOc
+   A==;
+X-CSE-ConnectionGUID: BFLsZWRYS1OF3TaBleSREA==
+X-CSE-MsgGUID: jjI9UWORTQegV0hBQRcMPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="48157442"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="62841538"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 09:33:01 -0700
-X-CSE-ConnectionGUID: iQLQbc9QS0OQcxHPBsThog==
-X-CSE-MsgGUID: 7WNkOmCnTb6GYqX18IIZWQ==
+   d="scan'208";a="48157442"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 10:24:06 -0700
+X-CSE-ConnectionGUID: 59Aw+UhPR/Ob4eQzehYN8Q==
+X-CSE-MsgGUID: A2KjhwxARZGv39lkDulcig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="128009836"
+   d="scan'208";a="159010594"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Apr 2025 09:33:00 -0700
+  by orviesa002.jf.intel.com with ESMTP; 07 Apr 2025 10:24:06 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1pP7-0003bT-2v;
-	Mon, 07 Apr 2025 16:32:57 +0000
-Date: Tue, 8 Apr 2025 00:32:16 +0800
+	id 1u1qCY-0003e0-2g;
+	Mon, 07 Apr 2025 17:24:02 +0000
+Date: Tue, 8 Apr 2025 01:23:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
+To: Jyri Sarha <jyri.sarha@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:move-drivers 6/6]
- drivers/net/ethernet/mellanox/Kconfig:27: unexpected 'if' within menu block
-Message-ID: <202504080036.2a9QxEqu-lkp@intel.com>
+Subject: [jsarha:topology2_sched_domain_support 1/1]
+ sound/soc/sof/ipc4-topology.c:510:3: warning: pointer/integer type mismatch
+ in conditional expression ('unsigned int' and 'void *')
+Message-ID: <202504080147.AExWIzWG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +63,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git move-drivers
-head:   f7e3ecf7fcc8051bc46bde3b34874ad55243d493
-commit: f7e3ecf7fcc8051bc46bde3b34874ad55243d493 [6/6] drivers/lib: Move mlx5_core to dedicated place
-config: riscv-randconfig-001-20250407 (attached as .config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504080036.2a9QxEqu-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topology2_sched_domain_support
+head:   e7f2745320e2fae66eb1e6d7620062d5377b25b9
+commit: e7f2745320e2fae66eb1e6d7620062d5377b25b9 [1/1] ASoC: sof: ipc4-topology: Add support to sched_domain attribute
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250408/202504080147.AExWIzWG-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504080147.AExWIzWG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504080036.2a9QxEqu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504080147.AExWIzWG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/mellanox/Kconfig:27: unexpected 'if' within menu block
-   drivers/net/ethernet/Kconfig:206: 'if' in different file than 'if'
-   drivers/net/ethernet/mellanox/mlx5/core/Kconfig:6: location of the 'if'
-   drivers/net/Kconfig:648: 'if' in different file than 'if'
-   drivers/net/ethernet/mellanox/mlx5/core/Kconfig:6: location of the 'if'
->> drivers/Kconfig:252: unexpected 'menu' within if block
->> Kconfig:35: syntax error
->> drivers/Kconfig:2: missing end statement for this entry
-   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1 shuffle=412289413
-   make[2]: *** [Makefile:731: oldconfig] Error 2 shuffle=412289413
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=412289413
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=412289413
-   make: Target 'oldconfig' not remade because of errors.
---
->> drivers/net/ethernet/mellanox/Kconfig:27: unexpected 'if' within menu block
-   drivers/net/ethernet/Kconfig:206: 'if' in different file than 'if'
-   drivers/net/ethernet/mellanox/mlx5/core/Kconfig:6: location of the 'if'
-   drivers/net/Kconfig:648: 'if' in different file than 'if'
-   drivers/net/ethernet/mellanox/mlx5/core/Kconfig:6: location of the 'if'
->> drivers/Kconfig:252: unexpected 'menu' within if block
->> Kconfig:35: syntax error
->> drivers/Kconfig:2: missing end statement for this entry
-   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1 shuffle=412289413
-   make[2]: *** [Makefile:731: olddefconfig] Error 2 shuffle=412289413
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=412289413
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=412289413
-   make: Target 'olddefconfig' not remade because of errors.
+>> sound/soc/sof/ipc4-topology.c:510:3: warning: pointer/integer type mismatch in conditional expression ('unsigned int' and 'void *') [-Wconditional-type-mismatch]
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:2: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_index_wrap'
+     109 |                 dev_printk_index_emit(level, fmt);                      \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_index_emit'
+     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:468:2: note: expanded from macro 'printk_index_subsys_emit'
+     468 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:434:39: note: expanded from macro '__printk_index_emit'
+     434 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
+         |                                                                   ^ ~~~~~~   ~~~~
+   sound/soc/sof/ipc4-topology.c:510:11: error: incompatible pointer types passing 'char[18]' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:44: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                   ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   include/linux/dev_printk.h:50:36: note: passing argument to parameter 'dev' here
+      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
+         |                                    ^
+   sound/soc/sof/ipc4-topology.c:510:32: error: incompatible integer to pointer conversion passing 'enum sof_comp_domain' to parameter of type 'const char *' [-Wint-conversion]
+     510 |                 dev_err("Bad domain val %d", swidget->comp_domain);
+         |                                              ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:57: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ^~~
+   include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+      19 | #define dev_fmt(fmt) fmt
+         |                      ^~~
+   include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:50:53: note: passing argument to parameter 'fmt' here
+      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
+         |                                                     ^
+   1 warning and 2 errors generated.
 
 
-vim +/if +27 drivers/net/ethernet/mellanox/Kconfig
+vim +510 sound/soc/sof/ipc4-topology.c
 
-5a2cc190eb3fe5 Jeff Kirsher 2011-05-13  26  
-5a2cc190eb3fe5 Jeff Kirsher 2011-05-13 @27  endif # NET_VENDOR_MELLANOX
-
-:::::: The code at line 27 was first introduced by commit
-:::::: 5a2cc190eb3fe58fe519795c509b01b25795992e mlx4: Move the Mellanox driver
-
-:::::: TO: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+   482	
+   483	static int sof_ipc4_widget_setup_msg(struct snd_sof_widget *swidget, struct sof_ipc4_msg *msg)
+   484	{
+   485		struct sof_ipc4_fw_module *fw_module;
+   486		uint32_t type;
+   487		int ret;
+   488	
+   489		ret = sof_ipc4_widget_set_module_info(swidget);
+   490		if (ret)
+   491			return ret;
+   492	
+   493		fw_module = swidget->module_info;
+   494	
+   495		msg->primary = fw_module->man4_module_entry.id;
+   496		msg->primary |= SOF_IPC4_MSG_TYPE_SET(SOF_IPC4_MOD_INIT_INSTANCE);
+   497		msg->primary |= SOF_IPC4_MSG_DIR(SOF_IPC4_MSG_REQUEST);
+   498		msg->primary |= SOF_IPC4_MSG_TARGET(SOF_IPC4_MODULE_MSG);
+   499	
+   500		msg->extension = SOF_IPC4_MOD_EXT_CORE_ID(swidget->core);
+   501	
+   502		switch (swidget->comp_domain) {
+   503		case SOF_COMP_DOMAIN_LL:
+   504			type = 0;
+   505			break;
+   506		case SOF_COMP_DOMAIN_DP:
+   507			type = 1;
+   508			break;
+   509		default:
+ > 510			dev_err("Bad domain val %d", swidget->comp_domain);
+   511			/* fall through */
+   512		case SOF_COMP_DOMAIN_UNSET:
+   513			type = (fw_module->man4_module_entry.type & SOF_IPC4_MODULE_DP) ? 1 : 0;
+   514			break;
+   515		}
+   516		msg->extension |= SOF_IPC4_MOD_EXT_DOMAIN(type);
+   517	
+   518		return 0;
+   519	}
+   520	
 
 -- 
 0-DAY CI Kernel Test Service
