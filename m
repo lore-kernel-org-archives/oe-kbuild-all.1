@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E72D14B092
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 11:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DC522A7E4
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Apr 2025 11:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744025615; cv=none; b=f4w80FxJqy4XbNLvAahm7J21s1HvwE9tOOfBptHIpCM4UHfaCep6fWJ1xCvJh++1Is+RJ0UJzuFelbHLyL6kvYhFqlv8bEijtrhbtJcericArAgi0zCwWO1AWtJY/zmMuVixwfttyb1kPPU53RVLTI2edC5MrLH/Pv54w7U2NTk=
+	t=1744025617; cv=none; b=b3q6R3S8MCiyWazoUwzq+fVfRDXM0SuPSIe3nQnv++PU0tWBgUMkCisdjYm1/Js/vyySci42IYPy40V9xMP7wNFSFniW+XWEySYJ81WpBo3cedXGHDqBTeSUA6LqcCZe/Wd8Q6VobcyMXD/56HBbF38+Ut6aTnVvs3cLukaVLZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744025615; c=relaxed/simple;
-	bh=FYxiIEU2VLo1DmEYWG5f8SshPaSF1p4qN6/7e4Pp9g0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cWhyauSlKo3GVdgqb1TSYvIJippvEen0GFoDvV24i65E1M3u70H0MZyHnkwqKSFZXREF8rjM0hWJBjh9xA27AMn+0SQF9BQIRwPRDM7e8/AIB+thLNFPwcZlHxT/5A2rEfnjNhNxAmuf1epMaNvblDe2bcLmebJudOYuDUbZggs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+74kgKS; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1744025617; c=relaxed/simple;
+	bh=Q1eMsGD77kqSuzN8Pl36F2hS9uVTPWcv09IiLoIqkAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G344hSUtJ7ucJZkw010GncSMDUqI49r+LINGbXUVgAhkIsZKscrx0dgPHWIfGo0CX7Z3ym8YpuLcmUq0QrmA6GTCb8+dBdUXYRNcdboTMaQSOLJnHZMVnd8s3injEEdhv0vOpxT6dASldkH4DlQKkK47eKdbzlCbsqw8DTJRv94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWpEr2PI; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+74kgKS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWpEr2PI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744025614; x=1775561614;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FYxiIEU2VLo1DmEYWG5f8SshPaSF1p4qN6/7e4Pp9g0=;
-  b=X+74kgKSjN/CJHAjWYJowk0y5JqL2B3lHVEYvOnm+Z22i1b3lobGUSOF
-   IzuMCvkj/HL0z3l8hP2+hnxZVT0ivfIOTli/yaRnEEimER9Xig6l7tHwi
-   njj9xw28ijeqcW6LbLzTwnLYNtMLLU3rzIn/XEytI7G814oIe5RquWSIa
-   D3cr6+tafWENiZmD0myZXW7Fh3aqPvy2L9lJuPGZ49I/TQLH8WWNx0cAd
-   W4xWqV83hXBHjp+AbCoPYSWNEmJcZHrsUYHaIT9qAt9MwFP8VQUBnqKBQ
-   551SB/ZBZ9BCuOje1TwntziotbhamKj0ewDdA4IuyVYk1mJg2FrVsr0m9
-   w==;
-X-CSE-ConnectionGUID: hozcz6+9RG6CbjYwas3PeQ==
-X-CSE-MsgGUID: q7IQtEhsR/6CzDWfCSHVZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45296082"
+  t=1744025616; x=1775561616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q1eMsGD77kqSuzN8Pl36F2hS9uVTPWcv09IiLoIqkAE=;
+  b=YWpEr2PIHlwkAolsXZ4hDyP7dHUUdyCyAnSb1/lfsapCWWEzG7DTo0ss
+   f5vi8/VHUwMuQVnBeKU/SD2+cI+msQi1IkDNVXaBvqtU+bbjywEaqw7bX
+   Iwd29YHeaTIMXGSIg/Mx3ppsvsQLwNI1VTyA5gXzF1nGgi2M6tLMHU3ov
+   vjQf8dZboiHlR//XkO6rUueB0ZSbYj7EgWAXgTDSvVKVVeW4nvpQRlEFP
+   wYE7S3cV/vDB6WCvPdII9kZ5hnZeDmX6a7myFL8KLE1/z5Xvj0RiqqjbZ
+   rqKoxck37zTJEuAXAmvvXavklC4Cibj9n5nQTu0P171YT+fzNOsEOkpEy
+   g==;
+X-CSE-ConnectionGUID: SR8lOWHVQhex1qjeshAjAQ==
+X-CSE-MsgGUID: CaR1vmOXR4eE+DA8FKuMjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45296086"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="45296082"
+   d="scan'208";a="45296086"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 04:33:33 -0700
-X-CSE-ConnectionGUID: g0Om+OuXQnyGI0ugHpVowg==
-X-CSE-MsgGUID: bU/KWGk6QJ2+hseKZqW8dA==
+X-CSE-ConnectionGUID: 9oTHmomUTcStGqEGwEdmdg==
+X-CSE-MsgGUID: CmnV3hNEQcK7kLRdDpBDUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="127683950"
+   d="scan'208";a="127683970"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 07 Apr 2025 04:33:28 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1kjF-0003M5-0S;
+	id 1u1kjF-0003M3-0O;
 	Mon, 07 Apr 2025 11:33:25 +0000
-Date: Mon, 7 Apr 2025 19:32:48 +0800
+Date: Mon, 7 Apr 2025 19:32:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-2024-05 0/1]
- drivers/net/ethernet/litex/litex_liteeth.c:247:2-9: line 247 is redundant
- because platform_get_irq() already prints an error
-Message-ID: <202504071934.7aQnH1EO-lkp@intel.com>
+To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
+	david.m.ertman@intel.com, ira.weiny@intel.com, lee@kernel.org,
+	andriy.shevchenko@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Raag Jadav <raag.jadav@intel.com>
+Subject: Re: [PATCH v2] mfd: core: Support auxiliary device
+Message-ID: <202504071910.eL0mjen2-lkp@intel.com>
+References: <20250407074614.1665575-1-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,88 +65,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250407074614.1665575-1-raag.jadav@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15-2024-05
-head:   96ddb774d408960590543f104a10aba091d123d6
-commit: ee7da21ac4c3be1f618b6358e0a38739a5d1773e [0/1] net: Add driver for LiteX's LiteETH network interface
-config: i386-randconfig-052-20250403 (https://download.01.org/0day-ci/archive/20250407/202504071934.7aQnH1EO-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+Hi Raag,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on lee-mfd/for-mfd-next]
+[also build test ERROR on lee-mfd/for-mfd-fixes linus/master v6.15-rc1 next-20250407]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/mfd-core-Support-auxiliary-device/20250407-154807
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20250407074614.1665575-1-raag.jadav%40intel.com
+patch subject: [PATCH v2] mfd: core: Support auxiliary device
+config: arm-socfpga_defconfig (https://download.01.org/0day-ci/archive/20250407/202504071910.eL0mjen2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071910.eL0mjen2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504071934.7aQnH1EO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504071910.eL0mjen2-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/litex/litex_liteeth.c:247:2-9: line 247 is redundant because platform_get_irq() already prints an error
+All errors (new ones prefixed by >>):
 
-vim +247 drivers/net/ethernet/litex/litex_liteeth.c
+   arm-linux-gnueabi-ld: drivers/mfd/mfd-core.o: in function `mfd_add_auxiliary_device':
+>> drivers/mfd/mfd-core.c:209:(.text+0x360): undefined reference to `auxiliary_device_init'
+>> arm-linux-gnueabi-ld: drivers/mfd/mfd-core.c:213:(.text+0x3d0): undefined reference to `__auxiliary_device_add'
 
-   225	
-   226	static int liteeth_probe(struct platform_device *pdev)
-   227	{
-   228		struct net_device *netdev;
-   229		void __iomem *buf_base;
-   230		struct resource *res;
-   231		struct liteeth *priv;
-   232		int irq, err;
-   233	
-   234		netdev = devm_alloc_etherdev(&pdev->dev, sizeof(*priv));
-   235		if (!netdev)
-   236			return -ENOMEM;
-   237	
-   238		SET_NETDEV_DEV(netdev, &pdev->dev);
-   239		platform_set_drvdata(pdev, netdev);
-   240	
-   241		priv = netdev_priv(netdev);
-   242		priv->netdev = netdev;
-   243		priv->dev = &pdev->dev;
-   244	
-   245		irq = platform_get_irq(pdev, 0);
-   246		if (irq < 0) {
- > 247			dev_err(&pdev->dev, "Failed to get IRQ %d\n", irq);
-   248			return irq;
-   249		}
-   250		netdev->irq = irq;
-   251	
-   252		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mac");
-   253		priv->base = devm_ioremap_resource(&pdev->dev, res);
-   254		if (IS_ERR(priv->base))
-   255			return PTR_ERR(priv->base);
-   256	
-   257		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "buffer");
-   258		buf_base = devm_ioremap_resource(&pdev->dev, res);
-   259		if (IS_ERR(buf_base))
-   260			return PTR_ERR(buf_base);
-   261	
-   262		liteeth_setup_slots(priv);
-   263	
-   264		/* Rx slots */
-   265		priv->rx_base = buf_base;
-   266		priv->rx_slot = 0;
-   267	
-   268		/* Tx slots come after Rx slots */
-   269		priv->tx_base = buf_base + priv->num_rx_slots * priv->slot_size;
-   270		priv->tx_slot = 0;
-   271	
-   272		err = of_get_mac_address(pdev->dev.of_node, netdev->dev_addr);
-   273		if (err)
-   274			eth_hw_addr_random(netdev);
-   275	
-   276		netdev->netdev_ops = &liteeth_netdev_ops;
-   277	
-   278		err = register_netdev(netdev);
-   279		if (err) {
-   280			dev_err(&pdev->dev, "Failed to register netdev %d\n", err);
-   281			return err;
-   282		}
-   283	
-   284		netdev_info(netdev, "irq %d slots: tx %d rx %d size %d\n",
-   285			    netdev->irq, priv->num_tx_slots, priv->num_rx_slots, priv->slot_size);
-   286	
-   287		return 0;
-   288	}
-   289	
+
+vim +209 drivers/mfd/mfd-core.c
+
+   156	
+   157	static int mfd_add_auxiliary_device(struct device *parent, int id, const struct mfd_cell *cell,
+   158					    struct resource *mem_base, int irq_base,
+   159					    struct irq_domain *domain)
+   160	{
+   161		struct mfd_aux_device *mfd_aux;
+   162		struct auxiliary_device *auxdev;
+   163		int r, ret;
+   164	
+   165		mfd_aux = kzalloc(sizeof(*mfd_aux), GFP_KERNEL);
+   166		if (!mfd_aux)
+   167			return -ENOMEM;
+   168	
+   169		for (r = 0; r < cell->num_resources; r++) {
+   170			/* Find out base to use */
+   171			if ((cell->resources[r].flags & IORESOURCE_MEM) && mem_base) {
+   172				mfd_aux->mem.name = cell->resources[r].name;
+   173				mfd_aux->mem.flags = cell->resources[r].flags;
+   174	
+   175				mfd_aux->mem.parent = mem_base;
+   176				mfd_aux->mem.start = mem_base->start + cell->resources[r].start;
+   177				mfd_aux->mem.end = mem_base->start + cell->resources[r].end;
+   178			} else if (cell->resources[r].flags & IORESOURCE_IRQ) {
+   179				mfd_aux->irq.name = cell->resources[r].name;
+   180				mfd_aux->irq.flags = cell->resources[r].flags;
+   181	
+   182				if (domain) {
+   183					/* Unable to create mappings for IRQ ranges */
+   184					WARN_ON(cell->resources[r].start != cell->resources[r].end);
+   185					mfd_aux->irq.start = mfd_aux->irq.end = irq_create_mapping(
+   186							domain, cell->resources[r].start);
+   187				} else {
+   188					mfd_aux->irq.start = irq_base + cell->resources[r].start;
+   189					mfd_aux->irq.end = irq_base + cell->resources[r].end;
+   190				}
+   191			} else {
+   192				mfd_aux->ext.name = cell->resources[r].name;
+   193				mfd_aux->ext.flags = cell->resources[r].flags;
+   194				mfd_aux->ext.parent = cell->resources[r].parent;
+   195				mfd_aux->ext.start = cell->resources[r].start;
+   196				mfd_aux->ext.end = cell->resources[r].end;
+   197			}
+   198		}
+   199	
+   200		auxdev = &mfd_aux->auxdev;
+   201		auxdev->name = cell->name;
+   202		/* Use parent id for discoverable devices */
+   203		auxdev->id = dev_is_pci(parent) ? pci_dev_id(to_pci_dev(parent)) : cell->id;
+   204	
+   205		auxdev->dev.parent = parent;
+   206		auxdev->dev.type = &mfd_dev_type[MFD_AUX_DEV];
+   207		auxdev->dev.release = mfd_release_auxiliary_device;
+   208	
+ > 209		ret = auxiliary_device_init(auxdev);
+   210		if (ret)
+   211			goto fail_aux_init;
+   212	
+ > 213		ret = __auxiliary_device_add(auxdev, parent->driver->name);
+   214		if (ret)
+   215			goto fail_aux_add;
+   216	
+   217		return 0;
+   218	
+   219	fail_aux_add:
+   220		/* auxdev will be freed with the put_device() and .release sequence */
+   221		auxiliary_device_uninit(auxdev);
+   222	fail_aux_init:
+   223		kfree(mfd_aux);
+   224		return ret;
+   225	}
+   226	
 
 -- 
 0-DAY CI Kernel Test Service
