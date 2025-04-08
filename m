@@ -1,193 +1,302 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B897249F9;
-	Tue,  8 Apr 2025 02:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5181288CC;
+	Tue,  8 Apr 2025 02:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744080366; cv=none; b=nfFpi7Ar9tYxqAUiMt+QJngUgTuPut3mW1JCxWGUpPdd3fLvMQlZMj7rixHKBmlNz/aj0/FsAaAtBzADLotsHOkjqjoZIB5dOEZ+/SozKRGOVeKiuLsi/wi9spoPneLMrz5gbqPwF0/48DFoFWj2iy0xow1Avuo9qQWt1vOvTJU=
+	t=1744080555; cv=none; b=NhIHM6arJWOqd2NsR7SWiUE9JBIyHwuvUjRZ82sG+r7XTAoHfKyocN4TTI/fqmpzz24QZdKKb0iGni6qSGc2NK4s8xVJOXRBAJt9bzY2TTPVoiP7qwGc0I0lXIHZSXSh7G0klWlpdzniCh7OOSTGjG1YcSMTIvl3767p0wocnwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744080366; c=relaxed/simple;
-	bh=EJwspP7jB0NxkzeKqLfyaDNnRfd+oKg3DseSPP9tNLs=;
-	h=Subject:To:References:Cc:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=S8dTt3/SvUUNEN1AExrIKByhATnSJGzUA+x55MTlNLCUvcHZQa4AFJ+ZtsbKAnYZW+8x6h97a9KKFFHIFGfO+Sd8er6U4DorwUkvagwjwChVJsXuGRiHvEizCJdpnCKi6Ob53QpXdKwj/X2uvhT00Hg/PN+u5OT7oahkfR1G6CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [113.200.148.30])
-	by gateway (Coremail) with SMTP id _____8DxdWnkjfRnHdq0AA--.38958S3;
-	Tue, 08 Apr 2025 10:45:56 +0800 (CST)
-Received: from [10.130.0.149] (unknown [113.200.148.30])
-	by front1 (Coremail) with SMTP id qMiowMAxj8XfjfRnhCB0AA--.21383S3;
-	Tue, 08 Apr 2025 10:45:52 +0800 (CST)
-Subject: Re: [linux-next:master 12681/13861] drivers/i2c/i2c-core-base.o:
- warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0
- reg2[24]=-2-24
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-References: <202504011011.jyZ6NtXx-lkp@intel.com> <Z+ttzRArSBMqfABz@rli9-mobl>
- <xqfrt2rueezh3upug2umvuw2r44luoaxfqycnmvkh5sezaosw6@h77yjfio4ws6>
- <348cdb14-f8cf-1e7b-44b2-79dc4dda4e35@loongson.cn>
- <lcozyamcrcuff6a3pgly7sptluuj7ubzvy4na2vrus7hfmwmb6@zv7tooy3pmkh>
- <0cbe7ab8-bd87-b5f7-0513-07c82a7e76c9@loongson.cn>
- <bzy7cad37tafrbcmsstn355fpljxxmi25ifc4piihp6ln3ztxh@zp3c7ydsjmuq>
-Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>,
- Guenter Roeck <linux@roeck-us.net>, oe-kbuild-all@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Alessandro Carminati <acarmina@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-Message-ID: <5f830e7a-7cfa-3c62-ba3f-f93808e95821@loongson.cn>
-Date: Tue, 8 Apr 2025 10:45:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+	s=arc-20240116; t=1744080555; c=relaxed/simple;
+	bh=L/v7CecpC6BTmGaF7wHdxMqFWHXkCPsXe5K4czaw6IY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UAaexQM0056XaN+oGDnnaHfsS6APTMZ1dJCqpaafoOfPTuZIDFxzPhzDh45a1hOJmjll7YwkE8yardqwK8TsKY7TXCl8FrpFWnpWGX1lMdv57A9TN8WMoH80tgR/c+vP19DzM/kzGG3+xKeFDjJqJuRcZz7zUXBwGrhCvKFqC6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pzd29ZU1; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pzd29ZU1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744080553; x=1775616553;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L/v7CecpC6BTmGaF7wHdxMqFWHXkCPsXe5K4czaw6IY=;
+  b=Pzd29ZU1j+xldlp2+WTJbkyH4SMsJNe8kbj6zymnCV6CxV/QbgJFyFqT
+   AKr5naQU18je7LU++00sqWyyZI9La41Jl9feVwaIFxBrhwOwTXnOxCDXQ
+   Qr9rYgVxTHNz93DF8IpxJ+1n5NANtphp9sUStoyAXTy41Ulz/peFPHxEU
+   cnzA8Jyh4TI9kwGc9SMFVE/b8Q9it4laQluN+Iiu8ibPqL8ETYJ7wMgBF
+   ya5jdSdH5pjg5GbtU3ebeZlSszojd6RfTXa3PEwNnWfMhcaPaSW9xw1B7
+   NpduC//Y7Ju9/SkNqRHPeYRoSnyiG5TK4x7Ak0HNBB46pgIpK0zgeiuG/
+   g==;
+X-CSE-ConnectionGUID: KBCJiVrFRrGmbgcv+0Owag==
+X-CSE-MsgGUID: Zhf1au/iSRK6Qh2x+96N5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="67967873"
+X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
+   d="scan'208";a="67967873"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 19:49:13 -0700
+X-CSE-ConnectionGUID: Zt6bYxM7R4yHZPedmvcmEQ==
+X-CSE-MsgGUID: tedNJ8sHT0WQ4JQCmThVJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
+   d="scan'208";a="127886676"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 07 Apr 2025 19:49:10 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u1z1P-00042Z-21;
+	Tue, 08 Apr 2025 02:49:07 +0000
+Date: Tue, 8 Apr 2025 10:48:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aditya Kumar Singh <aditya.kumar.singh@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jeff Johnson <jjohnson@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+	ath12k@lists.infradead.org,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Rajat Soni <quic_rajson@quicinc.com>,
+	Raj Kumar Bhagat <quic_rajkbhag@quicinc.com>
+Subject: [ath:ath12k-split-phy 63/169]
+ drivers/net/wireless/ath/ath12k/reg.c:245:13: warning: variable 'freq_low'
+ is used uninitialized whenever 'if' condition is false
+Message-ID: <202504081054.5RQgJOIZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <bzy7cad37tafrbcmsstn355fpljxxmi25ifc4piihp6ln3ztxh@zp3c7ydsjmuq>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:qMiowMAxj8XfjfRnhCB0AA--.21383S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxZw4rur4UAF47tw4rCr4UGFX_yoWrAr18pF
-	s2v3WkJa1kJr4vyr9rXF4fXF15ArsrGw1Uu34fWFyUAa1Yqr97XF95tr45ZFZYgwsrAry0
-	qrZ5CrnaqF90ywcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	GcCE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
-	x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
-	McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
-	I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
-	JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
-	v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
-	67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
-	IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
-	Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8q2NtUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 04/08/2025 09:23 AM, Josh Poimboeuf wrote:
-> On Mon, Apr 07, 2025 at 06:52:10PM +0800, Tiezhu Yang wrote:
->> There is a potential execution path with only using s0 and ra
->> (without using s1, s2, s3, etc): 2d58-->2d70-->2f88-->2e78-->2e84
->
-> [...]
->
->> From this point of view, it seems that there is no problem for the
->> generated instructions of the current code, it is not a runtime bug,
->> just a GCC optimization.
->
-> I don't see how this is responsive to my email.
->
-> I described a code path which revealed a GCC bug, specifically with asm
-> goto (unless I got something wrong).  Then you responded with a
-> *completely different* code path.
->
-> How does that prove my original code path isn't possible?
->
-> To summarize, the path I found was
->
->   2d58 ... 2d9c -> 2da8 .. 2dc4 -> 2ebc .. 2ec0 (runtime patched static branch) -> 2e78 .. 2e84 (ret)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-split-phy
+head:   31d82c3b3b8782ff326a188f2ae78d3d9f333448
+commit: 6ca04f359a7046dac7b96fc29808568513406aea [63/169] wifi: ath12k: Update frequency range if reg rules changes
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250408/202504081054.5RQgJOIZ-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081054.5RQgJOIZ-lkp@intel.com/reproduce)
 
-Sorry, you are right, I misunderstood.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504081054.5RQgJOIZ-lkp@intel.com/
 
->> (2) Analysis
->>
->> In fact, the generated objtool warning is because the break instruction
->> (2ee8) which is before the restoring s1 instruction (2eec) is annotated
->> as dead end.
->
-> Actually, it's the opposite.  Objtool would normally consider BREAK to
-> be a dead end.  But it's annotated as "reachable", aka "non dead end".
->
->> This issue is introduced by the following changes:
->>
->>  #define __WARN_FLAGS(flags)					\
->>  do {								\
->>  	instrumentation_begin();				\
->> -	__BUG_FLAGS(BUGFLAG_WARNING|(flags), ANNOTATE_REACHABLE(10001b));\
->> +	if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))			\
->> +		__BUG_FLAGS(BUGFLAG_WARNING|(flags), ANNOTATE_REACHABLE(10001b));\
->>  	instrumentation_end();					\
->>  } while (0)
->>
->> of commit e61a8b4b0d83 ("loongarch: add support for suppressing warning
->> backtraces") in the linux-next.git.
->
-> Putting that annotation behind a conditional should not break anything.
+All warnings (new ones prefixed by >>):
 
-OK, got it.
+   In file included from drivers/net/wireless/ath/ath12k/reg.c:6:
+   In file included from include/linux/rtnetlink.h:7:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/ath/ath12k/reg.c:245:13: warning: variable 'freq_low' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     245 |         } else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:250:35: note: uninitialized use occurs here
+     250 |         ath12k_mac_update_freq_range(ar, freq_low, freq_high);
+         |                                          ^~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:245:9: note: remove the 'if' if its condition is always true
+     245 |         } else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/ath/ath12k/reg.c:245:13: warning: variable 'freq_low' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+     245 |         } else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:250:35: note: uninitialized use occurs here
+     250 |         ath12k_mac_update_freq_range(ar, freq_low, freq_high);
+         |                                          ^~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:245:13: note: remove the '&&' if its condition is always true
+     245 |         } else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:211:22: note: initialize the variable 'freq_low' to silence this warning
+     211 |         u32 phy_id, freq_low, freq_high, supported_bands, band;
+         |                             ^
+         |                              = 0
+>> drivers/net/wireless/ath/ath12k/reg.c:245:13: warning: variable 'freq_high' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     245 |         } else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:250:45: note: uninitialized use occurs here
+     250 |         ath12k_mac_update_freq_range(ar, freq_low, freq_high);
+         |                                                    ^~~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:245:9: note: remove the 'if' if its condition is always true
+     245 |         } else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/ath/ath12k/reg.c:245:13: warning: variable 'freq_high' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+     245 |         } else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:250:45: note: uninitialized use occurs here
+     250 |         ath12k_mac_update_freq_range(ar, freq_low, freq_high);
+         |                                                    ^~~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:245:13: note: remove the '&&' if its condition is always true
+     245 |         } else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath12k/reg.c:211:33: note: initialize the variable 'freq_high' to silence this warning
+     211 |         u32 phy_id, freq_low, freq_high, supported_bands, band;
+         |                                        ^
+         |                                         = 0
+   7 warnings generated.
 
->> (4) Solution 1
->> One way is to annotate __BUG_ENTRY() as reachable whether
->> KUNIT_IS_SUPPRESSED_WARNING() is true or false, like this:
->>
->> ---8<---
->> diff --git a/arch/loongarch/include/asm/bug.h
->> b/arch/loongarch/include/asm/bug.h
->> index b79ff6696ce6..e41ebeaba204 100644
->> --- a/arch/loongarch/include/asm/bug.h
->> +++ b/arch/loongarch/include/asm/bug.h
->> @@ -60,8 +60,9 @@
->>  #define __WARN_FLAGS(flags)                                    \
->>  do {                                                           \
->>         instrumentation_begin();                                \
->> -       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))                     \
->> -               __BUG_FLAGS(BUGFLAG_WARNING|(flags),
->> ANNOTATE_REACHABLE(10001b));\
->> +       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))             \
->> +               __BUG_FLAGS(BUGFLAG_WARNING|(flags), "");       \
->> +       __BUG_FLAGS(0, ANNOTATE_REACHABLE(10001b));             \
->>         instrumentation_end();                                  \
->>  } while (0)
->
-> Huh?  That's basically:
->
-> 	if (!suppress_warning)
-> 		WARN();
-> 	BUG();
->
-> So it upgrades a conditional WARN to an unconditional BUG???
->
-> Not to mention the reachable annotations are backwards: the WARN() is
-> annotated as dead end while the BUG() is annotated reachable.
->
-> Even if that silences objtool somehow, it will most definitely have the
-> wrong runtime behavior.
 
-Yes, my original analysis seems wrong.
+vim +245 drivers/net/wireless/ath/ath12k/reg.c
 
->> (5) Solution 2
->> The other way is to use "-fno-shrink-wrap" to aovid such issue under
->> CONFIG_OBJTOOL at compile-time, like this:
->
-> As far as I can tell, that would be a workaround to get objtool to stop
-> warning about a legitimate compiler bug.
+   207	
+   208	int ath12k_regd_update(struct ath12k *ar, bool init)
+   209	{
+   210		struct ath12k_wmi_hal_reg_capabilities_ext_arg *reg_cap;
+   211		u32 phy_id, freq_low, freq_high, supported_bands, band;
+   212		struct ath12k_hw *ah = ath12k_ar_to_ah(ar);
+   213		struct ieee80211_hw *hw = ah->hw;
+   214		struct ieee80211_regdomain *regd, *regd_copy = NULL;
+   215		int ret, regd_len, pdev_id;
+   216		struct ath12k_base *ab;
+   217		int i;
+   218	
+   219		ab = ar->ab;
+   220	
+   221		supported_bands = ar->pdev->cap.supported_bands;
+   222		if (supported_bands & WMI_HOST_WLAN_2GHZ_CAP)
+   223			band = NL80211_BAND_2GHZ;
+   224		else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && !ar->supports_6ghz)
+   225			band = NL80211_BAND_5GHZ;
+   226		else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz)
+   227			band = NL80211_BAND_6GHZ;
+   228	
+   229		reg_cap = &ab->hal_reg_cap[ar->pdev_idx];
+   230	
+   231		if (ab->hw_params->single_pdev_only && !ar->supports_6ghz) {
+   232			phy_id = ar->pdev->cap.band[band].phy_id;
+   233			reg_cap = &ab->hal_reg_cap[phy_id];
+   234		}
+   235	
+   236		/* Possible that due to reg change, current limits for supported
+   237		 * frequency changed. Update that
+   238		 */
+   239		if (supported_bands & WMI_HOST_WLAN_2GHZ_CAP) {
+   240			freq_low = max(reg_cap->low_2ghz_chan, ab->reg_freq_2ghz.start_freq);
+   241			freq_high = min(reg_cap->high_2ghz_chan, ab->reg_freq_2ghz.end_freq);
+   242		} else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && !ar->supports_6ghz) {
+   243			freq_low = max(reg_cap->low_5ghz_chan, ab->reg_freq_5ghz.start_freq);
+   244			freq_high = min(reg_cap->high_5ghz_chan, ab->reg_freq_5ghz.end_freq);
+ > 245		} else if (supported_bands & WMI_HOST_WLAN_5GHZ_CAP && ar->supports_6ghz) {
+   246			freq_low = max(reg_cap->low_5ghz_chan, ab->reg_freq_6ghz.start_freq);
+   247			freq_high = min(reg_cap->high_5ghz_chan, ab->reg_freq_6ghz.end_freq);
+   248		}
+   249	
+   250		ath12k_mac_update_freq_range(ar, freq_low, freq_high);
+   251	
+   252		ath12k_dbg(ab, ATH12K_DBG_REG, "pdev %u reg updated freq limits %u->%u MHz\n",
+   253			   ar->pdev->pdev_id, freq_low,
+   254			   freq_high);
+   255	
+   256		/* If one of the radios within ah has already updated the regd for
+   257		 * the wiphy, then avoid setting regd again
+   258		 */
+   259		if (ah->regd_updated)
+   260			return 0;
+   261	
+   262		/* firmware provides reg rules which are similar for 2 GHz and 5 GHz
+   263		 * pdev but 6 GHz pdev has superset of all rules including rules for
+   264		 * all bands, we prefer 6 GHz pdev's rules to be used for setup of
+   265		 * the wiphy regd.
+   266		 * If 6 GHz pdev was part of the ath12k_hw, wait for the 6 GHz pdev,
+   267		 * else pick the first pdev which calls this function and use its
+   268		 * regd to update global hw regd.
+   269		 * The regd_updated flag set at the end will not allow any further
+   270		 * updates.
+   271		 */
+   272		if (ah->use_6ghz_regd && !ar->supports_6ghz)
+   273			return 0;
+   274	
+   275		pdev_id = ar->pdev_idx;
+   276	
+   277		spin_lock_bh(&ab->base_lock);
+   278	
+   279		if (init) {
+   280			/* Apply the regd received during init through
+   281			 * WMI_REG_CHAN_LIST_CC event. In case of failure to
+   282			 * receive the regd, initialize with a default world
+   283			 * regulatory.
+   284			 */
+   285			if (ab->default_regd[pdev_id]) {
+   286				regd = ab->default_regd[pdev_id];
+   287			} else {
+   288				ath12k_warn(ab,
+   289					    "failed to receive default regd during init\n");
+   290				regd = (struct ieee80211_regdomain *)&ath12k_world_regd;
+   291			}
+   292		} else {
+   293			regd = ab->new_regd[pdev_id];
+   294		}
+   295	
+   296		if (!regd) {
+   297			ret = -EINVAL;
+   298			spin_unlock_bh(&ab->base_lock);
+   299			goto err;
+   300		}
+   301	
+   302		regd_len = sizeof(*regd) + (regd->n_reg_rules *
+   303			sizeof(struct ieee80211_reg_rule));
+   304	
+   305		regd_copy = kzalloc(regd_len, GFP_ATOMIC);
+   306		if (regd_copy)
+   307			ath12k_copy_regd(regd, regd_copy);
+   308	
+   309		spin_unlock_bh(&ab->base_lock);
+   310	
+   311		if (!regd_copy) {
+   312			ret = -ENOMEM;
+   313			goto err;
+   314		}
+   315	
+   316		rtnl_lock();
+   317		wiphy_lock(hw->wiphy);
+   318		ret = regulatory_set_wiphy_regd_sync(hw->wiphy, regd_copy);
+   319		wiphy_unlock(hw->wiphy);
+   320		rtnl_unlock();
+   321	
+   322		kfree(regd_copy);
+   323	
+   324		if (ret)
+   325			goto err;
+   326	
+   327		if (ah->state != ATH12K_HW_STATE_ON)
+   328			goto skip;
+   329	
+   330		ah->regd_updated = true;
+   331		/* Apply the new regd to all the radios, this is expected to be received only once
+   332		 * since we check for ah->regd_updated and allow here only once.
+   333		 */
+   334		for_each_ar(ah, ar, i) {
+   335			ab = ar->ab;
+   336			ret = ath12k_reg_update_chan_list(ar);
+   337			if (ret)
+   338				goto err;
+   339		}
+   340	skip:
+   341		return 0;
+   342	err:
+   343		ath12k_warn(ab, "failed to perform regd update : %d\n", ret);
+   344		return ret;
+   345	}
+   346	
 
-So this is a run-time bug rather than a compile-time warning, it should
-put the option "-fno-shrink-wrap" outside CONFIG_OBJTOOL in
-arch/loongarch/Makefile as a workaround, like this:
-
-diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-index 0304eabbe606..98241e3015fb 100644
---- a/arch/loongarch/Makefile
-+++ b/arch/loongarch/Makefile
-@@ -108,6 +108,8 @@ KBUILD_CFLAGS                       += 
--fno-jump-tables # keep compatibility with older compilers
-  endif
-  endif
-
-+KBUILD_CFLAGS                  += -fno-shrink-wrap
-+
-  KBUILD_RUSTFLAGS               += 
---target=loongarch64-unknown-none-softfloat -Ccode-model=small
-  KBUILD_RUSTFLAGS_KERNEL                += 
--Zdirect-access-external-data=yes
-  KBUILD_RUSTFLAGS_MODULE                += -Zdirect-access-external-data=no
-
-Thanks,
-Tiezhu
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
