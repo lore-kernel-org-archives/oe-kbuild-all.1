@@ -1,162 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E844199237
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Apr 2025 02:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B897249F9;
+	Tue,  8 Apr 2025 02:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744079772; cv=none; b=J9DSBn42s9KPT+7F9Fy69O9QLbasN8dFn2jkwKSU89q3/tbIx8diPDQr754Wwp5FaYltWl1FpYU6+mbu99ti7rpFx2vTh3nKG65kbNArSTTWr0W0FtMDBO/cIrcHybzee4+XIzQKhcEQy612o25JafVLvZBpij0P+k2d79GwzAw=
+	t=1744080366; cv=none; b=nfFpi7Ar9tYxqAUiMt+QJngUgTuPut3mW1JCxWGUpPdd3fLvMQlZMj7rixHKBmlNz/aj0/FsAaAtBzADLotsHOkjqjoZIB5dOEZ+/SozKRGOVeKiuLsi/wi9spoPneLMrz5gbqPwF0/48DFoFWj2iy0xow1Avuo9qQWt1vOvTJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744079772; c=relaxed/simple;
-	bh=bYGEueQYT5xih9HxXx4qIjH7YK+u9DYDBj59GWWzXYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kCMn305MxGAlhbf0d6j+3HHCxjpZXgtkny7Th4o1BOHrL6//cMzFk//iAVB2v2/EOpVgQuKcbniL2jXmEd5yus8N8tBrVNB9wSVE2HsAV2Sv56fAdtWhqauYfBCulCCbhwduoif9VC5crc2gSWGQ9zd4nNu2wY19UFZWC66ul9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ejr9TdS/; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ejr9TdS/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744079771; x=1775615771;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bYGEueQYT5xih9HxXx4qIjH7YK+u9DYDBj59GWWzXYU=;
-  b=Ejr9TdS/P2SQFkxOuv9q9yDeskedDXXcb/HNz99FM/pSYDvfVAWF/Bt6
-   Vs+Bs5Dcdlj/MjzEwKGdTiquGIk+i2qNF1aImSxBjhk34beAWaNfdJ3J6
-   oaw8yJMulVbJrh69TyUl85zvb0RzMwmEVvTZnI3B/cxdS+lXfjnyuuoG/
-   +KJOoCtM/s5kWBGNgJNbuo5hdOOt04vQ+mWyS74UmEqxdlijQQKHX4EPI
-   1drCPSobINLxTgJdMiUSFNfkj0oIo0hP8kC688UbNCziC4G4pCq813X0f
-   kD4aEKOSF1K4HIdIOK50NJGlHBrKVIIsV+xOkqFc/lPOlTrin4nDgtmh5
-   g==;
-X-CSE-ConnectionGUID: n7mqIxlmToOL2EJQg23ApA==
-X-CSE-MsgGUID: EHz2+ATGT+6C5SxuscOQqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="70869196"
-X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
-   d="scan'208";a="70869196"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 19:36:10 -0700
-X-CSE-ConnectionGUID: jj/6RRQDTLGSg/xTH8riig==
-X-CSE-MsgGUID: ZeL+ib/jS36miQex5qGh/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
-   d="scan'208";a="127885145"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Apr 2025 19:36:08 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u1yoo-00041v-1b;
-	Tue, 08 Apr 2025 02:36:06 +0000
-Date: Tue, 8 Apr 2025 10:36:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1334/1334] kernel/hung_task.c:148:7:
- error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
-Message-ID: <202504081025.oeT4D3sO-lkp@intel.com>
+	s=arc-20240116; t=1744080366; c=relaxed/simple;
+	bh=EJwspP7jB0NxkzeKqLfyaDNnRfd+oKg3DseSPP9tNLs=;
+	h=Subject:To:References:Cc:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=S8dTt3/SvUUNEN1AExrIKByhATnSJGzUA+x55MTlNLCUvcHZQa4AFJ+ZtsbKAnYZW+8x6h97a9KKFFHIFGfO+Sd8er6U4DorwUkvagwjwChVJsXuGRiHvEizCJdpnCKi6Ob53QpXdKwj/X2uvhT00Hg/PN+u5OT7oahkfR1G6CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8DxdWnkjfRnHdq0AA--.38958S3;
+	Tue, 08 Apr 2025 10:45:56 +0800 (CST)
+Received: from [10.130.0.149] (unknown [113.200.148.30])
+	by front1 (Coremail) with SMTP id qMiowMAxj8XfjfRnhCB0AA--.21383S3;
+	Tue, 08 Apr 2025 10:45:52 +0800 (CST)
+Subject: Re: [linux-next:master 12681/13861] drivers/i2c/i2c-core-base.o:
+ warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0
+ reg2[24]=-2-24
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+References: <202504011011.jyZ6NtXx-lkp@intel.com> <Z+ttzRArSBMqfABz@rli9-mobl>
+ <xqfrt2rueezh3upug2umvuw2r44luoaxfqycnmvkh5sezaosw6@h77yjfio4ws6>
+ <348cdb14-f8cf-1e7b-44b2-79dc4dda4e35@loongson.cn>
+ <lcozyamcrcuff6a3pgly7sptluuj7ubzvy4na2vrus7hfmwmb6@zv7tooy3pmkh>
+ <0cbe7ab8-bd87-b5f7-0513-07c82a7e76c9@loongson.cn>
+ <bzy7cad37tafrbcmsstn355fpljxxmi25ifc4piihp6ln3ztxh@zp3c7ydsjmuq>
+Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>,
+ Guenter Roeck <linux@roeck-us.net>, oe-kbuild-all@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Alessandro Carminati <acarmina@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <5f830e7a-7cfa-3c62-ba3f-f93808e95821@loongson.cn>
+Date: Tue, 8 Apr 2025 10:45:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <bzy7cad37tafrbcmsstn355fpljxxmi25ifc4piihp6ln3ztxh@zp3c7ydsjmuq>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:qMiowMAxj8XfjfRnhCB0AA--.21383S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxZw4rur4UAF47tw4rCr4UGFX_yoWrAr18pF
+	s2v3WkJa1kJr4vyr9rXF4fXF15ArsrGw1Uu34fWFyUAa1Yqr97XF95tr45ZFZYgwsrAry0
+	qrZ5CrnaqF90ywcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	GcCE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+	x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
+	McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+	I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+	JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
+	v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
+	67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
+	IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
+	Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8q2NtUUUUU==
 
-Hi Guilherme,
+On 04/08/2025 09:23 AM, Josh Poimboeuf wrote:
+> On Mon, Apr 07, 2025 at 06:52:10PM +0800, Tiezhu Yang wrote:
+>> There is a potential execution path with only using s0 and ra
+>> (without using s1, s2, s3, etc): 2d58-->2d70-->2f88-->2e78-->2e84
+>
+> [...]
+>
+>> From this point of view, it seems that there is no problem for the
+>> generated instructions of the current code, it is not a runtime bug,
+>> just a GCC optimization.
+>
+> I don't see how this is responsive to my email.
+>
+> I described a code path which revealed a GCC bug, specifically with asm
+> goto (unless I got something wrong).  Then you responded with a
+> *completely different* code path.
+>
+> How does that prove my original code path isn't possible?
+>
+> To summarize, the path I found was
+>
+>   2d58 ... 2d9c -> 2da8 .. 2dc4 -> 2ebc .. 2ec0 (runtime patched static branch) -> 2e78 .. 2e84 (ret)
 
-FYI, the error/warning still remains.
+Sorry, you are right, I misunderstood.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3191c9e4e7c581bfe0a40ee198ffcbd5c3dea53e
-commit: 190aae97bcddbed131a203f829257b168f5058ce [1334/1334] kernel/hung_task.c: introduce sysctl to print all traces when a hung task is detected
-config: x86_64-randconfig-103-20241218 (https://download.01.org/0day-ci/archive/20250408/202504081025.oeT4D3sO-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081025.oeT4D3sO-lkp@intel.com/reproduce)
+>> (2) Analysis
+>>
+>> In fact, the generated objtool warning is because the break instruction
+>> (2ee8) which is before the restoring s1 instruction (2eec) is annotated
+>> as dead end.
+>
+> Actually, it's the opposite.  Objtool would normally consider BREAK to
+> be a dead end.  But it's annotated as "reachable", aka "non dead end".
+>
+>> This issue is introduced by the following changes:
+>>
+>>  #define __WARN_FLAGS(flags)					\
+>>  do {								\
+>>  	instrumentation_begin();				\
+>> -	__BUG_FLAGS(BUGFLAG_WARNING|(flags), ANNOTATE_REACHABLE(10001b));\
+>> +	if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))			\
+>> +		__BUG_FLAGS(BUGFLAG_WARNING|(flags), ANNOTATE_REACHABLE(10001b));\
+>>  	instrumentation_end();					\
+>>  } while (0)
+>>
+>> of commit e61a8b4b0d83 ("loongarch: add support for suppressing warning
+>> backtraces") in the linux-next.git.
+>
+> Putting that annotation behind a conditional should not break anything.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504081025.oeT4D3sO-lkp@intel.com/
+OK, got it.
 
-All errors (new ones prefixed by >>):
+>> (4) Solution 1
+>> One way is to annotate __BUG_ENTRY() as reachable whether
+>> KUNIT_IS_SUPPRESSED_WARNING() is true or false, like this:
+>>
+>> ---8<---
+>> diff --git a/arch/loongarch/include/asm/bug.h
+>> b/arch/loongarch/include/asm/bug.h
+>> index b79ff6696ce6..e41ebeaba204 100644
+>> --- a/arch/loongarch/include/asm/bug.h
+>> +++ b/arch/loongarch/include/asm/bug.h
+>> @@ -60,8 +60,9 @@
+>>  #define __WARN_FLAGS(flags)                                    \
+>>  do {                                                           \
+>>         instrumentation_begin();                                \
+>> -       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))                     \
+>> -               __BUG_FLAGS(BUGFLAG_WARNING|(flags),
+>> ANNOTATE_REACHABLE(10001b));\
+>> +       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))             \
+>> +               __BUG_FLAGS(BUGFLAG_WARNING|(flags), "");       \
+>> +       __BUG_FLAGS(0, ANNOTATE_REACHABLE(10001b));             \
+>>         instrumentation_end();                                  \
+>>  } while (0)
+>
+> Huh?  That's basically:
+>
+> 	if (!suppress_warning)
+> 		WARN();
+> 	BUG();
+>
+> So it upgrades a conditional WARN to an unconditional BUG???
+>
+> Not to mention the reachable annotations are backwards: the WARN() is
+> annotated as dead end while the BUG() is annotated reachable.
+>
+> Even if that silences objtool somehow, it will most definitely have the
+> wrong runtime behavior.
 
->> kernel/hung_task.c:148:7: error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
-     148 |                 if (sysctl_hung_task_all_cpu_backtrace)
-         |                     ^
-   kernel/hung_task.c:235:5: warning: no previous prototype for function 'proc_dohung_task_timeout_secs' [-Wmissing-prototypes]
-     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
-         |     ^
-   kernel/hung_task.c:235:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
-         | ^
-         | static 
-   1 warning and 1 error generated.
+Yes, my original analysis seems wrong.
 
+>> (5) Solution 2
+>> The other way is to use "-fno-shrink-wrap" to aovid such issue under
+>> CONFIG_OBJTOOL at compile-time, like this:
+>
+> As far as I can tell, that would be a workaround to get objtool to stop
+> warning about a legitimate compiler bug.
 
-vim +/sysctl_hung_task_all_cpu_backtrace +148 kernel/hung_task.c
+So this is a run-time bug rather than a compile-time warning, it should
+put the option "-fno-shrink-wrap" outside CONFIG_OBJTOOL in
+arch/loongarch/Makefile as a workaround, like this:
 
-    94	
-    95	static void check_hung_task(struct task_struct *t, unsigned long timeout)
-    96	{
-    97		unsigned long switch_count = t->nvcsw + t->nivcsw;
-    98	
-    99		/*
-   100		 * Ensure the task is not frozen.
-   101		 * Also, skip vfork and any other user process that freezer should skip.
-   102		 */
-   103		if (unlikely(t->flags & (PF_FROZEN | PF_FREEZER_SKIP)))
-   104		    return;
-   105	
-   106		/*
-   107		 * When a freshly created task is scheduled once, changes its state to
-   108		 * TASK_UNINTERRUPTIBLE without having ever been switched out once, it
-   109		 * musn't be checked.
-   110		 */
-   111		if (unlikely(!switch_count))
-   112			return;
-   113	
-   114		if (switch_count != t->last_switch_count) {
-   115			t->last_switch_count = switch_count;
-   116			t->last_switch_time = jiffies;
-   117			return;
-   118		}
-   119		if (time_is_after_jiffies(t->last_switch_time + timeout * HZ))
-   120			return;
-   121	
-   122		trace_sched_process_hang(t);
-   123	
-   124		if (sysctl_hung_task_panic) {
-   125			console_verbose();
-   126			hung_task_show_lock = true;
-   127			hung_task_call_panic = true;
-   128		}
-   129	
-   130		/*
-   131		 * Ok, the task did not get scheduled for more than 2 minutes,
-   132		 * complain:
-   133		 */
-   134		if (sysctl_hung_task_warnings) {
-   135			if (sysctl_hung_task_warnings > 0)
-   136				sysctl_hung_task_warnings--;
-   137			pr_err("INFO: task %s:%d blocked for more than %ld seconds.\n",
-   138				t->comm, t->pid, timeout);
-   139			pr_err("      %s %s %.*s\n",
-   140				print_tainted(), init_utsname()->release,
-   141				(int)strcspn(init_utsname()->version, " "),
-   142				init_utsname()->version);
-   143			pr_err("\"echo 0 > /proc/sys/kernel/hung_task_timeout_secs\""
-   144				" disables this message.\n");
-   145			sched_show_task(t);
-   146			hung_task_show_lock = true;
-   147	
- > 148			if (sysctl_hung_task_all_cpu_backtrace)
-   149				hung_task_show_all_bt = true;
-   150		}
-   151	
-   152		touch_nmi_watchdog();
-   153	}
-   154	
+diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
+index 0304eabbe606..98241e3015fb 100644
+--- a/arch/loongarch/Makefile
++++ b/arch/loongarch/Makefile
+@@ -108,6 +108,8 @@ KBUILD_CFLAGS                       += 
+-fno-jump-tables # keep compatibility with older compilers
+  endif
+  endif
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
++KBUILD_CFLAGS                  += -fno-shrink-wrap
++
+  KBUILD_RUSTFLAGS               += 
+--target=loongarch64-unknown-none-softfloat -Ccode-model=small
+  KBUILD_RUSTFLAGS_KERNEL                += 
+-Zdirect-access-external-data=yes
+  KBUILD_RUSTFLAGS_MODULE                += -Zdirect-access-external-data=no
+
+Thanks,
+Tiezhu
+
