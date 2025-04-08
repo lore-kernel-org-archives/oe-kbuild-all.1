@@ -1,123 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E4E17A30C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Apr 2025 01:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1A22C1A2;
+	Tue,  8 Apr 2025 01:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744075145; cv=none; b=NQhqTICvfkIuKWyyNp3AnQLj5GIcXTQ7FQ7sFDeVHZs1z2bXVeXIHOpWkgZV4/Z+0ia7ecTfFY/QkSRwsUsADfiQkXX/NA7Pjk1HR3quyUkiof6Gornhb/H4XYuB3jHjR4An1jjykBgEnqR3XLiYYhZg7h/2qLQN+ZszbdZqw58=
+	t=1744075409; cv=none; b=kDgSlF8gjBhj/BF2mUtBWNxA4C8kiU/ubfBtb/t1UAJ/60mfE0GvO4VnRxj8bq/Q4CtE+zjsh0G+0ZHp+v4xljCVXc0zcZS1SYHcHz0hZmJl+oL4rC3SNS0MeBRSE1203vowsRF78rh0kK1N76lpMlg6tWLvbBib1mdIR8e10WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744075145; c=relaxed/simple;
-	bh=VSkeGd5PncgxVjARyO1AavA2/8kZvt6nM30o6o8hmGQ=;
+	s=arc-20240116; t=1744075409; c=relaxed/simple;
+	bh=84fDVGkUTdJUTtSMGNxjTm2lp64cSjhR44AJkaIZClM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VwDMLAyJbfhy8CJ8/IxnSneYqiJLNklaU0qeD09J41+xWHnijbpjn8MlGA2WAIpBSroJVjt7Jhn0eOhSaxQ9quT9+qO54lTZHqK8i3oIm6TqM9KjUn2BxOvhX5rRrxeQ4ggctjQkcrigf8H4h6Mez3yvuMxqz/x9JOJJW3lSk/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moBlTtLi; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=meCjm7+KgW2BhnYXGL6Dk9/3HxNxNFKM5brbrgvKzCDie+xPkcxZpNbLfUehCeCeh2A7K5hOmm1pEOat4PhhK4aNT7wC3+zt/JbAaGnUgmzH/MBo2RQjZr5wlFapZW3GX7UEK8kQkw+yOhvaNTclnbQ7IdMZsOjOEBVPoT8CKfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q0yuj3CX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moBlTtLi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744075143; x=1775611143;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VSkeGd5PncgxVjARyO1AavA2/8kZvt6nM30o6o8hmGQ=;
-  b=moBlTtLiVnqPefzqeIB79D3T5CYbqnwTplS99G4Mk8sIK3H/J48xNQiW
-   CU67aQ6bmj7TmK1TyUoF6NbLf90dS1a1BXX8nk04qqN4teUGszxc1Ctdh
-   QztB4zO4W8Kae+hHxrWXq9aMJ8FT7akUBGCYLxn9chfeGj1COPKFZCkJe
-   dAQGbcCNbZ5WPFFT77EjRdTr6pe2M0/wcUnhdI1Y7gewEXbR2xai2t1Fx
-   TOor/BF5eFjmfXgPLmUI4SDepqLCml7gLagTBL0KgTI7o6m8buy2O4woR
-   EsmNwox9Sit99nX7w3O2W0fo7DVMQNEx0fRg8FD6gygyocUj5BAJ+Y4n8
-   Q==;
-X-CSE-ConnectionGUID: YEN2yTj4TXOL0OzGJiS10Q==
-X-CSE-MsgGUID: UZwXRMlyTKOSldTE+eAEsA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44633271"
-X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
-   d="scan'208";a="44633271"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 18:19:02 -0700
-X-CSE-ConnectionGUID: EaTb4HsKRsWnO+emHoT0pw==
-X-CSE-MsgGUID: QnH/JVTfQqOKqzGwswK6tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
-   d="scan'208";a="132837744"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Apr 2025 18:19:00 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u1xc9-0003xj-2a;
-	Tue, 08 Apr 2025 01:18:57 +0000
-Date: Tue, 8 Apr 2025 09:18:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Karol Kolacinski <karol.kolacinski@intel.com>,
-	Grzegorz Nitka <grzegorz.nitka@intel.com>,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Sergey Temerkhanov <sergey.temerkhanov@intel.com>
-Subject: Re: [PATCH iwl-net v2] ice: use DSN instead of PCI BDF for
- ice_adapter index
-Message-ID: <202504080803.VFV0rtz6-lkp@intel.com>
-References: <20250407112005.85468-1-przemyslaw.kitszel@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q0yuj3CX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5B0EC4CEDD;
+	Tue,  8 Apr 2025 01:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744075408;
+	bh=84fDVGkUTdJUTtSMGNxjTm2lp64cSjhR44AJkaIZClM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q0yuj3CXbsGBJDNquyi9xGT7PWLUg6Y+4Q0thl7hHk34amRW7RJeRPi4zHfN8zZDd
+	 ZG3xlqKO0SRlIkQFDoKBppvkRM5uR7JPP/cu1tEgVlmjFftT3mLQmRwibEzKHe9W90
+	 MPJnaUG9KvLZHBgWl83z2uhGvKRN/H5rAUUqa59mJOn9N4T+M7TJoQqvwa0+YKgeMU
+	 UVxPdgktpgYceD15hp3fmVsMxUBHSdu7d/1PM5GhAKX6rpF9bzAlll89L/rArnyU+b
+	 LbHvcubwJ8Iv2yrWtYdApu6hLdScRuB3tmXX9S8JnP5DE+nzfvzmjUxdswjkTnFrdX
+	 ZUyH+CM/sj/1w==
+Date: Mon, 7 Apr 2025 18:23:25 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>, 
+	Guenter Roeck <linux@roeck-us.net>, oe-kbuild-all@lists.linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Alessandro Carminati <acarmina@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
+Subject: Re: [linux-next:master 12681/13861] drivers/i2c/i2c-core-base.o:
+ warning: objtool: __i2c_transfer+0x120: stack state mismatch: reg1[24]=-1+0
+ reg2[24]=-2-24
+Message-ID: <bzy7cad37tafrbcmsstn355fpljxxmi25ifc4piihp6ln3ztxh@zp3c7ydsjmuq>
+References: <202504011011.jyZ6NtXx-lkp@intel.com>
+ <Z+ttzRArSBMqfABz@rli9-mobl>
+ <xqfrt2rueezh3upug2umvuw2r44luoaxfqycnmvkh5sezaosw6@h77yjfio4ws6>
+ <348cdb14-f8cf-1e7b-44b2-79dc4dda4e35@loongson.cn>
+ <lcozyamcrcuff6a3pgly7sptluuj7ubzvy4na2vrus7hfmwmb6@zv7tooy3pmkh>
+ <0cbe7ab8-bd87-b5f7-0513-07c82a7e76c9@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250407112005.85468-1-przemyslaw.kitszel@intel.com>
+In-Reply-To: <0cbe7ab8-bd87-b5f7-0513-07c82a7e76c9@loongson.cn>
 
-Hi Przemek,
+On Mon, Apr 07, 2025 at 06:52:10PM +0800, Tiezhu Yang wrote:
+> There is a potential execution path with only using s0 and ra
+> (without using s1, s2, s3, etc): 2d58-->2d70-->2f88-->2e78-->2e84
 
-kernel test robot noticed the following build errors:
+[...]
 
-[auto build test ERROR on tnguy-net-queue/dev-queue]
+> From this point of view, it seems that there is no problem for the
+> generated instructions of the current code, it is not a runtime bug,
+> just a GCC optimization.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Przemek-Kitszel/ice-use-DSN-instead-of-PCI-BDF-for-ice_adapter-index/20250407-192849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20250407112005.85468-1-przemyslaw.kitszel%40intel.com
-patch subject: [PATCH iwl-net v2] ice: use DSN instead of PCI BDF for ice_adapter index
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250408/202504080803.VFV0rtz6-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504080803.VFV0rtz6-lkp@intel.com/reproduce)
+I don't see how this is responsive to my email.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504080803.VFV0rtz6-lkp@intel.com/
+I described a code path which revealed a GCC bug, specifically with asm
+goto (unless I got something wrong).  Then you responded with a
+*completely different* code path.
 
-All errors (new ones prefixed by >>):
+How does that prove my original code path isn't possible?
 
-   drivers/net/ethernet/intel/ice/ice_adapter.c: In function 'ice_adapter_index':
->> drivers/net/ethernet/intel/ice/ice_adapter.c:21:27: error: expected expression before 'u32'
-      21 |         return (u32)dsn ^ u32(dsn >> 32);
-         |                           ^~~
-   drivers/net/ethernet/intel/ice/ice_adapter.c:23:1: warning: control reaches end of non-void function [-Wreturn-type]
-      23 | }
-         | ^
+To summarize, the path I found was
 
+  2d58 ... 2d9c -> 2da8 .. 2dc4 -> 2ebc .. 2ec0 (runtime patched static branch) -> 2e78 .. 2e84 (ret)
 
-vim +/u32 +21 drivers/net/ethernet/intel/ice/ice_adapter.c
+> (2) Analysis
+> 
+> In fact, the generated objtool warning is because the break instruction
+> (2ee8) which is before the restoring s1 instruction (2eec) is annotated
+> as dead end.
 
-    15	
-    16	static unsigned long ice_adapter_index(u64 dsn)
-    17	{
-    18	#if BITS_PER_LONG == 64
-    19		return dsn;
-    20	#else
-  > 21		return (u32)dsn ^ u32(dsn >> 32);
-    22	#endif
-    23	}
-    24	
+Actually, it's the opposite.  Objtool would normally consider BREAK to
+be a dead end.  But it's annotated as "reachable", aka "non dead end".
+
+> This issue is introduced by the following changes:
+> 
+>  #define __WARN_FLAGS(flags)					\
+>  do {								\
+>  	instrumentation_begin();				\
+> -	__BUG_FLAGS(BUGFLAG_WARNING|(flags), ANNOTATE_REACHABLE(10001b));\
+> +	if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))			\
+> +		__BUG_FLAGS(BUGFLAG_WARNING|(flags), ANNOTATE_REACHABLE(10001b));\
+>  	instrumentation_end();					\
+>  } while (0)
+> 
+> of commit e61a8b4b0d83 ("loongarch: add support for suppressing warning
+> backtraces") in the linux-next.git.
+
+Putting that annotation behind a conditional should not break anything.
+
+> (4) Solution 1
+> One way is to annotate __BUG_ENTRY() as reachable whether
+> KUNIT_IS_SUPPRESSED_WARNING() is true or false, like this:
+> 
+> ---8<---
+> diff --git a/arch/loongarch/include/asm/bug.h
+> b/arch/loongarch/include/asm/bug.h
+> index b79ff6696ce6..e41ebeaba204 100644
+> --- a/arch/loongarch/include/asm/bug.h
+> +++ b/arch/loongarch/include/asm/bug.h
+> @@ -60,8 +60,9 @@
+>  #define __WARN_FLAGS(flags)                                    \
+>  do {                                                           \
+>         instrumentation_begin();                                \
+> -       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))                     \
+> -               __BUG_FLAGS(BUGFLAG_WARNING|(flags),
+> ANNOTATE_REACHABLE(10001b));\
+> +       if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))             \
+> +               __BUG_FLAGS(BUGFLAG_WARNING|(flags), "");       \
+> +       __BUG_FLAGS(0, ANNOTATE_REACHABLE(10001b));             \
+>         instrumentation_end();                                  \
+>  } while (0)
+
+Huh?  That's basically:
+
+	if (!suppress_warning)
+		WARN();
+	BUG();
+
+So it upgrades a conditional WARN to an unconditional BUG???
+
+Not to mention the reachable annotations are backwards: the WARN() is
+annotated as dead end while the BUG() is annotated reachable.
+
+Even if that silences objtool somehow, it will most definitely have the
+wrong runtime behavior.
+
+> (5) Solution 2
+> The other way is to use "-fno-shrink-wrap" to aovid such issue under
+> CONFIG_OBJTOOL at compile-time, like this:
+
+As far as I can tell, that would be a workaround to get objtool to stop
+warning about a legitimate compiler bug.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Josh
