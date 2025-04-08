@@ -1,58 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950F21C84AD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Apr 2025 05:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1963120B213;
+	Tue,  8 Apr 2025 05:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744089633; cv=none; b=mHjVVAq7sVm2vaVog9CBujKnLuaaFjq73toUxbfTvc0h0jTLRB2+W4xIRAcwBTEcml2WYTYW1MGB0OAycJ8R5Htfp7Z8T6381Tw1LuQ8W+oGZX9ApzmqHHlDn1Ef2lFz4/2vlOs1Qeq+TKvaVJY0CR2TpJjzDxWr0w57ZAWLxI8=
+	t=1744089636; cv=none; b=coT2uW8Wtp73kZyQW4WHelF39H8m5sXXk/ChXU9cio9fT4y/qB5oGkBrDOPg1XAEWeWlVXDzIag9CQ9WiQy9pwQiy8sPdV9DNnsKa2Rm77Jb+Sy3FarTjouTLNtSTF0WkkUWHKwA6ygmpzCe7BQLimpJwwyooYRbizT6qChXq68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744089633; c=relaxed/simple;
-	bh=fneD9PlFjfo7wngQWWCxfmo9VeI8t0CCa+ODHT6XNHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UpWg6VaD283Rw62v4Svc41lVpDmjN9DWL4HCaSdH3m+ul/VBOQe29i6t9KTO0naVIElgX8PXjsi6dpPGraz/TfykJH4dQjG/J01h2VdBy3xvgi9HfjNKlzKhV3gPhCwNNJZ/IhLgQOVONk/cRFSHkOqP5kcgYwpECzATZP1YaYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FekTJ9Wg; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1744089636; c=relaxed/simple;
+	bh=/0DCSkYs9FK7HPj8e3N5ePHpwmEPO47Lc4S2mr9GGEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lbX27jdIMod2Ofg748lu6aCUpCb8UdH1vmEjQexbUVN6n75LloYWUBRtHP+Lbf6ImawB4MdQvBVzh5yDU+g+evbXNVq4W0NlYoAXsXdvYMLQuT3mNKlStlVnpxoCNsaLCg98HaHLDqCOLhE4NZ866kTVPalQtAoyBhpg4UBKhU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LdfJGqAB; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FekTJ9Wg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LdfJGqAB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744089631; x=1775625631;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fneD9PlFjfo7wngQWWCxfmo9VeI8t0CCa+ODHT6XNHg=;
-  b=FekTJ9Wg/LNAoEYpVOsIPVq61/5KR2T5PEqop3uApZdtYVx1KN9cveSq
-   c13Xk1n0+vxyqVll71HLZDtAEngK/DBgvFLhCxHGr6bDWjMnGGWac6RQ2
-   Xu+1JERBWFnxIWRsjvrPu6gYTy2XtWBqMvvRFFRRsXsa8QYVdBpc8U3la
-   ZUPtG012VRiZp9zwF6n3yV9+6gIQt7VskVosneRtf8egbRCDO6wKATC2I
-   8D04OerPkhvleggnSI1YkOtqKvOA/HtCtJ+dd8RoBzEmMkYCx9DaHuCJ9
-   d2fXxKesrtGiL44zOX2RbV1NmFW/5P/Z2IcJWYcHLlW2OP2T1MkRnLzOi
-   A==;
-X-CSE-ConnectionGUID: VCb9+C6iQSaf3rIGZ/E41Q==
-X-CSE-MsgGUID: IPwczMQySDiNFS05sZ0vPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45390082"
+  t=1744089634; x=1775625634;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/0DCSkYs9FK7HPj8e3N5ePHpwmEPO47Lc4S2mr9GGEg=;
+  b=LdfJGqABURF1NHFqUtmvkBFnjiqpOUdX27uWW1O0JQ+bQCtGWX3T8Dsk
+   4Uj0zrQB+fgET80wFyELEUEGMO+2rYACa5pR+YJnBFb2ozbg2YFoa+Cvl
+   J0aLxg/qnEIdDbFZGcKJ8prkSJhRMJaHAmbhaR1yyKmLdz3fTELfz+7Og
+   MpGISKQ9QqSbRapIb5p2cpa2EFtsOjv7f3vMdmdES8UKoAWkLtMaExhfE
+   bkME6HyYuF8tebDgWYC59RltMYKp3fLlAu4NR3LAd/bNG0TLax26FodRu
+   PGZS9Nrf1UxW3x60ffYCM9+AxGeKS3hE4ml6ILzV000XkThZwtnn3Xs1+
+   g==;
+X-CSE-ConnectionGUID: wuAISHkjTACwv1qYwMNcBQ==
+X-CSE-MsgGUID: K0MgoY+fQmaXDmtM/S1beg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45390089"
 X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="45390082"
+   d="scan'208";a="45390089"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 22:20:31 -0700
-X-CSE-ConnectionGUID: Q5d05hk4SJan5k+M6fldtQ==
-X-CSE-MsgGUID: k/sjrDh+QCCgipyOgSYLmg==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 22:20:34 -0700
+X-CSE-ConnectionGUID: z7YBI9LvRBmLdFYHNnA0RA==
+X-CSE-MsgGUID: oDg5vx6gTu2Rw5dbJx4vng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="151343971"
+   d="scan'208";a="151343970"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 07 Apr 2025 22:20:30 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u21Ns-00048b-0g;
+	id 1u21Ns-00048Z-0a;
 	Tue, 08 Apr 2025 05:20:28 +0000
-Date: Tue, 8 Apr 2025 13:19:42 +0800
+Date: Tue, 8 Apr 2025 13:19:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 9/9] mm/memory.c:3334: warning:
- Excess function parameter 'start' description in 'unmap_mapping_zeropages'
-Message-ID: <202504081336.JPTxlaDM-lkp@intel.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>, Jianhua Lu <lujianhua000@gmail.com>,
+	Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
+Subject: Re: [PATCH 4/4] backlight: ktz8866: add definitions to make it more
+ readable
+Message-ID: <202504081215.rL4DExNA-lkp@intel.com>
+References: <20250407095119.588920-5-mitltlatltl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,56 +71,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250407095119.588920-5-mitltlatltl@gmail.com>
 
-Hi Kaihao,
+Hi Pengyu,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   c55bd07f747cd457f58e5781279fa11a5fc0add1
-commit: 09797fd32d329b879a57e99f74d83d5704511ea4 [9/9] anolis: mm: add switch for file zero page
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250408/202504081336.JPTxlaDM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081336.JPTxlaDM-lkp@intel.com/reproduce)
+[auto build test ERROR on lee-backlight/for-backlight-next]
+[also build test ERROR on lee-leds/for-leds-next lee-backlight/for-backlight-fixes linus/master v6.15-rc1 next-20250407]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pengyu-Luo/dt-bindings-backlight-kinetic-ktz8866-add-ktz8866-slave-compatible/20250407-175635
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20250407095119.588920-5-mitltlatltl%40gmail.com
+patch subject: [PATCH 4/4] backlight: ktz8866: add definitions to make it more readable
+config: riscv-randconfig-002-20250408 (https://download.01.org/0day-ci/archive/20250408/202504081215.rL4DExNA-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081215.rL4DExNA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504081336.JPTxlaDM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504081215.rL4DExNA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/memory.c:3334: warning: Excess function parameter 'start' description in 'unmap_mapping_zeropages'
->> mm/memory.c:3334: warning: Excess function parameter 'nr' description in 'unmap_mapping_zeropages'
+   drivers/video/backlight/ktz8866.c:77:32: error: incompatible pointer types passing 'unsigned int **' to parameter of type 'unsigned int *'; remove & [-Werror,-Wincompatible-pointer-types]
+      77 |         regmap_read(ktz->regmap, reg, &val);
+         |                                       ^~~~
+   include/linux/regmap.h:1297:69: note: passing argument to parameter 'val' here
+    1297 | int regmap_read(struct regmap *map, unsigned int reg, unsigned int *val);
+         |                                                                     ^
+>> drivers/video/backlight/ktz8866.c:112:66: error: expected ')'
+     112 |         ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
+         |                                                                         ^
+   drivers/video/backlight/ktz8866.c:112:15: note: to match this '('
+     112 |         ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
+         |                      ^
+   drivers/video/backlight/ktz8866.c:113:67: error: expected ')'
+     113 |         ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
+         |                                                                          ^
+   drivers/video/backlight/ktz8866.c:113:15: note: to match this '('
+     113 |         ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
+         |                      ^
+   drivers/video/backlight/ktz8866.c:136:13: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+     136 |                 if (!(val && CURRENT_SINKS_MASK))
+         |                           ^  ~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/ktz8866.c:136:13: note: use '&' for a bitwise operation
+     136 |                 if (!(val && CURRENT_SINKS_MASK))
+         |                           ^~
+         |                           &
+   drivers/video/backlight/ktz8866.c:136:13: note: remove constant to silence this warning
+     136 |                 if (!(val && CURRENT_SINKS_MASK))
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   1 warning and 3 errors generated.
 
 
-vim +3334 mm/memory.c
+vim +112 drivers/video/backlight/ktz8866.c
 
-  3323	
-  3324	/**
-  3325	 * unmap_mapping_zeropages() - Unmap zeropages from processes.
-  3326	 * @mapping: The address space containing pages to be unmapped.
-  3327	 * @start: Index of first page to be unmapped.
-  3328	 * @nr: Number of pages to be unmapped.  0 to unmap to end of file.
-  3329	 *
-  3330	 * Unmap the zero pages in this address space from any userspace process which
-  3331	 * has them mmaped.
-  3332	 */
-  3333	void unmap_mapping_zeropages(struct address_space *mapping)
-> 3334	{
-  3335		struct zap_details details = { };
-  3336	
-  3337		details.check_mapping = mapping;
-  3338		details.first_index = 0;
-  3339		details.last_index = ULONG_MAX;
-  3340		details.flags = ZAP_ZEROPAGE;
-  3341	
-  3342		i_mmap_lock_write(mapping);
-  3343		if (unlikely(!RB_EMPTY_ROOT(&mapping->i_mmap.rb_root)))
-  3344			unmap_mapping_range_tree(&mapping->i_mmap, &details);
-  3345		i_mmap_unlock_write(mapping);
-  3346	}
-  3347	
+    97	
+    98	static int ktz8866_backlight_update_status(struct backlight_device *backlight_dev)
+    99	{
+   100		struct ktz8866 *ktz = bl_get_data(backlight_dev);
+   101		unsigned int brightness = backlight_get_brightness(backlight_dev);
+   102	
+   103		if (!ktz->led_on && brightness > 0) {
+   104			ktz8866_update_bits(ktz, BL_EN, BL_EN_BIT, BL_EN_BIT);
+   105			ktz->led_on = true;
+   106		} else if (brightness == 0) {
+   107			ktz8866_update_bits(ktz, BL_EN, BL_EN_BIT, 0);
+   108			ktz->led_on = false;
+   109		}
+   110	
+   111		/* Set brightness */
+ > 112		ktz8866_write(ktz, BL_BRT_LSB, FIELD_GET(LOWER_BYTE, brightness);
+   113		ktz8866_write(ktz, BL_BRT_MSB, FIELD_GET(HIGHER_BYTE, brightness);
+   114	
+   115		return 0;
+   116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
