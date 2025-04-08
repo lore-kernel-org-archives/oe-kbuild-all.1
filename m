@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9CC10E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Apr 2025 09:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F23264A71
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Apr 2025 09:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744103770; cv=none; b=WoWIAiwoP7/JFPyPet+BIEd/7oneFQl2Mcpx9SWxa8tuJiyckusjI+k04fGF+oYafSAiEneSKA0vLUHM9qrKCwX07Car4bcfagewRDFY94lN9yW+E4+krzod3osAI1E+xQAIodvHnkJBDbzzke4y/4c7u2x/swWB272EF9HZ2tk=
+	t=1744103775; cv=none; b=eg8QvLpeFW3sIVMfvEitwUNtNpK09KpXW5Q8cOdcNa5ypib1CLmoX9NkABx1WTATw9DqPYA43Vb3aq9DSpi5PF7TvTbIbcwmJF+Rk5Iy8aaHi8H3ndqlVS6Rl03c0fHHVlGAlwuE0C7HDEuTGowDeAoXFNMTU9lninFTAjLuYB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744103770; c=relaxed/simple;
-	bh=jRmJ+xd3pfzsNTkyDdRFsKck3UDwIayhCeA/Lkyttfc=;
+	s=arc-20240116; t=1744103775; c=relaxed/simple;
+	bh=CRbXwnQ48TrwJqcVJJME91vVPABwpKwJgJg0mSwwus4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ffqxHJxjZK0Jg0ug2cI6BreBQIULvqO1/AsEftEaSqKLcORlx5Uczk/Vt1sJUjFplVhJpwXY/UPT+8PggDLur+hZ9Hv8fFkN3W5mL7blBgz3uCcqIjRBefpguH2ydsEo04OcstzwYB1Z8HJ8oTUVYFMIdJKfmDoXSy8qZtQWMRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvYRBGhk; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=RJkD1jsgDC1yoG5+QliKUm9BUw+4HIx0iChrmgDbFlT1r8ED/MqVlHHMt2lxAVaHvl6d1NhtoGcNuogsyGwDKgLSSjToWEIrtQSaNmw6y5MaTc8KZsWmNpvQsRVOcZS53ocMCsVrUY/kTxDi8dS1d/Kvj0j53WMhwc7LdmQ7xfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4qQenWQ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvYRBGhk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4qQenWQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744103769; x=1775639769;
+  t=1744103773; x=1775639773;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jRmJ+xd3pfzsNTkyDdRFsKck3UDwIayhCeA/Lkyttfc=;
-  b=jvYRBGhk/o1IwHwCh3A6FArMdGLgmytqYtG+H5GDGGcj6TUJH/B/ISGB
-   2CMVKyw7J+duT2yk0KvZL4ugfpy2WPUdnscuSCsT3/8elSgxgqs/VOESW
-   v5aSnD9dsXjosoQ7eHSoKXOSG4O+zmbn58g8Q2G+0y52SLnFt4z3ZS0BF
-   OtXeiDC0gH98F2IdyRRgZdjD4pMCT57skjMXCS34uCn385O92uENnMHyy
-   8eHqC6PbqhssSYymc8788SGp35mmb2/cEJoAGfeCro2VPWdZQBj4v3qhs
-   PKKBgPKNODY1msofxl3DeCHBD0pxGeStcg3tl4/Og5ehmQ+uNsKgt6bl4
+  bh=CRbXwnQ48TrwJqcVJJME91vVPABwpKwJgJg0mSwwus4=;
+  b=K4qQenWQcB7WQPAw4VF0cHsbHFJTI+5s+Ga6DGoLLiBVw/o1IQPgFZnc
+   PgRSxbAXi7nm13uqCIuLHzzbuZ04Hy6fXVdqaYCiCkft+Ic+HLdf+B2hI
+   Tb5SeIAMjyG9xB6Xj1AW9vsIW65igR7APbdCYOCAKv8v1BPRq3p9zbuVp
+   cTvf2G42LcOXrdILfzWEOBcZHYB1vU+yk5c3ADekFLqdUySBD9GfzPIq6
+   iKyAtGxlWAbcTT9C/bx85IJlqG1QHhnkXOhNZ8pHY1DPaN6YXszF+c/wW
+   WBXfb5Yvl3QKy3iJTIHFRvAJQCOFe5zOqRhBuzap9zIqCfuGejNBhv/NF
    g==;
-X-CSE-ConnectionGUID: a3MkgdOdQcWUlbfdrYssJg==
-X-CSE-MsgGUID: 8RdCjll5SuyqQhJ27bj6EQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44666677"
+X-CSE-ConnectionGUID: PHb7z//vTtSSzh9ujRMmNA==
+X-CSE-MsgGUID: Hm22XUf0TuOEHn8v8ytHwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45240291"
 X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="44666677"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:16:08 -0700
-X-CSE-ConnectionGUID: ddpoY6BcQkKdN0zb35NnVQ==
-X-CSE-MsgGUID: t5ymSg++RUC9lpusYBMNdg==
+   d="scan'208";a="45240291"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:16:12 -0700
+X-CSE-ConnectionGUID: 5yJKTg6zTmiB0chIbNvsfA==
+X-CSE-MsgGUID: ZuQu/4CxRy6lavA/+TN66w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="128204877"
+   d="scan'208";a="159201561"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Apr 2025 02:16:06 -0700
+  by orviesa002.jf.intel.com with ESMTP; 08 Apr 2025 02:16:09 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u253s-0004NJ-2l;
+	id 1u253s-0004NG-2U;
 	Tue, 08 Apr 2025 09:16:04 +0000
-Date: Tue, 8 Apr 2025 17:15:34 +0800
+Date: Tue, 8 Apr 2025 17:15:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neil@brown.name>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Subject: [linux-next:master 1231/1936] fs/kernfs/mount.c:258:57: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202504081746.zMqyeksR-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 9/9] mm/memory.c:5965:15: warning:
+ unused variable 'pmd'
+Message-ID: <202504081759.bcVX84ca-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,97 +62,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7702d0130dc002bab2c3571ddb6ff68f82d99aea
-commit: 973256a7be6ed574f242995c15a8aa80cc0cc566 [1231/1936] VFS: rename lookup_one_len family to lookup_noperm and remove permission check
-config: arc-randconfig-r121-20250408 (https://download.01.org/0day-ci/archive/20250408/202504081746.zMqyeksR-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250408/202504081746.zMqyeksR-lkp@intel.com/reproduce)
+Hi Xu,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   c55bd07f747cd457f58e5781279fa11a5fc0add1
+commit: bd617fc27c23d34e76440e74b3834c287b878d07 [9/9] anolis: mm: support fast reflink
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250408/202504081759.bcVX84ca-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081759.bcVX84ca-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504081746.zMqyeksR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504081759.bcVX84ca-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/kernfs/mount.c:258:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char const [noderef] __rcu *name @@
-   fs/kernfs/mount.c:258:57: sparse:     expected char const *
-   fs/kernfs/mount.c:258:57: sparse:     got char const [noderef] __rcu *name
->> fs/kernfs/mount.c:258:57: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned char const *name @@     got char const [noderef] __rcu *name @@
-   fs/kernfs/mount.c:258:57: sparse:     expected unsigned char const *name
-   fs/kernfs/mount.c:258:57: sparse:     got char const [noderef] __rcu *name
+All warnings (new ones prefixed by >>):
 
-vim +258 fs/kernfs/mount.c
+   mm/memory.c: In function 'fr_apply_vma':
+>> mm/memory.c:5965:15: warning: unused variable 'pmd' [-Wunused-variable]
+    5965 |         pmd_t pmd;
+         |               ^~~
 
-   199	
-   200	/**
-   201	 * kernfs_node_dentry - get a dentry for the given kernfs_node
-   202	 * @kn: kernfs_node for which a dentry is needed
-   203	 * @sb: the kernfs super_block
-   204	 *
-   205	 * Return: the dentry pointer
-   206	 */
-   207	struct dentry *kernfs_node_dentry(struct kernfs_node *kn,
-   208					  struct super_block *sb)
-   209	{
-   210		struct dentry *dentry;
-   211		struct kernfs_node *knparent;
-   212		struct kernfs_root *root;
-   213	
-   214		BUG_ON(sb->s_op != &kernfs_sops);
-   215	
-   216		dentry = dget(sb->s_root);
-   217	
-   218		/* Check if this is the root kernfs_node */
-   219		if (!rcu_access_pointer(kn->__parent))
-   220			return dentry;
-   221	
-   222		root = kernfs_root(kn);
-   223		/*
-   224		 * As long as kn is valid, its parent can not vanish. This is cgroup's
-   225		 * kn so it can't have its parent replaced. Therefore it is safe to use
-   226		 * the ancestor node outside of the RCU or locked section.
-   227		 */
-   228		if (WARN_ON_ONCE(!(root->flags & KERNFS_ROOT_INVARIANT_PARENT)))
-   229			return ERR_PTR(-EINVAL);
-   230		scoped_guard(rcu) {
-   231			knparent = find_next_ancestor(kn, NULL);
-   232		}
-   233		if (WARN_ON(!knparent)) {
-   234			dput(dentry);
-   235			return ERR_PTR(-EINVAL);
-   236		}
-   237	
-   238		do {
-   239			struct dentry *dtmp;
-   240			struct kernfs_node *kntmp;
-   241			const char *name;
-   242	
-   243			if (kn == knparent)
-   244				return dentry;
-   245	
-   246			scoped_guard(rwsem_read, &root->kernfs_rwsem) {
-   247				kntmp = find_next_ancestor(kn, knparent);
-   248				if (WARN_ON(!kntmp)) {
-   249					dput(dentry);
-   250					return ERR_PTR(-EINVAL);
-   251				}
-   252				name = kstrdup(kernfs_rcu_name(kntmp), GFP_KERNEL);
-   253			}
-   254			if (!name) {
-   255				dput(dentry);
-   256				return ERR_PTR(-ENOMEM);
-   257			}
- > 258			dtmp = lookup_noperm_positive_unlocked(&QSTR(kntmp->name), dentry);
-   259			dput(dentry);
-   260			kfree(name);
-   261			if (IS_ERR(dtmp))
-   262				return dtmp;
-   263			knparent = kntmp;
-   264			dentry = dtmp;
-   265		} while (true);
-   266	}
-   267	
+
+vim +/pmd +5965 mm/memory.c
+
+  5956	
+  5957	static void fr_apply_vma(struct vm_area_struct *vma)
+  5958	{
+  5959		struct mm_struct *mm = vma->vm_mm;
+  5960		unsigned long start = vma->vm_start;
+  5961		unsigned long end = vma->vm_end;
+  5962		unsigned long next;
+  5963		spinlock_t *pml;
+  5964		pmd_t *pmdp = NULL;
+> 5965		pmd_t pmd;
+  5966		bool applied = false;
+  5967	
+  5968		do {
+  5969			next = pmd_addr_end(start, end);
+  5970			if (follow_pmd(mm, start, &pmdp))
+  5971				continue;
+  5972	
+  5973			pml = pmd_lock(mm, pmdp);
+  5974			if (pmd_huge(*pmdp)) {
+  5975	#ifdef CONFIG_FS_DAX_PMD
+  5976				if (!pmd_dirty(*pmdp) && !pmd_write(*pmdp))
+  5977					goto unlock_pmd;
+  5978	
+  5979				pmd = pmdp_invalidate(vma, start, pmdp);
+  5980				pmd = pmd_wrprotect(pmd);
+  5981				pmd = pmd_mkclean(pmd);
+  5982				set_pmd_at(mm, start, pmdp, pmd);
+  5983	unlock_pmd:
+  5984	#endif
+  5985				spin_unlock(pml);
+  5986				continue;
+  5987			}
+  5988	
+  5989			if (pmd_none(*pmdp) || unlikely(pmd_bad(*pmdp))) {
+  5990				spin_unlock(pml);
+  5991				continue;
+  5992			}
+  5993	
+  5994			if (IS_ALIGNED(start, PMD_SIZE) && (start + PMD_SIZE <= end)) {
+  5995				pmdp_set_tbl_wrprotect(mm, start, pmdp);
+  5996				flush_tlb_range(vma, start, start + PMD_SIZE);
+  5997				applied = true;
+  5998				spin_unlock(pml);
+  5999				continue;
+  6000			} else {
+  6001				spin_unlock(pml);
+  6002				fr_apply_pte_range(vma, pmdp, start, next);
+  6003				flush_tlb_range(vma, start, next);
+  6004				continue;
+  6005			}
+  6006		} while (start = next, start != end);
+  6007	
+  6008		if (applied)
+  6009			vma->fast_reflink = applied;
+  6010	}
+  6011	
 
 -- 
 0-DAY CI Kernel Test Service
