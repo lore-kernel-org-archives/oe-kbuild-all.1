@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7298120CCD8;
-	Tue,  8 Apr 2025 10:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD5C26561C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Apr 2025 11:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744106781; cv=none; b=jLkC7YtXUA5HdfL3WskiWEWajftADcSVGZCsK8X/NarmJ4swNR9rj0RGspdm2zgETqD3AxHlpDqIMaoSH4aiHitAG9TiIk28gZzfmIQRzHh8bP9mYarvnno0uTvcXyAl8hc1fS1doFLFcsBe+W0s0SmRKLaK5KU7yuyUAM5Gyro=
+	t=1744111124; cv=none; b=M3AbYaLEL3qWU9FE0/oEfYMKKOF7d4JmmLNUV0hWU6l40W6y7JOWZpqOsbMJB5a3TGDYW3W9v6hgJAu/DSZlgWkf1pDnWHWvUF/zyyBJOLBPY+L1ZyF5L8wTzkAakM+mnABdHY+W4S7xogNUrnxd6XbJWkE4nwHwSV42kQ0zZFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744106781; c=relaxed/simple;
-	bh=s3ewf70GUtyRkVUZxjwHUTDIHL5XEAWZvrDiWPV2Byc=;
+	s=arc-20240116; t=1744111124; c=relaxed/simple;
+	bh=aCxlPP44X6tOkYqoIWzqgoyLhBID/ISoQ9EcmL10Tqw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fFVMYGRVZqMtZ5vaTVGdXBgnk61L/2Xet2LbTVAQxlPwO+td62RoPqewcw7rw/ojlm9mhJRY8V7o1iQYBCe2UZcdCeYa9NdeYoO8+ihjBxwTo3mMuEBP2Jn5VK2Liqwaz7GURbCwYmpE9pvAV64H4LIuTqeSqPkMC2Zmb/XWFSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OO/AQn6j; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=DCqjYy94WQl7dYGmR4fzgdGxlDR3yrVjnnMZPKmexQ2iWRSc4w6LqqBsrzvQW04hG86wNiLvkTcuq1CfSMoKydC6UByn4oThW4uD+iEGGv3GNMfnRPkmaamzmoWQIonCVZIwmxBPpU8fiEIJVP0AJLEA/loZLIn5xTrKpThw9BE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EaFdURFw; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OO/AQn6j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EaFdURFw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744106780; x=1775642780;
+  t=1744111122; x=1775647122;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s3ewf70GUtyRkVUZxjwHUTDIHL5XEAWZvrDiWPV2Byc=;
-  b=OO/AQn6j0U5S0YygzTa8fIxhU8yaBE4s306v1ZHGyQ5PtRPlwc8TNtm9
-   EmVQ69drbkdIXn76+ThZoLX+HifE0eR3a3Wptz3I1RjIYiBVvDvzJjMpn
-   WQcjyuGMK3R9WthygchE9v44/3Jgk7+KRBOfk8nEr/MFGfhmOK3Xn5/ld
-   V9/Pj/Ic58279qjr0kM+Jj73sJsiWU6Mg9vBbH/wTBdFXxrnKTRBs15/K
-   VSwT6gZgj2Qtv8gvSAv4hDz7XMxx9/l6B/yJzAtM2v/4RhrfMetUVLbb/
-   5EahKsb9+7UozTHaBCGS8waZBQhja+dSJ1L/jV+xz5aA+vCkl6jBSuc17
-   A==;
-X-CSE-ConnectionGUID: i8V15KAUQmKvMs4dsGPPrQ==
-X-CSE-MsgGUID: V+YoohKLTlarJ/pvXqRvUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56900217"
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="56900217"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 03:06:17 -0700
-X-CSE-ConnectionGUID: MQU1NfxCQwOYawB8aI4fxg==
-X-CSE-MsgGUID: qwngGTGaSRChjQM16XR/mQ==
+  bh=aCxlPP44X6tOkYqoIWzqgoyLhBID/ISoQ9EcmL10Tqw=;
+  b=EaFdURFwcT058j/edOTw2qh5GwfNdmWJh2N3fQHp1UMF7LQZfAT8NTcw
+   c2EGhc/CHTcfx0r/Ja/nv7ElV5Xcly0dmg8GQ7vqHaQa6fj9LaC+rOkr+
+   TewdhpjG1Kaj0Pr6k8zdfj+ViP0Nwd6EZColoBkxHQxBMraiCxDdIBiuS
+   WItW4+0+boCZJDh6ZAdICy25BgbhDniVfv1go2WUZcAIR2vU0vStqPDtx
+   3HRty0+87/s2H3JHUeY1x49VGEtghYYyL4wMjNLn1Ui4bwzx/err67+Tb
+   7QDiRpzBiY5XvDWWWifhVYF6VfnvUpJ1Iav/5RmfXU4wZZsN3VQYyjqLr
+   g==;
+X-CSE-ConnectionGUID: 0FwP6cDPQoyKUMAvpVFSiQ==
+X-CSE-MsgGUID: lnI3IdCrTv+HkjnIhDWLdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44678218"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+   d="scan'208";a="44678218"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 04:18:41 -0700
+X-CSE-ConnectionGUID: u99VWdnbS/+NgPDIzEsSuw==
+X-CSE-MsgGUID: DnIYha/RR/K5RhvqS6MFtA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="127963960"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+   d="scan'208";a="159235938"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Apr 2025 03:06:15 -0700
+  by orviesa002.jf.intel.com with ESMTP; 08 Apr 2025 04:18:41 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u25qO-0004Qd-1w;
-	Tue, 08 Apr 2025 10:06:12 +0000
-Date: Tue, 8 Apr 2025 18:06:11 +0800
+	id 1u26yT-0004op-2t;
+	Tue, 08 Apr 2025 11:18:37 +0000
+Date: Tue, 8 Apr 2025 19:18:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kemeng Shi <shikemeng@huaweicloud.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Tim Chen <tim.c.chen@linux.intel.com>, Baoquan He <bhe@redhat.com>
-Subject: [linux-next:master 1753/1936] mm/swapfile.c:1517:20: warning:
- function 'swap_is_last_ref' is not needed and will not be emitted
-Message-ID: <202504081841.jbL7yL0r-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 9/9] mm/slub.c:4017:7: warning: no
+ previous prototype for 'oot___kmalloc_0'
+Message-ID: <202504081937.9tD4Qkoq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,39 +62,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7702d0130dc002bab2c3571ddb6ff68f82d99aea
-commit: 6bb001b6b64ec20d900d0d81294a0f031af59c3e [1753/1936] mm: swap: enable swap_entry_range_free() to drop any kind of last ref
-config: hexagon-randconfig-001-20250408 (https://download.01.org/0day-ci/archive/20250408/202504081841.jbL7yL0r-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081841.jbL7yL0r-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   c55bd07f747cd457f58e5781279fa11a5fc0add1
+commit: baa47e1aa754428b439764393f2d71fb6bce04bf [9/9] anolis: mm: introduce per module slab for oot memory isolation
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250408/202504081937.9tD4Qkoq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081937.9tD4Qkoq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504081841.jbL7yL0r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504081937.9tD4Qkoq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/swapfile.c:1517:20: warning: function 'swap_is_last_ref' is not needed and will not be emitted [-Wunneeded-internal-declaration]
-    1517 | static inline bool swap_is_last_ref(unsigned char count)
-         |                    ^~~~~~~~~~~~~~~~
-   1 warning generated.
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_0' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4040:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4040 | DEFINE_OOT_FUNC___kmalloc(0);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_1' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4041:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4041 | DEFINE_OOT_FUNC___kmalloc(1);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_2' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4042:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4042 | DEFINE_OOT_FUNC___kmalloc(2);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_3' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4043:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4043 | DEFINE_OOT_FUNC___kmalloc(3);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_4' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4044:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4044 | DEFINE_OOT_FUNC___kmalloc(4);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_5' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4045:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4045 | DEFINE_OOT_FUNC___kmalloc(5);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_6' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4046:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4046 | DEFINE_OOT_FUNC___kmalloc(6);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_7' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4047:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4047 | DEFINE_OOT_FUNC___kmalloc(7);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_8' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4048:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4048 | DEFINE_OOT_FUNC___kmalloc(8);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_9' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4049:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4049 | DEFINE_OOT_FUNC___kmalloc(9);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_10' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4050:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4050 | DEFINE_OOT_FUNC___kmalloc(10);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_11' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4051:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4051 | DEFINE_OOT_FUNC___kmalloc(11);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_12' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4052:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4052 | DEFINE_OOT_FUNC___kmalloc(12);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_13' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4053:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4053 | DEFINE_OOT_FUNC___kmalloc(13);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_14' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4054:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4054 | DEFINE_OOT_FUNC___kmalloc(14);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_15' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4055:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4055 | DEFINE_OOT_FUNC___kmalloc(15);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/swap_is_last_ref +1517 mm/swapfile.c
+vim +/oot___kmalloc_0 +4017 mm/slub.c
 
-  1512	
-  1513	/*
-  1514	 * Drop the last ref(1, SWAP_HAS_CACHE or SWAP_MAP_SHMEM) of swap entries,
-  1515	 * caller have to ensure all entries belong to the same cgroup and cluster.
-  1516	 */
-> 1517	static inline bool swap_is_last_ref(unsigned char count)
-  1518	{
-  1519		return (count == SWAP_HAS_CACHE) || (count == 1) ||
-  1520		       (count == SWAP_MAP_SHMEM);
-  1521	}
-  1522	
+  4015	
+  4016	#define DEFINE_OOT_FUNC___kmalloc(index)				\
+> 4017	void *oot___kmalloc_ ## index(size_t size, gfp_t flags)			\
+  4018	{									\
+  4019		struct kmem_cache *s;						\
+  4020		void *ret;							\
+  4021										\
+  4022		if (unlikely(size > KMALLOC_MAX_CACHE_SIZE))			\
+  4023			return kmalloc_large(size, flags);			\
+  4024										\
+  4025		s = oot_kmalloc_slab(index, size, flags);			\
+  4026										\
+  4027		if (unlikely(ZERO_OR_NULL_PTR(s)))				\
+  4028			return s;						\
+  4029										\
+  4030		ret = slab_alloc(s, flags, _RET_IP_, size);			\
+  4031										\
+  4032		trace_kmalloc(_RET_IP_, ret, size, s->size, flags);		\
+  4033										\
+  4034		ret = kasan_kmalloc(s, ret, size, flags);			\
+  4035										\
+  4036		return ret;							\
+  4037	}									\
+  4038	EXPORT_SYMBOL(oot___kmalloc_ ## index)
+  4039	
 
 -- 
 0-DAY CI Kernel Test Service
