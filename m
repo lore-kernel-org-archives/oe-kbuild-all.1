@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ECA2116F1
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 21:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5DC1E7C1C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 21:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744234804; cv=none; b=Xb+vyjZFkcYC/7n9PFF6v0R/+7/AeLEoGh1BIIZK7CQOx2y1qeDAetAdjQsh9eFjqIOW9caLr4+9E6++m4iJQSyLzRy0N+9EXOup4/67JCs8Ew944YRsqjxd9OffQ2aEMLf1QiFIpApIkTMRgF06D/jsnaMi3+V0L3c6KoNNsnw=
+	t=1744235404; cv=none; b=MhMF7tE7517wm/38OP2Q/gpQkJC3Wf6iBsYQdmn67nwZCxg9ns5A7NKrBqr2PMicS9+2UwgqeBjQlCyhQxjjHK/9vIaXa0oBhqbVmFBAYnzUaw1ZVAIJdN4GzZHeXYgsvlGgIAgxeT6kViV/rXSx/2WEF0NQG0REK+7Ow4Yf19U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744234804; c=relaxed/simple;
-	bh=4SoU2+NBuQb6bKJporD5w4wAc9Foq5YRpI0ID2q7INc=;
+	s=arc-20240116; t=1744235404; c=relaxed/simple;
+	bh=NH9zoMbhJxqfzpaS+2hyroVEWwfTihi2gUOGmsU3Iww=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mWXt49OYMjQzUR8JJEcHKTc+WPuCAhKCtpsuiaI1XFJwwfzV+WPUDM7xW3IYskjcSgLU8hiiGaKkvgB7IveOq1MK4O33+3jvyn2w7RKL4Ehg8merzB8fBn1yLUooWSL5fHGFZtFcu0eZAyVA9dwGKcaXB8dk4+kwgTS3WGGbSgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itrt7enM; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=a780QU5+pJZTQAbpILTqO6jUWh6g0okJBSOpNeSeHCZot+qVFSY9+Ln/5CpG4w46huX3RyPvzUWFx5WUT0xGLuO9FOXh9SzfcifoYY6SPMuu2GPhQPIxPUoSkajexO+OhP03KB1x79dR7u7gPbVAnac/6NtRqYvVmZGtuIXNHXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKENQ2YO; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itrt7enM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKENQ2YO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744234801; x=1775770801;
+  t=1744235402; x=1775771402;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4SoU2+NBuQb6bKJporD5w4wAc9Foq5YRpI0ID2q7INc=;
-  b=itrt7enM94xcDkm1p344+KQftRA5kLDq1Sgy+sqmnYsNs0wUKj1LsJag
-   lOnLd/Rfaet3U6oWCh1bUV+tckHIBMSPZXRPzkYV696yw5ntyMwCU/xxi
-   gnHKdkami++tGBm3H6WuiAFP21OvE9gbQCysyTVt5CS725QMcYvZLfyYq
-   JYs0cvX+WeuknuJjmTKPwDrYYoLo54Pa06NBk5o8Q8udHpUzOaEnMx20O
-   ztfs4yaQut08BTu5PveTtTqGmXhurlVmQBu2iEcBcvfEXZy5Ihavodld7
-   G4qXbSLZ47gHNoA75lO54W1g9dbK5+5RKiizw2qobsEBLE3zRQfRnpRfJ
+  bh=NH9zoMbhJxqfzpaS+2hyroVEWwfTihi2gUOGmsU3Iww=;
+  b=KKENQ2YOPeqOit79seJgmxexvvYEbMxtBQzqaG3ask4whM6sTTHNFqfR
+   yS0cKWGFJE1FOBTGXhtiiHKpDxq3QGXcxxYR2OmnuyUl4h6w7e8ESrvEe
+   M+D93rrbD3sIcx/WS+R5BUjvWwAXgO08zbeuFuTs+Jx3ff4b5CZN0pIRc
+   p9azU5oTWBaxTeiG5e0Z2kaXKLXKmTAl1P2aU1sst2XEThm+8ELKeio5b
+   OXb0UrV9JWcqJY9pOYM7XOOmatDAI4e4myDGDLr0exqV0DSFoYZEKEJ9O
+   LzWAA8h3+7lDL/M1HSt/SPCC7ajg2A48mbu1IYrNL1WGv4CXgi9Wm3YFN
    Q==;
-X-CSE-ConnectionGUID: fTRoYJZvQYCCRCc5HGbPDQ==
-X-CSE-MsgGUID: JUExxbPKQmSy3KJjSIVrWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="45855812"
+X-CSE-ConnectionGUID: 2tF2ojSMTCmu/Oo2mkgq2Q==
+X-CSE-MsgGUID: SJPV8NfPSWawksxf1ehl5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="45447163"
 X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="45855812"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 14:40:01 -0700
-X-CSE-ConnectionGUID: 8Hn+Anl9S/yaNSiaDFALeg==
-X-CSE-MsgGUID: oy2YX5kiT2GDmF5p+JkIbA==
+   d="scan'208";a="45447163"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 14:50:02 -0700
+X-CSE-ConnectionGUID: fuVTeWpzSXG3WSdIEv645Q==
+X-CSE-MsgGUID: m9F/gK3UQ2a86vlD/pl5Jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="129234887"
+   d="scan'208";a="128673002"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Apr 2025 14:40:00 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Apr 2025 14:50:01 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u2d9K-0009Ln-0X;
-	Wed, 09 Apr 2025 21:39:58 +0000
-Date: Thu, 10 Apr 2025 05:39:00 +0800
+	id 1u2dJ0-0009Lz-2q;
+	Wed, 09 Apr 2025 21:49:58 +0000
+Date: Thu, 10 Apr 2025 05:49:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1] arch/arm64/kvm/mmu.c:2012:5:
- sparse: sparse: symbol 'pkvm_mem_abort_prefault' was not declared. Should it
- be static?
-Message-ID: <202504100541.VRmd6tIQ-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-5.10 9/9] mm/khugepaged.c:109: warning:
+ Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+Message-ID: <202504100509.Zq5nrogK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,40 +62,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   234a951b246d8500f6b621fe23c238bdc2afcef5
-commit: 3fc1e219027721249a621d54449e0f3db624b655 [1/1] ANDROID: KVM: arm64: Introduce kvm-arm.protected_prefault parameter
-config: arm64-randconfig-r131-20250409 (https://download.01.org/0day-ci/archive/20250410/202504100541.VRmd6tIQ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce: (https://download.01.org/0day-ci/archive/20250410/202504100541.VRmd6tIQ-lkp@intel.com/reproduce)
+Hi Xu,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   c858cdc0756d595fe5de0dd4c617f7b5a8971ec6
+commit: 5c3c3afed0fd68c32fca885daf7c6fbf46007a25 [9/9] anolis: mm, thp: hugetext: accelerate khugepaged for hugetext vma
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250410/202504100509.Zq5nrogK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100509.Zq5nrogK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504100541.VRmd6tIQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504100509.Zq5nrogK-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/mmu.c:313:1: sparse: sparse: symbol 'kvm_pinned_pages_insert' was not declared. Should it be static?
->> arch/arm64/kvm/mmu.c:2012:5: sparse: sparse: symbol 'pkvm_mem_abort_prefault' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/pkvm_mem_abort_prefault +2012 arch/arm64/kvm/mmu.c
+   mm/khugepaged.c:109: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:109: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
+>> mm/khugepaged.c:109: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+>> mm/khugepaged.c:109: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:1493: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1493: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'mm' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'file' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'start' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'hpage' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'node' not described in 'collapse_file'
 
-  2011	
-> 2012	int pkvm_mem_abort_prefault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-  2013				    struct kvm_memory_slot *memslot)
-  2014	{
-  2015		phys_addr_t memslot_start = memslot->base_gfn << PAGE_SHIFT;
-  2016		size_t size = (1 << pkvm_prefault) << PAGE_SHIFT;
-  2017	
-  2018		fault_ipa = ALIGN_DOWN(fault_ipa, size);
-  2019		if (fault_ipa < memslot_start) {
-  2020			size -= memslot_start - fault_ipa;
-  2021			fault_ipa = memslot_start;
-  2022		}
-  2023	
-  2024		return pkvm_mem_abort(vcpu, fault_ipa, size, memslot);
-  2025	}
-  2026	
+
+vim +109 mm/khugepaged.c
+
+27e1f8273113ade Song Liu           2019-09-23   87  
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   88  /**
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   89   * struct mm_slot - hash lookup from mm to mm_slot
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   90   * @hash: hash collision list
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   91   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   92   * @mm: the mm that this information is valid for
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   93   */
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   94  struct mm_slot {
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   95  	struct hlist_node hash;
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   96  	struct list_head mm_node;
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26   97  	struct mm_struct *mm;
+27e1f8273113ade Song Liu           2019-09-23   98  
+27e1f8273113ade Song Liu           2019-09-23   99  	/* pte-mapped THP in this mm */
+27e1f8273113ade Song Liu           2019-09-23  100  	int nr_pte_mapped_thp;
+27e1f8273113ade Song Liu           2019-09-23  101  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
+5c3c3afed0fd68c Xu Yu              2021-08-19  102  
+5c3c3afed0fd68c Xu Yu              2021-08-19  103  #ifdef CONFIG_HUGETEXT
+5c3c3afed0fd68c Xu Yu              2021-08-19  104  #define MAX_EXEC_VMA       8
+5c3c3afed0fd68c Xu Yu              2021-08-19  105  	/* exec vma vm_start in this mm */
+5c3c3afed0fd68c Xu Yu              2021-08-19  106  	int nr_exec_vma;
+5c3c3afed0fd68c Xu Yu              2021-08-19  107  	unsigned long exec_vma[MAX_EXEC_VMA];
+5c3c3afed0fd68c Xu Yu              2021-08-19  108  #endif
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26 @109  };
+b46e756f5e47031 Kirill A. Shutemov 2016-07-26  110  
+
+:::::: The code at line 109 was first introduced by commit
+:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
