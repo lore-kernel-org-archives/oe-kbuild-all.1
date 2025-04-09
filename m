@@ -1,60 +1,34 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1687A27605F;
-	Wed,  9 Apr 2025 18:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 759081E25F2;
+	Wed,  9 Apr 2025 19:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744222237; cv=none; b=JE+xhhNL5TRh0gtbCDPMpci/VJSayJPIoEJ/jwZOH7XmWX72SS2iU4Vc5pmvN1FdZT8BcyxDYvondLU43wobZtglM9qEtjYmBDAiY6wprdDkDlY8pjKl4gxjA1ajjPe+6QcHLgOzpIdFDGqP2KciAhnWO6i+ANscpReohvkhrW0=
+	t=1744226739; cv=none; b=KDtObWnR10rQC9u5LbNcaGlqPl/g9s55NFcpzvpXqWeYsSaJ97A8gVkcyr8RPEi6C88NLiYuwKYiJorQ7HhK9EuHy/ZnyNseintzGMSPNqmBFcWxKtR06kQ0/INGLtjlAmOduy7Jd/tb83sQ/ZNycfgyBDyEZ8a1xOQ1zuCRJe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744222237; c=relaxed/simple;
-	bh=DK5ctdqUuWwG61zHU/doen2mUmd04GA6ljylHuv86v0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TfF54or6InnjvM/ueLVymXYiHoYFkwzBv7Uo2KpbMhqnSToOyXxWDp3KDySCFI70eE01DOVEnlMvTrQXomX3F4xqh50I/hZlqRXhQr7o42J9Ty/oiXXXvbxCmaewjfVK5fneEb391hqulmVMg3edITxbdL4P489GDtrCN35r6+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xqjx5XGv; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xqjx5XGv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744222235; x=1775758235;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DK5ctdqUuWwG61zHU/doen2mUmd04GA6ljylHuv86v0=;
-  b=Xqjx5XGvHgAjQVyxNVrzg0GtH8sLk8Jecm7+dtIORSG0vZYtPuH+l8Z2
-   M7i6nnptDpCJOb4WS8f0Kk5KCIOIfdjtVREs7KXyNQ5Qw/9eQo8lkyAae
-   ZoTvO7bDkUyr2/j1pfirc7dALPVRjsJ/p1GXTbIRNs6RnXxtJFfxcO5Mt
-   2dLbIcR8RwO2+/EF9+Xn6Xvq/5HUHxzPacHI64C/frSJRPzMtgMMJxFXQ
-   JIEeiOPcG0/ZQUeK5JuX3BSdttNGXFLiulB6qDaSwgCITyMFSAi0ZaRvt
-   w/+6UEGvuEUTUBW5bu5Per2/mpr6DzjgLXqEJe5LELE/c3TlSHvTE7RGE
-   A==;
-X-CSE-ConnectionGUID: LuLI1ikFQFWASw3/L/97rw==
-X-CSE-MsgGUID: S7GQp1JCQviacgfGQK6zEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="44855885"
-X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="44855885"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 11:10:34 -0700
-X-CSE-ConnectionGUID: hSrBF16MR/ipFHagVQZGPQ==
-X-CSE-MsgGUID: jKVap1QuRPu80Vth7TEg4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="151839648"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Apr 2025 11:10:32 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u2Zsb-0009B9-36;
-	Wed, 09 Apr 2025 18:10:29 +0000
-Date: Thu, 10 Apr 2025 02:10:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
+	s=arc-20240116; t=1744226739; c=relaxed/simple;
+	bh=Ysj3nuOh7CwY62QEP9McBgLiwll5Fv8qypJTov/oVpk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WkUQqIjLJxuBEiH1XdCz9Dbb10uunhTGXSh/x3kiPCpFHbXolQtZD5Xy7hp8vAHQVVMz11PcMdJ8RRszV320ULQm/9QcJFZjd0l4OCstMA1DlsRUanWZNvwyQUcYDnyIj4H0t+OTia6b3HmkeK0V685B7cAlXiCjIQqO121lX7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19F3E15A1;
+	Wed,  9 Apr 2025 12:25:37 -0700 (PDT)
+Received: from bogus (unknown [10.57.41.33])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B72F83F694;
+	Wed,  9 Apr 2025 12:25:34 -0700 (PDT)
+Date: Wed, 9 Apr 2025 20:25:31 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: kernel test robot <lkp@intel.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, devel@acpica.org,
-	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [rafael-pm:bleeding-edge 39/52]
+	Sudeep Holla <sudeep.holla@arm.com>, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: Re: [rafael-pm:bleeding-edge 39/52]
  drivers/acpi/apei/einj-core.c:877:43: error: expected identifier
-Message-ID: <202504100128.AjbVDQgK-lkp@intel.com>
+Message-ID: <20250409-wine-swift-of-tempest-eae2cb@sudeepholla>
+References: <202504100128.AjbVDQgK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +37,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202504100128.AjbVDQgK-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   089d4e79e2c932faef79e0061cb874000f755009
-commit: 4ec052af63c58a62a896508cc5f8a0a2f516a590 [39/52] ACPI: APEI: EINJ: Transition to the faux device interface
-config: x86_64-buildonly-randconfig-001-20250409 (https://download.01.org/0day-ci/archive/20250410/202504100128.AjbVDQgK-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100128.AjbVDQgK-lkp@intel.com/reproduce)
+On Thu, Apr 10, 2025 at 02:10:04AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+> head:   089d4e79e2c932faef79e0061cb874000f755009
+> commit: 4ec052af63c58a62a896508cc5f8a0a2f516a590 [39/52] ACPI: APEI: EINJ: Transition to the faux device interface
+> config: x86_64-buildonly-randconfig-001-20250409 (https://download.01.org/0day-ci/archive/20250410/202504100128.AjbVDQgK-lkp@intel.com/config)
+> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100128.AjbVDQgK-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504100128.AjbVDQgK-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/acpi/apei/einj-core.c:877:43: error: expected identifier
+>      877 | module_faux_driver(acpi_einj, einj_probe, __exit_p(einj_remove), true);
+>          |                                           ^
+>    include/linux/init.h:397:21: note: expanded from macro '__exit_p'
+>      397 | #define __exit_p(x) NULL
+>          |                     ^
+>    include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+>        8 | #define NULL ((void *)0)
+>          |              ^
+> >> drivers/acpi/apei/einj-core.c:877:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+>      877 | module_faux_driver(acpi_einj, einj_probe, __exit_p(einj_remove), true);
+>          | ^
+>          | int
+> >> drivers/acpi/apei/einj-core.c:877:19: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+>      877 | module_faux_driver(acpi_einj, einj_probe, __exit_p(einj_remove), true);
+>          |                   ^                                                  
+>          |                                                                      void
+>    3 errors generated.
+> 
+> 
+> vim +877 drivers/acpi/apei/einj-core.c
+> 
+>    876	
+>  > 877	module_faux_driver(acpi_einj, einj_probe, __exit_p(einj_remove), true);
+>    878	
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504100128.AjbVDQgK-lkp@intel.com/
+The macro module_faux_driver() was not merged as most of the users I
+posted in v2 of the series depend on modprobe and modalias and that
+doesn't work with faux devices.
 
-All errors (new ones prefixed by >>):
+If this ACPI APEI EINJ also needs that support we can't use faux device.
+But I think this doesn't have modalias, so v1 of this change[1] which
+doesn't  introduce/use the macro module_faux_driver() can be used instead.
 
->> drivers/acpi/apei/einj-core.c:877:43: error: expected identifier
-     877 | module_faux_driver(acpi_einj, einj_probe, __exit_p(einj_remove), true);
-         |                                           ^
-   include/linux/init.h:397:21: note: expanded from macro '__exit_p'
-     397 | #define __exit_p(x) NULL
-         |                     ^
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^
->> drivers/acpi/apei/einj-core.c:877:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     877 | module_faux_driver(acpi_einj, einj_probe, __exit_p(einj_remove), true);
-         | ^
-         | int
->> drivers/acpi/apei/einj-core.c:877:19: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-     877 | module_faux_driver(acpi_einj, einj_probe, __exit_p(einj_remove), true);
-         |                   ^                                                  
-         |                                                                      void
-   3 errors generated.
-
-
-vim +877 drivers/acpi/apei/einj-core.c
-
-   876	
- > 877	module_faux_driver(acpi_einj, einj_probe, __exit_p(einj_remove), true);
-   878	
+Sorry for the noise with v2.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Sudeep
+
+[1] https://lore.kernel.org/all/20250317-plat2faux_dev-v1-8-5fe67c085ad5@arm.com/
