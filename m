@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F2627603C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 17:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EF11BD517
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 17:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744219771; cv=none; b=ilX09K1DaOfBF6TUrw51p6y4j/lPdmHKIMJznxn5TnIPWSJfmA3X3nqoraixqeBOVgBoWnrS21LK5Su0PbswOvAlM6vTHjupsGu97LcGg/q93XWabIsCWFKW8yZ07UNWgRfoooRcbOv9CBWq6GAqHHHp9h79nZ5gKPr7HFSlvTQ=
+	t=1744220373; cv=none; b=tG+5z5VHTwquuRpkvFsIcv4R2DbYQ8N9jp/sky2/j0Vke6lNaaBhj+8Ex7sliP37jwIcpHm40KIM/eraTIaZDLzwxa8MxKAlUy45Oxj9M67OpZl++ZCIJJh+MsSTlgg7INvk9q8EfEWyVOVd8+Y6Zavq1wcYTfDIXLfjrLOn3ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744219771; c=relaxed/simple;
-	bh=G1U4oUUg9FU/Ut0gg+HJ4f+nX1evwCFR4zle+aSw/h0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FgxktyBM8WsmHP1hKwz3tA6CABwwjRTdU0ngk2h8iDaGPE8ZQsjE7T+BYL8MrxdsY5cEFQ6KuGrW0UyzYuf2zVRJHe8KCJgkE68lGut2hLoGaAsI5/UBmzHQCHmGT8f3AMN5h4P36CZH/Nn1XO2iF87zZh+7jEUwmTCs1L991zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AdrhXTxP; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1744220373; c=relaxed/simple;
+	bh=N9rPsmdyTYCJPwhlzHdSu/S9+X++s3kwQh98QhmpvZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rlSw1+SUzxcR6Opfyl9PmBedGLPVtzrqGL8TUoK+2O4oCqSmJRJ2Xp0pRoBpVxZFPrUw6+OZ6FXsYULGJ1fACDrPJwTHzMr4T3tbdq4pXy9vZepOvHlxzqbVmahdpP2Rzz+Wn0NoU9WdQpQbC1bP4COiUBYw5syczFnBVq0IKmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HimBEwXh; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AdrhXTxP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HimBEwXh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744219770; x=1775755770;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G1U4oUUg9FU/Ut0gg+HJ4f+nX1evwCFR4zle+aSw/h0=;
-  b=AdrhXTxP4zJsbobZonFHR5Xgb14p85YqSjClcprkBDAT2bxNHSyCSJhn
-   5fNvlszownAbozIUFhXASyMaEYdfpna1bYw3fFjYN28rEPi1AHRmm+36m
-   /Nbi3tm2jXxqOJkDy6/uCEbjw+Kgpmm2zq1ZhQ8Qa7GdZU76521CZlpsO
-   pgKH9HGYjJxVUUkvvNDiv+7LT7cw6LMDY0SxBOQzENMog+WT+kvjZb9N5
-   dPVaCeaiZ7+rhZrGscA/f22/BKDSM8GQT089sA7GhcgPaF2MQumRf32Gp
-   P8CC3xBVOTH9f0WaLt6uSuX5IKRgEU+FDW5LRpmPpge8IEMv0mmgdUqDc
-   A==;
-X-CSE-ConnectionGUID: p0U7w9PZQcuy0OzTpYDMGw==
-X-CSE-MsgGUID: FkgB86+pQsmviQiurcdhlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="68193369"
+  t=1744220372; x=1775756372;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N9rPsmdyTYCJPwhlzHdSu/S9+X++s3kwQh98QhmpvZ4=;
+  b=HimBEwXhIq6hSkDhQFgfqw98HZNwFZMYvbzQRSVDprI8bi7OXjv9bq5a
+   mhD9K5md32FciD9K7SZAS55FZYHFC5aa/1O9Ea9peyhoOlnt2jZBcBNGy
+   GZrQy+P0TW5c5s+NpBQKi5Mm5s8N+zJPqF22HFpb9TXC7WPquz0mtpL9l
+   eVhNJj8cKq1DkZFPkpGAI53T0YOxpfnQpUHVl3LJGUN5uYsgrsiKL5Y5i
+   D99dM9THra7umTkIt+GCvBKqCokRRQKiN0QY2VsfQCcN8bNNN/Z/JXYJ+
+   z0F/hq7D1QBcvuWh/+h4tAghGlhBnWeckzEArdB/3eixvTQ+A6vCtctN+
+   g==;
+X-CSE-ConnectionGUID: K7S4wQ61Rf6Ogfs7yaFbtQ==
+X-CSE-MsgGUID: g5MU24WaSGKLzJyAPBavrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="45882410"
 X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="68193369"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 10:29:29 -0700
-X-CSE-ConnectionGUID: e5VLFzvrQCKhshIwZm991Q==
-X-CSE-MsgGUID: v/XBdMTETTW+GtU70bQtrg==
+   d="scan'208";a="45882410"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 10:39:31 -0700
+X-CSE-ConnectionGUID: JUyz7kLPQeGLbEVtCrP72A==
+X-CSE-MsgGUID: Tht2dgwmR6qD1OlwOUgVnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="128511301"
+   d="scan'208";a="133864059"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Apr 2025 10:29:28 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Apr 2025 10:39:30 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u2ZEs-000992-0E;
-	Wed, 09 Apr 2025 17:29:26 +0000
-Date: Thu, 10 Apr 2025 01:28:55 +0800
+	id 1u2ZOZ-00099r-0A;
+	Wed, 09 Apr 2025 17:39:27 +0000
+Date: Thu, 10 Apr 2025 01:39:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daisuke Matsuda <matsuda-daisuke@fujitsu.com>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
-Subject: [leon-rdma:rdma-next 2/39]
- drivers/infiniband/sw/rxe/rxe_odp.c:383:18: error: redefinition of
- 'rxe_odp_do_atomic_write'
-Message-ID: <202504100139.OkND4aW6-lkp@intel.com>
+To: "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Oleksiy Avramchenko <oleksiy.avramchenko@sony.com>
+Subject: Re: [PATCH 2/3] vmalloc: Switch to for_each_vmap_node() helper
+Message-ID: <202504100130.OjlBJLkQ-lkp@intel.com>
+References: <20250408151549.77937-2-urezki@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,36 +68,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250408151549.77937-2-urezki@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   dba494baa69e3501ef8abc9de51ebe76877308ad
-commit: 87dd32878950d46a9c2ba3d1bb457b3476486f6c [2/39] RDMA/rxe: Enable ODP in ATOMIC WRITE operation
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250410/202504100139.OkND4aW6-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100139.OkND4aW6-lkp@intel.com/reproduce)
+Hi Uladzislau,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.15-rc1 next-20250409]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uladzislau-Rezki-Sony/vmalloc-Switch-to-for_each_vmap_node-helper/20250408-231807
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250408151549.77937-2-urezki%40gmail.com
+patch subject: [PATCH 2/3] vmalloc: Switch to for_each_vmap_node() helper
+config: sparc-randconfig-002-20250409 (https://download.01.org/0day-ci/archive/20250410/202504100130.OjlBJLkQ-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100130.OjlBJLkQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504100139.OkND4aW6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504100130.OjlBJLkQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/sw/rxe/rxe_odp.c:383:18: error: redefinition of 'rxe_odp_do_atomic_write'
-     383 | enum resp_states rxe_odp_do_atomic_write(struct rxe_mr *mr, u64 iova, u64 value)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/infiniband/sw/rxe/rxe.h:30,
-                    from drivers/infiniband/sw/rxe/rxe_odp.c:11:
-   drivers/infiniband/sw/rxe/rxe_loc.h:227:32: note: previous definition of 'rxe_odp_do_atomic_write' with type 'enum resp_states(struct rxe_mr *, u64,  u64)' {aka 'enum resp_states(struct rxe_mr *, long long unsigned int,  long long unsigned int)'}
-     227 | static inline enum resp_states rxe_odp_do_atomic_write(struct rxe_mr *mr, u64 iova, u64 value)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmalloc.c: In function 'vmap_init_nodes':
+>> mm/vmalloc.c:5087:9: warning: unused variable 'n' [-Wunused-variable]
+     int i, n;
+            ^
 
 
-vim +/rxe_odp_do_atomic_write +383 drivers/infiniband/sw/rxe/rxe_odp.c
+vim +/n +5087 mm/vmalloc.c
 
-   381	
-   382	/* CONFIG_64BIT=y */
- > 383	enum resp_states rxe_odp_do_atomic_write(struct rxe_mr *mr, u64 iova, u64 value)
+7fa8cee003166e Uladzislau Rezki (Sony  2024-01-02  5083) 
+d093602919ad59 Uladzislau Rezki (Sony  2024-01-02  5084) static void vmap_init_nodes(void)
+d093602919ad59 Uladzislau Rezki (Sony  2024-01-02  5085) {
+d093602919ad59 Uladzislau Rezki (Sony  2024-01-02  5086) 	struct vmap_node *vn;
+8f33a2ff307248 Uladzislau Rezki (Sony  2024-01-02 @5087) 	int i, n;
+8f33a2ff307248 Uladzislau Rezki (Sony  2024-01-02  5088) 
 
 -- 
 0-DAY CI Kernel Test Service
