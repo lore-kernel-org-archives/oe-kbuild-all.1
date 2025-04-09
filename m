@@ -1,89 +1,59 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C307026FDA8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 16:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F2627603C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 17:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744217898; cv=none; b=p6THD7k/65opRrn6gmSBhaNOGuQOQ2RmplJRrz5UzdrOxRlyVRqRxavb6BpfFBsvxZfSTGPAWUW9nWBB+nVje4XA/WdwWTbGVPKotTgAyxgwhAWlMwE2tONXnNU0Qsd7qb0n04rqO13AwmaQtHYMndV4hI2auUa/Q5ei1ii31Rw=
+	t=1744219771; cv=none; b=ilX09K1DaOfBF6TUrw51p6y4j/lPdmHKIMJznxn5TnIPWSJfmA3X3nqoraixqeBOVgBoWnrS21LK5Su0PbswOvAlM6vTHjupsGu97LcGg/q93XWabIsCWFKW8yZ07UNWgRfoooRcbOv9CBWq6GAqHHHp9h79nZ5gKPr7HFSlvTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744217898; c=relaxed/simple;
-	bh=mnW2GFg4IqkS6SgY7SxVfv2bb9ReIjviHkGL/NPqNjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R+3L/okgLMonwuipDH4kLPsrFbsN0GBrNUW8921BHE2sm1fgq/2bvRj67RnbrfjuWtcNr56CZ8DGdTTqNi18JaPFcckevwLJ/OeMVCSFXxqjzqj5+LdGta4rMqYmNw8g5vUWSjvrU55iaSMzTX/h7qPnV2LXw86A1iv4vB66GYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nG/KNcwD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VryLfxF4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nG/KNcwD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VryLfxF4; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1744219771; c=relaxed/simple;
+	bh=G1U4oUUg9FU/Ut0gg+HJ4f+nX1evwCFR4zle+aSw/h0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FgxktyBM8WsmHP1hKwz3tA6CABwwjRTdU0ngk2h8iDaGPE8ZQsjE7T+BYL8MrxdsY5cEFQ6KuGrW0UyzYuf2zVRJHe8KCJgkE68lGut2hLoGaAsI5/UBmzHQCHmGT8f3AMN5h4P36CZH/Nn1XO2iF87zZh+7jEUwmTCs1L991zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AdrhXTxP; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nG/KNcwD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VryLfxF4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nG/KNcwD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VryLfxF4"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B38D31F38D;
-	Wed,  9 Apr 2025 16:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744217894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+/yNPsqF0kJWQivUHk1FCQy7nHAfxv9twVK6iPfPrdA=;
-	b=nG/KNcwDcIsW/uK7FgBg9uFMxMMbMdgKZGFJqQD7g3wxCWGMXFZwgwtXesBnup+RsqLqjh
-	+FRG1uXjzuimm+0liQYvoojNFFIlZIhM5CCcAkay3Uy8mKpTc2m0Xqef4ONihrRIASiy1X
-	WUddoKC3bIXYV2Cf4/3E38RbkMLK8IM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744217894;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+/yNPsqF0kJWQivUHk1FCQy7nHAfxv9twVK6iPfPrdA=;
-	b=VryLfxF4k3vzxpwJSDcYomsatCSdfnOM2r12zx8StboxFOFWYF5/aLUivSLmH8VjfTuPrH
-	PIRVX/TDQI4iRkBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="nG/KNcwD";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VryLfxF4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744217894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+/yNPsqF0kJWQivUHk1FCQy7nHAfxv9twVK6iPfPrdA=;
-	b=nG/KNcwDcIsW/uK7FgBg9uFMxMMbMdgKZGFJqQD7g3wxCWGMXFZwgwtXesBnup+RsqLqjh
-	+FRG1uXjzuimm+0liQYvoojNFFIlZIhM5CCcAkay3Uy8mKpTc2m0Xqef4ONihrRIASiy1X
-	WUddoKC3bIXYV2Cf4/3E38RbkMLK8IM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744217894;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+/yNPsqF0kJWQivUHk1FCQy7nHAfxv9twVK6iPfPrdA=;
-	b=VryLfxF4k3vzxpwJSDcYomsatCSdfnOM2r12zx8StboxFOFWYF5/aLUivSLmH8VjfTuPrH
-	PIRVX/TDQI4iRkBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 15B9013691;
-	Wed,  9 Apr 2025 16:58:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ot2VAian9mfLAwAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Wed, 09 Apr 2025 16:58:14 +0000
-Date: Wed, 9 Apr 2025 18:58:04 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-cxl@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] mm,memory_hotplug: Implement numa node notifier
-Message-ID: <Z_anHMHgQQM3y-w2@localhost.localdomain>
-References: <20250408084153.255762-3-osalvador@suse.de>
- <202504092104.MyHeSV43-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AdrhXTxP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744219770; x=1775755770;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G1U4oUUg9FU/Ut0gg+HJ4f+nX1evwCFR4zle+aSw/h0=;
+  b=AdrhXTxP4zJsbobZonFHR5Xgb14p85YqSjClcprkBDAT2bxNHSyCSJhn
+   5fNvlszownAbozIUFhXASyMaEYdfpna1bYw3fFjYN28rEPi1AHRmm+36m
+   /Nbi3tm2jXxqOJkDy6/uCEbjw+Kgpmm2zq1ZhQ8Qa7GdZU76521CZlpsO
+   pgKH9HGYjJxVUUkvvNDiv+7LT7cw6LMDY0SxBOQzENMog+WT+kvjZb9N5
+   dPVaCeaiZ7+rhZrGscA/f22/BKDSM8GQT089sA7GhcgPaF2MQumRf32Gp
+   P8CC3xBVOTH9f0WaLt6uSuX5IKRgEU+FDW5LRpmPpge8IEMv0mmgdUqDc
+   A==;
+X-CSE-ConnectionGUID: p0U7w9PZQcuy0OzTpYDMGw==
+X-CSE-MsgGUID: FkgB86+pQsmviQiurcdhlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="68193369"
+X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
+   d="scan'208";a="68193369"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 10:29:29 -0700
+X-CSE-ConnectionGUID: e5VLFzvrQCKhshIwZm991Q==
+X-CSE-MsgGUID: v/XBdMTETTW+GtU70bQtrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
+   d="scan'208";a="128511301"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Apr 2025 10:29:28 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u2ZEs-000992-0E;
+	Wed, 09 Apr 2025 17:29:26 +0000
+Date: Thu, 10 Apr 2025 01:28:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daisuke Matsuda <matsuda-daisuke@fujitsu.com>
+Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
+Subject: [leon-rdma:rdma-next 2/39]
+ drivers/infiniband/sw/rxe/rxe_odp.c:383:18: error: redefinition of
+ 'rxe_odp_do_atomic_write'
+Message-ID: <202504100139.OkND4aW6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -92,101 +62,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202504092104.MyHeSV43-lkp@intel.com>
-X-Rspamd-Queue-Id: B38D31F38D
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
 
-On Wed, Apr 09, 2025 at 09:44:52PM +0800, kernel test robot wrote:
-> Hi Oscar,
-> 
-> kernel test robot noticed the following build errors:
-... 
-> >> drivers/base/node.c:115:5: error: redefinition of 'register_node_notifier'
->      115 | int register_node_notifier(struct notifier_block *nb)
->          |     ^
->    include/linux/memory.h:172:19: note: previous definition is here
->      172 | static inline int register_node_notifier(struct notifier_block *nb)
->          |                   ^
-> >> drivers/base/node.c:121:6: error: redefinition of 'unregister_node_notifier'
->      121 | void unregister_node_notifier(struct notifier_block *nb)
->          |      ^
->    include/linux/memory.h:176:20: note: previous definition is here
->      176 | static inline void unregister_node_notifier(struct notifier_block *nb)
->          |                    ^
-> >> drivers/base/node.c:127:5: error: redefinition of 'node_notify'
->      127 | int node_notify(unsigned long val, void *v)
->          |     ^
->    include/linux/memory.h:179:19: note: previous definition is here
->      179 | static inline int node_notify(unsigned long val, void *v)
->          |                   ^
->    3 errors generated.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   dba494baa69e3501ef8abc9de51ebe76877308ad
+commit: 87dd32878950d46a9c2ba3d1bb457b3476486f6c [2/39] RDMA/rxe: Enable ODP in ATOMIC WRITE operation
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250410/202504100139.OkND4aW6-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100139.OkND4aW6-lkp@intel.com/reproduce)
 
-Ah, I see. When CONFIG_MEMORY_HOTPLUG=n those come into play.
-That is not a problem for the memory-notify thing because drivers/base/memory.c
-gets compiled IFF CONFIG_MEMORY_HOTPLUG=y.
-I am thinking two ways to fix this:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504100139.OkND4aW6-lkp@intel.com/
 
- 1) Move the code for node-notify to drivers/base/memory.c
- 2) Surround those functions within a
- #ifdef CONFIG_MEMORY_HOTPLUG
- ...
- #endif
+All errors (new ones prefixed by >>):
 
-Thoughts? I lean towards option #2 as it looks cleaner to me:
-
- diff --git a/drivers/base/node.c b/drivers/base/node.c
- index 182c71dfb5b8..3b084d71888a 100644
- --- a/drivers/base/node.c
- +++ b/drivers/base/node.c
- @@ -110,6 +110,7 @@ static const struct attribute_group *node_access_node_groups[] = {
-         NULL,
-  };
-  
- +#ifdef CONFIG_MEMORY_HOTPLUG
-  static BLOCKING_NOTIFIER_HEAD(node_chain);
-  
-  int register_node_notifier(struct notifier_block *nb)
- @@ -128,6 +129,7 @@ int node_notify(unsigned long val, void *v)
-  {
-         return blocking_notifier_call_chain(&node_chain, val, v);
-  }
- +#endif
-  
-  static void node_remove_accesses(struct node *node)
-  {
+>> drivers/infiniband/sw/rxe/rxe_odp.c:383:18: error: redefinition of 'rxe_odp_do_atomic_write'
+     383 | enum resp_states rxe_odp_do_atomic_write(struct rxe_mr *mr, u64 iova, u64 value)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/infiniband/sw/rxe/rxe.h:30,
+                    from drivers/infiniband/sw/rxe/rxe_odp.c:11:
+   drivers/infiniband/sw/rxe/rxe_loc.h:227:32: note: previous definition of 'rxe_odp_do_atomic_write' with type 'enum resp_states(struct rxe_mr *, u64,  u64)' {aka 'enum resp_states(struct rxe_mr *, long long unsigned int,  long long unsigned int)'}
+     227 | static inline enum resp_states rxe_odp_do_atomic_write(struct rxe_mr *mr, u64 iova, u64 value)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
 
 
+vim +/rxe_odp_do_atomic_write +383 drivers/infiniband/sw/rxe/rxe_odp.c
+
+   381	
+   382	/* CONFIG_64BIT=y */
+ > 383	enum resp_states rxe_odp_do_atomic_write(struct rxe_mr *mr, u64 iova, u64 value)
 
 -- 
-Oscar Salvador
-SUSE Labs
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
