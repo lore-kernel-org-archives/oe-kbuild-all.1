@@ -1,138 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57011263C8A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 13:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5FC26659D;
+	Wed,  9 Apr 2025 13:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744204501; cv=none; b=ezPlQd1sgtrAA0t5WLaOKB4WnaMZzfrDrmTXBSRErFw0QauLmYgrRdmIZH7C87z2kwGAlJeVuuLstc+IBzIYCED93CcYjcu9JWsqfaHLhG0XI2qp/Z7p2CV8Ws4NW1U2lEW/0huAnf7dJyc26RGZK0Rvz7VVEEjS2Yjwpa9wwt0=
+	t=1744204502; cv=none; b=YUkGoi2n0O7UWajDIZ8QGx6eNq8dB0Ea2Q6KGHwdRsxQR6VsSZL6TT4UEmKAj2OiYQP3PqUF7DblUVghEzmrXjE/BZo8DWsZt2CW4Kziwo4antydw4tN6t1kW836LIvJQHoCDcUdhhxEAIRkZB68ERQ1BzX0WigNQre6bFEkoEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744204501; c=relaxed/simple;
-	bh=96i/LD9guZ6ayEeG3eF96xAb0R5SkChiMVSC04Q3xu0=;
+	s=arc-20240116; t=1744204502; c=relaxed/simple;
+	bh=FhmVc71x2nRmYuVjQNQlp3cMGtbL1AwTcJ2b8yeVnSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=udjKX6GzPLm9D+DXggtZNEnnTFaTTBMVEhHcbZTS2yxYZxfPoVZeM31rbzQk2u86Etu5pbkeLAcvbeqaWBOaXhpJVWKfNgLZCXtj74xoXrQqh5OzZ6601idf7gHhbxDrMbExlkgXz9irftK4E0dFss2E92+giwz83hY41cB7tJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccpXivEd; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=CeILaO/UVpJhrNbUqwlGrQG3U9PmJmNIHyUknoEdel4xMFHOYXJCrlh8N1bGCBfy3nJhx/9jlApav86FL/L1nhHR3fuW52wMXdC+c1+H16wGxP08M+v1JLPjCze/YJB2xYczZjv+dgJ7LkSPUeLXsT3gadEPr7vpYGx8YpOLvgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tm6YPMsb; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccpXivEd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tm6YPMsb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744204499; x=1775740499;
+  t=1744204501; x=1775740501;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=96i/LD9guZ6ayEeG3eF96xAb0R5SkChiMVSC04Q3xu0=;
-  b=ccpXivEda0Yx1X07FGVxZuF5p/H3dneBhPH89dH3iRyDlikELhZrD/TW
-   PveomsN+uGMwlRe1BSVvXnjr5sCKu5KBAHALtc3Rlka//JaiL65G1YIPL
-   qtq2KBPuWl+QTMPmKKf0zE75wzS71RfLxLF1E72OnlK8UsDIWv34DCnFD
-   g4aX10lAwG/ZyNBRrDfzbRg5KZES2a7YuofPITRS09lCWkG+TixrldHQo
-   yAV8DOMkrrw4CW/mPir9is2Roh3NMUMGJxqqvIfuyiC4Fe/1h+5ccOf5g
-   mt0IjNJa7bM/BI4pPBmc0zJA4+H8gwh4GdM9vAQGXWCpAZ6DKBPFNgMMV
-   Q==;
-X-CSE-ConnectionGUID: G0i1a3R7SoSMOSYDWKnELw==
-X-CSE-MsgGUID: N1frQZBBT1asqCGu2lVHpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45691599"
+   mime-version:in-reply-to;
+  bh=FhmVc71x2nRmYuVjQNQlp3cMGtbL1AwTcJ2b8yeVnSg=;
+  b=Tm6YPMsbMBnlz4ydN8vafQDZHSMjenBfwWiL/r72rjEWRG0RedSqDKom
+   8Q9ErRg+TK9WxqY6g0xvlRN3MicdO+ykEoPUmvcs/AhH3t5hJvyc9ApF7
+   qXbbsA5MbUYM7xoC6wBKxD5RhE6yEfNkCpvgdpoR5TerKj7BUNODcYUvC
+   1sibB/wRwlFI6nTjkrCJDA7y+jFiOGrE/yWxAlZ7XVxUtgNOfN7LBi2J6
+   urXkC2Kf2kKlGyPOO7vTrerbU3yM8ZXLE1KEYkod4mUSV4tMOyz1A1QjG
+   iz+aZgY2KNN8FvMVfCFdnOikXBDHC4C/n+HGgK3JffZYsNAnkRWH5y1xL
+   w==;
+X-CSE-ConnectionGUID: cIp+CW3SQzq1ClINTt7pXg==
+X-CSE-MsgGUID: otirquHzRBW/NW2qZFktEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45810809"
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="45691599"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 06:14:59 -0700
-X-CSE-ConnectionGUID: IDfY7s5eQv6jLynSQWgzLw==
-X-CSE-MsgGUID: ae2SGS1QQv2ouDEYD8Ixqg==
+   d="scan'208";a="45810809"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 06:15:00 -0700
+X-CSE-ConnectionGUID: ZDv5teUUQmGjOY1UfE1e3w==
+X-CSE-MsgGUID: uyidne2PSY2qAA2t0P3LgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="133457672"
+   d="scan'208";a="133721939"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 06:14:58 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 09 Apr 2025 06:14:57 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u2VGZ-0008sJ-2O;
+	id 1u2VGZ-0008sL-2R;
 	Wed, 09 Apr 2025 13:14:55 +0000
-Date: Wed, 9 Apr 2025 21:14:06 +0800
+Date: Wed, 9 Apr 2025 21:14:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?Micha=C5=82?= Pecio <michal.pecio@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC RFT] usb: hcd: Add a usb_device argument to
- hc_driver.endpoint_reset()
-Message-ID: <202504092040.O4SwfWYt-lkp@intel.com>
-References: <20250408121817.6ae8defd@foxbook>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH] media: intel/ipu6: Fix dma mask for non-secure mode
+Message-ID: <202504092006.r3kxuxvV-lkp@intel.com>
+References: <20250409095825.1014521-1-stanislaw.gruszka@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250408121817.6ae8defd@foxbook>
+In-Reply-To: <20250409095825.1014521-1-stanislaw.gruszka@linux.intel.com>
 
-Hi Michał,
+Hi Stanislaw,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.15-rc1 next-20250409]
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on linus/master v6.15-rc1 next-20250409]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Pecio/usb-hcd-Add-a-usb_device-argument-to-hc_driver-endpoint_reset/20250408-182312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250408121817.6ae8defd%40foxbook
-patch subject: [PATCH RFC RFT] usb: hcd: Add a usb_device argument to hc_driver.endpoint_reset()
-config: csky-randconfig-002-20250409 (https://download.01.org/0day-ci/archive/20250409/202504092040.O4SwfWYt-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250409/202504092040.O4SwfWYt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislaw-Gruszka/media-intel-ipu6-Fix-dma-mask-for-non-secure-mode/20250409-180044
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250409095825.1014521-1-stanislaw.gruszka%40linux.intel.com
+patch subject: [PATCH] media: intel/ipu6: Fix dma mask for non-secure mode
+config: x86_64-buildonly-randconfig-004-20250409 (https://download.01.org/0day-ci/archive/20250409/202504092006.r3kxuxvV-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250409/202504092006.r3kxuxvV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504092040.O4SwfWYt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504092006.r3kxuxvV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/dwc2/hcd.c:5004:27: error: initialization of 'void (*)(struct usb_hcd *, struct usb_device *, struct usb_host_endpoint *)' from incompatible pointer type 'void (*)(struct usb_hcd *, struct usb_host_endpoint *)' [-Wincompatible-pointer-types]
-    5004 |         .endpoint_reset = _dwc2_hcd_endpoint_reset,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/dwc2/hcd.c:5004:27: note: (near initialization for 'dwc2_hc_driver.endpoint_reset')
+>> drivers/media/pci/intel/ipu6/ipu6-dma.c:174:9: error: call to undeclared function 'ipu6_alloc_iova'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     174 |         iova = ipu6_alloc_iova(mmu, count);
+         |                ^
+   drivers/media/pci/intel/ipu6/ipu6-dma.c:174:9: note: did you mean 'ipu_alloc_iova'?
+   drivers/media/pci/intel/ipu6/ipu6-mmu.h:80:28: note: 'ipu_alloc_iova' declared here
+      80 | static inline struct iova *ipu_alloc_iova(struct ipu6_mmu *mmu,
+         |                            ^
+>> drivers/media/pci/intel/ipu6/ipu6-dma.c:174:7: error: incompatible integer to pointer conversion assigning to 'struct iova *' from 'int' [-Wint-conversion]
+     174 |         iova = ipu6_alloc_iova(mmu, count);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-dma.c:399:9: error: call to undeclared function 'ipu6_alloc_iova'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     399 |         iova = ipu6_alloc_iova(mmu, npages);
+         |                ^
+   drivers/media/pci/intel/ipu6/ipu6-dma.c:399:7: error: incompatible integer to pointer conversion assigning to 'struct iova *' from 'int' [-Wint-conversion]
+     399 |         iova = ipu6_alloc_iova(mmu, npages);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
 --
->> drivers/usb/fotg210/fotg210-hcd.c:5509:35: error: initialization of 'void (*)(struct usb_hcd *, struct usb_device *, struct usb_host_endpoint *)' from incompatible pointer type 'void (*)(struct usb_hcd *, struct usb_host_endpoint *)' [-Wincompatible-pointer-types]
-    5509 |         .endpoint_reset         = fotg210_endpoint_reset,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/fotg210/fotg210-hcd.c:5509:35: note: (near initialization for 'fotg210_fotg210_hc_driver.endpoint_reset')
+>> drivers/media/pci/intel/ipu6/ipu6-mmu.c:424:9: error: call to undeclared function 'ipu6_alloc_iova'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     424 |         iova = ipu6_alloc_iova(mmu, n_pages);
+         |                ^
+   drivers/media/pci/intel/ipu6/ipu6-mmu.c:424:9: note: did you mean 'ipu_alloc_iova'?
+   drivers/media/pci/intel/ipu6/ipu6-mmu.h:80:28: note: 'ipu_alloc_iova' declared here
+      80 | static inline struct iova *ipu_alloc_iova(struct ipu6_mmu *mmu,
+         |                            ^
+>> drivers/media/pci/intel/ipu6/ipu6-mmu.c:424:7: error: incompatible integer to pointer conversion assigning to 'struct iova *' from 'int' [-Wint-conversion]
+     424 |         iova = ipu6_alloc_iova(mmu, n_pages);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +5004 drivers/usb/dwc2/hcd.c
+vim +/ipu6_alloc_iova +174 drivers/media/pci/intel/ipu6/ipu6-dma.c
 
-ca8b03324877e1 drivers/usb/dwc2/hcd.c     Chen Yu          2017-01-23  4990  
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  4991  static struct hc_driver dwc2_hc_driver = {
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  4992  	.description = "dwc2_hsotg",
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  4993  	.product_desc = "DWC OTG Controller",
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  4994  	.hcd_priv_size = sizeof(struct wrapper_priv_data),
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  4995  
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  4996  	.irq = _dwc2_hcd_irq,
-8add17cf8e4c55 drivers/usb/dwc2/hcd.c     Douglas Anderson 2016-01-28  4997  	.flags = HCD_MEMORY | HCD_USB2 | HCD_BH,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  4998  
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  4999  	.start = _dwc2_hcd_start,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5000  	.stop = _dwc2_hcd_stop,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5001  	.urb_enqueue = _dwc2_hcd_urb_enqueue,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5002  	.urb_dequeue = _dwc2_hcd_urb_dequeue,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5003  	.endpoint_disable = _dwc2_hcd_endpoint_disable,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11 @5004  	.endpoint_reset = _dwc2_hcd_endpoint_reset,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5005  	.get_frame_number = _dwc2_hcd_get_frame_number,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5006  
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5007  	.hub_status_data = _dwc2_hcd_hub_status_data,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5008  	.hub_control = _dwc2_hcd_hub_control,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5009  	.clear_tt_buffer_complete = _dwc2_hcd_clear_tt_buffer_complete,
-99a657983a1e03 drivers/usb/dwc2/hcd.c     Gregory Herrero  2015-04-29  5010  
-99a657983a1e03 drivers/usb/dwc2/hcd.c     Gregory Herrero  2015-04-29  5011  	.bus_suspend = _dwc2_hcd_suspend,
-99a657983a1e03 drivers/usb/dwc2/hcd.c     Gregory Herrero  2015-04-29  5012  	.bus_resume = _dwc2_hcd_resume,
-3bc04e28a030a8 drivers/usb/dwc2/hcd.c     Douglas Anderson 2016-01-28  5013  
-3bc04e28a030a8 drivers/usb/dwc2/hcd.c     Douglas Anderson 2016-01-28  5014  	.map_urb_for_dma	= dwc2_map_urb_for_dma,
-3bc04e28a030a8 drivers/usb/dwc2/hcd.c     Douglas Anderson 2016-01-28  5015  	.unmap_urb_for_dma	= dwc2_unmap_urb_for_dma,
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5016  };
-7359d482eb4d39 drivers/staging/dwc2/hcd.c Paul Zimmerman   2013-03-11  5017  
+   151	
+   152	void *ipu6_dma_alloc(struct ipu6_bus_device *sys, size_t size,
+   153			     dma_addr_t *dma_handle, gfp_t gfp,
+   154			     unsigned long attrs)
+   155	{
+   156		struct device *dev = &sys->auxdev.dev;
+   157		struct pci_dev *pdev = sys->isp->pdev;
+   158		dma_addr_t pci_dma_addr, ipu6_iova;
+   159		struct ipu6_mmu *mmu = sys->mmu;
+   160		struct vm_info *info;
+   161		unsigned long count;
+   162		struct page **pages;
+   163		struct iova *iova;
+   164		unsigned int i;
+   165		int ret;
+   166	
+   167		info = kzalloc(sizeof(*info), GFP_KERNEL);
+   168		if (!info)
+   169			return NULL;
+   170	
+   171		size = PAGE_ALIGN(size);
+   172		count = PHYS_PFN(size);
+   173	
+ > 174		iova = ipu6_alloc_iova(mmu, count);
+   175		if (!iova)
+   176			goto out_kfree;
+   177	
+   178		pages = __alloc_buffer(size, gfp, attrs);
+   179		if (!pages)
+   180			goto out_free_iova;
+   181	
+   182		dev_dbg(dev, "dma_alloc: size %zu iova low pfn %lu, high pfn %lu\n",
+   183			size, iova->pfn_lo, iova->pfn_hi);
+   184		for (i = 0; iova->pfn_lo + i <= iova->pfn_hi; i++) {
+   185			pci_dma_addr = dma_map_page_attrs(&pdev->dev, pages[i], 0,
+   186							  PAGE_SIZE, DMA_BIDIRECTIONAL,
+   187							  attrs);
+   188			dev_dbg(dev, "dma_alloc: mapped pci_dma_addr %pad\n",
+   189				&pci_dma_addr);
+   190			if (dma_mapping_error(&pdev->dev, pci_dma_addr)) {
+   191				dev_err(dev, "pci_dma_mapping for page[%d] failed", i);
+   192				goto out_unmap;
+   193			}
+   194	
+   195			ret = ipu6_mmu_map(mmu->dmap->mmu_info,
+   196					   PFN_PHYS(iova->pfn_lo + i), pci_dma_addr,
+   197					   PAGE_SIZE);
+   198			if (ret) {
+   199				dev_err(dev, "ipu6_mmu_map for pci_dma[%d] %pad failed",
+   200					i, &pci_dma_addr);
+   201				dma_unmap_page_attrs(&pdev->dev, pci_dma_addr,
+   202						     PAGE_SIZE, DMA_BIDIRECTIONAL,
+   203						     attrs);
+   204				goto out_unmap;
+   205			}
+   206		}
+   207	
+   208		info->vaddr = vmap(pages, count, VM_USERMAP, PAGE_KERNEL);
+   209		if (!info->vaddr)
+   210			goto out_unmap;
+   211	
+   212		*dma_handle = PFN_PHYS(iova->pfn_lo);
+   213	
+   214		info->pages = pages;
+   215		info->ipu6_iova = *dma_handle;
+   216		info->size = size;
+   217		list_add(&info->list, &mmu->vma_list);
+   218	
+   219		return info->vaddr;
+   220	
+   221	out_unmap:
+   222		while (i--) {
+   223			ipu6_iova = PFN_PHYS(iova->pfn_lo + i);
+   224			pci_dma_addr = ipu6_mmu_iova_to_phys(mmu->dmap->mmu_info,
+   225							     ipu6_iova);
+   226			dma_unmap_page_attrs(&pdev->dev, pci_dma_addr, PAGE_SIZE,
+   227					     DMA_BIDIRECTIONAL, attrs);
+   228	
+   229			ipu6_mmu_unmap(mmu->dmap->mmu_info, ipu6_iova, PAGE_SIZE);
+   230		}
+   231	
+   232		__free_buffer(pages, size, attrs);
+   233	
+   234	out_free_iova:
+   235		__free_iova(&mmu->dmap->iovad, iova);
+   236	out_kfree:
+   237		kfree(info);
+   238	
+   239		return NULL;
+   240	}
+   241	EXPORT_SYMBOL_NS_GPL(ipu6_dma_alloc, "INTEL_IPU6");
+   242	
 
 -- 
 0-DAY CI Kernel Test Service
