@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7687E25DCE9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 12:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7EA261572
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 12:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744202518; cv=none; b=GgGlYXYCzjD/mqF8Ztp2zegyj/yOzzKvUjgO/oA1m7WOsJF591YG6SNFABnii3cwHD5iayr5kp5HUj1POpYNEf4LEW/dddbwecy1jXWjcZPoZPX4C6kvDxlZ6LUnJez3mLJ7u/4ujeBDBTSgN8VLR48hQcNoDGoa9QOzRR0e6uQ=
+	t=1744203239; cv=none; b=pPZtWv7NRmNGtjSN3mSL1EfaLz+NIfVbkBcu3/J6tK1ABc9+MVNbj53XwAKsg1CU9N8Uw+F/1+tQYhXLDS+uxKSIiqj2/Q52RJYi26tkeMMNyhHxhtL7HOuhEnbjJ9Dq6UF5O4Z2/2/MQWMdqq+TkCQdc9HHVmVbdwso7KA50PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744202518; c=relaxed/simple;
-	bh=AX12W7qntpDyCc89ae/cDcPAp9QTcfP3sL6IhU+YhEo=;
+	s=arc-20240116; t=1744203239; c=relaxed/simple;
+	bh=wDHM7NU/9+1ltX+M+LIx+YJv8RH6OxvMhNxAdclovls=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n3Gg/kcEJ/7PWbRTxY0/As5N9hRjwPrPzeaOowIZ81epxTsOZa7kDHs5L46HD1q3ukk+THnV0CDVEr7JjYYX0UQezdgFjxfH6Q2DfTmfFRV6+UVRzC8g4Z53GImOLywMnq3B2wBB7Ubzg3Jxm3G2+xAMVwcU/FwBEAPBZJBTXvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+/Q7d8C; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Mug+kiciG4w2AtfQDbD1qKt2DsM3NoGo1097CtjfaRqocDCA1sCxrB20fjbuTAc8KOE/jGmIyklYchZVYsYPuFwUOcwU6GwezNTWOKkK1RA2LuBqlT+sNBpJBKrIuG5GSOwLSVxF7B/40j1w+Gkq+Co6c4XUdORTaoA7mLMMI74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Av39AvcC; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+/Q7d8C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Av39AvcC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744202517; x=1775738517;
+  t=1744203238; x=1775739238;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AX12W7qntpDyCc89ae/cDcPAp9QTcfP3sL6IhU+YhEo=;
-  b=I+/Q7d8Cd0Y08oTOwfMCsiLZbSVoQwSQhR4diHD83WgrlJsfQIAKUlCD
-   QCoYANZlPmRqxNL3BcQc9gtECqzgvlyuiIjdjK1oUgvyoKcXJkwV3kNvc
-   YHJE2/9AQdCfm9ledNUAJe1p1PSK0YZNG7kTDONdhMFpOfX+hnAdt5pTd
-   iJeRfw+OYPECHvyiqNMCtLW8zgWa2aTLLMAx5nWjR7ttc+mIA3VfopdDi
-   LuN60cXXYZbrv536iO96YTkN2gHmfCVzrySqSdpoCYoXYWn7fpIQ9vnIf
-   0wIr8uZJCY0Y1Jjkwhhuc7uhRbdPZWjT7leZZljKBwq3aFl8uS9ofpIPx
-   g==;
-X-CSE-ConnectionGUID: gn4McNYkRqeunVwyUCkfwQ==
-X-CSE-MsgGUID: W6EOnZjOTeuJHKBAxAuBXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45805795"
+  bh=wDHM7NU/9+1ltX+M+LIx+YJv8RH6OxvMhNxAdclovls=;
+  b=Av39AvcCH0q9/3TfYONlM4IcKnbhXVEZ6gj/ou2yyTuAiHaMrmehVZZE
+   DLHh3vCh/3XNumZ8rtYt3fVmAj73pegarTLjRSmw2FsiMSZIpfw2+PUU9
+   GCz30+bslaMzHT7juYlBpalNDQ2YO6YBfsXTkNKmpSAj+oVZoQdIxZdpS
+   kIFrRAdv1tHKIvWWWBr6QX7u2SuOCi7SMpocBDQYI+KiUHU2gxFkDBMyV
+   k5IQAR0/MhnWZLQh4wkkaZR+TWq8j1oL/f6Txhu6VhW1XYsATf5FmLi08
+   ezIOdwJgx+oF0i5lKYLGqiQxpb5AjukCzoW44csQUG76TChbLWXIwC+VC
+   w==;
+X-CSE-ConnectionGUID: +LauUg9MRpSLMRktvdBl9g==
+X-CSE-MsgGUID: /qyp0QaGQ/mQPbMPWuhluQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="57046447"
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="45805795"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 05:41:57 -0700
-X-CSE-ConnectionGUID: 55GY7gfUT6S3ThiVi0w1Yg==
-X-CSE-MsgGUID: 0QlUDtTKQje5LpVc09TK+w==
+   d="scan'208";a="57046447"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 05:53:56 -0700
+X-CSE-ConnectionGUID: H1ZglmVRQLeWMDNwhEG9Bw==
+X-CSE-MsgGUID: JKo6cFEaTGKM4/2F6xdFtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="159551404"
+   d="scan'208";a="129095066"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Apr 2025 05:41:54 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Apr 2025 05:53:55 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u2Uka-0008qg-1P;
-	Wed, 09 Apr 2025 12:41:52 +0000
-Date: Wed, 9 Apr 2025 20:41:18 +0800
+	id 1u2UwD-0008rH-1j;
+	Wed, 09 Apr 2025 12:53:53 +0000
+Date: Wed, 9 Apr 2025 20:52:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Granados <joel.granados@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [joel-granados:jag/s390_sysctl 1/1] arch/s390/mm/cmm.c:262:1:
- warning: 'static' is not at beginning of declaration
-Message-ID: <202504092024.2dXoEnEC-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1] drivers/dma-buf/dma-buf.c:77:5:
+ warning: no previous prototype for 'get_dmabuf_debugfs_data'
+Message-ID: <202504092055.LR3JHiqU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +62,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/s390_sysctl
-head:   5503b9cfa4bda9b2e79c545295dfd03eda1eb010
-commit: 5503b9cfa4bda9b2e79c545295dfd03eda1eb010 [1/1] s390/sysctl: Remove ctl_table entry from cmm_pages_handler
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250409/202504092024.2dXoEnEC-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250409/202504092024.2dXoEnEC-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   06d2d8d2072717071054edabc0f4d8cbc8d1cbb1
+commit: 4e54be02ffdb8819ccb4390b922690c1a9e55ce2 [1/1] ANDROID: dma-buf: Export API to iterate through dmabuf debugfs info
+config: arm-tegra_defconfig (https://download.01.org/0day-ci/archive/20250409/202504092055.LR3JHiqU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250409/202504092055.LR3JHiqU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504092024.2dXoEnEC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504092055.LR3JHiqU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/s390/mm/cmm.c:262:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     262 | const static struct ctl_table cmm_pages_ctls[] = {
-         | ^~~~~
-   arch/s390/mm/cmm.c:349:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     349 | const static struct ctl_table cmm_table[] = {
-         | ^~~~~
->> arch/s390/mm/cmm.c:229:13: warning: 'cmm_get_pages' defined but not used [-Wunused-function]
-     229 | static long cmm_get_pages(void)
-         |             ^~~~~~~~~~~~~
+>> drivers/dma-buf/dma-buf.c:77:5: warning: no previous prototype for 'get_dmabuf_debugfs_data' [-Wmissing-prototypes]
+      77 | int get_dmabuf_debugfs_data(int (*fn)(const struct dma_buf *, void *),
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/static +262 arch/s390/mm/cmm.c
+vim +/get_dmabuf_debugfs_data +77 drivers/dma-buf/dma-buf.c
 
-   228	
- > 229	static long cmm_get_pages(void)
-   230	{
-   231		return cmm_pages;
-   232	}
-   233	
-   234	static void cmm_add_timed_pages(long nr)
-   235	{
-   236		cmm_timed_pages_target += nr;
-   237		cmm_kick_thread();
-   238	}
-   239	
-   240	static long cmm_get_timed_pages(void)
-   241	{
-   242		return cmm_timed_pages;
-   243	}
-   244	
-   245	static void cmm_set_timeout(long nr, long seconds)
-   246	{
-   247		cmm_timeout_pages = nr;
-   248		cmm_timeout_seconds = seconds;
-   249		cmm_set_timer();
-   250	}
-   251	
-   252	static int cmm_skip_blanks(char *cp, char **endp)
-   253	{
-   254		char *str;
-   255	
-   256		for (str = cp; *str == ' ' || *str == '\t'; str++)
-   257			;
-   258		*endp = str;
-   259		return str != cp;
-   260	}
-   261	
- > 262	const static struct ctl_table cmm_pages_ctls[] = {
-   263		{
-   264			.data		= &cmm_pages,
-   265			.maxlen		= sizeof(long),
-   266			.procname	= "cmm_pages",
-   267		},
-   268		{
-   269			.data		= &cmm_pages_target,
-   270			.maxlen		= sizeof(long),
-   271			.procname	= "cmm_pages",
-   272		},
-   273	};
-   274	#define cmm_pages_ctl cmm_pages_ctls[0]
-   275	#define cmm_pages_target_ctl cmm_pages_ctls[1]
-   276	
+    66	
+    67	static void __dma_buf_debugfs_list_del(struct dma_buf *dmabuf)
+    68	{
+    69		if (!dmabuf)
+    70			return;
+    71	
+    72		mutex_lock(&debugfs_list_mutex);
+    73		list_del(&dmabuf->list_node);
+    74		mutex_unlock(&debugfs_list_mutex);
+    75	}
+    76	#else
+  > 77	int get_dmabuf_debugfs_data(int (*fn)(const struct dma_buf *, void *),
+    78				void *private)
+    79	{
+    80		return -EINVAL;
+    81	}
+    82	EXPORT_SYMBOL_NS_GPL(get_dmabuf_debugfs_data, DMA_BUF);
+    83	
 
 -- 
 0-DAY CI Kernel Test Service
