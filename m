@@ -1,131 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5DC1E7C1C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 21:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7A51DF26B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 22:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744235404; cv=none; b=MhMF7tE7517wm/38OP2Q/gpQkJC3Wf6iBsYQdmn67nwZCxg9ns5A7NKrBqr2PMicS9+2UwgqeBjQlCyhQxjjHK/9vIaXa0oBhqbVmFBAYnzUaw1ZVAIJdN4GzZHeXYgsvlGgIAgxeT6kViV/rXSx/2WEF0NQG0REK+7Ow4Yf19U=
+	t=1744238761; cv=none; b=CK4Bzgs+W3I2duE2EuaMA7GxAyT+UCnjf4sEBR8TqzK5OVZR1hv40lrPf64rNGPu1bhZFfplYGBJk74EVfm3aZTl5RV6YShmgA8gPJkHrCJk7Z5eOMXtv0xcZOFqavPKWXE4jmeHL2UwZ1kvW0u9kqYL1mIdx60CFTf4CqCVk9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744235404; c=relaxed/simple;
-	bh=NH9zoMbhJxqfzpaS+2hyroVEWwfTihi2gUOGmsU3Iww=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a780QU5+pJZTQAbpILTqO6jUWh6g0okJBSOpNeSeHCZot+qVFSY9+Ln/5CpG4w46huX3RyPvzUWFx5WUT0xGLuO9FOXh9SzfcifoYY6SPMuu2GPhQPIxPUoSkajexO+OhP03KB1x79dR7u7gPbVAnac/6NtRqYvVmZGtuIXNHXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKENQ2YO; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744238761; c=relaxed/simple;
+	bh=2duak/SLImHoGvgM4DFtTkQRZhmG205HyCBGhH7jsDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=spo3dN5N51Nc09StMsoUxmSIUEr71PEtiEbBEjd+vosGpsv3Z6bJuS/1jtZ0NSGY0fK3/ChJR+nFkpZneb2SiVbuKkWbWOwj9iL4fhfJVpyU4qtPiqjxece0DVUjpysnu4nrZqfh62KAaQXztfIgfCWfFz/iEv5R168Ti722O+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MPRC1AEb; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKENQ2YO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744235402; x=1775771402;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NH9zoMbhJxqfzpaS+2hyroVEWwfTihi2gUOGmsU3Iww=;
-  b=KKENQ2YOPeqOit79seJgmxexvvYEbMxtBQzqaG3ask4whM6sTTHNFqfR
-   yS0cKWGFJE1FOBTGXhtiiHKpDxq3QGXcxxYR2OmnuyUl4h6w7e8ESrvEe
-   M+D93rrbD3sIcx/WS+R5BUjvWwAXgO08zbeuFuTs+Jx3ff4b5CZN0pIRc
-   p9azU5oTWBaxTeiG5e0Z2kaXKLXKmTAl1P2aU1sst2XEThm+8ELKeio5b
-   OXb0UrV9JWcqJY9pOYM7XOOmatDAI4e4myDGDLr0exqV0DSFoYZEKEJ9O
-   LzWAA8h3+7lDL/M1HSt/SPCC7ajg2A48mbu1IYrNL1WGv4CXgi9Wm3YFN
-   Q==;
-X-CSE-ConnectionGUID: 2tF2ojSMTCmu/Oo2mkgq2Q==
-X-CSE-MsgGUID: SJPV8NfPSWawksxf1ehl5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="45447163"
-X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="45447163"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 14:50:02 -0700
-X-CSE-ConnectionGUID: fuVTeWpzSXG3WSdIEv645Q==
-X-CSE-MsgGUID: m9F/gK3UQ2a86vlD/pl5Jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="128673002"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Apr 2025 14:50:01 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u2dJ0-0009Lz-2q;
-	Wed, 09 Apr 2025 21:49:58 +0000
-Date: Thu, 10 Apr 2025 05:49:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 9/9] mm/khugepaged.c:109: warning:
- Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
-Message-ID: <202504100509.Zq5nrogK-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MPRC1AEb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744238757;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2Ku4yyWjuqPCXvmLiXxONVvSW85vS72t1vVANWUSZuo=;
+	b=MPRC1AEbI1LUPwGSpLV0WnK4DS2a7qrYKa2CoK2f+8Q/DLYqNPPlWbm9mbjCPabXBJS6/C
+	OCu1bJXMTElUx4u21t0dUH+y8V37Q8IVs/WQjwgoA/rCMfJv93NgVB0ythAWZntrWmQ2Ze
+	BJNb74tbjzTZCPijwwIVtuFaJ/Yp8RQ=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-14-PrFDpZr2ND-Vh4XOVp0KLg-1; Wed,
+ 09 Apr 2025 18:45:54 -0400
+X-MC-Unique: PrFDpZr2ND-Vh4XOVp0KLg-1
+X-Mimecast-MFC-AGG-ID: PrFDpZr2ND-Vh4XOVp0KLg_1744238752
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5B0CD1801A1A;
+	Wed,  9 Apr 2025 22:45:52 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.38])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3A4EF180174E;
+	Wed,  9 Apr 2025 22:45:49 +0000 (UTC)
+Date: Thu, 10 Apr 2025 06:45:45 +0800
+From: Baoquan He <bhe@redhat.com>
+To: SeongJae Park <sj@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Kemeng Shi <shikemeng@huaweicloud.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Tim Chen <tim.c.chen@linux.intel.com>
+Subject: Re: [linux-next:master 1753/1936] mm/swapfile.c:1517:20: warning:
+ function 'swap_is_last_ref' is not needed and will not be emitted
+Message-ID: <Z/b4mdaNvhdg7FJD@MiWiFi-R3L-srv>
+References: <20250408173959.f501f65ec5d5e52cefe6b129@linux-foundation.org>
+ <20250409165452.305371-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20250409165452.305371-1-sj@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Pc3uuLa6CLwp4U3I86luFi3i2ohmQLo8MRdmwC6v_5k_1744238752
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Xu,
+On 04/09/25 at 09:54am, SeongJae Park wrote:
+> Hello,
+> 
+> On Tue, 8 Apr 2025 17:39:59 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+> 
+> > On Tue, 8 Apr 2025 18:06:11 +0800 kernel test robot <lkp@intel.com> wrote:
+> > 
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > head:   7702d0130dc002bab2c3571ddb6ff68f82d99aea
+> > > commit: 6bb001b6b64ec20d900d0d81294a0f031af59c3e [1753/1936] mm: swap: enable swap_entry_range_free() to drop any kind of last ref
+> > > config: hexagon-randconfig-001-20250408 (https://download.01.org/0day-ci/archive/20250408/202504081841.jbL7yL0r-lkp@intel.com/config)
+> > > compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081841.jbL7yL0r-lkp@intel.com/reproduce)
+> > > 
 
-FYI, the error/warning still remains.
+Hi lkp team,
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   c858cdc0756d595fe5de0dd4c617f7b5a8971ec6
-commit: 5c3c3afed0fd68c32fca885daf7c6fbf46007a25 [9/9] anolis: mm, thp: hugetext: accelerate khugepaged for hugetext vma
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250410/202504100509.Zq5nrogK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100509.Zq5nrogK-lkp@intel.com/reproduce)
+When I tried to reproduce, I got below failure. Please help check what's
+wrong with it. Thanks in advance.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504100509.Zq5nrogK-lkp@intel.com/
+[~]# COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-21 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+Compiler will be installed in /root/0day
+Cannot find clang-21 under https://cdn.kernel.org/pub/tools/llvm/files
+Please set new URL env variable and rerun
+  * crosstool provided by kernel org:
+    export URL=https://cdn.kernel.org/pub/tools/llvm/files
+  * crosstool provided by 0-Day CI:
+    export URL=https://download.01.org/0day-ci/cross-package
+clang crosstool install failed
+Install clang compiler failed
+setup_crosstool failed
 
-All warnings (new ones prefixed by >>):
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202504081841.jbL7yL0r-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > > >> mm/swapfile.c:1517:20: warning: function 'swap_is_last_ref' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+> > 
+> > It's annoying that gcc warns about this.
+> > 
+> > >     1517 | static inline bool swap_is_last_ref(unsigned char count)
+> > >          |                    ^~~~~~~~~~~~~~~~
+> > >    1 warning generated.
+> > > 
+> > > 
+> > > vim +/swap_is_last_ref +1517 mm/swapfile.c
+> > > 
+> > >   1512	
+> > >   1513	/*
+> > >   1514	 * Drop the last ref(1, SWAP_HAS_CACHE or SWAP_MAP_SHMEM) of swap entries,
+> > >   1515	 * caller have to ensure all entries belong to the same cgroup and cluster.
+> > >   1516	 */
+> > > > 1517	static inline bool swap_is_last_ref(unsigned char count)
+> > >   1518	{
+> > >   1519		return (count == SWAP_HAS_CACHE) || (count == 1) ||
+> > >   1520		       (count == SWAP_MAP_SHMEM);
+> > >   1521	}
+> > >   1522	
+> > 
+> > : static inline bool swap_is_last_ref(unsigned char count)
+> > : {
+> > : 	return (count == SWAP_HAS_CACHE) || (count == 1) ||
+> > : 	       (count == SWAP_MAP_SHMEM);
+> > : }
+> > : 
+> > : static void swap_entries_free(struct swap_info_struct *si,
+> > : 			      struct swap_cluster_info *ci,
+> > : 			      swp_entry_t entry, unsigned int nr_pages)
+> > : {
+> > : 	unsigned long offset = swp_offset(entry);
+> > : 	unsigned char *map = si->swap_map + offset;
+> > : 	unsigned char *map_end = map + nr_pages;
+> > : 
+> > : 	/* It should never free entries across different clusters */
+> > : 	VM_BUG_ON(ci != offset_to_cluster(si, offset + nr_pages - 1));
+> > : 	VM_BUG_ON(cluster_is_empty(ci));
+> > : 	VM_BUG_ON(ci->count < nr_pages);
+> > : 
+> > : 	ci->count -= nr_pages;
+> > : 	do {
+> > : 		VM_BUG_ON(!swap_is_last_ref(*map));
+> > 
+> > 
+> > And it's annoying that VM_BUG_ON() doesn't reference its arg when
+> > CONFIG_DEBUG_VM=n.
+> > 
+> > I'll add this:
+> > 
+> > --- a/mm/swapfile.c~mm-swap-enable-swap_entry_range_free-to-drop-any-kind-of-last-ref-fix
+> > +++ a/mm/swapfile.c
+> > @@ -1514,11 +1514,13 @@ fallback:
+> >   * Drop the last ref(1, SWAP_HAS_CACHE or SWAP_MAP_SHMEM) of swap entries,
+> >   * caller have to ensure all entries belong to the same cgroup and cluster.
+> >   */
+> > +#ifdef CONFIG_DEBUG_VM
+> >  static inline bool swap_is_last_ref(unsigned char count)
+> >  {
+> >  	return (count == SWAP_HAS_CACHE) || (count == 1) ||
+> >  	       (count == SWAP_MAP_SHMEM);
+> >  }
+> > +#endif
+> >  
+> >  static void swap_entries_free(struct swap_info_struct *si,
+> >  			      struct swap_cluster_info *ci,
+> > _
+> 
+> This makes my build fails when CONFIG_DEBUG_VM is unset as below.
+> 
+>     linux/mm/swapfile.c: In function ‘swap_entries_free’:
+>     linux/mm/swapfile.c:1565:28: error: implicit declaration of function ‘swap_is_last_ref’; did you mean ‘swap_is_last_map’? [-Werror=implicit-function-declaration]
+>      1565 |                 VM_BUG_ON(!swap_is_last_ref(*map));
+>           |                            ^~~~~~~~~~~~~~~~
+>     linux/include/linux/build_bug.h:30:63: note: in definition of macro ‘BUILD_BUG_ON_INVALID’
+>        30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
+>           |                                                               ^
+>     linux/mm/swapfile.c:1565:17: note: in expansion of macro ‘VM_BUG_ON’
+>      1565 |                 VM_BUG_ON(!swap_is_last_ref(*map));
+>           |                 ^~~~~~~~~
+>     cc1: some warnings being treated as errors
+> 
+> Maybe we can open-code the condition, or add a macro implementation of
+> swap_is_last_ref() for !CONFIG_DEBUG_VM case?
 
-   mm/khugepaged.c:109: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
-   mm/khugepaged.c:109: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
->> mm/khugepaged.c:109: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
->> mm/khugepaged.c:109: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
-   mm/khugepaged.c:1493: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
-   mm/khugepaged.c:1493: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
-   mm/khugepaged.c:1695: warning: Function parameter or member 'mm' not described in 'collapse_file'
-   mm/khugepaged.c:1695: warning: Function parameter or member 'file' not described in 'collapse_file'
-   mm/khugepaged.c:1695: warning: Function parameter or member 'start' not described in 'collapse_file'
-   mm/khugepaged.c:1695: warning: Function parameter or member 'hpage' not described in 'collapse_file'
-   mm/khugepaged.c:1695: warning: Function parameter or member 'node' not described in 'collapse_file'
+I think we shold do the similar thing as this commit does:
+6e8e04291d81 mm/zsmalloc: add __maybe_unused attribute for is_first_zpdesc()
 
+Just add a __maybe_unused attribute to mute the warning. I haven't
+tested it because the reproducer failed in my side.
 
-vim +109 mm/khugepaged.c
+diff --git a/mm/swapfile.c b/mm/swapfile.c
+index 2887ed5d34cc..08b52346cc39 100644
+--- a/mm/swapfile.c
++++ b/mm/swapfile.c
+@@ -1539,7 +1539,7 @@ static bool swap_entries_put_map_nr(struct swap_info_struct *si,
+  * Drop the last ref(1, SWAP_HAS_CACHE or SWAP_MAP_SHMEM) of swap entries,
+  * caller have to ensure all entries belong to the same cgroup and cluster.
+  */
+-static inline bool swap_is_last_ref(unsigned char count)
++static inline bool __maybe_unused swap_is_last_ref(unsigned char count)
+ {
+ 	return (count == SWAP_HAS_CACHE) || (count == 1) ||
+ 	       (count == SWAP_MAP_SHMEM);
 
-27e1f8273113ade Song Liu           2019-09-23   87  
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   88  /**
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   89   * struct mm_slot - hash lookup from mm to mm_slot
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   90   * @hash: hash collision list
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   91   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   92   * @mm: the mm that this information is valid for
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   93   */
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   94  struct mm_slot {
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   95  	struct hlist_node hash;
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   96  	struct list_head mm_node;
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26   97  	struct mm_struct *mm;
-27e1f8273113ade Song Liu           2019-09-23   98  
-27e1f8273113ade Song Liu           2019-09-23   99  	/* pte-mapped THP in this mm */
-27e1f8273113ade Song Liu           2019-09-23  100  	int nr_pte_mapped_thp;
-27e1f8273113ade Song Liu           2019-09-23  101  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
-5c3c3afed0fd68c Xu Yu              2021-08-19  102  
-5c3c3afed0fd68c Xu Yu              2021-08-19  103  #ifdef CONFIG_HUGETEXT
-5c3c3afed0fd68c Xu Yu              2021-08-19  104  #define MAX_EXEC_VMA       8
-5c3c3afed0fd68c Xu Yu              2021-08-19  105  	/* exec vma vm_start in this mm */
-5c3c3afed0fd68c Xu Yu              2021-08-19  106  	int nr_exec_vma;
-5c3c3afed0fd68c Xu Yu              2021-08-19  107  	unsigned long exec_vma[MAX_EXEC_VMA];
-5c3c3afed0fd68c Xu Yu              2021-08-19  108  #endif
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26 @109  };
-b46e756f5e47031 Kirill A. Shutemov 2016-07-26  110  
-
-:::::: The code at line 109 was first introduced by commit
-:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
