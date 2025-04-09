@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4371E0B66;
-	Wed,  9 Apr 2025 21:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ECA2116F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 21:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744232943; cv=none; b=Qq/4yGJBhWRpV63m88IC/X+lPfuqyY2mLU8vMIB7bKUMGNcQN1c6YVMgnx8GykY9ZGN4ETBlgjVU6+hG59pr0cE+G7zBN6aI4qb+9DUOgPBmOYXLA0KDZPt6R/WIo4+MePQxJEP8Fgj4JWvcHVRHlxbcOl3jUw8pzrAwVofhP2A=
+	t=1744234804; cv=none; b=Xb+vyjZFkcYC/7n9PFF6v0R/+7/AeLEoGh1BIIZK7CQOx2y1qeDAetAdjQsh9eFjqIOW9caLr4+9E6++m4iJQSyLzRy0N+9EXOup4/67JCs8Ew944YRsqjxd9OffQ2aEMLf1QiFIpApIkTMRgF06D/jsnaMi3+V0L3c6KoNNsnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744232943; c=relaxed/simple;
-	bh=9FwTOr+ksva7BcWKrWAypW1bPBx+E92LgMFk7X5OZQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qwu/XYOLwIEqhO4fBVSjl221NKBpzrHGfdpZNOmAvT8LFx2+VrjRJLIUbbHBEe8PHz/HX0XTTJJH6y+z6CsCEzmakketPsUlVuI32ArY7E23l4xAEKJne+CvRRucXb1gYXFN1d++rsbwTebMqMwoOR1abftSsZVoiPh8eCTI9qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=baw1qUL+; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1744234804; c=relaxed/simple;
+	bh=4SoU2+NBuQb6bKJporD5w4wAc9Foq5YRpI0ID2q7INc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mWXt49OYMjQzUR8JJEcHKTc+WPuCAhKCtpsuiaI1XFJwwfzV+WPUDM7xW3IYskjcSgLU8hiiGaKkvgB7IveOq1MK4O33+3jvyn2w7RKL4Ehg8merzB8fBn1yLUooWSL5fHGFZtFcu0eZAyVA9dwGKcaXB8dk4+kwgTS3WGGbSgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itrt7enM; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baw1qUL+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itrt7enM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744232941; x=1775768941;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9FwTOr+ksva7BcWKrWAypW1bPBx+E92LgMFk7X5OZQw=;
-  b=baw1qUL+iKw3QVkMa3yHvG9nBCX17LWKrW7MjjL4SDtfiEdvPcbXHZ6N
-   pkhY+KHVbbWx0yuumbXZZS9dUdtTbJ/sVyYp99y6c0dnMiOhO28Tc9Gns
-   C0R9iWlwZUPa47WaIaNTomWcZDQtOCyPoUO+ttpZKYyq1Ntu7pAdV6XlW
-   dlb5+UN1ZMq4xaRBpY7qf+a15iosxOCP+yJ2Upm1X4rzr+/WrjkshuMau
-   l2fmhjaUh5C9ydDd8GpR09krh8onoeeOMLugYjB+Fqs+DVz2UiNcKB8Tx
-   U0Py6Q9KWFhT7ixJWjW/xeAyQnz6gvn0b10XPj/GjEumWb5hl5bZ6y+rw
-   g==;
-X-CSE-ConnectionGUID: 4tgoFjMFSOiGf32Ywlp4aQ==
-X-CSE-MsgGUID: hmFaCOq/Qp+kCMtUWeKiUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="45820536"
+  t=1744234801; x=1775770801;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4SoU2+NBuQb6bKJporD5w4wAc9Foq5YRpI0ID2q7INc=;
+  b=itrt7enM94xcDkm1p344+KQftRA5kLDq1Sgy+sqmnYsNs0wUKj1LsJag
+   lOnLd/Rfaet3U6oWCh1bUV+tckHIBMSPZXRPzkYV696yw5ntyMwCU/xxi
+   gnHKdkami++tGBm3H6WuiAFP21OvE9gbQCysyTVt5CS725QMcYvZLfyYq
+   JYs0cvX+WeuknuJjmTKPwDrYYoLo54Pa06NBk5o8Q8udHpUzOaEnMx20O
+   ztfs4yaQut08BTu5PveTtTqGmXhurlVmQBu2iEcBcvfEXZy5Ihavodld7
+   G4qXbSLZ47gHNoA75lO54W1g9dbK5+5RKiizw2qobsEBLE3zRQfRnpRfJ
+   Q==;
+X-CSE-ConnectionGUID: fTRoYJZvQYCCRCc5HGbPDQ==
+X-CSE-MsgGUID: JUExxbPKQmSy3KJjSIVrWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="45855812"
 X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="45820536"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 14:09:00 -0700
-X-CSE-ConnectionGUID: dRISYAzsS+uR+D60TYeNVA==
-X-CSE-MsgGUID: PYadYmTTQIqQqMRejQ+j1Q==
+   d="scan'208";a="45855812"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 14:40:01 -0700
+X-CSE-ConnectionGUID: 8Hn+Anl9S/yaNSiaDFALeg==
+X-CSE-MsgGUID: oy2YX5kiT2GDmF5p+JkIbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="133816955"
+   d="scan'208";a="129234887"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Apr 2025 14:08:57 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Apr 2025 14:40:00 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u2cfG-0009KJ-14;
-	Wed, 09 Apr 2025 21:08:54 +0000
-Date: Thu, 10 Apr 2025 05:08:24 +0800
+	id 1u2d9K-0009Ln-0X;
+	Wed, 09 Apr 2025 21:39:58 +0000
+Date: Thu, 10 Apr 2025 05:39:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stuart Henderson <stuarth@opensource.cirrus.com>,
-	Qi Zhou <qi.zhou@cirrus.com>,
-	Piotr Stankiewicz <piotrs@opensource.cirrus.com>
-Subject: Re: [PATCH 2/2] ASoC: cs48l32: Add driver for Cirrus Logic CS48L32
- audio DSP
-Message-ID: <202504100405.7znimLX7-lkp@intel.com>
-References: <20250408162310.670041-3-rf@opensource.cirrus.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1] arch/arm64/kvm/mmu.c:2012:5:
+ sparse: sparse: symbol 'pkvm_mem_abort_prefault' was not declared. Should it
+ be static?
+Message-ID: <202504100541.VRmd6tIQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,118 +62,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250408162310.670041-3-rf@opensource.cirrus.com>
 
-Hi Richard,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus robh/for-next linus/master v6.15-rc1 next-20250409]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/ASoC-dt-bindings-Add-Cirrus-Logic-CS48L32-audio-DSP/20250409-002905
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250408162310.670041-3-rf%40opensource.cirrus.com
-patch subject: [PATCH 2/2] ASoC: cs48l32: Add driver for Cirrus Logic CS48L32 audio DSP
-config: powerpc64-randconfig-003-20250410 (https://download.01.org/0day-ci/archive/20250410/202504100405.7znimLX7-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   234a951b246d8500f6b621fe23c238bdc2afcef5
+commit: 3fc1e219027721249a621d54449e0f3db624b655 [1/1] ANDROID: KVM: arm64: Introduce kvm-arm.protected_prefault parameter
+config: arm64-randconfig-r131-20250409 (https://download.01.org/0day-ci/archive/20250410/202504100541.VRmd6tIQ-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100405.7znimLX7-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20250410/202504100541.VRmd6tIQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504100405.7znimLX7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504100541.VRmd6tIQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/arm64/kvm/mmu.c:313:1: sparse: sparse: symbol 'kvm_pinned_pages_insert' was not declared. Should it be static?
+>> arch/arm64/kvm/mmu.c:2012:5: sparse: sparse: symbol 'pkvm_mem_abort_prefault' was not declared. Should it be static?
 
->> sound/soc/codecs/cs48l32.c:3435:3: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-    3435 |                 i + 1, ana_mode_l, ana_mode_r);
-         |                 ^
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                              ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c:3408:7: note: initialize the variable 'i' to silence this warning
-    3408 |         int i;
-         |              ^
-         |               = 0
-   1 warning generated.
+vim +/pkvm_mem_abort_prefault +2012 arch/arm64/kvm/mmu.c
 
-
-vim +/i +3435 sound/soc/codecs/cs48l32.c
-
-  3402	
-  3403	static int cs48l32_init_inputs(struct snd_soc_component *component)
-  3404	{
-  3405		struct cs48l32_codec *cs48l32_codec = snd_soc_component_get_drvdata(component);
-  3406		struct regmap *regmap = cs48l32_codec->core.regmap;
-  3407		unsigned int ana_mode_l, ana_mode_r, dig_mode;
-  3408		int i;
-  3409	
-  3410		/*
-  3411		 * Initialize input modes from the A settings. For muxed inputs the
-  3412		 * B settings will be applied if the mux is changed
-  3413		 */
-  3414		switch (cs48l32_codec->in_type[0][0]) {
-  3415		default:
-  3416		case CS48L32_IN_TYPE_DIFF:
-  3417			ana_mode_l = 0;
-  3418			break;
-  3419		case CS48L32_IN_TYPE_SE:
-  3420			ana_mode_l = 1 << CS48L32_INx_SRC_SHIFT;
-  3421			break;
-  3422		}
-  3423	
-  3424		switch (cs48l32_codec->in_type[1][0]) {
-  3425		default:
-  3426		case CS48L32_IN_TYPE_DIFF:
-  3427			ana_mode_r = 0;
-  3428			break;
-  3429		case CS48L32_IN_TYPE_SE:
-  3430			ana_mode_r = 1 << CS48L32_INx_SRC_SHIFT;
-  3431			break;
-  3432		}
-  3433	
-  3434		dev_dbg(cs48l32_codec->core.dev, "IN%d_1 Analogue mode=#%x,#%x\n",
-> 3435			i + 1, ana_mode_l, ana_mode_r);
-  3436	
-  3437		regmap_update_bits(regmap,
-  3438				   CS48L32_IN1L_CONTROL1,
-  3439				   CS48L32_INx_SRC_MASK,
-  3440				   ana_mode_l);
-  3441	
-  3442		regmap_update_bits(regmap,
-  3443				   CS48L32_IN1R_CONTROL1,
-  3444				   CS48L32_INx_SRC_MASK,
-  3445				   ana_mode_r);
-  3446	
-  3447		for (i = 0; i < ARRAY_SIZE(cs48l32_codec->pdm_sup); i++) {
-  3448			dig_mode = cs48l32_codec->pdm_sup[i] << CS48L32_IN1_PDM_SUP_SHIFT;
-  3449	
-  3450			dev_dbg(cs48l32_codec->core.dev, "IN%d PDM_SUP=#%x\n", i + 1, dig_mode);
-  3451	
-  3452			regmap_update_bits(regmap,
-  3453					   CS48L32_INPUT1_CONTROL1 + (i * 0x40),
-  3454					   CS48L32_IN1_PDM_SUP_MASK, dig_mode);
-  3455		}
-  3456	
-  3457		return 0;
-  3458	}
-  3459	
+  2011	
+> 2012	int pkvm_mem_abort_prefault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+  2013				    struct kvm_memory_slot *memslot)
+  2014	{
+  2015		phys_addr_t memslot_start = memslot->base_gfn << PAGE_SHIFT;
+  2016		size_t size = (1 << pkvm_prefault) << PAGE_SHIFT;
+  2017	
+  2018		fault_ipa = ALIGN_DOWN(fault_ipa, size);
+  2019		if (fault_ipa < memslot_start) {
+  2020			size -= memslot_start - fault_ipa;
+  2021			fault_ipa = memslot_start;
+  2022		}
+  2023	
+  2024		return pkvm_mem_abort(vcpu, fault_ipa, size, memslot);
+  2025	}
+  2026	
 
 -- 
 0-DAY CI Kernel Test Service
