@@ -1,103 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B7CB67E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Apr 2025 00:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C66E29A0;
+	Wed,  9 Apr 2025 00:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744159166; cv=none; b=fWy1wlehUTlXwaFfuP3627WAJM0O4+enoSQyRYz1q86ZvCSdONlz64+KgJLNeFWpMEW7LzV+lWlbEcqj0QzvaBRNSLFLrB6CBwzFe3xIP1G3ceIkHW1fN42l/JJ8plSTiLLLe2tn2uLuf5EK0rPxPu3yog5sd1ZUyXDkil9WZoA=
+	t=1744159201; cv=none; b=C157Olr9MpFryc9TT8tEehnsjwlxbqG927KLfNCkMtngsgKGmTFR1r03ii7UcjKUNk+8/pJBip6a9mt5gFcGv52V1UnLZJwX2Y1T5vCki85XLiD0BhzCQv3JxtsYMWyYak2Dy/RnPum0oYn25h45I7/jxMqLxb1nKX8jvAE4hUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744159166; c=relaxed/simple;
-	bh=x5JRWmXlN6Ck9boVR9HOmeNypCiGti0VgqEMvmHs+K8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pQSPwK9ksQMPqGWWlsnE6a+vXVpTg51a54phMQ8bclgxZN8QrV0q22sAJd30O1xoRC6PPzcTdTKsj9Zd/2prb3HAPQMQZYqzkFu+IG9ZIXpQX1I4UFWhA+Oe+jske/dditwYTv9SWEd7cFyrQCAlsq3nC0l0b5ULPDMPoxZB22E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ABM/ccV9; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744159201; c=relaxed/simple;
+	bh=ePBmpq2a4DMQiWyTZzEf6l0GwjldfvvKxuZRaNZTn0o=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Ntn5M+/Hb2/epvvT7MoXVuCajbs3Xxjx0I4oOoNjkLL+iVkOc2l2tJFPN6cmOG0pMaI5y/VqPvkV5ZtKkEI9b5yTXL9RHL1uxf4Oe0oc3vqbll66BCKgCRsQW9THqt7vIPw56tyKFipvGfOiNQ+RQBuYn9GWfco44BH0TKpyc6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=QjYyByEc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ABM/ccV9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744159164; x=1775695164;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x5JRWmXlN6Ck9boVR9HOmeNypCiGti0VgqEMvmHs+K8=;
-  b=ABM/ccV9Myidst1exFD2yRFhXHKP9pHn1yABjtxENXoYdnLNLWTQGang
-   /WA966ZKLLSeZCoi6DxSSekQf4q+t+c9D9arnRzBeBdsRGV6F43NNNPhY
-   Qs6KGmOqBvH8+jQ3fXiLb5sVPYsUo8B4ycPdTySIUiD/bju8wgFchcpjM
-   yvCccw3onzYJHkFoZIPpcP0WWkKdw8E735d8Tsub2Eg/3Ch/B7i41OCbm
-   fCboDkEtgiTxkapjSxZ3WT8L06bFlT5KB8VselBK6IiQj29znyRr2IGn3
-   36+8mvF9+N7hQpJbJRMsAGieGHSYAwqZ7ejrgz8A9/KQluWlSiQ9RFJ8F
-   g==;
-X-CSE-ConnectionGUID: UneqlhxHRr21tlw/+zRRiQ==
-X-CSE-MsgGUID: ZQ216AYmRlecSfNPYWZO3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44758243"
-X-IronPort-AV: E=Sophos;i="6.15,199,1739865600"; 
-   d="scan'208";a="44758243"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 17:39:23 -0700
-X-CSE-ConnectionGUID: h+Zsyl/TRYKii7mgz/Kq9Q==
-X-CSE-MsgGUID: QdvRR4hySNOJC3fOMn6pyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,199,1739865600"; 
-   d="scan'208";a="133407277"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Apr 2025 17:39:22 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u2JTL-000883-1e;
-	Wed, 09 Apr 2025 00:39:19 +0000
-Date: Wed, 9 Apr 2025 08:38:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-04 1/1]
- arch/arm/mm/ioremap.c:135:2: warning: 'memcpy': specified size between
- 4294967272 and 4294967295 exceeds maximum object size 2147483647
-Message-ID: <202504090851.pYtFM32S-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="QjYyByEc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7727BC4CEE5;
+	Wed,  9 Apr 2025 00:40:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1744159200;
+	bh=ePBmpq2a4DMQiWyTZzEf6l0GwjldfvvKxuZRaNZTn0o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QjYyByEc3E3N6AkWFipwvkl3ysx8PP88WA19yKHQ3uCvmPIHVE9v8I4X7XILpSQ17
+	 5puxONq23M0m5yAKXPRkXTudz++lyihLCuT61Oyk1olPZKGBlUlG9jryQAWz1saNcr
+	 cngyuLl06Qgx4WelEHGYQewj8nH9XHRxiqiT7f0I=
+Date: Tue, 8 Apr 2025 17:39:59 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Kemeng Shi <shikemeng@huaweicloud.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Tim Chen <tim.c.chen@linux.intel.com>, Baoquan He
+ <bhe@redhat.com>
+Subject: Re: [linux-next:master 1753/1936] mm/swapfile.c:1517:20: warning:
+ function 'swap_is_last_ref' is not needed and will not be emitted
+Message-Id: <20250408173959.f501f65ec5d5e52cefe6b129@linux-foundation.org>
+In-Reply-To: <202504081841.jbL7yL0r-lkp@intel.com>
+References: <202504081841.jbL7yL0r-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-04
-head:   c22e4d8c41dad7ec526fba8bc1d09f6c5f0e7770
-commit: 1359fd9eae29490c542e17c107cb41cfb8463138 [1/1] ARM: 9429/1: ioremap: Sync PGDs for VMALLOC shadow
-config: arm-randconfig-003-20250409 (https://download.01.org/0day-ci/archive/20250409/202504090851.pYtFM32S-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250409/202504090851.pYtFM32S-lkp@intel.com/reproduce)
+On Tue, 8 Apr 2025 18:06:11 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504090851.pYtFM32S-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   7702d0130dc002bab2c3571ddb6ff68f82d99aea
+> commit: 6bb001b6b64ec20d900d0d81294a0f031af59c3e [1753/1936] mm: swap: enable swap_entry_range_free() to drop any kind of last ref
+> config: hexagon-randconfig-001-20250408 (https://download.01.org/0day-ci/archive/20250408/202504081841.jbL7yL0r-lkp@intel.com/config)
+> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081841.jbL7yL0r-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504081841.jbL7yL0r-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> mm/swapfile.c:1517:20: warning: function 'swap_is_last_ref' is not needed and will not be emitted [-Wunneeded-internal-declaration]
 
-All warnings (new ones prefixed by >>):
+It's annoying that gcc warns about this.
 
-   In function 'memcpy_pgd.constprop',
-       inlined from '__check_vmalloc_seq' at arch/arm/mm/ioremap.c:145:3:
->> arch/arm/mm/ioremap.c:135:2: warning: 'memcpy': specified size between 4294967272 and 4294967295 exceeds maximum object size 2147483647 [-Wstringop-overflow=]
-     memcpy(pgd_offset(mm, start), pgd_offset_k(start),
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            sizeof(pgd_t) * (pgd_index(end) - pgd_index(start)));
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     1517 | static inline bool swap_is_last_ref(unsigned char count)
+>          |                    ^~~~~~~~~~~~~~~~
+>    1 warning generated.
+> 
+> 
+> vim +/swap_is_last_ref +1517 mm/swapfile.c
+> 
+>   1512	
+>   1513	/*
+>   1514	 * Drop the last ref(1, SWAP_HAS_CACHE or SWAP_MAP_SHMEM) of swap entries,
+>   1515	 * caller have to ensure all entries belong to the same cgroup and cluster.
+>   1516	 */
+> > 1517	static inline bool swap_is_last_ref(unsigned char count)
+>   1518	{
+>   1519		return (count == SWAP_HAS_CACHE) || (count == 1) ||
+>   1520		       (count == SWAP_MAP_SHMEM);
+>   1521	}
+>   1522	
+
+: static inline bool swap_is_last_ref(unsigned char count)
+: {
+: 	return (count == SWAP_HAS_CACHE) || (count == 1) ||
+: 	       (count == SWAP_MAP_SHMEM);
+: }
+: 
+: static void swap_entries_free(struct swap_info_struct *si,
+: 			      struct swap_cluster_info *ci,
+: 			      swp_entry_t entry, unsigned int nr_pages)
+: {
+: 	unsigned long offset = swp_offset(entry);
+: 	unsigned char *map = si->swap_map + offset;
+: 	unsigned char *map_end = map + nr_pages;
+: 
+: 	/* It should never free entries across different clusters */
+: 	VM_BUG_ON(ci != offset_to_cluster(si, offset + nr_pages - 1));
+: 	VM_BUG_ON(cluster_is_empty(ci));
+: 	VM_BUG_ON(ci->count < nr_pages);
+: 
+: 	ci->count -= nr_pages;
+: 	do {
+: 		VM_BUG_ON(!swap_is_last_ref(*map));
 
 
-vim +/memcpy +135 arch/arm/mm/ioremap.c
+And it's annoying that VM_BUG_ON() doesn't reference its arg when
+CONFIG_DEBUG_VM=n.
 
-   130	
-   131	static void memcpy_pgd(struct mm_struct *mm, unsigned long start,
-   132			       unsigned long end)
-   133	{
-   134		end = ALIGN(end, PGDIR_SIZE);
- > 135		memcpy(pgd_offset(mm, start), pgd_offset_k(start),
-   136		       sizeof(pgd_t) * (pgd_index(end) - pgd_index(start)));
-   137	}
-   138	
+I'll add this:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/mm/swapfile.c~mm-swap-enable-swap_entry_range_free-to-drop-any-kind-of-last-ref-fix
++++ a/mm/swapfile.c
+@@ -1514,11 +1514,13 @@ fallback:
+  * Drop the last ref(1, SWAP_HAS_CACHE or SWAP_MAP_SHMEM) of swap entries,
+  * caller have to ensure all entries belong to the same cgroup and cluster.
+  */
++#ifdef CONFIG_DEBUG_VM
+ static inline bool swap_is_last_ref(unsigned char count)
+ {
+ 	return (count == SWAP_HAS_CACHE) || (count == 1) ||
+ 	       (count == SWAP_MAP_SHMEM);
+ }
++#endif
+ 
+ static void swap_entries_free(struct swap_info_struct *si,
+ 			      struct swap_cluster_info *ci,
+_
+
+Kemeng, can you please review that comment "Drop the last ref...". 
+From its positioning it appears to be describing swap_is_last_ref(),
+but swap_is_last_ref() doesn't do those things.
+
