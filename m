@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C9020E334
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 23:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A53212FAC;
+	Thu, 10 Apr 2025 23:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744327789; cv=none; b=ZfeO3oSABe6LEDUbvLV/a7EOdyHq4raZd0SrsDuM4ad3Bv0d0Sxz7A5p9eoZ5/BdIq6TNJ0pJiSqujHPklveW2DYUp0tbxK+zbz3+VFq7xoNe/entS5EUFpdwYT+01SJJ+kPWDaUCKsUHRZfPB7UJSuTvmQxFMMlzjCKYEkDW2Y=
+	t=1744327790; cv=none; b=j3LWdn6cvo0Ie+s5T1vOaIA2B2jVJER4D3U8AWNlzJyf0l7lNYcb6EIP4ek6CckNuy6F3fbPhkXd5kdsXMYW40eqSt68Iiw625CWgE5e+pxmZSodWuebqCxOpKN6tgfYY/0EnBCLNeRUYYoNvIkrL4zgscNQ/p9LKHiscuB+flE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744327789; c=relaxed/simple;
-	bh=+Plcb+fKbsEIwRWFZ981UXupQQIYBBt7V2FKwun/gGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WiE3C3kiqIyBEDLi/DLtg5XvPnA1xav0HIXPQFSrNXEm8wOptV/AMo9C5mdCToiXkwwifwYYGEgKemVP/XdLGbvGHgumSfnGzVYfuxdM3zKXpPpxIct5r3t5rlTOTm5fQjz4ElfhVhxFxgcz1vHQ8lNuKgabHSFJuwIAFINeRRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVV64jc5; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1744327790; c=relaxed/simple;
+	bh=8jOpSPwprOxkM/J3OPiEEMfzk9Ma6DGiirJIc7Jwjko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TROYXFv1sfSw8COHcioyYwxMrLFB2xVORS1A25JgGINWO9fitmNu1FQtiw9uQKeK2jWkFdZYLSNX0Jfz2D1wfCZGF+jRdFOId24sLRWtcXSrPjhVzYRi4ngtPpiIq2ZWh8BuYZZCDnO6ydlgWMobUSuCqgmLNHCArmPpfwIXdfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MwjTAC9s; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVV64jc5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MwjTAC9s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744327787; x=1775863787;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Plcb+fKbsEIwRWFZ981UXupQQIYBBt7V2FKwun/gGE=;
-  b=LVV64jc5BLmwgZAw/pR1OYPidNKGPh+L5HLd90Ur5gSx9ky58mweNhWw
-   GYOdBDit60kI6WQvwXLE11dEk1C6PffFAV5ygxMn78XkvkoalzuIOyI1P
-   Kd4/j9EajwtBbCuZyFw0mW25zTCmGxzTZYUrWPq8Y+e1I42uQfUJf/0A2
-   XzItimwKu22LAouhb6N5FopQBtYzdN5XokaxgPvRHnGMrVTKi9FTn2Bf9
-   f/+9BBOyW11R0xrPwexTk2ZhO/kSC96QRALQo5ibek1xL9sASZkG23WYY
-   l225n7vgRCxXO0N9RsUu/musfS+4ivn48viemWbNJJ1cev0K9TdmoKPx9
-   g==;
-X-CSE-ConnectionGUID: SIu2YgYkRwieChvPHz4BFA==
-X-CSE-MsgGUID: GcwA/KEhTg68TvIST23KzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="57253004"
+  t=1744327789; x=1775863789;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8jOpSPwprOxkM/J3OPiEEMfzk9Ma6DGiirJIc7Jwjko=;
+  b=MwjTAC9sYMKnSL0DEaMTEwezMa/j42XoClIxK8QPUPnmaEiA7exDT6mG
+   3oWjjYZ8z4kSO0ra52lMUjmYBjN8dlmo+vwsMU1KhcdFTsV63tjCElcey
+   f5/Y7sTbRycCnyT6Q+yZeN9Ic6jDoQXSErE8jjyPPQxn575DLi+oro4ji
+   aOQoLjqnXDK5MpgqVSowjJL7jsnA7wE5SAuGjvStqzCxaIgpeVT5A/2fr
+   a4XW0uk81tRu8+GeH6QYAIr/ZIhwp3cwp8rRYAgc2FwDvXBoQiU0YWZ/S
+   nx0MgDrkBmNLlyRMrJ6iT81zP7IHASxOqCr8S5Oo5H/TgXOw/rGOlfRbx
+   A==;
+X-CSE-ConnectionGUID: Al4c67JVQGO8cYNPQAMjMQ==
+X-CSE-MsgGUID: PE05R0AoQhKAQj+XUP0cCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="56514848"
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="57253004"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 16:29:46 -0700
-X-CSE-ConnectionGUID: NYi9gTidR6KlnUYpviVuXA==
-X-CSE-MsgGUID: nENdoff6TVucGg6TTQLlBQ==
+   d="scan'208";a="56514848"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 16:29:48 -0700
+X-CSE-ConnectionGUID: SAiMB3F/Q26IBsQ5XFPr9g==
+X-CSE-MsgGUID: Lsse+SNpR+WTRSUoqqDiRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="128996905"
+   d="scan'208";a="160005628"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Apr 2025 16:29:44 -0700
+  by orviesa002.jf.intel.com with ESMTP; 10 Apr 2025 16:29:44 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u31L4-000AdM-0T;
+	id 1u31L4-000AdH-0E;
 	Thu, 10 Apr 2025 23:29:42 +0000
-Date: Fri, 11 Apr 2025 07:29:12 +0800
+Date: Fri, 11 Apr 2025 07:29:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Song Zhang <zhangsong34@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2117/2117] kernel/sched/fair.c:151:14: sparse:
- sparse: symbol 'sysctl_sched_prio_load_balance_enabled' was not declared.
- Should it be static?
-Message-ID: <202504110741.FCO7H6rm-lkp@intel.com>
+To: Yuquan Wang <wangyuquan1236@phytium.com.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, jiaxun.yang@flygoat.com, rppt@kernel.org,
+	akpm@linux-foundation.org, david@redhat.com,
+	Jonathan.Cameron@huawei.com, dave.hansen@linux.intel.com,
+	dan.j.williams@intel.com, alison.schofield@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, chenbaozi@phytium.com.cn,
+	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
+	Yuquan Wang <wangyuquan1236@phytium.com.cn>
+Subject: Re: [PATCH 1/1] LoongArch: Introduce the numa_memblks conversion
+Message-ID: <202504110627.AIvtEzM7-lkp@intel.com>
+References: <20250409070250.3225839-1-wangyuquan1236@phytium.com.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,131 +69,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250409070250.3225839-1-wangyuquan1236@phytium.com.cn>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   62b846e657553d00552c1c71b6ecc26017eb1a9a
-commit: 89bf80a4d6d5ba852b9042480e0be23c2c4a628c [2117/2117] sched: Introduce priority load balance for qos scheduler
-config: loongarch-randconfig-r121-20250411 (https://download.01.org/0day-ci/archive/20250411/202504110741.FCO7H6rm-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250411/202504110741.FCO7H6rm-lkp@intel.com/reproduce)
+Hi Yuquan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.15-rc1 next-20250410]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuquan-Wang/LoongArch-Introduce-the-numa_memblks-conversion/20250409-150524
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250409070250.3225839-1-wangyuquan1236%40phytium.com.cn
+patch subject: [PATCH 1/1] LoongArch: Introduce the numa_memblks conversion
+config: loongarch-randconfig-002-20250410 (https://download.01.org/0day-ci/archive/20250411/202504110627.AIvtEzM7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504110627.AIvtEzM7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504110741.FCO7H6rm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504110627.AIvtEzM7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:143:14: sparse: sparse: symbol 'sysctl_overload_detect_period' was not declared. Should it be static?
-   kernel/sched/fair.c:144:14: sparse: sparse: symbol 'sysctl_offline_wait_interval' was not declared. Should it be static?
->> kernel/sched/fair.c:151:14: sparse: sparse: symbol 'sysctl_sched_prio_load_balance_enabled' was not declared. Should it be static?
-   kernel/sched/fair.c:7578:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/sched/fair.c:7578:9: sparse:     expected void *ptr
-   kernel/sched/fair.c:7578:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/sched/fair.c:7578:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/sched/fair.c:7578:9: sparse:     expected void *ptr
-   kernel/sched/fair.c:7578:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/sched/fair.c:7578:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/sched/fair.c:7578:9: sparse:     expected void *ptr
-   kernel/sched/fair.c:7578:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/sched/fair.c:7578:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/sched/fair.c:7578:9: sparse:     expected void *ptr
-   kernel/sched/fair.c:7578:9: sparse:     got unsigned int [noderef] __percpu *
-   kernel/sched/fair.c:7578:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:7578:9: sparse:     expected void *ptr
-   kernel/sched/fair.c:7578:9: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:7578:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:7578:9: sparse:     expected void *ptr
-   kernel/sched/fair.c:7578:9: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:7578:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:7578:9: sparse:     expected void *ptr
-   kernel/sched/fair.c:7578:9: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:7578:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:7578:9: sparse:     expected void *ptr
-   kernel/sched/fair.c:7578:9: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:1271:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1271:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1271:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:12846:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12846:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12846:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:5925:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:5925:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:5925:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:6667:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:6667:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:6667:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:7396:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7396:32: sparse:     expected void *ptr
-   kernel/sched/fair.c:7396:32: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7396:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7396:32: sparse:     expected void *ptr
-   kernel/sched/fair.c:7396:32: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7396:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7396:32: sparse:     expected void *ptr
-   kernel/sched/fair.c:7396:32: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7396:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7396:32: sparse:     expected void *ptr
-   kernel/sched/fair.c:7396:32: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7499:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7499:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:7499:16: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7499:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7499:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:7499:16: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7499:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7499:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:7499:16: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7499:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7499:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:7499:16: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7974:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7974:32: sparse:     expected void *ptr
-   kernel/sched/fair.c:7974:32: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7974:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7974:32: sparse:     expected void *ptr
-   kernel/sched/fair.c:7974:32: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7974:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7974:32: sparse:     expected void *ptr
-   kernel/sched/fair.c:7974:32: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7974:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct cpumask *[noderef] __percpu * @@
-   kernel/sched/fair.c:7974:32: sparse:     expected void *ptr
-   kernel/sched/fair.c:7974:32: sparse:     got struct cpumask *[noderef] __percpu *
-   kernel/sched/fair.c:7998:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7998:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:7998:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8310:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8310:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8310:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8421:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8421:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8421:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8641:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:8641:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:8641:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:8706:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8706:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:8706:16: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8706:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8706:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:8706:16: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8706:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8706:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:8706:16: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8706:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8706:16: sparse:     expected void *ptr
-   kernel/sched/fair.c:8706:16: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8763:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/sched/fair.c:8763:13: sparse:     expected void *ptr
-   kernel/sched/fair.c:8763:13: sparse:     got int [noderef] __percpu *
-   kernel/sched/fair.c:8763:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+All error/warnings (new ones prefixed by >>):
 
-vim +/sysctl_sched_prio_load_balance_enabled +151 kernel/sched/fair.c
-
-   149	
-   150	#ifdef CONFIG_QOS_SCHED_PRIO_LB
- > 151	unsigned int sysctl_sched_prio_load_balance_enabled;
-   152	#endif
-   153	
+>> mm/numa_memblks.c:125:5: warning: no previous prototype for '__node_distance' [-Wmissing-prototypes]
+     125 | int __node_distance(int from, int to)
+         |     ^~~~~~~~~~~~~~~
+--
+   loongarch64-linux-ld: mm/numa_memblks.o: in function `numa_set_distance':
+>> mm/numa_memblks.c:104: multiple definition of `numa_set_distance'; arch/loongarch/kernel/acpi.o:arch/loongarch/kernel/acpi.c:253: first defined here
+>> loongarch64-linux-ld: mm/numa_memblks.o:mm/numa_memblks.c:13: multiple definition of `numa_nodes_parsed'; arch/loongarch/kernel/numa.o:arch/loongarch/kernel/numa.c:47: first defined here
 
 -- 
 0-DAY CI Kernel Test Service
