@@ -1,106 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194091B2186
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 08:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744274912; cv=none; b=pG1VrFaNVTOWpbu+4td2bq0Q2yiHQVJQkjSQSoJcQNV/EKVZusm2aYdzEJqa2t7GZ4DITx0zYgHqa7Md55LRnF0LsjlEJN+srMkghuPHazUdxakvA+zn7Y8jAI+16iHUycAzktm5aT1J68aMsbh6LtmPoncbWY/7C5CR19vZCzk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744274912; c=relaxed/simple;
-	bh=P/7IIwmVbRxj5UvcTDhQB9Oc0nnRRQA7gDS+fBeARWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qa0EB2J4zvty6Y06XQiM/j/SLYp822XxC0goIS4mHEKB4yYyOWsxA1schBMNHOqDwkAbDJDYJDbWB7O9DdRnbfcSWFDFZqWTC/FtFvS3qYGsVAzrCYXPQWOAx0ngwQNSAMIZ+7uVa5TaAuBdT4wCTV+0trPC9wjVk6kOPQ7w/ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnDkUH9G; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C28F204F65;
+	Thu, 10 Apr 2025 09:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744277272; cv=fail; b=k95B+yi3oW4np4n8zhM0C3CmVHrOtnvvq1yB9nsgLQ8KWDnPnlYz7VDOhDiXn5AY2oh0uY/A0nlF377+Jl6THBGUe1r5Z+Gv7knxM9d2f3MxTISc+HkPz7MlUm/Qkn9QA1P0vfG1Om+2rmB4bg36Wjfl9NDo+QsJM1bnOPn9/Mo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744277272; c=relaxed/simple;
+	bh=rsDLqUuJBqUegYwCbs+vwt3uTIOje9bGtvfMvFlraw4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=lScVaJx1gkzZNcxJWq6+VLRtGmfpHfMQ+l22JWiT7SQ9kmCYKLbtY7je+8zlUAN796wqg2sPKRxaM05i4NGjRnMTOJkT961Lc3gUPByDz2h69Vx7erB/tuGLGc45Lu097KK9HZ4uewSJT+TL7IYRP7P/ZSyuoUdnM1hbaDWCzig=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EqMg2XHZ; arc=fail smtp.client-ip=40.107.243.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnDkUH9G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744274907; x=1775810907;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P/7IIwmVbRxj5UvcTDhQB9Oc0nnRRQA7gDS+fBeARWA=;
-  b=lnDkUH9GMcjUKQm70VochQxVAvpbBxNlmZGXRru3Nbs5NtRiRE8mZiVr
-   A+ah0NyvnKs/8ZgNCeMFyjMO9ceCZ1hGMjeE6VclOZeY8D5GEw1BjHpbO
-   GJEecZM7G8e1NJzjRxs+DLiEVB7g3Ki9t1HFZNCPqFbsu4Y77JSQl+hfJ
-   KLVn87tIWt5Bdn54f2VwaWhsrhtBmM8x3GF2yS03CZ8QiK5Aqn/GrL3Is
-   8uwo0nGkKKD/j+raSxPenIV3Ojnb0tbs7+616EtuwT5CsBiA1yZbBYRgr
-   YVMyTAKhgva8v76iZIt0mkXoSI9ljjDgP3m6FSyQdP2E+q14Fg8ro8lg5
-   Q==;
-X-CSE-ConnectionGUID: jT1AKAFpSZC06Ok0buPJOQ==
-X-CSE-MsgGUID: pSOUWfA6S02FzY6M2MOflA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="63323683"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="63323683"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 01:48:26 -0700
-X-CSE-ConnectionGUID: MSyZGaKLRLWiPeRVEcIQQw==
-X-CSE-MsgGUID: pZawEmYNSo2W3vGEoKHyZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="133960345"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Apr 2025 01:48:25 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u2naB-0009q3-1l;
-	Thu, 10 Apr 2025 08:48:23 +0000
-Date: Thu, 10 Apr 2025 16:47:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2116/2116]
- drivers/crypto/montage/tsse/tsse_ipc_hash.c:14:1: sparse: sparse: symbol
- 'service_info_table' was not declared. Should it be static?
-Message-ID: <202504101645.mRh7GNFb-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EqMg2XHZ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UyztMy3DoiwwfTocwb0ewayZckJB2TIVpUzZbEXYif5w/jToHWwUDeKNOLPUurK58zMCnCVu5OZaBfHZqNpOi1EUS8X118A9aaT4SfOHKCd/Jf4ldi04QQn+JJxpluziMT1Fu2LS8+kh/ZaQAD0gLWNEwfm6ZgnICJrvBdmjl7RxDHGe5XkdZuu61QFevSVzFbQ0YWtDwQ65cyUfKvb4V7oizorh0LqicHXZ6vk7J0NnFU7dlorTQeFypy1TWQDt2/mO1Hz/md9D8YwHBTOPQiq+QDPLEqLtpD4/dVozMvPCSFMa4D5ghQSckIAfnVINGGBWWb756plC3np3De+mVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rsDLqUuJBqUegYwCbs+vwt3uTIOje9bGtvfMvFlraw4=;
+ b=N5G70Fazbzp2lqcThy2gP3/gnuiV6DPU4mHDhKv/4lyv1H5DxN+GZqr6i8x6jX9tgWJJaCt0smj9t3SAjksdZLb0V4NmxyfPs4ydyLE78IYrywa9/7T7s3c1WQo1nrsFIyA7TJXirkNkqgoucSvwtnTxOOoEJe51l5i8xwwfv7Ym+9f6i/Eg/pxbORJspMLbJpDWDgNLA05E0AEAIQHFSwWM/w0EUbkrPse/41ZY1SPFFNAxyuunSQGMMx4AJDRR5F35DGApZdGLaBENTjPz26IY66yCoLwzLih3+NRaihU1ZxP+ibkubZyH5bd6/m2H6o8dzLOM15GgznuJBegkHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rsDLqUuJBqUegYwCbs+vwt3uTIOje9bGtvfMvFlraw4=;
+ b=EqMg2XHZPSToCB641fch1W3lSvqot+7f+ggKJ3zoKp9bFr55f3oEhWO6o/HSQhCbuEH68MDjhZu57ad3/tAYIhHNzHYXV3T3AaWLEihO14aa3TvSCUmMIWuSHuFkQPByToZZsDOjEaGKU+5EOYZBhidVnmSfg32F6ndDoHORhG0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY5PR12MB6406.namprd12.prod.outlook.com (2603:10b6:930:3d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.23; Thu, 10 Apr
+ 2025 09:27:48 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Thu, 10 Apr 2025
+ 09:27:48 +0000
+Message-ID: <95ed4d91-85b6-4514-9d94-8324f4fcceb4@amd.com>
+Date: Thu, 10 Apr 2025 11:27:43 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/gpu/drm/vc4/vc4_gem.c:604 vc4_lock_bo_reservations()
+ error: uninitialized symbol 'ret'.
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Melissa Wen <mwen@igalia.com>
+References: <f5dd7fb6-6a99-407f-846f-0de2d0abe177@stanley.mountain>
+ <b402252a-91de-4983-abc1-65f78e7e6ae7@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <b402252a-91de-4983-abc1-65f78e7e6ae7@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0120.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6406:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5302fb25-b855-46cb-e2ae-08dd7811f4e6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NTczU3M0SGxON2ZsblJSWjhmR1VJSEh5QndRWWsxSkRQWWZCUEpGdStlVllE?=
+ =?utf-8?B?Z3htMHI3T01tRXYwZHg1K2h3Qy9ENHEydndWendCRm1JRWI5VTJoVHFGOFhC?=
+ =?utf-8?B?UkJ3d0Z4QVhFZFdIN3hEYzdPOUladys3N3lDUGVyekNORk9BdmpGY29aWXo2?=
+ =?utf-8?B?VXVRWElqd25XUkRwYTBCZmc1RW5wWUE2clNtN1RjRUJDekdLLzZvWHBzMFQ1?=
+ =?utf-8?B?R3VJaStTTHRyNlZ4SDBacFV6RDJQNjNHTGVaem9RVGJ5ZXhLQ3drSjF0dFh4?=
+ =?utf-8?B?SGRCSU1uUEVIN2dxdVhPamhkWVVQQzNQZjcxRzVna0xmMVNuc29OUFYzUmcv?=
+ =?utf-8?B?RWNsUCt1bDA0dFkzb0s1Ky9LbDc3YnJUazhnRXI3L1lmQTBwOVFsNGcyVXhV?=
+ =?utf-8?B?VFlsQTBhOURCdGt3anpheE03TGo1N1ZCUU5RUXdtbDBVbGUvZEMzcTNyUStS?=
+ =?utf-8?B?bG1mL1JucmZSak1XWkpsWDh6L0ZtYWNEK2VKWlJEZGY5VDVWbk9vRm93am1w?=
+ =?utf-8?B?UTJrTU9QQjFsa0sydGJuZW9nY052di9yazU3T3E5U1ZUYTRiWHRqV3dJZ3FH?=
+ =?utf-8?B?aFdrQlJjQmFmQjJkcFM5V0ZsbGVURG9kSFovVzR0VXR2VDk0UmFveEVuM1c2?=
+ =?utf-8?B?WnpjclM1MDNVaktlQ2g0bTRyTlBzblFYeEZjYk1iOEhLQUJtQTcxT2l1aUwz?=
+ =?utf-8?B?OTBCaU9nRzBZdHhiSGtpazdhTExNalZrdzRkUk5TZ1lNdmtIakkvMXJzcVFS?=
+ =?utf-8?B?dTN0VFpHajNkb3d5ZFBtTVBVSzZnSk5TQ1JjV0l6cW1YMjJINml1cjAwd0Iw?=
+ =?utf-8?B?cndKdFo4bnZKZk1rMTVzMWlhOVFhZlB6VmZFbnFaMEFISjZrYWFwNERabVN5?=
+ =?utf-8?B?bzRHdHhuQmpiQ3dma1YzclByUjlXUGZwNFpqdXdHdVZsdDdMeER2YktJYUxq?=
+ =?utf-8?B?OE5hajdaVUdRbHlzVktqSm5QTjdCdnVBME9Hb1dqUVZKbUh6L1B0clBIWStR?=
+ =?utf-8?B?TVlSdHdiNy84ek55ck41RE1EeXBmWHgxVmVtLzZJMGNlcEl6bXgvWGVMcWFB?=
+ =?utf-8?B?VjFoOFIyRmhvZGFFUWl6enVvdFNGV0k2Vk93cU9ldnlSTWdTRE1ZZlFBMkg0?=
+ =?utf-8?B?NGVMb05KT2M2RFJKMWpZeXU0dnJaNXVRVVliaDRaYTRMSHVQQ3ZZUllkU2NU?=
+ =?utf-8?B?R1Q2bklPR25ZeWNYSTFwK2FyZGJjTWk5dVRYRWkzSHppUWRPM09LOWhjZ1ly?=
+ =?utf-8?B?elRSRXhYbnY2WW1QZFFMTWoyeDl3bjdILzY1TnFaSHU3N0NhaytaSzJOQk0w?=
+ =?utf-8?B?SWxrcUtiMkticHB0SjBVZUdNcHhpN1dXTjUwUVFTeHVQTTNSZmNEZHFLN1Zn?=
+ =?utf-8?B?R0hDVzQxeTEzM3FtL2FkMit0TkwyZkxENFFkaVVUQUxZeEV5Umd1VDlCRnZP?=
+ =?utf-8?B?UHFwTDlnYTh4bGwyWDE3NkRuMWdCd1I5Qkh0cWhEVDRleHJqbW1yZ2lFUzUx?=
+ =?utf-8?B?b2dTaTBaNUFCNWxRQ2FmYkZjVUl1Zm14Uk1mWWQxNEdveUlQY3Qrci96Qk5Y?=
+ =?utf-8?B?T2NTS05ON0ttSEFjVGVBeVkrWUJjTHRyTUJGTnJDdytVdm1IY0crYlNMQlE5?=
+ =?utf-8?B?U2lUVEt0aytaRm9STitFRGJ4dVpvWVZid3JoeVMxaHZpOWg3QlZRRnVKeURw?=
+ =?utf-8?B?MXhyWXFxblJQWkpGMU9PZVU3NExSQ1pCSnBkSjRPcG9qZTA5dHZJeWpZWDZW?=
+ =?utf-8?B?UFkzQjdCZzQxNmpBN2J5aHAxVVBSS0d4U3hkRk5UbW1VQW1qUnQwMUtSdVA4?=
+ =?utf-8?B?Ry9WSy9EUXBnRXRMNGNDUT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?a0RnbzgzM0JjMnZvcW9PQVVlc1MzTVZJTldPU2ZYZ0g3R2lMTHhXb213Uysw?=
+ =?utf-8?B?eCtoWjJjeG1pYWpiZzc5c2daR254ZEd0Y3g1d0JXU2hSMkZSM3pFNjlyakly?=
+ =?utf-8?B?MWpwSDZXS3RqSzlPU2EzR0Q0WGQwQjdtbk94Qy9xc3FkekVzWVZxbmRLTE5w?=
+ =?utf-8?B?Y1FmMHZ1a3NreTFROUdsT29pbXI4d2JSRWZwVEtMRDdwUHNERnRqcjNINjBV?=
+ =?utf-8?B?blhiZUtJWEZ1Wk9tQ3VpTzJLL2tnTkQvK0xFc3VVcmQ4TkpQS3k5V0FDZDdm?=
+ =?utf-8?B?R01pdFR5TW9ZeUI1QWw1YWk5SEhSYURtZ3hrSVhtL20xbjlFLzkrT05md1dE?=
+ =?utf-8?B?UGQwOFJ6WndMUjJpZUZTNW0wRzdtYzhiV25kVkhHM0puRWlQYWQ5RGxpNkQy?=
+ =?utf-8?B?MXp3UzJhT1F5cTRhczV2RnhQK2tzZndBV1V4cFdtdzYyYjVzUWJJMDFlc2tq?=
+ =?utf-8?B?ejZPc1pObnlPdkVub05heElyZ2NRd05meTRka1FlMEJmM1lUM3hxMExEem5C?=
+ =?utf-8?B?b0xzSzhyMGwrZElZMlE3Y0FkT1kxQ1lsTU9UMGdIMGxPN2tjMHNHVU1BOHRZ?=
+ =?utf-8?B?L0czQlUwUWhsanBLVGtVdFMyRElYQ1Nsdnc4TVFWOTJZRiszNGRFeFd1SzZY?=
+ =?utf-8?B?dE9wYjFGTzNpWldsSlZETWlyQVZmRkZvdkhialJFKzhGRmRIL1JNM1daWExH?=
+ =?utf-8?B?Q2VYZ2FWUlE5cm9iTHlHbXZOYTJjTzRseGpHeWRJVXYrMUVVNlphclZPYnVB?=
+ =?utf-8?B?QmV2SExxUlB1TUlvb3ZZaGpPUlJrd0tDbFpueFdrcWdQRnd5N3dOUnUxaEZl?=
+ =?utf-8?B?Ny93amFtNFFFQkppVG44bVQrd3YzVmtVRFdCMjZodnlQV1pRZGhJQXYwSUZI?=
+ =?utf-8?B?U0hXS2hyanNtUmwyemlzdWprWHQweEkwWGtVTWd1Tk9HRlFEbXZKWVBZNVlL?=
+ =?utf-8?B?d1FxVFFTSERtaXhYclI1bUtUYVZnNWpPU1BXTDk4MlRzSzFmUnpDbjZ1NTNx?=
+ =?utf-8?B?QkFTeGU1NFA2cW9oak85bDNvbXFUd25jYVY5cVhPaW44YXFNc2ZDeDVETkQw?=
+ =?utf-8?B?OGJLcUVBSHhESHZzTW5rQUZFck96blNLcit4ME5WM3dxRWFlamNtdkgrMDZo?=
+ =?utf-8?B?WEZKanhWK0hBZ1IreWtYeno4MDViNVBORlZLNUp6SGhhdE9INFR5Z1Y2ZndT?=
+ =?utf-8?B?SUJQd1BZTzNMQS95RTczSTZBa1lISnh3OVMrSlM5Tm55VVladUdmWGdMbUpE?=
+ =?utf-8?B?cWRiU0RBYi9pT3d1NTU0R0VSTjlrSVZlRHA2UDVyYm9SQWx4R2dGV2REWnpF?=
+ =?utf-8?B?aUY2YU5wZ0lMNHhFQm9GTkgwM3dwYWFzTTRKRUJvQ1hNemlQeWlCdEVWMXlT?=
+ =?utf-8?B?aG4zOWU5RC9FTU9qOG14dkM2Wi93WTBlakFyTUd0VEE2bTJ2TVFIZHlBbTA4?=
+ =?utf-8?B?UThoSkVpc1pZTThKaTZndE9yOWV0OVFJR2dTbHNLcWtzZ2xlejVKeWc5Zkxi?=
+ =?utf-8?B?V0cyUVlqN24wTWc0UFlqS2VWQm5OZm9TTUEzRUZWWUxJR3lJUjlFV25rK1Uv?=
+ =?utf-8?B?QUIxb3lzN3Z0MWdOQlVOM3BHS2RTalltOVZET2REaXgxVlFtTFE4a3VlSGtL?=
+ =?utf-8?B?TFFPLzZmMGw1dC9QWGU4WUIzVXBEeFR1MW9ET3dwZ1NvcXJCdnhJMHhValdG?=
+ =?utf-8?B?dE9ibUE4RFZ2bjI2cXVIbG1KcXhDLy9nMVh1cTAyTGNIZTFpLzdDVm1Uajhz?=
+ =?utf-8?B?dk93RnFROEgzdlc0QlZ1N2t1bHpqb1BNeVNLNFAzN0dpb29aOHEvbWEyQmlD?=
+ =?utf-8?B?c1lVMDJJNytRZ0dxSmZuZEZxUEp2SnRlTmN4K2d2OUFiS3RTTEdBQUFSMnB5?=
+ =?utf-8?B?bnFXRFJZK1lzUStFV2N3emFHN1VPd3VnSGdNZmcxbzBUenVsclNUZlg3NzR4?=
+ =?utf-8?B?WXN6aGx5b01MZlpuQXRxRHZ3SXdNUE1ISjZYdHdNZzFwVHpBWEhaWGlsRnNQ?=
+ =?utf-8?B?c2xyK2I3Z0E1MDYvaU5zV1IrMnhSbW1yT1J4aStSaGZEZERQUFY1d1lmVUE2?=
+ =?utf-8?B?c3RJUEp1MHRmWWZFWVFEMVJ3SGhVZkpxWGZ3Q0FFWk9VRE9TbERKbTBkQzlu?=
+ =?utf-8?Q?JoCXZYVso+GLThI0Rap64jULc?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5302fb25-b855-46cb-e2ae-08dd7811f4e6
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 09:27:48.1324
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VO5/Inhv5nwm9z8gVjY5OSBMyl/p36ld80r3+nvDRN/uHlwpLMT1IoS3UCe3Iy52
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6406
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   62b846e657553d00552c1c71b6ecc26017eb1a9a
-commit: 914854f2adb6988ac3b6521088ec96833d6743e2 [2116/2116] driver: crypto - update support for Mont-TSSE Driver
-config: x86_64-randconfig-r113-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101645.mRh7GNFb-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504101645.mRh7GNFb-lkp@intel.com/reproduce)
+Hi Maira,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504101645.mRh7GNFb-lkp@intel.com/
+Am 09.04.25 um 21:49 schrieb Maíra Canal:
+> + König
+>
+> Hi Dan,
+>
+> On 02/04/25 05:43, Dan Carpenter wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   acc4d5ff0b61eb1715c498b6536c38c1feb7f3c1
+>> commit: 04630796c437a9285643097825cbd3cd06603f47 drm/vc4: Use DRM Execution Contexts
+>> date:   2 months ago
+>> config: arm64-randconfig-r073-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021500.3AM1hKKS-lkp@intel.com/config)
+>> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> | Closes: https://lore.kernel.org/r/202504021500.3AM1hKKS-lkp@intel.com/
+>>
+>> smatch warnings:
+>> drivers/gpu/drm/vc4/vc4_gem.c:604 vc4_lock_bo_reservations() error: uninitialized symbol 'ret'.
+>>
+>> vim +/ret +604 drivers/gpu/drm/vc4/vc4_gem.c
+>>
+>> cdec4d3613230f Eric Anholt 2017-04-12  589  static int
+>> 04630796c437a9 Maíra Canal 2024-12-20  590  vc4_lock_bo_reservations(struct vc4_exec_info *exec,
+>> 04630796c437a9 Maíra Canal 2024-12-20  591               struct drm_exec *exec_ctx)
+>> cdec4d3613230f Eric Anholt 2017-04-12  592  {
+>> 04630796c437a9 Maíra Canal 2024-12-20  593      int ret;
+>> cdec4d3613230f Eric Anholt 2017-04-12  594
+>> cdec4d3613230f Eric Anholt 2017-04-12  595      /* Reserve space for our shared (read-only) fence references,
+>> cdec4d3613230f Eric Anholt 2017-04-12  596       * before we commit the CL to the hardware.
+>> cdec4d3613230f Eric Anholt 2017-04-12  597       */
+>> 04630796c437a9 Maíra Canal 2024-12-20  598      drm_exec_init(exec_ctx, DRM_EXEC_INTERRUPTIBLE_WAIT, exec->bo_count);
+>> 04630796c437a9 Maíra Canal 2024-12-20  599      drm_exec_until_all_locked(exec_ctx) {
+>> 04630796c437a9 Maíra Canal 2024-12-20  600          ret = drm_exec_prepare_array(exec_ctx, exec->bo,
+>> 04630796c437a9 Maíra Canal 2024-12-20  601                           exec->bo_count, 1);
+>>
+>> This is a false positive in Smatch.  I can silence the warning on my
+>> end easily enough to say that we always enter the drm_exec_until_all_locked()
+>> loop.  But the question is why do we only test the last "ret" instead of
+>> testing all of them?
+>
+> AFAIU `drm_exec_until_all_locked` will loop until all GEM objects are
+> locked and no more contention exists. As we have a single operation
+> inside the loop, we don't need to check "ret" for every iteration.
+>
+> I believe Christian will possibly give you a more precise answer as he
+> designed the API.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/crypto/montage/tsse/tsse_ipc_hash.c:14:1: sparse: sparse: symbol 'service_info_table' was not declared. Should it be static?
->> drivers/crypto/montage/tsse/tsse_ipc_hash.c:15:1: sparse: sparse: symbol 'service_handle_table' was not declared. Should it be static?
---
->> drivers/crypto/montage/tsse/tsse_ipc_drv.c:22:41: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/crypto/montage/tsse/tsse_ipc_drv.c:42:33: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/crypto/montage/tsse/tsse_ipc_drv.c:42:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/crypto/montage/tsse/tsse_ipc_drv.c:42:46: sparse:     expected void const volatile [noderef] __iomem *
-   drivers/crypto/montage/tsse/tsse_ipc_drv.c:42:46: sparse:     got unsigned char [usertype] *
-   drivers/crypto/montage/tsse/tsse_ipc_drv.c:108:16: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/crypto/montage/tsse/tsse_ipc_drv.c:120:21: sparse: sparse: cast from restricted __le32
->> drivers/crypto/montage/tsse/tsse_ipc_drv.c:124:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *msg @@     got void [noderef] __iomem *d2h_msg @@
-   drivers/crypto/montage/tsse/tsse_ipc_drv.c:124:60: sparse:     expected void *msg
-   drivers/crypto/montage/tsse/tsse_ipc_drv.c:124:60: sparse:     got void [noderef] __iomem *d2h_msg
->> drivers/crypto/montage/tsse/tsse_ipc_drv.c:136:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got unsigned char [usertype] *addr @@
-   drivers/crypto/montage/tsse/tsse_ipc_drv.c:136:21: sparse:     expected void volatile [noderef] __iomem *
-   drivers/crypto/montage/tsse/tsse_ipc_drv.c:136:21: sparse:     got unsigned char [usertype] *addr
+Yeah that explanation is absolutely correct.
 
-vim +/service_info_table +14 drivers/crypto/montage/tsse/tsse_ipc_hash.c
+The drm_exec_until_all_locked() helper loops until all contention is resolved and all buffer locked.
 
-    13	
-  > 14	DEFINE_HASHTABLE(service_info_table, SERVICE_TABLE_BUCKET_BITS);
-  > 15	DEFINE_HASHTABLE(service_handle_table, SERVICE_TABLE_BUCKET_BITS);
-    16	
+You could avoid the snatch warning if you move the error handling into the loop, e.g. something like this here:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+drm_exec_until_all_locked(exec_ctx) {
+    ret = drm_exec_prepare_array(exec_ctx, exec->bo, exec->bo_count, 1);
+    drm_exec_continue_on_contention(exec_ctx);
+    if (ret) {
+        drm_exec_fini(exec_ctx);
+        return ret;
+    }
+}
+
+Regards,
+Christian.
+
+>
+> Best Regards,
+> - Maíra
+>
+>>
+>> 04630796c437a9 Maíra Canal 2024-12-20  602      }
+>> cdec4d3613230f Eric Anholt 2017-04-12  603
+>> cdec4d3613230f Eric Anholt 2017-04-12 @604      if (ret) {
+>> 04630796c437a9 Maíra Canal 2024-12-20  605          drm_exec_fini(exec_ctx);
+>> cdec4d3613230f Eric Anholt 2017-04-12  606          return ret;
+>> 7edabee06a5622 Eric Anholt 2016-09-27  607      }
+>> d5b1a78a772f1e Eric Anholt 2015-11-30  608
+>> cdec4d3613230f Eric Anholt 2017-04-12  609      return 0;
+>> cdec4d3613230f Eric Anholt 2017-04-12  610  }
+>>
+>
+
