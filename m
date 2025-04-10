@@ -1,64 +1,63 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6B5284B42
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 12:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549AA28EA72;
+	Thu, 10 Apr 2025 14:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744288685; cv=none; b=egX+CalvNx/GQkVUP7wG6va+TgqU4qEIwD0Sz0Q25eXEV62M84EU/y0FvFwwjOcTnn0fxtpn+FAUVDTSH89b6EpIS/ebXCH8NybFaetlSkq5bl/m9+mkY8Xnb/lmTTUe4Su+aswQYABrijr01oD2G9Mt/HFZoVhJSetTl8sBIA0=
+	t=1744296318; cv=none; b=SIBx+l2g5EYrqAn1h6FiTZolFZkradm+XX1O0nGsdsfNYNivo6pdcki8jCpTE+CdXaBaO6AOoGnzCWQZbVjHmxi2m0/V2OULg6dPwn6KoZIuBfz5e8sfy9p0dQBABRk0wWaROc7v+KoNbFJXZcm9TF7yVDbYOljvlnsmnFzOTAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744288685; c=relaxed/simple;
-	bh=ViPqmjO4Qm2hXESZ1kqwnSFRolt09hZSIwCkaV+gQ4E=;
+	s=arc-20240116; t=1744296318; c=relaxed/simple;
+	bh=Rd0GdhKleD8jAQfmJsnk5dtpLd/M+3nzHuU2sLt272Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eP5pldiJwfLPphn0OnQprMct0LpVS3DVl/+UpOdbJUbu9fj9RPp6+99h30k3K8a6Ujc4o4RQw2W24P6o8cAsNDfogUzFFXI5vGWZ22AUPI3DhfHDyt7gNAdVounr2zCkBXq0OwY/5QqtGubnhidMmTXH2MDcwykOkslVjyTKxfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so140237766b.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 05:38:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744288682; x=1744893482;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hVM/edPnJVLu0XxYodmGITQFDP/dxea4ObAi6/s5KJc=;
-        b=UJMmVk5wF0vv+Dyw3wOh13UyRoS4gTYWbgNKfNbYZay8x08xrDOblPH12YhsiFMhYO
-         McGJ2XgXzIuvdBq6WVM60Hb9nAoIgn8gqM625MFyE7A2AyCrn/YUNtUN25eZB1866GAM
-         obdye34ABTJuZvYkYZafyfFpviX+2QQO2k9t+OYoqXrgJFaQcK7+avYjHnGqszBDEVo4
-         CCiD39QWX1D+jnSxO+w740sCzrwsuWjnvllN3BZfKKRSaKwlxlcwXGaHWLA2YxDo2Dnd
-         uTLVHWQKu/1VKeuVi9HGsrtWUxfqQvhh9B2BtQJdoaTiE6O5dgtWt/XLwX2disOC8OKC
-         Ci9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXDU13vLyAP8HGH/ph1S4dflLRzYT7qn4m9jW9y62af1vgUAQqKGqSivine5rRV+dEA7820mfCfI0ONuUr9@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNfFkyczfRlsRRCfQAC1BLa+HMuZq+BSBiRl/QVVdtrChZvBC/
-	GbVoZyEt1lE2t5mWxzrfcwRiBAV3jgQOPCt6a/5r/hMnsLe+ALH7
-X-Gm-Gg: ASbGncumm12Kh7ao5q4CDxZa+xmRPRLZ4ZQ83sABo7o8IGZ5I165ZWvZ8ncj5iMoYDE
-	9UhWQMs522OXJgP4AhHs0cLrnyXTF7I+LOqTJqHljWkqpF4MVTvPmsO7wSt9LawvGk0ypzEg/ge
-	HFpJgz7Q4wnQDFzx29KGqPgSfEansTdXIaVg+spSlO5b6HX0Gz6slOdPT1zOH+SAshYbHKmLb4t
-	4wHJgkXozCrISzsZ6P0vRVOYw6RIvPfgc+PUADkxOUk9YjeZy4r5p28fzJ7UyfiypOFX1f7LwWc
-	PpPIhZuz5V5qgwTknS8pvxyLJZW2rvo=
-X-Google-Smtp-Source: AGHT+IE25N5p2nQ1Rl7HEzVfGGlhO8/GpV7n3cX5pNLSZH+AISulMlFcsZ61MUdjg6ELS33tFDKg2A==
-X-Received: by 2002:a17:907:1b0a:b0:ac7:150e:8013 with SMTP id a640c23a62f3a-acac008e442mr222901266b.15.1744288681789;
-        Thu, 10 Apr 2025 05:38:01 -0700 (PDT)
-Received: from gmail.com ([2a03:2880:30ff:1::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1ce7301sm262811966b.167.2025.04.10.05.38.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 05:38:01 -0700 (PDT)
-Date: Thu, 10 Apr 2025 05:37:59 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: kernel test robot <lkp@intel.com>, sean.anderson@seco.com,
-	bigeasy@linutronix.de, horia.geanta@nxp.com,
-	madalin.bucur@oss.nxp.com, hristophe.leroy@csgroup.eu,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: Re: include/soc/fsl/qman.h:383:4: warning: field context_a within
- 'struct qm_fqd' is less aligned than 'union (unnamed union at
- include/soc/fsl/qman.h:365:2)' and is usually due to 'struct qm_fqd' being
- packed, which can lead to unaligned accesses
-Message-ID: <Z/e7p53g/e0wNYF+@gmail.com>
-References: <202504091657.OgPuMa8C-lkp@intel.com>
- <Z/ZXbElRLBsJcc1X@gmail.com>
- <20250409120138.f5oingawrurwq7ep@skbuf>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PQ2bC94RrV7upY6MwsUeN1anEYJR99B8xQrdpVDAHdHHACGQ3R5i4Yo5juInbC0NlzMJ9M9pq8NV0DuEO9LWMkGSSuHsPTtPvZ4UcF9NDZJvhA9jm0UIFDrn4skYw1WOgRqGI5K9yddHvQKCsXJe0nf1x+xkphnoke+1uXKhKxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfpNn7y+; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfpNn7y+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744296317; x=1775832317;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Rd0GdhKleD8jAQfmJsnk5dtpLd/M+3nzHuU2sLt272Y=;
+  b=XfpNn7y+4gen2/R8hSTsDzE241rnxAfuuDbw8pBf/U3socI1FyeovBGm
+   SiXnViCxWMXe6A1c+Pcr3MG5HwCqKTRNxZfBd8PkfS4kqDRzE21nODczc
+   vuYCMKQii58jmjwP78YiOROQnx8T0R2ZF6B9wJlZ8zhutPz67m4cZU7Zr
+   wbvxhjllrdYzJs+L6I/8FaWh9E7DLh4TX9Blwkmu1+okNGXCNatMRz12E
+   Cxq5Zt7PKWDxdSvKqkVyhMXVrmjTqQRQDAsdjaQLxti8U1Fpo/sYibf0X
+   LvoF2Yo6Ph3siccD4rn39gwWjUbxxGttbdQI5onA+ApFqpA2Wetwe0XDc
+   A==;
+X-CSE-ConnectionGUID: k6BxNg2DTgegxrBuBSm6AA==
+X-CSE-MsgGUID: kdSPbpbeTzWQm+3q3ePBnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45835436"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="45835436"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 07:45:16 -0700
+X-CSE-ConnectionGUID: XK/RRletSjyDVCwKAe+WiQ==
+X-CSE-MsgGUID: k0vqAbm6TsyiMBHeZkytrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="133041348"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 10 Apr 2025 07:45:13 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u2t9T-000ABL-0a;
+	Thu, 10 Apr 2025 14:45:11 +0000
+Date: Thu, 10 Apr 2025 22:45:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yangtao Li <frank.li@vivo.com>, clm@fb.com, josef@toxicpanda.com,
+	dsterba@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yangtao Li <frank.li@vivo.com>
+Subject: Re: [PATCH 2/2] btrfs: convert to mutex guard in
+ btrfs_ioctl_balance_progress()
+Message-ID: <202504102206.gpAU9chA-lkp@intel.com>
+References: <20250409125724.145597-2-frank.li@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,112 +66,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409120138.f5oingawrurwq7ep@skbuf>
+In-Reply-To: <20250409125724.145597-2-frank.li@vivo.com>
 
-On Wed, Apr 09, 2025 at 03:01:38PM +0300, Vladimir Oltean wrote:
-> Hi Breno,
-> 
-> On Wed, Apr 09, 2025 at 04:18:04AM -0700, Breno Leitao wrote:
-> > On Wed, Apr 09, 2025 at 04:55:16PM +0800, kernel test robot wrote:
-> > > >> include/soc/fsl/qman.h:383:4: warning: field context_a within 'struct qm_fqd' is less aligned than 'union (unnamed union at include/soc/fsl/qman.h:365:2)' and is usually due to 'struct qm_fqd' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-> > >            } context_a;
-> > 
-> > <snip>
-> > 
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  346  
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  347  struct qm_fqd {
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  348  	/* _res[6-7], orprws[3-5], oa[2], olws[0-1] */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  349  	u8 orpc;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  350  	u8 cgid;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  351  	__be16 fq_ctrl;	/* See QM_FQCTRL_<...> */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  352  	__be16 dest_wq;	/* channel[3-15], wq[0-2] */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  353  	__be16 ics_cred; /* 15-bit */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  354  	/*
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  355  	 * For "Initialize Frame Queue" commands, the write-enable mask
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  356  	 * determines whether 'td' or 'oac_init' is observed. For query
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  357  	 * commands, this field is always 'td', and 'oac_query' (below) reflects
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  358  	 * the Overhead ACcounting values.
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  359  	 */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  360  	union {
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  361  		__be16 td; /* "Taildrop": _res[13-15], mant[5-12], exp[0-4] */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  362  		struct qm_fqd_oac oac_init;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  363  	};
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  364  	__be32 context_b;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  365  	union {
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  366  		/* Treat it as 64-bit opaque */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  367  		__be64 opaque;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  368  		struct {
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  369  			__be32 hi;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  370  			__be32 lo;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  371  		};
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  372  		/* Treat it as s/w portal stashing config */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  373  		/* see "FQD Context_A field used for [...]" */
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  374  		struct {
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  375  			struct qm_fqd_stashing stashing;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  376  			/*
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  377  			 * 48-bit address of FQ context to
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  378  			 * stash, must be cacheline-aligned
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  379  			 */
-> > 
-> > Looking at pahole, I am not sure this is caacheline-aligned, as
-> > suggested above.
-> > 
-> > 	# pahole -C qm_fqd
-> > 	struct qm_fqd {
-> > 		u8                         orpc;                 /*     0     1 */
-> > 		u8                         cgid;                 /*     1     1 */
-> > 		__be16                     fq_ctrl;              /*     2     2 */
-> > 		__be16                     dest_wq;              /*     4     2 */
-> > 		__be16                     ics_cred;             /*     6     2 */
-> > 		union {
-> > 			__be16             td;                   /*     8     2 */
-> > 			struct qm_fqd_oac  oac_init;             /*     8     2 */
-> > 		};                                               /*     8     2 */
-> > 		__be32                     context_b;            /*    10     4 */
-> > 		union {
-> > 			__be64             opaque;               /*    14     8 */
-> > 			struct {
-> > 				__be32     hi;                   /*    14     4 */
-> > 				__be32     lo;                   /*    18     4 */
-> > 			};                                       /*    14     8 */
-> > 			struct {
-> > 				struct qm_fqd_stashing stashing; /*    14     2 */
-> > 				__be16     context_hi;           /*    16     2 */
-> > 				__be32     context_lo;           /*    18     4 */
-> > 			};                                       /*    14     8 */
-> > 		} context_a;                                     /*    14     8 */
-> > 		struct qm_fqd_oac          oac_query;            /*    22     2 */
-> > 
-> > 		/* size: 24, cachelines: 1, members: 9 */
-> > 		/* last cacheline: 24 bytes */
-> > 	} __attribute__((__packed__));
-> > 
-> > 
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  380  			__be16 context_hi;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  381  			__be32 context_lo;
-> > > c535e923bb97a4 Claudiu Manoil 2016-09-22  382  		} __packed;
-> > 
-> > I am wondering if we should use __attribute__((aligned(8))) instead of
-> > __packed, according to the document above.
-> 
-> Since you've replied, could you please help me also understand the issue?
-> It says "field context_a within 'struct qm_fqd' is less aligned than
-> 'union (unnamed union at include/soc/fsl/qman.h:365:2)'", but at line 365,
-> the unnamed union _is_ field context_a, no? What is it saying?
-> 
-> I _suspect_, but I'm not sure, that it's complaining about context_a.opaque
-> being a 64-bit field which is not aligned to a 64-bit boundary. Though
-> I'm not getting that from reading the description.
+Hi Yangtao,
 
-In fact, the whole union is not aligned, and because "struct qm_fqd" is
-also packed, it cannot add a padding before the union (which would be
-the compiler decision,  since the union contains a packed field).
+kernel test robot noticed the following build warnings:
 
-> But struct qm_fqd is embedded in other structures, and the alignment
-> of the fields changes in that case. I think that context_a.opaque is
-> 64-bit aligned in all cases.
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.15-rc1 next-20250410]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I don't think it is ever aligned. Check the pahole above, and the union
-starts at byte 14th, which is not aligned if my math is correct.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yangtao-Li/btrfs-convert-to-mutex-guard-in-btrfs_ioctl_balance_progress/20250409-204204
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250409125724.145597-2-frank.li%40vivo.com
+patch subject: [PATCH 2/2] btrfs: convert to mutex guard in btrfs_ioctl_balance_progress()
+config: arm-randconfig-001-20250410 (https://download.01.org/0day-ci/archive/20250410/202504102206.gpAU9chA-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504102206.gpAU9chA-lkp@intel.com/reproduce)
 
---breno
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504102206.gpAU9chA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/btrfs/ioctl.c:3639:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    3639 |         if (copy_to_user(arg, bargs, sizeof(*bargs)))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:3644:9: note: uninitialized use occurs here
+    3644 |         return ret;
+         |                ^~~
+   fs/btrfs/ioctl.c:3639:2: note: remove the 'if' if its condition is always true
+    3639 |         if (copy_to_user(arg, bargs, sizeof(*bargs)))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3640 |                 ret = -EFAULT;
+   fs/btrfs/ioctl.c:3623:9: note: initialize the variable 'ret' to silence this warning
+    3623 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
+
+
+vim +3639 fs/btrfs/ioctl.c
+
+837d5b6e46d1a4 Ilya Dryomov 2012-01-16  3618  
+2ff7e61e0d30ff Jeff Mahoney 2016-06-22  3619  static long btrfs_ioctl_balance_progress(struct btrfs_fs_info *fs_info,
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3620  					 void __user *arg)
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3621  {
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3622  	struct btrfs_ioctl_balance_args *bargs;
+68395a7bf00486 Yangtao Li   2025-04-09  3623  	int ret;
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3624  
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3625  	if (!capable(CAP_SYS_ADMIN))
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3626  		return -EPERM;
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3627  
+68395a7bf00486 Yangtao Li   2025-04-09  3628  	guard(mutex)(&fs_info->balance_mutex);
+68395a7bf00486 Yangtao Li   2025-04-09  3629  
+68395a7bf00486 Yangtao Li   2025-04-09  3630  	if (!fs_info->balance_ctl)
+68395a7bf00486 Yangtao Li   2025-04-09  3631  		return -ENOTCONN;
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3632  
+8d2db7855e7b65 David Sterba 2015-11-04  3633  	bargs = kzalloc(sizeof(*bargs), GFP_KERNEL);
+68395a7bf00486 Yangtao Li   2025-04-09  3634  	if (!bargs)
+68395a7bf00486 Yangtao Li   2025-04-09  3635  		return -ENOMEM;
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3636  
+008ef0969dd966 David Sterba 2018-03-21  3637  	btrfs_update_ioctl_balance_args(fs_info, bargs);
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3638  
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16 @3639  	if (copy_to_user(arg, bargs, sizeof(*bargs)))
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3640  		ret = -EFAULT;
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3641  
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3642  	kfree(bargs);
+68395a7bf00486 Yangtao Li   2025-04-09  3643  
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3644  	return ret;
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3645  }
+19a39dce3b9bf0 Ilya Dryomov 2012-01-16  3646  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
