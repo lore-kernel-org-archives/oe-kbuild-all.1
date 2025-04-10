@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D521372;
-	Thu, 10 Apr 2025 05:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4BF1FC8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 06:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744263481; cv=none; b=DtG4EIJL8gZqLn53hkh4AuNW+J3/kgHm1bZum42pMc9aaCvS0aYACBsiMzJWAIm+GIHhEA3h714CqYdosfC0olI4SrzgUm9uXW5VYAJsRklh3HPZ/sDfRvvPkQrTx5zBo4tyqXPvgScC/VmPw8B8Moj8vMw4iSLKPOMn6gvHgr0=
+	t=1744264990; cv=none; b=hSrDhRKAMBKkstT2j/CSoliSVxVMr852In2lF8tmYFdKrUUnvFwVO1OuQO89AC22ibjQRvAxyTUzFnt4tArnG0CQ71yXV9ke1yMVQ/isdsfp0xr+msQW4dw1ndnwvILjJtFKUJHlbXqvfBLUUVxE3iVhpgY5kidZ+iJufFeQMjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744263481; c=relaxed/simple;
-	bh=9P+OL6icH0gotmK3pNM6A6PfTMy13MtkpH72Q3bkxmo=;
+	s=arc-20240116; t=1744264990; c=relaxed/simple;
+	bh=+JIaEozMlGyG70wwHQE8uZ5c8OFIO6Iqup59Ar5RRH0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uw+s+KSRcrkpjB+RK35UHo7269mbTNJ9upWCbHomcS+YW0wtnQpbGezlqWixSbzxT17IOJu9xhV3KTxk8zaQ5x9Wmi68zOqDglZg3hnHGPu8KuSFGEJH/OlYsZc+yCqgrWumkVrPh0XCFPV5iPAKPIFxQDbNw8vqbJZwR1OuzFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D3uMI/q2; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=OtaQ469wOfUDmHeeQ1dxEP7sUv8Avvrtr46nj1C85jw9OjRVi1VX4HX260qsmpi98NI/FhwqzmDId/jIRvrSs5xJS81VS0v7eC+UbOXCJqIeAKL96kdvF/OPFAXh6Ulmma8yMDGMT3Y9g4kkwO1a2wZjTnGudqOasGLnVIeatBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCb9mMPo; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D3uMI/q2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCb9mMPo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744263477; x=1775799477;
+  t=1744264988; x=1775800988;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9P+OL6icH0gotmK3pNM6A6PfTMy13MtkpH72Q3bkxmo=;
-  b=D3uMI/q20JA1+vej7I2tVj6JFpy52/gJxOIoquqBhw4xH9FX8M3fMcOS
-   v41W0zF6MetbUgfOHffOfHyFg5xp1i1aWX1j4yAx1/wI9OxycKbU70LYb
-   JR0wAMO7RNIixo5O/w7vJKtQUgx5y0fOAAZTLvmL6jPb3vic8vUgGZM/c
-   xzcbJ6tZHhKlS1AZJdooJHfukWf64Jn/2dZ/EUgHbvO76iIBvVNtkI5vm
-   PT3Msf7J67CYUi+6afoH2owI//mHLrKqY+HkQfLTJo6jrGgpbKM4PWEng
-   CmcQTC8xtw6r5fGnv6WOWgpwsIbuhpGW6u/OML96VpJmArQN1ezKmKZRb
-   A==;
-X-CSE-ConnectionGUID: iZoWUrYQSF2jHhmAi8ShuA==
-X-CSE-MsgGUID: eYBNCVsXTWKb85+/+UMK/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="68248867"
+  bh=+JIaEozMlGyG70wwHQE8uZ5c8OFIO6Iqup59Ar5RRH0=;
+  b=PCb9mMPoHr0njPaiQ85KdrHTNuJtoqwkLGlu+sgTXwzMxno8vEePyfoT
+   PYRsskhU6RrSJRivBRd2fwX3FDRy1K0Bi7RF2nY5idHjHcUwaXtZiVVwd
+   Eoqch+rmC6NrOG22Vk1p6mhhmLCAthFCGBejaoCuyQANGF5w5cdO2cDkg
+   KZESFd8/IQqoMJCnUswdVDvrNkqrtGy4paELHT3/ArqcYuIcXiJ1McuCS
+   Jdb3V81kuZQccIsHc3ZkJfvQPyTY/N8RZb/RVhZ8wGeA2XD0bJU9xBrCH
+   LUiZBoqgdUetjF7SfsvsDg/QfFNf9iKtw1e80ghNW4aVroYD8iMTDWwYS
+   w==;
+X-CSE-ConnectionGUID: OwnRO2ltS1GTUEh5WUCXtw==
+X-CSE-MsgGUID: IahjfPkDSLq8zUT8N+gAmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="49606439"
 X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="68248867"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 22:37:57 -0700
-X-CSE-ConnectionGUID: gsQTWaKeTsCC+p6EUXxGRg==
-X-CSE-MsgGUID: bNsDITTlTO2F58SUEi5HLg==
+   d="scan'208";a="49606439"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 23:03:03 -0700
+X-CSE-ConnectionGUID: ejyuXpPUQJiVBuqwcaZGwQ==
+X-CSE-MsgGUID: 6cJio8CqRYy/QqGgcu8zhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="133903701"
+   d="scan'208";a="128779492"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Apr 2025 22:37:56 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 Apr 2025 23:02:59 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u2kbp-0009dr-0x;
-	Thu, 10 Apr 2025 05:37:53 +0000
-Date: Thu, 10 Apr 2025 13:37:09 +0800
+	id 1u2l03-0009el-2D;
+	Thu, 10 Apr 2025 06:02:55 +0000
+Date: Thu, 10 Apr 2025 14:02:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC bpf-next 06/13] bpf: Move kfunc definitions out of
- verifier.c
-Message-ID: <202504101343.eRiCSJes-lkp@intel.com>
-References: <c73f939de0f6af022e009dda057b6f941c6fce59.1744169424.git.dxu@dxuuu.xyz>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	bhelgaas@google.com
+Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, ilpo.jarvinen@linux.intel.com,
+	robh@kernel.org, jingoohan1@gmail.com, thomas.richard@bootlin.com,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hans Zhang <18255117159@163.com>
+Subject: Re: [PATCH v9 4/6] PCI: dwc: Use common PCI host bridge APIs for
+ finding the capabilities
+Message-ID: <202504101228.CX8tAgfW-lkp@intel.com>
+References: <20250409034156.92686-5-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +68,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c73f939de0f6af022e009dda057b6f941c6fce59.1744169424.git.dxu@dxuuu.xyz>
+In-Reply-To: <20250409034156.92686-5-18255117159@163.com>
 
-Hi Daniel,
+Hi Hans,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test ERROR on a24588245776dafc227243a01bfbeb8a59bafba9]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Xu/bpf-Move-bpf_prog_ctx_arg_info_init-body-into-header/20250409-114116
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/c73f939de0f6af022e009dda057b6f941c6fce59.1744169424.git.dxu%40dxuuu.xyz
-patch subject: [RFC bpf-next 06/13] bpf: Move kfunc definitions out of verifier.c
-config: arm64-randconfig-002-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101343.eRiCSJes-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504101343.eRiCSJes-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Introduce-generic-bus-config-read-helper-function/20250409-115839
+base:   a24588245776dafc227243a01bfbeb8a59bafba9
+patch link:    https://lore.kernel.org/r/20250409034156.92686-5-18255117159%40163.com
+patch subject: [PATCH v9 4/6] PCI: dwc: Use common PCI host bridge APIs for finding the capabilities
+config: arc-randconfig-001-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101228.CX8tAgfW-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504101228.CX8tAgfW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504101343.eRiCSJes-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504101228.CX8tAgfW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/bpf/core.c:320:9: error: call to undeclared function 'btf_distill_func_proto'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     320 |                 ret = btf_distill_func_proto(log, btf, t, tname, &tgt_info->fmodel);
-         |                       ^
-   kernel/bpf/core.c:339:7: error: call to undeclared function 'btf_check_type_match'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     339 |                     btf_check_type_match(log, prog, btf, t))
-         |                     ^
-   kernel/bpf/core.c:396:19: error: call to undeclared function 'btf_kfunc_is_modify_return'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     396 |                                         u32 *flags = btf_kfunc_is_modify_return(btf, btf_id,
-         |                                                      ^
-   kernel/bpf/core.c:396:11: error: incompatible integer to pointer conversion initializing 'u32 *' (aka 'unsigned int *') with an expression of type 'int' [-Wint-conversion]
-     396 |                                         u32 *flags = btf_kfunc_is_modify_return(btf, btf_id,
-         |                                              ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     397 |                                                                                 prog);
-         |                                                                                 ~~~~~
-   kernel/bpf/core.c:425:8: error: call to undeclared function 'btf_kfunc_is_modify_return'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     425 |                         if (btf_kfunc_is_modify_return(btf, btf_id, prog) ||
-         |                             ^
-   kernel/bpf/core.c:1638:33: error: use of undeclared identifier 'kfunc_desc_cmp_by_id_off'
-    1638 |                        sizeof(tab->descs[0]), kfunc_desc_cmp_by_id_off);
-         |                                               ^
->> kernel/bpf/core.c:1628:1: warning: no previous prototype for function 'find_kfunc_desc' [-Wmissing-prototypes]
-    1628 | find_kfunc_desc(const struct bpf_prog *prog, u32 func_id, u16 offset)
-         | ^
-   kernel/bpf/core.c:1627:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1627 | const struct bpf_kfunc_desc *
-         |       ^
-         | static 
-   kernel/bpf/core.c:1642:5: error: redefinition of 'bpf_get_kfunc_addr'
-    1642 | int bpf_get_kfunc_addr(const struct bpf_prog *prog, u32 func_id,
-         |     ^
-   include/linux/bpf.h:3084:1: note: previous definition is here
-    3084 | bpf_get_kfunc_addr(const struct bpf_prog *prog, u32 func_id,
-         | ^
-   1 warning and 7 errors generated.
+   drivers/pci/controller/dwc/pcie-designware.c: In function '__dw_pcie_find_vsec_capability':
+>> drivers/pci/controller/dwc/pcie-designware.c:239:24: error: implicit declaration of function 'dw_pcie_find_next_ext_capability'; did you mean 'pci_find_next_ext_capability'? [-Wimplicit-function-declaration]
+     239 |         while ((vsec = dw_pcie_find_next_ext_capability(pci, vsec,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                        pci_find_next_ext_capability
 
 
-vim +/find_kfunc_desc +1628 kernel/bpf/core.c
+vim +239 drivers/pci/controller/dwc/pcie-designware.c
 
-  1626	
-  1627	const struct bpf_kfunc_desc *
-> 1628	find_kfunc_desc(const struct bpf_prog *prog, u32 func_id, u16 offset)
-  1629	{
-  1630		struct bpf_kfunc_desc desc = {
-  1631			.func_id = func_id,
-  1632			.offset = offset,
-  1633		};
-  1634		struct bpf_kfunc_desc_tab *tab;
-  1635	
-  1636		tab = prog->aux->kfunc_tab;
-  1637		return bsearch(&desc, tab->descs, tab->nr_descs,
-  1638			       sizeof(tab->descs[0]), kfunc_desc_cmp_by_id_off);
-  1639	}
-  1640	EXPORT_SYMBOL_GPL(find_kfunc_desc);
-  1641	
+5b0841fa653f6c Vidya Sagar  2019-08-13  229  
+efaf16de43f599 Shradha Todi 2025-02-21  230  static u16 __dw_pcie_find_vsec_capability(struct dw_pcie *pci, u16 vendor_id,
+efaf16de43f599 Shradha Todi 2025-02-21  231  					  u16 vsec_id)
+efaf16de43f599 Shradha Todi 2025-02-21  232  {
+efaf16de43f599 Shradha Todi 2025-02-21  233  	u16 vsec = 0;
+efaf16de43f599 Shradha Todi 2025-02-21  234  	u32 header;
+efaf16de43f599 Shradha Todi 2025-02-21  235  
+efaf16de43f599 Shradha Todi 2025-02-21  236  	if (vendor_id != dw_pcie_readw_dbi(pci, PCI_VENDOR_ID))
+efaf16de43f599 Shradha Todi 2025-02-21  237  		return 0;
+efaf16de43f599 Shradha Todi 2025-02-21  238  
+efaf16de43f599 Shradha Todi 2025-02-21 @239  	while ((vsec = dw_pcie_find_next_ext_capability(pci, vsec,
+efaf16de43f599 Shradha Todi 2025-02-21  240  						       PCI_EXT_CAP_ID_VNDR))) {
+efaf16de43f599 Shradha Todi 2025-02-21  241  		header = dw_pcie_readl_dbi(pci, vsec + PCI_VNDR_HEADER);
+efaf16de43f599 Shradha Todi 2025-02-21  242  		if (PCI_VNDR_HEADER_ID(header) == vsec_id)
+efaf16de43f599 Shradha Todi 2025-02-21  243  			return vsec;
+efaf16de43f599 Shradha Todi 2025-02-21  244  	}
+efaf16de43f599 Shradha Todi 2025-02-21  245  
+efaf16de43f599 Shradha Todi 2025-02-21  246  	return 0;
+efaf16de43f599 Shradha Todi 2025-02-21  247  }
+efaf16de43f599 Shradha Todi 2025-02-21  248  
 
 -- 
 0-DAY CI Kernel Test Service
