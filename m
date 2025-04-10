@@ -1,59 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10F91EEA5D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 08:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F03D20B1E1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 08:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744273647; cv=none; b=IaqaBXx4uSvMNufXqwPD1o0g5t4GpGuuOZYCiMXoM8UOR0Pbm67CmhWYv8dzF2NdQd1QO9qC4U2XcJOfc5vy1z9hVK5GTyGyTtRIA+Gukwwu0777zJdjrIuWZfylAlG5VzqvyoMZ/ZEKeT9ZOKBO/VJBoGQrjreenZE608E3zsM=
+	t=1744274135; cv=none; b=dMrIL1VY+OtcJv+jsjs20Mcz+sr4D3kXb3ApGG0AxXQ1+8QiysLZ0HG6z7kdo3niIRLZsli5IYvbyYXQElYvFBa5fhcgxzSskHPv3ME8TSbGo8reJUpbSTAlP8Dw/LT237wQCAKFbkvFLg3EnPRUEVEeLkyA6IggCCHbiNkv1y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744273647; c=relaxed/simple;
-	bh=oWlzhH46mCtFJHXHCbB8mIRneWEZNAzrdQA96iXYriU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oEJKWvaD9BJ4La37Ccue7Vrt/YuAyYFxADQW1+XgAL2WPguR+tYwdmED8DSzNW6qkcaPFujBoEEFevo/HEU3k+VgTekyMPyMEsJUCiuLgqTgTWxMENU3dXuOKNrO1e5afePTEAPNYA/9/UiRPNqhLUCRMqx52Yh8/8yx7ueNj4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QzoHCAvp; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744274135; c=relaxed/simple;
+	bh=JdYcK6fAGQtlodFRUy0bhtgD36qMwbdQO7D7iUkLixc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zt3B8mkHMj9FGdf9KztqeQHwhiXFAy/O4zrrIFSajmK4Vu9oprh8ijdQOXMmMsDSsW27UycUwm3+iD5yTX3aK2bOm/9icNUe3FslDY41pGpODbIUCGiGZCLJ1eLU0gYHL1oFIkNRco+PdbPgmBMBgCp3xC64w0f8daZapiog83o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wfdGVXG5; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QzoHCAvp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744273643; x=1775809643;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oWlzhH46mCtFJHXHCbB8mIRneWEZNAzrdQA96iXYriU=;
-  b=QzoHCAvp9/oTvUJEPkZKb+fjB7ggR5evzLd+ufpmkktaqmN/1rCoz14S
-   XPlsLd5l6kzch3kppCE/zkkW/Us/xappqkvsKjZrlT+m9BXnmclvRIRAL
-   bI+bULjrRGy97ORuisB+0sGApXU2xQ1D9sEqRO4fpamwnUjvB6q2xLyrc
-   k7RbORGtzAbg6hmn18tqNe3961TN1QZAQ/oJ6OpQA6ejrUJYl02GBdgh/
-   OlDyVxEuSMGS5AVV23PdEToU51Tqc2lYABpagn3mMSaKHFQxKzkcQ7sv6
-   DbsE3f41CzvWVDXRWrldq9RqGeXR0yCMIwL1b2/AO3jD3CHh4U+oCqgQ4
-   Q==;
-X-CSE-ConnectionGUID: u+P9fCnWQ7GRNIO3vy6/EQ==
-X-CSE-MsgGUID: DmB+howwSICv299Gtn+k8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="63321430"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="63321430"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 01:27:23 -0700
-X-CSE-ConnectionGUID: X07iJyvVSEKQZLYa8eS2wA==
-X-CSE-MsgGUID: OxttEQJOQDm3nJqu8ZHKNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="132966740"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Apr 2025 01:27:22 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u2nFo-0009od-12;
-	Thu, 10 Apr 2025 08:27:20 +0000
-Date: Thu, 10 Apr 2025 16:27:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1575/1575] mm/hugetlb.c:1370:6: sparse:
- sparse: symbol 'free_huge_page_to_dhugetlb_pool' was not declared. Should it
- be static?
-Message-ID: <202504101655.g80FSsl7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wfdGVXG5"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39ac8e7688aso249619f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 01:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744274131; x=1744878931; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z1+ytBosE9KKYfsxuSA5vHZYEINNgxVHBZaHGuzR0zM=;
+        b=wfdGVXG5XQxrio+G2xo59q5pNUTNwrebLMM0WEWJ/RFmEywTJ699cA1tzHPNabVX6y
+         b0ntJa+8y2b5IDC/KYv6dKTZFtBqzNzgHCPcmojdi9dru1/XLoINAVmiAZ8U9H8Srh13
+         3d9qqihZPH+qF/0X7BJdg4GpDx2GJ8eshwWgeTgUhJQwHhaLUxD4nMCw69MdNSb4D4mT
+         3q7UbEZdD7I4+uikrj3V6jPYzvmy9DatKyI+f0JWyA28c8EPsXpnas5awziOR5pM4Kc8
+         bfKsuTIF0Fl/Yu7hj9saD//xqPa5u7peFerEfHKggREyNTJwKYHsQOPxYV73GQAxhKtT
+         U40Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744274131; x=1744878931;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z1+ytBosE9KKYfsxuSA5vHZYEINNgxVHBZaHGuzR0zM=;
+        b=Fat8xqDPgmN2+5vJRoq5yZr+2tZRQwqnGZJ0x5+2XwDdy0CZhm1vyomrQA1iiK7FMV
+         p0uDevLSNkxWyx3C46OozTd+EUpg2TynBMCqJdOoiv5puWfcX/2PC81KLnvkvt+BU1gm
+         QIo5yn40KZBBE2qtmR4I/aMh0NKfy2rNMKjGkWtzOjUE8/lU1jx63RmIWJMM5hb8ket1
+         Ltn19lmrkmDyng5vCeAiXPQmMqseXCe9jWdRCLToKLCfBHtNNVjPji2h407xDPW8BZuB
+         gx2iRH71XoK9oXZ/XPzC0KkOaNg8sB9Gkb1lgJPWMSJ6Qaq+pE+OhYiF0cvMME9AttQa
+         mlmw==
+X-Forwarded-Encrypted: i=1; AJvYcCUpHZM80E0k0gPjOkvwaLM/JTGwJJ2QXoiAI42ARivrHPExgmPFAvIIAC6NcMS/Le2vgAMfcKjxzun/ikRj@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+f97+FpH6ickTQ3nJXDpBEvZsffHW44JmAACb93CP/cLIsf4t
+	vfIxtCAUWgGui0OiXWGZp2anDv3MjZB2SoKTvlDMCCL22caAp5wexjY3vmP0JNc=
+X-Gm-Gg: ASbGncst3n6wlN82RbFFn8AyPOpuWe02vjk1V0SLjgfyfMshika+YHSCVsqf3Yllhtp
+	629RwAt8ihndBA5cvWFTBDGA/kTle6A/EFDkrqQT0Z7pohcdEXqfeD0RT9ObJwhc65As5w3b84T
+	fIlwRsVnkDgDMDfhp/A10N8ZqnEpRADVmkl7VPspsa0z70S1z0X39l+Tc/Zj2QygPDE3N7NVGL4
+	XC+e2cDkxiPMX4+LvxKcP0vD2QOHkm2TsMO9aRNW0t9hXfEiqU/t3U49AGNFeshekoOr/9p0ted
+	5ZBS/gxVhxmYRHhc6ASgLWcn+eV0yjKRQDhnh7cOitezSA==
+X-Google-Smtp-Source: AGHT+IG4hFp0SZ/GX5y1K3OD+w9YXQH3jCqLKyFID+cibmYCTQbSECvA/Q29TPvpdqbyjEyE/E8lrw==
+X-Received: by 2002:a05:6000:4203:b0:39c:1f02:449f with SMTP id ffacd0b85a97d-39d8f272aa3mr1264796f8f.2.1744274131466;
+        Thu, 10 Apr 2025 01:35:31 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39d893fe28fsm4078162f8f.96.2025.04.10.01.35.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 01:35:31 -0700 (PDT)
+Date: Thu, 10 Apr 2025 11:35:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	kernel test robot <lkp@intel.com>,
+	Guenter Roeck <linux@roeck-us.net>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org
+Subject: Re: [groeck-staging:hwmon-next 13/13]
+ drivers/hwmon/gpio-fan.c:250:6: warning: variable 'ret' is used
+ uninitialized whenever 'if' condition is false
+Message-ID: <d80689a3-6055-449d-9475-5e8e4f1ddabf@stanley.mountain>
+References: <202504091047.biuX8Kl2-lkp@intel.com>
+ <82d98804-e9b6-458e-bb39-3a48c10e9f70@roeck-us.net>
+ <2368483.ElGaqSPkdT@steina-w>
+ <20250409160250.GB1506425@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +79,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250409160250.GB1506425@ax162>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   db05731a881772a1e8f532c2541b334d822596f2
-commit: 0bc0d0d57edacd59ebe38d05ad9c4b2bc185aa51 [1575/1575] dhugetlb: backport dynamic hugetlb feature
-config: arm64-randconfig-r122-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101655.g80FSsl7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250410/202504101655.g80FSsl7-lkp@intel.com/reproduce)
+Another option is Smatch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504101655.g80FSsl7-lkp@intel.com/
+https://github.com/error27/smatch
 
-sparse warnings: (new ones prefixed by >>)
->> mm/hugetlb.c:1370:6: sparse: sparse: symbol 'free_huge_page_to_dhugetlb_pool' was not declared. Should it be static?
-   mm/hugetlb.c:2018:20: sparse: sparse: context imbalance in 'gather_surplus_pages' - unexpected unlock
-   mm/hugetlb.c:5168:17: sparse: sparse: context imbalance in 'hugetlb_cow' - unexpected unlock
-   mm/hugetlb.c:5881:25: sparse: sparse: context imbalance in 'follow_hugetlb_page' - different lock contexts for basic block
-   mm/hugetlb.c:1370:6: warning: no previous prototype for 'free_huge_page_to_dhugetlb_pool' [-Wmissing-prototypes]
-    1370 | void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:! ~/progs/smatch/release/smatch_scripts/kchecker drivers/hwmon/gpio-fan.c
+  CHECK   scripts/mod/empty.c
+  CALL    scripts/checksyscalls.sh
+  DESCEND objtool
+  INSTALL libsubcmd_headers
+  CC      drivers/hwmon/gpio-fan.o
+  CHECK   drivers/hwmon/gpio-fan.c
+drivers/hwmon/gpio-fan.c:145 set_fan_speed() warn: potential spectre issue 'fan_data->speed' [w] (local cap)
+drivers/hwmon/gpio-fan.c:255 pwm1_enable_store() error: uninitialized symbol 'ret'.
 
-vim +/free_huge_page_to_dhugetlb_pool +1370 mm/hugetlb.c
+I don't think the spectre v1 issue is real but I don't know very much
+about spectre.
 
-  1324	
-  1325	#ifdef CONFIG_DYNAMIC_HUGETLB
-  1326	static void free_huge_page_to_dhugetlb_pool(struct page *page,
-  1327						    bool restore_reserve)
-  1328	{
-  1329		struct hstate *h = page_hstate(page);
-  1330		struct dhugetlb_pool *hpool;
-  1331	
-  1332		hpool = get_dhugetlb_pool_from_dhugetlb_pagelist(page);
-  1333		if (unlikely(!hpool)) {
-  1334			pr_err("dhugetlb: free error: get hpool failed\n");
-  1335			return;
-  1336		}
-  1337	
-  1338		spin_lock(&hpool->lock);
-  1339		ClearPagePool(page);
-  1340		set_compound_page_dtor(page, NULL_COMPOUND_DTOR);
-  1341		if (!hstate_is_gigantic(h)) {
-  1342			list_add(&page->lru, &hpool->dhugetlb_2M_freelists);
-  1343			hpool->free_reserved_2M++;
-  1344			hpool->used_2M--;
-  1345			if (restore_reserve) {
-  1346				hpool->mmap_reserved_2M++;
-  1347				trace_dhugetlb_acct_memory(hpool,
-  1348							   hpool->mmap_reserved_2M,
-  1349							   DHUGETLB_RESV_2M);
-  1350			}
-  1351			trace_dhugetlb_alloc_free(hpool, page, hpool->free_reserved_2M,
-  1352						  DHUGETLB_FREE_2M);
-  1353		} else {
-  1354			list_add(&page->lru, &hpool->dhugetlb_1G_freelists);
-  1355			hpool->free_reserved_1G++;
-  1356			hpool->used_1G--;
-  1357			if (restore_reserve) {
-  1358				hpool->mmap_reserved_1G++;
-  1359				trace_dhugetlb_acct_memory(hpool,
-  1360							   hpool->mmap_reserved_1G,
-  1361							   DHUGETLB_RESV_1G);
-  1362			}
-  1363			trace_dhugetlb_alloc_free(hpool, page, hpool->free_reserved_1G,
-  1364						  DHUGETLB_FREE_1G);
-  1365		}
-  1366		spin_unlock(&hpool->lock);
-  1367		dhugetlb_pool_put(hpool);
-  1368	}
-  1369	#else
-> 1370	void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
-  1371	{
-  1372	}
-  1373	#endif
-  1374	
+regards,
+dan carpenter
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
