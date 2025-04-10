@@ -1,67 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B744E203719
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 07:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EA020B804;
+	Thu, 10 Apr 2025 07:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744268659; cv=none; b=BXnonFife2g5gWvZ9V1qN2MDDYuxP/kx5Rv6usXFpmyqB8qqW8cvgrr4J2a1WIN6zEMWjLLLnAGRJ7FXYk4u4US2ye/O6QW68L24vJvmk/DwF4QMBdmFL9dt+JzgtTZor6iS19hRMwNTyfUbzgvQ2cHXpHpQBPrpHYkMyIPRmn4=
+	t=1744269920; cv=none; b=HdAyVLRVtEp5+wBlLqmd42Xh4Bz7VRMP/X12h+Vbx1nYtcy7/GoCRV77LNNs8SeKRqPnYR8yqhD+M8my1xUT9xpRR/i0t4VJ4nZLxwA9Py44NQCsWiXDtRTer74K8kxdvy+9U2xq+dSVhZGT9QqNlZx6fV0vxiivZ86QZOr7QyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744268659; c=relaxed/simple;
-	bh=a+gKW0Py71TalASop7ZxdQ6rsdM207Gm+oHvKtY/2NU=;
+	s=arc-20240116; t=1744269920; c=relaxed/simple;
+	bh=RquuGCXJiJWK/Yhqhh0t6vGlUvFzJIPOR1vaSOnu1MA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HjfFdFoXuj/ALHKY8q+9rbicUXViXWBmYLdPfYv7McEuMAX2HVl4oLcMGZiMSGM3KDut0iGKMxMbcW+s78hOhlPjAlOtk+8ZarGSHX4I5ysZdH+JCberhaHEdrmTQRVsqIlR6vpuz1qRny89zyaLrzFMgdaVC3/yC/KJIV3vJiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yo8iUjkk; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q7P615ZQOpD/MdhGlriAoi2PQ1mm7ktXj6nHEoKxDRnbd3gdx5K07T4LCFFMLG5o4LsPGcPD/pBFU0FVSh3Ic7ntkx9fenCYDY9MqkCjya8HeMsLEknQgMxRvBvX3T7XgFt7cJ6gJ59TgEl4Hg31XyAeDLUj5fQG+QxEnSbkK0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VppDNfsd; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yo8iUjkk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VppDNfsd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744268657; x=1775804657;
+  t=1744269919; x=1775805919;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=a+gKW0Py71TalASop7ZxdQ6rsdM207Gm+oHvKtY/2NU=;
-  b=Yo8iUjkk5vA9po4GQJe8cpZJefkrfPnPL2rrxg5kA42Di70U21oyuIdD
-   EfWjZO/Ei15rdVyXQMHyhmH9PdQtD52meDiSn4vB6oce7L+KDF94gc9ce
-   eanMVuK13HhorfwPgsoRqTczwbBSKdky+VEtp9U/M/lzSc74x2/DbMJxn
-   vydCNMBPNW06zQ7BvU7qTMqVlJjDTkl2UKX/Fzm08VEZU08EvXnPcqi9G
-   80wKPdgv/GUzGhA6XdwGTQJ2P9OjOjDdeCpI0RLt9SUxnUuupztzZr83H
-   UOll2DfZifHMUJBql5vjVgfhlJjG4dxPZHdBTGkxnhdOntDHDJRg6j1TS
-   w==;
-X-CSE-ConnectionGUID: uskhHDH3Q2OwB2Q4PDmo8A==
-X-CSE-MsgGUID: BKbzytvcQ9q5BNaRxnW8Hw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="57148366"
+  bh=RquuGCXJiJWK/Yhqhh0t6vGlUvFzJIPOR1vaSOnu1MA=;
+  b=VppDNfsdYaiXnUk6Ap8giF0os52051s8jAiA1KIfeoPKurUE/o0cSeSe
+   vRGJWda5QYCTVbTwnCBZ9H9SV0E/4km4h7x9EA7nY+U0mLF4pbrDqaBYy
+   NvhOs/byiK77VdWQZU5fkkUbYfJY8hvNY0JEMvMR7z8PiT8iIvxMz1rCJ
+   wqcNk4xLoGXU7hwXw47kqmVVC1tWOFSRrq4RcPYCLDJK0Gend2kUuQeS+
+   4FDmQxtxELeVFxOyZB81VW6hv6BC9KKK4eqVZ09EDLl6aLA4a89ZBhBWh
+   gti9OIaE8Iy9I4svcEEG9hs/rnVty9veXfcwfmh1VladMQ5jxr5n4zHRK
+   A==;
+X-CSE-ConnectionGUID: ij27EFOATHW9pkoq1p3paQ==
+X-CSE-MsgGUID: 7PWEie9ySsu3lhIoETUqlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="71150929"
 X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="57148366"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 00:04:16 -0700
-X-CSE-ConnectionGUID: QW5AF7cFTy6leIoI2btU1Q==
-X-CSE-MsgGUID: k29QXuKITxe/4SVEciXV2Q==
+   d="scan'208";a="71150929"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 00:25:18 -0700
+X-CSE-ConnectionGUID: iVzjJqHaQ2qDlUwLquZzvw==
+X-CSE-MsgGUID: ZTrkxYVbQce+/ps+3EyEeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="133677191"
+   d="scan'208";a="129759647"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Apr 2025 00:04:13 -0700
+  by orviesa008.jf.intel.com with ESMTP; 10 Apr 2025 00:25:15 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u2lxK-0009jx-22;
-	Thu, 10 Apr 2025 07:04:10 +0000
-Date: Thu, 10 Apr 2025 15:03:52 +0800
+	id 1u2mHg-0009lP-2A;
+	Thu, 10 Apr 2025 07:25:12 +0000
+Date: Thu, 10 Apr 2025 15:25:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Donet Tom <donettom@linux.ibm.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org, David Hildenbrand <david@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Mike Rapoport <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Ritesh Harjani <ritesh.list@gmail.com>, rafael@kernel.org,
 	Danilo Krummrich <dakr@kernel.org>,
 	Donet Tom <donettom@linux.ibm.com>
 Subject: Re: [PATCH 1/2] mm/memblock: Added a New Memblock Function to Check
  if the Current Node's Memblock Region Intersects with a Memory Block
-Message-ID: <202504101459.iFHlVGBA-lkp@intel.com>
+Message-ID: <202504101431.ovUiydUd-lkp@intel.com>
 References: <50142a29010463f436dc5c4feb540e5de3bb09df.1744175097.git.donettom@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,21 +83,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Donet-Tom/base-node-Use-c
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/50142a29010463f436dc5c4feb540e5de3bb09df.1744175097.git.donettom%40linux.ibm.com
 patch subject: [PATCH 1/2] mm/memblock: Added a New Memblock Function to Check if the Current Node's Memblock Region Intersects with a Memory Block
-config: csky-randconfig-001-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101459.iFHlVGBA-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504101459.iFHlVGBA-lkp@intel.com/reproduce)
+config: hexagon-randconfig-002-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101431.ovUiydUd-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504101431.ovUiydUd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504101459.iFHlVGBA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504101431.ovUiydUd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memblock.c: In function 'curr_node_memblock_intersect_memory_block':
->> mm/memblock.c:1943:22: error: 'struct memblock_region' has no member named 'nid'
+>> mm/memblock.c:1943:10: error: no member named 'nid' in 'struct memblock_region'
     1943 |                 if (r->nid == curr_nid) {
-         |                      ^~
+         |                     ~  ^
+   1 error generated.
 
 
 vim +1943 mm/memblock.c
