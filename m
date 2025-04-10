@@ -1,65 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4BF1FC8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 06:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974341F0998
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 06:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744264990; cv=none; b=hSrDhRKAMBKkstT2j/CSoliSVxVMr852In2lF8tmYFdKrUUnvFwVO1OuQO89AC22ibjQRvAxyTUzFnt4tArnG0CQ71yXV9ke1yMVQ/isdsfp0xr+msQW4dw1ndnwvILjJtFKUJHlbXqvfBLUUVxE3iVhpgY5kidZ+iJufFeQMjI=
+	t=1744265940; cv=none; b=iRbje+jEM/42TgZtnuKLjUARnZSV8iDBYw/q2Xbu56sb1E7nRpmBj73ckuu2Q/lvnjDv36coFLDtHtMtqHVzc3xzEaCER1tRDLzQLe0HiPqZ2kMIW3WzsGnsSBJ9YMDKK8/w/CHqnJr2pjdPhEB7Sngk8gXMXz/ib43eMMQfFco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744264990; c=relaxed/simple;
-	bh=+JIaEozMlGyG70wwHQE8uZ5c8OFIO6Iqup59Ar5RRH0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OtaQ469wOfUDmHeeQ1dxEP7sUv8Avvrtr46nj1C85jw9OjRVi1VX4HX260qsmpi98NI/FhwqzmDId/jIRvrSs5xJS81VS0v7eC+UbOXCJqIeAKL96kdvF/OPFAXh6Ulmma8yMDGMT3Y9g4kkwO1a2wZjTnGudqOasGLnVIeatBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCb9mMPo; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744265940; c=relaxed/simple;
+	bh=5FD9HeV5dMdYtycO1IP5ZxNeX6YXzBxjky0WuD8uPFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p7Isfq3rWRJycAJiRosOqX4GMpuN/zIc2vRlYgD9r2qyRBkoDLrV+zBeeQTFvnG1iuw7U+BBRwOAxAyb+2u2SWHXSLhtW6Tvplhvav/gqhLdoBJw7/iahtob+XtoS6klqUPfQBXxn1bKfi3QnuBx5Ou72mwY7Oq+aF3PPsUTnTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nZIreNh1; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCb9mMPo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744264988; x=1775800988;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+JIaEozMlGyG70wwHQE8uZ5c8OFIO6Iqup59Ar5RRH0=;
-  b=PCb9mMPoHr0njPaiQ85KdrHTNuJtoqwkLGlu+sgTXwzMxno8vEePyfoT
-   PYRsskhU6RrSJRivBRd2fwX3FDRy1K0Bi7RF2nY5idHjHcUwaXtZiVVwd
-   Eoqch+rmC6NrOG22Vk1p6mhhmLCAthFCGBejaoCuyQANGF5w5cdO2cDkg
-   KZESFd8/IQqoMJCnUswdVDvrNkqrtGy4paELHT3/ArqcYuIcXiJ1McuCS
-   Jdb3V81kuZQccIsHc3ZkJfvQPyTY/N8RZb/RVhZ8wGeA2XD0bJU9xBrCH
-   LUiZBoqgdUetjF7SfsvsDg/QfFNf9iKtw1e80ghNW4aVroYD8iMTDWwYS
-   w==;
-X-CSE-ConnectionGUID: OwnRO2ltS1GTUEh5WUCXtw==
-X-CSE-MsgGUID: IahjfPkDSLq8zUT8N+gAmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="49606439"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="49606439"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 23:03:03 -0700
-X-CSE-ConnectionGUID: ejyuXpPUQJiVBuqwcaZGwQ==
-X-CSE-MsgGUID: 6cJio8CqRYy/QqGgcu8zhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="128779492"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Apr 2025 23:02:59 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u2l03-0009el-2D;
-	Thu, 10 Apr 2025 06:02:55 +0000
-Date: Thu, 10 Apr 2025 14:02:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
-	bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, ilpo.jarvinen@linux.intel.com,
-	robh@kernel.org, jingoohan1@gmail.com, thomas.richard@bootlin.com,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hans Zhang <18255117159@163.com>
-Subject: Re: [PATCH v9 4/6] PCI: dwc: Use common PCI host bridge APIs for
- finding the capabilities
-Message-ID: <202504101228.CX8tAgfW-lkp@intel.com>
-References: <20250409034156.92686-5-18255117159@163.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nZIreNh1"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfe574976so2707755e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Apr 2025 23:18:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744265937; x=1744870737; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WO0sPvu+NJhcf5FTIP2koNXdzW3VS5n8QUGsSgSnAZw=;
+        b=nZIreNh1QobKO21ZZlg5KljI1hZCrh+gBHFlXn/E67fuAh6rgr82VQ76if+SyRrxRt
+         qZ7MFF/TxvHNvPORlAb95DHMXSCZhZRPZ+RQBIf4YQk+mN+NxNYh/Y/x2l6827p4cnaW
+         Nm3TG7bFX6WzUZzGH1Tc9oFgj9igvZtQzwKlcHuZ6STIweIPe9L4x6abZz/LbMZZv9nB
+         0lBqtfZHxmO3eGlwZeRm2lc3KtIvIPO/+xPnCOp81CyBhzcgkbP9+5zIaZUlX5Ya1ZuZ
+         QD0wfdHQBA1LuSR5cIwY2KjJZKX2V3ukzCcj+VN0u1SV5aJWMVzTAvxPqrNPhgGGC5Xp
+         1YEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744265937; x=1744870737;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WO0sPvu+NJhcf5FTIP2koNXdzW3VS5n8QUGsSgSnAZw=;
+        b=mjMWlRLNlfonsFG9R1kCwZIP1JxVXoXQ0XpO+XQAZn2gIbKwjoGL5YS6Ms7NUzwqGS
+         zSAymQETUovdiHulku4mrmXJImMyEMHfuoCfqB7S031c+4iwPBDV5p0tavrgxQYQoza0
+         GN94br6s1VreC23tUZWatooh5HEeLXvb5jo3/5+wqEk7AJvXwE03Z1ef8tskrQat4CVi
+         9c+ICzyw30icg6ryBT8dwVAAjIYpvc6v8SoDgXW1jbu1JQKDfRrOtN8qDCFqS/gDGVZ1
+         t4zVzL+0uFtGKuuwyihX8JQnzyc0iBR4q34yZMIpx/DxF5Y698XxOGlnyOwoj8aEXwVX
+         /KMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWkUxKrT6MzWDhNTJihlN0AHfvrYDTjehnWx/uOcW41Pqup6ZkRMlLHYrHeC4CWnn3jdVBm4oShDRknUk68@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxcd8T6hOmEdywCvHsWQkfSMHzeIT5PYm8NdDt6e7N1KxB/TyuT
+	ZHRelYZBNBs8KOcSW3XOPudsA2M+cpD+cYdvMq9+ep4oi/70Tr3f3O5LbsFPZa8=
+X-Gm-Gg: ASbGncvMUi94Hwy8D+EmlNNFS5F2Rfykb0YCF41Sv9QD5QgL1WjDwphl/M1LG5Ie5nX
+	G13Ay39ToHt3gZSVXTPQy5KHXQ7ID56hD9OKfZpukjKJdtG7UPwLCvfGPAbPaDAJkNmO4iBGuj1
+	N5Ftggb9JVoSiYKxi0ZRdwcwS03puA8gWNz7EZqs/FLKB97QGl0WYOOXx7bbJ3wCr9OhHILHY/a
+	n2lkBcmsjcY8vKgxNeV2blxkGNuK2M4cLttnpkC1gWu7nOAMlW+rSbfxoPAf7X31niS62Tt07tN
+	CDAykSSbifsD6wslado/6gZXZxCn2KL3m8Ru6KwDDylQDtkuq1BB4b09
+X-Google-Smtp-Source: AGHT+IE3Vkgj/iD9RCM6QwVVg82nnZ0Xtq80ks64ANuUFiN6dHiXhMD/Y+i1TeQXx08R6wbm0fmQSw==
+X-Received: by 2002:a05:6000:2282:b0:39c:30d8:3290 with SMTP id ffacd0b85a97d-39d8f276007mr1149394f8f.7.1744265936819;
+        Wed, 09 Apr 2025 23:18:56 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39d893f0b76sm3712417f8f.77.2025.04.09.23.18.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 23:18:56 -0700 (PDT)
+Date: Thu, 10 Apr 2025 09:18:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Lorenzo Bianconi <lorenzo@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Felix Fietkau <nbd@nbd.name>,
+	Bo Jiao <Bo.Jiao@mediatek.com>,
+	Peter Chiu <chui-hao.chiu@mediatek.com>,
+	Shayne Chen <shayne.chen@mediatek.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/main.c:952
+ mt7996_mac_sta_add_links() error: uninitialized symbol 'err'.
+Message-ID: <47f95421-75f8-418e-9f0f-47775f615d41@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,59 +74,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409034156.92686-5-18255117159@163.com>
 
-Hi Hans,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a24588245776dafc227243a01bfbeb8a59bafba9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Introduce-generic-bus-config-read-helper-function/20250409-115839
-base:   a24588245776dafc227243a01bfbeb8a59bafba9
-patch link:    https://lore.kernel.org/r/20250409034156.92686-5-18255117159%40163.com
-patch subject: [PATCH v9 4/6] PCI: dwc: Use common PCI host bridge APIs for finding the capabilities
-config: arc-randconfig-001-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101228.CX8tAgfW-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504101228.CX8tAgfW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b07108ada81a8ebcebf1fe61367b4e436c895bd
+commit: dd82a9e02c054052b5899872c1f32805428f6131 wifi: mt76: mt7996: Rely on mt7996_sta_link in sta_add/sta_remove callbacks
+config: powerpc64-randconfig-r073-20250409 (https://download.01.org/0day-ci/archive/20250410/202504101051.1ya4Z4va-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504101228.CX8tAgfW-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202504101051.1ya4Z4va-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/main.c:952 mt7996_mac_sta_add_links() error: uninitialized symbol 'err'.
 
-   drivers/pci/controller/dwc/pcie-designware.c: In function '__dw_pcie_find_vsec_capability':
->> drivers/pci/controller/dwc/pcie-designware.c:239:24: error: implicit declaration of function 'dw_pcie_find_next_ext_capability'; did you mean 'pci_find_next_ext_capability'? [-Wimplicit-function-declaration]
-     239 |         while ((vsec = dw_pcie_find_next_ext_capability(pci, vsec,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        pci_find_next_ext_capability
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/main.c:73 mt7996_stop_phy() warn: variable dereferenced before check 'phy' (see line 71)
+drivers/net/wireless/mediatek/mt76/mt7996/main.c:360 mt7996_set_monitor() warn: variable dereferenced before check 'phy' (see line 358)
 
+vim +/err +952 drivers/net/wireless/mediatek/mt76/mt7996/main.c
 
-vim +239 drivers/pci/controller/dwc/pcie-designware.c
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  924  static int
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  925  mt7996_mac_sta_add_links(struct mt7996_dev *dev, struct ieee80211_vif *vif,
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  926  			 struct ieee80211_sta *sta, unsigned long new_links)
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  927  {
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  928  	struct mt7996_sta *msta = (struct mt7996_sta *)sta->drv_priv;
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  929  	unsigned int link_id;
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  930  	int err;
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  931  
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  932  	for_each_set_bit(link_id, &new_links, IEEE80211_MLD_MAX_NUM_LINKS) {
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  933  		struct mt7996_vif_link *link;
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  934  
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  935  		if (rcu_access_pointer(msta->link[link_id]))
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  936  			continue;
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  937  
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  938  		link = mt7996_vif_link(dev, vif, link_id);
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  939  		if (!link)
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  940  			goto error_unlink;
 
-5b0841fa653f6c Vidya Sagar  2019-08-13  229  
-efaf16de43f599 Shradha Todi 2025-02-21  230  static u16 __dw_pcie_find_vsec_capability(struct dw_pcie *pci, u16 vendor_id,
-efaf16de43f599 Shradha Todi 2025-02-21  231  					  u16 vsec_id)
-efaf16de43f599 Shradha Todi 2025-02-21  232  {
-efaf16de43f599 Shradha Todi 2025-02-21  233  	u16 vsec = 0;
-efaf16de43f599 Shradha Todi 2025-02-21  234  	u32 header;
-efaf16de43f599 Shradha Todi 2025-02-21  235  
-efaf16de43f599 Shradha Todi 2025-02-21  236  	if (vendor_id != dw_pcie_readw_dbi(pci, PCI_VENDOR_ID))
-efaf16de43f599 Shradha Todi 2025-02-21  237  		return 0;
-efaf16de43f599 Shradha Todi 2025-02-21  238  
-efaf16de43f599 Shradha Todi 2025-02-21 @239  	while ((vsec = dw_pcie_find_next_ext_capability(pci, vsec,
-efaf16de43f599 Shradha Todi 2025-02-21  240  						       PCI_EXT_CAP_ID_VNDR))) {
-efaf16de43f599 Shradha Todi 2025-02-21  241  		header = dw_pcie_readl_dbi(pci, vsec + PCI_VNDR_HEADER);
-efaf16de43f599 Shradha Todi 2025-02-21  242  		if (PCI_VNDR_HEADER_ID(header) == vsec_id)
-efaf16de43f599 Shradha Todi 2025-02-21  243  			return vsec;
-efaf16de43f599 Shradha Todi 2025-02-21  244  	}
-efaf16de43f599 Shradha Todi 2025-02-21  245  
-efaf16de43f599 Shradha Todi 2025-02-21  246  	return 0;
-efaf16de43f599 Shradha Todi 2025-02-21  247  }
-efaf16de43f599 Shradha Todi 2025-02-21  248  
+error code?
+
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  941  
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  942  		err = mt7996_mac_sta_init_link(dev, vif, link, sta, link_id);
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  943  		if (err)
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  944  			goto error_unlink;
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  945  	}
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  946  
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  947  	return 0;
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  948  
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  949  error_unlink:
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  950  	mt7996_mac_sta_remove_links(dev, sta, new_links);
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  951  
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11 @952  	return err;
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  953  }
+dd82a9e02c0540 Lorenzo Bianconi 2025-03-11  954  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
