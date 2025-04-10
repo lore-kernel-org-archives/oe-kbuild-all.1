@@ -1,76 +1,59 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F03D20B1E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 08:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194091B2186
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 08:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744274135; cv=none; b=dMrIL1VY+OtcJv+jsjs20Mcz+sr4D3kXb3ApGG0AxXQ1+8QiysLZ0HG6z7kdo3niIRLZsli5IYvbyYXQElYvFBa5fhcgxzSskHPv3ME8TSbGo8reJUpbSTAlP8Dw/LT237wQCAKFbkvFLg3EnPRUEVEeLkyA6IggCCHbiNkv1y0=
+	t=1744274912; cv=none; b=pG1VrFaNVTOWpbu+4td2bq0Q2yiHQVJQkjSQSoJcQNV/EKVZusm2aYdzEJqa2t7GZ4DITx0zYgHqa7Md55LRnF0LsjlEJN+srMkghuPHazUdxakvA+zn7Y8jAI+16iHUycAzktm5aT1J68aMsbh6LtmPoncbWY/7C5CR19vZCzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744274135; c=relaxed/simple;
-	bh=JdYcK6fAGQtlodFRUy0bhtgD36qMwbdQO7D7iUkLixc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zt3B8mkHMj9FGdf9KztqeQHwhiXFAy/O4zrrIFSajmK4Vu9oprh8ijdQOXMmMsDSsW27UycUwm3+iD5yTX3aK2bOm/9icNUe3FslDY41pGpODbIUCGiGZCLJ1eLU0gYHL1oFIkNRco+PdbPgmBMBgCp3xC64w0f8daZapiog83o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wfdGVXG5; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744274912; c=relaxed/simple;
+	bh=P/7IIwmVbRxj5UvcTDhQB9Oc0nnRRQA7gDS+fBeARWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Qa0EB2J4zvty6Y06XQiM/j/SLYp822XxC0goIS4mHEKB4yYyOWsxA1schBMNHOqDwkAbDJDYJDbWB7O9DdRnbfcSWFDFZqWTC/FtFvS3qYGsVAzrCYXPQWOAx0ngwQNSAMIZ+7uVa5TaAuBdT4wCTV+0trPC9wjVk6kOPQ7w/ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnDkUH9G; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wfdGVXG5"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39ac8e7688aso249619f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 01:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744274131; x=1744878931; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1+ytBosE9KKYfsxuSA5vHZYEINNgxVHBZaHGuzR0zM=;
-        b=wfdGVXG5XQxrio+G2xo59q5pNUTNwrebLMM0WEWJ/RFmEywTJ699cA1tzHPNabVX6y
-         b0ntJa+8y2b5IDC/KYv6dKTZFtBqzNzgHCPcmojdi9dru1/XLoINAVmiAZ8U9H8Srh13
-         3d9qqihZPH+qF/0X7BJdg4GpDx2GJ8eshwWgeTgUhJQwHhaLUxD4nMCw69MdNSb4D4mT
-         3q7UbEZdD7I4+uikrj3V6jPYzvmy9DatKyI+f0JWyA28c8EPsXpnas5awziOR5pM4Kc8
-         bfKsuTIF0Fl/Yu7hj9saD//xqPa5u7peFerEfHKggREyNTJwKYHsQOPxYV73GQAxhKtT
-         U40Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744274131; x=1744878931;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z1+ytBosE9KKYfsxuSA5vHZYEINNgxVHBZaHGuzR0zM=;
-        b=Fat8xqDPgmN2+5vJRoq5yZr+2tZRQwqnGZJ0x5+2XwDdy0CZhm1vyomrQA1iiK7FMV
-         p0uDevLSNkxWyx3C46OozTd+EUpg2TynBMCqJdOoiv5puWfcX/2PC81KLnvkvt+BU1gm
-         QIo5yn40KZBBE2qtmR4I/aMh0NKfy2rNMKjGkWtzOjUE8/lU1jx63RmIWJMM5hb8ket1
-         Ltn19lmrkmDyng5vCeAiXPQmMqseXCe9jWdRCLToKLCfBHtNNVjPji2h407xDPW8BZuB
-         gx2iRH71XoK9oXZ/XPzC0KkOaNg8sB9Gkb1lgJPWMSJ6Qaq+pE+OhYiF0cvMME9AttQa
-         mlmw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpHZM80E0k0gPjOkvwaLM/JTGwJJ2QXoiAI42ARivrHPExgmPFAvIIAC6NcMS/Le2vgAMfcKjxzun/ikRj@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+f97+FpH6ickTQ3nJXDpBEvZsffHW44JmAACb93CP/cLIsf4t
-	vfIxtCAUWgGui0OiXWGZp2anDv3MjZB2SoKTvlDMCCL22caAp5wexjY3vmP0JNc=
-X-Gm-Gg: ASbGncst3n6wlN82RbFFn8AyPOpuWe02vjk1V0SLjgfyfMshika+YHSCVsqf3Yllhtp
-	629RwAt8ihndBA5cvWFTBDGA/kTle6A/EFDkrqQT0Z7pohcdEXqfeD0RT9ObJwhc65As5w3b84T
-	fIlwRsVnkDgDMDfhp/A10N8ZqnEpRADVmkl7VPspsa0z70S1z0X39l+Tc/Zj2QygPDE3N7NVGL4
-	XC+e2cDkxiPMX4+LvxKcP0vD2QOHkm2TsMO9aRNW0t9hXfEiqU/t3U49AGNFeshekoOr/9p0ted
-	5ZBS/gxVhxmYRHhc6ASgLWcn+eV0yjKRQDhnh7cOitezSA==
-X-Google-Smtp-Source: AGHT+IG4hFp0SZ/GX5y1K3OD+w9YXQH3jCqLKyFID+cibmYCTQbSECvA/Q29TPvpdqbyjEyE/E8lrw==
-X-Received: by 2002:a05:6000:4203:b0:39c:1f02:449f with SMTP id ffacd0b85a97d-39d8f272aa3mr1264796f8f.2.1744274131466;
-        Thu, 10 Apr 2025 01:35:31 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39d893fe28fsm4078162f8f.96.2025.04.10.01.35.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 01:35:31 -0700 (PDT)
-Date: Thu, 10 Apr 2025 11:35:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	kernel test robot <lkp@intel.com>,
-	Guenter Roeck <linux@roeck-us.net>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org
-Subject: Re: [groeck-staging:hwmon-next 13/13]
- drivers/hwmon/gpio-fan.c:250:6: warning: variable 'ret' is used
- uninitialized whenever 'if' condition is false
-Message-ID: <d80689a3-6055-449d-9475-5e8e4f1ddabf@stanley.mountain>
-References: <202504091047.biuX8Kl2-lkp@intel.com>
- <82d98804-e9b6-458e-bb39-3a48c10e9f70@roeck-us.net>
- <2368483.ElGaqSPkdT@steina-w>
- <20250409160250.GB1506425@ax162>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnDkUH9G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744274907; x=1775810907;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P/7IIwmVbRxj5UvcTDhQB9Oc0nnRRQA7gDS+fBeARWA=;
+  b=lnDkUH9GMcjUKQm70VochQxVAvpbBxNlmZGXRru3Nbs5NtRiRE8mZiVr
+   A+ah0NyvnKs/8ZgNCeMFyjMO9ceCZ1hGMjeE6VclOZeY8D5GEw1BjHpbO
+   GJEecZM7G8e1NJzjRxs+DLiEVB7g3Ki9t1HFZNCPqFbsu4Y77JSQl+hfJ
+   KLVn87tIWt5Bdn54f2VwaWhsrhtBmM8x3GF2yS03CZ8QiK5Aqn/GrL3Is
+   8uwo0nGkKKD/j+raSxPenIV3Ojnb0tbs7+616EtuwT5CsBiA1yZbBYRgr
+   YVMyTAKhgva8v76iZIt0mkXoSI9ljjDgP3m6FSyQdP2E+q14Fg8ro8lg5
+   Q==;
+X-CSE-ConnectionGUID: jT1AKAFpSZC06Ok0buPJOQ==
+X-CSE-MsgGUID: pSOUWfA6S02FzY6M2MOflA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="63323683"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="63323683"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 01:48:26 -0700
+X-CSE-ConnectionGUID: MSyZGaKLRLWiPeRVEcIQQw==
+X-CSE-MsgGUID: pZawEmYNSo2W3vGEoKHyZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="133960345"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 10 Apr 2025 01:48:25 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u2naB-0009q3-1l;
+	Thu, 10 Apr 2025 08:48:23 +0000
+Date: Thu, 10 Apr 2025 16:47:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2116/2116]
+ drivers/crypto/montage/tsse/tsse_ipc_hash.c:14:1: sparse: sparse: symbol
+ 'service_info_table' was not declared. Should it be static?
+Message-ID: <202504101645.mRh7GNFb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,25 +62,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409160250.GB1506425@ax162>
 
-Another option is Smatch.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   62b846e657553d00552c1c71b6ecc26017eb1a9a
+commit: 914854f2adb6988ac3b6521088ec96833d6743e2 [2116/2116] driver: crypto - update support for Mont-TSSE Driver
+config: x86_64-randconfig-r113-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101645.mRh7GNFb-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504101645.mRh7GNFb-lkp@intel.com/reproduce)
 
-https://github.com/error27/smatch
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504101645.mRh7GNFb-lkp@intel.com/
 
-:! ~/progs/smatch/release/smatch_scripts/kchecker drivers/hwmon/gpio-fan.c
-  CHECK   scripts/mod/empty.c
-  CALL    scripts/checksyscalls.sh
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CC      drivers/hwmon/gpio-fan.o
-  CHECK   drivers/hwmon/gpio-fan.c
-drivers/hwmon/gpio-fan.c:145 set_fan_speed() warn: potential spectre issue 'fan_data->speed' [w] (local cap)
-drivers/hwmon/gpio-fan.c:255 pwm1_enable_store() error: uninitialized symbol 'ret'.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/montage/tsse/tsse_ipc_hash.c:14:1: sparse: sparse: symbol 'service_info_table' was not declared. Should it be static?
+>> drivers/crypto/montage/tsse/tsse_ipc_hash.c:15:1: sparse: sparse: symbol 'service_handle_table' was not declared. Should it be static?
+--
+>> drivers/crypto/montage/tsse/tsse_ipc_drv.c:22:41: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/crypto/montage/tsse/tsse_ipc_drv.c:42:33: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/crypto/montage/tsse/tsse_ipc_drv.c:42:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/crypto/montage/tsse/tsse_ipc_drv.c:42:46: sparse:     expected void const volatile [noderef] __iomem *
+   drivers/crypto/montage/tsse/tsse_ipc_drv.c:42:46: sparse:     got unsigned char [usertype] *
+   drivers/crypto/montage/tsse/tsse_ipc_drv.c:108:16: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/crypto/montage/tsse/tsse_ipc_drv.c:120:21: sparse: sparse: cast from restricted __le32
+>> drivers/crypto/montage/tsse/tsse_ipc_drv.c:124:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *msg @@     got void [noderef] __iomem *d2h_msg @@
+   drivers/crypto/montage/tsse/tsse_ipc_drv.c:124:60: sparse:     expected void *msg
+   drivers/crypto/montage/tsse/tsse_ipc_drv.c:124:60: sparse:     got void [noderef] __iomem *d2h_msg
+>> drivers/crypto/montage/tsse/tsse_ipc_drv.c:136:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got unsigned char [usertype] *addr @@
+   drivers/crypto/montage/tsse/tsse_ipc_drv.c:136:21: sparse:     expected void volatile [noderef] __iomem *
+   drivers/crypto/montage/tsse/tsse_ipc_drv.c:136:21: sparse:     got unsigned char [usertype] *addr
 
-I don't think the spectre v1 issue is real but I don't know very much
-about spectre.
+vim +/service_info_table +14 drivers/crypto/montage/tsse/tsse_ipc_hash.c
 
-regards,
-dan carpenter
+    13	
+  > 14	DEFINE_HASHTABLE(service_info_table, SERVICE_TABLE_BUCKET_BITS);
+  > 15	DEFINE_HASHTABLE(service_handle_table, SERVICE_TABLE_BUCKET_BITS);
+    16	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
