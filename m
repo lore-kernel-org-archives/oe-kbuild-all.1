@@ -1,234 +1,269 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E94E1EE033
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 18:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744308597; cv=fail; b=bMtavtBYmPYbF7Wj52TipsZT5k/2yW4Fs8exKxoJcp5pRDT8OQHXeGgyV8HvElC40iXQpsZy8Rbfiy6XnMSCyr1rF+5S2O0Oir5gJPfseGVBdjBzDALh9DPgTc/rMlDYgKuJO4D9CxUX2d8fxRmYHjNgEOIp6w5qZZ7dxywTmew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744308597; c=relaxed/simple;
-	bh=xIUwVTJrFW7whVYFDiymnSUwmqsc5YlWAL0oK1sCnSY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LP74fsZPIj7SyUJ8MN8cKEyQGeH0ptiUmN+01La8yE8g1/AuK6hYLQNK+Hw9X06pOX1F0JX3rcmnF0Lt3hq6m2burPsNpjPdQ9xRIibfseSHriEhAF6ZI5gWAkyFXJg2UpTVqiKzd3thu7w7rAYGkmA3zs/OYkg4Uh6QWZtvvb4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcp0T/kJ; arc=fail smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E42B203711
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 19:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744311732; cv=none; b=jil/G1OqmSMogIesDuJELriw31Pa+/m/Fh1jwb73TShge5I8Ckm8ehJMZXxngkqaTHZPlOjdG1837+AI/Game6OwZL9ctQYwWcJuuwlMyIcOpxuxUImEQ3Z9OlyZ3yopWS8lBl2oHHZMRx3y5s71D+SVrB/aETNh/C5uSJwXRjM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744311732; c=relaxed/simple;
+	bh=g8WIGmwoyeNr48iWhFe4ZqZrK6MCR+OezCj1ZdNLtsI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=A+gsWn6qZ857txlwH1vPQA2JS6EOhVgZYHwrJqsIOwLVZ5P5CROkakzeBS0NExL4WmbcxXOe+wqvUB5Ol/IdNBp14gELTdVZQxmNegFPaNcdDxrUIfYUFbq0znzZVsJjPRMMGBCJlSi2P1HGEvrRkd2AxWGk4knr0Wmkg0bPbQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivwRUqFY; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcp0T/kJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivwRUqFY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744308596; x=1775844596;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=xIUwVTJrFW7whVYFDiymnSUwmqsc5YlWAL0oK1sCnSY=;
-  b=jcp0T/kJ4EMjaEPLR/ZQseKqd66ptSO32UUrcW0WW1mW3Z7OxAM8yg4u
-   xYH/7sKZ118lxPYqSUyY5tQZFFD/lCjuMaKbpGFlv2WoUpD5Oj/wrHu+v
-   nlDHgy9byPpCJnCgrsRY6vmxCDvBE4qplb4i0HI44l09xLc7tSytOJxCC
-   7gPZREiyXSCodtfxnAYrqjGa515pHF+BME11p2aLJlia+qOu1j7WBU5yx
-   CK46wsav1CzoVNcmeP0kwkDbfxyXdH3bBrU/AKoKAuJayjNIBM95daHz5
-   A7vkqKk/d63yBZNtS0ZFCzmEf+hDE3QIF1wKcm9ms60/6PhOjAk++x/MF
+  t=1744311730; x=1775847730;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=g8WIGmwoyeNr48iWhFe4ZqZrK6MCR+OezCj1ZdNLtsI=;
+  b=ivwRUqFY5r8JgvNfsvEz8ur+djIlWu08umSfQxT6dkYckbRHu7ckyW8m
+   Sr84LBu73EmJpkYVgYzG5dgUYD0/nOrClKCmI2y5l/U07k43UfZtZV1Pb
+   MTuVDFPj7aOZXXwTe5rhEMIH/cXAA1OnRRmDS9LL/8WNfH4wRS3mY4TiE
+   KJe/rCCPuJnf6bq+gIXV4iEoczRX837b4kn+LashH++luN5LhtXxr7Ii6
+   Rj8Ht/ZlEv6pxDtTA7/tu+ZBFwuowEp8S2LXNYmReIdIgM/VFqXfp7zV6
+   fxzFJZOM6glXlL5rFoDaBPBMp84G7wvO/PrWfuNVLCBruq3isdzR1PVO/
    A==;
-X-CSE-ConnectionGUID: aqJjAqiSR7qyRm7DAkFXng==
-X-CSE-MsgGUID: QncGiAsAQsiVZEft6cA3Jg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45859795"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="45859795"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 11:09:55 -0700
-X-CSE-ConnectionGUID: NdpA6xeXQGm/8CWJ8/ApNQ==
-X-CSE-MsgGUID: NOl9+GHVR5GGmQYSUti/hg==
+X-CSE-ConnectionGUID: HIQnYXWRSfG37OUMzWGyfA==
+X-CSE-MsgGUID: 9BAPrlzKS/6znwH+GnBMWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="56495514"
+X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
+   d="scan'208";a="56495514"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 12:02:09 -0700
+X-CSE-ConnectionGUID: cs7KdabFQgqO2L03bkgfhQ==
+X-CSE-MsgGUID: OzH7YdysRfWDptKGXhdigQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="133707445"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 11:09:55 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 10 Apr 2025 11:09:54 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 10 Apr 2025 11:09:54 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 10 Apr 2025 11:09:53 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jGw5vaHmryEEsaBPsRkuZAeJbZXTVTSjEqAHLmwx+IR+PLXi1yaIfp7+8VXdMgpGSaJDyPl/ad7VnAl/uie9f3lritY9saQFih6uF/LT/DY6yoBgKLfCKneMoGTSc0h8jhCsCLLmgxZiVDWVwO7rToTiSati+aQRJajsiNqeYrsN1pnl0ORn9dJppV23tonAo+UmefGGIJKQbT6eRM++BGnrhpMo1XcsjwnF1p8wZrMmHHLsftNO2/OtxBRDQgqcG5vf96oWcPY4+eTYFF7WhID8gyCO9QXKxIfU53SO6mjHulvOU1oe7DhvOLYGmVDtjVaezHQFdrJHpVU6/V6pxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dcGEQBd69mcIKqd8FeRBCZBvmnAQi+jm087RCAcRpb0=;
- b=rDysL/Rs1FXG6ii8dXt9tJgzYtwOpd3+DSNrGgXH0YNGXqPISDDZAOc0rl91Yt43pS+U71gsv58tG3XKu3/ESUDosVvZkgCdLSxRorKMoZQG5r4EJ0T7SKtgRtxo5F0sbNcQotXjrgudghNfkx/j4+NFTQCIB8gtFSr94tsqSsz9Z8ubBZk5lkpMxA2mE3jTRla2dMsKaR7g6UhoEo5B0fNHFN4+k9N5iYNkFw7mqHgRIkTu5c7w6UmVxeHnSqb1ZFLi2lb7mNfbY2R9LVF+cX1gZWk3p03yLMwJ78jNi+aaVRT1RDVFcC4rHEQ1Oq6GGFHoYT5Sfxg7C/XQ4GLqEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by DS0PR11MB7849.namprd11.prod.outlook.com (2603:10b6:8:fd::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Thu, 10 Apr
- 2025 18:09:10 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8%3]) with mapi id 15.20.8606.033; Thu, 10 Apr 2025
- 18:09:10 +0000
-Date: Thu, 10 Apr 2025 11:09:08 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, Dan Williams <dan.j.williams@intel.com>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, "Intel
- Wired LAN" <intel-wired-lan@lists.osuosl.org>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, <linux-cxl@vger.kernel.org>
-Subject: Re: [tnguy-net-queue:dev-queue 2/12]
- include/linux/build_bug.h:78:41: error: static assertion failed:
- "sizeof(__uapi_uuid_t) == sizeof(uuid_t) && __alignof__(__uapi_uuid_t) ==
- __alignof__(uuid_t)"
-Message-ID: <67f80944cadb8_71fe2949b@dwillia2-xfh.jf.intel.com.notmuch>
-References: <202504050434.Eb4vugh5-lkp@intel.com>
- <67f72679bb038_2ce629469@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20250410115956.GQ1778492@nvidia.com>
- <67f8045059dde_71fe2949d@dwillia2-xfh.jf.intel.com.notmuch>
- <20250410175731.GC5121@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250410175731.GC5121@nvidia.com>
-X-ClientProxiedBy: MW4PR03CA0029.namprd03.prod.outlook.com
- (2603:10b6:303:8f::34) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
+   d="scan'208";a="129953934"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 10 Apr 2025 12:02:08 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u2xA5-000ARn-2m;
+	Thu, 10 Apr 2025 19:02:05 +0000
+Date: Fri, 11 Apr 2025 03:01:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2117/2117]
+ drivers/iommu/loongarch_iommu.c:1292:22: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202504110226.FM6zQ8DE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DS0PR11MB7849:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55a0bc34-05d3-49fa-e08e-08dd785acb27
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UiEFONf2YihYaFA8+Y3Om0AvfLVQqRl9mB5oZq4B5eZUqch3y68E0SZBi8dH?=
- =?us-ascii?Q?pn0iPX10oAXyUKHG1LwIOIDsrPWN9mFskVP2t5EF9JUXF2DFeutGGHBrFhxz?=
- =?us-ascii?Q?LyVMBc6oHjyFVbum0jKw6IN5qDH+YREP6W0+h/Yx17eG1tQvmgshYMIiM+fe?=
- =?us-ascii?Q?xYxMlm7H50J6m9wkYmlEvRKzsUhKpFP+XL7BOcDdl8DFNbj3mfncDD+0XA81?=
- =?us-ascii?Q?CedjhU7Z1bkWZzpWmkH7p6eHhGW0gfrv5H/sfM0ypkqVuXu6d7o/syi7X3Px?=
- =?us-ascii?Q?tc2zz1dnD5Btf5ykCnClbR4mq7F92zNHbA9i4mGqLfXbUuziDYRpNx0cc/IA?=
- =?us-ascii?Q?LYyunDnsuW3CbwJD+rdaHq8GlfvJtTbMBqQltseBWeNyt2EkST9FDWG5DrG1?=
- =?us-ascii?Q?OXDNMRvkd/U8kCRGTEEOcCJjZ7UsIzw3bSo00sHMyYyOEiZzTtFHXCxpqLyN?=
- =?us-ascii?Q?AS9DWcMychY8f0LioDZo2xSSArg+fNZjIwjYEVPHOWuuPdswz3ZrvDQABlAn?=
- =?us-ascii?Q?fR4s5zOm16sKD1/6+Lsfi3wCaoUD3po8Pekh4/P8wtC4JPl4g1wzjY+/sVY+?=
- =?us-ascii?Q?SUv3qIBTph7Cg/eBOI82T7b6Ey8U1LgAAxy15qXA2EAbKiv4j0NndVseR9Yq?=
- =?us-ascii?Q?d32/XUcNU/o/qHOIGaGVt4VC9htph/LeZcrfdZBeUu+/P9YqghObqgYIP+Ih?=
- =?us-ascii?Q?yOBDww7NrHSO6tXK20E/AqM9g5ewi2CRMYxu+i7WNjehmgnj0BuOnlPSS2dX?=
- =?us-ascii?Q?QV7ZF1bpMqrIHtkNjegsbh2lleAf25Gxz7lt1gXWZuyMWK5/vsRvvkp6oIQX?=
- =?us-ascii?Q?VnD5LwO3PqKB+3Q9zaPudFA8bqKQ1z4lGTfpe5RUua3WjlA5lyTxWg4hZXIw?=
- =?us-ascii?Q?Fx4ZSEM26YGWiZlOqBsCbFaVnylXkFAnrHxbXsvacjW77+y0I+u1B6PUGpth?=
- =?us-ascii?Q?sVfUSQO0THTcGZgNAdx5Tu1GATxWhmtFBVWhEMiKdtFkFLjYRerB0GezPIXL?=
- =?us-ascii?Q?45lvqvNNlbECIT0K2BLU9zweP0pV+rJCXHYSQlZdhf+z3Zs7DcEgnHYp2oUV?=
- =?us-ascii?Q?XXWOLeDhlKSvRgdu1J1WQK+JHUjZXdd+cKb2joV6D4APGdyWTZc4ly65bmwo?=
- =?us-ascii?Q?W2/ElElcdnbwrf3vphztlN7MyUHJkmf8/V9SHZKgQCsKeWsPCn1BJe5+WLt5?=
- =?us-ascii?Q?/CnaFV8JQBG4pWu0I8afevtC7gkMADd4iex4hdfR2dRpeXjNjNIgApD0+F89?=
- =?us-ascii?Q?41nv4QVZ2jMWFaTcogiO/9mUP9dYBT7O54F1+1sMe8mllYrBSfOjzcSJc38F?=
- =?us-ascii?Q?nhqJPBMrQVtUQNZbgcSnWi6omlh2fk+Hcz4QOq+0WXCdzQpIEHFqpk2TjOKS?=
- =?us-ascii?Q?F5NNLkxQPwELT7JdffsCUA6XsYMN0bR2VHFVFVhpjjx3vz08nYDjudCt6vBN?=
- =?us-ascii?Q?k9CydkfJ058=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ODDgGXkZyfWAon0/7D64daBzu+Ya0crrM3KLtsl/TPEqwQL1dRzOk/gEu2Bf?=
- =?us-ascii?Q?CBtnm2+E+V6xpktbZUjEAOQ5Km4MHMqvZYzhrhnEjpdj5kdAL/MbSMiVvUPu?=
- =?us-ascii?Q?TKTD30awB3EgG2Y9ZRDRr1JbMIoSVVBgR1n5+C+aa8nrvu+PXlZ2jQrtEJnQ?=
- =?us-ascii?Q?MOJG2d+9yEppFJE+iii13Gydmkrv/PauPfy26pMtUHQtpY0VvEPCGF4v7+st?=
- =?us-ascii?Q?IE7YPEWTN4d9bsLrTChPFBW38CIcc15AZ/lU5otwLvKxi7okZ2ysj5EXM2Ao?=
- =?us-ascii?Q?xDYxjf856//xrzGz5F52IRrrH/FvzJqBGVoLx+toi3X8HQ3nJgHFj330OJq1?=
- =?us-ascii?Q?8UERVzyfps4pEkwKgju6Pie8A8LC6O92W0Xt39n1hImQI5HOqOsV05my836V?=
- =?us-ascii?Q?imx9EG1JS878Hb0bzDnN3lTFLhzHemSoLIq1nyzuKcJVm5vxMhuJrIau8zOE?=
- =?us-ascii?Q?Year6gH4TJIwBBCLC+DWF9H0+J+RnJnpKcBZtC2S4aT563oStlD8KWSSMzoj?=
- =?us-ascii?Q?g70m9w3D1eUfadAglkRxKb9KzfbqY03PMNMkyzUvnuLneV06kFs3LICET/5Z?=
- =?us-ascii?Q?U4blogO7ghgu+6AORV3gP1kOlZ9FzB28MDsNiYAuI7nG1qc5OjSCZ8KpkK5y?=
- =?us-ascii?Q?07px5++I3ll+/Lhi8J0X/gQdeP38NPAHKHn0NM28enUhVxZhRNRowhFNfBOJ?=
- =?us-ascii?Q?Kl4C99nharTiO8rrLsBgBpMDuK3SFRIFCt51vbrtNtU9CkvGt45I0XBuhju1?=
- =?us-ascii?Q?rSwQqMlquYJRdM62rD2mJxURC19HjVmviTbwXdSbB/ZhNU1/2jX3BsayaJ7z?=
- =?us-ascii?Q?jN9wG84a6ckIHung5JL3RqCMHzdyZ20ahTYf0fqLA+FqIMFB+dvglnlTEKB6?=
- =?us-ascii?Q?XeYE7opj479j8GEHGUSHYb3OiKAaXbq8ygmDjDxfPQvb6ZwkUveFm5xF1jcc?=
- =?us-ascii?Q?kbpfXdAIr0eXhYi1ZtwEOeXR0Smx9Zwb4Igx6EZZE8JTojCh3Yeo9NTHXD1j?=
- =?us-ascii?Q?uPsknwanDS2jEUOZh0EIIpOI72H4UyygyCo/PxHfQHDPmqiYreSzqdFuEexe?=
- =?us-ascii?Q?U9hNlFEy1KbNvnhX8LgDliPJRNv9lPbhi5ZY6W3ZY5ycaoFISxDBjD7mCBf7?=
- =?us-ascii?Q?oajlEa0DwiA9AELC//ZzRZ20nmIypUOwHLvOx7ThNCbf5IIQj1uWdmKvSTZ0?=
- =?us-ascii?Q?pM53TxeQMmhqHTQbAefHh81d8VREi7r9OPVwqL92c1smS+cNpAlMZBeGsd/t?=
- =?us-ascii?Q?jX3P5CL3bL91hw8NvClonWrBzLWWmXSDbHgG3nDeyTyMxPppWKBpZ5eB2A1E?=
- =?us-ascii?Q?5f9JxBoSgbIAfesBrKlF2yKro5BqFSUP1/u8JJuKuurZ3py5e9EPtu167WxO?=
- =?us-ascii?Q?mYYDpEYEvJeLCr8F6qVbI8WTxU0UGUZ/6TLogmHvuGydVeCU+I04QGz9om1c?=
- =?us-ascii?Q?tfO/cc8Z5hUNlnJEm4hsQX5vf3j8nIqzxdTUHbNHQQQ8bw+ot+Y2ozDwDUgZ?=
- =?us-ascii?Q?+fie7V9pz7Uo2aM2kuc5U+0kGWftXaTeLCsmiYxw1WlVq26XzYAT+6rh8dNL?=
- =?us-ascii?Q?bGgKxtgBS1HwDBvFTA+XQqUljCZgFfTzOQbcpxBoFnBcA9E3wMZ9zO18f3ED?=
- =?us-ascii?Q?Kg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55a0bc34-05d3-49fa-e08e-08dd785acb27
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 18:09:10.8581
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZJpzpqKUXObiu8ZSfwy/clveEX6+0qtm+d0kjslimfJsMBu6rFVme4W7TXvA8MkQh27hq/mBLJ5itBFB8x/QFcvfSSrfyvHvW6atyGHJTsQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7849
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Jason Gunthorpe wrote:
-> On Thu, Apr 10, 2025 at 10:48:00AM -0700, Dan Williams wrote:
-> > Jason Gunthorpe wrote:
-> > > On Wed, Apr 09, 2025 at 07:01:29PM -0700, Dan Williams wrote:
-> > > 
-> > > > diff --git a/include/uapi/cxl/features.h b/include/uapi/cxl/features.h
-> > > > index dd8874860cec..06a1ae3f3fd0 100644
-> > > > --- a/include/uapi/cxl/features.h
-> > > > +++ b/include/uapi/cxl/features.h
-> > > > @@ -14,7 +14,8 @@ typedef unsigned char __uapi_uuid_t[16];
-> > > >  #ifdef __KERNEL__
-> > > >  #include <linux/uuid.h>
-> > > >  static_assert(sizeof(__uapi_uuid_t) == sizeof(uuid_t) &&
-> > > > -	      __alignof__(__uapi_uuid_t) == __alignof__(uuid_t));
-> > > > +	      __alignof__(struct { __uapi_uuid_t uuid; }) ==
-> > > > +		      __alignof__(struct { uuid_t uuid; }));
-> > > 
-> > > Really? I'm surprised that the struct wrapper increases the
-> > > alignment..
-> > 
-> > I was also surprised that gcc has different rules for this alignment
-> > across compilers. Empirically this change solves the assertion, but I
-> > admit this was just the result of tinkering until the error goes away.
-> 
-> Hurm.
-> 
-> So the reason to have the align check is to ensure that when it is
-> embedded in the structs it doesn't change the layout of the struct.
-> 
-> The only use is this:
-> 
-> struct cxl_feat_entry {
->         uuid_t uuid;
->         __le16 id;
-> 
-> Which is fine, but if instead it was:
-> 
-> struct cxl_feat_entry {
->         __le16 id;
->         uuid_t uuid;
-> 
-> Then you have a problem as the align by 1 version will have no
-> padding while the align by 4 will have 2 bytes padding.
-> 
-> Wrapping in a struct for the static_assert does not prevent the above
-> issue..
-> 
-> So maybe the answer is to drop the alignof check entirely and add a
-> comment explaining that uuid must only be placed on 4 byte aligned
-> offsets and all structs must have explicit padding.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   62b846e657553d00552c1c71b6ecc26017eb1a9a
+commit: 72fe4978ee346c10869113410da1b61710dd8d8f [2117/2117] LoongArch: add iommu support
+config: loongarch-randconfig-r132-20250411 (https://download.01.org/0day-ci/archive/20250411/202504110226.FM6zQ8DE-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250411/202504110226.FM6zQ8DE-lkp@intel.com/reproduce)
 
-Yeah, that's better. Ignore my v2, will respin with a v3.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504110226.FM6zQ8DE-lkp@intel.com/
 
-The other mitigating factor is that all of the usage of __uapi_uuid_t in
-the header is in __packed structures.
+sparse warnings: (new ones prefixed by >>)
+   drivers/iommu/loongarch_iommu.c:108:9: sparse: sparse: symbol 'la_iommu_last_bdf' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:112:5: sparse: sparse: symbol 'loongarch_iommu_disable' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:130:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:130:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:130:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:132:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:132:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:132:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:135:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:135:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:135:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:137:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:137:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:137:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:150:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:150:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:150:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:152:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:152:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:152:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:155:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:155:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:155:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:157:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:157:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:157:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:160:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:160:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:160:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:162:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:162:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:162:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:190:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:190:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:190:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:193:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:193:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:193:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:196:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:196:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:196:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:199:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:199:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:199:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:206:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:206:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:206:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:306:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:306:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:306:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:310:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:310:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:310:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:312:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:312:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:312:23: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:314:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:314:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:314:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:322:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:322:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:322:23: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:325:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:325:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:325:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:327:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:327:23: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:327:23: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:329:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:329:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:329:17: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:349:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:349:15: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:349:15: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:352:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:352:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:352:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:610:6: sparse: sparse: symbol 'domain_deattach_iommu' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:651:28: sparse: sparse: symbol 'lookup_rlooptable' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:662:24: sparse: sparse: symbol 'find_iommu_by_dev' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:721:21: sparse: sparse: symbol 'la_iommu_probe_device' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:752:19: sparse: sparse: symbol 'get_iommu_info_from_dom' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:794:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:794:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:794:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:795:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:795:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:795:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:796:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/iommu/loongarch_iommu.c:796:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:796:9: sparse:     got void *
+   drivers/iommu/loongarch_iommu.c:1178:24: sparse: sparse: symbol 'la_iommu_ops' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:1197:24: sparse: sparse: symbol 'loongarch_get_iommu_by_devid' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:1215:6: sparse: sparse: symbol 'check_device_compat' was not declared. Should it be static?
+   drivers/iommu/loongarch_iommu.c:1259:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *confbase @@     got void [noderef] __iomem * @@
+   drivers/iommu/loongarch_iommu.c:1259:25: sparse:     expected void *confbase
+   drivers/iommu/loongarch_iommu.c:1259:25: sparse:     got void [noderef] __iomem *
+>> drivers/iommu/loongarch_iommu.c:1292:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *confbase @@
+   drivers/iommu/loongarch_iommu.c:1292:22: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:1292:22: sparse:     got void *confbase
+   drivers/iommu/loongarch_iommu.c:1319:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *confbase @@
+   drivers/iommu/loongarch_iommu.c:1319:30: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/iommu/loongarch_iommu.c:1319:30: sparse:     got void *confbase
+   drivers/iommu/loongarch_iommu.c:1344:28: sparse: sparse: symbol 'create_rlookup_entry' was not declared. Should it be static?
+
+vim +1292 drivers/iommu/loongarch_iommu.c
+
+  1223	
+  1224	static int loongarch_iommu_probe(struct pci_dev *pdev,
+  1225					const struct pci_device_id *ent)
+  1226	{
+  1227		int ret = 1;
+  1228		int bitmap_sz = 0;
+  1229		int tmp;
+  1230		bool compat = false;
+  1231		struct loongarch_iommu *iommu = NULL;
+  1232		resource_size_t base, size;
+  1233	
+  1234		iommu = loongarch_get_iommu_by_devid(pdev);
+  1235		if (iommu == NULL) {
+  1236			pci_info(pdev, "%s can't find iommu\n", __func__);
+  1237			return -ENODEV;
+  1238		}
+  1239	
+  1240		compat = check_device_compat(pdev);
+  1241		if (!compat) {
+  1242			pci_info(pdev,
+  1243			"%s The iommu driver is not compatible with this device\n",
+  1244			__func__);
+  1245			return -ENODEV;
+  1246		}
+  1247	
+  1248		iommu->pdev = pdev;
+  1249		base = pci_resource_start(pdev, 0);
+  1250		size = pci_resource_len(pdev, 0);
+  1251		if (!request_mem_region(base, size, "loongarch_iommu")) {
+  1252			pci_err(pdev,
+  1253			"%d can't reserve mmio registers base %llx size %llx\n",
+  1254			__LINE__, base, size);
+  1255			return -ENOMEM;
+  1256		}
+  1257		iommu->confbase_phy = base;
+  1258		iommu->conf_size = size;
+  1259		iommu->confbase = ioremap(base, size);
+  1260		if (iommu->confbase == NULL) {
+  1261			pci_info(pdev, "%s iommu pci dev bar0 is NULL\n", __func__);
+  1262			return ret;
+  1263		}
+  1264	
+  1265		pr_info("iommu confbase %llx pgtsize %llx\n",
+  1266				(u64)iommu->confbase, size);
+  1267		tmp = MAX_DOMAIN_ID / 8;
+  1268		bitmap_sz = (MAX_DOMAIN_ID % 8) ? (tmp + 1) : tmp;
+  1269		iommu->domain_bitmap = bitmap_zalloc(bitmap_sz, GFP_KERNEL);
+  1270		if (iommu->domain_bitmap == NULL) {
+  1271			pr_err("LA-IOMMU: domain bitmap alloc err bitmap_sz:%d\n",
+  1272									bitmap_sz);
+  1273			goto out_err;
+  1274		}
+  1275	
+  1276		tmp = MAX_ATTACHED_DEV_ID / 8;
+  1277		bitmap_sz = (MAX_ATTACHED_DEV_ID % 8) ? (tmp + 1) : tmp;
+  1278		iommu->devtable_bitmap = bitmap_zalloc(bitmap_sz, GFP_KERNEL);
+  1279		if (iommu->devtable_bitmap == NULL) {
+  1280			pr_err("LA-IOMMU: devtable bitmap alloc err bitmap_sz:%d\n",
+  1281									bitmap_sz);
+  1282			goto out_err_1;
+  1283		}
+  1284	
+  1285		ret = iommu_device_sysfs_add(&iommu->iommu_dev, &pdev->dev,
+  1286			       NULL, "ivhd-%#x", iommu->devid);
+  1287		iommu_device_register(&iommu->iommu_dev, &la_iommu_ops, NULL);
+  1288		return 0;
+  1289	
+  1290	out_err_1:
+  1291		iommu->pdev = NULL;
+> 1292		iounmap(iommu->confbase);
+  1293		iommu->confbase = NULL;
+  1294		release_mem_region(iommu->confbase_phy, iommu->conf_size);
+  1295		iommu->confbase_phy = 0;
+  1296		iommu->conf_size = 0;
+  1297		kfree(iommu->domain_bitmap);
+  1298		iommu->domain_bitmap = NULL;
+  1299	out_err:
+  1300		return ret;
+  1301	}
+  1302	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
