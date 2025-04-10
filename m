@@ -1,69 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC65C256C71;
-	Thu, 10 Apr 2025 09:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0D325C702
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 09:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744277315; cv=none; b=qO2lagQZ7XdBcyxF7/YbyYZOrmhnqIp/jSfbo6TUNdAexDaXc7qW7Xoe3c5jbiPGX8fa/WBQAMTLHQoLodtcmXLjaMHP4afvqxHUvD80S7WAxfX+s2k9ra9HFlDYgMkuK2tF9ktZtjOHj93KqKneg/xcSz/iNFSH5z2mnfuhcDI=
+	t=1744277664; cv=none; b=DvSs+CI/x0JUgr6rjO2jHvZhdfBm+XKUYUvLWy4F2Sfbcsz4g/prEbRFyr7a73B8gIdPPZigeLcqyjwfVx9YoAH5OBYKLF7P8gDxGp0XgjTU9Qc/0Mc3ssg7WyR4T4wo2vBVXNX9Q0k9HX1ETkOKzREphp0Im5RsYGepniG24R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744277315; c=relaxed/simple;
-	bh=grsUTpdnhqvjd0Hm7iEVppv5u0om2yQPbXAfzbCduKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DGbyuc0rmMY4Yal8IHeOTA5+qOihBm8MZRJLQ0AdyNtMAC0tAgkHCx9VOoKY9GrTbUkSHxIKDSNNAH21mL5L54VtbYh5GBDTJk0iUEPMWg9okBX+WpZQc3HgD/Vbi6jjsJ0l3FjSrie7YvpU0GTReM3LM1eEk67pN51vTFBEMQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HaFe9/qx; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744277664; c=relaxed/simple;
+	bh=yPhdlISTOreQ/aDX3Tsax/TWfw54sQsh5jwQ3cEiy/8=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dH+jmLGroA5gnmMoAusbvRA5410BUJm6XUQlEdMlcS3M7xzBAwxBduCCCKnXQ+9BG4+YUMfKo2ldeoo4A11ufNV8TJWD82y2OwOzhx4v8wt58O94GgvpqnpFbWAz+/y+aFPIjIBH5QjITkmmx1Wr91PNNKJQLnxBaW3Dg6ECLzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BTR9+JcN; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HaFe9/qx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744277314; x=1775813314;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=grsUTpdnhqvjd0Hm7iEVppv5u0om2yQPbXAfzbCduKs=;
-  b=HaFe9/qxFVU9UVC2VWYrscgm76FBVLkZyfL11MeXy8qabdPVoc1PU2A7
-   aX8w3Dd9+WK5xmaFAfy1tfRS6uQzJw33kEXGmlkVSAExj+GlnOVZhhDAb
-   UhSFaNaO+dsdlNic7zZUlD9TtDH/+awXOre4y7gvhwj+BAqH6CPXJ1n4v
-   293uliQPkkOjznuzZoz0o0K9zW/sps9PTJVceKNAOk5RcWEmrjOXfSSGw
-   K90F5iYu6K3ZmogkG6r1jc2badY6oQGXBfW4enFzvaOrnl3BgVe8DClT3
-   sN7Gg0mhtTjCfElVfiwr93jbSGkIy7HS8KSH2+cF7JDBj5tqgsX2NHr9V
-   A==;
-X-CSE-ConnectionGUID: 7hkzTqtdRzmGq0k/fU4dLg==
-X-CSE-MsgGUID: 0DS6SYgYR+Cwfm5gE6I3TA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="57154699"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="57154699"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 02:28:33 -0700
-X-CSE-ConnectionGUID: HTOMgKl7QMKOdgpykKC3QQ==
-X-CSE-MsgGUID: aWnZQ6t4QfuhR77cbVIRBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="133968976"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Apr 2025 02:28:30 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u2oCy-0009s3-03;
-	Thu, 10 Apr 2025 09:28:28 +0000
-Date: Thu, 10 Apr 2025 17:28:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: yiru zhang <yiru.zhang@mediatek.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	yiru zhang <yiru.zhang@mediatek.com>
-Subject: Re: [PATCH] [Patch v2]Add ETE devarch condition in
- etm4_init_iomem_access
-Message-ID: <202504101759.7Ls0Uy4o-lkp@intel.com>
-References: <20250409032917.7580-1-yiru.zhang@mediatek.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BTR9+JcN"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30db2c2c609so5841821fa.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Apr 2025 02:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744277661; x=1744882461; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TnbKxA6lsZP3NTEmyhRFBly3B+ZmNr9pag5vwciMRm8=;
+        b=BTR9+JcN1rrP0GGEnaRVnTWURTugDkgcgEtuthBzxHORTAms+b57Wz6hwzcqCbhtLD
+         ElhKPUzkxdQH0vjXvXkNXsBoOlA1W4HCPhAkn7LYZroFzO+KUigV7EEFaQRkO/2FDL7/
+         8XNilL9cDaL1+aIdjI50MThl9atWnKjDAqbbpb5FTdZGYkWDoye2Alx2HtLadAlBMwMn
+         mP7oiiKTYBpch1sRd4WUzulsDXNKXCukuWzulFQQ29gzxNnT+sjAACFHKA09D201d7jO
+         ewCLeBEUPAqvTFDPSBha+IBIxh2XiJbzR6hEGbP2A4BBNB6jlB54GomnsWWj/dl3C7rJ
+         ypsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744277661; x=1744882461;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TnbKxA6lsZP3NTEmyhRFBly3B+ZmNr9pag5vwciMRm8=;
+        b=YtCMb63AEtx+UvQSZBw7DJay1sBvslRlVBIwU0oiZr30VhlfF+B5ObqMnOb0FjavNT
+         9NLc8jGxzV06ss+ajhagGcOyqsZ8o0pOQlqj7H5Kn0Zb1RQrGnwNSEtZpvrei7XEG7L2
+         qcNAma36Nt4e317c2/xw+iNkI7zxYUnWPQma2avFfiIZDKvgOmzt/8m0WhSxPbKtx77H
+         lRcZlh4TGnQ5+amBFe5G9AtmhgHiGifiCJCL4VAdljQPQAd0C6Jmi1BuhELZ4j7UTGvL
+         3wVlydv8DGj4hsOYCvLFunbH1P5HrxcgAwWCkQPxFqebtK7eVzVu///Eg3rEqmqBRppU
+         rYbA==
+X-Forwarded-Encrypted: i=1; AJvYcCUw/jy5z+fv5268wo2niaI58RmGJKReqDyouRCGlzHYEQANVHXPV8SDZh61Jdniq2j0CgKYB0wfVjYizKHe@lists.linux.dev
+X-Gm-Message-State: AOJu0YygnD0GnjuzdsD1CfXaFvR1QRGtGh0J3fqDiDbgo8IWIREsQ4hB
+	3/JUDCLY2HY9v/elFmM38+DpCBYw4Jvfo68/GiuNUDbbpMcSHzPH
+X-Gm-Gg: ASbGnct8a+kVxRUDWrWpymgLvyQZE8z0mkrBKP3Vfr7ORsSCSk/wIHPF/J5e0OIU7dy
+	61BvL+HMEDbGT/6+tZLnwCgdQwD2WMwDagrt9E1iAxSwyx/s7cS/v+4z9b0QZhOTxJsm8KtdjfI
+	7ynWD4SfICaiJK/IS5EBnP3HGRKl4R07nSaqdNbQIq+lTSVsoaMnUo2KDaLuVV6Hpsnegkv2xrb
+	xCyxWyP656eNA7nwEXNzh4SBt+j3+ZzbVOXUGW5Zl8Tol+dEHS5xFp9ZLI0e0LFsyE/fDLAverw
+	p7joKawmnHxaATFbp3g/p6/EnQQRoVss2V1zewLvkRjlgJujb2orwLaaQ8qqHeGWJV6nQ4c=
+X-Google-Smtp-Source: AGHT+IGncMzME+9f61iMxAYOrzMSnbuBplArYyFnuUwO4WDMRKBFiYikSvdFy7p+n78+o5CKz5ZdzA==
+X-Received: by 2002:a2e:be2a:0:b0:30c:177c:9e64 with SMTP id 38308e7fff4ca-30faccbcc09mr7438541fa.35.1744277660721;
+        Thu, 10 Apr 2025 02:34:20 -0700 (PDT)
+Received: from pc636 (host-90-233-203-182.mobileonline.telia.com. [90.233.203.182])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f465d509bsm3982621fa.84.2025.04.10.02.34.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 02:34:20 -0700 (PDT)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date: Thu, 10 Apr 2025 11:34:18 +0200
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>,
+	"Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Oleksiy Avramchenko <oleksiy.avramchenko@sony.com>
+Subject: Re: [PATCH 2/3] vmalloc: Switch to for_each_vmap_node() helper
+Message-ID: <Z_eQmixxWJk-Ryi3@pc636>
+References: <20250408151549.77937-2-urezki@gmail.com>
+ <202504100130.OjlBJLkQ-lkp@intel.com>
+ <20250409173217.ff56242a21b4edfe9ed87e57@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,94 +80,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409032917.7580-1-yiru.zhang@mediatek.com>
+In-Reply-To: <20250409173217.ff56242a21b4edfe9ed87e57@linux-foundation.org>
 
-Hi yiru,
+On Wed, Apr 09, 2025 at 05:32:17PM -0700, Andrew Morton wrote:
+> On Thu, 10 Apr 2025 01:39:24 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202504100130.OjlBJLkQ-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    mm/vmalloc.c: In function 'vmap_init_nodes':
+> > >> mm/vmalloc.c:5087:9: warning: unused variable 'n' [-Wunused-variable]
+> >      int i, n;
+> >             ^
+> 
+> Thanks, I added
+> 
+> --- a/mm/vmalloc.c~vmalloc-switch-to-for_each_vmap_node-helper-fix
+> +++ a/mm/vmalloc.c
+> @@ -5084,7 +5084,7 @@ static void __init vmap_init_free_space(
+>  static void vmap_init_nodes(void)
+>  {
+>  	struct vmap_node *vn;
+> -	int i, n;
+> +	int i;
+>  
+>  #if BITS_PER_LONG == 64
+>  	/*
+> @@ -5101,7 +5101,7 @@ static void vmap_init_nodes(void)
+>  	 * set of cores. Therefore a per-domain purging is supposed to
+>  	 * be added as well as a per-domain balancing.
+>  	 */
+> -	n = clamp_t(unsigned int, num_possible_cpus(), 1, 128);
+> +	int n = clamp_t(unsigned int, num_possible_cpus(), 1, 128);
+>  
+>  	if (n > 1) {
+>  		vn = kmalloc_array(n, sizeof(*vn), GFP_NOWAIT | __GFP_NOWARN);
+> _
+> 
+I was about to send a fix for build warning. Thank you Andrew for sorting this out :)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.15-rc1 next-20250410]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/yiru-zhang/Add-ETE-devarch-condition-in-etm4_init_iomem_access/20250409-113037
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20250409032917.7580-1-yiru.zhang%40mediatek.com
-patch subject: [PATCH] [Patch v2]Add ETE devarch condition in etm4_init_iomem_access
-config: arm64-randconfig-002-20250410 (https://download.01.org/0day-ci/archive/20250410/202504101759.7Ls0Uy4o-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504101759.7Ls0Uy4o-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504101759.7Ls0Uy4o-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hwtracing/coresight/coresight-etm4x-core.c:1144:9: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
-    1143 |                 pr_warn_once("Unknown ETM architecture: %x\n",
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                         %lx
-    1144 |                              devarch & ETM_DEVARCH_ID_MASK);
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:659:42: note: expanded from macro 'pr_warn_once'
-     659 |         printk_once(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/printk.h:640:30: note: expanded from macro 'printk_once'
-     640 |         DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/once_lite.h:11:32: note: expanded from macro 'DO_ONCE_LITE'
-      11 |         DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/once_lite.h:31:9: note: expanded from macro 'DO_ONCE_LITE_IF'
-      31 |                         func(__VA_ARGS__);                              \
-         |                         ~~~~~^~~~~~~~~~~~
-   include/linux/printk.h:501:60: note: expanded from macro 'printk'
-     501 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/printk.h:473:19: note: expanded from macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +1144 drivers/hwtracing/coresight/coresight-etm4x-core.c
-
-  1121	
-  1122	static bool etm4_init_iomem_access(struct etmv4_drvdata *drvdata,
-  1123					   struct csdev_access *csa)
-  1124	{
-  1125		u32 devarch = readl_relaxed(drvdata->base + TRCDEVARCH);
-  1126	
-  1127		if (!is_coresight_device(drvdata->base) || !is_devtype_cpu_trace(drvdata->base))
-  1128			return false;
-  1129	
-  1130		/*
-  1131		 * All ETMs must implement TRCDEVARCH to indicate that
-  1132		 * the component is an ETMv4. Even though TRCIDR1 also
-  1133		 * contains the information, it is part of the "Trace"
-  1134		 * register and must be accessed with the OSLK cleared,
-  1135		 * with MMIO. But we cannot touch the OSLK until we are
-  1136		 * sure this is an ETM. So rely only on the TRCDEVARCH.
-  1137		 */
-  1138		switch (devarch & ETM_DEVARCH_ID_MASK) {
-  1139		case ETM_DEVARCH_ETMv4x_ARCH:
-  1140		case ETM_DEVARCH_ETE_ARCH:
-  1141			break;
-  1142		default:
-  1143			pr_warn_once("Unknown ETM architecture: %x\n",
-> 1144				     devarch & ETM_DEVARCH_ID_MASK);
-  1145			return false;
-  1146		}
-  1147		drvdata->arch = etm_devarch_to_arch(devarch);
-  1148		*csa = CSDEV_ACCESS_IOMEM(drvdata->base);
-  1149		return true;
-  1150	}
-  1151	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Uladzislau Rezki
