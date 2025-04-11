@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FDDAD5E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 06:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B858427CCC9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 06:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744351238; cv=none; b=Hf3VowFn81GlqnAescSa/nq5j4Tn/pDgmdXIu8eZ8/0Ucv9wIYfVS3BErBMs1gajDM2EXERpv/VrxDEI4t8kUgfFbKOXaJJJCQkPTtZlJaB1n9PL/zVDpy8Vju1zc6zOvoJPpKCxUJBV7A1mI7X6a9wQID6eHpBaEvcRGdiNXuk=
+	t=1744353101; cv=none; b=prkfxl27+79AJPl3etiWguBcYBI2hIjJIJb0O3thQGd1lCU/qqCak2p1cqCi3hcxiRjhtMeQBIzgZDaMGdIEP8Jg7sMPrGYD81HRWVe+SEfuS140m/4N37vDDZABLo2BC6HUlHjeDkxT5Z/jQkRT7UIjsg2LK+6nyA536W/5Aj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744351238; c=relaxed/simple;
-	bh=XLNuZl1M/V2LzJD/AZf7Wdiyi698tvwzlUnWdV61V+E=;
+	s=arc-20240116; t=1744353101; c=relaxed/simple;
+	bh=gPbW4hxtFr5Vb/hEwyhC++dCtSsKBgR/5ZNQcAMJ4IQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tn8BZtyxFvb0zDVzgIJRQ7E3BmPPsFInN2AhQ2/GfOfPTAYe2qbpvhCnL4jCE+vA26KvwRuXhBszldWhAFF5IJ4ZW5+YRrPb0b2TSTY8WZH+b6oq4cIEzGPLF6rCuCZYjj928knbatvDAhCqYpC3iE5Oh2FDlw/8lWguPaLVzvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9gUaiU2; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=uYl1+rVXUf787YRC7FBFlmDfZiC2hBiHrMtPHfsK4AO5Lo282Q/0oR2mQ11WxlR51IH72oGEAlKQgh3wCu349FzHC+liVZbeCvWnsCRo0q6d48oHoFHDddOa2wbZtMwaPlVpVg3Gz7yTYs2eUP7TuQRAHVqsNJ+3UA/1d3GDF/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fTRj6Biy; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9gUaiU2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTRj6Biy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744351236; x=1775887236;
+  t=1744353099; x=1775889099;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XLNuZl1M/V2LzJD/AZf7Wdiyi698tvwzlUnWdV61V+E=;
-  b=A9gUaiU2N9hFbUiN2IiDD3IDjhza6SvMtymZLol/stg9fN/Bgx8KQrWo
-   eA5JLWEVZ2nVPKFPsLFqRDWl/OR6LPSz7MdnDajT+7KOpXp8m7GTvXXUa
-   WDFEfOE9Er+H/YDzjb9ly5w4FCDqSJJASEMZA9FZLxMX9ZmpMkDAl64xD
-   OGvGMproJ+j74l/kO8uIziUkGs5pfSRDfj63zsl0HptQQD7RkwTi2s9bC
-   AhBmmF9KUVrb8vmNe2R7pIIMCIbGdAUNrlhufio+L7yeR7bxhaSpOZEAq
-   W6gXFW0tztSE7XsnliRNEBv7BO5BtUk7cfEubzHCHLCkznFi3Fkq1oN6t
-   A==;
-X-CSE-ConnectionGUID: E7RurDflRZW4QIisgYvNlA==
-X-CSE-MsgGUID: HLMJsBfbQKijiIRoekdomA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45133936"
+  bh=gPbW4hxtFr5Vb/hEwyhC++dCtSsKBgR/5ZNQcAMJ4IQ=;
+  b=fTRj6Biy3JZHbBJ3XEYDtX9IXKaxtnon9P9o10uFG6UpNlBP2ft7IhTp
+   4g/UAfTKreCCxU2iK3Wi+67JrNF4LiwcHmSLjY5GDVe8L9A1vtG4tMYgi
+   90dwijRIMUysD1S+VlOepz1Iy6crsWmjhX9LKmJnlE9sGjsxl29zct3L6
+   +eQ+pIw6nt4yVEgPYXbDFaGvs6wJZ/OLfb31qVl71dq/O+l6Ik0V5+erM
+   6XpuScDrQsKrL0IbsHNBZE9utCKzSjh0KeYh/IefJKha8gF3PN/0sJ1Pk
+   HVn0rYckCaWDk1RIVg0p+UOe650dQu+r4eh2Bc6CUPN5ZvVezoOigZeso
+   g==;
+X-CSE-ConnectionGUID: 065DiLvpRwe3kcPGMgHMVg==
+X-CSE-MsgGUID: 9Vd/3sfQRJOu8C3Ve4j/xw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="68380987"
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="45133936"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 23:00:35 -0700
-X-CSE-ConnectionGUID: TRt2w+rgSeGCSYvkQJ6qtQ==
-X-CSE-MsgGUID: IKbVr+5tTXqoUI+D6j5Sbg==
+   d="scan'208";a="68380987"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 23:31:38 -0700
+X-CSE-ConnectionGUID: wMz7CBueRzm/tXRadmdZxg==
+X-CSE-MsgGUID: P495+6TITKaP+RPdOXk7hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="129072394"
+   d="scan'208";a="134272881"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Apr 2025 23:00:34 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 Apr 2025 23:31:36 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u37RH-000Ask-20;
-	Fri, 11 Apr 2025 06:00:31 +0000
-Date: Fri, 11 Apr 2025 14:00:19 +0800
+	id 1u37vK-000Ati-0N;
+	Fri, 11 Apr 2025 06:31:34 +0000
+Date: Fri, 11 Apr 2025 14:30:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Pitre <nico@fluxnic.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Nicolas Pitre <npitre@baylibre.com>,
-	Dave Mielke <Dave@mielke.cc>, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/11] vt: create ucs_recompose.c using
- gen_ucs_recompose.py
-Message-ID: <202504111359.urXWyzvQ-lkp@intel.com>
-References: <20250410011839.64418-8-nico@fluxnic.net>
+To: Bo Liu <liubo03@inspur.com>, xiang@kernel.org, chao@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, Bo Liu <liubo03@inspur.com>
+Subject: Re: [PATCH 2/2] erofs: support deflate decompress by using Intel QAT
+Message-ID: <202504111440.2DIupC2G-lkp@intel.com>
+References: <20250410042048.3044-3-liubo03@inspur.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,42 +63,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250410011839.64418-8-nico@fluxnic.net>
+In-Reply-To: <20250410042048.3044-3-liubo03@inspur.com>
 
-Hi Nicolas,
+Hi Bo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.15-rc1 next-20250410]
+[auto build test ERROR on xiang-erofs/dev-test]
+[also build test ERROR on xiang-erofs/dev linus/master v6.15-rc1 next-20250410]
+[cannot apply to xiang-erofs/fixes]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Pitre/vt-minor-cleanup-to-vc_translate_unicode/20250410-092318
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20250410011839.64418-8-nico%40fluxnic.net
-patch subject: [PATCH 07/11] vt: create ucs_recompose.c using gen_ucs_recompose.py
-config: csky-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111359.urXWyzvQ-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111359.urXWyzvQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bo-Liu/erofs-remove-duplicate-code/20250410-122442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+patch link:    https://lore.kernel.org/r/20250410042048.3044-3-liubo03%40inspur.com
+patch subject: [PATCH 2/2] erofs: support deflate decompress by using Intel QAT
+config: arc-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111440.2DIupC2G-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111440.2DIupC2G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504111359.urXWyzvQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504111440.2DIupC2G-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/tty/vt/ucs_recompose.c:148: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Attempt to recompose two Unicode characters into a single character.
+   fs/erofs/sysfs.c: In function 'erofs_attr_show':
+>> fs/erofs/sysfs.c:136:24: error: 'struct erofs_sb_info' has no member named 'erofs_tfm'
+     136 |                 if (sbi->erofs_tfm)
+         |                        ^~
+   fs/erofs/sysfs.c:138:59: error: 'struct erofs_sb_info' has no member named 'erofs_tfm'
+     138 |                                 crypto_comp_alg_common(sbi->erofs_tfm)->base.cra_driver_name);
+         |                                                           ^~
 
 
-vim +148 drivers/tty/vt/ucs_recompose.c
+vim +136 fs/erofs/sysfs.c
 
-   146	
-   147	/**
- > 148	 * Attempt to recompose two Unicode characters into a single character.
+   115	
+   116	static ssize_t erofs_attr_show(struct kobject *kobj,
+   117					struct attribute *attr, char *buf)
+   118	{
+   119		struct erofs_sb_info *sbi = container_of(kobj, struct erofs_sb_info,
+   120							s_kobj);
+   121		struct erofs_attr *a = container_of(attr, struct erofs_attr, attr);
+   122		unsigned char *ptr = __struct_ptr(sbi, a->struct_type, a->offset);
+   123	
+   124		switch (a->attr_id) {
+   125		case attr_feature:
+   126			return sysfs_emit(buf, "supported\n");
+   127		case attr_pointer_ui:
+   128			if (!ptr)
+   129				return 0;
+   130			return sysfs_emit(buf, "%u\n", *(unsigned int *)ptr);
+   131		case attr_pointer_bool:
+   132			if (!ptr)
+   133				return 0;
+   134			return sysfs_emit(buf, "%d\n", *(bool *)ptr);
+   135		case attr_comp_crypto:
+ > 136			if (sbi->erofs_tfm)
+   137				return sysfs_emit(buf, "%s\n",
+   138					crypto_comp_alg_common(sbi->erofs_tfm)->base.cra_driver_name);
+   139			else
+   140				return sysfs_emit(buf, "NONE\n");
+   141		}
+   142		return 0;
+   143	}
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
