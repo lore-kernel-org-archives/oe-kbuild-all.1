@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FE5293473;
-	Fri, 11 Apr 2025 09:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58472215171;
+	Fri, 11 Apr 2025 11:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744363679; cv=none; b=KvV4/aL4E28egYKPkhK8xIdcbQJC80mnEg7ILnpA0LcJyfjiR5dzc6YGoM2vsTPm9Q3vfR6LUyP+y7Ba/rrU2YpBkteY/uuH/S8Q50DRmbr9Eq79IhVtr+Q0ImNbEJwGoNGM/A2hRmGKBKIuLTF7K/pyg6XXhN1RlFFQkfFyHbM=
+	t=1744370465; cv=none; b=nILkxgsNe9gOZIi4XZEWksh70tHN7RtFCTyXq5SPjhYnqNx8Uiq4zRmIuhBXBQVGnT1pQgcd/qBbfdH1MwkmhIAWNrfdoHtZ+rNeAqbyBX9RaXmvdpdQFHKBH/Ji37UzyNpo5YbgenHDqdeHrdC9LgTzwsjMyeLPSqAkDhdTDRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744363679; c=relaxed/simple;
-	bh=UiQBPl/K/qgihIAKV8+hDqx22u4OxQn/u+bdxrbMV14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=girUK5+PyP1rVNGx4Pl9S6quEmKk0HvOyKLEcUu5Fb9NqSNBsy/rO3+JNouo68swNCSdV2WNZa8Tzy7lzmYv+TQvrvI1GL7UupyN5Sx5Wz3fyGXcwKm1UrBAXX018cthJ3WSrzBHI5orw2z7Jl2Aep+QY8JzJ2dyAezcgg5orXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgbHVbPG; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1744370465; c=relaxed/simple;
+	bh=NSveI23s9412QiAqOw8E532iM1cE8lp56+Z/2k1s+hY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iW8LxCvOq0vemhH9TY4ldMr2EonCaB3gf+bnaykMFBDEH41XNcGIuBdrWhgT1l8uuAwWwtznWgvjRNcx4ME0N4J7bc7uQrnODOVuYn6KJaW2phSDxQWCqQu5vDEA0CcVDvxTKdK2qeyv4g4BeqyRuTj8/wbVQJlUFe/tMWhmh8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gbyzMtLH; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgbHVbPG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gbyzMtLH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744363678; x=1775899678;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UiQBPl/K/qgihIAKV8+hDqx22u4OxQn/u+bdxrbMV14=;
-  b=YgbHVbPGSiJ+p5espBrvKyxEuGT3KzOHqO8bulNDtHjww1sWqNFLY2qj
-   6x48r4O0i/CE9wE1BZdE9EA/H0fQIi7nKvm4C1Sw5okZb5v3RNC+adtoJ
-   /eoz++H82PesvnSraztrboP3V9crAZIhFaHWttpkFkvwQIZQxh8thYFEz
-   H/QvppNYZp368WosuMR0RzZlGpaO9euWQbER/HX/+KkckfY2at2et6eRG
-   D82Q7pvjnCP7wuN8TJLktNgcctzqvth5gjUDlgzPuDSGFKYLFgG2FGiKV
-   1+YSho2CDlHkBAXHKk5Lhpu3D9esOilFY3pnZq5iT5484QKlse19T1ps/
-   w==;
-X-CSE-ConnectionGUID: Ug5i23H3T5ehx5eUdEEGkQ==
-X-CSE-MsgGUID: MeWdl+RISDS1Da2hgj1ZDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45814630"
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="45814630"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 02:27:54 -0700
-X-CSE-ConnectionGUID: 8cW71r+tRgKR66Frnxa7tw==
-X-CSE-MsgGUID: p32CSjJKTJGhD3PH1/xmkQ==
+  t=1744370464; x=1775906464;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NSveI23s9412QiAqOw8E532iM1cE8lp56+Z/2k1s+hY=;
+  b=gbyzMtLHrQdBZsjk9JK5ZAvudfXux6jyoq6Sf9xIczYnahJ/MTCpEAd1
+   IRss6NY6HNh6PbLKewf6hZKWO1QgKqEaHDF5Kcc1PPuVj4aPgrke88zBZ
+   YLzD8FIfsRE1wpZOoMdP8xPkK/OcnfklRckiS2ivjeEYg8JJdxQO8ZJM3
+   cL2iN4m4hMd61ROQlHEV3U8p84RdGsFUe/+dJ8BRUr7ANiyYUEqf74Kyn
+   3bakHndBroLRbr7LukkRL/X3T/vP/PDqZvUdOGsWWWD30qh4uEiqYTPzV
+   UvxMjgI0CJyphahTsIHrjfSdHQdwj/cFfRuhcirpJwIJzIQ1pQFbltyRW
+   g==;
+X-CSE-ConnectionGUID: Dq8lRonFQR2eT33x1jUAgQ==
+X-CSE-MsgGUID: izvGDu38RRGz6Akm6nDTjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="46047550"
+X-IronPort-AV: E=Sophos;i="6.15,205,1739865600"; 
+   d="scan'208";a="46047550"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 04:21:03 -0700
+X-CSE-ConnectionGUID: fvpOpq8nRBCyXCxGMy41YA==
+X-CSE-MsgGUID: wIUTuWeERYG4CR3g4c+Uww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="160118272"
+X-IronPort-AV: E=Sophos;i="6.15,205,1739865600"; 
+   d="scan'208";a="134033970"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Apr 2025 02:27:51 -0700
+  by orviesa003.jf.intel.com with ESMTP; 11 Apr 2025 04:21:01 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u3Aft-000B02-0n;
-	Fri, 11 Apr 2025 09:27:49 +0000
-Date: Fri, 11 Apr 2025 17:27:44 +0800
+	id 1u3CRO-000B38-2D;
+	Fri, 11 Apr 2025 11:20:58 +0000
+Date: Fri, 11 Apr 2025 19:20:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Waiman Long <longman@redhat.com>
+To: Andrew Davis <afd@ti.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Gabriele Monaco <gmonaco@redhat.com>
-Subject: Re: [PATCH] timers: Exclude isolated cpus from timer migation
-Message-ID: <202504111714.VH8TJ92G-lkp@intel.com>
-References: <20250410065446.57304-2-gmonaco@redhat.com>
+	linux-leds@vger.kernel.org, Lee Jones <lee@kernel.org>
+Subject: [lee-leds:for-leds-next 10/12] drivers/leds/leds-lp8860.c:103:
+ warning: Excess struct member 'regulator' description in 'lp8860_led'
+Message-ID: <202504111959.7WtsLney-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,157 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250410065446.57304-2-gmonaco@redhat.com>
 
-Hi Gabriele,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3b07108ada81a8ebcebf1fe61367b4e436c895bd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gabriele-Monaco/timers-Exclude-isolated-cpus-from-timer-migation/20250410-145629
-base:   3b07108ada81a8ebcebf1fe61367b4e436c895bd
-patch link:    https://lore.kernel.org/r/20250410065446.57304-2-gmonaco%40redhat.com
-patch subject: [PATCH] timers: Exclude isolated cpus from timer migation
-config: hexagon-randconfig-002-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111714.VH8TJ92G-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   e9bde6230972ad76fc91279850edd8dbc6f1cb4d
+commit: fa604baf13ced084636afbfa8d93f030ad8b593c [10/12] leds: lp8860: Enable regulator using enable_optional helper
+config: arm-randconfig-002-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111959.7WtsLney-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111714.VH8TJ92G-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111959.7WtsLney-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504111714.VH8TJ92G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504111959.7WtsLney-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:16:
-   In file included from include/linux/uprobes.h:18:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   1 warning generated.
---
-   In file included from drivers/spi/spi-pic32-sqi.c:9:
-   In file included from include/linux/clk.h:14:
-   In file included from include/linux/notifier.h:16:
-   In file included from include/linux/srcu.h:21:
-   In file included from include/linux/workqueue.h:9:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   drivers/spi/spi-pic32-sqi.c:673:34: warning: unused variable 'pic32_sqi_of_ids' [-Wunused-const-variable]
-     673 | static const struct of_device_id pic32_sqi_of_ids[] = {
-         |                                  ^~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from drivers/spi/spi-orion.c:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:19:
-   In file included from include/linux/topology.h:33:
-   In file included from include/linux/mmzone.h:22:
-   In file included from include/linux/mm_types.h:16:
-   In file included from include/linux/uprobes.h:18:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   drivers/spi/spi-orion.c:614:34: warning: unused variable 'orion_spi_of_match_table' [-Wunused-const-variable]
-     614 | static const struct of_device_id orion_spi_of_match_table[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from drivers/spi/spi-pic32.c:9:
-   In file included from include/linux/clk.h:14:
-   In file included from include/linux/notifier.h:16:
-   In file included from include/linux/srcu.h:21:
-   In file included from include/linux/workqueue.h:9:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   drivers/spi/spi-pic32.c:850:34: warning: unused variable 'pic32_spi_of_match' [-Wunused-const-variable]
-     850 | static const struct of_device_id pic32_spi_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from drivers/spi/spi-armada-3700.c:11:
-   In file included from include/linux/clk.h:14:
-   In file included from include/linux/notifier.h:16:
-   In file included from include/linux/srcu.h:21:
-   In file included from include/linux/workqueue.h:9:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   drivers/spi/spi-armada-3700.c:806:34: warning: unused variable 'a3700_spi_dt_ids' [-Wunused-const-variable]
-     806 | static const struct of_device_id a3700_spi_dt_ids[] = {
-         |                                  ^~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from drivers/spi/spi-rockchip.c:7:
-   In file included from include/linux/clk.h:14:
-   In file included from include/linux/notifier.h:16:
-   In file included from include/linux/srcu.h:21:
-   In file included from include/linux/workqueue.h:9:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   drivers/spi/spi-rockchip.c:1024:34: warning: unused variable 'rockchip_spi_dt_match' [-Wunused-const-variable]
-    1024 | static const struct of_device_id rockchip_spi_dt_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from drivers/spi/spi-s3c64xx.c:8:
-   In file included from include/linux/clk.h:14:
-   In file included from include/linux/notifier.h:16:
-   In file included from include/linux/srcu.h:21:
-   In file included from include/linux/workqueue.h:9:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   drivers/spi/spi-s3c64xx.c:1644:34: warning: unused variable 's3c64xx_spi_dt_match' [-Wunused-const-variable]
-    1644 | static const struct of_device_id s3c64xx_spi_dt_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from drivers/spi/spi-meson-spifc.c:8:
-   In file included from include/linux/clk.h:14:
-   In file included from include/linux/notifier.h:16:
-   In file included from include/linux/srcu.h:21:
-   In file included from include/linux/workqueue.h:9:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   drivers/spi/spi-meson-spifc.c:423:34: warning: unused variable 'meson_spifc_dt_match' [-Wunused-const-variable]
-     423 | static const struct of_device_id meson_spifc_dt_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from arch/hexagon/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:16:
-   In file included from include/linux/uprobes.h:18:
->> include/linux/timer.h:196:83: warning: non-void function does not return a value [-Wreturn-type]
-     196 | static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-         |                                                                                   ^
-   1 warning generated.
+>> drivers/leds/leds-lp8860.c:103: warning: Excess struct member 'regulator' description in 'lp8860_led'
 
 
-vim +196 include/linux/timer.h
+vim +103 drivers/leds/leds-lp8860.c
 
-   192	
-   193	#if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON)
-   194	extern int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask);
-   195	#else
- > 196	static inline int tmigr_isolated_exclude_cpumask(cpumask_var_t exclude_cpumask) { }
-   197	#endif
-   198	
+99ca0ea5730971 Jacek Anaszewski 2019-06-09   85  
+7a8685accb9580 Dan Murphy       2014-11-19   86  /**
+46cc5941a091bd Lee Jones        2021-05-28   87   * struct lp8860_led
+46cc5941a091bd Lee Jones        2021-05-28   88   * @lock: Lock for reading/writing the device
+46cc5941a091bd Lee Jones        2021-05-28   89   * @client: Pointer to the I2C client
+46cc5941a091bd Lee Jones        2021-05-28   90   * @led_dev: led class device pointer
+46cc5941a091bd Lee Jones        2021-05-28   91   * @regmap: Devices register map
+46cc5941a091bd Lee Jones        2021-05-28   92   * @eeprom_regmap: EEPROM register map
+46cc5941a091bd Lee Jones        2021-05-28   93   * @enable_gpio: VDDIO/EN gpio to enable communication interface
+46cc5941a091bd Lee Jones        2021-05-28   94   * @regulator: LED supply regulator pointer
+8a7a76c8004387 Dan Murphy       2017-11-15   95   */
+7a8685accb9580 Dan Murphy       2014-11-19   96  struct lp8860_led {
+7a8685accb9580 Dan Murphy       2014-11-19   97  	struct mutex lock;
+7a8685accb9580 Dan Murphy       2014-11-19   98  	struct i2c_client *client;
+7a8685accb9580 Dan Murphy       2014-11-19   99  	struct led_classdev led_dev;
+7a8685accb9580 Dan Murphy       2014-11-19  100  	struct regmap *regmap;
+7a8685accb9580 Dan Murphy       2014-11-19  101  	struct regmap *eeprom_regmap;
+7a8685accb9580 Dan Murphy       2014-11-19  102  	struct gpio_desc *enable_gpio;
+7a8685accb9580 Dan Murphy       2014-11-19 @103  };
+7a8685accb9580 Dan Murphy       2014-11-19  104  
+
+:::::: The code at line 103 was first introduced by commit
+:::::: 7a8685accb95801bb29ab85d5b370999d3fb8e32 leds: lp8860: Introduce TI lp8860 4 channel LED driver
+
+:::::: TO: Dan Murphy <dmurphy@ti.com>
+:::::: CC: Bryan Wu <cooloney@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
