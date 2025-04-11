@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811D226FD8A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 01:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165A927C155
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 03:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744334527; cv=none; b=VLiaDFLRKgObIMSldsD30JRta4zDYl4LpT3FJGrxiYG3lc1mfbYHq8utDwfvf5cmavjgyjMQXiX6hXoQlsS2WD8vGOzUNkLu0XbnJRsIXfh3KBt+giIwvobUuQIkL1OLB2iVEgaq8Z961aNCLdHcJ3xP+DxOQKd2HoElrKDtc20=
+	t=1744341441; cv=none; b=opxpIRRPMt2ii5IzGmJTS1uBRd0rKK6rVtTd50s4LCz0EP4+F67BVPWn1Sa+0ufRkvuDrv69I1CJZxItvN8Il3VwGc5ky2iUd0d/QYSN6q6BqkQcDiTgxjpUz7RE9krRE2ClupOGfROswNysUfSArBqFvsBatSjkJ93zp88jw5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744334527; c=relaxed/simple;
-	bh=YnhMRX/T1OofSXm3kVguJl/8n5smcqizUPJ2gOUjJ1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jNWPC3q4uOq7SUDVUSsosA/UbxrPC73BCKng9nIsL9ODz1JgEosQRENx4Mqo88/DqmB2Cd4n4Cq6LGrnnjyYYL+Dm9lzjAalUkebkEggaiCRx3LnW3X/IX9kPKBNaDQoBeOYCW2vEp1biVwbq312YJe6EpvEJ/JBbeTGA7JO3as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kbso9/Mz; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1744341441; c=relaxed/simple;
+	bh=kCIruLXaKMtpMhZ7JiuxlHXSK3V+URt3EV5UGRk9+p4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TXQgQouSs5E5UnmS2Icn4LapP/k2DhRqSFucOgLFHV/81FI1Bpn+B04gbYHcXSf9y97PNc9PGFnD7xMkHixtt8NfYqfInNyCfErQBJCfcys85L6ookNV9ZnYhFWfdjyIX3HaGD9t6PAPZLpfGTOi2cSfGuUD/rFEgbVXa4yrbAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mze1Vpmg; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kbso9/Mz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mze1Vpmg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744334525; x=1775870525;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YnhMRX/T1OofSXm3kVguJl/8n5smcqizUPJ2gOUjJ1U=;
-  b=Kbso9/Mz7KzrKgepaWYts312E+/vlXOkpXXMdq9rPsLj/tCoADY1VFMZ
-   ZAIk0Ox/7bmQXXFNcMC1+K8b8TDMBeR0kyOrk/avGFkw87YxwwNZbNveF
-   MysVwdS0fJDmhmv6FsJ2Q8Py+KE8KKTCaJymYbgxTFV88WstfAgvqOXy9
-   HRsUAucv4XlSM8N08GAy7MQgcz3Vco316tfjIO7mjxkOQQKG4plyWtEwQ
-   I+LeD2lFoXsTSpNS5SWCpSaierQF56OMa59RULoc/xmnIOfQLgdNvJdKZ
-   4hVZkK5dP81LhmL9lG4bUmmUNsXH6/O/OLa5ji5CBZNzDnihoglL+eQGq
-   w==;
-X-CSE-ConnectionGUID: jyQk+BAHRjG5EhJIzwHGWg==
-X-CSE-MsgGUID: pORWTcPVTHaOeV9bheA+ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="49713358"
+  t=1744341439; x=1775877439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kCIruLXaKMtpMhZ7JiuxlHXSK3V+URt3EV5UGRk9+p4=;
+  b=Mze1Vpmg0YqYMQY/kKmLS6B2rVOW4fsw7GqZLID2MTnsYSSiHUBWLnpm
+   3NrYdZzIaDLhXQBWXVAf5jDRiTTR5skvSxgVtKelj8qGlWlMfR+Ox9ep+
+   gs4StYpINZaQvFw11cw6A6nuJKz62gCqYoqtIM3almcNjb7tm/pefOBOI
+   wxRCSIQt9I46H3fR/r5/2XFUKAaNx73mHVanw1Rfgg7OoQ2tkAd6dsFEc
+   Xyyh6RRRQ2SBR+3v/S3y91E1hNc+bGc0NolZk6PFrd8bbjSQxlmpyYkuL
+   vPSTkS2jc3JoUNYHwg3BS67zxjumIJpv1D/XjgFl47btBT/y/7si9gty9
+   A==;
+X-CSE-ConnectionGUID: fvBW341YSBKLKCqtvk1bsg==
+X-CSE-MsgGUID: kx3KJCqvTFm+0CYt9erXlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45896645"
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="49713358"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 18:22:05 -0700
-X-CSE-ConnectionGUID: CHGqJQtvQ9ivUbjEEVMp+Q==
-X-CSE-MsgGUID: 1vmIy9DuRJSOzK5igClYcg==
+   d="scan'208";a="45896645"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 20:17:19 -0700
+X-CSE-ConnectionGUID: d+m2knmATXq0imrg7brrIw==
+X-CSE-MsgGUID: 9gu07PUPQA+SmlIBc8DI2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="134169535"
+   d="scan'208";a="129409282"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Apr 2025 18:22:04 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Apr 2025 20:17:16 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u335l-000AhJ-1r;
-	Fri, 11 Apr 2025 01:22:01 +0000
-Date: Fri, 11 Apr 2025 09:21:46 +0800
+	id 1u34tG-000Al1-0T;
+	Fri, 11 Apr 2025 03:17:14 +0000
+Date: Fri, 11 Apr 2025 11:16:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [linux-next:master 1514/2907] arch/x86/crypto/chacha_glue.c:252:36:
- error: 'chacha_use_simd' undeclared; did you mean 'chacha_simd'?
-Message-ID: <202504110948.v2QopGcq-lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>
+Subject: Re: [PATCH v1 net-next 02/14] net: Add ops_undo_single for module
+ load/unload.
+Message-ID: <202504111024.Qc5fW99d-lkp@intel.com>
+References: <20250410022004.8668-3-kuniyu@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,63 +68,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250410022004.8668-3-kuniyu@amazon.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   29e7bf01ed8033c9a14ed0dc990dfe2736dbcd18
-commit: 4aa6dc909e400b247bd3abf29f805d49a9c140bf [1514/2907] crypto: chacha - centralize the skcipher wrappers for arch code
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250411/202504110948.v2QopGcq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504110948.v2QopGcq-lkp@intel.com/reproduce)
+Hi Kuniyuki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/net-Factorise-setup_net-and-cleanup_net/20250410-102752
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250410022004.8668-3-kuniyu%40amazon.com
+patch subject: [PATCH v1 net-next 02/14] net: Add ops_undo_single for module load/unload.
+config: loongarch-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111024.Qc5fW99d-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111024.Qc5fW99d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504110948.v2QopGcq-lkp@intel.com/
-
-Note: the linux-next/master HEAD 29e7bf01ed8033c9a14ed0dc990dfe2736dbcd18 builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504111024.Qc5fW99d-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/static_key.h:1,
-                    from arch/x86/include/asm/nospec-branch.h:6,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:18,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from include/crypto/algapi.h:13,
-                    from include/crypto/internal/skcipher.h:11,
-                    from include/crypto/internal/chacha.h:7,
-                    from arch/x86/crypto/chacha_glue.c:9:
-   arch/x86/crypto/chacha_glue.c: In function 'chacha_is_arch_optimized':
->> arch/x86/crypto/chacha_glue.c:252:36: error: 'chacha_use_simd' undeclared (first use in this function); did you mean 'chacha_simd'?
-     252 |         return static_key_enabled(&chacha_use_simd);
-         |                                    ^~~~~~~~~~~~~~~
-   include/linux/jump_label.h:423:51: note: in definition of macro 'static_key_enabled'
-     423 |         if (!__builtin_types_compatible_p(typeof(*x), struct static_key) &&     \
-         |                                                   ^
-   arch/x86/crypto/chacha_glue.c:252:36: note: each undeclared identifier is reported only once for each function it appears in
-     252 |         return static_key_enabled(&chacha_use_simd);
-         |                                    ^~~~~~~~~~~~~~~
-   include/linux/jump_label.h:423:51: note: in definition of macro 'static_key_enabled'
-     423 |         if (!__builtin_types_compatible_p(typeof(*x), struct static_key) &&     \
-         |                                                   ^
->> arch/x86/crypto/chacha_glue.c:253:1: warning: control reaches end of non-void function [-Wreturn-type]
-     253 | }
-         | ^
+   net/core/net_namespace.c: In function '__unregister_pernet_operations':
+>> net/core/net_namespace.c:1311:17: error: implicit declaration of function 'free_exit_list'; did you mean 'ops_exit_list'? [-Wimplicit-function-declaration]
+    1311 |                 free_exit_list(ops, &net_exit_list);
+         |                 ^~~~~~~~~~~~~~
+         |                 ops_exit_list
+   net/core/net_namespace.c: At top level:
+>> net/core/net_namespace.c:238:13: warning: 'ops_undo_single' defined but not used [-Wunused-function]
+     238 | static void ops_undo_single(struct pernet_operations *ops,
+         |             ^~~~~~~~~~~~~~~
 
 
-vim +252 arch/x86/crypto/chacha_glue.c
+vim +1311 net/core/net_namespace.c
 
-   249	
-   250	bool chacha_is_arch_optimized(void)
-   251	{
- > 252		return static_key_enabled(&chacha_use_simd);
- > 253	}
-   254	EXPORT_SYMBOL(chacha_is_arch_optimized);
-   255	
+ed160e839d2e11 Denis V. Lunev    2007-11-13  1303  
+f875bae0653349 Eric W. Biederman 2009-11-29  1304  static void __unregister_pernet_operations(struct pernet_operations *ops)
+ed160e839d2e11 Denis V. Lunev    2007-11-13  1305  {
+f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1306  	if (!init_net_initialized) {
+f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1307  		list_del(&ops->list);
+f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1308  	} else {
+72ad937abd0a43 Eric W. Biederman 2009-12-03  1309  		LIST_HEAD(net_exit_list);
+72ad937abd0a43 Eric W. Biederman 2009-12-03  1310  		list_add(&init_net.exit_list, &net_exit_list);
+41467d2ff4dfe1 Yajun Deng        2021-08-17 @1311  		free_exit_list(ops, &net_exit_list);
+ed160e839d2e11 Denis V. Lunev    2007-11-13  1312  	}
+f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1313  }
+f875bae0653349 Eric W. Biederman 2009-11-29  1314  
 
 -- 
 0-DAY CI Kernel Test Service
