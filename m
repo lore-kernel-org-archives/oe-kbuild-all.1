@@ -1,122 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp-fw-52004.amazon.com (smtp-fw-52004.amazon.com [52.119.213.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165A927C155
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 03:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E9C1DF982
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 03:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744341441; cv=none; b=opxpIRRPMt2ii5IzGmJTS1uBRd0rKK6rVtTd50s4LCz0EP4+F67BVPWn1Sa+0ufRkvuDrv69I1CJZxItvN8Il3VwGc5ky2iUd0d/QYSN6q6BqkQcDiTgxjpUz7RE9krRE2ClupOGfROswNysUfSArBqFvsBatSjkJ93zp88jw5U=
+	t=1744342396; cv=none; b=pbIrXJKYdnv5qHLMjOCI0vpUmPKNUI0umrLCJYTHgZ4SCCOjY2NT1rwWMQxlM7ptqd+R3j/4OoGIJrQEf0oOFI4LElxus4R/jX5SYnFK/DwmIZ2qUjvGLH95H1HcO+8u2116iFWWxaecbdeEHkpEn4whv4hWu7m6bMEjCzrVUrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744341441; c=relaxed/simple;
-	bh=kCIruLXaKMtpMhZ7JiuxlHXSK3V+URt3EV5UGRk9+p4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TXQgQouSs5E5UnmS2Icn4LapP/k2DhRqSFucOgLFHV/81FI1Bpn+B04gbYHcXSf9y97PNc9PGFnD7xMkHixtt8NfYqfInNyCfErQBJCfcys85L6ookNV9ZnYhFWfdjyIX3HaGD9t6PAPZLpfGTOi2cSfGuUD/rFEgbVXa4yrbAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mze1Vpmg; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744342396; c=relaxed/simple;
+	bh=iZz528PagEUKplbtSO4isurUbYG/5iwL8KiOaNJbiGU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UJ/kYdM6fvUgMv9El4OZp3OAdMk8aVYIyzl+GJE71p0uqPWRLWJB59nBLA6S415uEnrAx3gd951IeVWaoxgHgoAgkxCNyO6n1ttuYU5gHjqcverMtyqCJ3IN+Rh74w6GvZ/IJX2KXnLmgxdfWUUNjR/pDr5XuZIdHfm/WNdFVjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=qjpaP23J; arc=none smtp.client-ip=52.119.213.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mze1Vpmg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744341439; x=1775877439;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kCIruLXaKMtpMhZ7JiuxlHXSK3V+URt3EV5UGRk9+p4=;
-  b=Mze1Vpmg0YqYMQY/kKmLS6B2rVOW4fsw7GqZLID2MTnsYSSiHUBWLnpm
-   3NrYdZzIaDLhXQBWXVAf5jDRiTTR5skvSxgVtKelj8qGlWlMfR+Ox9ep+
-   gs4StYpINZaQvFw11cw6A6nuJKz62gCqYoqtIM3almcNjb7tm/pefOBOI
-   wxRCSIQt9I46H3fR/r5/2XFUKAaNx73mHVanw1Rfgg7OoQ2tkAd6dsFEc
-   Xyyh6RRRQ2SBR+3v/S3y91E1hNc+bGc0NolZk6PFrd8bbjSQxlmpyYkuL
-   vPSTkS2jc3JoUNYHwg3BS67zxjumIJpv1D/XjgFl47btBT/y/7si9gty9
-   A==;
-X-CSE-ConnectionGUID: fvBW341YSBKLKCqtvk1bsg==
-X-CSE-MsgGUID: kx3KJCqvTFm+0CYt9erXlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45896645"
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="45896645"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 20:17:19 -0700
-X-CSE-ConnectionGUID: d+m2knmATXq0imrg7brrIw==
-X-CSE-MsgGUID: 9gu07PUPQA+SmlIBc8DI2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="129409282"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Apr 2025 20:17:16 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u34tG-000Al1-0T;
-	Fri, 11 Apr 2025 03:17:14 +0000
-Date: Fri, 11 Apr 2025 11:16:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>
-Subject: Re: [PATCH v1 net-next 02/14] net: Add ops_undo_single for module
- load/unload.
-Message-ID: <202504111024.Qc5fW99d-lkp@intel.com>
-References: <20250410022004.8668-3-kuniyu@amazon.com>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="qjpaP23J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1744342395; x=1775878395;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=BMPSGH4p/XusmtNQlCyysx0DNlvkjuNQeIg3l7Wfsmo=;
+  b=qjpaP23JIUhrMua2WlEVY9sBhqQQ28VsuW12c0erqzCmg5k/Bs6zEaGW
+   Tf78K/zHaLJLyJAw9IRiVNYUdP/viAO60+bTA99Kt2hZCw507pghnxQDX
+   dJrqtXk1OSd5NshmdC5fquDErpHUnW6n2Y59HrzNSY/vlvJ0NnM/A2Ns5
+   0=;
+X-IronPort-AV: E=Sophos;i="6.15,203,1739836800"; 
+   d="scan'208";a="287544009"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.2])
+  by smtp-border-fw-52004.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 03:33:12 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [10.0.7.35:63161]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.47.159:2525] with esmtp (Farcaster)
+ id 733eeba0-9e09-4ba4-86d1-9053b7fa04dd; Fri, 11 Apr 2025 03:33:10 +0000 (UTC)
+X-Farcaster-Flow-ID: 733eeba0-9e09-4ba4-86d1-9053b7fa04dd
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Fri, 11 Apr 2025 03:33:08 +0000
+Received: from 6c7e67bfbae3.amazon.com (10.106.100.21) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Fri, 11 Apr 2025 03:33:05 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <lkp@intel.com>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
+	<kuba@kernel.org>, <kuniyu@amazon.com>, <netdev@vger.kernel.org>,
+	<oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>
+Subject: Re: OA[PATCH v1 net-next 02/14] net: Add ops_undo_single for module load/unload.
+Date: Thu, 10 Apr 2025 20:32:49 -0700
+Message-ID: <20250411033257.70991-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <202504111024.Qc5fW99d-lkp@intel.com>
+References: <202504111024.Qc5fW99d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250410022004.8668-3-kuniyu@amazon.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D046UWB001.ant.amazon.com (10.13.139.187) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-Hi Kuniyuki,
+From: kernel test robot <lkp@intel.com>
+Date: Fri, 11 Apr 2025 11:16:36 +0800
+> Hi Kuniyuki,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/net-Factorise-setup_net-and-cleanup_net/20250410-102752
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20250410022004.8668-3-kuniyu%40amazon.com
+> patch subject: [PATCH v1 net-next 02/14] net: Add ops_undo_single for module load/unload.
+> config: loongarch-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111024.Qc5fW99d-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111024.Qc5fW99d-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504111024.Qc5fW99d-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    net/core/net_namespace.c: In function '__unregister_pernet_operations':
+> >> net/core/net_namespace.c:1311:17: error: implicit declaration of function 'free_exit_list'; did you mean 'ops_exit_list'? [-Wimplicit-function-declaration]
+>     1311 |                 free_exit_list(ops, &net_exit_list);
+>          |                 ^~~~~~~~~~~~~~
+>          |                 ops_exit_list
 
-kernel test robot noticed the following build errors:
+I missed one instance when CONFIG_NET_NS=n.
+Will squash the diff below in v2.
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/net-Factorise-setup_net-and-cleanup_net/20250410-102752
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250410022004.8668-3-kuniyu%40amazon.com
-patch subject: [PATCH v1 net-next 02/14] net: Add ops_undo_single for module load/unload.
-config: loongarch-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111024.Qc5fW99d-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111024.Qc5fW99d-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504111024.Qc5fW99d-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   net/core/net_namespace.c: In function '__unregister_pernet_operations':
->> net/core/net_namespace.c:1311:17: error: implicit declaration of function 'free_exit_list'; did you mean 'ops_exit_list'? [-Wimplicit-function-declaration]
-    1311 |                 free_exit_list(ops, &net_exit_list);
-         |                 ^~~~~~~~~~~~~~
-         |                 ops_exit_list
-   net/core/net_namespace.c: At top level:
->> net/core/net_namespace.c:238:13: warning: 'ops_undo_single' defined but not used [-Wunused-function]
-     238 | static void ops_undo_single(struct pernet_operations *ops,
-         |             ^~~~~~~~~~~~~~~
-
-
-vim +1311 net/core/net_namespace.c
-
-ed160e839d2e11 Denis V. Lunev    2007-11-13  1303  
-f875bae0653349 Eric W. Biederman 2009-11-29  1304  static void __unregister_pernet_operations(struct pernet_operations *ops)
-ed160e839d2e11 Denis V. Lunev    2007-11-13  1305  {
-f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1306  	if (!init_net_initialized) {
-f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1307  		list_del(&ops->list);
-f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1308  	} else {
-72ad937abd0a43 Eric W. Biederman 2009-12-03  1309  		LIST_HEAD(net_exit_list);
-72ad937abd0a43 Eric W. Biederman 2009-12-03  1310  		list_add(&init_net.exit_list, &net_exit_list);
-41467d2ff4dfe1 Yajun Deng        2021-08-17 @1311  		free_exit_list(ops, &net_exit_list);
-ed160e839d2e11 Denis V. Lunev    2007-11-13  1312  	}
-f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1313  }
-f875bae0653349 Eric W. Biederman 2009-11-29  1314  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---8<---
+diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
+index 9ab3ba930d76..f7a99937645f 100644
+--- a/net/core/net_namespace.c
++++ b/net/core/net_namespace.c
+@@ -1326,8 +1326,9 @@ static void __unregister_pernet_operations(struct pernet_operations *ops)
+ 		list_del(&ops->list);
+ 	} else {
+ 		LIST_HEAD(net_exit_list);
++
+ 		list_add(&init_net.exit_list, &net_exit_list);
+-		free_exit_list(ops, &net_exit_list);
++		ops_undo_single(ops, &net_exit_list);
+ 	}
+ }
+ 
+---8<---
