@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA33D1E7C11;
-	Fri, 11 Apr 2025 04:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0FE1E835B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 05:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744346311; cv=none; b=UP6LDLirRabvqsb/7sJPB3y58g0yEkdwhdiUlxrsTnE25f26h7Bsq9q9MxQyqQyr+uvMW+t/jPgffLuP21FB8tA7wqsqvowuc9TNH/vZJ1/B8ppIiO7qubL4lvOlO/+DivmpLQ74Ee5/GclU2QV7UqYbWGQtkwf1vXwYmhajn8g=
+	t=1744350035; cv=none; b=igqN2tfd3bkSl9sDF8lVcVTLLuWmyYbI7LoJgJSgsSiEpvhfhGU7INOg/8SXGBm7qwdMVCnRzRq90MyVhkoSYrsSyiUxBo018p744RMDK/DTg7SIIPfwZ9rLGVxmTvcSFFr9+YAHtUeMw4WXqYSdZR9nT3fxPtwhc4O8k4gJz6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744346311; c=relaxed/simple;
-	bh=4ZW7Q5ISlJJYXO5OejRTMXU+a79AtOia+NS+Kw9SGdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFj9ZnpZIOndML7DonSUk4+WTdD1/Bx+YPuL42COQSmuNxaNdUl8YPqG3+y8TeELOuX9OMIUzGfgVRi64AuzpKQ/ofnIBn8WRGtdkCh09gWVpijH5OR0dfQogEtnE7JktYxqhSUgP6m+5FLLp5TeXPkiKWw5i9OmC2x7fYQSG90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSxQ82Kw; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1744350035; c=relaxed/simple;
+	bh=Lg9eTPP61y8CyWXrKoOkYk0Pid3eB4rq+9EVIdqI3/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NaUN6G6wHgTACcRCVjdcouHdImWa4J1Jh7p94R5VI/ZJJoKVb6rqOQJFCC6lirM+3+QT2+lzMI84uUJ0yiUkNWB7NZexnQlLuCDAU8klGFi6x0RDid7710ckPXaBPNuLvWj0D9Oc5/bitrHD0wQv/pzGsHDtD3bJ0rd4zkE/cc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PW42HoVE; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSxQ82Kw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PW42HoVE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744346310; x=1775882310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4ZW7Q5ISlJJYXO5OejRTMXU+a79AtOia+NS+Kw9SGdQ=;
-  b=XSxQ82Kw84q58wNmRBt6ThLDA3p92VrIQvJ/5JDG5AzrtWc7A05qQiRr
-   wlJvVJMOAcVDSC+yAXj5E04Uo4wsXjcIYnFN3jkXtvnTL0aUAKuPf2A5w
-   Xrao4rlkVISHXjN1un+WSDpRK+sbGbRWhFCMK1Cd96uhGiFtX5a3ToWJ7
-   ccbXHy4pFaO+s6o231Bz1mtlXpPMBInWZB1Wn85nL+1OUH6Rgw75JfOm7
-   Xi63Wvhm0gvLGCzOlo6oHI6bLVF89XhBzZ1MPrazg9PWIpZEb5jzEAinX
-   ZgE/+/a9dqWHoyITJqRcBnrp+YE2MOd3OstkEi/aI/r8BKn+YK4+hHC+b
+  t=1744350033; x=1775886033;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Lg9eTPP61y8CyWXrKoOkYk0Pid3eB4rq+9EVIdqI3/o=;
+  b=PW42HoVEoCOvuHTfC7CVoXUBGc7ojVVaiUFNKSuQ0I1wSS8OAHab9Pxu
+   2AQiLmuuWxT9fQ4bf20cu1UFqIo+sOTAuJ4Lf+8quOT9tIl8M0zR06pAq
+   u9uyDABa4sJpV2QOznjm2+vwnYh8odby5vYFbUjfyklK+WcwjrlAQHp9R
+   jAKvY+OVecCeFOb7OucXHHrJ+NpuLG9aNLNkXyZiyWyw6/RTi6stR/Dxr
+   FSXxWvB8y06QbRWSSVVWmNefQw4mF0Hdsl8jcffLUhUCWQa6Ffqt/jowK
+   rq8B8+JbzssoOPr2K041OUCFqEqT//TxcisOR8snP/NRib4yIYwxyqptE
    w==;
-X-CSE-ConnectionGUID: OdZpOl52R0uFrj8hMYIy2Q==
-X-CSE-MsgGUID: wXkVo3bjTMOMTIQFUk0krg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45129017"
+X-CSE-ConnectionGUID: IYKXj3X1R9i3OXZVCIKp3Q==
+X-CSE-MsgGUID: WBTCkTJkTx6hBUZmMtiUuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45983024"
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="45129017"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 21:38:27 -0700
-X-CSE-ConnectionGUID: T5yb7r00TYWOtOV5noFO+g==
-X-CSE-MsgGUID: 1X4UObc3Sz6X1TC+4y9XqQ==
+   d="scan'208";a="45983024"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 22:40:32 -0700
+X-CSE-ConnectionGUID: NDDqidmhQnCVUxEjBtpR9g==
+X-CSE-MsgGUID: DG52skMASE6LTrbnGdcjnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="133958160"
+   d="scan'208";a="160077026"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Apr 2025 21:38:25 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Apr 2025 22:40:31 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u369m-000ApP-1g;
-	Fri, 11 Apr 2025 04:38:22 +0000
-Date: Fri, 11 Apr 2025 12:37:44 +0800
+	id 1u377t-000Ari-12;
+	Fri, 11 Apr 2025 05:40:29 +0000
+Date: Fri, 11 Apr 2025 13:39:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>
-Subject: Re: [PATCH v1 net-next 02/14] net: Add ops_undo_single for module
- load/unload.
-Message-ID: <202504111226.iQKPbEOI-lkp@intel.com>
-References: <20250410022004.8668-3-kuniyu@amazon.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 1/1]
+ arch/arm64/kvm/hyp/nvhe/clock.c:39: undefined reference to
+ `__kvm_nvhe___lshrti3'
+Message-ID: <202504111334.Ft4xcbb3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,53 +62,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250410022004.8668-3-kuniyu@amazon.com>
 
-Hi Kuniyuki,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/net-Factorise-setup_net-and-cleanup_net/20250410-102752
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250410022004.8668-3-kuniyu%40amazon.com
-patch subject: [PATCH v1 net-next 02/14] net: Add ops_undo_single for module load/unload.
-config: arm-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111226.iQKPbEOI-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111226.iQKPbEOI-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   6bd3b482a8f12750b4297426b502b735e140d8c8
+commit: 022b2198fc73b7b95231730eb944d74c7f1b253c [1/1] ANDROID: KVM: arm64: Add clock support in the nVHE hyp
+config: arm64-randconfig-001-20250411 (https://download.01.org/0day-ci/archive/20250411/202504111334.Ft4xcbb3-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250411/202504111334.Ft4xcbb3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504111226.iQKPbEOI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504111334.Ft4xcbb3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/core/net_namespace.c:1311:3: error: call to undeclared function 'free_exit_list'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1311 |                 free_exit_list(ops, &net_exit_list);
-         |                 ^
-   net/core/net_namespace.c:1311:3: note: did you mean 'ops_exit_list'?
-   net/core/net_namespace.c:166:13: note: 'ops_exit_list' declared here
-     166 | static void ops_exit_list(const struct pernet_operations *ops,
-         |             ^
-   1 error generated.
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: ID map text too big or misaligned
+   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: in function `__kvm_nvhe_trace_clock':
+>> arch/arm64/kvm/hyp/nvhe/clock.c:39: undefined reference to `__kvm_nvhe___lshrti3'
 
 
-vim +/free_exit_list +1311 net/core/net_namespace.c
+vim +39 arch/arm64/kvm/hyp/nvhe/clock.c
 
-ed160e839d2e11 Denis V. Lunev    2007-11-13  1303  
-f875bae0653349 Eric W. Biederman 2009-11-29  1304  static void __unregister_pernet_operations(struct pernet_operations *ops)
-ed160e839d2e11 Denis V. Lunev    2007-11-13  1305  {
-f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1306  	if (!init_net_initialized) {
-f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1307  		list_del(&ops->list);
-f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1308  	} else {
-72ad937abd0a43 Eric W. Biederman 2009-12-03  1309  		LIST_HEAD(net_exit_list);
-72ad937abd0a43 Eric W. Biederman 2009-12-03  1310  		list_add(&init_net.exit_list, &net_exit_list);
-41467d2ff4dfe1 Yajun Deng        2021-08-17 @1311  		free_exit_list(ops, &net_exit_list);
-ed160e839d2e11 Denis V. Lunev    2007-11-13  1312  	}
-f8c46cb39079b7 Dmitry Torokhov   2016-08-10  1313  }
-f875bae0653349 Eric W. Biederman 2009-11-29  1314  
+    21	
+    22	/*
+    23	 * This clock is relying on host provided slope and epoch values to return
+    24	 * something synchronized with the host. The downside is we can't trust the
+    25	 * output which must not be used for anything else than debugging.
+    26	 */
+    27	u64 trace_clock(void)
+    28	{
+    29		u64 cyc = __arch_counter_get_cntpct() - trace_clock_data.epoch_cyc;
+    30		__uint128_t ns;
+    31	
+    32		/*
+    33		 * The host kernel can avoid the 64-bits overflow of the multiplication
+    34		 * by updating the epoch value with a timer (see
+    35		 * kernel/time/clocksource.c). The hypervisor doesn't have that option,
+    36		 * so let's do a more costly 128-bits mult here.
+    37		 */
+    38		ns = (__uint128_t)cyc * trace_clock_data.mult;
+  > 39		ns >>= trace_clock_data.shift;
 
 -- 
 0-DAY CI Kernel Test Service
