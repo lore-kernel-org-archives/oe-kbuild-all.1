@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B95296143
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 21:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B94202F87
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Apr 2025 23:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744408625; cv=none; b=Byue7GwopnlPPB4rrTyWWC0OWhmNiCoH2jSWhy3DW4gl5bEMnws4ZexPEUfgfLLIFSM1DSUiDC9STSUtw8K0grjP27eILBL5JPshEXtmOjNZaIM9t056FabpgQngQojKOB8ZBjrc8wEjVT9VM/YfJGNodPfQIaj8Z6kSx0mDrtY=
+	t=1744413548; cv=none; b=Pbi+QlBw8xv+KIQgYNetZXWSH78vE4kC6Gl/hlgHypxftnOUqkQ0X1kmUWhuGo2024Eaxg5pootp8jNNbizTjyMVT875faRasdzHgN9DegbRtUTW8yTbM6PuB6y26ETkAmhGtnp2mCV32PqnAZzAMXtdZCAqrRC3XFUqN7MajWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744408625; c=relaxed/simple;
-	bh=9lqL6w8ioJBIb400JDr1aMOA+gQyuzdy50q+tNYdS9s=;
+	s=arc-20240116; t=1744413548; c=relaxed/simple;
+	bh=uFdAK24YxGSt561GSBauAnveNNzqdVdmrQrxTKowc8U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lb34KiPOu/inX1x1/TEs8Zm2Ebr+yjyEYPBBcmEY/9gsiIjxxMALExTWW9rK3CjjeT2gsMoUGhWQm6k1fAAfubsIfXs4OYmmmCGwzD7iFm///34kev6B/T8H6Qt0D0Uk6MQYaVX+RnD2l6aYzmFf7EZCKNP3nJNsLbrVELNhpd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9J451W6; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=rybzfveaJkORd1+kq9zWvkQww4S1JheV99EPbwIIzK6EQZYGs5XXvV+6vN/NyXHOLnQkas7GOlozTmE71mOn9HbPvrLEHkxT3mJ19xw8mRiKCBH58u3ompy4pKQObySKLmu83NykT8skXNdnxoIhKB0GY/N4GQvIkqahR6a/4wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUN968Fa; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9J451W6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUN968Fa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744408624; x=1775944624;
+  t=1744413547; x=1775949547;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9lqL6w8ioJBIb400JDr1aMOA+gQyuzdy50q+tNYdS9s=;
-  b=K9J451W6bxM2Uxmu05u+SGuUkLFmrBZuiG1ms+PElP6/gQSroVcXZ23/
-   2Ug+fqrPxDMmpl2VtB2oVsgICUhmUeps4Qax3DbFyp82nCUAg/STMz1ux
-   nCIAw8/Rhu9TAfDpycNpgWkJ3peI2RPqDbXmJhVD5Nf5f5I1PV8tqkVL+
-   bfNxg9ax8EA4Q8EX5bxK1bLb/WxeSvT8d03AtDQ+EA3hZvHQym+bqCic0
-   FFoOYBrYKFfvfERoNrx++vaF3g/wOf0eHrXN1+NKax4vSbxH6Ff7A2luW
-   4cgMELG+5vpJs41AUijV4L8hRdTd4sbv7VTcj6V017ir7bQ9MgOi/mmga
-   g==;
-X-CSE-ConnectionGUID: aIgM3vnfQkmUUimwnYTu6w==
-X-CSE-MsgGUID: w0BQ8ay+SYO3gqteN4/eDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11401"; a="63372555"
+  bh=uFdAK24YxGSt561GSBauAnveNNzqdVdmrQrxTKowc8U=;
+  b=bUN968Fa1U6wRUbnBcNtiHV01mmGhfjBZ3qgEA6YgKU4gM3AzuIxSiks
+   MqyLT7IipX7Xa9RHwFmPTQz3gGvFjYA6MG5kESusf7ZXTs+Je10J/4bUB
+   9Hfvwaf/mjodZbwnyVPmr7KDnn3F1blPFlgdOw3q6ze4v6a8IRE8fHdeg
+   RRrcMppQ8ZQpIUqBj2syUidfVdTqm+cTyHsEjoQjbamjKHM1tenWyCC0p
+   ZvKDNAbzIi29PagY2rxXqF3EK4OJynqS5JNhIqgwPraLNh7aTEfi6DIsy
+   4w0yfe3vvAKqGMFeslDL/GllNnkoJa7HnvkB5I4JYTX9CiZTh7pCNySqz
+   A==;
+X-CSE-ConnectionGUID: ecdsdV/7TWqYbzrm13E3IA==
+X-CSE-MsgGUID: 3tvOCe1MRQ2QCqfVqDUwzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11401"; a="56637695"
 X-IronPort-AV: E=Sophos;i="6.15,206,1739865600"; 
-   d="scan'208";a="63372555"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 14:57:03 -0700
-X-CSE-ConnectionGUID: zd6gV9HCTKGZWCbJY6KlFA==
-X-CSE-MsgGUID: J7/chT6BQx2vpqcsea1xQg==
+   d="scan'208";a="56637695"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 16:19:06 -0700
+X-CSE-ConnectionGUID: 5QzpeZR/T9qjBaxKsXh13w==
+X-CSE-MsgGUID: ATAfOqbpTPGfroJZkWBQjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,206,1739865600"; 
-   d="scan'208";a="129867334"
+   d="scan'208";a="134408411"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Apr 2025 14:56:59 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 11 Apr 2025 16:19:05 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u3MMr-000BPO-0i;
-	Fri, 11 Apr 2025 21:56:57 +0000
-Date: Sat, 12 Apr 2025 05:56:43 +0800
+	id 1u3NeI-000BQo-2e;
+	Fri, 11 Apr 2025 23:19:02 +0000
+Date: Sat, 12 Apr 2025 07:18:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"(maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))" <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] i2c: piix4: Move SB800_PIIX4_FCH_PM_ADDR
- definition to amd_node.h
-Message-ID: <202504120558.sq3IpWdH-lkp@intel.com>
-References: <20250410200202.2974062-3-superm1@kernel.org>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] memcg: decouple memcg_hotplug_cpu_dead from stock_lock
+Message-ID: <202504120739.K2ifymlR-lkp@intel.com>
+References: <20250410210623.1016767-1-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,64 +62,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250410200202.2974062-3-superm1@kernel.org>
+In-Reply-To: <20250410210623.1016767-1-shakeel.butt@linux.dev>
 
-Hi Mario,
+Hi Shakeel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/x86/core]
-[also build test ERROR on andi-shyti/i2c/i2c-host tip/master linus/master v6.15-rc1 next-20250411]
-[cannot apply to bp/for-next tip/auto-latest]
+[auto build test ERROR on akpm-mm/mm-everything]
+[cannot apply to linus/master v6.15-rc1 next-20250411]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/Documentation-Add-AMD-Zen-debugging-document/20250411-040641
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20250410200202.2974062-3-superm1%40kernel.org
-patch subject: [PATCH v3 2/4] i2c: piix4: Move SB800_PIIX4_FCH_PM_ADDR definition to amd_node.h
-config: arm64-randconfig-003-20250412 (https://download.01.org/0day-ci/archive/20250412/202504120558.sq3IpWdH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250412/202504120558.sq3IpWdH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shakeel-Butt/memcg-decouple-memcg_hotplug_cpu_dead-from-stock_lock/20250411-050829
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250410210623.1016767-1-shakeel.butt%40linux.dev
+patch subject: [PATCH] memcg: decouple memcg_hotplug_cpu_dead from stock_lock
+config: x86_64-buildonly-randconfig-001-20250412 (https://download.01.org/0day-ci/archive/20250412/202504120739.K2ifymlR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250412/202504120739.K2ifymlR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504120558.sq3IpWdH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504120739.K2ifymlR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-piix4.c:24:10: fatal error: asm/amd_node.h: No such file or directory
-    #include <asm/amd_node.h>
-             ^~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from include/linux/bitops.h:7,
+                    from include/linux/radix-tree.h:11,
+                    from include/linux/idr.h:15,
+                    from include/linux/cgroup-defs.h:13,
+                    from mm/memcontrol.c:28:
+   mm/memcontrol.c: In function 'memcg_hotplug_cpu_dead':
+>> mm/memcontrol.c:1967:24: error: 'flag' undeclared (first use in this function); did you mean 'flags'?
+    1967 |         local_irq_save(flag);
+         |                        ^~~~
+   include/linux/typecheck.h:11:16: note: in definition of macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                ^
+   include/linux/irqflags.h:239:38: note: in expansion of macro 'raw_local_irq_save'
+     239 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:1967:9: note: in expansion of macro 'local_irq_save'
+    1967 |         local_irq_save(flag);
+         |         ^~~~~~~~~~~~~~
+   mm/memcontrol.c:1967:24: note: each undeclared identifier is reported only once for each function it appears in
+    1967 |         local_irq_save(flag);
+         |                        ^~~~
+   include/linux/typecheck.h:11:16: note: in definition of macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                ^
+   include/linux/irqflags.h:239:38: note: in expansion of macro 'raw_local_irq_save'
+     239 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:1967:9: note: in expansion of macro 'local_irq_save'
+    1967 |         local_irq_save(flag);
+         |         ^~~~~~~~~~~~~~
+>> include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/irqflags.h:172:17: note: in expansion of macro 'typecheck'
+     172 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/irqflags.h:239:38: note: in expansion of macro 'raw_local_irq_save'
+     239 | #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while (0)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:1967:9: note: in expansion of macro 'local_irq_save'
+    1967 |         local_irq_save(flag);
+         |         ^~~~~~~~~~~~~~
+>> include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/irqflags.h:177:17: note: in expansion of macro 'typecheck'
+     177 |                 typecheck(unsigned long, flags);        \
+         |                 ^~~~~~~~~
+   include/linux/irqflags.h:240:39: note: in expansion of macro 'raw_local_irq_restore'
+     240 | #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } while (0)
+         |                                       ^~~~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:1970:9: note: in expansion of macro 'local_irq_restore'
+    1970 |         local_irq_restore(flag);
+         |         ^~~~~~~~~~~~~~~~~
+>> mm/memcontrol.c:1963:23: warning: unused variable 'flags' [-Wunused-variable]
+    1963 |         unsigned long flags;
+         |                       ^~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
-   Selected by [m]:
-   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_XE [=m] && DRM_XE [=m]=m [=m] && HAS_IOPORT [=y]
 
+vim +1967 mm/memcontrol.c
 
-vim +24 drivers/i2c/busses/i2c-piix4.c
-
-    23	
-  > 24	#include <asm/amd_node.h>
-    25	#include <linux/module.h>
-    26	#include <linux/moduleparam.h>
-    27	#include <linux/pci.h>
-    28	#include <linux/kernel.h>
-    29	#include <linux/delay.h>
-    30	#include <linux/stddef.h>
-    31	#include <linux/ioport.h>
-    32	#include <linux/i2c.h>
-    33	#include <linux/i2c-smbus.h>
-    34	#include <linux/slab.h>
-    35	#include <linux/dmi.h>
-    36	#include <linux/acpi.h>
-    37	#include <linux/io.h>
-    38	
+  1959	
+  1960	static int memcg_hotplug_cpu_dead(unsigned int cpu)
+  1961	{
+  1962		struct memcg_stock_pcp *stock;
+> 1963		unsigned long flags;
+  1964	
+  1965		stock = &per_cpu(memcg_stock, cpu);
+  1966	
+> 1967		local_irq_save(flag);
+  1968		/* stock of a remote dead cpu, no need for stock_lock. */
+  1969		__drain_obj_stock(stock);
+  1970		local_irq_restore(flag);
+  1971	
+  1972		drain_stock(stock);
+  1973	
+  1974		return 0;
+  1975	}
+  1976	
 
 -- 
 0-DAY CI Kernel Test Service
