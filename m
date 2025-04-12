@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6005E134CF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Apr 2025 21:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3021448E0;
+	Sat, 12 Apr 2025 21:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744493709; cv=none; b=M0foWpD1K1oQYK1COQ9cKytvVzsbmaGOToyckvvqyYHWqabMuMg0eteQgUUoi66wO84Zc0gWph8yv8PzihABtj+MdRCyunV50iuoW5PE65nJgV5AU8JSMT65CqrnvRCblgq73wJoM5CFz0N0HkdtELpwgL3EpK64es3FW4F1yjY=
+	t=1744495031; cv=none; b=mdHoY9W8WxShs5a1s2r5wCmJb21a0tW0sMAdirzjiefQPhRW155E+/FWvpNg6iFTvbVRM5CU07l96IfWEhWdOhIWGNcD2N5iK+AqwGbDBMkcDU+fFO5VRAJY/ZQXj8J7oXxXxJ2HZidqPeEUbPF8HCa7mibxUfcLoUhAaHai4d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744493709; c=relaxed/simple;
-	bh=IwpUJ1fLG5nKNxWc7gclTLQrrZE8Ki1ZLY7MKbC+RyY=;
+	s=arc-20240116; t=1744495031; c=relaxed/simple;
+	bh=ajLLm6V1nB+iIGXAIwi8kfvmKW1YEqpUd4ICX1M24dM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kOO8evR4wAOlGamPxgy6TXX/scqznWDsrVQupnyosHHy8eMCyCUiSS9wBdXlexj8kG5Kg1KzGPsO4iAC9kyHebPOyxENiGE62eibImp745RUPv/j3fYSFhklp7jSp63ZT2oJmMRwKC+vmG3GuK4zVjhJxZ+NrzGI0CoDIp2G2NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAWyPhN5; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=jBE71ujMOWtPAJz2u4wGHKp/H5QpiUAVHGyWorSBT3qZxIUztHvnXD9uonTZAAWH3vr/mgpqq60Ir7oYXnYuXjUBSQ0kXTnZcpfNFpHUWTHmxMMk4Kzxiv1H4kq8De3Kt4riaGm9Eo40CAoa7muXdDmS0LLjU3K1+rrQ3P54oqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h4gBZ7+S; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAWyPhN5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h4gBZ7+S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744493707; x=1776029707;
+  t=1744495029; x=1776031029;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IwpUJ1fLG5nKNxWc7gclTLQrrZE8Ki1ZLY7MKbC+RyY=;
-  b=EAWyPhN5iO1epzAbtFkT5yCpi7RL8UthS5UXGl/lEZY8HrMUO8zSRD/O
-   sQjLwy6ZJijlpkuO14SwuL532Uik3huJQ2ahFMKPxKTwtCQ/0IVvmIGFC
-   Ygnmwd0q3ObOANSkagLea+Q2l347JFFeCKOMAnjFRuiL+MrIxbdO5RsbX
-   hhb8P1zRqV3OsndHnceS/198wBbK0wqy5pPu+zefcl1m/ivJubE5S34Su
-   9ePChxyn9zDviPoXnabKjFIYdS+iCoVk4pliCBO3pmxs/aF5wjqPSlGoG
-   Dj5NYISD6VUnbW/dogWWWp06HBLNmFXiF8PuJs2ADSffGENpDJGX4sY89
+  bh=ajLLm6V1nB+iIGXAIwi8kfvmKW1YEqpUd4ICX1M24dM=;
+  b=h4gBZ7+SAyBmTE8OnCV149qJHFOrZzFhuKiJ6IvvmPyMwRNCAcUmMPQM
+   IR1Dspu7cBvZPJdfG8x3Aecepzdvp5rYrBRd7SD7qyCSxGmNGlu9L2UIi
+   4vr5fWaQKi9WdnRAPH7uSpEkBHFtx/+3nJ/VdEB3CH0OdgQLnfb1m7R0M
+   +0WYEdlgpMCphCwW5l6rHoil4I1vwPrv0S3xza/8NrY4KBe+pkt9Ys2V6
+   bHn2A42G2h7oqtRfhza6NJtwMrMfcZjzRbzUiyzqDrrd7OSjsTekJGtYE
+   lugyEj1imcW55mdZvqHYVlbSVryy0s4TBNf6W3am2xiL/YGoLh53Vdwkl
    w==;
-X-CSE-ConnectionGUID: Lh7ZwmGNQi2v9VXUPRjofQ==
-X-CSE-MsgGUID: PzLEvYo+RGC3v69ugE4XIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="68499763"
+X-CSE-ConnectionGUID: I/U1gzTNTYSa8iT8oThPVQ==
+X-CSE-MsgGUID: OhZ1v6IxToWTF4YmvG6nMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="45718463"
 X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="68499763"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 14:35:06 -0700
-X-CSE-ConnectionGUID: eCVgDxwDQNWyZRuJNjwqFQ==
-X-CSE-MsgGUID: PVABXEJrSFaUGwTryKOKQw==
+   d="scan'208";a="45718463"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 14:57:08 -0700
+X-CSE-ConnectionGUID: xsCuUn9zSW6e3wr7FS89OA==
+X-CSE-MsgGUID: C0vBHpXZQ92kr93Wy/cJbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="129484658"
+   d="scan'208";a="152676426"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Apr 2025 14:35:05 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 Apr 2025 14:57:07 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u3iVD-000C90-0K;
-	Sat, 12 Apr 2025 21:35:03 +0000
-Date: Sun, 13 Apr 2025 05:34:59 +0800
+	id 1u3iqX-000C9u-1E;
+	Sat, 12 Apr 2025 21:57:05 +0000
+Date: Sun, 13 Apr 2025 05:56:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:netns-debugfs 2/3] include/linux/kern_levels.h:5:18:
- warning: format '%d' expects argument of type 'int', but argument 2 has type
- 'long int'
-Message-ID: <202504130520.rX5EVbVq-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:netns-debugfs 2/3] lib/ref_tracker.c:287:4: warning: format
+ specifies type 'int' but the argument has type 'long'
+Message-ID: <202504130506.zKFcdjki-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,60 +65,44 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git netns-debugfs
 head:   193510c9521581018efe6f51e0aeddbafc8c103e
 commit: ada5a12aae58a77a6d3522609df19a7cba6e053b [2/3] ref_tracker: add a top level debugfs directory for ref_tracker
-config: arm64-randconfig-003-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130520.rX5EVbVq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504130520.rX5EVbVq-lkp@intel.com/reproduce)
+config: arm64-randconfig-004-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130506.zKFcdjki-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504130506.zKFcdjki-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504130520.rX5EVbVq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504130506.zKFcdjki-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22:0,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from include/linux/refcount.h:96,
-                    from include/linux/ref_tracker.h:4,
-                    from lib/ref_tracker.c:7:
-   lib/ref_tracker.c: In function 'ref_tracker_debug_init':
->> include/linux/kern_levels.h:5:18: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long int' [-Wformat=]
-    #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                     ^
-   include/linux/printk.h:473:11: note: in definition of macro 'printk_index_wrap'
-      _p_func(_fmt, ##__VA_ARGS__);    \
-              ^~~~
-   include/linux/printk.h:554:2: note: in expansion of macro 'printk'
-     printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-     ^~~~~~
-   include/linux/kern_levels.h:12:22: note: in expansion of macro 'KERN_SOH'
-    #define KERN_WARNING KERN_SOH "4" /* warning conditions */
-                         ^~~~~~~~
-   include/linux/printk.h:554:9: note: in expansion of macro 'KERN_WARNING'
-     printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-            ^~~~~~~~~~~~
-   lib/ref_tracker.c:286:3: note: in expansion of macro 'pr_warn'
-      pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %d\n",
-      ^~~~~~~
-   lib/ref_tracker.c:286:74: note: format string is defined here
-      pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %d\n",
-                                                                            ~^
-                                                                            %ld
+>> lib/ref_tracker.c:287:4: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
+     286 |                 pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %d\n",
+         |                                                                                       ~~
+         |                                                                                       %ld
+     287 |                         PTR_ERR(ref_tracker_debug_dir));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:554:37: note: expanded from macro 'pr_warn'
+     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                                    ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:501:60: note: expanded from macro 'printk'
+     501 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:473:19: note: expanded from macro 'printk_index_wrap'
+     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +5 include/linux/kern_levels.h
+vim +287 lib/ref_tracker.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   281	
+   282	static int __init ref_tracker_debug_init(void)
+   283	{
+   284		ref_tracker_debug_dir = debugfs_create_dir("ref_tracker", NULL);
+   285		if (IS_ERR(ref_tracker_debug_dir)) {
+   286			pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %d\n",
+ > 287				PTR_ERR(ref_tracker_debug_dir));
 
 -- 
 0-DAY CI Kernel Test Service
