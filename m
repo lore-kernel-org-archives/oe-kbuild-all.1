@@ -1,120 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85431193436
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Apr 2025 22:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5191922C4;
+	Sat, 12 Apr 2025 22:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744496833; cv=none; b=qMQr2UEuYsX59zcXXhSOqon/8UCEpIyRHWt0f9iVKbRiEQfstRflsuFlV8f7DuDdkbCLYIn34684tvjK7Y3miyqy/h5rQiApPs50yNBtx4O0uoHj0Ng1lEitnMyt2c3geLuAYpaC8nYBZF8EN3M8qUzHwl86F4+UOmboOFKwzJE=
+	t=1744496902; cv=none; b=i//fHs19ZlcvNvsqNBRSv39bddFhwBl3gPhIfyWfT+EIRru16p0Ln6tX5Zr02zAbpQzVDkwmROOy31YBhuAsD7Yu1sF30y/LG5fb7Je74i2Lia7bIDvJ1pJrGHaroaIVJIqtR3Yo9S6+Z3dQqqRy9DAehoT0/LWlC8G8Vtrxtgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744496833; c=relaxed/simple;
-	bh=N2sQGTIMJd7g+guY4J1RF0Ix/9hkmDul+gfS+SQJ7zQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eSDJk0zn+nTlgw/yJhtCt9VcSlDNL/BvmkfLBkJUwl635DVvBmH3ULbyLyaxgR3Zp/3WBxEm0BtBaw6wwZUzlKoOf7cE9yj3pWXV5/AF2rFU1jRTPvQTPIsqScnJEN7tsRZiZjtmZsjZsjeB10e84tKwkeue44M1zwjUCjcTbL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UuKdOxNT; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744496902; c=relaxed/simple;
+	bh=r2pJ9ECQtCo3FvrB2D7ogVBONNlppbZSTFqZGpwzXl8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kMAHyRB3tXW4seQnbC3djn9zvoqftHO1hRH0oy6PFOg6lU4qAcvyz2kdt/YQraOhISd+IEaGEg19VElHoiMq+lpVpnyQH0F7eXfnoxE7jonzLlJQ9oRodvpRaBFvH1WxxJtDrdfHn2jkQow1ppf/8QaeZEYfsjsI3yXDpA8tj9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FHnL8cqP; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UuKdOxNT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744496832; x=1776032832;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N2sQGTIMJd7g+guY4J1RF0Ix/9hkmDul+gfS+SQJ7zQ=;
-  b=UuKdOxNTzxQT7U2r8soKCN18ss4iRd/mDRHN7wCv4BLQcbctp3e1jalk
-   OH0cZk6FlqbdVN3hzClL4WH+NacxN6C2sRQNegf6cZnjmfgjl8aQEQYNE
-   5+8fI/kGSSBF6X5n+sY28101kJFkIJcUoHwN+Ht7b31KLFMsK6paNf1kc
-   iTa7uUfF8w/xdchN2oufRd3TEMO7ZoXAB/zz/nE2O9X1sc74CWMgCQURm
-   uyHtO0BYoUa78m5y463dvNcKZCvXXZSE2d7blFab5B86Ei8Q4dFlLbH5w
-   jPo77mFgtTpuYQ+tdhx2AHApNu9nMfi9FhVLKxdfNkHq3SttKI7nW4w54
-   w==;
-X-CSE-ConnectionGUID: zosfDTrMQpqIcX+NcKPqzg==
-X-CSE-MsgGUID: tbDVzSU4QxaGruVPyU1YsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="71395512"
-X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="71395512"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 15:27:11 -0700
-X-CSE-ConnectionGUID: FJwukCfhQEiHf4NvaBoyng==
-X-CSE-MsgGUID: iPggAJxpR7KebsIMaBqljg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="129490428"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Apr 2025 15:27:10 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u3jJb-000CBO-2L;
-	Sat, 12 Apr 2025 22:27:07 +0000
-Date: Sun, 13 Apr 2025 06:27:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1/1]
- include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address
- space '__iomem' of expression
-Message-ID: <202504130647.h9Hkbe3b-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FHnL8cqP"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so1780888f8f.1;
+        Sat, 12 Apr 2025 15:28:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744496899; x=1745101699; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GNS6Km7it7tBhxBj7WjrNGwGk7u4QM9jaHaHQcsfxXw=;
+        b=FHnL8cqPYPE+ToOJvrPHGrZ6BlxL1v/veVrVGqfNP8O+tdBW3DZLoL2xnXM8QL5pp5
+         xEtvorF+mBkCLEZ3ti4yyT2IIuY81ZOL185LHyUT6Fsq07easHo0saJX3qULxZY+N8MH
+         zAGQo08yyL/2EMQT+QVnINPRw3VExf3/YVUCm5YrtIJ07fatruAtVNw8SHNj5RNqkAsR
+         VxF9P4raibxRO1EyNYA7NoHPxipw2Ni8wXOYQ8HoNoTkioLDn8zUH2z6mwPwKt33v2SF
+         WX0v+DUjKZAB6u1c/XLpiB2GvSzeDecNDV61QsYMTtCe+NUUE36iv5aJwlNsNmCq6Dco
+         4bSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744496899; x=1745101699;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GNS6Km7it7tBhxBj7WjrNGwGk7u4QM9jaHaHQcsfxXw=;
+        b=GjViFiG47bExgHNcBrHVzYFlO1uIE9u7Y+FtIoUZv55YM7qCz36HdvVnIOFdpkPCJc
+         QHQQRTkRmikllPP7gdt8BawwfaYnZuQGIYIOzkIz/4akQEWD5+/v77JO95X6yYrwIC/9
+         vpNrMVxAN7ka4DEb9xErt5L/n1C80m9MrEApDvEPqjP7oHBZ9EuJWIo9EWl26MDO/qWm
+         F4AKmLe3CXVJA82ZXzLz46T9nmUmv/gKqv8EQAB3kKrNh04VtvLvfTTgbyw145tHAD1F
+         AZAvaijXhQYzWhlc97BasdzYSgu0B90MIr1yIkhIpgPyVwxUAAGcd0+JWGP1mU2MvPKH
+         H9NA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJlRDg4e/zjBrVJ/01vCS4HwgmV+bT2vJFeY6ywIUEs6pFSRYVcGLE1STnAyzmjm5ScfAq1neJtXIuC8wB@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfPbNYPDJUuCmTntaL42mzOjYjKZx31HfcjMrEu1sGA7WmXc74
+	XJaoPvoYeKsp/u69G7aOCXz1BHgqc8+DBj0GCb96vSCYbAX95tIu
+X-Gm-Gg: ASbGncvpeVR9keZIOeHgloY5n9gxk6EzOxvhrAGfC99pidlhrXVF3cAH0LjEX7KbMBc
+	3MGM/rwuepmhj6P96Dp3UVUzND6QhCe4FovkWgpxCK+txlPjhZ8sfLZBKCM5Z0EQXTr0bmOZZ5A
+	e6BabUEC5KMFo/BW/ZBv3UtKyBY9supSvk1sQcFbcSWv3oBwlpOmvZs90LUUdCzF8zdiv4i3mZj
+	nbpDV4mwEHV41wHB++fBv9ktSPVDc5++h/cD7vR0w9uPmy2AOJDdia70EvjiZlz5k6ljhr/qBM1
+	bnPzVts4OttmIdHPOmxBgoTDto4WC+qMVIc1p+0=
+X-Google-Smtp-Source: AGHT+IGXIrxkJ8nKaisNDDAp5cgBKkEtUUgaMk8r2LuFdsV/EADhHJUGeS0JND0WARPR5ri1DSf5wA==
+X-Received: by 2002:a5d:648a:0:b0:39a:c9ac:cd58 with SMTP id ffacd0b85a97d-39ea52124fcmr5724512f8f.29.1744496899192;
+        Sat, 12 Apr 2025 15:28:19 -0700 (PDT)
+Received: from qasdev.Home ([2a02:c7c:6696:8300:2ee:4c6:5dc7:f715])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae977513sm6079017f8f.42.2025.04.12.15.28.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Apr 2025 15:28:17 -0700 (PDT)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: jlayton@kernel.org,
+	akpm@linux-foundation.org
+Cc: llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] ref_tracker: use %ld format specifier for PTR_ERR() during directory creation failure
+Date: Sat, 12 Apr 2025 23:27:44 +0100
+Message-Id: <20250412222744.9459-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   f0ea2e9acc1e26a4ecd7a0f40f601bbe3d1fd691
-commit: c7b6c40553f8ae90617595cc851e19520fbd945b [1/1] FROMLIST: tracing: Add register read/write tracing support
-config: arm64-randconfig-r111-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130647.h9Hkbe3b-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce: (https://download.01.org/0day-ci/archive/20250413/202504130647.h9Hkbe3b-lkp@intel.com/reproduce)
+PTR_ERR yields type long, so use %ld format specifier in pr_warn.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504130647.h9Hkbe3b-lkp@intel.com/
+Fixes: ada5a12aae58 ("ref_tracker: add a top level debugfs directory for ref_tracker")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202504130520.rX5EVbVq-lkp@intel.com/ 
+Signed-off-by: Qasim Ijaz <qasdev00@gmail.com> 
+---
+ lib/ref_tracker.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/trace_readwrite.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
->> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:38:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:63:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:85:1: sparse: sparse: cast removes address space '__iomem' of expression
-   kernel/trace/trace_readwrite.c:16:6: sparse: sparse: symbol 'log_write_mmio' was not declared. Should it be static?
-   kernel/trace/trace_readwrite.c:24:6: sparse: sparse: symbol 'log_post_write_mmio' was not declared. Should it be static?
-   kernel/trace/trace_readwrite.c:32:6: sparse: sparse: symbol 'log_read_mmio' was not declared. Should it be static?
-   kernel/trace/trace_readwrite.c:40:6: sparse: sparse: symbol 'log_post_read_mmio' was not declared. Should it be static?
-
-vim +/__iomem +13 include/trace/events/rwmmio.h
-
-    12	
-  > 13	TRACE_EVENT(rwmmio_write,
-    14	
-    15		TP_PROTO(unsigned long caller, u64 val, u8 width, volatile void __iomem *addr),
-    16	
-    17		TP_ARGS(caller, val, width, addr),
-    18	
-    19		TP_STRUCT__entry(
-    20			__field(u64, caller)
-    21			__field(u64, val)
-    22			__field(u64, addr)
-    23			__field(u8, width)
-    24		),
-    25	
-    26		TP_fast_assign(
-    27			__entry->caller = caller;
-    28			__entry->val = val;
-    29			__entry->addr = (unsigned long)(void *)addr;
-    30			__entry->width = width;
-    31		),
-    32	
-    33		TP_printk("%pS width=%d val=%#llx addr=%#llx",
-    34			(void *)(unsigned long)__entry->caller, __entry->width,
-    35			__entry->val, __entry->addr)
-    36	);
-    37	
-
+diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
+index 4064154252a6..02e9f0c3dd82 100644
+--- a/lib/ref_tracker.c
++++ b/lib/ref_tracker.c
+@@ -283,7 +283,7 @@ static int __init ref_tracker_debug_init(void)
+ {
+ 	ref_tracker_debug_dir = debugfs_create_dir("ref_tracker", NULL);
+ 	if (IS_ERR(ref_tracker_debug_dir)) {
+-		pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %d\n",
++		pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %ld\n",
+ 			PTR_ERR(ref_tracker_debug_dir));
+ 		ref_tracker_debug_dir = NULL;
+ 	}
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.5
+
