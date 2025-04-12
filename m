@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D40178F24;
-	Sat, 12 Apr 2025 02:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF3F33C9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Apr 2025 03:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744425446; cv=none; b=A+ROAcLPMyHPOGYH1yzY8jbiKoHfOvUSNr1U+d8JqslUGJOJd21SHzxKTjmAab+xfwq5163OR5NZp9FrUDH7HM/A1ZHbVZI4gvrhOsACW2r2KVHnLdpjcdGINN7jcyUmB+sOqcayc65alYGIlnyHLh7L7249NacEWzIgzHdVdEI=
+	t=1744427306; cv=none; b=QM2vRiEC1NeBpYkcoDjJPqrax81QE8ZPyHr0MEEqPHbW7eqo9N4UmcweVt9YIEEtoA2GWKI/XautIG6aprmO/otAbp0i7YbsfO2VHeBc1rLISPTzFJmZnieY4Sv5gmBYC67KdBS6yT8AuPHw1LF9sL7Z50nyBdo6LMk6zcuWxJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744425446; c=relaxed/simple;
-	bh=0ayBwoV8AYxDtvLvJrFXVLxv7jWsvYxEm31iguCyoiM=;
+	s=arc-20240116; t=1744427306; c=relaxed/simple;
+	bh=qAzlIP52YavvazcIEjT7DVKbbq82bpHiH0XKDZjI04A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z47g0fZsR+H5sZLOYvFvOtGf8HG0gfyskJUeML2q5SvZNPQnz+0yvkSZgViftXYnckDt4jv/rVyVJWkzIuMmmMcbRRQMjx/VxeqrB3fUrvB7P0jILCNbUt961ZbkXUA69FmK07qvcT7bUsMm7vkZJpD1VeTAKFHSdgdq43bbJxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3mRnYjP; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=ZkFU1FYGiTkoYKlx0sdqRsI8iwbvDWIixk6Rs79YiqFzY2iCGmpiAWfoIJ0s6tBTRChmLxLPToCdTOBaCYRCDlUcl7Xt8SiyOaO0PvmvMaUjvzJtIt4ZkUq27ka49XMSTuLPWICNSpmAJGZw5iPrbexrzjDDQ+G8MB3BhJpZ2Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jF8CVPFZ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3mRnYjP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jF8CVPFZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744425443; x=1775961443;
+  t=1744427304; x=1775963304;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0ayBwoV8AYxDtvLvJrFXVLxv7jWsvYxEm31iguCyoiM=;
-  b=P3mRnYjPb/ZRJZLOhAiJDvAX0VW2EZ3D3q4zl4Rol70d6d/RL2Wd43aO
-   6a7hMovhBh9ckLXSLvQcTXVe5QNqKzFBvr9b9Qf7PUQa7Hw06JrW1u3D0
-   rEWiwpWY+8xpD2erXy7un/qVs6LpR5jVOgfN6gUXnIqPCBw7WY7px1wQ1
-   TREKaCckqmrdHKVX3tKsbUw4zWSt9Nmu9qhZJvUFeipUFOyWORpOyBVgZ
-   EaeUrSPCpC1caWHWubgpS6kZIHUQ7pc5YJgSsNudyo0DHWYu/GK7pXBwz
-   qAz5ShUyLwPH/xCwSx/NWDUcxrLPkPBAit7b8mdD3PG/dheYDlOQYscQX
-   Q==;
-X-CSE-ConnectionGUID: TLgMQflmSbK8bORQYUPkXQ==
-X-CSE-MsgGUID: DP/bOh3uQsezGX6tosfyPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11401"; a="71365414"
+  bh=qAzlIP52YavvazcIEjT7DVKbbq82bpHiH0XKDZjI04A=;
+  b=jF8CVPFZeW/mO/uiLFuH3sdIvJnXnFSOndZ7jybSatceDcCHb++06ckG
+   GjPaG/Jr8gU7evQvRnzw8nfhjGJAymFOgxrx5uIv5muB5pc/JRnwVATz1
+   Ws1Wm+//ncIXpv7WnDiCTMJ/elaXLTnrYtbCCyWt3V2TwIqQ2PRb5gpFE
+   HWfxeZ1QgwIaNKc47eEqCBKwVbPs6eUIhCjJyuah3MCtAwq+ryatuo/OM
+   uT3K/S4Iyrx5I0ypkXnUsG/CG+Pu11sxJaspEFgin9ZfAaAcuF8OaeRyT
+   VjGL7G9OlJcZLqi/ARrIHUOE2yzbbgEi2OhCeMuVZHiHYbaBevitIEzMh
+   w==;
+X-CSE-ConnectionGUID: K1oOR/MUTdaGRU8ZnuHQIw==
+X-CSE-MsgGUID: owdhTKvxT8+F6OLCJ8WmpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11401"; a="48687996"
 X-IronPort-AV: E=Sophos;i="6.15,206,1739865600"; 
-   d="scan'208";a="71365414"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 19:37:22 -0700
-X-CSE-ConnectionGUID: G1klJNWoTV+dsOP2kz7zZQ==
-X-CSE-MsgGUID: QHoBTdAsRqqsBVM55JMGSw==
+   d="scan'208";a="48687996"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 20:08:23 -0700
+X-CSE-ConnectionGUID: XsdJ8WjMT/GmDLFU5qStdw==
+X-CSE-MsgGUID: ihFEIN1xQ5G4a1tFSUcACQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,206,1739865600"; 
-   d="scan'208";a="129346852"
+   d="scan'208";a="129911157"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Apr 2025 19:37:20 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Apr 2025 20:08:22 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u3Qk9-000BWQ-39;
-	Sat, 12 Apr 2025 02:37:17 +0000
-Date: Sat, 12 Apr 2025 10:36:41 +0800
+	id 1u3REC-000BXW-1l;
+	Sat, 12 Apr 2025 03:08:20 +0000
+Date: Sat, 12 Apr 2025 11:07:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, devel@acpica.org,
-	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [rafael-pm:bleeding-edge 44/52]
- drivers/cpuidle/cpuidle-psci.c:437:54: error: expected identifier
-Message-ID: <202504121050.dgHmFeWe-lkp@intel.com>
+To: Aary Patil <aary.patil@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Ranjani Sridharan <ranjani.sridharan@intel.com>
+Subject: [thesofproject:topic/sof-dev 8/8] mt8365-clk.c:(.text+0xb40):
+ multiple definition of `adsp_clock_on';
+ sound/soc/sof/mediatek/mt8195/mt8195-clk.o:mt8195-clk.c:(.text+0xb80): first
+ defined here
+Message-ID: <202504121007.3IOzDJho-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +65,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   605857f6c52205d83a7963edbdfaaa307ee7bde4
-commit: a60e3d71e4d49a9be9fa5fc3cb9c4942e29fd934 [44/52] cpuidle: psci: Transition to the faux device interface
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250412/202504121050.dgHmFeWe-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250412/202504121050.dgHmFeWe-lkp@intel.com/reproduce)
+tree:   https://github.com/thesofproject/linux topic/sof-dev
+head:   f7978ee0239f435e07135fb50cd3ab6842f1f628
+commit: f7978ee0239f435e07135fb50cd3ab6842f1f628 [8/8] ASoC: SOF: mediatek: Add mt8365 support
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250412/202504121007.3IOzDJho-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250412/202504121007.3IOzDJho-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504121050.dgHmFeWe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504121007.3IOzDJho-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/cpuidle/cpuidle-psci.c:437:54: error: expected identifier
-     437 | module_faux_driver(psci_cpuidle, psci_cpuidle_probe, NULL, true);
-         |                                                      ^
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^
->> drivers/cpuidle/cpuidle-psci.c:437:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     437 | module_faux_driver(psci_cpuidle, psci_cpuidle_probe, NULL, true);
-         | ^
-         | int
->> drivers/cpuidle/cpuidle-psci.c:437:19: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-     437 | module_faux_driver(psci_cpuidle, psci_cpuidle_probe, NULL, true);
-         |                   ^                                            
-         |                                                                void
-   3 errors generated.
-
-
-vim +437 drivers/cpuidle/cpuidle-psci.c
-
-   436	
- > 437	module_faux_driver(psci_cpuidle, psci_cpuidle_probe, NULL, true);
+   s390-linux-ld: sound/soc/sof/mediatek/mt8365/mt8365-clk.o: in function `adsp_clock_on':
+>> mt8365-clk.c:(.text+0xb40): multiple definition of `adsp_clock_on'; sound/soc/sof/mediatek/mt8195/mt8195-clk.o:mt8195-clk.c:(.text+0xb80): first defined here
+   s390-linux-ld: sound/soc/sof/mediatek/mt8365/mt8365-clk.o: in function `adsp_clock_off':
+>> mt8365-clk.c:(.text+0xc80): multiple definition of `adsp_clock_off'; sound/soc/sof/mediatek/mt8195/mt8195-clk.o:mt8195-clk.c:(.text+0xc00): first defined here
+   s390-linux-ld: sound/soc/sof/mediatek/mt8365/mt8365-loader.o: in function `sof_hifixdsp_boot_sequence':
+>> mt8365-loader.c:(.text+0x0): multiple definition of `sof_hifixdsp_boot_sequence'; sound/soc/sof/mediatek/mt8195/mt8195-loader.o:mt8195-loader.c:(.text+0x0): first defined here
+   s390-linux-ld: sound/soc/sof/mediatek/mt8365/mt8365-loader.o: in function `sof_hifixdsp_shutdown':
+>> mt8365-loader.c:(.text+0x1c0): multiple definition of `sof_hifixdsp_shutdown'; sound/soc/sof/mediatek/mt8195/mt8195-loader.o:mt8195-loader.c:(.text+0x1c0): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
