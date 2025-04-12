@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B13033DB;
-	Sat, 12 Apr 2025 22:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD7B158520
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Apr 2025 23:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744497494; cv=none; b=UXxp0/iawRY8PNEDqwmxzCJPjx9YI1NRjfYNQ0TTwxFw6Pw15JruVa5gyKg2mJoOqVJ4i5A2LOYtgdWGMyFtpMncjiWUaYYq78FvLfybpn3yd/Oayy5ej3SGM/MifwzVoMTrO63TDfpE3dRQYmeAf2opc8eolbcRoSw0JXxnpN8=
+	t=1744499959; cv=none; b=TYqKoEZUiBRZ88ADylgFC0LUoq08MNMgfZnyy+2i2eiEI/KdGDp8ILUSZJizGEku7WJ5BnCUzgN9x9qzMDhyRc47RuEdB5Vu+oYMxVal6ZkotCickpf1KQ+Ij1QW/7OiVsW0W9SoyrHRVxM+jYCUsPDb7n+1UXhwd14/svPHhh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744497494; c=relaxed/simple;
-	bh=MFJdY5YeCNFXOhppgG525dCEyR/3V3zbq07FhS9Eib0=;
+	s=arc-20240116; t=1744499959; c=relaxed/simple;
+	bh=kFAP0nfFG3At58SehEWpuPAFPxXZyU/xyDOYPZcyDa8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jfrFB11q5Q0EyUNehqT1/mt02ENTacIavua8CNMvSm6YA0cVW7NmyiAvJFJfFr1wrbzlSMjK6wphndV60DIm1oorm020BhoxubRELqB08JPwIQ+M7WOBKyBc6JNlQscdAA9zrP7SvYDpE2hoW6nT0+9dp0JEmA65LTQl/s8gt1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndKv/FoJ; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=DTWTOxKmnSpQLAO/rl/Cjfd6J8uf3Zt+RvKuB7a7w32qwogM77VLTs6UjS2bTgYOifX5k2ZkrVMGcsyekGNO5y0olQN1P1hs5QR2+NFh+8qrWnt0ZlbfBSrawrC3ZhA4PKQ9/dldEUixbaas/HgxoZeHMRcIoSTrn/JuJnpwZIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=keFYH8Ie; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndKv/FoJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="keFYH8Ie"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744497493; x=1776033493;
+  t=1744499958; x=1776035958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MFJdY5YeCNFXOhppgG525dCEyR/3V3zbq07FhS9Eib0=;
-  b=ndKv/FoJFu78sMpeT+QEDSuN1JoqVvxbIBnmB+0z50/t3R3hccuTA41/
-   xgqwZoY2FQpJsz5vvSEJcl+5TQsWTU5t01FX/GjEAW17c+XPSzvYJR/2g
-   5znKZgSpGK8eMFQrW6T7ZTHOz8g4D7pdgtT7UBRJEdPWtXm7Atiia5t35
-   xcoF4oTMA7iGBGvGUIH498149+AoowYePA0w1hHGo+ydsxI4t8fOhWuNF
-   IMw2q+grRmq7QcytLSzJaTcvG4LdvADMjtNhUwt+/VaRmtuggOszrJaxq
-   Yd0/8ZnNy1qAf0wLyNGZiXplQl7bKLLTgaM95CEHMk475i+k2GqRqqkKP
-   g==;
-X-CSE-ConnectionGUID: Bn1qvMROSEaGwA4Ir97j6A==
-X-CSE-MsgGUID: CSB3Oq9bTnOZQZotIFkopg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="57379333"
+  bh=kFAP0nfFG3At58SehEWpuPAFPxXZyU/xyDOYPZcyDa8=;
+  b=keFYH8Ie3gECnlbS1Iid5/t7AQe2KdlKJWycwT5lmTu82Twf3GBVUwjh
+   qAXqXw4TD2gfYRXtOne2U1R+N3eFGNwbHoK0r+y4lxEs3KzbisarRzbVg
+   nEGHRxJhRXFcB+3tPRSliwInEaDqXqdJptUim0j+DavE77LFBa3cLhQ/K
+   dlhDnXnkoXpigqThwrcE28WAxglh+MpVNd2zTMlgMoQCBgKRg5q3pufqa
+   Dp19lWUsSgAuBd8XoxmbrGA+6h5zt8Xfj8KNOhBrnQ07QpcvFvyxnQyld
+   DPDQ7a3u0QSF7noV8xEy9VWORktu1BEQK1Dr2Z9jsFE75Y5VqS4Yv8uzr
+   Q==;
+X-CSE-ConnectionGUID: aIm5NqerQEe+/fcInoAk6A==
+X-CSE-MsgGUID: FyV4r+VERnO/+f4DlA18fg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46146938"
 X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="57379333"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 15:38:12 -0700
-X-CSE-ConnectionGUID: gEX3VPH+SLy3CE9zzl2aEA==
-X-CSE-MsgGUID: SpSNIEtOTpaOJCr5Te45JA==
+   d="scan'208";a="46146938"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 16:19:17 -0700
+X-CSE-ConnectionGUID: HzFnhblXRkO3uwImk3sKhQ==
+X-CSE-MsgGUID: Aat8rs6oQ5C8wuvAEv/N6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="160470815"
+   d="scan'208";a="130051135"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Apr 2025 15:38:10 -0700
+  by orviesa007.jf.intel.com with ESMTP; 12 Apr 2025 16:19:14 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u3jUG-000CBi-1j;
-	Sat, 12 Apr 2025 22:38:08 +0000
-Date: Sun, 13 Apr 2025 06:37:20 +0800
+	id 1u3k80-000CDO-0S;
+	Sat, 12 Apr 2025 23:19:12 +0000
+Date: Sun, 13 Apr 2025 07:18:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:netns-debugfs 3/3] net/core/net_namespace.c:1656:5:
- warning: format specifies type 'int' but the argument has type 'long'
-Message-ID: <202504130642.HaAQv94V-lkp@intel.com>
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: arch/riscv/lib/strncmp.S:11: Error: unrecognized opcode
+ `__alternative_cfg("nop", "j strncmp_zbb",0,30,'
+Message-ID: <202504130710.3IKz6Ibs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,50 +66,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git netns-debugfs
-head:   193510c9521581018efe6f51e0aeddbafc8c103e
-commit: 193510c9521581018efe6f51e0aeddbafc8c103e [3/3] net: add debugfs files for showing netns refcount tracking info
-config: arm64-randconfig-004-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130642.HaAQv94V-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504130642.HaAQv94V-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b676ac484f847bbe5c7d29603f41475b64fefe55
+commit: 9343aaba1f256ff42730db5a61efc32a86149776 RISC-V: separate Zbb optimisations requiring and not requiring toolchain support
+date:   4 weeks ago
+config: riscv-randconfig-001-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130710.3IKz6Ibs-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504130710.3IKz6Ibs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504130642.HaAQv94V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504130710.3IKz6Ibs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/core/net_namespace.c:1656:5: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
-    1655 |                         pr_warn("net: unable to create ref_tracker/net_ns directory: %d\n",
-         |                                                                                      ~~
-         |                                                                                      %ld
-    1656 |                                 PTR_ERR(ns_ref_tracker_dir));
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:554:37: note: expanded from macro 'pr_warn'
-     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:501:60: note: expanded from macro 'printk'
-     501 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:473:19: note: expanded from macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+   arch/riscv/lib/strncmp.S: Assembler messages:
+>> arch/riscv/lib/strncmp.S:11: Error: unrecognized opcode `__alternative_cfg("nop", "j strncmp_zbb",0,30,'
+>> arch/riscv/lib/strncmp.S:12: Error: junk at end of line, first unrecognized character is `0'
+--
+   arch/riscv/lib/strlen.S: Assembler messages:
+>> arch/riscv/lib/strlen.S:11: Error: unrecognized opcode `__alternative_cfg("nop", "j strlen_zbb",0,30,'
+>> arch/riscv/lib/strlen.S:12: Error: junk at end of line, first unrecognized character is `0'
+--
+   arch/riscv/lib/strcmp.S: Assembler messages:
+>> arch/riscv/lib/strcmp.S:11: Error: unrecognized opcode `__alternative_cfg("nop", "j strcmp_zbb",0,30,'
+>> arch/riscv/lib/strcmp.S:12: Error: junk at end of line, first unrecognized character is `0'
 
 
-vim +1656 net/core/net_namespace.c
+vim +11 arch/riscv/lib/strncmp.S
 
-  1647	
-  1648	static int __init ns_debug_init(void)
-  1649	{
-  1650		int ret;
-  1651	
-  1652		if (ref_tracker_debug_dir) {
-  1653			ns_ref_tracker_dir = debugfs_create_dir("net_ns", ref_tracker_debug_dir);
-  1654			if (IS_ERR(ns_ref_tracker_dir)) {
-  1655				pr_warn("net: unable to create ref_tracker/net_ns directory: %d\n",
-> 1656					PTR_ERR(ns_ref_tracker_dir));
+    10	
+  > 11		__ALTERNATIVE_CFG("nop", "j strncmp_zbb", 0, RISCV_ISA_EXT_ZBB,
+  > 12			IS_ENABLED(CONFIG_RISCV_ISA_ZBB) && IS_ENABLED(CONFIG_TOOLCHAIN_HAS_ZBB))
+    13	
+    14		/*
+    15		 * Returns
+    16		 *   a0 - comparison result, value like strncmp
+    17		 *
+    18		 * Parameters
+    19		 *   a0 - string1
+    20		 *   a1 - string2
+    21		 *   a2 - number of characters to compare
+    22		 *
+    23		 * Clobbers
+    24		 *   t0, t1, t2
+    25		 */
+    26		li	t2, 0
+    27	1:
+    28		beq	a2, t2, 2f
+    29		lbu	t0, 0(a0)
+    30		lbu	t1, 0(a1)
+    31		addi	a0, a0, 1
+    32		addi	a1, a1, 1
+    33		bne	t0, t1, 3f
+    34		addi	t2, t2, 1
+    35		bnez	t0, 1b
+    36	2:
+    37		li	a0, 0
+    38		ret
+    39	3:
+    40		/*
+    41		 * strncmp only needs to return (< 0, 0, > 0) values
+    42		 * not necessarily -1, 0, +1
+    43		 */
+    44		sub	a0, t0, t1
+    45		ret
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
