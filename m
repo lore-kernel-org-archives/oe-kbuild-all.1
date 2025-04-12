@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5CA2907
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Apr 2025 19:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE21207DFD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Apr 2025 19:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744484994; cv=none; b=tz0paGjb/8eDAoUam2l5IVBQyQcOcOBQDA2HHsQRkSZuKecuiBWJ35VpRNrUJfKEeWTzBRTGMjzRBJ/cRcfEWAT5It/9gXf9i6lHvYXqUbRUeYsgy3+3u3kV8lylQuFchPsH0SmixmChIBaFSwdZ3pX7JRI+Y13m2ors9o0bvss=
+	t=1744486918; cv=none; b=oOvhl+irKafrIqRUQ+nYZH1MY55pjzQ+tt6me/5OvWKFdZ1A8VnsXAoQq6/57/65w5EIs5XFlvL08mcYqaNh8nsgEySQbCNlEtSdC6WhPqPWd0jtSlOPP5d3/NGA53guRcMeUGDFSZpOcFEgUfi226c7MZsdKzsvEgakebk3Kvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744484994; c=relaxed/simple;
-	bh=10uDpa9uNk7LZeMy8ifajJ9DUwnYYp2P0r3RFMc2rnM=;
+	s=arc-20240116; t=1744486918; c=relaxed/simple;
+	bh=y1BUsqbzLLm+dH051pD0ECrfpRuTP60HFb7ZgLe9HWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p4emrxD2We0Je+s+my8tw0XOX7Y8+TfJN1UtIoFh7WkBDlpOfi0sMCopS5Oo88sLa3FUY0uo/YBVGKakEcdF5mbeaAV7snsXeVF0VD1tebGk+O2mBYgnnp5JqybtjeXt/dkrTl0yrBmdZI71C/KjUb6vmAv2+GhEZGflpChJigE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G4aa/TCd; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=ouD4J+hQUcIlcPINdxa+abay9DzyYGLq0b8AKTvJU8jm48OCeTVXOVl32E+iCk2e+qDFja2IA19s7sk9ChemrYem1X4FRqjS59TPQZhEolPwBrNm3nivDQ2R1s0serptLzNQHwmf9xiV1HVAY5SElTfbZikigCICtNNl4GMcA8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVy+beRG; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4aa/TCd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVy+beRG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744484992; x=1776020992;
+  t=1744486915; x=1776022915;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=10uDpa9uNk7LZeMy8ifajJ9DUwnYYp2P0r3RFMc2rnM=;
-  b=G4aa/TCdkQIm1aocV7TxjuFO1GSqdXDqm+O/bM/0H34FPg8TopTUSFy3
-   pX6RgYE40QY5LW3p243AKRHmEKJg0qxSvU6cd/CL2GErRf6Ni8FuVCbm5
-   VLgYz9CV4Sut7msvuNOx9lh4bZUTCDZ5YuGHzJpdtHpA9PShk8fp28Jyk
-   qcof95lTObvIZPeTnq3pHT/fbvqvyUBY3YPUYu82tD1ni5BXwrHB4NwMI
-   UmMb8p3aOv3WB2fZWlFrhZGzyVsoBf9/YZSuBYSwQ1QX03wYiDwhmFivS
-   UIUvx+8eS5RJma6fIgTTcmbeuLN/hmhwljBEXCjmLjBjYsKrPpAkhS9dJ
-   Q==;
-X-CSE-ConnectionGUID: FHAzAPw2QfeEhelF54bkMw==
-X-CSE-MsgGUID: ZbUu1zmmRiainDNePaXJjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="56189096"
+  bh=y1BUsqbzLLm+dH051pD0ECrfpRuTP60HFb7ZgLe9HWI=;
+  b=AVy+beRGfwHTXYiTu3Mu4gDubtJpxwGW0HoCDG/mp+FCPX1uSZSMkUB+
+   4vlbrA3PMptYmRR2I0V8oCWYygLg+kxOAvcCNM7gRAGPriEDPjZyRTgUK
+   a/YanflGMoJJMQ5JvEclPG9TR1lq0vbB4EKrF/E2RAhdjGBxkS4ly4ud8
+   NKRG3qi38k9H0WJygGNd6qK6Ru9gC2UOpUops9qJ1hNpsieNDzlr1v0i6
+   eLbDITZf9RmM1IwFQ8Z5fMYCvf/UY2a8dJD9SVRmNvE/9ZB0m/Z7JoWjK
+   xYiqLULpJkH+3H/qii0HY9trNPiyqfGDF9fdTi9Cz0tM+rHLbtXtKygui
+   w==;
+X-CSE-ConnectionGUID: 6ztUS73jQt6f1oqOtMG5lA==
+X-CSE-MsgGUID: rlziY5cXS9Sa79KTfikoeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46141569"
 X-IronPort-AV: E=Sophos;i="6.15,208,1739865600"; 
-   d="scan'208";a="56189096"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 12:09:52 -0700
-X-CSE-ConnectionGUID: IjCchNgERuSmApciOq5SnA==
-X-CSE-MsgGUID: w8pvBQ10Sja4VrhRfcBFDA==
+   d="scan'208";a="46141569"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 12:41:54 -0700
+X-CSE-ConnectionGUID: xhPrRcw/QIOetQAynpD7Ww==
+X-CSE-MsgGUID: 5AmOAGGnQz6zMs910kLIgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,208,1739865600"; 
-   d="scan'208";a="133568826"
+   d="scan'208";a="129412598"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Apr 2025 12:09:50 -0700
+  by orviesa010.jf.intel.com with ESMTP; 12 Apr 2025 12:41:53 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u3gEe-000C3a-1G;
-	Sat, 12 Apr 2025 19:09:48 +0000
-Date: Sun, 13 Apr 2025 03:09:17 +0800
+	id 1u3gjf-000C50-01;
+	Sat, 12 Apr 2025 19:41:51 +0000
+Date: Sun, 13 Apr 2025 03:40:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [frank-w-bpi-r2-4.14:6.14-next-wip 6633/6651]
- drivers/mtd/nand/spi/core.c:1196:70: error: incompatible pointer to integer
- conversion initializing 'unsigned int' with an expression of type 'u8 *'
- (aka 'unsigned char *')
-Message-ID: <202504130234.Bwan7lcm-lkp@intel.com>
+ drivers/mtd/nand/spi/core.c:1193:5: warning: no previous prototype for
+ 'spinand_cal_read'
+Message-ID: <202504130344.YKqQ7qnF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,60 +66,88 @@ Content-Disposition: inline
 tree:   https://github.com/frank-w/BPI-R2-4.14 6.14-next-wip
 head:   c47e22e7e204c4e69cb6eeeb8588809af178bc8c
 commit: 279cd5e7cd74df15b64c4e92c19a2d5dc88cdd26 [6633/6651] drivers: mtd: spinand: Add calibration support for spinand
-config: i386-buildonly-randconfig-002-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130234.Bwan7lcm-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504130234.Bwan7lcm-lkp@intel.com/reproduce)
+config: csky-randconfig-002-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130344.YKqQ7qnF-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504130344.YKqQ7qnF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504130234.Bwan7lcm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504130344.YKqQ7qnF-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/mtd/nand/spi/core.c:1196:70: error: incompatible pointer to integer conversion initializing 'unsigned int' with an expression of type 'u8 *' (aka 'unsigned char *') [-Wint-conversion]
+>> drivers/mtd/nand/spi/core.c:1193:5: warning: no previous prototype for 'spinand_cal_read' [-Wmissing-prototypes]
+    1193 | int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
+         |     ^~~~~~~~~~~~~~~~
+   In file included from include/linux/mtd/spinand.h:17,
+                    from drivers/mtd/nand/spi/core.c:16:
+   drivers/mtd/nand/spi/core.c: In function 'spinand_cal_read':
+>> drivers/mtd/nand/spi/core.c:1196:77: warning: initialization of 'unsigned int' from 'u8 *' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
     1196 |         struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
          |                                                                             ^~~
-   include/linux/mtd/spinand.h:69:25: note: expanded from macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
-      69 |                    SPI_MEM_OP_DATA_IN(len, buf, 1),                     \
-         |                                       ^~~
-   include/linux/spi/spi-mem.h:67:13: note: expanded from macro 'SPI_MEM_OP_DATA_IN'
-      67 |                 .nbytes = __nbytes,                             \
-         |                           ^~~~~~~~
-   include/linux/spi/spi-mem.h:194:11: note: expanded from macro 'SPI_MEM_OP'
+   include/linux/spi/spi-mem.h:194:25: note: in definition of macro 'SPI_MEM_OP'
      194 |                 .data = __data,                                 \
          |                         ^~~~~~
->> drivers/mtd/nand/spi/core.c:1196:67: error: incompatible integer to pointer conversion initializing 'void *' with an expression of type 'int' [-Wint-conversion]
+   include/linux/mtd/spinand.h:69:20: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+      69 |                    SPI_MEM_OP_DATA_IN(len, buf, 1),                     \
+         |                    ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:1196:32: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+    1196 |         struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:1196:77: note: (near initialization for 'op.data.nbytes')
+    1196 |         struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
+         |                                                                             ^~~
+   include/linux/spi/spi-mem.h:194:25: note: in definition of macro 'SPI_MEM_OP'
+     194 |                 .data = __data,                                 \
+         |                         ^~~~~~
+   include/linux/mtd/spinand.h:69:20: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+      69 |                    SPI_MEM_OP_DATA_IN(len, buf, 1),                     \
+         |                    ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:1196:32: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+    1196 |         struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mtd/nand/spi/core.c:1196:74: warning: initialization of 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
     1196 |         struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
          |                                                                          ^
-   include/linux/mtd/spinand.h:69:30: note: expanded from macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
-      69 |                    SPI_MEM_OP_DATA_IN(len, buf, 1),                     \
-         |                                            ^~~
-   include/linux/spi/spi-mem.h:68:13: note: expanded from macro 'SPI_MEM_OP_DATA_IN'
-      68 |                 .buf.in = __buf,                                \
-         |                           ^~~~~
-   include/linux/spi/spi-mem.h:194:11: note: expanded from macro 'SPI_MEM_OP'
+   include/linux/spi/spi-mem.h:194:25: note: in definition of macro 'SPI_MEM_OP'
      194 |                 .data = __data,                                 \
          |                         ^~~~~~
-   drivers/mtd/nand/spi/core.c:1234:37: error: too few arguments to function call, expected 4, have 2
+   include/linux/mtd/spinand.h:69:20: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+      69 |                    SPI_MEM_OP_DATA_IN(len, buf, 1),                     \
+         |                    ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:1196:32: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+    1196 |         struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:1196:74: note: (near initialization for 'op.data.buf.in')
+    1196 |         struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
+         |                                                                          ^
+   include/linux/spi/spi-mem.h:194:25: note: in definition of macro 'SPI_MEM_OP'
+     194 |                 .data = __data,                                 \
+         |                         ^~~~~~
+   include/linux/mtd/spinand.h:69:20: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+      69 |                    SPI_MEM_OP_DATA_IN(len, buf, 1),                     \
+         |                    ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:1196:32: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+    1196 |         struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:1234:37: warning: passing argument 2 of 'spinand_wait' makes integer from pointer without a cast [-Wint-conversion]
     1234 |         ret = spinand_wait(spinand, &status);
-         |               ~~~~~~~~~~~~                 ^
-   drivers/mtd/nand/spi/core.c:549:5: note: 'spinand_wait' declared here
+         |                                     ^~~~~~~
+         |                                     |
+         |                                     u8 * {aka unsigned char *}
+   drivers/mtd/nand/spi/core.c:549:64: note: expected 'long unsigned int' but argument is of type 'u8 *' {aka 'unsigned char *'}
      549 | int spinand_wait(struct spinand_device *spinand, unsigned long initial_delay_us,
-         |     ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     550 |                  unsigned long poll_delay_us, u8 *s)
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mtd/nand/spi/core.c:1193:5: warning: no previous prototype for function 'spinand_cal_read' [-Wmissing-prototypes]
-    1193 | int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-         |     ^
-   drivers/mtd/nand/spi/core.c:1193:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1193 | int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-         | ^
-         | static 
-   1 warning and 3 errors generated.
+         |                                                  ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:1234:15: error: too few arguments to function 'spinand_wait'
+    1234 |         ret = spinand_wait(spinand, &status);
+         |               ^~~~~~~~~~~~
+   drivers/mtd/nand/spi/core.c:549:5: note: declared here
+     549 | int spinand_wait(struct spinand_device *spinand, unsigned long initial_delay_us,
+         |     ^~~~~~~~~~~~
 
 
-vim +1196 drivers/mtd/nand/spi/core.c
+vim +/spinand_cal_read +1193 drivers/mtd/nand/spi/core.c
 
   1192	
 > 1193	int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
