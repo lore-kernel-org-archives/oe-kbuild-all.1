@@ -1,62 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD7B158520
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Apr 2025 23:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615D3E567;
+	Sun, 13 Apr 2025 01:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744499959; cv=none; b=TYqKoEZUiBRZ88ADylgFC0LUoq08MNMgfZnyy+2i2eiEI/KdGDp8ILUSZJizGEku7WJ5BnCUzgN9x9qzMDhyRc47RuEdB5Vu+oYMxVal6ZkotCickpf1KQ+Ij1QW/7OiVsW0W9SoyrHRVxM+jYCUsPDb7n+1UXhwd14/svPHhh4=
+	t=1744507970; cv=none; b=n+iBi0VZZrdOjT/Dh9R0qqzSk6mtRbx2nM8Q1NBY53fSB3mEEUcbAEfypfYJpHAfAe2SrsE/QdSELukgGlibkH1PFe4Tr/Et1EnGc160jS6UhuLlo/32KXTekdCY34hUY5lRmB1ma8SxYGmg4aQKmYmQpOFUt/TJIbgMkjx7BE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744499959; c=relaxed/simple;
-	bh=kFAP0nfFG3At58SehEWpuPAFPxXZyU/xyDOYPZcyDa8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DTWTOxKmnSpQLAO/rl/Cjfd6J8uf3Zt+RvKuB7a7w32qwogM77VLTs6UjS2bTgYOifX5k2ZkrVMGcsyekGNO5y0olQN1P1hs5QR2+NFh+8qrWnt0ZlbfBSrawrC3ZhA4PKQ9/dldEUixbaas/HgxoZeHMRcIoSTrn/JuJnpwZIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=keFYH8Ie; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744507970; c=relaxed/simple;
+	bh=uiyZZeaf4wD5vpiN+5Wh8cku4ivt+ptg1BoyP2yy9w8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=crQuN9aLA8i/CuJ60sN1cI4qSF8GJGhn8NmKp1Hs6tm7YeTEPJUIOrJpv8EGKSwM98S9zxRD0zm5B0T9K+UUlILy3ROcLMkGmmGANI+ZBsIVEWUJ3Ky1KDIPyCttp0J3z8p4dSOK6Sx+GdDT4WyCraaRQLzGu1LR17zyVac7OcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dRuh3eKD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="keFYH8Ie"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744499958; x=1776035958;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kFAP0nfFG3At58SehEWpuPAFPxXZyU/xyDOYPZcyDa8=;
-  b=keFYH8Ie3gECnlbS1Iid5/t7AQe2KdlKJWycwT5lmTu82Twf3GBVUwjh
-   qAXqXw4TD2gfYRXtOne2U1R+N3eFGNwbHoK0r+y4lxEs3KzbisarRzbVg
-   nEGHRxJhRXFcB+3tPRSliwInEaDqXqdJptUim0j+DavE77LFBa3cLhQ/K
-   dlhDnXnkoXpigqThwrcE28WAxglh+MpVNd2zTMlgMoQCBgKRg5q3pufqa
-   Dp19lWUsSgAuBd8XoxmbrGA+6h5zt8Xfj8KNOhBrnQ07QpcvFvyxnQyld
-   DPDQ7a3u0QSF7noV8xEy9VWORktu1BEQK1Dr2Z9jsFE75Y5VqS4Yv8uzr
-   Q==;
-X-CSE-ConnectionGUID: aIm5NqerQEe+/fcInoAk6A==
-X-CSE-MsgGUID: FyV4r+VERnO/+f4DlA18fg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46146938"
-X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="46146938"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 16:19:17 -0700
-X-CSE-ConnectionGUID: HzFnhblXRkO3uwImk3sKhQ==
-X-CSE-MsgGUID: Aat8rs6oQ5C8wuvAEv/N6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="130051135"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Apr 2025 16:19:14 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u3k80-000CDO-0S;
-	Sat, 12 Apr 2025 23:19:12 +0000
-Date: Sun, 13 Apr 2025 07:18:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Samuel Holland <samuel.holland@sifive.com>
-Subject: arch/riscv/lib/strncmp.S:11: Error: unrecognized opcode
- `__alternative_cfg("nop", "j strncmp_zbb",0,30,'
-Message-ID: <202504130710.3IKz6Ibs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dRuh3eKD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769C4C4CEE3;
+	Sun, 13 Apr 2025 01:32:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744507969;
+	bh=uiyZZeaf4wD5vpiN+5Wh8cku4ivt+ptg1BoyP2yy9w8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dRuh3eKDy/5lkFnmcSQOWHJ3dNo03XiV1lHqYfrg6IQwSRlWzthLIE04C1pC26CjJ
+	 gFVkZCjGJTIGDhDe9KsmOesLKMttxB3tHet11T5ndeRBuWI3G3zLlI2iXPh6L22576
+	 rAJt7r+rbZCNfoHkBdLqb30YX1i3fwjT7Ipul8DuBa41Pbzb7Ua6rdYuJkAPPl6Rn/
+	 k2bD/Wft4NIMEgReVZnmEdR6po/1k/c3T3AqIcD5e9X5KH7qctU5893kwy5Zcj5mBZ
+	 uJGvJoobK4pV0X324IdPXuFwriyZPg+P2ojbW79CrPIVx9bTjSC6nMQiKDnuwjnEVH
+	 8mRB2aZZORu1w==
+Date: Sat, 12 Apr 2025 20:32:45 -0500
+From: Nathan Chancellor <nathan@kernel.org>
+To: Qasim Ijaz <qasdev00@gmail.com>
+Cc: jlayton@kernel.org, akpm@linux-foundation.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] ref_tracker: use %ld format specifier for PTR_ERR()
+ during directory creation failure
+Message-ID: <20250413013245.GA2989337@ax162>
+References: <20250412222744.9459-1-qasdev00@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,75 +43,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250412222744.9459-1-qasdev00@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b676ac484f847bbe5c7d29603f41475b64fefe55
-commit: 9343aaba1f256ff42730db5a61efc32a86149776 RISC-V: separate Zbb optimisations requiring and not requiring toolchain support
-date:   4 weeks ago
-config: riscv-randconfig-001-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130710.3IKz6Ibs-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504130710.3IKz6Ibs-lkp@intel.com/reproduce)
+Hi Qasim,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504130710.3IKz6Ibs-lkp@intel.com/
+On Sat, Apr 12, 2025 at 11:27:44PM +0100, Qasim Ijaz wrote:
+> PTR_ERR yields type long, so use %ld format specifier in pr_warn.
+> 
+> Fixes: ada5a12aae58 ("ref_tracker: add a top level debugfs directory for ref_tracker")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202504130520.rX5EVbVq-lkp@intel.com/ 
+> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com> 
+> ---
+>  lib/ref_tracker.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
+> index 4064154252a6..02e9f0c3dd82 100644
+> --- a/lib/ref_tracker.c
+> +++ b/lib/ref_tracker.c
+> @@ -283,7 +283,7 @@ static int __init ref_tracker_debug_init(void)
+>  {
+>  	ref_tracker_debug_dir = debugfs_create_dir("ref_tracker", NULL);
+>  	if (IS_ERR(ref_tracker_debug_dir)) {
+> -		pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %d\n",
+> +		pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %ld\n",
 
-All errors (new ones prefixed by >>):
+While there is nothing wrong with doing this to resolve the warning, I
+think this would be a good opportunity to use the '%pe' format specifier
+[1] instead of '%ld', as that will print the symbolic error name (such
+as -EINVAL instead of just -22) and make it easier for people to
+decipher what has gone wrong.
 
-   arch/riscv/lib/strncmp.S: Assembler messages:
->> arch/riscv/lib/strncmp.S:11: Error: unrecognized opcode `__alternative_cfg("nop", "j strncmp_zbb",0,30,'
->> arch/riscv/lib/strncmp.S:12: Error: junk at end of line, first unrecognized character is `0'
---
-   arch/riscv/lib/strlen.S: Assembler messages:
->> arch/riscv/lib/strlen.S:11: Error: unrecognized opcode `__alternative_cfg("nop", "j strlen_zbb",0,30,'
->> arch/riscv/lib/strlen.S:12: Error: junk at end of line, first unrecognized character is `0'
---
-   arch/riscv/lib/strcmp.S: Assembler messages:
->> arch/riscv/lib/strcmp.S:11: Error: unrecognized opcode `__alternative_cfg("nop", "j strcmp_zbb",0,30,'
->> arch/riscv/lib/strcmp.S:12: Error: junk at end of line, first unrecognized character is `0'
+  pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %pe\n",
+          ref_tracker_debug_dir);
 
+[1]: From the "error pointers" section in Documentation/core-api/printk-formats.rst
 
-vim +11 arch/riscv/lib/strncmp.S
+Cheers,
+Nathan
 
-    10	
-  > 11		__ALTERNATIVE_CFG("nop", "j strncmp_zbb", 0, RISCV_ISA_EXT_ZBB,
-  > 12			IS_ENABLED(CONFIG_RISCV_ISA_ZBB) && IS_ENABLED(CONFIG_TOOLCHAIN_HAS_ZBB))
-    13	
-    14		/*
-    15		 * Returns
-    16		 *   a0 - comparison result, value like strncmp
-    17		 *
-    18		 * Parameters
-    19		 *   a0 - string1
-    20		 *   a1 - string2
-    21		 *   a2 - number of characters to compare
-    22		 *
-    23		 * Clobbers
-    24		 *   t0, t1, t2
-    25		 */
-    26		li	t2, 0
-    27	1:
-    28		beq	a2, t2, 2f
-    29		lbu	t0, 0(a0)
-    30		lbu	t1, 0(a1)
-    31		addi	a0, a0, 1
-    32		addi	a1, a1, 1
-    33		bne	t0, t1, 3f
-    34		addi	t2, t2, 1
-    35		bnez	t0, 1b
-    36	2:
-    37		li	a0, 0
-    38		ret
-    39	3:
-    40		/*
-    41		 * strncmp only needs to return (< 0, 0, > 0) values
-    42		 * not necessarily -1, 0, +1
-    43		 */
-    44		sub	a0, t0, t1
-    45		ret
-    46	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>  			PTR_ERR(ref_tracker_debug_dir));
+>  		ref_tracker_debug_dir = NULL;
+>  	}
+> -- 
+> 2.39.5
+> 
+> 
