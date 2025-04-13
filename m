@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEF463CB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Apr 2025 08:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCB11519BC;
+	Sun, 13 Apr 2025 10:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744533975; cv=none; b=A46G81LhzIagMctv38KEwqdoklIbGDEz9CCwTvneH9HAuR2rQXfPpt8A9G5ON4ZGZuZWeg9bqm6DHh/GDMBNyfQ5pu5HEXCbqlYu10lhFkCV5pwohHCcsFc3CuffbwaWvjDIa73HdPMP4E8qP6VLggNNX0JgXk0yv9Gf8MNxPvA=
+	t=1744541419; cv=none; b=IdWtdhS6Wb2gWVWI44Kk7pgvX3wd9sJJ4EVey7LR/nAlXHwOE9PBnf26/GT33120mho7QzVN6teaSMjdbLC6+uso8jc2udMlvuLwf4gp6G8E4AJ60LY/amjJBVPArK+f2K0upIzfHX9sR0LYjNkP4vyl5dbQQzao2S4/r/Q3l3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744533975; c=relaxed/simple;
-	bh=/1qQ29Xvf11FhTEIYoZg9Y2KxFbM1Orx6UOrhgroQBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cI4TIwBDKcv5XcyYldNMpY4KQ5e4V5w5YMVCKqECh+JFr6Qgp9LgYdtKJMA7A95o41brjAwns8RIYwQgbLNyi1QdOvmHXcGx+umzxUykrIQXt4DH0sHbLXD1Wj8trz+crmkK//9WRsiKHMGb4WNTCy5KpRWKaBRwEFIiTQHEAl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEqVKJNc; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744541419; c=relaxed/simple;
+	bh=nPpW/rLTRLacqlEkhK8H0le2bB71Gb08AEC9nY/Oops=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UzRQLhBgSp21GvlH51lU2WnVdqj1fM6uPmSOd1RBM5QIrrir09x7gwLsOXHXxnhYwOkxgy/j0H5pQCWBiZrfG6hwOlvETzATV1TXFkIKHp4Qmj7YryAk2m+x5aU++uqqYhII892oHW7vvkRH4ZGsU1uFb7wCmMjhFqUW2DFmH6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gTaraAX4; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEqVKJNc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744533973; x=1776069973;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/1qQ29Xvf11FhTEIYoZg9Y2KxFbM1Orx6UOrhgroQBI=;
-  b=jEqVKJNct3hvSKse525qXKmlUh0++/Qav1QZAS33ioV1Fx12fjzqV8tK
-   wP1ueEYEoRAU3X8F3QfTkYzdCN//e6s5HEXGKweCnMpD1c7E1CaoBntNw
-   gzPOAKHmOBNtD2ZczJtuPUVoJPnyp/hVhEB66QmP/aAh8TSXrGCnv7R93
-   DL7dGSYjQk/Sr43WiIMvX66oZJQiLdhas+98IpHIuoufLKL+mD7wrr2J3
-   K9XgoPwqr19K1P180YWMKmD7vzb4yQknpRANG5apNtS1VblOnOPwE5GVL
-   kfmUWhObWuGrBCz8HVo9YnTnq6AXfG5f9ekDPPZi310TK+P40J6T4SZ6q
-   w==;
-X-CSE-ConnectionGUID: iP4iSXE4Tb2XW9YLOwdc7w==
-X-CSE-MsgGUID: HdSjDbCmQsSzYZ2bqfG3LA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46190656"
-X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="46190656"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 01:46:12 -0700
-X-CSE-ConnectionGUID: dy0TIT7SRzO5fDqGmwn3mQ==
-X-CSE-MsgGUID: KXLReZi1Ste+Bvm7mIFM+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="129415768"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Apr 2025 01:46:12 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u3sye-000CVY-2v;
-	Sun, 13 Apr 2025 08:46:08 +0000
-Date: Sun, 13 Apr 2025 16:45:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 55/55]
- drivers/gpu/drm/mediatek/mtk_dp_v2.c:6214:2-9: line 6214 is redundant
- because platform_get_irq() already prints an error
-Message-ID: <202504131627.BiD1Vzn7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTaraAX4"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so27023175e9.1;
+        Sun, 13 Apr 2025 03:50:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744541416; x=1745146216; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XnS2vv43STetwOnQ+/gZ9IZihJGIDun4siJ5AOVvyV0=;
+        b=gTaraAX4z++etLG85hYzo+NnJV3gcDER3t3LafPERxsatLOG5U9MoQ0cb8XF39Fj/O
+         l0RDJwR/xGT+aLFEEeX8syYYDQ58QlxWww5rgaAYsC0wwJTpXlKtve/X3kI+nPqmJ9wZ
+         REc2U1yqxejES5hueOdyJhDCZEfmD/od2NRuOD0vswgit/Ox2Lh/p6enUbnW4VKcaEVB
+         jn5rMIYqlalgVK/d62dI2/dImTEBJy3eu2R7A8AogQ2+SUXzTx5WxZ0ulp8D/RUSN8J5
+         EuTtqGlovHD7d4GXbFQOTV6Gm1a19AmKid3ZGKkAjv+0Lw3SLLXJMlTULPgJiKh1TJRT
+         X25Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744541416; x=1745146216;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XnS2vv43STetwOnQ+/gZ9IZihJGIDun4siJ5AOVvyV0=;
+        b=Z1z43ON7t20Xf0yCY0RN7imZFXGPNI0W36tHKtomgeRd566soC5msTVd/S9XTcpwkw
+         lKrXIVsjMBDG16VcQlvykY0d9c2EfCpOhaS7YLXrhV/BUoRzbh6Jhh3C8sIuoc8MW7P7
+         u3ZD+s+xeeZDB9V29a0Jg2AJcbAYjpCr94Z6mhbKl6kttSEaou5NAYV4sAOoJ3F1Zh9F
+         mtvat4J0JRfARSbt+i7F1adkKtoO4U6ubF6uE6C6E5+dxt/U5y13mwZRy4S1LvPWMEbk
+         CB/9kssIhZr84axz0kTahcn6Q9YAL3F0RAgKJLU0v+heK00YEdbQPkCliPpHF2pv4/Xt
+         DKTw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnfYjKhSyRboK0bmpsq6ghk6Z8vA0XqQ/ZF8YfOzSD1/Zw9ZNIRjFxZIMinb8EuaaVOkbK@lists.linux.dev, AJvYcCWbhUc86U82v1FZcdycFntXD6Xpnh2umIEohcY9BuBi0cpNKGrBEksytFsKSY8XLpu/vhXopu8sAHCsqvKKoQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw9NPUZKxsy7AH+8pHHo1hsTfpUnDkzEcNYfRUjlM6FpHofQ4m0
+	6tAh7QZ/YbFSFu3SCQpgUgg+FWjlt1EGv8u65p+UXcfzTCF4FgvG
+X-Gm-Gg: ASbGncthIWu8G7shxi1wICPD6y8WpGM6tQWwWR2NOI0gKFF18ETs1wGpFRdVlP0oisU
+	AvkyO2/RY6O8LfoaAQEavAxUj6ak29eVtczPXPvAbtfFcazmKfktWSWClqHozHWLl7Zu2lh9Ziw
+	a8UuE9eLnI1P8gNis1b2YrR5EgquZbA+dSZl6uiMsvQhWzgqls23PztBC23AV12WTj4KIEQfKSs
+	hQ5Qz72EHLKDJZINHag639TjYqVn2izcWsjXxxAr5Ym+sxz63hB12vaIiNroEh97a1F8QR8g2vu
+	A00W8PqDZh9e1A9UhINuvDroYgJfRRp07y2HVg70J7ryV1pSinwy16Y=
+X-Google-Smtp-Source: AGHT+IHsX3Q+yhSQiC2xzt56fxtaYD0PiuvXdfPybLE+YFjCU4IkOhXtzmd7puI7yABHfMjXmjTvaw==
+X-Received: by 2002:a05:600c:c06:b0:43d:8ea:8d7a with SMTP id 5b1f17b1804b1-43f3a9b00c2mr71671995e9.28.1744541415424;
+        Sun, 13 Apr 2025 03:50:15 -0700 (PDT)
+Received: from qasdev.system ([2a02:c7c:6696:8300:71dd:ba03:ed49:5ad0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f2066d92csm143779875e9.24.2025.04.13.03.50.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Apr 2025 03:50:15 -0700 (PDT)
+Date: Sun, 13 Apr 2025 11:50:00 +0100
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: jlayton@kernel.org, akpm@linux-foundation.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] ref_tracker: use %ld format specifier for PTR_ERR()
+ during directory creation failure
+Message-ID: <Z_uW2DLS7_NLU4gh@qasdev.system>
+References: <20250412222744.9459-1-qasdev00@gmail.com>
+ <20250413013245.GA2989337@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,138 +74,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250413013245.GA2989337@ax162>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   18963e1b53e58a093c9b0d116e5d71f1d556cb05
-commit: cbdfa10647ec4d4ec24d4c110f1472083871d8be [55/55] CHROMIUM: drm/mediatek: Change log format
-config: arm64-randconfig-r054-20250411 (https://download.01.org/0day-ci/archive/20250413/202504131627.BiD1Vzn7-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+On Sat, Apr 12, 2025 at 08:32:45PM -0500, Nathan Chancellor wrote:
+> Hi Qasim,
+> 
+> On Sat, Apr 12, 2025 at 11:27:44PM +0100, Qasim Ijaz wrote:
+> > PTR_ERR yields type long, so use %ld format specifier in pr_warn.
+> > 
+> > Fixes: ada5a12aae58 ("ref_tracker: add a top level debugfs directory for ref_tracker")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202504130520.rX5EVbVq-lkp@intel.com/ 
+> > Signed-off-by: Qasim Ijaz <qasdev00@gmail.com> 
+> > ---
+> >  lib/ref_tracker.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
+> > index 4064154252a6..02e9f0c3dd82 100644
+> > --- a/lib/ref_tracker.c
+> > +++ b/lib/ref_tracker.c
+> > @@ -283,7 +283,7 @@ static int __init ref_tracker_debug_init(void)
+> >  {
+> >  	ref_tracker_debug_dir = debugfs_create_dir("ref_tracker", NULL);
+> >  	if (IS_ERR(ref_tracker_debug_dir)) {
+> > -		pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %d\n",
+> > +		pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %ld\n",
+> 
+> While there is nothing wrong with doing this to resolve the warning, I
+> think this would be a good opportunity to use the '%pe' format specifier
+> [1] instead of '%ld', as that will print the symbolic error name (such
+> as -EINVAL instead of just -22) and make it easier for people to
+> decipher what has gone wrong.
+> 
+Hi Nathan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504131627.BiD1Vzn7-lkp@intel.com/
+Thanks for the suggestion, I think this would be an improvement over
+using %ld.
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/mediatek/mtk_dp_v2.c:6214:2-9: line 6214 is redundant because platform_get_irq() already prints an error
+Would you like me to include you in a suggested-by tag in patch v2?
 
-vim +6214 drivers/gpu/drm/mediatek/mtk_dp_v2.c
-
-  6183	
-  6184	static int mtk_drm_dp_probe_v2(struct platform_device *pdev)
-  6185	{
-  6186		struct mtk_dp *mtk_dp;
-  6187		struct device *dev = &pdev->dev;
-  6188		int ret;
-  6189		struct mtk_drm_private *mtk_priv = dev_get_drvdata(dev);
-  6190		int irq_num = 0;
-  6191	
-  6192		mtk_dp = devm_kzalloc(dev, sizeof(*mtk_dp), GFP_KERNEL);
-  6193		if (!mtk_dp)
-  6194			return -ENOMEM;
-  6195	
-  6196		memset(mtk_dp, 0, sizeof(struct mtk_dp));
-  6197		mtk_dp->id = 0x0;
-  6198		mtk_dp->dev = dev;
-  6199		mtk_dp->priv = mtk_priv;
-  6200		mtk_dp->disp_state = DP_DISP_STATE_NONE;
-  6201	
-  6202		mtk_dp->data = (struct mtk_dp_data *)of_device_get_match_data(dev);
-  6203	
-  6204		ret = mtk_dp_pm_init_v2(mtk_dp, pdev);
-  6205		if (ret)
-  6206			return ret;
-  6207	
-  6208		pm_runtime_enable(mtk_dp->dev);
-  6209		drm_dbg_kms(mtk_dp->drm_dev, "[DPTX] pm_runtime_get_sync\n");
-  6210		pm_runtime_get_sync(mtk_dp->dev);
-  6211	
-  6212		irq_num = platform_get_irq(pdev, 0);
-  6213		if (irq_num < 0) {
-> 6214			dev_err(mtk_dp->dev, "[DPTX] failed to request dp irq resource\n");
-  6215			return -EPROBE_DEFER;
-  6216		}
-  6217	
-  6218		ret = mtk_dp_dt_parse_pdata_v2(mtk_dp, pdev);
-  6219		if (ret)
-  6220			return ret;
-  6221	
-  6222		mtk_dp_aux_init_v2(mtk_dp);
-  6223	
-  6224		platform_set_drvdata(pdev, mtk_dp);
-  6225	
-  6226		if (mtk_dp->data->audio_supported) {
-  6227			mutex_init(&mtk_dp->update_plugged_status_lock);
-  6228	
-  6229			ret = mtk_dp_register_audio_driver_v2(dev);
-  6230			if (ret) {
-  6231				dev_err(mtk_dp->dev, "[DPTX] Failed to register audio driver: %d\n", ret);
-  6232				return ret;
-  6233			}
-  6234		}
-  6235	
-  6236		dev_dbg(mtk_dp->dev, "irq:%d\n", irq_num);
-  6237		spin_lock_init(&mtk_dp->irq_thread_lock);
-  6238	
-  6239		irq_set_status_flags(irq_num, IRQ_TYPE_LEVEL_HIGH);
-  6240		ret = devm_request_threaded_irq(&pdev->dev, irq_num, mtk_dp_hpd_event_v2,
-  6241						mtk_dp_hpd_event_thread_v2,
-  6242						IRQ_TYPE_LEVEL_HIGH, dev_name(&pdev->dev),
-  6243						mtk_dp);
-  6244		if (ret) {
-  6245			dev_err(mtk_dp->dev, "[DPTX] failed to request mediatek dp irq\n");
-  6246			return -EPROBE_DEFER;
-  6247		}
-  6248	
-  6249		mtk_dp->bridge.funcs = &mtk_dp_bridge_funcs;
-  6250		mtk_dp->bridge.of_node = dev->of_node;
-  6251		mtk_dp->bridge.type = mtk_dp->data->bridge_type;
-  6252		ret = devm_drm_bridge_add(dev, &mtk_dp->bridge);
-  6253		if (ret)
-  6254			return ret;
-  6255	
-  6256		mutex_init(&mtk_dp->hdcp_mutex);
-  6257		init_waitqueue_head(&mtk_dp->hdcp_info.hdcp2_info.cp_irq_queue);
-  6258		INIT_WORK(&mtk_dp->hdcp_enable_work, mtk_dp_hdcp_enable_handle);
-  6259		INIT_WORK(&mtk_dp->hdcp_disable_work, mtk_dp_hdcp_disable_handle);
-  6260		INIT_WORK(&mtk_dp->prop_work, mtk_dp_hdcp_prop_work);
-  6261		INIT_DELAYED_WORK(&mtk_dp->check_work, mtk_dp_hdcp_check_work);
-  6262		mtk_dp->hdcp_workqueue = create_workqueue("mtk_dp_hdcp_work");
-  6263		if (!mtk_dp->hdcp_workqueue) {
-  6264			dev_err(mtk_dp->dev, "[DPTX] failed to create hdcp work queue");
-  6265			return -ENOMEM;
-  6266		}
-  6267	
-  6268		mtk_dp_enable_mac_power_v2(mtk_dp);
-  6269	
-  6270		mtk_dp->pclk = devm_clk_get(mtk_dp->dev, "mux_dp");
-  6271		if (IS_ERR(mtk_dp->pclk))
-  6272			return dev_err_probe(dev, PTR_ERR(mtk_dp->pclk),
-  6273					     "[DPTX] Failed to get pixel clock\n");
-  6274		mtk_dp->pclk_src = devm_clk_get(mtk_dp->dev, "ck_26m");
-  6275		if (IS_ERR(mtk_dp->pclk_src))
-  6276			return dev_err_probe(dev, PTR_ERR(mtk_dp->pclk_src),
-  6277					     "[DPTX] Failed to get pixel source clock\n");
-  6278	
-  6279		ret = clk_prepare_enable(mtk_dp->pclk);
-  6280		if (ret < 0)
-  6281			dev_err(mtk_dp->dev, "[DPTX] Failed to enable pclk:%d\n", ret);
-  6282	
-  6283		ret = clk_set_parent(mtk_dp->pclk, mtk_dp->pclk_src);
-  6284		if (ret < 0)
-  6285			dev_err(mtk_dp->dev, "[DPTX] Failed to clk_set_parent:%d\n", ret);
-  6286	
-  6287		dev_dbg(mtk_dp->dev, "pclk:%ld\n", clk_get_rate(mtk_dp->pclk));
-  6288	
-  6289		mtk_dp->notifier.notifier_call = mtk_drm_dp_notifier_v2;
-  6290		ret = register_pm_notifier(&mtk_dp->notifier);
-  6291		if (ret)
-  6292			dev_err(mtk_dp->dev, "[DPTX] register pm notifier failed %d", ret);
-  6293	
-  6294		return ret;
-  6295	}
-  6296	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Qasim
+>   pr_warn("ref_tracker: unable to create ref_tracker debugfs directory: %pe\n",
+>           ref_tracker_debug_dir);
+> 
+> [1]: From the "error pointers" section in Documentation/core-api/printk-formats.rst
+> 
+> Cheers,
+> Nathan
+> 
+> >  			PTR_ERR(ref_tracker_debug_dir));
+> >  		ref_tracker_debug_dir = NULL;
+> >  	}
+> > -- 
+> > 2.39.5
+> > 
+> > 
