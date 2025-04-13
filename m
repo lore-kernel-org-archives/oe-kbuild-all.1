@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C9A291E;
-	Sun, 13 Apr 2025 04:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E084E17C98
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Apr 2025 04:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744517502; cv=none; b=SYJRroMbmGHi1A96LTal87MeTpzLadXD98A5jStVYGvC4f3YQRQtyqze2GxsJwOEQfBnnmwmXkv1ZkahjmdQ5OowuZ83EnAZsbDhMll8Kb2ORudS8cLV0NRXfulMh5yCSOkusRgiS+b8dVkX/DdJtLiR/va/fX39RZF3MCG7CqA=
+	t=1744518885; cv=none; b=R9T0ulq7NW7pvOYUplkOViepBk7kPI8sHb8wjnSkkimYdVdoaZ56WeINuT9csnBmiwfZ1uh4mv3I0JM0ek4IIZJenFPE/g7L0yR5zxNIRbfusUk4bURSOduSJ9cnGbXR9R8/VoHRMRU8tMIhFG9FzSBWyI9tYsSOa0U2QWpwEPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744517502; c=relaxed/simple;
-	bh=9aYUZHXQabQp0Wk/rqmqw5hZWuT5EnBGfZoBpuZ+85M=;
+	s=arc-20240116; t=1744518885; c=relaxed/simple;
+	bh=+YLHUq7qOtVzQyvUF4CsuM80iuX6VgHrrIaQ8WimL3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d7CYUDj7uUEUGfPGvIgEdXYZ6VbgF20FiNb9gTYwtt+OXmR6RfPy8zTGjfWZA3fpz5MPAVLzYUGfRld1XHIGjgG6gSquFWoZ+ZaDTE2E+C5fNDr93ivvfNWZJ7pC3dWs67sQWlhKHZ1Xf2TcWpgx6J9BTieWa/autmQkH2cZoug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jrh4xCFY; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=YgouAFMvdMIEGaHxlmZGJpxveVfi8+xTceDtJ0Wdk6fJIx9u4SQVRuR+ozUa7gwI4hlEAl7Ds5MgZYQP+02YgZ6xdPrGyAOz3YzHMTcuH4j96umlO4h0OmlCxw6vObtqWOLnnKw04gmeeKpSc6DanooLwtsu33Q+ndI2EeXC1qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SHZubhUb; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jrh4xCFY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SHZubhUb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744517500; x=1776053500;
+  t=1744518883; x=1776054883;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9aYUZHXQabQp0Wk/rqmqw5hZWuT5EnBGfZoBpuZ+85M=;
-  b=jrh4xCFYXksl6wIoyv8htYx1UQSRyeJseZAzcC2JNAkXsOnV7QuvbgT5
-   ZknUAV1Z3WS2eKO0zZz893DWSw4QnAdufRPh1RYvP/9yZfDWrJoz7kDG9
-   ZWSJTinXZr5rNOom2wRptmgt4xZEw4M9U/KIn+qs5fGxNNSZv3iWRwkD8
-   tlbSN3NHAHsq6X9Qu7koSnVSxwPNiSHd7Iykh5S9gudUobwb8XyzltP9l
-   IiPEmXoBVs/vcRmw6b38Sn8bddQUD9sbNYjARG1sQd825vTDKq0HVEiu3
-   o+K9njimw/WI4z+98c89LMYrJv5VAWUyL/vMANNozLubRKxxyEzBmkjjK
+  bh=+YLHUq7qOtVzQyvUF4CsuM80iuX6VgHrrIaQ8WimL3c=;
+  b=SHZubhUbZfoW/h0JlVNgh0lYsSjcyHhx2u5sEQhc0SKA6ref5gHVWaZw
+   6x3V/3flwexeYemVRF4VPpCk070mfXhKofHlh4Els18Xr68rZxXq0jyS6
+   m3lr9SBh7vbhJHpVA6FoqttRfbCSOw2VB/TT7Yo2LQJf3MYOecdUGp4qH
+   mLDR2ISaBSZtAh+PWCtpslELq/4Bdl2wWsBtkuzQND+tELPxsIlayVKne
+   Ik3bBVNorb7vpEXOk53bGpVQdzFRNR2yX2LDoVun494vZTlsPUUNeSBt4
+   YykrV9uNu54ofJqY0U52jyixm5hn4pr7s8CnbGEkTDrzwNQs7s/GG4uhB
    Q==;
-X-CSE-ConnectionGUID: j6S0MEZPS9CTEvbaf/6s0A==
-X-CSE-MsgGUID: Uxz3KjdVTCKn1II3oLQ5Tw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46152982"
+X-CSE-ConnectionGUID: MD/04GuJQKyPadVWGno1ZQ==
+X-CSE-MsgGUID: twB+hvvESs2E+QU791hTyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46109414"
 X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="46152982"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 21:11:39 -0700
-X-CSE-ConnectionGUID: B1wz9UC8Qi+A8hUNKxAd5w==
-X-CSE-MsgGUID: 2G7dv9DDT8CckZu3l9Uykg==
+   d="scan'208";a="46109414"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 21:34:41 -0700
+X-CSE-ConnectionGUID: OGcBVOC6QMuzuGHnTaemhw==
+X-CSE-MsgGUID: 1np9wM9WQtmVokM5/fedYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="129861070"
+   d="scan'208";a="160495149"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Apr 2025 21:11:38 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 Apr 2025 21:34:40 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u3ogx-000CMg-2f;
-	Sun, 13 Apr 2025 04:11:35 +0000
-Date: Sun, 13 Apr 2025 12:10:39 +0800
+	id 1u3p3G-000CNW-0k;
+	Sun, 13 Apr 2025 04:34:38 +0000
+Date: Sun, 13 Apr 2025 12:34:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:x86/core 4/6] arch/x86/kernel/cpu/mshyperv.c:431:34:
- error: use of undeclared identifier 'hv_pg_hypercall'; did you mean
- 'hv_do_hypercall'?
-Message-ID: <202504131254.9Cornerg-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.14-next-wip 6647/6651]
+ drivers/block/fitblk.c:482:6: warning: variable 'found' is used
+ uninitialized whenever 'if' condition is true
+Message-ID: <202504131223.RMMNx8Gb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,174 +63,449 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
-head:   c08c01c51ede1b79b73fe142e4bc9f7bb9d0ea5e
-commit: c8efbca9f0d4d811af848bcec92a9f9ba4b98301 [4/6] x86,hyperv: Clean up hv_do_hypercall()
-config: x86_64-buildonly-randconfig-002-20250412 (https://download.01.org/0day-ci/archive/20250413/202504131254.9Cornerg-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504131254.9Cornerg-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.14-next-wip
+head:   c47e22e7e204c4e69cb6eeeb8588809af178bc8c
+commit: 0368350d581f93b7044be1be6fb1b8e57b767a19 [6647/6651] block: add uImage.FIT subimage block driver
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250413/202504131223.RMMNx8Gb-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504131223.RMMNx8Gb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504131254.9Cornerg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504131223.RMMNx8Gb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/cpu/mshyperv.c:431:34: error: use of undeclared identifier 'hv_pg_hypercall'; did you mean 'hv_do_hypercall'?
-     431 | DEFINE_STATIC_CALL(hv_hypercall, hv_pg_hypercall);
-         |                                  ^~~~~~~~~~~~~~~
-         |                                  hv_do_hypercall
-   include/linux/static_call.h:188:28: note: expanded from macro 'DEFINE_STATIC_CALL'
-     188 |         DECLARE_STATIC_CALL(name, _func);                               \
-         |                                   ^
-   include/linux/static_call_types.h:39:16: note: expanded from macro 'DECLARE_STATIC_CALL'
-      39 |         extern typeof(func) STATIC_CALL_TRAMP(name);
-         |                       ^
-   include/asm-generic/mshyperv.h:73:5: note: 'hv_do_hypercall' declared here
-      73 | u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
-         |     ^
->> arch/x86/kernel/cpu/mshyperv.c:431:34: error: use of undeclared identifier 'hv_pg_hypercall'; did you mean 'hv_do_hypercall'?
-     431 | DEFINE_STATIC_CALL(hv_hypercall, hv_pg_hypercall);
-         |                                  ^~~~~~~~~~~~~~~
-         |                                  hv_do_hypercall
-   include/linux/static_call.h:190:11: note: expanded from macro 'DEFINE_STATIC_CALL'
-     190 |                 .func = _func,                                          \
-         |                         ^
-   include/asm-generic/mshyperv.h:73:5: note: 'hv_do_hypercall' declared here
-      73 | u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
-         |     ^
->> arch/x86/kernel/cpu/mshyperv.c:495:38: error: use of undeclared identifier 'hv_snp_hypercall'; did you mean 'hv_do_hypercall'?
-     495 |                                 static_call_update(hv_hypercall, hv_snp_hypercall);
-         |                                                                  ^~~~~~~~~~~~~~~~
-         |                                                                  hv_do_hypercall
-   include/linux/static_call.h:154:42: note: expanded from macro 'static_call_update'
-     154 |         typeof(&STATIC_CALL_TRAMP(name)) __F = (func);                  \
-         |                                                 ^
-   include/asm-generic/mshyperv.h:73:5: note: 'hv_do_hypercall' declared here
-      73 | u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
-         |     ^
->> arch/x86/kernel/cpu/mshyperv.c:505:38: error: use of undeclared identifier 'hv_tdx_hypercall'
-     505 |                                 static_call_update(hv_hypercall, hv_tdx_hypercall);
-         |                                                                  ^
-   4 errors generated.
+>> drivers/block/fitblk.c:482:6: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     482 |         if (images < 0) {
+         |             ^~~~~~~~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
+         |              ^~~~~
+   drivers/block/fitblk.c:482:2: note: remove the 'if' if its condition is always false
+     482 |         if (images < 0) {
+         |         ^~~~~~~~~~~~~~~~~
+     483 |                 pr_err("FIT: Cannot find %s node: %d\n", FIT_IMAGES_PATH, images);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     484 |                 ret = -EINVAL;
+         |                 ~~~~~~~~~~~~~~
+     485 |                 goto out_bootconf;
+         |                 ~~~~~~~~~~~~~~~~~~
+     486 |         }
+         |         ~
+   drivers/block/fitblk.c:473:6: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     473 |         if (!config_loadables || !config_loadables_len) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
+         |              ^~~~~
+   drivers/block/fitblk.c:473:2: note: remove the 'if' if its condition is always false
+     473 |         if (!config_loadables || !config_loadables_len) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     474 |                 pr_err("FIT: No loadables configured in \"%s\"\n",
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     475 |                         bootconf ?: config_default);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     476 |                 ret = -ENOENT;
+         |                 ~~~~~~~~~~~~~~
+     477 |                 goto out_bootconf;
+         |                 ~~~~~~~~~~~~~~~~~~
+     478 |         }
+         |         ~
+>> drivers/block/fitblk.c:473:6: warning: variable 'found' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
+     473 |         if (!config_loadables || !config_loadables_len) {
+         |             ^~~~~~~~~~~~~~~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
+         |              ^~~~~
+   drivers/block/fitblk.c:473:6: note: remove the '||' if its condition is always false
+     473 |         if (!config_loadables || !config_loadables_len) {
+         |             ^~~~~~~~~~~~~~~~~~~~
+   drivers/block/fitblk.c:449:6: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     449 |         if (node < 0) {
+         |             ^~~~~~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
+         |              ^~~~~
+   drivers/block/fitblk.c:449:2: note: remove the 'if' if its condition is always false
+     449 |         if (node < 0) {
+         |         ^~~~~~~~~~~~~~~
+     450 |                 pr_err("FIT: Cannot find %s node: %d\n",
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     451 |                         bootconf ?: config_default, node);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     452 |                 ret = -ENOENT;
+         |                 ~~~~~~~~~~~~~~
+     453 |                 goto out_bootconf;
+         |                 ~~~~~~~~~~~~~~~~~~
+     454 |         }
+         |         ~
+   drivers/block/fitblk.c:441:6: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     441 |         if (!config_default && !bootconf) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
+         |              ^~~~~
+   drivers/block/fitblk.c:441:2: note: remove the 'if' if its condition is always false
+     441 |         if (!config_default && !bootconf) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     442 |                 pr_err("FIT: Cannot find default configuration\n");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     443 |                 ret = -ENOENT;
+         |                 ~~~~~~~~~~~~~~
+     444 |                 goto out_bootconf;
+         |                 ~~~~~~~~~~~~~~~~~~
+     445 |         }
+         |         ~
+   drivers/block/fitblk.c:429:6: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     429 |         if (config < 0) {
+         |             ^~~~~~~~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
+         |              ^~~~~
+   drivers/block/fitblk.c:429:2: note: remove the 'if' if its condition is always false
+     429 |         if (config < 0) {
+         |         ^~~~~~~~~~~~~~~~~
+     430 |                 pr_err("FIT: Cannot find %s node: %d\n",
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     431 |                         FIT_CONFS_PATH, config);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~
+     432 |                 ret = -ENOENT;
+         |                 ~~~~~~~~~~~~~~
+     433 |                 goto out_bootconf;
+         |                 ~~~~~~~~~~~~~~~~~~
+     434 |         }
+         |         ~
+   drivers/block/fitblk.c:404:8: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     404 |                         if (IS_ERR(folio)) {
+         |                             ^~~~~~~~~~~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
+         |              ^~~~~
+   drivers/block/fitblk.c:404:4: note: remove the 'if' if its condition is always false
+     404 |                         if (IS_ERR(folio)) {
+         |                         ^~~~~~~~~~~~~~~~~~~~
+     405 |                                 ret = PTR_ERR(folio);
+         |                                 ~~~~~~~~~~~~~~~~~~~~~
+     406 |                                 goto out_blkdev;
+         |                                 ~~~~~~~~~~~~~~~~
+     407 |                         };
+         |                         ~
+   drivers/block/fitblk.c:388:6: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     388 |         if (!fit) {
+         |             ^~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
+         |              ^~~~~
+   drivers/block/fitblk.c:388:2: note: remove the 'if' if its condition is always false
+     388 |         if (!fit) {
+         |         ^~~~~~~~~~~
+     389 |                 ret = -ENOMEM;
+         |                 ~~~~~~~~~~~~~~
+     390 |                 folio_put(folio);
+         |                 ~~~~~~~~~~~~~~~~~
+     391 |                 goto out_blkdev;
+         |                 ~~~~~~~~~~~~~~~~
+     392 |         }
+         |         ~
+   drivers/block/fitblk.c:381:6: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     381 |         if (size >= dsize) {
+         |             ^~~~~~~~~~~~~
+   drivers/block/fitblk.c:594:7: note: uninitialized use occurs here
+     594 |         if (!found || ret)
 
 
-vim +431 arch/x86/kernel/cpu/mshyperv.c
+vim +482 drivers/block/fitblk.c
 
-   429	
-   430	#ifdef CONFIG_X86_64
- > 431	DEFINE_STATIC_CALL(hv_hypercall, hv_pg_hypercall);
-   432	EXPORT_STATIC_CALL_TRAMP_GPL(hv_hypercall);
-   433	#endif
-   434	
-   435	static void __init ms_hyperv_init_platform(void)
-   436	{
-   437		int hv_max_functions_eax;
-   438	
-   439	#ifdef CONFIG_PARAVIRT
-   440		pv_info.name = "Hyper-V";
-   441	#endif
-   442	
-   443		/*
-   444		 * Extract the features and hints
-   445		 */
-   446		ms_hyperv.features = cpuid_eax(HYPERV_CPUID_FEATURES);
-   447		ms_hyperv.priv_high = cpuid_ebx(HYPERV_CPUID_FEATURES);
-   448		ms_hyperv.ext_features = cpuid_ecx(HYPERV_CPUID_FEATURES);
-   449		ms_hyperv.misc_features = cpuid_edx(HYPERV_CPUID_FEATURES);
-   450		ms_hyperv.hints    = cpuid_eax(HYPERV_CPUID_ENLIGHTMENT_INFO);
-   451	
-   452		hv_max_functions_eax = cpuid_eax(HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS);
-   453	
-   454		pr_info("Hyper-V: privilege flags low %#x, high %#x, ext %#x, hints %#x, misc %#x\n",
-   455			ms_hyperv.features, ms_hyperv.priv_high,
-   456			ms_hyperv.ext_features, ms_hyperv.hints,
-   457			ms_hyperv.misc_features);
-   458	
-   459		ms_hyperv.max_vp_index = cpuid_eax(HYPERV_CPUID_IMPLEMENT_LIMITS);
-   460		ms_hyperv.max_lp_index = cpuid_ebx(HYPERV_CPUID_IMPLEMENT_LIMITS);
-   461	
-   462		pr_debug("Hyper-V: max %u virtual processors, %u logical processors\n",
-   463			 ms_hyperv.max_vp_index, ms_hyperv.max_lp_index);
-   464	
-   465		hv_identify_partition_type();
-   466	
-   467		if (ms_hyperv.hints & HV_X64_HYPERV_NESTED) {
-   468			hv_nested = true;
-   469			pr_info("Hyper-V: running on a nested hypervisor\n");
-   470		}
-   471	
-   472		if (ms_hyperv.features & HV_ACCESS_FREQUENCY_MSRS &&
-   473		    ms_hyperv.misc_features & HV_FEATURE_FREQUENCY_MSRS_AVAILABLE) {
-   474			x86_platform.calibrate_tsc = hv_get_tsc_khz;
-   475			x86_platform.calibrate_cpu = hv_get_tsc_khz;
-   476			setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
-   477		}
-   478	
-   479		if (ms_hyperv.priv_high & HV_ISOLATION) {
-   480			ms_hyperv.isolation_config_a = cpuid_eax(HYPERV_CPUID_ISOLATION_CONFIG);
-   481			ms_hyperv.isolation_config_b = cpuid_ebx(HYPERV_CPUID_ISOLATION_CONFIG);
-   482	
-   483			if (ms_hyperv.shared_gpa_boundary_active)
-   484				ms_hyperv.shared_gpa_boundary =
-   485					BIT_ULL(ms_hyperv.shared_gpa_boundary_bits);
-   486	
-   487			pr_info("Hyper-V: Isolation Config: Group A 0x%x, Group B 0x%x\n",
-   488				ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
-   489	
-   490	
-   491			if (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP) {
-   492				static_branch_enable(&isolation_type_snp);
-   493	#ifdef CONFIG_X86_64
-   494				if (!ms_hyperv.paravisor_present)
- > 495					static_call_update(hv_hypercall, hv_snp_hypercall);
-   496	#endif
-   497			} else if (hv_get_isolation_type() == HV_ISOLATION_TYPE_TDX) {
-   498				static_branch_enable(&isolation_type_tdx);
+   312	
+   313	static int parse_fit_on_dev(struct device *dev)
+   314	{
+   315		struct file *bdev_file;
+   316		struct block_device *bdev;
+   317		struct address_space *mapping;
+   318		struct folio *folio;
+   319		pgoff_t f_index = 0;
+   320		size_t bytes_left, bytes_to_copy;
+   321		void *pre_fit, *fit, *fit_c;
+   322		u64 dsize, dsectors, imgmaxsect = 0;
+   323		u32 size, image_pos, image_len;
+   324		const __be32 *image_offset_be, *image_len_be, *image_pos_be;
+   325		int ret = 0, node, images, config;
+   326		const char *image_name, *image_type, *image_description,
+   327			*config_default, *config_description, *config_loadables;
+   328		u32 image_name_len, image_type_len, image_description_len,
+   329			bootconf_len, config_default_len, config_description_len,
+   330			config_loadables_len;
+   331		sector_t start_sect, nr_sects;
+   332		struct device_node *np = NULL;
+   333		const char *bootconf_c;
+   334		const char *loadable;
+   335		char *bootconf = NULL, *bootconf_term;
+   336		bool found;
+   337		int loadables_rem_len, loadable_len;
+   338		u16 loadcnt;
+   339		unsigned int slot = 0;
+   340	
+   341		/* Exclusive open the block device to receive holder notifications */
+   342		bdev_file = bdev_file_open_by_dev(dev->devt, BLK_OPEN_READ | BLK_OPEN_RESTRICT_WRITES,
+   343						  &_fitblk_claim_ptr, &fitblk_hops);
+   344		if (!bdev_file)
+   345			return -ENODEV;
+   346	
+   347		if (IS_ERR(bdev_file))
+   348			return PTR_ERR(bdev_file);
+   349	
+   350		bdev = file_bdev(bdev_file);
+   351		mapping = bdev_file->f_mapping;
+   352	
+   353		/* map first page */
+   354		folio = read_mapping_folio(mapping, f_index++, NULL);
+   355		if (IS_ERR(folio)) {
+   356			ret = PTR_ERR(folio);
+   357			goto out_blkdev;
+   358		}
+   359		pre_fit = folio_address(folio) + offset_in_folio(folio, 0);
+   360	
+   361		/* uImage.FIT is based on flattened device tree structure */
+   362		if (fdt_check_header(pre_fit)) {
+   363			ret = -EINVAL;
+   364			folio_put(folio);
+   365			goto out_blkdev;
+   366		}
+   367	
+   368		size = fdt_totalsize(pre_fit);
+   369	
+   370		if (size > PAGE_SIZE * FIT_MAX_PAGES) {
+   371			ret = -EOPNOTSUPP;
+   372			folio_put(folio);
+   373			goto out_blkdev;
+   374		}
+   375	
+   376		/* acquire disk size */
+   377		dsectors = bdev_nr_sectors(bdev);
+   378		dsize = dsectors << SECTOR_SHIFT;
+   379	
+   380		/* abort if FIT structure is larger than disk or partition size */
+   381		if (size >= dsize) {
+   382			ret = -EFBIG;
+   383			folio_put(folio);
+   384			goto out_blkdev;
+   385		}
+   386	
+   387		fit = kmalloc(size, GFP_KERNEL);
+   388		if (!fit) {
+   389			ret = -ENOMEM;
+   390			folio_put(folio);
+   391			goto out_blkdev;
+   392		}
+   393	
+   394		bytes_left = size;
+   395		fit_c = fit;
+   396		while (bytes_left > 0) {
+   397			bytes_to_copy = min_t(size_t, bytes_left, folio_size(folio) - offset_in_folio(folio, 0));
+   398			memcpy(fit_c, pre_fit, bytes_to_copy);
+   399			fit_c += bytes_to_copy;
+   400			bytes_left -= bytes_to_copy;
+   401			if (bytes_left) {
+   402				folio_put(folio);
+   403				folio = read_mapping_folio(mapping, f_index++, NULL);
+   404				if (IS_ERR(folio)) {
+   405					ret = PTR_ERR(folio);
+   406					goto out_blkdev;
+   407				};
+   408				pre_fit = folio_address(folio) + offset_in_folio(folio, 0);
+   409			}
+   410		}
+   411		folio_put(folio);
+   412	
+   413		/* set boot config node name U-Boot may have added to the device tree */
+   414		np = of_find_node_by_path("/chosen");
+   415		if (np) {
+   416			bootconf_c = of_get_property(np, "u-boot,bootconf", &bootconf_len);
+   417			if (bootconf_c && bootconf_len)
+   418				bootconf = kmemdup_nul(bootconf_c, bootconf_len, GFP_KERNEL);
+   419		}
+   420	
+   421		if (bootconf) {
+   422			bootconf_term = strchr(bootconf, '#');
+   423			if (bootconf_term)
+   424				*bootconf_term = '\0';
+   425		}
+   426	
+   427		/* find configuration path in uImage.FIT */
+   428		config = fdt_path_offset(fit, FIT_CONFS_PATH);
+   429		if (config < 0) {
+   430			pr_err("FIT: Cannot find %s node: %d\n",
+   431				FIT_CONFS_PATH, config);
+   432			ret = -ENOENT;
+   433			goto out_bootconf;
+   434		}
+   435	
+   436		/* get default configuration node name */
+   437		config_default =
+   438			fdt_getprop(fit, config, FIT_DEFAULT_PROP, &config_default_len);
+   439	
+   440		/* make sure we got either default or selected boot config node name */
+   441		if (!config_default && !bootconf) {
+   442			pr_err("FIT: Cannot find default configuration\n");
+   443			ret = -ENOENT;
+   444			goto out_bootconf;
+   445		}
+   446	
+   447		/* find selected boot config node, fallback on default config node */
+   448		node = fdt_subnode_offset(fit, config, bootconf ?: config_default);
+   449		if (node < 0) {
+   450			pr_err("FIT: Cannot find %s node: %d\n",
+   451				bootconf ?: config_default, node);
+   452			ret = -ENOENT;
+   453			goto out_bootconf;
+   454		}
+   455	
+   456		pr_info("FIT: Detected U-Boot %s\n", ubootver);
+   457	
+   458		/* get selected configuration data */
+   459		config_description =
+   460			fdt_getprop(fit, node, FIT_DESC_PROP, &config_description_len);
+   461		config_loadables = fdt_getprop(fit, node, FIT_LOADABLE_PROP,
+   462					       &config_loadables_len);
+   463	
+   464		pr_info("FIT: %s configuration: \"%.*s\"%s%.*s%s\n",
+   465			bootconf ? "Selected" : "Default",
+   466			bootconf ? bootconf_len : config_default_len,
+   467			bootconf ?: config_default,
+   468			config_description ? " (" : "",
+   469			config_description ? config_description_len : 0,
+   470			config_description ?: "",
+   471			config_description ? ")" : "");
+   472	
+ > 473		if (!config_loadables || !config_loadables_len) {
+   474			pr_err("FIT: No loadables configured in \"%s\"\n",
+   475				bootconf ?: config_default);
+   476			ret = -ENOENT;
+   477			goto out_bootconf;
+   478		}
+   479	
+   480		/* get images path in uImage.FIT */
+   481		images = fdt_path_offset(fit, FIT_IMAGES_PATH);
+ > 482		if (images < 0) {
+   483			pr_err("FIT: Cannot find %s node: %d\n", FIT_IMAGES_PATH, images);
+   484			ret = -EINVAL;
+   485			goto out_bootconf;
+   486		}
+   487	
+   488		/* iterate over images in uImage.FIT */
+   489		fdt_for_each_subnode(node, fit, images) {
+   490			image_name = fdt_get_name(fit, node, &image_name_len);
+   491			image_type = fdt_getprop(fit, node, FIT_TYPE_PROP, &image_type_len);
+   492			image_offset_be = fdt_getprop(fit, node, FIT_DATA_OFFSET_PROP, NULL);
+   493			image_pos_be = fdt_getprop(fit, node, FIT_DATA_POSITION_PROP, NULL);
+   494			image_len_be = fdt_getprop(fit, node, FIT_DATA_SIZE_PROP, NULL);
+   495	
+   496			if (!image_name || !image_type || !image_len_be ||
+   497			    !image_name_len || !image_type_len)
+   498				continue;
    499	
-   500				/* A TDX VM must use x2APIC and doesn't use lazy EOI. */
-   501				ms_hyperv.hints &= ~HV_X64_APIC_ACCESS_RECOMMENDED;
-   502	
-   503				if (!ms_hyperv.paravisor_present) {
-   504	#ifdef CONFIG_X86_64
- > 505					static_call_update(hv_hypercall, hv_tdx_hypercall);
-   506	#endif
-   507					/*
-   508					 * Mark the Hyper-V TSC page feature as disabled
-   509					 * in a TDX VM without paravisor so that the
-   510					 * Invariant TSC, which is a better clocksource
-   511					 * anyway, is used instead.
-   512					 */
-   513					ms_hyperv.features &= ~HV_MSR_REFERENCE_TSC_AVAILABLE;
-   514	
-   515					/*
-   516					 * The Invariant TSC is expected to be available
-   517					 * in a TDX VM without paravisor, but if not,
-   518					 * print a warning message. The slower Hyper-V MSR-based
-   519					 * Ref Counter should end up being the clocksource.
-   520					 */
-   521					if (!(ms_hyperv.features & HV_ACCESS_TSC_INVARIANT))
-   522						pr_warn("Hyper-V: Invariant TSC is unavailable\n");
+   500			image_len = be32_to_cpu(*image_len_be);
+   501			if (!image_len)
+   502				continue;
+   503	
+   504			if (image_offset_be)
+   505				image_pos = be32_to_cpu(*image_offset_be) + size;
+   506			else if (image_pos_be)
+   507				image_pos = be32_to_cpu(*image_pos_be);
+   508			else
+   509				continue;
+   510	
+   511			image_description = fdt_getprop(fit, node, FIT_DESC_PROP,
+   512							&image_description_len);
+   513	
+   514			pr_info("FIT: %16s sub-image 0x%08x..0x%08x \"%.*s\"%s%.*s%s\n",
+   515				image_type, image_pos, image_pos + image_len - 1,
+   516				image_name_len, image_name, image_description ? " (" : "",
+   517				image_description ? image_description_len : 0,
+   518				image_description ?: "", image_description ? ") " : "");
+   519	
+   520			/* only 'filesystem' images should be mapped as partitions */
+   521			if (strncmp(image_type, FIT_FILESYSTEM_PROP, image_type_len))
+   522				continue;
    523	
-   524					/* HV_MSR_CRASH_CTL is unsupported. */
-   525					ms_hyperv.misc_features &= ~HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
-   526	
-   527					/* Don't trust Hyper-V's TLB-flushing hypercalls. */
-   528					ms_hyperv.hints &= ~HV_X64_REMOTE_TLB_FLUSH_RECOMMENDED;
-   529	
-   530					x86_init.acpi.reduced_hw_early_init = reduced_hw_init;
-   531				}
-   532			}
-   533		}
-   534	
-   535		if (hv_max_functions_eax >= HYPERV_CPUID_NESTED_FEATURES) {
-   536			ms_hyperv.nested_features =
-   537				cpuid_eax(HYPERV_CPUID_NESTED_FEATURES);
-   538			pr_info("Hyper-V: Nested features: 0x%x\n",
-   539				ms_hyperv.nested_features);
-   540		}
+   524			/* check if sub-image is part of configured loadables */
+   525			found = false;
+   526			loadable = config_loadables;
+   527			loadables_rem_len = config_loadables_len;
+   528			for (loadcnt = 0; loadables_rem_len > 1 &&
+   529					  loadcnt < MAX_FIT_LOADABLES; ++loadcnt) {
+   530				loadable_len =
+   531					strnlen(loadable, loadables_rem_len - 1) + 1;
+   532				loadables_rem_len -= loadable_len;
+   533				if (!strncmp(image_name, loadable, loadable_len)) {
+   534					found = true;
+   535					break;
+   536				}
+   537				loadable += loadable_len;
+   538			}
+   539			if (!found)
+   540				continue;
    541	
+   542			if (image_pos % (1 << PAGE_SHIFT)) {
+   543				dev_err(dev, "FIT: image %.*s start not aligned to page boundaries, skipping\n",
+   544					image_name_len, image_name);
+   545				continue;
+   546			}
+   547	
+   548			if (image_len % (1 << PAGE_SHIFT)) {
+   549				dev_err(dev, "FIT: sub-image %.*s end not aligned to page boundaries, skipping\n",
+   550					image_name_len, image_name);
+   551				continue;
+   552			}
+   553	
+   554			start_sect = image_pos >> SECTOR_SHIFT;
+   555			nr_sects = image_len >> SECTOR_SHIFT;
+   556			imgmaxsect = max_t(sector_t, imgmaxsect, start_sect + nr_sects);
+   557	
+   558			if (start_sect + nr_sects > dsectors) {
+   559				dev_err(dev, "FIT: sub-image %.*s disk access beyond EOD\n",
+   560					image_name_len, image_name);
+   561				continue;
+   562			}
+   563	
+   564			if (!slot) {
+   565				ret = sysfs_create_link_nowarn(&pdev->dev.kobj, bdev_kobj(bdev), "lower_dev");
+   566				if (ret && ret != -EEXIST)
+   567					goto out_bootconf;
+   568	
+   569				ret = 0;
+   570			}
+   571	
+   572			add_fit_subimage_device(bdev_file, slot++, start_sect, nr_sects, true);
+   573		}
+   574	
+   575		if (!found || !slot)
+   576			goto out_bootconf;
+   577	
+   578		dev_info(dev, "mapped %u uImage.FIT filesystem sub-image%s as /dev/fit%s%u%s\n",
+   579			 slot, (slot > 1)?"s":"", (slot > 1)?"[0...":"", slot - 1,
+   580			 (slot > 1)?"]":"");
+   581	
+   582		/* in case uImage.FIT is stored in a partition, map the remaining space */
+   583		if (!bdev_read_only(bdev) && bdev_is_partition(bdev) &&
+   584		    (imgmaxsect + MIN_FREE_SECT) < dsectors) {
+   585			add_fit_subimage_device(bdev_file, slot++, imgmaxsect,
+   586						dsectors - imgmaxsect, false);
+   587			dev_info(dev, "mapped remaing space as /dev/fitrw\n");
+   588		}
+   589	
+   590	out_bootconf:
+   591		kfree(bootconf);
+   592		kfree(fit);
+   593	out_blkdev:
+   594		if (!found || ret)
+   595			fput(bdev_file);
+   596	
+   597		return ret;
+   598	}
+   599	
 
 -- 
 0-DAY CI Kernel Test Service
