@@ -1,268 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0ED4258CF2;
-	Mon, 14 Apr 2025 08:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637CE259C90;
+	Mon, 14 Apr 2025 08:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744618177; cv=none; b=t8d45btx2+HHrnzEP0OWM6Tmij2HFZViUNEIoZmWuKhsFl1lxls3T5Bj3v/qeuwGpp/kPGvpwP7+bJIjMg1N/lB+TVzUbEGTHDWXVVI06/AmEsbOYN/z1LKaO8E8tyBD1XUm47LGhs73rHquCSh3v4VNPJ28Uo7SSEynEX+C4/8=
+	t=1744618203; cv=none; b=bxH7pgDZ8oFcAQhh2seLMMJa+ZRham1sqp7EgZZ63iUSn3x1iursL+qxdzvUAh0Z2/czgqDy5AgbYyBIgvm28ahHF2Y9qkU5B6jFecVzWLoVSABIitvCF8X2Dds5dTqPiBkt3Gg3LQs8u0CAISluIoNnqLrhbKbDKfb+qsAzfBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744618177; c=relaxed/simple;
-	bh=h0j1Hfu+P4Ik7wn30u2UB2Z6uWgvo3dBsKVHdecR3uE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GihPtHjlUyClWijOd2qsCpqdFLs7uGK35up08sy2QRPq0hNSl9nUYGa8yMo8gw0El/uoOVMVDFZBEwGdHCEeS3G1J9TSwSZRVviRm9SFme1/fs/roN3319yfPUNz8uEcYer87U2J6HtBzPw2YRioNviiayDUlePWoRcuzYgQ5nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGk2Asg/; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1744618203; c=relaxed/simple;
+	bh=UAWWkDhKlMeoJc5N1oM4q1rCMAWAwC4wkNh2Ricctkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lDHrU3pWyg8BbXut0n4CkJp8pkij5SUM/h4TK2ff1mdqrCX1VNWac1nuyUOT6JQg0RSzgKGz+uh4R6gNKkiGC8S178ZhlcTzgZmlBzs0FyPWYm2l23OGb/Vgt78JRSZam1zRYpkt6GEDeycGgxijpZ6C2XODiVZEImWWnBPEGAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YMyUCaVU; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGk2Asg/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YMyUCaVU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744618174; x=1776154174;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h0j1Hfu+P4Ik7wn30u2UB2Z6uWgvo3dBsKVHdecR3uE=;
-  b=nGk2Asg/XlFN1GEZg9NIPfKZ/POr27KDjT5Ijlf3CztjG+WMghXjzV25
-   OcZXlGkXusZ1+/s0E5tmEAi9KcjHx4jh4vwLvSmXXriLMAS6SXgxi1Szt
-   2cBSSnOSL2bTEMP7PTZYz3iF9zYnLkOgN4yf2/SvWVNJGFLfh40EAoITl
-   LikWR4JzEENdCZZnT46MhWZqDcWaPGVn3Z5Y03f5gjyKUkWTuHE2yk92G
-   V2gt0gXCmWrm04Wj1nKrGxtXzpIr4CVP7Ms7g/UzEPMzHivxXYtHkhjKu
-   AuxaI0WfMPwjOJro/F0MYhJu+VRtGzq1rGfCf0wqN2aiJfgyBhUj1SDa2
-   w==;
-X-CSE-ConnectionGUID: GfZ0srvuSNOJqoPy52k0Vw==
-X-CSE-MsgGUID: 9dxsONv3Smatpdq/5/ySPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46239542"
+  t=1744618202; x=1776154202;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UAWWkDhKlMeoJc5N1oM4q1rCMAWAwC4wkNh2Ricctkg=;
+  b=YMyUCaVU0jELUWFCrcAkW0yuw/6lJXhY1bXekK8+s4g82N92HEnxCvEH
+   v1o7U8g76HbGpanTEUXP6SiPN0XawCKM9b5lobzsF4gQi53BEp2ZKX/Oi
+   j2c+gvJfDoPxOeZJPSiPLY8Tox2BKqAJA2r63cjOh9+OTq7PYeNB4Kj6O
+   RErETCdUDRFDXLKI9QBPJLyKoItU5NFjoZZ3mf8FEOLMwjG0tyllvV39M
+   /dtQ5vwP9GcTTw/CenoQ8oqkCD/14n5M1GRIM65yTTYBUyliiyR1hl9pa
+   AMEt3Uq4XQUWvBTvi61syWdYwrkPSJe28+WpRrCdOaSFlxV5+9FrVGzwW
+   Q==;
+X-CSE-ConnectionGUID: tCH2k6cuTFOoySiitniNSA==
+X-CSE-MsgGUID: SNdiV6RuRNmppYSswgy7Fg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="63618113"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="46239542"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 01:09:34 -0700
-X-CSE-ConnectionGUID: HS0x0csZR3WR491+o8WFfw==
-X-CSE-MsgGUID: 5AiuT9BLSwOJ7JRHOjoxdw==
+   d="scan'208";a="63618113"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 01:10:00 -0700
+X-CSE-ConnectionGUID: Qvm6UMs9SBCbowBDnYAAwg==
+X-CSE-MsgGUID: RmrJIlTsT2m+aWyW5ViEKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="129691082"
+   d="scan'208";a="134499833"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Apr 2025 01:09:30 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 14 Apr 2025 01:09:29 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4Esh-000DvK-09;
+	id 1u4Esh-000DvM-0f;
 	Mon, 14 Apr 2025 08:09:27 +0000
-Date: Mon, 14 Apr 2025 16:08:37 +0800
+Date: Mon, 14 Apr 2025 16:08:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, Haibo Chen <haibo.chen@nxp.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Luke Wang <ziniu.wang_1@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Josua Mayer <josua@solid-run.com>, imx@lists.linux.dev,
-	linux-mmc@vger.kernel.org, s32@nxp.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] mmc: esdhc-imx: convert to modern PM_OPS
-Message-ID: <202504141551.hdiQj4os-lkp@intel.com>
-References: <20250411085932.1902662-1-arnd@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.15-rc1-next-next-inband 9/24]
+ drivers/net/dsa/qca/qca8k-8xxx.c:622:18: warning: variable 'mgmt_conduit' is
+ uninitialized when used here
+Message-ID: <202504141627.mn3a1Km6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250411085932.1902662-1-arnd@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.15-rc2]
-[also build test ERROR on linus/master next-20250411]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/mmc-esdhc-imx-convert-to-modern-PM_OPS/20250414-092134
-base:   v6.15-rc2
-patch link:    https://lore.kernel.org/r/20250411085932.1902662-1-arnd%40kernel.org
-patch subject: [PATCH] [v2] mmc: esdhc-imx: convert to modern PM_OPS
-config: i386-buildonly-randconfig-006-20250414 (https://download.01.org/0day-ci/archive/20250414/202504141551.hdiQj4os-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141551.hdiQj4os-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
+head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
+commit: bbf56e8f7d5498f3221826f0608649ddd997afa9 [9/24] net: dsa: qca8k: Move inband mutex into DSA core
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250414/202504141627.mn3a1Km6-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141627.mn3a1Km6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504141551.hdiQj4os-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504141627.mn3a1Km6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/mmc/host/sdhci-esdhc-imx.c: In function 'sdhci_esdhc_suspend':
->> drivers/mmc/host/sdhci-esdhc-imx.c:1902:15: error: implicit declaration of function 'sdhci_suspend_host'; did you mean 'sdhci_add_host'? [-Werror=implicit-function-declaration]
-    1902 |         ret = sdhci_suspend_host(host);
-         |               ^~~~~~~~~~~~~~~~~~
-         |               sdhci_add_host
-   drivers/mmc/host/sdhci-esdhc-imx.c: In function 'sdhci_esdhc_resume':
->> drivers/mmc/host/sdhci-esdhc-imx.c:1927:15: error: implicit declaration of function 'sdhci_resume_host'; did you mean 'sdhci_remove_host'? [-Werror=implicit-function-declaration]
-    1927 |         ret = sdhci_resume_host(host);
-         |               ^~~~~~~~~~~~~~~~~
-         |               sdhci_remove_host
-   drivers/mmc/host/sdhci-esdhc-imx.c: In function 'sdhci_esdhc_runtime_suspend':
->> drivers/mmc/host/sdhci-esdhc-imx.c:1953:15: error: implicit declaration of function 'sdhci_runtime_suspend_host' [-Werror=implicit-function-declaration]
-    1953 |         ret = sdhci_runtime_suspend_host(host);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/sdhci-esdhc-imx.c: In function 'sdhci_esdhc_runtime_resume':
->> drivers/mmc/host/sdhci-esdhc-imx.c:1999:15: error: implicit declaration of function 'sdhci_runtime_resume_host' [-Werror=implicit-function-declaration]
-    1999 |         err = sdhci_runtime_resume_host(host, 0);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/net/dsa/qca/qca8k-8xxx.c:622:18: warning: variable 'mgmt_conduit' is uninitialized when used here [-Wuninitialized]
+     622 |         read_skb->dev = mgmt_conduit;
+         |                         ^~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:567:33: note: initialize the variable 'mgmt_conduit' to silence this warning
+     567 |         struct net_device *mgmt_conduit;
+         |                                        ^
+         |                                         = NULL
+   1 warning generated.
 
 
-vim +1902 drivers/mmc/host/sdhci-esdhc-imx.c
+vim +/mgmt_conduit +622 drivers/net/dsa/qca/qca8k-8xxx.c
 
-95f25efe0ce22e Wolfram Sang      2010-10-15  1879  
-04143fbaeb5799 Dong Aisheng      2016-07-12  1880  static int sdhci_esdhc_suspend(struct device *dev)
-04143fbaeb5799 Dong Aisheng      2016-07-12  1881  {
-3e3274ab9ff37f Ulf Hansson       2016-07-27  1882  	struct sdhci_host *host = dev_get_drvdata(dev);
-a26a4f1baca55a Haibo Chen        2020-02-19  1883  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-a26a4f1baca55a Haibo Chen        2020-02-19  1884  	struct pltfm_imx_data *imx_data = sdhci_pltfm_priv(pltfm_host);
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1885  	int ret;
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1886  
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1887  	if (host->mmc->caps2 & MMC_CAP2_CQE) {
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1888  		ret = cqhci_suspend(host->mmc);
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1889  		if (ret)
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1890  			return ret;
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1891  	}
-3e3274ab9ff37f Ulf Hansson       2016-07-27  1892  
-a26a4f1baca55a Haibo Chen        2020-02-19  1893  	if ((imx_data->socdata->flags & ESDHC_FLAG_STATE_LOST_IN_LPMODE) &&
-a26a4f1baca55a Haibo Chen        2020-02-19  1894  		(host->tuning_mode != SDHCI_TUNING_MODE_1)) {
-a26a4f1baca55a Haibo Chen        2020-02-19  1895  		mmc_retune_timer_stop(host->mmc);
-a26a4f1baca55a Haibo Chen        2020-02-19  1896  		mmc_retune_needed(host->mmc);
-a26a4f1baca55a Haibo Chen        2020-02-19  1897  	}
-a26a4f1baca55a Haibo Chen        2020-02-19  1898  
-d38dcad4e7b48f Adrian Hunter     2017-03-20  1899  	if (host->tuning_mode != SDHCI_TUNING_MODE_3)
-d38dcad4e7b48f Adrian Hunter     2017-03-20  1900  		mmc_retune_needed(host->mmc);
-d38dcad4e7b48f Adrian Hunter     2017-03-20  1901  
-af8fade4bd7bc7 Haibo Chen        2020-02-19 @1902  	ret = sdhci_suspend_host(host);
-f6140462611308 Haibo Chen        2020-05-27  1903  	if (ret)
-f6140462611308 Haibo Chen        2020-05-27  1904  		return ret;
-f6140462611308 Haibo Chen        2020-05-27  1905  
-f6140462611308 Haibo Chen        2020-05-27  1906  	ret = pinctrl_pm_select_sleep_state(dev);
-f6140462611308 Haibo Chen        2020-05-27  1907  	if (ret)
-f6140462611308 Haibo Chen        2020-05-27  1908  		return ret;
-f6140462611308 Haibo Chen        2020-05-27  1909  
-f6140462611308 Haibo Chen        2020-05-27  1910  	ret = mmc_gpio_set_cd_wake(host->mmc, true);
-af8fade4bd7bc7 Haibo Chen        2020-02-19  1911  
-af8fade4bd7bc7 Haibo Chen        2020-02-19  1912  	return ret;
-04143fbaeb5799 Dong Aisheng      2016-07-12  1913  }
-04143fbaeb5799 Dong Aisheng      2016-07-12  1914  
-04143fbaeb5799 Dong Aisheng      2016-07-12  1915  static int sdhci_esdhc_resume(struct device *dev)
-04143fbaeb5799 Dong Aisheng      2016-07-12  1916  {
-cc17e1294b8aeb Dong Aisheng      2016-07-12  1917  	struct sdhci_host *host = dev_get_drvdata(dev);
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1918  	int ret;
-cc17e1294b8aeb Dong Aisheng      2016-07-12  1919  
-af8fade4bd7bc7 Haibo Chen        2020-02-19  1920  	ret = pinctrl_pm_select_default_state(dev);
-af8fade4bd7bc7 Haibo Chen        2020-02-19  1921  	if (ret)
-af8fade4bd7bc7 Haibo Chen        2020-02-19  1922  		return ret;
-af8fade4bd7bc7 Haibo Chen        2020-02-19  1923  
-19dbfdd3d5152d Dong Aisheng      2016-07-12  1924  	/* re-initialize hw state in case it's lost in low power mode */
-19dbfdd3d5152d Dong Aisheng      2016-07-12  1925  	sdhci_esdhc_imx_hwinit(host);
-cc17e1294b8aeb Dong Aisheng      2016-07-12  1926  
-bb6e358169bf62 BOUGH CHEN        2019-01-07 @1927  	ret = sdhci_resume_host(host);
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1928  	if (ret)
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1929  		return ret;
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1930  
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1931  	if (host->mmc->caps2 & MMC_CAP2_CQE)
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1932  		ret = cqhci_resume(host->mmc);
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1933  
-f6140462611308 Haibo Chen        2020-05-27  1934  	if (!ret)
-f6140462611308 Haibo Chen        2020-05-27  1935  		ret = mmc_gpio_set_cd_wake(host->mmc, false);
-f6140462611308 Haibo Chen        2020-05-27  1936  
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1937  	return ret;
-04143fbaeb5799 Dong Aisheng      2016-07-12  1938  }
-04143fbaeb5799 Dong Aisheng      2016-07-12  1939  
-89d7e5c131228a Dong Aisheng      2013-11-04  1940  static int sdhci_esdhc_runtime_suspend(struct device *dev)
-89d7e5c131228a Dong Aisheng      2013-11-04  1941  {
-89d7e5c131228a Dong Aisheng      2013-11-04  1942  	struct sdhci_host *host = dev_get_drvdata(dev);
-89d7e5c131228a Dong Aisheng      2013-11-04  1943  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-070e6d3ff5a696 Jisheng Zhang     2016-02-16  1944  	struct pltfm_imx_data *imx_data = sdhci_pltfm_priv(pltfm_host);
-89d7e5c131228a Dong Aisheng      2013-11-04  1945  	int ret;
-89d7e5c131228a Dong Aisheng      2013-11-04  1946  
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1947  	if (host->mmc->caps2 & MMC_CAP2_CQE) {
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1948  		ret = cqhci_suspend(host->mmc);
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1949  		if (ret)
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1950  			return ret;
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1951  	}
-bb6e358169bf62 BOUGH CHEN        2019-01-07  1952  
-89d7e5c131228a Dong Aisheng      2013-11-04 @1953  	ret = sdhci_runtime_suspend_host(host);
-371d39fabcebc3 Michael Trimarchi 2018-01-04  1954  	if (ret)
-371d39fabcebc3 Michael Trimarchi 2018-01-04  1955  		return ret;
-89d7e5c131228a Dong Aisheng      2013-11-04  1956  
-d38dcad4e7b48f Adrian Hunter     2017-03-20  1957  	if (host->tuning_mode != SDHCI_TUNING_MODE_3)
-d38dcad4e7b48f Adrian Hunter     2017-03-20  1958  		mmc_retune_needed(host->mmc);
-d38dcad4e7b48f Adrian Hunter     2017-03-20  1959  
-3602785b341a95 Michael Trimarchi 2018-01-04  1960  	imx_data->actual_clock = host->mmc->actual_clock;
-3602785b341a95 Michael Trimarchi 2018-01-04  1961  	esdhc_pltfm_set_clock(host, 0);
-89d7e5c131228a Dong Aisheng      2013-11-04  1962  	clk_disable_unprepare(imx_data->clk_per);
-89d7e5c131228a Dong Aisheng      2013-11-04  1963  	clk_disable_unprepare(imx_data->clk_ipg);
-89d7e5c131228a Dong Aisheng      2013-11-04  1964  	clk_disable_unprepare(imx_data->clk_ahb);
-89d7e5c131228a Dong Aisheng      2013-11-04  1965  
-1c4989b000aeac BOUGH CHEN        2019-04-29  1966  	if (imx_data->socdata->flags & ESDHC_FLAG_PMQOS)
-d1b98305916bc0 Rafael J. Wysocki 2020-02-12  1967  		cpu_latency_qos_remove_request(&imx_data->pm_qos_req);
-1c4989b000aeac BOUGH CHEN        2019-04-29  1968  
-89d7e5c131228a Dong Aisheng      2013-11-04  1969  	return ret;
-89d7e5c131228a Dong Aisheng      2013-11-04  1970  }
-89d7e5c131228a Dong Aisheng      2013-11-04  1971  
-89d7e5c131228a Dong Aisheng      2013-11-04  1972  static int sdhci_esdhc_runtime_resume(struct device *dev)
-89d7e5c131228a Dong Aisheng      2013-11-04  1973  {
-89d7e5c131228a Dong Aisheng      2013-11-04  1974  	struct sdhci_host *host = dev_get_drvdata(dev);
-89d7e5c131228a Dong Aisheng      2013-11-04  1975  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-070e6d3ff5a696 Jisheng Zhang     2016-02-16  1976  	struct pltfm_imx_data *imx_data = sdhci_pltfm_priv(pltfm_host);
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  1977  	int err;
-89d7e5c131228a Dong Aisheng      2013-11-04  1978  
-1c4989b000aeac BOUGH CHEN        2019-04-29  1979  	if (imx_data->socdata->flags & ESDHC_FLAG_PMQOS)
-d1b98305916bc0 Rafael J. Wysocki 2020-02-12  1980  		cpu_latency_qos_add_request(&imx_data->pm_qos_req, 0);
-1c4989b000aeac BOUGH CHEN        2019-04-29  1981  
-5c11f1ffb02244 Haibo Chen        2020-02-19  1982  	if (imx_data->socdata->flags & ESDHC_FLAG_CLK_RATE_LOST_IN_PM_RUNTIME)
-5c11f1ffb02244 Haibo Chen        2020-02-19  1983  		clk_set_rate(imx_data->clk_per, pltfm_host->clock);
-5c11f1ffb02244 Haibo Chen        2020-02-19  1984  
-a0ad3087586d09 Michael Trimarchi 2018-01-04  1985  	err = clk_prepare_enable(imx_data->clk_ahb);
-a0ad3087586d09 Michael Trimarchi 2018-01-04  1986  	if (err)
-1c4989b000aeac BOUGH CHEN        2019-04-29  1987  		goto remove_pm_qos_request;
-a0ad3087586d09 Michael Trimarchi 2018-01-04  1988  
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  1989  	err = clk_prepare_enable(imx_data->clk_per);
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  1990  	if (err)
-a0ad3087586d09 Michael Trimarchi 2018-01-04  1991  		goto disable_ahb_clk;
-af5d2b7b0d24f5 Ulf Hansson       2019-09-08  1992  
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  1993  	err = clk_prepare_enable(imx_data->clk_ipg);
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  1994  	if (err)
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  1995  		goto disable_per_clk;
-af5d2b7b0d24f5 Ulf Hansson       2019-09-08  1996  
-3602785b341a95 Michael Trimarchi 2018-01-04  1997  	esdhc_pltfm_set_clock(host, imx_data->actual_clock);
-a0ad3087586d09 Michael Trimarchi 2018-01-04  1998  
-c6303c5d52d5ec Baolin Wang       2019-07-25 @1999  	err = sdhci_runtime_resume_host(host, 0);
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  2000  	if (err)
-a0ad3087586d09 Michael Trimarchi 2018-01-04  2001  		goto disable_ipg_clk;
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  2002  
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2003  	if (host->mmc->caps2 & MMC_CAP2_CQE)
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2004  		err = cqhci_resume(host->mmc);
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2005  
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2006  	return err;
-89d7e5c131228a Dong Aisheng      2013-11-04  2007  
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  2008  disable_ipg_clk:
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  2009  	clk_disable_unprepare(imx_data->clk_ipg);
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  2010  disable_per_clk:
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  2011  	clk_disable_unprepare(imx_data->clk_per);
-a0ad3087586d09 Michael Trimarchi 2018-01-04  2012  disable_ahb_clk:
-a0ad3087586d09 Michael Trimarchi 2018-01-04  2013  	clk_disable_unprepare(imx_data->clk_ahb);
-1c4989b000aeac BOUGH CHEN        2019-04-29  2014  remove_pm_qos_request:
-1c4989b000aeac BOUGH CHEN        2019-04-29  2015  	if (imx_data->socdata->flags & ESDHC_FLAG_PMQOS)
-d1b98305916bc0 Rafael J. Wysocki 2020-02-12  2016  		cpu_latency_qos_remove_request(&imx_data->pm_qos_req);
-17b1eb7f0bf3dc Fabio Estevam     2017-05-16  2017  	return err;
-89d7e5c131228a Dong Aisheng      2013-11-04  2018  }
-89d7e5c131228a Dong Aisheng      2013-11-04  2019  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  559  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  560  static int
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  561  qca8k_phy_eth_command(struct qca8k_priv *priv, bool read, int phy,
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  562  		      int regnum, u16 data)
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  563  {
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  564  	struct sk_buff *write_skb, *clear_skb, *read_skb;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  565  	struct qca8k_mgmt_eth_data *mgmt_eth_data;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  566  	u32 write_val, clear_val = 0, val;
+6ca80638b90cec drivers/net/dsa/qca/qca8k-8xxx.c Florian Fainelli  2023-10-23  567  	struct net_device *mgmt_conduit;
+a981e435577331 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  568  	u32 resp_data[4];
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  569  	int ret, ret1;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  570  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  571  	if (regnum >= QCA8K_MDIO_MASTER_MAX_REG)
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  572  		return -EINVAL;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  573  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  574  	mgmt_eth_data = &priv->mgmt_eth_data;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  575  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  576  	write_val = QCA8K_MDIO_MASTER_BUSY | QCA8K_MDIO_MASTER_EN |
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  577  		    QCA8K_MDIO_MASTER_PHY_ADDR(phy) |
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  578  		    QCA8K_MDIO_MASTER_REG_ADDR(regnum);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  579  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  580  	if (read) {
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  581  		write_val |= QCA8K_MDIO_MASTER_READ;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  582  	} else {
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  583  		write_val |= QCA8K_MDIO_MASTER_WRITE;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  584  		write_val |= QCA8K_MDIO_MASTER_DATA(data);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  585  	}
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  586  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  587  	/* Prealloc all the needed skb before the lock */
+90386223f44e2a drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  588  	write_skb = qca8k_alloc_mdio_header(MDIO_WRITE, QCA8K_MDIO_MASTER_CTRL, &write_val,
+90386223f44e2a drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  589  					    QCA8K_ETHERNET_PHY_PRIORITY, sizeof(write_val));
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  590  	if (!write_skb)
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  591  		return -ENOMEM;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  592  
+90386223f44e2a drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  593  	clear_skb = qca8k_alloc_mdio_header(MDIO_WRITE, QCA8K_MDIO_MASTER_CTRL, &clear_val,
+90386223f44e2a drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  594  					    QCA8K_ETHERNET_PHY_PRIORITY, sizeof(clear_val));
+c3664d913dc115 drivers/net/dsa/qca8k.c          Dan Carpenter     2022-02-04  595  	if (!clear_skb) {
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  596  		ret = -ENOMEM;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  597  		goto err_clear_skb;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  598  	}
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  599  
+90386223f44e2a drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  600  	read_skb = qca8k_alloc_mdio_header(MDIO_READ, QCA8K_MDIO_MASTER_CTRL, &clear_val,
+90386223f44e2a drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  601  					   QCA8K_ETHERNET_PHY_PRIORITY, sizeof(clear_val));
+90386223f44e2a drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  602  	if (!read_skb) {
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  603  		ret = -ENOMEM;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  604  		goto err_read_skb;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  605  	}
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  606  
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  607  	/* It seems that accessing the switch's internal PHYs via management
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  608  	 * packets still uses the MDIO bus within the switch internally, and
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  609  	 * these accesses can conflict with external MDIO accesses to other
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  610  	 * devices on the MDIO bus.
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  611  	 * We therefore need to lock the MDIO bus onto which the switch is
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  612  	 * connected.
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  613  	 */
+078e0d596f7b59 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2024-11-10  614  	mutex_lock_nested(&priv->bus->mdio_lock, MDIO_MUTEX_NESTED);
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  615  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  616  	/* Actually start the request:
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  617  	 * 1. Send mdio master packet
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  618  	 * 2. Busy Wait for mdio master command
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  619  	 * 3. Get the data if we are reading
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  620  	 * 4. Reset the mdio master (even with error)
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  621  	 */
+6ca80638b90cec drivers/net/dsa/qca/qca8k-8xxx.c Florian Fainelli  2023-10-23 @622  	read_skb->dev = mgmt_conduit;
+6ca80638b90cec drivers/net/dsa/qca/qca8k-8xxx.c Florian Fainelli  2023-10-23  623  	clear_skb->dev = mgmt_conduit;
+6ca80638b90cec drivers/net/dsa/qca/qca8k-8xxx.c Florian Fainelli  2023-10-23  624  	write_skb->dev = mgmt_conduit;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  625  
+1af904b8c118ec drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  626  	ret = dsa_inband_request(&mgmt_eth_data->inband, write_skb,
+a89ed17ef27735 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  627  				 qca8k_mdio_header_fill_seq_num,
+a981e435577331 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  628  				 NULL, 0,
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  629  				 QCA8K_ETHERNET_TIMEOUT);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  630  
+97c0b9f9f76e51 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-11-26  631  	if (ret < 0) {
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  632  		kfree_skb(read_skb);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  633  		goto exit;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  634  	}
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  635  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  636  	ret = read_poll_timeout(qca8k_phy_eth_busy_wait, ret1,
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  637  				!(val & QCA8K_MDIO_MASTER_BUSY), 0,
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  638  				QCA8K_BUSY_WAIT_TIMEOUT * USEC_PER_MSEC, false,
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  639  				mgmt_eth_data, read_skb, &val);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  640  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  641  	if (ret < 0 && ret1 < 0) {
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  642  		ret = ret1;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  643  		goto exit;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  644  	}
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  645  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  646  	if (read) {
+1af904b8c118ec drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  647  		ret = dsa_inband_request(&mgmt_eth_data->inband, read_skb,
+a89ed17ef27735 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  648  					 qca8k_mdio_header_fill_seq_num,
+a981e435577331 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  649  					 &resp_data, sizeof(resp_data),
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  650  					 QCA8K_ETHERNET_TIMEOUT);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  651  
+97c0b9f9f76e51 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-11-26  652  		if (ret < 0)
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  653  			goto exit;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  654  
+a981e435577331 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  655  		ret = resp_data[0] & QCA8K_MDIO_MASTER_DATA_MASK;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  656  	} else {
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  657  		kfree_skb(read_skb);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  658  	}
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  659  exit:
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  660  
+05ef699ffbdd73 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  661  	/* This is expected to fail sometimes, so don't check return value. */
+05ef699ffbdd73 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  662  	dsa_inband_request(&mgmt_eth_data->inband, clear_skb,
+a89ed17ef27735 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  663  			   qca8k_mdio_header_fill_seq_num,
+a981e435577331 drivers/net/dsa/qca/qca8k-8xxx.c Andrew Lunn       2022-09-17  664  			   NULL, 0,
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  665  			   QCA8K_ETHERNET_TIMEOUT);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  666  
+526c8ee04bdbd4 drivers/net/dsa/qca/qca8k-8xxx.c Marek Behún       2023-10-04  667  	mutex_unlock(&priv->bus->mdio_lock);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  668  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  669  	return ret;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  670  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  671  err_read_skb:
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  672  	kfree_skb(clear_skb);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  673  err_clear_skb:
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  674  	kfree_skb(write_skb);
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  675  
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  676  	return ret;
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  677  }
+2cd5485663847d drivers/net/dsa/qca8k.c          Christian Marangi 2022-02-02  678  
+
+:::::: The code at line 622 was first introduced by commit
+:::::: 6ca80638b90cec66547011ee1ef79e534589989a net: dsa: Use conduit and user terms
+
+:::::: TO: Florian Fainelli <florian.fainelli@broadcom.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
