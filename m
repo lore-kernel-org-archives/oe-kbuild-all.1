@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20EE7DA82
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 01:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01227188733;
+	Mon, 14 Apr 2025 01:47:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744595254; cv=none; b=L9Ai73xRoHcfACRvldqJ3PpLnG5V2Cx7DruNdCTZZFGVEA67p0qPEEGElVYV0BM3dKECZ5SXPpZkJlaigWwUHtRofYaNphqbzcdcsIXKsU3bp6nFLtvtk8i1A9ReTFR1g7Mq5kxOPoDcIcQnMIiuNVJ0/TEtenKcAyc54CfOfiA=
+	t=1744595257; cv=none; b=sxaFCXiCkIBxyvtn09pDJOFX66e2hTrHiZuXPZ9Uw4SXkDuxXqhxL1kM62xBozXPDHqgsWy16CSxwr2zCGBgke4MfWIQ1LMA2bes/KobdMd99eTmBEItCVOhSyaaEKKjZGwQldmeqdAn0pwWLXCmncf/7TxUkLJKoBxOQfstQUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744595254; c=relaxed/simple;
-	bh=XJizUkJr5QFflIxdRvYYPp7XQHm9+cTXlKPpuyXwSpw=;
+	s=arc-20240116; t=1744595257; c=relaxed/simple;
+	bh=hGpZ4YnrqnNzyUzb6jHplwNVeEYL0W4lTdXfFPG1Ptg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pdkVneyn6EPfhj17Z8tR6dAdrI+/qT1Rl3CRTuZWBGaKbxeIJqP/wbZHCHj/MJl4i2N85LFMmrXtL2cwlc8xEpP9ydsDJ0aKPBrjTodFqbU++LfreumvElTXlyozcCCenlcsvpwlwv9fZOrmpU9MEFZCO8y/EMQtYxS1IlxNTrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5NnRgym; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=W2ApeX2WWUhYVDsMIlkWZD6GnO4lnZI2hk7Dt7XnQRkVjXnvCsoSKSK/36RwBLZQqkabAtGvZ5lwrwOnPPNznz/kl2TAh9HFJ8jhZ4U6yWlPZixC9DpDMa9ExTxoNV51AIDUElkaOyS3QN57FmeFkKQWfpqF65o+L1MX3tU7MTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaDGR+qh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5NnRgym"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaDGR+qh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744595252; x=1776131252;
+  t=1744595255; x=1776131255;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XJizUkJr5QFflIxdRvYYPp7XQHm9+cTXlKPpuyXwSpw=;
-  b=Q5NnRgymrxCYBadJuBimCX3RimrjWYKPCVxI+g/eLLxO6VHc+EK+BjsS
-   WYre3qVDX8uwE2ZEosOQlYCY+JVmSZNpmm2DKKwOb09GNbCWXmn+JQHK7
-   8y5mzs/2Hf1sNKRUfNUc4n3Bd0PFrNtTdZCmK87AEKYrlwY3OmW+m4n0t
-   5ADYetImqzhuSzidLeokYji2oeECeSi6ZR7XfMrjEYSpvwXJ0MLXbfqK4
-   aaZtdfygQ1iO+wgjLan9cwdyGMskFacws54dFqLAOvuNgOSAXAGg4bM58
-   uuR6nlPlmNbvRnQwmVkwR7/ftUsBPacKUFNf/4eWIFo6xl2Ru56v/elcK
-   w==;
-X-CSE-ConnectionGUID: rARvp+lwQBGNz1gxsZBsAg==
-X-CSE-MsgGUID: 5QlZiWW8SvCJAR77jml2RQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="71437241"
+  bh=hGpZ4YnrqnNzyUzb6jHplwNVeEYL0W4lTdXfFPG1Ptg=;
+  b=kaDGR+qhS/ZGDqV45yNNSp5HnPGdi708kYokkhfN8BwsERdUpmKWWl7i
+   oEjyxuX7vykba5VXVE0y/IwcDNj5ErdTGZt4cOunUs/cSfPWLrV0jpe1f
+   /fXgTrnvXEePs8bhlRcp+zEb3HWtcAwpB7M6q6XpYr21ef5z7R5crrffM
+   sKYSoHClAFBQqDpOEhTANKYo1aBnwO/SCEOFjy4BplUAKAb0KTlA5QZTg
+   hkSBblavJ4iK/scCzr/23mi3svqk9qqZqUhIeQIf+l7DCeArMZDmnHZsK
+   4vACd1FO3Cfmq0rXRg1mBSQY7mv7c45TYFfLtgfXOtQ9ZH9eTjNR7kD3b
+   Q==;
+X-CSE-ConnectionGUID: +mJjz02lSoq5TZGg2pF4CA==
+X-CSE-MsgGUID: bhqltXZOSRSbNEX6ovIf4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="71437245"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="71437241"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+   d="scan'208";a="71437245"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 18:47:32 -0700
-X-CSE-ConnectionGUID: BR9KczeSQwmIeZSe0sdarQ==
-X-CSE-MsgGUID: W5KcPyQ5S66gllnHIjFVEw==
+X-CSE-ConnectionGUID: ++LQVuLDT6eJN3uQf5TOPA==
+X-CSE-MsgGUID: FGU8yX97Sy6yfg/9g93khw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="133782999"
+   d="scan'208";a="134756978"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Apr 2025 18:47:31 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 13 Apr 2025 18:47:31 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u48v3-000D63-0i;
+	id 1u48v3-000D66-0m;
 	Mon, 14 Apr 2025 01:47:29 +0000
-Date: Mon, 14 Apr 2025 09:47:02 +0800
+Date: Mon, 14 Apr 2025 09:47:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:migration 10/16] mm/migrate.c:191: warning:
- Function parameter or struct member 'dst' not described in
- 'migrate_non_folio_page'
-Message-ID: <202504140956.XfOvdbF7-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:migration 16/16] mm/compaction.c:126:8: error: no
+ member named 'compact_considered' in 'struct zone'
+Message-ID: <202504140934.caN63YOu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,177 +64,186 @@ Content-Disposition: inline
 
 tree:   https://github.com/davidhildenbrand/linux migration
 head:   07b1b56f4f50e3b2ce6818d9ca0fbdbcd138d66f
-commit: a3d0a56997669e386379c8b016a041fa5264fcae [10/16] mm/migrate: factor out non-folio page handling into migrate_non_folio_page()
-config: arc-randconfig-001-20250414 (https://download.01.org/0day-ci/archive/20250414/202504140956.XfOvdbF7-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504140956.XfOvdbF7-lkp@intel.com/reproduce)
+commit: 07b1b56f4f50e3b2ce6818d9ca0fbdbcd138d66f [16/16] tmp
+config: powerpc64-randconfig-001-20250414 (https://download.01.org/0day-ci/archive/20250414/202504140934.caN63YOu-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504140934.caN63YOu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504140956.XfOvdbF7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504140934.caN63YOu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   mm/migrate.c:68: warning: Function parameter or struct member 'mode' not described in 'isolate_non_folio_page'
->> mm/migrate.c:191: warning: Function parameter or struct member 'dst' not described in 'migrate_non_folio_page'
->> mm/migrate.c:191: warning: Function parameter or struct member 'src' not described in 'migrate_non_folio_page'
->> mm/migrate.c:191: warning: Function parameter or struct member 'mode' not described in 'migrate_non_folio_page'
->> mm/migrate.c:191: warning: Excess function parameter 'page' description in 'migrate_non_folio_page'
+>> mm/compaction.c:126:8: error: no member named 'compact_considered' in 'struct zone'
+     126 |         zone->compact_considered = 0;
+         |         ~~~~  ^
+>> mm/compaction.c:127:8: error: no member named 'compact_defer_shift' in 'struct zone'
+     127 |         zone->compact_defer_shift++;
+         |         ~~~~  ^
+>> mm/compaction.c:129:20: error: no member named 'compact_order_failed' in 'struct zone'
+     129 |         if (order < zone->compact_order_failed)
+         |                     ~~~~  ^
+   mm/compaction.c:130:9: error: no member named 'compact_order_failed' in 'struct zone'
+     130 |                 zone->compact_order_failed = order;
+         |                 ~~~~  ^
+   mm/compaction.c:132:12: error: no member named 'compact_defer_shift' in 'struct zone'
+     132 |         if (zone->compact_defer_shift > COMPACT_MAX_DEFER_SHIFT)
+         |             ~~~~  ^
+   mm/compaction.c:133:9: error: no member named 'compact_defer_shift' in 'struct zone'
+     133 |                 zone->compact_defer_shift = COMPACT_MAX_DEFER_SHIFT;
+         |                 ~~~~  ^
+>> mm/compaction.c:135:2: error: call to undeclared function 'trace_mm_compaction_defer_compaction'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     135 |         trace_mm_compaction_defer_compaction(zone, order);
+         |         ^
+   mm/compaction.c:141:43: error: no member named 'compact_defer_shift' in 'struct zone'
+     141 |         unsigned long defer_limit = 1UL << zone->compact_defer_shift;
+         |                                            ~~~~  ^
+   mm/compaction.c:143:20: error: no member named 'compact_order_failed' in 'struct zone'
+     143 |         if (order < zone->compact_order_failed)
+         |                     ~~~~  ^
+   mm/compaction.c:147:14: error: no member named 'compact_considered' in 'struct zone'
+     147 |         if (++zone->compact_considered >= defer_limit) {
+         |               ~~~~  ^
+   mm/compaction.c:148:9: error: no member named 'compact_considered' in 'struct zone'
+     148 |                 zone->compact_considered = defer_limit;
+         |                 ~~~~  ^
+>> mm/compaction.c:152:2: error: call to undeclared function 'trace_mm_compaction_deferred'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     152 |         trace_mm_compaction_deferred(zone, order);
+         |         ^
+   mm/compaction.c:152:2: note: did you mean 'compaction_deferred'?
+   mm/compaction.c:139:13: note: 'compaction_deferred' declared here
+     139 | static bool compaction_deferred(struct zone *zone, int order)
+         |             ^
+     140 | {
+     141 |         unsigned long defer_limit = 1UL << zone->compact_defer_shift;
+     142 | 
+     143 |         if (order < zone->compact_order_failed)
+     144 |                 return false;
+     145 | 
+     146 |         /* Avoid possible overflow */
+     147 |         if (++zone->compact_considered >= defer_limit) {
+     148 |                 zone->compact_considered = defer_limit;
+     149 |                 return false;
+     150 |         }
+     151 | 
+     152 |         trace_mm_compaction_deferred(zone, order);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         compaction_deferred
+   mm/compaction.c:166:9: error: no member named 'compact_considered' in 'struct zone'
+     166 |                 zone->compact_considered = 0;
+         |                 ~~~~  ^
+   mm/compaction.c:167:9: error: no member named 'compact_defer_shift' in 'struct zone'
+     167 |                 zone->compact_defer_shift = 0;
+         |                 ~~~~  ^
+   mm/compaction.c:169:21: error: no member named 'compact_order_failed' in 'struct zone'
+     169 |         if (order >= zone->compact_order_failed)
+         |                      ~~~~  ^
+   mm/compaction.c:170:9: error: no member named 'compact_order_failed' in 'struct zone'
+     170 |                 zone->compact_order_failed = order + 1;
+         |                 ~~~~  ^
+>> mm/compaction.c:172:2: error: call to undeclared function 'trace_mm_compaction_defer_reset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     172 |         trace_mm_compaction_defer_reset(zone, order);
+         |         ^
+   mm/compaction.c:172:2: note: did you mean 'compaction_defer_reset'?
+   mm/compaction.c:162:6: note: 'compaction_defer_reset' declared here
+     162 | void compaction_defer_reset(struct zone *zone, int order,
+         |      ^
+     163 |                 bool alloc_success)
+     164 | {
+     165 |         if (alloc_success) {
+     166 |                 zone->compact_considered = 0;
+     167 |                 zone->compact_defer_shift = 0;
+     168 |         }
+     169 |         if (order >= zone->compact_order_failed)
+     170 |                 zone->compact_order_failed = order + 1;
+     171 | 
+     172 |         trace_mm_compaction_defer_reset(zone, order);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         compaction_defer_reset
+>> mm/compaction.c:162:6: warning: no previous prototype for function 'compaction_defer_reset' [-Wmissing-prototypes]
+     162 | void compaction_defer_reset(struct zone *zone, int order,
+         |      ^
+   mm/compaction.c:162:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     162 | void compaction_defer_reset(struct zone *zone, int order,
+         | ^
+         | static 
+   mm/compaction.c:178:20: error: no member named 'compact_order_failed' in 'struct zone'
+     178 |         if (order < zone->compact_order_failed)
+         |                     ~~~~  ^
+   mm/compaction.c:181:15: error: no member named 'compact_defer_shift' in 'struct zone'
+     181 |         return zone->compact_defer_shift == COMPACT_MAX_DEFER_SHIFT &&
+         |                ~~~~  ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   1 warning and 20 errors generated.
 
 
-vim +191 mm/migrate.c
+vim +126 mm/compaction.c
 
-    53	
-    54	/**
-    55	 * isolate_non_folio_page - isolate a non-folio page for migration
-    56	 * @page: The page.
-    57	 *
-    58	 * Try to isolate a non-folio page for migration. Will fail if the page is
-    59	 * not a non-folio page that is movable, including if the page is already
-    60	 * isolated or just was released by its owner.
-    61	 *
-    62	 * Once isolated, the page cannot get freed until it is either putback
-    63	 * or migrated.
-    64	 *
-    65	 * Returns true if isolation succeeded, otherwise false.
-    66	 */
-    67	bool isolate_non_folio_page(struct page *page, isolate_mode_t mode)
-  > 68	{
-    69		/*
-    70		 * TODO: these pages will not be folios in the future. All
-    71		 * folio dependencies will have to be removed.
-    72		 */
-    73		struct folio *folio = folio_get_nontail_page(page);
-    74		const struct movable_operations *mops;
-    75	
-    76		/*
-    77		 * Avoid burning cycles with pages that are yet under __free_pages(),
-    78		 * or just got freed under us.
-    79		 *
-    80		 * In case we 'win' a race for a movable page being freed under us and
-    81		 * raise its refcount preventing __free_pages() from doing its job
-    82		 * the put_page() at the end of this block will take care of
-    83		 * release this page, thus avoiding a nasty leakage.
-    84		 */
-    85		if (!folio)
-    86			goto out;
-    87	
-    88		/*
-    89		 * Check movable flag before taking the page lock because
-    90		 * we use non-atomic bitops on newly allocated page flags so
-    91		 * unconditionally grabbing the lock ruins page's owner side.
-    92		 */
-    93		if (unlikely(!__PageMovable(page)))
-    94			goto out_putfolio;
-    95	
-    96		/*
-    97		 * As movable pages are not isolated from LRU lists, concurrent
-    98		 * compaction threads can race against page migration functions
-    99		 * as well as race against the releasing a page.
-   100		 *
-   101		 * In order to avoid having an already isolated movable page
-   102		 * being (wrongly) re-isolated while it is under migration,
-   103		 * or to avoid attempting to isolate pages being released,
-   104		 * lets be sure we have the page lock
-   105		 * before proceeding with the movable page isolation steps.
-   106		 */
-   107		if (unlikely(!folio_trylock(folio)))
-   108			goto out_putfolio;
-   109	
-   110		if (!PageMovable(page) || PageIsolated(page))
-   111			goto out_no_isolated;
-   112	
-   113		mops = page_movable_ops(page);
-   114		if (WARN_ON_ONCE(!mops))
-   115			goto out_no_isolated;
-   116	
-   117		if (!mops->isolate_page(page, mode))
-   118			goto out_no_isolated;
-   119	
-   120		/* Driver shouldn't use the isolated flag */
-   121		VM_WARN_ON_ONCE_PAGE(PageIsolated(page), page);
-   122		SetPageIsolated(page);
-   123		folio_unlock(folio);
-   124	
-   125		return true;
-   126	
-   127	out_no_isolated:
-   128		folio_unlock(folio);
-   129	out_putfolio:
-   130		folio_put(folio);
-   131	out:
-   132		return false;
-   133	}
-   134	
-   135	/**
-   136	 * putback_non_folio_page - putback a non-folio page
-   137	 * @page: The page.
-   138	 *
-   139	 * Putback a non-folio page that was previously isolated
-   140	 * with isolated_non_folio_page().
-   141	 *
-   142	 * After the page was putback, it might get freed at any time and must no
-   143	 * longer be touched by the caller.
-   144	 */
-   145	static void putback_non_folio_page(struct page *page)
-   146	{
-   147		/*
-   148		 * TODO: these pages will not be folios in the future. All
-   149		 * folio dependencies will have to be removed.
-   150		 */
-   151		struct folio *folio = page_folio(page);
-   152	
-   153		VM_WARN_ON_ONCE_PAGE(!PageIsolated(page), page);
-   154		folio_lock(folio);
-   155		/* If the page was released by it's owner, there is nothing to do. */
-   156		if (PageMovable(page))
-   157			page_movable_ops(page)->putback_page(page);
-   158		ClearPageIsolated(page);
-   159		folio_unlock(folio);
-   160		folio_put(folio);
-   161	}
-   162	
-   163	/**
-   164	 * migrate_non_folio_page - migrate a non-folio page
-   165	 * @page: The page.
-   166	 *
-   167	 * Migrate a non-folio page that was previously isolated with
-   168	 * isolated_non_folio_page().
-   169	 *
-   170	 * If the src page was already released by its owner, the src page is
-   171	 * un-isolated and migration succeeds; the migration core will be the
-   172	 * owner of both pages.
-   173	 *
-   174	 * If the src page was not released by its owner and the migration was
-   175	 * successful, the owner of the src page and the dst page are swapped and
-   176	 * the src page is un-isolated.
-   177	 *
-   178	 * If migration fails, the ownership stays unmodified and the src page
-   179	 * remains isolated: migration may be retried later or the page can be putback.
-   180	 *
-   181	 * TODO: migration core will treat both pages as folios and lock them before
-   182	 * this call to unlock them after this call. Further, the folio refcounts on
-   183	 * src and dst are also released by migration core. These pages will not be
-   184	 * folios in the future, so that must be reworked.
-   185	 *
-   186	 * Returns MIGRATEPAGE_SUCCESS on success, otherwise a negative error
-   187	 * code.
-   188	 */
-   189	static int migrate_non_folio_page(struct page *dst, struct page *src,
-   190			enum migrate_mode mode)
- > 191	{
-   192		int rc = MIGRATEPAGE_SUCCESS;
-   193	
-   194		VM_WARN_ON_ONCE(!PageIsolated(src));
-   195		/* If the page was released by it's owner, there is nothing to do. */
-   196		if (PageMovable(src))
-   197			rc = page_movable_ops(src)->migrate_page(dst, src, mode);
-   198		if (rc == MIGRATEPAGE_SUCCESS)
-   199			ClearPageIsolated(src);
-   200		return rc;
-   201	}
-   202	
+24e2716f63e613 Joonsoo Kim   2015-02-11  118  
+24e2716f63e613 Joonsoo Kim   2015-02-11  119  /*
+24e2716f63e613 Joonsoo Kim   2015-02-11  120   * Compaction is deferred when compaction fails to result in a page
+860b32729a21e0 Alex Shi      2020-08-11  121   * allocation success. 1 << compact_defer_shift, compactions are skipped up
+24e2716f63e613 Joonsoo Kim   2015-02-11  122   * to a limit of 1 << COMPACT_MAX_DEFER_SHIFT
+24e2716f63e613 Joonsoo Kim   2015-02-11  123   */
+2271b016bf368d Hui Su        2020-12-14  124  static void defer_compaction(struct zone *zone, int order)
+24e2716f63e613 Joonsoo Kim   2015-02-11  125  {
+24e2716f63e613 Joonsoo Kim   2015-02-11 @126  	zone->compact_considered = 0;
+24e2716f63e613 Joonsoo Kim   2015-02-11 @127  	zone->compact_defer_shift++;
+24e2716f63e613 Joonsoo Kim   2015-02-11  128  
+24e2716f63e613 Joonsoo Kim   2015-02-11 @129  	if (order < zone->compact_order_failed)
+24e2716f63e613 Joonsoo Kim   2015-02-11  130  		zone->compact_order_failed = order;
+24e2716f63e613 Joonsoo Kim   2015-02-11  131  
+24e2716f63e613 Joonsoo Kim   2015-02-11  132  	if (zone->compact_defer_shift > COMPACT_MAX_DEFER_SHIFT)
+24e2716f63e613 Joonsoo Kim   2015-02-11  133  		zone->compact_defer_shift = COMPACT_MAX_DEFER_SHIFT;
+24e2716f63e613 Joonsoo Kim   2015-02-11  134  
+24e2716f63e613 Joonsoo Kim   2015-02-11 @135  	trace_mm_compaction_defer_compaction(zone, order);
+24e2716f63e613 Joonsoo Kim   2015-02-11  136  }
+24e2716f63e613 Joonsoo Kim   2015-02-11  137  
+24e2716f63e613 Joonsoo Kim   2015-02-11  138  /* Returns true if compaction should be skipped this time */
+2271b016bf368d Hui Su        2020-12-14  139  static bool compaction_deferred(struct zone *zone, int order)
+24e2716f63e613 Joonsoo Kim   2015-02-11  140  {
+24e2716f63e613 Joonsoo Kim   2015-02-11  141  	unsigned long defer_limit = 1UL << zone->compact_defer_shift;
+24e2716f63e613 Joonsoo Kim   2015-02-11  142  
+24e2716f63e613 Joonsoo Kim   2015-02-11  143  	if (order < zone->compact_order_failed)
+24e2716f63e613 Joonsoo Kim   2015-02-11  144  		return false;
+24e2716f63e613 Joonsoo Kim   2015-02-11  145  
+24e2716f63e613 Joonsoo Kim   2015-02-11  146  	/* Avoid possible overflow */
+62b35fe0eba21b Mateusz Nosek 2020-10-13  147  	if (++zone->compact_considered >= defer_limit) {
+24e2716f63e613 Joonsoo Kim   2015-02-11  148  		zone->compact_considered = defer_limit;
+24e2716f63e613 Joonsoo Kim   2015-02-11  149  		return false;
+62b35fe0eba21b Mateusz Nosek 2020-10-13  150  	}
+24e2716f63e613 Joonsoo Kim   2015-02-11  151  
+24e2716f63e613 Joonsoo Kim   2015-02-11 @152  	trace_mm_compaction_deferred(zone, order);
+24e2716f63e613 Joonsoo Kim   2015-02-11  153  
+24e2716f63e613 Joonsoo Kim   2015-02-11  154  	return true;
+24e2716f63e613 Joonsoo Kim   2015-02-11  155  }
+24e2716f63e613 Joonsoo Kim   2015-02-11  156  
+24e2716f63e613 Joonsoo Kim   2015-02-11  157  /*
+24e2716f63e613 Joonsoo Kim   2015-02-11  158   * Update defer tracking counters after successful compaction of given order,
+24e2716f63e613 Joonsoo Kim   2015-02-11  159   * which means an allocation either succeeded (alloc_success == true) or is
+24e2716f63e613 Joonsoo Kim   2015-02-11  160   * expected to succeed.
+24e2716f63e613 Joonsoo Kim   2015-02-11  161   */
+24e2716f63e613 Joonsoo Kim   2015-02-11 @162  void compaction_defer_reset(struct zone *zone, int order,
+24e2716f63e613 Joonsoo Kim   2015-02-11  163  		bool alloc_success)
+24e2716f63e613 Joonsoo Kim   2015-02-11  164  {
+24e2716f63e613 Joonsoo Kim   2015-02-11  165  	if (alloc_success) {
+24e2716f63e613 Joonsoo Kim   2015-02-11  166  		zone->compact_considered = 0;
+24e2716f63e613 Joonsoo Kim   2015-02-11  167  		zone->compact_defer_shift = 0;
+24e2716f63e613 Joonsoo Kim   2015-02-11  168  	}
+24e2716f63e613 Joonsoo Kim   2015-02-11  169  	if (order >= zone->compact_order_failed)
+24e2716f63e613 Joonsoo Kim   2015-02-11  170  		zone->compact_order_failed = order + 1;
+24e2716f63e613 Joonsoo Kim   2015-02-11  171  
+24e2716f63e613 Joonsoo Kim   2015-02-11 @172  	trace_mm_compaction_defer_reset(zone, order);
+24e2716f63e613 Joonsoo Kim   2015-02-11  173  }
+24e2716f63e613 Joonsoo Kim   2015-02-11  174  
+
+:::::: The code at line 126 was first introduced by commit
+:::::: 24e2716f63e613cf15d3beba3faa0711bcacc427 mm/compaction: add tracepoint to observe behaviour of compaction defer
+
+:::::: TO: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
