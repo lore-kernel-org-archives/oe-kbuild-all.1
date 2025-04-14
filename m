@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7852B189F57
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 02:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A561191F91;
+	Mon, 14 Apr 2025 02:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744596580; cv=none; b=GKmnyEY2d8wDWYW+Oi8qDSd5OGluLrZkDC5qAx2NhbVxyLrD3WdiqaVCpMhybiuBENornSdMn2pSQK9pS+575zJr1TXC9QsLptaYZWD6/4ZdaONh+0q4V2YG8Kh1cJsDGlS+m64hJzBPUKjxeGdYwvKcD0PF9cJOaxoGCF00jEQ=
+	t=1744597786; cv=none; b=RznESa/kKxl9fSWliIqopq+I6DOuxYLPa9geb8/w0aT9bAKVCMo1rIgkvSUAf3kvrCfsfcwFm1qUJ/d/1p482Ua3ys8dq5WpBzTUqzePyBrzgffTqf8QOLq8o33/MyTKQaYJ+/XBA5bjxTaIiWumRQY+wryPARaXCmOd5IBpJCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744596580; c=relaxed/simple;
-	bh=ap71KQGj7IxXMTQ4DUDW9fnPUxaN+WdgLy/qwSwAUxo=;
+	s=arc-20240116; t=1744597786; c=relaxed/simple;
+	bh=Ij3M9xTV2cJVyqoJpwuWnj7OztPPD/2nBy+flsgK+Ds=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mUBlmgucyDFJ4X655jwfb53XknwvaHMgGeHIfNF0ibqJnNLcVC/wRdeMDHDjxfQMEbzVgcIrH/7HOwAADp9cBzpjlAYnmatPgi4NYPSIm1RURDYKYna9mg1XKlgzMhPy8THXBAKt3xENmZD0PfLYqTnp2X/s8L5UBWQr2Iwx9Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mskoONHC; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Rv7sv1uz78luPqU7kkHs25fA7hkMyq6gaExAZesj/cHSKEpyVpws69C3VEnSiheBrl10D+PQomcEob8PGU+ZU7bmVg8/JUmV1pWRU+AiOg8u6kB+Vg7g3f6bJqw0TV5tbd+9ogJ5eKozoSvj1CCejZvt2Zam90wyl+L93nIc9jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEMgK4R8; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mskoONHC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEMgK4R8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744596579; x=1776132579;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=ap71KQGj7IxXMTQ4DUDW9fnPUxaN+WdgLy/qwSwAUxo=;
-  b=mskoONHCcl6bp8Gz1yzLoq5INSCvp5yXy0/6McQ+Bng3rPWvRqo+RN1Q
-   F4lmUuJyXeoVf7gPUeFPzDAS9GIx4C0j2m8gROi/cs6y5BDaKSRieQCdL
-   AK015uXWV9JnXZ+nez9R2xMLacrGEtYV4hRTEgGmG3w8qu6zGfGrc1a4x
-   /rD4VSDD+JGf2TA3tQFAj6TztTj40r6Cz6Y1jpTNIeekQ+Cl7/1MkGDD5
-   81jZkf3GQs/oPvo48IOkLwl+43RxEW+fpAAufkz4eGkYoVFJlhxrVN3sz
-   Ezq5wEMBe5YDK7PhHKjF7qx42Gs9PTXrA+xLLAkB+LnqvXUl1rIP18kT3
-   Q==;
-X-CSE-ConnectionGUID: 6pMDgcM6Qhu55mL9/YIZSg==
-X-CSE-MsgGUID: yBiPYGHJTB+UrZPqROHkKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46189251"
+  t=1744597783; x=1776133783;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ij3M9xTV2cJVyqoJpwuWnj7OztPPD/2nBy+flsgK+Ds=;
+  b=EEMgK4R8jeR4DHJrlNrl92z+YcalZl78kCxXPEnfgda7RzQ0h0YM9vzX
+   Pk38nIhFZNgtq39dsT8AuYCwnlAuxJuim/pWnlvMaYgC2goAk5ZoBUNYt
+   voIjSVjAhcQAD9nEZpWmNDDPPc/FphVLieWWmXLqe/kQwdEr1jnV5ba3Q
+   fWDKEA+sxSA80X6N8HL2l8sX+CbLEL8fVTWbk77/QIc5LcgX5FoPelbc5
+   2qC0sX/AURvsDbhmhN0/NqW3krp8eGNBz48YOxsLMRdN381oWIXg6CVGw
+   YQwo0QkoHgFnGybOjA4DMJUneQBsIuTARdTkILWPWRLrbRwMlJ6lxMdGq
+   A==;
+X-CSE-ConnectionGUID: WawhDBIbR4GZZI8T5xRmGg==
+X-CSE-MsgGUID: 813N7M6VRISPEkXm0sEpnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49856895"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="46189251"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 19:09:38 -0700
-X-CSE-ConnectionGUID: hMbIKpMsRuutSFlXI3z+Hg==
-X-CSE-MsgGUID: ZyH/F/SZQfO1gjX3E5tMQQ==
+   d="scan'208";a="49856895"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 19:29:43 -0700
+X-CSE-ConnectionGUID: CZ7wq4IxSSqXlqfmrW3ZDQ==
+X-CSE-MsgGUID: sSzqAEDsSo2Y0d/+IGNPow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="166862838"
+   d="scan'208";a="134763487"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Apr 2025 19:09:37 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 13 Apr 2025 19:29:41 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u49GQ-000DAI-2U;
-	Mon, 14 Apr 2025 02:09:34 +0000
-Date: Mon, 14 Apr 2025 10:08:59 +0800
+	id 1u49Zr-000DCh-0N;
+	Mon, 14 Apr 2025 02:29:39 +0000
+Date: Mon, 14 Apr 2025 10:29:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] gpiolib: Allow to use setters with return value for
- output-only gpios
-Message-ID: <Z_xuO9PZ6_afeii1@6bf5cb62fcc2>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: [tip:x86/alternatives 38/58] arch/x86/um/../kernel/module.c:209:
+ undefined reference to `smp_text_poke_sync_each_cpu'
+Message-ID: <202504141003.kc69fVoj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +62,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250411-mdb-gpiolib-setters-fix-v2-1-9611280d8822@bootlin.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/alternatives
+head:   af8967158f9ad759a93e8e7a933c10e7cbb01ba2
+commit: 6e4955a9d73ebdc8496e6bff7f6d2bf83c01959f [38/58] x86/alternatives: Rename 'text_poke_sync()' to 'smp_text_poke_sync_each_cpu()'
+config: um-defconfig (https://download.01.org/0day-ci/archive/20250414/202504141003.kc69fVoj-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141003.kc69fVoj-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504141003.kc69fVoj-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: arch/x86/kernel/module.o: in function `apply_relocate_add':
+>> arch/x86/um/../kernel/module.c:209: undefined reference to `smp_text_poke_sync_each_cpu'
+   clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2] gpiolib: Allow to use setters with return value for output-only gpios
-Link: https://lore.kernel.org/stable/20250411-mdb-gpiolib-setters-fix-v2-1-9611280d8822%40bootlin.com
+
+vim +209 arch/x86/um/../kernel/module.c
+
+   188	
+   189	static int write_relocate_add(Elf64_Shdr *sechdrs,
+   190				      const char *strtab,
+   191				      unsigned int symindex,
+   192				      unsigned int relsec,
+   193				      struct module *me,
+   194				      bool apply)
+   195	{
+   196		int ret;
+   197		bool early = me->state == MODULE_STATE_UNFORMED;
+   198		void *(*write)(void *, const void *, size_t) = memcpy;
+   199	
+   200		if (!early) {
+   201			write = text_poke;
+   202			mutex_lock(&text_mutex);
+   203		}
+   204	
+   205		ret = __write_relocate_add(sechdrs, strtab, symindex, relsec, me,
+   206					   write, apply);
+   207	
+   208		if (!early) {
+ > 209			smp_text_poke_sync_each_cpu();
+   210			mutex_unlock(&text_mutex);
+   211		}
+   212	
+   213		return ret;
+   214	}
+   215	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
