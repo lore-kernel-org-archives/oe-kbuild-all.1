@@ -1,81 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFEE19924E;
-	Mon, 14 Apr 2025 11:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A3476410
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 12:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744631701; cv=none; b=VX8+8OS37RbKVWuxqP7F0lNaFilfgwf6+TnXecBhKr/nuvYVM4jHq+UIN6uFtdO493fmSD2Y0VgKW0vIRISUYs/0gNjQficpkPKTiOMgmvDJZ3PFsuSHx9Hc6vhhaQ1KDjRr4tisIgPWTFeLjjqcCSLc753ICmagYKMl1hYK+xY=
+	t=1744632356; cv=none; b=VcarWG3eAa0psyjVR3Tm407k8yJLx+vqMT2si8zGhY3872uFTbTqP6Yl/G6JHQ4Rn1KKMm7TORUDNVlin6Noo+5wA8oV6EGZYJBC4kie4J+DElBR1rEKZC0kFigQPCSjTe17Jv5Zqzu4mJx0Gl6X+EQshI4CUXlbz0e2X/kPx24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744631701; c=relaxed/simple;
-	bh=jUon0xsIAf39XK7R0f7zGH5y3a+2qTlsy3SgS8J3sp0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aZXmFlOEOM6wneAXG9/13MywpRA+LO+Zf6rPv4IWd9lmJzzBDBCe6WzTwCKsvu+SjpIdqkYVDeBq2e4dWGzWpbbHrIRyJOpP47TfUFyF5yVSD+v6EYoJpZAb41hmGBWIVDZGbl3NoYK6l1f8UX6j7c1cBnPqleqflHo4uSXIswo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hq/DHZAO; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1744632356; c=relaxed/simple;
+	bh=NeKBnKPC5g0J1V+qCeFXfljOUGhpf9ND/R3NsCvkzCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DcFVzY1zyjy2+GoUomkAcNl0hxj5n0luq8J2smOXeOs56hJDTT8MX2K6h2GWk1LN4ebxKVk+0yaRB4DOQmwhgFx7aF5qDP3/O8ChmzPdI1q0GEnEqxJBOkOdWd3r9V7xJzy9jXqD/CAnIerKnHtuYMcd6fBxtRBe2N281TX2qfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5wb2tW/; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hq/DHZAO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5wb2tW/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744631700; x=1776167700;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jUon0xsIAf39XK7R0f7zGH5y3a+2qTlsy3SgS8J3sp0=;
-  b=hq/DHZAODAX8egwulkvStoNLZqUFcBp3s6cX1fqYCtP2yz5qogPGSQEH
-   5OEbvtPJCK6WcBgtSHeuMpo47zSDtVQDxOrPsNmr4xMVQpFlrd2aClThk
-   oXTde+QkAIJuzuoznEQtA47gePHP885cEiaDA9+zTYlGpxD4iyTC0Xair
-   n6DdvFKveYvActpdlhHFjt2uS3uSX46yY9TFTdxndbtXzzNFWMvjpDdxL
-   AF87wCD1Gegzx21Z5FBDZOj2PBuR+wbksj4IqDWavvKNlu/tAiYlV+ZpL
-   +zzMCtN+/xN2HaPuzmU9zrvszHBw8o44g5ccoER3FhTLxg4h6PqpYBiEg
-   Q==;
-X-CSE-ConnectionGUID: pESYm2keQwihOfkesuTigw==
-X-CSE-MsgGUID: Wo6J9UJiTRW13b1ZttwhUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46186515"
+  t=1744632355; x=1776168355;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NeKBnKPC5g0J1V+qCeFXfljOUGhpf9ND/R3NsCvkzCo=;
+  b=P5wb2tW/hdGH/5IMR8matHLtrBRAOMovAzxDhkqxFyaUeuDH6ESPMWe0
+   puJ1tFkQ1LT/eurjMGvHNkYMo5pvtaXVCyAGFzmf3ogykR9tnR6x1crCm
+   mh64zHYdhLnpos0d4swMmZoxtEus4E78NoA7l1pwTIQC+zD/+AafTrQwg
+   BE2qJ/Pu0O6/q60a7gEEanma/anZtpMC1+pv4s4ZBGzmdU+T8yzHGAVGf
+   v2Dcs3vFU6vifEz+vrzx5vI+rAMJX3iyXME5jRd4LQA3B6qOyhKZhcER1
+   fQD21ysHXr3+0YryHE7Ve4jSOchvifnu9tnXahm/1KKaVWYmh7c6g6cNR
+   g==;
+X-CSE-ConnectionGUID: DaFOc3PpTUaubBgas0H+6g==
+X-CSE-MsgGUID: V9FMCw7aSEK5ZA7hQ1vlhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="45986166"
 X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
-   d="scan'208";a="46186515"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 04:54:59 -0700
-X-CSE-ConnectionGUID: eJd6RnMmTU2XFtQmnOQqBQ==
-X-CSE-MsgGUID: u8qeO+m7SXGY03+CMkeYWg==
+   d="scan'208";a="45986166"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 05:05:54 -0700
+X-CSE-ConnectionGUID: xoebIWfOSm6I9Fr+yecE+Q==
+X-CSE-MsgGUID: T8aJlek6SV2mNCOvordzYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
-   d="scan'208";a="134638722"
+   d="scan'208";a="130773156"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Apr 2025 04:54:52 -0700
+  by orviesa008.jf.intel.com with ESMTP; 14 Apr 2025 05:05:54 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4IOn-000E98-2k;
-	Mon, 14 Apr 2025 11:54:49 +0000
-Date: Mon, 14 Apr 2025 19:54:40 +0800
+	id 1u4IZT-000E9g-0f;
+	Mon, 14 Apr 2025 12:05:51 +0000
+Date: Mon, 14 Apr 2025 20:04:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mrpre@163.com,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Jakub Sitnicki <jakub@cloudflare.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2] bpf, sockmap: Introduce tracing capability
- for sockmap
-Message-ID: <202504141925.PFNOfZzb-lkp@intel.com>
-References: <20250411091634.336371-1-jiayuan.chen@linux.dev>
+To: kernel@openeuler.org, Tong Tiangen <tongtiangen@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2121/2121] mm/kasan/shadow.c:90: undefined
+ reference to `__memcpy_mc'
+Message-ID: <202504142028.WisA9n7Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,34 +61,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250411091634.336371-1-jiayuan.chen@linux.dev>
 
-Hi Jiayuan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiayuan-Chen/bpf-sockmap-Introduce-tracing-capability-for-sockmap/20250414-093146
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250411091634.336371-1-jiayuan.chen%40linux.dev
-patch subject: [PATCH bpf-next v2] bpf, sockmap: Introduce tracing capability for sockmap
-config: arm64-randconfig-001-20250414 (https://download.01.org/0day-ci/archive/20250414/202504141925.PFNOfZzb-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141925.PFNOfZzb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   856215a06729654f070692189189edc4570084a0
+commit: b991780c836ceb9a479c6c6e385e914b487e353a [2121/2121] arm64: introduce copy_mc_to_kernel() implementation
+config: arm64-randconfig-003-20250414 (https://download.01.org/0day-ci/archive/20250414/202504142028.WisA9n7Q-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504142028.WisA9n7Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504141925.PFNOfZzb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504142028.WisA9n7Q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: sock_i_ino
-   >>> referenced by sockmap.h:70 (include/trace/events/sockmap.h:70)
-   >>>               kernel/bpf/core.o:(trace_event_raw_event_sockmap_redirect) in archive vmlinux.a
-   >>> referenced by sockmap.h:121 (include/trace/events/sockmap.h:121)
-   >>>               kernel/bpf/core.o:(trace_event_raw_event_sockmap_strparser) in archive vmlinux.a
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: mm/kasan/shadow.o: in function `memcpy_mc':
+>> mm/kasan/shadow.c:90: undefined reference to `__memcpy_mc'
+
+
+vim +90 mm/kasan/shadow.c
+
+    81	
+    82	#ifdef __HAVE_ARCH_MEMCPY_MC
+    83	#undef memcpy_mc
+    84	int memcpy_mc(void *dest, const void *src, size_t len)
+    85	{
+    86		if (!kasan_check_range(src, len, false, _RET_IP_) ||
+    87		    !kasan_check_range(dest, len, true, _RET_IP_))
+    88			return (int)len;
+    89	
+  > 90		return __memcpy_mc(dest, src, len);
+    91	}
+    92	#endif
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
