@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A74F17555
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 04:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E21D3FF1;
+	Mon, 14 Apr 2025 04:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744604018; cv=none; b=M23d16fhmyYmRgQKps/HQ2QyW8ouj2+DU1IVo/dn3DWyOGIMF/W/47xtHvREgtzDcJHWvKtnPalQXciJY1NvSsHtyMzscfr+76yfAiCJCkR9woz7yiXAR/q3s1+cuRuoJvT9ZWRAog5PwZ5nWST9QSDWQvvir3tvZiJ5Zr7PXc8=
+	t=1744605883; cv=none; b=J23LtPYRvIyBPdxGbaVZmjhCghWs1FMaePeydeEchNIcQo2D5QdugnYIG2oGMVQKsu4KPIgp/XT3NXZO0h6V29AxtMEsrkO9pyWgS/lJFcXl74a2ZagWHdSApXuRqSQrJlUGl3s4emCldSIyCqmLm4X+WQ29taK6TB669NaCZA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744604018; c=relaxed/simple;
-	bh=CB8pu/44ToFwI9NWz+1xSf7PMSuFUI0+WvVfiTyezjM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dc6sjNZVVHD7PQr5dLp66PQ0qtAIB8IhG9zaNs6gDRi6yRc+nrAytSSbjeuzGuVmchVXTqmeXMyDXWhu1+Xa0I4Qrwi82fPVX6KqMv5P1IQhwVWMcYy8wpzFPudz+B0ixNF0Bsq/OeNm8i7QoLrtmjcI/zAI6sL3W1QBXuRscdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gOAi+vag; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1744605883; c=relaxed/simple;
+	bh=bk4ynxxowmyCbNhVeedvrcD/jRM2v+UmaAhb9Op8L4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cl/TXdGN6nntbwu8u7h2WSeMkf3hYnf7zgAuItLIKWRrWIIGhuY7GLGQy/5zdFhdNmo3WDLOJkpIyjy2BuMwYiTFm2S4Ud8hkkJBDVIrkCswWpuXLhC4y9pei3yiU582RdHsthnhCqW3YMwC6/VmGPeoVMmCyOj+QWy0jgPEmcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePawI27x; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gOAi+vag"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePawI27x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744604016; x=1776140016;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CB8pu/44ToFwI9NWz+1xSf7PMSuFUI0+WvVfiTyezjM=;
-  b=gOAi+vagrTK9bezNbQDOcFRIz7U0WJhcMn/SKgMIdsVC6QC/kZyfo2mo
-   2wKxLYdxFjBA+QlfvhTpJUedSvv8f4mR/CnT4/+vgDvmWRRtr3FhPZgaV
-   gp0iMsMAcGgaXdHJNvEJSIoE3Eo2gtsUMgFeI9Z91r/ezO24X6ayJELif
-   d9MmxZBdOvdJOMEB3uAE96RUulFH80fZdfS/bI3ffiXPxNGXg1FqhfmLY
-   GB7byRUXpBAM5PzTjxcFrX3VIhq4QfZ2eNZoFmmjAosyyAJ/EcxWFwiVS
-   2q8FWq7J91QIUYaG/y5KMUga0zrFR4rNcSHsO/jHECgkaIIrQIWL6KKVc
-   w==;
-X-CSE-ConnectionGUID: 0Iy4nHE3QGGPn/DA3vTY0g==
-X-CSE-MsgGUID: ayoXt6euSxyymp3rlBuLcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46069618"
+  t=1744605881; x=1776141881;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bk4ynxxowmyCbNhVeedvrcD/jRM2v+UmaAhb9Op8L4E=;
+  b=ePawI27xVRSE7YX072SMU6s3z79ecK4sWhCI7VaDnvika0g8qsSsLG5t
+   k/AobeAPoRF4MFhyKPFni3s0dQyWBRtf98x+vQvNb3sDCpIJZ63KGGXGx
+   QdOTJpMo2g1lRSELgKAJXnpsWM9ZPc+YeLwzidWEtEDtqNGR6ZNCgcv2j
+   Y4mcUqYnNsozmL5fL8Ls1elFbI4nkhDbR6zOuqH+6pNEKiAVXpOeMRyXn
+   zxV8ibvAYxKWO+r8I+fJsAOXrE33KXZOm6eMjBir0CGT9p1zcTlfi6VBn
+   VN3e/VmOaKlNjqVQYYfQlsPyf3qXvlF/7cA53lFHslgz+Z9tV2vdS193L
+   Q==;
+X-CSE-ConnectionGUID: P/bWV8htTwmDY682UVPVKg==
+X-CSE-MsgGUID: CP5tjaBlRneD3tSOTyZkEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="56708121"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="46069618"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 21:13:35 -0700
-X-CSE-ConnectionGUID: e1diT5iITya16f02jEWIeA==
-X-CSE-MsgGUID: qW0vI5rURz6dohE7ULXZaw==
+   d="scan'208";a="56708121"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 21:44:40 -0700
+X-CSE-ConnectionGUID: BXWGclJcSIanpkDd+4i6AQ==
+X-CSE-MsgGUID: 5j4Pb5UvQm24uFHSNMtwvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="160657009"
+   d="scan'208";a="134554170"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Apr 2025 21:13:33 -0700
+  by orviesa003.jf.intel.com with ESMTP; 13 Apr 2025 21:44:39 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4BCM-000DXK-1K;
-	Mon, 14 Apr 2025 04:13:30 +0000
-Date: Mon, 14 Apr 2025 12:13:29 +0800
+	id 1u4BgS-000Dbi-1z;
+	Mon, 14 Apr 2025 04:44:36 +0000
+Date: Mon, 14 Apr 2025 12:44:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: hans.zhang@cixtech.com, bhelgaas@google.com, lpieralisi@kernel.org,
-	kw@linux.com, manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Manikandan K Pillai <mpillai@cadence.com>,
-	Hans Zhang <hans.zhang@cixtech.com>
-Subject: Re: [PATCH v3 5/6] PCI: cadence: Add callback functions for RP and
- EP controller
-Message-ID: <202504141101.J2GJGhRZ-lkp@intel.com>
-References: <20250411103656.2740517-6-hans.zhang@cixtech.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [broonie-misc:for-kernelci 29/44] arch/arm64/kvm/guest.c:326:7:
+ error: call to undeclared function 'vq_available'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202504141252.1j5u5Jwb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,63 +62,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250411103656.2740517-6-hans.zhang@cixtech.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a24588245776dafc227243a01bfbeb8a59bafba9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hans-zhang-cixtech-com/dt-bindings-pci-cadence-Extend-compatible-for-new-RP-configuration/20250414-094836
-base:   a24588245776dafc227243a01bfbeb8a59bafba9
-patch link:    https://lore.kernel.org/r/20250411103656.2740517-6-hans.zhang%40cixtech.com
-patch subject: [PATCH v3 5/6] PCI: cadence: Add callback functions for RP and EP controller
-config: arc-randconfig-001-20250414 (https://download.01.org/0day-ci/archive/20250414/202504141101.J2GJGhRZ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141101.J2GJGhRZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git for-kernelci
+head:   b172cafa2943fcb2f66d49d5c683fc9b372fc508
+commit: ede01a82eae184bdc30dc4be084fdac67135a58c [29/44] KVM: arm64: Implement SME vector length configuration
+config: arm64-randconfig-001-20250414 (https://download.01.org/0day-ci/archive/20250414/202504141252.1j5u5Jwb-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141252.1j5u5Jwb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504141101.J2GJGhRZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504141252.1j5u5Jwb-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/pci/controller/cadence/pcie-cadence-host.c:13:
-   drivers/pci/controller/cadence/pcie-cadence-host.c: In function 'cdns_pci_hpa_map_bus':
->> drivers/pci/controller/cadence/pcie-cadence.h:309:9: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     309 |         FIELD_PREP(CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS_MASK, \
-         |         ^~~~~~~~~~
-   drivers/pci/controller/cadence/pcie-cadence-host.c:108:17: note: in expansion of macro 'CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS'
-     108 |         addr0 = CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS(12) |
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/pci/controller/cadence/pcie-cadence-plat.c:59:23: error: 'cdns_pcie_hpa_startlink' undeclared here (not in a function); did you mean 'cdns_pcie_hpa_start_link'?
-      59 |         .start_link = cdns_pcie_hpa_startlink,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~
-         |                       cdns_pcie_hpa_start_link
->> drivers/pci/controller/cadence/pcie-cadence-plat.c:58:35: warning: 'cdns_hpa_plat_ops' defined but not used [-Wunused-const-variable=]
-      58 | static const struct cdns_pcie_ops cdns_hpa_plat_ops = {
-         |                                   ^~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/guest.c:326:7: error: call to undeclared function 'vq_available'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     326 |                 if (vq_available(vec_type, vq))
+         |                     ^
+   arch/arm64/kvm/guest.c:326:7: note: did you mean 'sve_vq_available'?
+   arch/arm64/include/asm/fpsimd.h:324:20: note: 'sve_vq_available' declared here
+     324 | static inline bool sve_vq_available(unsigned int vq) { return false; }
+         |                    ^
+   arch/arm64/kvm/guest.c:369:30: error: call to undeclared function 'vq_available'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     369 |                 if (vq_present(vqs, vq) != vq_available(vec_type, vq))
+         |                                            ^
+   2 errors generated.
 
 
-vim +/FIELD_PREP +309 drivers/pci/controller/cadence/pcie-cadence.h
+vim +/vq_available +326 arch/arm64/kvm/guest.c
 
-fc9e872310321c Manikandan K Pillai 2025-04-11  304  
-fc9e872310321c Manikandan K Pillai 2025-04-11  305  /* Region r Outbound AXI to PCIe Address Translation Register 0 */
-fc9e872310321c Manikandan K Pillai 2025-04-11  306  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0(r) (0x1010 + ((r) & 0x1f) * 0x0080)
-fc9e872310321c Manikandan K Pillai 2025-04-11  307  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS_MASK GENMASK(5, 0)
-fc9e872310321c Manikandan K Pillai 2025-04-11  308  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS(nbits)           \
-fc9e872310321c Manikandan K Pillai 2025-04-11 @309  	FIELD_PREP(CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS_MASK, \
-fc9e872310321c Manikandan K Pillai 2025-04-11  310  		   ((nbits) - 1))
-fc9e872310321c Manikandan K Pillai 2025-04-11  311  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_DEVFN_MASK GENMASK(23, 16)
-fc9e872310321c Manikandan K Pillai 2025-04-11  312  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_DEVFN(devfn) \
-fc9e872310321c Manikandan K Pillai 2025-04-11  313  	FIELD_PREP(CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_DEVFN_MASK, devfn)
-fc9e872310321c Manikandan K Pillai 2025-04-11  314  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_BUS_MASK GENMASK(31, 24)
-fc9e872310321c Manikandan K Pillai 2025-04-11  315  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_BUS(bus) \
-fc9e872310321c Manikandan K Pillai 2025-04-11  316  	FIELD_PREP(CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_BUS_MASK, bus)
-fc9e872310321c Manikandan K Pillai 2025-04-11  317  
+   312	
+   313	static int get_vec_vls(enum vec_type vec_type, struct kvm_vcpu *vcpu,
+   314			      const struct kvm_one_reg *reg)
+   315	{
+   316		unsigned int max_vq, vq;
+   317		u64 vqs[KVM_ARM64_SVE_VLS_WORDS];
+   318	
+   319		if (WARN_ON(!sve_vl_valid(vcpu->arch.max_vl[vec_type])))
+   320			return -EINVAL;
+   321	
+   322		memset(vqs, 0, sizeof(vqs));
+   323	
+   324		max_vq = vcpu_vec_max_vq(vcpu, vec_type);
+   325		for (vq = SVE_VQ_MIN; vq <= max_vq; ++vq)
+ > 326			if (vq_available(vec_type, vq))
+   327				vqs[vq_word(vq)] |= vq_mask(vq);
+   328	
+   329		if (copy_to_user((void __user *)reg->addr, vqs, sizeof(vqs)))
+   330			return -EFAULT;
+   331	
+   332		return 0;
+   333	}
+   334	
 
 -- 
 0-DAY CI Kernel Test Service
