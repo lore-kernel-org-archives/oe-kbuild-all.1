@@ -1,111 +1,113 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9808223BCFF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 12:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E2F2BF3F6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 13:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744633782; cv=none; b=qLpVtdNG8+X3CCqC6lzAsWneold3aeEpc6usmOVfyNj3P85twlZYOIWxouTr5lDwVsNvrZfi1aRN6bK+k5PNQQNmNduNBHUgbkqzJQXvPsV+HR/r0Eq1s/0YavJIPYBpOTW7jFAILv5nxsWGea7IM+NLXR0qpwMOzE5WbGbklL0=
+	t=1744635955; cv=none; b=ixJic6C2/v1M0TF1CnryHF/P1DcaA9RDyJ7O00hMCVv+vdKdt7qoMyHsLEDC352gupiNQ7o9szrZE0cOXfHd4OwBm0WS+ZHZ6hRTqFu57TC5M/HOPYP/rZFjucV9UTEjkGunW17sKpXoMuwOX0QEQdSP79hJ7M3Qi9Y3NWYQxnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744633782; c=relaxed/simple;
-	bh=OiYVXkZSfdT6nhBT2tfGSCxBMvJ7xMsZXCDnusianr4=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=h3MSa45plabxR7CtOMFYSi3fAfmjWqJxIypj85pRg2+D0e/ZSAGF16miTzD55xWpPZdUFg1lWRYGjPkRidJWCg5kC5Id1JdDlYuyPGpms1JC1hPf7a3DE04MEhs6lor8d67aq5AX2aKwsnSGlciu8Pb72VZbJSz6prboOdelisg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vE5ERu/Z; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vE5ERu/Z"
+	s=arc-20240116; t=1744635955; c=relaxed/simple;
+	bh=eSn+7qZstkOiL3HKgAGb39wLfTbQEQsMAKi+mcdORDg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fk+VZrSt+rYypNk8MWuzJ3WeZwdFtSDUUiynZFNwgN83esJ6zz0cJJLddvElDcc0LjYFmYv2bEHkf72lUpSsTskvmnHCZEyxXoOQetgPwGWo9w0tmmjLT2YOtfyHzbD4Xlp5nGsBwsd4FZ+y0tLMzBzfkknzGtC0vsh28aw/mWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7321A42E7E;
+	Mon, 14 Apr 2025 13:05:42 +0000 (UTC)
+Message-ID: <6b0d2b2f-5ccc-4337-aeaf-d18ed6e6097f@ghiti.fr>
+Date: Mon, 14 Apr 2025 15:05:41 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744633777;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vvai2S/0OVjs1P8gmT3IZRMvxpZzuZvGIu5Rcie6gGc=;
-	b=vE5ERu/ZrIA7g80vZ+sKYzWIFlzlKhHC5X2/X03m8g+9hGUeAkU4HoJoUh0f2+fkukd86g
-	TZPGQdhxxuiZHyln89OnTXjvO/qGheV4XMeHVq9d5m5ccxtfX6juhcuhXcmvO9aygjXhDK
-	HICqXuHd3K+1tSwdHhnZLJhvscPtKoM=
-Date: Mon, 14 Apr 2025 12:29:35 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Message-ID: <bab35a470addc4d3d32551c6776d4d4884def193@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH bpf-next v2] bpf, sockmap: Introduce tracing capability
- for sockmap
-To: "kernel test robot" <lkp@intel.com>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mrpre@163.com,
- "Jakub Sitnicki" <jakub@cloudflare.com>, "Cong Wang"
- <xiyou.wangcong@gmail.com>, "Steven Rostedt" <rostedt@goodmis.org>,
- "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "John Fastabend" <john.fastabend@gmail.com>,
- "Andrii Nakryiko" <andrii@kernel.org>, "Martin KaFai Lau"
- <martin.lau@linux.dev>, "Eduard Zingerman" <eddyz87@gmail.com>, "Song
- Liu" <song@kernel.org>, "Yonghong Song" <yonghong.song@linux.dev>, "KP
- Singh" <kpsingh@kernel.org>, "Stanislav Fomichev" <sdf@fomichev.me>, "Hao
- Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, "Mathieu Desnoyers"
- <mathieu.desnoyers@efficios.com>, "Eric Dumazet" <edumazet@google.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Simon Horman" <horms@kernel.org>, "Jesper Dangaard Brouer"
- <hawk@kernel.org>, linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-In-Reply-To: <202504141925.PFNOfZzb-lkp@intel.com>
-References: <20250411091634.336371-1-jiayuan.chen@linux.dev>
- <202504141925.PFNOfZzb-lkp@intel.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] riscv: Provide all alternative macros all the time
+To: Andrew Jones <ajones@ventanamicro.com>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, conor.dooley@microchip.com,
+ oe-kbuild-all@lists.linux.dev, charlie@rivosinc.com,
+ samuel.holland@sifive.com, kernel test robot <lkp@intel.com>
+References: <20250414120947.135173-2-ajones@ventanamicro.com>
+Content-Language: en-US
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250414120947.135173-2-ajones@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvddtiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpefhhfdutdevgeelgeegfeeltdduhfduledvteduhfegffffiefggfektefhjedujeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemhegvfhgsmeeiieeikeemkeefiegsmegufhgrleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemfeefkedvmegvfheltdemhegvfhgsmeeiieeikeemkeefiegsmegufhgrledphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemhegvfhgsmeeiieeikeemkeefiegsmegufhgrlegnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtoheprghjohhnvghssehvvghnthgrnhgrmhhitghrohdrtghomhdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggur
+ dhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheptghonhhorhdrughoohhlvgihsehmihgtrhhotghhihhprdgtohhmpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegthhgrrhhlihgvsehrihhvohhsihhntgdrtghomh
+X-GND-Sasl: alex@ghiti.fr
 
-2025/4/14 19:54, "kernel test robot" <lkp@intel.com> wrote:
+Hi Drew,
 
->=20
->=20Hi Jiayuan,
->=20
->=20kernel test robot noticed the following build errors:
->=20
->=20[auto build test ERROR on bpf-next/master]
->=20
->=20url: https://github.com/intel-lab-lkp/linux/commits/Jiayuan-Chen/bpf-=
-sockmap-Introduce-tracing-capability-for-sockmap/20250414-093146
-> base: https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link: https://lore.kernel.org/r/20250411091634.336371-1-jiayuan.c=
-hen%40linux.dev
-> patch subject: [PATCH bpf-next v2] bpf, sockmap: Introduce tracing capa=
-bility for sockmap
-> config: arm64-randconfig-001-20250414 (https://download.01.org/0day-ci/=
-archive/20250414/202504141925.PFNOfZzb-lkp@intel.com/config)
->=20
->=20compiler: clang version 21.0.0git (https://github.com/llvm/llvm-proje=
-ct f819f46284f2a79790038e1f6649172789734ae8)
->=20
->=20reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20250414/202504141925.PFNOfZzb-lkp@intel.com/reproduce)
-> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504141925.PFNOfZzb-l=
-kp@intel.com/
-> All errors (new ones prefixed by >>):
->=20
->=20>=20
->=20> >=20
->=20> > ld.lld: error: undefined symbol: sock_i_ino
-> > >
-> >=20
->=20 >>> referenced by sockmap.h:70 (include/trace/events/sockmap.h:70)
->  >>> kernel/bpf/core.o:(trace_event_raw_event_sockmap_redirect) in arch=
-ive vmlinux.a
->  >>> referenced by sockmap.h:121 (include/trace/events/sockmap.h:121)
->  >>> kernel/bpf/core.o:(trace_event_raw_event_sockmap_strparser) in arc=
-hive vmlinux.a
+On 14/04/2025 14:09, Andrew Jones wrote:
+> We need to provide all six forms of the alternative macros
+> (ALTERNATIVE, ALTERNATIVE_2, _ALTERNATIVE_CFG, _ALTERNATIVE_CFG_2,
+> __ALTERNATIVE_CFG, __ALTERNATIVE_CFG_2) for all four cases derived
+> from the two ifdefs (RISCV_ALTERNATIVE, __ASSEMBLY__) in order to
+> ensure all configs can compile. Define this missing ones and ensure
+> all are defined to consume all parameters passed.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202504130710.3IKz6Ibs-lkp@intel.com/
+> Signed-off-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>   arch/riscv/include/asm/alternative-macros.h | 19 +++++++------------
+>   1 file changed, 7 insertions(+), 12 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/alternative-macros.h b/arch/riscv/include/asm/alternative-macros.h
+> index 721ec275ce57..231d777d936c 100644
+> --- a/arch/riscv/include/asm/alternative-macros.h
+> +++ b/arch/riscv/include/asm/alternative-macros.h
+> @@ -115,24 +115,19 @@
+>   	\old_c
+>   .endm
+>   
+> -#define _ALTERNATIVE_CFG(old_c, ...)	\
+> -	ALTERNATIVE_CFG old_c
+> -
+> -#define _ALTERNATIVE_CFG_2(old_c, ...)	\
+> -	ALTERNATIVE_CFG old_c
+> +#define __ALTERNATIVE_CFG(old_c, ...)		ALTERNATIVE_CFG old_c
+> +#define __ALTERNATIVE_CFG_2(old_c, ...)		ALTERNATIVE_CFG old_c
+>   
+>   #else /* !__ASSEMBLY__ */
+>   
+> -#define __ALTERNATIVE_CFG(old_c)	\
+> -	old_c "\n"
+> +#define __ALTERNATIVE_CFG(old_c, ...)		old_c "\n"
+> +#define __ALTERNATIVE_CFG_2(old_c, ...)		old_c "\n"
+>   
+> -#define _ALTERNATIVE_CFG(old_c, ...)	\
+> -	__ALTERNATIVE_CFG(old_c)
+> +#endif /* __ASSEMBLY__ */
+>   
+> -#define _ALTERNATIVE_CFG_2(old_c, ...)	\
+> -	__ALTERNATIVE_CFG(old_c)
+> +#define _ALTERNATIVE_CFG(old_c, ...)		__ALTERNATIVE_CFG(old_c)
+> +#define _ALTERNATIVE_CFG_2(old_c, ...)		__ALTERNATIVE_CFG_2(old_c)
+>   
+> -#endif /* __ASSEMBLY__ */
+>   #endif /* CONFIG_RISCV_ALTERNATIVE */
+>   
+>   /*
 
-I see, CONFIG_NET is not set...
+
+I could not find the right Fixes tag, so unless you have one, I'll add 
+the commit pointed at by kernel test robot.
+
+You can add:
+
+Tested-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+
+Thanks for looking into this!
+
+Alex
+
