@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB9857C93
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 03:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A74F17555
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 04:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744601294; cv=none; b=CG5eNMWBySqCTmjwtQ8NVqHq4MD5hdiu23oqNokijUg3Nqe1GuEUkXJmIO80pHFBu0qa90vZVTbU7tp8yUuiwl4APIR3mcdlrIJQt1Hm6mf2Zs5FCpkJY6YEpizT1K+0zeZvK9XsvME+xfLjpDsp/ktmfCkeJseWSUN8Uk87/bA=
+	t=1744604018; cv=none; b=M23d16fhmyYmRgQKps/HQ2QyW8ouj2+DU1IVo/dn3DWyOGIMF/W/47xtHvREgtzDcJHWvKtnPalQXciJY1NvSsHtyMzscfr+76yfAiCJCkR9woz7yiXAR/q3s1+cuRuoJvT9ZWRAog5PwZ5nWST9QSDWQvvir3tvZiJ5Zr7PXc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744601294; c=relaxed/simple;
-	bh=2+g95qvtbjt+JvpQ+fOH6IajwC/Cyjr06k1hfOzTlk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=lnWbaQtpi3WV78eZqWw8ZRRxRWyIpNAGbnZpsXGYR1fdLr58wVsd7/lWb1VDVDPVx+inr4sKGEFwg/I3YNJ7RygWRmLVA+ZSRGiVKGxO6yGM3JwkDu2nSdxKQR0Ygs+Uoo+iZDcaGpCWXjruBVClgTMsOf5py75t25O0tHgVnLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUM8D7rM; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1744604018; c=relaxed/simple;
+	bh=CB8pu/44ToFwI9NWz+1xSf7PMSuFUI0+WvVfiTyezjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dc6sjNZVVHD7PQr5dLp66PQ0qtAIB8IhG9zaNs6gDRi6yRc+nrAytSSbjeuzGuVmchVXTqmeXMyDXWhu1+Xa0I4Qrwi82fPVX6KqMv5P1IQhwVWMcYy8wpzFPudz+B0ixNF0Bsq/OeNm8i7QoLrtmjcI/zAI6sL3W1QBXuRscdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gOAi+vag; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUM8D7rM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gOAi+vag"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744601292; x=1776137292;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=2+g95qvtbjt+JvpQ+fOH6IajwC/Cyjr06k1hfOzTlk4=;
-  b=cUM8D7rMKR00EaE8kIvf0A3fucDH4mjXTxWZxVmranUkaX1LMhizPGC+
-   asDW+jzwZpdmyYQ2ef7of0YAJBi3RG9zlmY3GwhoEpN31d/RHh7KT5Dne
-   X/bIlmKqr+G6nh1xugGa6sHF83sgqpJ1VFG7Wc+KJpcW3V57Xj0Xnt5jz
-   AktyDqQBjmCiYhaaMS2FE8l+h0P+0pERN4UsWoKmZMQdJQNXsSBuS41WM
-   b2IwlB8eo2h25+Vm/J80WLKHxG06aazv75Mz3B8qOvP+rlC+FKzWf9yYN
-   ZzE2RRBxQcObRjRQePjKAJAOQut0hT/IEaEDCJklH63umsRDi2fzzMiMV
+  t=1744604016; x=1776140016;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CB8pu/44ToFwI9NWz+1xSf7PMSuFUI0+WvVfiTyezjM=;
+  b=gOAi+vagrTK9bezNbQDOcFRIz7U0WJhcMn/SKgMIdsVC6QC/kZyfo2mo
+   2wKxLYdxFjBA+QlfvhTpJUedSvv8f4mR/CnT4/+vgDvmWRRtr3FhPZgaV
+   gp0iMsMAcGgaXdHJNvEJSIoE3Eo2gtsUMgFeI9Z91r/ezO24X6ayJELif
+   d9MmxZBdOvdJOMEB3uAE96RUulFH80fZdfS/bI3ffiXPxNGXg1FqhfmLY
+   GB7byRUXpBAM5PzTjxcFrX3VIhq4QfZ2eNZoFmmjAosyyAJ/EcxWFwiVS
+   2q8FWq7J91QIUYaG/y5KMUga0zrFR4rNcSHsO/jHECgkaIIrQIWL6KKVc
    w==;
-X-CSE-ConnectionGUID: G3rIafZ7Siu5MFgqDXTfrg==
-X-CSE-MsgGUID: ZhMvJrTzQnOta7H/weEPVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46221552"
+X-CSE-ConnectionGUID: 0Iy4nHE3QGGPn/DA3vTY0g==
+X-CSE-MsgGUID: ayoXt6euSxyymp3rlBuLcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46069618"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="46221552"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 20:28:11 -0700
-X-CSE-ConnectionGUID: fPCrcLTFR3y8jD6XnPpwng==
-X-CSE-MsgGUID: Y++5UbcxRsO6EH9PIJPRtw==
+   d="scan'208";a="46069618"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 21:13:35 -0700
+X-CSE-ConnectionGUID: e1diT5iITya16f02jEWIeA==
+X-CSE-MsgGUID: qW0vI5rURz6dohE7ULXZaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="134772454"
+   d="scan'208";a="160657009"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Apr 2025 20:28:11 -0700
+  by orviesa002.jf.intel.com with ESMTP; 13 Apr 2025 21:13:33 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4AUS-000DPi-0v;
-	Mon, 14 Apr 2025 03:28:08 +0000
-Date: Mon, 14 Apr 2025 11:27:26 +0800
+	id 1u4BCM-000DXK-1K;
+	Mon, 14 Apr 2025 04:13:30 +0000
+Date: Mon, 14 Apr 2025 12:13:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/2] drm/i915/display: Add macro for checking 3 DSC
- engines
-Message-ID: <Z_yAnpQDMXmCRYSO@6bf5cb62fcc2>
+To: hans.zhang@cixtech.com, bhelgaas@google.com, lpieralisi@kernel.org,
+	kw@linux.com, manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Manikandan K Pillai <mpillai@cadence.com>,
+	Hans Zhang <hans.zhang@cixtech.com>
+Subject: Re: [PATCH v3 5/6] PCI: cadence: Add callback functions for RP and
+ EP controller
+Message-ID: <202504141101.J2GJGhRZ-lkp@intel.com>
+References: <20250411103656.2740517-6-hans.zhang@cixtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +68,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250414024256.2782702-2-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20250411103656.2740517-6-hans.zhang@cixtech.com>
 
 Hi,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on a24588245776dafc227243a01bfbeb8a59bafba9]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/hans-zhang-cixtech-com/dt-bindings-pci-cadence-Extend-compatible-for-new-RP-configuration/20250414-094836
+base:   a24588245776dafc227243a01bfbeb8a59bafba9
+patch link:    https://lore.kernel.org/r/20250411103656.2740517-6-hans.zhang%40cixtech.com
+patch subject: [PATCH v3 5/6] PCI: cadence: Add callback functions for RP and EP controller
+config: arc-randconfig-001-20250414 (https://download.01.org/0day-ci/archive/20250414/202504141101.J2GJGhRZ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141101.J2GJGhRZ-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH 1/2] drm/i915/display: Add macro for checking 3 DSC engines
-Link: https://lore.kernel.org/stable/20250414024256.2782702-2-ankit.k.nautiyal%40intel.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504141101.J2GJGhRZ-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/pci/controller/cadence/pcie-cadence-host.c:13:
+   drivers/pci/controller/cadence/pcie-cadence-host.c: In function 'cdns_pci_hpa_map_bus':
+>> drivers/pci/controller/cadence/pcie-cadence.h:309:9: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     309 |         FIELD_PREP(CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS_MASK, \
+         |         ^~~~~~~~~~
+   drivers/pci/controller/cadence/pcie-cadence-host.c:108:17: note: in expansion of macro 'CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS'
+     108 |         addr0 = CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS(12) |
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/pci/controller/cadence/pcie-cadence-plat.c:59:23: error: 'cdns_pcie_hpa_startlink' undeclared here (not in a function); did you mean 'cdns_pcie_hpa_start_link'?
+      59 |         .start_link = cdns_pcie_hpa_startlink,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~
+         |                       cdns_pcie_hpa_start_link
+>> drivers/pci/controller/cadence/pcie-cadence-plat.c:58:35: warning: 'cdns_hpa_plat_ops' defined but not used [-Wunused-const-variable=]
+      58 | static const struct cdns_pcie_ops cdns_hpa_plat_ops = {
+         |                                   ^~~~~~~~~~~~~~~~~
+
+
+vim +/FIELD_PREP +309 drivers/pci/controller/cadence/pcie-cadence.h
+
+fc9e872310321c Manikandan K Pillai 2025-04-11  304  
+fc9e872310321c Manikandan K Pillai 2025-04-11  305  /* Region r Outbound AXI to PCIe Address Translation Register 0 */
+fc9e872310321c Manikandan K Pillai 2025-04-11  306  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0(r) (0x1010 + ((r) & 0x1f) * 0x0080)
+fc9e872310321c Manikandan K Pillai 2025-04-11  307  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS_MASK GENMASK(5, 0)
+fc9e872310321c Manikandan K Pillai 2025-04-11  308  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS(nbits)           \
+fc9e872310321c Manikandan K Pillai 2025-04-11 @309  	FIELD_PREP(CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_NBITS_MASK, \
+fc9e872310321c Manikandan K Pillai 2025-04-11  310  		   ((nbits) - 1))
+fc9e872310321c Manikandan K Pillai 2025-04-11  311  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_DEVFN_MASK GENMASK(23, 16)
+fc9e872310321c Manikandan K Pillai 2025-04-11  312  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_DEVFN(devfn) \
+fc9e872310321c Manikandan K Pillai 2025-04-11  313  	FIELD_PREP(CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_DEVFN_MASK, devfn)
+fc9e872310321c Manikandan K Pillai 2025-04-11  314  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_BUS_MASK GENMASK(31, 24)
+fc9e872310321c Manikandan K Pillai 2025-04-11  315  #define CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_BUS(bus) \
+fc9e872310321c Manikandan K Pillai 2025-04-11  316  	FIELD_PREP(CDNS_PCIE_HPA_AT_OB_REGION_PCI_ADDR0_BUS_MASK, bus)
+fc9e872310321c Manikandan K Pillai 2025-04-11  317  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
