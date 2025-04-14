@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21C81DE3BB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 23:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B9185260
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 23:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744673181; cv=none; b=ibUkV6FVKZEAHdiCZpNt6oJNnJdQrIMt7tC968vsgcWV9OuXtr5ZYjQk5MtuEj72W8OQ2AzLVVBx8pWFLAp8UUH0JEdhsIODJ+r2wUkO2BHcMqBFePorCTiBW7etreKpo+QzLR5oWYr/04PrP5C7/0TyI50XoANtV4NhB0QsBzE=
+	t=1744673782; cv=none; b=tY2flWyIbBk1wgoum7r0K/zrUJqe7OMppA7Dx4Ee9dq8ZYg5MNxjj9V+qdgvsulW4kxoD3E6WEnSqyL69fXx+sT3SaRwEoObKiZVUhMhlc1moHp9ywXYLV+49SUoXJADL1LU3hbWLW9/Mc1LtjH+RgwjNa4FzpUDpatR/Vrlr5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744673181; c=relaxed/simple;
-	bh=rJkMB1mHAPJH5ZrE13Qop7OyA0LvAmMYK4SBz6cBUdU=;
+	s=arc-20240116; t=1744673782; c=relaxed/simple;
+	bh=gc3xkf5jl4UAEZloiBTGzD8ZMfyG8T+xO2lYNcFxM/g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VGgfNB1+XknEYB5HUnPhaHwysyUPKu8FNsgB5dfhy2AimorJR7c+0WKgHa7AM9KUwD9/PsHWYg/Z4Qpcw/H8V7cD/ZOty6gx8dqJMFFKcT6sQ//mEmNEen8dpcWDIyRUDZbBAwHQOHIPwuzNNZ3LiGjGuTyUNZ34LkWV80pnhlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doEBQTaA; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=C0K5EoBHVY4W5Lq6hbyDfe6/bXFtXps3nCWyqj5EBaZRsgnnOnIiMZ6Oeo0U8JAL3PasudN3Ayg7iwkuqs8CB+F1pn23IEBMRPADFjMNO4JWrKsTreg2m66OScjZn5Iy6JE1bH7F+PeQmHv4LT2cqL7EseBLPRxLsdvzQOpbLMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ix1HX5wr; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doEBQTaA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ix1HX5wr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744673180; x=1776209180;
+  t=1744673782; x=1776209782;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rJkMB1mHAPJH5ZrE13Qop7OyA0LvAmMYK4SBz6cBUdU=;
-  b=doEBQTaACGq5Bi253OoDPL0fgzQjAQnZ1bvfzVNYsdgXSnR7r5T/l9+Z
-   hTs23qKgwWSC8O+gcWc/r+mBjS+zAZ5njTWxgEupBzjR8qoRy21BnkcrK
-   MjpQ1qnosZBkN8frP0F3Vn1SnoJ9xbZcXsCK3JubFdvXnm7Wn9ANZ4zLR
-   Tw/fob9Znl0GopDpJLikXG/C2kgiGz4A7lMkC6F+Qm7t+oRyZNhMEGJGa
-   E8dDfxIm70HM58lbUlesrHedkGTNuGzVaU61igZuQbNzvxUSJsg66h9DG
-   bs2hCJeSBrMZarbRHQcnlOIKDW4EFfvZH6f99xLZuHZj6xEyITEK9eJoA
-   A==;
-X-CSE-ConnectionGUID: Z1Q0k3aLQUWlbBE9xM30+w==
-X-CSE-MsgGUID: I5WadZKbRNSW4Lx+Y7/Dlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="45294719"
+  bh=gc3xkf5jl4UAEZloiBTGzD8ZMfyG8T+xO2lYNcFxM/g=;
+  b=ix1HX5wr6/auTlszoQIC2CyKjiDuusITBBoNIVq6pkMP/ib9zttWgdOz
+   9aZpExLtYLwleS0mBRnFHDMYcFceDJvnf8bLGdG+/tclbRUi5HA4WUftq
+   bKBP1viWADt/TqPopMByVxX6eIrpWJhNNuJNqTD0sD7hcef7CZmVJp/Pv
+   zEdLMCuWeZeO6YVUuex0Fc/RGiPncOZF0DuLIRgZZ+xlN6CHvdtn8uwyR
+   PDcdRQWurRXCKz//xk8rFJuRfgCcrcoT+TbrOMS2489l9xZmhgSzz+fse
+   y3ehe3aLcbS/BcqlklwS6mfIllUe7ve8+ONY6QUAzU4l+Z504qGWqd+L+
+   g==;
+X-CSE-ConnectionGUID: eLpZHDMNQgeMSz0uU8foRw==
+X-CSE-MsgGUID: y63bamqtRKOPsZf1+0vKFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="45871303"
 X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="45294719"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 16:26:19 -0700
-X-CSE-ConnectionGUID: KOVnyFfsQuOgyLu1EzfI9A==
-X-CSE-MsgGUID: bV2GYFteQl+iPls3pr7D2w==
+   d="scan'208";a="45871303"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 16:36:21 -0700
+X-CSE-ConnectionGUID: qVES9eDSS4qlY60MNxHiKA==
+X-CSE-MsgGUID: n2YMads9TGW7RQpIH9Fxog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="134047961"
+   d="scan'208";a="130491764"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Apr 2025 16:26:18 -0700
+  by orviesa007.jf.intel.com with ESMTP; 14 Apr 2025 16:36:20 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4TBw-000Eos-0Z;
-	Mon, 14 Apr 2025 23:26:16 +0000
-Date: Tue, 15 Apr 2025 07:25:49 +0800
+	id 1u4TLd-000Epi-28;
+	Mon, 14 Apr 2025 23:36:17 +0000
+Date: Tue, 15 Apr 2025 07:36:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
-Subject: [gourryinverse:gourry_vmscan_cpuset 2/2]
- include/linux/cpuset.h:287:13: error: redefinition of 'cgroup_node_allowed'
-Message-ID: <202504150758.iyp02ENg-lkp@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:stream 9/13] ld.lld: error: undefined symbol:
+ bpf_prog_find_from_stack
+Message-ID: <202504150713.0tOdV3w2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,107 +62,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gourryinverse/linux gourry_vmscan_cpuset
-head:   ab956ee2656aac6dedd7e2a834a77683dab7b686
-commit: ab956ee2656aac6dedd7e2a834a77683dab7b686 [2/2] vmscan,cgroup: apply mems_effective to reclaim
-config: csky-randconfig-001-20250415 (https://download.01.org/0day-ci/archive/20250415/202504150758.iyp02ENg-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504150758.iyp02ENg-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux stream
+head:   a1aa685f70a017d3492be37e89d45d5633fc0203
+commit: 1831d6e322ca5ae2738417b28733210440be19c6 [9/13] bpf: Report may_goto timeout to BPF stderr
+config: arm64-randconfig-001-20250415 (https://download.01.org/0day-ci/archive/20250415/202504150713.0tOdV3w2-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504150713.0tOdV3w2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504150758.iyp02ENg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504150713.0tOdV3w2-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/memcontrol.h:13,
-                    from include/linux/resume_user_mode.h:8,
-                    from kernel/task_work.c:5:
->> include/linux/cgroup.h:687:13: warning: 'cgroup_node_allowed' defined but not used [-Wunused-function]
-     687 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid) { return true; }
-         |             ^~~~~~~~~~~~~~~~~~~
+>> ld.lld: error: undefined symbol: bpf_prog_find_from_stack
+   >>> referenced by core.c:3158 (kernel/bpf/core.c:3158)
+   >>>               kernel/bpf/core.o:(bpf_prog_report_may_goto_violation) in archive vmlinux.a
 --
-   In file included from kernel/kthread.c:20:
->> include/linux/cpuset.h:287:13: error: redefinition of 'cgroup_node_allowed'
-     287 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
-         |             ^~~~~~~~~~~~~~~~~~~
-   In file included from kernel/kthread.c:19:
-   include/linux/cgroup.h:687:13: note: previous definition of 'cgroup_node_allowed' with type 'bool(struct cgroup *, int)' {aka '_Bool(struct cgroup *, int)'}
-     687 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid) { return true; }
-         |             ^~~~~~~~~~~~~~~~~~~
-   include/linux/cpuset.h:287:13: warning: 'cgroup_node_allowed' defined but not used [-Wunused-function]
-     287 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
-         |             ^~~~~~~~~~~~~~~~~~~
->> include/linux/cgroup.h:687:13: warning: 'cgroup_node_allowed' defined but not used [-Wunused-function]
-     687 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid) { return true; }
-         |             ^~~~~~~~~~~~~~~~~~~
+>> ld.lld: error: undefined symbol: bpf_prog_stderr_printk
+   >>> referenced by core.c:3163 (kernel/bpf/core.c:3163)
+   >>>               kernel/bpf/core.o:(bpf_prog_report_may_goto_violation) in archive vmlinux.a
 --
-   In file included from include/linux/memcontrol.h:13,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from kernel/cpu.c:27:
->> include/linux/cgroup.h:687:13: error: redefinition of 'cgroup_node_allowed'
-     687 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid) { return true; }
-         |             ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/sched/isolation.h:5,
-                    from kernel/cpu.c:13:
-   include/linux/cpuset.h:287:13: note: previous definition of 'cgroup_node_allowed' with type 'bool(struct cgroup *, int)' {aka '_Bool(struct cgroup *, int)'}
-     287 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
-         |             ^~~~~~~~~~~~~~~~~~~
->> include/linux/cgroup.h:687:13: warning: 'cgroup_node_allowed' defined but not used [-Wunused-function]
-     687 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid) { return true; }
-         |             ^~~~~~~~~~~~~~~~~~~
-   include/linux/cpuset.h:287:13: warning: 'cgroup_node_allowed' defined but not used [-Wunused-function]
-     287 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
-         |             ^~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/sched/isolation.h:5,
-                    from kernel/time/hrtimer.c:41:
->> include/linux/cpuset.h:287:13: error: redefinition of 'cgroup_node_allowed'
-     287 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
-         |             ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/perf_event.h:60,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:94,
-                    from kernel/time/hrtimer.c:30:
-   include/linux/cgroup.h:687:13: note: previous definition of 'cgroup_node_allowed' with type 'bool(struct cgroup *, int)' {aka '_Bool(struct cgroup *, int)'}
-     687 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid) { return true; }
-         |             ^~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:124:35: warning: initialized field overwritten [-Woverride-init]
-     124 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:124:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:125:35: warning: initialized field overwritten [-Woverride-init]
-     125 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:125:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:126:35: warning: initialized field overwritten [-Woverride-init]
-     126 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:126:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:127:35: warning: initialized field overwritten [-Woverride-init]
-     127 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:127:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   include/linux/cpuset.h:287:13: warning: 'cgroup_node_allowed' defined but not used [-Wunused-function]
-     287 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
-         |             ^~~~~~~~~~~~~~~~~~~
->> include/linux/cgroup.h:687:13: warning: 'cgroup_node_allowed' defined but not used [-Wunused-function]
-     687 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid) { return true; }
-         |             ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/cgroup_node_allowed +287 include/linux/cpuset.h
-
-   286	
- > 287	static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
-   288	{
-   289		return true;
-   290	}
-   291	#endif /* !CONFIG_CPUSETS */
-   292	
+>> ld.lld: error: undefined symbol: bpf_prog_stderr_dump_stack
+   >>> referenced by core.c:3164 (kernel/bpf/core.c:3164)
+   >>>               kernel/bpf/core.o:(bpf_prog_report_may_goto_violation) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
