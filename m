@@ -1,43 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955821922E7;
-	Mon, 14 Apr 2025 23:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202BD1F4C91
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 23:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744672174; cv=none; b=tr33sGufF9T2Z59OH4v2YiGqwrapFRnt9rlJcNI9XEUj+tLxm1R8HM/zcUC5eP7nGmex7PPsJ+HZ8kt6iUSSfpafCknbabv88NTof+Yzkr0NMDwlc2jyCL2mi6Fo+Tq24aXe0LVxboFJ6TwczwnlnzK55ECKaU/j5KoI9QqPKYM=
+	t=1744672593; cv=none; b=YRfG4fVWg0SyOIqgk3niHiMlb5tvh7lSRpd+jtb+ApX0js7fy3vKtGFyieLBnEPMOeswTB7vOIGyI4OO6tvAX01eCJfhWYDyIKjtg+IFDFkLOSz3y8bCTDgi7xF3C0/3AYGMliIpkxaUJNJMSCB8O+Bw5+i+pOl9oUXeAYqVbao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744672174; c=relaxed/simple;
-	bh=MCAAnyC6iyKI2w05GmfAi4HOr7ZTdsWTC+8ZaYG3sYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jq76EcIRCoTWt2tX4Pi2EbUqkO/7/bdo6trMruVdgaZLxvo40kra0KFxM5fOCZUnM5Nk68Fss5meOpc/MqAaHoSvVBWg0wM5WMmy0jKed1j2uDSAocVEXHuf8DxBjF4Ju01itimun+Uh8Bh68n6Y9GbMeD2LQdeO3uRnptVSBAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c4pRrGmS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744672593; c=relaxed/simple;
+	bh=HXWILlBaxgZNbs2RnfnO5HeVyW8d00N3jaxbn7oc68c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bx80O5KjMgC1W9BfoOWrkrBrnTFL+9igd732K8gDIjdx7Jx+wzIjiFwwvnIQsuqPBiSN/wZlfeGAvGh9niwPqzl864yfUcq+EER0ov42BXdPlNzX55f+HH3bkijhGNTMasRehdLb+7MsTH4SXEegmsy2x9rwdbVqQosOzgJ+1Ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jePhGcZu; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c4pRrGmS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97DF6C4CEE2;
-	Mon, 14 Apr 2025 23:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744672173;
-	bh=MCAAnyC6iyKI2w05GmfAi4HOr7ZTdsWTC+8ZaYG3sYI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c4pRrGmSCOMTrLdgv0PBxDGZZMpxed3zHWXRKayhxP3brM8dxLDXq+3kpWCIEvH/5
-	 bZsUOJOzVaBNbid7leT8NXJ/U/GWsy5l9qnWMGdoBMyxw1s8uz9dLqEJSB3+NJBHBd
-	 wvrUYaobxXod8rCS9/pz30Xe06RLUkS1K1ZQehrnI5XbJPNY3cfLfQeCO5vUz/RK96
-	 uY2pNZTbpZtZ1GXasL09VtBfeB6V9tvlExw8UeZF0WfZ/xoD0I2ev0eZvWmmn0KXU6
-	 QbFpRPARFPdLqYJcM1vRw+s7JjGOIHNrEOX6pXhYg252vesTU/WRza6+0Uv1TPM4CE
-	 IeLEfaaAfd4xQ==
-Date: Mon, 14 Apr 2025 16:09:29 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Philip Li <philip.li@intel.com>
-Cc: Ingo Molnar <mingo@kernel.org>, kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: kernel/sched/syscalls.c:979:8: error: unexpected token, expected
- comma
-Message-ID: <20250414230929.GA637400@ax162>
-References: <202504082254.7GLSWAbI-lkp@intel.com>
- <Z_drmjgelvOokDRl@gmail.com>
- <Z/sgL9Rt9c8ZGhxj@rli9-mobl>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jePhGcZu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744672591; x=1776208591;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HXWILlBaxgZNbs2RnfnO5HeVyW8d00N3jaxbn7oc68c=;
+  b=jePhGcZuo0N1g5+8XNRAZZxVtjKoQE8f4Yzj41SH40TS3tJAwLgwfa45
+   yG9kKNl0peJt2mvTdCZ/V4Ks6HJ899uvmdOkbHBs3ftsG/PAc1y0mrzj0
+   COkFn+mykfR/BVIeiL4Jya5PP2ZecdldSd7x179/Qr8bOElSAf/l5kQLR
+   fprGu70eEKWOr6qZTcxYsPbhRRLE7tNmaMObdqI55JFeL3Or3B7qKEmnG
+   MkZhTBxBbt4rOLdx0yHVZi8IJy4CFJjZcuArqKhnCpCsCBthqnM0/y/a3
+   1omtxbnazVhxEu7pqWR/jRAIX492u8qAulVIdZBvjCFLuC4PcQucBKS1I
+   g==;
+X-CSE-ConnectionGUID: xBZfiGu9Rwmks43RXrSDhg==
+X-CSE-MsgGUID: oxDHz7sKSKGy2mceyqqt4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="49991821"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="49991821"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 16:16:19 -0700
+X-CSE-ConnectionGUID: IXYj/f0CRL6+QfTpmoc0/g==
+X-CSE-MsgGUID: S2bXSr2BRd2mfdF8McOeQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="129795079"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 14 Apr 2025 16:16:17 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u4T2F-000EoQ-0H;
+	Mon, 14 Apr 2025 23:16:15 +0000
+Date: Tue, 15 Apr 2025 07:15:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
+Subject: [gourryinverse:gourry_vmscan_cpuset 2/2]
+ include/linux/cpuset.h:287:13: warning: 'cgroup_node_allowed' defined but
+ not used
+Message-ID: <202504150632.fNv0NnvK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,47 +62,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z/sgL9Rt9c8ZGhxj@rli9-mobl>
 
-Hi Philip,
+tree:   https://github.com/gourryinverse/linux gourry_vmscan_cpuset
+head:   ab956ee2656aac6dedd7e2a834a77683dab7b686
+commit: ab956ee2656aac6dedd7e2a834a77683dab7b686 [2/2] vmscan,cgroup: apply mems_effective to reclaim
+config: csky-randconfig-002-20250415 (https://download.01.org/0day-ci/archive/20250415/202504150632.fNv0NnvK-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504150632.fNv0NnvK-lkp@intel.com/reproduce)
 
-On Sun, Apr 13, 2025 at 10:23:43AM +0800, Philip Li wrote:
-> + llvm mailing list to consult
-> 
-> On Thu, Apr 10, 2025 at 08:56:26AM +0200, Ingo Molnar wrote:
-> > 
-> > * kernel test robot <lkp@intel.com> wrote:
-> > 
-> > > Hi Ingo,
-> > > 
-> > > FYI, the error/warning still remains.
-> > > 
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   0af2f6be1b4281385b618cb86ad946eded089ac8
-> > > commit: 04746ed80bcf3130951ed4d5c1bc5b0bcabdde22 sched/syscalls: Split out kernel/sched/syscalls.c from kernel/sched/core.c
-> > > date:   11 months ago
-> > > config: mips-randconfig-r064-20250408 (https://download.01.org/0day-ci/archive/20250408/202504082254.7GLSWAbI-lkp@intel.com/config)
-> > > compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504082254.7GLSWAbI-lkp@intel.com/reproduce)
-> > 
-> > I cannot reproduce this.
-> 
-> Hi Ingo, looks this problem is clang + mips specific, and it can be traced back to
-> early days like [1] [2] on different commits/files
-> 
-> 	>> lib/usercopy_kunit.c:205:2: error: unexpected token, expected comma
-> 	>> net/mctp/af_mctp.c:259:6: error: invalid operand for instruction
-> 
-> I add llvm mailing list to consult for this behavior, and it's possible the bot
-> environment is not correctly setup for this case.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504150632.fNv0NnvK-lkp@intel.com/
 
-No, I do not think this is a bot configuration issue, I think this is an
-"our matrix is not very big for MIPS" issue so we just have not seen
-this issue come up yet. Based on my brief research, this appears to be
-an LLVM issue so I will follow up on trying to get that fixed later
-(MIPS is rather low priority):
+All warnings (new ones prefixed by >>):
 
-https://github.com/ClangBuiltLinux/linux/issues/2086
+   In file included from init/main.c:52:
+   include/linux/cpuset.h:287:13: error: static declaration of 'cgroup_node_allowed' follows non-static declaration
+     287 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
+         |             ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/perf_event.h:60,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:94,
+                    from init/main.c:21:
+   include/linux/cgroup.h:636:13: note: previous declaration of 'cgroup_node_allowed' with type 'bool(struct cgroup *, int)' {aka '_Bool(struct cgroup *, int)'}
+     636 | extern bool cgroup_node_allowed(struct cgroup *cgroup, int nid);
+         |             ^~~~~~~~~~~~~~~~~~~
+>> include/linux/cpuset.h:287:13: warning: 'cgroup_node_allowed' defined but not used [-Wunused-function]
+     287 | static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
+         |             ^~~~~~~~~~~~~~~~~~~
 
-Cheers,
-Nathan
+
+vim +/cgroup_node_allowed +287 include/linux/cpuset.h
+
+   286	
+ > 287	static bool cgroup_node_allowed(struct cgroup *cgroup, int nid)
+   288	{
+   289		return true;
+   290	}
+   291	#endif /* !CONFIG_CPUSETS */
+   292	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
