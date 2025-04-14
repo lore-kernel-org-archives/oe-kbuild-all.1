@@ -1,103 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A3476410
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 12:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D5280B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 12:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744632356; cv=none; b=VcarWG3eAa0psyjVR3Tm407k8yJLx+vqMT2si8zGhY3872uFTbTqP6Yl/G6JHQ4Rn1KKMm7TORUDNVlin6Noo+5wA8oV6EGZYJBC4kie4J+DElBR1rEKZC0kFigQPCSjTe17Jv5Zqzu4mJx0Gl6X+EQshI4CUXlbz0e2X/kPx24=
+	t=1744632592; cv=none; b=I9EDxxmck/G9iu70Pj7+eNqVPIg803Vb6M1W5CX/cjt3EXSDEg1ZJJII7qfINX51sDz2n+x6iSwx42xLcTJpG/wMtiEX/A8jrIAEbg30CZTgnzsi2ypfXKWjKcuvjtKrnjr2fmWMX2FTTUvAuMRBge0xsWbu+4aePZzc+dyrfd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744632356; c=relaxed/simple;
-	bh=NeKBnKPC5g0J1V+qCeFXfljOUGhpf9ND/R3NsCvkzCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DcFVzY1zyjy2+GoUomkAcNl0hxj5n0luq8J2smOXeOs56hJDTT8MX2K6h2GWk1LN4ebxKVk+0yaRB4DOQmwhgFx7aF5qDP3/O8ChmzPdI1q0GEnEqxJBOkOdWd3r9V7xJzy9jXqD/CAnIerKnHtuYMcd6fBxtRBe2N281TX2qfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5wb2tW/; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744632592; c=relaxed/simple;
+	bh=AnZECDH63/Sx09OClwV5T1VAh2M07OMoa79dpLKTWJ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LI/SOvR3pegUeS8tVuy2IOiURqleCP78pl+wG79mSm7axXbbC7iUuW+X+om/PgBaHsuI0KlGIz3Y0oWwCHN4DOTb5eMRtIN16sHQR9LoR3MNxCmdN0Zd3X8pL77U76OJrtJky6NQywjvgHkzmWSM17y75m+WD5zPJIGTjVQfuvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Writ673D; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5wb2tW/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744632355; x=1776168355;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NeKBnKPC5g0J1V+qCeFXfljOUGhpf9ND/R3NsCvkzCo=;
-  b=P5wb2tW/hdGH/5IMR8matHLtrBRAOMovAzxDhkqxFyaUeuDH6ESPMWe0
-   puJ1tFkQ1LT/eurjMGvHNkYMo5pvtaXVCyAGFzmf3ogykR9tnR6x1crCm
-   mh64zHYdhLnpos0d4swMmZoxtEus4E78NoA7l1pwTIQC+zD/+AafTrQwg
-   BE2qJ/Pu0O6/q60a7gEEanma/anZtpMC1+pv4s4ZBGzmdU+T8yzHGAVGf
-   v2Dcs3vFU6vifEz+vrzx5vI+rAMJX3iyXME5jRd4LQA3B6qOyhKZhcER1
-   fQD21ysHXr3+0YryHE7Ve4jSOchvifnu9tnXahm/1KKaVWYmh7c6g6cNR
-   g==;
-X-CSE-ConnectionGUID: DaFOc3PpTUaubBgas0H+6g==
-X-CSE-MsgGUID: V9FMCw7aSEK5ZA7hQ1vlhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="45986166"
-X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
-   d="scan'208";a="45986166"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 05:05:54 -0700
-X-CSE-ConnectionGUID: xoebIWfOSm6I9Fr+yecE+Q==
-X-CSE-MsgGUID: T8aJlek6SV2mNCOvordzYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
-   d="scan'208";a="130773156"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Apr 2025 05:05:54 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u4IZT-000E9g-0f;
-	Mon, 14 Apr 2025 12:05:51 +0000
-Date: Mon, 14 Apr 2025 20:04:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Tong Tiangen <tongtiangen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2121/2121] mm/kasan/shadow.c:90: undefined
- reference to `__memcpy_mc'
-Message-ID: <202504142028.WisA9n7Q-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Writ673D"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfecdd8b2so34340015e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 05:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1744632589; x=1745237389; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zE3/vIaDDm49Ow0awT1xfzab8Kaog4yG+YjbBkNm2n8=;
+        b=Writ673DdgheYoA5LkV8qrRAlSpthdUjijEDTyVaYIlzObP94EW77i3ftvtFiX881c
+         959o5lt6KqMTuIaovCfFN3yBFHS/E+C+GV2dcwwjig9EiDbCgUmsNAtLscxpEytJb9op
+         fvbM/FUYZ9OEClHcA+pDn7Z1m1JwXjlxs/yf1nz4n8YTLdxNmDE3Oc2TmZLXe+bPUnEf
+         UHHAK8h2IogK9D8pBtA9ELwieeyy9OfQwqiQWrSq1HqCz5Xary4VBkbsawtYs5otFD7h
+         7UlelPb2sPgO5C6KONwyRrZxsmxwqUbtwQDps797oMTWSrSkb6BpNPLmW+6rgAXCFUxr
+         w++g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744632589; x=1745237389;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zE3/vIaDDm49Ow0awT1xfzab8Kaog4yG+YjbBkNm2n8=;
+        b=AWRr7/J6UycQ+DA+bKKLC7Aa2uCvyjnh+JiboGjUarsX9lpqssvpNVOTYacLv8FtBm
+         DKu8FePX6BvO9r+OPO6OLMnDmJomri9Sv/Ck1Jjul4+ciQ0AwwrP/2sINXXeaEjS0d90
+         DEzMh1blupZV5KHvb897KPtIU7Dyzk7RrLjuCApcrew0b9vyaeAukNZChG+1Z7i5SG1C
+         rcT3vPk5p1tpEKOFKoILkZHorKDRPntqY/IC+swt1KDi1nRbhPn9vLPDMCeIgjw0jm4a
+         sWMy00mSB1tHbtP8++s7vl+oTh+1xYbg42d0dQ4E8QJJXTi+2LVSlUlHZRn6ree34BfA
+         xyOw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKv5ebOYE/+nHY8hqTfncNIGqc/uAMGGlUpcQkrGcsvn71uPsYSKW0ltLS02+9QlVlo443bUGTA7AmlffO@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBPsMlTFeyVv/u/ofr9s+hbe1LxFEM0IQLsWcMsoxZQGoM0TrA
+	bTyJxu3v52QiPtLB/BzdeNvinpHudjESsOZa/UTG6aWqDpGwh4NcF/tFMpmexs8=
+X-Gm-Gg: ASbGnctfvNG8wSLfr/cxhK/H3LAuKS7X28Qup6M/+sLiLdOjbA04Lkb/KOm5WyJsK7o
+	3Y428poIEocer4eJ0ncdfipC05Ann+HHUOKNkN75pvywEhgYpEPu8OFoklXDe/xfSEOocI9EbnW
+	kdnkd22Zu3KHqGNvINHH+rtr5OyFtJtf5/kspGCP/eL/d52krzg7/BltGgNsx+bXtf2W/vV0dwJ
+	743M0dCH0JCyfQ1YXNJcjazLLqvaWo7SW/0G1CXUHJpnoVUSyBisYofdc1YURq38/OHllkM8c4a
+	Sak4k/LTqql8EZdYbIQzq7XuO2lk
+X-Google-Smtp-Source: AGHT+IFNxS0Xit/RMmUSHhm4BTUKEcgXGGkLi80tu1FflJzbof+IkBnb8Wny7dyxa/mkRZ1Jg7nFRw==
+X-Received: by 2002:a05:600c:1da1:b0:43c:fb5b:84d8 with SMTP id 5b1f17b1804b1-43f3a95de2cmr125882165e9.16.1744632589124;
+        Mon, 14 Apr 2025 05:09:49 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200::31af])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f233a2c46sm174308315e9.13.2025.04.14.05.09.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Apr 2025 05:09:48 -0700 (PDT)
+From: Andrew Jones <ajones@ventanamicro.com>
+To: linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: paul.walmsley@sifive.com,
+	palmer@dabbelt.com,
+	alex@ghiti.fr,
+	conor.dooley@microchip.com,
+	oe-kbuild-all@lists.linux.dev,
+	charlie@rivosinc.com,
+	samuel.holland@sifive.com,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] riscv: Provide all alternative macros all the time
+Date: Mon, 14 Apr 2025 14:09:48 +0200
+Message-ID: <20250414120947.135173-2-ajones@ventanamicro.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   856215a06729654f070692189189edc4570084a0
-commit: b991780c836ceb9a479c6c6e385e914b487e353a [2121/2121] arm64: introduce copy_mc_to_kernel() implementation
-config: arm64-randconfig-003-20250414 (https://download.01.org/0day-ci/archive/20250414/202504142028.WisA9n7Q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504142028.WisA9n7Q-lkp@intel.com/reproduce)
+We need to provide all six forms of the alternative macros
+(ALTERNATIVE, ALTERNATIVE_2, _ALTERNATIVE_CFG, _ALTERNATIVE_CFG_2,
+__ALTERNATIVE_CFG, __ALTERNATIVE_CFG_2) for all four cases derived
+from the two ifdefs (RISCV_ALTERNATIVE, __ASSEMBLY__) in order to
+ensure all configs can compile. Define this missing ones and ensure
+all are defined to consume all parameters passed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504142028.WisA9n7Q-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202504130710.3IKz6Ibs-lkp@intel.com/
+Signed-off-by: Andrew Jones <ajones@ventanamicro.com>
+---
+ arch/riscv/include/asm/alternative-macros.h | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: mm/kasan/shadow.o: in function `memcpy_mc':
->> mm/kasan/shadow.c:90: undefined reference to `__memcpy_mc'
-
-
-vim +90 mm/kasan/shadow.c
-
-    81	
-    82	#ifdef __HAVE_ARCH_MEMCPY_MC
-    83	#undef memcpy_mc
-    84	int memcpy_mc(void *dest, const void *src, size_t len)
-    85	{
-    86		if (!kasan_check_range(src, len, false, _RET_IP_) ||
-    87		    !kasan_check_range(dest, len, true, _RET_IP_))
-    88			return (int)len;
-    89	
-  > 90		return __memcpy_mc(dest, src, len);
-    91	}
-    92	#endif
-    93	
-
+diff --git a/arch/riscv/include/asm/alternative-macros.h b/arch/riscv/include/asm/alternative-macros.h
+index 721ec275ce57..231d777d936c 100644
+--- a/arch/riscv/include/asm/alternative-macros.h
++++ b/arch/riscv/include/asm/alternative-macros.h
+@@ -115,24 +115,19 @@
+ 	\old_c
+ .endm
+ 
+-#define _ALTERNATIVE_CFG(old_c, ...)	\
+-	ALTERNATIVE_CFG old_c
+-
+-#define _ALTERNATIVE_CFG_2(old_c, ...)	\
+-	ALTERNATIVE_CFG old_c
++#define __ALTERNATIVE_CFG(old_c, ...)		ALTERNATIVE_CFG old_c
++#define __ALTERNATIVE_CFG_2(old_c, ...)		ALTERNATIVE_CFG old_c
+ 
+ #else /* !__ASSEMBLY__ */
+ 
+-#define __ALTERNATIVE_CFG(old_c)	\
+-	old_c "\n"
++#define __ALTERNATIVE_CFG(old_c, ...)		old_c "\n"
++#define __ALTERNATIVE_CFG_2(old_c, ...)		old_c "\n"
+ 
+-#define _ALTERNATIVE_CFG(old_c, ...)	\
+-	__ALTERNATIVE_CFG(old_c)
++#endif /* __ASSEMBLY__ */
+ 
+-#define _ALTERNATIVE_CFG_2(old_c, ...)	\
+-	__ALTERNATIVE_CFG(old_c)
++#define _ALTERNATIVE_CFG(old_c, ...)		__ALTERNATIVE_CFG(old_c)
++#define _ALTERNATIVE_CFG_2(old_c, ...)		__ALTERNATIVE_CFG_2(old_c)
+ 
+-#endif /* __ASSEMBLY__ */
+ #endif /* CONFIG_RISCV_ALTERNATIVE */
+ 
+ /*
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.49.0
+
