@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E21D3FF1;
-	Mon, 14 Apr 2025 04:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063AD2EAE6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Apr 2025 05:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744605883; cv=none; b=J23LtPYRvIyBPdxGbaVZmjhCghWs1FMaePeydeEchNIcQo2D5QdugnYIG2oGMVQKsu4KPIgp/XT3NXZO0h6V29AxtMEsrkO9pyWgS/lJFcXl74a2ZagWHdSApXuRqSQrJlUGl3s4emCldSIyCqmLm4X+WQ29taK6TB669NaCZA4=
+	t=1744608369; cv=none; b=PG5cLpSeFBHKPgNYWJzoH5QQaLXf+idigtAYux2OVqz3/Pn/rXhapBFXG4y9mcqUWpkQ9rdjTJmQ73pNHlGHIpftxU062Kyp4OUlrPiJjHfxATCrnaqbDmCPLnGmiHB1M2ATW1zO8dh0ufmBes2pgFQpgYRGdp+KBAOh6tw9Cno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744605883; c=relaxed/simple;
-	bh=bk4ynxxowmyCbNhVeedvrcD/jRM2v+UmaAhb9Op8L4E=;
+	s=arc-20240116; t=1744608369; c=relaxed/simple;
+	bh=g0YZD33tyNvQfVkYk7bNW6FDxzUhPZdgynTFv9Xuirg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cl/TXdGN6nntbwu8u7h2WSeMkf3hYnf7zgAuItLIKWRrWIIGhuY7GLGQy/5zdFhdNmo3WDLOJkpIyjy2BuMwYiTFm2S4Ud8hkkJBDVIrkCswWpuXLhC4y9pei3yiU582RdHsthnhCqW3YMwC6/VmGPeoVMmCyOj+QWy0jgPEmcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePawI27x; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Q34871vniqbCC0+vrgxLOcLubk42s0ZRMqRAZAobN+YB5QpLca71Jp3gqY1fY8hsITn/qtpYlP1VYr/3KE5naRE1HXQSa3LVFnecscwIXYz0E+ZHj662jKN9kajuyqcHkLoamGaeVNm7a1z1y+TnxbTsVXDJmgxYBCSUWXj/Rjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GZAcVWh2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePawI27x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GZAcVWh2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744605881; x=1776141881;
+  t=1744608366; x=1776144366;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bk4ynxxowmyCbNhVeedvrcD/jRM2v+UmaAhb9Op8L4E=;
-  b=ePawI27xVRSE7YX072SMU6s3z79ecK4sWhCI7VaDnvika0g8qsSsLG5t
-   k/AobeAPoRF4MFhyKPFni3s0dQyWBRtf98x+vQvNb3sDCpIJZ63KGGXGx
-   QdOTJpMo2g1lRSELgKAJXnpsWM9ZPc+YeLwzidWEtEDtqNGR6ZNCgcv2j
-   Y4mcUqYnNsozmL5fL8Ls1elFbI4nkhDbR6zOuqH+6pNEKiAVXpOeMRyXn
-   zxV8ibvAYxKWO+r8I+fJsAOXrE33KXZOm6eMjBir0CGT9p1zcTlfi6VBn
-   VN3e/VmOaKlNjqVQYYfQlsPyf3qXvlF/7cA53lFHslgz+Z9tV2vdS193L
-   Q==;
-X-CSE-ConnectionGUID: P/bWV8htTwmDY682UVPVKg==
-X-CSE-MsgGUID: CP5tjaBlRneD3tSOTyZkEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="56708121"
+  bh=g0YZD33tyNvQfVkYk7bNW6FDxzUhPZdgynTFv9Xuirg=;
+  b=GZAcVWh2jTy7G3Wh6R//HmHe7XX8Oq0245MmqtRBeGdWnIvDMalgr4eE
+   Oa47DeXA7GdfK2Q3KpxL3WntcR8tzgp4BrK1He6myKnJlS1zsbBLlucPg
+   HOHTSp4uUh5TTCobVNcu7WeIqNWwAKsXmoxV3Gn9akr/X5ARtbHI2CNWu
+   I+me7OxltgZo3iZi1FCLlK9I5USpLolc1dlPnSCqSlr9s8hggv+6Tg1oi
+   zgZxq8Iwdwrp3gzwdNOMBCb0xqJMJ3ieOUQkObmeSjXJ+dHARXuAvMIgC
+   WEXOp30ueRscxnhL/iAnur2DI5qNwbo9uJfBEy8Q8KclsVSM3qf6oobSq
+   A==;
+X-CSE-ConnectionGUID: c1qmMk8XRte5suQKO+UKMA==
+X-CSE-MsgGUID: QWM9NlabRH+Wle38Nmr2Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="68552260"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="56708121"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 21:44:40 -0700
-X-CSE-ConnectionGUID: BXWGclJcSIanpkDd+4i6AQ==
-X-CSE-MsgGUID: 5j4Pb5UvQm24uFHSNMtwvw==
+   d="scan'208";a="68552260"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 22:26:04 -0700
+X-CSE-ConnectionGUID: SmKLI0ptRGC3Uw6SzkHmXA==
+X-CSE-MsgGUID: xjJGKl6TT2+OX9+edjPp1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="134554170"
+   d="scan'208";a="130573816"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Apr 2025 21:44:39 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 13 Apr 2025 22:26:03 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4BgS-000Dbi-1z;
-	Mon, 14 Apr 2025 04:44:36 +0000
-Date: Mon, 14 Apr 2025 12:44:12 +0800
+	id 1u4CKW-000Dji-39;
+	Mon, 14 Apr 2025 05:26:00 +0000
+Date: Mon, 14 Apr 2025 13:25:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [broonie-misc:for-kernelci 29/44] arch/arm64/kvm/guest.c:326:7:
- error: call to undeclared function 'vq_available'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202504141252.1j5u5Jwb-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.15-rc 64/66]
+ arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb:
+ /soc/power-controller@11d10000: failed to match any schema with compatible:
+ ['mediatek,mt7988-topmisc', 'mediatek,mt7988-power-controller']
+Message-ID: <202504141345.Y3Bgap1s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,58 +64,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git for-kernelci
-head:   b172cafa2943fcb2f66d49d5c683fc9b372fc508
-commit: ede01a82eae184bdc30dc4be084fdac67135a58c [29/44] KVM: arm64: Implement SME vector length configuration
-config: arm64-randconfig-001-20250414 (https://download.01.org/0day-ci/archive/20250414/202504141252.1j5u5Jwb-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141252.1j5u5Jwb-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.15-rc
+head:   d866e648717800b6f6395ad36c38f9effcf0498d
+commit: da5bb2e3402fa85961294839ce1cb96bc9058128 [64/66] arm64: dts: mediatek: mt7988: drop syscon from topmisc
+config: arm64-randconfig-052-20250414 (https://download.01.org/0day-ci/archive/20250414/202504141345.Y3Bgap1s-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+dtschema version: 2025.3.dev19+g53ef030
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250414/202504141345.Y3Bgap1s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504141252.1j5u5Jwb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504141345.Y3Bgap1s-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> arch/arm64/kvm/guest.c:326:7: error: call to undeclared function 'vq_available'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     326 |                 if (vq_available(vec_type, vq))
-         |                     ^
-   arch/arm64/kvm/guest.c:326:7: note: did you mean 'sve_vq_available'?
-   arch/arm64/include/asm/fpsimd.h:324:20: note: 'sve_vq_available' declared here
-     324 | static inline bool sve_vq_available(unsigned int vq) { return false; }
-         |                    ^
-   arch/arm64/kvm/guest.c:369:30: error: call to undeclared function 'vq_available'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     369 |                 if (vq_present(vqs, vq) != vq_available(vec_type, vq))
-         |                                            ^
-   2 errors generated.
-
-
-vim +/vq_available +326 arch/arm64/kvm/guest.c
-
-   312	
-   313	static int get_vec_vls(enum vec_type vec_type, struct kvm_vcpu *vcpu,
-   314			      const struct kvm_one_reg *reg)
-   315	{
-   316		unsigned int max_vq, vq;
-   317		u64 vqs[KVM_ARM64_SVE_VLS_WORDS];
-   318	
-   319		if (WARN_ON(!sve_vl_valid(vcpu->arch.max_vl[vec_type])))
-   320			return -EINVAL;
-   321	
-   322		memset(vqs, 0, sizeof(vqs));
-   323	
-   324		max_vq = vcpu_vec_max_vq(vcpu, vec_type);
-   325		for (vq = SVE_VQ_MIN; vq <= max_vq; ++vq)
- > 326			if (vq_available(vec_type, vq))
-   327				vqs[vq_word(vq)] |= vq_mask(vq);
-   328	
-   329		if (copy_to_user((void __user *)reg->addr, vqs, sizeof(vqs)))
-   330			return -EFAULT;
-   331	
-   332		return 0;
-   333	}
-   334	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'fixed-layout' was expected
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): Unevaluated properties are not allowed ('volumes' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/spi_nand@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/spi_nand@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/power-controller@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'mediatek,mt7988-power-controller']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/power-controller@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'mediatek,mt7988-power-controller']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: switch@15020000 (mediatek,mt7988-switch): ports:port@6:phy-mode:0: 'internal' is not one of ['rgmii', 'trgmii']
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: switch@15020000 (mediatek,mt7988-switch): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'mdio' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet-phy@0 (ethernet-phy-ieee802.3-c22): leds: 'gsw-phy0-led0@0', 'gsw-phy0-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet-phy@1 (ethernet-phy-ieee802.3-c22): leds: 'gsw-phy1-led0@0', 'gsw-phy1-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet-phy@2 (ethernet-phy-ieee802.3-c22): leds: 'gsw-phy2-led0@0', 'gsw-phy2-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+   	'fixed-layout' was expected
+   	'kontron,sl28-vpd' was expected
+   	'onie,tlv-layout' was expected
+   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
+   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): Unevaluated properties are not allowed ('volumes' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/spi_nand@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/spi_nand@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/power-controller@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'mediatek,mt7988-power-controller']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/power-controller@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'mediatek,mt7988-power-controller']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: switch@15020000 (mediatek,mt7988-switch): ports:port@6:phy-mode:0: 'internal' is not one of ['rgmii', 'trgmii']
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: switch@15020000 (mediatek,mt7988-switch): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'mdio' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: ethernet-phy@0 (ethernet-phy-ieee802.3-c22): leds: 'gsw-phy0-led0@0', 'gsw-phy0-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: ethernet-phy@1 (ethernet-phy-ieee802.3-c22): leds: 'gsw-phy1-led0@0', 'gsw-phy1-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: ethernet-phy@2 (ethernet-phy-ieee802.3-c22): leds: 'gsw-phy2-led0@0', 'gsw-phy2-led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
