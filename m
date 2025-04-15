@@ -1,71 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A47C274667
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Apr 2025 14:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40D5EAC7;
+	Tue, 15 Apr 2025 14:31:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744727238; cv=none; b=ngFWpwQwc9yPnFAY5oQSobfPaxaaynZUK3w1g1izSsI7G8ryPsRRHa392Hpf1UwAhLe05AfrQJBE7rwE1thjhfy1D7tBzLdCWFVivp36NYFYvKzyqThaiVyfyLu0C0imN+iEgYqmtXPMjq8G94iGutoxt3FLCRejknvHylC24aI=
+	t=1744727507; cv=none; b=qdD2nDTDbA5UwPGNPGkUiDk1zHBFwu9Pd0B5DCwaNB/1GEUM9ljbjMfS5bxpHnegAJlC6AvmL/pCtHl5sjUxK3mTlycsDLRKS5ehNfDeVDqDTEEnqjSj0mcHSXoLWIg19sOqs3Qrt+iqZttalRGttb/tiPMLTfs1W5FPMZEvkSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744727238; c=relaxed/simple;
-	bh=z63JfSsHpIErknyiCFjXZ6ek1chC5/7Pr7BECXZasXY=;
+	s=arc-20240116; t=1744727507; c=relaxed/simple;
+	bh=72gu+99OlRCnRbMf/IooEJiDazJGsoVKKKCeiyq5YlY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sHgeYma5s9WxuRfeeqZD0HhlKfEhXUPeGoC4ighB11lKGnRccud71yLw/t7jp4g3H0Pi/uMt8BDRCsWzBf92lyuZkhyPTjooBNwheLxYodscJd9uZNidrnBqTbjBjX4sVhEc1BvY/VoRPWUtXx0s9PL5MhWjgsJ7cJ54j4qpPDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HoeS8n8O; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HoeS8n8O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744727237; x=1776263237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z63JfSsHpIErknyiCFjXZ6ek1chC5/7Pr7BECXZasXY=;
-  b=HoeS8n8OpaXqPmO9D8eNIkOveqBMBVjC9OiqWdsSuQsU297SmUizrw03
-   A9pvxUYBJC2RsiAHhnFqwNSChcsJZyvkFUHbf3kV+fCqXihen7aEUDfoG
-   7kdZ9mG35kJ/V+XpBcOXoxKcVOevaYrGEchDDwC80ZyGnWp0qAGB5X23K
-   ICuPSC/yovcXyMpKcp3MxYfPT1U+I8jtXdbI48HLXeWtiAYxilj/ynRkj
-   Gc/VwULb5WejK/WtMWNRDIXKxRMsGnb9aDgJAXk2fRDiwi+peh59zt+f3
-   WkRyeCgiAX1jy/JBjvLkZ5q1z60C1vQJvFZ6xatdBon3iRZQUzGkRJAw4
-   g==;
-X-CSE-ConnectionGUID: sRO/DYSoQFu/aLQoKTex5Q==
-X-CSE-MsgGUID: /6oDZFx1T0Ouwz8zg87NWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="45473536"
-X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="45473536"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 07:27:16 -0700
-X-CSE-ConnectionGUID: sacFQhjARimp6JlLoAQRFw==
-X-CSE-MsgGUID: Ay/bqOuZSU2GocGP1WfIkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="129909049"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 Apr 2025 07:27:12 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u4hFk-000GHi-2X;
-	Tue, 15 Apr 2025 14:27:08 +0000
-Date: Tue, 15 Apr 2025 22:26:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xin Ji <xji@analogixsemi.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, bliang@analogixsemi.com,
-	qwen@analogixsemi.com, treapking@chromium.org,
-	Xin Ji <xji@analogixsemi.com>, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] drm/bridge:anx7625: Enable DSC feature
-Message-ID: <202504152230.BCIdpiru-lkp@intel.com>
-References: <20250414100502.1604717-3-xji@analogixsemi.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=m/ZRO3+Y6ycmiM8zTcpCQKA9sIKZfi5IiJVRJVw6DFh+2G70eqfmGHiXj+rPqrKRjN1apMfktag1jPrvvPp2+YeCxV2gcxtCbN7r7HIFNaIL+JlH8OGaGTQOMLuD+jB/BYVJp9YQPvd4ge0Be6aOUbJpeL3zd2q1HtW9sVHvVQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.27.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id C800C342FA1;
+	Tue, 15 Apr 2025 14:31:43 +0000 (UTC)
+Date: Tue, 15 Apr 2025 14:31:37 +0000
+From: Yixun Lan <dlan@gentoo.org>
+To: Alex Elder <elder@riscstar.com>
+Cc: Haylen Chu <heylenay@4d2.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Inochi Amaoto <inochiama@outlook.com>
+Subject: Re: [spacemit:for-next 4/6] drivers/clk/spacemit/ccu-k1.c:241:1:
+ error: initializer element is not a compile-time constant
+Message-ID: <20250415143137-GYB30887@gentoo>
+References: <202504152107.7ekGPIrF-lkp@intel.com>
+ <564eb8e7-a4e1-49e6-a79d-da880a526540@riscstar.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,43 +40,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250414100502.1604717-3-xji@analogixsemi.com>
+In-Reply-To: <564eb8e7-a4e1-49e6-a79d-da880a526540@riscstar.com>
 
-Hi Xin,
+Hi Alex,
 
-kernel test robot noticed the following build errors:
+On 09:16 Tue 15 Apr     , Alex Elder wrote:
+> On 4/15/25 8:44 AM, kernel test robot wrote:
+> > tree:   https://github.com/spacemit-com/linux for-next
+> > head:   9ead3efbc88a21e9a1f38948cc0902518022a2e5
+> > commit: e2d238ba301f25a5c8a7d490a36f9cd014d7aecc [4/6] clk: spacemit: Add clock support for SpacemiT K1 SoC
+> > config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250415/202504152107.7ekGPIrF-lkp@intel.com/config)
+> > compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504152107.7ekGPIrF-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202504152107.7ekGPIrF-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> 
+> If I'm interpreting this right, this seems to be a problem on
+> a S390 build (under COMPILE_TEST), because there is no constant
+> version of the __ffs() for that architecture.  This might be the
+> case on other architectures as well.
+> 
+> On RISC-V, this is fine.
+> 
+> Any recommendations on how to address this?
+> 
+it occur to me the __ffs() isn't really necessary, since all input
+is constant value (GENMASK here), we then should know the shift..
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.15-rc2 next-20250415]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Ji/drm-mipi-dsi-Add-compression-supported-flag-in-drm_mipi_dsi/20250414-181005
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250414100502.1604717-3-xji%40analogixsemi.com
-patch subject: [PATCH v3 3/3] drm/bridge:anx7625: Enable DSC feature
-config: arm64-randconfig-002-20250415 (https://download.01.org/0day-ci/archive/20250415/202504152230.BCIdpiru-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504152230.BCIdpiru-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504152230.BCIdpiru-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/gpu/drm/bridge/analogix/anx7625.o: in function `anx7625_bridge_mode_set':
->> anx7625.c:(.text+0x28d4): undefined reference to `drm_dsc_set_rc_buf_thresh'
->> aarch64-linux-ld: anx7625.c:(.text+0x28dc): undefined reference to `drm_dsc_set_const_params'
->> aarch64-linux-ld: anx7625.c:(.text+0x28e4): undefined reference to `drm_dsc_initial_scale_value'
->> aarch64-linux-ld: anx7625.c:(.text+0x2900): undefined reference to `drm_dsc_setup_rc_params'
->> aarch64-linux-ld: anx7625.c:(.text+0x290c): undefined reference to `drm_dsc_compute_rc_parameters'
->> aarch64-linux-ld: anx7625.c:(.text+0x2930): undefined reference to `drm_dsc_pps_payload_pack'
+> 
+> 
+> > 
+> >>> drivers/clk/spacemit/ccu-k1.c:241:1: error: initializer element is not a compile-time constant
+> >       241 | CCU_DDN_DEFINE(slow_uart1_14p74, pll1_d16_153p6, MPMU_SUCCR, GENMASK(28, 16), GENMASK(12, 0), 0);
+> >           | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >     drivers/clk/spacemit/ccu_ddn.h:33:15: note: expanded from macro 'CCU_DDN_DEFINE'
+> >        33 |         .num_shift      = __ffs(_num_mask),                                     \
+> >           |                           ^~~~~~~~~~~~~~~~
+> >     drivers/clk/spacemit/ccu-k1.c:242:1: error: initializer element is not a compile-time constant
+> >       242 | CCU_DDN_DEFINE(slow_uart2_48, pll1_d4_614p4, MPMU_SUCCR_1, GENMASK(28, 16), GENMASK(12, 0), 0);
+> >           | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >     drivers/clk/spacemit/ccu_ddn.h:33:15: note: expanded from macro 'CCU_DDN_DEFINE'
+> >        33 |         .num_shift      = __ffs(_num_mask),                                     \
+> >           |                           ^~~~~~~~~~~~~~~~
+> >     2 errors generated.
+> > 
+> > 
+> > vim +241 drivers/clk/spacemit/ccu-k1.c
+> > 
+> >     239	
+> >     240	CCU_GATE_DEFINE(slow_uart, CCU_PARENT_NAME(osc), MPMU_ACGR, BIT(1), CLK_IGNORE_UNUSED);
+> >   > 241	CCU_DDN_DEFINE(slow_uart1_14p74, pll1_d16_153p6, MPMU_SUCCR, GENMASK(28, 16), GENMASK(12, 0), 0);
+> >     242	CCU_DDN_DEFINE(slow_uart2_48, pll1_d4_614p4, MPMU_SUCCR_1, GENMASK(28, 16), GENMASK(12, 0), 0);
+> >     243	
+> > 
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yixun Lan (dlan)
+Gentoo Linux Developer
+GPG Key ID AABEFD55
