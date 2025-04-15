@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2496224D7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Apr 2025 10:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE05B292907
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Apr 2025 11:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744712918; cv=none; b=WC1k0A4OsSa5Zw2HaW/V/COvUN27OET8GK4KwL/FD7zOCeiULuGkJEHVpFo/oW5hFYLJiOmFSAI+erAKQ2rWCRyEU0z+tyKW08pqWgLskdPRuq3F0KyDZQpM+8uxsssShucw9M9s5hkLt6T036zK8sKM3wV0rQGn79QKEWeDoUk=
+	t=1744716647; cv=none; b=D4Pvx9kXVrr4am6wnBlVg8OVa0Cgt4JWqQpJUGWpwktin/F2Ht9r2IwHbMBiAaFZ0lRbC5BU6bOnd2bPmgF319UGPtrPNVCTR8gwyn8J7TqLFns/moX7msYYrxZr1ngKrwiBjzsoa9mubuRTWf5umLJHhGTg4Lnot1PJGxhNwbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744712918; c=relaxed/simple;
-	bh=UnLDAYhq4FCqVA17Fl+xw5KGB7T338dtEXQgFTGwdwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EBeNiqZADyS3dAtYFKv4Ap/89FP9D/8uT8sa3ePNMve2f7vtVRh34112unJeiD3OYiGV3W8KuacODZLjThMN1obLu8k3vIac5gJmnNCSXKPXu94AI+RlI4r9ZE9heZOEvOrdrr/ZtuJFWVXYFIcAkL1aXYIVVfTz/uvDZtCzC5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CY4bCVnH; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1744716647; c=relaxed/simple;
+	bh=c3z5ccriEVPjarGob2HVFGrL98tv6tcf6bH/VEudxTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BYmfNqYqmVcdZlHI77fEtYDj3FiL+R5YnBqzhGJJk/CaJVCx54BWKeMhbDXTPaGCIbmBjDHyTOw+Y0LVqDvkWTq6d0Ed+7n1UcH0egCcLlfxErRDREh+IbzCA91iuIKqRdvy+P1uAFmHHBCOS4tX9bQmoE0m5psXcWb5oKr3UvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOmqik7r; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CY4bCVnH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOmqik7r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744712916; x=1776248916;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UnLDAYhq4FCqVA17Fl+xw5KGB7T338dtEXQgFTGwdwI=;
-  b=CY4bCVnHTWnbGLxzTs8EqLwCZ+ZmpQxLEtzRf3mKxvtFKW1SsrHa/YOI
-   WraeqLGtWbslYJ17RKw4Gg1HjA+9qdrLKEk/9Nv3AQ3dQmZ8YQuzO5BIE
-   vIdwnO9IAFEuA8ZsH8MkHkP6JmvDD+OMjYEQ1ASoOWNdkFrttufkQIBOg
-   qnRtHSVM5rwrFawewlIeibRh5hFBFA/dn1ZVDTqxDFhaNCZjsWKBo7SUe
-   Td10pGvkfSfW7Ogk5YoHvl0Jx9qLAmz3bFy6W1wR9t22gAyzd/QUkOxUP
-   6IqdaCI+3JXEbk4oQh3iogdyfOEIs/+JBGEEykao2IOEpQr6Uf6/veSu3
-   w==;
-X-CSE-ConnectionGUID: Sj57zLC8T1+aavCgvSqStA==
-X-CSE-MsgGUID: IS/+envFQ5SQnYO12sTI2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="50015944"
+  t=1744716643; x=1776252643;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=c3z5ccriEVPjarGob2HVFGrL98tv6tcf6bH/VEudxTo=;
+  b=iOmqik7rK7fqymY9hrRg9N7gyY4EwPtnVL0IDYi/ITd7yJN9R3Rb2wpq
+   2uSoD/K73nfVL5rpkPnFSfL9gKomIHsAePrRh72pIu32wCEb8SXl+6rsc
+   PKh7/NdIce1KpnvfSwq0QlXUDIyHdp95NR8Y/dVNGD/8EnCG/x4wXYXcX
+   NDYlasNG3HZME72mxm2g3UYoEwIztLQl1tS9HFYZ+0OazRxhmDqrIIhU6
+   VnVOJktKmdZTCVsd+1ImfQCy/L16KulxUpcRCJDkjgu9tof3LvOvmtVvD
+   Jbf96obQ5KotIUHYjCJBbctZqLZ8HyXAmW1JprJoTNaWSdQi+x2hjOepE
+   Q==;
+X-CSE-ConnectionGUID: fhVGR+P8QXG5ujETV+EO3w==
+X-CSE-MsgGUID: NJ/U1ThpQ5SI/siJqogdPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="46354207"
 X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="50015944"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 03:28:35 -0700
-X-CSE-ConnectionGUID: m4ptm9INSeGmg6VZX+vuqg==
-X-CSE-MsgGUID: zs7kdG2BTw2PwunMwxgEdQ==
+   d="scan'208";a="46354207"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 04:30:42 -0700
+X-CSE-ConnectionGUID: WKgzFX4PSp2PLAuZwk1lqQ==
+X-CSE-MsgGUID: l1EZ6TZKQbyr3jQiBVJ8lA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="129935770"
+   d="scan'208";a="130060909"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Apr 2025 03:28:31 -0700
+  by orviesa006.jf.intel.com with ESMTP; 15 Apr 2025 04:30:41 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4dWn-000FdG-0G;
-	Tue, 15 Apr 2025 10:28:29 +0000
-Date: Tue, 15 Apr 2025 18:28:21 +0800
+	id 1u4eUw-000FmW-2t;
+	Tue, 15 Apr 2025 11:30:38 +0000
+Date: Tue, 15 Apr 2025 19:30:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>, harry.wentland@amd.com,
-	sunpeng.li@amd.com, alexander.deucher@amd.com,
-	christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	kernel-dev@igalia.com
-Subject: Re: [PATCH 07/13] drm/amd/display: simplify
- dm_helpers_parse_edid_caps signature
-Message-ID: <202504151833.9WxWkFzM-lkp@intel.com>
-References: <20250411201333.151335-8-mwen@igalia.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: [broonie-ci:v3_20250414_rf_asoc_add_codec_driver_for_cirrus_logic_cs48l32_dsp
+ 1/2] htmldocs: Warning: MAINTAINERS references a file that doesn't exist:
+ Documentation/devicetree/bindings/mfd/cirrus,cs48l32.yaml
+Message-ID: <202504151930.v1gBorQy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,127 +63,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250411201333.151335-8-mwen@igalia.com>
 
-Hi Melissa,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on amd-pstate/linux-next]
-[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.15-rc2 next-20250415]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Melissa-Wen/drm-amd-display-make-sure-drm_edid-stored-in-aconnector-doesn-t-leak/20250414-132618
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-patch link:    https://lore.kernel.org/r/20250411201333.151335-8-mwen%40igalia.com
-patch subject: [PATCH 07/13] drm/amd/display: simplify dm_helpers_parse_edid_caps signature
-config: powerpc-randconfig-003-20250415 (https://download.01.org/0day-ci/archive/20250415/202504151833.9WxWkFzM-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504151833.9WxWkFzM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v3_20250414_rf_asoc_add_codec_driver_for_cirrus_logic_cs48l32_dsp
+head:   6da7663063d3316c350eed934d76fe787db9db37
+commit: e54a168d41145e7d83d9d53ade47aa0da71029e4 [1/2] ASoC: dt-bindings: Add Cirrus Logic CS48L32 audio DSP
+reproduce: (https://download.01.org/0day-ci/archive/20250415/202504151930.v1gBorQy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504151833.9WxWkFzM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504151930.v1gBorQy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:100: warning: Function parameter or struct member 'sink' not described in 'dm_helpers_parse_edid_caps'
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:100: warning: Excess function parameter 'edid' description in 'dm_helpers_parse_edid_caps'
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:100: warning: Excess function parameter 'edid_caps' description in 'dm_helpers_parse_edid_caps'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
-
-
-vim +100 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c
-
-613a7956deb3b1 Aurabindo Pillai     2023-06-12   87  
-027ec1819a19f7 Melissa Wen          2025-04-11   88  #define AMDGPU_ELD_DISPLAY_NAME_SIZE_IN_CHARS 13
-f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   89  /**
-f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   90   * dm_helpers_parse_edid_caps() - Parse edid caps
-4562236b3bc0a2 Harry Wentland       2017-09-12   91   *
-f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   92   * @link: current detected link
-4562236b3bc0a2 Harry Wentland       2017-09-12   93   * @edid:	[in] pointer to edid
-f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   94   * @edid_caps:	[in] pointer to edid caps
-f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   95   *
-f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   96   * Return: void
-f0b60e6e9b2ba3 Srinivasan Shanmugam 2023-07-13   97   */
-cce130cc696979 Melissa Wen          2025-04-11   98  enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
-cce130cc696979 Melissa Wen          2025-04-11   99  					       struct dc_sink *sink)
-4562236b3bc0a2 Harry Wentland       2017-09-12 @100  {
-3c021931023a30 Claudio Suarez       2021-10-17  101  	struct amdgpu_dm_connector *aconnector = link->priv;
-3c021931023a30 Claudio Suarez       2021-10-17  102  	struct drm_connector *connector = &aconnector->base;
-41b830476009f5 Aurabindo Pillai     2025-02-24  103  	struct drm_device *dev = connector->dev;
-cce130cc696979 Melissa Wen          2025-04-11  104  	struct edid *edid_buf;
-66c33284fbf286 Melissa Wen          2025-04-11  105  	const struct drm_edid *drm_edid;
-23abb3407f98d7 Melissa Wen          2025-04-11  106  	struct drm_edid_product_id product_id;
-cce130cc696979 Melissa Wen          2025-04-11  107  	struct dc_edid_caps *edid_caps = &sink->edid_caps;
-8e9dfe0e0f1915 Melissa Wen          2025-04-11  108  	int sad_count;
-4562236b3bc0a2 Harry Wentland       2017-09-12  109  	int i = 0;
-4562236b3bc0a2 Harry Wentland       2017-09-12  110  	enum dc_edid_status result = EDID_OK;
-4562236b3bc0a2 Harry Wentland       2017-09-12  111  
-cce130cc696979 Melissa Wen          2025-04-11  112  	edid_buf = (struct edid *) &sink->dc_edid.raw_edid;
-cce130cc696979 Melissa Wen          2025-04-11  113  	if (!edid_caps || !edid_buf)
-4562236b3bc0a2 Harry Wentland       2017-09-12  114  		return EDID_BAD_INPUT;
-4562236b3bc0a2 Harry Wentland       2017-09-12  115  
-66c33284fbf286 Melissa Wen          2025-04-11  116  	drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * (edid_buf->extensions + 1));
-66c33284fbf286 Melissa Wen          2025-04-11  117  
-66c33284fbf286 Melissa Wen          2025-04-11  118  	if (!drm_edid_valid(drm_edid))
-4562236b3bc0a2 Harry Wentland       2017-09-12  119  		result = EDID_BAD_CHECKSUM;
-4562236b3bc0a2 Harry Wentland       2017-09-12  120  
-66c33284fbf286 Melissa Wen          2025-04-11  121  	drm_edid_connector_update(connector, drm_edid);
-23abb3407f98d7 Melissa Wen          2025-04-11  122  	drm_edid_get_product_id(drm_edid, &product_id);
-23abb3407f98d7 Melissa Wen          2025-04-11  123  
-23abb3407f98d7 Melissa Wen          2025-04-11  124  	edid_caps->manufacturer_id = le16_to_cpu(product_id.manufacturer_name);
-23abb3407f98d7 Melissa Wen          2025-04-11  125  	edid_caps->product_id = le16_to_cpu(product_id.product_code);
-23abb3407f98d7 Melissa Wen          2025-04-11  126  	edid_caps->serial_number = le32_to_cpu(product_id.serial_number);
-23abb3407f98d7 Melissa Wen          2025-04-11  127  	edid_caps->manufacture_week = product_id.week_of_manufacture;
-23abb3407f98d7 Melissa Wen          2025-04-11  128  	edid_caps->manufacture_year = product_id.year_of_manufacture;
-4562236b3bc0a2 Harry Wentland       2017-09-12  129  
-027ec1819a19f7 Melissa Wen          2025-04-11  130  	memset(edid_caps->display_name, 0, AUDIO_INFO_DISPLAY_NAME_SIZE_IN_CHARS);
-027ec1819a19f7 Melissa Wen          2025-04-11  131  	memcpy(edid_caps->display_name,
-027ec1819a19f7 Melissa Wen          2025-04-11  132  	       &connector->eld[DRM_ELD_MONITOR_NAME_STRING],
-027ec1819a19f7 Melissa Wen          2025-04-11  133  	       AMDGPU_ELD_DISPLAY_NAME_SIZE_IN_CHARS);
-4562236b3bc0a2 Harry Wentland       2017-09-12  134  
-3c021931023a30 Claudio Suarez       2021-10-17  135  	edid_caps->edid_hdmi = connector->display_info.is_hdmi;
-4562236b3bc0a2 Harry Wentland       2017-09-12  136  
-24baf0ebdb9d17 Melissa Wen          2025-04-11  137  	apply_edid_quirks(dev, drm_edid, edid_caps);
-b7cdccc6a84956 Ryan Lin             2024-02-28  138  
-66c33284fbf286 Melissa Wen          2025-04-11  139  	sad_count = drm_eld_sad_count(connector->eld);
-66c33284fbf286 Melissa Wen          2025-04-11  140  	if (sad_count <= 0) {
-66c33284fbf286 Melissa Wen          2025-04-11  141  		drm_edid_free(drm_edid);
-4562236b3bc0a2 Harry Wentland       2017-09-12  142  		return result;
-66c33284fbf286 Melissa Wen          2025-04-11  143  	}
-4562236b3bc0a2 Harry Wentland       2017-09-12  144  
-1347b15d5e8e16 Srinivasan Shanmugam 2023-08-13  145  	edid_caps->audio_mode_count = min(sad_count, DC_MAX_AUDIO_DESC_COUNT);
-4562236b3bc0a2 Harry Wentland       2017-09-12  146  	for (i = 0; i < edid_caps->audio_mode_count; ++i) {
-66c33284fbf286 Melissa Wen          2025-04-11  147  		struct cea_sad sad;
-66c33284fbf286 Melissa Wen          2025-04-11  148  
-66c33284fbf286 Melissa Wen          2025-04-11  149  		if (drm_eld_sad_get(connector->eld, i, &sad) < 0)
-66c33284fbf286 Melissa Wen          2025-04-11  150  			continue;
-4562236b3bc0a2 Harry Wentland       2017-09-12  151  
-66c33284fbf286 Melissa Wen          2025-04-11  152  		edid_caps->audio_modes[i].format_code = sad.format;
-66c33284fbf286 Melissa Wen          2025-04-11  153  		edid_caps->audio_modes[i].channel_count = sad.channels + 1;
-66c33284fbf286 Melissa Wen          2025-04-11  154  		edid_caps->audio_modes[i].sample_rate = sad.freq;
-66c33284fbf286 Melissa Wen          2025-04-11  155  		edid_caps->audio_modes[i].sample_size = sad.byte2;
-4562236b3bc0a2 Harry Wentland       2017-09-12  156  	}
-4562236b3bc0a2 Harry Wentland       2017-09-12  157  
-8e9dfe0e0f1915 Melissa Wen          2025-04-11  158  	if (connector->eld[DRM_ELD_SPEAKER])
-8e9dfe0e0f1915 Melissa Wen          2025-04-11  159  		edid_caps->speaker_flags = connector->eld[DRM_ELD_SPEAKER];
-4562236b3bc0a2 Harry Wentland       2017-09-12  160  	else
-4562236b3bc0a2 Harry Wentland       2017-09-12  161  		edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
-4562236b3bc0a2 Harry Wentland       2017-09-12  162  
-66c33284fbf286 Melissa Wen          2025-04-11  163  	drm_edid_free(drm_edid);
-4562236b3bc0a2 Harry Wentland       2017-09-12  164  
-4562236b3bc0a2 Harry Wentland       2017-09-12  165  	return result;
-4562236b3bc0a2 Harry Wentland       2017-09-12  166  }
-4562236b3bc0a2 Harry Wentland       2017-09-12  167  
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/cirrus,cs48l32.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
+   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
+   make[1]: *** [Makefile:1804: htmldocs] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
