@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8085183CC3;
-	Tue, 15 Apr 2025 13:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEE8126C02
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Apr 2025 13:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744724715; cv=none; b=N+nCI+9kRPjdLBYjWj6vg0Kh2XRpZP2avzCjnl4sScIrVFQISdiPdkpK4bcnDJbIthHCqnOC0cYsIK82944wbBZmMi5MIeZQL7j9/RhgRJNihYxT9IFWqHXe7EyturpiCvrDUuIhUiux0KGMqPXa9MfRpWcGfw/s+GtF+rY7750=
+	t=1744725313; cv=none; b=XDMu29pyeWC82V8peSx5zbmhIUnLJxRLyB8Vef7tVN0pkkLs8O6fdEgR48IlrgBNiCZhsEg1vV/Iu5hIW0i03mAmw9kcREfQ4B6BAGZKDXArs6yrCTBq1/zgwVcvkN7cj43G3t1Jd8jw6w8nQQOx/Gq0in7XQJBgUhgQHEN7yAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744724715; c=relaxed/simple;
-	bh=HYnPp9jHyi+2/ewnjYN1T/Y1OTx4xyzm9rXfzeGvPtI=;
+	s=arc-20240116; t=1744725313; c=relaxed/simple;
+	bh=755NGgblQW9HkSMmzLZEBTgNnlFCcB7cI0M7GpYpsTQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OF2W8jK1nWj9WE1rSGgW99gN7ztruW9GrI6KAdAcQ4IzEb9RPIaJb3eITOhxxkoGyYERYvyuA8zJpYWnfh/UhTEXKDTYwrJMDj3eUsyw6VDgfOZwVqvK3/B4lDzfvtzAjvai7d9q1kcwtPGitAb86EcWnUo/o1Ijc7G4Ug9H3pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJg/uX8U; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9zV6aOGM0kFFUMCS+B2t2h3fj9+I8BYS8vi9pouJbHWeHhu4MMhkx28nOAZilsG8TWNQdsfDswBbbGn9UmK8lPLCq/+eLHiHr75Aeyc+JVWWVsfdgMwRaT7vEDjrqJXFcAoi3h3fGwvnGHKPsHt0kxz+WXj65jgvEDWHiqhcNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sth2R2Ly; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJg/uX8U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sth2R2Ly"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744724711; x=1776260711;
+  t=1744725312; x=1776261312;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HYnPp9jHyi+2/ewnjYN1T/Y1OTx4xyzm9rXfzeGvPtI=;
-  b=QJg/uX8Ub9h/iSvmzK/0kDNQ0WbLOvIMeazLUj9JJycnVCk7WJNiUq0f
-   hOa10n+YPNX/HWcLDDcLN+1zEfb0Vx9PlgPA2dMZZ+jF5VJzMplpPWGPn
-   PKUYDAz6Q8/LMmkfVJsHVQtm5MtceRDFkIFTqruIF+wp6gYYwvGbnM5vv
-   NUoxiyoKjdpjzgtRpLxjwQm9X+YPqLo30b1s/oewk2Pp8ruHNrEedhcSG
-   QSMAqD0mAsG0MvPcvp19aZ0+XMgmv8o4e/dXQwlhd/sU0hnf0fY6CJfpq
-   d6b54Agcb/2Za+SQU3ae8z2LB93PCuApTiCn81UMt41Ek6OOXgK36Qbsr
-   Q==;
-X-CSE-ConnectionGUID: rUowD52mTLiJpLYf/XJJ7w==
-X-CSE-MsgGUID: LRUuCxpyShOLr1b3KymsBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="46322447"
+  bh=755NGgblQW9HkSMmzLZEBTgNnlFCcB7cI0M7GpYpsTQ=;
+  b=Sth2R2Lyivx2TL1+doXjCj4uW83pxPEGnxd7CUS6SB7cjFJ2XfQUGs5N
+   l9Ua2wZ1gWU1sMQMt6eCEnD0ZDRZTA5qeSjRwBG4v3bwCRK9dxyBvkpa6
+   z9wSiEcKG9oKDk45iigHmnNqDamTPi/eHWy2Wki02IwjlMXX0n44WbMH9
+   mUfENq/KWB8udiD82jL+KBZ0CLUKTCzWIiSHCmKv/v3ch6rQh0bU5g1uy
+   BgT2GrYxZLKsq1mzNnsYY8U1X59BBT0tW9yMd0cBum8khQxRr8OZSURbU
+   324lqfYkIOgyJMTc9asSbSvLs7z6M/hT4cuNFInwpeQkIHzASNBiX7qXL
+   g==;
+X-CSE-ConnectionGUID: 6cGvppXISCyyuK9ynF+WoA==
+X-CSE-MsgGUID: ynlSJR8cRxyW7MGB6NqqJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="46124381"
 X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="46322447"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 06:45:08 -0700
-X-CSE-ConnectionGUID: /8g+SDTdSl+uUaIFfQ+6yw==
-X-CSE-MsgGUID: Lzu676qCSDaZGLuzYhhL2w==
+   d="scan'208";a="46124381"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 06:55:09 -0700
+X-CSE-ConnectionGUID: uxfaW6T8QYaTnAcbc4WFVQ==
+X-CSE-MsgGUID: FouCYPlFSgukV2pkoOZSUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="130659369"
+   d="scan'208";a="135308407"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Apr 2025 06:45:06 -0700
+  by orviesa005.jf.intel.com with ESMTP; 15 Apr 2025 06:55:07 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4gb1-000GEA-26;
-	Tue, 15 Apr 2025 13:45:03 +0000
-Date: Tue, 15 Apr 2025 21:44:06 +0800
+	id 1u4gkj-000GFC-1S;
+	Tue, 15 Apr 2025 13:55:05 +0000
+Date: Tue, 15 Apr 2025 21:54:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Arthur Simchaev <arthur.simchaev@sandisk.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	avri.altman@sandisk.com, Avi.Shchislowski@sandisk.com,
-	beanhuo@micron.com, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bvanassche@acm.org
+Cc: oe-kbuild-all@lists.linux.dev, avri.altman@sandisk.com,
+	Avi.Shchislowski@sandisk.com, beanhuo@micron.com,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bvanassche@acm.org
 Subject: Re: [PATCH v2] ufs: bsg: Add hibern8 enter/exit to
  ufshcd_send_bsg_uic_cmd
-Message-ID: <202504152109.JOmreWGE-lkp@intel.com>
+Message-ID: <202504152111.1Huykiqb-lkp@intel.com>
 References: <20250414120257.247858-1-arthur.simchaev@sandisk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,33 +82,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Arthur-Simchaev/ufs-bsg-A
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
 patch link:    https://lore.kernel.org/r/20250414120257.247858-1-arthur.simchaev%40sandisk.com
 patch subject: [PATCH v2] ufs: bsg: Add hibern8 enter/exit to ufshcd_send_bsg_uic_cmd
-config: i386-buildonly-randconfig-004-20250415 (https://download.01.org/0day-ci/archive/20250415/202504152109.JOmreWGE-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504152109.JOmreWGE-lkp@intel.com/reproduce)
+config: s390-randconfig-002-20250415 (https://download.01.org/0day-ci/archive/20250415/202504152111.1Huykiqb-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504152111.1Huykiqb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504152109.JOmreWGE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504152111.1Huykiqb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/ufs/core/ufshcd.c:4360:38: error: too many arguments to function call, expected single argument 'hba', have 2 arguments
-    4360 |                 ret = ufshcd_uic_hibern8_exit(hba, uic_cmd);
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~      ^~~~~~~
-   include/ufs/ufshcd.h:1331:5: note: 'ufshcd_uic_hibern8_exit' declared here
-    1331 | int ufshcd_uic_hibern8_exit(struct ufs_hba *hba);
-         |     ^                       ~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/core/ufshcd.c:10342:44: warning: shift count >= width of type [-Wshift-count-overflow]
-    10342 |                 if (!dma_set_mask_and_coherent(hba->dev, DMA_BIT_MASK(64)))
-          |                                                          ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:73:54: note: expanded from macro 'DMA_BIT_MASK'
-      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   1 warning and 1 error generated.
+   drivers/ufs/core/ufshcd.c: In function 'ufshcd_send_bsg_uic_cmd':
+>> drivers/ufs/core/ufshcd.c:4360:9: error: too many arguments to function 'ufshcd_uic_hibern8_exit'
+      ret = ufshcd_uic_hibern8_exit(hba, uic_cmd);
+            ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/ufs/core/ufshcd-priv.h:7:0,
+                    from drivers/ufs/core/ufshcd.c:31:
+   include/ufs/ufshcd.h:1331:5: note: declared here
+    int ufshcd_uic_hibern8_exit(struct ufs_hba *hba);
+        ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/hba +4360 drivers/ufs/core/ufshcd.c
+vim +/ufshcd_uic_hibern8_exit +4360 drivers/ufs/core/ufshcd.c
 
   4331	
   4332	/**
