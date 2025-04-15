@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FAE19F438;
-	Tue, 15 Apr 2025 06:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48B910F2;
+	Tue, 15 Apr 2025 07:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744699628; cv=none; b=UY8/yju2qEEBMgRr21q5rqSu2Iy/10O47UBIB2fcN00beZoXNkji3x/asasIwAAQ9qcTAV3POWmz+xDJgJQUcqR44Qx0yxih+bh6tqA/NMJfMHFXpopqwn/i7a/r6ZdiGH2IkGx4rYrn1Z5WwPEsIUP2QpzxHNrH+s2dxNBHrF4=
+	t=1744701491; cv=none; b=lUCWIgaFxTWPGwo2u56r75S7OnURKsOLoJhPOCwFk2dYqKGMizDmDeddALaFgySkwaLoOSBa6/zzsZKW40ebE/TcLF/GSewml1FpD4uEhRACvj5ITraNd9T0eFIkANi8jRI1VELW9MnJFIv3nEgFzxNcjagRmDtCe8J/aGfJYY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744699628; c=relaxed/simple;
-	bh=6tTR64EQPvbi2DJSbe3CfVvBjbA8At40asFOpUjhmt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rEqrCKlOfj2VOVShME8WMGY54PKrVhFCtHxpF/onb+01Ixcs9GkdcU2GBcNFnGaDYq4xcN6DFGQ4H8qYBwhLhTNdF5xfjGzBQVOBDNCQ3OYEC5cAZimTDId5a7eT3RBFZyNkI8dOwoTy9Ua3RlyF9P9aqWT6SUFR6TLcgUSdSPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YdRRyES9; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1744701491; c=relaxed/simple;
+	bh=Zm69Sjb8pQ7UhWYja2TUbVeqZ9mrWPrmnWdtmPZYjwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJDq+NgL5JjBwvkiD+gKbCb7lAZa2FD+mUn36jGE4UqcfFaIJerLI0ZkIrQRyCZKyy6EoiTuwIAYOCthDpoY7c6pr300tyINE/xc+ISx1Ym/Y+dKc5d6AgvBznKvLvJijzvfwLpmNNmiAKGGCwRDRSqjmhw3g5QqFbZvINdCoSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BY6BlCv/; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YdRRyES9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BY6BlCv/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744699627; x=1776235627;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6tTR64EQPvbi2DJSbe3CfVvBjbA8At40asFOpUjhmt8=;
-  b=YdRRyES9HUbaa+6nNF4PguTG80r+LfFFGU7Gw6yFEbSJLAc2K9MHpj52
-   ZeJ+gSb7iwAzCoYkPEMkHWxLYB7bfzrHzqOk/lb6qgB52RalYe2vAHNxT
-   bDT+0tp86KaTp6ND4Jw4QZLYeIli4Dbjg6WdztLTnsMTgXCacNifnOhVy
-   OCC7q5mVM0HIyzEvRweev/6pyTLoAgyDadhYjTE7qGuoGBQNMUgQ9z9I1
-   O8qsny9dGl58k9b+ppOA3msGjePpF1H8O/icHJbiGtl2/Ogs9evzedcBY
-   hDf4tEyNVGo4fs1X0SdZTJpLG6ODuAMIljLR3JcHTc4YaXlZGg4zrWm0I
-   A==;
-X-CSE-ConnectionGUID: 0lN8nwYKQJS2EX8NS1f9Tw==
-X-CSE-MsgGUID: tp6jwAl8QFSdKR4iMGUOOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="56370032"
+  t=1744701489; x=1776237489;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Zm69Sjb8pQ7UhWYja2TUbVeqZ9mrWPrmnWdtmPZYjwg=;
+  b=BY6BlCv/rJHgwTYEwchEKlLriRCXcrBDppfWYFrhm8TOOpgeCEnv5ByF
+   8QEqpFOJbN4WO629VVqiGShGfLtWG1VSjfWXD4K9ehy+meZH4/DHK8zzV
+   vGgiupimII3HbZ2D+IJBygQF817aWywSAxY0Rid7IYbv7fWNInCRSH+cp
+   1/37di0QYSYDdQZLgbuUDkU8jmZM3tHTzufl7ceNZh0qkeXiUfLqpX13p
+   ZhqQ6+OmAO1pAAMNz87Or56PaRHiLKjtW9K0gMvzq3/Il0G9n6Bvn2flD
+   5F1EFj6P15tQxw4mPfcZxJORmBuctqA56xpd6baxV+I21UHKP0OAwwdz/
+   Q==;
+X-CSE-ConnectionGUID: dosmlIlfQ+O8lVboiIM4VQ==
+X-CSE-MsgGUID: 27JYxBUwRViCMnFVWTx0AQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="45330414"
 X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="56370032"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 23:47:06 -0700
-X-CSE-ConnectionGUID: nKZzEvZVRXi+H5mtiLr9Dg==
-X-CSE-MsgGUID: hlQckR5uT2OvdD8USO7m3g==
+   d="scan'208";a="45330414"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 00:18:09 -0700
+X-CSE-ConnectionGUID: F5e8jS9rQX2679lNv5HSNw==
+X-CSE-MsgGUID: Er/3BfJaTiSBUhyzLn1qoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
-   d="scan'208";a="130914300"
+   d="scan'208";a="135111420"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Apr 2025 23:47:04 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2025 00:18:07 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4a4U-000FIm-2X;
-	Tue, 15 Apr 2025 06:47:02 +0000
-Date: Tue, 15 Apr 2025 14:46:59 +0800
+	id 1u4aYX-000FKU-1h;
+	Tue, 15 Apr 2025 07:18:05 +0000
+Date: Tue, 15 Apr 2025 15:17:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+To: Mike Christie <michael.christie@oracle.com>, martin.petersen@oracle.com,
+	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>
-Subject: vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x13e: relocation to
- !ENDBR: __cfi_machine_kexec_prepare+0x4
-Message-ID: <202504151432.cBR45Uyk-lkp@intel.com>
+	Mike Christie <michael.christie@oracle.com>
+Subject: Re: [PATCH 1/2] target: Move IO path stats to per cpu
+Message-ID: <202504151524.Ar21ia6A-lkp@intel.com>
+References: <20250413040500.20954-2-michael.christie@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +64,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250413040500.20954-2-michael.christie@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   834a4a689699090a406d1662b03affa8b155d025
-commit: 7582b7be16d0ba90e3dbd9575a730cabd9eb852a kprobes: remove dependency on CONFIG_MODULES
-date:   11 months ago
-config: x86_64-buildonly-randconfig-005-20250415 (https://download.01.org/0day-ci/archive/20250415/202504151432.cBR45Uyk-lkp@intel.com/config)
+Hi Mike,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on linus/master v6.15-rc2 next-20250414]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/target-Move-IO-path-stats-to-per-cpu/20250414-113809
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20250413040500.20954-2-michael.christie%40oracle.com
+patch subject: [PATCH 1/2] target: Move IO path stats to per cpu
+config: i386-buildonly-randconfig-003-20250415 (https://download.01.org/0day-ci/archive/20250415/202504151524.Ar21ia6A-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504151432.cBR45Uyk-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504151524.Ar21ia6A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504151432.cBR45Uyk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504151524.Ar21ia6A-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: ___bpf_prog_run+0x1be: sibling call from callable instruction with modified stack frame
->> vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x13e: relocation to !ENDBR: __cfi_machine_kexec_prepare+0x4
+>> drivers/target/target_core_stat.c:289:3: warning: variable 'cmds' is uninitialized when used here [-Wuninitialized]
+     289 |                 cmds += stats->total_cmds;
+         |                 ^~~~
+   drivers/target/target_core_stat.c:285:10: note: initialize the variable 'cmds' to silence this warning
+     285 |         u32 cmds;
+         |                 ^
+         |                  = 0
+>> drivers/target/target_core_stat.c:306:3: warning: variable 'bytes' is uninitialized when used here [-Wuninitialized]
+     306 |                 bytes += stats->read_bytes;
+         |                 ^~~~~
+   drivers/target/target_core_stat.c:302:11: note: initialize the variable 'bytes' to silence this warning
+     302 |         u32 bytes;
+         |                  ^
+         |                   = 0
+   drivers/target/target_core_stat.c:323:3: warning: variable 'bytes' is uninitialized when used here [-Wuninitialized]
+     323 |                 bytes += stats->write_bytes;
+         |                 ^~~~~
+   drivers/target/target_core_stat.c:319:11: note: initialize the variable 'bytes' to silence this warning
+     319 |         u32 bytes;
+         |                  ^
+         |                   = 0
+   drivers/target/target_core_stat.c:1058:3: warning: variable 'cmds' is uninitialized when used here [-Wuninitialized]
+    1058 |                 cmds += stats->total_cmds;
+         |                 ^~~~
+   drivers/target/target_core_stat.c:1047:10: note: initialize the variable 'cmds' to silence this warning
+    1047 |         u32 cmds;
+         |                 ^
+         |                  = 0
+   drivers/target/target_core_stat.c:1087:3: warning: variable 'bytes' is uninitialized when used here [-Wuninitialized]
+    1087 |                 bytes += stats->read_bytes;
+         |                 ^~~~~
+   drivers/target/target_core_stat.c:1076:11: note: initialize the variable 'bytes' to silence this warning
+    1076 |         u32 bytes;
+         |                  ^
+         |                   = 0
+   drivers/target/target_core_stat.c:1116:3: warning: variable 'bytes' is uninitialized when used here [-Wuninitialized]
+    1116 |                 bytes += stats->write_bytes;
+         |                 ^~~~~
+   drivers/target/target_core_stat.c:1105:11: note: initialize the variable 'bytes' to silence this warning
+    1105 |         u32 bytes;
+         |                  ^
+         |                   = 0
+   6 warnings generated.
+
+
+vim +/cmds +289 drivers/target/target_core_stat.c
+
+   278	
+   279	static ssize_t target_stat_lu_num_cmds_show(struct config_item *item,
+   280			char *page)
+   281	{
+   282		struct se_device *dev = to_stat_lu_dev(item);
+   283		struct se_dev_io_stats *stats;
+   284		unsigned int cpu;
+   285		u32 cmds;
+   286	
+   287		for_each_possible_cpu(cpu) {
+   288			stats = per_cpu_ptr(dev->stats, cpu);
+ > 289			cmds += stats->total_cmds;
+   290		}
+   291	
+   292		/* scsiLuNumCommands */
+   293		return snprintf(page, PAGE_SIZE, "%u\n", cmds);
+   294	}
+   295	
+   296	static ssize_t target_stat_lu_read_mbytes_show(struct config_item *item,
+   297			char *page)
+   298	{
+   299		struct se_device *dev = to_stat_lu_dev(item);
+   300		struct se_dev_io_stats *stats;
+   301		unsigned int cpu;
+   302		u32 bytes;
+   303	
+   304		for_each_possible_cpu(cpu) {
+   305			stats = per_cpu_ptr(dev->stats, cpu);
+ > 306			bytes += stats->read_bytes;
+   307		}
+   308	
+   309		/* scsiLuReadMegaBytes */
+   310		return snprintf(page, PAGE_SIZE, "%u\n", bytes >> 20);
+   311	}
+   312	
 
 -- 
 0-DAY CI Kernel Test Service
