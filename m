@@ -1,97 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC7C2080DC;
-	Wed, 16 Apr 2025 16:09:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCAE20D4E0;
+	Wed, 16 Apr 2025 16:26:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744819774; cv=none; b=jNIdtyHWZ5L8StHCOt/G6Om4ZYvUytNtnl7+BrFO+gPaVnwR7ExkX132KNMFecuQBvFWK/a8Y7hM+cjDG8r4v4oQCbxMn27A1DF0IUo9gY0Ayot4RJ4PeSEcH2OLJ3o8XGigXAhNhN3TCT0BMpfBy9CRfSeAGxhE56csvongAPM=
+	t=1744820802; cv=none; b=CJl3g+aSzWVWJS6oZ5KZsqOv2acmAZhaltm5qtnaeZ4LDNtYVc7e8XixkX9fa6UtFSNhAaSqTLG3IV/pauEHuHkAi1AFGH3hy+Xnonq/EBYjat5hd+Igbs8He9s7VdMpBi78y3dKM5m2tYTlzUpYJXOAkKLKkVyicW6JIZ8nKGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744819774; c=relaxed/simple;
-	bh=U7P2TGZ5fr63R15j09YKCXfc3v5/LTxm9/PgE0QkYo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GmGmX2KsPMj2ja9AdDouUB2epLn2b2LPH2w0xWyNqWX3ZeWbt2OnzKLa37a29j9JCY1Yqmp8zSBlV+jvL9bqlJSh1KS5VaKNOiqkqD9P5kxLTA+rljCYDLQqWJ85PL5tVW7cuXqzL8YX84wR3ZUx9VizXTJQAHd6NmXaqxnwpZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SQn0Q1aG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744820802; c=relaxed/simple;
+	bh=ykGZBHq7AVdEKgnkOJot7S+aHZRDlVwsvQEdzh7v3VY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=FMF8/d4kkgtSzDZviItn7hLlKsqi6lirevtF1Yg5PzD0azBHXpoIlF1c7P8jGkkm44cPTzqR+p3tLoFLCFSuCXCMssK1KKS6llyRXiscSEPrwajztX8ZmB5QmHfRuH6cQcBn4DGSUiE5bBG25G2Og9qxWp+WHQ3fXaBC/C0emLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Tf+9V2sL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SQn0Q1aG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22063C4CEE2;
-	Wed, 16 Apr 2025 16:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744819773;
-	bh=U7P2TGZ5fr63R15j09YKCXfc3v5/LTxm9/PgE0QkYo8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SQn0Q1aGbAPz748YwfXAz9D93nNWeEZgCu6+egkUlR7PxNRSMs9oH/bbOR/hYTxdc
-	 9kEIrraTpp1+CvVwihkrJvrssr1EP139FUCNRXcWkUJXoHF2YoG/nE8rirCZzCmdcA
-	 1UID/9Op1jYOL4HNEdgksKoin3dnJxr2PXSWIAzlgM/h2vwCr0TtiNqDUwpXLaePk4
-	 SIUdTeDAEf9XxZ6xcaO+M5XhcXqrRM0SECsdLLBj4rHozWV1clk+CwNvo/6BiFozPk
-	 JlZFtXumJFebgv9TzyGY0H7GOSG8KHqjd52A3LXfAIPpt6jZzpcvW314uh/8teQTTj
-	 Kbf0YLAEyly4g==
-Date: Wed, 16 Apr 2025 18:09:27 +0200
-From: Niklas Cassel <cassel@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Tf+9V2sL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5787C4CEE2;
+	Wed, 16 Apr 2025 16:26:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1744820802;
+	bh=ykGZBHq7AVdEKgnkOJot7S+aHZRDlVwsvQEdzh7v3VY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Tf+9V2sLJ9roB1T8fVjOIK7mQyaA/arFs8n3YUMVTstoRz73RqVaoEr92LO5caLmD
+	 ZKE47DJ80aBfxvXGfAJgzcHOcaNxq1mioUhnqKRZRZpy9x1d8HNHUh9dcXpo8+yxTP
+	 9ajtkq9CaGwtIP38Nn4HCVZq7Y5eB2S7KYF3uwtk=
+Date: Wed, 16 Apr 2025 09:26:41 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
 To: kernel test robot <lkp@intel.com>
-Cc: Vidya Sagar <vidyas@nvidia.com>, lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	bhelgaas@google.com, Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, treding@nvidia.com,
-	jonathanh@nvidia.com, kthota@nvidia.com, mmaddireddy@nvidia.com,
-	sagar.tv@gmail.com
-Subject: Re: [PATCH V2] PCI: dwc: tegra194: Broaden architecture dependency
-Message-ID: <Z__WN_nTCsNNFgi6@ryzen>
-References: <20250410194552.944818-1-vidyas@nvidia.com>
- <202504162332.fwaFxVrL-lkp@intel.com>
+Cc: Vitaly Wool <vitaly.wool@konsulko.se>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Igor Belousov <igor.b@beldev.am>
+Subject: Re: [akpm-mm:mm-new 195/196] mm/zblock.c:369:13: error:
+ incompatible function pointer types initializing 'int (*)(void *, size_t,
+ gfp_t, unsigned long *, const int)' (aka 'int (*)(void *, unsigned int,
+ unsigned int, unsigned long *, const int)') with an expression of type 'int
+ (void ...
+Message-Id: <20250416092641.198e1e2216f381c5e5852095@linux-foundation.org>
+In-Reply-To: <202504161517.KYEDQav9-lkp@intel.com>
+References: <202504161517.KYEDQav9-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202504162332.fwaFxVrL-lkp@intel.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 16, 2025 at 11:43:25PM +0800, kernel test robot wrote:
-> Hi Vidya,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on pci/next]
-> [also build test WARNING on pci/for-linus linus/master v6.15-rc2 next-20250416]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Vidya-Sagar/PCI-dwc-tegra194-Broaden-architecture-dependency/20250411-035134
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/20250410194552.944818-1-vidyas%40nvidia.com
-> patch subject: [PATCH V2] PCI: dwc: tegra194: Broaden architecture dependency
-> config: arm64-kismet-CONFIG_PHY_TEGRA194_P2U-CONFIG_PCIE_TEGRA194_EP-0-0 (https://download.01.org/0day-ci/archive/20250416/202504162332.fwaFxVrL-lkp@intel.com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20250416/202504162332.fwaFxVrL-lkp@intel.com/reproduce)
-> 
+On Wed, 16 Apr 2025 15:21:24 +0800 kernel test robot <lkp@intel.com> wrote:
+
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504162332.fwaFxVrL-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504161517.KYEDQav9-lkp@intel.com/
 > 
-> kismet warnings: (new ones prefixed by >>)
-> >> kismet: WARNING: unmet direct dependencies detected for PHY_TEGRA194_P2U when selected by PCIE_TEGRA194_EP
->    WARNING: unmet direct dependencies detected for PHY_TEGRA194_P2U
->      Depends on [n]: ARCH_TEGRA_194_SOC [=n] || ARCH_TEGRA_234_SOC [=n] || COMPILE_TEST [=n]
->      Selected by [y]:
->      - PCIE_TEGRA194_EP [=y] && PCI [=y] && ARCH_TEGRA [=y] && (ARM64 [=y] || COMPILE_TEST [=n]) && PCI_ENDPOINT [=y]
+> All errors (new ones prefixed by >>):
 > 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> >> mm/zblock.c:369:13: error: incompatible function pointer types initializing 'int (*)(void *, size_t, gfp_t, unsigned long *, const int)' (aka 'int (*)(void *, unsigned int, unsigned int, unsigned long *, const int)') with an expression of type 'int (void *, size_t, gfp_t, unsigned long *)' (aka 'int (void *, unsigned int, unsigned int, unsigned long *)') [-Wincompatible-function-pointer-types]
+>      369 |         .malloc =               zblock_zpool_malloc,
+>          |                                 ^~~~~~~~~~~~~~~~~~~
+>    1 error generated.
 
-My guess is that the easiest fix is to change
-drivers/phy/tegra/Kconfig
-
-config PHY_TEGRA194_P2U
-to
-depends on ARCH_TEGRA || COMPILE_TEST
-
-
-Kind regards,
-Niklas
+https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/mm-add-zblock-allocator-fix.patch
+was supposed to fix this?
