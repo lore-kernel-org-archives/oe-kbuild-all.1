@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C12D1B424E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 14:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4165190462
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 14:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744814411; cv=none; b=ZqktWwbYYp9FVr6UFLbByx4pvVLTuZAhLpopNiyR+NajA1+cpi8MzuKRK33q9EanPTq/7vJzhK3pZAfBC9qolURdm2NrHAyDweO/5R0i/yBBrcYr8zWVQCmgl0ujknnzJjpnnEhVlAWtDpcgrL7/GwCOTjxMCZT6g/mlATSSNG0=
+	t=1744815073; cv=none; b=jUYdQ8nzL/2XopZHBPTz3+vWncSFfNQOPW7xqP+VkJ6YHbOsAFRHmjZ+8xbPWiN9FA3n2Vln8BCqOLqDVNwuP+5xXVxdMGdJrJPIwGO5z+DuPiQsyxsgwQe+/IgiWRcvi3GeFetC3xa69wJSkIXOfR3hMfjmxulRJLa+YgjkOu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744814411; c=relaxed/simple;
-	bh=mgY9sTzYGa6+9WASUMVOQ8ery2o2FErKPMlGjn6UDcg=;
+	s=arc-20240116; t=1744815073; c=relaxed/simple;
+	bh=gQAB0Oz8uYCOXAcUsocGUv8t2so/nM9P+zmDmq5NPSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mgo4ExZqUyV/498rn6XlxlBaT/NTnCbJXoSxUXKUm9El6IUxP7yyKLLCsgMWxf9mN26QomHdp/ERXY0XDZKaXsUEEmbveyimknVFuLbxvZFQNRjoYFNWmfwLwdstn56HMDZ9bGQOV6ZId8EHzOXb2Qr/5E8aE2QAhAABU8xlRUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZmNnNiea; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=bFi63stbQ83wpfkCZTHlZaJCZQqLfjQMRdr0vSH5dH/V7xkPKuXHV5qJUkhDCxMntXcDq5vIxqd4jN54v1hnMHGXzq/8u47tgy/QN/bn1Gd9nxX2cTr73L/hb7wGbIXY8TIB2Wg1jCKq8kPHjU5OeeTyCzWioDS6VQZVmLkUUQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/ZDsEVh; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZmNnNiea"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/ZDsEVh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744814410; x=1776350410;
+  t=1744815071; x=1776351071;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mgY9sTzYGa6+9WASUMVOQ8ery2o2FErKPMlGjn6UDcg=;
-  b=ZmNnNieahJ3ejj9UOxYqrcn+0l6zhSLUSFAAWtn3n/Zdqv2BU5hc8YOb
-   EBjEQE2KuiX1d2HGX9NRcLlipSUOqlcpJWJ9mQwUAGeMXnzM/H+WeEN9V
-   +NNVACBjVwq9587c55pICyw92qhW7wo77C+RV1rDmTbRxz5ULZVtkwOe9
-   bTjvhHv1xs6upntdOcTpgACrjxOua98xMOm5anXRuC7wl0w/UB9X+vFte
-   OmwGxH1wQRhq8tam61DVNAVd2tKzAnKmW4DtGdas4EKg1wHRM4bAWDiE+
-   RMz7wLV9ZgIb3mDNRGY7xbYxVnbbv9+pUF0/n9S3wwD9IqVJjPm1jKYoL
+  bh=gQAB0Oz8uYCOXAcUsocGUv8t2so/nM9P+zmDmq5NPSw=;
+  b=d/ZDsEVhw3R1UN2BYApQO/ZvpY6/FR6G0Rm61vdk7koADuZ1PrxnufuJ
+   j5syDcywPQ6PNd5Bb/qDtZN7V0hs5C/Py3DvSShOhEvC/pZ6KM+8cBS4s
+   PWzay+uzDnSOWct9qZJelz1G57jlQT7nv8HsKodo6QoIF7ja/dcoJy8RK
+   u/molHr1YKOCcJgSdJPVOh1QMvn+4PfLNu78LcaqiAw2rr0PNbKZNvDsn
+   qol7LZRBgFNxSFufVDzh+HKu+rjP4SJYz8DJKFT8RqWRzl/GR7woPQrS8
+   nNRs1YKHlCzM+WVzxCrjUj6k+UmtnVRxQU8N7MbC0npvKNSE43JcifsUw
    g==;
-X-CSE-ConnectionGUID: h0Cwfts4TgK9tAzoyNdTEg==
-X-CSE-MsgGUID: lMgPEb/DQAOIE1JsgT5OAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="45596524"
+X-CSE-ConnectionGUID: 55WbdCANQCCq07WDHxf8gA==
+X-CSE-MsgGUID: fJ+cO/moTCe5yikT2N6WSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="57362815"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="45596524"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 07:40:09 -0700
-X-CSE-ConnectionGUID: fURGf5SuT1Kw6zFSOoGduw==
-X-CSE-MsgGUID: No00N87OSemvJX6qrNdiBg==
+   d="scan'208";a="57362815"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 07:51:11 -0700
+X-CSE-ConnectionGUID: t5Q2ry30Q5elza1S+bFokA==
+X-CSE-MsgGUID: 321Ve/g5SW6/iR+/Kg1eIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="161467689"
+   d="scan'208";a="153700397"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Apr 2025 07:40:07 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 16 Apr 2025 07:51:10 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u53vp-000Jtd-0b;
-	Wed, 16 Apr 2025 14:40:05 +0000
-Date: Wed, 16 Apr 2025 22:40:03 +0800
+	id 1u546V-000JvE-0k;
+	Wed, 16 Apr 2025 14:51:07 +0000
+Date: Wed, 16 Apr 2025 22:50:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.15-rc1-next-next-inband 24/24] kismet: WARNING: unmet
- direct dependencies detected for DS1682 when selected by ZII_RAP
-Message-ID: <202504162213.EDqmItju-lkp@intel.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@kernel.org>
+Subject: [mingo-tip:WIP.timers/core 4/10]
+ net/ipv4/inet_connection_sock.c:1072:36: error: implicit declaration of
+ function 'from_timer'; did you mean 'mod_timer'?
+Message-ID: <202504162210.OqBPCaeh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,93 +63,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
-head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
-commit: 9e2d85243a79cbf10ea6538b605260e3199fda1a [24/24] platform/x86: Add Zodiac Radio Access Point platform driver
-config: x86_64-kismet-CONFIG_DS1682-CONFIG_ZII_RAP-0-0 (https://download.01.org/0day-ci/archive/20250416/202504162213.EDqmItju-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250416/202504162213.EDqmItju-lkp@intel.com/reproduce)
+Hi Ingo,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.timers/core
+head:   e42d8536937923868af908502797aa7923df52b1
+commit: 24e5f9a3c2f20d7a7c04b6d5cb2b4b7ec4f1a707 [4/10] treewide, timers: Rename destroy_timer_on_stack() => timer_destroy_on_stack()
+config: i386-buildonly-randconfig-002-20250416 (https://download.01.org/0day-ci/archive/20250416/202504162210.OqBPCaeh-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504162210.OqBPCaeh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504162213.EDqmItju-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504162210.OqBPCaeh-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DS1682 when selected by ZII_RAP
-   WARNING: unmet direct dependencies detected for NET_DSA
-     Depends on [n]: NET [=y] && (BRIDGE [=n] || BRIDGE [=n]=n [=n]) && (HSR [=y] || HSR [=y]=n [=n]) && INET [=n] && NETDEVICES [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for IGB
-     Depends on [n]: NETDEVICES [=n] && ETHERNET [=n] && NET_VENDOR_INTEL [=n] && PCI [=n] && PTP_1588_CLOCK_OPTIONAL [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for PINCTRL_SX150X
-     Depends on [n]: PINCTRL [=y] && I2C [=n]=y [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for RTC_DRV_DS1307
-     Depends on [n]: RTC_CLASS [=y] && I2C [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for EEPROM_AT24
-     Depends on [n]: I2C [=n] && SYSFS [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MMC_SDHCI_PCI
-     Depends on [n]: MMC [=y] && MMC_SDHCI [=y] && PCI [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX
-     Depends on [n]: NETDEVICES [=n] && NET_DSA [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for PHYLIB
-     Depends on [n]: NETDEVICES [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for USB_SERIAL
-     Depends on [n]: USB_SUPPORT [=y] && USB [=y] && TTY [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for DS1682
-     Depends on [n]: I2C [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_BITBANG
-     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for I2C_OCORES
-     Depends on [n]: I2C [=n] && HAS_IOMEM [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
-     Depends on [n]: INPUT [=n] && INPUT_KEYBOARD [=n] && GPIOLIB [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MARVELL_PHY
-     Depends on [n]: NETDEVICES [=n] && PHYLIB [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_GPIO
-     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n] && MDIO_BITBANG [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+All errors (new ones prefixed by >>):
+
+   net/ipv4/inet_connection_sock.c: In function 'reqsk_timer_handler':
+>> net/ipv4/inet_connection_sock.c:1072:36: error: implicit declaration of function 'from_timer'; did you mean 'mod_timer'? [-Werror=implicit-function-declaration]
+    1072 |         struct request_sock *req = from_timer(req, t, rsk_timer);
+         |                                    ^~~~~~~~~~
+         |                                    mod_timer
+>> net/ipv4/inet_connection_sock.c:1072:55: error: 'rsk_timer' undeclared (first use in this function); did you mean 'bpf_timer'?
+    1072 |         struct request_sock *req = from_timer(req, t, rsk_timer);
+         |                                                       ^~~~~~~~~
+         |                                                       bpf_timer
+   net/ipv4/inet_connection_sock.c:1072:55: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
+
+
+vim +1072 net/ipv4/inet_connection_sock.c
+
+  1069	
+  1070	static void reqsk_timer_handler(struct timer_list *t)
+  1071	{
+> 1072		struct request_sock *req = from_timer(req, t, rsk_timer);
+  1073		struct request_sock *nreq = NULL, *oreq = req;
+  1074		struct sock *sk_listener = req->rsk_listener;
+  1075		struct inet_connection_sock *icsk;
+  1076		struct request_sock_queue *queue;
+  1077		struct net *net;
+  1078		int max_syn_ack_retries, qlen, expire = 0, resend = 0;
+  1079	
+  1080		if (inet_sk_state_load(sk_listener) != TCP_LISTEN) {
+  1081			struct sock *nsk;
+  1082	
+  1083			nsk = reuseport_migrate_sock(sk_listener, req_to_sk(req), NULL);
+  1084			if (!nsk)
+  1085				goto drop;
+  1086	
+  1087			nreq = inet_reqsk_clone(req, nsk);
+  1088			if (!nreq)
+  1089				goto drop;
+  1090	
+  1091			/* The new timer for the cloned req can decrease the 2
+  1092			 * by calling inet_csk_reqsk_queue_drop_and_put(), so
+  1093			 * hold another count to prevent use-after-free and
+  1094			 * call reqsk_put() just before return.
+  1095			 */
+  1096			refcount_set(&nreq->rsk_refcnt, 2 + 1);
+  1097			timer_setup(&nreq->rsk_timer, reqsk_timer_handler, TIMER_PINNED);
+  1098			reqsk_queue_migrated(&inet_csk(nsk)->icsk_accept_queue, req);
+  1099	
+  1100			req = nreq;
+  1101			sk_listener = nsk;
+  1102		}
+  1103	
+  1104		icsk = inet_csk(sk_listener);
+  1105		net = sock_net(sk_listener);
+  1106		max_syn_ack_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
+  1107			READ_ONCE(net->ipv4.sysctl_tcp_synack_retries);
+  1108		/* Normally all the openreqs are young and become mature
+  1109		 * (i.e. converted to established socket) for first timeout.
+  1110		 * If synack was not acknowledged for 1 second, it means
+  1111		 * one of the following things: synack was lost, ack was lost,
+  1112		 * rtt is high or nobody planned to ack (i.e. synflood).
+  1113		 * When server is a bit loaded, queue is populated with old
+  1114		 * open requests, reducing effective size of queue.
+  1115		 * When server is well loaded, queue size reduces to zero
+  1116		 * after several minutes of work. It is not synflood,
+  1117		 * it is normal operation. The solution is pruning
+  1118		 * too old entries overriding normal timeout, when
+  1119		 * situation becomes dangerous.
+  1120		 *
+  1121		 * Essentially, we reserve half of room for young
+  1122		 * embrions; and abort old ones without pity, if old
+  1123		 * ones are about to clog our table.
+  1124		 */
+  1125		queue = &icsk->icsk_accept_queue;
+  1126		qlen = reqsk_queue_len(queue);
+  1127		if ((qlen << 1) > max(8U, READ_ONCE(sk_listener->sk_max_ack_backlog))) {
+  1128			int young = reqsk_queue_len_young(queue) << 1;
+  1129	
+  1130			while (max_syn_ack_retries > 2) {
+  1131				if (qlen < young)
+  1132					break;
+  1133				max_syn_ack_retries--;
+  1134				young <<= 1;
+  1135			}
+  1136		}
+  1137		syn_ack_recalc(req, max_syn_ack_retries, READ_ONCE(queue->rskq_defer_accept),
+  1138			       &expire, &resend);
+  1139		req->rsk_ops->syn_ack_timeout(req);
+  1140		if (!expire &&
+  1141		    (!resend ||
+  1142		     !inet_rtx_syn_ack(sk_listener, req) ||
+  1143		     inet_rsk(req)->acked)) {
+  1144			if (req->num_timeout++ == 0)
+  1145				atomic_dec(&queue->young);
+  1146			mod_timer(&req->rsk_timer, jiffies + reqsk_timeout(req, TCP_RTO_MAX));
+  1147	
+  1148			if (!nreq)
+  1149				return;
+  1150	
+  1151			if (!inet_ehash_insert(req_to_sk(nreq), req_to_sk(oreq), NULL)) {
+  1152				/* delete timer */
+  1153				__inet_csk_reqsk_queue_drop(sk_listener, nreq, true);
+  1154				goto no_ownership;
+  1155			}
+  1156	
+  1157			__NET_INC_STATS(net, LINUX_MIB_TCPMIGRATEREQSUCCESS);
+  1158			reqsk_migrate_reset(oreq);
+  1159			reqsk_queue_removed(&inet_csk(oreq->rsk_listener)->icsk_accept_queue, oreq);
+  1160			reqsk_put(oreq);
+  1161	
+  1162			reqsk_put(nreq);
+  1163			return;
+  1164		}
+  1165	
+  1166		/* Even if we can clone the req, we may need not retransmit any more
+  1167		 * SYN+ACKs (nreq->num_timeout > max_syn_ack_retries, etc), or another
+  1168		 * CPU may win the "own_req" race so that inet_ehash_insert() fails.
+  1169		 */
+  1170		if (nreq) {
+  1171			__NET_INC_STATS(net, LINUX_MIB_TCPMIGRATEREQFAILURE);
+  1172	no_ownership:
+  1173			reqsk_migrate_reset(nreq);
+  1174			reqsk_queue_removed(queue, nreq);
+  1175			__reqsk_free(nreq);
+  1176		}
+  1177	
+  1178	drop:
+  1179		__inet_csk_reqsk_queue_drop(sk_listener, oreq, true);
+  1180		reqsk_put(oreq);
+  1181	}
+  1182	
 
 -- 
 0-DAY CI Kernel Test Service
