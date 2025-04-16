@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C701DE3C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 07:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7F922DFBA;
+	Wed, 16 Apr 2025 07:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744788126; cv=none; b=OSKTEiDMWY71kLDigRCD0Qf6wCMoXyv1QJMbFlX8qGvko5nWjdfZZZSWd9yhYcolqxldwVKaYJYD9L7YEVD0Vb+B21gEY1m14TblLHsUoVajOl2H5zSChVB6krm34T0iUKK0tnkqRHk1esSLAlppJ+FNiBs1VsUEwhNB9164adg=
+	t=1744790049; cv=none; b=b7eZ1sjswke9I+22zbua6GJCHJiGQnU7idbbiwCtcKEbFpX441ciizllkJBVN4Q/+JiF/3UnBM0c/jCcXgFyKAuE12aE4ODhHUkNMhfG03QJQVyAki+hzfdztJdU9e8sbkz8QVPwZeyIoIoTO7vTHIH0ijc5GeJqEdGYd6WhqOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744788126; c=relaxed/simple;
-	bh=qAn2gavUN3kjKs6JO64H2BBeRbzexvhd1YVTNaubjzI=;
+	s=arc-20240116; t=1744790049; c=relaxed/simple;
+	bh=M+jg169zSVo6ZismI6ncNWlx1PXdIQmNy/hfg0Q9PJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZYutg18YbLKIpuA9n7Z18tMUYGCN8UcJdic3y74G2X1EhywD3EpuATl0V3kbNDBt10zf9nvdKKZsP7QKfyIX6DA9B9skLgiblwgp7C7krJ6/RhHJ5kghstrmslb8k5qJEuhituZoorhLnfmlHdp5rtxd9mDBjta6Sryx7xlLQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVRMdqp2; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=W1Q3IcuaEVt4cbbq388NXkXpaRxVP4yLuvjID6k15JjcZL1MVexm43aH5t3Fxt2V8UCG8+Zo/g8xGIVshPlwjGUGqrquw8nUdwGjIdq4DOQa/9pqkSgwXJ37SnhHQ1Yi34aNC2tFQkAQVUZm2yD8a/T+qCq7HCWbgkuevl35IVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PC/sMngk; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVRMdqp2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PC/sMngk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744788125; x=1776324125;
+  t=1744790047; x=1776326047;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qAn2gavUN3kjKs6JO64H2BBeRbzexvhd1YVTNaubjzI=;
-  b=kVRMdqp286P2KXgINdb8JLBKSwZ+F+rQ1drFHT+BaMYYY+lw5+/izNk+
-   97nqEXPCTGKoYxOF/QvDWTbjDnAUkmHzTLGy+X9LorPJ5+rMVIvS7kL+7
-   zpNSm7LiMIkFUCGC8DHLmMYVkdnCdoM49NkTL/oAoMqyuC/9la3AWE6DD
-   AFpjKuFHJrCIaTKrcNguGlQEYzCzW+qjp91twZ3vociy0SsoAn3fmA1Od
-   BpCznC5Pua57Gz9R1vgg0aHcGkIcf7FH3aCC3C3oWHP2/YpNv90RAxlFb
-   UF8yovp8kSskNVMVgSqUaSF3oZlhbEbgXfM7GQGFG56oGUbvmnbui0bZj
-   g==;
-X-CSE-ConnectionGUID: 5w3l2X1bRU609Fa8UvL+hQ==
-X-CSE-MsgGUID: hgCktJIvRmqRTaFLX/oZZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="57710819"
+  bh=M+jg169zSVo6ZismI6ncNWlx1PXdIQmNy/hfg0Q9PJQ=;
+  b=PC/sMngkAdrvSQh9k0miF/lEtMEB4ZNVk590Y5O4IyqQA/PIBFiq6Z2d
+   Rte8alQKLM1nAfkQRJU4CDlybW9ENlI4KoUECxJAD3Mz/Ac7ygpqsR0BA
+   dMzH+0aL5E3soRgzTtS7rZg8MgoQk0ZQRZX7I2KJQdUiUCre5dSAM8rWL
+   cJpxWaRWgrqgiEw0Gq98f2R3yECNMCJZh5mAGrrqKtdKHAc651o4/n+/K
+   g/bo1zNMDW6l2sj0rubDyJbp9l8pBVO5w+MPR7pOrsrmm7g/PH4huzudD
+   SUUYw7LH9rOCQXa2K7aiYfAQHSa7ql1S5GUaROjMN4xXGHEh0urp3vWP1
+   w==;
+X-CSE-ConnectionGUID: I4VK9cTKTcyOUquKIENHdQ==
+X-CSE-MsgGUID: dF/M+D0PSlGc/mupo63Z1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="46487846"
 X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
-   d="scan'208";a="57710819"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 00:22:04 -0700
-X-CSE-ConnectionGUID: 3TFzByauSvC4oLtQb8L1ew==
-X-CSE-MsgGUID: XssrkKJcSbyndgCPf4z/aA==
+   d="scan'208";a="46487846"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 00:54:06 -0700
+X-CSE-ConnectionGUID: y+iglnNJQK6HRW0n2kQwyw==
+X-CSE-MsgGUID: pi2gb3OgRoup42oW9KxnBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
-   d="scan'208";a="135418907"
+   d="scan'208";a="130891544"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Apr 2025 00:22:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Apr 2025 00:54:04 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u4x5r-000JFE-1G;
-	Wed, 16 Apr 2025 07:21:59 +0000
-Date: Wed, 16 Apr 2025 15:21:14 +0800
+	id 1u4xar-000JGi-2f;
+	Wed, 16 Apr 2025 07:54:01 +0000
+Date: Wed, 16 Apr 2025 15:53:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Oscar Salvador <osalvador@suse.de>,
 	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Muchun Song <muchun.song@linux.dev>,
 	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
@@ -60,7 +60,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Oscar Salvador <osalvador@suse.de>
 Subject: Re: [PATCH] mm, hugetlb: Reset mapping to TAIL_MAPPING before
  restoring vmemmap
-Message-ID: <202504161523.M2CmTjsj-lkp@intel.com>
+Message-ID: <202504161522.S1qEFD4b-lkp@intel.com>
 References: <20250415054705.370412-1-osalvador@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,22 +82,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/mm-hugetlb
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20250415054705.370412-1-osalvador%40suse.de
 patch subject: [PATCH] mm, hugetlb: Reset mapping to TAIL_MAPPING before restoring vmemmap
-config: x86_64-buildonly-randconfig-003-20250416 (https://download.01.org/0day-ci/archive/20250416/202504161523.M2CmTjsj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504161523.M2CmTjsj-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-006-20250416 (https://download.01.org/0day-ci/archive/20250416/202504161522.S1qEFD4b-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504161522.S1qEFD4b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504161523.M2CmTjsj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504161522.S1qEFD4b-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/hugetlb_vmemmap.c: In function 'hugetlb_vmemmap_restore_folio':
->> mm/hugetlb_vmemmap.c:506:9: error: implicit declaration of function 'set_hugetlb_cgroup' [-Werror=implicit-function-declaration]
+>> mm/hugetlb_vmemmap.c:506:2: error: call to undeclared function 'set_hugetlb_cgroup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      506 |         set_hugetlb_cgroup(folio, TAIL_MAPPING);
-         |         ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+         |         ^
+   1 error generated.
 
 
 vim +/set_hugetlb_cgroup +506 mm/hugetlb_vmemmap.c
