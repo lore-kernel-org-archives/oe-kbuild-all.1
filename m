@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4165190462
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 14:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF860204F8B;
+	Wed, 16 Apr 2025 15:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744815073; cv=none; b=jUYdQ8nzL/2XopZHBPTz3+vWncSFfNQOPW7xqP+VkJ6YHbOsAFRHmjZ+8xbPWiN9FA3n2Vln8BCqOLqDVNwuP+5xXVxdMGdJrJPIwGO5z+DuPiQsyxsgwQe+/IgiWRcvi3GeFetC3xa69wJSkIXOfR3hMfjmxulRJLa+YgjkOu4=
+	t=1744816336; cv=none; b=YGLnXLsODw/gNsjSSneb5v668U2Xvvu9Tv8sXRmnOU5N3xXEWttPds9xtF/z/ZJ8Zy7M4QfgcMpDZwydbHcLODKrQQmiW//QHcIgpRLMlFlmaPr7aXcRlrxTQb327fFdou41h8dNYBxkKMzYwJ6SuCz/AzUeDoL7NYC7w69ffDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744815073; c=relaxed/simple;
-	bh=gQAB0Oz8uYCOXAcUsocGUv8t2so/nM9P+zmDmq5NPSw=;
+	s=arc-20240116; t=1744816336; c=relaxed/simple;
+	bh=9qzPencW113V2WTgWeho/3FWA2JpX7obGfHVurw4i9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bFi63stbQ83wpfkCZTHlZaJCZQqLfjQMRdr0vSH5dH/V7xkPKuXHV5qJUkhDCxMntXcDq5vIxqd4jN54v1hnMHGXzq/8u47tgy/QN/bn1Gd9nxX2cTr73L/hb7wGbIXY8TIB2Wg1jCKq8kPHjU5OeeTyCzWioDS6VQZVmLkUUQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/ZDsEVh; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=t7e0qXHrTTIHSC0MHiAr3pRplPGKt6n5pj48kS8A4nGtdW/lmDo9F/Xx+xj2IHifPs56d+0BPDUWG64P0KZewpaTHxiG04jvMvmRuhfCHgZizVA1Wdp81o5FB+idEjQdJ9/aDfE0KPeablkv2fVFeqT49VQcscP6DCsnXZKH95M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IyH5VtP9; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/ZDsEVh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IyH5VtP9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744815071; x=1776351071;
+  t=1744816334; x=1776352334;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gQAB0Oz8uYCOXAcUsocGUv8t2so/nM9P+zmDmq5NPSw=;
-  b=d/ZDsEVhw3R1UN2BYApQO/ZvpY6/FR6G0Rm61vdk7koADuZ1PrxnufuJ
-   j5syDcywPQ6PNd5Bb/qDtZN7V0hs5C/Py3DvSShOhEvC/pZ6KM+8cBS4s
-   PWzay+uzDnSOWct9qZJelz1G57jlQT7nv8HsKodo6QoIF7ja/dcoJy8RK
-   u/molHr1YKOCcJgSdJPVOh1QMvn+4PfLNu78LcaqiAw2rr0PNbKZNvDsn
-   qol7LZRBgFNxSFufVDzh+HKu+rjP4SJYz8DJKFT8RqWRzl/GR7woPQrS8
-   nNRs1YKHlCzM+WVzxCrjUj6k+UmtnVRxQU8N7MbC0npvKNSE43JcifsUw
-   g==;
-X-CSE-ConnectionGUID: 55WbdCANQCCq07WDHxf8gA==
-X-CSE-MsgGUID: fJ+cO/moTCe5yikT2N6WSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="57362815"
+  bh=9qzPencW113V2WTgWeho/3FWA2JpX7obGfHVurw4i9A=;
+  b=IyH5VtP9oV64b7N4FFgFiUB64TL/+s/h+8Tb2oR0HLnfKfutkz9EO+55
+   Z5a4bo1Yn1bUiUZb/tWs08vbZFw7tq7qb67sVbObtHxgne5PyPdUsJLvM
+   h2BVJSZ3Ww6ygcQh05zXrcezOCndUadrVkUhotiKvniaGpG4FWz8NEf+6
+   Z6wX8LhSAbxnKri+Xz5MQGaPs4s7HjUXzOP/IQaa90SYkG6wvmWsEIzsw
+   NvQcFPnDWTyW95CCpXjz4K+IMah4iAJeFXmMgWpNEKTeSmeU3aN/aPmBq
+   g13ZuKylb8dh1MmWv8XYrffQldkNQXYnhjf1wrEKWVCqdaqww8wi0rZW1
+   Q==;
+X-CSE-ConnectionGUID: 3YghHb2XS+O97Vzpidujrg==
+X-CSE-MsgGUID: Eu8tECrQTwaY3vhv+MFVIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="57743810"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="57362815"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 07:51:11 -0700
-X-CSE-ConnectionGUID: t5Q2ry30Q5elza1S+bFokA==
-X-CSE-MsgGUID: 321Ve/g5SW6/iR+/Kg1eIg==
+   d="scan'208";a="57743810"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:12:13 -0700
+X-CSE-ConnectionGUID: kEtLLD14QEGomv8Ma75Itg==
+X-CSE-MsgGUID: PavtYALoT8KUELr3Auvt1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="153700397"
+   d="scan'208";a="135355347"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Apr 2025 07:51:10 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 Apr 2025 08:12:12 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u546V-000JvE-0k;
-	Wed, 16 Apr 2025 14:51:07 +0000
-Date: Wed, 16 Apr 2025 22:50:19 +0800
+	id 1u54Qr-000JxP-2v;
+	Wed, 16 Apr 2025 15:12:09 +0000
+Date: Wed, 16 Apr 2025 23:11:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ingo Molnar <mingo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ingo Molnar <mingo@kernel.org>
 Subject: [mingo-tip:WIP.timers/core 4/10]
- net/ipv4/inet_connection_sock.c:1072:36: error: implicit declaration of
- function 'from_timer'; did you mean 'mod_timer'?
-Message-ID: <202504162210.OqBPCaeh-lkp@intel.com>
+ net/ipv4/inet_connection_sock.c:1072:29: error: call to undeclared function
+ 'from_timer'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202504162318.HYFGIAgD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,31 +72,31 @@ FYI, the error/warning was bisected to this commit, please ignore it if it's irr
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.timers/core
 head:   e42d8536937923868af908502797aa7923df52b1
 commit: 24e5f9a3c2f20d7a7c04b6d5cb2b4b7ec4f1a707 [4/10] treewide, timers: Rename destroy_timer_on_stack() => timer_destroy_on_stack()
-config: i386-buildonly-randconfig-002-20250416 (https://download.01.org/0day-ci/archive/20250416/202504162210.OqBPCaeh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504162210.OqBPCaeh-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-005-20250416 (https://download.01.org/0day-ci/archive/20250416/202504162318.HYFGIAgD-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504162318.HYFGIAgD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504162210.OqBPCaeh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504162318.HYFGIAgD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/ipv4/inet_connection_sock.c: In function 'reqsk_timer_handler':
->> net/ipv4/inet_connection_sock.c:1072:36: error: implicit declaration of function 'from_timer'; did you mean 'mod_timer'? [-Werror=implicit-function-declaration]
+>> net/ipv4/inet_connection_sock.c:1072:29: error: call to undeclared function 'from_timer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     1072 |         struct request_sock *req = from_timer(req, t, rsk_timer);
-         |                                    ^~~~~~~~~~
-         |                                    mod_timer
->> net/ipv4/inet_connection_sock.c:1072:55: error: 'rsk_timer' undeclared (first use in this function); did you mean 'bpf_timer'?
+         |                                    ^
+   net/ipv4/inet_connection_sock.c:1072:29: note: did you mean 'mod_timer'?
+   include/linux/timer.h:151:12: note: 'mod_timer' declared here
+     151 | extern int mod_timer(struct timer_list *timer, unsigned long expires);
+         |            ^
+>> net/ipv4/inet_connection_sock.c:1072:48: error: use of undeclared identifier 'rsk_timer'
     1072 |         struct request_sock *req = from_timer(req, t, rsk_timer);
-         |                                                       ^~~~~~~~~
-         |                                                       bpf_timer
-   net/ipv4/inet_connection_sock.c:1072:55: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+         |                                                       ^
+   2 errors generated.
 
 
-vim +1072 net/ipv4/inet_connection_sock.c
+vim +/from_timer +1072 net/ipv4/inet_connection_sock.c
 
   1069	
   1070	static void reqsk_timer_handler(struct timer_list *t)
