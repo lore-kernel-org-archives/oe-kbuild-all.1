@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F8D28373
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 19:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E60121930B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 21:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744831782; cv=none; b=YzxBhU0S67PkXYDHpjr/Ab+s/+IDmZr7GzPXMNAUZ0+LR0L1fn8qqlFJTCnP7Hc4k0dbeSZdT53D1ZE5HGsX0mfB1d/hwx5N7Z1TMOgpImNgoOEv9hrAw4gUPJQ84LVFH88TGEk+JmnG/iRtZ5PNlU5x4FUvZX4/ILoe5AWjYJ4=
+	t=1744839115; cv=none; b=dvfkGabqpyBQu8eJJq5+jWtBYk2020iCrmbRhIqFvBnKJTitxENspmBvYPonifWPYyHNy2bMJPeqtde8y8Qu+lqTMAakdudsnFcyduVsppYTBqpSyyo2IHahJSNrLw0ECyR94guUQKWWgARUBpWjqLBc24rft7CEn0xCxNfNAS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744831782; c=relaxed/simple;
-	bh=e0Vyg6kRieT+g60kvlHiLewn8Cn7PU7aDXa/bZYUfF0=;
+	s=arc-20240116; t=1744839115; c=relaxed/simple;
+	bh=LmdW2t+M323QlfUmbribNM+W/9/z9IWVt/IEbTPQnXs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sybeYfaQbKbKRN2Y4vaNSX5C8u//Vbe+XRHvpTdoV7zgVOf1FnA/ensIgSA+2jeWa3WeeJ9KeGyFyQxjYVcanSjNBUoAVmHchrQFuI7L3uCLCC5E5Y5IVfaVslwbxWozkxk5d23/wMuvhIzYf5nw/9GKp1AfK6/OqwZd2uNELPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mjv00JHV; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=cC1PKCseNPpRC+3SVAaBSiEYLKvD023KfIG5auW4dlQgx/Ibcqm+3WG+sOScGDxoyQqbQCbSL/i6xo4YjfBP8PHPTgAIGxd6GaAKRo2bEVhRhSEsm79uI6IxC3C+wYEOj/ehUok1wzHaOZ1xfPN2wilfnrXYKAziz8vsVndetlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ioo1U8aZ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mjv00JHV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ioo1U8aZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744831781; x=1776367781;
+  t=1744839113; x=1776375113;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e0Vyg6kRieT+g60kvlHiLewn8Cn7PU7aDXa/bZYUfF0=;
-  b=Mjv00JHVMUh15/Z0KdlDa8ryicr4E5GzeN9UngBBhmt3tqbz37NLTt7M
-   fxUPE1/JFz9M9ZmGKvpQJki9iXebmKGSC4FbIGg5Ud+eu2toJgJYY2tKq
-   DWLLb1wmKXq9UVC5+pzTCcGYw3fmjoGKjgKOYEMSINSQAVKZJCxZ1NogK
-   E14h6RkPXT3Q1sgGgX02i62Mi91aDlzk+H4eNjcDkWGYla6lS17djEsGp
-   LdxAcY2i/yNdx2qIWQTjueAZ4IzDj146QduWE4YzMD51LyUxG5JrSexgJ
-   9sRsBdRaVBocdXCP66tuEC95uG2XpfH+f6oEpYOEdLEex7YaVXFKAXfkq
-   Q==;
-X-CSE-ConnectionGUID: jc5EWsu7R/ijFb2ne+UWxQ==
-X-CSE-MsgGUID: cxxXZ3CeSlOaalb5vlYOIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="50046783"
-X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="50046783"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 12:29:40 -0700
-X-CSE-ConnectionGUID: z3q/1dOhTU6IdHEsRJZTPg==
-X-CSE-MsgGUID: G5NxWbLjS163BubXYtv56Q==
+  bh=LmdW2t+M323QlfUmbribNM+W/9/z9IWVt/IEbTPQnXs=;
+  b=Ioo1U8aZ5qdIBQNlFe/QsbnmX79/HXkWEzOFn6APQITdRqSP3/vuP/NH
+   1i23LKh/XGsUTFCYtRWIFH72CIyDY/rQpGZJcYl5aIBstJjP71Lms0Jvl
+   mvZ0fyZ47+gUJQNVa5XsXYu/KtyR+FkG0nJj7362WHYqWsjhNZpos2juA
+   Jv+pk7SJu3POeaT8wvgt1Vs2R/kRCEzKMOoSxJT2pCqwpUHiXhZ0lsg93
+   6xi4yUBr6HwD4liOnUzI89e21GldYWrisYXS2JA0I/zBysd15quhw4HZH
+   je/njBPaLfD219Z+ZdbMWZ6+pwBTo4MDNdwEiX0R46ulRoNFEFXJruUGk
+   A==;
+X-CSE-ConnectionGUID: f9FACRjwTuiva/qi8PFIug==
+X-CSE-MsgGUID: lyajGboNShOvZwMRJnIpMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="56588951"
+X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; 
+   d="scan'208";a="56588951"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 14:31:52 -0700
+X-CSE-ConnectionGUID: dR51iEJaSoioqqMwqIciOA==
+X-CSE-MsgGUID: wt0jXpewRfOpO0/Rbhpj9A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="135392667"
+X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; 
+   d="scan'208";a="167790596"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Apr 2025 12:29:39 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Apr 2025 14:31:50 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u58S1-000KFQ-1t;
-	Wed, 16 Apr 2025 19:29:37 +0000
-Date: Thu, 17 Apr 2025 03:29:34 +0800
+	id 1u5AMG-000KKg-1T;
+	Wed, 16 Apr 2025 21:31:48 +0000
+Date: Thu, 17 Apr 2025 05:31:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- arch/arm64/kvm/hyp/nvhe/clock.c:38:1: warning: 'patchable_function_entry'
- attribute directive ignored
-Message-ID: <202504170334.uRVJmmTP-lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.15-rc1-next-next-inband 24/24] kismet: WARNING: unmet
+ direct dependencies detected for IGB when selected by ZII_RAP
+Message-ID: <202504170536.gZQ8Fmcs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,37 +64,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   e341f04ac3ad1f2c8b92a82282105c82a72e48ef
-commit: e77aff67170b3289f944fb39f1e81b2ff8a5e40a [1/1] ANDROID: KVM: arm64: Nop padding for ftrace support in the pKVM hyp
-config: arm64-randconfig-001-20250417 (https://download.01.org/0day-ci/archive/20250417/202504170334.uRVJmmTP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504170334.uRVJmmTP-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
+head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
+commit: 9e2d85243a79cbf10ea6538b605260e3199fda1a [24/24] platform/x86: Add Zodiac Radio Access Point platform driver
+config: x86_64-kismet-CONFIG_IGB-CONFIG_ZII_RAP-0-0 (https://download.01.org/0day-ci/archive/20250417/202504170536.gZQ8Fmcs-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250417/202504170536.gZQ8Fmcs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504170334.uRVJmmTP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504170536.gZQ8Fmcs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> arch/arm64/kvm/hyp/nvhe/clock.c:38:1: warning: 'patchable_function_entry' attribute directive ignored [-Wattributes]
-    {
-    ^
-
-
-vim +/patchable_function_entry +38 arch/arm64/kvm/hyp/nvhe/clock.c
-
-97c14dba6f9623 Vincent Donnefort 2024-09-11  35  
-97c14dba6f9623 Vincent Donnefort 2024-09-11  36  /* Using host provided data. Do not use for anything else than debugging. */
-e77aff67170b32 Vincent Donnefort 2024-10-01  37  u64 __attribute__((patchable_function_entry(0, 0))) trace_clock(void)
-97c14dba6f9623 Vincent Donnefort 2024-09-11 @38  {
-
-:::::: The code at line 38 was first introduced by commit
-:::::: 97c14dba6f96234c7120802f9d727a4ccfd17367 FROMLIST: KVM: arm64: Add clock support in the nVHE hyp
-
-:::::: TO: Vincent Donnefort <vdonnefort@google.com>
-:::::: CC: Keir Fraser <keirf@google.com>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for IGB when selected by ZII_RAP
+   WARNING: unmet direct dependencies detected for NET_DSA
+     Depends on [n]: NET [=y] && (BRIDGE [=n] || BRIDGE [=n]=n [=n]) && (HSR [=y] || HSR [=y]=n [=n]) && INET [=y] && NETDEVICES [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for IGB
+     Depends on [n]: NETDEVICES [=n] && ETHERNET [=n] && NET_VENDOR_INTEL [=n] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX
+     Depends on [n]: NETDEVICES [=n] && NET_DSA [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for PHYLIB
+     Depends on [n]: NETDEVICES [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MDIO_BITBANG
+     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MARVELL_PHY
+     Depends on [n]: NETDEVICES [=n] && PHYLIB [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MDIO_GPIO
+     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n] && MDIO_BITBANG [=y] && (GPIOLIB [=y] || COMPILE_TEST [=n])
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
 
 -- 
 0-DAY CI Kernel Test Service
