@@ -1,77 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A022224AFA;
-	Wed, 16 Apr 2025 18:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2684C223707
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 18:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744828916; cv=none; b=DGpDKI2oq899dwojTzA+8gHBLHBgyyrxAk6W+vrRhAjbPcvjXffCQw/9DWS8KFU3I39vYdY+pOV8jei3SyUTXnJT6FY1RXOvwajQSp7zYcWuwjAu74tcXj2WN0UFN3JMD9an14VMjEhcVu7mPDAqFQ6yACH9MDnRpfShca5qJ8Q=
+	t=1744829979; cv=none; b=LHoB3q8WWesXSlx12R6xLASn8p8iHC3yRgop8OaxdVRB1Tko5Ru3bZqBoYSGRPtzihQoXq0P2Lwq01ll23F3mvEJBy8AmKkQKh9PmapzmPCDxxczanyZJdrt+fVbqnFk4Kt+JxORPxHP9/6TMKapfCG+GQzHjaaYJEzE0zMRJvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744828916; c=relaxed/simple;
-	bh=ME49ZF4t0jmo7uSiWyuhCwsk8DjPh8JuS9vPdzAOw2U=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=m/3DxYyVJoOUBYDJB4wWWUojOARlSKp/S9i5eyM+eku6jarv9FsM6MNJ+u+7JAcGFYTx7tNSrrW0VlBZfKVOKMjbGkvwXt/JQI/Ym2UPmExviuudi7p3xe5wI1GgXPRoJ4WWWGxkeRoXrGwu95gl3hOGwcjfw/Fz9r+B8AY7Jhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QspY0plg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744829979; c=relaxed/simple;
+	bh=1LPItX78rMwPt4MOB50zH6CJeL7P6D0/zAr9F21yAUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ABXnbhWZyqyUNxv0LI/28WYvaIKHlgrrJ6S56dfKn4RP1spgHpm+W3W/DlQuAMasc4/qoNFSYC7tR8AuHGHXueL2Gzn87hqEdkzTB/Oj0s1WP3r8vtfSNjW+ZL30TNBFzOZbbHgx0gg9nfD3LyOcE0++644vGfDcPJXgVAKdjp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOa1sGIF; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QspY0plg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3495C4CEE2;
-	Wed, 16 Apr 2025 18:41:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744828915;
-	bh=ME49ZF4t0jmo7uSiWyuhCwsk8DjPh8JuS9vPdzAOw2U=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=QspY0plgC0EsxNYFniyQyWi0YMBGfIo+bd3SiQsmoTj91jehPUBYocMddP1yL0m3/
-	 lvijYIQ4Scbj+M3BZvCAUvAn4QFmScOstM1uncU9xTDkdq3yEIgsm0Yr77iQh8b7nL
-	 aeQzaR9DJYn+w5aG0cbyo5nWDzVOz9uYc94BaRG8636OSc0qt4t1eKwkM/T12uWgq7
-	 FOPES/LKOOAFeFLBb8dFPiRnM9Dthe++jBNzM8QfoBc2klcnxtH43IcU/wugGBSdAQ
-	 BFun8QQE0IViVTgUjZYxHSU7p0bNeJ0lIiQobm751GPzCELja8ftO2656BOFg2pUzB
-	 ZxVxwbM+w8sQg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EADB83822D59;
-	Wed, 16 Apr 2025 18:42:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOa1sGIF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744829979; x=1776365979;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1LPItX78rMwPt4MOB50zH6CJeL7P6D0/zAr9F21yAUs=;
+  b=NOa1sGIF8HWpWeSvBuUKZbgO7B9l0Mg8/54a/uv/4woFHTKIfmyoWbHy
+   27ADDIwQr3hK+Vkhc8B1YMBj36ja2PKyWo+9D0ek0ba7uUkakPN/Ha66t
+   WImAtBTpTHOuTfZb10IDKZMWs/rmv6r3iLbPs1h6t2vUQ4OAwbrTq5Ilb
+   OosCUhN6vZ+N+Ypypf/7ZCJnDjOjKJ5pisIrY5lDJuqqxddpUFdptrYbV
+   Zp30WtcE2jm2C/Tx6bWU+RFKtzcKuWq3COWUEN0vuowOuAkXTfZlEHEtA
+   H6UHBW/VWoTbTorOsthhbR7YCKYPYYDWOYdFY1CZG8qtm9wTK5A2KhtPW
+   Q==;
+X-CSE-ConnectionGUID: JweLb14hSxmRRqFwpUsyrg==
+X-CSE-MsgGUID: tdpq56LgQQOaqQQYgHx1+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46482168"
+X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
+   d="scan'208";a="46482168"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 11:59:38 -0700
+X-CSE-ConnectionGUID: v0gbWSC3QYKUWO7NIxtyfw==
+X-CSE-MsgGUID: RScTB9/VTYmk/cs/sFsRvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
+   d="scan'208";a="153759650"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Apr 2025 11:59:37 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u57yw-000KDg-1H;
+	Wed, 16 Apr 2025 18:59:34 +0000
+Date: Thu, 17 Apr 2025 02:58:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 9/9] mm/pgtable_share.c:359:13:
+ warning: variable 'error' set but not used
+Message-ID: <202504170251.PORg4PUr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] riscv: Provide all alternative macros all the time
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <174482895352.3460781.1754432437296144659.git-patchwork-notify@kernel.org>
-Date: Wed, 16 Apr 2025 18:42:33 +0000
-References: <20250414120947.135173-2-ajones@ventanamicro.com>
-In-Reply-To: <20250414120947.135173-2-ajones@ventanamicro.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- paul.walmsley@sifive.com, palmer@dabbelt.com, alex@ghiti.fr,
- conor.dooley@microchip.com, oe-kbuild-all@lists.linux.dev,
- charlie@rivosinc.com, samuel.holland@sifive.com, lkp@intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello:
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   2c7dfbdd3c7b70c7b1386b9615f4670e2861d1b0
+commit: 8b1eb93240d3b8ee02b4ca41c3c69a9b2c7ad59c [9/9] anolis: mm: pgtable_share: support madvise(MADV_DONTNEED)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250417/202504170251.PORg4PUr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504170251.PORg4PUr-lkp@intel.com/reproduce)
 
-This patch was applied to riscv/linux.git (fixes)
-by Alexandre Ghiti <alexghiti@rivosinc.com>:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504170251.PORg4PUr-lkp@intel.com/
 
-On Mon, 14 Apr 2025 14:09:48 +0200 you wrote:
-> We need to provide all six forms of the alternative macros
-> (ALTERNATIVE, ALTERNATIVE_2, _ALTERNATIVE_CFG, _ALTERNATIVE_CFG_2,
-> __ALTERNATIVE_CFG, __ALTERNATIVE_CFG_2) for all four cases derived
-> from the two ifdefs (RISCV_ALTERNATIVE, __ASSEMBLY__) in order to
-> ensure all configs can compile. Define this missing ones and ensure
-> all are defined to consume all parameters passed.
-> 
-> [...]
+All warnings (new ones prefixed by >>):
 
-Here is the summary with links:
-  - riscv: Provide all alternative macros all the time
-    https://git.kernel.org/riscv/c/fb53a9aa5f5b
+   mm/pgtable_share.c: In function 'pgtable_share_dontneed_single_vma':
+>> mm/pgtable_share.c:359:13: warning: variable 'error' set but not used [-Wunused-but-set-variable]
+     359 |         int error;
+         |             ^~~~~
+--
+>> mm/pgtable_share.c:355: warning: Function parameter or member 'start' not described in 'pgtable_share_dontneed_single_vma'
+>> mm/pgtable_share.c:355: warning: Function parameter or member 'end' not described in 'pgtable_share_dontneed_single_vma'
 
-You are awesome, thank you!
+
+vim +/error +359 mm/pgtable_share.c
+
+   347	
+   348	/**
+   349	 * pgtable_share_dontneed_single_vma - free page cache and flush
+   350	 * TLB for all corresponding tasks.
+   351	 * @vma: aboriginal vma which pgtable is sharable.
+   352	 */
+   353	long pgtable_share_dontneed_single_vma(struct vm_area_struct *vma,
+   354					       unsigned long start, unsigned long end)
+ > 355	{
+   356		struct pgtable_share_struct *info;
+   357		struct address_space *mapping;
+   358		struct file *file;
+ > 359		int error;
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
