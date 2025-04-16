@@ -1,117 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from server4.hayhost.am (server4.hayhost.am [2.56.206.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E60121930B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 21:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4D42DFA42;
+	Wed, 16 Apr 2025 22:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=2.56.206.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744839115; cv=none; b=dvfkGabqpyBQu8eJJq5+jWtBYk2020iCrmbRhIqFvBnKJTitxENspmBvYPonifWPYyHNy2bMJPeqtde8y8Qu+lqTMAakdudsnFcyduVsppYTBqpSyyo2IHahJSNrLw0ECyR94guUQKWWgARUBpWjqLBc24rft7CEn0xCxNfNAS8=
+	t=1744842222; cv=none; b=hSWjQDIH+M7IiRvvL46Uhi73dMIDHmkMroGPTmrvk37Y07o5FUXmFOkgO6LoQpF5nJDn0UmJipHSQxdvYlxqGoQGWHELzmI33332IlMbB2Hs2vA4J+kl7k0D4EdQyAhWykEXJWxGO6U8xrDjSESOYCaEwzEvRzlXNjoYRyTYXB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744839115; c=relaxed/simple;
-	bh=LmdW2t+M323QlfUmbribNM+W/9/z9IWVt/IEbTPQnXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cC1PKCseNPpRC+3SVAaBSiEYLKvD023KfIG5auW4dlQgx/Ibcqm+3WG+sOScGDxoyQqbQCbSL/i6xo4YjfBP8PHPTgAIGxd6GaAKRo2bEVhRhSEsm79uI6IxC3C+wYEOj/ehUok1wzHaOZ1xfPN2wilfnrXYKAziz8vsVndetlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ioo1U8aZ; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744842222; c=relaxed/simple;
+	bh=TPaUrtCeLu2Z5hZj1r8jOLlPE4F4Jv22vBCUSxcI3/U=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=B7pvO6Iai1+2ofD+OHKQoCKD/cfkif5QqJHfSyIsONIoNitLRj4bkB0WleFuT59bzQv4x3y7yIq3i8krz/EqulGRPMvP7U42a9LyjeYSXVgUFNGgNcUaviekBoVpSwtspAZTeutK06JqSMIZCUWbvZGdMH6r9p9nVsJHcN5OgEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=beldev.am; spf=pass smtp.mailfrom=beldev.am; dkim=pass (2048-bit key) header.d=beldev.am header.i=@beldev.am header.b=E04+mUxl; arc=none smtp.client-ip=2.56.206.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=beldev.am
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=beldev.am
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ioo1U8aZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744839113; x=1776375113;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LmdW2t+M323QlfUmbribNM+W/9/z9IWVt/IEbTPQnXs=;
-  b=Ioo1U8aZ5qdIBQNlFe/QsbnmX79/HXkWEzOFn6APQITdRqSP3/vuP/NH
-   1i23LKh/XGsUTFCYtRWIFH72CIyDY/rQpGZJcYl5aIBstJjP71Lms0Jvl
-   mvZ0fyZ47+gUJQNVa5XsXYu/KtyR+FkG0nJj7362WHYqWsjhNZpos2juA
-   Jv+pk7SJu3POeaT8wvgt1Vs2R/kRCEzKMOoSxJT2pCqwpUHiXhZ0lsg93
-   6xi4yUBr6HwD4liOnUzI89e21GldYWrisYXS2JA0I/zBysd15quhw4HZH
-   je/njBPaLfD219Z+ZdbMWZ6+pwBTo4MDNdwEiX0R46ulRoNFEFXJruUGk
-   A==;
-X-CSE-ConnectionGUID: f9FACRjwTuiva/qi8PFIug==
-X-CSE-MsgGUID: lyajGboNShOvZwMRJnIpMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="56588951"
-X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; 
-   d="scan'208";a="56588951"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 14:31:52 -0700
-X-CSE-ConnectionGUID: dR51iEJaSoioqqMwqIciOA==
-X-CSE-MsgGUID: wt0jXpewRfOpO0/Rbhpj9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; 
-   d="scan'208";a="167790596"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Apr 2025 14:31:50 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u5AMG-000KKg-1T;
-	Wed, 16 Apr 2025 21:31:48 +0000
-Date: Thu, 17 Apr 2025 05:31:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.15-rc1-next-next-inband 24/24] kismet: WARNING: unmet
- direct dependencies detected for IGB when selected by ZII_RAP
-Message-ID: <202504170536.gZQ8Fmcs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=beldev.am header.i=@beldev.am header.b="E04+mUxl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=beldev.am;
+	s=default; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
+	In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=xoQPmEh//Ecul4GGVBoluXgRVmoldj/oaTPva2dmdcs=; b=E04+mUxlLrAtSm5ipCfSqzhCAF
+	6W5QGNhSmBGCOyHeMQjBCTSnjrIotWuu1mRjCp6mtwEbU11/1tyWmKb9HfiqY2V5oAb5aN36lLTzs
+	CnnVlDFPx8oF1YnLwPK01lvhGEgd4vhF5M2Dk5N0JTfssoX1dm6YXXQY7Lg/RfzdMUBG4RmCDH9eR
+	YuH/gHz7ts638JKMotBXHOOO0v0SFvs/0hjHufJD9uAh4zgASQEcxLFIBcG55MTxmq/7fBb7v3nPu
+	yiJsy1o3KkNbAG3pwKcv7sordcUloq1xXXvPo0WHZNsFyoN81SHjcmEQOWNWF/O6+Ykg5QTaFVJ1F
+	NLf+ejYw==;
+Received: from [::1] (port=24590 helo=server4.hayhost.am)
+	by server4.hayhost.am with esmtpa (Exim 4.98.1)
+	(envelope-from <igor.b@beldev.am>)
+	id 1u5BAX-00000000FU6-44pM;
+	Thu, 17 Apr 2025 02:23:45 +0400
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Thu, 17 Apr 2025 02:23:44 +0400
+From: Igor Belousov <igor.b@beldev.am>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, Vitaly Wool
+ <vitaly.wool@konsulko.se>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-new 195/196] mm/zblock.c:369:13: error: incompatible
+ function pointer types initializing 'int (*)(void *, size_t, gfp_t, unsigned
+ long *, const int)' (aka 'int (*)(void *, unsigned int, unsigned int, unsigned
+ long *, const int)') with an expression of type 'int (void ...
+In-Reply-To: <20250416092641.198e1e2216f381c5e5852095@linux-foundation.org>
+References: <202504161517.KYEDQav9-lkp@intel.com>
+ <20250416092641.198e1e2216f381c5e5852095@linux-foundation.org>
+User-Agent: Roundcube Webmail/1.6.9
+Message-ID: <2eeb20e32cc4ae0403b30fd9a5dbfd2e@beldev.am>
+X-Sender: igor.b@beldev.am
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server4.hayhost.am
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - beldev.am
+X-Get-Message-Sender-Via: server4.hayhost.am: authenticated_id: igor.b@beldev.am
+X-Authenticated-Sender: server4.hayhost.am: igor.b@beldev.am
 
-tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
-head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
-commit: 9e2d85243a79cbf10ea6538b605260e3199fda1a [24/24] platform/x86: Add Zodiac Radio Access Point platform driver
-config: x86_64-kismet-CONFIG_IGB-CONFIG_ZII_RAP-0-0 (https://download.01.org/0day-ci/archive/20250417/202504170536.gZQ8Fmcs-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250417/202504170536.gZQ8Fmcs-lkp@intel.com/reproduce)
+Hello Andrew,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504170536.gZQ8Fmcs-lkp@intel.com/
+2025-04-16 20:26 wrote Andrew Morton:
+> On Wed, 16 Apr 2025 15:21:24 +0800 kernel test robot <lkp@intel.com> 
+> wrote:
+> 
+>> If you fix the issue in a separate patch/commit (i.e. not just a new 
+>> version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202504161517.KYEDQav9-lkp@intel.com/
+>> 
+>> All errors (new ones prefixed by >>):
+>> 
+>> >> mm/zblock.c:369:13: error: incompatible function pointer types initializing 'int (*)(void *, size_t, gfp_t, unsigned long *, const int)' (aka 'int (*)(void *, unsigned int, unsigned int, unsigned long *, const int)') with an expression of type 'int (void *, size_t, gfp_t, unsigned long *)' (aka 'int (void *, unsigned int, unsigned int, unsigned long *)') [-Wincompatible-function-pointer-types]
+>>      369 |         .malloc =               zblock_zpool_malloc,
+>>          |                                 ^~~~~~~~~~~~~~~~~~~
+>>    1 error generated.
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/mm-add-zblock-allocator-fix.patch
+> was supposed to fix this?
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for IGB when selected by ZII_RAP
-   WARNING: unmet direct dependencies detected for NET_DSA
-     Depends on [n]: NET [=y] && (BRIDGE [=n] || BRIDGE [=n]=n [=n]) && (HSR [=y] || HSR [=y]=n [=n]) && INET [=y] && NETDEVICES [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for IGB
-     Depends on [n]: NETDEVICES [=n] && ETHERNET [=n] && NET_VENDOR_INTEL [=n] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX
-     Depends on [n]: NETDEVICES [=n] && NET_DSA [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for PHYLIB
-     Depends on [n]: NETDEVICES [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_BITBANG
-     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MARVELL_PHY
-     Depends on [n]: NETDEVICES [=n] && PHYLIB [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_GPIO
-     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n] && MDIO_BITBANG [=y] && (GPIOLIB [=y] || COMPILE_TEST [=n])
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+I can provide a new version of the patch.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Igor
