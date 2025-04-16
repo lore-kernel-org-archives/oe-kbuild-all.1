@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17636238D21
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 12:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531E91DE4CA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 13:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744806356; cv=none; b=LksHlt9cVRchHfkinsKFa4U4L+jPDY0VZG9dJgpY/MXGmwRCM/e4KSS9ryN4+AMSYQ76MD/N/9uQfe2B8vBGbbgYlBEMW68HKznvu6fkM7FdUablskneENxfNRQ9EPUD0FNdOhZprcYedIsRoOwHfsIDOy6tnnmlOKhc/cLNgNU=
+	t=1744811286; cv=none; b=i8vlMBS79fNN0bZ0nfAtAwKMPFzUYgmKZJIZg+jUUWAa07d8ymLBc6OvZ9BmkKGS4DbHNkEupQUfhg4evYhwc/i6Hvn5msdv/Hsib/X1GxrdB0ioBcGbNH/sLbPrrmr1e+6SUILBtOOz1cmVBP3Ca/uXS8CSCoFjZ9JlEzAaoK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744806356; c=relaxed/simple;
-	bh=wPadVYlk5Nce7fzAJ2daUVe8yt+djHEwYVADpF0RTuY=;
+	s=arc-20240116; t=1744811286; c=relaxed/simple;
+	bh=+swuqaf0lJxZrTM35AiSOW0sWIVEV0cXKaMle4kmxI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HWTQrNFIkqlr7ue22tfvsvJw6H9e6Cnof0XpAAT9LgY6puohJSTRtO1d/tlLG8tuMvGHaS//1DFtGmBIJ2qno7SOlUWpC4gk08vq9MZBjm6BeQs3GbN/Yeef+6HmJsaJ2Efbxo1C5zyVYykLWBioVczWy7dsvOA+UJkIrQuM0wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BErOxQCp; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=MYMkXE+4M8rFSc4fxSc/ISAmvpQ3WXZ5RgV5Rwbqsp6rV/fDHXJhlcl0n7Wce4XhqkVD2xDyI94PSzmPZB4gnCKSphA2PH4fjka9A4SoCoKuGQ9At5hQmjeiczkzDdJS3QQq+FiaTfwVth4TXF0XEeWC2GjP4jzWs7KsTximBS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bhjX5arh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BErOxQCp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bhjX5arh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744806354; x=1776342354;
+  t=1744811283; x=1776347283;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wPadVYlk5Nce7fzAJ2daUVe8yt+djHEwYVADpF0RTuY=;
-  b=BErOxQCpLw7nvHi6c/mt3inG9V+ZAOm8aYSB4BJSo08gjoQ6l1zLy2nq
-   35VhHT3xFDO0/qyJ06UgneyQxKbPLxRsG4+c6gd8qoSDQQ5LrF3UCj0s1
-   vXzwZM/9th3+MsLiaONmY9eQVLMCe/XnNkaEeVSVKwCS6tYo6kXDpdWcQ
-   T+iWEdIrJdQzmF1os4pDYsvxWmRArsRz4XhBbaJ08ouIpYZ4x+wLT9YPV
-   s0xRsL2jecUYofZgm72f3okL3Lcdb1V6huo6tFDK2J1rL7AHSCysicLLN
-   BuUBenmZHugB3CglMODx6K0XzcfnFa9bj1+7pC0ZFPysidxIIU/26LUJA
-   w==;
-X-CSE-ConnectionGUID: dPt6gpgaQuG6aAJyzsC6mw==
-X-CSE-MsgGUID: YQdW0L/6RbS8NkI6t4hf3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="63889448"
+  bh=+swuqaf0lJxZrTM35AiSOW0sWIVEV0cXKaMle4kmxI8=;
+  b=bhjX5arhtspaPEVDY50EF/fkI9SLW+2bsB7lnR+jIHnDr5yFdIjjCE1O
+   VioH+hHnwPHWL+A313ju5ooC12HTVX8f0zBmS0nrU0LwfcQ4kqRQxMRYn
+   IN8DDEWb+HLGlLdyTkvNIFHm0C38RTVHzxJX06+FXUc1706HR/0ppezHz
+   txlr62wl2b0kst77G6qSEqV9GXN2T9eEYCfrafvxrgFe7Yw4oy/dwY/p+
+   1w5y7Ie/JdKYP4WP4wF1/zvKByeQmjust6z4fWCXsULxvNa9HVth2a/GB
+   XhdkX5B5lbSHsBOheyOAHRnvuyY0k47I61cKL5emf/zq55zUSlkIovu8c
+   Q==;
+X-CSE-ConnectionGUID: ETwrsTvcSXmDeMYTKtMIPg==
+X-CSE-MsgGUID: 6zsack/NRLCRJTZoYugQYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="71750797"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="63889448"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 05:25:52 -0700
-X-CSE-ConnectionGUID: /Pisc0oaTm6utzW4mXfObw==
-X-CSE-MsgGUID: cjqdfAznTv+SCw5hLrqvZg==
+   d="scan'208";a="71750797"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 06:48:02 -0700
+X-CSE-ConnectionGUID: g4x2vE8nSjKDwzCsoo6QPA==
+X-CSE-MsgGUID: MDTMqWFARk+Ynu1oj+Qk1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="130768908"
+   d="scan'208";a="167657845"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Apr 2025 05:25:52 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Apr 2025 06:48:01 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u51pt-000JgV-1z;
-	Wed, 16 Apr 2025 12:25:49 +0000
-Date: Wed, 16 Apr 2025 20:25:44 +0800
+	id 1u537P-000Jp2-0H;
+	Wed, 16 Apr 2025 13:47:59 +0000
+Date: Wed, 16 Apr 2025 21:47:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1582/1582] fs/gfs2/rgrp.o: warning:
- objtool: __rs_deltree()+0x188: unreachable instruction
-Message-ID: <202504162035.XTrGjsOi-lkp@intel.com>
+To: Baisong Zhong <zhongbaisong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: kernel/sched/rt.c:9:18: warning: 'max_rt_runtime' defined but not
+ used
+Message-ID: <202504162121.Q3qxvByw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,37 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d47443532b562cff105f8cfbc32343f83a2ecd01
-commit: 27f3c5bc01e9836a87061de4ea01fa3754a40274 [1582/1582] gfs2: Fix marking bitmaps non-full
-config: x86_64-buildonly-randconfig-005-20250415 (https://download.01.org/0day-ci/archive/20250416/202504162035.XTrGjsOi-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504162035.XTrGjsOi-lkp@intel.com/reproduce)
+Hi Baisong,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1a1d569a75f3ab2923cb62daf356d102e4df2b86
+commit: 28f152cd0926596e69d412467b11b6fe6fe4e864 sched/rt: fix build error when CONFIG_SYSCTL is disable
+date:   3 years ago
+config: csky-randconfig-r001-20230826 (https://download.01.org/0day-ci/archive/20250416/202504162121.Q3qxvByw-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504162121.Q3qxvByw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504162035.XTrGjsOi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504162121.Q3qxvByw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/gfs2/rgrp.c:1288:25: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
-    1288 |         int demote_requested = test_bit(GLF_DEMOTE, &gh->gh_gl->gl_flags) |
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                                           ||
-    1289 |                 test_bit(GLF_PENDING_DEMOTE, &gh->gh_gl->gl_flags);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/bitops.h:342:2: note: expanded from macro 'test_bit'
-     342 |         (__builtin_constant_p((nr))             \
-         |         ^
-   fs/gfs2/rgrp.c:1288:25: note: cast one or both operands to int to silence this warning
-   arch/x86/include/asm/bitops.h:342:2: note: expanded from macro 'test_bit'
-     342 |         (__builtin_constant_p((nr))             \
-         |         ^
-   1 warning generated.
-   fs/gfs2/rgrp.c:1517: warning: Function parameter or member 'rs' not described in 'rgd_free'
-   fs/gfs2/rgrp.c:1992: warning: Function parameter or member 'rgd' not described in 'fast_to_acquire'
->> fs/gfs2/rgrp.o: warning: objtool: __rs_deltree()+0x188: unreachable instruction
+   In file included from kernel/sched/build_policy.c:43:
+   kernel/sched/rt.c:309:6: warning: no previous prototype for 'unregister_rt_sched_group' [-Wmissing-prototypes]
+     309 | void unregister_rt_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:311:6: warning: no previous prototype for 'free_rt_sched_group' [-Wmissing-prototypes]
+     311 | void free_rt_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:313:5: warning: no previous prototype for 'alloc_rt_sched_group' [-Wmissing-prototypes]
+     313 | int alloc_rt_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:716:6: warning: no previous prototype for 'sched_rt_bandwidth_account' [-Wmissing-prototypes]
+     716 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/rt.c:9:18: warning: 'max_rt_runtime' defined but not used [-Wunused-const-variable=]
+       9 | static const u64 max_rt_runtime = MAX_BW;
+         |                  ^~~~~~~~~~~~~~
+
+
+vim +/max_rt_runtime +9 kernel/sched/rt.c
+
+d505b8af58912a Huaixin Chang  2020-04-25  @9  static const u64 max_rt_runtime = MAX_BW;
+ce0dbbbb30aee6 Clark Williams 2013-02-07  10  
+
+:::::: The code at line 9 was first introduced by commit
+:::::: d505b8af58912ae1e1a211fabc9995b19bd40828 sched: Defend cfs and rt bandwidth quota against overflow
+
+:::::: TO: Huaixin Chang <changhuaixin@linux.alibaba.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
