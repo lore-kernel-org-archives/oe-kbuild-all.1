@@ -1,155 +1,132 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F08E211472
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Apr 2025 16:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AB41E5B7D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 04:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744732997; cv=none; b=LiesbqwIcPgndjMrjBHjhgiryOECGM9GgCR8moNLGf1tPZRwF4fVw5rf+wL0dC+8cMkCRP9phZ+xGRvKHnqL9kAK9NzKkBQ3gjV+VI6gaymbI+v4UCS9dUiFkq7Boy0hpxcQg8d/tTkajU7AK7ci5rZLPsr1ibkUPF1A063VgnQ=
+	t=1744779400; cv=none; b=p7/hZOBr00IYoToW8r9PdPjjHUEh6hm4I9GOx92KxaA3iT0yDGc3HQu9xAch/COmHgCkN+frOJwAVU6y8xzlE+yP7ISkYm3iR6JFxM9voxmi/Gj+oa2GcRWHdLL0O+7Z2hp2qG4dr6IcJgvBtHeQQLZtJDiLdz4CIFp7q5zXLFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744732997; c=relaxed/simple;
-	bh=lYBkXbwh08npPqWg5a/3LlWt/j3jbuo6HOEpkAE6jTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VVuCcZJ4hrmdmT+Yhig7mlmexMbG/4nEoZcK12JX/itzB0OPWG+rkUQ2MdWpvJodXrdr7Ri/SqwnopJ5k5DgJCd9YeYanjLQy5RXRuDmuNPBU4XoZDGk1Ha8/72p9vx0oZrlxF/t4VmtUrNONwhGccqXhLh9FVF0i5Jjvf1nMGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=sFdvHZB9; arc=none smtp.client-ip=209.85.166.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+	s=arc-20240116; t=1744779400; c=relaxed/simple;
+	bh=IThipFhB3U+nEnWVcPHbxN8QKC11Tp92vlZ/aJvEj+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WI1PTPo6ijggF9VNUqcpSXN7P4yhrP9vvBtFxWpedDS/xED8DTwnu0Zhi96R5RImbfQkx0RKT7i37wrhhE86b571oUTTray1s/i4t0m9BsVDYfGbfULWSRccG92SLHybAtjOlq7QEde+KveGm8utTZ1AXjyfcnC/lgh1Dfmc3UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MvMESrIz; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="sFdvHZB9"
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3d439dc0548so19529275ab.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Apr 2025 09:03:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1744732994; x=1745337794; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vya5laCOwqQD49KDWVQh568j1mmJYzr4WruJF+Ip7NE=;
-        b=sFdvHZB9+14fDjMKVbCJO9Ndy3dQFq1OZywQjj8udWIUDyaWfOmC6Isqlir/nZ+fXu
-         QNXGDmydr8e6yaa8aw9+yL4A3941SvDI8MByWsEBIaUbTpQr9OnJf2PZ04tD/mGgrvLN
-         zSZhmTQvixxcK+n8+tJBdXSYIpTfToQq2snykfi0KrwVRPm6Hi3g+UQxUKD7otHXgUsH
-         UTIqIrgKsrKT4kNvUmDGWqtjuZT7Pg6WFA8x0oBYXx9l9jyt0yVWBCOvajeFJDWos49d
-         hoYpQuqYWRrBzpiyKulL6vYJS0VjjlxNxF3qaZNZlCS2272VyuF8kIrTnSOKCA6JT4kQ
-         v/xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744732994; x=1745337794;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vya5laCOwqQD49KDWVQh568j1mmJYzr4WruJF+Ip7NE=;
-        b=xOexT03r0S2qyI7GqPuhFdTg7z21vBP4sCkfdYkvhFO9x3F7DRtu4jozoxCMiH1Zox
-         XdGGZ3IHzZLcAWZTtnUDS31stqUkdNtyMcJElTTppFo4Hj0U1pW+QfLzEy7UyxSkkoof
-         +Ae+geiJKAC2jd2b7pkaBQL78ax/zksN+5ZHjQtFEDOrk91rUTsfuTwVUh6Dz6WvFe8Z
-         JSfCWETHvE1h6GrB4dZDLAN3N5B98toZWwiUqNtVr8CjmlkHuHLmCZU31PKNWR7iBWca
-         XO/fBKp8lE2mOOuCsndODwyaO0aHcUZbj6vyy0ukoPHfymat22vhzseHvKLP71JeDECt
-         l1nA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8B0iuMw80cBij8l30gboeZPaqU9FoMlEM9/0HjcV956aZjoyotdAdkEk6w3KgtZPCuy7c8FqZxnC3kdQS@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqsFgMJXeONTkikBJzhBYNWBC2cdaGwlCIhUrufE9cGTYKzj5X
-	yW8hK8CSRyhmY3LFjcRQHn4eO4c5cwz0HyDoYwFXVM9HaZOUtofjA5lAyisxRzk=
-X-Gm-Gg: ASbGncsXwRgFIvFAuAnr05rrmkZa6PmPAoLkiT6QjakgA5TMHFZ7EKeS0bDbB9lE312
-	3luM40Ob3KXA80gmgNRp4F515mXK01TB8h1qRNLOXnLbHREiVlGKxiQpTdVeQhUSQDLk8R/RsAh
-	TOwUHxnNbx239+YwqeCZB1wZBNpExeCx9xJN4msl4Sag2nqsBH641pJBsd+odapdVF/p/thq80d
-	spqpngUhZPP3tLG+rCpilzbiNJHyyEO323wfyKBszCt/A5jHUUcSod+Ax7DSEISGrA4rU/TruKa
-	9qoZKEpp5NomzH5daHxHZrOgb2HR60r7iN5u6H1UuKvz8Fv/7g+D8v2PcX8FJb7C8K8e+YM93zL
-	y4Qww
-X-Google-Smtp-Source: AGHT+IEtlCnnPDJ3cn+xWJLo5c8wTQqAyZYlX57UyLdVGhBFJ6IychxlTyKQMafYoxog8e9tbRNzeA==
-X-Received: by 2002:a92:c267:0:b0:3d6:cb9b:cbec with SMTP id e9e14a558f8ab-3d7ec1ca79amr139889325ab.5.1744732994213;
-        Tue, 15 Apr 2025 09:03:14 -0700 (PDT)
-Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d7dc5828c3sm33962785ab.48.2025.04.15.09.03.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Apr 2025 09:03:13 -0700 (PDT)
-Message-ID: <9b52f950-9baf-4293-b211-82891b6f349e@riscstar.com>
-Date: Tue, 15 Apr 2025 11:03:12 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MvMESrIz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744779399; x=1776315399;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IThipFhB3U+nEnWVcPHbxN8QKC11Tp92vlZ/aJvEj+U=;
+  b=MvMESrIz8PaP0l49THI5l5b558oNvN2oapdlRCCSBn9SMb7/mT4Xj+tK
+   QKrNyGaTT9pvV249mNFwo2je+Z9bNcMcG2J922g6+PKCD5kHVFeT3OC/O
+   kcpL7TvWp95cf21VgjoHm8yFNCd/mSd52qO/mP0CIk4JmLs+sZanzyIoo
+   GFd5d4QHXqwiF7ubvc51uprhgWa7JGcrehZF8yu/FY4YeSDYx8uPr1OEm
+   iv48BBhhuGuiXogxVRenEsqiLSpOgj7ImDKGKlW+5ug5vNN+J2AlcVgjg
+   qrKZwd8tUAnV0QKGUxrjOCdHqcfLQq4E2M6kEi4fhhChYd4QCCZYbSkpV
+   A==;
+X-CSE-ConnectionGUID: xMZFoVofT3y6eZH4bOES7Q==
+X-CSE-MsgGUID: MTTkElTaTbKJAGDeP8DXog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="50110416"
+X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
+   d="scan'208";a="50110416"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 21:56:38 -0700
+X-CSE-ConnectionGUID: c5BDxn+jRmm/ZWELqTga8Q==
+X-CSE-MsgGUID: 7hvek0g1RyK+NcQcx6x4fQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
+   d="scan'208";a="161361089"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Apr 2025 21:56:37 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u4up8-000Ivc-31;
+	Wed, 16 Apr 2025 04:56:34 +0000
+Date: Wed, 16 Apr 2025 12:56:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 0/2]
+ drivers/iio/magnetometer/ak8974.c:192: warning: Function parameter or member
+ 'scan.channels' not described in 'ak8974'
+Message-ID: <202504161246.vUiVXL1K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [spacemit:for-next 4/6] drivers/clk/spacemit/ccu-k1.c:241:1:
- error: initializer element is not a compile-time constant
-To: Yixun Lan <dlan@gentoo.org>
-Cc: Haylen Chu <heylenay@4d2.org>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Inochi Amaoto <inochiama@outlook.com>
-References: <202504152107.7ekGPIrF-lkp@intel.com>
- <564eb8e7-a4e1-49e6-a79d-da880a526540@riscstar.com>
- <20250415143137-GYB30887@gentoo>
-Content-Language: en-US
-From: Alex Elder <elder@riscstar.com>
-In-Reply-To: <20250415143137-GYB30887@gentoo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/15/25 9:31 AM, Yixun Lan wrote:
-> Hi Alex,
-> 
-> On 09:16 Tue 15 Apr     , Alex Elder wrote:
->> On 4/15/25 8:44 AM, kernel test robot wrote:
->>> tree:   https://github.com/spacemit-com/linux for-next
->>> head:   9ead3efbc88a21e9a1f38948cc0902518022a2e5
->>> commit: e2d238ba301f25a5c8a7d490a36f9cd014d7aecc [4/6] clk: spacemit: Add clock support for SpacemiT K1 SoC
->>> config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250415/202504152107.7ekGPIrF-lkp@intel.com/config)
->>> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504152107.7ekGPIrF-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202504152107.7ekGPIrF-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>
->> If I'm interpreting this right, this seems to be a problem on
->> a S390 build (under COMPILE_TEST), because there is no constant
->> version of the __ffs() for that architecture.  This might be the
->> case on other architectures as well.
->>
->> On RISC-V, this is fine.
->>
->> Any recommendations on how to address this?
->>
-> it occur to me the __ffs() isn't really necessary, since all input
-> is constant value (GENMASK here), we then should know the shift..
+Hi Jonathan,
 
-I asked Haylen to make this change.  Yes, we know the
-shift, but I much prefer specifying only a constant mask
-(which implies both the shift and the width) rather than
-a constant mask and shift (or width and shift).
+FYI, the error/warning still remains.
 
-If there's no way to avoid this S390 compile error, then
-adding the separate (and redundant) shift value back
-into all these definitions is a solution.
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   a8bf86a0e0fa05070897a210d706d5c4d83c26ac
+commit: f2117df663af08bac57d44a1816429f6e9d723f4 [0/2] iio:magnetometer:ak8974: Fix alignment and data leak issues
+config: x86_64-buildonly-randconfig-003-20241212 (https://download.01.org/0day-ci/archive/20250416/202504161246.vUiVXL1K-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504161246.vUiVXL1K-lkp@intel.com/reproduce)
 
-					-Alex
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504161246.vUiVXL1K-lkp@intel.com/
 
-> 
->>
->>
->>>
->>>>> drivers/clk/spacemit/ccu-k1.c:241:1: error: initializer element is not a compile-time constant
->>>        241 | CCU_DDN_DEFINE(slow_uart1_14p74, pll1_d16_153p6, MPMU_SUCCR, GENMASK(28, 16), GENMASK(12, 0), 0);
->>>            | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>      drivers/clk/spacemit/ccu_ddn.h:33:15: note: expanded from macro 'CCU_DDN_DEFINE'
->>>         33 |         .num_shift      = __ffs(_num_mask),                                     \
->>>            |                           ^~~~~~~~~~~~~~~~
->>>      drivers/clk/spacemit/ccu-k1.c:242:1: error: initializer element is not a compile-time constant
->>>        242 | CCU_DDN_DEFINE(slow_uart2_48, pll1_d4_614p4, MPMU_SUCCR_1, GENMASK(28, 16), GENMASK(12, 0), 0);
->>>            | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>      drivers/clk/spacemit/ccu_ddn.h:33:15: note: expanded from macro 'CCU_DDN_DEFINE'
->>>         33 |         .num_shift      = __ffs(_num_mask),                                     \
->>>            |                           ^~~~~~~~~~~~~~~~
->>>      2 errors generated.
->>>
->>>
->>> vim +241 drivers/clk/spacemit/ccu-k1.c
->>>
->>>      239	
->>>      240	CCU_GATE_DEFINE(slow_uart, CCU_PARENT_NAME(osc), MPMU_ACGR, BIT(1), CLK_IGNORE_UNUSED);
->>>    > 241	CCU_DDN_DEFINE(slow_uart1_14p74, pll1_d16_153p6, MPMU_SUCCR, GENMASK(28, 16), GENMASK(12, 0), 0);
->>>      242	CCU_DDN_DEFINE(slow_uart2_48, pll1_d4_614p4, MPMU_SUCCR_1, GENMASK(28, 16), GENMASK(12, 0), 0);
->>>      243	
->>>
->>
-> 
+All warnings (new ones prefixed by >>):
 
+   drivers/iio/magnetometer/ak8974.c:192: warning: Function parameter or member 'scan' not described in 'ak8974'
+>> drivers/iio/magnetometer/ak8974.c:192: warning: Function parameter or member 'scan.channels' not described in 'ak8974'
+>> drivers/iio/magnetometer/ak8974.c:192: warning: Function parameter or member 'scan.ts' not described in 'ak8974'
+
+
+vim +192 drivers/iio/magnetometer/ak8974.c
+
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  162  
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  163  /**
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  164   * struct ak8974 - state container for the AK8974 driver
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  165   * @i2c: parent I2C client
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  166   * @orientation: mounting matrix, flipped axis etc
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  167   * @map: regmap to access the AK8974 registers over I2C
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  168   * @regs: the avdd and dvdd power regulators
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  169   * @name: the name of the part
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  170   * @variant: the whoami ID value (for selecting code paths)
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  171   * @lock: locks the magnetometer for exclusive use during a measurement
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  172   * @drdy_irq: uses the DRDY IRQ line
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  173   * @drdy_complete: completion for DRDY
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  174   * @drdy_active_low: the DRDY IRQ is active low
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  175   */
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  176  struct ak8974 {
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  177  	struct i2c_client *i2c;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  178  	struct iio_mount_matrix orientation;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  179  	struct regmap *map;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  180  	struct regulator_bulk_data regs[2];
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  181  	const char *name;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  182  	u8 variant;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  183  	struct mutex lock;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  184  	bool drdy_irq;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  185  	struct completion drdy_complete;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  186  	bool drdy_active_low;
+f2117df663af08b Jonathan Cameron 2020-06-07  187  	/* Ensure timestamp is naturally aligned */
+f2117df663af08b Jonathan Cameron 2020-06-07  188  	struct {
+f2117df663af08b Jonathan Cameron 2020-06-07  189  		__le16 channels[3];
+f2117df663af08b Jonathan Cameron 2020-06-07  190  		s64 ts __aligned(8);
+f2117df663af08b Jonathan Cameron 2020-06-07  191  	} scan;
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25 @192  };
+7c94a8b2ee8cfe9 Linus Walleij    2016-07-25  193  
+
+:::::: The code at line 192 was first introduced by commit
+:::::: 7c94a8b2ee8cfe915f332575566b4870976ab8f4 iio: magn: add a driver for AK8974
+
+:::::: TO: Linus Walleij <linus.walleij@linaro.org>
+:::::: CC: Jonathan Cameron <jic23@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
