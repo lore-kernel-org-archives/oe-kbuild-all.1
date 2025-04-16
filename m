@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43099242930;
-	Wed, 16 Apr 2025 23:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5EF24887F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 23:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744845908; cv=none; b=Yo6o/VRxa1vQ6kOEsn3gH4XsJsY2j35S3CEjJpYiJjy38UJCCZpbicVYaPQObL+OFrw6aONbhu5+sFe6Ij/+5p8g8NgeYfaCsFm5pQqzuB6lZCY7yRr+6/l/f4EdCSQnIDCVU418VhSJ+2s4aYrrJMkgsASys93KOscABcjEgJA=
+	t=1744847106; cv=none; b=O/WuXWPoz8vzQTMh7HEcOajC+9st7bqrlFjN9T/9i0BXCSNSUJbkAYnnG4y0GgIBtCGj0bdd3IH0VpHhnnIhWpZ5X7/ncP37QfaqjsdaojyYK3K9EuDLbEaQFtHPBb2HTF1wm+CLuPAcSXHuSEUJWw9zpP+t3vcxgsXC/J/qyIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744845908; c=relaxed/simple;
-	bh=IxtXOMnY6EX4iLYnbxrBI9tgWv+kilLamY4zLaHlROE=;
+	s=arc-20240116; t=1744847106; c=relaxed/simple;
+	bh=TU+Go+PB9S4sz/insfOGOl2eXOz7jAj5ducpImk608k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mYkcEbolm8kr0bVKHXBbkdcB6VEKEaBpG36ZWp91fTlZM/IeWHg4SvxDEi3IlNG/VdPzRtYXjHkpbzCzRzQqRL8Czy4YLK2N4O/6dJkIaNStkgUehXMWOu0FtYHMLsTPj+ZDPutR2y4QpG7V7LBW4NoTzjBQT8mnkQMnS6uHmc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JF6nX9TJ; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=F/jdvt5LI1e6zmVDL3cerTGKyPzstJFc7WHQub2Apss5blS1eWzlDZ+TQiBps2U/KWO5UNRIkXGfsgEALbVZ9XCas3hDf1i6xPWCbUUm/2y7lKb1GI/RXRtHWVL1G7V9sUBfkgT5m6r85gU64v9nF0dvHhSzjMjM70h89OT+MQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRutPCeM; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JF6nX9TJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRutPCeM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744845906; x=1776381906;
+  t=1744847104; x=1776383104;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IxtXOMnY6EX4iLYnbxrBI9tgWv+kilLamY4zLaHlROE=;
-  b=JF6nX9TJUact3tab9ytgFq/12DCFzPwU8KAEGqwZrJW0Ls6jnYasrbId
-   R6qY0soqoCnJ9UtVU+24voDIcqUY2qPlb63nOBFxdxvVS3UyIrZC867xN
-   6BDrf8pwsHGxC58uYN2zLV8mct4uUdI1NEFlS8nnwaxEM6sM0vvyJpdyS
-   QOwKUpzlwAD3o70gtCvrhtJ+12iusx3nXCvRLiF4VuinxsNliR/z8huvV
-   VQT+yyv9yyUNXaJd808zDAWKJoqpMnqWCE0OP6Uj9HTuPhzSgn2kKhBiY
-   dkRGh+sh/Lb4Hy/hriQBxTG6RCT5zytgtAmzzUFeCJeFlqan/hz0n34I5
-   g==;
-X-CSE-ConnectionGUID: abIu6E6bS8a3u7UderrfQw==
-X-CSE-MsgGUID: cnf7QEgySEKvPDP0pPCFdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="57059111"
+  bh=TU+Go+PB9S4sz/insfOGOl2eXOz7jAj5ducpImk608k=;
+  b=KRutPCeMgw55tmm74BooezuzWoCr94Xwqafy5utHHkOowvOS/HWKsIWG
+   69jx804xhQcQzWpyN+5R/s9g9g3B/floL2mqRj20DuedzD6P31x8FtsYX
+   cgZC3ZgPRpu5PmQGyVjqZzIBurgshM8IDkaEqC9770bpwq3CEO2EHbNVR
+   QRZEk/imUr99Wo2ZVZH18tU0mJMeMXwA9KLCQtEIOdlSxNtThJNAvTj/R
+   D1mjmlb154Kn5qvK4cv9a0eaaT2QOzwhloM9P0NYOJD1+kLKWd9YRKnko
+   Aza0bGuCequnqsrNk6QTqLEU9OogCRQiZS2MJB62ddwwnf5PUz04L8Jen
+   A==;
+X-CSE-ConnectionGUID: 8FmIyQi5S46nWHjLn0LFtg==
+X-CSE-MsgGUID: 709hvVVlTPmUeA+vS4/PFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="57789978"
 X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; 
-   d="scan'208";a="57059111"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 16:25:02 -0700
-X-CSE-ConnectionGUID: FRzL9G4CQFCDTuhcVK6eGA==
-X-CSE-MsgGUID: 58okQ/akTqSgn4K0qTQG7A==
+   d="scan'208";a="57789978"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 16:45:03 -0700
+X-CSE-ConnectionGUID: ZeyO3YSMR0W24wPsD2rwYw==
+X-CSE-MsgGUID: l8UvbQbuTMqYH5dq8hItUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; 
-   d="scan'208";a="130600757"
+   d="scan'208";a="161671225"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Apr 2025 16:25:00 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 Apr 2025 16:45:02 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5C7m-000KRk-19;
-	Wed, 16 Apr 2025 23:24:58 +0000
-Date: Thu, 17 Apr 2025 07:24:17 +0800
+	id 1u5CR9-000KSa-2z;
+	Wed, 16 Apr 2025 23:44:59 +0000
+Date: Thu, 17 Apr 2025 07:44:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [linux-next:master 4325/4528] s390x-linux-ld:
- pinctrl-sx150x.c:undefined reference to `i2c_smbus_write_byte_data'
-Message-ID: <202504170707.IBFj7H28-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1]
+ arch/arm64/kvm/hyp/nvhe/mem_protect.c:2766:49: warning: suggest parentheses
+ around '-' in operand of '&'
+Message-ID: <202504170716.InDP9qKb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,30 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f660850bc246fef15ba78c81f686860324396628
-commit: c4d1b2ee4407b0b12e0dade40361eb86c1c710ed [4325/4528] pinctrl: sx150x: enable building modules with COMPILE_TEST=y
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250417/202504170707.IBFj7H28-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504170707.IBFj7H28-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   179c4d3da80ef129e67fba69fa022fe3f91c60be
+commit: bd55bd84082e4882aaeff13ebfdcb78b329f5302 [1/1] ANDROID: KVM: arm64: Generalize guest PA query
+config: arm64-randconfig-001-20250417 (https://download.01.org/0day-ci/archive/20250417/202504170716.InDP9qKb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504170716.InDP9qKb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504170707.IBFj7H28-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504170716.InDP9qKb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390x-linux-ld: drivers/pinctrl/pinctrl-sx150x.o: in function `sx150x_probe':
-   pinctrl-sx150x.c:(.text+0x15e): undefined reference to `i2c_get_match_data'
->> s390x-linux-ld: pinctrl-sx150x.c:(.text+0x39e): undefined reference to `i2c_smbus_write_byte_data'
-   s390x-linux-ld: pinctrl-sx150x.c:(.text+0x432): undefined reference to `i2c_smbus_write_byte_data'
-   s390x-linux-ld: drivers/pinctrl/pinctrl-sx150x.o: in function `sx150x_regmap_reg_read':
-   pinctrl-sx150x.c:(.text+0x2ba0): undefined reference to `i2c_smbus_read_byte_data'
-   s390x-linux-ld: drivers/pinctrl/pinctrl-sx150x.o: in function `sx150x_regmap_reg_write':
-   pinctrl-sx150x.c:(.text+0x317c): undefined reference to `i2c_smbus_write_byte_data'
-   s390x-linux-ld: drivers/pinctrl/pinctrl-sx150x.o: in function `sx150x_init':
-   pinctrl-sx150x.c:(.init.text+0x32): undefined reference to `i2c_register_driver'
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c: In function 'pkvm_get_guest_pa_request':
+>> arch/arm64/kvm/hyp/nvhe/mem_protect.c:2766:49: warning: suggest parentheses around '-' in operand of '&' [-Wparentheses]
+     *out_pa |= (ipa & kvm_granule_size(*out_level) - 1) & PAGE_MASK;
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+
+
+vim +2766 arch/arm64/kvm/hyp/nvhe/mem_protect.c
+
+  2733	
+  2734	/* Return PA for an owned guest IPA or request it, and repeat the guest HVC */
+  2735	int pkvm_get_guest_pa_request(struct pkvm_hyp_vcpu *hyp_vcpu, u64 ipa,
+  2736				      size_t ipa_size_request, u64 *out_pa, s8 *out_level,
+  2737				      u64 *exit_code)
+  2738	{
+  2739		struct kvm_hyp_req *req;
+  2740		kvm_pte_t pte;
+  2741		enum pkvm_page_state state;
+  2742		struct pkvm_hyp_vm *vm = pkvm_hyp_vcpu_to_hyp_vm(hyp_vcpu);
+  2743	
+  2744		guest_lock_component(vm);
+  2745		WARN_ON(kvm_pgtable_get_leaf(&vm->pgt, ipa, &pte, out_level));
+  2746		guest_unlock_component(vm);
+  2747		if (!kvm_pte_valid(pte)) {
+  2748			/* Page not mapped, create a request*/
+  2749			req = pkvm_hyp_req_reserve(hyp_vcpu, KVM_HYP_REQ_TYPE_MAP);
+  2750			if (!req)
+  2751				return -ENOMEM;
+  2752	
+  2753			req->map.guest_ipa = ipa;
+  2754			req->map.size = ipa_size_request;
+  2755			*exit_code = ARM_EXCEPTION_HYP_REQ;
+  2756			/* Repeat next time. */
+  2757			write_sysreg_el2(read_sysreg_el2(SYS_ELR) - 4, SYS_ELR);
+  2758			return -ENOENT;
+  2759		}
+  2760	
+  2761		state = pkvm_getstate(kvm_pgtable_stage2_pte_prot(pte));
+  2762		if (state != PKVM_PAGE_OWNED)
+  2763			return -EPERM;
+  2764	
+  2765		*out_pa = kvm_pte_to_phys(pte);
+> 2766		*out_pa |= (ipa & kvm_granule_size(*out_level) - 1) & PAGE_MASK;
+  2767		return 0;
+  2768	}
+  2769	
 
 -- 
 0-DAY CI Kernel Test Service
