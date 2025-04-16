@@ -1,82 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188631FCFF0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 13:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA971FDA97
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Apr 2025 13:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744811946; cv=none; b=N+EE0aIrPeCI++BHDWKBcZwdxEVNDmnqHS5r87VDKcNIqpQcyuQ9EdB8pjD8u76txGbwq/8Ov/gCMhUoWOLwd8hGpQJvWGpYZl32M6KwGpNCCH98nbjfAshkP3uVXjtJuXU8uHp3mg/5cipJLINJO1LvTbOoZ6lpltFMYknpB/w=
+	t=1744811947; cv=none; b=OSzcQ4BBXVB1DTd9FLvLOrGNt/PTgLPBsRZ+TjafO/ujm/LUq0G0tr0OEglj6zAci2zCIgT5EV1bGPmc9bXvohvsa02dZyWcNtqJs8hbZVgelgIeikRC2uGNJtsANIp7XfZj0MjU3vzREmxUz8HXz+E3Rfs1ebrvPNfQzchEscY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744811946; c=relaxed/simple;
-	bh=eubbIJl4kEx01rYUi0+ELi1SJJssOWZ90AGEP3iNyew=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JR2+wcn5d98ClgSvr1lSjdfu5saLRD1/Z3+xS5p2+BdtZNh3Yr9Ts4j48sFKQtDtn51kwvFXW/BYuNW3khsLOMfs35TQwjjpoKg1Om5jFmrBnkbh5SUGJ9FX8rFFJptmlrZvbPe9Edb6TQEVvZDWZYSc+QYGFhVKABnsL8O+UN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nmdj3JZr; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1744811947; c=relaxed/simple;
+	bh=hn6xwOP93/yhoELlBY8V8Xuv/wDTtTZJFnraUzSgg0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sw7z6ZzP7CCE35MZ6DlFg9Vvc5baLtqaRHJ6lrbl9paCvIF46UwbyzpWOeHUJkHTWuEEt7771HBRy6XIaan7sPydbWn1NK05GEiJINPOR6PhdfUdSoNSRyHeEadCWECvnuF8shuno30I9n18tvWwFwbdBt992TCRiATXSV4xw4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RaPiPvdR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nmdj3JZr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RaPiPvdR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744811944; x=1776347944;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eubbIJl4kEx01rYUi0+ELi1SJJssOWZ90AGEP3iNyew=;
-  b=Nmdj3JZrYcPxtaEfgc0EZzPdFvIBeomedGX2au39nFY0XFeyfOvrQF3v
-   SkK7PncrlGrh801/NI57hiaZG3UzQn5eK5LDaicyzJKjgK+pRRtP/A/jY
-   8xxLKEnUtBA455aMtwExh0ga7TG4+zx+viaHCIi//HA+MGgpyqnSN1xmR
-   NX6b5CkBLr9JvpSiAFjvKFW2rio+MMhy2X4x2gnTnt8+ME34C/R2CwwO7
-   iJlJVmY7D4nCoawXfTTq/Zef6hAOuSDvZvd2EcyaTVtuNGLix+vhZjWx+
-   5jq+XnL67Jp3Q2igg6RrgZ9/cvR1ISEmlM21zSuM6ihs2j1AqYHq7gU0I
+  t=1744811946; x=1776347946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=hn6xwOP93/yhoELlBY8V8Xuv/wDTtTZJFnraUzSgg0c=;
+  b=RaPiPvdR9+zB7XSUQVH/ynI4nY93SMHDMyXHOTvCiHKENHW4GHL+eoZB
+   tc3TpPbMwxqONW9PM3+W3PODX6y1mC/YylZ50VaDM57h3zqp7g3Nlv1u3
+   VIyvlBanDlFJVdnlY/YR8v8VqvxReJ9yZ77WL8cu/U2q5qjCOGZXFcy+F
+   DwHaJBVnkv5BxsRqDnymcuKDUVDav2KwW9BF3GIiduEkGuMKJhERg4jmn
+   I+sHTDOWHVF8EMtVM6HfCdQciKhzcSrae59V1f1/JXgHBWOpocJpkV3nz
+   tlhOO/Omfej15o1bYNyP6zzxX9ctf6LIGeW1MWSXPQQL4pHilaTk23GUP
    Q==;
-X-CSE-ConnectionGUID: sDfbqi6MTACSlkmkfocWdA==
-X-CSE-MsgGUID: LTbZKWBYS3WltO4QDFmfkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="57748622"
+X-CSE-ConnectionGUID: vQolvKYXTbq8PnU4B7/53g==
+X-CSE-MsgGUID: t7I15bG0Q26pWBaZpNCG5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="50169609"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="57748622"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 06:59:03 -0700
-X-CSE-ConnectionGUID: G0MkWVP2THO0kbGWnTCxQQ==
-X-CSE-MsgGUID: 88+PCgFXQfi96fl5JVBiig==
+   d="scan'208";a="50169609"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 06:59:05 -0700
+X-CSE-ConnectionGUID: og39v+s6Sf277AFQZeP/fQ==
+X-CSE-MsgGUID: h+35UNDxQyCysYGvgIBmow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="134593904"
+   d="scan'208";a="135291556"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Apr 2025 06:59:02 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 16 Apr 2025 06:59:02 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u53I4-000Jq0-0q;
+	id 1u53I4-000Jpw-0h;
 	Wed, 16 Apr 2025 13:59:00 +0000
-Date: Wed, 16 Apr 2025 21:58:09 +0800
+Date: Wed, 16 Apr 2025 21:58:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1571/1571] block/blk-mq-debugfs.o:
- warning: objtool: debugfs_rq_show()+0xdf: unreachable instruction
-Message-ID: <202504162155.YWQMdqiA-lkp@intel.com>
+To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Song Shuai <songshuaishuai@tinylab.org>,
+	linux-riscv@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Nick Kossifidis <mick@ics.forth.gr>,
+	linux-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>
+Subject: Re: [PATCH v3 2/2] riscv: kexec_file: Support loading Image binary
+ file
+Message-ID: <202504162100.DHKsuYS1-lkp@intel.com>
+References: <20250409193004.643839-3-bjorn@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250409193004.643839-3-bjorn@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d47443532b562cff105f8cfbc32343f83a2ecd01
-commit: ad4d7c466e2520aed18679d442b1a16f33b372b8 [1571/1571] blk-mq-debugfs: factor out a new helper to show allocated request
-config: x86_64-buildonly-randconfig-006-20250408 (https://download.01.org/0day-ci/archive/20250416/202504162155.YWQMdqiA-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250416/202504162155.YWQMdqiA-lkp@intel.com/reproduce)
+Hi Björn,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a24588245776dafc227243a01bfbeb8a59bafba9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bj-rn-T-pel/riscv-kexec_file-Split-the-loading-of-kernel-and-others/20250410-033243
+base:   a24588245776dafc227243a01bfbeb8a59bafba9
+patch link:    https://lore.kernel.org/r/20250409193004.643839-3-bjorn%40kernel.org
+patch subject: [PATCH v3 2/2] riscv: kexec_file: Support loading Image binary file
+reproduce: (https://download.01.org/0day-ci/archive/20250416/202504162100.DHKsuYS1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504162155.YWQMdqiA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504162100.DHKsuYS1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/blk-mq-debugfs.o: warning: objtool: debugfs_rq_show()+0xdf: unreachable instruction
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+>> Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
+   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
+   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
+   make[1]: *** [Makefile:1804: htmldocs] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'htmldocs' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
