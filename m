@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462931CD205
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 15:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDEC1CB9F0;
+	Thu, 17 Apr 2025 16:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744904820; cv=none; b=ODnrVeygr9cN+rzC6M4khnUuOUiDmgDqJp02lzV8vy9M5qJN7NKbO/v2aQliNIr0CixZ4j6y2uzF/wBp0pVUHixHvqO93KC6mIgXaZhVR9W0M0Z5NGpHxVIx0Dug4Elo188kFMjJMtD2dRUt1u6pYm0MJlnnyszWShhVyh8Is4E=
+	t=1744906143; cv=none; b=MoUye+608lSySdMW5+rcA+HDByKA5mqk2fE82Q7oqcZyb9VM7sXI6t11adL0k6xaEe8IuRd2dv5wD0mHPYwOdV7FWBydQ44ov28j+1Hk9zO7Qu++v/05zsdpMKahBDFkv5DMQxMjVvuwzBj/lUxJ2o1i2K7LNQhfXV4HzaxZqAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744904820; c=relaxed/simple;
-	bh=EG3TmC6WIZwzWcn5e3ehlFyuLdCTAGf/754AQiD1SSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BXse4wpVgTAkMsUUNlSi61b4wkz9djOSFyZL0dLx93iXitT6YWa0dQHBmynajvpSbGYvV9aisuan5qCHPdcrirrDCzqYPUxNrdjt+zFHzOmoMSnwNWwsJxTsXVslXHwLx3Shj3YBtFaMPHkrJ0T6Y+egaJ4DeLkj9l/67nuSIzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lniqdTbu; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1744906143; c=relaxed/simple;
+	bh=GwGY6CO303Usvicakl4M5GZ5cgW6/60SATjXouEiCCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rlHwsjwU/P7n4FG2y33SsQFDzDIzJBBswBqFBCXR6X58y9btJx++fil6v+ow4MWYJ8mCji2YL4y9Sqm+yk0TaguU+WK4EQwfXLJcrkJKw6XNRn3d/KZhPVz/jMH5eHclC8MA0vyO2ykmZUJbZJeW9ebNiVd7BIIvWpawGK/I30I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mUsh/INX; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lniqdTbu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUsh/INX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744904818; x=1776440818;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EG3TmC6WIZwzWcn5e3ehlFyuLdCTAGf/754AQiD1SSU=;
-  b=lniqdTburfzHMfmuA9fgbrT+CXwMqKJhC6HWBXbLLUZFPfZpqTsYdLcp
-   IVcRbW8ajucceF+R211YDE7Jj1KcZQRS4LUmSnuY4QK1NsHzYn0Qb5IGz
-   EfrGEOTevgFUoT/TY8DB8rqsOaT/PEzJt9nlKrif1/6eAE1EjNPj7Hmtt
-   mwP8iyzk5vSQB19TsGPkTTgjfFjs1p5TKk0lGk2nEOuOZLtoD2M0/atDN
-   V44hdJ0GUM6VnxrAIZXi59dopmG1QrnyslEiTDR/C8rfJWmbPtoVLAUC1
-   fAzfsT2rji5C5BlkzVDcoRUvbovM+LC50Fy+YYhBQCqv9n/eqH2Bgp0z4
-   w==;
-X-CSE-ConnectionGUID: LaD8V6zKTJm8ik2xu9Xnrg==
-X-CSE-MsgGUID: WUWu6mCnQLuLDML/5uQQkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="57886007"
+  t=1744906141; x=1776442141;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GwGY6CO303Usvicakl4M5GZ5cgW6/60SATjXouEiCCM=;
+  b=mUsh/INXWS3SQk1HyUo4tEqBvbFA9sRAPj61WcRAX+qRMOtTYIDaz/Mb
+   ik13zsjLhODCO2gjvmRQmx5J4bhe93po3dGsC2s/lPsjB+09O71mPxE/e
+   +qWZ8fbb4OWcCZVf5BpbRCgANWfC/qXgOVk7uySnD/2sUKXgOWTR3HwfB
+   VGRg+gNIM8am0ISl8tWWkb9O+DuDUCQ4mHc5S0rGSgUvPUkEsOdTBgcve
+   txxv0wkyuhpLK/riP9qYj/EgYg75n3or8qdeX47t3QPL/SfxCXuH/D0ls
+   BoiVWW7vCNKGI1IxHwl3WK7YS1rnavbCMuf3KTlmR/wjEnqieJD+zmEje
+   g==;
+X-CSE-ConnectionGUID: zbcH01xcRkubgT2zMKpIWw==
+X-CSE-MsgGUID: 4vjzkeXJSDSiQZBqFRnWPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="71895012"
 X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
-   d="scan'208";a="57886007"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 08:46:57 -0700
-X-CSE-ConnectionGUID: fNpc+MXpQvSEo96eGEGHnQ==
-X-CSE-MsgGUID: WMc9CqkuRImjmTkSGAvD9g==
+   d="scan'208";a="71895012"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 09:09:00 -0700
+X-CSE-ConnectionGUID: S5WOtJR7S+G7uCE+9PLbOA==
+X-CSE-MsgGUID: rRXo41YGRxmmae8X5wXoOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
-   d="scan'208";a="130601826"
+   d="scan'208";a="135963225"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Apr 2025 08:46:55 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Apr 2025 09:08:58 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5RS1-0000SX-0i;
-	Thu, 17 Apr 2025 15:46:53 +0000
-Date: Thu, 17 Apr 2025 23:46:31 +0800
+	id 1u5RnM-0000Tz-0M;
+	Thu, 17 Apr 2025 16:08:56 +0000
+Date: Fri, 18 Apr 2025 00:07:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.15-rc1-next-next-inband 24/24] kismet: WARNING: unmet
- direct dependencies detected for PHYLIB when selected by ZII_RAP
-Message-ID: <202504172349.rx2rw8cE-lkp@intel.com>
+To: Thomas Richard <thomas.richard@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, DanieleCleri@aaeon.eu,
+	GaryWang@aaeon.com.tw, Thomas Richard <thomas.richard@bootlin.com>
+Subject: Re: [PATCH v3 02/10] pinctrl: core: add
+ devm_pinctrl_register_mappings()
+Message-ID: <202504172328.mrC81ooJ-lkp@intel.com>
+References: <20250416-aaeon-up-board-pinctrl-support-v3-2-f40776bd06ee@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,99 +70,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250416-aaeon-up-board-pinctrl-support-v3-2-f40776bd06ee@bootlin.com>
 
-tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
-head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
-commit: 9e2d85243a79cbf10ea6538b605260e3199fda1a [24/24] platform/x86: Add Zodiac Radio Access Point platform driver
-config: x86_64-kismet-CONFIG_PHYLIB-CONFIG_ZII_RAP-0-0 (https://download.01.org/0day-ci/archive/20250417/202504172349.rx2rw8cE-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250417/202504172349.rx2rw8cE-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8a834b0ac9ceb354a6e0b8cf5b363edca8221bdd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Richard/gpiolib-add-support-to-register-sparse-pin-range/20250416-221852
+base:   8a834b0ac9ceb354a6e0b8cf5b363edca8221bdd
+patch link:    https://lore.kernel.org/r/20250416-aaeon-up-board-pinctrl-support-v3-2-f40776bd06ee%40bootlin.com
+patch subject: [PATCH v3 02/10] pinctrl: core: add devm_pinctrl_register_mappings()
+config: i386-buildonly-randconfig-001-20250417 (https://download.01.org/0day-ci/archive/20250417/202504172328.mrC81ooJ-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504172328.mrC81ooJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504172349.rx2rw8cE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504172328.mrC81ooJ-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PHYLIB when selected by ZII_RAP
-   WARNING: unmet direct dependencies detected for NET_DSA
-     Depends on [n]: NET [=n] && (BRIDGE [=n] || BRIDGE [=n]=n [=n]) && (HSR [=n] || HSR [=n]=n [=n]) && INET [=n] && NETDEVICES [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for IGB
-     Depends on [n]: NETDEVICES [=n] && ETHERNET [=n] && NET_VENDOR_INTEL [=n] && PCI [=n] && PTP_1588_CLOCK_OPTIONAL [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for PINCTRL_SX150X
-     Depends on [n]: PINCTRL [=y] && I2C [=n]=y [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for TQMX86_WDT
-     Depends on [n]: WATCHDOG [=n] && (X86 [=y] || COMPILE_TEST [=y])
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for RTC_DRV_DS1307
-     Depends on [n]: RTC_CLASS [=y] && I2C [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for EEPROM_AT24
-     Depends on [n]: I2C [=n] && SYSFS [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MMC_SDHCI_PCI
-     Depends on [n]: MMC [=y] && MMC_SDHCI [=y] && PCI [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX
-     Depends on [n]: NETDEVICES [=n] && NET_DSA [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for PHYLIB
-     Depends on [n]: NETDEVICES [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for USB_SERIAL
-     Depends on [n]: USB_SUPPORT [=y] && USB [=y] && TTY [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for DS1682
-     Depends on [n]: I2C [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_BITBANG
-     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for I2C_OCORES
-     Depends on [n]: I2C [=n] && HAS_IOMEM [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
-     Depends on [n]: INPUT [=y] && INPUT_KEYBOARD [=n] && GPIOLIB [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MARVELL_PHY
-     Depends on [n]: NETDEVICES [=n] && PHYLIB [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_GPIO
-     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n] && MDIO_BITBANG [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/pinctrl/renesas/pfc-r8a7791.c:12:
+   In file included from drivers/pinctrl/renesas/sh_pfc.h:12:
+   In file included from include/linux/pinctrl/pinconf-generic.h:16:
+>> include/linux/pinctrl/machine.h:158:50: warning: declaration of 'struct device' will not be visible outside of this function [-Wvisibility]
+     158 | extern int devm_pinctrl_register_mappings(struct device *dev,
+         |                                                  ^
+   1 warning generated.
+
+
+vim +158 include/linux/pinctrl/machine.h
+
+   155	
+   156	extern int pinctrl_register_mappings(const struct pinctrl_map *map,
+   157					     unsigned int num_maps);
+ > 158	extern int devm_pinctrl_register_mappings(struct device *dev,
+   159						  const struct pinctrl_map *map,
+   160						  unsigned int num_maps);
+   161	extern void pinctrl_unregister_mappings(const struct pinctrl_map *map);
+   162	extern void pinctrl_provide_dummies(void);
+   163	#else
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
