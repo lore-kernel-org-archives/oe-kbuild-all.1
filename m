@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714DE3208
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 06:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37D71A2642
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 07:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744871838; cv=none; b=XnYJDE1eHvnkdrGRNtN5CqAJJhqkxFWzMC587J6tTR441z1sbWtOiJShyANEyEHPUWQ+n1MOr8WNwstImB82okgAStkl+akmYGHkZaKGrc1F3OJHcQUUQuIYVjKbej50Cb6CZ87XFQSqEw1vAKgzzzlzWaIMbQh+hD3TQLU6kHY=
+	t=1744875507; cv=none; b=fxYPIA7HhlZiMeuUn2R8gBqcR8M+AAapfsLAQfb3WoFZcbBgpUHDygzW6p9LnlLPh5shK6E9HcGPbOvllUnreFVhzVewfG44gDh8mJzZjZcVn7xGOLQsIstYkXradj4mKOrDsK3wRTB06STX1DWkBlXAG2F3I/E2djuum4GE5ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744871838; c=relaxed/simple;
-	bh=lYj5cnuoOe5nnKW8efOJXWRkxkxdcE05L2ABwC7hzwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OMwCj3sE7O/YIHgUQUy+VftJdz7ye2A3bMRi4GC0FX5oVDOLwoT2FIKahQXQ0c30cNpW6CSDTbbKfubv9A3Ykisr3037ARkJMY3x0kLXpquA9W2XbP6nUDHzIREgCCXkeHge0OSBIe4rqUA8nltU+d/DYWeWFe6Nh/8OkmTCc7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIyYQwBe; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1744875507; c=relaxed/simple;
+	bh=h87+bASu07IQHQH8DQLdiqqHkBZe5S69RV1bCTj8EOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hzj2llAUa59XYKnuT8mh9Ji0Xsieueu0OM7I+rZIAnIAwLTe62dImV2Ij1/ThWD6SL6vQSCYRW3zZZ547D6gQchz/9Frc8I7cAHEkacpzl300AIih5fvi58M2vio22r3hsS6u7JkFrCwCMRLaYDNFDqe1VmA3JurUuf0t6CtCSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kys+Hl54; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIyYQwBe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kys+Hl54"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744871837; x=1776407837;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lYj5cnuoOe5nnKW8efOJXWRkxkxdcE05L2ABwC7hzwg=;
-  b=ZIyYQwBeR/2A/LmSmW/XzpIaORVewbRy1/UdJS6Xv5bokh79NUD1ha1R
-   rmExkAZB5LTtQJt8+OwgytdsHbITd/YdSsIL5iYBjNcXNktvd1xxP5+vL
-   nMDr8Y2ZJCWEVZ1qjjfkwslTm2zqJeMdz56hbsGlKoGk3tIEjmC8zzwwp
-   mvF3K9+aAzm9wTTZRYR1AsbgZGDTFG7Z8JWjBk4x2lWiV2CbQfSFeevHe
-   3PncTKbAkjFSib8K5nM4nlJgGFifr7XvLBlB1c5YwPhhuNJ4Fogrhf9bD
-   Y9WnxwjVjNGChW5bfbogQF0S++YMSr3sDRzjMd7SOXiejbLBxteMWYQGa
-   w==;
-X-CSE-ConnectionGUID: 5rFdqNJ+Rfe3E3EASIhaAw==
-X-CSE-MsgGUID: rvVaBtiVRv+nPfZuXBga0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="56627595"
+  t=1744875506; x=1776411506;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h87+bASu07IQHQH8DQLdiqqHkBZe5S69RV1bCTj8EOY=;
+  b=Kys+Hl54MzgVfAIQlIY7JybsuSUCWffwQ/ACbncAXBNv0dzrP6I72Ajg
+   W115C6Sw9WWu6EpBJUiXby5amEiWS9dRpoO4Qrb7EDdjDH34X8t15zI1q
+   Pxzyp6dk2hw+2T73Rzxf4OVcEdEiXbjYUZuEIGaUluLMuWwwSVsZtpww8
+   aUiVm3c+FQsny7ETvywex8lT+x3AdeOROarVIpmAiQzqVtaq90hUt7uk+
+   QoEuNHpUxzlsZPvfA/unHsYG4Ob0fZ9ibM4BvWdKgR7H7Shtkq8Bo5xra
+   tCaE6pejdzGdKcfK9KGaSP9esjXsKQR8Nu5IqtMmXT0mX8eIvY1BrEjL1
+   g==;
+X-CSE-ConnectionGUID: f+udqFgWRP6Z2IKRPkFK6g==
+X-CSE-MsgGUID: tZ+MaSUpS5ypt2U0ko4Yog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="49146128"
 X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="56627595"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 23:37:17 -0700
-X-CSE-ConnectionGUID: rjcnqMpdTUeAiEyGhdItew==
-X-CSE-MsgGUID: ATpEVh+sQSKHdz+vthI4sw==
+   d="scan'208";a="49146128"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 00:38:25 -0700
+X-CSE-ConnectionGUID: p/1JL2bERuunDjb+nNBeXA==
+X-CSE-MsgGUID: d6kb8W6UTdydZCpXO3MlUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="130665930"
+   d="scan'208";a="134823258"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Apr 2025 23:37:14 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 17 Apr 2025 00:38:24 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5Is4-000Lcq-0b;
-	Thu, 17 Apr 2025 06:37:12 +0000
-Date: Thu, 17 Apr 2025 14:36:47 +0800
+	id 1u5JpG-000Ln2-1Y;
+	Thu, 17 Apr 2025 07:38:22 +0000
+Date: Thu, 17 Apr 2025 15:38:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.15-rc1-next-next-inband 24/24] kismet: WARNING: unmet
- direct dependencies detected for MDIO_GPIO when selected by ZII_RAP
-Message-ID: <202504171448.wB5ORzf5-lkp@intel.com>
+To: Nicolas Pitre <nico@fluxnic.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 02/13] vt: move unicode processing to a separate file
+Message-ID: <202504171521.imk8gOUP-lkp@intel.com>
+References: <20250415192212.33949-3-nico@fluxnic.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,99 +62,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250415192212.33949-3-nico@fluxnic.net>
 
-tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
-head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
-commit: 9e2d85243a79cbf10ea6538b605260e3199fda1a [24/24] platform/x86: Add Zodiac Radio Access Point platform driver
-config: x86_64-kismet-CONFIG_MDIO_GPIO-CONFIG_ZII_RAP-0-0 (https://download.01.org/0day-ci/archive/20250417/202504171448.wB5ORzf5-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250417/202504171448.wB5ORzf5-lkp@intel.com/reproduce)
+Hi Nicolas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-linus]
+[also build test WARNING on linus/master v6.15-rc2]
+[cannot apply to tty/tty-testing tty/tty-next next-20250416]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Pitre/vt-minor-cleanup-to-vc_translate_unicode/20250416-142136
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-linus
+patch link:    https://lore.kernel.org/r/20250415192212.33949-3-nico%40fluxnic.net
+patch subject: [PATCH v2 02/13] vt: move unicode processing to a separate file
+config: arc-randconfig-002-20250417 (https://download.01.org/0day-ci/archive/20250417/202504171521.imk8gOUP-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504171521.imk8gOUP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504171448.wB5ORzf5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504171521.imk8gOUP-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for MDIO_GPIO when selected by ZII_RAP
-   WARNING: unmet direct dependencies detected for NET_DSA
-     Depends on [n]: NET [=n] && (BRIDGE [=n] || BRIDGE [=n]=n [=n]) && (HSR [=n] || HSR [=n]=n [=n]) && INET [=n] && NETDEVICES [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for IGB
-     Depends on [n]: NETDEVICES [=n] && ETHERNET [=n] && NET_VENDOR_INTEL [=n] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for PINCTRL_SX150X
-     Depends on [n]: PINCTRL [=y] && I2C [=n]=y [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for RTC_DRV_DS1307
-     Depends on [n]: RTC_CLASS [=y] && I2C [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for EEPROM_AT24
-     Depends on [n]: I2C [=n] && SYSFS [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX
-     Depends on [n]: NETDEVICES [=n] && NET_DSA [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for PHYLIB
-     Depends on [n]: NETDEVICES [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for USB_SERIAL
-     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && TTY [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for DS1682
-     Depends on [n]: I2C [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for USB_SERIAL_CONSOLE
-     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && USB_SERIAL [=y]=y [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_BITBANG
-     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for USB_SERIAL_FTDI_SIO
-     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && USB_SERIAL [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for I2C_OCORES
-     Depends on [n]: I2C [=n] && HAS_IOMEM [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
-     Depends on [n]: INPUT [=y] && INPUT_KEYBOARD [=n] && GPIOLIB [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MARVELL_PHY
-     Depends on [n]: NETDEVICES [=n] && PHYLIB [=y]
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_GPIO
-     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n] && MDIO_BITBANG [=y] && (GPIOLIB [=y] || COMPILE_TEST [=n])
-     Selected by [y]:
-     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+All warnings (new ones prefixed by >>):
+
+>> drivers/tty/vt/ucs.c:44: warning: Function parameter or struct member 'cp' not described in 'ucs_is_double_width'
+>> drivers/tty/vt/ucs.c:44: warning: expecting prototype for Determine if a Unicode code point is double(). Prototype was for ucs_is_double_width() instead
+
+
+vim +44 drivers/tty/vt/ucs.c
+
+    36	
+    37	/**
+    38	 * Determine if a Unicode code point is double-width.
+    39	 *
+    40	 * @param cp: Unicode code point (UCS-4)
+    41	 * Return: true if the character is double-width, false otherwise
+    42	 */
+    43	bool ucs_is_double_width(u32 cp)
+  > 44	{
 
 -- 
 0-DAY CI Kernel Test Service
