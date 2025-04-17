@@ -1,62 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD888204C2F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 20:49:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D812153D8;
+	Thu, 17 Apr 2025 22:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744922954; cv=none; b=etfpWSWAJ5WKeMoSyt+CpblW6rR3T7kPDi+qW+0Wa0L0pAFJyqTBKwRKqqgcyqUvAeWIWJoOWBb7eOZi9t57pmBDGWt54JUVL5Sp+HiBSnb1ljIrAnenqIF0j9vygwjsx5NIWZ0omlP4uD+N5mv7fHojqIdnIOEZJIy7jOtUBDc=
+	t=1744929085; cv=none; b=shjZyCmW79dP0kSQJ7dLcXuUWhvKuq+ZGZGQSMme9Te1+1TP4B8RYNFHdMiIMkq5Ao86PR53GJAQ2oe2aKFsuAdfO8+n/NTkK/WInwPz0C8WL/jXzAXm3Zn9xfZUXOtWc55pGY5ovCCBVPqNr3LAVUf/DMs3zCEzpfN0ApfKdQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744922954; c=relaxed/simple;
-	bh=DWS07BFjRraNsuTItPweGdB3f9Vke3kxJW4VRMjVaLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nO7NhNseCQsVXadzEQa7NfJmORFpGQGBChBON4DHWW0H8ZAqdHvCPC1YaEBnERn37MIbowW3S0Cnyw8Ge1n+8dS4z8ARkGEZi9Pq2eIcxkBUjQvGevV2dZKexP73wNOnnOW5MB2tOdDPGN8q0EhyKicsq+seUaC9V1sL/A/Wlv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xnr+RMR1; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1744929085; c=relaxed/simple;
+	bh=vn1J2xsoHaKRRR5gEBvbJFfe7rTGH95sSYVPpYSFX1w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qAL3XVq+MsckAZ/sl041vajjZrD/uzj3gKH3p10JhwgWivG91hX2lP66APV0S+Kd5B1FqedRjdL3sZ7UoOpMZT3yLK4oNjl2hy97QAtG/UDuac/MAlM9XqDuvtllS++GQfWINBwqjHjTvysG8HjAxEb2ZeU6H8PIZXA/IlEqO+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DoNSTZ8H; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xnr+RMR1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DoNSTZ8H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744922953; x=1776458953;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DWS07BFjRraNsuTItPweGdB3f9Vke3kxJW4VRMjVaLM=;
-  b=Xnr+RMR1IiOdl9GE2c7E/uVHxKmQysWYvMy+6jmnWyQpCDCnUedDQALy
-   6ZsOs7/y5xn59eQl9jUQSEjah0PbCg4CTaQXSCXu4/6JGARFNT+9/+aC/
-   twyz67Z/JF0lOriFKWrBVo7HJYFCIA+Qs1jypmxOCmWBDXLpI9HXN3w7m
-   KxBFxekisM5NCwdDgVkjIPunpnoyxgvebxCDwQje8xocJV4cjXA5nvDTg
-   lZ+XAIZqKGj+AUHnUBB1wNN78upOKtdxxD1HHWMhhlRtQz7Ik0ZdNLTyp
-   iIGE7WQdcX/qyqr2yInfup/akPg0ExQK/zIput1FsTqV5IBaLomUgRaw5
-   A==;
-X-CSE-ConnectionGUID: sb5Suak0QOewMogmBcD7pw==
-X-CSE-MsgGUID: AtwIrOmvQPi2RZ+SAZ/0KA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="57530197"
+  t=1744929084; x=1776465084;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vn1J2xsoHaKRRR5gEBvbJFfe7rTGH95sSYVPpYSFX1w=;
+  b=DoNSTZ8HOV1rTO83zIRkcKa6DgIEJZ8aIoXAy4xU42srYXCsAtRNPaoI
+   yXhVFQWd7atElrlvoIqh93NY4StQFSS4MGKrbtZzWMU1Ru1cuy66rpz+Z
+   ts4Ght9zM6IEiuMyreLeBg9MVq3SdN9lIEckPZmnNfoCYC1Kflyvuw1CQ
+   MEfBQmA1LNlyFAaI9by0Ksz6lbwVSBqzzwW3u/wSgHUqSHC58/eZs1T3l
+   QlOTsVYJc3Yq1KlDMHfNAxYZkA4R+S4S88KID20fbhcvuiLHkkrCpkTgh
+   kt452Ype6Zi/dcF/62ChqwTOql5tDKEUhVVituDXDlWO4TvC0sWVl4fi4
+   g==;
+X-CSE-ConnectionGUID: b05VWsw+QvaWV3Ma+Raasg==
+X-CSE-MsgGUID: Ep3eg4dtR1Gk5i5jBs4suA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="57916238"
 X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
-   d="scan'208";a="57530197"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 13:49:12 -0700
-X-CSE-ConnectionGUID: xJciFMqlQ/WcBnIzUhhR5w==
-X-CSE-MsgGUID: Vc2zxfXJR1SCxYWyU3pREQ==
+   d="scan'208";a="57916238"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 15:31:23 -0700
+X-CSE-ConnectionGUID: sgPx69gGQUmAcBfh+diB0g==
+X-CSE-MsgGUID: F43qLPHRSEaSbB4nMS+1Sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
-   d="scan'208";a="130772880"
+   d="scan'208";a="130938428"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Apr 2025 13:49:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 17 Apr 2025 15:31:19 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5WAV-00021t-2t;
-	Thu, 17 Apr 2025 20:49:07 +0000
-Date: Fri, 18 Apr 2025 04:48:49 +0800
+	id 1u5XlM-000263-34;
+	Thu, 17 Apr 2025 22:31:16 +0000
+Date: Fri, 18 Apr 2025 06:31:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- DRM_DISPLAY_DSC_HELPER when selected by DRM_PANEL_SAMSUNG_S6E3HA8
-Message-ID: <202504180453.imViKVk7-lkp@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>, dave.hansen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org,
+	Kees Cook <kees@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+	Naveen N Rao <naveen@kernel.org>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>, stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] x86/devmem: Drop /dev/mem access for confidential
+ guests
+Message-ID: <202504180628.qlDJEl1e-lkp@intel.com>
+References: <174491712829.1395340.5054725417641299524.stgit@dwillia2-xfh.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,25 +69,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <174491712829.1395340.5054725417641299524.stgit@dwillia2-xfh.jf.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b5c6891b2c5b54bf58069966296917da46cda6f2
-commit: fd3b2c5f40a1e028bc813284260d430257444334 drm/panel: s6e3ha8: select CONFIG_DRM_DISPLAY_DSC_HELPER
-date:   6 months ago
-config: sparc64-kismet-CONFIG_DRM_DISPLAY_DSC_HELPER-CONFIG_DRM_PANEL_SAMSUNG_S6E3HA8-0-0 (https://download.01.org/0day-ci/archive/20250418/202504180453.imViKVk7-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250418/202504180453.imViKVk7-lkp@intel.com/reproduce)
+Hi Dan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 0af2f6be1b4281385b618cb86ad946eded089ac8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/x86-devmem-Remove-duplicate-range_is_allowed-definition/20250418-031657
+base:   0af2f6be1b4281385b618cb86ad946eded089ac8
+patch link:    https://lore.kernel.org/r/174491712829.1395340.5054725417641299524.stgit%40dwillia2-xfh.jf.intel.com
+patch subject: [PATCH v3 2/2] x86/devmem: Drop /dev/mem access for confidential guests
+config: arc-randconfig-001-20250418 (https://download.01.org/0day-ci/archive/20250418/202504180628.qlDJEl1e-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250418/202504180628.qlDJEl1e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504180453.imViKVk7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504180628.qlDJEl1e-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_DISPLAY_DSC_HELPER when selected by DRM_PANEL_SAMSUNG_S6E3HA8
-   WARNING: unmet direct dependencies detected for DRM_DISPLAY_DSC_HELPER
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=n]
-     Selected by [y]:
-     - DRM_PANEL_SAMSUNG_S6E3HA8 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && DRM_MIPI_DSI [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+All errors (new ones prefixed by >>):
+
+   drivers/char/mem.c: In function 'open_port':
+>> drivers/char/mem.c:604:13: error: implicit declaration of function 'cc_platform_has' [-Wimplicit-function-declaration]
+     604 |             cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
+         |             ^~~~~~~~~~~~~~~
+>> drivers/char/mem.c:604:29: error: 'CC_ATTR_GUEST_MEM_ENCRYPT' undeclared (first use in this function)
+     604 |             cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/mem.c:604:29: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/cc_platform_has +604 drivers/char/mem.c
+
+   586	
+   587	static int open_port(struct inode *inode, struct file *filp)
+   588	{
+   589		int rc;
+   590	
+   591		if (!capable(CAP_SYS_RAWIO))
+   592			return -EPERM;
+   593	
+   594		rc = security_locked_down(LOCKDOWN_DEV_MEM);
+   595		if (rc)
+   596			return rc;
+   597	
+   598		/*
+   599		 * Enforce encrypted mapping consistency and avoid unaccepted
+   600		 * memory conflicts, "lockdown" /dev/mem for confidential
+   601		 * guests.
+   602		 */
+   603		if (IS_ENABLED(CONFIG_STRICT_DEVMEM) &&
+ > 604		    cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
+   605			return -EPERM;
+   606	
+   607		if (iminor(inode) != DEVMEM_MINOR)
+   608			return 0;
+   609	
+   610		/*
+   611		 * Use a unified address space to have a single point to manage
+   612		 * revocations when drivers want to take over a /dev/mem mapped
+   613		 * range.
+   614		 */
+   615		filp->f_mapping = iomem_get_mapping();
+   616	
+   617		return 0;
+   618	}
+   619	
 
 -- 
 0-DAY CI Kernel Test Service
