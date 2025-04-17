@@ -1,106 +1,157 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0830C188734
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 13:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E167188734
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 13:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744896052; cv=none; b=lWHOUnvpOjXPaX1dse3RdnBJeSUf/0gs3YqUN4N04QboUWdfz4nAPKUVsUcdeXmQ5/hyb1JbLe/6yScylagL89KIFm/rvkvtsaSUZKGVv4ajHgxhQ9CoHudFEwdS9fX4V8YiNbIUSA60qTsPIBPjehosU2TbxrAFFJrYNY9Ut4Q=
+	t=1744896092; cv=none; b=K4UvYxazkaP3Nt6+WKty6cik48UdUqzSI6Eg3VaGPh4HOAmUzGYYv38cpVlxa2/XTcBce3xYqXqALtOPS9Q/bOgs84QzMZ73wYH2J4jj/3opXN9yCwcgemqXlZ1nq1wXFFliiDkwi6PQsoXYLQEMMwFXGSjr4iRL2uyebDBtDgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744896052; c=relaxed/simple;
-	bh=jnqj7AFgnxaBhK/OXRBhpGpDjimte4JIWt5zeOvCHCw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pjN2npYo8aPVJ4Y8IvvvkA2jQKoRUo70yWhUpOIP3LTE8MDKcppnRNP+Fq/M0or0S/A1llmr9b4TYISJln/cHYG8AUDyYS5vQe0tfZKU8hbWByc3eEibLhoq5d/1Bw5qHrzzeNUJTahmLxdVO0bK4lPpTGHp3YNjm1ViY5uZ7ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yBtxQtUx; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744896092; c=relaxed/simple;
+	bh=nW+9PLEJWNPezWRrl64YLu1Y1K5JzQOGuENcTwnZuWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LYv0lpUF8CMQomsgDfHEoH1u43Jr0KT9piy5wnINAmknL549oJir7vgnIIS0OFqQMaDlWrTeSoYr6WJ5OAzgqYg8eiPkfp4LAopZrrcrdKYpKfaPQcf/7zLkoCQMpMAwHzN4u3uylH13ESm17Iq6NknG8qA771lq+m/ZJFOuJxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6gDW3RK; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yBtxQtUx"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5e5dce099f4so969960a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 06:20:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744896048; x=1745500848; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3fNWc/pZCct0mYjTkt6bs0QfgoLsezjQ+6eDCuw5lGY=;
-        b=yBtxQtUxjAeh8fIAgjJDDddB4/TkTp10F17T3OQa1xvB9rG+ZyevaMrLWp72Po2s2M
-         HeLhz138OUCsLtIXZdoUVr9KNIN7oQzxY4diVKUAUjdutR9vmbZt40dkNlZtaaHiOQ0/
-         DggESXs/Gd1PqecNxsR5qzKB99s9gzrlqmVGWty5AQUK8aHP+fbxyNGmETmAAFBWjQme
-         Vj0MWJlSgnp2KAbCujK+klOGrunuNo+IUK3f9zDsijwqbH0hOb8PMOSV0/gx01S1TciO
-         us/0McDHNAHjh9guHoTIhaNzGXn0UhvYXNO7EfmXmEi7wiyBckaoiQyEmoxkxWgRn1Yd
-         XG+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744896048; x=1745500848;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3fNWc/pZCct0mYjTkt6bs0QfgoLsezjQ+6eDCuw5lGY=;
-        b=BHrMHIsh2SKJl03hTCsl9o83IUbWVpk5CMykyJPreL36FUTLeCP3ALb+o/9AigdmUr
-         eLv1iSw1Zj+Z7qiFuAHqfAqaSCrysOc2rUUIECyuEETWYOM5D2NkBOOwrrgXPaIa41JN
-         sSHRfW/IKmL6JRNXuh9tsOsyrWLYmTej4pRMrfToQfLOr+on/wbWVbdgyccI+KFnWGHs
-         cTlH+PCrL/mSsRf5+EUxljaHyFYTt/9NX+pVnT34vW6goKQeGjDr5W/jXAEvwwEf7DUV
-         mRIjYvOPx8waGCgvhblhDrNaeFM2To2eTleciTikAVxVS01W2oKoR/Vo4xw7/WIEjjrI
-         D9Gw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5ij5Su3y9suWLAMUep3uUr8hUECQHzGw10OLYL6Y7KU19rarbbtmzwlnoVlv9gWKrGP4FJqRjQYSxB1VQ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw826RZDAF629iI7YTqKbDSelK7bXEIgoKQ9J8mgT1rivJjJJsx
-	kfm6bNfH9AnN6d5o2HGvRtF5kikuZEsh4NsiVYDRI+ShVA72t+eS6h0Gijd43Dkoy8x22kYwZhq
-	1U5gBZwfPwz4IvLYVpHMudIksovGjF7/g7t2tig==
-X-Gm-Gg: ASbGncsMJuMT7wX4HcKw9Znek0HF7H86sBEqgU94vQBfY013/BkaZEWNcgINbvvgqEc
-	7FaXYeG9YVUInmAnTBNV9NKI46MlMUPgumhYRahzyHV8qtdTJhSM1PIouHHx1V2v4CZXEgoXJRX
-	AvPu40uDaO0BRY5O+zgF6Ih1rCdzNc5PQIRU7jTqIdYJ+giGY22WHljAQ=
-X-Google-Smtp-Source: AGHT+IF/XGZMdEbyV8STjZkrPYwpJAqWOdT4wpm0VqA2q6Y1+t51bywOrhtFvxpky7HoJViQWi0ovzZd740seNUOkT8=
-X-Received: by 2002:a17:907:97d4:b0:acb:6686:4cb8 with SMTP id
- a640c23a62f3a-acb66865b99mr121722866b.60.1744896048162; Thu, 17 Apr 2025
- 06:20:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6gDW3RK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744896089; x=1776432089;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nW+9PLEJWNPezWRrl64YLu1Y1K5JzQOGuENcTwnZuWY=;
+  b=n6gDW3RKUp3mJEMD1zD0OgIM185D5IkvTqiSGOizs9ksKpDZcKIPpV0k
+   B8l2CcB0DalHJM0p2quiJOkZVdq9vtP9TbqYssOBnIBd+U7dzFRRNsctt
+   dqxb1XAbR1DNcXeJL1JKOsteC9+NqXWtG8wL/Cauag+J5FHHxsLjgAcxq
+   oUpFJL6cIwe6bUSelmdHQy0BqxLKZbTcgaYv0RO2yVdCtcdiDNNt9rnws
+   OiSJnQTpe2IAmbWKbBYhOGdw0PAi9hcBMCj9ZNSjmtjNA5h5T6Npu+pbD
+   3npd0ZrQDYw2mdb8qYs/M6hoX9nTy6/FEL3gB8ubWgAk1HceuAz1s8xM5
+   A==;
+X-CSE-ConnectionGUID: rYe4NoMGTbyQ9FpoX66a9Q==
+X-CSE-MsgGUID: vjkwVbMmQzuvbH6jQ+ydUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="56668694"
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="56668694"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 06:21:28 -0700
+X-CSE-ConnectionGUID: /JB9ZsQpSoKtw4wAB4Adag==
+X-CSE-MsgGUID: FSuVXzhoSzOS6V6ticGN1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="161839594"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 17 Apr 2025 06:21:27 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u5PBE-000MoE-1G;
+	Thu, 17 Apr 2025 13:21:24 +0000
+Date: Thu, 17 Apr 2025 21:20:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.15-rc1-next-next-inband 24/24] kismet: WARNING: unmet
+ direct dependencies detected for NET_DSA_MV88E6XXX when selected by ZII_RAP
+Message-ID: <202504172134.YnHMA4Mh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202504172017.4RgIYyN3-lkp@intel.com>
-In-Reply-To: <202504172017.4RgIYyN3-lkp@intel.com>
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Date: Thu, 17 Apr 2025 15:20:36 +0200
-X-Gm-Features: ATxdqUHBjkbLdu2CyzK8fJOMjXIxG62qky88Kh9oEQ_r-YB1bwy10M1lmybsKqU
-Message-ID: <CACMJSeuRUrWHV9PMHOOvXGw9QFQ=vp5VX7iubdf_SEZu_DH3hA@mail.gmail.com>
-Subject: Re: [linux-next:master 4503/4779] kismet: WARNING: unmet direct
- dependencies detected for MFD_STMFX when selected by PINCTRL_STMFX
-To: kernel test robot <lkp@intel.com>
-Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>, 
-	oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 17 Apr 2025 at 14:49, kernel test robot <lkp@intel.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   bc8aa6cdadcc00862f2b5720e5de2e17f696a081
-> commit: 90d80a3dc4fb24446d9d423c1c8967a63f136b0b [4503/4779] gpio: tb10x: enable building the module with COMPILE_TEST=y
-> config: x86_64-kismet-CONFIG_MFD_STMFX-CONFIG_PINCTRL_STMFX-0-0 (https://download.01.org/0day-ci/archive/20250417/202504172017.4RgIYyN3-lkp@intel.com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20250417/202504172017.4RgIYyN3-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504172017.4RgIYyN3-lkp@intel.com/
->
-> kismet warnings: (new ones prefixed by >>)
-> >> kismet: WARNING: unmet direct dependencies detected for MFD_STMFX when selected by PINCTRL_STMFX
->    WARNING: unmet direct dependencies detected for OF_GPIO
->      Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
->      Selected by [y]:
->      - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
->
->    WARNING: unmet direct dependencies detected for MFD_STMFX
->      Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
->      Selected by [y]:
->      - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y]
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
+head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
+commit: 9e2d85243a79cbf10ea6538b605260e3199fda1a [24/24] platform/x86: Add Zodiac Radio Access Point platform driver
+config: x86_64-kismet-CONFIG_NET_DSA_MV88E6XXX-CONFIG_ZII_RAP-0-0 (https://download.01.org/0day-ci/archive/20250417/202504172134.YnHMA4Mh-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250417/202504172134.YnHMA4Mh-lkp@intel.com/reproduce)
 
-I guess I'm in the process of finding out why these were never
-compile-testable in the first place. Dropping this one as well.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504172134.YnHMA4Mh-lkp@intel.com/
 
-Bart
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX when selected by ZII_RAP
+   WARNING: unmet direct dependencies detected for NET_DSA
+     Depends on [n]: NET [=n] && (BRIDGE [=n] || BRIDGE [=n]=n [=n]) && (HSR [=n] || HSR [=n]=n [=n]) && INET [=n] && NETDEVICES [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for IGB
+     Depends on [n]: NETDEVICES [=n] && ETHERNET [=n] && NET_VENDOR_INTEL [=n] && PCI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for PINCTRL_SX150X
+     Depends on [n]: PINCTRL [=y] && I2C [=n]=y [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for RTC_DRV_DS1307
+     Depends on [n]: RTC_CLASS [=y] && I2C [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for EEPROM_AT24
+     Depends on [n]: I2C [=n] && SYSFS [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX
+     Depends on [n]: NETDEVICES [=n] && NET_DSA [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for PHYLIB
+     Depends on [n]: NETDEVICES [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for USB_SERIAL
+     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && TTY [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for DS1682
+     Depends on [n]: I2C [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for USB_SERIAL_CONSOLE
+     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && USB_SERIAL [=y]=y [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MDIO_BITBANG
+     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for USB_SERIAL_FTDI_SIO
+     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && USB_SERIAL [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for I2C_OCORES
+     Depends on [n]: I2C [=n] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MARVELL_PHY
+     Depends on [n]: NETDEVICES [=n] && PHYLIB [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MDIO_GPIO
+     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n] && MDIO_BITBANG [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
