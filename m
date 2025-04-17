@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98922153DA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 22:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4B321D3E9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 23:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744929748; cv=none; b=XodfWLT/EUYEoTwdwdErg0O6C14Dw0BkwWUNONCndI9MxUVKzozrX7pyAjzGnXHzk5M5eJxCPrSi2T09EE19WpiEyrFp62VDknr/wN0ag5SQx3SrKsTPy6N+0Vf2Yr1PrsTMHyN3Va3kOmXfVuPseXkY6oW56dCK0W5gahBuZdM=
+	t=1744931005; cv=none; b=eoYxoJfx4OXZBd/CTC2s7kcojN7jhtunq38HTQiu63kyVUnrlc7nbRTmOyI6RmaxOPnqJyKEDUJ2WOa6gRqH+A/rgs69L9PWBp8NycEO1cgF5Oe+oLnbR177VwdbKSLu1tkV576bX1uDN9O1XU0NJ8ghtJvciD+Wk0ODoKHQyBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744929748; c=relaxed/simple;
-	bh=YDWEGoNHBUhIZFwF/urN0AH2iSSYRaioayA7wSQhW8E=;
+	s=arc-20240116; t=1744931005; c=relaxed/simple;
+	bh=dcp2mpt5rEGfp0nyHh3/NthK4mjAKLuvgJJ4VHIeOlo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fa+DwabUew0MqBW0XhfDZDhLRVFH1S88MwzWwmaPXHeo615VInHA8SRDFYwL6He0fgq7LgevgsXXPXoGrhXkHBNT5SR3xVjHLTDF8hn2fQ8Id4SPFm8gF7sIIgwKqTCIwoCk6EebVV2LB2317ytrG5pAgYp/HejVXTSGXZaVDso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D9jhkRuS; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=CF2hY/z+YocNqYzt6i5f24ofKSF+q50V3LbfZXpBuBiuwFMI+/POTqgD5tIxT6q31Cv5tkeTV//E9Gv9SA2BT838rSjTmZK64jprEcWq0c55Sw8N3mHTMIIic7/tZ0M3bP2Q9WlwSVmjWW2JBRSES9BsgDox3b3FaV5bIOT7/wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lb52Bclh; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D9jhkRuS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lb52Bclh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744929744; x=1776465744;
+  t=1744931004; x=1776467004;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YDWEGoNHBUhIZFwF/urN0AH2iSSYRaioayA7wSQhW8E=;
-  b=D9jhkRuSbLVgSn8lPv4Vuq18ag3ulYMGuWurk6XRiasSiybol/qGmvb7
-   lHfsLI/MVmN266RdqyUVfKtrf6xzdIYUWCzCO/O2gFPxo7bDBQwT4NGe/
-   iH3x0VKpew1XEXaOv0fZE2WhyQtQyx5/gIv4D2Za/IFzXGXrnbPSdDMZP
-   G+RT5FZkZKAEslDiCuoPhhYwVpscc0LFpYoj86BwRecZUPY8y96BdcIvT
-   JDNTgVbqogHDy2kV75zhaql/SvTjYkuQlivMqveocvK4WqtDqo6H7UqCy
-   WhR4g72dw5q2DoJ9cJ+CxH7Hury2UOOY9ITMuaYox95VPM0Zlc8Fj+0jy
+  bh=dcp2mpt5rEGfp0nyHh3/NthK4mjAKLuvgJJ4VHIeOlo=;
+  b=Lb52BclhZdiNMXxgEF4A+irFPTa2KXJNgJmuaH3MZJC8LX4EqdTlHPot
+   Pxhrai4R/e9M3p9PM2Of7MkJfYvnXyg0Hs7flqS7jO/ePW/Hx/2sOp2Cr
+   Zg5co56i5NX5qRGNt3KqrivmoUhizyOUAwBI94E/uuw4iuYqndcKrBzSl
+   ED7WuJcapLDG/nvtE9tgmWryVhkIgeHCcia9NxqU6zD/SVuGDZx2gka5D
+   QtqsH1eRTWO8+W/AqDVu1M554dvdpSBLMVG8qUV2z6jmrn4dv4GWlUv6F
+   TTbsf31fqN0vvi285SV/UV45ydlHl3ItKQ38vXJfjSlqutcRyWLcTKW8a
    Q==;
-X-CSE-ConnectionGUID: Av/bSc6JQCOGS7OIPlfKZw==
-X-CSE-MsgGUID: obF22DPbQdOxTNi9zATJFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="46554801"
+X-CSE-ConnectionGUID: vJ5LPmABTfOMcGTEjh1B9g==
+X-CSE-MsgGUID: OXJsBLtKSAOTdzPdHUWPLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="64091143"
 X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
-   d="scan'208";a="46554801"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 15:42:22 -0700
-X-CSE-ConnectionGUID: fhzOiFPuTzyCJx3D1EvZyA==
-X-CSE-MsgGUID: /Be+CfOmToGP47zlqLbNFQ==
+   d="scan'208";a="64091143"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 16:03:23 -0700
+X-CSE-ConnectionGUID: dNHDn2LYSB+AEHazRQVxuw==
+X-CSE-MsgGUID: Q0dU3UktQcO9WotAbvpdUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
-   d="scan'208";a="136056775"
+   d="scan'208";a="130913329"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Apr 2025 15:42:20 -0700
+  by orviesa010.jf.intel.com with ESMTP; 17 Apr 2025 16:03:22 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5Xw2-000275-0D;
-	Thu, 17 Apr 2025 22:42:18 +0000
-Date: Fri, 18 Apr 2025 06:41:34 +0800
+	id 1u5YGN-00027z-1z;
+	Thu, 17 Apr 2025 23:03:19 +0000
+Date: Fri, 18 Apr 2025 07:02:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuquan Wang <wangyuquan1236@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 3890/4528] drivers/acpi/numa/srat.c:467:13:
- error: implicit declaration of function 'numa_add_reserved_memblk'
-Message-ID: <202504180647.e3VdYsTZ-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1365/1365]
+ drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
+ functions is not needed.
+Message-ID: <202504180610.JUm54wLX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,80 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bc8aa6cdadcc00862f2b5720e5de2e17f696a081
-commit: 8579eee90756b972a13ef678848c49eabb99f3b6 [3890/4528] mm: numa_memblks: introduce numa_add_reserved_memblk()
-config: loongarch-randconfig-001-20250418 (https://download.01.org/0day-ci/archive/20250418/202504180647.e3VdYsTZ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250418/202504180647.e3VdYsTZ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   c61927b921388695af91d0e58b8709040ed6cb17
+commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [1365/1365] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
+config: x86_64-randconfig-102-20250103 (https://download.01.org/0day-ci/archive/20250418/202504180610.JUm54wLX-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504180647.e3VdYsTZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504180610.JUm54wLX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
 
-   drivers/acpi/numa/srat.c: In function 'acpi_parse_cfmws':
->> drivers/acpi/numa/srat.c:467:13: error: implicit declaration of function 'numa_add_reserved_memblk' [-Wimplicit-function-declaration]
-     467 |         if (numa_add_reserved_memblk(node, start, end) < 0) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+vim +614 drivers/acpi/cppc_acpi.c
 
-
-vim +/numa_add_reserved_memblk +467 drivers/acpi/numa/srat.c
-
-   427	
-   428	static int __init acpi_parse_cfmws(union acpi_subtable_headers *header,
-   429					   void *arg, const unsigned long table_end)
-   430	{
-   431		struct acpi_cedt_cfmws *cfmws;
-   432		int *fake_pxm = arg;
-   433		u64 start, end, align;
-   434		int node;
-   435		int err;
-   436	
-   437		cfmws = (struct acpi_cedt_cfmws *)header;
-   438		start = cfmws->base_hpa;
-   439		end = cfmws->base_hpa + cfmws->window_size;
-   440	
-   441		/* Align memblock size to CFMW regions if possible */
-   442		align = 1UL << __ffs(start | end);
-   443		if (align >= SZ_256M) {
-   444			err = memory_block_advise_max_size(align);
-   445			if (err)
-   446				pr_warn("CFMWS: memblock size advise failed (%d)\n", err);
-   447		} else
-   448			pr_err("CFMWS: [BIOS BUG] base/size alignment violates spec\n");
-   449	
-   450		/*
-   451		 * The SRAT may have already described NUMA details for all,
-   452		 * or a portion of, this CFMWS HPA range. Extend the memblks
-   453		 * found for any portion of the window to cover the entire
-   454		 * window.
-   455		 */
-   456		if (!numa_fill_memblks(start, end))
-   457			return 0;
-   458	
-   459		/* No SRAT description. Create a new node. */
-   460		node = acpi_map_pxm_to_node(*fake_pxm);
-   461	
-   462		if (node == NUMA_NO_NODE) {
-   463			pr_err("ACPI NUMA: Too many proximity domains while processing CFMWS.\n");
-   464			return -EINVAL;
-   465		}
-   466	
- > 467		if (numa_add_reserved_memblk(node, start, end) < 0) {
-   468			/* CXL driver must handle the NUMA_NO_NODE case */
-   469			pr_warn("ACPI NUMA: Failed to add memblk for CFMWS node %d [mem %#llx-%#llx]\n",
-   470				node, start, end);
-   471		}
-   472		node_set(node, numa_nodes_parsed);
-   473	
-   474		/* Set the next available fake_pxm value */
-   475		(*fake_pxm)++;
-   476		return 0;
-   477	}
-   478	
+   576	
+   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
+   578	{
+   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
+   580		int parsed_core_num = 0;
+   581		int i, ret;
+   582	
+   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
+   584		if (!cpc_pptr)
+   585			return -ENOMEM;
+   586		for_each_possible_cpu(i) {
+   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
+   588			if (!cpc_pptr[i]) {
+   589				ret = -ENOMEM;
+   590				goto out;
+   591			}
+   592		}
+   593	
+   594		/*
+   595		 * We can not use acpi_get_devices() to walk the processor devices
+   596		 * because some processor device is not present.
+   597		 */
+   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
+   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
+   600					  cpc_pptr, (void **)&parsed_core_num);
+   601		if (ret)
+   602			goto out;
+   603		if (parsed_core_num != num_possible_cpus()) {
+   604			ret = -EINVAL;
+   605			goto out;
+   606		}
+   607	
+   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
+   609	
+   610	out:
+   611		for_each_possible_cpu(i) {
+   612			cpc_ptr = cpc_pptr[i];
+   613			if (cpc_ptr)
+ > 614				kfree(cpc_ptr);
+   615		}
+   616		kfree(cpc_pptr);
+   617	
+   618		return ret;
+   619	}
+   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
+   621	
 
 -- 
 0-DAY CI Kernel Test Service
