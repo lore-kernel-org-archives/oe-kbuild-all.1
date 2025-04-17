@@ -1,61 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C94221F27
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 23:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046A82222C9;
+	Thu, 17 Apr 2025 23:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744932269; cv=none; b=rbDMm6qwurmB8+AOrOrZzupKJp5zmc8VGWtY+kOiTDuJnfskkf2Xco1G4p4ROcih/OuTc8Vaj3H0vwDSe8JZHrHuKZhyXec/DdbRek7owzLCS84nr5LG825b5CDHXnVrCEwowkjhmoTsmlRdg3JmkpPeI037nLKebrWAJesRkRQ=
+	t=1744932270; cv=none; b=LhZproJeU5Fv6IA4qvrHg4RdiQL4WD9cvK3DLr5k/xjMg/CxVSlFgVPuttYiSCa6pUB/qQjpTwnkPe5/J/Eu6CM2zeRUAQBJaNCEKLgb/h6cy5aYGZKR2WIqG6ojQ+pHeclo6hcbAhcmMNqKC3z2rgCdsL6grQllgYQvcqDAV1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744932269; c=relaxed/simple;
-	bh=LVB4K61Okq2DCpxQQL3mSym452Hu3Q9iiD1jWTm3WPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mkVSK0cqCnvM+A1y1H6j1pKE8lpzrngIMOX4y44+4piz3Ab57aOngbG3HrS5oC46APvsxrWc/BPew35DniV929x22Fqnji7qcM9CxfJu4+k/GWVwe+riVtrZgcrTGJGX14rcxqkrtw012XtQrtPTCZgAY+PgxqjP6Bf3+2mPnbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMFLrH/0; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1744932270; c=relaxed/simple;
+	bh=XSxVGP9hXVpNkJP08GtFCM1fYw8yyPnJUvg/EHoHTiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DLWaFUnpUVm7gFUL3Mwc1pWaCXmyCUGbjMTYWNgxKNfSvi/18TWnOaaa7XZUuoDKaBE5b744+tozJ/HWdhVfcuNRcUaRGGlrmhejblydJIlteMhRcCxKj/i/LoiPqIiYRzqPLJmdND+ajv0FT6x2634t70E4ntuxzWtpIMXpsLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hBqFNuiq; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMFLrH/0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hBqFNuiq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744932267; x=1776468267;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LVB4K61Okq2DCpxQQL3mSym452Hu3Q9iiD1jWTm3WPg=;
-  b=EMFLrH/0mOjSa9TualCpoE/e7lr0qIJDHhAHGsEDv6EnlwLDZYlQpxog
-   j3qIYLRJX2SIIWgANWw7fqNYyF4DGgchuYcR3yCKYBw2S/MetcrXzGekz
-   grPMCpsQ8AqphGWrPHVnLiyM2qL/K07g9iBxZgoQB3AF5nnrMAa4yzxS3
-   w4kAWv4SMq+UuOp53USL9ZMVCGAgGoHoj2N1TO8REgkomrnBl7Td72601
-   Uq/QhU8oSNFxiym3w6JFnptgG4+IBNqEyyq7yWgV8wI+QjApPoy5U6s50
-   IQBoL+9KWo2oDZewsh8teLg/0eni5yUfePcDYggg0PsfUvM+mXXgtZThk
+  t=1744932269; x=1776468269;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XSxVGP9hXVpNkJP08GtFCM1fYw8yyPnJUvg/EHoHTiU=;
+  b=hBqFNuiqOqQaeLyLd/CaTUQMWcVSH4BqaSL4Fo7BllnVuu++geefioR9
+   L43l7Oz3OHo2vdxdigerH+yHR1hfAbVxIBadCgLrIqx41mk6ZO5ohU1zf
+   cQioqwEO+O1nmWwf54Y741CQ2fZBFOF/JlAlFQQUrYKibzoTkqcpbRmQV
+   aigLiN3dOx0GWxffIhokugPdtguElhMqZcu6q7zgJlidYhPTpdFKyj/1C
+   gL2krJhWIIMPm76YxjaioFWv2FVXyw0H8jAzLxFmdHJdQR7Ax/gxqTCqY
+   AcJHYdkUJSyjskBpQXoKEzxa9PAMv654Vgc28mos9uR1ottVz7K4K9BAx
    Q==;
-X-CSE-ConnectionGUID: +O0SIf4zQMKlWCsBdxpf8g==
-X-CSE-MsgGUID: 6wPr496PQkCmUc/7Izn7AA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="57201271"
+X-CSE-ConnectionGUID: qMRWpPzVTK6V4ihA8om5mg==
+X-CSE-MsgGUID: NFuRoPZ1Qa6Sb6ahWquoYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="57201282"
 X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
-   d="scan'208";a="57201271"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 16:24:25 -0700
-X-CSE-ConnectionGUID: FnFMHoOzQ/uAyj3c5X5L9w==
-X-CSE-MsgGUID: EdlPYNi2SnyAWQsupUQXaQ==
+   d="scan'208";a="57201282"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 16:24:27 -0700
+X-CSE-ConnectionGUID: VVnFoNmLSI+U+iizbdNHgg==
+X-CSE-MsgGUID: e9noRkXTQo+bCoQEGNHJkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
-   d="scan'208";a="135812897"
+   d="scan'208";a="161920270"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Apr 2025 16:24:24 -0700
+  by orviesa002.jf.intel.com with ESMTP; 17 Apr 2025 16:24:23 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5Yaj-00029L-1l;
+	id 1u5Yaj-00029N-1p;
 	Thu, 17 Apr 2025 23:24:21 +0000
-Date: Fri, 18 Apr 2025 07:24:19 +0800
+Date: Fri, 18 Apr 2025 07:24:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Hellwig <hch@lst.de>
-Subject: ERROR: modpost: "_restfpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
- undefined!
-Message-ID: <202504180705.qHltmHZ7-lkp@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>, dave.hansen@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, x86@kernel.org,
+	Kees Cook <kees@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+	Naveen N Rao <naveen@kernel.org>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>, stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] x86/devmem: Drop /dev/mem access for confidential
+ guests
+Message-ID: <202504180754.vQCz7zWh-lkp@intel.com>
+References: <174491712829.1395340.5054725417641299524.stgit@dwillia2-xfh.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,137 +69,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <174491712829.1395340.5054725417641299524.stgit@dwillia2-xfh.jf.intel.com>
 
-Hi Samuel,
+Hi Dan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b5c6891b2c5b54bf58069966296917da46cda6f2
-commit: a28e4b672f042eb38d9b09f9d1fdf58c07052da4 drm/amd/display: use ARCH_HAS_KERNEL_FPU_SUPPORT
-date:   11 months ago
-config: powerpc64-randconfig-r112-20250417 (https://download.01.org/0day-ci/archive/20250418/202504180705.qHltmHZ7-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250418/202504180705.qHltmHZ7-lkp@intel.com/reproduce)
+[auto build test ERROR on 0af2f6be1b4281385b618cb86ad946eded089ac8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/x86-devmem-Remove-duplicate-range_is_allowed-definition/20250418-031657
+base:   0af2f6be1b4281385b618cb86ad946eded089ac8
+patch link:    https://lore.kernel.org/r/174491712829.1395340.5054725417641299524.stgit%40dwillia2-xfh.jf.intel.com
+patch subject: [PATCH v3 2/2] x86/devmem: Drop /dev/mem access for confidential guests
+config: arm-randconfig-004-20250418 (https://download.01.org/0day-ci/archive/20250418/202504180754.vQCz7zWh-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250418/202504180754.vQCz7zWh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504180705.qHltmHZ7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504180754.vQCz7zWh-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-abt-y030xx067a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-innolux-ej030na.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/gm12u320.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi-avmm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/BusLogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/uapi-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/packet-serdes-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_tcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/chipidea/ci_hdrc_msm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-goldfish.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-tps65910.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/hfcmulti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/mISDNinfineon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/w6692.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/netjet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/mISDNipac.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/mISDN_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/l1oip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
->> ERROR: modpost: "_restfpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_restfpr_26" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_restfpr_22" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savegpr1_27" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savegpr1_25" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_restfpr_28" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savegpr1_29" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savefpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_savefpr_22" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "_restfpr_15" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-WARNING: modpost: suppressed 56 unresolved symbol warnings because there were too many)
+>> drivers/char/mem.c:604:6: error: call to undeclared function 'cc_platform_has'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     604 |             cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
+         |             ^
+>> drivers/char/mem.c:604:22: error: use of undeclared identifier 'CC_ATTR_GUEST_MEM_ENCRYPT'
+     604 |             cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
+         |                             ^
+   2 errors generated.
+
+
+vim +/cc_platform_has +604 drivers/char/mem.c
+
+   586	
+   587	static int open_port(struct inode *inode, struct file *filp)
+   588	{
+   589		int rc;
+   590	
+   591		if (!capable(CAP_SYS_RAWIO))
+   592			return -EPERM;
+   593	
+   594		rc = security_locked_down(LOCKDOWN_DEV_MEM);
+   595		if (rc)
+   596			return rc;
+   597	
+   598		/*
+   599		 * Enforce encrypted mapping consistency and avoid unaccepted
+   600		 * memory conflicts, "lockdown" /dev/mem for confidential
+   601		 * guests.
+   602		 */
+   603		if (IS_ENABLED(CONFIG_STRICT_DEVMEM) &&
+ > 604		    cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
+   605			return -EPERM;
+   606	
+   607		if (iminor(inode) != DEVMEM_MINOR)
+   608			return 0;
+   609	
+   610		/*
+   611		 * Use a unified address space to have a single point to manage
+   612		 * revocations when drivers want to take over a /dev/mem mapped
+   613		 * range.
+   614		 */
+   615		filp->f_mapping = iomem_get_mapping();
+   616	
+   617		return 0;
+   618	}
+   619	
 
 -- 
 0-DAY CI Kernel Test Service
