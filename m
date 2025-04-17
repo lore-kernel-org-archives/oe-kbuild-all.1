@@ -1,62 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C9711CA0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2447864A98;
 	Thu, 17 Apr 2025 02:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744857089; cv=none; b=Ou5FgMuWw5uLnCHgyKoKSwBx8iqCbDTGD88jksPCvEBjTJ8vek93cU3o6SwMpuNYe6edNjSM3ur6zMKi9Dzf1tRB2whSeME8B+Qhyc++NStn7c7tEXEpI5uvrYOhDEGna1LYwhpG3yJX2+TRTZ/0FsX/GoLSZorIJ1jakHLZP5U=
+	t=1744857090; cv=none; b=b+E4sU0WmHzTdf1L9BEyszUNgMGJYw1sZ3Tujk/ZoPX3yZ9NaHmo3/jV7XmtSoKpTSaT3EpOY5waxdTYbBUsjJMVcy3rZicdDom+tjzWHX4+ix668pUgkMXCYmpv2mYSCfC/LqXWZbVmKWjWceb02kPU5kkKQ3bvQ9Q++qXDX6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744857089; c=relaxed/simple;
-	bh=96aa4zrzQyGbRlohl9jdB2X82yywOyIXDiPDv8MILe4=;
+	s=arc-20240116; t=1744857090; c=relaxed/simple;
+	bh=RuTtooDYoMbsdrtm8qNmd5HQ+945cpWtQ0qTs88NgxE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxQSZPizytQBfTpm3QuboaABZCRI4vJrThny59Pt/UXVOvOQ8Q1fFGNul4IXxOjxG8frYm1lMdduXNH0/F5f5DEgTcCG2hHTDj3auELbe/2vvBytNrxviqKucXXwP5wfkjyC+jo73tMaqrON/wDRe/snLSI8qltEGxXQ7+1FtCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jn6ducpr; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z37YiLaOt4L8Qw7eA5sOP5OT1j/+7UWhjLeFjlc8qfj5ITSeJBtF/TeqwSqujb41kQUUjnsXMNnHv4KwaJ9vW4Y6gOaQ57u6wwwv89kuq6Y9K7dl6TbXwr4e58xN1nERhPXxZhqrWrIMPrV/52fiQ3xY0zfQE1hKI2vEi3K+PbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKj2hXhR; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jn6ducpr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKj2hXhR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1744857088; x=1776393088;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=96aa4zrzQyGbRlohl9jdB2X82yywOyIXDiPDv8MILe4=;
-  b=Jn6ducprHU/U/nvH7z/sG7GRJ491IfBXCOG+CN8DtuxYYGtkKZdnYMlp
-   I54v5ZojXIH4cg1gcvcQdmjDNujpKi2MNRMrfn3RQcB7sFD30T/C4jPwI
-   Pm2mqHfoyLEXfVXAy1x0T1zDD9HrSzxlp1FElRPBMIpAzH6WcEEva7mFy
-   isZ54Ux1R6ZuFRUnKgSAU21jRbN2o4fNtwzoKDigz/eq7wuIUeHy+EyGH
-   xakwF1j3Gon6P7Kz5es4i+HQ2gmCjXxbBsWCVHldweY0Gja8ryaXpglA0
-   0OaPrE2IyOFu4DxLbAuxF8WjbfQj+VpHw2Vj1QgLV8BY9Bz65a2nXClBY
-   g==;
-X-CSE-ConnectionGUID: nGmHlO8ES++aTTK8qNZlLA==
-X-CSE-MsgGUID: PS1Ilv0OSEyU/sYbvKDzNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="45661969"
+  bh=RuTtooDYoMbsdrtm8qNmd5HQ+945cpWtQ0qTs88NgxE=;
+  b=hKj2hXhR+hOh7IrroeAwmpA2r5z3zxnAmzjxyByWNQ16tPdDh42yc/w9
+   /4lP8/T0i3ST55e+9tW/+/nuSdA0Rn4viPqiHyakgjuwfB0Cc8gwEyooC
+   HRNNZS48erJaJOj6fuicE5XPbgxxItHgsKowOlP+I3Q5a7JKMlWi8I+hN
+   CD6OVc/w1/mLEWpChISqWLwqiJHFHe+3ugLjEMH1VEkzQxFseGUsAH2cC
+   n8B79ptKgwwXo/c57ICS5LljxpU/SF7b6bRFNOepal5gF5eFLmGdeGlpB
+   QFSLi5rWdkqclD7O2SN8FWtljuDZ3JO4C9M+8lboYd/+RvHVRJYX2axpw
+   Q==;
+X-CSE-ConnectionGUID: OW06dQboRTqwG0wI832bJw==
+X-CSE-MsgGUID: GtDNFXwkTTO8Qc3vwn8Xkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="50075735"
 X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; 
-   d="scan'208";a="45661969"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 19:31:27 -0700
-X-CSE-ConnectionGUID: xirsMLQCQniokGjYoN5jaA==
-X-CSE-MsgGUID: IJYqnWkBR+GcE4bWJd7STQ==
+   d="scan'208";a="50075735"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 19:31:27 -0700
+X-CSE-ConnectionGUID: N5A6QRvBRXSxsIL7qykapQ==
+X-CSE-MsgGUID: ypTfot/dTn6LQeHRYspquQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,217,1739865600"; 
-   d="scan'208";a="130649828"
+   d="scan'208";a="135515948"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Apr 2025 19:31:25 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 Apr 2025 19:31:25 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5F2B-000Ko8-08;
+	id 1u5F2B-000KoA-0C;
 	Thu, 17 Apr 2025 02:31:23 +0000
-Date: Thu, 17 Apr 2025 10:31:04 +0800
+Date: Thu, 17 Apr 2025 10:31:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
-	robert.moore@intel.com, rafael.j.wysocki@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	acpica-devel@lists.linux.dev
-Subject: Re: [PATCH] ACPICA: Add support for printing AML arguments when
- trace point enabled
-Message-ID: <202504171023.J2JiUDFj-lkp@intel.com>
-References: <20250415192614.2042036-1-superm1@kernel.org>
+To: Robert Pang <robertpang@google.com>, Coly Li <colyli@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	linux-bcache@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Robert Pang <robertpang@google.com>,
+	Mingzhe Zou <mingzhe.zou@easystack.cn>
+Subject: Re: [PATCH v2 1/1] bcache: process fewer btree nodes in incremental
+ GC cycles
+Message-ID: <202504171044.TFdtTfEh-lkp@intel.com>
+References: <20250415174145.346121-2-robertpang@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,94 +67,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250415192614.2042036-1-superm1@kernel.org>
+In-Reply-To: <20250415174145.346121-2-robertpang@google.com>
 
-Hi Mario,
+Hi Robert,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.15-rc2 next-20250416]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.15-rc2 next-20250416]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPICA-Add-support-for-printing-AML-arguments-when-trace-point-enabled/20250416-125019
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250415192614.2042036-1-superm1%40kernel.org
-patch subject: [PATCH] ACPICA: Add support for printing AML arguments when trace point enabled
-config: i386-buildonly-randconfig-006-20250417 (https://download.01.org/0day-ci/archive/20250417/202504171023.J2JiUDFj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504171023.J2JiUDFj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Pang/bcache-process-fewer-btree-nodes-in-incremental-GC-cycles/20250416-133615
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250415174145.346121-2-robertpang%40google.com
+patch subject: [PATCH v2 1/1] bcache: process fewer btree nodes in incremental GC cycles
+config: i386-buildonly-randconfig-001-20250417 (https://download.01.org/0day-ci/archive/20250417/202504171044.TFdtTfEh-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504171044.TFdtTfEh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504171023.J2JiUDFj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504171044.TFdtTfEh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/acpi/acpica/extrace.c: In function 'acpi_ex_trace_args':
->> drivers/acpi/acpica/extrace.c:174:69: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     174 |                         ACPI_DEBUG_PRINT((ACPI_DB_TRACE_POINT, " "));
-         |                                                                     ^
->> drivers/acpi/acpica/extrace.c:195:74: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-     195 |                         ACPI_DEBUG_PRINT_RAW((ACPI_DB_TRACE_POINT, ", "));
-         |                                                                          ^
-
-
-vim +/if +174 drivers/acpi/acpica/extrace.c
-
-   149	
-   150	/*******************************************************************************
-   151	 *
-   152	 * FUNCTION:    acpi_ex_trace_args
-   153	 *
-   154	 * PARAMETERS:  params            - AML method arguments
-   155	 *              count             - numer of method arguments
-   156	 *
-   157	 * RETURN:      None
-   158	 *
-   159	 * DESCRIPTION: Trace any arguments
-   160	 *
-   161	 ******************************************************************************/
-   162	
-   163	void
-   164	acpi_ex_trace_args(union acpi_operand_object **params, u32 count)
-   165	{
-   166		u32 i;
-   167	
-   168		ACPI_FUNCTION_NAME(ex_trace_args);
-   169	
-   170		for (i = 0; i < count; i++) {
-   171			union acpi_operand_object *obj_desc = params[i];
-   172	
-   173			if (!i)
- > 174				ACPI_DEBUG_PRINT((ACPI_DB_TRACE_POINT, " "));
-   175	
-   176			switch (obj_desc->common.type) {
-   177			case ACPI_TYPE_INTEGER:
-   178				ACPI_DEBUG_PRINT_RAW((ACPI_DB_TRACE_POINT, "%llx", obj_desc->integer.value));
-   179				break;
-   180			case ACPI_TYPE_STRING:
-   181				if (!obj_desc->string.length) {
-   182					ACPI_DEBUG_PRINT_RAW((ACPI_DB_TRACE_POINT, "NULL"));
-   183					continue;
-   184				}
-   185				if (ACPI_IS_DEBUG_ENABLED(ACPI_LV_TRACE_POINT, _COMPONENT))
-   186					acpi_ut_print_string(obj_desc->string.pointer, ACPI_UINT8_MAX);
-   187				break;
-   188			default:
-   189				ACPI_DEBUG_PRINT_RAW((ACPI_DB_TRACE_POINT, "Unknown"));
-   190				break;
-   191			}
-   192			if (i+1 == count)
-   193				ACPI_DEBUG_PRINT_RAW((ACPI_DB_TRACE_POINT, "\n"));
-   194			else
- > 195				ACPI_DEBUG_PRINT_RAW((ACPI_DB_TRACE_POINT, ", "));
-   196		}
-   197	}
-   198	
+>> ERROR: modpost: "__udivdi3" [drivers/md/bcache/bcache.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
