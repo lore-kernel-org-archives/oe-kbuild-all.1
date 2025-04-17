@@ -1,85 +1,124 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144801AC882
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 07:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF0A228CBE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 07:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744875614; cv=none; b=b4Q7i6uTiFZ3FegF7ekvrkPj153ciU132uF1JRDtBpZagx5bh/A2BwpDR3oRi8LVuW7SVsAh1cbC6yyo9rKgpH67+aiKh807c8b8hkUYXBmqB8QmIJTzgGeEeZVTehzGULS5wpnNVVw0yhXmYSgpnMqEg3Y0ko9YN+QUEq4qQSU=
+	t=1744876778; cv=none; b=OR4tnHfgJvucGhB4hw0Qz6azAJTdMAbF6QWl3xSKKJaBdQ75BFEsOmPsr0Mejouh2mFirdehHJhKTQmV8a6PqNal0AfSN9rGGWh+uwKEYCspYVGHRBUVEqtk/ApxpIe0ink93nJRhWYuIseiyd7xiN+GpgGx3CuSmyjD0mfbSCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744875614; c=relaxed/simple;
-	bh=uTWUZ7GG75MGdOuYepKN19ZkysIgaqJ3eIvg+KIv+4k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F6xxO3UcdhOsqumnUNfnMmY4fE2Y0mkAT1myuHnybOkxPKMCvrFw+GJRJXFO2g3OI3GaEKJDvBxhlNbfDGiIy+f/q+p3ZZMtb2IFt7Z8pVfY+Rx/Mu3HiW54j8X3/P16jQib9iqf/vh5xOqRRTG6prlOcowhWegQZNF4YMDY1yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pZWrOBQG; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744876778; c=relaxed/simple;
+	bh=xNxT5Re1oftjzyxR5Ank9LUV80Pp7dElP2hd70zAJT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f0vv8Ds5QKXGi8ccETqh6+iKHbzvTra2jVbVCEudyoyD5LGScz/4t0hCnnHXn4pyAkcqgUzEgBDB1kbgyLwlPrjq2TquQeX7FdVtnTbipcoxQilnORodHp2plNtQnOvCmeJ+xNtZRFl1oNYoYXoXH+TDkBugWFBm2QY/xN7Tmbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DyqFM676; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pZWrOBQG"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30effbfaf61so5768751fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 00:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744875611; x=1745480411; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uTWUZ7GG75MGdOuYepKN19ZkysIgaqJ3eIvg+KIv+4k=;
-        b=pZWrOBQG3zSqZ82V3uKzNbvso0h3q6w1jmBRvvSQp0UXcj8dPRjAuGVtUqPGa5O0Vi
-         sxs7rWg4WEmWXv3mrIVeDveh3V1psvCHPfFOWtJDuL6eDUz9q1eTl/G2/MzQo/7Il/O2
-         4ENN3FtOuTUeTpzsUCkBZ6fj+qf9EvZqEW0RbcU5VZ5rB/X8WVq4CjjpzQwZ2jRVrxtc
-         8FXoC7oz0+Yfr5UiP0yCrQnXGDN3YHIaPlzSrTVxAi/pnAVgMxBVJ1daJJXrnyOGOYcc
-         lJng0G9t0k9eaM4IHvCnF24txql+BV2JShCQ0s8sgItI87HCErAM7bRsI9LY5wYbEZZY
-         Y0vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744875611; x=1745480411;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uTWUZ7GG75MGdOuYepKN19ZkysIgaqJ3eIvg+KIv+4k=;
-        b=nCOL9gaNeNEVe+7vhQErYtwgYS8PVq9B33ZnyJgfNz1SJNS/ajCOgy79ihmzdg76eS
-         ONzjuKXMYGFgwe0PNdrFefUUF1aYIS1vwUXlw2/RGtTW+zDXhlGIgZgGIqGsb84cZ9ff
-         tfvL5EK4Tjbu9q1j2elv8jUDNf806Q2H+y/P3pdMLK7+OLmcm39+2q7iAU7B0YLXA63R
-         1zU7XW7ugW2vHU+xrd3ssHuUQr6YS5znwpebmR8Jk4pTcRDr7TVqcBSYgt6bBXhsg4nb
-         +Ra4y6G4gAbHnFjQ2liBGatG40FTdY7sWFPZiL/9uUR/6QQ5KSopq+7cpZmEmRluA9jZ
-         3Ewg==
-X-Forwarded-Encrypted: i=1; AJvYcCVrBucf6F4bDNpDj8H37ZbTtveEB2CNGGNi3tG2OLlCRLXByG9FCHK0DeUMavuxj6aK7DTcOs11sBxP63Rq@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAQRRnAfyw81EXj4O/uabkjeUvb0w42N4xPTaFylvtQ908gxd9
-	ez00kaPaI5GDMBnXID4fLyQG1mOF6B2S6wBXxJ7lLOfIcL/Z+Dvc2ujYtEP8QWzvNaYUsZy6tZX
-	6gybs3g0esJMlwUvsOnzT6so/J+j8jlA94AtdfA==
-X-Gm-Gg: ASbGncuz5uUPrjR5Ccu4PHqBlroRei6PiCepoKzYKYvGf14EAfQTkEeGuHCMIMYcs7P
-	omHXJk0VZ7nEHCFgkLe8zcYxWFeW+Szb0laN+eBmVHrqnu+l1OoVc9SQvWGnt+mGB8/pgYTMnW9
-	bD3qDL0TyxGZUBbgY3PSAFvg==
-X-Google-Smtp-Source: AGHT+IEiIqX4aUPaydJ1PP141MrnnbHon/RuJNnAkVqairRqk2NvTUxvddZyFvb/1Nqn9kMA1RIB96pFHZiG8rhrSbY=
-X-Received: by 2002:a05:651c:221c:b0:30c:1aa6:5565 with SMTP id
- 38308e7fff4ca-31086da3d9emr5323571fa.20.1744875611003; Thu, 17 Apr 2025
- 00:40:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DyqFM676"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744876775; x=1776412775;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xNxT5Re1oftjzyxR5Ank9LUV80Pp7dElP2hd70zAJT8=;
+  b=DyqFM676w5aXW51tR+z48smXpg837oMVLamEUb8OoFQWebPhwktu9lJZ
+   b1s20xzfZW3AtUUqImQ2vkgGTCwMrV+X+RdEFjhc6Bor4y/pXbDLFZA9t
+   r9X/KTEqoOAFg3e/kroIHP9DteiCtojNYe7F5RKhG2iE1RJ0vF4T8OH5z
+   DgHAdGTqsZSMoS2sPWHg2qVPcV2MX9OhLLFEOAp/hE7QTgnPuyo2Czygt
+   kjcLQFPxQTZhbdndNYwGQvCaO2jhpeDPAQMRo1zjHPAftAOmF8QwWM7pM
+   kr/dOrAzBu1I/oohUCi/WqTpx7hNa7d75l+nVt924ve4ss2vDnwuKtOug
+   g==;
+X-CSE-ConnectionGUID: V4MOiD/HSE6nmzxoFPK+GQ==
+X-CSE-MsgGUID: oL4cRxPBRFWK1cpJ/7I4/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="68944177"
+X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
+   d="scan'208";a="68944177"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 00:59:35 -0700
+X-CSE-ConnectionGUID: 8VKL1ubsSFSs14j6RVHMcw==
+X-CSE-MsgGUID: mYT5ZLBjQ8iTNwGWZY/5mg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
+   d="scan'208";a="134825813"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 17 Apr 2025 00:59:29 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u5K9f-000LsM-0P;
+	Thu, 17 Apr 2025 07:59:27 +0000
+Date: Thu, 17 Apr 2025 15:58:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
+Message-ID: <202504171512.FiYw2rGC-lkp@intel.com>
+References: <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202504170707.IBFj7H28-lkp@intel.com>
-In-Reply-To: <202504170707.IBFj7H28-lkp@intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 17 Apr 2025 09:40:00 +0200
-X-Gm-Features: ATxdqUGx8WO-eDXtMko006_t0ICMvYXMIboRMkFn_7RA_E8SVE1D6ETmNgEk9DA
-Message-ID: <CACRpkdZ-2eOrDRDFk2UqKULyog1GJzsSS4epidbQiNH-xPcV7w@mail.gmail.com>
-Subject: Re: [linux-next:master 4325/4528] s390x-linux-ld: pinctrl-sx150x.c:undefined
- reference to `i2c_smbus_write_byte_data'
-To: kernel test robot <lkp@intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
 
-On Thu, Apr 17, 2025 at 1:25=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
+Hi Mauro,
 
-> commit: c4d1b2ee4407b0b12e0dade40361eb86c1c710ed [4325/4528] pinctrl: sx1=
-50x: enable building modules with COMPILE_TEST=3Dy
+kernel test robot noticed the following build errors:
 
-I just dropped this commit from my tree, it's buggy.
+[auto build test ERROR on lwn/docs-next]
+[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.15-rc2 next-20250416]
+[cannot apply to masahiroy-kbuild/for-next masahiroy-kbuild/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Yours,
-Linus Walleij
+url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/scripts-kernel-doc-py-don-t-create-pyc-files/20250416-155336
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab%2Bhuawei%40kernel.org
+patch subject: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
+config: csky-randconfig-001-20250417 (https://download.01.org/0day-ci/archive/20250417/202504171512.FiYw2rGC-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504171512.FiYw2rGC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504171512.FiYw2rGC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> /bin/sh: 1: -none: not found
+   make[3]: *** [scripts/Makefile.build:203: scripts/mod/empty.o] Error 127 shuffle=2754938148
+   make[3]: *** Deleting file 'scripts/mod/empty.o'
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1276: prepare0] Error 2 shuffle=2754938148
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2754938148
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2754938148
+   make: Target 'prepare' not remade because of errors.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
