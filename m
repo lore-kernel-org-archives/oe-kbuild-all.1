@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563CC23C8D7;
-	Thu, 17 Apr 2025 11:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC1F10E5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 11:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744889175; cv=none; b=ewr0D1kyoCUKq5g3lmx54Q4OSR8L4JQRLztmMD//cM3XQCvQdGQpHKu7HCaWj9gy2crPPBWUW2Z1PwnjEtmqIZSWHdS0ZB6m2RI0yfNwToWUl38uY1DRm4RtNzTH0FhhMNs5FY5RQKIZ5yIilH7Liatrg81sd6T8u4jrUOvw9s0=
+	t=1744891038; cv=none; b=L2ygcQmuqemIDjS1cUonxAjw+3tTxObiX1F0oQJ4qKE0y/znaBphgTLzflyOtiHL5Ms3WLLXjcXYRN7Ktu6GwcoUjp9Tj2bDPP7yTSwaPHb2S59pH1x4WPb/bUNVbQ4kCeXWlDK5g3fqiV+xFBqhmUr5/F4nmFOgm9k0sNiFZLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744889175; c=relaxed/simple;
-	bh=3iBddRL6jyT6YRqtISyIVvJ2dZlmtoSncfqgdYqHsi4=;
+	s=arc-20240116; t=1744891038; c=relaxed/simple;
+	bh=HEqzjS3dtX5kTLe4I/atLfX6YutGAY0UQekuZ2/FMAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aYadMmkoqNQXoLpr1HYfccGkk7BnEHT9gReYlvEIvmqMz15zVtISu6vd+qzobL8VLSJDxj5b3RDI+o1OicMex02IMNAY92rTL3Z9hrU98aI1h7hVHvbSXh1PenCMoKcH7fW5BopTJSMewQ7iLymlSKtxvybdKS0oYEz28DsOMQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n1K5Pd+y; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=ETxZ1VjD6zVWJ4LWQpf9Fz+czG+F3Y8s+IazY6aUWUMKhBIl4mHN6ZRNVlZSNjj5027IgibpaET8HVedVCe9glzm2qlRPslk0LHuS1ZL702RKI+OT/5mK97i2xvdnf6ph0iaVS36Oxeeq6r9IRQYmYM0QffSt8IVji7OwIHQWPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cg9YoOFj; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n1K5Pd+y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cg9YoOFj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744889173; x=1776425173;
+  t=1744891035; x=1776427035;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3iBddRL6jyT6YRqtISyIVvJ2dZlmtoSncfqgdYqHsi4=;
-  b=n1K5Pd+yifCcwiXOxurnxJfmfpuv7eOPXaketSJeZe9wyNzQfMbcw3EW
-   ++OE/G5HnSJGBXQxgA0yyYVJdpPo942woY3sOECbQvh0c4xlOAqhpEg6Y
-   PIHPHKULTtpdYcYbFs0JVbtzfvAIHj7invRoOpVwXSRN8dpsy01FRxnOb
-   MbzEPm3eD3Bk8Mk7YG6Zg1F49xNjvFqW8l5y52JW3uY2caKn2QaufujJE
-   4BtBpnH16Trn+W0iHe3QthvvKtjtwyWGYYzZhr/UDk1AUq/e0CWjIQZu2
-   6DjmYQDiXVOygjPyX0qeton5D6JRaR1oFJYsqwSJKGiT0+jiNRyjlPvgf
-   w==;
-X-CSE-ConnectionGUID: +A9VfYhqRNuCKy2//ItirQ==
-X-CSE-MsgGUID: 8MTWKA7YRja116AXfRpdoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46560782"
-X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="46560782"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 04:26:11 -0700
-X-CSE-ConnectionGUID: Eb/5Lhc5T6GdnwsRIKel1w==
-X-CSE-MsgGUID: tMg+/TTeSy+PoEjpm65XzQ==
+  bh=HEqzjS3dtX5kTLe4I/atLfX6YutGAY0UQekuZ2/FMAs=;
+  b=Cg9YoOFj1AOBLlnV5xv2r85qFbtt1vG/QFQRJKeQp0ZHMDqfbwiXv3SB
+   8CpkijDTravnLiuEKNyOzBLjcEV7GNOdO4o7lJnztCRDx9W3JFG5nV6ON
+   MGssNTEFdmlZTf9zd4MZhFFvcNhNASmDEncHtqYRZE+yAAeGnEZjsPrbE
+   mmaG3Z40R2TTXZ59A7XKy9kznk35W0wR2ZvqCLkfy12AaWMyTCjLIQHqi
+   3ZrvElBVeT1PbhE6nU7REAWOSbT/I1KvXLeBXwOV6gzPydTup+saTg6ky
+   SS5xee+f6iRnK0WnxDx1QhwxN3ryvYg9Js3b95482D/2MhYLhaV8A2dcE
+   g==;
+X-CSE-ConnectionGUID: 7tZo/xfzSbmy859oomAB+Q==
+X-CSE-MsgGUID: LZ3v8x+wQ9ihnPkrQ2+SyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="45708281"
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="45708281"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 04:57:14 -0700
+X-CSE-ConnectionGUID: 4noSCLcwTZ6dnO6+SV56tQ==
+X-CSE-MsgGUID: mSYJv/SRRwiYqjVxSDqhBg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="131757568"
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="130778088"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 17 Apr 2025 04:26:10 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 17 Apr 2025 04:57:13 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5NNf-000MXE-0b;
-	Thu, 17 Apr 2025 11:26:07 +0000
-Date: Thu, 17 Apr 2025 19:25:12 +0800
+	id 1u5Nrj-000Mcg-1t;
+	Thu, 17 Apr 2025 11:57:11 +0000
+Date: Thu, 17 Apr 2025 19:57:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [linux-next:master 4495/4779] drivers/gpio/gpio-ich.c:142:9: error:
- call to '_inl' declared with 'error' attribute: inl() requires
- CONFIG_HAS_IOPORT
-Message-ID: <202504171941.g1yXja0j-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.15-rc 69/70]
+ arch/arm64/boot/dts/mediatek/mt7988a.dtsi:700.39-704.5: Warning
+ (simple_bus_reg): /soc/system-controller@11d10000: simple-bus unit address
+ format error, expected "11d10084"
+Message-ID: <202504171912.jYs4BXKZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,374 +64,727 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Bartosz,
+Hi Frank,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bc8aa6cdadcc00862f2b5720e5de2e17f696a081
-commit: 10b16abc29e17c6ca86bcb8ceebf840e509b0ce5 [4495/4779] gpio: ich: enable building with COMPILE_TEST=y
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250417/202504171941.g1yXja0j-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504171941.g1yXja0j-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.15-rc
+head:   60a2ff7b16d67424e22c6e1733687ca59418386e
+commit: dd97f441de17835b0f440f032eb7303ea9b70fdd [69/70] arm64: dts: change topmisc back to syscon and change reg to exclude pwr-ctrl
+config: arm64-randconfig-004-20250417 (https://download.01.org/0day-ci/archive/20250417/202504171912.jYs4BXKZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504171912.jYs4BXKZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504171941.g1yXja0j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504171912.jYs4BXKZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:677.24-698.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:706.26-728.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi:33.9-35.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:463.31-467.5: Warning (simple_bus_reg): /soc/phy-firmware@f000000: simple-bus unit address format error, expected "f100000"
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:677.24-698.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt7988a.dtsi:700.39-704.5: Warning (simple_bus_reg): /soc/system-controller@11d10000: simple-bus unit address format error, expected "11d10084"
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:706.26-728.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:789.27-954.5: Warning (avoid_unnecessary_addr_size): /soc/switch@15020000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
 
->> drivers/gpio/gpio-ich.c:142:9: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-     142 |         data = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-         |                ^
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
->> drivers/gpio/gpio-ich.c:142:9: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
->> drivers/gpio/gpio-ich.c:213:3: error: call to '_outl' declared with 'error' attribute: outl() requires CONFIG_HAS_IOPORT
-     213 |                 ICHX_WRITE(BIT(16 + nr), 0, ichx_priv.pm_base);
-         |                 ^
-   drivers/gpio/gpio-ich.c:54:40: note: expanded from macro 'ICHX_WRITE'
-      54 | #define ICHX_WRITE(val, reg, base_res)  outl(val, (reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:663:14: note: expanded from macro 'outl'
-     663 | #define outl _outl
-         |              ^
-   include/asm-generic/io.h:626:15: note: expanded from macro '_outl'
-     626 | #define _outl _outl
-         |               ^
-   drivers/gpio/gpio-ich.c:214:10: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-     214 |                 data = ICHX_READ(0, ichx_priv.pm_base);
-         |                        ^
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
->> drivers/gpio/gpio-ich.c:142:9: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-     142 |         data = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-         |                ^
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
->> drivers/gpio/gpio-ich.c:142:9: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
->> drivers/gpio/gpio-ich.c:142:9: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
-   drivers/gpio/gpio-ich.c:113:10: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-     113 |                 data = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-         |                        ^
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
-   drivers/gpio/gpio-ich.c:120:2: error: call to '_outl' declared with 'error' attribute: outl() requires CONFIG_HAS_IOPORT
-     120 |         ICHX_WRITE(data, ichx_priv.desc->regs[reg][reg_nr],
-         |         ^
-   drivers/gpio/gpio-ich.c:54:40: note: expanded from macro 'ICHX_WRITE'
-      54 | #define ICHX_WRITE(val, reg, base_res)  outl(val, (reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:663:14: note: expanded from macro 'outl'
-     663 | #define outl _outl
-         |              ^
-   include/asm-generic/io.h:626:15: note: expanded from macro '_outl'
-     626 | #define _outl _outl
-         |               ^
-   drivers/gpio/gpio-ich.c:125:8: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-     125 |         tmp = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-         |               ^
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
-   drivers/gpio/gpio-ich.c:113:10: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-     113 |                 data = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-         |                        ^
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
-   drivers/gpio/gpio-ich.c:120:2: error: call to '_outl' declared with 'error' attribute: outl() requires CONFIG_HAS_IOPORT
-     120 |         ICHX_WRITE(data, ichx_priv.desc->regs[reg][reg_nr],
-         |         ^
-   drivers/gpio/gpio-ich.c:54:40: note: expanded from macro 'ICHX_WRITE'
-      54 | #define ICHX_WRITE(val, reg, base_res)  outl(val, (reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:663:14: note: expanded from macro 'outl'
-     663 | #define outl _outl
-         |              ^
-   include/asm-generic/io.h:626:15: note: expanded from macro '_outl'
-     626 | #define _outl _outl
-         |               ^
-   drivers/gpio/gpio-ich.c:125:8: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-     125 |         tmp = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-         |               ^
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
-   drivers/gpio/gpio-ich.c:113:10: error: call to '_inl' declared with 'error' attribute: inl() requires CONFIG_HAS_IOPORT
-     113 |                 data = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-         |                        ^
-   drivers/gpio/gpio-ich.c:55:34: note: expanded from macro 'ICHX_READ'
-      55 | #define ICHX_READ(reg, base_res)        inl((reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:651:13: note: expanded from macro 'inl'
-     651 | #define inl _inl
-         |             ^
-   include/asm-generic/io.h:578:14: note: expanded from macro '_inl'
-     578 | #define _inl _inl
-         |              ^
-   drivers/gpio/gpio-ich.c:120:2: error: call to '_outl' declared with 'error' attribute: outl() requires CONFIG_HAS_IOPORT
-     120 |         ICHX_WRITE(data, ichx_priv.desc->regs[reg][reg_nr],
-         |         ^
-   drivers/gpio/gpio-ich.c:54:40: note: expanded from macro 'ICHX_WRITE'
-      54 | #define ICHX_WRITE(val, reg, base_res)  outl(val, (reg) + (base_res)->start)
-         |                                         ^
-   include/asm-generic/io.h:663:14: note: expanded from macro 'outl'
+vim +/11d10084 +700 arch/arm64/boot/dts/mediatek/mt7988a.dtsi
 
-
-vim +142 drivers/gpio/gpio-ich.c
-
-3b9231893e5731 Vincent Donnefort 2014-02-14   53  
-6ed9f9c405f97c Peter Tyser       2012-04-18   54  #define ICHX_WRITE(val, reg, base_res)	outl(val, (reg) + (base_res)->start)
-6ed9f9c405f97c Peter Tyser       2012-04-18  @55  #define ICHX_READ(reg, base_res)	inl((reg) + (base_res)->start)
-6ed9f9c405f97c Peter Tyser       2012-04-18   56  
-6ed9f9c405f97c Peter Tyser       2012-04-18   57  struct ichx_desc {
-6ed9f9c405f97c Peter Tyser       2012-04-18   58  	/* Max GPIO pins the chipset can have */
-6ed9f9c405f97c Peter Tyser       2012-04-18   59  	uint ngpio;
-6ed9f9c405f97c Peter Tyser       2012-04-18   60  
-bb62a35bd5d96e Vincent Donnefort 2014-02-14   61  	/* chipset registers */
-bb62a35bd5d96e Vincent Donnefort 2014-02-14   62  	const u8 (*regs)[3];
-bb62a35bd5d96e Vincent Donnefort 2014-02-14   63  	const u8 *reglen;
-bb62a35bd5d96e Vincent Donnefort 2014-02-14   64  
-ba7f74fe2bbac3 Vincent Donnefort 2014-02-14   65  	/* GPO_BLINK is available on this chipset */
-ba7f74fe2bbac3 Vincent Donnefort 2014-02-14   66  	bool have_blink;
-ba7f74fe2bbac3 Vincent Donnefort 2014-02-14   67  
-6ed9f9c405f97c Peter Tyser       2012-04-18   68  	/* Whether the chipset has GPIO in GPE0_STS in the PM IO region */
-6ed9f9c405f97c Peter Tyser       2012-04-18   69  	bool uses_gpe0;
-6ed9f9c405f97c Peter Tyser       2012-04-18   70  
-6ed9f9c405f97c Peter Tyser       2012-04-18   71  	/* USE_SEL is bogus on some chipsets, eg 3100 */
-6ed9f9c405f97c Peter Tyser       2012-04-18   72  	u32 use_sel_ignore[3];
-6ed9f9c405f97c Peter Tyser       2012-04-18   73  
-6ed9f9c405f97c Peter Tyser       2012-04-18   74  	/* Some chipsets have quirks, let these use their own request/get */
-ae84f15c651ac4 Abanoub Sameh     2020-07-21   75  	int (*request)(struct gpio_chip *chip, unsigned int offset);
-ae84f15c651ac4 Abanoub Sameh     2020-07-21   76  	int (*get)(struct gpio_chip *chip, unsigned int offset);
-e6540f332447b2 Vincent Donnefort 2014-02-14   77  
-e6540f332447b2 Vincent Donnefort 2014-02-14   78  	/*
-e6540f332447b2 Vincent Donnefort 2014-02-14   79  	 * Some chipsets don't let reading output values on GPIO_LVL register
-e6540f332447b2 Vincent Donnefort 2014-02-14   80  	 * this option allows driver caching written output values
-e6540f332447b2 Vincent Donnefort 2014-02-14   81  	 */
-e6540f332447b2 Vincent Donnefort 2014-02-14   82  	bool use_outlvl_cache;
-6ed9f9c405f97c Peter Tyser       2012-04-18   83  };
-6ed9f9c405f97c Peter Tyser       2012-04-18   84  
-6ed9f9c405f97c Peter Tyser       2012-04-18   85  static struct {
-6ed9f9c405f97c Peter Tyser       2012-04-18   86  	spinlock_t lock;
-ff4709b44cc075 Andy Shevchenko   2018-11-08   87  	struct device *dev;
-6ed9f9c405f97c Peter Tyser       2012-04-18   88  	struct gpio_chip chip;
-6ed9f9c405f97c Peter Tyser       2012-04-18   89  	struct resource *gpio_base;	/* GPIO IO base */
-9b6d5690b543b8 sachin agarwal    2020-02-09   90  	struct resource *pm_base;	/* Power Management IO base */
-6ed9f9c405f97c Peter Tyser       2012-04-18   91  	struct ichx_desc *desc;	/* Pointer to chipset-specific description */
-6ed9f9c405f97c Peter Tyser       2012-04-18   92  	u32 orig_gpio_ctrl;	/* Orig CTRL value, used to restore on exit */
-4f600ada70beeb Jean Delvare      2012-07-23   93  	u8 use_gpio;		/* Which GPIO groups are usable */
-e6540f332447b2 Vincent Donnefort 2014-02-14   94  	int outlvl_cache[3];	/* cached output values */
-6ed9f9c405f97c Peter Tyser       2012-04-18   95  } ichx_priv;
-6ed9f9c405f97c Peter Tyser       2012-04-18   96  
-6ed9f9c405f97c Peter Tyser       2012-04-18   97  static int modparam_gpiobase = -1;	/* dynamic */
-6ed9f9c405f97c Peter Tyser       2012-04-18   98  module_param_named(gpiobase, modparam_gpiobase, int, 0444);
-5f6f2b9f6dbf7a Andy Shevchenko   2018-07-03   99  MODULE_PARM_DESC(gpiobase, "The GPIO number base. -1 means dynamic, which is the default.");
-6ed9f9c405f97c Peter Tyser       2012-04-18  100  
-ae84f15c651ac4 Abanoub Sameh     2020-07-21  101  static int ichx_write_bit(int reg, unsigned int nr, int val, int verify)
-6ed9f9c405f97c Peter Tyser       2012-04-18  102  {
-6ed9f9c405f97c Peter Tyser       2012-04-18  103  	unsigned long flags;
-6ed9f9c405f97c Peter Tyser       2012-04-18  104  	u32 data, tmp;
-6ed9f9c405f97c Peter Tyser       2012-04-18  105  	int reg_nr = nr / 32;
-6ed9f9c405f97c Peter Tyser       2012-04-18  106  	int bit = nr & 0x1f;
-6ed9f9c405f97c Peter Tyser       2012-04-18  107  
-6ed9f9c405f97c Peter Tyser       2012-04-18  108  	spin_lock_irqsave(&ichx_priv.lock, flags);
-6ed9f9c405f97c Peter Tyser       2012-04-18  109  
-e6540f332447b2 Vincent Donnefort 2014-02-14  110  	if (reg == GPIO_LVL && ichx_priv.desc->use_outlvl_cache)
-e6540f332447b2 Vincent Donnefort 2014-02-14  111  		data = ichx_priv.outlvl_cache[reg_nr];
-e6540f332447b2 Vincent Donnefort 2014-02-14  112  	else
-bb62a35bd5d96e Vincent Donnefort 2014-02-14  113  		data = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-bb62a35bd5d96e Vincent Donnefort 2014-02-14  114  				 ichx_priv.gpio_base);
-e6540f332447b2 Vincent Donnefort 2014-02-14  115  
-6ed9f9c405f97c Peter Tyser       2012-04-18  116  	if (val)
-7a8fd1f5cc3fd0 Linus Walleij     2018-03-06  117  		data |= BIT(bit);
-6ed9f9c405f97c Peter Tyser       2012-04-18  118  	else
-7a8fd1f5cc3fd0 Linus Walleij     2018-03-06  119  		data &= ~BIT(bit);
-bb62a35bd5d96e Vincent Donnefort 2014-02-14  120  	ICHX_WRITE(data, ichx_priv.desc->regs[reg][reg_nr],
-bb62a35bd5d96e Vincent Donnefort 2014-02-14  121  			 ichx_priv.gpio_base);
-e6540f332447b2 Vincent Donnefort 2014-02-14  122  	if (reg == GPIO_LVL && ichx_priv.desc->use_outlvl_cache)
-e6540f332447b2 Vincent Donnefort 2014-02-14  123  		ichx_priv.outlvl_cache[reg_nr] = data;
-e6540f332447b2 Vincent Donnefort 2014-02-14  124  
-bb62a35bd5d96e Vincent Donnefort 2014-02-14  125  	tmp = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-bb62a35bd5d96e Vincent Donnefort 2014-02-14  126  			ichx_priv.gpio_base);
-6ed9f9c405f97c Peter Tyser       2012-04-18  127  
-6ed9f9c405f97c Peter Tyser       2012-04-18  128  	spin_unlock_irqrestore(&ichx_priv.lock, flags);
-6ed9f9c405f97c Peter Tyser       2012-04-18  129  
-c5aaa316819428 Andy Shevchenko   2018-11-07  130  	return (verify && data != tmp) ? -EPERM : 0;
-6ed9f9c405f97c Peter Tyser       2012-04-18  131  }
-6ed9f9c405f97c Peter Tyser       2012-04-18  132  
-ae84f15c651ac4 Abanoub Sameh     2020-07-21  133  static int ichx_read_bit(int reg, unsigned int nr)
-6ed9f9c405f97c Peter Tyser       2012-04-18  134  {
-6ed9f9c405f97c Peter Tyser       2012-04-18  135  	unsigned long flags;
-6ed9f9c405f97c Peter Tyser       2012-04-18  136  	u32 data;
-6ed9f9c405f97c Peter Tyser       2012-04-18  137  	int reg_nr = nr / 32;
-6ed9f9c405f97c Peter Tyser       2012-04-18  138  	int bit = nr & 0x1f;
-6ed9f9c405f97c Peter Tyser       2012-04-18  139  
-6ed9f9c405f97c Peter Tyser       2012-04-18  140  	spin_lock_irqsave(&ichx_priv.lock, flags);
-6ed9f9c405f97c Peter Tyser       2012-04-18  141  
-bb62a35bd5d96e Vincent Donnefort 2014-02-14 @142  	data = ICHX_READ(ichx_priv.desc->regs[reg][reg_nr],
-bb62a35bd5d96e Vincent Donnefort 2014-02-14  143  			 ichx_priv.gpio_base);
-6ed9f9c405f97c Peter Tyser       2012-04-18  144  
-e6540f332447b2 Vincent Donnefort 2014-02-14  145  	if (reg == GPIO_LVL && ichx_priv.desc->use_outlvl_cache)
-e6540f332447b2 Vincent Donnefort 2014-02-14  146  		data = ichx_priv.outlvl_cache[reg_nr] | data;
-e6540f332447b2 Vincent Donnefort 2014-02-14  147  
-6ed9f9c405f97c Peter Tyser       2012-04-18  148  	spin_unlock_irqrestore(&ichx_priv.lock, flags);
-6ed9f9c405f97c Peter Tyser       2012-04-18  149  
-7a8fd1f5cc3fd0 Linus Walleij     2018-03-06  150  	return !!(data & BIT(bit));
-6ed9f9c405f97c Peter Tyser       2012-04-18  151  }
-6ed9f9c405f97c Peter Tyser       2012-04-18  152  
-ae84f15c651ac4 Abanoub Sameh     2020-07-21  153  static bool ichx_gpio_check_available(struct gpio_chip *gpio, unsigned int nr)
-4f600ada70beeb Jean Delvare      2012-07-23  154  {
-7a8fd1f5cc3fd0 Linus Walleij     2018-03-06  155  	return !!(ichx_priv.use_gpio & BIT(nr / 32));
-4f600ada70beeb Jean Delvare      2012-07-23  156  }
-4f600ada70beeb Jean Delvare      2012-07-23  157  
-ae84f15c651ac4 Abanoub Sameh     2020-07-21  158  static int ichx_gpio_get_direction(struct gpio_chip *gpio, unsigned int nr)
-62e08f25bd09b0 Aaron Sierra      2015-03-31  159  {
-e42615ec233b30 Matti Vaittinen   2019-11-06  160  	if (ichx_read_bit(GPIO_IO_SEL, nr))
-e42615ec233b30 Matti Vaittinen   2019-11-06  161  		return GPIO_LINE_DIRECTION_IN;
-e42615ec233b30 Matti Vaittinen   2019-11-06  162  
-e42615ec233b30 Matti Vaittinen   2019-11-06  163  	return GPIO_LINE_DIRECTION_OUT;
-62e08f25bd09b0 Aaron Sierra      2015-03-31  164  }
-62e08f25bd09b0 Aaron Sierra      2015-03-31  165  
-ae84f15c651ac4 Abanoub Sameh     2020-07-21  166  static int ichx_gpio_direction_input(struct gpio_chip *gpio, unsigned int nr)
-6ed9f9c405f97c Peter Tyser       2012-04-18  167  {
-6ed9f9c405f97c Peter Tyser       2012-04-18  168  	/*
-6ed9f9c405f97c Peter Tyser       2012-04-18  169  	 * Try setting pin as an input and verify it worked since many pins
-6ed9f9c405f97c Peter Tyser       2012-04-18  170  	 * are output-only.
-6ed9f9c405f97c Peter Tyser       2012-04-18  171  	 */
-c5aaa316819428 Andy Shevchenko   2018-11-07  172  	return ichx_write_bit(GPIO_IO_SEL, nr, 1, 1);
-6ed9f9c405f97c Peter Tyser       2012-04-18  173  }
-6ed9f9c405f97c Peter Tyser       2012-04-18  174  
-ae84f15c651ac4 Abanoub Sameh     2020-07-21  175  static int ichx_gpio_direction_output(struct gpio_chip *gpio, unsigned int nr,
-6ed9f9c405f97c Peter Tyser       2012-04-18  176  					int val)
-6ed9f9c405f97c Peter Tyser       2012-04-18  177  {
-7f6569f54695c1 Vincent Donnefort 2013-06-17  178  	/* Disable blink hardware which is available for GPIOs from 0 to 31. */
-ba7f74fe2bbac3 Vincent Donnefort 2014-02-14  179  	if (nr < 32 && ichx_priv.desc->have_blink)
-7f6569f54695c1 Vincent Donnefort 2013-06-17  180  		ichx_write_bit(GPO_BLINK, nr, 0, 0);
-7f6569f54695c1 Vincent Donnefort 2013-06-17  181  
-6ed9f9c405f97c Peter Tyser       2012-04-18  182  	/* Set GPIO output value. */
-6ed9f9c405f97c Peter Tyser       2012-04-18  183  	ichx_write_bit(GPIO_LVL, nr, val, 0);
-6ed9f9c405f97c Peter Tyser       2012-04-18  184  
-6ed9f9c405f97c Peter Tyser       2012-04-18  185  	/*
-6ed9f9c405f97c Peter Tyser       2012-04-18  186  	 * Try setting pin as an output and verify it worked since many pins
-6ed9f9c405f97c Peter Tyser       2012-04-18  187  	 * are input-only.
-6ed9f9c405f97c Peter Tyser       2012-04-18  188  	 */
-c5aaa316819428 Andy Shevchenko   2018-11-07  189  	return ichx_write_bit(GPIO_IO_SEL, nr, 0, 1);
-6ed9f9c405f97c Peter Tyser       2012-04-18  190  }
-6ed9f9c405f97c Peter Tyser       2012-04-18  191  
-ae84f15c651ac4 Abanoub Sameh     2020-07-21  192  static int ichx_gpio_get(struct gpio_chip *chip, unsigned int nr)
-6ed9f9c405f97c Peter Tyser       2012-04-18  193  {
-6ed9f9c405f97c Peter Tyser       2012-04-18  194  	return ichx_read_bit(GPIO_LVL, nr);
-6ed9f9c405f97c Peter Tyser       2012-04-18  195  }
-6ed9f9c405f97c Peter Tyser       2012-04-18  196  
-ae84f15c651ac4 Abanoub Sameh     2020-07-21  197  static int ich6_gpio_get(struct gpio_chip *chip, unsigned int nr)
-6ed9f9c405f97c Peter Tyser       2012-04-18  198  {
-6ed9f9c405f97c Peter Tyser       2012-04-18  199  	unsigned long flags;
-6ed9f9c405f97c Peter Tyser       2012-04-18  200  	u32 data;
-6ed9f9c405f97c Peter Tyser       2012-04-18  201  
-6ed9f9c405f97c Peter Tyser       2012-04-18  202  	/*
-6ed9f9c405f97c Peter Tyser       2012-04-18  203  	 * GPI 0 - 15 need to be read from the power management registers on
-6ed9f9c405f97c Peter Tyser       2012-04-18  204  	 * a ICH6/3100 bridge.
-6ed9f9c405f97c Peter Tyser       2012-04-18  205  	 */
-6ed9f9c405f97c Peter Tyser       2012-04-18  206  	if (nr < 16) {
-6ed9f9c405f97c Peter Tyser       2012-04-18  207  		if (!ichx_priv.pm_base)
-6ed9f9c405f97c Peter Tyser       2012-04-18  208  			return -ENXIO;
-6ed9f9c405f97c Peter Tyser       2012-04-18  209  
-6ed9f9c405f97c Peter Tyser       2012-04-18  210  		spin_lock_irqsave(&ichx_priv.lock, flags);
-6ed9f9c405f97c Peter Tyser       2012-04-18  211  
-6ed9f9c405f97c Peter Tyser       2012-04-18  212  		/* GPI 0 - 15 are latched, write 1 to clear*/
-7a8fd1f5cc3fd0 Linus Walleij     2018-03-06 @213  		ICHX_WRITE(BIT(16 + nr), 0, ichx_priv.pm_base);
-6ed9f9c405f97c Peter Tyser       2012-04-18  214  		data = ICHX_READ(0, ichx_priv.pm_base);
-6ed9f9c405f97c Peter Tyser       2012-04-18  215  
-6ed9f9c405f97c Peter Tyser       2012-04-18  216  		spin_unlock_irqrestore(&ichx_priv.lock, flags);
-6ed9f9c405f97c Peter Tyser       2012-04-18  217  
-7a8fd1f5cc3fd0 Linus Walleij     2018-03-06  218  		return !!((data >> 16) & BIT(nr));
-6ed9f9c405f97c Peter Tyser       2012-04-18  219  	} else {
-6ed9f9c405f97c Peter Tyser       2012-04-18  220  		return ichx_gpio_get(chip, nr);
-6ed9f9c405f97c Peter Tyser       2012-04-18  221  	}
-6ed9f9c405f97c Peter Tyser       2012-04-18  222  }
-6ed9f9c405f97c Peter Tyser       2012-04-18  223  
-
-:::::: The code at line 142 was first introduced by commit
-:::::: bb62a35bd5d96e506af0ea8dd145480b9172a2a6 gpio: ich: Add support for multiple register addresses
-
-:::::: TO: Vincent Donnefort <vdonnefort@gmail.com>
-:::::: CC: Lee Jones <lee.jones@linaro.org>
+     8	
+     9	/ {
+    10		compatible = "mediatek,mt7988a";
+    11		interrupt-parent = <&gic>;
+    12		#address-cells = <2>;
+    13		#size-cells = <2>;
+    14	
+    15		cci: cci {
+    16			compatible = "mediatek,mt7988-cci",
+    17				     "mediatek,mt8183-cci";
+    18			clocks = <&mcusys CLK_MCU_BUS_DIV_SEL>,
+    19				 <&topckgen CLK_TOP_XTAL>;
+    20			clock-names = "cci", "intermediate";
+    21			operating-points-v2 = <&cci_opp>;
+    22		};
+    23	
+    24		cci_opp: opp_table_cci {
+    25			compatible = "operating-points-v2";
+    26			opp-shared;
+    27			opp00 {
+    28				opp-hz = /bits/ 64 <480000000>;
+    29				opp-microvolt = <850000>;
+    30			};
+    31			opp01 {
+    32				opp-hz = /bits/ 64 <660000000>;
+    33				opp-microvolt = <850000>;
+    34			};
+    35			opp02 {
+    36				opp-hz = /bits/ 64 <900000000>;
+    37				opp-microvolt = <850000>;
+    38			};
+    39			opp03 {
+    40				opp-hz = /bits/ 64 <1080000000>;
+    41				opp-microvolt = <900000>;
+    42			};
+    43		};
+    44	
+    45		cpus {
+    46			#address-cells = <1>;
+    47			#size-cells = <0>;
+    48	
+    49			cpu0: cpu@0 {
+    50				compatible = "arm,cortex-a73";
+    51				reg = <0x0>;
+    52				device_type = "cpu";
+    53				enable-method = "psci";
+    54				clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
+    55					 <&topckgen CLK_TOP_XTAL>;
+    56				clock-names = "cpu", "intermediate";
+    57				operating-points-v2 = <&cluster0_opp>;
+    58				mediatek,cci = <&cci>;
+    59			};
+    60	
+    61			cpu1: cpu@1 {
+    62				compatible = "arm,cortex-a73";
+    63				reg = <0x1>;
+    64				device_type = "cpu";
+    65				enable-method = "psci";
+    66				clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
+    67					 <&topckgen CLK_TOP_XTAL>;
+    68				clock-names = "cpu", "intermediate";
+    69				operating-points-v2 = <&cluster0_opp>;
+    70				mediatek,cci = <&cci>;
+    71			};
+    72	
+    73			cpu2: cpu@2 {
+    74				compatible = "arm,cortex-a73";
+    75				reg = <0x2>;
+    76				device_type = "cpu";
+    77				enable-method = "psci";
+    78				clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
+    79					 <&topckgen CLK_TOP_XTAL>;
+    80				clock-names = "cpu", "intermediate";
+    81				operating-points-v2 = <&cluster0_opp>;
+    82				mediatek,cci = <&cci>;
+    83			};
+    84	
+    85			cpu3: cpu@3 {
+    86				compatible = "arm,cortex-a73";
+    87				reg = <0x3>;
+    88				device_type = "cpu";
+    89				enable-method = "psci";
+    90				clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
+    91					 <&topckgen CLK_TOP_XTAL>;
+    92				clock-names = "cpu", "intermediate";
+    93				operating-points-v2 = <&cluster0_opp>;
+    94				mediatek,cci = <&cci>;
+    95			};
+    96	
+    97			cluster0_opp: opp-table-0 {
+    98				compatible = "operating-points-v2";
+    99				opp-shared;
+   100	
+   101				opp-800000000 {
+   102					opp-hz = /bits/ 64 <800000000>;
+   103					opp-microvolt = <850000>;
+   104				};
+   105				opp-1100000000 {
+   106					opp-hz = /bits/ 64 <1100000000>;
+   107					opp-microvolt = <850000>;
+   108				};
+   109				opp-1500000000 {
+   110					opp-hz = /bits/ 64 <1500000000>;
+   111					opp-microvolt = <850000>;
+   112				};
+   113				opp-1800000000 {
+   114					opp-hz = /bits/ 64 <1800000000>;
+   115					opp-microvolt = <900000>;
+   116				};
+   117			};
+   118		};
+   119	
+   120		oscillator-40m {
+   121			compatible = "fixed-clock";
+   122			clock-frequency = <40000000>;
+   123			#clock-cells = <0>;
+   124			clock-output-names = "clkxtal";
+   125		};
+   126	
+   127		pmu {
+   128			compatible = "arm,cortex-a73-pmu";
+   129			interrupt-parent = <&gic>;
+   130			interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
+   131		};
+   132	
+   133		psci {
+   134			compatible = "arm,psci-0.2";
+   135			method = "smc";
+   136		};
+   137	
+   138		reserved-memory {
+   139			#address-cells = <2>;
+   140			#size-cells = <2>;
+   141			ranges;
+   142	
+   143			/* 320 KiB reserved for ARM Trusted Firmware (BL31 and BL32) */
+   144			secmon@43000000 {
+   145				reg = <0 0x43000000 0 0x50000>;
+   146				no-map;
+   147			};
+   148		};
+   149	
+   150		soc {
+   151			compatible = "simple-bus";
+   152			ranges;
+   153			#address-cells = <2>;
+   154			#size-cells = <2>;
+   155	
+   156			gic: interrupt-controller@c000000 {
+   157				compatible = "arm,gic-v3";
+   158				reg = <0 0x0c000000 0 0x40000>,  /* GICD */
+   159				      <0 0x0c080000 0 0x200000>, /* GICR */
+   160				      <0 0x0c400000 0 0x2000>,   /* GICC */
+   161				      <0 0x0c410000 0 0x1000>,   /* GICH */
+   162				      <0 0x0c420000 0 0x2000>;   /* GICV */
+   163				interrupt-parent = <&gic>;
+   164				interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
+   165				interrupt-controller;
+   166				#interrupt-cells = <3>;
+   167			};
+   168	
+   169			infracfg: clock-controller@10001000 {
+   170				compatible = "mediatek,mt7988-infracfg", "syscon";
+   171				reg = <0 0x10001000 0 0x1000>;
+   172				#clock-cells = <1>;
+   173				#reset-cells = <1>;
+   174			};
+   175	
+   176			topckgen: clock-controller@1001b000 {
+   177				compatible = "mediatek,mt7988-topckgen", "syscon";
+   178				reg = <0 0x1001b000 0 0x1000>;
+   179				#clock-cells = <1>;
+   180			};
+   181	
+   182			watchdog: watchdog@1001c000 {
+   183				compatible = "mediatek,mt7988-wdt";
+   184				reg = <0 0x1001c000 0 0x1000>;
+   185				interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
+   186				#reset-cells = <1>;
+   187			};
+   188	
+   189			apmixedsys: clock-controller@1001e000 {
+   190				compatible = "mediatek,mt7988-apmixedsys";
+   191				reg = <0 0x1001e000 0 0x1000>;
+   192				#clock-cells = <1>;
+   193			};
+   194	
+   195			pio: pinctrl@1001f000 {
+   196				compatible = "mediatek,mt7988-pinctrl", "syscon";
+   197				reg = <0 0x1001f000 0 0x1000>,
+   198				      <0 0x11c10000 0 0x1000>,
+   199				      <0 0x11d00000 0 0x1000>,
+   200				      <0 0x11d20000 0 0x1000>,
+   201				      <0 0x11e00000 0 0x1000>,
+   202				      <0 0x11f00000 0 0x1000>,
+   203				      <0 0x1000b000 0 0x1000>;
+   204				reg-names = "gpio", "iocfg_tr",
+   205					    "iocfg_br", "iocfg_rb",
+   206					    "iocfg_lb", "iocfg_tl", "eint";
+   207				gpio-controller;
+   208				#gpio-cells = <2>;
+   209				gpio-ranges = <&pio 0 0 84>;
+   210				interrupt-controller;
+   211				interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
+   212				interrupt-parent = <&gic>;
+   213				#interrupt-cells = <2>;
+   214	
+   215				pcie0_pins: pcie0-pins {
+   216					mux {
+   217						function = "pcie";
+   218						groups = "pcie_2l_0_pereset", "pcie_clk_req_n0_0",
+   219							 "pcie_wake_n0_0";
+   220					};
+   221				};
+   222	
+   223				pcie1_pins: pcie1-pins {
+   224					mux {
+   225						function = "pcie";
+   226						groups = "pcie_2l_1_pereset", "pcie_clk_req_n1",
+   227							 "pcie_wake_n1_0";
+   228					};
+   229				};
+   230	
+   231				pcie2_pins: pcie2-pins {
+   232					mux {
+   233						function = "pcie";
+   234						groups = "pcie_1l_0_pereset", "pcie_clk_req_n2_0",
+   235							 "pcie_wake_n2_0";
+   236					};
+   237				};
+   238	
+   239				pcie3_pins: pcie3-pins {
+   240					mux {
+   241						function = "pcie";
+   242						groups = "pcie_1l_1_pereset", "pcie_clk_req_n3",
+   243							 "pcie_wake_n3_0";
+   244					};
+   245				};
+   246			};
+   247	
+   248			pwm: pwm@10048000 {
+   249				compatible = "mediatek,mt7988-pwm";
+   250				reg = <0 0x10048000 0 0x1000>;
+   251				clocks = <&infracfg CLK_INFRA_66M_PWM_BCK>,
+   252					 <&infracfg CLK_INFRA_66M_PWM_HCK>,
+   253					 <&infracfg CLK_INFRA_66M_PWM_CK1>,
+   254					 <&infracfg CLK_INFRA_66M_PWM_CK2>,
+   255					 <&infracfg CLK_INFRA_66M_PWM_CK3>,
+   256					 <&infracfg CLK_INFRA_66M_PWM_CK4>,
+   257					 <&infracfg CLK_INFRA_66M_PWM_CK5>,
+   258					 <&infracfg CLK_INFRA_66M_PWM_CK6>,
+   259					 <&infracfg CLK_INFRA_66M_PWM_CK7>,
+   260					 <&infracfg CLK_INFRA_66M_PWM_CK8>;
+   261				clock-names = "top", "main", "pwm1", "pwm2", "pwm3",
+   262					      "pwm4", "pwm5", "pwm6", "pwm7", "pwm8";
+   263				#pwm-cells = <2>;
+   264				status = "disabled";
+   265			};
+   266	
+   267			sgmiisys0: syscon@10060000 {
+   268				compatible = /*"mediatek,mt7988-sgmiisys",*/
+   269					     "mediatek,mt7988-sgmiisys0",
+   270					     "simple-mfd",
+   271					     "syscon";
+   272				reg = <0 0x10060000 0 0x1000>;
+   273				resets = <&watchdog 1>;
+   274				#clock-cells = <1>;
+   275	
+   276				sgmiipcs0: pcs {
+   277					compatible = "mediatek,mt7988-sgmii";
+   278					clocks = <&topckgen CLK_TOP_SGM_0_SEL>,
+   279						 <&sgmiisys0 CLK_SGM0_TX_EN>,
+   280						 <&sgmiisys0 CLK_SGM0_RX_EN>;
+   281					clock-names = "sgmii_sel", "sgmii_tx", "sgmii_rx";
+   282					phys = <&xfi_tphy0>;
+   283					#pcs-cells = <0>;
+   284				};
+   285			};
+   286	
+   287			sgmiisys1: syscon@10070000 {
+   288				compatible = /*"mediatek,mt7988-sgmiisys",*/
+   289					     "mediatek,mt7988-sgmiisys1",
+   290					     "simple-mfd",
+   291					     "syscon";
+   292				reg = <0 0x10070000 0 0x1000>;
+   293				resets = <&watchdog 2>;
+   294				#clock-cells = <1>;
+   295	
+   296				sgmiipcs1: pcs {
+   297					compatible = "mediatek,mt7988-sgmii";
+   298					clocks = <&topckgen CLK_TOP_SGM_1_SEL>,
+   299						 <&sgmiisys1 CLK_SGM1_TX_EN>,
+   300						 <&sgmiisys1 CLK_SGM1_RX_EN>;
+   301					clock-names = "sgmii_sel", "sgmii_tx", "sgmii_rx";
+   302					phys = <&xfi_tphy1>;
+   303					#pcs-cells = <0>;
+   304				};
+   305			};
+   306	
+   307			usxgmiisys0: pcs@10080000 {
+   308				compatible = "mediatek,mt7988-usxgmiisys";
+   309				reg = <0 0x10080000 0 0x1000>;
+   310				resets = <&watchdog 12>;
+   311				clocks = <&topckgen CLK_TOP_USXGMII_SBUS_0_SEL>;
+   312				phys = <&xfi_tphy0>;
+   313				#pcs-cells = <0>;
+   314			};
+   315	
+   316			usxgmiisys1: pcs@10081000 {
+   317				compatible = "mediatek,mt7988-usxgmiisys";
+   318				reg = <0 0x10081000 0 0x1000>;
+   319				resets = <&watchdog 13>;
+   320				clocks = <&topckgen CLK_TOP_USXGMII_SBUS_1_SEL>;
+   321				phys = <&xfi_tphy1>;
+   322				#pcs-cells = <0>;
+   323			};
+   324	
+   325	
+   326			mcusys: mcusys@100e0000 {
+   327				compatible = "mediatek,mt7988-mcusys", "syscon";
+   328				reg = <0 0x100e0000 0 0x1000>;
+   329				#clock-cells = <1>;
+   330			};
+   331	
+   332			serial0: serial@11000000 {
+   333				compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
+   334				reg = <0 0x11000000 0 0x100>;
+   335				interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
+   336				interrupt-names = "uart", "wakeup";
+   337				clocks = <&topckgen CLK_TOP_UART_SEL>,
+   338					 <&infracfg CLK_INFRA_52M_UART0_CK>;
+   339				clock-names = "baud", "bus";
+   340				status = "disabled";
+   341			};
+   342	
+   343			serial1: serial@11000100 {
+   344				compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
+   345				reg = <0 0x11000100 0 0x100>;
+   346				interrupts = <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>;
+   347				interrupt-names = "uart", "wakeup";
+   348				clocks = <&topckgen CLK_TOP_UART_SEL>,
+   349					 <&infracfg CLK_INFRA_52M_UART1_CK>;
+   350				clock-names = "baud", "bus";
+   351				status = "disabled";
+   352			};
+   353	
+   354			serial2: serial@11000200 {
+   355				compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
+   356				reg = <0 0x11000200 0 0x100>;
+   357				interrupts = <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>;
+   358				interrupt-names = "uart", "wakeup";
+   359				clocks = <&topckgen CLK_TOP_UART_SEL>,
+   360					 <&infracfg CLK_INFRA_52M_UART2_CK>;
+   361				clock-names = "baud", "bus";
+   362				status = "disabled";
+   363			};
+   364	
+   365			i2c0: i2c@11003000 {
+   366				compatible = "mediatek,mt7981-i2c";
+   367				reg = <0 0x11003000 0 0x1000>,
+   368				      <0 0x10217080 0 0x80>;
+   369				interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>;
+   370				clock-div = <1>;
+   371				clocks = <&infracfg CLK_INFRA_I2C_BCK>,
+   372					 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
+   373				clock-names = "main", "dma";
+   374				#address-cells = <1>;
+   375				#size-cells = <0>;
+   376				status = "disabled";
+   377			};
+   378	
+   379			i2c1: i2c@11004000 {
+   380				compatible = "mediatek,mt7981-i2c";
+   381				reg = <0 0x11004000 0 0x1000>,
+   382				      <0 0x10217100 0 0x80>;
+   383				interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
+   384				clock-div = <1>;
+   385				clocks = <&infracfg CLK_INFRA_I2C_BCK>,
+   386					 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
+   387				clock-names = "main", "dma";
+   388				#address-cells = <1>;
+   389				#size-cells = <0>;
+   390				status = "disabled";
+   391			};
+   392	
+   393			i2c2: i2c@11005000 {
+   394				compatible = "mediatek,mt7981-i2c";
+   395				reg = <0 0x11005000 0 0x1000>,
+   396				      <0 0x10217180 0 0x80>;
+   397				interrupts = <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
+   398				clock-div = <1>;
+   399				clocks = <&infracfg CLK_INFRA_I2C_BCK>,
+   400					 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
+   401				clock-names = "main", "dma";
+   402				#address-cells = <1>;
+   403				#size-cells = <0>;
+   404				status = "disabled";
+   405			};
+   406	
+   407			spi0: spi@11007000 {
+   408				compatible = "mediatek,mt7988-spi-quad", "mediatek,spi-ipm";
+   409				reg = <0 0x11007000 0 0x100>;
+   410				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
+   411				clocks = <&topckgen CLK_TOP_MPLL_D2>,
+   412					 <&topckgen CLK_TOP_SPI_SEL>,
+   413					 <&infracfg CLK_INFRA_104M_SPI0>,
+   414					 <&infracfg CLK_INFRA_66M_SPI0_HCK>;
+   415				clock-names = "parent-clk", "sel-clk", "spi-clk",
+   416					      "hclk";
+   417				#address-cells = <1>;
+   418				#size-cells = <0>;
+   419				status = "disabled";
+   420			};
+   421	
+   422			spi1: spi@11008000 {
+   423				compatible = "mediatek,mt7988-spi-single", "mediatek,spi-ipm";
+   424				reg = <0 0x11008000 0 0x100>;
+   425				interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
+   426				clocks = <&topckgen CLK_TOP_MPLL_D2>,
+   427					 <&topckgen CLK_TOP_SPIM_MST_SEL>,
+   428					 <&infracfg CLK_INFRA_104M_SPI1>,
+   429					 <&infracfg CLK_INFRA_66M_SPI1_HCK>;
+   430				clock-names = "parent-clk", "sel-clk", "spi-clk",
+   431					      "hclk";
+   432				#address-cells = <1>;
+   433				#size-cells = <0>;
+   434				status = "disabled";
+   435			};
+   436	
+   437			spi2: spi@11009000 {
+   438				compatible = "mediatek,mt7988-spi-quad", "mediatek,spi-ipm";
+   439				reg = <0 0x11009000 0 0x100>;
+   440				interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>;
+   441				clocks = <&topckgen CLK_TOP_MPLL_D2>,
+   442					 <&topckgen CLK_TOP_SPI_SEL>,
+   443					 <&infracfg CLK_INFRA_104M_SPI2_BCK>,
+   444					 <&infracfg CLK_INFRA_66M_SPI2_HCK>;
+   445				clock-names = "parent-clk", "sel-clk", "spi-clk",
+   446					      "hclk";
+   447				#address-cells = <1>;
+   448				#size-cells = <0>;
+   449				status = "disabled";
+   450			};
+   451	
+   452			lvts: lvts@1100a000 {
+   453				compatible = "mediatek,mt7988-lvts-ap";
+   454				#thermal-sensor-cells = <1>;
+   455				reg = <0 0x1100a000 0 0x1000>;
+   456				clocks = <&infracfg CLK_INFRA_26M_THERM_SYSTEM>;
+   457				interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
+   458				resets = <&infracfg MT7988_INFRA_RST1_THERM_CTRL_SWRST>;
+   459				nvmem-cells = <&lvts_calibration>;
+   460				nvmem-cell-names = "lvts-calib-data-1";
+   461			};
+   462	
+   463			phyfw: phy-firmware@f000000 {
+   464				compatible = "mediatek,2p5gphy-fw";
+   465				reg = <0 0x0f100000 0 0x20000>,
+   466				      <0 0x0f0f0018 0 0x20>;
+   467			};
+   468	
+   469			ssusb0: usb@11190000 {
+   470				compatible = "mediatek,mt7988-xhci", "mediatek,mtk-xhci";
+   471				reg = <0 0x11190000 0 0x2e00>,
+   472				      <0 0x11193e00 0 0x0100>;
+   473				reg-names = "mac", "ippc";
+   474				interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
+   475				clocks = <&infracfg CLK_INFRA_USB_SYS>,
+   476					 <&infracfg CLK_INFRA_USB_REF>,
+   477					 <&infracfg CLK_INFRA_66M_USB_HCK>,
+   478					 <&infracfg CLK_INFRA_133M_USB_HCK>,
+   479					 <&infracfg CLK_INFRA_USB_XHCI>;
+   480				clock-names = "sys_ck", "ref_ck", "mcu_ck", "dma_ck", "xhci_ck";
+   481				phys = <&xphyu2port0 PHY_TYPE_USB2>,
+   482				       <&xphyu3port0 PHY_TYPE_USB3>;
+   483				status = "disabled";
+   484			};
+   485	
+   486			ssusb1: usb@11200000 {
+   487				compatible = "mediatek,mt7988-xhci", "mediatek,mtk-xhci";
+   488				reg = <0 0x11200000 0 0x2e00>,
+   489				      <0 0x11203e00 0 0x0100>;
+   490				reg-names = "mac", "ippc";
+   491				interrupts = <GIC_SPI 172 IRQ_TYPE_LEVEL_HIGH>;
+   492				clocks = <&infracfg CLK_INFRA_USB_SYS_CK_P1>,
+   493					 <&infracfg CLK_INFRA_USB_CK_P1>,
+   494					 <&infracfg CLK_INFRA_66M_USB_HCK_CK_P1>,
+   495					 <&infracfg CLK_INFRA_133M_USB_HCK_CK_P1>,
+   496					 <&infracfg CLK_INFRA_USB_XHCI_CK_P1>;
+   497				clock-names = "sys_ck", "ref_ck", "mcu_ck", "dma_ck", "xhci_ck";
+   498				phys = <&tphyu2port0 PHY_TYPE_USB2>,
+   499				       <&tphyu3port0 PHY_TYPE_USB3>;
+   500				status = "disabled";
+   501			};
+   502	
+   503			mmc0: mmc@11230000 {
+   504				compatible = "mediatek,mt7988-mmc";
+   505				reg = <0 0x11230000 0 0x1000>,
+   506				      <0 0x11D60000 0 0x1000>;
+   507				interrupts = <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>;
+   508				clocks = <&infracfg CLK_INFRA_MSDC400>,
+   509					 <&infracfg CLK_INFRA_MSDC2_HCK>,
+   510					 <&infracfg CLK_INFRA_66M_MSDC_0_HCK>,
+   511					 <&infracfg CLK_INFRA_133M_MSDC_0_HCK>;
+   512				assigned-clocks = <&topckgen CLK_TOP_EMMC_250M_SEL>,
+   513						  <&topckgen CLK_TOP_EMMC_400M_SEL>;
+   514				assigned-clock-parents = <&topckgen CLK_TOP_NET1PLL_D5_D2>,
+   515							 <&apmixedsys CLK_APMIXED_MSDCPLL>;
+   516				clock-names = "source", "hclk", "axi_cg", "ahb_cg";
+   517				#address-cells = <1>;
+   518				#size-cells = <0>;
+   519				status = "disabled";
+   520			};
+   521	
+   522			pcie2: pcie@11280000 {
+   523				compatible = "mediatek,mt7986-pcie",
+   524					     "mediatek,mt8192-pcie";
+   525				device_type = "pci";
+   526				#address-cells = <3>;
+   527				#size-cells = <2>;
+   528				reg = <0 0x11280000 0 0x2000>;
+   529				reg-names = "pcie-mac";
+   530				linux,pci-domain = <3>;
+   531				interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
+   532				bus-range = <0x00 0xff>;
+   533				ranges = <0x81000000 0x00 0x20000000 0x00
+   534					  0x20000000 0x00 0x00200000>,
+   535					 <0x82000000 0x00 0x20200000 0x00
+   536					  0x20200000 0x00 0x07e00000>;
+   537				clocks = <&infracfg CLK_INFRA_PCIE_PIPE_P2>,
+   538					 <&infracfg CLK_INFRA_PCIE_GFMUX_TL_P2>,
+   539					 <&infracfg CLK_INFRA_PCIE_PERI_26M_CK_P2>,
+   540					 <&infracfg CLK_INFRA_133M_PCIE_CK_P2>;
+   541				clock-names = "pl_250m", "tl_26m", "peri_26m",
+   542					      "top_133m";
+   543				pinctrl-names = "default";
+   544				pinctrl-0 = <&pcie2_pins>;
+   545				status = "disabled";
+   546	
+   547				phys = <&xphyu3port0 PHY_TYPE_PCIE>;
+   548				phy-names = "pcie-phy";
+   549	
+   550				#interrupt-cells = <1>;
+   551				interrupt-map-mask = <0 0 0 0x7>;
+   552				interrupt-map = <0 0 0 1 &pcie_intc2 0>,
+   553						<0 0 0 2 &pcie_intc2 1>,
+   554						<0 0 0 3 &pcie_intc2 2>,
+   555						<0 0 0 4 &pcie_intc2 3>;
+   556				pcie_intc2: interrupt-controller {
+   557					#address-cells = <0>;
+   558					#interrupt-cells = <1>;
+   559					interrupt-controller;
+   560				};
+   561			};
+   562	
+   563			pcie3: pcie@11290000 {
+   564				compatible = "mediatek,mt7986-pcie",
+   565					     "mediatek,mt8192-pcie";
+   566				device_type = "pci";
+   567				#address-cells = <3>;
+   568				#size-cells = <2>;
+   569				reg = <0 0x11290000 0 0x2000>;
+   570				reg-names = "pcie-mac";
+   571				linux,pci-domain = <2>;
+   572				interrupts = <GIC_SPI 171 IRQ_TYPE_LEVEL_HIGH>;
+   573				bus-range = <0x00 0xff>;
+   574				ranges = <0x81000000 0x00 0x28000000 0x00
+   575					  0x28000000 0x00 0x00200000>,
+   576					 <0x82000000 0x00 0x28200000 0x00
+   577					  0x28200000 0x00 0x07e00000>;
+   578				clocks = <&infracfg CLK_INFRA_PCIE_PIPE_P3>,
+   579					 <&infracfg CLK_INFRA_PCIE_GFMUX_TL_P3>,
+   580					 <&infracfg CLK_INFRA_PCIE_PERI_26M_CK_P3>,
+   581					 <&infracfg CLK_INFRA_133M_PCIE_CK_P3>;
+   582				clock-names = "pl_250m", "tl_26m", "peri_26m",
+   583					      "top_133m";
+   584				pinctrl-names = "default";
+   585				pinctrl-0 = <&pcie3_pins>;
+   586				status = "disabled";
+   587	
+   588				#interrupt-cells = <1>;
+   589				interrupt-map-mask = <0 0 0 0x7>;
+   590				interrupt-map = <0 0 0 1 &pcie_intc3 0>,
+   591						<0 0 0 2 &pcie_intc3 1>,
+   592						<0 0 0 3 &pcie_intc3 2>,
+   593						<0 0 0 4 &pcie_intc3 3>;
+   594				pcie_intc3: interrupt-controller {
+   595					#address-cells = <0>;
+   596					#interrupt-cells = <1>;
+   597					interrupt-controller;
+   598				};
+   599			};
+   600	
+   601			pcie0: pcie@11300000 {
+   602				compatible = "mediatek,mt7986-pcie",
+   603					     "mediatek,mt8192-pcie";
+   604				device_type = "pci";
+   605				#address-cells = <3>;
+   606				#size-cells = <2>;
+   607				reg = <0 0x11300000 0 0x2000>;
+   608				reg-names = "pcie-mac";
+   609				linux,pci-domain = <0>;
+   610				interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
+   611				bus-range = <0x00 0xff>;
+   612				ranges = <0x81000000 0x00 0x30000000 0x00
+   613					  0x30000000 0x00 0x00200000>,
+   614					 <0x82000000 0x00 0x30200000 0x00
+   615					  0x30200000 0x00 0x07e00000>;
+   616				clocks = <&infracfg CLK_INFRA_PCIE_PIPE_P0>,
+   617					 <&infracfg CLK_INFRA_PCIE_GFMUX_TL_P0>,
+   618					 <&infracfg CLK_INFRA_PCIE_PERI_26M_CK_P0>,
+   619					 <&infracfg CLK_INFRA_133M_PCIE_CK_P0>;
+   620				clock-names = "pl_250m", "tl_26m", "peri_26m",
+   621					      "top_133m";
+   622				pinctrl-names = "default";
+   623				pinctrl-0 = <&pcie0_pins>;
+   624				status = "disabled";
+   625	
+   626				#interrupt-cells = <1>;
+   627				interrupt-map-mask = <0 0 0 0x7>;
+   628				interrupt-map = <0 0 0 1 &pcie_intc0 0>,
+   629						<0 0 0 2 &pcie_intc0 1>,
+   630						<0 0 0 3 &pcie_intc0 2>,
+   631						<0 0 0 4 &pcie_intc0 3>;
+   632				pcie_intc0: interrupt-controller {
+   633					#address-cells = <0>;
+   634					#interrupt-cells = <1>;
+   635					interrupt-controller;
+   636				};
+   637			};
+   638	
+   639			pcie1: pcie@11310000 {
+   640				compatible = "mediatek,mt7986-pcie",
+   641					     "mediatek,mt8192-pcie";
+   642				device_type = "pci";
+   643				#address-cells = <3>;
+   644				#size-cells = <2>;
+   645				reg = <0 0x11310000 0 0x2000>;
+   646				reg-names = "pcie-mac";
+   647				linux,pci-domain = <1>;
+   648				interrupts = <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
+   649				bus-range = <0x00 0xff>;
+   650				ranges = <0x81000000 0x00 0x38000000 0x00
+   651					  0x38000000 0x00 0x00200000>,
+   652					 <0x82000000 0x00 0x38200000 0x00
+   653					  0x38200000 0x00 0x07e00000>;
+   654				clocks = <&infracfg CLK_INFRA_PCIE_PIPE_P1>,
+   655					 <&infracfg CLK_INFRA_PCIE_GFMUX_TL_P1>,
+   656					 <&infracfg CLK_INFRA_PCIE_PERI_26M_CK_P1>,
+   657					 <&infracfg CLK_INFRA_133M_PCIE_CK_P1>;
+   658				clock-names = "pl_250m", "tl_26m", "peri_26m",
+   659					      "top_133m";
+   660				pinctrl-names = "default";
+   661				pinctrl-0 = <&pcie1_pins>;
+   662				status = "disabled";
+   663	
+   664				#interrupt-cells = <1>;
+   665				interrupt-map-mask = <0 0 0 0x7>;
+   666				interrupt-map = <0 0 0 1 &pcie_intc1 0>,
+   667						<0 0 0 2 &pcie_intc1 1>,
+   668						<0 0 0 3 &pcie_intc1 2>,
+   669						<0 0 0 4 &pcie_intc1 3>;
+   670				pcie_intc1: interrupt-controller {
+   671					#address-cells = <0>;
+   672					#interrupt-cells = <1>;
+   673					interrupt-controller;
+   674				};
+   675			};
+   676	
+ > 677			tphy: t-phy@11c50000 {
+   678				compatible = "mediatek,mt7986-tphy",
+   679					     "mediatek,generic-tphy-v2";
+   680				#address-cells = <2>;
+   681				#size-cells = <2>;
+   682				ranges;
+   683				status = "disabled";
+   684	
+   685				tphyu2port0: usb-phy@11c50000 {
+   686					reg = <0 0x11c50000 0 0x700>;
+   687					clocks = <&infracfg CLK_INFRA_USB_UTMI_CK_P1>;
+   688					clock-names = "ref";
+   689					#phy-cells = <1>;
+   690				};
+   691	
+   692				tphyu3port0: usb-phy@11c50700 {
+   693					reg = <0 0x11c50700 0 0x900>;
+   694					clocks = <&infracfg CLK_INFRA_USB_PIPE_CK_P1>;
+   695					clock-names = "ref";
+   696					#phy-cells = <1>;
+   697				};
+   698			};
+   699	
+ > 700			topmisc: system-controller@11d10000 {
 
 -- 
 0-DAY CI Kernel Test Service
