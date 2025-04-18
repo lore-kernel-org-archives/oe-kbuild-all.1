@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7415464E;
-	Fri, 18 Apr 2025 15:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B382206A2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Apr 2025 18:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744990245; cv=none; b=hEWxF74pygJoeuqBfnkDRp6STrm5Co3EgP4dOr/5U2e+qnYWJOLBv8UgdINMSCflkwhZiA7OtpOxVBHRr9Yhl3FoysRwVSrGPy6Q76KaSg9PrhRy/uhZC3sj1Ki2pfHag0ZES11HtByH51xB805aZNRfg05KwF1HdYPHgYg/Y5o=
+	t=1744999981; cv=none; b=q8+CUywwT7MKTcdwVldySc7mCeOBsdKYk1fWENkpZFqMuFOVY9RsW9mgYWAyKJ9kkx930jeh1lyTt9980+dKdjggXFWfxN8rpmQkzJ0PdIZcMV4A9jfDibNVDXVt5I7fAYRkYiovWMlOaOebymKz8JD1bcuniL4yI9t5uK4fkEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744990245; c=relaxed/simple;
-	bh=nuvyM8ba/KNSvSEHshiPj/M6iMCDkZufAcp05tmzU2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QrpGIt4UJMBtp7qei5+xuNUYfAwOzAwKBnjJ3podgAGdt9OLxwca/pGm07sZsgymmknSL8v9t4MXZ29u/aMK5o/OH0vIDiYwJHFU9G3MDdUDIt7KPn2pNpe89xTUpU4tEA3mkzO6qveB9IsXjNDVKtMoJjbAw3JqQZ2YaTntwkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jHuONcdG; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1744999981; c=relaxed/simple;
+	bh=7Ra8lKZhaDW4QU8PsuHvtHyXf9ZNCJfvO+zb0X3h1sE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P15potEP3MSDGsiTVNGTve2k6RZPCdXo8cckbySUy6Cl99vbv/zNixbN+CmFqHJ28kx8aLzbLk9SiHGX7I1UmoHE34dMm3IEYVHsDrjKBpBzV7Qgauv+3OT1V2Pwelwpm7pQyTBYLgop5+R3J/Of7IugeNcd3QzQ0CnxdNmrkaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=REyZtgye; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jHuONcdG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="REyZtgye"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744990244; x=1776526244;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nuvyM8ba/KNSvSEHshiPj/M6iMCDkZufAcp05tmzU2Y=;
-  b=jHuONcdGD+O942heWiBEmMNXMMyq9C79n7tMLf4+9A8GoHS8qoTxT/V9
-   oBvfdQB2pN6oSiYG2OaeGbGvVbin4A/mYxAFCV2DPrQPWC0E2+t0X7kJg
-   EihUi8Z45DhKg5xZOlGQ4X/JZ7WAJJKulg0ZGEiMp9Kmd3I/OgTTQ3waU
-   qxhBU509igLLr9SubmHsM1vNFxmq0zOk6SG5uMe7Sji/6gJHV7D8+51k3
-   FWYbzQCeGEaZiM+/TdFtgh1Zv3TVRGAT1Tz+CaRsS4YKleDwvk0/QlazH
-   JR/vZPHabwsLBzoZ+Uzn6JLwuSLVSKksxHeCzjyrV2glD0E3fSbYQE5tW
-   Q==;
-X-CSE-ConnectionGUID: sZQ20976SD6+G5fDjwAtUw==
-X-CSE-MsgGUID: RYk7HxlLQG+gTsVTTLp0zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="46740047"
+  t=1744999979; x=1776535979;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7Ra8lKZhaDW4QU8PsuHvtHyXf9ZNCJfvO+zb0X3h1sE=;
+  b=REyZtgyeWeOD4l31oDTq1Fd2m7phT0o+UmEpI3FsnXkZL948tZAhhzdp
+   T8IFHtKkIu68fe+DkyAqBiwXgPM/gbTxWhDgZU/NcQkz4koMnX4gDTmmt
+   34Z+Q8U2dyTKyEGXVlHRzQAZ1M5lqIvYnEWKRNIVxY3/ojuOOG+NV232+
+   VwlftfYUIuZrmDvNR03ZaqSu7QicMQhkI4U2+Pale8DFT6uIZ7gtmPlGy
+   XCQ0XrlyFjprtF7E+BQjtgZ8qUNXam04VbgSKZoRpPd5O4He/mrPBeW+H
+   lLDtfMxxpC6htmzJ7yp/I6s99mAPTjnkw/a6zkxGCE+aIXc7VzG+n5kVf
+   w==;
+X-CSE-ConnectionGUID: 5JckPn+yRju6Yz66uvy9Og==
+X-CSE-MsgGUID: EdgcIP2gSWC030lwGC0w2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="58007940"
 X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; 
-   d="scan'208";a="46740047"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 08:30:43 -0700
-X-CSE-ConnectionGUID: Ka+PNSTpTje/kVVVCKwmUQ==
-X-CSE-MsgGUID: +PoCNITSR8+UZvF95gi+ZA==
+   d="scan'208";a="58007940"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 11:12:58 -0700
+X-CSE-ConnectionGUID: wzYjkVAyTHK5O90TaXDoEQ==
+X-CSE-MsgGUID: tnEyiHazRD6nsiF5x5Jn7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; 
-   d="scan'208";a="168340356"
+   d="scan'208";a="135999705"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Apr 2025 08:30:40 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Apr 2025 11:12:57 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5nfp-00030T-2u;
-	Fri, 18 Apr 2025 15:30:37 +0000
-Date: Fri, 18 Apr 2025 23:29:48 +0800
+	id 1u5qCt-0003B1-19;
+	Fri, 18 Apr 2025 18:12:55 +0000
+Date: Sat, 19 Apr 2025 02:12:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
-	david.m.ertman@intel.com, ira.weiny@intel.com, lee@kernel.org,
-	andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-	heikki.krogerus@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v3] mfd: core: Support auxiliary device
-Message-ID: <202504182338.SwsgSLNm-lkp@intel.com>
-References: <20250418123433.2586383-1-raag.jadav@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 9/9]
+ samples/ftrace/ftrace-direct-multi-modify.o: warning: objtool:
+ my_tramp1()+0x10: 'naked' return found in RETHUNK build
+Message-ID: <202504190209.ttw1Q5rt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,52 +62,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250418123433.2586383-1-raag.jadav@intel.com>
 
-Hi Raag,
+Hi Jiri,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-mfd/for-mfd-fixes linus/master v6.15-rc2 next-20250417]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/mfd-core-Support-auxiliary-device/20250418-203658
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20250418123433.2586383-1-raag.jadav%40intel.com
-patch subject: [PATCH v3] mfd: core: Support auxiliary device
-config: riscv-randconfig-001-20250418 (https://download.01.org/0day-ci/archive/20250418/202504182338.SwsgSLNm-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250418/202504182338.SwsgSLNm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   e93dbf3bd481cf9c55d08073d8b0865cf274707c
+commit: bf0bfeb41ae90558ee463b1aaaec76f43916dd0b [9/9] ftrace/samples: Add module to test multi direct modify interface
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250419/202504190209.ttw1Q5rt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504190209.ttw1Q5rt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504182338.SwsgSLNm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504190209.ttw1Q5rt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mfd/mfd-core.c:389:31: warning: result of comparison of constant 2147483648 with expression of type 'int' is always false [-Wtautological-constant-out-of-range-compare]
-     389 |         if (dev_is_pci(parent) && id == MFD_AUX_TYPE)
-         |                                   ~~ ^  ~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +/int +389 drivers/mfd/mfd-core.c
-
-   384	
-   385	static int mfd_add_device(struct device *parent, int id, const struct mfd_cell *cells,
-   386				  struct resource *mem_base, int irq_base, struct irq_domain *domain)
-   387	{
-   388		/* TODO: Convert the platform device abusers and remove this flag */
- > 389		if (dev_is_pci(parent) && id == MFD_AUX_TYPE)
-   390			return mfd_add_auxiliary_device(parent, id, cells, mem_base, irq_base, domain);
-   391	
-   392		return mfd_add_platform_device(parent, id, cells, mem_base, irq_base, domain);
-   393	}
-   394	
+>> samples/ftrace/ftrace-direct-multi-modify.o: warning: objtool: my_tramp1()+0x10: 'naked' return found in RETHUNK build
+>> samples/ftrace/ftrace-direct-multi-modify.o: warning: objtool: my_tramp2()+0x10: 'naked' return found in RETHUNK build
+>> samples/ftrace/ftrace-direct-multi-modify.o: warning: objtool: my_tramp1()+0x10: missing int3 after ret
+>> samples/ftrace/ftrace-direct-multi-modify.o: warning: objtool: my_tramp2()+0x10: missing int3 after ret
 
 -- 
 0-DAY CI Kernel Test Service
