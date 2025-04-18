@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8131A70805
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Apr 2025 21:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D9C1DE8AB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Apr 2025 21:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745012180; cv=none; b=pdus9QVKbuk/5mLZ+9d6vjNOSLOwq4UPIsyJulrgBznQ40V4vwtPxVpJ1O3evfLLbHalBrG6NiixkkkZ3JNP49dyTuVW2iuM2y8EUTFN6+YeuzOFvpPsGrcHH8lxijBaOivZK3RKt4Phszhr0DMapC4YKAc4igZikw7mDyqPH3o=
+	t=1745012783; cv=none; b=AO1BVAwFv2nAdyIwB3iB2o1tIo3q7WFpoISSdzHymR0PHv5PRXrJf1u3fzH2MIR4ET+7BjU9Ws8wjfIJVfMPKzXFTy/UameA+0lvbosoVY+kVlJHB2WK1senrB2Ys3ytvd7bSsmgrc59GmfPaTJvk0fxvx93ro9ZH03U3m8zKVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745012180; c=relaxed/simple;
-	bh=dGtegSjuezmdFS7iqWnjT7CT6lPB+TjvW3gth5ZpkVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sooOmM7kIXX49u9t5yvufeWXUwh+wQ67mk75go0jCISGBscViibK2AQS9Gy2gkUWfX1mhg/oXxwnRqyZs/H1Ts4IXlp5h9ngnQ7MKkyBepFIVCyfRlAS7QzecX3nVTFvyfvLRENAWYAzNEjPdsWfCMv1CGjv2yn93rZmlAszjhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Si2ZU5wp; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1745012783; c=relaxed/simple;
+	bh=fmCsXk7y5szHT5yJ0Lq50pQ9D6XaiVEY7elkb68QLWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HS9ZU7QOEWhO/vn2gXyYZMiCCXPSRxFIXk28fgCvs1a+kz3SDLt+yVcupiccSTg0LFImIzxkDBSS3qUN1tNdvMNS/QrHZrSjXCFf49E7eL00f9egmpr771KgazN34m+mjSHgWmOlpR/TG/OicsAg/PknYO8gTSK6LiXS0IyvdYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dIyb2tme; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Si2ZU5wp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dIyb2tme"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745012179; x=1776548179;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dGtegSjuezmdFS7iqWnjT7CT6lPB+TjvW3gth5ZpkVA=;
-  b=Si2ZU5wpsq5QF4rdXcSV2FpUWR5gX/F98M64LWwgAyPb4ao80u8a2N3C
-   P4QodMq7TZhxOsLB+/H1Zb2JzYY2U85vb3w1x8SVxILIgV5TymNNMyI3g
-   CfKjgHycpowuLzGGnQUfm+YTwo04JzCyqEJAPywakW3LoZkXTMi8qxzu8
-   E0qMnwRWlSMGBYNQl5AhYVzpTIvf13mgnpr+X6PpKdaw6KI5Dbua8lRJX
-   D0oPwqlO9RdXyR+/cPyHJum+QeGwr4TRzqO/ixbUx6Xt6F1NAhClPOk6n
-   S4zBFw3L5tCBbxMwR1in6McYF2ZydX2FG+fNVzBrlwc7V485ENUnfsXFO
+  t=1745012782; x=1776548782;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fmCsXk7y5szHT5yJ0Lq50pQ9D6XaiVEY7elkb68QLWg=;
+  b=dIyb2tmeUuwulNrF+GUiE9aNWlqa3rmMIb3nqdWs9aHUWhUYMvG8WGPZ
+   wsD51XIAm5JWvCIjkJa+dyjXn2KU3x2T6Uk0Mm1/NHyA6sssy5i7HUJvJ
+   CqmD0jPgwqOpS2wHbTB89MuXCJ11VrtBbWsQryYQkVSCy+fbYFpkOEmmB
+   O+QuvhsDPCtzR/t0HsbhMIvjxJelu2qWJouvGMTlEqZiWK4vs8yA+R7oM
+   fJMbji3tXHBqdePygrl2cqwEFyrsbI6Lci2L19QWlGmi1jq5+mlcdL7X4
+   54dWvU3emQNJsNK4aAdUVqeDFXmGexUhv9JTqcV2hJCJNZa+Xl/Tk1B3C
    Q==;
-X-CSE-ConnectionGUID: 8eTDp7MuRKaHonj+HjIpJg==
-X-CSE-MsgGUID: l/Ri56hYQI+OQYk2ANWqjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="45879564"
+X-CSE-ConnectionGUID: fapcS4YSQS6AXAvoPUI2Qw==
+X-CSE-MsgGUID: tAGY6vaFTZ2jDt9YxgHVcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="50477565"
 X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; 
-   d="scan'208";a="45879564"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 14:36:18 -0700
-X-CSE-ConnectionGUID: 7SDLo/bYQbie86UkUcA3hw==
-X-CSE-MsgGUID: A6uKU8c5RBeUUwF8s87q6Q==
+   d="scan'208";a="50477565"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 14:46:21 -0700
+X-CSE-ConnectionGUID: MU8ipCgFTsqKOVeJ4kZHmQ==
+X-CSE-MsgGUID: vr2uNh9RTCmn0ig2BB4qfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,222,1739865600"; 
-   d="scan'208";a="154382085"
+   d="scan'208";a="131162518"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Apr 2025 14:36:17 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Apr 2025 14:46:17 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5tNe-0003Lx-1b;
-	Fri, 18 Apr 2025 21:36:14 +0000
-Date: Sat, 19 Apr 2025 05:35:35 +0800
+	id 1u5tXL-0003M9-0Y;
+	Fri, 18 Apr 2025 21:46:15 +0000
+Date: Sat, 19 Apr 2025 05:45:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: WARNING: modpost: vmlinux: section mismatch in reference:
- hash_debug_pagealloc_alloc_slots+0xb0 (section: .text) ->
- memblock_alloc_try_nid (section: .init.text)
-Message-ID: <202504190552.mnFGs5sj-lkp@intel.com>
+To: Thomas Richard <thomas.richard@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	DanieleCleri@aaeon.eu, GaryWang@aaeon.com.tw,
+	Thomas Richard <thomas.richard@bootlin.com>
+Subject: Re: [PATCH v3 10/10] pinctrl: Add pin controller driver for AAEON UP
+ boards
+Message-ID: <202504190519.GwvdasH8-lkp@intel.com>
+References: <20250416-aaeon-up-board-pinctrl-support-v3-10-f40776bd06ee@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +72,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250416-aaeon-up-board-pinctrl-support-v3-10-f40776bd06ee@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7e74f756f5f643148ca5537bf2fee6767e4b0ed9
-commit: 8846d9683884fa9ef5bb160011a748701216e186 book3s64/hash: Early detect debug_pagealloc size requirement
-date:   6 months ago
-config: powerpc64-randconfig-002-20250419 (https://download.01.org/0day-ci/archive/20250419/202504190552.mnFGs5sj-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504190552.mnFGs5sj-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8a834b0ac9ceb354a6e0b8cf5b363edca8221bdd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Richard/gpiolib-add-support-to-register-sparse-pin-range/20250416-221852
+base:   8a834b0ac9ceb354a6e0b8cf5b363edca8221bdd
+patch link:    https://lore.kernel.org/r/20250416-aaeon-up-board-pinctrl-support-v3-10-f40776bd06ee%40bootlin.com
+patch subject: [PATCH v3 10/10] pinctrl: Add pin controller driver for AAEON UP boards
+config: x86_64-kismet-CONFIG_GPIO_AGGREGATOR-CONFIG_PINCTRL_UPBOARD-0-0 (https://download.01.org/0day-ci/archive/20250419/202504190519.GwvdasH8-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250419/202504190519.GwvdasH8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504190552.mnFGs5sj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504190519.GwvdasH8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
->> WARNING: modpost: vmlinux: section mismatch in reference: hash_debug_pagealloc_alloc_slots+0xb0 (section: .text) -> memblock_alloc_try_nid (section: .init.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GPIO_AGGREGATOR when selected by PINCTRL_UPBOARD
+   WARNING: unmet direct dependencies detected for GPIO_AGGREGATOR
+     Depends on [n]: GPIOLIB [=n]
+     Selected by [y]:
+     - PINCTRL_UPBOARD [=y] && PINCTRL [=y] && MFD_UPBOARD_FPGA [=y]
 
 -- 
 0-DAY CI Kernel Test Service
