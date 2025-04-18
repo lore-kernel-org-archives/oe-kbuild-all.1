@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B58F23AD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Apr 2025 03:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF02262A6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Apr 2025 03:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744945314; cv=none; b=ipL9yXSZfLGhRQDCi0/AvIHBi2k+GBkcWom9VZLXRjuqZXk9RHKvhejNVtigNog0uIbo990o9qzlVufnA5f9VU6axGSngDu8wtnmrsFroYZ/F9T25zCwkKE+GVFpClKzavX3aJX/LtIxnmxKdSNoVcpBM40c8V4SLahPkpjpQ3Q=
+	t=1744945916; cv=none; b=EuhxicIY2isCQHJ4vRJGWaMmHmJIHvFBt5eZEuQ9GGuQg6d9AV4ZZ0Y1zmblpOhfunRUZbPjX1M/MXKIp4WgkrBJEs+QVM/mcelnctYO8jNyzHlze8TQCZFHmtFmbE6esUlwsb/lmgfsSlCHacCpi6886e6mOKpAEOep1cczJeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744945314; c=relaxed/simple;
-	bh=t5xgiUfTo4Okl+DeZ5PMnh/Hog/7g9lymJbJfejwY+Q=;
+	s=arc-20240116; t=1744945916; c=relaxed/simple;
+	bh=NBeTJ7iyrTi6Ghg/ZbtYY7RcUlOTa+eLpVnpI9fv5Is=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FjdV2QnInUerXzVxBq8jQxE4sIk8Ew4GbTn4UHaxvgRylVfURiayTehvQliu6ZY+731QsPLDNTx9MZFqCy4rLMTKFrp//E0OlBBxPG+ymHfk9uOaB+d2/Wconk3WeuZe3zDjsLDLGYydJ6o5uWUinxvA8nCsxnzROPpaoptIBOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a36DKtk7; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=TY1JEyqixHchb9gKYlsbp3OuQzxS9DBw7bpHWd+Fl24LwPSeMEZjwIW19GRdBkXtfEX+IiIJpruJ59UeipCnJ5nC+gm5gfdGuEIBgb7zQ78U4yiqKPvKiAybT5n+jj4X/tSkBOkeTvVqXteTAo9jFwjmi3KnGIpDPALXgIuTHmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VzW78h5X; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a36DKtk7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VzW78h5X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744945312; x=1776481312;
+  t=1744945914; x=1776481914;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t5xgiUfTo4Okl+DeZ5PMnh/Hog/7g9lymJbJfejwY+Q=;
-  b=a36DKtk7s6jZacX+0kJsPmypuHHQT2DSeiV1fAr+mvWpm9yrNPNNRkuC
-   MU0eoYQJdIPB2mpAchtZjd+IplYKj4b6jhmlW/YnwyJzAhAOXNti19RT+
-   qIvP0oeRWhwrsjUW2XuD5qehgqTbLNYqCyRSj6GV4YB/eeW9A8CYViGYa
-   FnAkcxl5m54Ehso9HnQwjdXxsro7p+e0Xw7E4jRWCBWyHioJumBJfgYC+
-   Vhe5I6GeMh+hHfo4iimu4zs4viAht8LCum5DWsfvT2ztwdy6f4JK7eoN4
-   42Whb4VDRRSzCjaBibR7e13c25OYxVRt2LvN16equDRoyD/Yr7hLWLjSP
-   A==;
-X-CSE-ConnectionGUID: UZx5WDaDR36Mez94ZVujAA==
-X-CSE-MsgGUID: D/qZDg28QbKqGQuK4Ki7Bg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="50404925"
+  bh=NBeTJ7iyrTi6Ghg/ZbtYY7RcUlOTa+eLpVnpI9fv5Is=;
+  b=VzW78h5XJnUIV4RelKL3daTT2JcnUOO1IMU9I7AWlb2lSZaLJE4bEhmg
+   lvl9R0N3mop3I3znis17yCTuij2pqY5kYTp9nPFplY8uHL1ZKNoOjSYj4
+   s7iZtyvo+XH5VQByb0qRQOZerZZZs/+Xd3SiJcvPW6oddY46lMu1n9REx
+   C4DRKfnKyWeEzkWfef53/guN81zpv3k3HUfeTXo7X5gWfboFnDEhTdYC/
+   pY97D281n1ITWDbK6UhWNJpwAaiOvJ1dwDzBdgZgeSqhlkV+KeOZ03lhu
+   YwJ/kKY4qa78gUbajFKorn/C0HEhy7nSpctuQlr4zooWO/p1ssHhW7O6U
+   g==;
+X-CSE-ConnectionGUID: 8dnCA1M1Q4qHcqoXs4Hr3Q==
+X-CSE-MsgGUID: /2hLzQ6kQzKRkA4ICM7Szw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="57217565"
 X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
-   d="scan'208";a="50404925"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 20:01:51 -0700
-X-CSE-ConnectionGUID: H60h+bQoTsGVWVltlDSnUA==
-X-CSE-MsgGUID: RlBE+YRNRGeXXqC4XG772g==
+   d="scan'208";a="57217565"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 20:11:54 -0700
+X-CSE-ConnectionGUID: K9cSY4iDS4WFExd6ikq+1A==
+X-CSE-MsgGUID: nfopPB+2RUW8KR7mrTAIew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
-   d="scan'208";a="162050123"
+   d="scan'208";a="131550135"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Apr 2025 20:01:50 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Apr 2025 20:11:52 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5bz9-0002Pt-2l;
-	Fri, 18 Apr 2025 03:01:47 +0000
-Date: Fri, 18 Apr 2025 11:01:20 +0800
+	id 1u5c8r-0002QN-1I;
+	Fri, 18 Apr 2025 03:11:49 +0000
+Date: Fri, 18 Apr 2025 11:11:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 4/4] fs/jbd2/journal.c:1529:6:
- warning: no previous prototype for 'jbd2_proxy_exec_get'
-Message-ID: <202504181024.tHso9v5K-lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.15-rc1-next-next-inband 24/24] kismet: WARNING: unmet
+ direct dependencies detected for USB_SERIAL_CONSOLE when selected by ZII_RAP
+Message-ID: <202504181117.ueyXMuYX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +64,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   e93dbf3bd481cf9c55d08073d8b0865cf274707c
-commit: e93dbf3bd481cf9c55d08073d8b0865cf274707c [4/4] anolis: sched: introduce simplified proxy execution for jbd2_lock
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250418/202504181024.tHso9v5K-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250418/202504181024.tHso9v5K-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
+head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
+commit: 9e2d85243a79cbf10ea6538b605260e3199fda1a [24/24] platform/x86: Add Zodiac Radio Access Point platform driver
+config: x86_64-kismet-CONFIG_USB_SERIAL_CONSOLE-CONFIG_ZII_RAP-0-0 (https://download.01.org/0day-ci/archive/20250418/202504181117.ueyXMuYX-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250418/202504181117.ueyXMuYX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504181024.tHso9v5K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504181117.ueyXMuYX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> fs/jbd2/journal.c:1529:6: warning: no previous prototype for 'jbd2_proxy_exec_get' [-Wmissing-prototypes]
-    1529 | void jbd2_proxy_exec_get(journal_t *journal)
-         |      ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/jbd2_proxy_exec_get +1529 fs/jbd2/journal.c
-
-  1524	
-  1525	/*
-  1526	 * When we enable proxy exec for journal, we call jbd2_proxy_exec_get().
-  1527	 * If we are the first one to enable, we'll also enable __jbd2_proxy_exec_enabled.
-  1528	 */
-> 1529	void jbd2_proxy_exec_get(journal_t *journal)
-  1530	{
-  1531		atomic_inc(&journal->proxy_exec_refcount);
-  1532	
-  1533		if (atomic_inc_not_zero(&jbd2_proxy_exec_count))
-  1534			return;
-  1535	
-  1536		mutex_lock(&jbd2_proxy_exec_mutex);
-  1537		if (!atomic_read(&jbd2_proxy_exec_count))
-  1538			static_branch_enable(&__jbd2_proxy_exec_enabled);
-  1539	
-  1540		/* Ensure the static branch is enabled before we increase jbd2_proxy_exec_count. */
-  1541		smp_mb__before_atomic();
-  1542		atomic_inc(&jbd2_proxy_exec_count);
-  1543		mutex_unlock(&jbd2_proxy_exec_mutex);
-  1544	}
-  1545	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for USB_SERIAL_CONSOLE when selected by ZII_RAP
+   WARNING: unmet direct dependencies detected for NET_DSA
+     Depends on [n]: NET [=y] && (BRIDGE [=n] || BRIDGE [=n]=n [=n]) && (HSR [=n] || HSR [=n]=n [=n]) && INET [=n] && NETDEVICES [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for IGB
+     Depends on [n]: NETDEVICES [=n] && ETHERNET [=n] && NET_VENDOR_INTEL [=n] && PCI [=n] && PTP_1588_CLOCK_OPTIONAL [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for TQMX86_WDT
+     Depends on [n]: WATCHDOG [=n] && (X86 [=y] || COMPILE_TEST [=y])
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MMC_SDHCI_PCI
+     Depends on [n]: MMC [=y] && MMC_SDHCI [=y] && PCI [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX
+     Depends on [n]: NETDEVICES [=n] && NET_DSA [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for PHYLIB
+     Depends on [n]: NETDEVICES [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for USB_SERIAL
+     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && TTY [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for USB_SERIAL_CONSOLE
+     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && USB_SERIAL [=y]=y [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MDIO_BITBANG
+     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for USB_SERIAL_FTDI_SIO
+     Depends on [n]: USB_SUPPORT [=n] && USB [=n] && USB_SERIAL [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
+     Depends on [n]: INPUT [=y] && INPUT_KEYBOARD [=n] && GPIOLIB [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MARVELL_PHY
+     Depends on [n]: NETDEVICES [=n] && PHYLIB [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MDIO_GPIO
+     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n] && MDIO_BITBANG [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
 
 -- 
 0-DAY CI Kernel Test Service
