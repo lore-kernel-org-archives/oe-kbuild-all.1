@@ -1,70 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AD03D994
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Apr 2025 23:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62090BA2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Apr 2025 00:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744932986; cv=none; b=ZcM7LB8Wd0vjtZkZ/b3hpMlV4+KGV2gAoTqAyhIWJfZ4ZS2lYZKBQhi8sq6Vtco6Inpz5OfBD6500Yb0vdi+nLLoV4jQLax5UaiEtrZygR1k8qFXHy8lATAj2fCBNZ7ON8I9H/sozdZS1lkD4yLLXFKUyvYWFYIGc2AAdB4hrQc=
+	t=1744937856; cv=none; b=j/XHe7lilr/j39IeeUoUn72nEA+WBqNusvcj2KUh80c9X1jkIVvtraYY74FSTdQ4t8ShCA8xXMdTfkLULQftBy8TzHPXULvxLWNhqLpUoWFgfsszbaTjTDRkBpaQnpEpdhpi8y0WIr4TXHwUxTQKEA2WFCg53vjNODLwEe6QggQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744932986; c=relaxed/simple;
-	bh=PbZc+ltmFCtobjop3nPO3WC1tT6Bqv0+pNI/ptnp4u0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=onGoVPIbki2xTc3/o7a2CVWODQry3D5Hbmz0vuUYI7yyBxQ92fqVmYkHL9ByyUgVUnXvBWt0TZ313FIyGBfZmG04bIHRrueYtlme+xBJA0P7GC49cN8aB6auJiaxIfEoDEJMocF7yuSHFUO5oycflmC500WszA+8Q3J38AOZiS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gYbaENDW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744937856; c=relaxed/simple;
+	bh=hB5phCrZn68W6uVMX+tnxr2j0KYfeo3yCmLlS2amlgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ECMbW4CI179/zpbqlOkJA48jnRmHjULyrXt9OGzUqQ96JfGYYz7/VR7gYN5an9c7NLyLZV0AnRER/M9qX4EbvUa3Yve/0XUuqQeKpXCTt3G9kxu/w1g4Al7ThktMKxY6NGPKc1HMlSaWFUwGOhaBkYIuZACmJ+GcHnuO7a6YRR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CPoVyMP2; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gYbaENDW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FC9C4CEE4;
-	Thu, 17 Apr 2025 23:36:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1744932986;
-	bh=PbZc+ltmFCtobjop3nPO3WC1tT6Bqv0+pNI/ptnp4u0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gYbaENDWAngNTrH1KzygqNmqBMivSl5dL+uDl3M+FQySgxfDTpd/D0qRl3sAoYw0I
-	 QKzLifhhQYDAJu18lHwjru/zKK4PB2Gz7U6g8cJoTHZZFm3oF7CzpCXnQfVAqsUWbc
-	 MpUy/C9rKGb9veZkeF1wxuOagv5tXxHCixND8gcU=
-Date: Thu, 17 Apr 2025 16:36:25 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Yuquan Wang <wangyuquan1236@phytium.com.cn>,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 3890/4528] drivers/acpi/numa/srat.c:467:13:
- error: implicit declaration of function 'numa_add_reserved_memblk'
-Message-Id: <20250417163625.e0ea4844a19e391618211aa3@linux-foundation.org>
-In-Reply-To: <202504180647.e3VdYsTZ-lkp@intel.com>
-References: <202504180647.e3VdYsTZ-lkp@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPoVyMP2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744937854; x=1776473854;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hB5phCrZn68W6uVMX+tnxr2j0KYfeo3yCmLlS2amlgw=;
+  b=CPoVyMP2lXywFiU+74BgffQm+gwg2g9COoLECBfMKzggIScyK5PnAmZB
+   bdm9/jTb+hIPw2Uv7U1uJat9FPql6PyaW7ryI/UP827D0T1QmQieZYDcZ
+   GOxxElKIR96o3EVRQXGjTMNjW1vom8qpU/hj6IAUqfL3N6hrVk/xST+yF
+   fkbjj8HAoNC+5MVrDPVMvbgke060TEPhhMwO3l+0XNdqU60zzch3/ymLm
+   kVcbsWviI8q+xg/VSaowpVwQ/jiQ/DqoqrPOPfeZWX8ebg8TKbn3GXiyd
+   FHkPcptdZka9kRbe4DojwVygNjQCOLKdjtlZeN5aKO4MGnpQjpJaGzYbZ
+   g==;
+X-CSE-ConnectionGUID: yGutLdBnTGaPSpsf1SmNEQ==
+X-CSE-MsgGUID: c7ZsGWvrTem8HCLDut/9rQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="64102280"
+X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
+   d="scan'208";a="64102280"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 17:57:34 -0700
+X-CSE-ConnectionGUID: NmmvdTFwQ+mIgkwNgtnmQg==
+X-CSE-MsgGUID: CCUKlZNSTESL6TVvpD2gBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,220,1739865600"; 
+   d="scan'208";a="131514356"
+Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Apr 2025 17:57:32 -0700
+Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u5a2s-0002Dt-1t;
+	Fri, 18 Apr 2025 00:57:30 +0000
+Date: Fri, 18 Apr 2025 08:57:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.15-rc1-next-next-inband 24/24] kismet: WARNING: unmet
+ direct dependencies detected for USB_SERIAL when selected by ZII_RAP
+Message-ID: <202504180857.lPNHOZ3Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 18 Apr 2025 06:41:34 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/lunn/linux.git v6.15-rc1-next-next-inband
+head:   9e2d85243a79cbf10ea6538b605260e3199fda1a
+commit: 9e2d85243a79cbf10ea6538b605260e3199fda1a [24/24] platform/x86: Add Zodiac Radio Access Point platform driver
+config: x86_64-kismet-CONFIG_USB_SERIAL-CONFIG_ZII_RAP-0-0 (https://download.01.org/0day-ci/archive/20250418/202504180857.lPNHOZ3Y-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250418/202504180857.lPNHOZ3Y-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   bc8aa6cdadcc00862f2b5720e5de2e17f696a081
-> commit: 8579eee90756b972a13ef678848c49eabb99f3b6 [3890/4528] mm: numa_memblks: introduce numa_add_reserved_memblk()
-> config: loongarch-randconfig-001-20250418 (https://download.01.org/0day-ci/archive/20250418/202504180647.e3VdYsTZ-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250418/202504180647.e3VdYsTZ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504180647.e3VdYsTZ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/acpi/numa/srat.c: In function 'acpi_parse_cfmws':
-> >> drivers/acpi/numa/srat.c:467:13: error: implicit declaration of function 'numa_add_reserved_memblk' [-Wimplicit-function-declaration]
->      467 |         if (numa_add_reserved_memblk(node, start, end) < 0) {
->          |             ^~~~~~~~~~~~~~~~~~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504180857.lPNHOZ3Y-lkp@intel.com/
 
-OK, thanks, also https://lkml.kernel.org/r/CANiq72mHkzLMZj=tBtMqq6N_uvt9AAtShXyVPq5rA3xaFWguMA@mail.gmail.com
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for USB_SERIAL when selected by ZII_RAP
+   WARNING: unmet direct dependencies detected for NET_DSA
+     Depends on [n]: NET [=n] && (BRIDGE [=n] || BRIDGE [=n]=n [=n]) && (HSR [=n] || HSR [=n]=n [=n]) && INET [=n] && NETDEVICES [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for IGB
+     Depends on [n]: NETDEVICES [=n] && ETHERNET [=n] && NET_VENDOR_INTEL [=n] && PCI [=n] && PTP_1588_CLOCK_OPTIONAL [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for PINCTRL_SX150X
+     Depends on [n]: PINCTRL [=y] && I2C [=n]=y [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for TQMX86_WDT
+     Depends on [n]: WATCHDOG [=n] && (X86 [=y] || COMPILE_TEST [=n])
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for RTC_DRV_DS1307
+     Depends on [n]: RTC_CLASS [=y] && I2C [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for EEPROM_AT24
+     Depends on [n]: I2C [=n] && SYSFS [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MMC_SDHCI_PCI
+     Depends on [n]: MMC [=y] && MMC_SDHCI [=y] && PCI [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for NET_DSA_MV88E6XXX
+     Depends on [n]: NETDEVICES [=n] && NET_DSA [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for PHYLIB
+     Depends on [n]: NETDEVICES [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for USB_SERIAL
+     Depends on [n]: USB_SUPPORT [=y] && USB [=y] && TTY [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for DS1682
+     Depends on [n]: I2C [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MDIO_BITBANG
+     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for I2C_OCORES
+     Depends on [n]: I2C [=n] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
+     Depends on [n]: INPUT [=y] && INPUT_KEYBOARD [=n] && GPIOLIB [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MARVELL_PHY
+     Depends on [n]: NETDEVICES [=n] && PHYLIB [=y]
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
+   
+   WARNING: unmet direct dependencies detected for MDIO_GPIO
+     Depends on [n]: NETDEVICES [=n] && MDIO_DEVICE [=n] && MDIO_BUS [=n] && MDIO_BITBANG [=y] && (GPIOLIB [=y] || COMPILE_TEST [=n])
+     Selected by [y]:
+     - ZII_RAP [=y] && X86_PLATFORM_DEVICES [=y]
 
-I'll drop this version of the patch.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
