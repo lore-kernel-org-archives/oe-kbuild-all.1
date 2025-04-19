@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9527FBAC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 06:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D78919259E;
+	Sat, 19 Apr 2025 06:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745043480; cv=none; b=oCXTFa8aoDMkpsNAJMozqZ/nZjpUu6wmLh3czcbmD/rBh1PkTgDARkDcg5uWzbiydTPBtaFzxk6sPSZH3HC9hdVh767C09jCMNW7q8QohCVAgUuxZxHWihq12BjhDveSQ4O+MlDCcgirCwMF/nwFhLckRC0k8ai1cpEh7UTB27o=
+	t=1745045945; cv=none; b=SsWdFx3Yb5dQZer+WYlv9Z5+EipDjw3a5IMiRsRevEUtsDOBCAj/ZdBWKKoo8quEetU+lsyPFXMRldHDTioDOMQR0L3fh36GFnb8b+sVH93AXK5ZRYgGzWu7eogleWDb4xYcOltieo+rpAmWCMrSohhK4twjtcSShIi4IEQF8Uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745043480; c=relaxed/simple;
-	bh=TChxUsFKpPS8INXefsXoLUL2SpsAiDoMkhdMySBMcuE=;
+	s=arc-20240116; t=1745045945; c=relaxed/simple;
+	bh=NUjvb2G8FmtEyIc6MUMmMMeecADcavEM7FtAgAxHrv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u+lyppiFFe/EQoSYKAb0ns5bX9EicnwEjjYgUiqXx7lGg3MKjwf9jQBC6U+6rBRkO+BpSkiqe1UV56V1gltgoRlUwPko+VljNPfxIW3HEwiOrwywmtfSBQrhkSfWpxNCanix23FYaVx5IXLWVoytLeZMaWsHx7KsWtjRmxrSa0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+1JFK9V; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=t8gm0/1rNdLY5QDurWCbEdRMFyvTO68UaeHGQs4F28vs1TaLKadGB/tZ3j3TuWWQoXk39XCBiRa6qnY5eIpriYz0qF4ckiq+ophD2vhLjO52kmCqeuNC76tbTMCZZ4UyTlsfzEiJ9O0xOTYQ3+py1hYoAAnNo6hXlTH5Wt0y4Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Re2mDuE1; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+1JFK9V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Re2mDuE1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745043478; x=1776579478;
+  t=1745045942; x=1776581942;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TChxUsFKpPS8INXefsXoLUL2SpsAiDoMkhdMySBMcuE=;
-  b=X+1JFK9VI3Xlxm/KJE0qk4KM7kHisli4JGWJQxjT6zZ106XheQl6w3qB
-   eMyu6BUbTk1rghf/A1jeNW3oTQzwRCUaytC5oeoe+fKpJulVKlxn6pKAx
-   qoFuHvJzs3pfgB0t+VOIrK+6RpJrEt14sC3c/fI3jeOyydH/EauNfuCE8
-   Pt4hZ/d1NHnNTV/BhFL4LBSQeZs4ztCnha5Z1UleER9GfdVwBdB2EWH29
-   ybu8SA9GzQn2tnc8MksCtdJdlIkRj4f4zGXWwq1Y4igOIdWGeTp+hnLcH
-   qZJA7obfbKk3nHNCZ+T2X2BdINpUeO6iRtCaxl5iHqIIJ716gMqaM1nIm
-   A==;
-X-CSE-ConnectionGUID: fWCB7FMxQ9++hzInKwwhpA==
-X-CSE-MsgGUID: X3QNfrQaTTqP3rH+38cwyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="58044781"
+  bh=NUjvb2G8FmtEyIc6MUMmMMeecADcavEM7FtAgAxHrv4=;
+  b=Re2mDuE1nYWLvuL1GfTsRiHYHlKlk8aUGbjUYwU4rw+3opIZ17WRyMgJ
+   R9dTm53CoBV6EyRNHE4CXhK+sVTqwZEYvOUC/ju5babDCl+RUnDjJGkav
+   a0pFMbpX8xElLbEmmzxSKKKkmn9ewOyPhRFmA1KHq9NsXCRdpTJTa7NH1
+   vt0a1u/jqVeDBD5oXMj5CLDLDGW9UwO9BJOZK88yKgB+/BJ9chL65EhIb
+   /D9DMvR/uoxCtukHmsnphbdfpVLOzWRT5XuJWKoV7g0xoQ2d9CzLpsyT6
+   Ei7MpvF/xUtbW3sqQdwUTjJbe9KqXavfvoLlySzVdAbMRyQiy1SBozfoo
+   g==;
+X-CSE-ConnectionGUID: onA2tI1uQKWMzWI08OrvZA==
+X-CSE-MsgGUID: b6iu8S23QN2qF71Hf3BqVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="64073849"
 X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="58044781"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 23:17:58 -0700
-X-CSE-ConnectionGUID: J6gapLXOTBaAEJUuby379Q==
-X-CSE-MsgGUID: LYN41tKnTEa/Zq+2ULL5rQ==
+   d="scan'208";a="64073849"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 23:59:01 -0700
+X-CSE-ConnectionGUID: 4QlOuSX8T6KIX8zVNjbGQg==
+X-CSE-MsgGUID: H7Jh2vy+SK6ZaLvmZjyIhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="132172044"
+   d="scan'208";a="131298101"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Apr 2025 23:17:56 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 18 Apr 2025 23:59:00 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u61WU-0003eP-2R;
-	Sat, 19 Apr 2025 06:17:54 +0000
-Date: Sat, 19 Apr 2025 14:17:10 +0800
+	id 1u62AE-0003fd-12;
+	Sat, 19 Apr 2025 06:58:58 +0000
+Date: Sat, 19 Apr 2025 14:58:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:migration 1/22] mm/page_isolation.c:574:71: error:
- expected ')' before 'PageOfflineRestorable'
-Message-ID: <202504191408.jpdX9oDa-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:migration 1/22] mm/page_isolation.c:575:5: error:
+ expected ')'
+Message-ID: <202504191437.oVMpuu1Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,27 +65,27 @@ Content-Disposition: inline
 tree:   https://github.com/davidhildenbrand/linux migration
 head:   c0ca4eb396d25b10b9c749411814cff272b05065
 commit: 6beb1db008901362ed89cc414af874229d4cef95 [1/22] mm/memory_hotplug: PG_offline_restorable for offlining memory with PageOffline pages
-config: csky-randconfig-002-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191408.jpdX9oDa-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191408.jpdX9oDa-lkp@intel.com/reproduce)
+config: hexagon-randconfig-002-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191437.oVMpuu1Q-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191437.oVMpuu1Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504191408.jpdX9oDa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504191437.oVMpuu1Q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/page_isolation.c: In function '__test_page_isolated_in_pageblock':
->> mm/page_isolation.c:574:71: error: expected ')' before 'PageOfflineRestorable'
-     574 |                 else if ((flags & MEMORY_OFFLINE) && PageOffline(page)
-         |                         ~                                             ^
-         |                                                                       )
+>> mm/page_isolation.c:575:5: error: expected ')'
      575 |                          PageOfflineRestorable(page))
-         |                          ~~~~~~~~~~~~~~~~~~~~~                         
+         |                          ^
+   mm/page_isolation.c:574:11: note: to match this '('
+     574 |                 else if ((flags & MEMORY_OFFLINE) && PageOffline(page)
+         |                         ^
+   1 error generated.
 
 
-vim +574 mm/page_isolation.c
+vim +575 mm/page_isolation.c
 
    522	
    523	/**
@@ -139,8 +139,8 @@ vim +574 mm/page_isolation.c
    571			else if ((flags & MEMORY_OFFLINE) && PageHWPoison(page))
    572				/* A HWPoisoned page cannot be also PageBuddy */
    573				pfn++;
- > 574			else if ((flags & MEMORY_OFFLINE) && PageOffline(page)
-   575				 PageOfflineRestorable(page))
+   574			else if ((flags & MEMORY_OFFLINE) && PageOffline(page)
+ > 575				 PageOfflineRestorable(page))
    576				/*
    577				 * If the page is a restorable PageOffline() page,
    578				 * we can offline the memory block, as the driver will
