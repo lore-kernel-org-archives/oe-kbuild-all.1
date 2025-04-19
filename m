@@ -1,77 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCE116F858
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 08:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103E42AE96;
+	Sat, 19 Apr 2025 09:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745049735; cv=none; b=ARubG7LwUXoYrFL37NtGQUP+E7ewX7Y5rYhJlp7A3q2uJIBpC25B+jisu29xCx5Tq+cN9Ltu3G6EMd2Ofn/WiPEs6n9XVqydTmYzwUS6VZgUHk2t07XKJSrK0DdTGwuz5NeR50La62gTnF2ZmTJlnUJltw0bkyq3xI+uTOdz47E=
+	t=1745055288; cv=none; b=nzbHYCKvXuxFwkQlMJ9c9KRb2P48eNPsJbcKOK6ta4v83z/Im8AsQ2Ue8yezdJx4WlMkzK4/LpLwEbBL6ngy9LOlJxsVKOgID96uXh9oatWc+rUPx9ZVQl7Ylxsy+WJ3RtidezWgmCJBDnLNaEwuZbqJAxrWIVQXVrZ0qF7rp/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745049735; c=relaxed/simple;
-	bh=gu3UJl0aItqWmYBuG3huHdt4smLIHOEuFU2Tib4TjfY=;
+	s=arc-20240116; t=1745055288; c=relaxed/simple;
+	bh=1B1NECF7Um9EjeZ8aeb8TdCHxRkrxV8x+Cv1DGD1UOA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gS1kUYd7MOJd5urFm5/Ot4O+4SR4hpSl03DBBcydQxH/BGR2oWDekss9wWagVZ/e2jrrSqqMWySJY9ateGy6dtTs52Sx4lyKWyH7TovFep3j9ZZz2OaFCRhueEPaFi7mt6qad/rafYSPJPuDcc2mw8IAOWt43INlPnBiHsgZpC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JcNPEYD+; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cp69+ukKZGIOm5ps+U05xyOs09YYT7lyk8bTso6TJWzaaAWzyS63j5Fw+kC0pbJrJw8u9Qkg1IYTtV+DOU9PD1YPYtT7dqvbtuz8zBSxX+m/lQo9yO+hGKighlfMhgdxVYp1v5xXRKjvyUcMwDSDJAhgWCEjsrcM5xU/l5WkO3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Er7D1Ge/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JcNPEYD+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745049732; x=1776585732;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gu3UJl0aItqWmYBuG3huHdt4smLIHOEuFU2Tib4TjfY=;
-  b=JcNPEYD+kb3kRFnUIuR9U2Y1moBVy03Q4HlQ1JPMwoGK7obr2FjV2odM
-   hwc6LnATmrfj/qdnEbF4qZQCpsJNvlmsoXSboZGWRWhgs0JHflOkyqItK
-   HJLbP3uplGOEtjk4buPl83IR5qHQk3T72j4wwIt+n9gByZxl7bLp3ZBpj
-   KHPUrktlvPhVkjntYO4FE4n7Jw1rnxAQ7Al/FKxrk8sRMIlSfAymHWhyP
-   KuVTyQXfP5pdN2Yhe5uOhg8xCXu1zeQZ9zPn2qIuSvngFF1UWmY3xzS8Y
-   NfHtYv/HojZOHHtVU3q0ZyX9AKs1ArOf77Cyl6tFKrkYAyXwTcoCRJhqT
-   A==;
-X-CSE-ConnectionGUID: hAMhKzaxSva7bqy6ziITzw==
-X-CSE-MsgGUID: ITkJJsnQQZq3ai7BQUrLEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="64202020"
-X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="64202020"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 01:02:11 -0700
-X-CSE-ConnectionGUID: qUyVFIkwRgmVu+ARhTMvmA==
-X-CSE-MsgGUID: pFudtNrlS5uHIXm/wHMgbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="131869810"
-Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Apr 2025 01:02:06 -0700
-Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u639H-0003hc-2K;
-	Sat, 19 Apr 2025 08:02:03 +0000
-Date: Sat, 19 Apr 2025 16:01:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bincai Liu <bincai.liu@mediatek.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jitao shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-phy@lists.infradead.org, Bincai Liu <bincai.liu@mediatek.com>
-Subject: Re: [PATCH 3/5] drm/mediatek: Add dvo driver for mt8196
-Message-ID: <202504191549.ufJBsMvZ-lkp@intel.com>
-References: <20250418065313.8972-4-bincai.liu@mediatek.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Er7D1Ge/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 282DBC4CEE7;
+	Sat, 19 Apr 2025 09:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745055287;
+	bh=1B1NECF7Um9EjeZ8aeb8TdCHxRkrxV8x+Cv1DGD1UOA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Er7D1Ge/22AHl2WX242AHUdEKGv9wqDttuSxbwP27l00DXsV+z+ZwKqTMULb45cjq
+	 DSWoIgFQWxpKyKZ6vgF4danEo8TycLfePJK7i7ML+Bd043nvZnMOV4Q6aXx4thdbHT
+	 btgJNDI5NoVHPRM4q3GPGywyRfBYV6lC12F/iNPxgctFB3jMlrmyF8a45wW1a9P4xY
+	 A3CJIXHOSid84dDRUlcflOi4PvFMMrXVIpyMgqdVfwcCzue3fD4njXDtMur4gf8swU
+	 x56ZKzmP49PJP4TNXB8T/NbFdQJmq7MA4z0yIBEbA84Z9mVvRhJhgLAXmbICaYbUf6
+	 4F52q7GlrQbaA==
+Date: Sat, 19 Apr 2025 11:34:42 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Hans Holmberg <Hans.Holmberg@wdc.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divmoddi4'
+Message-ID: <ypoik2o7aedsdmzslodhkpngwxu3qlufdo465rjhbdmmrzu6ux@fkd2ibcjdii2>
+References: <JFG83gowJu7PQG7cgkRFCITghKWsYeEpl0cJ6taDtZfbh4UFDCne2aW3fz7CzitHRGYciMHb7iO-Qewa_wteRw==@protonmail.internalid>
+ <202504181233.F7D9Atra-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,96 +43,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250418065313.8972-4-bincai.liu@mediatek.com>
+In-Reply-To: <202504181233.F7D9Atra-lkp@intel.com>
 
-Hi Bincai,
+On Fri, Apr 18, 2025 at 12:23:44PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   fc96b232f8e7c0a6c282f47726b2ff6a5fb341d2
+> commit: 845abeb1f06a8a44e21314460eeb14cddfca52cc xfs: add tunable threshold parameter for triggering zone GC
+> date:   4 days ago
+> config: i386-buildonly-randconfig-004-20250418 (https://download.01.org/0day-ci/archive/20250418/202504181233.F7D9Atra-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250418/202504181233.F7D9Atra-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504181233.F7D9Atra-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    ld: fs/xfs/xfs_zone_gc.o: in function `xfs_zoned_need_gc':
+> >> fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divmoddi4'
+> >> ld: fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divdi3'
 
-kernel test robot noticed the following build errors:
+I don't think there is anything xfs can do here, this likely
+requires to be fixed on math.h and make mult_frac be properly built
+on i386. I'm testing a patch here and will submit it at least to start
+a discussion.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on pza/reset/next linus/master v6.15-rc2 next-20250417]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bincai-Liu/dt-bindings-eDP-mediatek-add-eDP-yaml-for-mt8196/20250418-145911
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250418065313.8972-4-bincai.liu%40mediatek.com
-patch subject: [PATCH 3/5] drm/mediatek: Add dvo driver for mt8196
-config: i386-buildonly-randconfig-001-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191549.ufJBsMvZ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191549.ufJBsMvZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504191549.ufJBsMvZ-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/mediatek/mtk_ddp_comp.c:476:10: error: 'DDP_COMPONENT_DVO0' undeclared here (not in a function); did you mean 'DDP_COMPONENT_OVL0'?
-     476 |         [DDP_COMPONENT_DVO0]            = { MTK_DVO,                    0, &ddp_dpi },
-         |          ^~~~~~~~~~~~~~~~~~
-         |          DDP_COMPONENT_OVL0
->> drivers/gpu/drm/mediatek/mtk_ddp_comp.c:476:10: error: array index in initializer not of integer type
-   drivers/gpu/drm/mediatek/mtk_ddp_comp.c:476:10: note: (near initialization for 'mtk_ddp_matches')
---
->> drivers/gpu/drm/mediatek/mtk_dpi.c:201: warning: Function parameter or struct member 'out_np_sel' not described in 'mtk_dpi_conf'
->> drivers/gpu/drm/mediatek/mtk_dpi.c:201: warning: Function parameter or struct member 'dpi_ver' not described in 'mtk_dpi_conf'
-
-
-vim +476 drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-
-   456	
-   457	static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_DRM_ID_MAX] = {
-   458		[DDP_COMPONENT_AAL0]		= { MTK_DISP_AAL,		0, &ddp_aal },
-   459		[DDP_COMPONENT_AAL1]		= { MTK_DISP_AAL,		1, &ddp_aal },
-   460		[DDP_COMPONENT_BLS]		= { MTK_DISP_BLS,		0, NULL },
-   461		[DDP_COMPONENT_CCORR]		= { MTK_DISP_CCORR,		0, &ddp_ccorr },
-   462		[DDP_COMPONENT_COLOR0]		= { MTK_DISP_COLOR,		0, &ddp_color },
-   463		[DDP_COMPONENT_COLOR1]		= { MTK_DISP_COLOR,		1, &ddp_color },
-   464		[DDP_COMPONENT_DITHER0]		= { MTK_DISP_DITHER,		0, &ddp_dither },
-   465		[DDP_COMPONENT_DP_INTF0]	= { MTK_DP_INTF,		0, &ddp_dpi },
-   466		[DDP_COMPONENT_DP_INTF1]	= { MTK_DP_INTF,		1, &ddp_dpi },
-   467		[DDP_COMPONENT_DPI0]		= { MTK_DPI,			0, &ddp_dpi },
-   468		[DDP_COMPONENT_DPI1]		= { MTK_DPI,			1, &ddp_dpi },
-   469		[DDP_COMPONENT_DRM_OVL_ADAPTOR]	= { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
-   470		[DDP_COMPONENT_DSC0]		= { MTK_DISP_DSC,		0, &ddp_dsc },
-   471		[DDP_COMPONENT_DSC1]		= { MTK_DISP_DSC,		1, &ddp_dsc },
-   472		[DDP_COMPONENT_DSI0]		= { MTK_DSI,			0, &ddp_dsi },
-   473		[DDP_COMPONENT_DSI1]		= { MTK_DSI,			1, &ddp_dsi },
-   474		[DDP_COMPONENT_DSI2]		= { MTK_DSI,			2, &ddp_dsi },
-   475		[DDP_COMPONENT_DSI3]		= { MTK_DSI,			3, &ddp_dsi },
- > 476		[DDP_COMPONENT_DVO0]            = { MTK_DVO,                    0, &ddp_dpi },
-   477		[DDP_COMPONENT_GAMMA]		= { MTK_DISP_GAMMA,		0, &ddp_gamma },
-   478		[DDP_COMPONENT_MERGE0]		= { MTK_DISP_MERGE,		0, &ddp_merge },
-   479		[DDP_COMPONENT_MERGE1]		= { MTK_DISP_MERGE,		1, &ddp_merge },
-   480		[DDP_COMPONENT_MERGE2]		= { MTK_DISP_MERGE,		2, &ddp_merge },
-   481		[DDP_COMPONENT_MERGE3]		= { MTK_DISP_MERGE,		3, &ddp_merge },
-   482		[DDP_COMPONENT_MERGE4]		= { MTK_DISP_MERGE,		4, &ddp_merge },
-   483		[DDP_COMPONENT_MERGE5]		= { MTK_DISP_MERGE,		5, &ddp_merge },
-   484		[DDP_COMPONENT_OD0]		= { MTK_DISP_OD,		0, &ddp_od },
-   485		[DDP_COMPONENT_OD1]		= { MTK_DISP_OD,		1, &ddp_od },
-   486		[DDP_COMPONENT_OVL0]		= { MTK_DISP_OVL,		0, &ddp_ovl },
-   487		[DDP_COMPONENT_OVL1]		= { MTK_DISP_OVL,		1, &ddp_ovl },
-   488		[DDP_COMPONENT_OVL_2L0]		= { MTK_DISP_OVL_2L,		0, &ddp_ovl },
-   489		[DDP_COMPONENT_OVL_2L1]		= { MTK_DISP_OVL_2L,		1, &ddp_ovl },
-   490		[DDP_COMPONENT_OVL_2L2]		= { MTK_DISP_OVL_2L,		2, &ddp_ovl },
-   491		[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,		0, &ddp_postmask },
-   492		[DDP_COMPONENT_PWM0]		= { MTK_DISP_PWM,		0, NULL },
-   493		[DDP_COMPONENT_PWM1]		= { MTK_DISP_PWM,		1, NULL },
-   494		[DDP_COMPONENT_PWM2]		= { MTK_DISP_PWM,		2, NULL },
-   495		[DDP_COMPONENT_RDMA0]		= { MTK_DISP_RDMA,		0, &ddp_rdma },
-   496		[DDP_COMPONENT_RDMA1]		= { MTK_DISP_RDMA,		1, &ddp_rdma },
-   497		[DDP_COMPONENT_RDMA2]		= { MTK_DISP_RDMA,		2, &ddp_rdma },
-   498		[DDP_COMPONENT_RDMA4]		= { MTK_DISP_RDMA,		4, &ddp_rdma },
-   499		[DDP_COMPONENT_UFOE]		= { MTK_DISP_UFOE,		0, &ddp_ufoe },
-   500		[DDP_COMPONENT_WDMA0]		= { MTK_DISP_WDMA,		0, NULL },
-   501		[DDP_COMPONENT_WDMA1]		= { MTK_DISP_WDMA,		1, NULL },
-   502	};
-   503	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> vim +186 fs/xfs/xfs_zone_gc.c
+> 
+>    162
+>    163	/*
+>    164	 * We aim to keep enough zones free in stock to fully use the open zone limit
+>    165	 * for data placement purposes. Additionally, the m_zonegc_low_space tunable
+>    166	 * can be set to make sure a fraction of the unused blocks are available for
+>    167	 * writing.
+>    168	 */
+>    169	bool
+>    170	xfs_zoned_need_gc(
+>    171		struct xfs_mount	*mp)
+>    172	{
+>    173		s64			available, free;
+>    174
+>    175		if (!xfs_group_marked(mp, XG_TYPE_RTG, XFS_RTG_RECLAIMABLE))
+>    176			return false;
+>    177
+>    178		available = xfs_estimate_freecounter(mp, XC_FREE_RTAVAILABLE);
+>    179
+>    180		if (available <
+>    181		    mp->m_groups[XG_TYPE_RTG].blocks *
+>    182		    (mp->m_max_open_zones - XFS_OPEN_GC_ZONES))
+>    183			return true;
+>    184
+>    185		free = xfs_estimate_freecounter(mp, XC_FREE_RTEXTENTS);
+>  > 186		if (available < mult_frac(free, mp->m_zonegc_low_space, 100))
+>    187			return true;
+>    188
+>    189		return false;
+>    190	}
+>    191
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
