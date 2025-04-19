@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CD01D514E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 15:25:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C17647
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 18:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745076344; cv=none; b=s5K5VDzk5rT8cH/RJ31bMRlLoywwohCJ9kwc/96usj0PGBx6QPb3+gY/YAhX4M8t7uPen7p33qgPBgnqvGWyt+7TNIwhaSx76Wu1bzIz4nhA7YYUgFmM5dfXZom5fzV4fituB7g/IjkN4+2/Wz3Lsy0veaZA01aD3awr3YTA3d8=
+	t=1745087344; cv=none; b=evWat9uG0cbAbZivBSB1bSErU86aePervySe9NIAyvtVhhTrVMOT7DL8qHkzExqPSwPoaiYkwTaHZxUd9ajGwcW3Ho+xNYWq3F5/r/PcdxlPjwBWKyS5ZxxHOY0/3kts4NlzUj0mMdGc3zynE2Ya2mw2NPSRY0N98zEGBDXbpZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745076344; c=relaxed/simple;
-	bh=AVfp44+f6ucO047pDVXQKWxzUyS0OqVttMoJz5n6nvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JsxO3j2Iw3Lg4fEz8yqSsVjhE2iNnDkuPLIpsrYZUgVCiq4vd7kteI5PSv7DRN/ytWz3zmBpNHQPm9II2v2nuCs+Q6Z3Q/2THL7lFF8tW7+hX+4CY30C7oN60yhP3wLhyZB8csE1BbPswnHWhOwwC8DJJZ5WnrLTSYLzUJh2PEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMeGATIH; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1745087344; c=relaxed/simple;
+	bh=QhfrW4YRgz8t9qXfRlkwE6UNKJ796PP6wTqGnA/7GMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K3ArfmK1c3wZhlS/qSbBz1AMO5xfrqhycRhA1t7b90kuFnFPBPYRMkIaHy4C26JuJV3QbwTOGqBSYjC8kbOQsYBaYUdW8dkV60a5ZEN922jq2XgORnO2hgsYlRjI+U4CZku1NwebRVVTE1duXA36ZPY5edCNT1s8i2rOOBGP00E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5l1cD6P; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMeGATIH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5l1cD6P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745076342; x=1776612342;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AVfp44+f6ucO047pDVXQKWxzUyS0OqVttMoJz5n6nvc=;
-  b=DMeGATIHNx7fFyxnXlvM4LrjiKNu99I03kjdbpjte6JA1GkmRi5ohNJE
-   BdAyGv1QvN6MfRmFStPM0rEWq1nEw/vn+JPbJz6ttKj6FcNPV3NDOmWvK
-   5ZvpVWJPvHEPnb+OS223bzdUbCl3HNHRCsSVYsc0AnAjyLj7V3e19TyQQ
-   FTm+RTjOq0K5HNj4sO6SNquG/sKmmkkF2lXfB3Mp5u+BwtpI0z0V6wEEh
-   CuJJcaT68JBEQqD9Tbi5afEWwv2df6Z2e/SNN0+FcCTIoUQVezWJZa/GL
-   Sja+9p09N70uvK2V3LMgY5qKgEjYf2JH1AtqeytDYwnfyzpkTiMiFCXNQ
-   w==;
-X-CSE-ConnectionGUID: syycxXDYSU2pf1nLjhS81Q==
-X-CSE-MsgGUID: R0OOdz8vSs2+F60aiMx7Yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46806461"
+  t=1745087342; x=1776623342;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QhfrW4YRgz8t9qXfRlkwE6UNKJ796PP6wTqGnA/7GMg=;
+  b=J5l1cD6PoK+LtOsIqivVvKy470WIHMNIaM4WUhW5i7GiF4Q/11L9e+XQ
+   RGbIV/mAl83g4AIzKd5k4uwGKoWsxlUDno5ghPlUUBKYhFxqtE0HvG1TU
+   t6fjSTO4GZMc+b3g1inN4rmsnFp8U5G4OBa3pFVkZ2bLEM+gCV0PSJr1k
+   oTRhKhaa63xbEuNbP16+CbZFxph/sHI+7/CGlSuTp7uT3Bwij69JnSP18
+   sCsNIA3I1iyHjKR3REX1Jh71lmXN4wbT29+G1KKvUrezhW73QNvIHkFrV
+   1kIwWnOSYw8wr0tJsm4YRuYGwhr7ORr+pTPSlBPfFfUnD+cYZtWS18/Aj
+   A==;
+X-CSE-ConnectionGUID: AzIXR687T8icbAPCPxc/3g==
+X-CSE-MsgGUID: BcqGVpKKSTaCwqGH6DQpyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="50345877"
 X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="46806461"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 08:25:42 -0700
-X-CSE-ConnectionGUID: kd2GamHAQZGrC/Hz+M9eMA==
-X-CSE-MsgGUID: gZ6VHfk8R+aCGWEnAJCssg==
+   d="scan'208";a="50345877"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 11:29:00 -0700
+X-CSE-ConnectionGUID: qryW0QNsRyyMMEto9tb4cA==
+X-CSE-MsgGUID: /TjSJ75iSym6eEt3M+TzKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="154516883"
+   d="scan'208";a="132253970"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Apr 2025 08:25:40 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 Apr 2025 11:28:59 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6A4Y-0003xR-0X;
-	Sat, 19 Apr 2025 15:25:38 +0000
-Date: Sat, 19 Apr 2025 23:25:30 +0800
+	id 1u6Cvx-00045N-0L;
+	Sat, 19 Apr 2025 18:28:57 +0000
+Date: Sun, 20 Apr 2025 02:28:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/io_write.c:1570: warning: Function parameter or struct
- member 'bch2_write' not described in 'CLOSURE_CALLBACK'
-Message-ID: <202504192323.Fop7TRS4-lkp@intel.com>
+To: cem@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] math.h: Account for 64-bit division on i386
+Message-ID: <202504200218.98vwdj3m-lkp@intel.com>
+References: <20250419115157.567249-1-cem@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,114 +62,502 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250419115157.567249-1-cem@kernel.org>
 
-Hi Kent,
+Hi,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8560697b23dc2f405cb463af2b17256a9888129d
-commit: d4e3b928ab487a8aecd1f6a140b40ac365116cfb closures: CLOSURE_CALLBACK() to fix type punning
-date:   1 year, 5 months ago
-config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250419/202504192323.Fop7TRS4-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504192323.Fop7TRS4-lkp@intel.com/reproduce)
+[auto build test ERROR on linus/master]
+[also build test ERROR on hch-configfs/for-next v6.15-rc2 next-20250417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/cem-kernel-org/math-h-Account-for-64-bit-division-on-i386/20250419-195242
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250419115157.567249-1-cem%40kernel.org
+patch subject: [RFC PATCH] math.h: Account for 64-bit division on i386
+config: csky-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504200218.98vwdj3m-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504200218.98vwdj3m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504192323.Fop7TRS4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504200218.98vwdj3m-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> fs/bcachefs/io_write.c:1570: warning: Function parameter or struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
->> fs/bcachefs/io_write.c:1570: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
+   In file included from ./arch/csky/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/power/supply/ltc4162-l-charger.c:12:
+   drivers/power/supply/ltc4162-l-charger.c: In function 'ltc4162l_get_ibat':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:360:23: note: in expansion of macro 'mult_frac'
+     360 |         val->intval = mult_frac(ret, chip_info->ibat_resolution_pv, info->rsnsb);
+         |                       ^~~~~~~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/bitfield.h:10,
+                    from drivers/power/supply/ltc4162-l-charger.c:11:
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:360:23: note: in expansion of macro 'mult_frac'
+     360 |         val->intval = mult_frac(ret, chip_info->ibat_resolution_pv, info->rsnsb);
+         |                       ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    int *
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:360:23: note: in expansion of macro 'mult_frac'
+     360 |         val->intval = mult_frac(ret, chip_info->ibat_resolution_pv, info->rsnsb);
+         |                       ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:360:23: note: in expansion of macro 'mult_frac'
+     360 |         val->intval = mult_frac(ret, chip_info->ibat_resolution_pv, info->rsnsb);
+         |                       ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:360:23: note: in expansion of macro 'mult_frac'
+     360 |         val->intval = mult_frac(ret, chip_info->ibat_resolution_pv, info->rsnsb);
+         |                       ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    int *
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:360:23: note: in expansion of macro 'mult_frac'
+     360 |         val->intval = mult_frac(ret, chip_info->ibat_resolution_pv, info->rsnsb);
+         |                       ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   drivers/power/supply/ltc4162-l-charger.c: In function 'ltc4162l_get_icharge':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:417:32: note: in expansion of macro 'mult_frac'
+     417 |         val->intval = 10000u * mult_frac(regval, 100000u, info->rsnsb);
+         |                                ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:417:32: note: in expansion of macro 'mult_frac'
+     417 |         val->intval = 10000u * mult_frac(regval, 100000u, info->rsnsb);
+         |                                ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:417:32: note: in expansion of macro 'mult_frac'
+     417 |         val->intval = 10000u * mult_frac(regval, 100000u, info->rsnsb);
+         |                                ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:417:32: note: in expansion of macro 'mult_frac'
+     417 |         val->intval = 10000u * mult_frac(regval, 100000u, info->rsnsb);
+         |                                ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:417:32: note: in expansion of macro 'mult_frac'
+     417 |         val->intval = 10000u * mult_frac(regval, 100000u, info->rsnsb);
+         |                                ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:417:32: note: in expansion of macro 'mult_frac'
+     417 |         val->intval = 10000u * mult_frac(regval, 100000u, info->rsnsb);
+         |                                ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   drivers/power/supply/ltc4162-l-charger.c: In function 'ltc4162l_set_icharge':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:426:17: note: in expansion of macro 'mult_frac'
+     426 |         value = mult_frac(value, info->rsnsb, 100000u);
+         |                 ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:426:17: note: in expansion of macro 'mult_frac'
+     426 |         value = mult_frac(value, info->rsnsb, 100000u);
+         |                 ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:426:17: note: in expansion of macro 'mult_frac'
+     426 |         value = mult_frac(value, info->rsnsb, 100000u);
+         |                 ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:426:17: note: in expansion of macro 'mult_frac'
+     426 |         value = mult_frac(value, info->rsnsb, 100000u);
+         |                 ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:426:17: note: in expansion of macro 'mult_frac'
+     426 |         value = mult_frac(value, info->rsnsb, 100000u);
+         |                 ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:426:17: note: in expansion of macro 'mult_frac'
+     426 |         value = mult_frac(value, info->rsnsb, 100000u);
+         |                 ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   drivers/power/supply/ltc4162-l-charger.c: In function 'ltc4015_get_vcharge':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:528:37: note: in expansion of macro 'mult_frac'
+     528 |                 voltage = 2000000 + mult_frac(regval, 1000000, 105);
+         |                                     ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:528:37: note: in expansion of macro 'mult_frac'
+     528 |                 voltage = 2000000 + mult_frac(regval, 1000000, 105);
+         |                                     ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:528:37: note: in expansion of macro 'mult_frac'
+     528 |                 voltage = 2000000 + mult_frac(regval, 1000000, 105);
+         |                                     ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:528:37: note: in expansion of macro 'mult_frac'
+     528 |                 voltage = 2000000 + mult_frac(regval, 1000000, 105);
+         |                                     ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:528:37: note: in expansion of macro 'mult_frac'
+     528 |                 voltage = 2000000 + mult_frac(regval, 1000000, 105);
+         |                                     ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:528:37: note: in expansion of macro 'mult_frac'
+     528 |                 voltage = 2000000 + mult_frac(regval, 1000000, 105);
+         |                                     ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   drivers/power/supply/ltc4162-l-charger.c: In function 'ltc4162l_set_iin_limit':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:655:18: note: in expansion of macro 'mult_frac'
+     655 |         regval = mult_frac(value, info->rsnsi, 50000u);
+         |                  ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:655:18: note: in expansion of macro 'mult_frac'
+     655 |         regval = mult_frac(value, info->rsnsi, 50000u);
+         |                  ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:655:18: note: in expansion of macro 'mult_frac'
+     655 |         regval = mult_frac(value, info->rsnsi, 50000u);
+         |                  ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:655:18: note: in expansion of macro 'mult_frac'
+     655 |         regval = mult_frac(value, info->rsnsi, 50000u);
+         |                  ^~~~~~~~~
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:655:18: note: in expansion of macro 'mult_frac'
+     655 |         regval = mult_frac(value, info->rsnsi, 50000u);
+         |                  ^~~~~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:655:18: note: in expansion of macro 'mult_frac'
+     655 |         regval = mult_frac(value, info->rsnsi, 50000u);
+         |                  ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   drivers/power/supply/ltc4162-l-charger.c: In function 'ltc4162l_set_term_current':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:746:18: note: in expansion of macro 'mult_frac'
+     746 |         regval = mult_frac(value, info->rsnsb, 14660u);
+         |                  ^~~~~~~~~
+   include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:746:18: note: in expansion of macro 'mult_frac'
+     746 |         regval = mult_frac(value, info->rsnsb, 14660u);
+         |                  ^~~~~~~~~
+   include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+     142 |         typeof(x_) r = do_div(x_, d_);  \
+         |                        ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:746:18: note: in expansion of macro 'mult_frac'
+     746 |         regval = mult_frac(value, info->rsnsb, 14660u);
+         |                  ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:746:18: note: in expansion of macro 'mult_frac'
+     746 |         regval = mult_frac(value, info->rsnsb, 14660u);
+         |                  ^~~~~~~~~
+   include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:746:18: note: in expansion of macro 'mult_frac'
+     746 |         regval = mult_frac(value, info->rsnsb, 14660u);
+         |                  ^~~~~~~~~
+   include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   include/linux/math.h:144:9: note: in expansion of macro 'do_div'
+     144 |         do_div(r, d_);                  \
+         |         ^~~~~~
+   drivers/power/supply/ltc4162-l-charger.c:746:18: note: in expansion of macro 'mult_frac'
+     746 |         regval = mult_frac(value, info->rsnsb, 14660u);
+         |                  ^~~~~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
 
 
-vim +1570 fs/bcachefs/io_write.c
+vim +/__div64_32 +199 include/asm-generic/div64.h
 
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1551  
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1552  /**
-96dea3d599dbc3 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1553   * bch2_write() - handle a write to a cache device or flash only volume
-96dea3d599dbc3 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1554   * @cl:		&bch_write_op->cl
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1555   *
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1556   * This is the starting point for any data to end up in a cache device; it could
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1557   * be from a normal write, or a writeback write, or a write to a flash only
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1558   * volume - it's also used by the moving garbage collector to compact data in
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1559   * mostly empty buckets.
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1560   *
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1561   * It first writes the data to the cache, creating a list of keys to be inserted
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1562   * (if the data won't fit in a single open bucket, there will be multiple keys);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1563   * after the data is written it calls bch_journal, and after the keys have been
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1564   * added to the next journal write they're inserted into the btree.
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1565   *
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1566   * If op->discard is true, instead of inserting the data it invalidates the
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1567   * region of the cache represented by op->bio and op->inode.
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1568   */
-d4e3b928ab487a fs/bcachefs/io_write.c Kent Overstreet 2023-11-17  1569  CLOSURE_CALLBACK(bch2_write)
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16 @1570  {
-d4e3b928ab487a fs/bcachefs/io_write.c Kent Overstreet 2023-11-17  1571  	closure_type(op, struct bch_write_op, cl);
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1572  	struct bio *bio = &op->wbio.bio;
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1573  	struct bch_fs *c = op->c;
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1574  	unsigned data_len;
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1575  
-b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1576  	EBUG_ON(op->cl.parent);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1577  	BUG_ON(!op->nr_replicas);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1578  	BUG_ON(!op->write_point.v);
-e88a75ebe86c1d fs/bcachefs/io.c       Kent Overstreet 2022-11-24  1579  	BUG_ON(bkey_eq(op->pos, POS_MAX));
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1580  
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1581  	op->start_time = local_clock();
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1582  	bch2_keylist_init(&op->insert_keys, op->inline_keys);
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1583  	wbio_init(bio)->put_bio = false;
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1584  
-8244f3209b5b49 fs/bcachefs/io.c       Kent Overstreet 2021-12-14  1585  	if (bio->bi_iter.bi_size & (c->opts.block_size - 1)) {
-7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1586  		bch_err_inum_offset_ratelimited(c,
-7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1587  			op->pos.inode,
-7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1588  			op->pos.offset << 9,
-0fefe8d8ef7402 fs/bcachefs/io.c       Kent Overstreet 2020-12-03  1589  			"misaligned write");
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1590  		op->error = -EIO;
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1591  		goto err;
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1592  	}
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1593  
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1594  	if (c->opts.nochanges) {
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1595  		op->error = -BCH_ERR_erofs_no_writes;
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1596  		goto err;
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1597  	}
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1598  
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1599  	if (!(op->flags & BCH_WRITE_MOVE) &&
-d94189ad568f6c fs/bcachefs/io.c       Kent Overstreet 2023-02-09  1600  	    !bch2_write_ref_tryget(c, BCH_WRITE_REF_write)) {
-858536c7cea8bb fs/bcachefs/io.c       Kent Overstreet 2022-12-11  1601  		op->error = -BCH_ERR_erofs_no_writes;
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1602  		goto err;
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1603  	}
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1604  
-104c69745fdf7e fs/bcachefs/io.c       Daniel Hill     2022-03-15  1605  	this_cpu_add(c->counters[BCH_COUNTER_io_write], bio_sectors(bio));
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1606  	bch2_increment_clock(c, bio_sectors(bio), WRITE);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1607  
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1608  	data_len = min_t(u64, bio->bi_iter.bi_size,
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1609  			 op->new_i_size - (op->pos.offset << 9));
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1610  
-07358a82bb36ff fs/bcachefs/io.c       Kent Overstreet 2019-11-29  1611  	if (c->opts.inline_data &&
-07358a82bb36ff fs/bcachefs/io.c       Kent Overstreet 2019-11-29  1612  	    data_len <= min(block_bytes(c) / 2, 1024U)) {
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1613  		bch2_write_data_inline(op, data_len);
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1614  		return;
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1615  	}
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1616  
-b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1617  	__bch2_write(op);
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1618  	return;
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1619  err:
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1620  	bch2_disk_reservation_put(c, &op->res);
-46e4bb1c378248 fs/bcachefs/io.c       Kent Overstreet 2019-12-27  1621  
-b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1622  	closure_debug_destroy(&op->cl);
-b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1623  	if (op->end_io)
-c32bd3ad1fe595 fs/bcachefs/io.c       Kent Overstreet 2019-11-11  1624  		op->end_io(op);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1625  }
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1626  
-
-:::::: The code at line 1570 was first introduced by commit
-:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+^1da177e4c3f41 Linus Torvalds     2005-04-16  176  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  177  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  178   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  179   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  180  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  181  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  182  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  183  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  184  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  185  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  186  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  187  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  188  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  189  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  190  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  191  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  192  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  193  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  194  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02 @195  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  196  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  197  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  198  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @199  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  200  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  201  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  202   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  203  
 
 -- 
 0-DAY CI Kernel Test Service
