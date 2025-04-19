@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139BE4690
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 21:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2907014901B;
+	Sat, 19 Apr 2025 21:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745097745; cv=none; b=Y1oFIgLea14Hybw/iq0ATMwCSm2hq3ombGRnqoibtWw93zXiF5F9PDGRgSO4abvpGCSZk5l5nPyP+3pC870ZDr87PnJUW1yT33Gj3/WOzfWIP0mmwtVRfHYf2EEoeI7IdH83zqRt3e0zQlcplldC3X8roYdy+s9sDtZRtvtZyWU=
+	t=1745098406; cv=none; b=XO5v01qZpToK21zjH4awqsh+KZuq5flIOaNl2mIIpnZqX9jmBsYlhoBVLPNNZdLH2oD7rfyHMlHaKfytaduJoWKcvfc7duZ30huU0CNJiXe2E/LyNGElMtXkwkHcSKDiNiNMr4Jbgy6JViuluOIHabDGULq54zH/eB+Kb9r6XCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745097745; c=relaxed/simple;
-	bh=uEcwiw2PHaetLTwQfCW34ySAUJCwsyQwEDJWLmsaWzk=;
+	s=arc-20240116; t=1745098406; c=relaxed/simple;
+	bh=QtIwGyomjEuL3r0x9FOf6UhZiKeWvwxz379zkMc//Cs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gH+0HmyxZ/K28c+rDfuZvze/PhfkOgIg/0TleSSeCVT37XmK7BAonv2CwdtUPSIs841ydwfIq4axT5rIb4AwZwKvoJdOylPrCymBe2imQ7qynsh3eWVw1KuFT5wLmCAPucYOlYsCT7Aq/BxZ2BjCDkwB5NY9ctyai7ksWDvACEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OptRMYl6; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=iAMxqQT6BvNbQFxhFZqsqr5X9iGJsW9Q4cd/tq+imRsePjEiH08Dyj9mcH18aZNWxSZS02PNZUb1R6aMuKISd/6PR20QudquvRorqlQDlch3BkPN3rKRxcvn5avvFaFTAkRYHLVeCniJEYvK08gfHoXTFGrbRDmu5XIWLVczouc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ygv2ta7c; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OptRMYl6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ygv2ta7c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745097743; x=1776633743;
+  t=1745098404; x=1776634404;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uEcwiw2PHaetLTwQfCW34ySAUJCwsyQwEDJWLmsaWzk=;
-  b=OptRMYl6RV6+iAQWVsln3SB1C7wjxkb2yw4kiElC5kdiQ+h6YKbdCEaC
-   8BmA+BtU5JGXomM2lw73DqhJvlXlIS3XvBRYN0XWtArWXV9C8LbDUV5B4
-   lLfU9+g6yRYhgUnyWBFd9g1Jsx8J84QjCUocOLQ5QjO76XIhm65aIZQY5
-   4Zc8hLZJdoN5gm64rOQhieFliL5udc+Web8yODVYkcS4Q4IQIq3Rcx5KP
-   KbuKZhTOzLwjniLetff7xsD4t88Ug9KqjP5a/P85X2Os23kyci9Th0FGI
-   KoRImBxdMKHTrbI7cGFlW4uVYuYo8KNJdUWxbzfK2bhcWH08DGx3z69oP
-   Q==;
-X-CSE-ConnectionGUID: SrIteJ9sSUGIOyNTjNyn0w==
-X-CSE-MsgGUID: UOYLM+vmS6mOrnCXa+8wRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46856451"
+  bh=QtIwGyomjEuL3r0x9FOf6UhZiKeWvwxz379zkMc//Cs=;
+  b=Ygv2ta7cajoZc4kf5kiifm/q13GHqNm1CzYgrYkmDz7CNVxLxlM2VAOs
+   KRptmUcquAJ4zu3QjRTkcnuU11+xWjeC3A9/ob1ZiE8RcImE4D3uVTBfz
+   Eh2qcR90sAy5X/dQBHMpUWyMHF4ypSvFWvS1SFkaZzaUVCuZu4UWE2NQu
+   nyrWtdUYsrP7ltrFy0CoqvJe0NMzsOJFANvH7Hvm7cw1Z10ShD9d2NuNo
+   08Iyt0msHYkC9YVacECUenJG4R0XmGLMHI2lL144tGDpf7m3Sc+YztHSm
+   uP28cOEMyo9F4hA2GB5jCmHjBLVR5MERUZH+tPtmVY6oaIyliE0uo//VO
+   g==;
+X-CSE-ConnectionGUID: qiG5ee7uSvOHYQX/8CEACA==
+X-CSE-MsgGUID: 1wbxXl/DSfqVwjoHsrhqJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46856609"
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="46856451"
+   d="scan'208";a="46856609"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 14:22:22 -0700
-X-CSE-ConnectionGUID: 11W4gRsTTviFtedI8YUSuw==
-X-CSE-MsgGUID: +xUw0+AfSfO82eXzjUZ4wg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 14:33:23 -0700
+X-CSE-ConnectionGUID: 9WAPb7y+QyKPpWjWiGV/wQ==
+X-CSE-MsgGUID: tS5fM2jLQCqupp0Lu3s5lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="131244875"
+   d="scan'208";a="131246632"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Apr 2025 14:22:21 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Apr 2025 14:33:22 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6Fdj-0004CB-0O;
-	Sat, 19 Apr 2025 21:22:19 +0000
-Date: Sun, 20 Apr 2025 05:22:07 +0800
+	id 1u6FoO-0004Cg-00;
+	Sat, 19 Apr 2025 21:33:20 +0000
+Date: Sun, 20 Apr 2025 05:32:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Subject: [linux-next:master 1394/4779]
- drivers/gpu/drm/ttm/ttm_backup.c:139:undefined reference to `shmem_writeout'
-Message-ID: <202504200514.Ldt6j1zC-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: arch/x86/include/asm/msr.h:122: undefined reference to
+ `__tracepoint_read_msr'
+Message-ID: <202504200509.VkJqF0j3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,104 +64,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bc8aa6cdadcc00862f2b5720e5de2e17f696a081
-commit: fe75adffac33eeb167b378861d80c805b234495c [1394/4779] ttm: Call shmem_writeout() from ttm_backup_backup_page()
-config: loongarch-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504200514.Ldt6j1zC-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504200514.Ldt6j1zC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1ca0f935a126950c2f0b305a50f31f3b00542b0d
+commit: 4a8840af5f53f2902eba91130fae650879f18e7a tracepoints: Use new static branch API
+date:   6 months ago
+config: um-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504200509.VkJqF0j3-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504200509.VkJqF0j3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504200514.Ldt6j1zC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504200509.VkJqF0j3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/gpu/drm/ttm/ttm_backup.o: in function `.LVL117':
->> drivers/gpu/drm/ttm/ttm_backup.c:139:(.text+0x53c): undefined reference to `shmem_writeout'
+   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_init_one':
+>> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
+>> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
+   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `native_read_msr':
+>> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
+>> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
+>> /usr/bin/ld: arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
+>> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
+   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `native_write_msr':
+>> arch/x86/include/asm/msr.h:149: undefined reference to `__tracepoint_write_msr'
+>> /usr/bin/ld: arch/x86/include/asm/msr.h:150: undefined reference to `do_trace_write_msr'
+   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_set_dmamode':
+>> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
+   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `native_write_msr':
+>> arch/x86/include/asm/msr.h:149: undefined reference to `__tracepoint_write_msr'
+>> /usr/bin/ld: arch/x86/include/asm/msr.h:150: undefined reference to `do_trace_write_msr'
+   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `cs5536_set_dmamode':
+   arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
+   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `native_read_msr':
+>> arch/x86/include/asm/msr.h:122: undefined reference to `__tracepoint_read_msr'
+>> /usr/bin/ld: arch/x86/include/asm/msr.h:123: undefined reference to `do_trace_read_msr'
+   /usr/bin/ld: drivers/ata/pata_cs5536.o: in function `native_write_msr':
+>> arch/x86/include/asm/msr.h:149: undefined reference to `__tracepoint_write_msr'
+>> /usr/bin/ld: arch/x86/include/asm/msr.h:150: undefined reference to `do_trace_write_msr'
+   clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 
-vim +139 drivers/gpu/drm/ttm/ttm_backup.c
+vim +122 arch/x86/include/asm/msr.h
 
-    80	
-    81	/**
-    82	 * ttm_backup_backup_page() - Backup a page
-    83	 * @backup: The struct backup pointer to use.
-    84	 * @page: The page to back up.
-    85	 * @writeback: Whether to perform immediate writeback of the page.
-    86	 * This may have performance implications.
-    87	 * @idx: A unique integer for each page and each struct backup.
-    88	 * This allows the backup implementation to avoid managing
-    89	 * its address space separately.
-    90	 * @page_gfp: The gfp value used when the page was allocated.
-    91	 * This is used for accounting purposes.
-    92	 * @alloc_gfp: The gfp to be used when allocating memory.
-    93	 *
-    94	 * Context: If called from reclaim context, the caller needs to
-    95	 * assert that the shrinker gfp has __GFP_FS set, to avoid
-    96	 * deadlocking on lock_page(). If @writeback is set to true and
-    97	 * called from reclaim context, the caller also needs to assert
-    98	 * that the shrinker gfp has __GFP_IO set, since without it,
-    99	 * we're not allowed to start backup IO.
-   100	 *
-   101	 * Return: A handle on success. Negative error code on failure.
-   102	 *
-   103	 * Note: This function could be extended to back up a folio and
-   104	 * implementations would then split the folio internally if needed.
-   105	 * Drawback is that the caller would then have to keep track of
-   106	 * the folio size- and usage.
-   107	 */
-   108	s64
-   109	ttm_backup_backup_page(struct ttm_backup *backup, struct page *page,
-   110			       bool writeback, pgoff_t idx, gfp_t page_gfp,
-   111			       gfp_t alloc_gfp)
-   112	{
-   113		struct file *filp = ttm_backup_to_file(backup);
-   114		struct address_space *mapping = filp->f_mapping;
-   115		unsigned long handle = 0;
-   116		struct folio *to_folio;
-   117		int ret;
-   118	
-   119		to_folio = shmem_read_folio_gfp(mapping, idx, alloc_gfp);
-   120		if (IS_ERR(to_folio))
-   121			return PTR_ERR(to_folio);
-   122	
-   123		folio_mark_accessed(to_folio);
-   124		folio_lock(to_folio);
-   125		folio_mark_dirty(to_folio);
-   126		copy_highpage(folio_file_page(to_folio, idx), page);
-   127		handle = ttm_backup_shmem_idx_to_handle(idx);
-   128	
-   129		if (writeback && !folio_mapped(to_folio) &&
-   130		    folio_clear_dirty_for_io(to_folio)) {
-   131			struct writeback_control wbc = {
-   132				.sync_mode = WB_SYNC_NONE,
-   133				.nr_to_write = SWAP_CLUSTER_MAX,
-   134				.range_start = 0,
-   135				.range_end = LLONG_MAX,
-   136				.for_reclaim = 1,
-   137			};
-   138			folio_set_reclaim(to_folio);
- > 139			ret = shmem_writeout(to_folio, &wbc);
-   140			if (!folio_test_writeback(to_folio))
-   141				folio_clear_reclaim(to_folio);
-   142			/*
-   143			 * If writeout succeeds, it unlocks the folio.	errors
-   144			 * are otherwise dropped, since writeout is only best
-   145			 * effort here.
-   146			 */
-   147			if (ret)
-   148				folio_unlock(to_folio);
-   149		} else {
-   150			folio_unlock(to_folio);
-   151		}
-   152	
-   153		folio_put(to_folio);
-   154	
-   155		return handle;
-   156	}
-   157	
+c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  108  
+c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  109  #define native_wrmsr(msr, low, high)			\
+c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  110  	__wrmsr(msr, low, high)
+c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  111  
+c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  112  #define native_wrmsrl(msr, val)				\
+c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  113  	__wrmsr((msr), (u32)((u64)(val)),		\
+c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  114  		       (u32)((u64)(val) >> 32))
+c996f3802006a5 arch/x86/include/asm/msr.h Borislav Petkov           2018-03-01  115  
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  116  static inline unsigned long long native_read_msr(unsigned int msr)
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  117  {
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  118  	unsigned long long val;
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  119  
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  120  	val = __rdmsr(msr);
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  121  
+fdb46faeab2f3f arch/x86/include/asm/msr.h Steven Rostedt (VMware    2020-09-25 @122) 	if (tracepoint_enabled(read_msr))
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20 @123  		do_trace_read_msr(msr, val, 0);
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  124  
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  125  	return val;
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  126  }
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  127  
+be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  128  static inline unsigned long long native_read_msr_safe(unsigned int msr,
+be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  129  						      int *err)
+be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  130  {
+c210d24986dc19 include/asm-x86/msr.h      Glauber de Oliveira Costa 2008-01-30  131  	DECLARE_ARGS(val, low, high);
+be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  132  
+d52a7344bdfa9c arch/x86/include/asm/msr.h Peter Zijlstra            2021-11-10  133  	asm volatile("1: rdmsr ; xor %[err],%[err]\n"
+d52a7344bdfa9c arch/x86/include/asm/msr.h Peter Zijlstra            2021-11-10  134  		     "2:\n\t"
+d52a7344bdfa9c arch/x86/include/asm/msr.h Peter Zijlstra            2021-11-10  135  		     _ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_RDMSR_SAFE, %[err])
+08970fc4e03857 include/asm-x86/msr.h      H. Peter Anvin            2008-08-25  136  		     : [err] "=r" (*err), EAX_EDX_RET(val, low, high)
+d52a7344bdfa9c arch/x86/include/asm/msr.h Peter Zijlstra            2021-11-10  137  		     : "c" (msr));
+fdb46faeab2f3f arch/x86/include/asm/msr.h Steven Rostedt (VMware    2020-09-25  138) 	if (tracepoint_enabled(read_msr))
+7f47d8cc039f87 arch/x86/include/asm/msr.h Andi Kleen                2015-12-01  139  		do_trace_read_msr(msr, EAX_EDX_VAL(val, low, high), *err);
+c210d24986dc19 include/asm-x86/msr.h      Glauber de Oliveira Costa 2008-01-30  140  	return EAX_EDX_VAL(val, low, high);
+be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  141  }
+be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  142  
+b2c5ea4f759190 arch/x86/include/asm/msr.h Wanpeng Li                2016-11-07  143  /* Can be uninlined because referenced by paravirt */
+5d07c2cc1962fa arch/x86/include/asm/msr.h Borislav Petkov           2016-11-02  144  static inline void notrace
+5d07c2cc1962fa arch/x86/include/asm/msr.h Borislav Petkov           2016-11-02  145  native_write_msr(unsigned int msr, u32 low, u32 high)
+b2c5ea4f759190 arch/x86/include/asm/msr.h Wanpeng Li                2016-11-07  146  {
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  147  	__wrmsr(msr, low, high);
+a585df8edabdb4 arch/x86/include/asm/msr.h Borislav Petkov           2017-01-20  148  
+fdb46faeab2f3f arch/x86/include/asm/msr.h Steven Rostedt (VMware    2020-09-25 @149) 	if (tracepoint_enabled(write_msr))
+7f47d8cc039f87 arch/x86/include/asm/msr.h Andi Kleen                2015-12-01 @150  		do_trace_write_msr(msr, ((u64)high << 32 | low), 0);
+be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  151  }
+be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner           2007-10-23  152  
+
+:::::: The code at line 122 was first introduced by commit
+:::::: fdb46faeab2f3fa2b43a55059b33b8f98b2e1442 x86: Use tracepoint_enabled() for msr tracepoints instead of open coding it
+
+:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
