@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588EBBA2E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 01:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E54884D02;
+	Sat, 19 Apr 2025 01:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745025097; cv=none; b=UYuu6Fgdqu0ebHEm639QlvLp9WWNhVnqujjwov/Kcw9p+mwawC3ZCVjL2LLQdbRCQC0SxhSr845pfBeipLfB5Natv4xgbfsy4nu8e55TKRPi+8Y+PSvkQxUNE0pS5RQxJqRizd9EY+mfI0UoMxYADH79T3FrkuuXVJiWPqlsUis=
+	t=1745025699; cv=none; b=kTW4mTRn0NXAo3DiFDivwG7NfTCZXzf7ettwyM9Nlqc275t4QKLujdbEMpXUkyiYoeqDmMPh8ABjYisEOckpE9pEQbZ8ZpP7GPHKXfnKAZff6Tv/EjEs6tc8ls9tkjjjx1ITFsYS9msRnETbYi5A01DLC40qAhSYUopcRs/gzh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745025097; c=relaxed/simple;
-	bh=Ko0F46mCpTNwDTe5vbuuvP0ZMzccajXr+Zz+dL3vgtM=;
+	s=arc-20240116; t=1745025699; c=relaxed/simple;
+	bh=cyAGdUcUXeL8GReA2AqsYpo+qSR5XfDMbU3F29jmW5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XENYiIhYmhEDxz+QTZ5SXXKJDRD0fNSTzMv43ppjpgeJobSWlXPbPtSHrOKWh3fp5N5ki9weFy10f6Es4igYdGDGXa3ebdqJA9eA7NbFXKp+AN6tA5HJtbvkRijoCAbnW5mIPf71s1BrooVlUfZsm6qiNXiZpWTUZ6onEN2dUrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iM49j+Uy; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Q0mvjC3byEeGYlIyV3qT/doPrPL6kW5jFSoGHynJG1VDaqfYTXqZ5EzqqnQmq2o+TS6lx4xcq2IDsBafwiCd26UhuGP3yY+sNEX6ACWls1+zW+V4kZfyyK4em9OtxyLtDgholBXvDwpmg+yZSAtByqhuWDdR2OD9mc4jc8tx4WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixeyd5cH; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iM49j+Uy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixeyd5cH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745025094; x=1776561094;
+  t=1745025697; x=1776561697;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ko0F46mCpTNwDTe5vbuuvP0ZMzccajXr+Zz+dL3vgtM=;
-  b=iM49j+UyclhCLmKHWn5xm5jffgmuCgqNBjtXvHObpsIYneKcHXpQdFBr
-   vgdJI8QwZDiOO9z1XuxTc2srsO8/b+CbyuS8amsm5u4Yhos/7NhZQoEbi
-   D7zDzxY2YzHWHuT5UdDS12MpkV1l/YP7ZAy9kuVMgDUmQVHfArC16OOc2
-   +qS2/07nanleWizHqvgpgEmcMD4Ym2F8Q1w9ayocnMfseeiVNXXGPp/ea
-   Ag2TFZuupgr5vMIm7P12iv/9v5DAhLL46950axGwijdOPFkHfWIZ45syF
-   uumKla0RqHpfsFcqb6v9owfIMsQP+tToNzOtZA2WXFg+c3ussFfvqHvrD
+  bh=cyAGdUcUXeL8GReA2AqsYpo+qSR5XfDMbU3F29jmW5U=;
+  b=ixeyd5cHHGpyM5p4F3Uzvu38zjr/H5cwfg9uUDhW9iwhbjYqrAvPUVHx
+   lqRlQOiUx7+1LNqBauMfZEgMJ127TCO40JRINXE/orWbSi+cFa4reYLkR
+   KnYnU0GKacLRiKVJ+xqwtEv9Y+zvRI6EHRQlhM9hmTI3jw7DMzzUu3mMg
+   DXX3VVz4bVzDIqbdUNLnbr7BV0etTs53yP6hPe/dTCZUM3XqTWLepiMaJ
+   uJjY7CUOf1PHvqe0rEUbB+seregHtp03bysdevaFRj8ppNDnNZinS3J0B
+   6BPJoa1Srjj+kS6hC3htISF7Ns9WXw5Jyv3zvOYyP0ZV7zWKh9n1IwJOP
    w==;
-X-CSE-ConnectionGUID: V6JG3BwOTfWgW5ASnojQSw==
-X-CSE-MsgGUID: qC4gbUuWTaSsfHM15dXMHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="64192015"
+X-CSE-ConnectionGUID: oy0MdsOnSrmoUiGbVwpMXQ==
+X-CSE-MsgGUID: wYC/jyy3T/+pGQvZmnJ+Ug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="72047326"
 X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="64192015"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 18:11:34 -0700
-X-CSE-ConnectionGUID: sZCZbxTfTn20GgTtTAKazw==
-X-CSE-MsgGUID: rhF+RoMoRRiRhMiIU+knGg==
+   d="scan'208";a="72047326"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 18:21:36 -0700
+X-CSE-ConnectionGUID: JnU356ykSg2rabWehrVfxA==
+X-CSE-MsgGUID: S372TFgbSNOxn5skT17v9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="136348978"
+   d="scan'208";a="131820551"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Apr 2025 18:11:32 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Apr 2025 18:21:33 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5wjy-0003UD-1t;
-	Sat, 19 Apr 2025 01:11:30 +0000
-Date: Sat, 19 Apr 2025 09:11:01 +0800
+	id 1u5wtf-0003UT-0t;
+	Sat, 19 Apr 2025 01:21:31 +0000
+Date: Sat, 19 Apr 2025 09:21:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 15/15] WARNING: modpost: missing
- MODULE_DESCRIPTION() in drivers/devfreq/governor_mtkeb.o
-Message-ID: <202504190907.HeP8SmVB-lkp@intel.com>
+To: Mark Tinguely <mark.tinguely@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>
+Subject: [akpm-mm:mm-nonmm-unstable 66/67] fs/ocfs2/aops.c:1133:17: warning:
+ variable 'i' is uninitialized when used here
+Message-ID: <202504190950.rq1NDlDz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,221 +66,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   71fa09c5cfed8a1c49900170549bc34d15dce29e
-commit: 549b9db4060d8dafd18d143b4b195a5eaf5569e0 [15/15] CHROMIUM: devfreq: Add mtkeb devfreq governor
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250419/202504190907.HeP8SmVB-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504190907.HeP8SmVB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   d1a9b961293d30be9a865d8685590635db282957
+commit: 89e3e963129e945e0333e474709bde627b6a9cee [66/67] ocfs2: fix panic in failed foilio allocation
+config: s390-randconfig-001-20250419 (https://download.01.org/0day-ci/archive/20250419/202504190950.rq1NDlDz-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504190950.rq1NDlDz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504190907.HeP8SmVB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504190950.rq1NDlDz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-betopff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-bigbenff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-hammer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-stadiaff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-kbd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-holtek-mouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-letsketch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-dj.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-megaworld.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ntrig.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-prodikeys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-quickstep.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-retrode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sony.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/wlan-ng/prism2_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_wep.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/fbtft/fbtft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-sec-tee.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
->> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_mtkeb.o
-WARNING: modpost: drivers/memory/emif: section mismatch in reference: emif_driver+0x4 (section: .data) -> emif_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/cxl_pmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/mediatek/mtk-emi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/qcom/interconnect_qcom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/qcom/icc-rpmh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/vdpa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vdpa/ifcvf/ifcvf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: drivers/mtd/nand/raw/txx9ndfmc: section mismatch in reference: txx9ndfmc_driver+0x4 (section: .data) -> txx9ndfmc_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/nicstar.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/iphase.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/suni.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/eni.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/idt77105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/atmtcp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: drivers/hwmon/smsc47m1: section mismatch in reference: smsc47m1_driver+0x4 (section: .data) -> smsc47m1_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/edac/layerscape_edac_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-mlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8196/snd-sof-mt8196.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
+>> fs/ocfs2/aops.c:1133:17: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+    1133 |                         wc->w_folios[i] = NULL;
+         |                                      ^
+   fs/ocfs2/aops.c:1101:12: note: initialize the variable 'i' to silence this warning
+    1101 |         int ret, i;
+         |                   ^
+         |                    = 0
+   1 warning generated.
+
+
+vim +/i +1133 fs/ocfs2/aops.c
+
+  1088	
+  1089	/*
+  1090	 * Prepare a single cluster for write one cluster into the file.
+  1091	 */
+  1092	static int ocfs2_write_cluster(struct address_space *mapping,
+  1093				       u32 *phys, unsigned int new,
+  1094				       unsigned int clear_unwritten,
+  1095				       unsigned int should_zero,
+  1096				       struct ocfs2_alloc_context *data_ac,
+  1097				       struct ocfs2_alloc_context *meta_ac,
+  1098				       struct ocfs2_write_ctxt *wc, u32 cpos,
+  1099				       loff_t user_pos, unsigned user_len)
+  1100	{
+  1101		int ret, i;
+  1102		u64 p_blkno;
+  1103		struct inode *inode = mapping->host;
+  1104		struct ocfs2_extent_tree et;
+  1105		int bpc = ocfs2_clusters_to_blocks(inode->i_sb, 1);
+  1106	
+  1107		if (new) {
+  1108			u32 tmp_pos;
+  1109	
+  1110			/*
+  1111			 * This is safe to call with the page locks - it won't take
+  1112			 * any additional semaphores or cluster locks.
+  1113			 */
+  1114			tmp_pos = cpos;
+  1115			ret = ocfs2_add_inode_data(OCFS2_SB(inode->i_sb), inode,
+  1116						   &tmp_pos, 1, !clear_unwritten,
+  1117						   wc->w_di_bh, wc->w_handle,
+  1118						   data_ac, meta_ac, NULL);
+  1119			/*
+  1120			 * This shouldn't happen because we must have already
+  1121			 * calculated the correct meta data allocation required. The
+  1122			 * internal tree allocation code should know how to increase
+  1123			 * transaction credits itself.
+  1124			 *
+  1125			 * If need be, we could handle -EAGAIN for a
+  1126			 * RESTART_TRANS here.
+  1127			 */
+  1128			mlog_bug_on_msg(ret == -EAGAIN,
+  1129					"Inode %llu: EAGAIN return during allocation.\n",
+  1130					(unsigned long long)OCFS2_I(inode)->ip_blkno);
+  1131			if (ret < 0) {
+  1132				mlog_errno(ret);
+> 1133				wc->w_folios[i] = NULL;
+  1134				goto out;
+  1135			}
+  1136		} else if (clear_unwritten) {
+  1137			ocfs2_init_dinode_extent_tree(&et, INODE_CACHE(inode),
+  1138						      wc->w_di_bh);
+  1139			ret = ocfs2_mark_extent_written(inode, &et,
+  1140							wc->w_handle, cpos, 1, *phys,
+  1141							meta_ac, &wc->w_dealloc);
+  1142			if (ret < 0) {
+  1143				mlog_errno(ret);
+  1144				goto out;
+  1145			}
+  1146		}
+  1147	
+  1148		/*
+  1149		 * The only reason this should fail is due to an inability to
+  1150		 * find the extent added.
+  1151		 */
+  1152		ret = ocfs2_get_clusters(inode, cpos, phys, NULL, NULL);
+  1153		if (ret < 0) {
+  1154			mlog(ML_ERROR, "Get physical blkno failed for inode %llu, "
+  1155				    "at logical cluster %u",
+  1156				    (unsigned long long)OCFS2_I(inode)->ip_blkno, cpos);
+  1157			goto out;
+  1158		}
+  1159	
+  1160		BUG_ON(*phys == 0);
+  1161	
+  1162		p_blkno = ocfs2_clusters_to_blocks(inode->i_sb, *phys);
+  1163		if (!should_zero)
+  1164			p_blkno += (user_pos >> inode->i_sb->s_blocksize_bits) & (u64)(bpc - 1);
+  1165	
+  1166		for (i = 0; i < wc->w_num_folios; i++) {
+  1167			int tmpret;
+  1168	
+  1169			/* This is the direct io target page. */
+  1170			if (wc->w_folios[i] == NULL) {
+  1171				p_blkno += (1 << (PAGE_SHIFT - inode->i_sb->s_blocksize_bits));
+  1172				continue;
+  1173			}
+  1174	
+  1175			tmpret = ocfs2_prepare_folio_for_write(inode, &p_blkno, wc,
+  1176					wc->w_folios[i], cpos, user_pos, user_len,
+  1177					should_zero);
+  1178			if (tmpret) {
+  1179				mlog_errno(tmpret);
+  1180				if (ret == 0)
+  1181					ret = tmpret;
+  1182			}
+  1183		}
+  1184	
+  1185		/*
+  1186		 * We only have cleanup to do in case of allocating write.
+  1187		 */
+  1188		if (ret && new)
+  1189			ocfs2_write_failure(inode, wc, user_pos, user_len);
+  1190	
+  1191	out:
+  1192	
+  1193		return ret;
+  1194	}
+  1195	
 
 -- 
 0-DAY CI Kernel Test Service
