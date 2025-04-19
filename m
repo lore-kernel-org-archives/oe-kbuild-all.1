@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E7615665C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 10:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0980881ACA;
+	Sat, 19 Apr 2025 11:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745060186; cv=none; b=gKLIgnQC7pcBEK+V57giCZs8ynOvaBYo8yxLRYE6cFsBH5iwuf8LFDrJi3MmIjB3OwK93z3IQSKeHISWxUB/3ARLNVzZZQR0VX+fUgmuL0e/rePViT6qQeqmHWC5Xuqh67pOokWBTnBuIYfgw2WCnvsRjQ6aP9YQj6kQbGwPnXg=
+	t=1745060845; cv=none; b=mvVApygs6bUlY97tLKS12378m1Yv+BCF0ELvayMNXV0MejUfVV/JruxFzZV4HJFSAYMZfhn8g7EpiZCIHFVPqSmjTrkTGheAkrK9U2sRxLUDd7jtNJmUKhR1OSP6AbXEFl/HFPWHczX8BEkltkcQOxSfSg6lTDyQ0nJSu6g62Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745060186; c=relaxed/simple;
-	bh=Ii+nDVerTa9lkqZuTBs8VDiCSHcivF2EoyoBEUa+V20=;
+	s=arc-20240116; t=1745060845; c=relaxed/simple;
+	bh=6/Bq+wC1TElgwKJijhenPYtXnDs2ewz5mgzreuNFVEc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mhq3qw4i1IUH2/1SJZ08j+KxPyEpFdvPyH+/9Ekcq+xNbsQPsAqXtqUdfr04RH9yuAWcHvbwQXEaZb0V+7XKU3EbZN1Cb6+32opMGVjoCpzauaJGvLBIURCPYPXUDtVo+MqMwCvLXFUOMXCJGSUh1qfDy/pequ6a6Hf+sgISEA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NhvWdQK+; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=GeO8FHZUk2dqemqFNw+gBx4ClT8OnpYu9AXT0Rk/O6Z387mTEA0DLOdksEKqqTcAjlxZLO4kPzNLRKE2hfKHavEBdinPvor1aNF0SpzKBK6aBQ21So9nS+oeZLENMXKnDa9txBo3OgErdFlmtliDHzUDZyp1TKuNJn4wUYnFM9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ipfxEpw1; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NhvWdQK+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ipfxEpw1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745060184; x=1776596184;
+  t=1745060844; x=1776596844;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ii+nDVerTa9lkqZuTBs8VDiCSHcivF2EoyoBEUa+V20=;
-  b=NhvWdQK+46kNx4QhEJ/KoSwUn1zgI+dCophGXssrj//mfV+RxVxd4p/U
-   9LfDfSKqe0+T0T2ea0zLrcJkvXxR6mYwVECWJJ7X/io1hSw5sqAEP8SWM
-   YHtPn0VcBeCZJDzWa0Y8rvkigIyuOAyeWjqzqDdPr26qYi/WGqNuyikny
-   g3y3jRQm8/1SgPo9f661u0aobdQaG3QvA6SZCnjAz65NWijshcbI+TqxL
-   3jBKS++K9e9cD2iJvhcMVFxJahzm2s+9AxCfLkcmDXq5WR2ObLFAkkavZ
-   uU6OSG4u+gKOAye6viGFJV6+bniZq1p8s5Imo2e1zXA4DZVbpuCFbg6/d
-   w==;
-X-CSE-ConnectionGUID: o31/GGFkSJyBGcVtmFKeOA==
-X-CSE-MsgGUID: wlMBAQBOS9GInml2zD7bEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="57658817"
+  bh=6/Bq+wC1TElgwKJijhenPYtXnDs2ewz5mgzreuNFVEc=;
+  b=ipfxEpw1tOqoRRLQt+CxR8Dwk+Sz2jPJfyxN2VCI0K1nauoRqm52Mi6J
+   mhMrj7RaoKUno2f9qf/KXC7c7xPyRgfWdvC+xp0Ms471HXA6ElsvCLauA
+   cY4kVfmKQa1kRw85ePwtf8dQeeuAcRCEUzfhB387w7w4pyRFW5UO7WH8m
+   627pXcoutIQz72q7aREep/Ez4/zzSJDwiGYoVaV6qLFXn9tY2QZdOCbQE
+   9OrBz5r3q34nJd6madF17gtrzwuaOG6KVTW+GUgTcjPal6bi79jKSwqQG
+   TyoGyyK7dwiju6F6rReusAJXAQ9NkU1cJmcioYNRDsO/Gso5xvbW2ZjUN
+   A==;
+X-CSE-ConnectionGUID: 6ZYZ3dHXTBS12P1HjkSZ0A==
+X-CSE-MsgGUID: SpOp2ZSARs+GwdCFWqMxJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="46679768"
 X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="57658817"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 03:56:24 -0700
-X-CSE-ConnectionGUID: ysggq4LfQv29mI6DU0Y2Xw==
-X-CSE-MsgGUID: kQgPqZWeSHKbMt/hKGdCuA==
+   d="scan'208";a="46679768"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 04:07:23 -0700
+X-CSE-ConnectionGUID: 1M3dG9vYQH+NyN2r9P4ykw==
+X-CSE-MsgGUID: 2YiU9dAXSR+8dPesollMFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="168517271"
+   d="scan'208";a="131891179"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Apr 2025 03:56:21 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Apr 2025 04:07:22 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u65ru-0003oD-0K;
-	Sat, 19 Apr 2025 10:56:18 +0000
-Date: Sat, 19 Apr 2025 18:56:11 +0800
+	id 1u662Y-0003oP-2n;
+	Sat, 19 Apr 2025 11:07:18 +0000
+Date: Sat, 19 Apr 2025 19:06:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ruihan Li <lrh2000@pku.edu.cn>, Mike Rapoport <rppt@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	linux-kernel@vger.kernel.org, Ruihan Li <lrh2000@pku.edu.cn>
 Subject: Re: [PATCH] mm/mm_init: Don't iterate pages below ARCH_PFN_OFFSET
-Message-ID: <202504191858.5WVRkO7O-lkp@intel.com>
+Message-ID: <202504191834.zUYILN1L-lkp@intel.com>
 References: <20250418162727.1535335-1-lrh2000@pku.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -77,26 +77,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ruihan-Li/mm-mm_init-Don-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20250418162727.1535335-1-lrh2000%40pku.edu.cn
 patch subject: [PATCH] mm/mm_init: Don't iterate pages below ARCH_PFN_OFFSET
-config: s390-randconfig-002-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191858.5WVRkO7O-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191858.5WVRkO7O-lkp@intel.com/reproduce)
+config: s390-randconfig-001-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191834.zUYILN1L-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191834.zUYILN1L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504191858.5WVRkO7O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504191834.zUYILN1L-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/mm_init.c: In function 'memmap_init':
->> mm/mm_init.c:975:27: error: 'ARCH_PFN_OFFSET' undeclared (first use in this function); did you mean 'PREEMPT_OFFSET'?
-     unsigned long hole_pfn = ARCH_PFN_OFFSET;
-                              ^~~~~~~~~~~~~~~
-                              PREEMPT_OFFSET
-   mm/mm_init.c:975:27: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/mm_init.c:975:27: error: use of undeclared identifier 'ARCH_PFN_OFFSET'
+     975 |         unsigned long hole_pfn = ARCH_PFN_OFFSET;
+         |                                  ^
+   1 error generated.
 
 
-vim +975 mm/mm_init.c
+vim +/ARCH_PFN_OFFSET +975 mm/mm_init.c
 
    971	
    972	static void __init memmap_init(void)
