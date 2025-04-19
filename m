@@ -1,85 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3246259C;
-	Sat, 19 Apr 2025 11:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906091B4244;
+	Sat, 19 Apr 2025 11:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745061445; cv=none; b=Ne2ukxT//B3/AC4GS/w1LvlU+/pl8Z/byFGC32E9z2xTqOW1bbW+p5FlFP41gYoa6bjjDtWNSWh2iONy8EirwUVzuqBIz8IsU5sEQ5/zhHMCaNH4WmnWyZz5IveMHtzWqsayzM8L5G5beIkq8ajtv2tuOuTOtx0/B5miAAnPZqU=
+	t=1745063534; cv=none; b=ol8rVmCKxDECn3dld3pDYomjOucsWeUUDK/MNnt/xyUCDfJWDP8/K8IaQVaXMHlqscebn/dArsa1OLzoOggV/60kejpQovaooGpz0ocIQNCqRspwzfRq+CnrU01c6w0Al22arePKKmjRr8Tl1Yz/sCylFVfrqm8cLTfrlMQJbGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745061445; c=relaxed/simple;
-	bh=twaPTPxrSRUfYcP8Q2Lg0ehwGFBWuSiY9lcXs0+JpzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hHoh65V9tK1yrEHNGsoSJ+aj+eZmgYwisLRrwqPD3TCtvfK4QI1ZyybiyRYOXOdnO0kQCfvr8tiSCQ4QtKgUaqHKls/IJttwt08KG3eJPB5jgt1ezLtCHx9w9dHNuaMp7m1Ygv4WrtQFn6ysADlx7+yxr5t3qA+gjZcHOX+4KLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxqH4MKr; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745063534; c=relaxed/simple;
+	bh=WH0MiRM5Q8jwbcF+nC/VRwuK8zf16f/nGUjSJNj/Hv0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YKgaVw6JGUXwjWqiecYkhvLN9Bdw0jpnhyFRJufanfLuu4mBzYXHecUS34yS5uO4EmvcROCee3F9biBCKfRWg69a6JuvP/Gzf7Ge+xJIc0mqeH2R+VJmfS7ch/t3pu/nPmFtGWanmoSVFrB8J1ukEUBlr2R1/zsAbIHM3F6sF7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QYF3WWb5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxqH4MKr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745061444; x=1776597444;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=twaPTPxrSRUfYcP8Q2Lg0ehwGFBWuSiY9lcXs0+JpzQ=;
-  b=MxqH4MKrlc0L6hGBPHF98yf7kEpd4fiOPfUTnv459Qxpnk+SQ63RYABv
-   Grxj3hqJYnypSUF2acrzqMKedcmRZalLOuTL1WlsyIdo8w2+/dCxEfOOQ
-   +fmptWS3lqiPC/4DxGx5h8x5xeWMDnRD/eEfHvhigsTznMNnezSerhz52
-   IaAqk6PtccdvX12DwkEBOLrpAbycuBGG4KYLickkTrRM5fqd6xgSWiXQv
-   dcBLn7UtDF+dyqtAlIdTFMrPJ4ZPx6hoe5IBpSt67JfxR2S3r5p+js2NJ
-   oYOst0zpO1DZoBQleY8AFC6DcB2LmqD7WqSd4FWeJxKRdWUpzVyj8JYRH
-   A==;
-X-CSE-ConnectionGUID: qJ2loy4/RRa60F1LQTbxqQ==
-X-CSE-MsgGUID: 3RoGYT4bQWq5iruD9Lx8Uw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="58050984"
-X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="58050984"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 04:17:23 -0700
-X-CSE-ConnectionGUID: HvVrSFfiRIW1jZd0Huidpg==
-X-CSE-MsgGUID: i1fjJdb2RI2fmM9whXxT7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="154486846"
-Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Apr 2025 04:17:22 -0700
-Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u66CF-0003of-1e;
-	Sat, 19 Apr 2025 11:17:19 +0000
-Date: Sat, 19 Apr 2025 19:16:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kvm@vger.kernel.org, Farrah Chen <farrah.chen@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [kvm:queue 1/11] ERROR: modpost: "kvm_arch_has_irq_bypass"
- [arch/x86/kvm/kvm-amd.ko] undefined!
-Message-ID: <202504191926.BiMYxNlQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QYF3WWb5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57567C4CEE7;
+	Sat, 19 Apr 2025 11:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745063534;
+	bh=WH0MiRM5Q8jwbcF+nC/VRwuK8zf16f/nGUjSJNj/Hv0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QYF3WWb5C6wyHekRykFdpKFNov8P+IYi4dtbptV5OWFTyRUmJ3TUegH+zQ0JhiVDD
+	 xPsE/fCA5SYNbRhwqPpSRZFR2osZI8sCgzjlDXnfbM2EC4laMvVK7yTD6zt3AeaLTQ
+	 +gKKxREF6xXRfv4R5eYfIxJOhMw5wiydsYJ+O/47fd21oHVxsdWpzrJs1Q1HDdv2sn
+	 BpygpqTsBxEofoMlm7i0lKu8X7KqT9R9Zr9Wk3gWVB1ChjaJZ8nNCn7gCg36Ic1GE5
+	 cOsadK+NCB6LrS++SoWynsFBwgyTfygDLPJyn8kIibWtei3NJ0TAH4nO17pMpAXHvT
+	 /Ntc5EzHqFYfA==
+From: cem@kernel.org
+To: linux-kernel@vger.kernel.org
+Cc: Hans.Holmberg@wdc.com,
+	oe-kbuild-all@lists.linux.dev,
+	hch@lst.de,
+	lukas@wunner.de,
+	angelogioacchino.delregno@collabora.com,
+	Jonathan.Cameron@huawei.com
+Subject: [RFC PATCH] math.h: Account for 64-bit division on i386
+Date: Sat, 19 Apr 2025 13:51:46 +0200
+Message-ID: <20250419115157.567249-1-cem@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-head:   2ae06ae44beb53e7a19df0d46c7f388e6c5b6eb8
-commit: 73e0c567c24a10fb4f750d6a9e90562ee96a6052 [1/11] KVM: SVM: Don't update IRTEs if APICv/AVIC is disabled
-config: x86_64-buildonly-randconfig-006-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191926.BiMYxNlQ-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191926.BiMYxNlQ-lkp@intel.com/reproduce)
+From: Carlos Maiolino <cem@kernel.org>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504191926.BiMYxNlQ-lkp@intel.com/
+Building linux on i386 might fail if a 64bit type is passed to
+mult_fract(). To prevent the failure, use do_div() for the division
+calculation instead of hardcoding a / b.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202504181233.F7D9Atra-lkp@intel.com/
+---
 
->> ERROR: modpost: "kvm_arch_has_irq_bypass" [arch/x86/kvm/kvm-amd.ko] undefined!
+I'm sending it as a RFC because I didn't to extensive testing on this
+patch, also I'm not sure if mult_frac() was intended to work on 32-bit
+only types. If that's the case, perhaps, a new mult_frac64() might be a
+better idea?!
 
+ include/linux/math.h | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/include/linux/math.h b/include/linux/math.h
+index 0198c92cbe3e..05ea853b75b4 100644
+--- a/include/linux/math.h
++++ b/include/linux/math.h
+@@ -133,15 +133,16 @@ __STRUCT_FRACT(u32)
+ #undef __STRUCT_FRACT
+ 
+ /* Calculate "x * n / d" without unnecessary overflow or loss of precision. */
+-#define mult_frac(x, n, d)	\
+-({				\
+-	typeof(x) x_ = (x);	\
+-	typeof(n) n_ = (n);	\
+-	typeof(d) d_ = (d);	\
+-				\
+-	typeof(x_) q = x_ / d_;	\
+-	typeof(x_) r = x_ % d_;	\
+-	q * n_ + r * n_ / d_;	\
++#define mult_frac(x, n, d)		\
++({					\
++	typeof(x) x_ = (x);		\
++	typeof(n) n_ = (n);		\
++	typeof(d) d_ = (d);		\
++					\
++	typeof(x_) r = do_div(x_, d_);	\
++	r *= n_;			\
++	do_div(r, d_);			\
++	x_ * n_ + r;			\
+ })
+ 
+ #define sector_div(a, b) do_div(a, b)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.49.0
+
