@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42634A3C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 04:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509AC184F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 05:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745037353; cv=none; b=AX7f/XPhpCRCduzBk1a3rKoXvEYvhok9Oxa8D5RTL4Tdh4/iJqakV6vk1joZMvCrlpb/CKpPJxua1ajSqmoKihtplIJ0jdW0V7pW8R4MrLEJDTufv+XeebsKDzY40hkFFB5d/dNYX1se1Ze6GNHzfG1wLnfrrsQ/WNyzAEb64QI=
+	t=1745042219; cv=none; b=Iv8uqdsZa7kPGjzxT3neyWbSeWhtyXwiZhermcRNHwyHzBOEnpygeBFn9o23XsNkUoT7cGVmztOvjA7gbNsDUSW977vpeHpjTngQrrCOhGDoBbY7DN6r1hqxgQoio3yRQtGu3mI55vP/pbRZnK7ZlTBGI+xroPiWSqloitayp4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745037353; c=relaxed/simple;
-	bh=9zkz/cMEMIn/SHNNnbJOdag7Pz5OQUzA2W6Fn8M64jw=;
+	s=arc-20240116; t=1745042219; c=relaxed/simple;
+	bh=7AZwgecb6fYAukzfPzJ9G5aAd8nnT+NQpw1YF6yobHo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mqetA28BUdRwFzF2hHQh8RuyarJRM7CvQDoryGKzW1bpGvZCEhyh3U0xgXAGgC8ynnmyMVfsoY0RHcw1ubByFgDrPz79yuHqHl5nmxQb/C2sPhATxEgx6ouIkF7nencx24ZURsa4kaZbG127KaQxt9XIiA5HOiyXT5wrfQlqjaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IiOOzss+; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=hb62tiM4jouDyacEWXT351RxwAw/mgijDagSLuRkBlZomXcSNuyWl44ymfgQzqkdJjmkFyuVkN7vu8JZ1D5854IoFyWD5PKTO0mp2MQE3FbTvKf04K7z8FBT229VJEeEI55gOVEyRSWcP+GTjjE4xCejy9ApJ25qpWWcxcFbptg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpCUjXIU; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IiOOzss+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpCUjXIU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745037351; x=1776573351;
+  t=1745042218; x=1776578218;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9zkz/cMEMIn/SHNNnbJOdag7Pz5OQUzA2W6Fn8M64jw=;
-  b=IiOOzss+ICKILqU+XeKf8v7r60+rrIP7cWUTFEScTuUj/g2vzNYqiazX
-   OCW3v3JVDR6+qbcLhijLFUI2uJD4zjsUep4+d3hgXD1s1ZkMBKEqh2f84
-   lobRkuc1jamsxT7f2ubrdt7QiqgBSUDm12QIOQ0EjuFk4/ZAbEzn5S6tD
-   bmiMeYOrQlvtXpJx8VHLlsttGy0VaYfcO8B3zWHrDwd2H5Y3o0nWck7Yt
-   RQIauNHNdtWZUrzM5Oxk4fNF3Sr7NUazpQnpmXi2v/WIvAd2DLAa3tTMX
-   1aLjUkfO6Fewu1nhAC29GTigPo5IF72YaEZLa5UbRF9fkG6G890Frs8U5
-   g==;
-X-CSE-ConnectionGUID: Lt7LFrc4Sa+UgM8vA4hBvA==
-X-CSE-MsgGUID: o1AY7MejQQK/ERtn/+R9YQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="57651630"
+  bh=7AZwgecb6fYAukzfPzJ9G5aAd8nnT+NQpw1YF6yobHo=;
+  b=hpCUjXIUwMboCX8mxx6Os2Pjl8ncTx7Eh8iQeCqZuYbcOwA/1EJ5yQ58
+   d+QaIgbcqfkU/DmEHaKViR1x5FfYJ3gjspuCL486jzHdGi1G5dMiXmWP5
+   ukDcJg9nDQre7qwZ8Nfhtt3+LgHsumelgOAuSQYg9lgdMtCZsnA17N62X
+   hcgeIGzny8JIbqleLEKQTo5nWFXmKGm+8z2pHqvFzzz1iWv9J/+rNp8ow
+   9Xry/T+oFtM+luHdY9UDwxlRubE6II/F2MZPFK1oqq664nBprsaEbU9Rp
+   GNdlkhLAZpTIG5tubTneqepXafaQ1UNP0xf3T14Q25Gi8Xic8FlNiFXBn
+   A==;
+X-CSE-ConnectionGUID: DRyHlp2MQDGz3g/S2r4U0g==
+X-CSE-MsgGUID: L2oihGRmQda20yX35UcgqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="69158781"
 X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="57651630"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 21:35:50 -0700
-X-CSE-ConnectionGUID: j+11AVF0Rvenisj3ICAVoQ==
-X-CSE-MsgGUID: MreVI8hKQhOAKHAx7UVsVw==
+   d="scan'208";a="69158781"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 22:56:57 -0700
+X-CSE-ConnectionGUID: S7h395hCS0ifCMnUhcWC3g==
+X-CSE-MsgGUID: hr0j9ymAQXShQtFDbmzy0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="168475663"
+   d="scan'208";a="136452247"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Apr 2025 21:35:49 -0700
+  by orviesa005.jf.intel.com with ESMTP; 18 Apr 2025 22:56:55 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u5zve-0003bd-2r;
-	Sat, 19 Apr 2025 04:35:46 +0000
-Date: Sat, 19 Apr 2025 12:35:13 +0800
+	id 1u61C8-0003dl-30;
+	Sat, 19 Apr 2025 05:56:52 +0000
+Date: Sat, 19 Apr 2025 13:56:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2138/2138] kernel/sched/fair.c:314:36: error:
- 'hundred_thousand' undeclared here (not in a function)
-Message-ID: <202504191231.YjEgZFQR-lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
+Subject: [gourryinverse:gourry_vmscan_cpuset 4/5] include/linux/swap.h:629:1:
+ warning: control reaches end of non-void function
+Message-ID: <202504191314.VaTsnEfb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,138 +62,174 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yipeng,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8382e5fc4db31572a2be5a540ea7e11ac725e3d8
-commit: f7c232d3e20a69b46e53da221ba3cbac0fa68a0d [2138/2138] smart_grid: introduce smart_grid_strategy_ctrl sysctl
-config: loongarch-randconfig-r054-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191231.YjEgZFQR-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191231.YjEgZFQR-lkp@intel.com/reproduce)
+tree:   https://github.com/gourryinverse/linux gourry_vmscan_cpuset
+head:   ab08f1fb55da40874056e9837889a33a370c7320
+commit: ab06ad7784db1176c78376949565862b951ad1c7 [4/5] memcontrol: remove cgroup indirection from cpuset_node_allowed
+config: arc-randconfig-001-20250419 (https://download.01.org/0day-ci/archive/20250419/202504191314.VaTsnEfb-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504191314.VaTsnEfb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504191231.YjEgZFQR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504191314.VaTsnEfb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sched/fair.c:314:36: error: 'hundred_thousand' undeclared here (not in a function)
-     314 |                 .extra2         = &hundred_thousand,
-         |                                    ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7104:6: warning: no previous prototype for 'free_affinity_domains' [-Wmissing-prototypes]
-    7104 | void free_affinity_domains(struct affinity_domain *ad)
-         |      ^~~~~~~~~~~~~~~~~~~~~
+         |                               ^~
+   include/linux/compiler_types.h:522:23: note: in definition of macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/swap.h:628:16: note: in expansion of macro 'READ_ONCE'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                ^~~~~~~~~
+   include/linux/swap.h:628:31: error: invalid use of undefined type 'struct mem_cgroup'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                               ^~
+   include/linux/compiler_types.h:522:23: note: in definition of macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/swap.h:628:16: note: in expansion of macro 'READ_ONCE'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                ^~~~~~~~~
+   include/linux/swap.h:628:31: error: invalid use of undefined type 'struct mem_cgroup'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                               ^~
+   include/linux/compiler_types.h:522:23: note: in definition of macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/swap.h:628:16: note: in expansion of macro 'READ_ONCE'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                ^~~~~~~~~
+   include/linux/swap.h:628:31: error: invalid use of undefined type 'struct mem_cgroup'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                               ^~
+   include/linux/compiler_types.h:498:27: note: in definition of macro '__unqual_scalar_typeof'
+     498 |                 _Generic((x),                                           \
+         |                           ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   include/linux/swap.h:628:16: note: in expansion of macro 'READ_ONCE'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                ^~~~~~~~~
+   In file included from ./arch/arc/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:364,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/cgroup-defs.h:12,
+                    from mm/memcontrol.c:28:
+   include/linux/swap.h:628:31: error: invalid use of undefined type 'struct mem_cgroup'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                               ^~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   include/linux/swap.h:628:16: note: in expansion of macro 'READ_ONCE'
+     628 |         return READ_ONCE(memcg->swappiness);
+         |                ^~~~~~~~~
+   include/linux/memcontrol.h: At top level:
+   include/linux/memcontrol.h:527:20: error: conflicting types for 'mem_cgroup_is_root'; have 'bool(struct mem_cgroup *)' {aka '_Bool(struct mem_cgroup *)'}
+     527 | static inline bool mem_cgroup_is_root(struct mem_cgroup *memcg)
+         |                    ^~~~~~~~~~~~~~~~~~
+   include/linux/swap.h:625:38: note: previous implicit declaration of 'mem_cgroup_is_root' with type 'int()'
+     625 |         if (mem_cgroup_disabled() || mem_cgroup_is_root(memcg))
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/memcontrol.h:532:20: error: conflicting types for 'mem_cgroup_disabled'; have 'bool(void)' {aka '_Bool(void)'}
+     532 | static inline bool mem_cgroup_disabled(void)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   include/linux/swap.h:625:13: note: previous implicit declaration of 'mem_cgroup_disabled' with type 'int()'
+     625 |         if (mem_cgroup_disabled() || mem_cgroup_is_root(memcg))
+         |             ^~~~~~~~~~~~~~~~~~~
+   include/linux/swap.h: In function 'mem_cgroup_swappiness':
+>> include/linux/swap.h:629:1: warning: control reaches end of non-void function [-Wreturn-type]
+     629 | }
+         | ^
+--
+   In file included from include/linux/mmu_context.h:5,
+                    from include/linux/cpuset.h:18,
+                    from include/linux/memcontrol.h:14,
+                    from include/linux/swap.h:9,
+                    from include/asm-generic/tlb.h:15,
+                    from arch/arc/include/asm/tlb.h:10,
+                    from mm/maccess.c:8:
+   arch/arc/include/asm/mmu_context.h: In function 'get_new_mmu_context':
+   arch/arc/include/asm/mmu_context.h:82:17: error: implicit declaration of function 'local_flush_tlb_all' [-Wimplicit-function-declaration]
+      82 |                 local_flush_tlb_all();
+         |                 ^~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/tlb.h:17:
+   arch/arc/include/asm/tlbflush.h: At top level:
+>> arch/arc/include/asm/tlbflush.h:11:6: warning: conflicting types for 'local_flush_tlb_all'; have 'void(void)'
+      11 | void local_flush_tlb_all(void);
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/arc/include/asm/mmu_context.h:82:17: note: previous implicit declaration of 'local_flush_tlb_all' with type 'void(void)'
+      82 |                 local_flush_tlb_all();
+         |                 ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/hundred_thousand +314 kernel/sched/fair.c
+vim +629 include/linux/swap.h
 
-   216	
-   217	#ifdef CONFIG_SYSCTL
-   218	static struct ctl_table sched_fair_sysctls[] = {
-   219		{
-   220			.procname       = "sched_child_runs_first",
-   221			.data           = &sysctl_sched_child_runs_first,
-   222			.maxlen         = sizeof(unsigned int),
-   223			.mode           = 0644,
-   224			.proc_handler   = proc_dointvec,
-   225		},
-   226	#ifdef CONFIG_CFS_BANDWIDTH
-   227		{
-   228			.procname       = "sched_cfs_bandwidth_slice_us",
-   229			.data           = &sysctl_sched_cfs_bandwidth_slice,
-   230			.maxlen         = sizeof(unsigned int),
-   231			.mode           = 0644,
-   232			.proc_handler   = proc_dointvec_minmax,
-   233			.extra1         = SYSCTL_ONE,
-   234		},
-   235	#endif
-   236	#ifdef CONFIG_NUMA_BALANCING
-   237		{
-   238			.procname	= "numa_balancing_promote_rate_limit_MBps",
-   239			.data		= &sysctl_numa_balancing_promote_rate_limit,
-   240			.maxlen		= sizeof(unsigned int),
-   241			.mode		= 0644,
-   242			.proc_handler	= proc_dointvec_minmax,
-   243			.extra1		= SYSCTL_ZERO,
-   244		},
-   245	#endif /* CONFIG_NUMA_BALANCING */
-   246	#ifdef CONFIG_QOS_SCHED
-   247		{
-   248			.procname	= "qos_overload_detect_period_ms",
-   249			.data		= &sysctl_overload_detect_period,
-   250			.maxlen		= sizeof(unsigned int),
-   251			.mode		= 0644,
-   252			.proc_handler	= proc_dointvec_minmax,
-   253			.extra1		= SYSCTL_ONE_HUNDRED,
-   254			.extra2		= &hundred_thousand,
-   255		},
-   256		{
-   257			.procname	= "qos_offline_wait_interval_ms",
-   258			.data		= &sysctl_offline_wait_interval,
-   259			.maxlen		= sizeof(unsigned int),
-   260			.mode		= 0644,
-   261			.proc_handler	= proc_dointvec_minmax,
-   262			.extra1		= SYSCTL_ONE_HUNDRED,
-   263			.extra2		= &one_thousand,
-   264		},
-   265	#endif
-   266	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
-   267		{
-   268			.procname       = "sched_util_low_pct",
-   269			.data           = &sysctl_sched_util_low_pct,
-   270			.maxlen         = sizeof(sysctl_sched_util_low_pct),
-   271			.mode           = 0644,
-   272			.proc_handler   = proc_dointvec_minmax,
-   273			.extra1         = SYSCTL_ZERO,
-   274			.extra2		= SYSCTL_ONE_HUNDRED,
-   275		},
-   276	#endif
-   277	#ifdef CONFIG_QOS_SCHED_PRIO_LB
-   278		{
-   279			.procname	= "sched_prio_load_balance_enabled",
-   280			.data		= &sysctl_sched_prio_load_balance_enabled,
-   281			.maxlen		= sizeof(unsigned int),
-   282			.mode		= 0644,
-   283			.proc_handler	= proc_dointvec_minmax,
-   284			.extra1		= SYSCTL_ZERO,
-   285			.extra2		= SYSCTL_ONE,
-   286		},
-   287	#endif
-   288	#ifdef CONFIG_QOS_SCHED_MULTILEVEL
-   289		{
-   290			.procname	= "qos_level_weights",
-   291			.data		= &sysctl_qos_level_weights,
-   292			.maxlen		= 5*sizeof(int),
-   293			.mode		= 0644,
-   294			.proc_handler	= proc_dointvec,
-   295		},
-   296	#endif
-   297	#ifdef CONFIG_QOS_SCHED_SMART_GRID
-   298		{
-   299			.procname	= "smart_grid_strategy_ctrl",
-   300			.data		= &sysctl_smart_grid_strategy_ctrl,
-   301			.maxlen		= sizeof(unsigned int),
-   302			.mode		= 0644,
-   303			.proc_handler   = proc_dointvec_minmax,
-   304			.extra1         = SYSCTL_ZERO,
-   305			.extra2		= SYSCTL_ONE,
-   306		},
-   307		{
-   308			.procname	= "affinity_adjust_delay_ms",
-   309			.data		= &sysctl_affinity_adjust_delay_ms,
-   310			.maxlen		= sizeof(unsigned int),
-   311			.mode		= 0644,
-   312			.proc_handler   = proc_dointvec_minmax,
-   313			.extra1         = SYSCTL_ZERO,
- > 314			.extra2		= &hundred_thousand,
-   315		},
-   316	#endif
-   317		{}
-   318	};
-   319	
+54f7a49c20ebb5 Barry Song       2024-05-29  616  
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  617  #ifdef CONFIG_MEMCG
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  618  static inline int mem_cgroup_swappiness(struct mem_cgroup *memcg)
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  619  {
+4550c4e157ca3d Johannes Weiner  2016-05-05  620  	/* Cgroup2 doesn't have per-cgroup swappiness */
+4550c4e157ca3d Johannes Weiner  2016-05-05  621  	if (cgroup_subsys_on_dfl(memory_cgrp_subsys))
+82b3aa2681ca92 Yue Zhao         2023-03-06  622  		return READ_ONCE(vm_swappiness);
+4550c4e157ca3d Johannes Weiner  2016-05-05  623  
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  624  	/* root ? */
+59118c42a60b99 Yang Shi         2019-03-05  625  	if (mem_cgroup_disabled() || mem_cgroup_is_root(memcg))
+82b3aa2681ca92 Yue Zhao         2023-03-06  626  		return READ_ONCE(vm_swappiness);
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  627  
+82b3aa2681ca92 Yue Zhao         2023-03-06  628  	return READ_ONCE(memcg->swappiness);
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20 @629  }
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  630  #else
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  631  static inline int mem_cgroup_swappiness(struct mem_cgroup *mem)
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  632  {
+82b3aa2681ca92 Yue Zhao         2023-03-06  633  	return READ_ONCE(vm_swappiness);
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  634  }
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  635  #endif
+6f2cb2f17700a3 Vladimir Davydov 2016-01-20  636  
+
+:::::: The code at line 629 was first introduced by commit
+:::::: 6f2cb2f17700a39567cf3e9a2e95041def5f3688 swap.h: move memcg related stuff to the end of the file
+
+:::::: TO: Vladimir Davydov <vdavydov@virtuozzo.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
