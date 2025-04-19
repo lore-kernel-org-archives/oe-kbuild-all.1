@@ -1,62 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29CB249EB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Apr 2025 01:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC173594F;
+	Sat, 19 Apr 2025 02:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745027561; cv=none; b=OGr3IjEB9hmPjJnNsjkP3TJTQBVH5VPSydNVWMvMMZcFl5F2K99qJTYvj9Ws3xCESXRuVxvZFQKneDDfRdHru5oarFigJjQzF2SjtMzxswTusfpptnt3AebR7AqPh8LRAJ9G6yIsm6WDTVz/oWD90h9mZeP0mKoakaP2eYQ5E7E=
+	t=1745030540; cv=none; b=diQwgcWQUGBV7PqWJBinSFytWjc+Hjkupl/Ryr2y59gDe9hlxyuepWQgX+Bhjistvj+j37AvOq7kHpWMljzo3GXkEh8oY33hPBAB4fAoX1snhiTspG7pxd/1hQqq4V+smPBdModS4tTlcMJhP++nJKjIeGS4p+e1OE0y/AU6yo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745027561; c=relaxed/simple;
-	bh=ZvMR76VzAgpIHdKAcaXNlr4ErI3XtSYJTIj4aEGdm2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iSBOi7bMAY3abgkZH/1TeVTAhfnLG28jLR1sHK6ZZ6AWfZF7naYrpzIRC/l8rMdRb0dCLjYc4xxdfShemz8y276h1JeX40Z8/LrVjo1oeobgSAipFVwX0NtDzmoYRc/cDTTNOCBjG9h1l+A4rgkIDtcMUm8FXJSgTA99S5yy5i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezQjqyas; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745030540; c=relaxed/simple;
+	bh=O70Fe4nWsPE5GrjuxU3+DdiZix3p9hrTKNu9yKAiNeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nO5DuzOvOutMeBDcMk8rv3LFZianWD97rF0Uk3QybiNbOJ8IliwDyS76lfTM3mga7a+aaomXzTbY1v+hCtYMhoQyR8ECLu9tHyrS2ifaN705obA1/7pmSlcVQiBzBkRh19BmeBQzCPqzQWr+DWv9T2HEJzqgv6MKqqE2xVMQuUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=rj8qau1h; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezQjqyas"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745027559; x=1776563559;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZvMR76VzAgpIHdKAcaXNlr4ErI3XtSYJTIj4aEGdm2Q=;
-  b=ezQjqyas0qWEZy4EbwvJF5SX3ENrjCYW6r7utwAiK5tMUdOnFzul1tQ8
-   2ueuNjPt9xCaGH+Gba3eqi3yKGvmMuaSdwQpCHBTB1BCoTdQdZivKwBwM
-   CILOz/TOnSxXYN6M/qUbXGJD6FTWBfa8Hn2wvF/iQW1k5VQFV0/2PTXvv
-   eNJxN2kWJVN0kMZc3LJNCFcpD0CKWK5IhjTkzxf3OUpLqiS5iT+x/Pud7
-   VNtdWOh9jbPuWNdeC0k6oBEORIyiKBB92Zfdu3RGagT1ViZ3cAh08PpbJ
-   qELrtbK40QmSpeoMSnDDSRVEZ+LJYUP/sFlA6nt3Ab8R/b29aG1DoXIOt
-   w==;
-X-CSE-ConnectionGUID: /KTmxjgcRzSsuNqzXqpy5w==
-X-CSE-MsgGUID: wanc42t/SsO5xd/Gcyf0oA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11407"; a="50488834"
-X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="50488834"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2025 18:52:38 -0700
-X-CSE-ConnectionGUID: wXEIEZFyQ8iyXaeQ8M3U9A==
-X-CSE-MsgGUID: 53G0fY5sSMmT2cDd0YFZ4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,223,1739865600"; 
-   d="scan'208";a="131201334"
-Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Apr 2025 18:52:36 -0700
-Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u5xNh-0003Vx-25;
-	Sat, 19 Apr 2025 01:52:33 +0000
-Date: Sat, 19 Apr 2025 09:51:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alessandro Carminati <acarmina@redhat.com>,
-	Kees Cook <keescook@chromium.org>, David Gow <davidgow@google.com>
-Subject: [akpm-mm:mm-nonmm-unstable 26/67]
- fs/xfs/libxfs/xfs_group.h:142:undefined reference to `__moddi3'
-Message-ID: <202504190918.JLNuRGVb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="rj8qau1h"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=VFh3etk7Y1gkSj0y1vBh9MGzQHxAzz6+0ZbtugdzeuQ=; b=rj8qau1hxx/U5JXwP97mOY6FdB
+	NkEvutUn5BtmgJ9btQIkHxwZWSfqgnDFxFp/zMRt7hkJuIHU/RdXHhZn05ms4g+lElWGjzu3Lsqb4
+	nYb6Ww18zQ5meWeiEL14div/C0YpKjO6iC7oBNdI1i1HQr4XynrQJXyKJLnVXq83hkJ6snLRnOsC2
+	xsjLxJIxoEx6IuHbKf8kdsPL+zOg1Iy0BNb7ciLH7xjD+bhNnZAehnAyBr4makhZwNgXIWAHXZ1Fc
+	rTn/3ylOR5zLXyuRdo+FeZ140qHhKf8lEt8v36ssyYot5Ay55VHBYzVEAi4Xz4nl6MzsSuENHgMv9
+	RVCaq5eA==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1u5y9l-00Gtvs-1f;
+	Sat, 19 Apr 2025 10:42:14 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 19 Apr 2025 10:42:13 +0800
+Date: Sat, 19 Apr 2025 10:42:13 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: kernel test robot <lkp@intel.com>
+Cc: Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [v2 PATCH 27/67] crypto: x86/sha256 - Use API partial block
+ handling
+Message-ID: <aAMNhS5RNb3ZRwbL@gondor.apana.org.au>
+References: <90dc6c4603dbd8fa7ec67baa17471b441ae0ddb8.1744945025.git.herbert@gondor.apana.org.au>
+ <202504190545.4Wh9NtX2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,49 +51,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202504190545.4Wh9NtX2-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   d1a9b961293d30be9a865d8685590635db282957
-commit: 77b839c0f221fdd4e2226f14fbf3559b09e0976a [26/67] bug/kunit: core support for suppressing warning backtraces
-config: riscv-randconfig-001-20250419 (https://download.01.org/0day-ci/archive/20250419/202504190918.JLNuRGVb-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504190918.JLNuRGVb-lkp@intel.com/reproduce)
+On Sat, Apr 19, 2025 at 05:56:52AM +0800, kernel test robot wrote:
+> Hi Herbert,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on da4cb617bc7d827946cbb368034940b379a1de90]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-shash-Handle-partial-blocks-in-API/20250418-110435
+> base:   da4cb617bc7d827946cbb368034940b379a1de90
+> patch link:    https://lore.kernel.org/r/90dc6c4603dbd8fa7ec67baa17471b441ae0ddb8.1744945025.git.herbert%40gondor.apana.org.au
+> patch subject: [v2 PATCH 27/67] crypto: x86/sha256 - Use API partial block handling
+> config: x86_64-buildonly-randconfig-001-20250419 (https://download.01.org/0day-ci/archive/20250419/202504190545.4Wh9NtX2-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504190545.4Wh9NtX2-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504190545.4Wh9NtX2-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    arch/x86/crypto/sha256_ssse3_glue.c: In function '_sha256_update':
+> >> arch/x86/crypto/sha256_ssse3_glue.c:63:9: error: implicit declaration of function 'kernel_fpu_begin' [-Werror=implicit-function-declaration]
+>       63 |         kernel_fpu_begin();
+>          |         ^~~~~~~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504190918.JLNuRGVb-lkp@intel.com/
+Thanks for the report, I'll fold the following fix-up into the patch.
 
-All errors (new ones prefixed by >>):
-
-   riscv32-linux-ld: fs/xfs/xfs_zone_gc.o: in function `xfs_fsb_to_gno':
->> fs/xfs/libxfs/xfs_group.h:142:(.text+0x15b2): undefined reference to `__moddi3'
-   riscv32-linux-ld: fs/xfs/xfs_zone_gc.o: in function `xfs_rtb_to_daddr':
->> fs/xfs/libxfs/xfs_rtgroup.h:252:(.text+0x15c8): undefined reference to `__divdi3'
->> riscv32-linux-ld: fs/xfs/libxfs/xfs_rtgroup.h:252:(.text+0x15de): undefined reference to `__divdi3'
-
-
-vim +142 fs/xfs/libxfs/xfs_group.h
-
-759cc1989a5302 Christoph Hellwig 2024-11-03  133  
-759cc1989a5302 Christoph Hellwig 2024-11-03  134  static inline uint32_t
-759cc1989a5302 Christoph Hellwig 2024-11-03  135  xfs_fsb_to_gno(
-759cc1989a5302 Christoph Hellwig 2024-11-03  136  	struct xfs_mount	*mp,
-759cc1989a5302 Christoph Hellwig 2024-11-03  137  	xfs_fsblock_t		fsbno,
-759cc1989a5302 Christoph Hellwig 2024-11-03  138  	enum xfs_group_type	type)
-759cc1989a5302 Christoph Hellwig 2024-11-03  139  {
-759cc1989a5302 Christoph Hellwig 2024-11-03  140  	if (!mp->m_groups[type].blklog)
-759cc1989a5302 Christoph Hellwig 2024-11-03  141  		return 0;
-759cc1989a5302 Christoph Hellwig 2024-11-03 @142  	return fsbno >> mp->m_groups[type].blklog;
-759cc1989a5302 Christoph Hellwig 2024-11-03  143  }
-759cc1989a5302 Christoph Hellwig 2024-11-03  144  
-
-:::::: The code at line 142 was first introduced by commit
-:::::: 759cc1989a53024066b0f2ea52c206b4ff8f522c xfs: add group based bno conversion helpers
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Darrick J. Wong <djwong@kernel.org>
-
+diff --git a/arch/x86/crypto/sha256_ssse3_glue.c b/arch/x86/crypto/sha256_ssse3_glue.c
+index 7c5b498c1a85..367ce4830fa4 100644
+--- a/arch/x86/crypto/sha256_ssse3_glue.c
++++ b/arch/x86/crypto/sha256_ssse3_glue.c
+@@ -30,6 +30,7 @@
+ #define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
+ 
+ #include <asm/cpu_device_id.h>
++#include <asm/fpu/api.h>
+ #include <crypto/internal/hash.h>
+ #include <crypto/sha2.h>
+ #include <crypto/sha256_base.h>
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
