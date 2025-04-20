@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D746A1FDA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 11:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A0019307F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 12:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745150382; cv=none; b=oTAFgJJGW3L7sD50If8oicuhlj/sD0YxvFIhc/8fShlhcKVll4h77lFgB7Oz/779kKoq08qDHRiQ/JdLddMe+vy1PFJAl4Rz27hpMM6p6eaZctou4KOjThlbj546epksMwFH+yoQYvhceTy/UatqLbmcaCMoV4ijBHuZaIEWYC0=
+	t=1745150984; cv=none; b=nu97XWKrpGy/bE2IfUmJwBfLuvL4Fx4dkyQP47g42NTt8IH2iJm7iI+4idl3Jy8TV31k60ZNKeTOz1kkTkURYPqR6DIPN3zA4QARFkpQQRmYAsc4EzsywAWU45iuXxmPki+b/mmExGOBDG9Vzt88qjLk5M59sdVIn+DHTuwxJ1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745150382; c=relaxed/simple;
-	bh=SDFgY4DJa5fO4q383a9DjBhSqtmeZl6suIwJBlbmOBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gGhxLamPFStaB8lVJjnhIYB3Q/ekGEka12wcgl61OhfE28TRZpfr4ZP5mceoVPMaKeAShIBJPHNkv/SWAq6mqscnjo5LzQGmgSj40EvjSEcLBd8L95svrazCH2tNsjGNsZYj++eYzYU1JzgL9OrQq2xVcIikcEqc5iAESNscKXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IA7CsQGk; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1745150984; c=relaxed/simple;
+	bh=ExbiWHI4vkkRALmW5sHMtg9viFPkOSxPvgMn2v+/Y8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPPWfNhqJ2VxVSj5T2KswGzNYyaNQS//xIVaCXlopAuuuflQb9aVLp9+cPgnJSvBRftT4OJd6hGRZH1zniisoFIeV54+pAIAPYwc4gOr3YFDgxykveHBBOOfUVvuEb3EwJWdGK61eG40/pcEEzqyiWs5bI5nGMgiZRDTZozTk80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MssIjZ10; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IA7CsQGk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MssIjZ10"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745150380; x=1776686380;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SDFgY4DJa5fO4q383a9DjBhSqtmeZl6suIwJBlbmOBw=;
-  b=IA7CsQGkVZzK/Acp9YV3VDcPcHgYVca8gljDn+NilHjef4jg+G57zbn1
-   s5DY6828tCIcvOL2K6nRbLw2QdVw97VEpVWmAASNkvOchYtP89HHCnnTB
-   3MwKXozifUsUacMjSOoJRRWy1eILA8P6Gd7nVRH0/M5iywti3kq40tOUh
-   dQljTIjeH9cQqv5vU5oTk6l4YJ6cRDmQJ8APab+AYrPBpWxGSiwncnEns
-   0Ry0DedEMK9oJWft8zYt4Kv7C00bjSEK57AqEZy277fi9Xg8jv4O1FZqb
-   +9stNj+4BLyac9y1MMVlkx1Mx4GUvEFq0zWnouwAAmt7pW5G+mGhLGhDG
-   Q==;
-X-CSE-ConnectionGUID: iu406+XxQmeUzu2T1Z9t7w==
-X-CSE-MsgGUID: yM40qO0tRemBakwCQ/26wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="57696280"
+  t=1745150982; x=1776686982;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ExbiWHI4vkkRALmW5sHMtg9viFPkOSxPvgMn2v+/Y8g=;
+  b=MssIjZ10W1q+53aXLWZukmLLW1Drrj0fOY6xhtV8i+cp+yl+BZBk1VoB
+   gazLqadP485u1I6i3PbcjuAWz+wr2Sw+ef4pgnEfNeiNkpn8f3bJlz399
+   X/4esGaPKcqxfJVX1VYsp5lcz7tHZzspjRygwmxDSRwt2nNqHJgR/yBRu
+   71ZUt3HIn5cEKHKzQ6DU5atVXPwO1Yjy3V/7vTrVFocIqlL5l4mQ900Hf
+   0CjrQpiYdwlQ34DXWhq8ZnRVT/qw1t4mh/A/0fDYxaHhbjG8cld/Cftno
+   p9JSZHjiYnPQZQrw+4pQ2tGr/JlpCzLGcKf5Rupv9RdZwiPeZ4T+JKrgy
+   w==;
+X-CSE-ConnectionGUID: 0TWVCMSJSkeEgjzV+epi5w==
+X-CSE-MsgGUID: 1GqF6+K5Rzy56hKO6mQSGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="72095971"
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="57696280"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 04:59:40 -0700
-X-CSE-ConnectionGUID: Hj6hCeXMQiOALRyM/0prwA==
-X-CSE-MsgGUID: d9aaFKGWQw6il3IKnPFjig==
+   d="scan'208";a="72095971"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 05:09:41 -0700
+X-CSE-ConnectionGUID: mmgX1h/TSKS15cHIjMnyHg==
+X-CSE-MsgGUID: zYnIBlZlSmeo4jSFweqM/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="132062688"
+   d="scan'208";a="135582953"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 20 Apr 2025 04:59:39 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 Apr 2025 05:09:39 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6TKi-0004bt-1F;
-	Sun, 20 Apr 2025 11:59:36 +0000
-Date: Sun, 20 Apr 2025 19:58:57 +0800
+	id 1u6TUP-0004cN-10;
+	Sun, 20 Apr 2025 12:09:37 +0000
+Date: Sun, 20 Apr 2025 20:09:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@kernel.org>
-Subject: [mingo-tip:WIP.x86/e820 20/20] vmlinux.o: warning: objtool:
- setup_arch+0x7ee: e820__setup_pci_gap() missing __noreturn in .c/.h or
- NORETURN() in noreturns.h
-Message-ID: <202504201906.A9ro22F6-lkp@intel.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: Re: [PATCH v5] hwmon: (max77705) add initial support
+Message-ID: <202504201920.cQQHIL2Y-lkp@intel.com>
+References: <20250419-initial-support-for-max77705-sensors-v5-1-4504a9b48ba1@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +69,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250419-initial-support-for-max77705-sensors-v5-1-4504a9b48ba1@gmail.com>
 
-Hi Ingo,
+Hi Dzmitry,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.x86/e820
-head:   00188fb1706a5b13228b766cb47dcda740319a86
-commit: 00188fb1706a5b13228b766cb47dcda740319a86 [20/20] x86/boot/e820: Standardize e820 table index variable types under 'u32'
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250420/202504201906.A9ro22F6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201906.A9ro22F6-lkp@intel.com/reproduce)
+[auto build test WARNING on a4cda136f021ad44b8b52286aafd613030a6db5f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/hwmon-max77705-add-initial-support/20250420-030631
+base:   a4cda136f021ad44b8b52286aafd613030a6db5f
+patch link:    https://lore.kernel.org/r/20250419-initial-support-for-max77705-sensors-v5-1-4504a9b48ba1%40gmail.com
+patch subject: [PATCH v5] hwmon: (max77705) add initial support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250420/202504201920.cQQHIL2Y-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201920.cQQHIL2Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504201906.A9ro22F6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504201920.cQQHIL2Y-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: setup_arch+0x7ee: e820__setup_pci_gap() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> drivers/hwmon/max77705-hwmon.c:51:34: warning: 'max77705_hwmon_readable_ranges' defined but not used [-Wunused-const-variable=]
+      51 | static const struct regmap_range max77705_hwmon_readable_ranges[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/max77705_hwmon_readable_ranges +51 drivers/hwmon/max77705-hwmon.c
+
+    50	
+  > 51	static const struct regmap_range max77705_hwmon_readable_ranges[] = {
+    52		regmap_reg_range(AVGISYS_REG,	AVGISYS_REG + 1),
+    53		regmap_reg_range(IIN_REG,	IIN_REG + 1),
+    54		regmap_reg_range(ISYS_REG,	ISYS_REG + 1),
+    55		regmap_reg_range(VBYP_REG,	VBYP_REG + 1),
+    56		regmap_reg_range(VSYS_REG,	VSYS_REG + 1),
+    57	};
+    58	
 
 -- 
 0-DAY CI Kernel Test Service
