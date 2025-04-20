@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0443B442C;
-	Sun, 20 Apr 2025 05:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790AB153836
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 05:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745126286; cv=none; b=VprxVyq1l30AjY8lwk21h0WRxiUrCDtA8MdfSTAX21wtlIud7FWi2aXy5pVVr0CHsS6ooqmofMtN1uwzMmcgnRpq+Zr1WZsVovEDrz71zNkbXWNxhxtJFTKWpXtcPgzCBvX3qKOVVbG0PyuTk5hVPdfYKrxX2sdprDy/GOX1ZW0=
+	t=1745126286; cv=none; b=d0lNKzEMLJNKI6JKNtNa6YDJ9r0FQPSipU4BYUKJqcSQt3yjIQFNyN8+KfMK2mkLJLTs20JHdxzvye9FAh7WJsj+FxJiL8J2swuMiDud6Dly/lfTGbCFAV+j0XGoalE2I8M/33U3h4XXVFlhQhvb2DhHLRhawCUdfCQAAzQRpVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745126286; c=relaxed/simple;
-	bh=kALd7uzBQi4hQSWBc1DanYBb1A9XeSI+6BhB/tS4hHU=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dGnOwBfASCP32beW2OXYxOm6dEillbXPM9rHkXHTgb0SlDSXrb6GcEYF/AHl9IjiwsrDaGCzi1F/UEDoGvFJzEyKErcb1Ih7g6Icx1QVAliKfsP88B+lUGzNE7YUUHDnBY4R/Jvp9qXTAUT/Y+q3ozW/I1X4nYi/7x90+pxWHoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c02ZAotH; arc=none smtp.client-ip=198.175.65.19
+	bh=DRbbp+ACEwmLC17K65EcfcjpWOUWGcVzmMPYIh/bd38=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HubKScK/B0OSYncdvyQcAP5CBivOM9hFHamz+lijDygjuxTYy1rKKKGfvCaKba6u/tNmT0RaApSieaMbCWK4u73/oy9kO4bahnaflJei2mn63OFx9wCV6mrLG8lwOZcmdQGAlLkZuEy6EpuTmqH1JIVmFFnxiH2dENgrbogKHXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLCKaopi; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c02ZAotH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLCKaopi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745126284; x=1776662284;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=kALd7uzBQi4hQSWBc1DanYBb1A9XeSI+6BhB/tS4hHU=;
-  b=c02ZAotHD5lFPnSQaRs/ks7aJjL4OSN+fy8fNlVgmLH92DtK02I8SLpc
-   +/wzmlac9581imL/Ca/qGCzmwxGbpQZbQTpShUsvEvE9U9yA4RXQaMBcY
-   Tdcj6JaekiAEcKf+qsoGyUjiogc2lRj/VH42K/xA7bj8gGX0t4oFEu6rj
-   bkNQcByTj6Id4Ztyw+nEh3bkIij96LbRAMd3zVM0fUtgJRgT72mxe3zY1
-   tVZTCdDpSQ6ajGmeNghDDTOWFoG1qeCKIunN+AB9otID0K0BWagILFRgu
-   jcenE1vtXxf6Ofr+HUcZ68bsut7Zh2zUODuG6zh5Tm8ntdQjgAxLqWBMg
-   w==;
-X-CSE-ConnectionGUID: b0AyPXdPQMWigsnAo4mi3g==
-X-CSE-MsgGUID: ik3BzekpTNKkB46gFkLGZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46587380"
+  t=1745126285; x=1776662285;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DRbbp+ACEwmLC17K65EcfcjpWOUWGcVzmMPYIh/bd38=;
+  b=cLCKaopiygo1Pc7ccsFLclyywhMHwNbRDMZbIn7/6SZuEEA/j6MOL6JD
+   K/bTU/raCmQmygCoaM8HNeCoh3VCb1XUkso6V3EFO+prowK94KAfPK1HB
+   LKl8JEqGz7BPTrke/jU+VIoWzNBw0cd8k91H1wK84n3QBN+oH31FBkVSE
+   cQ9qft3cLOMydTPwsJVXMWwGb4hS9Lackh7lJ1w1CApHmM9bPPeEodfRM
+   El1TYIvJ2xPVYBj3Gfiw4O212QRyuCRGy2d4kj3KUby2f+qkfTmytwONL
+   iGkZ8C1ybL0PAWOzijnXx7UKJPBCJvFIckpk1CqyN3vcMu2QWzFaeCn5f
+   g==;
+X-CSE-ConnectionGUID: t9B76Z5ZSJmLvUqwI5cAOg==
+X-CSE-MsgGUID: GC+LOsvfTbGCwVR1eavbzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46402435"
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="46587380"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 22:18:04 -0700
-X-CSE-ConnectionGUID: f3j1B9xwQ2qXohpnpGlV9w==
-X-CSE-MsgGUID: grKtB9VZS4++oIqSoJ6yvw==
+   d="scan'208";a="46402435"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 22:18:04 -0700
+X-CSE-ConnectionGUID: EhiXlxw4Tf2Icgw4YMkFYQ==
+X-CSE-MsgGUID: DWNl7nSCS1G8PaSd4H9bCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="136298995"
+   d="scan'208";a="131380616"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 19 Apr 2025 22:18:03 -0700
+  by orviesa010.jf.intel.com with ESMTP; 19 Apr 2025 22:18:03 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6N44-0004RV-0n;
+	id 1u6N44-0004RZ-0u;
 	Sun, 20 Apr 2025 05:18:00 +0000
-Date: Sun, 20 Apr 2025 13:17:27 +0800
+Date: Sun, 20 Apr 2025 13:17:28 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [PATCH] kbuild: distributed build support for Clang ThinLTO
-Message-ID: <202504201309.o2F1OHlm-lkp@intel.com>
+To: Xin3 Li <xin3.li@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [xinli-intel-fred-public:intel-lkp 28/33]
+ arch/x86/include/asm/mshyperv.h:307:16: error: implicit declaration of
+ function 'native_rdmsrq_no_trace'
+Message-ID: <202504201330.SI7KLORo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,77 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In-Reply-To: <20250420010214.1963979-1-xur@google.com>
-References: <20250420010214.1963979-1-xur@google.com>
-TO: xur@google.com
-TO: Masahiro Yamada <masahiroy@kernel.org>
-TO: Nathan Chancellor <nathan@kernel.org>
-TO: Nicolas Schier <nicolas.schier@linux.dev>
-TO: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-TO: Bill Wendling <morbo@google.com>
-TO: Justin Stitt <justinstitt@google.com>
-TO: Miguel Ojeda <ojeda@kernel.org>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Alice Ryhl <aliceryhl@google.com>
-TO: Sami Tolvanen <samitolvanen@google.com>
-TO: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-TO: Rafael Aquini <aquini@redhat.com>
-TO: Michael Ellerman <mpe@ellerman.id.au>
-TO: Stafford Horne <shorne@gmail.com>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-TO: Rong Xu <xur@google.com>
-TO: Teresa Johnson <tejohnson@google.com>
-CC: linux-kernel@vger.kernel.org
-CC: linux-kbuild@vger.kernel.org
-CC: llvm@lists.linux.dev
+Hi Xin,
 
-Hi,
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on masahiroy-kbuild/for-next]
-[also build test ERROR on masahiroy-kbuild/fixes linus/master v6.15-rc2 next-20250417]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/xur-google-com/kbuild-distributed-build-support-for-Clang-ThinLTO/20250420-090244
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20250420010214.1963979-1-xur%40google.com
-patch subject: [PATCH] kbuild: distributed build support for Clang ThinLTO
-config: i386-buildonly-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504201309.o2F1OHlm-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201309.o2F1OHlm-lkp@intel.com/reproduce)
+tree:   https://github.com/xinli-intel/linux-fred-public.git intel-lkp
+head:   7847889af95a1a39c6e3e0ef6479df8b9505a17d
+commit: 58bf67d4ea90dad258ed448cd35ac9c28890719b [28/33] x86/msr: Rename native_rdmsrq() to native_rdmsrq_no_trace()
+config: x86_64-buildonly-randconfig-004-20250420 (https://download.01.org/0day-ci/archive/20250420/202504201330.SI7KLORo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201330.SI7KLORo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504201309.o2F1OHlm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504201330.SI7KLORo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> Error loading index file 'lib/is_single_threaded.o.thinlto.bc': No such file or directory
+   In file included from arch/x86/hyperv/ivm.c:18:
+   arch/x86/include/asm/mshyperv.h: In function 'hv_raw_get_msr':
+>> arch/x86/include/asm/mshyperv.h:307:16: error: implicit declaration of function 'native_rdmsrq_no_trace' [-Werror=implicit-function-declaration]
+     307 |         return native_rdmsrq_no_trace(reg);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
->> Error loading index file 'lib/plist.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/iomem_copy.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/clz_tab.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/string.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/decompress_unlz4.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/decompress.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/decompress_unxz.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/kobject.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/maple_tree.o.thinlto.bc': No such file or directory
---
->> Error loading index file 'lib/fdt_empty_tree.o.thinlto.bc': No such file or directory
-..
+   In file included from arch/x86/hyperv/hv_apic.c:29:
+   arch/x86/include/asm/mshyperv.h: In function 'hv_raw_get_msr':
+>> arch/x86/include/asm/mshyperv.h:307:16: error: implicit declaration of function 'native_rdmsrq_no_trace' [-Werror=implicit-function-declaration]
+     307 |         return native_rdmsrq_no_trace(reg);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/fsgsbase.h:9,
+                    from arch/x86/include/asm/elf.h:14,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/static_call.h:135,
+                    from arch/x86/include/asm/apic.h:6,
+                    from arch/x86/hyperv/hv_apic.c:30:
+   arch/x86/include/asm/msr.h: At top level:
+>> arch/x86/include/asm/msr.h:251:28: error: conflicting types for 'native_rdmsrq_no_trace'; have 'u64(u32)' {aka 'long long unsigned int(unsigned int)'}
+     251 | static __always_inline u64 native_rdmsrq_no_trace(u32 msr)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/mshyperv.h:307:16: note: previous implicit declaration of 'native_rdmsrq_no_trace' with type 'int()'
+     307 |         return native_rdmsrq_no_trace(reg);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/native_rdmsrq_no_trace +307 arch/x86/include/asm/mshyperv.h
+
+   304	
+   305	static __always_inline u64 hv_raw_get_msr(unsigned int reg)
+   306	{
+ > 307		return native_rdmsrq_no_trace(reg);
+   308	}
+   309	
 
 -- 
 0-DAY CI Kernel Test Service
