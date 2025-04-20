@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C655C2AE86
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 07:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49BA19E826
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 07:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745132477; cv=none; b=BEfjtxmZGy/FTZmkpR6ItYmOQwoVi2V/FIJ1b2iyqAbP53kdiuHrs/J58xxXLUnrGCAiHlekcee+F99G2WqGVpcipDC/oBEFJYbtizhOK9oZbkkCjKasNMTEetRaTLugku0AwHVa2T4CtVw1Ta/NcIhCeqBJ6C3iGNfCcyOQwaw=
+	t=1745134401; cv=none; b=kxtpCC9Oy3r10QfWEXJ2sI0j1R/NIEIoouKHbB6S4F0Lc4APjedOjOROwNSWsIRtVskmhrAAbHP7VAqpof4zy96QUwVs7eAcvPXYzPE8Vox3MRRCYgAqqGG6oAjv6GFJ/jzgl2lqNFocY8PoKgbvNQyAC7jopSjrZ4MvY3LTKCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745132477; c=relaxed/simple;
-	bh=8AdDCKKzATCxqX3CQdiOBAmO9XTKXCUfykIZdGqgEc4=;
+	s=arc-20240116; t=1745134401; c=relaxed/simple;
+	bh=eL8Avc6KqwXe8bTSTNLGIPRtpDCxDEhYtRhXdzlreXc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h5qVIn1w7uShE1b1//0Qi4yiFJQQG7cGmcXhprQaXFTVihBUeQLf9KIhBp2OeWbcH5EbG7Iy8ymvL7ItgZwIO5WpDdRTXSZqM2XNunMeCehrx3T6/J32eYD8b0OZOodcKStgLuKul0JLwFITJ1H6oLTp3O32GyIZ2SglfqKgMXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfpPuCUb; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=h2czHf+tPJe7u4E8xPkpys0ATofiHIstZlfTw6Amrs5NBodBeB5kM5zEYPIhGe/bb/h2VWNoNcLlTdNHQphk4wD6mWLtoe0kUsBZllih1o3RFsV05YEm8jnQ6P5oB3HHL8vGN6v42IQ7B4lztDYZ7l0BU+kE/XOPWjIX50Uwdg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kLwk6Cgy; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfpPuCUb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kLwk6Cgy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745132475; x=1776668475;
+  t=1745134398; x=1776670398;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8AdDCKKzATCxqX3CQdiOBAmO9XTKXCUfykIZdGqgEc4=;
-  b=FfpPuCUbwBx9rApJFoUPhM1RACodfO9WgNIC6X2+MVsMDejLoShENRmX
-   0p1cROcdXY75uF6FMAEJzBdLwyJeoqMDA+IfJAFYTV3iTZrg2ZeeNLY/V
-   cq0l1tURFl42VdvBuXS3KRJNvgozut5u4wv7gNGuYXC+rVShfW5XwB8IV
-   UWRd3raA5IgTK+/qR4x7Wnvkp4vrEjUSgRwzU/Phcbwr/o8yHa/KGi7da
-   cazAkjvB8xFFq2o++KSF6HPzKEeLlQJXStXBMeyPpqKeXqHjBZkU8Q9vS
-   q9Fl8+FgW4uxxg+bPj+hpjAWDs6b6eeZGYhfKozBB+bjFot5VQ//vi76g
-   A==;
-X-CSE-ConnectionGUID: ODkcTAbNQnqjmRAWQkWv4A==
-X-CSE-MsgGUID: mUXAZ9QUTBGTM6L0NtkOlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46869373"
+  bh=eL8Avc6KqwXe8bTSTNLGIPRtpDCxDEhYtRhXdzlreXc=;
+  b=kLwk6CgyQSPy1MxZEPaAmk5sTBB+kbxRWYVXeix8+IDPregjQj4oypgP
+   70MtuZ5dMYz2eAxvCUzo6NhtLCvwRmon7DsUBPZlHvN9fv9sLSHn7AL5k
+   vbS/BOLzcKpok+l058mt56HuyyiTmwCbelAAUeS4xyHp5WkZwRZBUnOMo
+   kOGDF5RUKd/EDpv8IFv9p2eH/R8vh9YdkzRSJXelFsKPKzmg5XRXGKXnP
+   u0UmDhr3TB/oKTAq9r+52pAwleXLDJkVPzxZDolzoKx2nuIH+B8NbuWv6
+   zep4xQi2VHEkTthlOuw8rhTMrZ/r+cnXu2THF7Eou1hWl+uK8dFTcpsx6
+   Q==;
+X-CSE-ConnectionGUID: xJg4fEbAS9uxcbhgz4VF8w==
+X-CSE-MsgGUID: yAsqwlBTSDS1RgscvpPuDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="64234326"
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="46869373"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 00:01:15 -0700
-X-CSE-ConnectionGUID: x3MPrF69TbWseiIcrPZiww==
-X-CSE-MsgGUID: ZEzm1VezTQSM2sAyi+k12A==
+   d="scan'208";a="64234326"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 00:33:18 -0700
+X-CSE-ConnectionGUID: +4u8PMVqQeyMRFbGRlKyPA==
+X-CSE-MsgGUID: D6Uh7ZQQRt+0OaGNoIXQEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="136419766"
+   d="scan'208";a="136274087"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Apr 2025 00:01:13 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 20 Apr 2025 00:33:17 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6Ofv-0004Uo-1K;
-	Sun, 20 Apr 2025 07:01:11 +0000
-Date: Sun, 20 Apr 2025 15:00:56 +0800
+	id 1u6PAw-0004Vh-2o;
+	Sun, 20 Apr 2025 07:33:14 +0000
+Date: Sun, 20 Apr 2025 15:32:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Xin3 Li <xin3.li@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:intel-lkp 25/33]
- arch/x86/kernel/cpu/resctrl/pseudo_lock.c:497:2: error: call to undeclared
- function 'native_wrmsr_no_trace'; ISO C99 and later do not support implicit
+Subject: [xinli-intel-fred-public:intel-lkp 28/33]
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c:484:14: error: call to undeclared
+ function 'native_rdmsrq_no_trace'; ISO C99 and later do not support implicit
  function declarations
-Message-ID: <202504201455.2EGxrZ8x-lkp@intel.com>
+Message-ID: <202504201524.Al7l03SP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,17 +64,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Xin,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
 tree:   https://github.com/xinli-intel/linux-fred-public.git intel-lkp
 head:   7847889af95a1a39c6e3e0ef6479df8b9505a17d
-commit: 358a2ad2be426f7146d59083b1398d9cb1c2ebe7 [25/33] x86/msr: Rename native_wrmsr() to native_wrmsr_no_trace()
-config: i386-buildonly-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504201455.2EGxrZ8x-lkp@intel.com/config)
+commit: 58bf67d4ea90dad258ed448cd35ac9c28890719b [28/33] x86/msr: Rename native_rdmsrq() to native_rdmsrq_no_trace()
+config: i386-buildonly-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504201524.Al7l03SP-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201455.2EGxrZ8x-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201524.Al7l03SP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504201455.2EGxrZ8x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504201524.Al7l03SP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
@@ -114,13 +118,13 @@ All errors (new ones prefixed by >>):
    arch/x86/include/uapi/../../events/perf_event.h:1585:2: error: call to undeclared function 'wrmsrq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     1585 |         wrmsrq(MSR_IA32_DEBUGCTLMSR, debugctl);
          |         ^
-   arch/x86/kernel/cpu/resctrl/pseudo_lock.c:484:14: error: call to undeclared function 'native_rdmsrq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     484 |         saved_msr = native_rdmsrq(MSR_MISC_FEATURE_CONTROL);
+>> arch/x86/kernel/cpu/resctrl/pseudo_lock.c:484:14: error: call to undeclared function 'native_rdmsrq_no_trace'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     484 |         saved_msr = native_rdmsrq_no_trace(MSR_MISC_FEATURE_CONTROL);
          |                     ^
    arch/x86/kernel/cpu/resctrl/pseudo_lock.c:485:2: error: call to undeclared function 'native_wrmsrq_no_trace'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      485 |         native_wrmsrq_no_trace(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits);
          |         ^
->> arch/x86/kernel/cpu/resctrl/pseudo_lock.c:497:2: error: call to undeclared function 'native_wrmsr_no_trace'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   arch/x86/kernel/cpu/resctrl/pseudo_lock.c:497:2: error: call to undeclared function 'native_wrmsr_no_trace'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      497 |         native_wrmsr_no_trace(MSR_IA32_PQR_ASSOC, rmid_p, plr->closid);
          |         ^
    arch/x86/kernel/cpu/resctrl/pseudo_lock.c:537:2: error: call to undeclared function 'wrmsrq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
@@ -145,7 +149,7 @@ All errors (new ones prefixed by >>):
    20 errors generated.
 
 
-vim +/native_wrmsr_no_trace +497 arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+vim +/native_rdmsrq_no_trace +484 arch/x86/kernel/cpu/resctrl/pseudo_lock.c
 
    458	
    459		/*
@@ -173,7 +177,7 @@ vim +/native_wrmsr_no_trace +497 arch/x86/kernel/cpu/resctrl/pseudo_lock.c
    481		 * the buffer and evict pseudo-locked memory read earlier from the
    482		 * cache.
    483		 */
- > 484		saved_msr = native_rdmsrq(MSR_MISC_FEATURE_CONTROL);
+ > 484		saved_msr = native_rdmsrq_no_trace(MSR_MISC_FEATURE_CONTROL);
    485		native_wrmsrq_no_trace(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits);
    486		closid_p = this_cpu_read(pqr_state.cur_closid);
    487		rmid_p = this_cpu_read(pqr_state.cur_rmid);
@@ -186,7 +190,7 @@ vim +/native_wrmsr_no_trace +497 arch/x86/kernel/cpu/resctrl/pseudo_lock.c
    494		 * pseudo-locked followed by reading of kernel memory to load it
    495		 * into the cache.
    496		 */
- > 497		native_wrmsr_no_trace(MSR_IA32_PQR_ASSOC, rmid_p, plr->closid);
+   497		native_wrmsr_no_trace(MSR_IA32_PQR_ASSOC, rmid_p, plr->closid);
    498	
    499		/*
    500		 * Cache was flushed earlier. Now access kernel memory to read it
