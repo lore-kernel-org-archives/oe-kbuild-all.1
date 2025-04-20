@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85817AD2D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 01:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF5423A9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 02:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745112646; cv=none; b=V1BFzl/ek0SBwUkP9JSuZynm3ujnYFxtgcgEC4hSlVTajlkm5zOjbFYNE8DRtJ+ge/AVbC61sJc4b3W1s+hASEjaVO7v1brBZs6ICpG9ZWcvv28mat9AR8XoKEiFxTCn6CbOFL4AaB8nSKcvKqHO1PjVL0a5M51v3jtgmcDbPl0=
+	t=1745115709; cv=none; b=qyQJO6RPRA7CMpMsfJVWPhfqCz12MQEX+zN6v7cu2TCT0wpXlKQECLrlO3Zg0sCitFYGnac6mcRGIP2jURB3PrMsrNHgp8+0JUO8S8VM/wzZFYyYHsrvuVt2AE5gc/s9rP7k6WYl+GpC2en+xCvglUxdrNieUPnEIIq4jy3HDbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745112646; c=relaxed/simple;
-	bh=zFNqdiBlhiAecw2lY9zYluqPnpumwktvZ/pZ0KP/aNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qsG3jbDwkNGwjPFJ0qhI+KzvykY2A4XOkh3+tPgqRKoFcdjwDmgyx3UZTP8dVg83BTsj2BnyrIxZBVKw/FbqOcL7NLyKzt4lYS7+jo30trKJaDodSYT4bXRsyc5iqmc4GomxgxNbJp7Af1rCdCqYVhEVHQUqnnUxMXgcMz94UP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dym/kq++; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1745115709; c=relaxed/simple;
+	bh=S2qG97NYouj37jOehp9hrQYtd5QhRNH6vXMDLSxVO1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jhmyznBD8YXvfSEUISqO/jchvMVXmMOgrXeRzypz50A4z0SS8dHYL6aucFgTvSMYmXQ3nhhjFzc9QeVkxTAmvEmYVc9PRHeTI+J4wrv9mA+j0fQIVr97paPSDi6pFoMe7wwLuYAzDuhAbalhe7XAFH11a3WAtJVGaJws9R13sCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kb2IABYh; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dym/kq++"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kb2IABYh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745112643; x=1776648643;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zFNqdiBlhiAecw2lY9zYluqPnpumwktvZ/pZ0KP/aNY=;
-  b=Dym/kq++mbzpU9jhQkBnzWhr2wKMAgjKU2hmsX/503ta0Hiu4GIHTAqc
-   hXca0ucqlZCxUhOSWXn8A0zazacJuzwMfm+fV8/O0DavhstYSZ6xzmI8B
-   jo1FgBY0m1NgWLn85aXc5DJ2xY5HswJUfDGrz0Toa6ZudiItZU6Wm4r4l
-   YgRdLNSrEXBA/gspNWorpm/CJrnm+5PaaJhys7Ui3ktb8wlNagQWxMZOQ
-   q1C3ko2VnUuQ1uOkS43WWjouZGwxXVuaChNSqK/UJz+YUjcdBArpQcVGT
-   134a5/fXWXQKpURkPJLGVKkuLabGdddwUgbzKCZxqhNzacQQcrxthzof7
-   w==;
-X-CSE-ConnectionGUID: 6v3+B0+MQOu+pc5iAlRepg==
-X-CSE-MsgGUID: AyXrtq+OT0iCWkYmyXrzSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="50521893"
+  t=1745115707; x=1776651707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=S2qG97NYouj37jOehp9hrQYtd5QhRNH6vXMDLSxVO1A=;
+  b=Kb2IABYhLiujAKb/9Ww9cFVYlYWpAgzAfoBp1WI1DHtXHomChUjmfQir
+   z2aKB5rjgg16mqFRIHVLY5qiD2UZDLmFAWJgOTIZY3/T4V4KJJ6FZM6aV
+   sX/rs0/Jf/ndUeVUxQ0803x2uJWy0W6pIolQT627u0qB34sgaBXp+4PB2
+   mWd/6hbGJnwwq+UxctIuKpZDiRhiOMVGq6C7HzFfDFCd+zpTKiroIn/Gt
+   WNPqZFnB9upjsshsOK7WvlYGFhso44gWb4czVNgYR1fTyNThCuo9h7zC1
+   Oa50XOWCrIiC9petMM0u4sY6yW/YbaMQpYXpr5gurvUu/yRSjtfjTsaSw
+   Q==;
+X-CSE-ConnectionGUID: c0UfPFAzTPCDi4v6Ezynhg==
+X-CSE-MsgGUID: OcRN/VBqQE+0ZwpvhEaIzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46583976"
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="50521893"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 18:30:43 -0700
-X-CSE-ConnectionGUID: Ga3KUmi4SL6tG2ysK/lpuA==
-X-CSE-MsgGUID: zPEzdhh2QYSYsXJVJqv3Bg==
+   d="scan'208";a="46583976"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 19:21:47 -0700
+X-CSE-ConnectionGUID: BCen5bskTb+oZo+xMNn8YA==
+X-CSE-MsgGUID: tgU5JMTuRCaq9U4zInUKDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="131163647"
+   d="scan'208";a="168621082"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 19 Apr 2025 18:30:42 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Apr 2025 19:21:45 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6JW3-0004Jv-1s;
-	Sun, 20 Apr 2025 01:30:39 +0000
-Date: Sun, 20 Apr 2025 09:29:41 +0800
+	id 1u6KJT-0004Kz-06;
+	Sun, 20 Apr 2025 02:21:43 +0000
+Date: Sun, 20 Apr 2025 10:21:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:rdpmc_cleanup 1/6]
- arch/x86/include/asm/suspend_32.h:17:27: error: field 'saved_msrs' has
- incomplete type
-Message-ID: <202504200935.YcKvAFCp-lkp@intel.com>
+To: "Rafael V. Volkmer" <rafael.v.volkmer@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org, ukleinek@kernel.org
+Subject: Re: [PATCH v2 1/1] pwm: tiehrpwm: ensures that state.enabled is
+ synchronized in .probe()
+Message-ID: <202504201050.o3m04RP6-lkp@intel.com>
+References: <20250206031852.64853-1-rafael.v.volkmer@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +64,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250206031852.64853-1-rafael.v.volkmer@gmail.com>
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git rdpmc_cleanup
-head:   3eeb4c90020080bbe299d3b6d9a86ea5485fabee
-commit: 0a94caa1312b1b10fb9393fb0b983d3ebc03c483 [1/6] x86/msr: Move rdtsc{,_ordered}() to <asm/tsc.h>
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250420/202504200935.YcKvAFCp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504200935.YcKvAFCp-lkp@intel.com/reproduce)
+Hi Rafael,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.15-rc2 next-20250417]
+[cannot apply to thierry-reding-pwm/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-V-Volkmer/pwm-tiehrpwm-ensures-that-state-enabled-is-synchronized-in-probe/20250420-075200
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250206031852.64853-1-rafael.v.volkmer%40gmail.com
+patch subject: [PATCH v2 1/1] pwm: tiehrpwm: ensures that state.enabled is synchronized in .probe()
+config: arc-randconfig-001-20250420 (https://download.01.org/0day-ci/archive/20250420/202504201050.o3m04RP6-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201050.o3m04RP6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504200935.YcKvAFCp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504201050.o3m04RP6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/suspend.h:3,
-                    from arch/x86/kernel/asm-offsets.c:20:
->> arch/x86/include/asm/suspend_32.h:17:27: error: field 'saved_msrs' has incomplete type
-      17 |         struct saved_msrs saved_msrs;
-         |                           ^~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:98: arch/x86/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1280: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/pwm/pwm-tiehrpwm.c:105: warning: expecting prototype for The ePWM hardware encodes compare actions with two bits each(). Prototype was for AQ_CLEAR() instead
 
 
-vim +/saved_msrs +17 arch/x86/include/asm/suspend_32.h
+vim +105 drivers/pwm/pwm-tiehrpwm.c
 
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  12  
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  13  /* image of the saved processor state */
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  14  struct saved_context {
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  15  	unsigned long cr0, cr2, cr3, cr4;
-85a0e7539781da arch/x86/include/asm/suspend_32.h Ondrej Zary               2010-06-08  16  	u64 misc_enable;
-7a9c2dd08eadd5 arch/x86/include/asm/suspend_32.h Chen Yu                   2015-11-25 @17  	struct saved_msrs saved_msrs;
-cc456c4e7cac38 arch/x86/include/asm/suspend_32.h Konrad Rzeszutek Wilk     2013-05-01  18  	struct desc_ptr gdt_desc;
-6b68f01baa810e include/asm-x86/suspend_32.h      Glauber de Oliveira Costa 2008-01-30  19  	struct desc_ptr idt;
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  20  	u16 ldt;
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  21  	u16 tss;
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  22  	unsigned long tr;
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  23  	unsigned long safety;
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  24  	unsigned long return_address;
-e3f269ed0accbb arch/x86/include/asm/suspend_32.h Anton Altaparmakov        2024-03-14  25  	/*
-e3f269ed0accbb arch/x86/include/asm/suspend_32.h Anton Altaparmakov        2024-03-14  26  	 * On x86_32, all segment registers except gs are saved at kernel
-e3f269ed0accbb arch/x86/include/asm/suspend_32.h Anton Altaparmakov        2024-03-14  27  	 * entry in pt_regs.
-e3f269ed0accbb arch/x86/include/asm/suspend_32.h Anton Altaparmakov        2024-03-14  28  	 */
-e3f269ed0accbb arch/x86/include/asm/suspend_32.h Anton Altaparmakov        2024-03-14  29  	u16 gs;
-b0b592cf083677 arch/x86/include/asm/suspend_32.h Matthieu Baerts           2022-04-23  30  	bool misc_enable_saved;
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  31  } __attribute__((packed));
-^1da177e4c3f41 include/asm-i386/suspend.h        Linus Torvalds            2005-04-16  32  
-
-:::::: The code at line 17 was first introduced by commit
-:::::: 7a9c2dd08eadd5c6943115dbbec040c38d2e0822 x86/pm: Introduce quirk framework to save/restore extra MSR registers around suspend/resume
-
-:::::: TO: Chen Yu <yu.c.chen@intel.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+    97	
+    98	/**
+    99	 * The ePWM hardware encodes compare actions with two bits each:
+   100	 *   00 = Do nothing
+   101	 *   01 = Clear
+   102	 *   10 = Set
+   103	 *   11 = Toggle
+   104	 */
+ > 105	#define AQ_CLEAR  1
+   106	#define AQ_SET    2
+   107	
 
 -- 
 0-DAY CI Kernel Test Service
