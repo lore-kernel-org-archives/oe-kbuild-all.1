@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCBD1BF37
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 13:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E95B1DE891
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 13:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745154108; cv=none; b=MHXE9XrXbapoe2i0zgE8lu5s5ZHpPw4OgoagAfJDjrmivkPQ9Wmd6BGROk/8dHLRfgNTscLy0OFV/Ny6CQmxD3rWBgt0xyi5y/7WW30WcFHaUmRaZUThKi2UWWf+XuCC25BopJYZCyA6LuxPogo/oVTHIcIhnqldCAWXNblE5g0=
+	t=1745154108; cv=none; b=aQPoxmqZXt75IXVkQcjiAankdr3ftPJfL8FdZDsb9Op44Xi2TvyWWBK2Px/QZpyFw10JQdt2U5EcBZ1N6Jm0JBPHWl9G3UiH5pzjd6/wWinHf8XVk4hYHZMAGAxy6iweT4vuBHKANobA+OIG/JjcZmBLK1Q8VI8Dxj6jKC0n/kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745154108; c=relaxed/simple;
-	bh=H7adaQT2WaN8fEqIYzVkw2ob1WL5NC74/ERoKxwxN+c=;
+	bh=lYCMW1NDJrfcWBsD3nTJp1mQtxlBXg27xZvHSe9QBvg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FDKY+UD60P0TaFNCYFo1a08KDI4wQ42g37TmCBS2hNxAkYPUk8l7VsMg/r4rjwxjtl8APpBHSjKHw4kTqU2IkZgKlH4o6naiB9vf4Jsrlhad9hTl6+JRmSgCLVnSy7hy56DgdTxKP/lYrw+VeXwj44Obs9CjQwRQzcI/708kF0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4fomgkl; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=pFMlpjp0LLAd5OQ0UUioYqZ4ph45MMQfYnsBsMdDvYOX15WQpLd2rl1fdTGPnplPwfNd6D1UO+Iae2VXK4FrjVTkE1o7qG1VKkKef1bWnD9QQxLtXFBwYdwk8enRG6Pv6AbagqmLp3xMH17YBORuSduW5Azui3ZiaPjz6bDjBdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jzt13Mm4; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4fomgkl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jzt13Mm4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745154106; x=1776690106;
+  t=1745154107; x=1776690107;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=H7adaQT2WaN8fEqIYzVkw2ob1WL5NC74/ERoKxwxN+c=;
-  b=A4fomgklxHRmkpLj+8QONYPYTDVhl7Au/vrTvNQnbpvu+Oq88Y8ci7u8
-   f5gy2Oo7LeARQnIkG7364fyvTusZ1kiBejFZzJq/cpNYtsLxmPK8tkQMK
-   vD0foVbZ+rxlP15ekkA3GQEXObsOmkVLZHnIi5Pw1td6hQMUvNqUqv/bL
-   9rPNhHeSU1HQ/ryqu3iXO9ZFoC8vo9tu3rCnsdF41Wi8HBnsfDlmceAha
-   8/mq8QE0fP3WymBUq6cpfGOmE9ms0v9GDy3l3f6nqe02C5y28BfgUuk4W
-   zRULL/dWMY4T+qHSTzPoxii+bAJGlbl3XjKblYM5eF5vrtAK6yt1LKLrU
-   Q==;
-X-CSE-ConnectionGUID: FOnwcQfuQQmzHuYnjO7/+w==
-X-CSE-MsgGUID: Ef7tAK3JTrevxZD23fu2Vw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="46629667"
+  bh=lYCMW1NDJrfcWBsD3nTJp1mQtxlBXg27xZvHSe9QBvg=;
+  b=Jzt13Mm47PnEamzxAMSMk9jntxC2DhSyTCehfgGA9wJgsapSEYi9OeaE
+   1ElZW2zGFoEkajDYMOTXvlF6csGuUWrLa+jjAiqq3zG3cjlB9t2yfvrL/
+   e9UwD6r6qZWgnRKn++XP2mcerfJrtET7ko6OIszTOFPx79rlh0kuC2Hs8
+   lcmLODlM9GpplKxVPIKUVNOdRmSugSMnJHE6XcdszsCJpcX1XF8zCowU2
+   FILm9LokuG/JD1gY39jeJMgm1nt7YJ1WT4nAAkn7GZOOYKVHIBs2wZQPy
+   +QawbKBsmi7JiDdHhQEfjJ3KETOzqrNv+1IIHi87lLouJGjzYKOVdTijG
+   A==;
+X-CSE-ConnectionGUID: hUcmoZLGQeWg6HL0tRuV0g==
+X-CSE-MsgGUID: tQAeqgoeRpSbdL54O+3XDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="46600104"
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="46629667"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 06:01:45 -0700
-X-CSE-ConnectionGUID: sNfUTpgKTcqfevl41JYVcQ==
-X-CSE-MsgGUID: j0ut/kFIQMyZnn1lCmiAew==
+   d="scan'208";a="46600104"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 06:01:44 -0700
+X-CSE-ConnectionGUID: O0V10+CSTn+I9WQp330M1g==
+X-CSE-MsgGUID: 7ckloNcdRLuJgvPTl+4wZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="131515106"
+   d="scan'208";a="136660636"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Apr 2025 06:01:43 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 Apr 2025 06:01:43 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6UIn-0004eH-1M;
+	id 1u6UIn-0004eL-1T;
 	Sun, 20 Apr 2025 13:01:41 +0000
-Date: Sun, 20 Apr 2025 21:01:13 +0800
+Date: Sun, 20 Apr 2025 21:01:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Raj Sahu <rjsu26@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC bpf-next 3/4] bpf: Generating a stubbed version of BPF
  program for termination
-Message-ID: <202504202023.4uZ3cq9I-lkp@intel.com>
+Message-ID: <202504202030.GWeTh6bX-lkp@intel.com>
 References: <20250420105524.2115690-4-rjsu26@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -68,58 +68,40 @@ In-Reply-To: <20250420105524.2115690-4-rjsu26@gmail.com>
 Hi Raj,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test ERROR on bpf-next/master]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Raj-Sahu/bpf-Introduce-new-structs-and-struct-fields/20250420-185825
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
 patch link:    https://lore.kernel.org/r/20250420105524.2115690-4-rjsu26%40gmail.com
 patch subject: [RFC bpf-next 3/4] bpf: Generating a stubbed version of BPF program for termination
-config: x86_64-buildonly-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504202023.4uZ3cq9I-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504202023.4uZ3cq9I-lkp@intel.com/reproduce)
+config: sh-randconfig-001-20250420 (https://download.01.org/0day-ci/archive/20250420/202504202030.GWeTh6bX-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504202030.GWeTh6bX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504202023.4uZ3cq9I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504202030.GWeTh6bX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/bpf/syscall.c: In function 'bpf_prog_load':
-   kernel/bpf/syscall.c:2981:14: warning: variable 'have_termination_prog' set but not used [-Wunused-but-set-variable]
-    2981 |         bool have_termination_prog = false;
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/syscall.c: In function 'clone_bpf_prog':
->> kernel/bpf/syscall.c:2785:9: warning: 'strncpy' output truncated before terminating nul copying 6 bytes from a string of the same length [-Wstringop-truncation]
-    2785 |         strncpy(patch_prog->aux->name, patch_prefix, strlen(patch_prefix));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/syscall.c:39:10: fatal error: asm/unwind.h: No such file or directory
+      39 | #include <asm/unwind.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> kernel/bpf/bpf_iter.c:9:10: fatal error: asm/unwind.h: No such file or directory
+       9 | #include <asm/unwind.h>
+         |          ^~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +/strncpy +2785 kernel/bpf/syscall.c
+vim +39 kernel/bpf/syscall.c
 
-  2770	
-  2771	static int clone_bpf_prog(struct bpf_prog *patch_prog, struct bpf_prog *prog)
-  2772	{
-  2773		int err = 0;
-  2774		patch_prog->expected_attach_type = prog->expected_attach_type;
-  2775		patch_prog->len = prog->len;
-  2776		patch_prog->gpl_compatible = prog->gpl_compatible;
-  2777	
-  2778		memcpy(patch_prog->insnsi, prog->insnsi,  bpf_prog_insn_size(prog));
-  2779	
-  2780		patch_prog->orig_prog = NULL;
-  2781		patch_prog->jited = 0;
-  2782		patch_prog->type = prog->type;
-  2783	
-  2784		char *patch_prefix = "patch_";
-> 2785		strncpy(patch_prog->aux->name, patch_prefix, strlen(patch_prefix));
-  2786		strncat(patch_prog->aux->name, prog->aux->name, sizeof(prog->aux->name));
-  2787	
-  2788		return err;
-  2789	}
-  2790	
+  > 39	#include <asm/unwind.h>
+    40	
 
 -- 
 0-DAY CI Kernel Test Service
