@@ -1,67 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD13C1E5B76;
-	Sun, 20 Apr 2025 14:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4692AD14
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 15:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745159772; cv=none; b=RvYdN8JoMIfn4SlJqBihpHwu7KuhEXyqFE8tyo/kug8h/4DUowS+ELdChvislquXr7GjFkji1BJ9OW1X6vDlGObrNzN0VLNOwTGy6k6C8V1bHk/0QlwPtOCg79C3YXsHl0ahIB35zuM7lvqpZg3Rf223UDmTdJVeADSMZouWV7E=
+	t=1745163629; cv=none; b=dvcj2ZrQ4FotjwGpYh+OJISgGtvTfwNixDunqKTKl2pbQ78RRm0CSKHWUem+HlsPqXCdBYfciqzM5vwZlLAGsxIvr2bQGUGIaxOVnG8qONM2H+mPIj62eEUPZY9ZzwWg3Z/7cDHBBYV0/4E0DLh6+AX4QAB+LCwS62TRjiBY4RU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745159772; c=relaxed/simple;
-	bh=PU6qKLj87YBy5+uqg2F4+r2zilpcE3fFtFR5664YCnQ=;
+	s=arc-20240116; t=1745163629; c=relaxed/simple;
+	bh=k7aGFszF0R06YFKqwdPb+3xPYKPQa0hDh8+Ez5AGA4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s0V80WjrXaOWTQ+c51aXnMpDLEcOLNroLtalpoJKI009FqpD7VfkdCh4GrFxiYN/1rQODujnT4CmHVA247hynkjEnEgcwqZ5poComQWiwYKogtWfrtYvIM7V8EoqG0eMOR4NzWYrAWu3nMqqotzEeCEwcebhquqRW0yYR6kTwk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnkZY/1s; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mNY04YRqhDrA9aFqwnJAWvXRpsJL9jCY+VrAA/oSmieWtKdFd9YSn2SYlWr/DVoGUMd226ChEMXdzlnp7wuMin/r2Fl+EkS2mDS35b1uwKDdQhPBlScq09H8MrHJj+o1yI+HqS06m9qE4/+PL8ynRneAdA0fBlr+mx8FYCKqvrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRTUFD3O; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnkZY/1s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745159771; x=1776695771;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PU6qKLj87YBy5+uqg2F4+r2zilpcE3fFtFR5664YCnQ=;
-  b=lnkZY/1syYiEdqhqZlN1hgr0ycGtf0Eks3qqR+EFX22UAP0t8rdQXvru
-   6UdErZNAn9MrcwnWyj/pS0jA+pa1xQyUwyhUgaPidUZ69G5WTsFNP9T4T
-   SQHmtW9eRGU5nVJ+ygF0159m5Uyc1aTgf3L3e+vm2f1V2MDI/jqi+AFwB
-   P+Dt6/uNcvYs6Q86oURdCnCUIq3kWw3yL7jr9cIK3NmcrqE6ADASAnro3
-   zvplRwiEGWB8YcBlf65N4DEewz+aJV0YypeQYgqF9nyc0ag4vA+PWKPU+
-   QjwyVDB9dwdiRJveIB3Z0s8tkrlEQIdMuwPa8XNQ6GGIBESz0MfDOICRs
-   g==;
-X-CSE-ConnectionGUID: P3CdkrW4TqOpnjg6cYYzJQ==
-X-CSE-MsgGUID: ANPuLYVxTkSmIld2b7XNDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="49376626"
-X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="49376626"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 07:36:10 -0700
-X-CSE-ConnectionGUID: wCEr1jZLRoG8pVNL8XssTw==
-X-CSE-MsgGUID: vLmfO2M6RLOxlL2HegtMhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="168714530"
-Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 Apr 2025 07:36:07 -0700
-Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u6Vm8-0004hZ-2z;
-	Sun, 20 Apr 2025 14:36:04 +0000
-Date: Sun, 20 Apr 2025 22:35:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: Re: [PATCH v5] hwmon: (max77705) add initial support
-Message-ID: <202504202204.GCyy3bOc-lkp@intel.com>
-References: <20250419-initial-support-for-max77705-sensors-v5-1-4504a9b48ba1@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRTUFD3O"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-736e52948ebso3754756b3a.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 08:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745163627; x=1745768427; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HBoB8+l6ww6DhdyJSg6aHMybm/qJjBC0A5J8o7rOW4k=;
+        b=YRTUFD3OnsTNXNyPnldtWTJrXJEbbyjaHlfwiQO4FPT7dDx3u7ocYvKSl1fkpBSGLk
+         ChqeA181IIev0tsKRYbPG3sYidlOQTMccuVO13yfFZw5bTB0R/xkTYeWFzzyEZzKc+SY
+         HdZkj27+K9IwP5aFfb24pG6r/chXCRGvUh7E3R633SK/3PWXEQApd/fCFMVD1Vx3jAkU
+         mRKo+tXQ/cdKlFIoK/LtaZcNmvHIej7psDl5hmZbUISrbNN/EWEzR+Vfkn2BNnD0Aqco
+         yfaOsIknSQ+aNpW+wDMABsgmvnRKAKp5CMJZugPRqjZJcDyKjjjDJtl+aTl4p8uVwmgL
+         /BwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745163627; x=1745768427;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HBoB8+l6ww6DhdyJSg6aHMybm/qJjBC0A5J8o7rOW4k=;
+        b=IFQp6KTyJBhGrO8Tq2OjTmiKrOxbERhWm9q35cFSCBczU5HJxasANxCY11dB0Rz84s
+         gP0PtXenKdrbmA2AoSkbt3Du5V8Hke2vuTekcFub5dKAxBVK7Ha0xocG4Ko78X9+ml0t
+         /SCwP5MrSbG88WkslNgDiW36h8l9X+ZxhzvsBdw2fLZwwGQLaoLvzkS3XvbaGT6ub/KZ
+         1HwXSst8+FOKH7OZZeZjSfjgpNgpxSoOnic6DzLj0MfL6hzRplAcuQVT3Na29xQKvaEp
+         Yfx2qyXvZcqFCDA2X0bSBPfbaBx5BsUgKKuakF8guxSqw9ONGaXPxrhrloPv5AZjZlYe
+         AhVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXITjEjPR8ywkRSjtVIVWqqAb61PEbN2WgR2GIKuXSzYaxhhsYQGb+B6yCc+QuYS9PfN35F/yFsEMHICMhC@lists.linux.dev
+X-Gm-Message-State: AOJu0YzCN9eqRaurbW0DF7t19PGSmfPvlJz2w3nCYsuK6DA2GiWQe9dP
+	31sqHuMSBq31PqzAHvgttHWEE2tdLK8qWZUucFMEdBbJ9VpVyj01
+X-Gm-Gg: ASbGncsekmUXv4KQ1RRZlsix0JAr4hb5TUtM2fsqUPfhFnDMypFbs+MkG6CfBb5dk5l
+	UJKpAzyDbTfvTA2iZcPCfhqQ3MIygD44VOQXo66+fnNbJAgPEqmlc3D0YV+LlIhOqie6Pb5VZ1E
+	kbjPXLlptzYoUSi9ECMx+ONxEMZcomvH2z4qpLdW/Q9YKRtJRskS+2TlHlIjaoAdolix0IUPDrq
+	o3rN++Wc2hDXO5JiAHlZcIKU8pv7Vr/hxM3bnDjejpQvqaia2NLjxathkWrgry7YeFKC/88olcr
+	91CKIVSac7aWCq9iTDPmYC8xfzlS8oLohukCvCKSiU5dHS6AFCXoyQ==
+X-Google-Smtp-Source: AGHT+IGnXGoOkyPEZm7884fJQ3cvLvmunv/Or1iGx6Hx/rv9Umx7bcsweNEzjehiStXSZDm1LkacBQ==
+X-Received: by 2002:a05:6a00:279f:b0:736:35d4:f03f with SMTP id d2e1a72fcca58-73dc149bef9mr11164718b3a.6.1745163626891;
+        Sun, 20 Apr 2025 08:40:26 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbfa59165sm5029566b3a.93.2025.04.20.08.40.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Apr 2025 08:40:26 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 20 Apr 2025 08:40:25 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: cem@kernel.org
+Cc: linux-kernel@vger.kernel.org, Hans.Holmberg@wdc.com,
+	oe-kbuild-all@lists.linux.dev, hch@lst.de, lukas@wunner.de,
+	angelogioacchino.delregno@collabora.com,
+	Jonathan.Cameron@huawei.com
+Subject: Re: [RFC PATCH] math.h: Account for 64-bit division on i386
+Message-ID: <81d49efc-1b81-48e1-b9ca-c3665d0cf73c@roeck-us.net>
+References: <20250419115157.567249-1-cem@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,47 +76,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250419-initial-support-for-max77705-sensors-v5-1-4504a9b48ba1@gmail.com>
+In-Reply-To: <20250419115157.567249-1-cem@kernel.org>
 
-Hi Dzmitry,
+On Sat, Apr 19, 2025 at 01:51:46PM +0200, cem@kernel.org wrote:
+> From: Carlos Maiolino <cem@kernel.org>
+> 
+> Building linux on i386 might fail if a 64bit type is passed to
 
-kernel test robot noticed the following build warnings:
+i386 actually builds. Its compiler is probably able to convert
+the offending mult_frac() without helpers since the divisor is
+a constant. I see the problem with openrisc and parisc, with
+gcc 13.3.0.
 
-[auto build test WARNING on a4cda136f021ad44b8b52286aafd613030a6db5f]
+> mult_fract(). To prevent the failure, use do_div() for the division
+> calculation instead of hardcoding a / b.
+> 
+> Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202504181233.F7D9Atra-lkp@intel.com/
+> ---
+> 
+> I'm sending it as a RFC because I didn't to extensive testing on this
+> patch, also I'm not sure if mult_frac() was intended to work on 32-bit
+> only types. If that's the case, perhaps, a new mult_frac64() might be a
+> better idea?!
+> 
+>  include/linux/math.h | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/linux/math.h b/include/linux/math.h
+> index 0198c92cbe3e..05ea853b75b4 100644
+> --- a/include/linux/math.h
+> +++ b/include/linux/math.h
+> @@ -133,15 +133,16 @@ __STRUCT_FRACT(u32)
+>  #undef __STRUCT_FRACT
+>  
+>  /* Calculate "x * n / d" without unnecessary overflow or loss of precision. */
+> -#define mult_frac(x, n, d)	\
+> -({				\
+> -	typeof(x) x_ = (x);	\
+> -	typeof(n) n_ = (n);	\
+> -	typeof(d) d_ = (d);	\
+> -				\
+> -	typeof(x_) q = x_ / d_;	\
+> -	typeof(x_) r = x_ % d_;	\
+> -	q * n_ + r * n_ / d_;	\
+> +#define mult_frac(x, n, d)		\
+> +({					\
+> +	typeof(x) x_ = (x);		\
+> +	typeof(n) n_ = (n);		\
+> +	typeof(d) d_ = (d);		\
+> +					\
+> +	typeof(x_) r = do_div(x_, d_);	\
+> +	r *= n_;			\
+> +	do_div(r, d_);			\
+> +	x_ * n_ + r;			\
+>  })
+>  
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/hwmon-max77705-add-initial-support/20250420-030631
-base:   a4cda136f021ad44b8b52286aafd613030a6db5f
-patch link:    https://lore.kernel.org/r/20250419-initial-support-for-max77705-sensors-v5-1-4504a9b48ba1%40gmail.com
-patch subject: [PATCH v5] hwmon: (max77705) add initial support
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250420/202504202204.GCyy3bOc-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504202204.GCyy3bOc-lkp@intel.com/reproduce)
+Unfortunately that doesn't work. I get build errors on parisc.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504202204.GCyy3bOc-lkp@intel.com/
+In file included from ./arch/parisc/include/generated/asm/div64.h:1,
+                 from ./include/linux/math.h:6,
+                 from ./include/linux/kernel.h:27,
+                 from ./arch/parisc/include/asm/bug.h:5,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/mmdebug.h:5,
+                 from ./include/linux/mm.h:6,
+                 from mm/page_alloc.c:19:
+mm/page_alloc.c: In function 'boost_watermark':
+./include/asm-generic/div64.h:183:35: error: comparison of distinct pointer types lacks a cast [-Werror]
+  183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+      |                                   ^~
+./include/linux/math.h:142:24: note: in expansion of macro 'do_div'
+  142 |         typeof(x_) r = do_div(x_, d_);  \
+      |                        ^~~~~~
+mm/page_alloc.c:2010:21: note: in expansion of macro 'mult_frac'
+ 2010 |         max_boost = mult_frac(zone->_watermark[WMARK_HIGH],
 
-All warnings (new ones prefixed by >>):
+That is just one example. It seems to affect all uses of
+mult_frac().
 
->> drivers/hwmon/max77705-hwmon.c:51:34: warning: unused variable 'max77705_hwmon_readable_ranges' [-Wunused-const-variable]
-      51 | static const struct regmap_range max77705_hwmon_readable_ranges[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +/max77705_hwmon_readable_ranges +51 drivers/hwmon/max77705-hwmon.c
-
-    50	
-  > 51	static const struct regmap_range max77705_hwmon_readable_ranges[] = {
-    52		regmap_reg_range(AVGISYS_REG,	AVGISYS_REG + 1),
-    53		regmap_reg_range(IIN_REG,	IIN_REG + 1),
-    54		regmap_reg_range(ISYS_REG,	ISYS_REG + 1),
-    55		regmap_reg_range(VBYP_REG,	VBYP_REG + 1),
-    56		regmap_reg_range(VSYS_REG,	VSYS_REG + 1),
-    57	};
-    58	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Guenter
