@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790AB153836
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 05:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A57019ABB6;
+	Sun, 20 Apr 2025 05:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745126286; cv=none; b=d0lNKzEMLJNKI6JKNtNa6YDJ9r0FQPSipU4BYUKJqcSQt3yjIQFNyN8+KfMK2mkLJLTs20JHdxzvye9FAh7WJsj+FxJiL8J2swuMiDud6Dly/lfTGbCFAV+j0XGoalE2I8M/33U3h4XXVFlhQhvb2DhHLRhawCUdfCQAAzQRpVg=
+	t=1745126288; cv=none; b=EQu5cUJat2Fy095L8f8NFyPD+uS8BaVNv9MTujThRycZf8ZW7mCeHVDfeZvj/Yrwpr8q49qsl5fYS78WyjOdekXGgeCdxukFE3i1uhoRLZtEvPgOFUGV+f1AKJ3EBJ6bEdadHmuyIi1c0EIPxw6G7jlHVmy92Qa53kIMznaHJbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745126286; c=relaxed/simple;
-	bh=DRbbp+ACEwmLC17K65EcfcjpWOUWGcVzmMPYIh/bd38=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HubKScK/B0OSYncdvyQcAP5CBivOM9hFHamz+lijDygjuxTYy1rKKKGfvCaKba6u/tNmT0RaApSieaMbCWK4u73/oy9kO4bahnaflJei2mn63OFx9wCV6mrLG8lwOZcmdQGAlLkZuEy6EpuTmqH1JIVmFFnxiH2dENgrbogKHXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLCKaopi; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1745126288; c=relaxed/simple;
+	bh=eb5MS92w01Wn4bIj5DxBtSQ/xzcRrFMjXnejgx6Ul88=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yd4VspcrkVkuLGZhvQP5WinyRrjj5zOId0ITN2XqRs9uXTM60KtxEXFUG8scx/LeDgqhELO9wuwSzrh5LWLvQp9y5Y0ZWjY30LgpNwIlSmcPRPbOJmtKgFSpQH+Q+vcXns2sR3vUo96nstigRfFQ62EK/YlJWgZssN7E/vskYtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QcVOKp/G; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLCKaopi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QcVOKp/G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745126285; x=1776662285;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DRbbp+ACEwmLC17K65EcfcjpWOUWGcVzmMPYIh/bd38=;
-  b=cLCKaopiygo1Pc7ccsFLclyywhMHwNbRDMZbIn7/6SZuEEA/j6MOL6JD
-   K/bTU/raCmQmygCoaM8HNeCoh3VCb1XUkso6V3EFO+prowK94KAfPK1HB
-   LKl8JEqGz7BPTrke/jU+VIoWzNBw0cd8k91H1wK84n3QBN+oH31FBkVSE
-   cQ9qft3cLOMydTPwsJVXMWwGb4hS9Lackh7lJ1w1CApHmM9bPPeEodfRM
-   El1TYIvJ2xPVYBj3Gfiw4O212QRyuCRGy2d4kj3KUby2f+qkfTmytwONL
-   iGkZ8C1ybL0PAWOzijnXx7UKJPBCJvFIckpk1CqyN3vcMu2QWzFaeCn5f
-   g==;
-X-CSE-ConnectionGUID: t9B76Z5ZSJmLvUqwI5cAOg==
-X-CSE-MsgGUID: GC+LOsvfTbGCwVR1eavbzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46402435"
+  t=1745126287; x=1776662287;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eb5MS92w01Wn4bIj5DxBtSQ/xzcRrFMjXnejgx6Ul88=;
+  b=QcVOKp/GdZf+QSuig+4uI32bIyjDMhd7DIgQo0L/xiH1+1haJeqvVqMO
+   FAZtGK+ncXMV0AXOHlrmZeXbRehsJaNNyq/SodgGf7g5mBT2ftNtvZlvR
+   EcpXorzYN9NAyI6qfzCHWvJi8As8YAYLYjoemoyUmrBRQFJXGAZyLedh2
+   q3Pd/D/xSEHjZhSxS+KNFu8ZaZFbfO7IqMHOKzf3vLEqyP9RS6bTFqG+j
+   bnrbFV2LI+nQP1xxeO504QuNYjmBH15ByNSr2X7+N12D5mgmm0k30D5G8
+   MIXZU9MX21gsGALeaF4aJs+AybGipiT1w/Gqdb6BruYUx0aI2t7pgp3p0
+   A==;
+X-CSE-ConnectionGUID: jjppmVA7Tp2HZ28EANadvA==
+X-CSE-MsgGUID: 3Y1dkajXT0SSSo93gQhZnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46587381"
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="46402435"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 22:18:04 -0700
-X-CSE-ConnectionGUID: EhiXlxw4Tf2Icgw4YMkFYQ==
-X-CSE-MsgGUID: DWNl7nSCS1G8PaSd4H9bCQ==
+   d="scan'208";a="46587381"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 22:18:05 -0700
+X-CSE-ConnectionGUID: G7CwwnahTrOaK9IDptIeQg==
+X-CSE-MsgGUID: Lu5gSQxHTzSmdGRy7OT2Ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="131380616"
+   d="scan'208";a="136298994"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Apr 2025 22:18:03 -0700
+  by orviesa003.jf.intel.com with ESMTP; 19 Apr 2025 22:18:03 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6N44-0004RZ-0u;
+	id 1u6N44-0004RX-0r;
 	Sun, 20 Apr 2025 05:18:00 +0000
-Date: Sun, 20 Apr 2025 13:17:28 +0800
+Date: Sun, 20 Apr 2025 13:17:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:intel-lkp 28/33]
- arch/x86/include/asm/mshyperv.h:307:16: error: implicit declaration of
- function 'native_rdmsrq_no_trace'
-Message-ID: <202504201330.SI7KLORo-lkp@intel.com>
+To: "Rafael V. Volkmer" <rafael.v.volkmer@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+	ukleinek@kernel.org
+Subject: Re: [PATCH v2 1/1] pwm: tiehrpwm: ensures that state.enabled is
+ synchronized in .probe()
+Message-ID: <202504201347.OiWigSUq-lkp@intel.com>
+References: <20250206031852.64853-1-rafael.v.volkmer@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +65,199 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250206031852.64853-1-rafael.v.volkmer@gmail.com>
 
-Hi Xin,
+Hi Rafael,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git intel-lkp
-head:   7847889af95a1a39c6e3e0ef6479df8b9505a17d
-commit: 58bf67d4ea90dad258ed448cd35ac9c28890719b [28/33] x86/msr: Rename native_rdmsrq() to native_rdmsrq_no_trace()
-config: x86_64-buildonly-randconfig-004-20250420 (https://download.01.org/0day-ci/archive/20250420/202504201330.SI7KLORo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201330.SI7KLORo-lkp@intel.com/reproduce)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.15-rc2 next-20250417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-V-Volkmer/pwm-tiehrpwm-ensures-that-state-enabled-is-synchronized-in-probe/20250420-075200
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250206031852.64853-1-rafael.v.volkmer%40gmail.com
+patch subject: [PATCH v2 1/1] pwm: tiehrpwm: ensures that state.enabled is synchronized in .probe()
+config: um-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504201347.OiWigSUq-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504201347.OiWigSUq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504201330.SI7KLORo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504201347.OiWigSUq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/hyperv/ivm.c:18:
-   arch/x86/include/asm/mshyperv.h: In function 'hv_raw_get_msr':
->> arch/x86/include/asm/mshyperv.h:307:16: error: implicit declaration of function 'native_rdmsrq_no_trace' [-Werror=implicit-function-declaration]
-     307 |         return native_rdmsrq_no_trace(reg);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/x86/hyperv/hv_apic.c:29:
-   arch/x86/include/asm/mshyperv.h: In function 'hv_raw_get_msr':
->> arch/x86/include/asm/mshyperv.h:307:16: error: implicit declaration of function 'native_rdmsrq_no_trace' [-Werror=implicit-function-declaration]
-     307 |         return native_rdmsrq_no_trace(reg);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/fsgsbase.h:9,
-                    from arch/x86/include/asm/elf.h:14,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from include/linux/static_call.h:135,
-                    from arch/x86/include/asm/apic.h:6,
-                    from arch/x86/hyperv/hv_apic.c:30:
-   arch/x86/include/asm/msr.h: At top level:
->> arch/x86/include/asm/msr.h:251:28: error: conflicting types for 'native_rdmsrq_no_trace'; have 'u64(u32)' {aka 'long long unsigned int(unsigned int)'}
-     251 | static __always_inline u64 native_rdmsrq_no_trace(u32 msr)
-         |                            ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/mshyperv.h:307:16: note: previous implicit declaration of 'native_rdmsrq_no_trace' with type 'int()'
-     307 |         return native_rdmsrq_no_trace(reg);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/pwm/pwm-tiehrpwm.c:11:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     549 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/pwm/pwm-tiehrpwm.c:11:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/pwm/pwm-tiehrpwm.c:11:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     601 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     724 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     737 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     750 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     764 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     778 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     792 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/pwm/pwm-tiehrpwm.c:675:7: warning: variable 'tbclk_enabled' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     675 |                 if (ret) {
+         |                     ^~~
+   drivers/pwm/pwm-tiehrpwm.c:706:6: note: uninitialized use occurs here
+     706 |         if (tbclk_enabled)
+         |             ^~~~~~~~~~~~~
+   drivers/pwm/pwm-tiehrpwm.c:675:3: note: remove the 'if' if its condition is always false
+     675 |                 if (ret) {
+         |                 ^~~~~~~~~~
+     676 |                         dev_err_probe(&pdev->dev, ret, "clk_prepare_enable() failed");
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     677 |                         goto err_pwmchip_remove;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~
+     678 |                 }
+         |                 ~
+   drivers/pwm/pwm-tiehrpwm.c:629:20: note: initialize the variable 'tbclk_enabled' to silence this warning
+     629 |         bool tbclk_enabled;
+         |                           ^
+         |                            = 0
+   13 warnings generated.
 
 
-vim +/native_rdmsrq_no_trace +307 arch/x86/include/asm/mshyperv.h
+vim +675 drivers/pwm/pwm-tiehrpwm.c
 
-   304	
-   305	static __always_inline u64 hv_raw_get_msr(unsigned int reg)
-   306	{
- > 307		return native_rdmsrq_no_trace(reg);
-   308	}
-   309	
+   621	
+   622	static int ehrpwm_pwm_probe(struct platform_device *pdev)
+   623	{
+   624		struct device_node *np = pdev->dev.of_node;
+   625		struct ehrpwm_pwm_chip *pc;
+   626		struct pwm_state state;
+   627		struct pwm_chip *chip;
+   628		struct clk *clk;
+   629		bool tbclk_enabled;
+   630		int ret;
+   631	
+   632		chip = devm_pwmchip_alloc(&pdev->dev, NUM_PWM_CHANNEL, sizeof(*pc));
+   633		if (IS_ERR(chip))
+   634			return PTR_ERR(chip);
+   635		pc = to_ehrpwm_pwm_chip(chip);
+   636	
+   637		clk = devm_clk_get(&pdev->dev, "fck");
+   638		if (IS_ERR(clk)) {
+   639			if (of_device_is_compatible(np, "ti,am33xx-ecap")) {
+   640				dev_warn(&pdev->dev, "Binding is obsolete.\n");
+   641				clk = devm_clk_get(pdev->dev.parent, "fck");
+   642			}
+   643		}
+   644	
+   645		if (IS_ERR(clk))
+   646			return dev_err_probe(&pdev->dev, PTR_ERR(clk), "Failed to get fck\n");
+   647	
+   648		pc->clk_rate = clk_get_rate(clk);
+   649		if (!pc->clk_rate) {
+   650			dev_err(&pdev->dev, "failed to get clock rate\n");
+   651			return -EINVAL;
+   652		}
+   653	
+   654		chip->ops = &ehrpwm_pwm_ops;
+   655	
+   656		pc->mmio_base = devm_platform_ioremap_resource(pdev, 0);
+   657		if (IS_ERR(pc->mmio_base))
+   658			return PTR_ERR(pc->mmio_base);
+   659	
+   660		/* Acquire tbclk for Time Base EHRPWM submodule */
+   661		pc->tbclk = devm_clk_get(&pdev->dev, "tbclk");
+   662		if (IS_ERR(pc->tbclk))
+   663			return dev_err_probe(&pdev->dev, PTR_ERR(pc->tbclk), "Failed to get tbclk\n");
+   664	
+   665		ret = clk_prepare(pc->tbclk);
+   666		if (ret < 0) {
+   667			dev_err(&pdev->dev, "clk_prepare() failed: %d\n", ret);
+   668			return ret;
+   669		}
+   670	
+   671		ehrpwm_get_state(chip, &chip->pwms[0], &state);
+   672	
+   673		if (state.enabled == true) {
+   674			ret = clk_prepare_enable(pc->tbclk);
+ > 675			if (ret) {
+   676				dev_err_probe(&pdev->dev, ret, "clk_prepare_enable() failed");
+   677				goto err_pwmchip_remove;
+   678			}
+   679	
+   680			tbclk_enabled = true;
+   681		}
+   682	
+   683		ret = pwmchip_add(chip);
+   684		if (ret < 0) {
+   685			dev_err(&pdev->dev, "pwmchip_add() failed: %d\n", ret);
+   686			goto err_clk_unprepare;
+   687		}
+   688	
+   689		platform_set_drvdata(pdev, chip);
+   690		pm_runtime_enable(&pdev->dev);
+   691	
+   692		if (state.enabled == true) {
+   693			ret = pm_runtime_get_sync(&pdev->dev);
+   694			if (ret < 0) {
+   695				dev_err_probe(&pdev->dev, ret, "pm_runtime_get_sync() failed");
+   696				clk_disable_unprepare(pc->tbclk);
+   697				goto err_pwmchip_remove;
+   698			}
+   699		}
+   700	
+   701		return 0;
+   702	
+   703	err_pwmchip_remove:
+   704		pwmchip_remove(chip);
+   705	err_clk_unprepare:
+   706		if (tbclk_enabled)
+   707			clk_unprepare(pc->tbclk);
+   708	
+   709		return ret;
+   710	}
+   711	
 
 -- 
 0-DAY CI Kernel Test Service
