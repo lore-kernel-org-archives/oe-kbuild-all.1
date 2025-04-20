@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834D453A7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 00:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE63418D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Apr 2025 00:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745109521; cv=none; b=I9tWf8ek04tgDQagWv41U9TzkoeQXwhGE+MlP3iPVbKTe2sBLo8h3WI6ZqqT5Deo4/L8tBNN0RJsGU42ySyEKo27OTpSPMDPv3ybQgrUl1ieaF/gHwJFk74Z+ugzm0JFlvAVurv0LR5i+hP50PcAhgkcfUqXX4rlBtVMrgr204s=
+	t=1745110122; cv=none; b=CWRbiHUe4N5Bx0BRgOzw1T8td9dbpJRK38n+f0wwwWgDFCAdJ57Uz69xUd43wZNNMgmsHqpHlCDC+SY27oZfpWuKYpJAgJWiUg98qLVokf776+TQFUpFZhrzfyPewPcAYXXmKL91Wumy6aJzUHtpD8Ba70K5M07r9YHPX0yU6Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745109521; c=relaxed/simple;
-	bh=VfalhmLrrL5ac0wqk8H+pKi7Lhl7ySN740IDlJnvyW4=;
+	s=arc-20240116; t=1745110122; c=relaxed/simple;
+	bh=BadxagcZYH9ky0ywgZDwnlnThLDM+djDQ+6B/Ub3CB0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DFPbw/j1x/GWI/pziinxht3Eb8iNj/mHKBS06K3KcJWsex3cJCOuxp5VXty5lE895p0hzn6LdqtVBDKnVSwWo4GHYjINH7ocaIebgoWeVuvlMJTgEcVsbACTWZEEOsTqjXPYeeL9nzAqMtrDm83rXLszpcjka/s/Bah7NffivKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/FzEJK6; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=a/6tu9Q7gkBgmmTogJMewyoCHM+M6eWw05VKPncxkOo7CYo09h0OA2hA0zs1vejq/4H1X3n06fOEbvkTzijMsSKMu0H5Bh5hJu0qi+/DNyL7S2A32Dv9IWxlAzrNngpbPIqeeS9efyBz3RlvkoMKLow5yPwwQT8hQVVtkaHIMGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EdLJez/e; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/FzEJK6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EdLJez/e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745109519; x=1776645519;
+  t=1745110120; x=1776646120;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VfalhmLrrL5ac0wqk8H+pKi7Lhl7ySN740IDlJnvyW4=;
-  b=V/FzEJK6ApNC3f1zGXtSgn8Zfua9dNmFQ2viPpxBMAgr09wYwqhyE9cJ
-   af7U5I5AegVVl1CplxX5vDyBnVUKZ1HHH8Oa7NEbG/X3iBFgUPZ8uOCml
-   pVMmAn/l4PXlVy6w5vBeHwFo2yGRRYfLml/xpshUFytvma7xmbLSODhpn
-   jVi271yZQx9sb4ybPq4zkVDLZcNMZYvOUeJTTmRQs4QQ/4bEQFUqmCTYQ
-   cpOqa6pNO+ZriWKKje59imH7y5o9kZ6afHQhL0IP/UH4IlEKfs4FkAXj5
-   BKMD9RicYrOSKhda3tLx+M0BQcR/xJnBSGX25gtWCWuoT0AR2xFuiS9SN
-   w==;
-X-CSE-ConnectionGUID: oLJ9gHkqRG26vPJKlV2Iog==
-X-CSE-MsgGUID: 26opemIeTEyqKVj6aX2IMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="46582093"
+  bh=BadxagcZYH9ky0ywgZDwnlnThLDM+djDQ+6B/Ub3CB0=;
+  b=EdLJez/eYJ7mtqod9zQbyjYHKs/jaEtn7tKgVtIqF9FZTvhB8f9U1uGj
+   ZV6YaXi3niIACmXup08gszWtKh2eEm/GWLSQlQt7xhxHKNIlSFfxQMMfN
+   bFhjDW055mD6Lz3qlnKqI406hIcK3OreglnbP3fGcllmrcgxT+yPFYOZd
+   g5Y9sz52AZoMvJcR/J2iruSY+J0JWcwaLqO73LLZ6oG0NgqIBrYhTFCx+
+   yZRG6P9abejGT19frK9l+8T9feSAltQJkhwGqBTNUodOaXnhLaj3AwL41
+   5c01ioynZK/1CHL6XZpHnK3Z170Z0Emvh0HJSjQBJs4z3oox/APbmDmea
+   A==;
+X-CSE-ConnectionGUID: b1te1QshQUGGjDZm8722UQ==
+X-CSE-MsgGUID: Hz3ZHDbqS8iZBF3eUumaKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="50355266"
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="46582093"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 17:38:39 -0700
-X-CSE-ConnectionGUID: oW7TLDgkRviUBLoEdGjKEA==
-X-CSE-MsgGUID: 76QTWI0jT+CRN3z8/x9LIQ==
+   d="scan'208";a="50355266"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 17:48:39 -0700
+X-CSE-ConnectionGUID: PmUbsbtsSbOxu7XbJG+x9w==
+X-CSE-MsgGUID: sVG5XZRmShmjcKzObpJKVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="135503302"
+   d="scan'208";a="136377921"
 Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Apr 2025 17:38:37 -0700
+  by orviesa004.jf.intel.com with ESMTP; 19 Apr 2025 17:48:38 -0700
 Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6Ihe-0004IX-2q;
-	Sun, 20 Apr 2025 00:38:34 +0000
-Date: Sun, 20 Apr 2025 08:38:00 +0800
+	id 1u6IrL-0004Ij-1f;
+	Sun, 20 Apr 2025 00:48:35 +0000
+Date: Sun, 20 Apr 2025 08:48:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Xin3 Li <xin3.li@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [xinli-intel-fred-public:intel-lkp 22/33]
- arch/x86/include/asm/msr.h:317:32: error: implicit declaration of function
- '__xenpv_rdmsr'
-Message-ID: <202504200827.lvVjvF6u-lkp@intel.com>
+ arch/x86/include/asm/msr.h:317:11: error: call to undeclared function
+ '__xenpv_rdmsr'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202504200814.Vu4GOb5z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,72 +67,136 @@ Content-Disposition: inline
 tree:   https://github.com/xinli-intel/linux-fred-public.git intel-lkp
 head:   168ed74cc0471e1a72488e1e6f484a25c5304202
 commit: 0a5b87b9b78d624da224d305455e6a155c0da1be [22/33] x86/msr: Use the alternatives mechanism to read MSR
-config: x86_64-buildonly-randconfig-002-20250420 (https://download.01.org/0day-ci/archive/20250420/202504200827.lvVjvF6u-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504200827.lvVjvF6u-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-001-20250420 (https://download.01.org/0day-ci/archive/20250420/202504200814.Vu4GOb5z-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250420/202504200814.Vu4GOb5z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504200827.lvVjvF6u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504200814.Vu4GOb5z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/fsgsbase.h:9,
-                    from arch/x86/include/asm/elf.h:14,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/crypto/aria.h:22,
-                    from arch/x86/kernel/asm-offsets.c:10:
-   arch/x86/include/asm/msr.h: In function '__rdmsr':
-   arch/x86/include/asm/msr.h:312:28: error: variable 'action' has initializer but incomplete type
+   In file included from arch/x86/kernel/asm-offsets.c:10:
+   In file included from include/crypto/aria.h:22:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:14:
+   In file included from arch/x86/include/asm/fsgsbase.h:9:
+   arch/x86/include/asm/msr.h:312:37: error: call to undeclared function 'get_pv_msr_action'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      312 |                 const enum pv_msr_action action = get_pv_msr_action(msr);
-         |                            ^~~~~~~~~~~~~
-   arch/x86/include/asm/msr.h:312:51: error: implicit declaration of function 'get_pv_msr_action' [-Werror=implicit-function-declaration]
+         |                                                   ^
+   arch/x86/include/asm/msr.h:312:28: error: variable has incomplete type 'const enum pv_msr_action'
      312 |                 const enum pv_msr_action action = get_pv_msr_action(msr);
-         |                                                   ^~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/msr.h:312:42: error: storage size of 'action' isn't known
+         |                                          ^
+   arch/x86/include/asm/msr.h:312:14: note: forward declaration of 'enum pv_msr_action'
      312 |                 const enum pv_msr_action action = get_pv_msr_action(msr);
-         |                                          ^~~~~~
-   arch/x86/include/asm/msr.h:314:31: error: 'PV_MSR_IGNORE' undeclared (first use in this function)
+         |                            ^
+   arch/x86/include/asm/msr.h:314:17: error: use of undeclared identifier 'PV_MSR_IGNORE'
      314 |                 if (action == PV_MSR_IGNORE)
-         |                               ^~~~~~~~~~~~~
-   arch/x86/include/asm/msr.h:314:31: note: each undeclared identifier is reported only once for each function it appears in
->> arch/x86/include/asm/msr.h:317:32: error: implicit declaration of function '__xenpv_rdmsr' [-Werror=implicit-function-declaration]
+         |                               ^
+>> arch/x86/include/asm/msr.h:317:11: error: call to undeclared function '__xenpv_rdmsr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      317 |                         return __xenpv_rdmsr(msr, val, type);
-         |                                ^~~~~~~~~~~~~
-   arch/x86/include/asm/msr.h:312:42: warning: unused variable 'action' [-Wunused-variable]
-     312 |                 const enum pv_msr_action action = get_pv_msr_action(msr);
-         |                                          ^~~~~~
-   arch/x86/include/asm/msr.h: In function '__wrmsr':
-   arch/x86/include/asm/msr.h:523:28: error: variable 'action' has initializer but incomplete type
+         |                                ^
+   arch/x86/include/asm/msr.h:523:37: error: call to undeclared function 'get_pv_msr_action'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      523 |                 const enum pv_msr_action action = get_pv_msr_action(msr);
-         |                            ^~~~~~~~~~~~~
-   arch/x86/include/asm/msr.h:523:42: error: storage size of 'action' isn't known
+         |                                                   ^
+   arch/x86/include/asm/msr.h:523:28: error: variable has incomplete type 'const enum pv_msr_action'
      523 |                 const enum pv_msr_action action = get_pv_msr_action(msr);
-         |                                          ^~~~~~
-   arch/x86/include/asm/msr.h:525:31: error: 'PV_MSR_IGNORE' undeclared (first use in this function)
+         |                                          ^
+   arch/x86/include/asm/msr.h:523:14: note: forward declaration of 'enum pv_msr_action'
+     523 |                 const enum pv_msr_action action = get_pv_msr_action(msr);
+         |                            ^
+   arch/x86/include/asm/msr.h:525:17: error: use of undeclared identifier 'PV_MSR_IGNORE'
      525 |                 if (action == PV_MSR_IGNORE)
-         |                               ^~~~~~~~~~~~~
-   arch/x86/include/asm/msr.h:528:32: error: implicit declaration of function '__xenpv_wrmsr' [-Werror=implicit-function-declaration]
+         |                               ^
+   arch/x86/include/asm/msr.h:528:11: error: call to undeclared function '__xenpv_wrmsr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      528 |                         return __xenpv_wrmsr(msr, val, type);
-         |                                ^~~~~~~~~~~~~
-   arch/x86/include/asm/msr.h:523:42: warning: unused variable 'action' [-Wunused-variable]
-     523 |                 const enum pv_msr_action action = get_pv_msr_action(msr);
-         |                                          ^~~~~~
-   arch/x86/include/asm/msr.h: In function 'rdpmcq':
-   arch/x86/include/asm/msr.h:572:24: error: implicit declaration of function 'xen_read_pmc' [-Werror=implicit-function-declaration]
+         |                                ^
+   arch/x86/include/asm/msr.h:572:10: error: call to undeclared function 'xen_read_pmc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      572 |                 return xen_read_pmc(counter);
-         |                        ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:98: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=1089470423
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=1089470423
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1089470423
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1089470423
-   make: Target 'prepare' not remade because of errors.
+         |                        ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:34:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:34:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:34:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:34:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:34:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
 
 
 vim +/__xenpv_rdmsr +317 arch/x86/include/asm/msr.h
