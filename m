@@ -1,120 +1,119 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0E91E9B2E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 18:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F061EB5F0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 19:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745261093; cv=none; b=r2SXwI0/PJOyKeUemujNZ6+8Wv+TyV/qeze0itWeV5aLjXzNxXRTSx211IGclhVkqbdd6toHupi+dhRe19FNLAfUkqIY1GgcSzAjg4yGOYjIUTXanwKqHSZg9HVyRhPRCAOUmof49AJS+PlPxxJVEz2eEDsB3LLhusISuBTTA14=
+	t=1745262658; cv=none; b=f51+D+5gyOdAPpcPdF9QycAidWoaV1JoN5UT0EbrB4TPolxGLwHDBhbx2Ofe62CXHjAf5CqJvrze29DyPMONUpifBnB7QmEvUfmVsMD+1vPGaO/cM6dNLDuLdsr+Z2GOlmjJlCYCMlf2+CnFrNRwderdMXXteB/S+rFwruF6j+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745261093; c=relaxed/simple;
-	bh=4NTNZ7kRwuNfDxpSzwP4LyO5D/370ZD8+egSjrKvECI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZrXDXVMfSR0apvk17BYuOGVKwgAlbUy9tXO0f16mu4nMUhzN7WG56sIO7a13ip6V03EE1eR37uCTwlW8FXcc/XsVfzCkigHfdWCwF51zLmk5QFoFGylhTxxtARtE7sV2Sap3KhdA6ZD39rtG6Ya0f5bCcj6qBstT+79Ofrlw0H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZDIniHKn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1745262658; c=relaxed/simple;
+	bh=JK4LhxIkx/xaAjS+ioXLkW+enrD/FvbconcCnw/x41w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RYVRYmlpCzIcyjBSDfLYXVk6grXhz66z6/2/wjshKJ1Mj84cFUvFt6DKRS3AyFX/nr+dGE8CL8iLano9YGGlTCfuDoYHwIA/wfOL8kYteJO7x0PdnxGZFQbKAJh7R3IzlKGhM3yDjKTCOLbizcgiIIyWrxw9KLPAXAwTeUUxoNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q4i4xPaR; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZDIniHKn"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53LIgYZk030745
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 18:44:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	UtRScXxIHm6oxt6nV96BNJpPBcZBVBaxFiOva74/L34=; b=ZDIniHKnxVIunbVG
-	SQU2BDP1upbXg5y+6qmUDGhoPvYsYbSdpoeYBV0dZ07C/NMfWzXNCK1LJUHuMBUN
-	aQAdI/IL4fh8MEveL39+rQ2mC+g6o6VlQusA7cbBuWZReJM2EcYPOfiMrOdbwq9n
-	4KLk+UChODRUsMlvoWo27Z44d863pjWxzH4JcqsFhszglTbu5i0AF45HofFzYlGt
-	7ec0aV/gIIFuERCmuGLjtdSGIO8YKHT4QJomDuqNyiQVJXMNZdVQjAViIQpFcZtS
-	7TL4iz0jxbEkdpV77SAhT7nTS2+aSgKYIWCKwZYLVQmcsOCz5reGRmCwZnCSOwd6
-	a/ATQA==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46435jd21v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 18:44:50 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-b0dae76ad9cso2071442a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 11:44:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745261089; x=1745865889;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UtRScXxIHm6oxt6nV96BNJpPBcZBVBaxFiOva74/L34=;
-        b=vyXStVSGqIZrC06vMsYdoxUBJAIph73zkub+DElzLs0DByCmkuxE9ZtbsjukaMYlph
-         GWt3mTaPaN2Mu26WHhXzlyWkBw8DrtjJ9N7OVb7AVehX4SSGm68M5++pFUsGeHyKmByG
-         IQSIy+ZITgxEPJyNs5IMU5yOBvH4dnDDWJu69vxFg1I6JrdMUvSo0D0n27vvH10CLFbU
-         3lCKIfx7PfUFTUmhWxNwGHMEZMxRH9slzLdXiI6raiM2JrnHavRD0bHyynqGaxXXVf5N
-         ZLP7HlTF1znTD+5ua5bJ+LLH0U3XJdTSCMKhGhOMelP8+++HICytwPklFvZMM+yuVPA6
-         Plzg==
-X-Forwarded-Encrypted: i=1; AJvYcCWu02ViKHe0nN9qQa4Q1cc0obN9TGNiRYXkpupgQO19QAkkHlN6Qv6rQ/SZ2trte+ZQqx3nKpH0EY8vA5jQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZrCx5KzxXAD8+zh6risi3HLPt7XrtX2W4D8BjOIwf4D5TdPTE
-	J+eetRJ9TT1q3qAJuIR3N80N+aoGhMCLRxH6m2NMFUVJf7APrpHYRIXYpuZwG9mnYfiM44Ob4ZL
-	BIIYJM9ruTI+RS19MP59DuKZ1IFTXkl/JE1425wiv5rCnyB8/52oduzcG1K9N3HWB
-X-Gm-Gg: ASbGncupPggbvfxQpuX1K1UJh7nr/F41LeYI+YGxeOZwdpNtV7AU5nB3/cbfWxX/ArR
-	0+qAtji6apVscW+RdX7yYwwVYwM6HxHC3qaUSqeHPrFqgoD82I4RGxZi16bBYQsJM2e42srWPdt
-	CM6cufN/ctVGE4GiSneNYwbe8ktvrwtokVOvKqBTG3gYYP7yg/DZY5RggGtlYCxiN9/JNhsMa7/
-	qPlgDvPOr95mbLoq9DHuSDVXuwuDiJgykkRfd31r80seJkrs2tPt503L/9DpljWw+MPVEp0459/
-	/QUHirPW+ng5Xoo461VaJO71bFYjJzKAMAvErKjtUXUXeiip2hdjhpcrM33AEGh5GwLSAqJU7fu
-	iEBxe
-X-Received: by 2002:a05:6a20:9f09:b0:1ee:e655:97ea with SMTP id adf61e73a8af0-203cbd60a89mr19672753637.41.1745261088714;
-        Mon, 21 Apr 2025 11:44:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEA0pK6tF2JhEK8ouZupmBtQFU+yOMOxYbB5tNIrlUqNDVEr9iX1u+Kx1ALJ2l8+cvsKSayMw==
-X-Received: by 2002:a05:6a20:9f09:b0:1ee:e655:97ea with SMTP id adf61e73a8af0-203cbd60a89mr19672724637.41.1745261088351;
-        Mon, 21 Apr 2025 11:44:48 -0700 (PDT)
-Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b0fd23599cesm2989744a12.59.2025.04.21.11.44.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Apr 2025 11:44:48 -0700 (PDT)
-Message-ID: <47ea4e64-cd87-4c42-a20d-f663f197e44c@oss.qualcomm.com>
-Date: Mon, 21 Apr 2025 11:44:46 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q4i4xPaR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745262657; x=1776798657;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JK4LhxIkx/xaAjS+ioXLkW+enrD/FvbconcCnw/x41w=;
+  b=Q4i4xPaRgblg8mE/uXg9aJbJlrHdbKG7LlBY4pT9pKFoOvgTbnaIwU7N
+   FLQCFesjdBhwLBwY0ExkzDO1XelKqX2rWmrKmAQNz9jcAzYGWTeAo74eZ
+   b/jYp1kldnXJ091m4AWloA9xdrLQr7w/aF4/R9cWS3OHXjGM5w9DzDSR1
+   jOqlfnE4afuuJaTdpb9nPOdfT6mM6lYxp/tZolmRrv9Qmi1QscjoP2uL8
+   5SymOTeMj91eBwGVh87JX57Ab84Lfr1RNz1XyJvruYPTFWdmZN/IIsiyP
+   Ac/eaUyGSrOSFwAdAmlOBKf6CxeWTv2rpgMAJRe29bAItzkKvHf45lLn5
+   g==;
+X-CSE-ConnectionGUID: QLmVj5UtT8maRYMIpMii/Q==
+X-CSE-MsgGUID: J/F7BT0/QiehHjFpUd4uqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="34420046"
+X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; 
+   d="scan'208";a="34420046"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 12:10:56 -0700
+X-CSE-ConnectionGUID: MUGen6fTR7q9z0aKw2upMw==
+X-CSE-MsgGUID: sq/59RffQjWgxgZy8U/Ijg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; 
+   d="scan'208";a="132756668"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 21 Apr 2025 12:10:56 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u6wXd-0000LD-16;
+	Mon, 21 Apr 2025 19:10:53 +0000
+Date: Tue, 22 Apr 2025 03:10:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:block-new-helpers 3/18] block/bio.c:1317: warning:
+ Function parameter or struct member 'len' not described in 'bdev_rw_virt'
+Message-ID: <202504220307.K00i54m7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH ath-next] wifi: ath12k: allow beacon protection keys to be
- installed in hardware
-To: kernel test robot <lkp@intel.com>,
-        Karthikeyan Kathirvel <karthikeyan.kathirvel@oss.qualcomm.com>,
-        ath12k@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-wireless@vger.kernel.org
-References: <20250421114711.3660911-1-karthikeyan.kathirvel@oss.qualcomm.com>
- <202504220128.2KvxCzaG-lkp@intel.com>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <202504220128.2KvxCzaG-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=EOYG00ZC c=1 sm=1 tr=0 ts=68069222 cx=c_pps a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=e70TP3dOR9hTogukJ0528Q==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=p4PaQEVxqj5bAbq44HAA:9 a=QEXdDO2ut3YA:10
- a=_Vgx9l1VpLgwpw_dHYaR:22
-X-Proofpoint-GUID: 5Fm8pcEYhX2j1gjgeLnOsvAab-KKC-tr
-X-Proofpoint-ORIG-GUID: 5Fm8pcEYhX2j1gjgeLnOsvAab-KKC-tr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-21_09,2025-04-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=590 mlxscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 impostorscore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504210146
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/21/2025 10:16 AM, kernel test robot wrote:
-> Hi Karthikeyan,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on d33705bb41ff786b537f8ed50a187a474db111c1]
+tree:   git://git.infradead.org/users/hch/misc.git block-new-helpers
+head:   280d8b7173282de4cf4857624def142ed24fad63
+commit: dc18223aaea3f28ee4b98928d16baf4a6ffd4212 [3/18] block: add a bdev_rw_virt helper
+config: loongarch-randconfig-002-20250422 (https://download.01.org/0day-ci/archive/20250422/202504220307.K00i54m7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504220307.K00i54m7-lkp@intel.com/reproduce)
 
-lkp@intel.com folks:
-This patch contains the following footer:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504220307.K00i54m7-lkp@intel.com/
 
-base-commit: d33705bb41ff786b537f8ed50a187a474db111c1
-Depends-on: <20250421111505.3633992-1-karthikeyan.kathirvel@oss.qualcomm.com>
+All warnings (new ones prefixed by >>):
 
-Is there a different mechanism needed to tell the robot about the dependency?
+>> block/bio.c:1317: warning: Function parameter or struct member 'len' not described in 'bdev_rw_virt'
+>> block/bio.c:1317: warning: Excess function parameter 'lem' description in 'bdev_rw_virt'
 
+
+vim +1317 block/bio.c
+
+  1303	
+  1304	/**
+  1305	 * bdev_rw_virt - synchronously read into / write from kernel mapping
+  1306	 * @bdev:	block device to access
+  1307	 * @sector:	sector to accasse
+  1308	 * @data:	data to read/write
+  1309	 * @lem:	length to read/write
+  1310	 * @op:		operation (e.g. REQ_OP_READ/REQ_OP_WRITE)
+  1311	 *
+  1312	 * Performs synchronous I/O to @bdev for @data/@len.  @data must be in
+  1313	 * the kernel direct mapping and not a vmalloc address.
+  1314	 */
+  1315	int bdev_rw_virt(struct block_device *bdev, sector_t sector, void *data,
+  1316			size_t len, enum req_op op)
+> 1317	{
+  1318		struct bio_vec bv;
+  1319		struct bio bio;
+  1320		int error;
+  1321	
+  1322		if (WARN_ON_ONCE(is_vmalloc_addr(data)))
+  1323			return -EIO;
+  1324	
+  1325		bio_init(&bio, bdev, &bv, 1, op);
+  1326		bio.bi_iter.bi_sector = sector;
+  1327		bio_add_virt_nofail(&bio, data, len);
+  1328		error = submit_bio_wait(&bio);
+  1329		bio_uninit(&bio);
+  1330		return error;
+  1331	}
+  1332	EXPORT_SYMBOL_GPL(bdev_rw_virt);
+  1333	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
