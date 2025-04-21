@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250CA2627E2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 11:04:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700FE262D38;
+	Mon, 21 Apr 2025 11:14:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745233461; cv=none; b=CJYNnP4Rg074D2hofX9djcMTvfCl57rdTsStEQ3zmZO79LIYR5rbr1bfBzKaFTZnzoGiq4riqAiy7wybFWDgrZIJBES67OJt2gmqzE8tH3NTPiYg60lMmiTYhwj5/Unrx0Z4BBkw7afJaCkdQOHE5n6/FyUoysHO/dOKna2Inww=
+	t=1745234061; cv=none; b=Ono8XbIEX3mNxjGiNv1TnxqJh5ZXUfYcb8iIygsxuk74LvvR6bi/t1OOrJU6QS6/pVbAGbLBw0gKAVk6ktNwtDj6g9cAF+2JlUn7Z38vfBa9fKzUpMcgcpKlqcjcXP07+wfPG/uHy+nXSipgBlYrKw65sw8Q1806d29rwvA/jI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745233461; c=relaxed/simple;
-	bh=jQrfcg7YeIUfEcWw8JqnyZF7N70AQhzquuoxZIddlsI=;
+	s=arc-20240116; t=1745234061; c=relaxed/simple;
+	bh=LJLnovln/wgZtwBc6c1R6izawkYFxALqns4kDbIbMYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e4KHJbXkY8FRlo9aLSGP9+3iJbGPj5h3rD6nkRz2b6jwZBlJUpMb0W3lWE/dyg5j2iiUv0DnntC0Jz9CV+RSj1TkoyR5ibMo2EbCchXOfR3mXN89G/oswQTilE4r8lDsFSk3AS+5GeNtx92etKgq/RbYeNPJm+DWZ1WU+vz5Fho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcu+zYBm; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=DnduwFqGOvcJFEe4ubZt6zEF76ZbX5vHNSEDtD+bYNCK2OFLGfC1qts1UGHRLCfK3fZDNIvfb8Z8CWJtOFkVy4vBWS2fDCzHK3wHtXkfTZEzJO7XRS9P/zPH7cE5zf7n7L1eXbQuh/DNsqamjlJzAbuEbD1F/cIgVHLE6IY5Xtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anLaNYdC; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcu+zYBm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anLaNYdC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745233460; x=1776769460;
+  t=1745234059; x=1776770059;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jQrfcg7YeIUfEcWw8JqnyZF7N70AQhzquuoxZIddlsI=;
-  b=bcu+zYBmTFdMF+7qsCmp+DgU2B7K9RGCHWr0FQHXsvaApXJBJQCQpOMX
-   /yh5gyENWSj8vVpeNR2oHZZcIxzA7Jl+nlq87eCoUB+j3wEY3Ob92FECx
-   hIYPRZ5xkZCQRe1AwFhPW57xw2t5XMfRLtvhEuesHCK4M33Uat02Z0XU7
-   KR5062i15b30oJ1K08V4VjtLsq9X8W/SgpaV4SX/MREmKheBnY9zmtgcq
-   cr3+26QYDLOAafnW+OZfW1+V094/1eAg9qHCsMLpw3lq5QwD9mSxqJVHR
-   4uIRwCfxAicGCUH/7LQAgAXr0uP4kn83c6ZirP8kr7TW6rCB3JOuWgxmG
-   A==;
-X-CSE-ConnectionGUID: MNikIkVdS3ygCmGtfdIjTw==
-X-CSE-MsgGUID: vzCObZOuT+mYHoQPZRgSsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="46864175"
-X-IronPort-AV: E=Sophos;i="6.15,227,1739865600"; 
-   d="scan'208";a="46864175"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 04:04:19 -0700
-X-CSE-ConnectionGUID: Zzoud9PgQDeQ2UY0swq0Ow==
-X-CSE-MsgGUID: vc3OS+f5TSupI9mj36fETA==
+  bh=LJLnovln/wgZtwBc6c1R6izawkYFxALqns4kDbIbMYg=;
+  b=anLaNYdCSkWdk841j+3dDg0UTsGRAAOFmEBs5ga4k/Bro7B6JaIiV3ug
+   7YouJF7LRxRvfqbqj8Z4PkKTIdcfuUfPV9wvxPKKSl22Gk/PgZNfo5QcO
+   AI9eks7mHQnbMcuWxRtF7trds50X9wml4uQ74gdSzmLFi357hajKyFsZY
+   D7l+oNDuYOfaq6M6IG/7vVlZ+npL2akAH6ICrbkb9kWyS4zE+FeR1gBt7
+   xoiXWD08FEAUOW2MOrfHw/gHcNC892gRx+7lWWye0CgqT1q8Lk0Hl8dVj
+   9nyqABD4og8NunJMGlo2TIAdrUB/0acstF8Gur91Ihv0VK4ly6mGhYKk2
+   w==;
+X-CSE-ConnectionGUID: uf4rJbggT3KEBdkglAWh8g==
+X-CSE-MsgGUID: hFOFLsNYQVSn5Z7QAmkSNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="46865048"
+X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
+   d="scan'208";a="46865048"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 04:14:18 -0700
+X-CSE-ConnectionGUID: anH4DjtIR/CTMwHEaB5gTA==
+X-CSE-MsgGUID: +hRlbTBOTNmeeI5YQ7LyQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
-   d="scan'208";a="154864218"
+   d="scan'208";a="131704977"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Apr 2025 04:04:17 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Apr 2025 04:14:17 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6owh-00004C-07;
-	Mon, 21 Apr 2025 11:04:15 +0000
-Date: Mon, 21 Apr 2025 19:03:40 +0800
+	id 1u6p6N-00004f-2A;
+	Mon, 21 Apr 2025 11:14:15 +0000
+Date: Mon, 21 Apr 2025 19:13:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-github:vfs-6.16.misc 18/18] mm/readahead.c:703:37: error:
- 'fd_file' undeclared
-Message-ID: <202504211926.NueGiuPM-lkp@intel.com>
+Subject: [brauner-github:vfs-6.16.misc 18/18] mm/readahead.c:703:30: error:
+ use of undeclared identifier 'fd_file'; did you mean 'get_file'?
+Message-ID: <202504211930.SWe5ODLS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,38 +66,31 @@ Content-Disposition: inline
 tree:   https://github.com/brauner/linux.git vfs-6.16.misc
 head:   ac6355451deea7f96f5ca40a226fb0685b0475af
 commit: ac6355451deea7f96f5ca40a226fb0685b0475af [18/18] fs: add S_ANON_INODE
-config: arc-randconfig-001-20250421 (https://download.01.org/0day-ci/archive/20250421/202504211926.NueGiuPM-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504211926.NueGiuPM-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20250421 (https://download.01.org/0day-ci/archive/20250421/202504211930.SWe5ODLS-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504211930.SWe5ODLS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504211926.NueGiuPM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504211930.SWe5ODLS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/blkdev.h:9,
-                    from mm/readahead.c:116:
-   mm/readahead.c: In function 'ksys_readahead':
->> mm/readahead.c:703:37: error: 'fd_file' undeclared (first use in this function)
+>> mm/readahead.c:703:30: error: use of undeclared identifier 'fd_file'; did you mean 'get_file'?
      703 |         if (IS_ANON_FILE(file_inode(fd_file)))
          |                                     ^~~~~~~
-   include/linux/fs.h:2404:35: note: in definition of macro 'IS_ANON_FILE'
+         |                                     get_file
+   include/linux/fs.h:2404:31: note: expanded from macro 'IS_ANON_FILE'
     2404 | #define IS_ANON_FILE(inode)     ((inode)->i_flags & S_ANON_INODE)
-         |                                   ^~~~~
-   mm/readahead.c:703:37: note: each undeclared identifier is reported only once for each function it appears in
-     703 |         if (IS_ANON_FILE(file_inode(fd_file)))
-         |                                     ^~~~~~~
-   include/linux/fs.h:2404:35: note: in definition of macro 'IS_ANON_FILE'
-    2404 | #define IS_ANON_FILE(inode)     ((inode)->i_flags & S_ANON_INODE)
-         |                                   ^~~~~
+         |                                   ^
+   include/linux/fs.h:1131:28: note: 'get_file' declared here
+    1131 | static inline struct file *get_file(struct file *f)
+         |                            ^
+   1 error generated.
 
 
-vim +/fd_file +703 mm/readahead.c
+vim +703 mm/readahead.c
 
    690	
    691	ssize_t ksys_readahead(int fd, loff_t offset, size_t count)
