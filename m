@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B901E51E3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 23:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C058632C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 23:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745279185; cv=none; b=fxz+aAjqzh28IEIkUxyXS1HS8sqaz0krlQyuz+gpti1dLIa5lXsFJJjMze9ituywqHUMm00x6YUWF69vktZsgUNBNK19l/EZwoZu/G+EUUgH9h5JemqfmRZZZa+J9oVkVfQOeeTouvSdoWlSfMUkDi6c3vWwb5K9m+AvKfzCXuo=
+	t=1745279785; cv=none; b=ESl6y/3nbLSUbV2pqLsxZUMfMFitPOetk0fIhW2J+uAqWFMf0RhWz1FylprvldzjL5lALCF80obFakbDdtLOS6hQ1eG72PTuJkX/PbVD2D+adUtwyI5VhfYqxzBdE6RdiPNFaIHVx6AAe/FcLJT+MnwxwKWImuy3kiSkGZZFmr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745279185; c=relaxed/simple;
-	bh=qWZVKTd4MLKq4ccKgRjftZJ4ROFm8u4nh8uLaOynfk8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qx7f84c3Cmn8n1Ra7o/vkODCf/AEfLqNkDbIkz+jrVYvc5NoZysyZzgKVavDjvXKs3VkhC9qe0ATrA5g2/6HXriwFJ4eJrBOHJqPuFeBN2GUGovKp9zZkWyD7Sj5I/jaz9hQRy0gONNH1HPIpZgbs8W8XpqIMOUiKcWASLlUnsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVhK69YP; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1745279785; c=relaxed/simple;
+	bh=Ha5JhT9x/oEIbmUQQmDcrgdEShNenD0nQYKmH7OK4x4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WccmdNaeItijCZyC4G0EGsb2yUS9LbHrZswRxnQvFBES5veNOZwOGlpyXdCzstqLq1qcNM8itGEjuDGDEOOyoW0931cZgVENuEGlQNPoGdl4GtfB07vWjg5gbvoMcJ3BxW/FMqNjy3p7eDglbDRj+3mdhLKaQoXri0LWGtfL6QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrD9zgJq; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVhK69YP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrD9zgJq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745279183; x=1776815183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qWZVKTd4MLKq4ccKgRjftZJ4ROFm8u4nh8uLaOynfk8=;
-  b=kVhK69YPsp3e0MUcMR+ytMWM36yHqU+k1VP4Z+iZQ74Mx2+Ew29Ae1k4
-   HO+fDtZjlV/EEmmJ30yNTlsNlfS066FMykWwERX9+87JUHExJm6iy3ZLV
-   SScVXs2WZx1KPGgsM9lyIl3CxBIh/VjszA8BIH4p2LL/ikk29OOjHVl5p
-   OslvEpJXtrjG39We7YmTrg59bDXZ+ujlBffcxFnggr7HOuFiRNKhrOC4D
-   c+w2tao9QrCvVyIKn4vCZK6e4rMHe2sWQYktCDhT+je3hdU+E2VfxZXXT
-   rnWojEfEKqh5TQEpr1me2wJf+ZwUKlYbIotQyBJcH+oef/jN396He4EL7
+  t=1745279780; x=1776815780;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ha5JhT9x/oEIbmUQQmDcrgdEShNenD0nQYKmH7OK4x4=;
+  b=HrD9zgJqdmfwWo8hwfuK9MvCmL9mh2C0L23yi6hhg3XRrUaNX/3ImV0S
+   0urphi97ZcNPrTDO/zvvqxPVfxkJYrkuXzVC7KEP2E+LePTHcNJMT09gg
+   JKLFa/bIdKVSugqRcY3Nk2P6OgwHkl+B8pIJhj4OozfFqgQTc3k7tZhZw
+   21bAd2vLBWqBcNBVZFms5kseWoLbsJnHMgMAm9QRwu8gC5KKh77My6Zp1
+   tY06LztY/FoqJt/RdICKoMZnsoXRtpGB4yT6cRzjHQrJXlI0z2ZgRk4Zq
+   q9fwt5yB2PqLoZ2K+aeGWmL+SOfY67ECmg3q+i/M8iAg1vu1JjtgOo7xF
    A==;
-X-CSE-ConnectionGUID: Fw/B7l2ZTTixyuUTBgwbMg==
-X-CSE-MsgGUID: /6Zu6qYMR72zkI55DqMvFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="57470012"
+X-CSE-ConnectionGUID: 7qbsSDBBTgyY6rI6u5ZK3g==
+X-CSE-MsgGUID: Oq+wBmCDQ5y1+Qlpd+Jfgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="46833340"
 X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; 
-   d="scan'208";a="57470012"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 16:46:19 -0700
-X-CSE-ConnectionGUID: cCjhljN9TxOIfrCVdyteNg==
-X-CSE-MsgGUID: PoGXtRppS5Cp1HX8HMKDYg==
+   d="scan'208";a="46833340"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 16:56:19 -0700
+X-CSE-ConnectionGUID: qg88fy+fSk+m6ejlvJ+N5Q==
+X-CSE-MsgGUID: rp/o1dJySsy2MIbujZxLBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; 
-   d="scan'208";a="162820129"
+   d="scan'208";a="162909942"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Apr 2025 16:46:17 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Apr 2025 16:56:18 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u70q7-0000Sh-0n;
-	Mon, 21 Apr 2025 23:46:15 +0000
-Date: Tue, 22 Apr 2025 07:45:52 +0800
+	id 1u70zo-0000T9-0H;
+	Mon, 21 Apr 2025 23:56:16 +0000
+Date: Tue, 22 Apr 2025 07:56:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Yu <yu.c.chen@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 4/5] sched: Inhibit cache aware scheduling if the
- preferred LLC is over aggregated
-Message-ID: <202504220710.wPfh5hyL-lkp@intel.com>
-References: <2c45f6db1efef84c6c1ed514a8d24a9bc4a2ca4b.1745199017.git.yu.c.chen@intel.com>
+Subject: [djwong-xfs:atomic-writes-6.15 21/21] fs/xfs/xfs_mount.c:771:
+ undefined reference to `__umoddi3'
+Message-ID: <202504220730.1EIgQwzf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,144 +61,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2c45f6db1efef84c6c1ed514a8d24a9bc4a2ca4b.1745199017.git.yu.c.chen@intel.com>
 
-Hi Chen,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on akpm-mm/mm-everything peterz-queue/sched/core linus/master v6.15-rc3 next-20250417]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu/sched-Cache-aware-load-balancing/20250421-113804
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/2c45f6db1efef84c6c1ed514a8d24a9bc4a2ca4b.1745199017.git.yu.c.chen%40intel.com
-patch subject: [RFC PATCH 4/5] sched: Inhibit cache aware scheduling if the preferred LLC is over aggregated
-config: arc-randconfig-r122-20250421 (https://download.01.org/0day-ci/archive/20250422/202504220710.wPfh5hyL-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250422/202504220710.wPfh5hyL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git atomic-writes-6.15
+head:   3e0eba388360eebaf124e2abab90a054698f08af
+commit: 3e0eba388360eebaf124e2abab90a054698f08af [21/21] xfs: allow sysadmins to specify a maximum atomic write limit at mount time
+config: i386-buildonly-randconfig-004-20250422 (https://download.01.org/0day-ci/archive/20250422/202504220730.1EIgQwzf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504220730.1EIgQwzf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504220710.wPfh5hyL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504220730.1EIgQwzf-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:1318:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu * @@
-   kernel/sched/fair.c:1318:51: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:1318:51: sparse:     got struct sched_domain [noderef] __rcu *
-   kernel/sched/fair.c:1432:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:1432:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:1432:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:1495:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1495:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1495:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:13238:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:13238:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:13238:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:7238:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7238:58: sparse:     expected struct task_struct *p
-   kernel/sched/fair.c:7238:58: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8632:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8632:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:8632:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8937:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8937:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8937:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:9081:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:9081:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:9081:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:9112:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:9112:37: sparse:     expected struct task_struct *tsk
-   kernel/sched/fair.c:9112:37: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:9330:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:9330:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:9330:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:10374:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:10374:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:10374:40: sparse:     got struct sched_domain [noderef] __rcu *child
->> kernel/sched/fair.c:10705:42: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:10705:42: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:10705:42: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:11045:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:11045:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:11045:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:12490:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12490:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12490:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12140:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12140:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:12140:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12599:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12599:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12599:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:1234:26: sparse: sparse: context imbalance in 'fraction_mm_sched' - wrong count at exit
-   kernel/sched/fair.c:1276:13: sparse: sparse: context imbalance in 'task_tick_cache' - different lock contexts for basic block
-   kernel/sched/fair.c:6949:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2496:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2496:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2496:9: sparse:    struct task_struct *
-   kernel/sched/fair.c: note: in included file (through arch/arc/include/asm/irqflags.h, include/linux/irqflags.h, include/linux/spinlock.h, ...):
-   arch/arc/include/asm/irqflags-arcv2.h:80:31: sparse: sparse: undefined identifier '__builtin_arc_lr'
-   arch/arc/include/asm/irqflags-arcv2.h:83:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2284:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2284:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2284:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2284:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2284:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2284:26: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +10705 kernel/sched/fair.c
+   ld: fs/xfs/xfs_mount.o: in function `xfs_set_max_atomic_write_opt':
+>> fs/xfs/xfs_mount.c:771: undefined reference to `__umoddi3'
+   ld: fs/xfs/xfs_zone_gc.o: in function `xfs_zoned_need_gc':
+   fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divmoddi4'
+   ld: fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divdi3'
 
- 10694	
- 10695	#ifdef CONFIG_SCHED_CACHE
- 10696	/*
- 10697	 * Save this sched group's statistic for later use:
- 10698	 * The task wakeup and load balance can make better
- 10699	 * decision based on these statistics.
- 10700	 */
- 10701	static void update_sg_if_llc(struct lb_env *env, struct sg_lb_stats *sgs,
- 10702				     struct sched_group *group)
- 10703	{
- 10704		/* Find the sched domain that spans this group. */
- 10705		struct sched_domain *sd = env->sd->child;
- 10706		struct sched_domain_shared *sd_share;
- 10707		u64 last_nr;
- 10708	
- 10709		if (!sched_feat(SCHED_CACHE) || env->idle == CPU_NEWLY_IDLE)
- 10710			return;
- 10711	
- 10712		/* only care the sched domain that spans 1 LLC */
- 10713		if (!sd || !(sd->flags & SD_SHARE_LLC) ||
- 10714		    !sd->parent || (sd->parent->flags & SD_SHARE_LLC))
- 10715			return;
- 10716	
- 10717		sd_share = rcu_dereference(per_cpu(sd_llc_shared,
- 10718					   cpumask_first(sched_group_span(group))));
- 10719		if (!sd_share)
- 10720			return;
- 10721	
- 10722		last_nr = READ_ONCE(sd_share->nr_avg);
- 10723		update_avg(&last_nr, sgs->sum_nr_running);
- 10724	
- 10725		if (likely(READ_ONCE(sd_share->util_avg) != sgs->group_util))
- 10726			WRITE_ONCE(sd_share->util_avg, sgs->group_util);
- 10727	
- 10728		WRITE_ONCE(sd_share->nr_avg, last_nr);
- 10729	}
- 10730	#else
- 10731	static inline void update_sg_if_llc(struct lb_env *env, struct sg_lb_stats *sgs,
- 10732					    struct sched_group *group)
- 10733	{
- 10734	}
- 10735	#endif
- 10736	
+
+vim +771 fs/xfs/xfs_mount.c
+
+   742	
+   743	/*
+   744	 * Try to set the atomic write maximum to a new value that we got from
+   745	 * userspace via mount option.
+   746	 */
+   747	int
+   748	xfs_set_max_atomic_write_opt(
+   749		struct xfs_mount	*mp,
+   750		unsigned long long	new_max_bytes)
+   751	{
+   752		const xfs_filblks_t	new_max_fsbs = XFS_B_TO_FSBT(mp, new_max_bytes);
+   753		const xfs_extlen_t	max_write = xfs_calc_atomic_write_max(mp);
+   754		const xfs_extlen_t	max_group =
+   755			max(xfs_calc_perag_awu_max(mp), xfs_calc_rtgroup_awu_max(mp));
+   756		int			error;
+   757	
+   758		if (new_max_bytes == 0)
+   759			goto set_limit;
+   760	
+   761		ASSERT(max_write <= U32_MAX);
+   762	
+   763		/* generic_atomic_write_valid enforces power of two length */
+   764		if (!is_power_of_2(new_max_bytes)) {
+   765			xfs_warn(mp,
+   766	 "max atomic write size of %llu bytes is not a power of 2",
+   767					new_max_bytes);
+   768			return -EINVAL;
+   769		}
+   770	
+ > 771		if (new_max_bytes % mp->m_sb.sb_blocksize > 0) {
+   772			xfs_warn(mp,
+   773	 "max atomic write size of %llu bytes not aligned with fsblock",
+   774					new_max_bytes);
+   775			return -EINVAL;
+   776		}
+   777	
+   778		if (new_max_fsbs > max_write) {
+   779			xfs_warn(mp,
+   780	 "max atomic write size of %lluk cannot be larger than max write size %lluk",
+   781					new_max_bytes >> 10,
+   782					XFS_FSB_TO_B(mp, max_write) >> 10);
+   783			return -EINVAL;
+   784		}
+   785	
+   786		if (new_max_fsbs > max_group) {
+   787			xfs_warn(mp,
+   788	 "max atomic write size of %lluk cannot be larger than allocation group size %lluk",
+   789					new_max_bytes >> 10,
+   790					XFS_FSB_TO_B(mp, max_group) >> 10);
+   791			return -EINVAL;
+   792		}
+   793	
+   794	set_limit:
+   795		error = xfs_calc_atomic_write_reservation(mp, new_max_fsbs);
+   796		if (error) {
+   797			xfs_warn(mp,
+   798	 "cannot support completing atomic writes of %lluk",
+   799					new_max_bytes >> 10);
+   800			return error;
+   801		}
+   802	
+   803		xfs_calc_atomic_write_unit_max(mp);
+   804		mp->m_awu_max_bytes = new_max_bytes;
+   805		return 0;
+   806	}
+   807	
 
 -- 
 0-DAY CI Kernel Test Service
