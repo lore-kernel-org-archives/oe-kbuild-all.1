@@ -1,98 +1,108 @@
-Received: from mx-rz-2.rrze.uni-erlangen.de (mx-rz-2.rrze.uni-erlangen.de [131.188.11.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2111189F3F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 14:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.188.11.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3927E1411DE;
+	Mon, 21 Apr 2025 15:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745245388; cv=none; b=CiNbTOzpAlbDgXBbdN0tWl0uuQZ4pPOL0JBZjJ+8PbCYO1z6U+CYHkkDi65FHim2H0YeC+5kZM2idDHBLKCa/5vAn6pfkI0PvZ1//4mX5v+5WP9F+3GDWXhkvQk3uhgbro27oU/ToRY/0iV3HkcyMV9m8ohumsWhowPn/GZQY64=
+	t=1745249022; cv=none; b=NKZNEMiNxlmTJH0gQJ4jevw0Oi8QEnJ+8SgsLkFvbRXZuJaso4X7IPzbcTWhSPe/0UnhZSctoL3I9lh4UoH/5cjK3SKyKuEvt5tFgKHZOQJwUFSFO2w/NYx6CC6w0mjUN7woONR39SH1t2ZDFn989wXYuFJ3B1ILkT+8I7/C61A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745245388; c=relaxed/simple;
-	bh=/UvmjxB5mlDWIFPWdct8ipmty768fSsHQ+TK4B982ik=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=V6L6l+Gh/9jiXx5NZqCyEtlB5/xLw3aGerwDrvt/ko9i8aorBAfs1ekeR7aEsfrvN//epRe3jBmUsYcje1j9TW5dFYKK3S3WDxvJGLewJaRz0iCRtlLvEFQP6sOzZs0IUOi4Yf1T9WmwTXySZaECBI2kV4fCiIlOK7SCe4pwDsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fau.de; spf=pass smtp.mailfrom=fau.de; dkim=pass (2048-bit key) header.d=fau.de header.i=@fau.de header.b=orBiie4c; arc=none smtp.client-ip=131.188.11.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fau.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fau.de
+	s=arc-20240116; t=1745249022; c=relaxed/simple;
+	bh=vJPOq/jtYR3O8m4x/saV7Lfzl0TMxKs1hSTnn1MH0/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sPfHUUMJcGpQZBQvhJBdQWJP0XvXiMf2+MqMvwIkL3mC99+w3yGaeBEXQdJJFocXS+ncwvb3LgXRFEmJJq3K8sUl4dXR0SCi+Mq9gHLzW14JNBszLc5KOLSRF6pLnebaf4NtdyY3g5isTqYsGXYtXAFpe/MT7AN1VGMHR/IUYwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3GFh0q0; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fau.de header.i=@fau.de header.b="orBiie4c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fau.de; s=fau-2021;
-	t=1745245384; bh=dHRKLKa57WaRcw3gsgSapFs5eoq+g/y962Gr8FAxtJ4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From:To:CC:
-	 Subject;
-	b=orBiie4cvNrHVv1JbBWkrpOyYmyGmifj9slSFQzZ0sJetOlRXTDNVGexBpdHSLlCj
-	 cIRmDtYCELKKpt25P9o50N7Y+j9jsWe+aLzGb7aUsWJA9N64p44PwD8KSuAJ4OjZJB
-	 XZ/ImmqlxC4T3CkcYfAZJBcM3JIzvolN8AqEG1ESQtwmvQXdXlF0t9Lnu4dsv8XVMd
-	 dOj+KKY125Rtr8bCcieX7+VlKdKSQWGglObQaut+Mmr0zxuF1dr3qH1s8G40zgEohX
-	 itn/AJJ+UntW48id29kZH/dXMJJNuSAKYM4NQG3NbSOJdhyEJRv3pYs07IFq2UTGT0
-	 zumuzse94SOdg==
-Received: from mx-rz-smart.rrze.uni-erlangen.de (mx-rz-smart.rrze.uni-erlangen.de [IPv6:2001:638:a000:1025::1e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-rz-2.rrze.uni-erlangen.de (Postfix) with ESMTPS id 4Zh6zD2qDxzPjmG;
-	Mon, 21 Apr 2025 16:23:04 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at boeck5.rrze.uni-erlangen.de (RRZE)
-X-RRZE-Flag: Not-Spam
-X-RRZE-Submit-IP: 2001:9e8:3600:7e00:5b67:6b9c:caeb:75c
-Received: from localhost (unknown [IPv6:2001:9e8:3600:7e00:5b67:6b9c:caeb:75c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: U2FsdGVkX1+yS0Gm16sXrv8zOrS9nARAtw0fhZkEU8I=)
-	by smtp-auth.uni-erlangen.de (Postfix) with ESMTPSA id 4Zh6yw2GKwzPjsn;
-	Mon, 21 Apr 2025 16:22:48 +0200 (CEST)
-From: Luis Gerhorst <luis.gerhorst@fau.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Alexei Starovoitov <ast@kernel.org>,  Daniel Borkmann
- <daniel@iogearbox.net>,  Andrii Nakryiko <andrii@kernel.org>,  Martin
- KaFai Lau <martin.lau@linux.dev>,  Eduard Zingerman <eddyz87@gmail.com>,
-  Song Liu <song@kernel.org>,  Yonghong Song <yonghong.song@linux.dev>,
-  John Fastabend <john.fastabend@gmail.com>,  KP Singh
- <kpsingh@kernel.org>,  Stanislav Fomichev <sdf@fomichev.me>,  Hao Luo
- <haoluo@google.com>,  Jiri Olsa <jolsa@kernel.org>,  Puranjay Mohan
- <puranjay@kernel.org>,  Xu Kuohai <xukuohai@huaweicloud.com>,  Catalin
- Marinas <catalin.marinas@arm.com>,  Will Deacon <will@kernel.org>,  Hari
- Bathini <hbathini@linux.ibm.com>,  Christophe Leroy
- <christophe.leroy@csgroup.eu>,  Naveen N Rao <naveen@kernel.org>,
-  Madhavan Srinivasan <maddy@linux.ibm.com>,  Michael Ellerman
- <mpe@ellerman.id.au>,  Nicholas Piggin <npiggin@gmail.com>,  Mykola
- Lysenko <mykolal@fb.com>,  Shuah Khan <skhan@linuxfoundation.org>,
-  Henriette Herzog <henriette.herzog@rub.de>,  Saket Kumar Bhaskar
- <skb99@linux.ibm.com>,  Cupertino Miranda <cupertino.miranda@oracle.com>,
-  Jiayuan Chen <mrpre@163.com>,  Matan Shachnai <m.shachnai@gmail.com>,
-  oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-kselftest@vger.kernel.org,
- henriette.herzog@rub.de
-Subject: Re: [PATCH bpf-next v2 05/11] bpf, arm64, powerpc: Add
- bpf_jit_bypass_spec_v1/v4()
-In-Reply-To: <202504212142.V3yjAcaI-lkp@intel.com> (kernel test robot's
-	message of "Mon, 21 Apr 2025 21:17:56 +0800")
-References: <20250421091802.3234859-6-luis.gerhorst@fau.de>
-	<202504212142.V3yjAcaI-lkp@intel.com>
-User-Agent: mu4e 1.12.8; emacs 29.4
-Date: Mon, 21 Apr 2025 16:22:47 +0200
-Message-ID: <87r01lzj9k.fsf@fau.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3GFh0q0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745249020; x=1776785020;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vJPOq/jtYR3O8m4x/saV7Lfzl0TMxKs1hSTnn1MH0/Q=;
+  b=J3GFh0q0+Xo4hZsYg/Pw1Fe4W/+XqWPhK3DPCNA9FDuoITAhCe4WF+JG
+   WOTHmMZF5ovv2HAt7wTYr/sQRKJw/G/0sBEmYFUgfz9lj7+1Hx4FH+Swy
+   of9frH5qJXQNeqS+bpKH0Uo81WR5STSN1r3ekHhuEQaImrNRI1RtMeNP/
+   +zJ3blSmyhDp9TylZDhxjHI/4YaAN00+P97lF0oxU/3LCQpQi92kOI+9D
+   4cZXMWjAeA68cuOOvId7WoeY9kcLGJq2G+krR5mWdP+7/dMmkGHMiQCob
+   24sqbMqotbj5dfzXd3cQfbqVC1l9+tLPp7yKH9CeQjlepD4RdV7QuKlTM
+   A==;
+X-CSE-ConnectionGUID: ORqy7wydT4qrwEUYxafR7g==
+X-CSE-MsgGUID: cPHiQ7a9SQeNiy8tT5beHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="46018340"
+X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
+   d="scan'208";a="46018340"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 08:23:39 -0700
+X-CSE-ConnectionGUID: qYxPlAo5T1q0ooVmsIMlWQ==
+X-CSE-MsgGUID: Spq369kLR+qDitQqo2fORA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
+   d="scan'208";a="136707842"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 21 Apr 2025 08:23:35 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u6szd-0000Bh-0Y;
+	Mon, 21 Apr 2025 15:23:33 +0000
+Date: Mon, 21 Apr 2025 23:23:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nylon Chen <nylon.chen@sifive.com>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Nylon Chen <nylon.chen@sifive.com>, Zong Li <zong.li@sifive.com>
+Subject: Re: [PATCH v11 4/5] pwm: sifive: Fix rounding issues in apply and
+ get_state functions
+Message-ID: <202504212351.Aa9tPMsO-lkp@intel.com>
+References: <20250421095521.1500427-5-nylon.chen@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250421095521.1500427-5-nylon.chen@sifive.com>
 
-kernel test robot <lkp@intel.com> writes:
+Hi Nylon,
 
-> All warnings (new ones prefixed by >>):
->
->>> kernel/bpf/core.c:3037:13: warning: no previous prototype for 'bpf_jit_bypass_spec_v1' [-Wmissing-prototypes]
->     3037 | bool __weak bpf_jit_bypass_spec_v1(void)
->          |             ^~~~~~~~~~~~~~~~~~~~~~
->>> kernel/bpf/core.c:3042:13: warning: no previous prototype for 'bpf_jit_bypass_spec_v4' [-Wmissing-prototypes]
->     3042 | bool __weak bpf_jit_bypass_spec_v4(void)
->          |             ^~~~~~~~~~~~~~~~~~~~~~
+kernel test robot noticed the following build errors:
 
-That's because the prototypes in include/linux/bpf.h were in the #ifdef
-CONFIG_BPF_SYSCALL. I fixed this for v3 by moving the prototypes out of
-the ifdef.
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.15-rc3 next-20250417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nylon-Chen/riscv-dts-sifive-unleashed-unmatched-Remove-PWM-controlled-LED-s-active-low-properties/20250421-174716
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250421095521.1500427-5-nylon.chen%40sifive.com
+patch subject: [PATCH v11 4/5] pwm: sifive: Fix rounding issues in apply and get_state functions
+config: i386-buildonly-randconfig-003-20250421 (https://download.01.org/0day-ci/archive/20250421/202504212351.Aa9tPMsO-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504212351.Aa9tPMsO-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504212351.Aa9tPMsO-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ucs2_string.o
+>> ERROR: modpost: "__udivdi3" [drivers/pwm/pwm-sifive.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
