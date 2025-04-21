@@ -1,61 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F135262D0C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 11:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5F828F1;
+	Mon, 21 Apr 2025 12:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745235325; cv=none; b=AiHU2Ey/SvFBbUnH4qQTAN6OPCd6PBRkl/lTq/Wik///A5ztNOtCdA38ThR/tHHEnUROdCYlOBHg3Q/K709uRx/BpvIprNeyI3P+sLKZcYjhRJcAYpDJ8ndIM/kOijqnu0ZIGz75PmjxEt6IYkHI7AKtmmkH8VLqhcxeGbPUMqw=
+	t=1745238392; cv=none; b=j77BRonOy7V0Cp8+kTaCDk2TbeFvACSzTcOLMUQiLYKzEuTjt4wzxAElWN34SX3CN+q+BfurSzo0kwfNQDpkboXfmv0PwIFSyMgRSrFTUnSOEtHsa0G6cBo/zGAKgHjQUsE1oLLBkO2paZsg58xl3O9FsPKcRnjEbkTK+5ksNiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745235325; c=relaxed/simple;
-	bh=ljmAYPPkx2Z/0Ry7xQFt0AT8JS8QCQ4vTgJXlr/YmDM=;
+	s=arc-20240116; t=1745238392; c=relaxed/simple;
+	bh=VeykHOrzRl/NU33aBVnLmR9PAKtlL11sk1P3BYvuIR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dH1owQ0/nKKFF5JJCRMTCMyBAGk+6LQ8AEn0wQBCjEe6HlSrqOKv+5jvocz5L1p0cU+36Gq6NJxh630ApxQIN7CgWpQuxl9wIA7yU2JElZitfjzcGvkyxotANSE2JC5PH0mRfC/vw9xXhAFsAnXfBSPLjDTmWlhINQ2Tg4wNKGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oAXAYDFj; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=XkqXoBddrPjZSqyrfnF2EObEMsypd1OV0wkZsK+mC/oBLT5jcV3bM5xoDB5DiF85MBq16VsWqetZI8laOwcJ63LTOCWMxwq2Vbaez2mz4ftHQmjzqmkto+6RcIWwxXjbrZJAHJLDX7wvlyMToDJGvvauyB8ZA05G3mRAYGUvwUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UHaJFj8t; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oAXAYDFj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHaJFj8t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745235323; x=1776771323;
+  t=1745238391; x=1776774391;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ljmAYPPkx2Z/0Ry7xQFt0AT8JS8QCQ4vTgJXlr/YmDM=;
-  b=oAXAYDFjUq7Wu0dt3WRobjZ7cmnG5uKJPhyLqyJt9xtr7JwpbOhY9ImZ
-   KvHJFgXwPCmWVrEoUnmF7sbnBkKwert1YRpMDQ1DpFRf8EDlxcPAxLRJe
-   ykh4dbne8tbOJGH0AG+HyQJ6xjrHxSBokTv52RPJokW3uvdEga6cIaD/S
-   ieVINZWanm06t3J7qeznuUqL39FHZmmAC7oeMcCL83KsDac1t8zsFRaUp
-   k0uwdD+YlED27I+XyEFcIXM1t/rMpCo0qS0o8os6zR3QQXPoJsfruZIIQ
-   JGUZ3LUj0YzLdSCBC8mzdOZpxfQHlCiZzjHd24/xHgaVYDh4jZciG7RAg
-   g==;
-X-CSE-ConnectionGUID: X7WhXgJhT+SlzsIB6AuTkA==
-X-CSE-MsgGUID: Un7keqduRDS1mVkF87HVGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="46682019"
+  bh=VeykHOrzRl/NU33aBVnLmR9PAKtlL11sk1P3BYvuIR4=;
+  b=UHaJFj8tVshpW6eo4KD8E+E7UtkmQ8AajaXiUPH+w5/Yn/t6oFabT8Ut
+   8PtwY/Rsff2epkVkaq56oWaCDNoN8DKcsHFSg4DQKQoYo5UADPDxA1t23
+   w1ZyRbhkp71M+tx+1PtZpYtZqNh3uZPtMsvJ2hhjWY/nAEftek6/FUl1/
+   f+2wwZxij19zvDUZq8qz+NgGLCrAXVm1C1C8NBfAp3CbElYlDvRFp8dJ0
+   ThX80zozmUK8irnr1yDUNqGem1UTyqhl0HIGu0/Qt8W+ArpWflfcVM8ZM
+   +vc6qFiB5lZKQOOOYxZ/FXrstpT90MZuwM16WEOMsSXCrWuuCmVaTqvsM
+   A==;
+X-CSE-ConnectionGUID: UF2Cm6dFQ9GDGEAfzaNQLw==
+X-CSE-MsgGUID: YkZFdzanQ3GYvS7iXpzzWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="34387702"
 X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
-   d="scan'208";a="46682019"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 04:35:22 -0700
-X-CSE-ConnectionGUID: vgp6dRpzQSOLTFQdhju4Ug==
-X-CSE-MsgGUID: KFUs9x7jSiOyb0d4uiK6Uw==
+   d="scan'208";a="34387702"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 05:26:30 -0700
+X-CSE-ConnectionGUID: DM+66G8WS0aUAReB8yVmrw==
+X-CSE-MsgGUID: bDX798mTQZibSE18cF3M2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
-   d="scan'208";a="162656347"
+   d="scan'208";a="168907659"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Apr 2025 04:35:19 -0700
+  by orviesa001.jf.intel.com with ESMTP; 21 Apr 2025 05:26:23 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6pQj-00005n-0X;
-	Mon, 21 Apr 2025 11:35:17 +0000
-Date: Mon, 21 Apr 2025 19:34:23 +0800
+	id 1u6qE8-00006p-24;
+	Mon, 21 Apr 2025 12:26:20 +0000
+Date: Mon, 21 Apr 2025 20:26:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: xiaopeitux@foxmail.com, linux-kernel@vger.kernel.org,
-	f.fangjian@huawei.com, robh@kernel.org, john.g.garry@oracle.com,
-	andriy.shevchenko@linux.intel.com, xuwei5@hisilicon.com
-Cc: oe-kbuild-all@lists.linux.dev, Pei Xiao <xiaopei01@kylinos.cn>
-Subject: Re: [PATCH 1/2] bus: hisi_lpc: remove unused head file in hisi_lpc.c
-Message-ID: <202504211900.1fwfyPp3-lkp@intel.com>
-References: <tencent_8024B8D7E209E31C8E2B5AC411B70C551106@qq.com>
+To: Luis Gerhorst <luis.gerhorst@fau.de>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	Xu Kuohai <xukuohai@huaweicloud.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Hari Bathini <hbathini@linux.ibm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Henriette Herzog <henriette.herzog@rub.de>,
+	Saket Kumar Bhaskar <skb99@linux.ibm.com>,
+	Cupertino Miranda <cupertino.miranda@oracle.com>,
+	Jiayuan Chen <mrpre@163.com>, Matan Shachnai <m.shachnai@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH bpf-next v2 05/11] bpf, arm64, powerpc: Add
+ bpf_jit_bypass_spec_v1/v4()
+Message-ID: <202504212030.IF1SLhz6-lkp@intel.com>
+References: <20250421091802.3234859-6-luis.gerhorst@fau.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,172 +88,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_8024B8D7E209E31C8E2B5AC411B70C551106@qq.com>
+In-Reply-To: <20250421091802.3234859-6-luis.gerhorst@fau.de>
 
-Hi,
+Hi Luis,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on linus/master v6.15-rc2 next-20250417]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 8582d9ab3efdebb88e0cd8beed8e0b9de76443e7]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/xiaopeitux-foxmail-com/logic_pio-Add-detailed-comments-for-find_io_range-and-logic_pio_trans_cpuaddr/20250418-171121
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/tencent_8024B8D7E209E31C8E2B5AC411B70C551106%40qq.com
-patch subject: [PATCH 1/2] bus: hisi_lpc: remove unused head file in hisi_lpc.c
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250421/202504211900.1fwfyPp3-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504211900.1fwfyPp3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Gerhorst/selftests-bpf-Fix-caps-for-__xlated-jited_unpriv/20250421-175926
+base:   8582d9ab3efdebb88e0cd8beed8e0b9de76443e7
+patch link:    https://lore.kernel.org/r/20250421091802.3234859-6-luis.gerhorst%40fau.de
+patch subject: [PATCH bpf-next v2 05/11] bpf, arm64, powerpc: Add bpf_jit_bypass_spec_v1/v4()
+config: arm-randconfig-001-20250421 (https://download.01.org/0day-ci/archive/20250421/202504212030.IF1SLhz6-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504212030.IF1SLhz6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504211900.1fwfyPp3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504212030.IF1SLhz6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/bus/hisi_lpc.c: In function 'wait_lpc_idle':
->> drivers/bus/hisi_lpc.c:78:26: error: implicit declaration of function 'readl' [-Wimplicit-function-declaration]
-      78 |                 status = readl(mbase + LPC_REG_OP_STATUS);
-         |                          ^~~~~
-   drivers/bus/hisi_lpc.c: In function 'hisi_lpc_target_in':
->> drivers/bus/hisi_lpc.c:119:9: error: implicit declaration of function 'writel_relaxed' [-Wimplicit-function-declaration]
-     119 |         writel_relaxed(opcnt, lpcdev->membase + LPC_REG_OP_LEN);
-         |         ^~~~~~~~~~~~~~
->> drivers/bus/hisi_lpc.c:123:9: error: implicit declaration of function 'writel' [-Wimplicit-function-declaration]
-     123 |         writel(LPC_REG_STARTUP_SIGNAL_START,
-         |         ^~~~~~
->> drivers/bus/hisi_lpc.c:133:9: error: implicit declaration of function 'readsb' [-Wimplicit-function-declaration]
-     133 |         readsb(lpcdev->membase + LPC_REG_RDATA, buf, opcnt);
-         |         ^~~~~~
-   drivers/bus/hisi_lpc.c: In function 'hisi_lpc_target_out':
->> drivers/bus/hisi_lpc.c:176:9: error: implicit declaration of function 'writesb' [-Wimplicit-function-declaration]
-     176 |         writesb(lpcdev->membase + LPC_REG_WDATA, buf, opcnt);
-         |         ^~~~~~~
+>> kernel/bpf/core.c:3037:13: warning: no previous prototype for function 'bpf_jit_bypass_spec_v1' [-Wmissing-prototypes]
+    3037 | bool __weak bpf_jit_bypass_spec_v1(void)
+         |             ^
+   kernel/bpf/core.c:3037:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3037 | bool __weak bpf_jit_bypass_spec_v1(void)
+         | ^
+         | static 
+>> kernel/bpf/core.c:3042:13: warning: no previous prototype for function 'bpf_jit_bypass_spec_v4' [-Wmissing-prototypes]
+    3042 | bool __weak bpf_jit_bypass_spec_v4(void)
+         |             ^
+   kernel/bpf/core.c:3042:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3042 | bool __weak bpf_jit_bypass_spec_v4(void)
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +/readl +78 drivers/bus/hisi_lpc.c
+vim +/bpf_jit_bypass_spec_v1 +3037 kernel/bpf/core.c
 
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   72  
-663accf1872b22c John Garry      2019-11-05   73  static int wait_lpc_idle(void __iomem *mbase, unsigned int waitcnt)
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   74  {
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   75  	u32 status;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   76  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   77  	do {
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  @78  		status = readl(mbase + LPC_REG_OP_STATUS);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   79  		if (status & LPC_REG_OP_STATUS_IDLE)
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   80  			return (status & LPC_REG_OP_STATUS_FINISHED) ? 0 : -EIO;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   81  		ndelay(LPC_NSEC_PERWAIT);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   82  	} while (--waitcnt);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   83  
-5e3e70b8e1ae983 Andy Shevchenko 2022-09-05   84  	return -ETIMEDOUT;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   85  }
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   86  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   87  /*
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   88   * hisi_lpc_target_in - trigger a series of LPC cycles for read operation
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   89   * @lpcdev: pointer to hisi lpc device
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   90   * @para: some parameters used to control the lpc I/O operations
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   91   * @addr: the lpc I/O target port address
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   92   * @buf: where the read back data is stored
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   93   * @opcnt: how many I/O operations required, i.e. data width
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   94   *
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   95   * Returns 0 on success, non-zero on fail.
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   96   */
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   97  static int hisi_lpc_target_in(struct hisi_lpc_dev *lpcdev,
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   98  			      struct lpc_cycle_para *para, unsigned long addr,
-adf38bb0b5956ab Zhichang Yuan   2018-03-21   99  			      unsigned char *buf, unsigned long opcnt)
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  100  {
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  101  	unsigned int cmd_word;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  102  	unsigned int waitcnt;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  103  	unsigned long flags;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  104  	int ret;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  105  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  106  	if (!buf || !opcnt || !para || !para->csize || !lpcdev)
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  107  		return -EINVAL;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  108  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  109  	cmd_word = 0; /* IO mode, Read */
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  110  	waitcnt = LPC_PEROP_WAITCNT;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  111  	if (!(para->opflags & FG_INCRADDR_LPC)) {
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  112  		cmd_word |= LPC_REG_CMD_SAMEADDR;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  113  		waitcnt = LPC_MAX_WAITCNT;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  114  	}
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  115  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  116  	/* whole operation must be atomic */
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  117  	spin_lock_irqsave(&lpcdev->cycle_lock, flags);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  118  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21 @119  	writel_relaxed(opcnt, lpcdev->membase + LPC_REG_OP_LEN);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  120  	writel_relaxed(cmd_word, lpcdev->membase + LPC_REG_CMD);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  121  	writel_relaxed(addr, lpcdev->membase + LPC_REG_ADDR);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  122  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21 @123  	writel(LPC_REG_STARTUP_SIGNAL_START,
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  124  	       lpcdev->membase + LPC_REG_STARTUP_SIGNAL);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  125  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  126  	/* whether the operation is finished */
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  127  	ret = wait_lpc_idle(lpcdev->membase, waitcnt);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  128  	if (ret) {
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  129  		spin_unlock_irqrestore(&lpcdev->cycle_lock, flags);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  130  		return ret;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  131  	}
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  132  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21 @133  	readsb(lpcdev->membase + LPC_REG_RDATA, buf, opcnt);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  134  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  135  	spin_unlock_irqrestore(&lpcdev->cycle_lock, flags);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  136  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  137  	return 0;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  138  }
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  139  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  140  /*
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  141   * hisi_lpc_target_out - trigger a series of LPC cycles for write operation
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  142   * @lpcdev: pointer to hisi lpc device
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  143   * @para: some parameters used to control the lpc I/O operations
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  144   * @addr: the lpc I/O target port address
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  145   * @buf: where the data to be written is stored
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  146   * @opcnt: how many I/O operations required, i.e. data width
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  147   *
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  148   * Returns 0 on success, non-zero on fail.
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  149   */
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  150  static int hisi_lpc_target_out(struct hisi_lpc_dev *lpcdev,
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  151  			       struct lpc_cycle_para *para, unsigned long addr,
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  152  			       const unsigned char *buf, unsigned long opcnt)
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  153  {
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  154  	unsigned int waitcnt;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  155  	unsigned long flags;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  156  	u32 cmd_word;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  157  	int ret;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  158  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  159  	if (!buf || !opcnt || !para || !lpcdev)
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  160  		return -EINVAL;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  161  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  162  	/* default is increasing address */
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  163  	cmd_word = LPC_REG_CMD_OP; /* IO mode, write */
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  164  	waitcnt = LPC_PEROP_WAITCNT;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  165  	if (!(para->opflags & FG_INCRADDR_LPC)) {
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  166  		cmd_word |= LPC_REG_CMD_SAMEADDR;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  167  		waitcnt = LPC_MAX_WAITCNT;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  168  	}
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  169  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  170  	spin_lock_irqsave(&lpcdev->cycle_lock, flags);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  171  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  172  	writel_relaxed(opcnt, lpcdev->membase + LPC_REG_OP_LEN);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  173  	writel_relaxed(cmd_word, lpcdev->membase + LPC_REG_CMD);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  174  	writel_relaxed(addr, lpcdev->membase + LPC_REG_ADDR);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  175  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21 @176  	writesb(lpcdev->membase + LPC_REG_WDATA, buf, opcnt);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  177  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  178  	writel(LPC_REG_STARTUP_SIGNAL_START,
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  179  	       lpcdev->membase + LPC_REG_STARTUP_SIGNAL);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  180  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  181  	/* whether the operation is finished */
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  182  	ret = wait_lpc_idle(lpcdev->membase, waitcnt);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  183  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  184  	spin_unlock_irqrestore(&lpcdev->cycle_lock, flags);
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  185  
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  186  	return ret;
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  187  }
-adf38bb0b5956ab Zhichang Yuan   2018-03-21  188  
+  3031	
+  3032	/* By default, enable the verifier's mitigations against Spectre v1 and v4 for
+  3033	 * all archs. The value returned must not change at runtime as there is
+  3034	 * currently no support for reloading programs that were loaded without
+  3035	 * mitigations.
+  3036	 */
+> 3037	bool __weak bpf_jit_bypass_spec_v1(void)
+  3038	{
+  3039		return false;
+  3040	}
+  3041	
+> 3042	bool __weak bpf_jit_bypass_spec_v4(void)
+  3043	{
+  3044		return false;
+  3045	}
+  3046	
 
 -- 
 0-DAY CI Kernel Test Service
