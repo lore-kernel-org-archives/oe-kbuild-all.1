@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4831DF757;
-	Mon, 21 Apr 2025 17:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060651CAA79
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 17:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745256411; cv=none; b=IzjgxY5JJMmEypIj3Ntn7/HwH48ynKky24SNv76EurLJ9rCdmj0EzymF5bZFk2hSLqS4ZhcSYqi8CHahDKWCU+Mc8DWQ1j3chBP5timEeGk55J5ZDiI8mfPql9juQKekdL/Vu8vk1OT3peOUBmd7Uqbd+KyOQwW4c1ZJrKvaPUY=
+	t=1745257075; cv=none; b=qolAAlEaSD9gbVxySdNaib+jKT6PxA4c+v9L3S6j+KbrfxEupsbueWjHBo/Oxj2WKtFrZrdtjA/El4PQyoXJ4bKhOlsUkEcWXzx6EMT3Ur6hupaJIUOuBMvIFmX0NsoYKdZnmzVkopeWiRqctvxEoY6Pf4TnYFdeFG57fgdNpJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745256411; c=relaxed/simple;
-	bh=kTD948qUOewiqNdJKPUZq+DKcBYdSVmBcF46+D+WFKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pn7og76xOa8RitMz0yBh7A3KrfH46+EjYUTP7AiEFQ90uScQJ5EzD4kCC85Co1oNOgqrsLZyXCwSetKkFrA6+fgEfNYYmgGQT74pPnMvS8A3l5tXPZiGqMW8juJxmjjlAAl/eet08RoCuu1A3xEZlWEGKLKaAHYEKj57LPiZqT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJUu/dxt; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1745257075; c=relaxed/simple;
+	bh=hooNiE6G7aVzSxlQfny0qh3eg6eQAhLJzoFCEHR1JR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bpEqD9k/oTk5MLOPcHJyk6JnXJFxQ71AkMqmLkCy1lQlq5rnGY1xb9UqnGjYvvs7h8PZynSfn6Ltdr1ehAr0MMf56RXGFp5wfkHmq2LD+pmLJfQvBcuBuENX3mqciGDs2X+dBeg8+y0BmsVkUc6Utcy1CnFO7IkxX7QxvOBGyUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AhBtMure; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJUu/dxt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhBtMure"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745256410; x=1776792410;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kTD948qUOewiqNdJKPUZq+DKcBYdSVmBcF46+D+WFKU=;
-  b=kJUu/dxtQAfZvi9UDUKcKPZhovGqOT+ja7OK8aXRWHIQRoH7NjLCuM3d
-   hgVSHdVx8ml09/5Ae/038BQOgVYybY+l2y+Fz0p7UK0yYSPBZhEbhTcUX
-   Wo6QAR6+2vOxbk6Udwe90Vjhr6CkajVNsN0InQkuZJlFNO2QBQjXBMuch
-   XqlrTU4Gr3cfgAgZuIZM04/NVFfZ5RGLxirLhDNaz7s7jOXS5U657lCns
-   0F3/anOMeOEj5vKGjUr9pY7vqjsDYMNxR2dWhjy8cCydqxxXA81Zjh009
-   vmK1f26lsZYXDy/tRYmywZ0foLBT/GlRkaLHVi/rhbBQtdWeh9dblh26s
-   Q==;
-X-CSE-ConnectionGUID: vfb8zlSYSYubhAqLn+8YCA==
-X-CSE-MsgGUID: 3EJ2LQHoRliCddk65qZA5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="46708692"
+  t=1745257072; x=1776793072;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hooNiE6G7aVzSxlQfny0qh3eg6eQAhLJzoFCEHR1JR4=;
+  b=AhBtMureyYnaQp41mMZKQDVeEXKPgsLtujfVHUTtG335u6SH1XMXBn8d
+   IQdAYeOtLnWQzh8YK+kjAFri3eELId3CUtEpwd7O7753JuadpFB6RdN4K
+   Qe66GM9rTOEqPRuUXXKjP5QCgSsGjLjutn7IOrOC3Xyxd0q4FOpVEfZVS
+   7fOkXbFX2W1nLCE1PgzeeMnVBIx0DbI4USureQZt6kpn/CZ9AE9naKOaV
+   vGOGI9pvbrxPj5oCftebfmaxg6xUlo98GIWy7XiDqArwTjNvF6StCDiPe
+   svOgCV2jstU4Ci0tlmgvJrR4wZdb3F9j1KT3bOMryxCbbAeSz+d6bQBW4
+   w==;
+X-CSE-ConnectionGUID: TOwmlncCTWeSreRSAAxeSw==
+X-CSE-MsgGUID: Kuu2eRd3R7qRDn/vmCOIuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="45917066"
 X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
-   d="scan'208";a="46708692"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 10:26:49 -0700
-X-CSE-ConnectionGUID: OcFjVfVIRnqvI6P9i3yZvg==
-X-CSE-MsgGUID: QSdFfHk0T8umL0pY6bW6jQ==
+   d="scan'208";a="45917066"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 10:37:51 -0700
+X-CSE-ConnectionGUID: vNevb/ajSuu3HXlb4a8tyg==
+X-CSE-MsgGUID: cp6oC69sSYe/C/r9kCaF1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,228,1739865600"; 
-   d="scan'208";a="136733766"
+   d="scan'208";a="136876064"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 21 Apr 2025 10:26:48 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 Apr 2025 10:37:48 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6uuq-0000Gp-2T;
-	Mon, 21 Apr 2025 17:26:44 +0000
-Date: Tue, 22 Apr 2025 01:26:24 +0800
+	id 1u6v5W-0000HV-0d;
+	Mon, 21 Apr 2025 17:37:46 +0000
+Date: Tue, 22 Apr 2025 01:37:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:hack/ppi 9/24] drivers/perf/arm_spe_pmu.c:1225:6:
- warning: variable 'ret' is uninitialized when used here
-Message-ID: <202504220122.xk8VGIkc-lkp@intel.com>
+To: Eric Sandeen <sandeen@redhat.com>,
+	linux-f2fs-devel@lists.sourceforge.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	jaegeuk@kernel.org, chao@kernel.org, lihongbo22@huawei.com,
+	Eric Sandeen <sandeen@redhat.com>
+Subject: Re: [PATCH 5/7] f2fs: separate the options parsing and options
+ checking
+Message-ID: <202504220139.19wajgtO-lkp@intel.com>
+References: <20250420154647.1233033-6-sandeen@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +66,188 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250420154647.1233033-6-sandeen@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git hack/ppi
-head:   2017a5b657d38d470385b73ae1704eefe13bf2a5
-commit: c4dc9ff02fe9b78fb6f5cead8defbb4e6d3b632c [9/24] perf: arm_spe_pmu: Convert to new IRQ affinity retrieval API
-config: arm64-randconfig-002-20250422 (https://download.01.org/0day-ci/archive/20250422/202504220122.xk8VGIkc-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504220122.xk8VGIkc-lkp@intel.com/reproduce)
+Hi Eric,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.15-rc3]
+[also build test ERROR on linus/master]
+[cannot apply to jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev next-20250417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Sandeen/f2fs-Add-fs-parameter-specifications-for-mount-options/20250421-220156
+base:   v6.15-rc3
+patch link:    https://lore.kernel.org/r/20250420154647.1233033-6-sandeen%40redhat.com
+patch subject: [PATCH 5/7] f2fs: separate the options parsing and options checking
+config: i386-buildonly-randconfig-005-20250421 (https://download.01.org/0day-ci/archive/20250422/202504220139.19wajgtO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504220139.19wajgtO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504220122.xk8VGIkc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504220139.19wajgtO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/perf/arm_spe_pmu.c:1225:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-    1225 |         if (ret) {
-         |             ^~~
-   drivers/perf/arm_spe_pmu.c:1211:9: note: initialize the variable 'ret' to silence this warning
-    1211 |         int ret, irq;
-         |                ^
-         |                 = 0
-   1 warning generated.
+   In file included from include/linux/printk.h:7,
+                    from include/linux/kernel.h:31,
+                    from include/linux/cpumask.h:11,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/tsc.h:10,
+                    from arch/x86/include/asm/timex.h:6,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from fs/f2fs/super.c:8:
+   fs/f2fs/super.c: In function 'handle_mount_opt':
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   fs/f2fs/f2fs.h:1871:33: note: in expansion of macro 'KERN_ERR'
+    1871 |         f2fs_printk(sbi, false, KERN_ERR fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~
+   fs/f2fs/super.c:763:25: note: in expansion of macro 'f2fs_err'
+     763 |                         f2fs_err(NULL, "inline xattr size is out of range: %lu ~ %lu",
+         |                         ^~~~~~~~
+   fs/f2fs/super.c: In function 'f2fs_check_quota_consistency':
+>> fs/f2fs/super.c:1285:27: error: 'sbi' undeclared (first use in this function); did you mean 'sb'?
+    1285 |         if (f2fs_readonly(sbi->sb))
+         |                           ^~~
+         |                           sb
+   fs/f2fs/super.c:1285:27: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/ret +1225 drivers/perf/arm_spe_pmu.c
+vim +1285 fs/f2fs/super.c
 
-  1205	
-  1206	/* Driver and device probing */
-  1207	static int arm_spe_pmu_irq_probe(struct arm_spe_pmu *spe_pmu)
-  1208	{
-  1209		struct platform_device *pdev = spe_pmu->pdev;
-  1210		const struct cpumask *affinity;
-  1211		int ret, irq;
-  1212	
-  1213		irq = platform_get_irq_affinity(pdev, 0, &affinity);
-  1214		if (irq < 0)
-  1215			return -ENXIO;
-  1216	
-  1217		if (!irq_is_percpu(irq)) {
-  1218			dev_err(&pdev->dev, "expected PPI but got SPI (%d)\n", irq);
-  1219			return -EINVAL;
-  1220		}
-  1221	
-  1222		if (!affinity)
-  1223			affinity = cpu_possible_mask;
-  1224	
-> 1225		if (ret) {
-  1226			dev_err(&pdev->dev, "failed to get PPI partition (%d)\n", irq);
-  1227			return -EINVAL;
-  1228		}
-  1229	
-  1230		cpumask_copy(&spe_pmu->supported_cpus, affinity);
-  1231	
-  1232		spe_pmu->irq = irq;
-  1233		return 0;
-  1234	}
-  1235	
+  1182	
+  1183	/*
+  1184	 * Check quota settings consistency.
+  1185	 */
+  1186	static int f2fs_check_quota_consistency(struct fs_context *fc,
+  1187						struct super_block *sb)
+  1188	{
+  1189	 #ifdef CONFIG_QUOTA
+  1190		struct f2fs_fs_context *ctx = fc->fs_private;
+  1191		struct f2fs_sb_info *sbi = F2FS_SB(sb);
+  1192		bool quota_feature = f2fs_sb_has_quota_ino(sbi);
+  1193		bool quota_turnon = sb_any_quota_loaded(sb);
+  1194		char *old_qname, *new_qname;
+  1195		bool usr_qf_name, grp_qf_name, prj_qf_name, usrquota, grpquota, prjquota;
+  1196		int i;
+  1197	
+  1198		/*
+  1199		 * We do the test below only for project quotas. 'usrquota' and
+  1200		 * 'grpquota' mount options are allowed even without quota feature
+  1201		 * to support legacy quotas in quota files.
+  1202		 */
+  1203		if (ctx_test_opt(ctx, F2FS_MOUNT_PRJQUOTA) &&
+  1204				!f2fs_sb_has_project_quota(sbi)) {
+  1205			f2fs_err(sbi, "Project quota feature not enabled. Cannot enable project quota enforcement.");
+  1206			return -EINVAL;
+  1207		}
+  1208	
+  1209		if (ctx->qname_mask) {
+  1210			for (i = 0; i < MAXQUOTAS; i++) {
+  1211				if (!(ctx->qname_mask & (1 << i)))
+  1212					continue;
+  1213	
+  1214				old_qname = F2FS_OPTION(sbi).s_qf_names[i];
+  1215				new_qname = F2FS_CTX_INFO(ctx).s_qf_names[i];
+  1216				if (quota_turnon &&
+  1217					!!old_qname != !!new_qname)
+  1218					goto err_jquota_change;
+  1219	
+  1220				if (old_qname) {
+  1221					if (strcmp(old_qname, new_qname) == 0) {
+  1222						ctx->qname_mask &= ~(1 << i);
+  1223						continue;
+  1224					}
+  1225					goto err_jquota_specified;
+  1226				}
+  1227	
+  1228				if (quota_feature) {
+  1229					f2fs_info(sbi, "QUOTA feature is enabled, so ignore qf_name");
+  1230					ctx->qname_mask &= ~(1 << i);
+  1231					kfree(F2FS_CTX_INFO(ctx).s_qf_names[i]);
+  1232					F2FS_CTX_INFO(ctx).s_qf_names[i] = NULL;
+  1233				}
+  1234			}
+  1235		}
+  1236	
+  1237		/* Make sure we don't mix old and new quota format */
+  1238		usr_qf_name = F2FS_OPTION(sbi).s_qf_names[USRQUOTA] ||
+  1239				F2FS_CTX_INFO(ctx).s_qf_names[USRQUOTA];
+  1240		grp_qf_name = F2FS_OPTION(sbi).s_qf_names[GRPQUOTA] ||
+  1241				F2FS_CTX_INFO(ctx).s_qf_names[GRPQUOTA];
+  1242		prj_qf_name = F2FS_OPTION(sbi).s_qf_names[PRJQUOTA] ||
+  1243				F2FS_CTX_INFO(ctx).s_qf_names[PRJQUOTA];
+  1244		usrquota = test_opt(sbi, USRQUOTA) ||
+  1245				ctx_test_opt(ctx, F2FS_MOUNT_USRQUOTA);
+  1246		grpquota = test_opt(sbi, GRPQUOTA) ||
+  1247				ctx_test_opt(ctx, F2FS_MOUNT_GRPQUOTA);
+  1248		prjquota = test_opt(sbi, PRJQUOTA) ||
+  1249				ctx_test_opt(ctx, F2FS_MOUNT_PRJQUOTA);
+  1250	
+  1251		if (usr_qf_name) {
+  1252			ctx_clear_opt(ctx, F2FS_MOUNT_USRQUOTA);
+  1253			usrquota = false;
+  1254		}
+  1255		if (grp_qf_name) {
+  1256			ctx_clear_opt(ctx, F2FS_MOUNT_GRPQUOTA);
+  1257			grpquota = false;
+  1258		}
+  1259		if (prj_qf_name) {
+  1260			ctx_clear_opt(ctx, F2FS_MOUNT_PRJQUOTA);
+  1261			prjquota = false;
+  1262		}
+  1263		if (usr_qf_name || grp_qf_name || prj_qf_name) {
+  1264			if (grpquota || usrquota || prjquota) {
+  1265				f2fs_err(sbi, "old and new quota format mixing");
+  1266				return -EINVAL;
+  1267			}
+  1268			if (!(ctx->spec_mask & F2FS_SPEC_jqfmt ||
+  1269					F2FS_OPTION(sbi).s_jquota_fmt)) {
+  1270				f2fs_err(sbi, "journaled quota format not specified");
+  1271				return -EINVAL;
+  1272			}
+  1273		}
+  1274		return 0;
+  1275	
+  1276	err_jquota_change:
+  1277		f2fs_err(sbi, "Cannot change journaled quota options when quota turned on");
+  1278		return -EINVAL;
+  1279	err_jquota_specified:
+  1280		f2fs_err(sbi, "%s quota file already specified",
+  1281			 QTYPE2NAME(i));
+  1282		return -EINVAL;
+  1283	
+  1284	#else
+> 1285		if (f2fs_readonly(sbi->sb))
+  1286			return 0;
+  1287		if (f2fs_sb_has_quota_ino(sbi)) {
+  1288			f2fs_info(sbi, "Filesystem with quota feature cannot be mounted RDWR without CONFIG_QUOTA");
+  1289			return -EINVAL;
+  1290		}
+  1291		if (f2fs_sb_has_project_quota(sbi)) {
+  1292			f2fs_err(sbi, "Filesystem with project quota feature cannot be mounted RDWR without CONFIG_QUOTA");
+  1293			return -EINVAL;
+  1294		}
+  1295	
+  1296		return 0;
+  1297	#endif
+  1298	}
+  1299	
 
 -- 
 0-DAY CI Kernel Test Service
