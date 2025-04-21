@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ABE1DF246
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 05:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D686717E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 06:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745212335; cv=none; b=FBst4dmmGwtQO7sgbup2Zjr35D37g8tgNz/Pe5Taui6Xc2RnzV7b8Q/XBjQFI8NGLuPZZf7MaGHf8ceWkhhJ0OYkPEd/Q6Y1Qwfd2AwSf6qpnbtQdb/OxgrL0/dS6nUKVvfENIei5kmFzwUUqF8i9PvzPyIQggyZRD06bYJKu4U=
+	t=1745215639; cv=none; b=WhwyNIZo3aVfos2k7XotmkrWfGUQXRSoYDDtZEuJpvc3smq6cREAgEe+iI6OQ47yXWZycEjIi9dXb1XR6ntQRz038JKXkEdDCDkq/qL3rFSItUx5ns10UlPoek8hr3rRlaEVUQmWfgNArTVKL0fYD4uHG/S8a0yNcV5ImVLxQsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745212335; c=relaxed/simple;
-	bh=9oGPQcbcQByEIGZqc9fITkSZ0hQh9GAWw2wmrZT88gY=;
+	s=arc-20240116; t=1745215639; c=relaxed/simple;
+	bh=4A7w5MEl2IiAFTYv0/2hv0BbnfIX/S6t4QWDdgdmCWQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EtUsZbTHwsbqR4aZiJ4PsxGDyEKRyuxlaXjSWryQYZGmcF+TZZVGZS/3R9OL0S/uzdvNwpwJk5GycSBBDzMzkXZ/RzkWdVq/xJ9n6QIqZZlzXm0SrvrrpZWFsdPzgdTTeDYsDrfNipGwKIShLOkRu9bBJ01BOtNhhEv1cG/YUnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N5Onyert; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=mh4CMHAS8jlu35nET0VmJzBnfxg+YWt8y3iDgrsr1Uh72Xhciyh13Wbgnf6/QRMkqLJ1CqkC7Wo2hpSRWpL7CJryf5PdTGOTRR5ZT8Xf6RjNGae4sIwykUaa/KuQDmqCFwlIyMjPiIGoy3svfhmLas5n0ln40PzFJMC0uO9GCCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zg69PSnn; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N5Onyert"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zg69PSnn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745212333; x=1776748333;
+  t=1745215638; x=1776751638;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9oGPQcbcQByEIGZqc9fITkSZ0hQh9GAWw2wmrZT88gY=;
-  b=N5OnyertF0rLh5iR8erNkbiK2NKZpcU1ImnG3H57FKUaU6Azk0w815Pd
-   HmQzqrVJhgvQgJKwNB1xrCzzBG8SXrcrKQAlIuapUMk6afy693x06pJVh
-   NznDKdGTgXa9reuTDVijtce5Ln7UWWRyp9OpvDE+Hxjf7GIZrFAQZXY0P
-   eegGNkD/dmHlrCsyHtCIVz+up2M83DwuwCmVzOhHzCPY4beuieW5K09DL
-   5dOgxLy+o2xw+cm9W3I2FUSyPh0JghXBXGavquRxblTp/2+80p5HmGz0J
-   1BzsCn+u325cP+wme0KbRT7t/XjRc95Qzq0DgX3wz4NedBmZ8TOqPe/jN
+  bh=4A7w5MEl2IiAFTYv0/2hv0BbnfIX/S6t4QWDdgdmCWQ=;
+  b=Zg69PSnnEZY16ulfkJYXSHqjx2zicxGet+kjpo+cfnrVHXDs6lTGMFX8
+   oMQqSl3/8PSQPNXPSQFtC3mZs4314wQrf298tgUzhpacfR+33zIJfVrsB
+   nhLIx3r9yFMA4ClAY+Osxy9H00kd+Sp34DYG9gT6hZ/PZacZaSG0ug7PV
+   17VHCYwLGo0mMUdMaTFhX7QguoV+5T+c+c1YPmQsr1Hf2P5GYHojMnk7W
+   +0OcHodomW9bG/jh8lJNbv7ba8u8PZa49Cy9ndw+f2Mpb0pYaqNgY69KE
+   tuJyOn+F/7u84PoEQmcdhPMijYRJ5+gHHCN+WcCwVDABks8DZ7jBsaD/o
    g==;
-X-CSE-ConnectionGUID: t4k/VC2BRM6WuYT9CSCKZA==
-X-CSE-MsgGUID: wz841EPDS7iFePOSzFMYOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="46631888"
+X-CSE-ConnectionGUID: UeSbGApUQRS7o6aCf36YjQ==
+X-CSE-MsgGUID: gcpx0u/rQye/mNNz0Mei4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="46913986"
 X-IronPort-AV: E=Sophos;i="6.15,227,1739865600"; 
-   d="scan'208";a="46631888"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 22:12:13 -0700
-X-CSE-ConnectionGUID: 3IqXLe3BSbqBDsypC39zDA==
-X-CSE-MsgGUID: jQGIZU7GSmaCrHJi++jvvQ==
+   d="scan'208";a="46913986"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 23:07:17 -0700
+X-CSE-ConnectionGUID: YsdG6zmSS6WjtkSpiuXlwg==
+X-CSE-MsgGUID: YCyRiKxdSfOs5Ez/Thb18Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,227,1739865600"; 
-   d="scan'208";a="136483745"
+   d="scan'208";a="135722978"
 Received: from lkp-server01.sh.intel.com (HELO 9c2f37e2d822) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Apr 2025 22:12:12 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 Apr 2025 23:07:16 -0700
 Received: from kbuild by 9c2f37e2d822 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6jRx-00009L-0s;
-	Mon, 21 Apr 2025 05:12:09 +0000
-Date: Mon, 21 Apr 2025 13:11:18 +0800
+	id 1u6kJF-0000BR-22;
+	Mon, 21 Apr 2025 06:07:13 +0000
+Date: Mon, 21 Apr 2025 14:06:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2139/2139] drivers/cpufreq/cppc_cpufreq.c:852:19:
- error: dereferencing pointer to incomplete type 'struct fb_ctr_pair'
-Message-ID: <202504211352.ik4vkTIa-lkp@intel.com>
+To: Yuli Wang <wangyuli@uniontech.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Wentao Guan <guanwentao@uniontech.com>
+Subject: lib/dhry_1.o: warning: objtool: dhry+0xc60: stack state mismatch:
+ reg1[22]=-1+0 reg2[22]=-2-16
+Message-ID: <202504211328.qS7Z79wK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +64,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   bf197758b04f43e61ebab66520f1420c1b64853c
-commit: 12f136b2134d4ded731c3ef23ac08c85b9c0b1fa [2139/2139] cpufreq: CPPC: Keep the target core awake when reading its cpufreq rate
-config: arm64-randconfig-002-20250421 (https://download.01.org/0day-ci/archive/20250421/202504211352.ik4vkTIa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504211352.ik4vkTIa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d7a0577c9db35c4cc52db90bc415ea248446472
+commit: 892a79634196d2729b81bb8e5b029d095704df63 LoongArch: Enable UBSAN (Undefined Behavior Sanitizer)
+date:   3 weeks ago
+config: loongarch-randconfig-r063-20250421 (https://download.01.org/0day-ci/archive/20250421/202504211328.qS7Z79wK-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504211328.qS7Z79wK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504211352.ik4vkTIa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504211328.qS7Z79wK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/cpufreq/cppc_cpufreq.c: In function 'cppc_get_perf_ctrs_pair':
->> drivers/cpufreq/cppc_cpufreq.c:852:19: error: dereferencing pointer to incomplete type 'struct fb_ctr_pair'
-     int cpu = fb_ctrs->cpu;
-                      ^~
-   drivers/cpufreq/cppc_cpufreq.c: In function 'cppc_cpufreq_get_rate':
-   drivers/cpufreq/cppc_cpufreq.c:866:9: error: variable 'fb_ctrs' has initializer but incomplete type
-     struct fb_ctr_pair fb_ctrs = { .cpu = cpu, };
-            ^~~~~~~~~~~
-   drivers/cpufreq/cppc_cpufreq.c:866:34: error: 'struct fb_ctr_pair' has no member named 'cpu'
-     struct fb_ctr_pair fb_ctrs = { .cpu = cpu, };
-                                     ^~~
-   drivers/cpufreq/cppc_cpufreq.c:866:40: warning: excess elements in struct initializer
-     struct fb_ctr_pair fb_ctrs = { .cpu = cpu, };
-                                           ^~~
-   drivers/cpufreq/cppc_cpufreq.c:866:40: note: (near initialization for 'fb_ctrs')
-   drivers/cpufreq/cppc_cpufreq.c:866:21: error: storage size of 'fb_ctrs' isn't known
-     struct fb_ctr_pair fb_ctrs = { .cpu = cpu, };
-                        ^~~~~~~
-   drivers/cpufreq/cppc_cpufreq.c:866:21: warning: unused variable 'fb_ctrs' [-Wunused-variable]
-
-
-vim +852 drivers/cpufreq/cppc_cpufreq.c
-
-   848	
-   849	static int cppc_get_perf_ctrs_pair(void *val)
-   850	{
-   851		struct fb_ctr_pair *fb_ctrs = val;
- > 852		int cpu = fb_ctrs->cpu;
-   853		int ret;
-   854	
-   855		ret = cppc_get_perf_ctrs(cpu, &fb_ctrs->fb_ctrs_t0);
-   856		if (ret)
-   857			return ret;
-   858	
-   859		udelay(2); /* 2usec delay between sampling */
-   860	
-   861		return cppc_get_perf_ctrs(cpu, &fb_ctrs->fb_ctrs_t1);
-   862	}
-   863	
+>> lib/dhry_1.o: warning: objtool: dhry+0xc60: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
 
 -- 
 0-DAY CI Kernel Test Service
