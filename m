@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A3C2F37
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 19:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EC3219A68
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Apr 2025 22:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745264522; cv=none; b=r1FEBXQSWSB45SZITSALNxRy3VYVJp0s3nGRhx/kC/JsQwrq4srMoARdiQI6NOPWqEVGUwHdxyWGudv6lMQ//nmv2Ba72wKEI7jS4yUNbJ/Kkghi7yJTL7DALrTJbdmYlYZwxv59wJLIIAU4coxnqRgW7gYYlhyvP44vfUKHoHo=
+	t=1745276118; cv=none; b=QG8204f7/maVrFXGrC4UMFG2n6U6lR3kxuiLQQGtq4j1yVKmxg+9V6YB4c4raNkG3giypT4uJgDFTe/lIXY5C1h9RYNCQ7W0KKoz0fzVDVFptJOZHuToq2ddkLDx+oa48xeiKNiC5mX6w7zAQEvy3lX9qKTcvxXbh0T7XbjRn1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745264522; c=relaxed/simple;
-	bh=G9iW/i6JuTz3WeSZ2ldGXmi8HQkmlVGnkdk8NixhnVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GagyVMQGhQbaanKgzIf+UQsxsLgmd/PtIEB0lrw4hXe3xmrrVr+qmxZfR6tZcxiiE8ACQqOWQSzQBMHDz97+mgOuih7aHdlwzGa9lvQ5cg10WjlxPf3QU0KyEqWL8DIO2WUXDloMmCr8foXs3U6caVInvtDgx+gVVvktadMEu90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RV1G+M67; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1745276118; c=relaxed/simple;
+	bh=s5oZK0gfoIAVjON8cLIhJa2prik/K/P5WJB1RT8FINM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r2ycyt6VWyL1ztToyzD5tHLDvv6AyTgFPbdZrvc6YAjxRCDZOm9IlQC8WOS4cITyWOhsAf/i3NyvGWbwDCcp9hOXJ/J1D5E58TZm5ENky665FHVNnimJd8huSebYy9CoZculbzn6DM78Tm7GsVVVrMSppbh3U5VitDv4DfjKbd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ioejktiL; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RV1G+M67"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ioejktiL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745264521; x=1776800521;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G9iW/i6JuTz3WeSZ2ldGXmi8HQkmlVGnkdk8NixhnVg=;
-  b=RV1G+M67jBmrZAkxcDO7ddYepPCgBzByKZDNbqyFcCUtzK0WMGgu4Xn8
-   iYHYP/Np/lebixZAqLGoowFQUDcx4Zxu0taIA9DuMOktsHeWbE8AqiAmn
-   iIzVnnqOeVx/GaPU7/0LQVp4ne3+dPlr58j23dMm2aCB/or0LkS94JIYM
-   rZNzIe2Ks0EFFWe6FlXoENjfqTwbCNT8HCY/ckjz4FPMAdhVEdKZKoBCL
-   sTo45cdNO4guAEyIBLItui2BugfJcEmr24EkbylsNL60FxgL5X7SIwu7Y
-   Y9cdl57EBgWXsz9RTa6NTnpEEMd3tL6ftvI6oE53cQayRd1AB0f5SQLpZ
-   A==;
-X-CSE-ConnectionGUID: BMzTgfmwQbmj9/poEmc54w==
-X-CSE-MsgGUID: LDP7I+q9Rkiyl4fMga+A/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="46039092"
+  t=1745276116; x=1776812116;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s5oZK0gfoIAVjON8cLIhJa2prik/K/P5WJB1RT8FINM=;
+  b=ioejktiLdMA/ZNuS8f8/ISQfXIvWBVoL7zsKZdFjACAyFNU7t37QVg+H
+   FOBqlPfoQqMSCQjCniYNlwd5ZrOmdo/H3NComtfOZ9Q/rlku31cT2rNI9
+   +qYXb+R/8u6gwfGp17WxwD+jXZi5aDRb9U+j2tG/6AC4fWT6t1gr74aIb
+   rkKVM7TOOc75kkONn9d2R++lBy/H6z9tGKCnOg0mniJSEobGWEbmIHBUt
+   6ezUgNDxudEIGAOdhhwvxBkNEHatW7kO61hyXuPOdAYsk6HVfZo+vkLL8
+   OhcWuXb+NUrqI2ZKBhH0vIKENixbv/lsWn9BhwulddWLlc4/JV3Wh2WBX
+   Q==;
+X-CSE-ConnectionGUID: aNKtAjTzRI6HhbHV5kCTug==
+X-CSE-MsgGUID: /mujJlYERlSt9kZWYTmUUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="50619490"
 X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; 
-   d="scan'208";a="46039092"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 12:41:59 -0700
-X-CSE-ConnectionGUID: nyVoqCthRXOACtLKTzL22Q==
-X-CSE-MsgGUID: bBX/lxvGQ9+J5ejYyrfFSA==
+   d="scan'208";a="50619490"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 15:55:16 -0700
+X-CSE-ConnectionGUID: daTb5FEJQHSq3O2/3Pi99w==
+X-CSE-MsgGUID: cfVtVDAySNeEC1d8dcCOUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; 
-   d="scan'208";a="154984212"
+   d="scan'208";a="132797438"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Apr 2025 12:41:58 -0700
+  by orviesa008.jf.intel.com with ESMTP; 21 Apr 2025 15:55:14 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6x1g-0000Lz-0w;
-	Mon, 21 Apr 2025 19:41:56 +0000
-Date: Tue, 22 Apr 2025 03:41:13 +0800
+	id 1u702h-0000S3-1B;
+	Mon, 21 Apr 2025 22:55:11 +0000
+Date: Tue, 22 Apr 2025 06:54:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Yu <yu.c.chen@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/5] sched: Cache aware load-balancing
-Message-ID: <202504220301.VyLmHJcf-lkp@intel.com>
-References: <391c48836585786ed32d66df9534366459684383.1745199017.git.yu.c.chen@intel.com>
+To: Guillaume Ranquet <granquet@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: drivers/iio/adc/ad7173.c:915:8: error: implicit declaration of
+ function 'ad7173_calibrate_all'; did you mean 'ad_sd_calibrate_all'?
+Message-ID: <202504220605.Y55UtCP1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,162 +62,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <391c48836585786ed32d66df9534366459684383.1745199017.git.yu.c.chen@intel.com>
 
-Hi Chen,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on akpm-mm/mm-everything peterz-queue/sched/core linus/master v6.15-rc3 next-20250417]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu/sched-Cache-aware-load-balancing/20250421-113804
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/391c48836585786ed32d66df9534366459684383.1745199017.git.yu.c.chen%40intel.com
-patch subject: [RFC PATCH 1/5] sched: Cache aware load-balancing
-config: alpha-randconfig-r121-20250421 (https://download.01.org/0day-ci/archive/20250422/202504220301.VyLmHJcf-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250422/202504220301.VyLmHJcf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d7a0577c9db35c4cc52db90bc415ea248446472
+commit: 031bdc8aee01b7b298159eee541844d8bff4467d iio: adc: ad7173: add calibration support
+date:   4 months ago
+config: sh-randconfig-r051-20250422 (https://download.01.org/0day-ci/archive/20250422/202504220605.Y55UtCP1-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504220605.Y55UtCP1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504220301.VyLmHJcf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504220605.Y55UtCP1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/sched/fair.c: In function '__update_mm_sched':
->> kernel/sched/fair.c:1217:34: warning: division by zero [-Wdiv-by-zero]
-      n = (delta + EPOCH_PERIOD - 1) / EPOCH_PERIOD;
-                                     ^
-   In file included from include/asm-generic/percpu.h:7,
-                    from arch/alpha/include/asm/percpu.h:17,
-                    from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/sched.h:2217,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/energy_model.h:5,
-                    from kernel/sched/fair.c:23:
-   kernel/sched/fair.c: In function 'task_cache_work':
-   kernel/sched/fair.c:1321:38: error: 'sd_llc' undeclared (first use in this function); did you mean 'd_alloc'?
-       struct sched_domain *sd = per_cpu(sd_llc, cpu);
-                                         ^~~~~~
-   include/linux/percpu-defs.h:220:47: note: in definition of macro '__verify_pcpu_ptr'
-     const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL; \
-                                                  ^~~
-   include/linux/percpu-defs.h:272:29: note: in expansion of macro 'per_cpu_ptr'
-    #define per_cpu(var, cpu) (*per_cpu_ptr(&(var), cpu))
-                                ^~~~~~~~~~~
-   kernel/sched/fair.c:1321:30: note: in expansion of macro 'per_cpu'
-       struct sched_domain *sd = per_cpu(sd_llc, cpu);
-                                 ^~~~~~~
-   kernel/sched/fair.c:1321:38: note: each undeclared identifier is reported only once for each function it appears in
-       struct sched_domain *sd = per_cpu(sd_llc, cpu);
-                                         ^~~~~~
-   include/linux/percpu-defs.h:220:47: note: in definition of macro '__verify_pcpu_ptr'
-     const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL; \
-                                                  ^~~
-   include/linux/percpu-defs.h:272:29: note: in expansion of macro 'per_cpu_ptr'
-    #define per_cpu(var, cpu) (*per_cpu_ptr(&(var), cpu))
-                                ^~~~~~~~~~~
-   kernel/sched/fair.c:1321:30: note: in expansion of macro 'per_cpu'
-       struct sched_domain *sd = per_cpu(sd_llc, cpu);
-                                 ^~~~~~~
-   In file included from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/energy_model.h:4,
-                    from kernel/sched/fair.c:23:
-   kernel/sched/fair.c:1325:20: error: implicit declaration of function 'sched_domain_span'; did you mean 'perf_domain_span'? [-Werror=implicit-function-declaration]
-       for_each_cpu(i, sched_domain_span(sd)) {
-                       ^~~~~~~~~~~~~~~~~
-   include/linux/find.h:586:41: note: in definition of macro 'for_each_set_bit'
-     for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-                                            ^~~~
-   include/linux/cpumask.h:333:24: note: in expansion of macro 'cpumask_bits'
-     for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-                           ^~~~~~~~~~~~
-   kernel/sched/fair.c:1325:4: note: in expansion of macro 'for_each_cpu'
-       for_each_cpu(i, sched_domain_span(sd)) {
-       ^~~~~~~~~~~~
-   include/linux/cpumask_types.h:18:37: error: invalid type argument of '->' (have 'int')
-    #define cpumask_bits(maskp) ((maskp)->bits)
-                                        ^~
-   include/linux/find.h:586:41: note: in definition of macro 'for_each_set_bit'
-     for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-                                            ^~~~
-   include/linux/cpumask.h:333:24: note: in expansion of macro 'cpumask_bits'
-     for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-                           ^~~~~~~~~~~~
-   kernel/sched/fair.c:1325:4: note: in expansion of macro 'for_each_cpu'
-       for_each_cpu(i, sched_domain_span(sd)) {
-       ^~~~~~~~~~~~
-   include/linux/find.h:586:62: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-                                                                 ^
-   include/linux/cpumask.h:333:2: note: in expansion of macro 'for_each_set_bit'
-     for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-     ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:1325:4: note: in expansion of macro 'for_each_cpu'
-       for_each_cpu(i, sched_domain_span(sd)) {
-       ^~~~~~~~~~~~
-   In file included from include/asm-generic/percpu.h:7,
-                    from arch/alpha/include/asm/percpu.h:17,
-                    from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/sched.h:2217,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/energy_model.h:5,
-                    from kernel/sched/fair.c:23:
-   kernel/sched/fair.c:1335:19: error: 'sd_llc_id' undeclared (first use in this function)
-              per_cpu(sd_llc_id, i), occ, m_occ, m_cpu, nr);
-                      ^~~~~~~~~
-   include/linux/percpu-defs.h:220:47: note: in definition of macro '__verify_pcpu_ptr'
-     const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL; \
-                                                  ^~~
-   include/linux/percpu-defs.h:272:29: note: in expansion of macro 'per_cpu_ptr'
-    #define per_cpu(var, cpu) (*per_cpu_ptr(&(var), cpu))
-                                ^~~~~~~~~~~
-   kernel/sched/fair.c:1335:11: note: in expansion of macro 'per_cpu'
-              per_cpu(sd_llc_id, i), occ, m_occ, m_cpu, nr);
-              ^~~~~~~
-   In file included from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/energy_model.h:4,
-                    from kernel/sched/fair.c:23:
+   drivers/iio/adc/ad7173.c: In function 'ad7173_setup':
+>> drivers/iio/adc/ad7173.c:915:8: error: implicit declaration of function 'ad7173_calibrate_all'; did you mean 'ad_sd_calibrate_all'? [-Werror=implicit-function-declaration]
+     ret = ad7173_calibrate_all(st, indio_dev);
+           ^~~~~~~~~~~~~~~~~~~~
+           ad_sd_calibrate_all
+   drivers/iio/adc/ad7173.c: At top level:
+>> drivers/iio/adc/ad7173.c:1141:14: error: 'ad7173_calibsys_ext_info' undeclared here (not in a function); did you mean 'ad7173_sigma_delta_info'?
+     .ext_info = ad7173_calibsys_ext_info,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~
+                 ad7173_sigma_delta_info
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
+   Depends on [n]: GPIOLIB [=n] || NEW_LEDS [=y] && GPIOLIB [=n]
+   Selected by [m]:
+   - BACKLIGHT_KTD2801 [=m] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=m]
 
 
-vim +1217 kernel/sched/fair.c
+vim +915 drivers/iio/adc/ad7173.c
 
-  1208	
-  1209	static inline void __update_mm_sched(struct rq *rq, struct mm_sched *pcpu_sched)
-  1210	{
-  1211		lockdep_assert_held(&rq->cpu_epoch_lock);
-  1212	
-  1213		unsigned long n, now = jiffies;
-  1214		long delta = now - rq->cpu_epoch_next;
-  1215	
-  1216		if (delta > 0) {
-> 1217			n = (delta + EPOCH_PERIOD - 1) / EPOCH_PERIOD;
-  1218			rq->cpu_epoch += n;
-  1219			rq->cpu_epoch_next += n * EPOCH_PERIOD;
-  1220			__shr_u64(&rq->cpu_runtime, n);
-  1221		}
-  1222	
-  1223		n = rq->cpu_epoch - pcpu_sched->epoch;
-  1224		if (n) {
-  1225			pcpu_sched->epoch += n;
-  1226			__shr_u64(&pcpu_sched->runtime, n);
-  1227		}
-  1228	}
-  1229	
+   879	
+   880	static int ad7173_setup(struct iio_dev *indio_dev)
+   881	{
+   882		struct ad7173_state *st = iio_priv(indio_dev);
+   883		struct device *dev = &st->sd.spi->dev;
+   884		u8 buf[AD7173_RESET_LENGTH];
+   885		unsigned int id;
+   886		int ret;
+   887	
+   888		/* reset the serial interface */
+   889		memset(buf, 0xff, AD7173_RESET_LENGTH);
+   890		ret = spi_write_then_read(st->sd.spi, buf, sizeof(buf), NULL, 0);
+   891		if (ret < 0)
+   892			return ret;
+   893	
+   894		/* datasheet recommends a delay of at least 500us after reset */
+   895		fsleep(500);
+   896	
+   897		ret = ad_sd_read_reg(&st->sd, AD7173_REG_ID, 2, &id);
+   898		if (ret)
+   899			return ret;
+   900	
+   901		id &= AD7173_ID_MASK;
+   902		if (id != st->info->id)
+   903			dev_warn(dev, "Unexpected device id: 0x%04X, expected: 0x%04X\n",
+   904				 id, st->info->id);
+   905	
+   906		st->adc_mode |= AD7173_ADC_MODE_SING_CYC;
+   907		st->interface_mode = 0x0;
+   908	
+   909		st->config_usage_counter = 0;
+   910		st->config_cnts = devm_kcalloc(dev, st->info->num_configs,
+   911					       sizeof(*st->config_cnts), GFP_KERNEL);
+   912		if (!st->config_cnts)
+   913			return -ENOMEM;
+   914	
+ > 915		ret = ad7173_calibrate_all(st, indio_dev);
+   916		if (ret)
+   917			return ret;
+   918	
+   919		/* All channels are enabled by default after a reset */
+   920		return ad7173_disable_all(&st->sd);
+   921	}
+   922	
 
 -- 
 0-DAY CI Kernel Test Service
