@@ -1,131 +1,51 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02E91F0998
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Apr 2025 13:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D9727D789;
+	Tue, 22 Apr 2025 14:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745330182; cv=none; b=j1tVvQjOHj5/EiGlJDmqoR2lc53HCg9VROimeQa2lsrXuMIESrG6SJ/vdF5g4zBUqhfKfU7HATOkKuR4a8z/9kxSFVP11KOS9jJV9SUakbStKPVhouOcPr6+ZSFmqyQbReJuDkIxmZbKLHpy9O9vL80ZrXVl91zVMGFOoFavbcc=
+	t=1745330944; cv=none; b=HOOher0eGPMfG3ugis+qHvr9u5aq/zgWEXxkA1//TESdmsafdcvb9sC4/uVLUORUYlDeBL9gp0IssGdA8JxjkwRbUWR9qaNbRojIOBrHodzxCikeGTdSAlrcHqNKthvFIZjMzYp+6XCK0F1Uz0tT2QeahHwFwWiuN5KtzT/0zeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745330182; c=relaxed/simple;
-	bh=8SEW95m+vZxiG981zwzLbOenIT1ihvqC1+XXm9Cjwy4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uGXKsPZBpeTFoe0Erd1txJ+g2UyhXlU/ipO3GJ3VTjfcZPLvSurucSELCOZM6hlaP7ChmHyI7e/1z6yXrYVuovisz5KMrvYO681vEHOKnM3kxGJSmZr+TuOaBl7OA7lplYzrTci54GJZ+OnsN60QaX4Ke0gm5QPhAd6idwgtDf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yot6qSB5; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745330944; c=relaxed/simple;
+	bh=zA35fywSadrIG1v+r1dlhqX4ghhXhBKWTpaxZbfK/js=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=liQCSe3HYsa+hQvxtyb8X5tCGN3acaSNzBEteOPUqpt1JQG7Lye2BO6Yzsqk9TTeA2ZFLc8/NTQkpAWju6ytzEJdTLFMLItNnXluwbHDMAfkXs73jug51CvP/gk/1zi0Z6z7xzz+zW8b0/cZHgaWg0QBukBp0uO2//iRb8feXwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VHitxyeK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yot6qSB5"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-736dd9c4b40so5417361b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Apr 2025 06:56:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745330180; x=1745934980; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KaKEEvu0UJyVW+Z2ph1QObcx2UHRtosoFsRJXZoV64=;
-        b=Yot6qSB5+nB+j4M5v6iwqe+SFv+xtFRBmoOlN2iVjopuD1XbdNw/ScrzNFz2LnC7oD
-         eKIG1kPXEogN8I3piSxKlS3kCcaSA1iZsLRGkE3y7nNodE/HnWwJE9Z1KNIoCdPTvNiY
-         LGEtwQ42UDxRfvjC5anPzX8pc+cmVXzsmtVyEDMj7X5HIMy1gxzeIUGKwQ+CoQ2qWdVY
-         9kfws7NX0ewzgfGAP08orZCggdNGi8Oiik7sptyjp6b6ZCIoDYFiGTJmyfdMpYoefg3g
-         8NRCW1a+B2VJlUgUresT9K0ABovdPSGhgrHRas/cE3jqmi2DumTaz1J0zETAJXmxOZ8K
-         TIdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745330180; x=1745934980;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7KaKEEvu0UJyVW+Z2ph1QObcx2UHRtosoFsRJXZoV64=;
-        b=QbUAWBp+3aqZRDnaNqtKGQMMAX1AuLIilFfTjS2VoqYOZelBKHW71V3PVVfWOX/RBz
-         vJCRYuKg4BGySlxP5fWACnW619sCYNQdZJhWTiXnghHwJo0wl1ps8Q0mHQzDwcJRHrIU
-         KSTKlkM3WtchguMdzj38xR1ySfLhBFJm9rwdpkXuvi6j9j6Rzlx3sv10MF5KswYDqh1E
-         XH/7yRASbN65XVeTJCg+DCgvZjap5oLR6luPRfqGuj9t58ViwWFc5pvxfQBTA/RTEMQl
-         G/m+sLTU+2qcx7RvbYJeNlS9/MklKgFUKUQk4eF7S1ls89+BOnFBThxvjwhzql/sCy0g
-         JI9A==
-X-Forwarded-Encrypted: i=1; AJvYcCVaKKl2oEcPhA0vGKQ/8CxPrVdAKnhHY9oOTOngFttYmitn7iMfI31jWXWPAhjEmJR6oEz/XMTmV/AU5X3o@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3JcVuNPqDfZOwKpQ1RJUa3m32Pns32Wjz/7rwYOGp9OkycACp
-	NpwVxfGd6HoqtSaZtymcmi+xxbnIBSNq9+0oWTncMThsd1d40Kzv0YH6FQ==
-X-Gm-Gg: ASbGnctAHX7wxNL2atGNmTnLxOIhbhuUhE27YaA4C0YrwyrjFlBzjRAc5otpsjrLS2t
-	XORGQAjU/sOnmRjdrRZq0/8RVV9tJtP1rWHovDkpDNts6LHswcSi5sOEH8ViGghSyjfunEx1D4a
-	KzgAM6qrsu7neLYCs+/sCxsh3dNxz180HEn3vOG7kGL/FxDUPNRBk9a73r9r4nDQLEC4lAej3ez
-	8L5lQ52YmITm1kW860N4mzPBstPKKcIJyVztb7V4+BaWf8zTePlTquqTUruLxJOcUQW5O5r8Fjx
-	IKdTfnHLQt/He6Ri5AWD5fMbEf5ck9c80C30wiX10kvxVqOSjhfD/WNN57JP9EnaW3savad257I
-	WBHoM+myuiQSoqQ==
-X-Google-Smtp-Source: AGHT+IGc5WnybySe4c344IiNQHqU74ZHT8nMbhNCRflaKFjYTzoM71nNXEx81AqRoVn08p7q/qXtTQ==
-X-Received: by 2002:a05:6a00:4b03:b0:725:4a1b:38ec with SMTP id d2e1a72fcca58-73dbe4e6458mr24353404b3a.3.1745330180144;
-        Tue, 22 Apr 2025 06:56:20 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbfaaf900sm8536318b3a.154.2025.04.22.06.56.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 06:56:19 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <fb2ddf20-d978-4aab-bbb4-0a3e86fb28df@roeck-us.net>
-Date: Tue, 22 Apr 2025 06:56:18 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VHitxyeK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D36EC4CEE9;
+	Tue, 22 Apr 2025 14:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745330943;
+	bh=zA35fywSadrIG1v+r1dlhqX4ghhXhBKWTpaxZbfK/js=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=VHitxyeKcqtAfa9MmSWy5XPsFvb3Sv18t4H+z48ejBHQ8B5TMCrLwccsQr4+JnUEb
+	 2DeBWingYx96HzShBGh/DgxfHw+WF2eerPjvYCSE2dvFcOPokR3x4YBlT+h2/2i1ZS
+	 FHeEOmlqFHFeJTJp0Xw7kkDyFN+aVLc80tcmj3pjuSrNmP1KaxNGHW4TCrp6GzV2mm
+	 KXOD6F5IY5Roczcek66Vx34lk+rNjveKTXwL6ekocvGGM5tlY5tX1/602sMHEChlBg
+	 FChu1bp251A1cee5Xx1j6nbjpbc2pCk+IsiwufVSLaIrQXYXSL278a7TxIedll8pW1
+	 xlP/LzcpjRYOA==
+From: Carlos Maiolino <cem@kernel.org>
+To: linux-xfs@vger.kernel.org, cem@kernel.org
+Cc: hch@lst.de, Hans.Holmberg@wdc.com, linux@roeck-us.net, 
+ linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250422125501.1016384-1-cem@kernel.org>
+References: <20250422125501.1016384-1-cem@kernel.org>
+Subject: Re: [PATCH V2] XFS: fix zoned gc threshold math for 32-bit arches
+Message-Id: <174533094182.1020409.10311218033139105345.b4-ty@kernel.org>
+Date: Tue, 22 Apr 2025 16:09:01 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] XFS: fix zoned gc threshold math for 32-bit arches
-To: cem@kernel.org, linux-xfs@vger.kernel.org
-Cc: hch@lst.de, Hans.Holmberg@wdc.com, linux-kernel@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev
-References: <20250422125501.1016384-1-cem@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20250422125501.1016384-1-cem@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On 4/22/25 05:54, cem@kernel.org wrote:
-> From: Carlos Maiolino <cem@kernel.org>
-> 
+On Tue, 22 Apr 2025 14:54:54 +0200, cem@kernel.org wrote:
 > xfs_zoned_need_gc makes use of mult_frac() to calculate the threshold
 > for triggering the zoned garbage collector, but, turns out mult_frac()
 > doesn't properly work with 64-bit data types and this caused build
@@ -134,18 +54,14 @@ On 4/22/25 05:54, cem@kernel.org wrote:
 > Fix this by essentially open coding mult_frac() in a 64-bit friendly
 > way.
 > 
-> Notice we don't need to bother with counters underflow here because
-> xfs_estimate_freecounter() will always return a positive value, as it
-> leverages percpu_counter_read_positive to read such counters.
-> 
-> Fixes: 845abeb1f06a ("xfs: add tunable threshold parameter for triggering zone GC")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202504181233.F7D9Atra-lkp@intel.com/
-> Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
+> [...]
 
-Succesfully built openrisc:allmodconfig and parisc:allmodconfig with gcc 13.3.
+Applied to for-next, thanks!
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+[1/1] XFS: fix zoned gc threshold math for 32-bit arches
+      commit: bd7c19331913b955a7823e6315ca16bbcc65aeff
 
-Guenter
+Best regards,
+-- 
+Carlos Maiolino <cem@kernel.org>
 
