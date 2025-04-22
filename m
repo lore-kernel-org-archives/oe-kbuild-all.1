@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C763214C5B0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Apr 2025 15:47:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262871922C4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Apr 2025 16:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745336867; cv=none; b=Xhe9A6v7AEIVWGF9X2xJ0GJLRd5t+xrxW9XF1Xvpw/pDO+aJrsKNy6NweTFAAWtLd1z4GZBhNRf/OsGZyGst5+oPaaTEjwhsE0QHshLiNNOaYvUhr0lPQe1tKtsLrgBcoGpmRapeiOVH/7NAQkcOTT7VPLeELlHRBDEDOUlNBhU=
+	t=1745338133; cv=none; b=Lz8R0X1n0jUzIcoXmqe8Q4JtlUKUPmOjrhWQjcec+0c/UQT5yu4OoUqDPj+zpAGdTHyMEZoZyEh+lyAYAFKmGY6KwiBCAHuTy/e31CGFbcEL9QQ0QL6Su+BSyIEM1T/6l8/yjRi7j6P/9lxNkc4K+oRJvSK1yYIiiaunQyG306Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745336867; c=relaxed/simple;
-	bh=G6hexDWsgjqSii1MVl50yojHEpQ6cvegSEhFEyJdQ0o=;
+	s=arc-20240116; t=1745338133; c=relaxed/simple;
+	bh=6vBdqn/6SjM5ifSy8wclyXbXw1Fj3kJq22Nb37p9VDc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JrAolavYcPMFPPS6eqXePvDEZmDTts/JlPxJCSB4bcJVygpsSZ7UEZVIaGPA9rJh7wpV5HfjlqfM/VEpUriGS1xPiFGt6Ot7XuEjHkF/PXOIuNGut8J5db5JXusAlfOnz8FsJFWrtpj99XUp6//SfoZ+whzm0rGxPT7+Zo2BdEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AuywCaP1; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=CcLEMeFThLVAUD+gPes4Qu525Sy113hOzuOGDWMIshr924Rsh1sLlNsrJkUjEN/JCDCI1IN/iXupPNkHNOkqe7mNHAEnT1SuL58E+grKBRzTHFOKInMUFQV2K/eT6AOQcPw70Cc4qFxdLrFN8dHYgch3joZltJHqsZtrhUzZPoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4maBT/9; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AuywCaP1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4maBT/9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745336863; x=1776872863;
+  t=1745338132; x=1776874132;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G6hexDWsgjqSii1MVl50yojHEpQ6cvegSEhFEyJdQ0o=;
-  b=AuywCaP1AA7KCXZwHRM8EUuoolH4ynJb8JC4xj02Rw0hmYjzd+MRlVkn
-   PReXZ3XQsK49+j7+eGeFS6FaNElKOrCuCQhWy6iTt12zDaFv0OPkIFV7Y
-   F30RoABQUWuRurnDPY5ESkSwxprQG+/qzXSWe1jIEcT8a5xmhvRTlwqWv
-   y3EDy8SVj+qY8n5iKOMz3icYCDm/dFVfL47MRh6KGjhayVwSzD2tcu6K2
-   3BIbQXBaPQehJWBWN/cf6B6MLuiQkr9Y7kOYS54PrxAPr/TR1PAjvREbB
-   kfAhnEyG54rRu3Sp42jWOnxYHdPxE4gNx0toK5vLRTHSxxPY8aTsUZQXS
-   A==;
-X-CSE-ConnectionGUID: SxQR6nMiRG2JEibEez5hsA==
-X-CSE-MsgGUID: 3zjn309gTf6jFc35nvKqrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="69393591"
+  bh=6vBdqn/6SjM5ifSy8wclyXbXw1Fj3kJq22Nb37p9VDc=;
+  b=d4maBT/9g3QNEGNzpmUEwj0NElDb/THwkx+8E397B9y1jiTZzm9ngd9y
+   ZHrhqpWF1IDp+Rlb3CLpPs+QnJJT+BwsIedwdfF+Y+XTJWrS2c5cKyDaj
+   Jmprj6e3hj0WJo0YvZBX10w1y/dgqWh2e5KRgc4Ur/8jdJ8rn5+6iIg8a
+   rcSfN1Fj7y/zzG4hP/S6N2WJ9Y6zS6irT2hS+iouv1DR1Hb2I6FZXyANl
+   kTA5FQnGX9wacS3MO4ORs0iBnZwTtXSScldBvk7TGDEhU0oByIme5Khng
+   aCCCFUUGU85H8zWmWADMTQBqVSyuBNEjiaTFqA2j8fFt8Hzwryjma011X
+   Q==;
+X-CSE-ConnectionGUID: 6R2IE6s8SRep1eGAKRyJWQ==
+X-CSE-MsgGUID: tkULOWfNQ9Kr1kUPEMR69w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="69396442"
 X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; 
-   d="scan'208";a="69393591"
+   d="scan'208";a="69396442"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 08:47:42 -0700
-X-CSE-ConnectionGUID: tvdKISyYTN6bnJEUaxRGzg==
-X-CSE-MsgGUID: v9u8xhE+RiqNY67bM200vQ==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 09:08:45 -0700
+X-CSE-ConnectionGUID: jo0HP+glQfyjhY6lvekSJQ==
+X-CSE-MsgGUID: Dg+8cG5jSrmVI8uCvgf5oA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; 
-   d="scan'208";a="131796910"
+   d="scan'208";a="131802800"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 22 Apr 2025 08:47:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 22 Apr 2025 09:08:45 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7FqU-00017j-3D;
-	Tue, 22 Apr 2025 15:47:39 +0000
-Date: Tue, 22 Apr 2025 23:47:05 +0800
+	id 1u7GAs-00019t-1Q;
+	Tue, 22 Apr 2025 16:08:42 +0000
+Date: Wed, 23 Apr 2025 00:08:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Herbert Xu <herbert@gondor.apana.org.au>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 21/21]
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c:376:34: error:
- incompatible pointer to integer conversion passing 'struct regmap *' to
- parameter of type 'int'
-Message-ID: <202504222301.4zR9qSMZ-lkp@intel.com>
+Subject: [linux-next:master 4012/5419] crypto/acompress.c:616:8-15: WARNING
+ opportunity for kmemdup
+Message-ID: <202504230004.c7mrY0C6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,111 +62,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   f140971cf554cfa7c517cfb96260a3a674e9166f
-commit: 767753385164d9ffc25c22e2825199a8b3471fea [21/21] CHROMIUM: jpeg: refactor jpeg smmu sid setting interface
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250422/202504222301.4zR9qSMZ-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504222301.4zR9qSMZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2c9c612abeb38aab0e87d48496de6fd6daafb00b
+commit: 097c432caaa6d91f87732fe991cb08139e31101a [4012/5419] crypto: acomp - Add ACOMP_REQUEST_CLONE
+config: nios2-randconfig-r054-20250422 (https://download.01.org/0day-ci/archive/20250423/202504230004.c7mrY0C6-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504222301.4zR9qSMZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504230004.c7mrY0C6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> crypto/acompress.c:616:8-15: WARNING opportunity for kmemdup
 
-   In file included from drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c:18:
-   In file included from include/media/media-device.h:16:
-   In file included from include/linux/pci.h:1628:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2194:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c:376:34: error: incompatible pointer to integer conversion passing 'struct regmap *' to parameter of type 'int' [-Wint-conversion]
-     376 |                 return dev_err_probe(dev->dev, dev->smmu_regmap,
-         |                                                ^~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:278:64: note: passing argument to parameter 'err' here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                ^
-   4 warnings and 1 error generated.
---
-   In file included from drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c:18:
-   In file included from include/media/media-device.h:16:
-   In file included from include/linux/pci.h:1628:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2194:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c:637:34: error: incompatible pointer to integer conversion passing 'struct regmap *' to parameter of type 'int' [-Wint-conversion]
-     637 |                 return dev_err_probe(dev->dev, dev->smmu_regmap,
-         |                                                ^~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:278:64: note: passing argument to parameter 'err' here
-     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                ^
-   4 warnings and 1 error generated.
+vim +616 crypto/acompress.c
 
-
-vim +376 drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-
-   364	
-   365	static int mtk_jpegenc_smmu_init(struct mtk_jpegenc_comp_dev *dev)
-   366	{
-   367		struct mtk_jpeg_dev *master_dev = dev->master_dev;
-   368	
-   369		if (!master_dev->variant->support_smmu)
-   370			return 0;
-   371	
-   372		dev->smmu_regmap =
-   373	                syscon_regmap_lookup_by_phandle(dev->plat_dev->dev.of_node,
-   374							"mediatek,smmu-config");
-   375	        if (IS_ERR(dev->smmu_regmap)) {
- > 376			return dev_err_probe(dev->dev, dev->smmu_regmap,
-   377					     "mmap smmu_base failed(%ld)\n",
-   378					     PTR_ERR(dev->smmu_regmap));
-   379		}
-   380	
-   381		return 0;
-   382	}
-   383	
+   609	
+   610	struct acomp_req *acomp_request_clone(struct acomp_req *req,
+   611					      size_t total, gfp_t gfp)
+   612	{
+   613		struct crypto_acomp *tfm = crypto_acomp_reqtfm(req);
+   614		struct acomp_req *nreq;
+   615	
+ > 616		nreq = kmalloc(total, gfp);
+   617		if (!nreq) {
+   618			acomp_request_set_tfm(req, tfm->fb);
+   619			req->base.flags = CRYPTO_TFM_REQ_ON_STACK;
+   620			return req;
+   621		}
+   622	
+   623		memcpy(nreq, req, total);
+   624		acomp_request_set_tfm(req, tfm);
+   625		return req;
+   626	}
+   627	EXPORT_SYMBOL_GPL(acomp_request_clone);
+   628	
 
 -- 
 0-DAY CI Kernel Test Service
