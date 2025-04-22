@@ -1,217 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31702F50F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Apr 2025 09:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CD91E9B39
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Apr 2025 10:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745315293; cv=none; b=PObXhLBNd00qy6XwieS4uBl6luz1577CAXAFgeWQmWr1/2kfDfwSapVxHE2ahiP5Aa+MveclY4VWElubms8vcgQPyZ6wb4puzMp/HLKi4pDJ087yxEbkB3JVgXZPflZjSsewiiRMo3rxi070aSTArvD2ZN8HaK4fJtJF+OZ/Hqk=
+	t=1745318306; cv=none; b=Xmo4FwDSjzKqR6vggEt8WwpkNNxa0/jPU9rI2nTNV9aTGZFYaF1IpQU2UicejA5ajbR3sWogpsS9u0q2g+uiZs1Rtv2peLYmsgmfgC6orMcCPjvqr/FdRwjyNpfl42I8SnevxtI9RMZEQr2Xe8fjQvEf3pDAHO5Yl18iPmVYGVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745315293; c=relaxed/simple;
-	bh=VYgcJT5Nn1Z24L2XGwZWRQStHBHOHtqDcH0DTU4ywP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a2tGYg8mmtDnZGLxAQUMZSRnv7NivfIxBVQQyq3njd4OPJiqx+wIKxE04Rau7fbEF9xWEMnYjh60f0BEgnCKiNXubzvmbeodA3qYUl9WaLJuA5ltc+SDhdkRtdtRjTlEmM2CfMyI8QAbKXw7EPYpJMRluD4/wcQCpK5ZOPWWDPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iHqwrdM6; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745318306; c=relaxed/simple;
+	bh=XEKQFOUz0r+lkB334Xmf1t8VJTOTjIeoesyqTdAc4Ao=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=Y1k9Vq+BG08Hr51ZXKgdBrxYBM5Xk2fkIhc0oc63WjUDj3vj3ieFtFjkBUmwjszioV6y31LFFcNEHwFNBpcYet0CfysqgGxtv7YCxxDU3vJ6TwTUZbonf+ZRTeeo+jhrHswNU+GwyV3OjCbk1MNWMRUj1T54Q4RGcHmm6ZlSkfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=TUU6vf2G; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHqwrdM6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745315292; x=1776851292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VYgcJT5Nn1Z24L2XGwZWRQStHBHOHtqDcH0DTU4ywP0=;
-  b=iHqwrdM6jxbWPuEKE4I2FMAjHANYvvErRu1N8/aPvyo9gnDMxGhosbsf
-   Ro5VyXdqz5bvQSZrXPA/e6gFBIRpaICfTQlpyW3zU8CJQGlT0fQEDBAJ2
-   HRu1+3/zavHK6mnIIntxJEaxdrXwoPMzpeUCj1/4xR9YeiPlANXXlUEgI
-   jRMODbssGSdAx7h7jauz5psVpQ5LLzQbzo4C4RPeXiWE98JKJm6tpI6GI
-   03/+AdZLHo9kj3yqud55buwi+Oy8AMDPF073hq2i0K5hbnBNGZyH5nte9
-   M9AwA+G2s1L6RE4FTxkRaJN9mntXsqMK8DpnkiHA7RF1xFj9UGTj4lSEh
-   w==;
-X-CSE-ConnectionGUID: +A+82F3rTXqhOo6C3hnlLA==
-X-CSE-MsgGUID: 9BPUgbZfSKiJuKuQ+dubRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="49528536"
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="49528536"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 02:48:11 -0700
-X-CSE-ConnectionGUID: 22ESS+U1QwuT3a+nq36+0g==
-X-CSE-MsgGUID: gfeg5WDmTJKPXxDrowJbVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="169165208"
-Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Apr 2025 02:48:10 -0700
-Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u7AEZ-0000oV-2D;
-	Tue, 22 Apr 2025 09:48:07 +0000
-Date: Tue, 22 Apr 2025 17:48:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karthikeyan Kathirvel <karthikeyan.kathirvel@oss.qualcomm.com>,
-	ath12k@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	Karthikeyan Kathirvel <karthikeyan.kathirvel@oss.qualcomm.com>
-Subject: Re: [PATCH ath-next] wifi: ath12k: allow beacon protection keys to
- be installed in hardware
-Message-ID: <202504221714.6bYFTiB1-lkp@intel.com>
-References: <20250421114711.3660911-1-karthikeyan.kathirvel@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="TUU6vf2G"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250422103821euoutp01d51f0f7788fce05c5041f10e115b516e~4nb_F9Uwu1233412334euoutp01c
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Apr 2025 10:38:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250422103821euoutp01d51f0f7788fce05c5041f10e115b516e~4nb_F9Uwu1233412334euoutp01c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1745318301;
+	bh=z/ENEV4xPTu1maqH4EBsFU2gbhVHlIjIlV2rBjywmGs=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=TUU6vf2GZeAoS2jOiFlGle2LVoSMAbYMJXc4jzAcy6w6u8wr7CJzEdDFhzEc1e3t+
+	 WXmM3HOZT9wb5mwyDUm1QIYXTMeEEchnseI08oXtfoAfxB5EItssvqDZXVGKGaq2bq
+	 NDsT2xFNg9nRfujo3g1OPnyMXUSEpn0ersyc0yBg=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20250422103821eucas1p274fccfa610765c7b78e869b664062b97~4nb9_wRWQ1787417874eucas1p2k;
+	Tue, 22 Apr 2025 10:38:21 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id 25.FF.17807.D9177086; Tue, 22
+	Apr 2025 11:38:21 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250422103821eucas1p1caae71903c23a53935297ff3e5b6d417~4nb9pjS4T1799617996eucas1p13;
+	Tue, 22 Apr 2025 10:38:21 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20250422103821eusmtrp2396ebf59b201ea80796c55d0dca5ab37~4nb9pFRnm1834618346eusmtrp2O;
+	Tue, 22 Apr 2025 10:38:21 +0000 (GMT)
+X-AuditID: cbfec7f4-1e9ff7000000458f-8d-6807719d8048
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id 57.25.19654.C9177086; Tue, 22
+	Apr 2025 11:38:20 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250422103820eusmtip289d759aefe873f9677689bff6ab8ba26~4nb9EPROB1249012490eusmtip2P;
+	Tue, 22 Apr 2025 10:38:20 +0000 (GMT)
+Message-ID: <007f34d4-9dba-48c9-bc63-fd13a3960ceb@samsung.com>
+Date: Tue, 22 Apr 2025 12:38:19 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250421114711.3660911-1-karthikeyan.kathirvel@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 3573/4779] kernel/dma/mapping.c:922:
+ warning: expecting prototype for dma_addressing_limited(). Prototype was for
+ __dma_addressing_limited() instead
+To: Balbir Singh <balbirs@nvidia.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <3d81befa-2066-48f5-9e24-2b7ceb079429@nvidia.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkleLIzCtJLcpLzFFi42LZduznOd25hewZBud3ilgsmXuc2WLl6qNM
+	Fq+aH7FZHFp5hcmBxWPxnpdMHi82z2T02H2zgc2jt/kdWwBLFJdNSmpOZllqkb5dAlfGp+2f
+	WAq2yFR8np3WwLhJrIuRk0NCwERi+8w5TCC2kMAKRokPB+W6GLmA7C+MErc/vmCCcD4zSjTN
+	P8EG0zGr4xUjRMdyRon7K9khij4ySkyY9wFsFK+AncT8G+/AilgEVCUebfrEAhEXlDg58wmY
+	LSogL3H/1gywZmGBHYwSj46uYAdJiAh4SLR/agNrZhZwlDhwbzkzhC0ucevJfLAFbAKGEl1v
+	u8Au4gRa1vBiJgtEjbzE9rdzmEGGSggc4JB49hlis4SAi8SWm8vZIWxhiVfHt0DZMhL/d85n
+	gmhoZ5RY8Ps+lDOBUaLh+S1GiCpriTvnfgGt4wBaoSmxfpc+iCkBdN3+1hIIk0/ixltBiBv4
+	JCZtm84MEeaV6GgTgpihJjHr+Dq4rQcvXGKewKg0CylYZiH5chaSb2YhrF3AyLKKUTy1tDg3
+	PbXYKC+1XK84Mbe4NC9dLzk/dxMjMLWc/nf8yw7G5a8+6h1iZOJgPMQowcGsJML7y409Q4g3
+	JbGyKrUoP76oNCe1+BCjNAeLkjjvov2t6UIC6YklqdmpqQWpRTBZJg5OqQYmX02+pV9aA74X
+	rozR97whxnmyR5VdVCrmq+n5kx3SO7XWujP+K78jf3BSV/yx8zVy1y5oTHm+ZFVl5JmTK1Yc
+	YN948MPX26vk01gE1X6IBs46vzqsZBdTF8uj6uuZyWLdgpuU/s/YKftttZiV1cFV3t48Ks3i
+	HzYzZS8+VVXQPKV6S4zB4aNG7lfKug/tbbfceeeRrJ70w4XNF8v1dG/3Ze7Y3l5UtctsSdyc
+	x7JfL98xcPnOtq7iWdVRx7wVxcc/qfI6hbzkeidb3dzi5bFbq/rf++wzcjXHd3PxdDyM6t1g
+	1vP9aHvFnLokY4Vq9WJp876fK2Q3nD6rbDyxa+bjw98fvzn94vSRpOTYqQfdlFiKMxINtZiL
+	ihMBiJzNjJwDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsVy+t/xe7pzCtkzDP7tsrJYMvc4s8XK1UeZ
+	LF41P2KzOLTyCpMDi8fiPS+ZPF5snsnosftmA5tHb/M7tgCWKD2bovzSklSFjPziElulaEML
+	Iz1DSws9IxNLPUNj81grI1MlfTublNSczLLUIn27BL2MT9s/sRRskan4PDutgXGTWBcjJ4eE
+	gInErI5XjF2MXBxCAksZJR7c3MAOkZCRODmtgRXCFpb4c62LDaLoPaPE/vVbmEESvAJ2EvNv
+	vGMEsVkEVCUebfrEAhEXlDg58wmYLSogL3H/1gx2kGZhgR2MEoeaX4NtEBHwkGj/1AbWzCzg
+	KHHg3nJmiA07GSVufjjKDpEQl7j1ZD4TiM0mYCjR9RbkDE4OTqDNDS9mskDUmEl0be2CGiQv
+	sf3tHOYJjEKzkBwyC8moWUhaZiFpWcDIsopRJLW0ODc9t9hIrzgxt7g0L10vOT93EyMworYd
+	+7llB+PKVx/1DjEycTAeYpTgYFYS4f3lxp4hxJuSWFmVWpQfX1Sak1p8iNEUGBoTmaVEk/OB
+	MZ1XEm9oZmBqaGJmaWBqaWasJM7LduV8mpBAemJJanZqakFqEUwfEwenVAOTV8fmCYmNru/X
+	eCse6nv+YmPXH/4FV7fveJzz0iy2uVCVV7Tk/EWdz1mMV1WD3v+4GXgn9vxf+0TV3oTbOVpl
+	yzRVDjyosImIZzxh68zzaZo/a+ntGwsn6d1ffPdi0rqK3a+ef3hUcitsw8qGiqT39j+vT44P
+	yxT9qnQhcfu97b+kKh0/bJzxjE/yy757F47EsKVV2rrKNQY3rDJ6yGH1Jlf5omZ8zpXCh7IC
+	xt9l9vCU3OUzkjuiJVC0o+jFLEeH5k/ml/+cetJcdC/3TVP5M7UNin9kOrlDPwUUN+3pe927
+	QyDx9/cNOccPCYo+nf3g0fcPSxRZQz4sOKwRsv7rhq0PTv3cJXldZQ/HnxjhqUosxRmJhlrM
+	RcWJANKZDI8xAwAA
+X-CMS-MailID: 20250422103821eucas1p1caae71903c23a53935297ff3e5b6d417
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250419012650eucas1p145a5f52fc668a3ae87e08a3e8395ef04
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250419012650eucas1p145a5f52fc668a3ae87e08a3e8395ef04
+References: <202504190615.g9fANxHw-lkp@intel.com>
+	<CGME20250419012650eucas1p145a5f52fc668a3ae87e08a3e8395ef04@eucas1p1.samsung.com>
+	<3d81befa-2066-48f5-9e24-2b7ceb079429@nvidia.com>
 
-Hi Karthikeyan,
+On 19.04.2025 03:26, Balbir Singh wrote:
+> On 4/19/25 08:07, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> head:   bc8aa6cdadcc00862f2b5720e5de2e17f696a081
+>> commit: 2042c352e21d19eaf5f9e22fb6afce72293ef28c [3573/4779] dma/mapping.c: dev_dbg support for dma_addressing_limited
+>> config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20250419/202504190615.g9fANxHw-lkp@intel.com/config)
+>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250419/202504190615.g9fANxHw-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202504190615.g9fANxHw-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>>> kernel/dma/mapping.c:922: warning: expecting prototype for dma_addressing_limited(). Prototype was for __dma_addressing_limited() instead
+>>
+>> vim +922 kernel/dma/mapping.c
+>>
+>> 8ddbe5943c0b12 Christoph Hellwig 2018-12-06  912
+>> 8ae0e970319ac0 Jia He            2023-10-28  913  /**
+>> 8ae0e970319ac0 Jia He            2023-10-28  914   * dma_addressing_limited - return if the device is addressing limited
+>> 8ae0e970319ac0 Jia He            2023-10-28  915   * @dev:	device to check
+>> 8ae0e970319ac0 Jia He            2023-10-28  916   *
+>> 8ae0e970319ac0 Jia He            2023-10-28  917   * Return %true if the devices DMA mask is too small to address all memory in
+>> 8ae0e970319ac0 Jia He            2023-10-28  918   * the system, else %false.  Lack of addressing bits is the prime reason for
+>> 8ae0e970319ac0 Jia He            2023-10-28  919   * bounce buffering, but might not be the only one.
+>> 8ae0e970319ac0 Jia He            2023-10-28  920   */
+>> 2042c352e21d19 Balbir Singh      2025-04-14  921  static bool __dma_addressing_limited(struct device *dev)
+>> 8ae0e970319ac0 Jia He            2023-10-28 @922  {
+>> a409d9600959f3 Jia He            2023-10-28  923  	const struct dma_map_ops *ops = get_dma_ops(dev);
+>> a409d9600959f3 Jia He            2023-10-28  924
+>> a409d9600959f3 Jia He            2023-10-28  925  	if (min_not_zero(dma_get_mask(dev), dev->bus_dma_limit) <
+>> a409d9600959f3 Jia He            2023-10-28  926  			 dma_get_required_mask(dev))
+>> a409d9600959f3 Jia He            2023-10-28  927  		return true;
+>> a409d9600959f3 Jia He            2023-10-28  928
+>> b348b6d17fd1d5 Leon Romanovsky   2024-09-22  929  	if (unlikely(ops) || use_dma_iommu(dev))
+>> a409d9600959f3 Jia He            2023-10-28  930  		return false;
+>> a409d9600959f3 Jia He            2023-10-28  931  	return !dma_direct_all_ram_mapped(dev);
+>> 8ae0e970319ac0 Jia He            2023-10-28  932  }
+>> 2042c352e21d19 Balbir Singh      2025-04-14  933
+>>
+>> :::::: The code at line 922 was first introduced by commit
+>> :::::: 8ae0e970319ac0b516d285650a744bab4ed3dd37 dma-mapping: move dma_addressing_limited() out of line
+>>
+>> :::::: TO: Jia He <justin.he@arm.com>
+>> :::::: CC: Christoph Hellwig <hch@lst.de>
+>>
+>
+> I can't reproduce this warning with gcc 14.2.1 on my system with W=1. Assuming that the warning is for the
+> kerneldoc, I can send a patch out to move it to the right function
 
-kernel test robot noticed the following build errors:
+Well, the warnings might depend on the installed plugins. Please move 
+the kerneldoc to the right function.
 
-[auto build test ERROR on d33705bb41ff786b537f8ed50a187a474db111c1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karthikeyan-Kathirvel/wifi-ath12k-allow-beacon-protection-keys-to-be-installed-in-hardware/20250421-194813
-base:   d33705bb41ff786b537f8ed50a187a474db111c1
-patch link:    https://lore.kernel.org/r/20250421114711.3660911-1-karthikeyan.kathirvel%40oss.qualcomm.com
-patch subject: [PATCH ath-next] wifi: ath12k: allow beacon protection keys to be installed in hardware
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250422/202504221714.6bYFTiB1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504221714.6bYFTiB1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504221714.6bYFTiB1-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/net/wireless/ath/ath12k/mac.c: In function 'ath12k_mac_set_arvif_ies':
->> drivers/net/wireless/ath/ath12k/mac.c:1474:37: error: 'WLAN_EXT_CAPA11_BCN_PROTECT' undeclared (first use in this function); did you mean 'WLAN_EXT_CAPA11_EMA_SUPPORT'?
-    1474 |             (ext_cap_ie->data[10] & WLAN_EXT_CAPA11_BCN_PROTECT))
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                     WLAN_EXT_CAPA11_EMA_SUPPORT
-   drivers/net/wireless/ath/ath12k/mac.c:1474:37: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +1474 drivers/net/wireless/ath/ath12k/mac.c
-
-  1447	
-  1448	static void ath12k_mac_set_arvif_ies(struct ath12k_link_vif *arvif,
-  1449					     struct ath12k_link_vif *tx_arvif,
-  1450						 struct sk_buff *bcn,
-  1451					     u8 bssid_index, bool *nontx_profile_found)
-  1452	{
-  1453		struct ieee80211_mgmt *mgmt = (struct ieee80211_mgmt *)bcn->data;
-  1454		const struct element *elem, *nontx, *index, *nie, *ext_cap_ie;
-  1455		const u8 *start, *tail;
-  1456		u16 rem_len;
-  1457		u8 i;
-  1458	
-  1459		start = bcn->data + ieee80211_get_hdrlen_from_skb(bcn) + sizeof(mgmt->u.beacon);
-  1460		tail = skb_tail_pointer(bcn);
-  1461		rem_len = tail - start;
-  1462	
-  1463		arvif->rsnie_present = false;
-  1464		arvif->wpaie_present = false;
-  1465	
-  1466		if (cfg80211_find_ie(WLAN_EID_RSN, start, rem_len))
-  1467			arvif->rsnie_present = true;
-  1468		if (cfg80211_find_vendor_ie(WLAN_OUI_MICROSOFT, WLAN_OUI_TYPE_MICROSOFT_WPA,
-  1469					    start, rem_len))
-  1470			arvif->wpaie_present = true;
-  1471	
-  1472		ext_cap_ie = cfg80211_find_elem(WLAN_EID_EXT_CAPABILITY, start, rem_len);
-  1473		if (ext_cap_ie && ext_cap_ie->datalen >= 11 &&
-> 1474		    (ext_cap_ie->data[10] & WLAN_EXT_CAPA11_BCN_PROTECT))
-  1475			tx_arvif->beacon_prot = true;
-  1476	
-  1477		/* Return from here for the transmitted profile */
-  1478		if (!bssid_index)
-  1479			return;
-  1480	
-  1481		/* Initial rsnie_present for the nontransmitted profile is set to be same as that
-  1482		 * of the transmitted profile. It will be changed if security configurations are
-  1483		 * different.
-  1484		 */
-  1485		*nontx_profile_found = false;
-  1486		for_each_element_id(elem, WLAN_EID_MULTIPLE_BSSID, start, rem_len) {
-  1487			/* Fixed minimum MBSSID element length with at least one
-  1488			 * nontransmitted BSSID profile is 12 bytes as given below;
-  1489			 * 1 (max BSSID indicator) +
-  1490			 * 2 (Nontransmitted BSSID profile: Subelement ID + length) +
-  1491			 * 4 (Nontransmitted BSSID Capabilities: tag + length + info)
-  1492			 * 2 (Nontransmitted BSSID SSID: tag + length)
-  1493			 * 3 (Nontransmitted BSSID Index: tag + length + BSSID index
-  1494			 */
-  1495			if (elem->datalen < 12 || elem->data[0] < 1)
-  1496				continue; /* Max BSSID indicator must be >=1 */
-  1497	
-  1498			for_each_element(nontx, elem->data + 1, elem->datalen - 1) {
-  1499				start = nontx->data;
-  1500	
-  1501				if (nontx->id != 0 || nontx->datalen < 4)
-  1502					continue; /* Invalid nontransmitted profile */
-  1503	
-  1504				if (nontx->data[0] != WLAN_EID_NON_TX_BSSID_CAP ||
-  1505				    nontx->data[1] != 2) {
-  1506					continue; /* Missing nontransmitted BSS capabilities */
-  1507				}
-  1508	
-  1509				if (nontx->data[4] != WLAN_EID_SSID)
-  1510					continue; /* Missing SSID for nontransmitted BSS */
-  1511	
-  1512				index = cfg80211_find_elem(WLAN_EID_MULTI_BSSID_IDX,
-  1513							   start, nontx->datalen);
-  1514				if (!index || index->datalen < 1 || index->data[0] == 0)
-  1515					continue; /* Invalid MBSSID Index element */
-  1516	
-  1517				if (index->data[0] == bssid_index) {
-  1518					*nontx_profile_found = true;
-  1519	
-  1520					/* Check if nontx BSS has beacon protection enabled */
-  1521					if (!tx_arvif->beacon_prot) {
-  1522						ext_cap_ie =
-  1523						    cfg80211_find_elem(WLAN_EID_EXT_CAPABILITY,
-  1524								       nontx->data,
-  1525								       nontx->datalen);
-  1526						if (ext_cap_ie && ext_cap_ie->datalen >= 11 &&
-  1527						    (ext_cap_ie->data[10] &
-  1528						     WLAN_EXT_CAPA11_BCN_PROTECT))
-  1529							tx_arvif->beacon_prot = true;
-  1530					}
-  1531	
-  1532					if (cfg80211_find_ie(WLAN_EID_RSN,
-  1533							     nontx->data,
-  1534							     nontx->datalen)) {
-  1535						arvif->rsnie_present = true;
-  1536						return;
-  1537					} else if (!arvif->rsnie_present) {
-  1538						return; /* Both tx and nontx BSS are open */
-  1539					}
-  1540	
-  1541					nie = cfg80211_find_ext_elem(WLAN_EID_EXT_NON_INHERITANCE,
-  1542								     nontx->data,
-  1543								     nontx->datalen);
-  1544					if (!nie || nie->datalen < 2)
-  1545						return; /* Invalid non-inheritance element */
-  1546	
-  1547					for (i = 1; i < nie->datalen - 1; i++) {
-  1548						if (nie->data[i] == WLAN_EID_RSN) {
-  1549							arvif->rsnie_present = false;
-  1550							break;
-  1551						}
-  1552					}
-  1553	
-  1554					return;
-  1555				}
-  1556			}
-  1557		}
-  1558	}
-  1559	
-
+Best regards
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
