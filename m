@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1304D21B18C;
-	Tue, 22 Apr 2025 06:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A3E18A6AB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Apr 2025 08:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745303640; cv=none; b=fldtJJXt2E3F9RnqBkkiPvTr9HoHb/8erfyW6xFxJ9+vMgX7TDb6r2GZ2ldW4AM7w6evW6OexcFoyHKV2Lq37S4Mr5wTpcY5ydmf7FJ7Z5YJnzrtNvl1wqOrmpMlN9QE+Qjuo2PyjboNHY6dCyaNmS4JaaFBhj22ROE7G4ZlRiM=
+	t=1745309766; cv=none; b=Hgd+LzlwaUmJq1JsvQ8GOOtjcIUf+I94kljchDQxlCxWj2tQ/wR2TDd0SONteCqKN0ftEsrvUV18bC6BarpY8+EwfU0bdKG+AtTZvkH2PwOEX8UkUvgyVOzdQsrniu2AW0BNIVcebe9+Ai/Y9W6TLaseAFq1oRy6CPPLCsAKi5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745303640; c=relaxed/simple;
-	bh=lG+AJzYTyqIBVr0kpwKvwOUbYRVdnS34HpP7QoWRYnI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sayGJrjU21EwbfS1+/Axt2JIIokADOqFOC4RDUOv3kV/fpjM21COTHSqB4U6Xr3scPjZi2nqGZu3WMJi/ZC4FJp4A9abkrPScswtpCnlCGGw4apWsgIyrtxs7z9sVX7/f+MyrENEgsSc25N6+XqHG1YU5hgmZEyLmZ6dH93+LyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkCIXY8S; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1745309766; c=relaxed/simple;
+	bh=KvPOhS69oCGL7AaNjD3lCLWnbvb8F9DwlhqTzhsBovY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SPlIjtRc5zjL/DpXqH4I7LeMYlAwYOmE6mMhMVwU2zTfYaArc20OPjBiet+trQoIopy02+lLpLd0LJWvxjmzpTA2yK9EfCfmxCwoZwAkwS1843kpcNQHplYW7dFxKiR+IGAjjW/TogrvcKvnKfDXKJi4RBBlkf8wjdyJtsKW8r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ieH10vtx; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkCIXY8S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ieH10vtx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745303638; x=1776839638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lG+AJzYTyqIBVr0kpwKvwOUbYRVdnS34HpP7QoWRYnI=;
-  b=EkCIXY8SZveCKt0Syes6oBSieeubyytj8g5Z/Zn681GdyCIXcoJr6mUa
-   zAX+3MM8pv2qEuEf6mI3Qo8Pj03vHnKxwYNgyjDy9657Fj1Rzh0+Oerc0
-   lAo4H6tq5V4RFjCAA9dft18+rxNOmu+labwjJ+lu1DoRcJP/N6rTeMRxs
-   xDf9INdzBfj+3J/6AQqooLv6iW91k6SJtIDZPuxZEIvyj++FxaVENXxLh
-   0yCuj337mRRq6Se5HdxGE7wQdkw2TzWio83M0wmuDX0BkLHab9OZs1VTi
-   sNNCOB8HltxshTCCV5oX8hri/689q03RRQ1KI3FEmiSgAX21K+in6/+xe
+  t=1745309764; x=1776845764;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KvPOhS69oCGL7AaNjD3lCLWnbvb8F9DwlhqTzhsBovY=;
+  b=ieH10vtxrdbIIPv3IyV06+XTRZSCwNUpboMZSz4y5nkteSz7a6JMSfV7
+   gkEri80LcT1j1lLZOmYr9G3s1jfX0Uej86g/gxWvi92gH5+ljSbGkhVIR
+   Rpfz+gBowlqiR3poPySdHfVaZreioJGsggKhrzDYK/kqmJTCzPB0z8wQY
+   Fu28BDguDrjNGupHY26QbdMsFbMbnFnLRIRakvtbJS+9CYhUhw/lMb2v/
+   BXq1zBqc1I8FZ2VL0OBqTDNw+gQqoiScp4Zw5RpepEuC+U4WeD/Ggrvx7
+   P41esp1d2Uu+zNXT2CPfb7OZppHK4VUwxMEm5by5NKYbFPZU8t2V8+Xd2
    w==;
-X-CSE-ConnectionGUID: pwUNOBH8Q5a1QEYnb7Mb2Q==
-X-CSE-MsgGUID: ktCi+qp9RlWS91Akkfe7Qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="50676437"
+X-CSE-ConnectionGUID: 8zv+PaBtSQmNmD0R57xWmg==
+X-CSE-MsgGUID: EmMk+TYbSR6fumRxcKa8tA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="46091751"
 X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="50676437"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 23:33:57 -0700
-X-CSE-ConnectionGUID: Gchev3+TRoy28GD8klGtLA==
-X-CSE-MsgGUID: Ij4cWYHfTl6qim1Aj1kNcw==
+   d="scan'208";a="46091751"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 01:16:04 -0700
+X-CSE-ConnectionGUID: h9o4rEQPRWesen/87u1OYA==
+X-CSE-MsgGUID: h6m6EyDeTsWXIwIA27GC6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="155091747"
+   d="scan'208";a="131947041"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Apr 2025 23:33:54 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 Apr 2025 01:16:02 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u77Ca-0000fj-0n;
-	Tue, 22 Apr 2025 06:33:52 +0000
-Date: Tue, 22 Apr 2025 14:33:35 +0800
+	id 1u78nQ-0000jp-0R;
+	Tue, 22 Apr 2025 08:16:00 +0000
+Date: Tue, 22 Apr 2025 16:15:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marwin Hormiz <marwinhormiz@gmail.com>, dpenkler@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, dan.carpenter@linaro.org,
-	matchstick@neverthere.org, arnd@arndb.de, niharchaithanya@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marwin Hormiz <marwinhormiz@gmail.com>
-Subject: Re: [PATCH 1/1] staging: gpib: gpio: Fix memory allocation style in
- gpib_bitbang.c
-Message-ID: <202504221447.i7O7WGlW-lkp@intel.com>
-References: <20250421184144.220972-1-marwinhormiz@gmail.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Potapenko <glider@google.com>
+Subject: mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space
+ '__user' of expression
+Message-ID: <202504221600.LRuSAGXA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,380 +64,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250421184144.220972-1-marwinhormiz@gmail.com>
 
-Hi Marwin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marwin-Hormiz/staging-gpib-gpio-Fix-memory-allocation-style-in-gpib_bitbang-c/20250422-024547
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250421184144.220972-1-marwinhormiz%40gmail.com
-patch subject: [PATCH 1/1] staging: gpib: gpio: Fix memory allocation style in gpib_bitbang.c
-config: nios2-randconfig-002-20250422 (https://download.01.org/0day-ci/archive/20250422/202504221447.i7O7WGlW-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504221447.i7O7WGlW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a33b5a08cbbdd7aadff95f40cbb45ab86841679e
+commit: 3a8f6f3b469b4075919a3613e182f9a70df92d46 kmsan: enable on s390
+date:   10 months ago
+config: s390-randconfig-r113-20250422 (https://download.01.org/0day-ci/archive/20250422/202504221600.LRuSAGXA-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce: (https://download.01.org/0day-ci/archive/20250422/202504221600.LRuSAGXA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504221447.i7O7WGlW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504221600.LRuSAGXA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space '__user' of expression
+   mm/kmsan/hooks.c:271:75: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const *user_addr @@     got void [noderef] __user *to @@
+   mm/kmsan/hooks.c:271:75: sparse:     expected void const *user_addr
+   mm/kmsan/hooks.c:271:75: sparse:     got void [noderef] __user *to
+   mm/kmsan/hooks.c:280:50: sparse: sparse: cast removes address space '__user' of expression
+   mm/kmsan/hooks.c:306:59: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:319:79: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:325:79: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:421:78: sparse: sparse: Using plain integer as NULL pointer
 
-   In file included from include/linux/device.h:15,
-                    from drivers/staging/gpib/include/gpib_types.h:13,
-                    from drivers/staging/gpib/include/gpibP.h:12,
-                    from drivers/staging/gpib/gpio/gpib_bitbang.c:56:
-   drivers/staging/gpib/gpio/gpib_bitbang.c: In function 'bb_read':
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:380:9: note: in expansion of macro 'dbg_printk'
-     380 |         dbg_printk(3, ".........." LINFMT "\n", LINVAL);
-         |         ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:380:9: note: in expansion of macro 'dbg_printk'
-     380 |         dbg_printk(3, ".........." LINFMT "\n", LINVAL);
-         |         ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:380:9: note: in expansion of macro 'dbg_printk'
-     380 |         dbg_printk(3, ".........." LINFMT "\n", LINVAL);
-         |         ^~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c: In function 'bb_DAV_interrupt':
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:453:17: note: in expansion of macro 'dbg_printk'
-     453 |                 dbg_printk(1, "out of order DAV interrupt %d/%d after %zu/%zu at %d cmd %d "
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:453:17: note: in expansion of macro 'dbg_printk'
-     453 |                 dbg_printk(1, "out of order DAV interrupt %d/%d after %zu/%zu at %d cmd %d "
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:453:17: note: in expansion of macro 'dbg_printk'
-     453 |                 dbg_printk(1, "out of order DAV interrupt %d/%d after %zu/%zu at %d cmd %d "
-         |                 ^~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c: In function 'bb_write':
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:550:25: note: in expansion of macro 'dbg_printk'
-     550 |                         dbg_printk(1, "timeout after %zu/%zu at %d " LINFMT " eoi: %d\n",
-         |                         ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:550:25: note: in expansion of macro 'dbg_printk'
-     550 |                         dbg_printk(1, "timeout after %zu/%zu at %d " LINFMT " eoi: %d\n",
-         |                         ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:550:25: note: in expansion of macro 'dbg_printk'
-     550 |                         dbg_printk(1, "timeout after %zu/%zu at %d " LINFMT " eoi: %d\n",
-         |                         ^~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c: In function 'bb_NRFD_interrupt':
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:610:17: note: in expansion of macro 'dbg_printk'
-     610 |                 dbg_printk(1, "out of order interrupt after %zu/%zu at %d cmd %d " LINFMT ".\n",
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:610:17: note: in expansion of macro 'dbg_printk'
-     610 |                 dbg_printk(1, "out of order interrupt after %zu/%zu at %d cmd %d " LINFMT ".\n",
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:610:17: note: in expansion of macro 'dbg_printk'
-     610 |                 dbg_printk(1, "out of order interrupt after %zu/%zu at %d cmd %d " LINFMT ".\n",
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:617:17: note: in expansion of macro 'dbg_printk'
-     617 |                 dbg_printk(1, "DAV low after %zu/%zu cmd %d " LINFMT ". No action.\n",
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:617:17: note: in expansion of macro 'dbg_printk'
-     617 |                 dbg_printk(1, "DAV low after %zu/%zu cmd %d " LINFMT ". No action.\n",
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:617:17: note: in expansion of macro 'dbg_printk'
-     617 |                 dbg_printk(1, "DAV low after %zu/%zu cmd %d " LINFMT ". No action.\n",
-         |                 ^~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c: In function 'bb_NDAC_interrupt':
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:687:17: note: in expansion of macro 'dbg_printk'
-     687 |                 dbg_printk(1, "DAV high after %zu/%zu cmd %d " LINFMT ". No action.\n",
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:687:17: note: in expansion of macro 'dbg_printk'
-     687 |                 dbg_printk(1, "DAV high after %zu/%zu cmd %d " LINFMT ". No action.\n",
-         |                 ^~~~~~~~~~
->> <command-line>: warning: format '%d' expects a matching 'int' argument [-Wformat=]
-   include/linux/dev_printk.h:139:49: note: in definition of macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ^~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:28:21: note: in expansion of macro 'KBUILD_MODNAME'
-      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:29:17: note: in expansion of macro 'pr_fmt'
-      29 | #define dev_fmt pr_fmt
-         |                 ^~~~~~
-   include/linux/dev_printk.h:171:40: note: in expansion of macro 'dev_fmt'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                        ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:47:25: note: in expansion of macro 'dev_dbg'
-      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-         |                         ^~~~~~~
-   drivers/staging/gpib/gpio/gpib_bitbang.c:687:17: note: in expansion of macro 'dbg_printk'
-     687 |                 dbg_printk(1, "DAV high after %zu/%zu cmd %d " LINFMT ". No action.\n",
-         |                 ^~~~~~~~~~
+vim +/__user +269 mm/kmsan/hooks.c
+
+b073d7f8aee4eb Alexander Potapenko 2022-09-15  247  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  248  void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  249  			size_t left)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  250  {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  251  	unsigned long ua_flags;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  252  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  253  	if (!kmsan_enabled || kmsan_in_runtime())
+75cf0290271bf6 Alexander Potapenko 2022-09-15  254  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  255  	/*
+75cf0290271bf6 Alexander Potapenko 2022-09-15  256  	 * At this point we've copied the memory already. It's hard to check it
+75cf0290271bf6 Alexander Potapenko 2022-09-15  257  	 * before copying, as the size of actually copied buffer is unknown.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  258  	 */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  259  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  260  	/* copy_to_user() may copy zero bytes. No need to check. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  261  	if (!to_copy)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  262  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  263  	/* Or maybe copy_to_user() failed to copy anything. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  264  	if (to_copy <= left)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  265  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  266  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  267  	ua_flags = user_access_save();
+f926e9326f3a79 Ilya Leoshkevich    2024-06-21  268  	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
+f926e9326f3a79 Ilya Leoshkevich    2024-06-21 @269  	    (u64)to < TASK_SIZE) {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  270  		/* This is a user memory access, check it. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  271  		kmsan_internal_check_memory((void *)from, to_copy - left, to,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  272  					    REASON_COPY_TO_USER);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  273  	} else {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  274  		/* Otherwise this is a kernel memory access. This happens when a
+75cf0290271bf6 Alexander Potapenko 2022-09-15  275  		 * compat syscall passes an argument allocated on the kernel
+75cf0290271bf6 Alexander Potapenko 2022-09-15  276  		 * stack to a real syscall.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  277  		 * Don't check anything, just copy the shadow of the copied
+75cf0290271bf6 Alexander Potapenko 2022-09-15  278  		 * bytes.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  279  		 */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  280  		kmsan_internal_memmove_metadata((void *)to, (void *)from,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  281  						to_copy - left);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  282  	}
+75cf0290271bf6 Alexander Potapenko 2022-09-15  283  	user_access_restore(ua_flags);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  284  }
+75cf0290271bf6 Alexander Potapenko 2022-09-15  285  EXPORT_SYMBOL(kmsan_copy_to_user);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  286  
+
+:::::: The code at line 269 was first introduced by commit
+:::::: f926e9326f3a79f7e01ac790e2361f44d8ca8320 kmsan: fix kmsan_copy_to_user() on arches with overlapping address spaces
+
+:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
