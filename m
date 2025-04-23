@@ -1,125 +1,102 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE4D265CDC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Apr 2025 08:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EA01DFE20;
+	Wed, 23 Apr 2025 08:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745396021; cv=none; b=tKxo0uOTtFKgMOHsZowOJwkrkGVv1X97xy/+BbvCDdQiR98HLzdLGyThG6Ciw9nTxLa+X85QDm0rjLBfljG2rPaWHdaBxUGvXQfJxV5dJBhVRiITSmDGenHB3QufuCJp8ix0TST3/MPfvKYmw0o8ZDbqjgBKwngZ7BIPfKqfqFQ=
+	t=1745396617; cv=none; b=DMPPlqtcSqmZDMqDwNl6hryMt64Bd/X0Dt9xSuvOzJUirdFWASbtq8yZLqzt4MuMb/OGrAtPQ3R5Vtzm+u37mulkvolmbOMutWnTnWFlENz/xozUol3P3ckpmVaLroigZQKAWgm4Si3ipulP1sjGglSwGQtTZuO4n8tKsMFULeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745396021; c=relaxed/simple;
-	bh=9ydwNJZ1tCDj7oO3s8GSF0DTcFIor64HYDBpPlz490o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rvC2634slTYx87kuuD2FIxa2augkofXOpzvdvXTdzr9IzXsDUAlvOq40P9Gu3q2w3mSfSkWENUNR78llOCwaUg9spBcu40HaMczCpKIk8A03kBNsJODUUGhIP0OR6zu/edDUOCxBQEPOVvw3TALFtHjGHmhUOCIYsQyQX8W4S6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0E093443A3;
-	Wed, 23 Apr 2025 08:13:33 +0000 (UTC)
-Message-ID: <4f65d7be-37d2-4646-bfb0-34b78047d4db@ghiti.fr>
-Date: Wed, 23 Apr 2025 10:13:32 +0200
+	s=arc-20240116; t=1745396617; c=relaxed/simple;
+	bh=+k9yqO/s4OaNqrko4uLFiQ6t4We61L1bjrE/LVw5Jcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QR2soVJS6LUlRuvFrUyHaB85oi8SE3d2cleQITx6zK3uHuCRyCCvyqo6M770rJU+DVR7ijgJ1mbzLIHv9WTkPTNj6Yp5mmpDTf9q9w8JMOoI9FDaZQfrdCpvUlhoX0Oh07sadODjX8bZ1yb6XrKRecUcoKlor9d3mz3RME64cKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDF2gUzC; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDF2gUzC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745396615; x=1776932615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+k9yqO/s4OaNqrko4uLFiQ6t4We61L1bjrE/LVw5Jcg=;
+  b=CDF2gUzCXstymEhEI/jUMZQ9tFpPdLZTm5Eu9vVAFCUbjDY2If1xOIAB
+   4vV7QXtw7FGRW/9zm0w6KViA60/T1go1r34fQcPk/oXLq/JOofA8O6eUg
+   1VOqRKRCRxLZlXfe39EYuqVa+H52DzCv/zdt/KCC0Fy5tlTh82dFy4gWY
+   qe55LeDS5KWxf9FBG75zDxB+RFFHtdqn5EvkTAMRyZ75VlIbFhVgJvg5/
+   gQgQK9D15yQkJjkfphRAtTfEZqqU05K8Wy0H1+dtJa64Sv4RavZbYUOJK
+   VvgiojJJZD0fZAL/FpQsWmfZ8JraZnGW6yaRoLUaSw7hvc+OZVzYwmGEa
+   A==;
+X-CSE-ConnectionGUID: glIIlJclQxG8l+ZCto9t9w==
+X-CSE-MsgGUID: y580DuOaQMCHUo3CWAqO0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="50809239"
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="50809239"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 01:22:04 -0700
+X-CSE-ConnectionGUID: /3T1SlrDSG+PlKYOBY46FQ==
+X-CSE-MsgGUID: mcZ7cnjoRSuOafvzc1VPVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="137114903"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 23 Apr 2025 01:22:01 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u7VMl-0001jd-0G;
+	Wed, 23 Apr 2025 08:21:59 +0000
+Date: Wed, 23 Apr 2025 16:21:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: xu xin <xu.xin.sc@gmail.com>, xu.xin16@zte.com.cn
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	akpm@linux-foundation.org, david@redhat.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, wang.yaxin@zte.com.cn, yang.yang29@zte.com.cn
+Subject: Re: [PATCH RESEND 6/6] memcontrol-v1: add ksm_profit in
+ cgroup/memory.ksm_stat
+Message-ID: <202504231523.owjrO2Yy-lkp@intel.com>
+References: <20250422112251.3231599-1-xu.xin16@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/12] kernel: ftrace: export ftrace_sync_ipi
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Andy Chiu <andybnac@gmail.com>,
- linux-riscv@lists.infradead.org, alexghiti@rivosinc.com, palmer@dabbelt.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, bjorn@rivosinc.com,
- puranjay12@gmail.com, paul.walmsley@sifive.com, greentime.hu@sifive.com,
- nick.hu@sifive.com, nylon.chen@sifive.com, eric.lin@sifive.com,
- vicent.chen@sifive.com, zong.li@sifive.com, yongxuan.wang@sifive.com,
- samuel.holland@sifive.com, olivia.chu@sifive.com, c2232430@gmail.com
-References: <20250407180838.42877-4-andybnac@gmail.com>
- <202504090657.5fiH4UIS-lkp@intel.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <202504090657.5fiH4UIS-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgeeitdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpeehtdefffefffdvffejkeduteduheejfeejteelleelveegtefhfedufeeuhfetudenucffohhmrghinhepghhithdqshgtmhdrtghomhdpghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemtgeludgrmegtkeehvgemtgduuddtmeekuggvvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemfeefkedvmegvfheltdemtgeludgrmegtkeehvgemtgduuddtmeekuggvvddphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemtgeludgrmegtkeehvgemtgduuddtmeekuggvvdgnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepvdefpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopegrnhguhigsnhgrt
- gesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheprghlvgigghhhihhtihesrhhivhhoshhinhgtrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhtrhgrtggvqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-GND-Sasl: alex@ghiti.fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250422112251.3231599-1-xu.xin16@zte.com.cn>
 
-Hi Andy,
+Hi xu,
 
-On 09/04/2025 00:31, kernel test robot wrote:
-> Hi Andy,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.15-rc1 next-20250408]
-> [cannot apply to trace/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Chiu/riscv-ftrace-factor-out-code-defined-by-WITH_ARG/20250408-025114
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20250407180838.42877-4-andybnac%40gmail.com
-> patch subject: [PATCH v4 04/12] kernel: ftrace: export ftrace_sync_ipi
-> config: xtensa-randconfig-001-20250409 (https://download.01.org/0day-ci/archive/20250409/202504090657.5fiH4UIS-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250409/202504090657.5fiH4UIS-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504090657.5fiH4UIS-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> kernel/trace/ftrace.c:191:6: warning: no previous prototype for 'ftrace_sync_ipi' [-Wmissing-prototypes]
->       191 | void ftrace_sync_ipi(void *data)
->           |      ^~~~~~~~~~~~~~~
->
->
-> vim +/ftrace_sync_ipi +191 kernel/trace/ftrace.c
->
->     190	
->   > 191	void ftrace_sync_ipi(void *data)
->     192	{
->     193		/* Probably not needed, but do it anyway */
->     194		smp_rmb();
->     195	}
->     196	
->
+kernel test robot noticed the following build errors:
 
-I fixed this with the following that I squashed into your patch, no need 
-to resend a new series for this.
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.15-rc3 next-20250422]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/include/linux/ftrace.h b/include/linux/ftrace.h
-index 0d4eec5747074..30374478cb077 100644
---- a/include/linux/ftrace.h
-+++ b/include/linux/ftrace.h
-@@ -635,6 +635,8 @@ enum {
-  #define ftrace_get_symaddr(fentry_ip) (0)
-  #endif
+url:    https://github.com/intel-lab-lkp/linux/commits/xu-xin/memcontrol-rename-mem_cgroup_scan_tasks/20250422-231623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250422112251.3231599-1-xu.xin16%40zte.com.cn
+patch subject: [PATCH RESEND 6/6] memcontrol-v1: add ksm_profit in cgroup/memory.ksm_stat
+config: i386-buildonly-randconfig-006-20250423 (https://download.01.org/0day-ci/archive/20250423/202504231523.owjrO2Yy-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250423/202504231523.owjrO2Yy-lkp@intel.com/reproduce)
 
-+void ftrace_sync_ipi(void *data);
-+
-  #ifdef CONFIG_DYNAMIC_FTRACE
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504231523.owjrO2Yy-lkp@intel.com/
 
-  void ftrace_arch_code_modify_prepare(void);
-@@ -807,7 +809,6 @@ extern void ftrace_call(void);
-  extern void ftrace_regs_call(void);
-  extern void mcount_call(void);
+All errors (new ones prefixed by >>):
 
--void ftrace_sync_ipi(void *data);
-  void ftrace_modify_all_code(int command);
+>> ld.lld: error: undefined symbol: ksm_process_profit
+   >>> referenced by memcontrol-v1.c:1843 (mm/memcontrol-v1.c:1843)
+   >>>               mm/memcontrol-v1.o:(evaluate_memcg_ksm_stat) in archive vmlinux.a
 
-  #ifndef FTRACE_ADDR
-
-
-Thanks,
-
-Alex
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
