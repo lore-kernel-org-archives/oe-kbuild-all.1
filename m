@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65CC1FDD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Apr 2025 04:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4072120B80E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Apr 2025 05:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745383847; cv=none; b=UAX2IxuTiRa03Sa+VDjX4w2XVFFk9+kdcoYYXkPgWMaKo/j0RMIqz1A917WgaW33Uzz1X5yRDZX/rFfjGD7ug91xHYXpxT07CQFdfAKIvsSzU1f2QTrScaYv/1C5V6Cb3ofBuEHzq4Ol+juxk8aEYCskh0TwT3QF66fkRysKYeo=
+	t=1745386310; cv=none; b=pHFHSAPac2rKOA9rKU+yQriP/RAnvFLB69MchcSyDqL+PfAWlrd4eWP0yASRMkZW4FXmto5vFWhtu699OqDQeArKtJ6OigfXkJuoHw8K8/oFzsisT1ST+G3Y9qfncm7iO+1FjL2BMjmcJq81LFxUB4Q5MeCeRHmBBdOkQiSBuvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745383847; c=relaxed/simple;
-	bh=LQ2nQZnzSjreof+r88jc41WWhLr/TSNnPUoPxRruACQ=;
+	s=arc-20240116; t=1745386310; c=relaxed/simple;
+	bh=FrHdBAJIcIePwaK6NqhsNvRk48eflaDwTBb2jnboi90=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PqL/popRlHwzzlKqnJYF+3sdjHVvTY5o8j2YtfRjFychvdkwfqwPYlfj1nBJ/WMBeM8q7/MPUdYcfL2mHjl296xN+E3F2NLP7CoAUsEPrXQx2nRSPqnRcB0u/5pUXMeEF8Bvp5D1VsbffwV8u82q1WH/XfTn+gBeTQ+ja1opN1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6NOfhDk; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=oHytarlzUdHhxdsLdWIHAbY6JHr58xioaCLswHA6uDNN2pPmScwU3NQAcTkZDvv8Dki1lxZRad79zdgF0P0Hso5ll40HXj8AAMLuGui4T8ueJW3xVMcMFReNQ64wMNQrBsZsCoRmio5NgZHe73wJP0mfagUmK76nbJp6/erdipU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCJvJWZg; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6NOfhDk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCJvJWZg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745383846; x=1776919846;
+  t=1745386309; x=1776922309;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LQ2nQZnzSjreof+r88jc41WWhLr/TSNnPUoPxRruACQ=;
-  b=n6NOfhDkgVMO0p7r8AjGKvrq40ACfT1oBYEVNvVaEiob6H8QFO25EfRb
-   hI54kFZYx9Lj8Xb8f+L2wfu86wT9ZqTpRp7WfJ0Rb5KhfUZ9Mxe0Jlbsh
-   HpvAgM5L2X8hcSGMnrtbinNU3x7o70Fv1ej7MBo9cmYdxf8Bm5jCFDJFr
-   srDNdfEGh3kAaYMl88+N0Bd2iFeuMshzjDLV8WGo9AaECGkFUBhhm51Nv
-   YnGcWzmGB7xV0VDDUrFFB2z0UUeRrH8e3eeIBMO5dsAhYXBsWzAEhqLZL
-   7wV2pFa5PU9oxccAaSxEl6rT/kJ9PWxJLHJM4fSBUBOD0Fom1YgS9+SkH
-   w==;
-X-CSE-ConnectionGUID: QkrXtutkTFukyZ4HFxL/WQ==
-X-CSE-MsgGUID: 4brrsqVLRnCq4891cNbwMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="47142921"
+  bh=FrHdBAJIcIePwaK6NqhsNvRk48eflaDwTBb2jnboi90=;
+  b=FCJvJWZg2lE20UNNXXOlnNNtlBpXcyuaORJoUtjksqr+lCA419fQCQej
+   snWEU4oGizkNAB3rmWGbbr69tb3H3ZJxglqXfzKyZx/bcu7X8p5SUI6H0
+   hQ142hzSM6Nm99zzm2/mNUNjfJIT3cXYIWiwCqQFQNO8McXerhU11bHlE
+   huE0NLXhjRZI3K8CPL1aJltAOJctXRaTb9o9sThU3h0H4IUG/BzNBB2J1
+   QP7aOyi6MDDHB0WwChwKAmo/txRXZMmbLqIE/m0jxgifzYtLzl/EYLUji
+   crZMVgjnzwE6wLx60THz+y4vier874PgCHPA/neVUCy6hLBv4vfkZpPAG
+   Q==;
+X-CSE-ConnectionGUID: XIyOsoBUQDGp5QlsNvGnrw==
+X-CSE-MsgGUID: xvGowA1+SvKvMn+bN4t++w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="46664692"
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="47142921"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 21:50:45 -0700
-X-CSE-ConnectionGUID: 4hMrYiUHT9SLsdIHTBHgpw==
-X-CSE-MsgGUID: vDkI8Iw8TI2/STzi/iUI0A==
+   d="scan'208";a="46664692"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 22:31:48 -0700
+X-CSE-ConnectionGUID: yVCDLFSeRKWVzmlpPoXCWQ==
+X-CSE-MsgGUID: /V03BVM0SwS2a7XULOZvlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="132095592"
+   d="scan'208";a="169419970"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 22 Apr 2025 21:50:45 -0700
+  by orviesa001.jf.intel.com with ESMTP; 22 Apr 2025 22:31:47 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7S4H-0001cB-35;
-	Wed, 23 Apr 2025 04:50:41 +0000
-Date: Wed, 23 Apr 2025 12:50:22 +0800
+	id 1u7Si0-0001cp-1w;
+	Wed, 23 Apr 2025 05:31:44 +0000
+Date: Wed, 23 Apr 2025 13:31:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arthur Fabre <arthur@arthurfabre.com>
+To: Jianlin Lv <iecedge@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC bpf-next v2 09/17] trait: Store traits in sk_buff
- extension
-Message-ID: <202504231243.flI74qPm-lkp@intel.com>
-References: <20250422-afabre-traits-010-rfc2-v2-9-92bcc6b146c9@arthurfabre.com>
+Subject: Re: [RFC PATCH  bpf-next 1/2] Enhance BPF execution timing by
+ excluding IRQ time
+Message-ID: <202504231319.Ruutd2WV-lkp@intel.com>
+References: <73fdbbf9aafd3e24e12bb58f89c70959fb3a37f1.1745250534.git.iecedge@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +63,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422-afabre-traits-010-rfc2-v2-9-92bcc6b146c9@arthurfabre.com>
+In-Reply-To: <73fdbbf9aafd3e24e12bb58f89c70959fb3a37f1.1745250534.git.iecedge@gmail.com>
 
-Hi Arthur,
+Hi Jianlin,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 5709be4c35ba760b001733939e20069de033a697]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arthur-Fabre/trait-limited-KV-store-for-packet-metadata/20250422-212907
-base:   5709be4c35ba760b001733939e20069de033a697
-patch link:    https://lore.kernel.org/r/20250422-afabre-traits-010-rfc2-v2-9-92bcc6b146c9%40arthurfabre.com
-patch subject: [PATCH RFC bpf-next v2 09/17] trait: Store traits in sk_buff extension
-config: i386-buildonly-randconfig-001-20250423 (https://download.01.org/0day-ci/archive/20250423/202504231243.flI74qPm-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jianlin-Lv/Enhance-BPF-execution-timing-by-excluding-IRQ-time/20250422-214957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/73fdbbf9aafd3e24e12bb58f89c70959fb3a37f1.1745250534.git.iecedge%40gmail.com
+patch subject: [RFC PATCH  bpf-next 1/2] Enhance BPF execution timing by excluding IRQ time
+config: i386-buildonly-randconfig-001-20250423 (https://download.01.org/0day-ci/archive/20250423/202504231319.Ruutd2WV-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250423/202504231243.flI74qPm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250423/202504231319.Ruutd2WV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504231243.flI74qPm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504231319.Ruutd2WV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/net/busy_poll.h:19,
-                    from io_uring/napi.h:8,
-                    from io_uring/io_uring.c:96:
-   include/net/xdp.h: In function '__xdp_flags_update_skb':
->> include/net/xdp.h:133:17: error: implicit declaration of function 'skb_ext_from_headroom'; did you mean 'skb_realloc_headroom'? [-Werror=implicit-function-declaration]
-     133 |                 skb_ext_from_headroom(skb, SKB_EXT_TRAITS, _XDP_FRAME_SIZE, traits_size(traits));
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-         |                 skb_realloc_headroom
->> include/net/xdp.h:133:44: error: 'SKB_EXT_TRAITS' undeclared (first use in this function)
-     133 |                 skb_ext_from_headroom(skb, SKB_EXT_TRAITS, _XDP_FRAME_SIZE, traits_size(traits));
-         |                                            ^~~~~~~~~~~~~~
-   include/net/xdp.h:133:44: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:22,
-                    from io_uring/io_uring.c:42:
-   include/net/xdp.h: At top level:
-   include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct xdp_frame) == _XDP_FRAME_SIZE"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/net/xdp.h:303:1: note: in expansion of macro 'static_assert'
-     303 | static_assert(sizeof(struct xdp_frame) == _XDP_FRAME_SIZE);
-         | ^~~~~~~~~~~~~
+   In file included from kernel/kallsyms.c:25:
+   include/linux/filter.h: In function '__bpf_prog_run':
+>> include/linux/filter.h:708:30: warning: unused variable 'cpu' [-Wunused-variable]
+     708 |                 unsigned int cpu;
+         |                              ^~~
+>> include/linux/filter.h:706:60: warning: unused variable 'irq_delta' [-Wunused-variable]
+     706 |                 u64 duration, start, start_time, end_time, irq_delta;
+         |                                                            ^~~~~~~~~
+>> include/linux/filter.h:706:50: warning: unused variable 'end_time' [-Wunused-variable]
+     706 |                 u64 duration, start, start_time, end_time, irq_delta;
+         |                                                  ^~~~~~~~
+>> include/linux/filter.h:706:38: warning: unused variable 'start_time' [-Wunused-variable]
+     706 |                 u64 duration, start, start_time, end_time, irq_delta;
+         |                                      ^~~~~~~~~~
+   At top level:
    cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
-   cc1: some warnings being treated as errors
 
 
-vim +133 include/net/xdp.h
+vim +/cpu +708 include/linux/filter.h
 
-   129	
-   130	static __always_inline void __xdp_flags_update_skb(u32 flags, struct sk_buff *skb, void *traits)
-   131	{
-   132		if (flags & XDP_FLAGS_TRAITS_SUPPORTED)
- > 133			skb_ext_from_headroom(skb, SKB_EXT_TRAITS, _XDP_FRAME_SIZE, traits_size(traits));
-   134	}
-   135	
+   686	
+   687	extern struct mutex nf_conn_btf_access_lock;
+   688	extern int (*nfct_btf_struct_access)(struct bpf_verifier_log *log,
+   689					     const struct bpf_reg_state *reg,
+   690					     int off, int size);
+   691	
+   692	typedef unsigned int (*bpf_dispatcher_fn)(const void *ctx,
+   693						  const struct bpf_insn *insnsi,
+   694						  unsigned int (*bpf_func)(const void *,
+   695									   const struct bpf_insn *));
+   696	
+   697	static __always_inline u32 __bpf_prog_run(const struct bpf_prog *prog,
+   698						  const void *ctx,
+   699						  bpf_dispatcher_fn dfunc)
+   700	{
+   701		u32 ret;
+   702	
+   703		cant_migrate();
+   704		if (static_branch_unlikely(&bpf_stats_enabled_key)) {
+   705			struct bpf_prog_stats *stats;
+ > 706			u64 duration, start, start_time, end_time, irq_delta;
+   707			unsigned long flags;
+ > 708			unsigned int cpu;
+   709	
+   710			#ifdef CONFIG_IRQ_TIME_ACCOUNTING
+   711			if (in_task()) {
+   712				cpu = get_cpu();
+   713				put_cpu();
+   714				start_time = irq_time_read(cpu);
+   715			}
+   716			#endif
+   717	
+   718			start = sched_clock();
+   719			ret = dfunc(ctx, prog->insnsi, prog->bpf_func);
+   720			duration = sched_clock() - start;
+   721	
+   722			#ifdef CONFIG_IRQ_TIME_ACCOUNTING
+   723			if (in_task()) {
+   724				end_time = irq_time_read(cpu);
+   725				if (end_time > start_time) {
+   726					irq_delta = end_time - start_time;
+   727					duration -= irq_delta;
+   728				}
+   729			}
+   730			#endif
+   731	
+   732			stats = this_cpu_ptr(prog->stats);
+   733			flags = u64_stats_update_begin_irqsave(&stats->syncp);
+   734			u64_stats_inc(&stats->cnt);
+   735			u64_stats_add(&stats->nsecs, duration);
+   736			u64_stats_update_end_irqrestore(&stats->syncp, flags);
+   737		} else {
+   738			ret = dfunc(ctx, prog->insnsi, prog->bpf_func);
+   739		}
+   740		return ret;
+   741	}
+   742	
 
 -- 
 0-DAY CI Kernel Test Service
