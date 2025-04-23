@@ -1,198 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A6725FA26;
-	Wed, 23 Apr 2025 01:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745372304; cv=fail; b=WShjg4bVJZwJdvXEtUdpQ3wBf1IVAJP9cG8sx3H50Z22JSKQGoF7Yu6vmEpTb4stPUV2NSARGcr7rJt3hephtVVKNjUDKombrnlCorYHaFDkIqb740Rp6v3T6hkKYMXm3v1EpIJAZowNzbGhI54MywoSI7PsJJpN+a3qizu+Py4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745372304; c=relaxed/simple;
-	bh=7VxOr0wy118I566ekMq1H0iMDTiS/PjLBPmIjDCfHI4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=pLUq1UFVT7FN41DRoym4CG4lSb90l9g8cZg9voC6F1V0zxk2OXybB0T2HWpw/f7TpY/JbdVCu/YglqrbHSeALr1oNlojIhfdLXzKGQdB+Zcj1t7cNe2RU5uda8+hjH+0fUWAJf5LKKR8Q6hOpKnD+yZszcKiPtBJlkLqz9TFQPE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nxcZahVl; arc=fail smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBFF8BEC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Apr 2025 01:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745372733; cv=none; b=Q/leiDGZh8k2HREtsZ+wTvaKffzT8x6E8Ahxo+uDPF1kz1YXB65sGBa8kAd7Ah63VrnAAyCk8AE2eO/E+ZhRvW/yXiozgVr95BIL7MFT74aP+ACXwl3iLBzNgBXjhWPkeM6C2n/oldbqcgGL8wTLi8f+Yyo+RKG7GGpFd74p95I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745372733; c=relaxed/simple;
+	bh=TA3/pGOYdXW5RoY7eWhJTqCM2KqCoGEJgM6HwRclH7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JJ3WRCl2g2jPabKlKMAvxnZTH/aAXCqpI4M6Pq+/niA0+cTwJ+fXk1d0wBRYxNdSylQAnvd5N6mQEWiLfuYN3FXPyyzXYIu8g5fufFyMKUBAy6YMxPyyeDIq4pqx7RWq0h26TWX0j9zu4eRAIYwX/NAcUfrUHsGpsUPCU3Jr9YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VCj4srIF; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxcZahVl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCj4srIF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745372303; x=1776908303;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=7VxOr0wy118I566ekMq1H0iMDTiS/PjLBPmIjDCfHI4=;
-  b=nxcZahVlKPH/b4UmLebd8f2uoVFuRthK7L7NX85fJFhjl5zvyFJ2jvFx
-   25vfECAV60ehRQtnsS7i4oPOmMOkEHaUSj5Z7MX9Hs3Btc27RaY2JRpwb
-   JYt8WmOsD+7h/ksTi5eRvP5jM8rzDidmVXCbQUZqwWL4Wkmk6VpadEiln
-   bEyar8ZIUr67sbYbeCZnUSZy1KMAa8LM2fRnxVYoKuOmyk8JqCbJpGHe/
-   R3cuo/vuCn9JBO3v0p3t2dXScgbznYb6SF7iM2/s3PIQbd6Hx/6a3Y9NV
-   OQBqS/ID3sQvt7gEfp1eW9x/Tr21E2bxl9Vj2ZNBMTihpyA5YBaFkHwu2
+  t=1745372731; x=1776908731;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TA3/pGOYdXW5RoY7eWhJTqCM2KqCoGEJgM6HwRclH7o=;
+  b=VCj4srIF6DUCucT2XToPQs7jeXwTkYjZkrYhdo/UZQpZ0sV9N7ChFwEu
+   v8InuzgsBfHe1Yc8o1Axky8fARG64Pcl6dy5+C0GKy0WLP7GP6sKFF5fV
+   3ZkPbqvnP35IqAn6eIA5B5xhFZUKPbOlIn7+Nenz9qGFnQSKx4jLyq/Cc
+   XDn5WhZij8e6R73riUp9lPqTkLRXuPGknooC/PIxbtPo51WZqYzJxoHQO
+   u3RCko+EPfPsZ2ju+G9iYEeq2Z+PSCkIp0DVciVafV08sIxHGKPxQWL44
+   vhRoJyVPkpu7fLThr3hd+z0Q09U6dsikoadBJYOu8JFSrKn/VIGzCK1Ez
    Q==;
-X-CSE-ConnectionGUID: 5FCN8DMdTD+UBFuEa5oZ7Q==
-X-CSE-MsgGUID: qJJYGGQ1SqawGXG7QFBFMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="64361024"
+X-CSE-ConnectionGUID: QZTFt897QIuqrE8uAGN7jQ==
+X-CSE-MsgGUID: pEjBNcfrTeapF+jlkKp+Ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="46830232"
 X-IronPort-AV: E=Sophos;i="6.15,232,1739865600"; 
-   d="scan'208";a="64361024"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 18:38:22 -0700
-X-CSE-ConnectionGUID: RXCXTy27STyI0z6W/xIVdw==
-X-CSE-MsgGUID: 2hX+BnMLStSzgrzAzjsa2Q==
+   d="scan'208";a="46830232"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 18:45:31 -0700
+X-CSE-ConnectionGUID: MMSvH7YURsyxCVkRGZpYRg==
+X-CSE-MsgGUID: 3ZfLjCl4SHGIP03B/YxAGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,232,1739865600"; 
-   d="scan'208";a="132024635"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 18:38:21 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 22 Apr 2025 18:38:20 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 22 Apr 2025 18:38:20 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.46) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 22 Apr 2025 18:38:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=quPLI9dDkyvBw3/v8mAZnNu0eNT5gC+EayPdBUUCWaPqHNb1z0bk6VfrbsmOC8n/OxF7zVd6Mq1kS+4X9vcOnuPunZ63Z0U37UXLHZn2QJHee1Kt2CGSB9d+Uc+Jd9aVQ4WARjP4nLKtWtiyjnZ2oLenMjMz5s29h7p973yWUB/Bfn9eXKSUk97oU45lHtV3/EKX7co9AgKsKDzdpTq5VtvQaisTq7LP11QGGD/auyZeDz34I+R3Vw+dPDtHoSu5JEt1YAL4bjJxX/cCIClKQQi0ZfyNdV82SqbxQmwNWiPGlv+/e+VcSY0FeMotY/BAz4rtPcS6EmcI29ecDBWa5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=buxVHD/bYwbnF6lyNSXlkVlYiQjaKR6/HjNiB5/ilNc=;
- b=Pi7RTLyh3eC7iQP3pwFcERsSQrppe23lAzHQufZidVmgfVBdGz1wIQ7Qkqry8Y4FepcZfCqY0u4rUCapNtu5rGVCLcqldXT3vR86tOyjiai9elq6C+bHH6FLg0prgKZ59MJEfRhDgJ70lMXDedfZddnNYIM4qscds9/K5sgzWXXx/pXOvVmK1ahwNE+pcsQzkHUppLqUHFQ0Fs0WTY+e3FV+pmgKGBogYlpx7C44j0LhrLyETT+k4CWO0JjrnhJZq9FsnQ0Q+qFtML2PmdZY3GMikdTu73x55YXApJWqe77B/MlyUUe0d1Od7Dj1hbPCQ+pPy8NmeLThAVBo9d+ojA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
- by DM3PR11MB8681.namprd11.prod.outlook.com (2603:10b6:0:49::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8678.22; Wed, 23 Apr 2025 01:38:04 +0000
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a]) by PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a%5]) with mapi id 15.20.8655.033; Wed, 23 Apr 2025
- 01:38:04 +0000
-Date: Wed, 23 Apr 2025 09:37:55 +0800
-From: Philip Li <philip.li@intel.com>
-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-CC: kernel test robot <lkp@intel.com>, Karthikeyan Kathirvel
-	<karthikeyan.kathirvel@oss.qualcomm.com>, <ath12k@lists.infradead.org>,
-	<llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH ath-next] wifi: ath12k: allow beacon protection keys to
- be installed in hardware
-Message-ID: <aAhEc8yrW4vcrE7J@rli9-mobl>
-References: <20250421114711.3660911-1-karthikeyan.kathirvel@oss.qualcomm.com>
- <202504220128.2KvxCzaG-lkp@intel.com>
- <47ea4e64-cd87-4c42-a20d-f663f197e44c@oss.qualcomm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <47ea4e64-cd87-4c42-a20d-f663f197e44c@oss.qualcomm.com>
-X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
- To PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
+   d="scan'208";a="163226011"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Apr 2025 18:45:29 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u7PB1-0001W3-27;
+	Wed, 23 Apr 2025 01:45:27 +0000
+Date: Wed, 23 Apr 2025 09:45:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, hejingxian <hejingxian@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2153/2153] arch/arm64/kvm/arm.c:1037:11: error:
+ no member named 'irq_level' in 'struct kvm_pmu'
+Message-ID: <202504230942.5dFQC7IQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5674:EE_|DM3PR11MB8681:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb5ee578-c59e-4654-a483-08dd82077d96
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gDuTLDyajT5ziW4g0pHY62LdplkFpddNt6EP6WP8wxC+1UwaDE2YAtjzpb+7?=
- =?us-ascii?Q?znVbNISnzCp9h+PcrmcfQcj/VcVykbvnKTf9fZbtjE69plXTqbFsiVkOcLv4?=
- =?us-ascii?Q?9eQbiFoe1BJoje7b9kHEkJL6qTb0hyTCSBRJ+I0mDJqVPBPf9pazc96EiiDl?=
- =?us-ascii?Q?XBbKuvl2q1UkwQRcjWrynDrXC3hPCuXkT7UCCv+WZFSc1dXoOLqjkom335jH?=
- =?us-ascii?Q?BtrHMDgKasgfruS4n50gv5UduOcc8INtHaHwf0HKdyVBTngQh4nKYlf0UYJe?=
- =?us-ascii?Q?1u4Pa28YvaiLAntpn73Q+Du6X0urEhXIjMMK+W0XRXqjN4KxMeW/UF7K7naY?=
- =?us-ascii?Q?YPdbpuMDHuDQGARerU5FI0sBC0/DENyqhwXnnDnf0V0o1uvPX2gpitvFVb+v?=
- =?us-ascii?Q?gGg+weVv38tw6dJLiu0tr19xlMQH6tpZBEtcOmZgVwQDBV7YztdJ2d/qPecu?=
- =?us-ascii?Q?RvmNWrEv2/E53mvUHrAxuzW0iZ2MLWsoNFmLSZz5wsQZfdQdNaBT4XJGHq6h?=
- =?us-ascii?Q?Vw0s/BM0W6crpH1ocqRBvCKVJZgoBlA2PH/0wKnETg7Vo5Mkoe2rixUkTAoV?=
- =?us-ascii?Q?kPPF5+/POF5SdsmSnJCwsmXmJf/BZ3yR1Rh3laGT516nqmpEKN9cWlhG11mt?=
- =?us-ascii?Q?abyzK7yAinTL3b8b7WhGO3LHCCKpdAqGviQjmYatHAJnOqWs8JExU5MsGzNs?=
- =?us-ascii?Q?pqLBweua3msC/k82navkn6JHmBmXHf2kb0H8fawrg0Qa5P1cmE/QmP9KpEq3?=
- =?us-ascii?Q?cKpfO3tvcgZ0hwSxFmdUh9g2I1ZWnj16urNoqN1TsrmxdyhtgxjiZvb3i57f?=
- =?us-ascii?Q?XwMJtGljsBCqtG5iEVqvBW4GipbaWi3JYQ4lyY9vNbTD2VSl5ZX2ghI1YNcb?=
- =?us-ascii?Q?mAY8LwVWY4atkQBu/XfqBvhWBO9jOmTraWKbvctHcNi8HMOJfX79Jxx/rrpy?=
- =?us-ascii?Q?xO12T4nNRwqoe6Q7frHNKvjSMVICx03lQjLephtwjnV0lf9LVLkEoDpakKbY?=
- =?us-ascii?Q?A4xhnos4fHp+jTDPxFjInSOTP/bvEG/dn0CeEFAlGrqQAL8PoB4g4tdeHLJB?=
- =?us-ascii?Q?UWtuXkxFq5JoK2y0Je5jXmYohq2RK5igmNNJewqR5ujUVUUOO7kqC6l9PWHn?=
- =?us-ascii?Q?ZN7GgsUyHKQZq2g+sWwfIC5TWUc/eMOGbJ2VpZ8rM38hGxBpiGSLegW8rsn2?=
- =?us-ascii?Q?AlZJCCLviw67r4H3qN391FDoVC2/SOuC4p1pX7BQ9JNd8T3ZrbFbRFIYjV0L?=
- =?us-ascii?Q?ylfPn4LmseQvQorNa4//YvDYSLkTs+l93n6loQ+JmD+alX0VOE3DWifc25YM?=
- =?us-ascii?Q?i7aCd6XGffnSjks7HGW1b0+JC6KjhlHa9uqP5bWOekY+EjCVpZ+YU3jbZE4Q?=
- =?us-ascii?Q?Gbc5FrWcSNzsHeD4tJiwUOWiqcNcpbYdyrwCxTAmygh4PqudozM92tJ8/sIg?=
- =?us-ascii?Q?GFBlQS3AOAY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5674.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?URaAHpyOSlPetyzXbdc5I3zLh1oiarsuNfKkriig6CAEcnq9XluyyfozYh53?=
- =?us-ascii?Q?Xcirbc6pWvFhhPfRcETDyfApnqBMt6Sfl/FQJnrh3Np7TGbPCxB4cBNsDLRS?=
- =?us-ascii?Q?f65nf6ZYKdiRT6Uuld2GOFuaCDDUWkl9fezNle7dr5GKkRdL4Ls+jtsjcUK7?=
- =?us-ascii?Q?faHTp5clTtRGB9jk4Rqq31n+Ksymn9WD/1sXp7btrTv3RUZ/Cla6KQDnX7IC?=
- =?us-ascii?Q?oO1/CBaEVt7rUOCGwYj+VcTRF11YpxnPXcmWXH4qT75Va9D6WI7eHw6byrVH?=
- =?us-ascii?Q?0dYEY4/LwGo9W1Rgq///orq11QoHbHoXdOlqBmmjPBR5HOryfdn2innzzC8P?=
- =?us-ascii?Q?+6C0nrJhV3xkVsM2T2DvVos5fkTJEKfHw0bbk8qocw2LAZHEvs2+j5s7W2ll?=
- =?us-ascii?Q?d/uvnp02wqrLdRrYPLdSkDsdwiEoHSa91vQ8dINiF2Ju1iiv+GGlSN6Qtf+I?=
- =?us-ascii?Q?eyATsisfYChG/mLTM7Nm6cKcTeo7AcPRs6BxFbOjc8k+Pr5TblN2HqqhEVdV?=
- =?us-ascii?Q?8xIzMf8pqjLfyc/fouk0WNdOd+r/uIdTuMxLegZ4HrMVlXdIs2izi8wVvIkX?=
- =?us-ascii?Q?0VKwbec0SvxylAQCyKyJUyw3sRrGtzyFEtXpz+uvNrkfVntYl7g4Pyc5pVZc?=
- =?us-ascii?Q?z2lDFfpeULsVRw2rwN8eouswg+tuDsS6DtzYeh/98dwn6lBrjZ8c+ObvV/gW?=
- =?us-ascii?Q?rt46GGeZ4DDoDTeiiaKZgbqGLscFmiOqFydsTYWOEcvokx/u/RW8VaXc1hGa?=
- =?us-ascii?Q?msrU+ikDWfWU/NVyxwROuL7a+yOiW7RpAzUEZHh5P0EZ9+C8/q1hSWsfbrEV?=
- =?us-ascii?Q?DwxPjk1pYs4ONfphCS8SZ9ptTMNl9naY4Baf6jXSUvZb5es+RmGNkpMNfeCa?=
- =?us-ascii?Q?4b0XuQLkacJP0sJ+n9xoUaaTdSkXPJJmM33Wq0n3aVPFm1xd0vOlQI/mNeCo?=
- =?us-ascii?Q?rK+AUeDai/3m0Og5z5ToHIaPXCg+ktyTBc9HZm2JRK070jSXD7mO98YalY5D?=
- =?us-ascii?Q?HLqDyYXkjdXVHVUdt++WMa519cjvMIFKqs+EfexbcjY3J1SLxQBOoOZdKb4+?=
- =?us-ascii?Q?CQqcHK9Rdsbby/pGOxIJx0KGFVm2dMF1/l1W5ai9Qqvd/Whnhlf6L5kRsR4H?=
- =?us-ascii?Q?ziE3H+DU7MF7hLdhxKpysHBTu2R0fiHDjNQo++/mUs8E/GLHYJ8amemJJrS6?=
- =?us-ascii?Q?cK1IjmNr70J7r2lBwLRZdZBEaBuxezu07D5cEKlQCP14lOPdR3Npk9/JNzV+?=
- =?us-ascii?Q?Y+isIXTlj+CeBGo/xYj7sYGS9qXG3ao9c854lB2+/lwX0L9Q+Mk/1q8CVjOy?=
- =?us-ascii?Q?DOSPILqLY+gIPqCdK2qdStr/xzNrh/jtKxWcruOF+lPW/nOBMDfW9U4h67Qy?=
- =?us-ascii?Q?sQopInDPxiOpQl3bOEQ7C6jbj4vGr5+Wfr8MWCXDaNJq9cHKEiS8FnmDyxbv?=
- =?us-ascii?Q?S/aD6AapZUF+8xt6cbrH+OiSezfmOzIpZjp5j4Y2BxcyrmWyJq6gymA1BDmx?=
- =?us-ascii?Q?XYv/VCgA66DhSGh7XnMuOwI/ptZZ+bLAjaK/s8eCkQPNw41MwJGUHmi5rt1P?=
- =?us-ascii?Q?UImlx3AbiYIwniAuwcy0VamRkUSQaYM0eJbPtliy?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb5ee578-c59e-4654-a483-08dd82077d96
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5674.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 01:38:04.2902
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b1MVxtb9/njhZa1mug5sJqdAiXqG3MdXz2PmANRHkKPlVF0nFws963xzzKBaXJ9DlUbZ+g9qga3BT/Jp0f4/zA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8681
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Apr 21, 2025 at 11:44:46AM -0700, Jeff Johnson wrote:
-> On 4/21/2025 10:16 AM, kernel test robot wrote:
-> > Hi Karthikeyan,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on d33705bb41ff786b537f8ed50a187a474db111c1]
-> 
-> lkp@intel.com folks:
-> This patch contains the following footer:
-> 
-> base-commit: d33705bb41ff786b537f8ed50a187a474db111c1
-> Depends-on: <20250421111505.3633992-1-karthikeyan.kathirvel@oss.qualcomm.com>
-> 
-> Is there a different mechanism needed to tell the robot about the dependency?
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   dabd2f7c9c1d6b9dad214ea61407781e0439d85d
+commit: 1182be89002c268a781bd90b25f18da76cfea732 [2153/2153] pmu: enable pmu phys irq inject for cvm
+config: arm64-randconfig-r062-20250423 (https://download.01.org/0day-ci/archive/20250423/202504230942.5dFQC7IQ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250423/202504230942.5dFQC7IQ-lkp@intel.com/reproduce)
 
-Sorry for confusion, for now if there's base-commit specified, the bot would
-only consider it as the base and apply the patch. And actually, if there's
-a dependency specified by link, the bot so far can't recognize it well.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504230942.5dFQC7IQ-lkp@intel.com/
 
-BTW: for this case, does it mean the patch need be applied on this "Depends-on"
-patch, and this "Depends-on" patch is on top of the base-commit?
+All errors (new ones prefixed by >>):
 
-> 
-> 
+   In file included from arch/arm64/kvm/arm.c:9:
+   In file included from include/linux/entry-kvm.h:6:
+   In file included from include/linux/resume_user_mode.h:8:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2242:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   arch/arm64/kvm/arm.c:139:7: warning: variable 'r' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     139 |                 if (static_branch_unlikely(&virtcca_cvm_is_available))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:504:40: note: expanded from macro 'static_branch_unlikely'
+     504 | #define static_branch_unlikely(x)                                               \
+         |                                                                                 ^
+     505 | ({                                                                              \
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     506 |         bool branch;                                                            \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     507 |         if (__builtin_types_compatible_p(typeof(*x), struct static_key_true))   \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     508 |                 branch = arch_static_branch_jump(&(x)->key, false);             \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     509 |         else if (__builtin_types_compatible_p(typeof(*x), struct static_key_false)) \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     510 |                 branch = arch_static_branch(&(x)->key, false);                  \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     511 |         else                                                                    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     512 |                 branch = ____wrong_branch_error();                              \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     513 |         unlikely_notrace(branch);                                                       \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     514 | })
+         | ~~
+   arch/arm64/kvm/arm.c:148:9: note: uninitialized use occurs here
+     148 |         return r;
+         |                ^
+   arch/arm64/kvm/arm.c:139:3: note: remove the 'if' if its condition is always true
+     139 |                 if (static_branch_unlikely(&virtcca_cvm_is_available))
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     140 |                         r = kvm_cvm_enable_cap(kvm, cap);
+   arch/arm64/kvm/arm.c:93:7: note: initialize the variable 'r' to silence this warning
+      93 |         int r;
+         |              ^
+         |               = 0
+>> arch/arm64/kvm/arm.c:1037:11: error: no member named 'irq_level' in 'struct kvm_pmu'
+    1037 |         if (pmu->irq_level) {
+         |             ~~~  ^
+   arch/arm64/kvm/arm.c:1039:3: error: call to undeclared function 'arm_pmu_set_phys_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1039 |                 arm_pmu_set_phys_irq(false);
+         |                 ^
+   arch/arm64/kvm/arm.c:1242:4: error: call to undeclared function 'arm_pmu_set_phys_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1242 |                         arm_pmu_set_phys_irq(true);
+         |                         ^
+   2 warnings and 3 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+   Selected by [y]:
+   - ARM64_MPAM [=y]
+
+
+vim +1037 arch/arm64/kvm/arm.c
+
+  1031	
+  1032	#ifdef CONFIG_HISI_VIRTCCA_HOST
+  1033	static inline void update_pmu_phys_irq(struct kvm_vcpu *vcpu, bool *pmu_stopped)
+  1034	{
+  1035		struct kvm_pmu *pmu = &vcpu->arch.pmu;
+  1036	
+> 1037		if (pmu->irq_level) {
+  1038			*pmu_stopped = true;
+  1039			arm_pmu_set_phys_irq(false);
+  1040		}
+  1041	}
+  1042	#endif
+  1043	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
