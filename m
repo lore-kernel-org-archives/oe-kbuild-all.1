@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE02B28C5AF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Apr 2025 17:25:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CFD28C5C6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Apr 2025 17:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745429133; cv=none; b=SqIE8yoLKf2IC1PX9MWT14qHlN1lVF7UXdKn5zVff2Mg11Y+BjfPjj7kz8cZpW42tP7A8FoXsQSpf+FfZxegaM2UTQWJOWb5MFKxULFMa3N4V6PZkM90qsla3p9VdRLVCY9kNN003Xh3+R39Fwd6IaC/DN1Eou/wkYaHbYlbzIs=
+	t=1745429135; cv=none; b=GvMnGoAl/zCa5uzPW7bMgHGvv8jrsKn+tztB/xsOIlzeP8K1nV5j2yOTGOe+EL3HHfaCFQhckPuG32qvc/Pwnk6RD7nWic43zN/M8SrqFeiZngbO6/I5/s3kvoF8CryJdlN+2g0nUp5lr83SpopJHA0qPRY/hbFWITmo7s36O+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745429133; c=relaxed/simple;
-	bh=VjLw9m2YXYKLZQ7ugLwfIfFJ17qRdQU68JwUWR/hlVY=;
+	s=arc-20240116; t=1745429135; c=relaxed/simple;
+	bh=pdPKTEwWK0Kv2l9nq3+vKBUcOgjsrvP3DZwM9YF/7ys=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a3h2C3N7WUa0vgILtxl1zWyLM3rigO2ImL/ODkPP5KMJ28sRo3UbRGUQi1kDHD0dQbJJDgNdEwKvmS2V2BEjoq3I0fIrrZN3Ut7xiBnT6uiMoOeBfWCwA6sfNrViYYbEOEuXoNNMU9lOe9CDUAwfrd5WSedkXy9KYWyfJognZ2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IErlEwnT; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=j2xcURyYYlxX/k8ATQYsxBhVynORKCXkPUHCYIvez2a6Tz8MdeQHXxeYJYMdoWD9rxyoyM6BzoQ5V82wUsG/0G5tMytrIv6wS+Q5SbzS9FAxnFLJ2RWaGrYfPVjYuLVgIuaa+Ezo1BAv+mjeS4SOwgXl/8uSeT59DM2gU3wXZU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKYH/WPl; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IErlEwnT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKYH/WPl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745429132; x=1776965132;
+  t=1745429134; x=1776965134;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VjLw9m2YXYKLZQ7ugLwfIfFJ17qRdQU68JwUWR/hlVY=;
-  b=IErlEwnTuwNxeCqXWG/ZoWi09yrykzePAN89V/Vjc+RGYMBzFtWMChnn
-   vlcO0PR5bz+l56L1zDa8uiaOsXt+QofBFT6Wcrv78R6G3VAsg4OKNFUeS
-   3PeJiW0z1KHlTZwQgQUZfYRjFxbcvy8pwzEovROOvn3qx5tfMIGUxC3LP
-   sbBfZYQRUcvmeBSjFCF9CnL2RIclykJxGAy4aPio0cijZ+91brAJ41Fct
-   NQPEH6VU/AB3EfuEAYX/XXv6nCMMNOAU/oFjLzAgTbdmz16UkWJ32UMnl
-   tFcGybAq8oKdjoyCXNdpE1GVaNX3orEOdwT0KOV+Nqlf1LkCHTHP9YI51
-   A==;
-X-CSE-ConnectionGUID: fl3N7GdCTzyjCQLcYTkxTw==
-X-CSE-MsgGUID: WFAb9iUnT0CuJi92e8YT0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="50863717"
+  bh=pdPKTEwWK0Kv2l9nq3+vKBUcOgjsrvP3DZwM9YF/7ys=;
+  b=jKYH/WPlaxsZ6qu9B2dD3Pvfmy8dzm0mD4GZu6u0wKkkpqDRgdo6eq5B
+   JWCeeim8SP7dbcHb/mEfnTAF5tz+3Ifs4a6u6Sjw9oTJ82hwZGMk+3uYj
+   r93r7XHq9j48rXvHx7foL7Sza3BYtpGe/PDrydCk8jnYjAIP7dnUXJNT5
+   TQwvDKarjmfVx6nBtKuBJtSm8nJoDgrQIzIm317WcCdtRbTFe9Bt6brTh
+   lRkyAIYdOOxNqTfZBSStzmoVEcDT1fjEQkz1i9yQkmQMpgnr7J0Xj0fcY
+   SYQ9/8JiV0HR+IFTx2zaFtojp3OGy8gWfvYqSKADqN7mYyBEQZhmi4fmS
+   Q==;
+X-CSE-ConnectionGUID: KepBWy0jQwOvyEuizNaFpA==
+X-CSE-MsgGUID: 9/wCpsuQRkGalQgv1mpjqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="50863719"
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="50863717"
+   d="scan'208";a="50863719"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 10:25:31 -0700
-X-CSE-ConnectionGUID: 8IwNYy8LR3+04KteKlgP5g==
-X-CSE-MsgGUID: InUznyOtQNCSJrNT79KgLQ==
+X-CSE-ConnectionGUID: Hd3nO56VTSeTOAZw+3WfyA==
+X-CSE-MsgGUID: 3i1tR4wAReKPRwTJ1Xta1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="132908759"
+   d="scan'208";a="132908760"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 23 Apr 2025 10:25:30 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7dqh-0003Ur-2q;
+	id 1u7dqh-0003Ut-2t;
 	Wed, 23 Apr 2025 17:25:27 +0000
-Date: Thu, 24 Apr 2025 01:25:16 +0800
+Date: Thu, 24 Apr 2025 01:25:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
+To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:perf/core 1/4] kernel/events/core.c:14187:17:
- error: implicit declaration of function 'free_event'; did you mean
- '_free_event'?
-Message-ID: <202504240145.0KaLYtzT-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2163/2163]
+ block/blk-io-hierarchy/iodump.c:188:17: error: no member named 'bi_blkg' in
+ 'struct bio'
+Message-ID: <202504240132.o0JWh6zx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,148 +63,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git perf/core
-head:   4d7c0aa8fa131761c657a4c4ddf79da7c07243d2
-commit: 36d8aa5345a03c45fe2ba25794310dff461c9889 [1/4] perf: Fix failing inherit_event() doing extra refcount decrement on parent
-config: parisc-randconfig-002-20250423 (https://download.01.org/0day-ci/archive/20250424/202504240145.0KaLYtzT-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504240145.0KaLYtzT-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   bb46ff9245f25c71ce2d456156bb2fc39c400aad
+commit: 1bf8f90fb90c600d9f372e6be4ef251cc8905f04 [2163/2163] block-io-hierarchy: core hierarchy stats and iodump implementation
+config: arm64-randconfig-003-20250424 (https://download.01.org/0day-ci/archive/20250424/202504240132.o0JWh6zx-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504240132.o0JWh6zx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504240145.0KaLYtzT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504240132.o0JWh6zx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/events/core.c: In function 'inherit_event':
->> kernel/events/core.c:14187:17: error: implicit declaration of function 'free_event'; did you mean '_free_event'? [-Werror=implicit-function-declaration]
-   14187 |                 free_event(child_event);
-         |                 ^~~~~~~~~~
-         |                 _free_event
-   cc1: some warnings being treated as errors
+   In file included from block/blk-io-hierarchy/iodump.c:15:
+   In file included from include/linux/blktrace_api.h:5:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2247:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> block/blk-io-hierarchy/iodump.c:188:17: error: no member named 'bi_blkg' in 'struct bio'
+     188 |         blkg_path(bio->bi_blkg, path, PATH_LEN);
+         |                   ~~~  ^
+   4 warnings and 1 error generated.
 
 
-vim +14187 kernel/events/core.c
+vim +188 block/blk-io-hierarchy/iodump.c
 
- 14135	
- 14136	/*
- 14137	 * Inherit an event from parent task to child task.
- 14138	 *
- 14139	 * Returns:
- 14140	 *  - valid pointer on success
- 14141	 *  - NULL for orphaned events
- 14142	 *  - IS_ERR() on error
- 14143	 */
- 14144	static struct perf_event *
- 14145	inherit_event(struct perf_event *parent_event,
- 14146		      struct task_struct *parent,
- 14147		      struct perf_event_context *parent_ctx,
- 14148		      struct task_struct *child,
- 14149		      struct perf_event *group_leader,
- 14150		      struct perf_event_context *child_ctx)
- 14151	{
- 14152		enum perf_event_state parent_state = parent_event->state;
- 14153		struct perf_event_pmu_context *pmu_ctx;
- 14154		struct perf_event *child_event;
- 14155		unsigned long flags;
- 14156	
- 14157		/*
- 14158		 * Instead of creating recursive hierarchies of events,
- 14159		 * we link inherited events back to the original parent,
- 14160		 * which has a filp for sure, which we use as the reference
- 14161		 * count:
- 14162		 */
- 14163		if (parent_event->parent)
- 14164			parent_event = parent_event->parent;
- 14165	
- 14166		if (parent_event->state <= PERF_EVENT_STATE_REVOKED)
- 14167			return NULL;
- 14168	
- 14169		/*
- 14170		 * Event creation should be under SRCU, see perf_pmu_unregister().
- 14171		 */
- 14172		guard(srcu)(&pmus_srcu);
- 14173	
- 14174		child_event = perf_event_alloc(&parent_event->attr,
- 14175						   parent_event->cpu,
- 14176						   child,
- 14177						   group_leader, parent_event,
- 14178						   NULL, NULL, -1);
- 14179		if (IS_ERR(child_event))
- 14180			return child_event;
- 14181	
- 14182		get_ctx(child_ctx);
- 14183		child_event->ctx = child_ctx;
- 14184	
- 14185		pmu_ctx = find_get_pmu_context(child_event->pmu, child_ctx, child_event);
- 14186		if (IS_ERR(pmu_ctx)) {
- 14187			free_event(child_event);
- 14188			return ERR_CAST(pmu_ctx);
- 14189		}
- 14190		child_event->pmu_ctx = pmu_ctx;
- 14191	
- 14192		/*
- 14193		 * is_orphaned_event() and list_add_tail(&parent_event->child_list)
- 14194		 * must be under the same lock in order to serialize against
- 14195		 * perf_event_release_kernel(), such that either we must observe
- 14196		 * is_orphaned_event() or they will observe us on the child_list.
- 14197		 */
- 14198		mutex_lock(&parent_event->child_mutex);
- 14199		if (is_orphaned_event(parent_event) ||
- 14200		    !atomic_long_inc_not_zero(&parent_event->refcount)) {
- 14201			mutex_unlock(&parent_event->child_mutex);
- 14202			free_event(child_event);
- 14203			return NULL;
- 14204		}
- 14205	
- 14206		/*
- 14207		 * Make the child state follow the state of the parent event,
- 14208		 * not its attr.disabled bit.  We hold the parent's mutex,
- 14209		 * so we won't race with perf_event_{en, dis}able_family.
- 14210		 */
- 14211		if (parent_state >= PERF_EVENT_STATE_INACTIVE)
- 14212			child_event->state = PERF_EVENT_STATE_INACTIVE;
- 14213		else
- 14214			child_event->state = PERF_EVENT_STATE_OFF;
- 14215	
- 14216		if (parent_event->attr.freq) {
- 14217			u64 sample_period = parent_event->hw.sample_period;
- 14218			struct hw_perf_event *hwc = &child_event->hw;
- 14219	
- 14220			hwc->sample_period = sample_period;
- 14221			hwc->last_period   = sample_period;
- 14222	
- 14223			local64_set(&hwc->period_left, sample_period);
- 14224		}
- 14225	
- 14226		child_event->overflow_handler = parent_event->overflow_handler;
- 14227		child_event->overflow_handler_context
- 14228			= parent_event->overflow_handler_context;
- 14229	
- 14230		/*
- 14231		 * Precalculate sample_data sizes
- 14232		 */
- 14233		perf_event__header_size(child_event);
- 14234		perf_event__id_header_size(child_event);
- 14235	
- 14236		/*
- 14237		 * Link it up in the child's context:
- 14238		 */
- 14239		raw_spin_lock_irqsave(&child_ctx->lock, flags);
- 14240		add_event_to_ctx(child_event, child_ctx);
- 14241		child_event->attach_state |= PERF_ATTACH_CHILD;
- 14242		raw_spin_unlock_irqrestore(&child_ctx->lock, flags);
- 14243	
- 14244		/*
- 14245		 * Link this into the parent event's child list
- 14246		 */
- 14247		list_add_tail(&child_event->child_list, &parent_event->child_list);
- 14248		mutex_unlock(&parent_event->child_mutex);
- 14249	
- 14250		return child_event;
- 14251	}
- 14252	
+   179	
+   180	static void __hierarchy_show_bio(struct seq_file *m, struct bio *bio,
+   181					 enum stage_group stage, u64 duration)
+   182	{
+   183		char rwbs[RWB_LEN];
+   184		char path[PATH_LEN] = {0};
+   185		struct task_struct *task = get_pid_task(bio->pid, PIDTYPE_PID);
+   186	
+   187		blk_fill_rwbs(rwbs, bio->bi_opf);
+ > 188		blkg_path(bio->bi_blkg, path, PATH_LEN);
+   189	
+   190		seq_printf(m, "%s-%d %s stage %s bio %s %llu + %u cgroup %s started %llu ns ago\n",
+   191			   task ? task->comm : "null", task ? task->pid : 0,
+   192			   bio->bi_bdev->bd_disk->disk_name,
+   193			   hierarchy_stage_name(stage), rwbs, bio->bi_iter.bi_sector,
+   194			   bio_sectors(bio), path, duration);
+   195	
+   196		if (task)
+   197			put_task_struct(task);
+   198	}
+   199	
 
 -- 
 0-DAY CI Kernel Test Service
