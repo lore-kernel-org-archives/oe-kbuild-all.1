@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907D81D5178
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Apr 2025 22:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C2020101F;
+	Wed, 23 Apr 2025 22:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745447878; cv=none; b=ANWCoZoYuxIABXrUkmTGMZ9q2rEMyQm5lb9XocFxgypc8jaOXrJi4V1v1KRuam3sr+g4Hcx2MX1S+JwSIXvQUcg8mLPVS94EIIPlJ+f6+FTlpNYvnkfACyebsQcHqOHbhhH3w5ElzC7oF4QJ5gCPCjsLmARe0SUTHmOliKKRqGU=
+	t=1745447881; cv=none; b=jK5DIj+4ACxZ1h9oe4BldfbEZpKfI91r5PeTRjMJMw5xHgki4BEv7K7mpgA62XmsOVl1yya5I0A7y62mD5Lkuya4CPlh3dX4+/rXeqoAvwOGpkdR6dZkbBqWTteXcN11qwvTsopLIoRci4zcC3jaei375VZYFCo22D73ICF4gHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745447878; c=relaxed/simple;
-	bh=PXUGDJ2IMSJI55j/32VMNUPIXp4aNup2s9DUYoapf9o=;
+	s=arc-20240116; t=1745447881; c=relaxed/simple;
+	bh=wbQaKyU9gpUBQPTbWl+9m3KyKnqjxfM9khec/IBqudE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uj84xMsKhWFlmId2Zh/QoIp26ZCaWLsVxBiz2h/QZiW4jU6t3C1JafO6WSrru/vm1ZgOEFSFlF50FrmSDj0CT4wyvIHPvWHKaieyoMLp8g1u0apxari/fuHTvTWoYW3Huo8ifti2Jwzp7WypoYX6a2rEATR8ONj4URtk4yii4i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KphMQWEL; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=kJ/7bBG1fY56xCUFQgEktQy24M6gpus8rKXCs61+wP3Hp4zP0UaPXWB8cXtQ6WKVDnXd/Z7wSiuUzkybh/73ZD9bJmqW9mViNvVjx9WKRh6Zi2E0nPClS/ju2rV3nXluAUOVJdUP8fVERHfAm15fcOO2ir7je7IPmeFW2NnhYJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IF3wXKiD; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KphMQWEL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IF3wXKiD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745447876; x=1776983876;
+  t=1745447879; x=1776983879;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PXUGDJ2IMSJI55j/32VMNUPIXp4aNup2s9DUYoapf9o=;
-  b=KphMQWELTvn2fgwYMSaE5Cbc9Xx2K/DS0BBvd6xP2hgDwySoR2Jdpmll
-   cETFZCu0Pqt0VCm5n668XaJZ+/KhHJjHg8RGaYDXrICnsvuyc6jyohSSp
-   8V6lSsvcMPPTS1gU57Tu4212zuu3nLz794EUNOZqXBHFBQxrczDSW3ZN3
-   m0gBXnBFNrQgmqHg1IcR5c4Lr9IB2Zk0FGJRB32M51k3m1pzcUIsVveN/
-   tDs5Sd6+oCJ2MGmNkbYW7aJ2x1FWoar7veA37nBVgP8NytndJN0xIRuVE
-   jnO64KEPY5w521VPZ7Iy5f2GX4dIzP/H3jX3Lujyo4poygdcKXBfxsANc
+  bh=wbQaKyU9gpUBQPTbWl+9m3KyKnqjxfM9khec/IBqudE=;
+  b=IF3wXKiD7MprhYRo8vCjBYKocLjFb8edbaxyWXflZXBpHQdBPLd8AFwb
+   KfmILlQURIeJzUyqLpT2akAwdMtnroxAq5gOqenWkKQICPrKsYUNbNxit
+   EnnAAZ29nmz3ieobcQLYXXsJMxW+hGGGb5ycPH2EvR9vdrTW9ZcAA1gHG
+   bKKAyQqILSUwSo8LzFsg9aqPK1JTl1eAtby/XqnwhEYuTLiELOujC/VHm
+   hsvM6RinSgfbqIz7TEOMQXg2STLNSkq4zXSKne28JcT4gZeqnLtwRVd96
+   nFxQkMe8aFrBzT4ZP6kmd1pS1mqAdPIOynyfISovh6IMm3CF5ce6Ot0/4
    Q==;
-X-CSE-ConnectionGUID: 0tFemKyFS6utUctjqNzyww==
-X-CSE-MsgGUID: gOO3sZYdSoKtyt1pg3+KDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="46971349"
+X-CSE-ConnectionGUID: crcGyoy4RFyRr6GcUrxfxw==
+X-CSE-MsgGUID: YheL5/4CRB2KnTB026VAYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="46971350"
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="46971349"
+   d="scan'208";a="46971350"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 15:37:55 -0700
-X-CSE-ConnectionGUID: PZGP7B+wQmOnRtTBf3XDcA==
-X-CSE-MsgGUID: WQoRd02ETs2ArAUYzj4NCg==
+X-CSE-ConnectionGUID: InzoDFT+Tw2q763PK5w5cQ==
+X-CSE-MsgGUID: cljVXKZETomcnsjMIk1ICA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="136518419"
+   d="scan'208";a="136518421"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 23 Apr 2025 15:37:54 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7ij2-0003fl-0n;
+	id 1u7ij2-0003fo-0q;
 	Wed, 23 Apr 2025 22:37:52 +0000
-Date: Thu, 24 Apr 2025 06:36:53 +0800
+Date: Thu, 24 Apr 2025 06:36:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinqian Yang <yangjinqian1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2163/2163] drivers/irqchip/irq-gic-v3.c:1517:6:
- warning: no previous prototype for 'is_gicv4p1'
-Message-ID: <202504240638.PM73jDId-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:sink 91/184] kernel/sched/wait.c:57:41: error: expected ';'
+ at end of declaration
+Message-ID: <202504240606.adqlhlY5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +62,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   bb46ff9245f25c71ce2d456156bb2fc39c400aad
-commit: 5634a3dfafb71ede4922b523f77389ef2c006b61 [2163/2163] kvm: hisi_virt: Probe and configure IPIV capacity on HIP12
-config: arm64-randconfig-004-20250424 (https://download.01.org/0day-ci/archive/20250424/202504240638.PM73jDId-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504240638.PM73jDId-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux sink
+head:   c1ca89c57593906261007798ee8911b57cd71595
+commit: e061a317245ac5e48ce480f26cb8bb1e431daa30 [91/184] sched/wait: Add a waitqueue helper for fully exclusive priority waiters
+config: x86_64-buildonly-randconfig-002-20250424 (https://download.01.org/0day-ci/archive/20250424/202504240606.adqlhlY5-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504240606.adqlhlY5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504240638.PM73jDId-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504240606.adqlhlY5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/irqchip/irq-gic-v3.c:1517:6: warning: no previous prototype for 'is_gicv4p1' [-Wmissing-prototypes]
-    bool is_gicv4p1(void)
-         ^~~~~~~~~~
->> drivers/irqchip/irq-gic-v3.c:1526:6: warning: no previous prototype for 'gic_dist_enable_ipiv' [-Wmissing-prototypes]
-    void gic_dist_enable_ipiv(void)
-         ^~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/build_utility.c:81:
+>> kernel/sched/wait.c:57:41: error: expected ';' at end of declaration
+      57 |         guard(spinlock_irqsave)(&wq_head->lock)
+         |                                                ^
+         |                                                ;
+   1 error generated.
 
 
-vim +/is_gicv4p1 +1517 drivers/irqchip/irq-gic-v3.c
+vim +57 kernel/sched/wait.c
 
-  1516	
-> 1517	bool is_gicv4p1(void)
-  1518	{
-  1519		if (!gic_data.rdists.has_rvpeid)
-  1520			return false;
-  1521	
-  1522		return true;
-  1523	}
-  1524	EXPORT_SYMBOL(is_gicv4p1);
-  1525	
-> 1526	void gic_dist_enable_ipiv(void)
-  1527	{
-  1528		u32 val;
-  1529	
-  1530		val = readl_relaxed(gic_data.dist_base + GICD_MISC_CTRL);
-  1531		val |= GICD_MISC_CTRL_CFG_IPIV_EN;
-  1532		writel_relaxed(val, gic_data.dist_base + GICD_MISC_CTRL);
-  1533		static_branch_enable(&ipiv_enable);
-  1534	
-  1535		val = (0 << GICD_IPIV_CTRL_AFF_DIRECT_VPEID_SHIFT) |
-  1536			(0 << GICD_IPIV_CTRL_AFF1_LEFT_SHIFT_SHIFT) |
-  1537			(4 << GICD_IPIV_CTRL_AFF2_LEFT_SHIFT_SHIFT) |
-  1538			(7 << GICD_IPIV_CTRL_VM_TABLE_INNERCACHE_SHIFT) |
-  1539			(2 << GICD_IPIV_CTRL_VM_TABLE_SHAREABILITY_SHIFT);
-  1540		writel_relaxed(val, gic_data.dist_base + GICD_IPIV_CTRL);
-  1541	
-  1542		/* Set target ITS address of IPIV feature */
-  1543		writel_relaxed(0x4880, gic_data.dist_base + GICD_IPIV_ITS_TA_BASE);
-  1544	}
-  1545	EXPORT_SYMBOL(gic_dist_enable_ipiv);
-  1546	
+    49	
+    50	int add_wait_queue_priority_exclusive(struct wait_queue_head *wq_head,
+    51					      struct wait_queue_entry *wq_entry)
+    52	{
+    53		struct list_head *head = &wq_head->head;
+    54	
+    55		wq_entry->flags |= WQ_FLAG_EXCLUSIVE | WQ_FLAG_PRIORITY;
+    56	
+  > 57		guard(spinlock_irqsave)(&wq_head->lock)
+    58	
+    59		if (!list_empty(head) &&
+    60		    (list_first_entry(head, typeof(*wq_entry), entry)->flags & WQ_FLAG_PRIORITY))
+    61			return -EBUSY;
+    62	
+    63		list_add(&wq_entry->entry, head);
+    64		return 0;
+    65	}
+    66	EXPORT_SYMBOL(add_wait_queue_priority_exclusive);
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
