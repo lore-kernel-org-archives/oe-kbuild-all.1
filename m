@@ -1,87 +1,65 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D0610F9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Apr 2025 06:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D3A204680;
+	Thu, 24 Apr 2025 08:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745476836; cv=none; b=PCbE89d0rM/zOQkl2Flew3zo+7XqCTRXO1ryyk2EaWeCAIKhf3Q21GIYTNzrcEGd9KCgB7TsY92e+EqLd/uPrqK87fOLc1JSgiwkWZmn5qRQjLKsHElQeFAsBoe4sjSFyOX/F8xnAoN5AtjtzzaRvfFs0D+IUXdnft4gAp9cQVQ=
+	t=1745482911; cv=none; b=XbyoA78y1Y4p016tfPYTEpUone6Vm3VBfGxrFT2VYugVUBCvMmWAKC4KiaFiIwPs8AMYEnTxboABPSiC7D/HqhwenHqfhv5TBqqokTgbInq4KAE1ttT6fZAeGoX0EtNowddwyx7OpK/CpXu/TrN4c7zVRO4Lmsfgmh72Pq3LvDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745476836; c=relaxed/simple;
-	bh=43bJiACyHXdecJkZtMQme05G7uk4TjuucCkJR5X7t4U=;
+	s=arc-20240116; t=1745482911; c=relaxed/simple;
+	bh=OoRz6+XMxP7avmpWQ8rrAGV7dkXnoxI+asYjYstk7xE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HRi9dhkktG9gd5JWHfNpbDFR0XXfGdRyUigSG4C7t3QuVGWPrY9gk6xzIZKMbQzYF57SdBEYwoHXUO3ZUB9Vu1jtwwMVXX48JzlOy+Y9U6xiF5MjG1Zd0Y9DGbPrfPdEByciCSueVR0rihhlTmI1LZjPOZltd/1Ldcx8P0H56PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jPOsEDyf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fwz4U95x; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jPOsEDyf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fwz4U95x; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hz6La+s5cSbIB6FGSJ3YzsssUVDx550/xQ+7C4wx39gfX+bj/it1eQsXrKwHpWhu3DNp9w2x7UXxZIu5GeSJgnY2hyKYxf1qzmVT2YCixc99hHLj4q/x/M/7HUUP+w/M+NkHpN6aQgwmVhbPa8LoZI3ThOaNeqV6Bn689V1AyQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bfq6RVfV; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jPOsEDyf";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fwz4U95x";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jPOsEDyf";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fwz4U95x"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 176591F38C;
-	Thu, 24 Apr 2025 06:40:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1745476833;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PQKCsTCx5HVxNPH/F2G4y0bvlzNzDY5ugJqviZRnack=;
-	b=jPOsEDyfjbBT4ezZP7/I1NLbaSJBvgtyvYRDVF5SOmJlyBQ+cWzf9oxf4YPxNKVZfI05iP
-	DeWKhhhe5kEqkJO9ttMfnxesidXtymgGKrl9ekIFf3kLWnIjCBo713WANqYzxKM8RrxU01
-	QIKrgngKyzgLnMXWWIsYVbJXlc0cezo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1745476833;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PQKCsTCx5HVxNPH/F2G4y0bvlzNzDY5ugJqviZRnack=;
-	b=fwz4U95xMPiVgEvkpuIgi4krf0Apeam1OHc/pJ1Bhsepef/JoeB1pOzisfFez02rGi1oIC
-	PQUYSOTf+2ABcsAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1745476833;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PQKCsTCx5HVxNPH/F2G4y0bvlzNzDY5ugJqviZRnack=;
-	b=jPOsEDyfjbBT4ezZP7/I1NLbaSJBvgtyvYRDVF5SOmJlyBQ+cWzf9oxf4YPxNKVZfI05iP
-	DeWKhhhe5kEqkJO9ttMfnxesidXtymgGKrl9ekIFf3kLWnIjCBo713WANqYzxKM8RrxU01
-	QIKrgngKyzgLnMXWWIsYVbJXlc0cezo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1745476833;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PQKCsTCx5HVxNPH/F2G4y0bvlzNzDY5ugJqviZRnack=;
-	b=fwz4U95xMPiVgEvkpuIgi4krf0Apeam1OHc/pJ1Bhsepef/JoeB1pOzisfFez02rGi1oIC
-	PQUYSOTf+2ABcsAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04A0A139D0;
-	Thu, 24 Apr 2025 06:40:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H9eiAOHcCWhHZwAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Thu, 24 Apr 2025 06:40:33 +0000
-Date: Thu, 24 Apr 2025 08:40:31 +0200
-From: David Sterba <dsterba@suse.cz>
-To: kernel test robot <lkp@intel.com>
-Cc: David Sterba <dsterba@suse.com>, oe-kbuild-all@lists.linux.dev,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: Re: [btrfs:pr/1157 91/97] fs/btrfs/messages.h:181:29: error:
- expected ')' before '__VA_OPT__'
-Message-ID: <20250424064031.GK3659@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <202504241458.DGT7MuTv-lkp@intel.com>
- <20250424062552.GJ3659@suse.cz>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bfq6RVfV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745482909; x=1777018909;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OoRz6+XMxP7avmpWQ8rrAGV7dkXnoxI+asYjYstk7xE=;
+  b=bfq6RVfVlPWp8qxOX0FX6cUC74aTLT7KqUbXQxvrfL7Nv6ttuRsx8U7K
+   6zXfZjnaeX5MpQMXPuH1AUlgkSJoI/UxGACjgCTe5MaqElsJWDjRLJVG0
+   qX30KNguIJXfRLAP5kGjf4FWyJsXGy8tRNjebEo45ugL6FWxFm9AaoQkH
+   b09AurRpGGnZzKNvc4Zu1oJ/hqSNglL4NaKuHzu8NYhSI8pUK1Cuh9siC
+   4yTpKE3XBH3OFwM4m2Y686nEypAvKCAObXz9EWeulkweCOWGNs/Wbb9zS
+   zkObOd1Cy3GDuCLTBUUi/0RCI+dDJ6whVnytrEFggOAJcwuNcRhV1SaK3
+   g==;
+X-CSE-ConnectionGUID: 27YHxOz4RKKn9Qa/rZ8igw==
+X-CSE-MsgGUID: 8PnMqzoERA+T2CCOAhjVKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="50925932"
+X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
+   d="scan'208";a="50925932"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 01:21:48 -0700
+X-CSE-ConnectionGUID: paPdllX6RPC0crGe4+bHOQ==
+X-CSE-MsgGUID: xKPshazXSOqFCwOwJiMWsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
+   d="scan'208";a="155778203"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 24 Apr 2025 01:21:47 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u7rq4-0003yZ-0a;
+	Thu, 24 Apr 2025 08:21:44 +0000
+Date: Thu, 24 Apr 2025 16:21:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vadim Fedorenko <vadfed@meta.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org
+Subject: Re: [PATCH net v3] bnxt_en: improve TX timestamping FIFO
+ configuration
+Message-ID: <202504241656.J2g5XHHz-lkp@intel.com>
+References: <20250423103351.868959-1-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -90,60 +68,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424062552.GJ3659@suse.cz>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Score: -4.00
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:replyto,intel.com:email,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <20250423103351.868959-1-vadfed@meta.com>
 
-On Thu, Apr 24, 2025 at 08:25:52AM +0200, David Sterba wrote:
-> On Thu, Apr 24, 2025 at 02:19:12PM +0800, kernel test robot wrote:
-> > tree:   https://github.com/btrfs/linux.git pr/1157
-> > head:   10c06ead9f79886df92197deb8d5c7bc37d52971
-> > commit: 3050d7e09e5d7781bd9cfd8a27fc3d942afcd15c [91/97] btrfs: enhance ASSERT() to take optional format string
-> > config: arm-randconfig-001-20250424 (https://download.01.org/0day-ci/archive/20250424/202504241458.DGT7MuTv-lkp@intel.com/config)
-> > compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504241458.DGT7MuTv-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202504241458.DGT7MuTv-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    In file included from fs/btrfs/ctree.c:11:0:
-> >    fs/btrfs/compression.h: In function 'btrfs_calc_input_length':
-> > >> fs/btrfs/messages.h:181:29: error: expected ')' before '__VA_OPT__'
-> >     #define __REST_ARGS(_, ...) __VA_OPT__(,) __VA_ARGS__
-> >                                 ^
-> 
-> I don't understand what's the problem, it's gcc 7.5 on arm, can it be
-> lack of support for __VA_OPT__? I'm not sure if the other syntax would
-> work here, ##__VA_ARGS__ .
+Hi Vadim,
 
-godbolt.org confirms it's lack of gcc support < 8, current minimum is
-5.1 so I'll fix it with the gcc variadic macro extension that I wanted
-to avoid originally.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bnxt_en-improve-TX-timestamping-FIFO-configuration/20250423-185028
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250423103351.868959-1-vadfed%40meta.com
+patch subject: [PATCH net v3] bnxt_en: improve TX timestamping FIFO configuration
+config: i386-buildonly-randconfig-004-20250424 (https://download.01.org/0day-ci/archive/20250424/202504241656.J2g5XHHz-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504241656.J2g5XHHz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504241656.J2g5XHHz-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:1129:6: warning: unused variable 'i' [-Wunused-variable]
+    1129 |         int i;
+         |             ^
+   1 warning generated.
+
+
+vim +/i +1129 drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c
+
+118612d519d83b Michael Chan 2021-06-27  1125  
+118612d519d83b Michael Chan 2021-06-27  1126  void bnxt_ptp_clear(struct bnxt *bp)
+118612d519d83b Michael Chan 2021-06-27  1127  {
+118612d519d83b Michael Chan 2021-06-27  1128  	struct bnxt_ptp_cfg *ptp = bp->ptp_cfg;
+8aa2a79e9b95ea Pavan Chebbi 2024-06-28 @1129  	int i;
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
