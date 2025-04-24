@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5BD1F8691
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Apr 2025 10:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D92214813
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Apr 2025 10:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745489099; cv=none; b=Ju0nvGGbTO9Wppnl8qP1DPMZOqLZBBMVChzMvL3gajw+WtSJ7H2j9eHfgu0VZhM5HV+29PlNX7enAr3b8W+rnea9aEpjlF0A3YRMK4UAeVGM5AZYNedpP+aAz2IvaPd4PXVqSV6DG3m9814RIUq5o1VeN3Q7ORYbYvStd9t4Y2g=
+	t=1745492162; cv=none; b=OFeJKTnJ4ALumgprqDWm/agIahJMH5PrFXdgEeMMuE3Iw/BCthUTeS8Dc9zgkLhf9MgWAIqdHi85ydojCXKY5X9eQ1RdzopR1MyXtHNpjxLTwLlGe+qo1tabQbIeyCp5VUGyHucS2vdtmDlTa0uSZOz1zj7c5wpbmpaumxmL0Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745489099; c=relaxed/simple;
-	bh=LhUwtsAphbQLajTaX7YQnixZHP29lafMuSWHj/hbX4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SwtuUVJvHT/QxE88mPDcfoKGMIN+f9e0Tve44pobszWWx8whnZPakheLmrBkwcKm7tZcFpDiWa7Sjz9MpyGXFyYmdT6CS/+FsTCNYgV2HHPueRiYSyKR4ecaA2jsPQICKJzkSYMII7wvu8bmzvUTtlTtKge5vqD05/bfF/KmdsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OpF0JIIX; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1745492162; c=relaxed/simple;
+	bh=E8ODazevlTfiZBik4hKWtfm09zqbOzoKHhSsFqUmHy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z+QimpE102yycp6jtlWRyNzg49zF1l6DWpdj8sRhfHjGwSK0fnGz5BBYgjKb7FUcMx6NI8/RRmnaVmUc5+pV6CtQg0L22QPMII9mRMfwwqxKFoAzcBsv+todd9auKn3wpV+3W3eZMbu1pB3/3IU+lA81gfcJ2KzmiBWDRTYLE0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RjiP8obr; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpF0JIIX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RjiP8obr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745489098; x=1777025098;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LhUwtsAphbQLajTaX7YQnixZHP29lafMuSWHj/hbX4Q=;
-  b=OpF0JIIXBRiNKyI5HmkXDWJ83sWEl9zKvjwAVA0TgxnzHWXHLFAnPn0R
-   6Rrt0yOKrQQGIuc4vmqGI2Whzwod1e0eaFc+t2LLS6csKNrBcVnr7OxtR
-   QjdTQdp+SiPpVFUNB+Ved/onYDysuVqu1dDkdfrhi73GI7kmGWYVTe/Xv
-   UX5Q75xpfB+OSbJmAuYxJNMqu7i2KHFT28sLG51NsRKJZxJ3co+23S46u
-   Skq+tt0dQw2cE/mNUTOZQYd6j9mEhaBPB/NL/1grvPpquHpUO/Dtxd977
-   /H1ZgFmTaThOWTrIiAzyBCMkCZuTR8Blpw1dhdCXgJtFEFYuwajvPflC6
-   Q==;
-X-CSE-ConnectionGUID: yi90b6exRZWaU4viTkWqww==
-X-CSE-MsgGUID: tbo83oq7S/SQ/iLbyezLYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="46997352"
+  t=1745492161; x=1777028161;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=E8ODazevlTfiZBik4hKWtfm09zqbOzoKHhSsFqUmHy0=;
+  b=RjiP8obrqzN4USDNS8Q9b/xLxeznywYkzDtuK1FxZdkRggdlz3GH38ck
+   4QkMPas2IOFAAKZ36Kncca8ArOEhKYOJpv9xlT66q3YBpSbREwyX75bCn
+   8vUNZWLJGsvyRFtMCA3Yo/Zbo8HwhF/ATO0NRqTLkCNbcL7wylh+sQnWU
+   J/ZlQS/Hz3q9NGz9ziGdKP9UMeg0M0bdXX/nyPOfTl+RnyFzdrRUcBfaF
+   yaXGzwrEtzMVnlxi80oOxSg5NW15mvF8km+xirf0KXq+RcaFvuPz5a61i
+   X/OYrbV3L7D91G0ueBEiqc+88gi0//tUwOD54VowMHbrGfNRjUb48X35a
+   w==;
+X-CSE-ConnectionGUID: KH2S4OJRRV+FjXtuxf6M4g==
+X-CSE-MsgGUID: FBmIfYheQheAr0txVUYo1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="50779555"
 X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
-   d="scan'208";a="46997352"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 03:04:57 -0700
-X-CSE-ConnectionGUID: BKRnWp2BQ2OqM+wMW8fKpQ==
-X-CSE-MsgGUID: 9Nqu/yUVRzy1e+IWo6xo/g==
+   d="scan'208";a="50779555"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 03:56:01 -0700
+X-CSE-ConnectionGUID: OLFE6FFkRkWFfml+8b02ZQ==
+X-CSE-MsgGUID: jpgsg23sRCmiphcdScEaBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
-   d="scan'208";a="133089034"
+   d="scan'208";a="137754457"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Apr 2025 03:04:55 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2025 03:55:59 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7tRt-00044L-0M;
-	Thu, 24 Apr 2025 10:04:53 +0000
-Date: Thu, 24 Apr 2025 18:04:42 +0800
+	id 1u7uFI-00046F-2b;
+	Thu, 24 Apr 2025 10:55:56 +0000
+Date: Thu, 24 Apr 2025 18:55:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Alexey V. Vissarionov" <gremlin@altlinux.org>,
-	Rui Miguel Silva <rui.silva@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Alexey V. Vissarionov" <gremlin@altlinux.org>,
-	Fedor Pchelkin <pchelkin@ispras.ru>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH v1] usb: isp1760: increase buffer size to avoid overflow
-Message-ID: <202504241715.9VNxWTQq-lkp@intel.com>
-References: <20250423111040.GC857@altlinux.org>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1592/1592] ld.lld: error: undefined
+ symbol: init_net
+Message-ID: <202504241856.ApFHkRye-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,56 +61,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250423111040.GC857@altlinux.org>
 
-Hi Alexey,
+Hi Zhao,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.15-rc3 next-20250424]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-V-Vissarionov/usb-isp1760-increase-buffer-size-to-avoid-overflow/20250423-191222
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250423111040.GC857%40altlinux.org
-patch subject: [PATCH v1] usb: isp1760: increase buffer size to avoid overflow
-config: i386-buildonly-randconfig-001-20250424 (https://download.01.org/0day-ci/archive/20250424/202504241715.9VNxWTQq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504241715.9VNxWTQq-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   08111f03f1ec65598372cfe9bf64f366d575671e
+commit: 6636f4434a9c5c9c645694db206188ee5a6626dd [1592/1592] ext4: report error to userspace by netlink
+config: x86_64-buildonly-randconfig-002-20250424 (https://download.01.org/0day-ci/archive/20250424/202504241856.ApFHkRye-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504241856.ApFHkRye-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504241715.9VNxWTQq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504241856.ApFHkRye-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/usb/isp1760/isp1760-hcd.h:8,
-                    from drivers/usb/isp1760/isp1760-core.h:21,
-                    from drivers/usb/isp1760/isp1760-udc.c:22:
->> drivers/usb/isp1760/isp1760-regs.h:271:23: warning: comparison between 'enum isp176x_device_controller_fields' and 'enum isp176x_host_controller_fields' [-Wenum-compare]
-     271 |         (DC_FIELD_MAX > HC_FIELD_MAX ? DC_FIELD_MAX : HC_FIELD_MAX)
-         |                       ^
-   drivers/usb/isp1760/isp1760-hcd.h:53:41: note: in expansion of macro 'DC_HC_FIELD_MAX'
-      53 |         struct regmap_field     *fields[DC_HC_FIELD_MAX];
-         |                                         ^~~~~~~~~~~~~~~
->> drivers/usb/isp1760/isp1760-regs.h:271:23: warning: comparison between 'enum isp176x_device_controller_fields' and 'enum isp176x_host_controller_fields' [-Wenum-compare]
-     271 |         (DC_FIELD_MAX > HC_FIELD_MAX ? DC_FIELD_MAX : HC_FIELD_MAX)
-         |                       ^
-   drivers/usb/isp1760/isp1760-udc.h:72:37: note: in expansion of macro 'DC_HC_FIELD_MAX'
-      72 |         struct regmap_field *fields[DC_HC_FIELD_MAX];
-         |                                     ^~~~~~~~~~~~~~~
-
-
-vim +271 drivers/usb/isp1760/isp1760-regs.h
-
-   269	
-   270	#define	DC_HC_FIELD_MAX	\
- > 271		(DC_FIELD_MAX > HC_FIELD_MAX ? DC_FIELD_MAX : HC_FIELD_MAX)
-   272	
+>> ld.lld: error: undefined symbol: init_net
+   >>> referenced by super.c
+   >>>               fs/ext4/super.o:(ext4_init_fs) in archive built-in.a
 
 -- 
 0-DAY CI Kernel Test Service
