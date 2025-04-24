@@ -1,92 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3669D185B48
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Apr 2025 14:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51C3190067
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Apr 2025 14:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745505141; cv=none; b=Yem5qw6j2s5tOJBWWUWrOCavKE1rOcVEKAebmLt9E03Jfx00syixHnWf5MkvoFRlWH4InDHVu4kqlisBECNGXc4jHRguETTNTExWjhhlO8tyUUV++eq+izDqmLfL8jKyIrkMQzEvYECTDfB2VhFI8exOTnqJJH03VHyEJCV6sqE=
+	t=1745505743; cv=none; b=k+0Zp5u5CIkgCg/LBbVXNtL2DHuzuLagFt8ShuI2WsDG3k6w3DGq761mj1u4s1RPRTRw9cMppOB4PwBAvL4CGkceffFq7J9pnSLT74gz9OWm01IzbHslnzRzezA0hgdGyCUr8FoPk7mTxj6rE2AV2xj6uALzXd3zBBvuII+NGR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745505141; c=relaxed/simple;
-	bh=NJElYbMrMhWkM3E5PhtoyPuNgcBAa6+42gVaoZyeqbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aV2anVh7Cqm74Bx1A8ds8ofD6UOV1SldqmFfBo5KvBF8oKDb3AWny314wwsRbk85C+VDDA03dXTnQ8P/ihy4gqLzzc4fGIY4hm34DtKwi3f9vLrPhmu536LVew+OZ3N8ZLChEJ4KD1NxAqJDmoq27vkcTKkIqPABpnoEFm/Spog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8PdIKSD; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1745505743; c=relaxed/simple;
+	bh=WNZXAVGRpKtkMxYzh9aRCai8pjucoVn4WLI5oJyvhHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xrf8VJhvz4H/hJfbasApwzf4EQFY0sbPJZRPhQ3oH/AhkOudEOeyb0Kx9xfswBw/c20geXTrJSLnpfJhw3Mjku2Sljzpx7fJFql6gS3cxjE9xAjOFdDT5kB4QL/FwEDvhVJEVkIJ2rsy0gP6+4PhyB8RUSQiUtBA2pPPMMWMtUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gCRAu4h3; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8PdIKSD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gCRAu4h3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745505140; x=1777041140;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NJElYbMrMhWkM3E5PhtoyPuNgcBAa6+42gVaoZyeqbI=;
-  b=Y8PdIKSDcw7aGcMvZ8dnRxsgHD+x6fiNJStjC0KxddmrKbhNB/Zgab3C
-   R5FRP0gOrMwBAvr4mvskdRfqVu/WhKVGW+PX5G9B7FIdiSLYtq7/r2UAZ
-   P+9uz2S2eWFEdBDtJIOg6Jf4widKR0R7OjE9PtNDkZn2koMPeuEtAARIN
-   srFonjN8HlzIOgzmQ4HVEcG5Zkyt7gceWPYN5479ykRrLIiC2GSsyjVOT
-   IeizKMfP49GxvuMpDNmKmmgGcpA+9hFa7K7OcoIWyvqHHls9kZWbhkXjq
-   b19e1hR48slrzg5RyleoXdu3KDixs/+Jt8UrB3hUsIIKKnzGQ4FDg1wA6
-   w==;
-X-CSE-ConnectionGUID: QjDBgC9CS4K1vRaEp7+YYw==
-X-CSE-MsgGUID: C6h8vSJgTDCbZgykF98cxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57341011"
+  t=1745505742; x=1777041742;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=WNZXAVGRpKtkMxYzh9aRCai8pjucoVn4WLI5oJyvhHE=;
+  b=gCRAu4h3CDCMWE9T1UJTCNQEMWnNa4HuR+2QBgbe6EcPItq8qqFgQuNG
+   sF5eR2Z44xnrRiZ22Sj06+9oynui98gMcXKFkLodLjlXE8eVUyqzqkM//
+   f1cKlKCjjMLoKekumhWhwWREUg2oF/vwH+KGOXyrdyp72AcEsTjYeQb2q
+   GcSUi3l2lUgyL3BfoqnYmUWXO1Oy6IYdNpO/YQ6yb3BrkmJR61z7wDHlL
+   nuWZMjmPPmA2imKDXuAJgaQ2n5Z7C+VcigowFSUpc1eMY8n7yQclTOSYc
+   B7wD9Do2QNz37rWi7fy1NdWINd42WaQKCz9HAnhblMeEKzlbE9zdGsGmH
+   g==;
+X-CSE-ConnectionGUID: K0d/qwLWQl+IWn6ooV2K3Q==
+X-CSE-MsgGUID: nkb4eFbsRtqYV2oZVRdFHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="50807842"
 X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; 
-   d="scan'208";a="57341011"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 07:32:19 -0700
-X-CSE-ConnectionGUID: s7KV24pcSVCuY7Wk6w/N7A==
-X-CSE-MsgGUID: /JJCtsB1TMOhbcFaQGp3fQ==
+   d="scan'208";a="50807842"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 07:42:21 -0700
+X-CSE-ConnectionGUID: GU3Ry/SlSgaTpvjlgnUfgw==
+X-CSE-MsgGUID: /koDReTQRS6HBCizDAP0/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; 
-   d="scan'208";a="133540971"
+   d="scan'208";a="137636295"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Apr 2025 07:32:17 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 Apr 2025 07:42:19 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7xcd-0004DV-1B;
-	Thu, 24 Apr 2025 14:32:15 +0000
-Date: Thu, 24 Apr 2025 22:31:57 +0800
+	id 1u7xmK-0004EX-0r;
+	Thu, 24 Apr 2025 14:42:16 +0000
+Date: Thu, 24 Apr 2025 22:42:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1592/1592] sas_expander.c:undefined
- reference to `ata_dev_same_device'
-Message-ID: <202504250048.uf9ktecm-lkp@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH v3 6/7] drm/xe/userptr: replace xe_hmm with gpusvm
+Message-ID: <202504242203.MfhcD5LA-lkp@intel.com>
+References: <20250424121827.862729-15-matthew.auld@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250424121827.862729-15-matthew.auld@intel.com>
 
-Hi Jason,
+Hi Matthew,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   08111f03f1ec65598372cfe9bf64f366d575671e
-commit: d856ec500c97835c591ffacc005f514509f1a931 [1592/1592] scsi: libsas: check if the same sata device when flutter
-config: x86_64-buildonly-randconfig-003-20250424 (https://download.01.org/0day-ci/archive/20250425/202504250048.uf9ktecm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504250048.uf9ktecm-lkp@intel.com/reproduce)
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on next-20250424]
+[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.15-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Auld/drm-gpusvm-fix-hmm_pfn_to_map_order-usage/20250424-202128
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250424121827.862729-15-matthew.auld%40intel.com
+patch subject: [PATCH v3 6/7] drm/xe/userptr: replace xe_hmm with gpusvm
+config: loongarch-randconfig-002-20250424 (https://download.01.org/0day-ci/archive/20250424/202504242203.MfhcD5LA-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504242203.MfhcD5LA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504250048.uf9ktecm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504242203.MfhcD5LA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   ld: drivers/scsi/libsas/sas_expander.o: in function `sas_rediscover_dev':
->> sas_expander.c:(.text.unlikely+0x38c): undefined reference to `ata_dev_same_device'
+   In file included from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:2213,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/drm/drm_print.h:31,
+                    from drivers/gpu/drm/xe/xe_assert.h:11,
+                    from drivers/gpu/drm/xe/xe_vm.h:9,
+                    from drivers/gpu/drm/xe/xe_vm.c:6:
+   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
+      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
+         |    ^~~~~
+   drivers/gpu/drm/xe/xe_vm.c: In function 'xe_vma_userptr_force_invalidate':
+>> drivers/gpu/drm/xe/xe_vm.c:699:52: error: 'struct xe_userptr' has no member named 'notifier_seq'; did you mean 'notifier'?
+     699 |                                      uvma->userptr.notifier_seq))
+         |                                                    ^~~~~~~~~~~~
+         |                                                    notifier
+   drivers/gpu/drm/xe/xe_vm.c:700:31: error: 'struct xe_userptr' has no member named 'notifier_seq'; did you mean 'notifier'?
+     700 |                 uvma->userptr.notifier_seq -= 2;
+         |                               ^~~~~~~~~~~~
+         |                               notifier
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_GPUSVM
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DEVICE_PRIVATE [=n]
+   Selected by [m]:
+   - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=n]=y [=y])
+
+
+vim +699 drivers/gpu/drm/xe/xe_vm.c
+
+dd08ebf6c3525a Matthew Brost    2023-03-30  676  
+100a5b8dadfca5 Thomas Hellström 2025-02-28  677  #if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
+100a5b8dadfca5 Thomas Hellström 2025-02-28  678  /**
+100a5b8dadfca5 Thomas Hellström 2025-02-28  679   * xe_vma_userptr_force_invalidate() - force invalidate a userptr
+100a5b8dadfca5 Thomas Hellström 2025-02-28  680   * @uvma: The userptr vma to invalidate
+100a5b8dadfca5 Thomas Hellström 2025-02-28  681   *
+100a5b8dadfca5 Thomas Hellström 2025-02-28  682   * Perform a forced userptr invalidation for testing purposes.
+100a5b8dadfca5 Thomas Hellström 2025-02-28  683   */
+100a5b8dadfca5 Thomas Hellström 2025-02-28  684  void xe_vma_userptr_force_invalidate(struct xe_userptr_vma *uvma)
+100a5b8dadfca5 Thomas Hellström 2025-02-28  685  {
+100a5b8dadfca5 Thomas Hellström 2025-02-28  686  	struct xe_vm *vm = xe_vma_vm(&uvma->vma);
+100a5b8dadfca5 Thomas Hellström 2025-02-28  687  
+100a5b8dadfca5 Thomas Hellström 2025-02-28  688  	/* Protect against concurrent userptr pinning */
+100a5b8dadfca5 Thomas Hellström 2025-02-28  689  	lockdep_assert_held(&vm->lock);
+100a5b8dadfca5 Thomas Hellström 2025-02-28  690  	/* Protect against concurrent notifiers */
+a2cfe1a4a9e967 Matthew Auld     2025-04-24  691  	lockdep_assert_held(&vm->svm.gpusvm.notifier_lock);
+100a5b8dadfca5 Thomas Hellström 2025-02-28  692  	/*
+100a5b8dadfca5 Thomas Hellström 2025-02-28  693  	 * Protect against concurrent instances of this function and
+100a5b8dadfca5 Thomas Hellström 2025-02-28  694  	 * the critical exec sections
+100a5b8dadfca5 Thomas Hellström 2025-02-28  695  	 */
+100a5b8dadfca5 Thomas Hellström 2025-02-28  696  	xe_vm_assert_held(vm);
+100a5b8dadfca5 Thomas Hellström 2025-02-28  697  
+100a5b8dadfca5 Thomas Hellström 2025-02-28  698  	if (!mmu_interval_read_retry(&uvma->userptr.notifier,
+100a5b8dadfca5 Thomas Hellström 2025-02-28 @699  				     uvma->userptr.notifier_seq))
+100a5b8dadfca5 Thomas Hellström 2025-02-28  700  		uvma->userptr.notifier_seq -= 2;
+100a5b8dadfca5 Thomas Hellström 2025-02-28  701  	__vma_userptr_invalidate(vm, uvma);
+100a5b8dadfca5 Thomas Hellström 2025-02-28  702  }
+100a5b8dadfca5 Thomas Hellström 2025-02-28  703  #endif
+100a5b8dadfca5 Thomas Hellström 2025-02-28  704  
 
 -- 
 0-DAY CI Kernel Test Service
