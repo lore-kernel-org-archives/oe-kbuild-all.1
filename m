@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C2020101F;
-	Wed, 23 Apr 2025 22:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5AC2701A5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Apr 2025 01:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745447881; cv=none; b=jK5DIj+4ACxZ1h9oe4BldfbEZpKfI91r5PeTRjMJMw5xHgki4BEv7K7mpgA62XmsOVl1yya5I0A7y62mD5Lkuya4CPlh3dX4+/rXeqoAvwOGpkdR6dZkbBqWTteXcN11qwvTsopLIoRci4zcC3jaei375VZYFCo22D73ICF4gHU=
+	t=1745457620; cv=none; b=gnov0631nVFiqE7fkPEeFCtxizKbGubzF8bk1Ob0FAPCWQwXvLBPbRp9IeGiIKEkrkfn1y4/T77ChNSB2Q84KVq1K3p5kQgeM+BLXca/j1G+0/dfFfUL2p/qCG4pjbz8dp4rd+lJUMeKRc4ftNAc+qtimH7QcjSPnQlgXyh9vLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745447881; c=relaxed/simple;
-	bh=wbQaKyU9gpUBQPTbWl+9m3KyKnqjxfM9khec/IBqudE=;
+	s=arc-20240116; t=1745457620; c=relaxed/simple;
+	bh=6RAiTj0GQe8pqiCOzaIPmAqsYbwYRFJfXZ0RDFDFxHw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kJ/7bBG1fY56xCUFQgEktQy24M6gpus8rKXCs61+wP3Hp4zP0UaPXWB8cXtQ6WKVDnXd/Z7wSiuUzkybh/73ZD9bJmqW9mViNvVjx9WKRh6Zi2E0nPClS/ju2rV3nXluAUOVJdUP8fVERHfAm15fcOO2ir7je7IPmeFW2NnhYJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IF3wXKiD; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=AtpjnKSq6FjbxtB0uS65ton3GPN+qnxeVB03SgUtFIIy71o46HEkH2pxirZvi+L/hRW3x4VhBkiDvAZLQFbG4F+b90/HOuEI0BA0iStH3tqubvfMsRyOigE5ux/SFjqlvZi1GqM8OCerHnIA/KruDkCKXk4AgftpZxPkmk3ln38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LTbqAZAk; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IF3wXKiD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTbqAZAk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745447879; x=1776983879;
+  t=1745457618; x=1776993618;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wbQaKyU9gpUBQPTbWl+9m3KyKnqjxfM9khec/IBqudE=;
-  b=IF3wXKiD7MprhYRo8vCjBYKocLjFb8edbaxyWXflZXBpHQdBPLd8AFwb
-   KfmILlQURIeJzUyqLpT2akAwdMtnroxAq5gOqenWkKQICPrKsYUNbNxit
-   EnnAAZ29nmz3ieobcQLYXXsJMxW+hGGGb5ycPH2EvR9vdrTW9ZcAA1gHG
-   bKKAyQqILSUwSo8LzFsg9aqPK1JTl1eAtby/XqnwhEYuTLiELOujC/VHm
-   hsvM6RinSgfbqIz7TEOMQXg2STLNSkq4zXSKne28JcT4gZeqnLtwRVd96
-   nFxQkMe8aFrBzT4ZP6kmd1pS1mqAdPIOynyfISovh6IMm3CF5ce6Ot0/4
+  bh=6RAiTj0GQe8pqiCOzaIPmAqsYbwYRFJfXZ0RDFDFxHw=;
+  b=LTbqAZAkVF2+nz8DGsNEJWQkgypZSZDb23m2cXDGShHfRAXzwnkGn5ul
+   Nds7gQffGZUq0X5NPHV78K2spPGXXjJxZ6eB0G9qUOJWTBT+smSHcRYxe
+   L73Je7DBjBoI2rQxRfNgNAO8E1BhwNC+TA9P+4le4u/CKcJL7u3cdEYwi
+   92PNF3WYbgZ+kCBwR+AO3pBai3tzIZzJcNEgYqyaI1ctJPDMii/Sx2x+v
+   rCa56onUsjfO8aDuz87unGhWC78MG8cKrVh+kqoigrlkL35q7dXIWhCkp
+   e73Awog1SXmm7dVXA0GAuUa17aww9FyeBF/0yiw1coAFsn05dDKAEI414
    Q==;
-X-CSE-ConnectionGUID: crcGyoy4RFyRr6GcUrxfxw==
-X-CSE-MsgGUID: YheL5/4CRB2KnTB026VAYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="46971350"
+X-CSE-ConnectionGUID: lU2FNKt+S16bcJAI80cjEA==
+X-CSE-MsgGUID: RbZGr/m4RNupJaFvWohE1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="34686251"
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="46971350"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 15:37:55 -0700
-X-CSE-ConnectionGUID: InzoDFT+Tw2q763PK5w5cQ==
-X-CSE-MsgGUID: cljVXKZETomcnsjMIk1ICA==
+   d="scan'208";a="34686251"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 18:20:16 -0700
+X-CSE-ConnectionGUID: BlF81UEMQ1+6JZ/6QzbwVQ==
+X-CSE-MsgGUID: No3IiBQYQa2DiJDdMWt/KA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="136518421"
+   d="scan'208";a="132996349"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Apr 2025 15:37:54 -0700
+  by orviesa007.jf.intel.com with ESMTP; 23 Apr 2025 18:20:14 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7ij2-0003fo-0q;
-	Wed, 23 Apr 2025 22:37:52 +0000
-Date: Thu, 24 Apr 2025 06:36:52 +0800
+	id 1u7lG8-0003lN-1H;
+	Thu, 24 Apr 2025 01:20:12 +0000
+Date: Thu, 24 Apr 2025 09:19:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:sink 91/184] kernel/sched/wait.c:57:41: error: expected ';'
- at end of declaration
-Message-ID: <202504240606.adqlhlY5-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 12/12]
+ drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_fc_leonis.h:9:10:
+ fatal error: nbl_resource.h: No such file or directory
+Message-ID: <202504240920.xCaJ4PMi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +63,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux sink
-head:   c1ca89c57593906261007798ee8911b57cd71595
-commit: e061a317245ac5e48ce480f26cb8bb1e431daa30 [91/184] sched/wait: Add a waitqueue helper for fully exclusive priority waiters
-config: x86_64-buildonly-randconfig-002-20250424 (https://download.01.org/0day-ci/archive/20250424/202504240606.adqlhlY5-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504240606.adqlhlY5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   8dcd583e3465e0c2cdc7613c2cbbb752a196373b
+commit: dd70f3837d475e33fd445bd822d8e058547e6dee [12/12] anolis: net/nbl_core: Add nbl_core-driver for nebula-matrix S1000 series smart NIC.
+config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20250424/202504240920.xCaJ4PMi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504240920.xCaJ4PMi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504240606.adqlhlY5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504240920.xCaJ4PMi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:81:
->> kernel/sched/wait.c:57:41: error: expected ';' at end of declaration
-      57 |         guard(spinlock_irqsave)(&wq_head->lock)
-         |                                                ^
-         |                                                ;
-   1 error generated.
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h:10,
+                    from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:10: fatal error: nbl_product_base.h: No such file or directory
+      10 | #include "nbl_product_base.h"
+         |          ^~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_fc_leonis.c:7:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_fc_leonis.h:9:10: fatal error: nbl_resource.h: No such file or directory
+       9 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_tun_leonis.c:1:10: fatal error: nbl_resource.h: No such file or directory
+       1 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_queue_leonis.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_queue_leonis.h:10:10: fatal error: nbl_resource.h: No such file or directory
+      10 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h:10:10: fatal error: nbl_resource.h: No such file or directory
+      10 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_tc_tun.c:5:10: fatal error: nbl_resource.h: No such file or directory
+       5 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h:10:10: fatal error: nbl_core.h: No such file or directory
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_event.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_event.h:10:10: fatal error: nbl_core.h: No such file or directory
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h:10:10: fatal error: nbl_core.h: No such file or directory
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.h:10:10: fatal error: nbl_core.h: No such file or directory
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_flow_leonis.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_flow_leonis.h:9:10: fatal error: nbl_core.h: No such file or directory
+       9 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+..
 
 
-vim +57 kernel/sched/wait.c
+vim +9 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_fc_leonis.h
 
-    49	
-    50	int add_wait_queue_priority_exclusive(struct wait_queue_head *wq_head,
-    51					      struct wait_queue_entry *wq_entry)
-    52	{
-    53		struct list_head *head = &wq_head->head;
-    54	
-    55		wq_entry->flags |= WQ_FLAG_EXCLUSIVE | WQ_FLAG_PRIORITY;
-    56	
-  > 57		guard(spinlock_irqsave)(&wq_head->lock)
-    58	
-    59		if (!list_empty(head) &&
-    60		    (list_first_entry(head, typeof(*wq_entry), entry)->flags & WQ_FLAG_PRIORITY))
-    61			return -EBUSY;
-    62	
-    63		list_add(&wq_entry->entry, head);
-    64		return 0;
-    65	}
-    66	EXPORT_SYMBOL(add_wait_queue_priority_exclusive);
-    67	
+   > 9	#include "nbl_resource.h"
+    10	#include "nbl_core.h"
+    11	#include "nbl_hw.h"
+    12	
 
 -- 
 0-DAY CI Kernel Test Service
