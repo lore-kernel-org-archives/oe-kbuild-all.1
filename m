@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92806D528
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Apr 2025 03:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6BBF510
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Apr 2025 04:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745464469; cv=none; b=lm8i22BlZBmamt5yuBbOotXIyiXp+BDI5fZVg7/vYIkMN0ZCzXINwIZAJyvJyfWwZmMKWp0sGkVWT7mAUdSaDOH5uRpgBwOp9Rm13nDLTawUWEl/e2RlOuUh3jJ1kEvA+Z0R/fzsjfRv1AsdGIMk7CYZYuvxiHfYIncJ+WHecxg=
+	t=1745469394; cv=none; b=MGmfP8r4HslpxgO6RypRdWvtA2nNXpH/ZjmIi9gDXaHj9w15w8nAgsJP54O0cwEGZSomsA4mWn7wcc6iZV2cQI4PvS5sOstqQCWNox/DCqPJ7a2+v9PZWG8LzOYDLDBSs57zi6cAD+AE2Q7qtAErak5Sws+y5iwCIiWtPzQsZJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745464469; c=relaxed/simple;
-	bh=NUbV7JX6qILSeirG1gT5DrzKsaEX3kzc1qg15MQ6ZiQ=;
+	s=arc-20240116; t=1745469394; c=relaxed/simple;
+	bh=bXfhjBzNxIGMQHA/r6tpUHzXyPCeMAZ8QREUw5Akivg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SQJGs/dONAQsrvTt6IlPQqrnQ7BDfW4MTz/dPkwPr/90UtZHl0TLM/wkn89EVPAhWok7KUB4UfPMAgNg5TuaPXYufQkqN5+TWNrRkknPbs9fc77oD/jy5Mi2wnZI+67LZQeoW7iAmCUqBH5LtOY6TkB33cZqfaqO9XXtk9fbLGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DUrLDcrE; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=rmbItKiJq09Mtg0upuzUSETolkejtOZQQ6/nKgJ5xJ1SofXklpkSKVy9Z3zk/63Civ4vRoYnCQ0WCY+2h+H5kPHO/2rP4JOSR4T94Ei9pfTAY8I2ADS8S5EjhLn9NIpYMIlWa+Kho3azxL6WbWWkfL5qsajFImApL5n/9XFB4oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkTU2O+L; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DUrLDcrE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkTU2O+L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745464467; x=1777000467;
+  t=1745469391; x=1777005391;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NUbV7JX6qILSeirG1gT5DrzKsaEX3kzc1qg15MQ6ZiQ=;
-  b=DUrLDcrEKbedn8v0eCQefC4UUpdUiy9b+FXlNMlTPDluXL69kBw7z/Je
-   ARbFd26GKNxrwXB33o4I1xM5/eqDvMUurT0Dt5CClDpaypWwzeRztJKUZ
-   1SCfAh2UCNtNV0E6k8DzLqVnid6r0lHUb0l5E9eYptPdgqFDuOye1d3rD
-   1MXVIIKvaAHdVrSFdj94wTOMvHqspReBL+KLYmtMAAGSCSAHsy4FK2+9k
-   eR3bvWGOcTca1ktfMcGjmIoQbuGlxfHrWfYCeN/ro3sXZWqcfTDzHTPyV
-   Al25NyDHldvRMuhbgniuADVnYeX3qjXZPE3AJ5K6U3lDMvZmpgT6CCv4D
+  bh=bXfhjBzNxIGMQHA/r6tpUHzXyPCeMAZ8QREUw5Akivg=;
+  b=EkTU2O+LggUV4LwAB+09tYelzPQ/kAMyo4JbkSv7Acocg1cDlGd0gfvQ
+   h7nKgnPjJAcQFRAoE7uf+ygzU17X9syAEvC99XIRHtezfay8X2pKn+Kin
+   ZwWl8rgPwjJaGoL+YAjzQO/p2Sb0QpiBuAn1rcUwxaX0ozukgXfWipomb
+   Mv/ccJgY9P74vFalK7gGSQ1gqIueNV1qL5tM9av7c+gFJnBpMi9EhrnQp
+   rRK9KvKhfFJyHqGMmnX0Qlo1f1tuXrTLezl68rhb8UVhwiJ5Ye2DmESnt
+   XAicDdZXkSyv/wRX7C7QRDCpaclPXOZcSfvsvuMoM//4PGDrNrZkihkBl
    g==;
-X-CSE-ConnectionGUID: in01Ed45T4K+pnqjSx62Eg==
-X-CSE-MsgGUID: boq/PGSnTA6fllGSlXiURw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="49744526"
+X-CSE-ConnectionGUID: C6+qctxOTs+H98qZ9NVNHA==
+X-CSE-MsgGUID: Pxreg+8/RIWoXa7K8AkLyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="50884404"
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="49744526"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 20:14:25 -0700
-X-CSE-ConnectionGUID: 77MiKipdQc6+JK9EDpJ4Bw==
-X-CSE-MsgGUID: 1Zdp6QYtR4O42vOz2+EIRQ==
+   d="scan'208";a="50884404"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 21:36:30 -0700
+X-CSE-ConnectionGUID: eA0cWxI9TP6e9TbanzzkpQ==
+X-CSE-MsgGUID: xWmjn1MJTbe04/MJMP81lw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="169701327"
+   d="scan'208";a="132414603"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Apr 2025 20:14:23 -0700
+  by orviesa006.jf.intel.com with ESMTP; 23 Apr 2025 21:36:30 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7n2b-0003pB-1J;
-	Thu, 24 Apr 2025 03:14:21 +0000
-Date: Thu, 24 Apr 2025 11:14:13 +0800
+	id 1u7oK3-0003rV-1B;
+	Thu, 24 Apr 2025 04:36:27 +0000
+Date: Thu, 24 Apr 2025 12:36:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Luis Chamberlain <mcgrof@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 12/12]
- drivers/nvme/host/core.c:984:27: warning: unused variable 'ctrl'
-Message-ID: <202504241106.ESa0sz2z-lkp@intel.com>
+Subject: [mcgrof:20250423-v6.15-rc3-ext4-fix 2/2] mm/migrate.c:963:50: error:
+ 'bh_migrate_folio_norefs_nohead_invalid' undeclared; did you mean
+ 'bh_migrate_folio_norefs_nohead_fails'?
+Message-ID: <202504241233.UP3c1pmN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,92 +63,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   8dcd583e3465e0c2cdc7613c2cbbb752a196373b
-commit: 8dcd583e3465e0c2cdc7613c2cbbb752a196373b [12/12] nvme: increment request genctr on completion
-config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20250424/202504241106.ESa0sz2z-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504241106.ESa0sz2z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20250423-v6.15-rc3-ext4-fix
+head:   58ad1a2b2d0abfd272e05e695cd4c635f49e934e
+commit: 58ad1a2b2d0abfd272e05e695cd4c635f49e934e [2/2] mm: add migration buffer-head debugfs interface
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250424/202504241233.UP3c1pmN-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250424/202504241233.UP3c1pmN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504241106.ESa0sz2z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504241233.UP3c1pmN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/nvme/host/core.c: In function 'nvme_setup_cmd':
->> drivers/nvme/host/core.c:984:27: warning: unused variable 'ctrl' [-Wunused-variable]
-     984 |         struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
-         |                           ^~~~
+   mm/migrate.c: In function '__buffer_migrate_folio':
+>> mm/migrate.c:963:50: error: 'bh_migrate_folio_norefs_nohead_invalid' undeclared (first use in this function); did you mean 'bh_migrate_folio_norefs_nohead_fails'?
+     963 |                                 atomic_long_inc(&bh_migrate_folio_norefs_nohead_invalid);
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                  bh_migrate_folio_norefs_nohead_fails
+   mm/migrate.c:963:50: note: each undeclared identifier is reported only once for each function it appears in
+   mm/migrate.c: At top level:
+   cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
 
 
-vim +/ctrl +984 drivers/nvme/host/core.c
+vim +963 mm/migrate.c
 
-f7f1fc363aab46 Max Gurtovoy       2018-07-30   980  
-fc17b6534eb839 Christoph Hellwig  2017-06-03   981  blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
-8093f7ca73c163 Ming Lin           2016-04-12   982  		struct nvme_command *cmd)
-8093f7ca73c163 Ming Lin           2016-04-12   983  {
-011b4de950d80d Keith Busch        2021-09-27  @984  	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
-fc17b6534eb839 Christoph Hellwig  2017-06-03   985  	blk_status_t ret = BLK_STS_OK;
-8093f7ca73c163 Ming Lin           2016-04-12   986  
-ba388d4e9a684f Chaitanya Kulkarni 2021-02-28   987  	if (!(req->rq_flags & RQF_DONTPREP))
-bb06ec31452fb2 James Smart        2018-04-12   988  		nvme_clear_nvme_request(req);
-987f699a8f6c9a Christoph Hellwig  2017-04-05   989  
-1190203555ec58 Chaitanya Kulkarni 2018-10-29   990  	memset(cmd, 0, sizeof(*cmd));
-aebf526b53aea1 Christoph Hellwig  2017-01-31   991  	switch (req_op(req)) {
-aebf526b53aea1 Christoph Hellwig  2017-01-31   992  	case REQ_OP_DRV_IN:
-aebf526b53aea1 Christoph Hellwig  2017-01-31   993  	case REQ_OP_DRV_OUT:
-2bf5d3bbffad06 Logan Gunthorpe    2020-07-24   994  		nvme_setup_passthrough(req, cmd);
-aebf526b53aea1 Christoph Hellwig  2017-01-31   995  		break;
-aebf526b53aea1 Christoph Hellwig  2017-01-31   996  	case REQ_OP_FLUSH:
-8093f7ca73c163 Ming Lin           2016-04-12   997  		nvme_setup_flush(ns, cmd);
-aebf526b53aea1 Christoph Hellwig  2017-01-31   998  		break;
-240e6ee272c07a Keith Busch        2020-06-29   999  	case REQ_OP_ZONE_RESET_ALL:
-240e6ee272c07a Keith Busch        2020-06-29  1000  	case REQ_OP_ZONE_RESET:
-240e6ee272c07a Keith Busch        2020-06-29  1001  		ret = nvme_setup_zone_mgmt_send(ns, req, cmd, NVME_ZONE_RESET);
-240e6ee272c07a Keith Busch        2020-06-29  1002  		break;
-240e6ee272c07a Keith Busch        2020-06-29  1003  	case REQ_OP_ZONE_OPEN:
-240e6ee272c07a Keith Busch        2020-06-29  1004  		ret = nvme_setup_zone_mgmt_send(ns, req, cmd, NVME_ZONE_OPEN);
-240e6ee272c07a Keith Busch        2020-06-29  1005  		break;
-240e6ee272c07a Keith Busch        2020-06-29  1006  	case REQ_OP_ZONE_CLOSE:
-240e6ee272c07a Keith Busch        2020-06-29  1007  		ret = nvme_setup_zone_mgmt_send(ns, req, cmd, NVME_ZONE_CLOSE);
-240e6ee272c07a Keith Busch        2020-06-29  1008  		break;
-240e6ee272c07a Keith Busch        2020-06-29  1009  	case REQ_OP_ZONE_FINISH:
-240e6ee272c07a Keith Busch        2020-06-29  1010  		ret = nvme_setup_zone_mgmt_send(ns, req, cmd, NVME_ZONE_FINISH);
-240e6ee272c07a Keith Busch        2020-06-29  1011  		break;
-e850fd16f751a6 Christoph Hellwig  2017-04-05  1012  	case REQ_OP_WRITE_ZEROES:
-6e02318eaea53e Chaitanya Kulkarni 2018-12-17  1013  		ret = nvme_setup_write_zeroes(ns, req, cmd);
-6e02318eaea53e Chaitanya Kulkarni 2018-12-17  1014  		break;
-aebf526b53aea1 Christoph Hellwig  2017-01-31  1015  	case REQ_OP_DISCARD:
-8093f7ca73c163 Ming Lin           2016-04-12  1016  		ret = nvme_setup_discard(ns, req, cmd);
-aebf526b53aea1 Christoph Hellwig  2017-01-31  1017  		break;
-aebf526b53aea1 Christoph Hellwig  2017-01-31  1018  	case REQ_OP_READ:
-240e6ee272c07a Keith Busch        2020-06-29  1019  		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_read);
-240e6ee272c07a Keith Busch        2020-06-29  1020  		break;
-aebf526b53aea1 Christoph Hellwig  2017-01-31  1021  	case REQ_OP_WRITE:
-240e6ee272c07a Keith Busch        2020-06-29  1022  		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
-240e6ee272c07a Keith Busch        2020-06-29  1023  		break;
-240e6ee272c07a Keith Busch        2020-06-29  1024  	case REQ_OP_ZONE_APPEND:
-240e6ee272c07a Keith Busch        2020-06-29  1025  		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_zone_append);
-aebf526b53aea1 Christoph Hellwig  2017-01-31  1026  		break;
-aebf526b53aea1 Christoph Hellwig  2017-01-31  1027  	default:
-aebf526b53aea1 Christoph Hellwig  2017-01-31  1028  		WARN_ON_ONCE(1);
-fc17b6534eb839 Christoph Hellwig  2017-06-03  1029  		return BLK_STS_IOERR;
-aebf526b53aea1 Christoph Hellwig  2017-01-31  1030  	}
-8093f7ca73c163 Ming Lin           2016-04-12  1031  
-240a7025a6f89f Sagi Grimberg      2021-06-16  1032  	cmd->common.command_id = nvme_cid(req);
-5d87eb94d9ba13 Keith Busch        2018-06-29  1033  	trace_nvme_setup_cmd(req, cmd);
-8093f7ca73c163 Ming Lin           2016-04-12  1034  	return ret;
-8093f7ca73c163 Ming Lin           2016-04-12  1035  }
-8093f7ca73c163 Ming Lin           2016-04-12  1036  EXPORT_SYMBOL_GPL(nvme_setup_cmd);
-8093f7ca73c163 Ming Lin           2016-04-12  1037  
-
-:::::: The code at line 984 was first introduced by commit
-:::::: 011b4de950d80d9438e67b44622e2a587e097d56 nvme: add command id quirk for apple controllers
-
-:::::: TO: Keith Busch <kbusch@kernel.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   947	
+   948	static int __buffer_migrate_folio(struct address_space *mapping,
+   949			struct folio *dst, struct folio *src, enum migrate_mode mode,
+   950			bool check_refs)
+   951	{
+   952		struct buffer_head *bh, *head;
+   953		int rc;
+   954		int expected_count;
+   955	
+   956		head = folio_buffers(src);
+   957		if (!head) {
+   958			rc = migrate_folio(mapping, dst, src, mode);
+   959			if (check_refs) {
+   960				if (rc == 0)
+   961					atomic_long_inc(&bh_migrate_folio_norefs_nohead_success);
+   962				else
+ > 963					atomic_long_inc(&bh_migrate_folio_norefs_nohead_invalid);
+   964			}
+   965			return rc;
+   966		}
+   967	
+   968		/* Check whether page does not have extra refs before we do more work */
+   969		expected_count = folio_expected_refs(mapping, src);
+   970		if (folio_ref_count(src) != expected_count)
+   971			return -EAGAIN;
+   972	
+   973		if (!buffer_migrate_lock_buffers(head, mode))
+   974			return -EAGAIN;
+   975	
+   976		if (check_refs) {
+   977			bool busy, migrating;
+   978			bool invalidated = false;
+   979	
+   980			migrating = test_and_set_bit_lock(BH_Migrate, &head->b_state);
+   981			VM_WARN_ON_ONCE(migrating);
+   982	recheck_buffers:
+   983			busy = false;
+   984			spin_lock(&mapping->i_private_lock);
+   985			bh = head;
+   986			do {
+   987				if (atomic_read(&bh->b_count)) {
+   988					busy = true;
+   989					break;
+   990				}
+   991				bh = bh->b_this_page;
+   992			} while (bh != head);
+   993			spin_unlock(&mapping->i_private_lock);
+   994			if (busy) {
+   995				if (invalidated) {
+   996					rc = -EAGAIN;
+   997					atomic_long_inc(&bh_migrate_folio_norefs_busy);
+   998					goto unlock_buffers;
+   999				}
+  1000				invalidate_bh_lrus();
+  1001				invalidated = true;
+  1002				goto recheck_buffers;
+  1003			}
+  1004			atomic_long_inc(&bh_migrate_folio_norefs_valid);
+  1005		}
+  1006	
+  1007		rc = filemap_migrate_folio(mapping, dst, src, mode);
+  1008		if (rc != MIGRATEPAGE_SUCCESS) {
+  1009			if (check_refs)
+  1010				atomic_long_inc(&bh_migrate_folio_norefs_valid_fails);
+  1011			goto unlock_buffers;
+  1012		} else if (check_refs)
+  1013			atomic_long_inc(&bh_migrate_folio_norefs_valid_success);
+  1014	
+  1015		bh = head;
+  1016		do {
+  1017			folio_set_bh(bh, dst, bh_offset(bh));
+  1018			bh = bh->b_this_page;
+  1019		} while (bh != head);
+  1020	
+  1021	unlock_buffers:
+  1022		if (check_refs)
+  1023			clear_bit_unlock(BH_Migrate, &head->b_state);
+  1024		bh = head;
+  1025		do {
+  1026			unlock_buffer(bh);
+  1027			bh = bh->b_this_page;
+  1028		} while (bh != head);
+  1029	
+  1030		return rc;
+  1031	}
+  1032	
 
 -- 
 0-DAY CI Kernel Test Service
