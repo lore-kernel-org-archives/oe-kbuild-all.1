@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14C01E5B70;
-	Fri, 25 Apr 2025 07:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882E1A29
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 07:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745564748; cv=none; b=oZrNtrRUMwmjhPv1e/3/kxWSqeBA1VXuxCZpl0ntvZ4NJbGjJb5AHJDBX1bgnn62ApNVCWtN42TQJ/XfPK3xE+toNuprt0sbK6DKobGn7WETRRSFlKQp1D+VrazKZYy8LAHHB+WKu22pFLk6wq8FEi185J7yEZ6h5yIOc1zNnPw=
+	t=1745566849; cv=none; b=C/VWt6gOa9rQYxx2+9/nbxeKDAxo8LBEayN7wor0DysRBhuLyeaOaw2jsrk0T5tMBiFUMFqwnIsoiayPOTKbq+cj1iQ3UiJt6/2VpAReXfD1j604YZQRS6OCc6x5e5px7TiAmoorwip912ES9F/71gExrmODyl0pVgyNaZmTWV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745564748; c=relaxed/simple;
-	bh=N9+UJn6y4cFBdFcoyH2JNE8g1T9WsgLzOAr9war2gvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hZeMIMB+euvjLbDmqrkizWjEZ2xqbPQN+5wD4w9XcKkRHHf3VmhJ3lYa7+nJesN7VOEQCU1raIq4oGnlJosGCPrBp1xvmhYnCfomKmCI7oT3TVzpXv6U4UjyVGYm8KHm3T9e9FIxxEpAcxYl7Gb5230GXRESpCkH3bBGk2BhURw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hinBbkYT; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1745566849; c=relaxed/simple;
+	bh=OgYqjQFAYFe+MG7/mmhLkgl5z+ZYaPMprDRKzFwyElQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K9opqRXhQAjWuplqXBeCCgh0SjuJ2LgW0jEH5eWBV05/o3ZFQlQF1ETPOJqsGbdL7Z+jxmeQAvL7mS5lCWosvYlMY5h65GGQR2Xw+qSGDCdgY7tY2e7iA9LfUzbdtUgb6XKdSM0ceJ6IdXaKHxezDbyAuMHOyJSphIFLdmqzfqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mSFBX2TW; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hinBbkYT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mSFBX2TW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745564746; x=1777100746;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N9+UJn6y4cFBdFcoyH2JNE8g1T9WsgLzOAr9war2gvE=;
-  b=hinBbkYToU10EJnDLAtL6//UlFmC8HUqYaF1fZ/3X4fDfFEZueiXfdWD
-   VEBgf5NLawA+tPG/nU/jLYyK09ZytGBLgBDJcsn+C1al7yymz8vdzaqXA
-   BapL7BXsiakgf7CtfN0UKCGVsJzV/pERC/YhmwxGtROIFXImrKQ5rWkXR
-   JxB5HxC/+FKGA6pRbzjumqOi30p3NZt0NEgCKdzj3Cn6Sq6Ptmwt90URd
-   zdzOSaX6rPRbZKJXTTlljeZnEvQ4aRxVYApH3TQa7BOkWo1G3lQA11TwS
-   zm4SjkHeFDfM93OBH053/1CBan1SvC1fHhYcasXCFd4LiEm9b0fH3Su+j
-   A==;
-X-CSE-ConnectionGUID: hUN+NcrgREK6HFmOWif+Cw==
-X-CSE-MsgGUID: QhL2aHsASbKE5DZmoP6OmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="49877222"
+  t=1745566848; x=1777102848;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OgYqjQFAYFe+MG7/mmhLkgl5z+ZYaPMprDRKzFwyElQ=;
+  b=mSFBX2TW7JNQJOUtwgNgoRsXxSbBoOg6SwvPVEPXiEJ11YX6CiN0ecIW
+   iIpOdifJz6mOlfrlwwGtpBZ1i+7Lh6Xjf8GJ8cGpHyT/UwPunNzkUgKQJ
+   yeCC9DS3+yJeyPiSyG2oR7ASB8dLvO7PlSYkb/LljieYcYerzMBO58YcY
+   sV0135qh7At6sXXvFBKVhoGPZGpvQqWSljVABzZpV/zKKaAj2NyfPke9Q
+   hmtPW254gVXD0pMOYu70EW/Gp44COf2f5HQmf4PkPukd4YR9YPYRzxnd8
+   d9EkY97pJDdT0/Po3nr+iGIh1Di+LClyr538bPCZoZNYndnGNMHf0h8Hm
+   Q==;
+X-CSE-ConnectionGUID: 5wgNr71MTiGAHTiyAlRn3g==
+X-CSE-MsgGUID: tgp04NE/RseYN+bCjGnedA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="69715172"
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="49877222"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 00:05:46 -0700
-X-CSE-ConnectionGUID: 5XZttJ3MSH6P0E+RUKkd/w==
-X-CSE-MsgGUID: wlvduCpeStiokvFAcP1zww==
+   d="scan'208";a="69715172"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 00:40:47 -0700
+X-CSE-ConnectionGUID: jWJLua1VTF6iMnJPaqtJEw==
+X-CSE-MsgGUID: bPNyqX3oQgexia/cowkkhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="163789917"
+   d="scan'208";a="137641878"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Apr 2025 00:05:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Apr 2025 00:40:46 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8D81-0004uH-0o;
-	Fri, 25 Apr 2025 07:05:41 +0000
-Date: Fri, 25 Apr 2025 15:05:15 +0800
+	id 1u8Dfv-0004vF-1w;
+	Fri, 25 Apr 2025 07:40:43 +0000
+Date: Fri, 25 Apr 2025 15:39:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bibo Mao <maobibo@loongson.cn>, Tianrui Zhao <zhaotianrui@loongson.cn>,
-	Huacai Chen <chenhuacai@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, WANG Xuerui <kernel@xen0n.name>,
-	kvm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] LoongArch: KVM: Add parameter exception code with
- exception handler
-Message-ID: <202504251458.EJKsZMLH-lkp@intel.com>
-References: <20250424064625.3928278-2-maobibo@loongson.cn>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 12/12] mm/page_alloc.c:326:15: sparse:
+ sparse: symbol 'free_highatomics' was not declared. Should it be static?
+Message-ID: <202504251509.aomzX42J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,67 +61,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424064625.3928278-2-maobibo@loongson.cn>
 
-Hi Bibo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9d7a0577c9db35c4cc52db90bc415ea248446472]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-KVM-Add-parameter-exception-code-with-exception-handler/20250424-144905
-base:   9d7a0577c9db35c4cc52db90bc415ea248446472
-patch link:    https://lore.kernel.org/r/20250424064625.3928278-2-maobibo%40loongson.cn
-patch subject: [PATCH 1/2] LoongArch: KVM: Add parameter exception code with exception handler
-config: loongarch-randconfig-001-20250425 (https://download.01.org/0day-ci/archive/20250425/202504251458.EJKsZMLH-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251458.EJKsZMLH-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   9743210ec01376066493e38c624a7ad34c8dcd65
+commit: 9743210ec01376066493e38c624a7ad34c8dcd65 [12/12] BACKPORT: mm/page_alloc: keep track of free highatomic
+config: i386-randconfig-r123-20250425 (https://download.01.org/0day-ci/archive/20250425/202504251509.aomzX42J-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251509.aomzX42J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504251458.EJKsZMLH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504251509.aomzX42J-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/page_alloc.c:194:1: sparse: sparse: symbol 'restrict_cma_redirect' was not declared. Should it be static?
+   mm/page_alloc.c:1382:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
+   mm/page_alloc.c:1382:25: sparse:     expected restricted int flags
+   mm/page_alloc.c:1382:25: sparse:     got restricted fpi_t [usertype] fpi_flags
+   mm/page_alloc.c:1390:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
+   mm/page_alloc.c:1390:25: sparse:     expected restricted int flags
+   mm/page_alloc.c:1390:25: sparse:     got restricted fpi_t [usertype] fpi_flags
+>> mm/page_alloc.c:326:15: sparse: sparse: symbol 'free_highatomics' was not declared. Should it be static?
+   mm/page_alloc.c:913:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:913:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:913:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:913:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:2740:6: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
+   mm/page_alloc.c:2887:17: sparse: sparse: context imbalance in 'free_unref_page_list' - unexpected unlock
+   mm/page_alloc.c:913:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:3117:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
+   mm/page_alloc.c:4869:9: sparse: sparse: context imbalance in '__alloc_pages_bulk' - different lock contexts for basic block
 
->> arch/loongarch/kvm/exit.c:734: warning: Function parameter or struct member 'ecode' not described in 'kvm_handle_fpu_disabled'
+vim +/free_highatomics +326 mm/page_alloc.c
 
-
-vim +734 arch/loongarch/kvm/exit.c
-
-2737dee1067c2f Bibo Mao     2025-01-13  725  
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  726  /**
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  727   * kvm_handle_fpu_disabled() - Guest used fpu however it is disabled at host
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  728   * @vcpu:	Virtual CPU context.
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  729   *
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  730   * Handle when the guest attempts to use fpu which hasn't been allowed
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  731   * by the root context.
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  732   */
-74303fac8d0580 Bibo Mao     2025-04-24  733  static int kvm_handle_fpu_disabled(struct kvm_vcpu *vcpu, int ecode)
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02 @734  {
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  735  	struct kvm_run *run = vcpu->run;
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  736  
-db1ecca22edf27 Tianrui Zhao 2023-12-19  737  	if (!kvm_guest_has_fpu(&vcpu->arch)) {
-db1ecca22edf27 Tianrui Zhao 2023-12-19  738  		kvm_queue_exception(vcpu, EXCCODE_INE, 0);
-db1ecca22edf27 Tianrui Zhao 2023-12-19  739  		return RESUME_GUEST;
-db1ecca22edf27 Tianrui Zhao 2023-12-19  740  	}
-db1ecca22edf27 Tianrui Zhao 2023-12-19  741  
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  742  	/*
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  743  	 * If guest FPU not present, the FPU operation should have been
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  744  	 * treated as a reserved instruction!
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  745  	 * If FPU already in use, we shouldn't get this at all.
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  746  	 */
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  747  	if (WARN_ON(vcpu->arch.aux_inuse & KVM_LARCH_FPU)) {
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  748  		kvm_err("%s internal error\n", __func__);
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  749  		run->exit_reason = KVM_EXIT_INTERNAL_ERROR;
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  750  		return RESUME_HOST;
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  751  	}
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  752  
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  753  	kvm_own_fpu(vcpu);
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  754  
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  755  	return RESUME_GUEST;
-37cdfc6dbf0416 Tianrui Zhao 2023-10-02  756  }
-71f4fb845874c3 Tianrui Zhao 2023-10-02  757  
+   325	
+ > 326	unsigned long free_highatomics[MAX_NR_ZONES] = {0};
+   327	
 
 -- 
 0-DAY CI Kernel Test Service
