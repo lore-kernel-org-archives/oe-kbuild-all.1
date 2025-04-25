@@ -1,72 +1,64 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1A31F1520
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 13:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7319F71747
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 14:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745586731; cv=none; b=pAyvoW1orXmUpkJ8NOO/EVZTovLU9rgTfJr8p10bVK7yEACyoCt8DZCemGz4S1XdjB2+b3LpiW28eyiXcvq611y+IDqELU6EXZ33RYxirLsnNNQxeyV3bOwbgb6nmiIKFwQfxoBBqNtE87JG+ESnlbQwezaze00WrARp4DI1wgk=
+	t=1745589692; cv=none; b=updFifOVg1eSIztyYDPNzssd60M/FMmxBcP6LNPVRntm0JsG0ckro6vgvL73OxYu28udksjYxTIMIG2zt54RnKMxGXdit93Ca40ucMLTnbdGVt5cAX/l/DP1pkoHYMw4CF8uz0BIQFoJ4j4UUBKu7P0OrsE9+DXv99su3J7DD9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745586731; c=relaxed/simple;
-	bh=GWNSpW8Q2zHYggDEL314pnHlb5AIr7sdd6QxUoSi+5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JGC9VWEAHZybwxy2yLXETeyU/5bY2OxxX+9i/CQurPYs/m+jfvs6KzeCFW91b261ofDn0BLcx8SJkumBCxIOfF/j9c9YblYZAWuVxYVdoHG56KhWVBAGfDsKPrxxk7svFkmRKeB75GmBsWL1EQFBvMr0XCXHmAxvbWVT6de78ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yd1y4dKA; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1745589692; c=relaxed/simple;
+	bh=qJwvzDI/Ecr+K4pKDMV7GxiLNnGXwiyiJLLgrVXjl/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oLPcJ16BcP9N1g4/1at8c0X+h8pzm/gh0Q7sKtszBbdeTg32U9mKYCsXtSbURRFffsY7gSrA3P507QMGGedTYcqTxNZZprTKmr/Eoaq4DvyzYhFiNY7Qs8Fa6j0oO+3QwzevqAsKxD9xDJeWnXYNco3vbmeWQ0B/Uv9GO56pHg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9RP/828; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yd1y4dKA"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so14939805e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 06:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745586727; x=1746191527; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r2mJzYQDvuI9M7uIZt86YPzc2zUlO98o0UWqYzD5/Yo=;
-        b=Yd1y4dKA5vwr3kvSM9uf6pgvk4Ff0KBdL8G4z4ybaT8euZa3Ad3Bkl1cuPadnCcOHy
-         w4yeLILMlh7+AyBb8lVgv1XsUGxcbzToJDQNZLbU6LiecTuip+bDkHB7iLWIPBgT+2Qo
-         jgI1ytGFN7S04uImW5CYMEoaSkgL4cIqFMp3lastoPU3WYBz9fKDdL0vTf8ynUxFBJaW
-         yWdEGeCUllqvtGT1uLt03oMDag1VKtHAKTQYADnHC5icdFBDneKypRRobYfehA9Qc4JE
-         TmWHe586vXvh0kWOmQgmWbqc6eoN4kLjsaSHiXCyG0rcFGfB9nCoNbkvva+BimKNlUeF
-         koYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745586727; x=1746191527;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r2mJzYQDvuI9M7uIZt86YPzc2zUlO98o0UWqYzD5/Yo=;
-        b=OTYxplIa7Xp37robhiSz38p2Ylpn8WbWsiUNsyL4gczuHqM+I0CXiMiMQsyE2JAW6e
-         ckz5Z4C9hrHvxgh36ao8l3R63W9DmeDmpo05qMXMKeeBATj93ESegM7MnJUsZ7qTnwQE
-         CHboYNieqq4ck7GdumfmcQXkxQwki23YgIowauFiq6mbjgzGO79LAMX7dUI/ULyVYcXV
-         t245mU8N7KhOm3KI/wDFRoUyTUvMJgxeZ81cH8osuVsCot6dZqHbnCAPIA3Wq06x7o6w
-         5exz0rUB2XAu6quxpQgAx/13Eg48sRIe6f8zCBIjTIjp0WtAzeVeUoVCrRglmF0DPRdB
-         zB4w==
-X-Forwarded-Encrypted: i=1; AJvYcCXqLGigdxG0I3pvuxkCLegOcSkaGFZhOEQVwkTRUHXwjs6TNuo5JuwLyViqqdTiqLf3Gx7V2WgTC5CLqyD4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSb2LudPpcb67yqI2Me2hQEANE+0DyuVZlqcKLIf3+VW3WpTzA
-	LY0Mvxjs1x4YcoTui8Rb4gKsADmyAwxjQMjAb6QNofKuXGm0YdK9mpqRZqorVes=
-X-Gm-Gg: ASbGncucmG7sABIvn+NPQYECzYU3TDXwlRlEwUONpMO30GyzpYhKTN9vfQr2uv+cfy/
-	USOUUtdqgVypzYtWo0MiY0gI58VwvdDJ0krDkKJPHhDknunGEV/8r567rTVGKhI57UWfmtSiQqW
-	SJOLzf4i3+IOMZgoutOy6kMtx3zuCu4vVHS/4FYy+PNs8zlVOJuCk0dYJu8QwF3kMPy/OuWMhWh
-	kGjQIhdQh/BDNuKg5PMqVvYasWU6tfHK8+NuSwbloX0RPJuoS57tIstqUL6tYojAfovBVS4ZY3b
-	ujLmnMnuz0VIvZnAPiqfCuw80h9pV/rHx9iyUVQgTrzrGGKFzGuA5yyK
-X-Google-Smtp-Source: AGHT+IHQmpmStrmy566OJribqD8RtwP6KL/xHNY9xGU4rAa44Vf23D8eyGlStk+WGDGCfO0FlEnwUA==
-X-Received: by 2002:a7b:ce14:0:b0:43b:baf7:76e4 with SMTP id 5b1f17b1804b1-4409c453b1fmr53981615e9.1.1745586727231;
-        Fri, 25 Apr 2025 06:12:07 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4409d2ac5a9sm57367865e9.23.2025.04.25.06.12.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 06:12:06 -0700 (PDT)
-Date: Fri, 25 Apr 2025 16:12:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Kurt Borja <kuurtb@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Armin Wolf <W_Armin@gmx.de>
-Subject: [pdx86-platform-drivers-x86:review-ilpo-next 9/38]
- drivers/platform/x86/dell/alienware-wmi-wmax.c:931 awcc_hwmon_fans_init()
- error: uninitialized symbol 'temp_id'.
-Message-ID: <202504250521.HEkFK1Jy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9RP/828"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745589687; x=1777125687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qJwvzDI/Ecr+K4pKDMV7GxiLNnGXwiyiJLLgrVXjl/8=;
+  b=X9RP/8282XKWEqwwQ1seF/oIzTn+wRvohejTweFsHQ+eZ90khzlbjrJl
+   WLG4uSCKKd508IwlNp2WjmRXLMrgzVfVjIIrY2SSQgrqxbIunGb5UC28c
+   +z4A/X0i65REBlkHNh4YpBskBcu7MzjG57CygfsHCnMz6bmlR1A0tlPrY
+   nyPME3MiXfYoaOVABkkqLlDilbzylpxp+/9QyBlS9dy2dCb1fuP/FJyK4
+   9lpoNzbcRuzglZyAjPmsdAf3S9iOlti9OaMw7D7AbMLBPdiPfFyjK1UW6
+   kM9W6FwNXo6agYKyRHdCLYKTEUMfudqzHQWs7Xpq970OdO8A1y+biBju6
+   A==;
+X-CSE-ConnectionGUID: YHu03JihSXSohtcK4TAseg==
+X-CSE-MsgGUID: FVKEDUddTx2WF/wqZNcTUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="58618397"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="58618397"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 07:01:23 -0700
+X-CSE-ConnectionGUID: WPIN99XYTSOGUq13aNBqYg==
+X-CSE-MsgGUID: w3oFJ/h1SNKujDE+bMVYbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="136970958"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 25 Apr 2025 07:01:22 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8JcG-0005G1-0m;
+	Fri, 25 Apr 2025 14:01:20 +0000
+Date: Fri, 25 Apr 2025 22:00:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-xe@lists.freedesktop.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH v3 6/7] drm/xe/userptr: replace xe_hmm with gpusvm
+Message-ID: <202504252124.jQDkibSg-lkp@intel.com>
+References: <20250424121827.862729-15-matthew.auld@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,98 +67,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250424121827.862729-15-matthew.auld@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
-head:   4d1e8c8f11c611db5828e4bae7292bc295eea8ef
-commit: d699907834959c87a6b6c5214d5e9a3e8ba6b5a1 [9/38] platform/x86: alienware-wmi-wmax: Add HWMON support
-config: x86_64-randconfig-161-20250424 (https://download.01.org/0day-ci/archive/20250425/202504250521.HEkFK1Jy-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20250424]
+[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.15-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Auld/drm-gpusvm-fix-hmm_pfn_to_map_order-usage/20250424-202128
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250424121827.862729-15-matthew.auld%40intel.com
+patch subject: [PATCH v3 6/7] drm/xe/userptr: replace xe_hmm with gpusvm
+config: alpha-kismet-CONFIG_DRM_GPUSVM-CONFIG_DRM_XE-0-0 (https://download.01.org/0day-ci/archive/20250425/202504252124.jQDkibSg-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250425/202504252124.jQDkibSg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202504250521.HEkFK1Jy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504252124.jQDkibSg-lkp@intel.com/
 
-New smatch warnings:
-drivers/platform/x86/dell/alienware-wmi-wmax.c:931 awcc_hwmon_fans_init() error: uninitialized symbol 'temp_id'.
-
-vim +/temp_id +931 drivers/platform/x86/dell/alienware-wmi-wmax.c
-
-d699907834959c Kurt Borja 2025-03-29  882  static int awcc_hwmon_fans_init(struct wmi_device *wdev)
-d699907834959c Kurt Borja 2025-03-29  883  {
-d699907834959c Kurt Borja 2025-03-29  884  	struct awcc_priv *priv = dev_get_drvdata(&wdev->dev);
-d699907834959c Kurt Borja 2025-03-29  885  	unsigned long fan_temps[AWCC_ID_BITMAP_LONGS];
-d699907834959c Kurt Borja 2025-03-29  886  	unsigned long gather[AWCC_ID_BITMAP_LONGS];
-d699907834959c Kurt Borja 2025-03-29  887  	u32 min_rpm, max_rpm, temp_count, temp_id;
-d699907834959c Kurt Borja 2025-03-29  888  	struct awcc_fan_data *fan_data;
-d699907834959c Kurt Borja 2025-03-29  889  	unsigned int i, j;
-d699907834959c Kurt Borja 2025-03-29  890  	char *label;
-d699907834959c Kurt Borja 2025-03-29  891  	int ret;
-d699907834959c Kurt Borja 2025-03-29  892  	u8 id;
-d699907834959c Kurt Borja 2025-03-29  893  
-d699907834959c Kurt Borja 2025-03-29  894  	for (i = 0; i < priv->fan_count; i++) {
-d699907834959c Kurt Borja 2025-03-29  895  		fan_data = devm_kzalloc(&wdev->dev, sizeof(*fan_data), GFP_KERNEL);
-d699907834959c Kurt Borja 2025-03-29  896  		if (!fan_data)
-d699907834959c Kurt Borja 2025-03-29  897  			return -ENOMEM;
-d699907834959c Kurt Borja 2025-03-29  898  
-d699907834959c Kurt Borja 2025-03-29  899  		/*
-d699907834959c Kurt Borja 2025-03-29  900  		 * Fan IDs are listed first at offset 0
-d699907834959c Kurt Borja 2025-03-29  901  		 */
-d699907834959c Kurt Borja 2025-03-29  902  		ret = awcc_op_get_resource_id(wdev, i, &id);
-d699907834959c Kurt Borja 2025-03-29  903  		if (ret)
-d699907834959c Kurt Borja 2025-03-29  904  			return ret;
-d699907834959c Kurt Borja 2025-03-29  905  
-d699907834959c Kurt Borja 2025-03-29  906  		ret = awcc_thermal_information(wdev, AWCC_OP_GET_FAN_MIN_RPM, id,
-d699907834959c Kurt Borja 2025-03-29  907  					       &min_rpm);
-d699907834959c Kurt Borja 2025-03-29  908  		if (ret)
-d699907834959c Kurt Borja 2025-03-29  909  			return ret;
-d699907834959c Kurt Borja 2025-03-29  910  
-d699907834959c Kurt Borja 2025-03-29  911  		ret = awcc_thermal_information(wdev, AWCC_OP_GET_FAN_MAX_RPM, id,
-d699907834959c Kurt Borja 2025-03-29  912  					       &max_rpm);
-d699907834959c Kurt Borja 2025-03-29  913  		if (ret)
-d699907834959c Kurt Borja 2025-03-29  914  			return ret;
-d699907834959c Kurt Borja 2025-03-29  915  
-d699907834959c Kurt Borja 2025-03-29  916  		ret = awcc_get_fan_sensors(wdev, AWCC_OP_GET_TOTAL_FAN_TEMPS, id,
-d699907834959c Kurt Borja 2025-03-29  917  					   0, &temp_count);
-d699907834959c Kurt Borja 2025-03-29  918  		if (ret)
-d699907834959c Kurt Borja 2025-03-29  919  			return ret;
-d699907834959c Kurt Borja 2025-03-29  920  
-d699907834959c Kurt Borja 2025-03-29  921  		for (j = 0; j < temp_count; j++) {
-d699907834959c Kurt Borja 2025-03-29  922  			ret = awcc_get_fan_sensors(wdev, AWCC_OP_GET_FAN_TEMP_ID,
-d699907834959c Kurt Borja 2025-03-29  923  						   id, j, &temp_id);
-d699907834959c Kurt Borja 2025-03-29  924  			if (ret)
-d699907834959c Kurt Borja 2025-03-29  925  				break;
-
-return ret?
-
-d699907834959c Kurt Borja 2025-03-29  926  
-d699907834959c Kurt Borja 2025-03-29  927  			temp_id = FIELD_GET(AWCC_RESOURCE_ID_MASK, temp_id);
-d699907834959c Kurt Borja 2025-03-29  928  			__set_bit(temp_id, fan_temps);
-d699907834959c Kurt Borja 2025-03-29  929  		}
-d699907834959c Kurt Borja 2025-03-29  930  
-d699907834959c Kurt Borja 2025-03-29 @931  		label = awcc_get_fan_label(&wdev->dev, temp_count, temp_id);
-                                                                                                           ^^^^^^^
-uninitialized.
-
-d699907834959c Kurt Borja 2025-03-29  932  		if (!label)
-d699907834959c Kurt Borja 2025-03-29  933  			return -ENOMEM;
-d699907834959c Kurt Borja 2025-03-29  934  
-d699907834959c Kurt Borja 2025-03-29  935  		fan_data->id = id;
-d699907834959c Kurt Borja 2025-03-29  936  		fan_data->min_rpm = min_rpm;
-d699907834959c Kurt Borja 2025-03-29  937  		fan_data->max_rpm = max_rpm;
-d699907834959c Kurt Borja 2025-03-29  938  		fan_data->label = label;
-d699907834959c Kurt Borja 2025-03-29  939  		bitmap_gather(gather, fan_temps, priv->temp_sensors, AWCC_ID_BITMAP_SIZE);
-d699907834959c Kurt Borja 2025-03-29  940  		bitmap_copy(&fan_data->auto_channels_temp, gather, BITS_PER_LONG);
-d699907834959c Kurt Borja 2025-03-29  941  		priv->fan_data[i] = fan_data;
-d699907834959c Kurt Borja 2025-03-29  942  
-d699907834959c Kurt Borja 2025-03-29  943  		bitmap_zero(fan_temps, AWCC_ID_BITMAP_SIZE);
-d699907834959c Kurt Borja 2025-03-29  944  	}
-d699907834959c Kurt Borja 2025-03-29  945  
-d699907834959c Kurt Borja 2025-03-29  946  	return 0;
-d699907834959c Kurt Borja 2025-03-29  947  }
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_GPUSVM when selected by DRM_XE
+   WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
+     Depends on [n]: GPIOLIB [=n] || NEW_LEDS [=y] && GPIOLIB [=n]
+     Selected by [y]:
+     - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_GPUSVM
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DEVICE_PRIVATE [=n]
+     Selected by [m]:
+     - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=n]=y [=y])
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
