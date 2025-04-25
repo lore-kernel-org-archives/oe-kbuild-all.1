@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0870D1A08AF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 12:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1A31F1520
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 13:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745584778; cv=none; b=crMvC7bIP+MzJU4ekm/+YMu3y45XKKakd7uZGilE2GLjb2Z56wLdcYKMRC58DcRaGQJ/bnql03KVbMPIlRU3Al+DNwlEGko3+9GVSt3/iLC6vSTtj4XDJy9rUElKDkf3SRI6OR/4RBQMG+/rQw2167QBjJ1AdW6/7gKOG+K/qQo=
+	t=1745586731; cv=none; b=pAyvoW1orXmUpkJ8NOO/EVZTovLU9rgTfJr8p10bVK7yEACyoCt8DZCemGz4S1XdjB2+b3LpiW28eyiXcvq611y+IDqELU6EXZ33RYxirLsnNNQxeyV3bOwbgb6nmiIKFwQfxoBBqNtE87JG+ESnlbQwezaze00WrARp4DI1wgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745584778; c=relaxed/simple;
-	bh=77HLPWlArx96irJ9aBZtSCgiVkUN/Dujxw7Tp7DPxMo=;
+	s=arc-20240116; t=1745586731; c=relaxed/simple;
+	bh=GWNSpW8Q2zHYggDEL314pnHlb5AIr7sdd6QxUoSi+5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ry5u+Qx3SWEnYKMZ/XKCDr7EsoIzQId0Eb+O3zJZHcIgJ03AcjEy9mingmTELX+h/O4RubH6748/yOJnmp38tVNwoTy213gAIfdFOzf6EMC9xRp7dBXNo+UQTAsT3xYLFqVYVDNI6wAKBRNlT6pa3OvU1djdf6TcxZIydODf5F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hN762KOc; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=JGC9VWEAHZybwxy2yLXETeyU/5bY2OxxX+9i/CQurPYs/m+jfvs6KzeCFW91b261ofDn0BLcx8SJkumBCxIOfF/j9c9YblYZAWuVxYVdoHG56KhWVBAGfDsKPrxxk7svFkmRKeB75GmBsWL1EQFBvMr0XCXHmAxvbWVT6de78ZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yd1y4dKA; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hN762KOc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745584776; x=1777120776;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=77HLPWlArx96irJ9aBZtSCgiVkUN/Dujxw7Tp7DPxMo=;
-  b=hN762KOcjAHer5YSF8UVNT3/9Sgb32XRWWoAjqnXXLbyJRz+FvXj75wi
-   ug3hqLpq8eW9mf9w5lrvF5km6tsocQSrYAUCy6xrceBUbYqKwgO4a3VZg
-   9et1UjdIgX1VoU8Y9Z1m+JX0+JQGl2YUGodoH/lkoE4+o2APnLSV8Dz4I
-   xi1HtdC8V0uEwB62gJAdYgrBBg4i1wGkzphEC9tSLIrgXJ4YcrsLaVadu
-   VotrE3bwU/+5HeILdJ0AXl6U+iyvDSHq544z1VB6BBlz9TXdaWhTFGzhu
-   ef4j1gB2eeqHVBZG0RiEJ1maWMIhq5Ac3O5X/icujJ4UhlvD9mlcJxExZ
-   g==;
-X-CSE-ConnectionGUID: AEth3fv+RxKIGSxUrgPp4Q==
-X-CSE-MsgGUID: I7wVLqS2QHyNwkOl7aVI5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="58616716"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="58616716"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 05:39:15 -0700
-X-CSE-ConnectionGUID: Y/1pXCHxR9m6lKfvWHyjcA==
-X-CSE-MsgGUID: lku3sNovSZ6LbDx1orflRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="132640452"
-Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Apr 2025 05:39:14 -0700
-Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u8IKl-0005BN-2S;
-	Fri, 25 Apr 2025 12:39:11 +0000
-Date: Fri, 25 Apr 2025 20:38:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 56/56] kismet: WARNING: unmet direct
- dependencies detected for VFIO_MDEV when selected by CRYPTO_DEV_HCT
-Message-ID: <202504252006.DRG6IQzd-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yd1y4dKA"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so14939805e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 06:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745586727; x=1746191527; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r2mJzYQDvuI9M7uIZt86YPzc2zUlO98o0UWqYzD5/Yo=;
+        b=Yd1y4dKA5vwr3kvSM9uf6pgvk4Ff0KBdL8G4z4ybaT8euZa3Ad3Bkl1cuPadnCcOHy
+         w4yeLILMlh7+AyBb8lVgv1XsUGxcbzToJDQNZLbU6LiecTuip+bDkHB7iLWIPBgT+2Qo
+         jgI1ytGFN7S04uImW5CYMEoaSkgL4cIqFMp3lastoPU3WYBz9fKDdL0vTf8ynUxFBJaW
+         yWdEGeCUllqvtGT1uLt03oMDag1VKtHAKTQYADnHC5icdFBDneKypRRobYfehA9Qc4JE
+         TmWHe586vXvh0kWOmQgmWbqc6eoN4kLjsaSHiXCyG0rcFGfB9nCoNbkvva+BimKNlUeF
+         koYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745586727; x=1746191527;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r2mJzYQDvuI9M7uIZt86YPzc2zUlO98o0UWqYzD5/Yo=;
+        b=OTYxplIa7Xp37robhiSz38p2Ylpn8WbWsiUNsyL4gczuHqM+I0CXiMiMQsyE2JAW6e
+         ckz5Z4C9hrHvxgh36ao8l3R63W9DmeDmpo05qMXMKeeBATj93ESegM7MnJUsZ7qTnwQE
+         CHboYNieqq4ck7GdumfmcQXkxQwki23YgIowauFiq6mbjgzGO79LAMX7dUI/ULyVYcXV
+         t245mU8N7KhOm3KI/wDFRoUyTUvMJgxeZ81cH8osuVsCot6dZqHbnCAPIA3Wq06x7o6w
+         5exz0rUB2XAu6quxpQgAx/13Eg48sRIe6f8zCBIjTIjp0WtAzeVeUoVCrRglmF0DPRdB
+         zB4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXqLGigdxG0I3pvuxkCLegOcSkaGFZhOEQVwkTRUHXwjs6TNuo5JuwLyViqqdTiqLf3Gx7V2WgTC5CLqyD4@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSb2LudPpcb67yqI2Me2hQEANE+0DyuVZlqcKLIf3+VW3WpTzA
+	LY0Mvxjs1x4YcoTui8Rb4gKsADmyAwxjQMjAb6QNofKuXGm0YdK9mpqRZqorVes=
+X-Gm-Gg: ASbGncucmG7sABIvn+NPQYECzYU3TDXwlRlEwUONpMO30GyzpYhKTN9vfQr2uv+cfy/
+	USOUUtdqgVypzYtWo0MiY0gI58VwvdDJ0krDkKJPHhDknunGEV/8r567rTVGKhI57UWfmtSiQqW
+	SJOLzf4i3+IOMZgoutOy6kMtx3zuCu4vVHS/4FYy+PNs8zlVOJuCk0dYJu8QwF3kMPy/OuWMhWh
+	kGjQIhdQh/BDNuKg5PMqVvYasWU6tfHK8+NuSwbloX0RPJuoS57tIstqUL6tYojAfovBVS4ZY3b
+	ujLmnMnuz0VIvZnAPiqfCuw80h9pV/rHx9iyUVQgTrzrGGKFzGuA5yyK
+X-Google-Smtp-Source: AGHT+IHQmpmStrmy566OJribqD8RtwP6KL/xHNY9xGU4rAa44Vf23D8eyGlStk+WGDGCfO0FlEnwUA==
+X-Received: by 2002:a7b:ce14:0:b0:43b:baf7:76e4 with SMTP id 5b1f17b1804b1-4409c453b1fmr53981615e9.1.1745586727231;
+        Fri, 25 Apr 2025 06:12:07 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4409d2ac5a9sm57367865e9.23.2025.04.25.06.12.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Apr 2025 06:12:06 -0700 (PDT)
+Date: Fri, 25 Apr 2025 16:12:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kurt Borja <kuurtb@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Armin Wolf <W_Armin@gmx.de>
+Subject: [pdx86-platform-drivers-x86:review-ilpo-next 9/38]
+ drivers/platform/x86/dell/alienware-wmi-wmax.c:931 awcc_hwmon_fans_init()
+ error: uninitialized symbol 'temp_id'.
+Message-ID: <202504250521.HEkFK1Jy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +76,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   9fb5fea579257fb19f731bbb7f8ba84bbd468485
-commit: 6a8fe61cbbefb4383f34fafac84ff6b6faec30a4 [56/56] anolis: Add mediated ccp driver support for hygon crypto technology.
-config: x86_64-kismet-CONFIG_VFIO_MDEV-CONFIG_CRYPTO_DEV_HCT-0-0 (https://download.01.org/0day-ci/archive/20250425/202504252006.DRG6IQzd-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250425/202504252006.DRG6IQzd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
+head:   4d1e8c8f11c611db5828e4bae7292bc295eea8ef
+commit: d699907834959c87a6b6c5214d5e9a3e8ba6b5a1 [9/38] platform/x86: alienware-wmi-wmax: Add HWMON support
+config: x86_64-randconfig-161-20250424 (https://download.01.org/0day-ci/archive/20250425/202504250521.HEkFK1Jy-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504252006.DRG6IQzd-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202504250521.HEkFK1Jy-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for VFIO_MDEV when selected by CRYPTO_DEV_HCT
-   WARNING: unmet direct dependencies detected for VFIO_MDEV
-     Depends on [n]: VFIO [=n]
-     Selected by [y]:
-     - CRYPTO_DEV_HCT [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && CRYPTO_DEV_CCP [=y] && X86_64 [=y]
+New smatch warnings:
+drivers/platform/x86/dell/alienware-wmi-wmax.c:931 awcc_hwmon_fans_init() error: uninitialized symbol 'temp_id'.
+
+vim +/temp_id +931 drivers/platform/x86/dell/alienware-wmi-wmax.c
+
+d699907834959c Kurt Borja 2025-03-29  882  static int awcc_hwmon_fans_init(struct wmi_device *wdev)
+d699907834959c Kurt Borja 2025-03-29  883  {
+d699907834959c Kurt Borja 2025-03-29  884  	struct awcc_priv *priv = dev_get_drvdata(&wdev->dev);
+d699907834959c Kurt Borja 2025-03-29  885  	unsigned long fan_temps[AWCC_ID_BITMAP_LONGS];
+d699907834959c Kurt Borja 2025-03-29  886  	unsigned long gather[AWCC_ID_BITMAP_LONGS];
+d699907834959c Kurt Borja 2025-03-29  887  	u32 min_rpm, max_rpm, temp_count, temp_id;
+d699907834959c Kurt Borja 2025-03-29  888  	struct awcc_fan_data *fan_data;
+d699907834959c Kurt Borja 2025-03-29  889  	unsigned int i, j;
+d699907834959c Kurt Borja 2025-03-29  890  	char *label;
+d699907834959c Kurt Borja 2025-03-29  891  	int ret;
+d699907834959c Kurt Borja 2025-03-29  892  	u8 id;
+d699907834959c Kurt Borja 2025-03-29  893  
+d699907834959c Kurt Borja 2025-03-29  894  	for (i = 0; i < priv->fan_count; i++) {
+d699907834959c Kurt Borja 2025-03-29  895  		fan_data = devm_kzalloc(&wdev->dev, sizeof(*fan_data), GFP_KERNEL);
+d699907834959c Kurt Borja 2025-03-29  896  		if (!fan_data)
+d699907834959c Kurt Borja 2025-03-29  897  			return -ENOMEM;
+d699907834959c Kurt Borja 2025-03-29  898  
+d699907834959c Kurt Borja 2025-03-29  899  		/*
+d699907834959c Kurt Borja 2025-03-29  900  		 * Fan IDs are listed first at offset 0
+d699907834959c Kurt Borja 2025-03-29  901  		 */
+d699907834959c Kurt Borja 2025-03-29  902  		ret = awcc_op_get_resource_id(wdev, i, &id);
+d699907834959c Kurt Borja 2025-03-29  903  		if (ret)
+d699907834959c Kurt Borja 2025-03-29  904  			return ret;
+d699907834959c Kurt Borja 2025-03-29  905  
+d699907834959c Kurt Borja 2025-03-29  906  		ret = awcc_thermal_information(wdev, AWCC_OP_GET_FAN_MIN_RPM, id,
+d699907834959c Kurt Borja 2025-03-29  907  					       &min_rpm);
+d699907834959c Kurt Borja 2025-03-29  908  		if (ret)
+d699907834959c Kurt Borja 2025-03-29  909  			return ret;
+d699907834959c Kurt Borja 2025-03-29  910  
+d699907834959c Kurt Borja 2025-03-29  911  		ret = awcc_thermal_information(wdev, AWCC_OP_GET_FAN_MAX_RPM, id,
+d699907834959c Kurt Borja 2025-03-29  912  					       &max_rpm);
+d699907834959c Kurt Borja 2025-03-29  913  		if (ret)
+d699907834959c Kurt Borja 2025-03-29  914  			return ret;
+d699907834959c Kurt Borja 2025-03-29  915  
+d699907834959c Kurt Borja 2025-03-29  916  		ret = awcc_get_fan_sensors(wdev, AWCC_OP_GET_TOTAL_FAN_TEMPS, id,
+d699907834959c Kurt Borja 2025-03-29  917  					   0, &temp_count);
+d699907834959c Kurt Borja 2025-03-29  918  		if (ret)
+d699907834959c Kurt Borja 2025-03-29  919  			return ret;
+d699907834959c Kurt Borja 2025-03-29  920  
+d699907834959c Kurt Borja 2025-03-29  921  		for (j = 0; j < temp_count; j++) {
+d699907834959c Kurt Borja 2025-03-29  922  			ret = awcc_get_fan_sensors(wdev, AWCC_OP_GET_FAN_TEMP_ID,
+d699907834959c Kurt Borja 2025-03-29  923  						   id, j, &temp_id);
+d699907834959c Kurt Borja 2025-03-29  924  			if (ret)
+d699907834959c Kurt Borja 2025-03-29  925  				break;
+
+return ret?
+
+d699907834959c Kurt Borja 2025-03-29  926  
+d699907834959c Kurt Borja 2025-03-29  927  			temp_id = FIELD_GET(AWCC_RESOURCE_ID_MASK, temp_id);
+d699907834959c Kurt Borja 2025-03-29  928  			__set_bit(temp_id, fan_temps);
+d699907834959c Kurt Borja 2025-03-29  929  		}
+d699907834959c Kurt Borja 2025-03-29  930  
+d699907834959c Kurt Borja 2025-03-29 @931  		label = awcc_get_fan_label(&wdev->dev, temp_count, temp_id);
+                                                                                                           ^^^^^^^
+uninitialized.
+
+d699907834959c Kurt Borja 2025-03-29  932  		if (!label)
+d699907834959c Kurt Borja 2025-03-29  933  			return -ENOMEM;
+d699907834959c Kurt Borja 2025-03-29  934  
+d699907834959c Kurt Borja 2025-03-29  935  		fan_data->id = id;
+d699907834959c Kurt Borja 2025-03-29  936  		fan_data->min_rpm = min_rpm;
+d699907834959c Kurt Borja 2025-03-29  937  		fan_data->max_rpm = max_rpm;
+d699907834959c Kurt Borja 2025-03-29  938  		fan_data->label = label;
+d699907834959c Kurt Borja 2025-03-29  939  		bitmap_gather(gather, fan_temps, priv->temp_sensors, AWCC_ID_BITMAP_SIZE);
+d699907834959c Kurt Borja 2025-03-29  940  		bitmap_copy(&fan_data->auto_channels_temp, gather, BITS_PER_LONG);
+d699907834959c Kurt Borja 2025-03-29  941  		priv->fan_data[i] = fan_data;
+d699907834959c Kurt Borja 2025-03-29  942  
+d699907834959c Kurt Borja 2025-03-29  943  		bitmap_zero(fan_temps, AWCC_ID_BITMAP_SIZE);
+d699907834959c Kurt Borja 2025-03-29  944  	}
+d699907834959c Kurt Borja 2025-03-29  945  
+d699907834959c Kurt Borja 2025-03-29  946  	return 0;
+d699907834959c Kurt Borja 2025-03-29  947  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
