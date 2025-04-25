@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1E93FBA7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 02:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A0415A85A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 02:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745546602; cv=none; b=fYDfcaMOHuZi0rYOBSs5pOFn0jUIlLTgJ0O+6ecPOYVozhhG0eEM7gf9EGUy4oGzL742ffoxUJG2RkUhXVEXP6Ywp4VM/O2TuqX3wAL4AD2+t51Y180U9wzyfVKWdN1KFVQtv7rHqeJh04ylRssVlRKH6GGG+XLG+PZwhc53Nj8=
+	t=1745548537; cv=none; b=eot423imYmhxolvc23J8EdpXaBAmeS1ZFbLQn3NfjCd8p1t+CRZ+ec0Shob3IJOGoLFsPruv/wNM/VEFh5O4X5LjscMcZZC2dESNDruIG0RDw6/pbZPRGeEanApRUnR1J2gQ+OIpkTsLX5s2uNnRoyQtj7Au45zPvq/vUHpWtTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745546602; c=relaxed/simple;
-	bh=t1jEBUtKnqaCuB2uqdNvSe/Hsf3PCCLigHTm9DC/NJ4=;
+	s=arc-20240116; t=1745548537; c=relaxed/simple;
+	bh=6MnVzwIj2ZPTJLMBA8sdekbwFOcph3fPM2fjKWhgbpM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HlQySnvcRuiTRKJ/sMhp7RswiRzrmXvq+9RcGpE8kB64cQe70aiFdDRVue7wMMU9z/Ejs4HlD/hzY+OSJTGkOuyuIiihBxmg/qDG5+E8SHme3T7OvqVEtGaAHlCX+t7wy2TSYLlOmNIZjblaooCpjHOX5bthSuyozhVea7fZyWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cogdKCO3; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=RL5uXGWTOmB4DNEjQX8d4o8ozHR4NrmDpmjcZSxqo3VO069jB/xiWSGv2hzCzU8A+ICe+L4rUVwPgBIXcFRVnR2rohBtBwO32/GmgJsqCMYhsP+kd3BEzN5npjLraDYenoat78X9mHNNQBW+sxRVbm+DxlGogpHPapijYJOQszs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0XQN2Ee; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cogdKCO3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0XQN2Ee"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745546600; x=1777082600;
+  t=1745548535; x=1777084535;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t1jEBUtKnqaCuB2uqdNvSe/Hsf3PCCLigHTm9DC/NJ4=;
-  b=cogdKCO3891xT3Bozf0qs/YNaQy5XeKAyvXYrB/+DiL9m+mSKUvSTiK+
-   zHvFy4SuSlerb+En+Z8eiSsAFBpLEKkiV4EC9/mVXo05SECmlKxrANlUk
-   sQlyYEIVZwbGPHEar8wIZOMoknRSpO4dpO9+H4NN4w41xChZR2Vp2r2aQ
-   a/nFHNH8Uu86oTNjvTgKSvNJJ2UuGNcUhyEAnfM/9s07ZSDj00wdCHvus
-   T2XepoWbZN8nOxvoie3SXLzoSOn7YY9Gu3w1gFC6jFA9PCajk16fR5NNx
-   FKcErm12a7KRLiIiq5JldQ00DkXWGsxw71AeskP20ygUBPIoP6PKbFOSH
-   g==;
-X-CSE-ConnectionGUID: PfZVI15ySVaE4yhLvubDBA==
-X-CSE-MsgGUID: SHhrDqMSSBGxJ1glTw589g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57848633"
+  bh=6MnVzwIj2ZPTJLMBA8sdekbwFOcph3fPM2fjKWhgbpM=;
+  b=b0XQN2EeBhA8dYufQMAtkwdPOXfWVhAmPz6rEAESVb891Uz4sA6xZ01+
+   0K1sHEWdW1uF9HKHqULSUA4Jx3qSeoBGg0LJlDNdQvKWoih/ov+OV4D7p
+   AoLgki7DxKTffa/JQbetOZMKXkuGHsVKlvye+obvAdCb53NuEqc4SGOQM
+   ZMc57H5kxRgrLBGPNycjbBRE+B32NWZAZBL6tkvwq9+yEy82rxnOt8Bny
+   wQP4g0WsqmbZ7oAgpIthRhh+HQWP2QBuFR5TD7DtRTeRIwk4d9jIZTaF/
+   gTm7GNoiOxoUQ6aENVPMUo0y5bvG81TRmMv+dpaxjsbqcJaUWKzkygz9l
+   Q==;
+X-CSE-ConnectionGUID: e0EsN3eGS5yPr8Q5A4UnPg==
+X-CSE-MsgGUID: 2EPpP9lNTXKJHon3PnSTUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="64732501"
 X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="57848633"
+   d="scan'208";a="64732501"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 19:03:18 -0700
-X-CSE-ConnectionGUID: aEOoQLNYSzmiqAkWbPYmEw==
-X-CSE-MsgGUID: frUc+zsiRUm/H+DVWrF9iA==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 19:35:25 -0700
+X-CSE-ConnectionGUID: qSj+P20hTwKhBzGiefk5xw==
+X-CSE-MsgGUID: vZj4X4uATGCmuYfD3lgzhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="137939718"
+   d="scan'208";a="137943766"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2025 19:03:16 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2025 19:35:21 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u88PK-0004jB-0H;
-	Fri, 25 Apr 2025 02:03:14 +0000
-Date: Fri, 25 Apr 2025 10:03:05 +0800
+	id 1u88uL-0004jt-2v;
+	Fri, 25 Apr 2025 02:35:17 +0000
+Date: Fri, 25 Apr 2025 10:35:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1593/1593] block/bio-integrity.c:41:6:
- warning: no previous prototype for '__bio_integrity_free'
-Message-ID: <202504250942.HWyvS6HD-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-5.10 19/19] mm/unevictable.c:156:6:
+ warning: no previous prototype for 'del_unevict_task'
+Message-ID: <202504251037.Ei4ihIzR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,44 +62,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Chengguang,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   08111f03f1ec65598372cfe9bf64f366d575671e
-commit: f9c4e7b09f7d51f9256fe51b9c40657cd7302530 [1593/1593] block: release bip in a right way in error path
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250425/202504250942.HWyvS6HD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504250942.HWyvS6HD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   4bad2cd1902185593ae2d7cdf67ac43d5aa2dfe9
+commit: bba8483e73c9dae0b5c67f8143dc8f922a07580b [19/19] anolis: mm: unevictable: adjust three key functions
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250425/202504251037.Ei4ihIzR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251037.Ei4ihIzR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504250942.HWyvS6HD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504251037.Ei4ihIzR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/bio-integrity.c:41:6: warning: no previous prototype for '__bio_integrity_free' [-Wmissing-prototypes]
-      41 | void __bio_integrity_free(struct bio_set *bs, struct bio_integrity_payload *bip)
-         |      ^~~~~~~~~~~~~~~~~~~~
+>> mm/unevictable.c:156:6: warning: no previous prototype for 'del_unevict_task' [-Wmissing-prototypes]
+     156 | void del_unevict_task(struct task_struct *tsk)
+         |      ^~~~~~~~~~~~~~~~
+   mm/unevictable.c:537:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+     537 | const static struct proc_ops add_proc_fops = {
+         | ^~~~~
+   mm/unevictable.c:545:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+     545 | const static struct proc_ops del_proc_fops = {
+         | ^~~~~
+   mm/unevictable.c:545:30: warning: 'del_proc_fops' defined but not used [-Wunused-const-variable=]
+     545 | const static struct proc_ops del_proc_fops = {
+         |                              ^~~~~~~~~~~~~
+   mm/unevictable.c:537:30: warning: 'add_proc_fops' defined but not used [-Wunused-const-variable=]
+     537 | const static struct proc_ops add_proc_fops = {
+         |                              ^~~~~~~~~~~~~
 
 
-vim +/__bio_integrity_free +41 block/bio-integrity.c
+vim +/del_unevict_task +156 mm/unevictable.c
 
-    40	
-  > 41	void __bio_integrity_free(struct bio_set *bs, struct bio_integrity_payload *bip)
-    42	{
-    43		if (bs && mempool_initialized(&bs->bio_integrity_pool)) {
-    44			if (bip->bip_vec)
-    45				bvec_free(&bs->bvec_integrity_pool, bip->bip_vec,
-    46					  bip->bip_slab);
-    47			mempool_free(bip, &bs->bio_integrity_pool);
-    48		} else {
-    49			kfree(bip);
-    50		}
-    51	}
-    52	
+   155	
+ > 156	void del_unevict_task(struct task_struct *tsk)
+   157	{
+   158		struct evict_pid_entry *result;
+   159	
+   160		if (!tsk) {
+   161			struct evict_pid_entry *pid_entry, *tmp;
+   162	
+   163			mutex_lock(&pid_mutex);
+   164			list_for_each_entry_safe(pid_entry, tmp, &pid_list, list) {
+   165				rcu_read_lock();
+   166				tsk = find_task_by_pid_ns(pid_entry->rootpid,
+   167						&init_pid_ns);
+   168				rcu_read_unlock();
+   169				if (!tsk) {
+   170					list_del(&pid_entry->list);
+   171					__remove_entry(pid_entry);
+   172					kfree(pid_entry);
+   173				}
+   174			}
+   175			mutex_unlock(&pid_mutex);
+   176			return;
+   177		}
+   178	
+   179		mutex_lock(&pid_mutex);
+   180		result = lookup_unevict_entry(tsk);
+   181		if (result) {
+   182			list_del(&result->list);
+   183			__remove_entry(result);
+   184			mutex_unlock(&pid_mutex);
+   185			__evict_pid(result);
+   186			kfree(result);
+   187		} else
+   188			mutex_unlock(&pid_mutex);
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
