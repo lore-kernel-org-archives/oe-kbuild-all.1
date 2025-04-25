@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97F119DF48;
-	Fri, 25 Apr 2025 04:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E8B136E37
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 05:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745554778; cv=none; b=WmQ9ktU7xlcQNL3M5hUgDQ45TDmiSBrfSlOytb2f7MpTVGRbK1S1x1mEvdPVjBdrDfBMaHpcFOhDyS1KBZQREHhjDOb+yFC9+8R0js6g4bbRAx+GHL5pA4aH+72iEQLxkNOa3TORaV4xWRhhLQ862CoA7WymqjebUQz23mEnhyw=
+	t=1745558439; cv=none; b=rVnH3ZeHqDj9n457KEh/TPkZ6LJgH4F20a/fi9QDOGs8V5qkXdJxDtivC8L4NUl8CPMzgZBprXl3mqUx6oJMuPuMRENGo8g2zSb4+t24TZ6YoI/8/8mWlzzBXIHDUU9TL4TBzYacn+4SFOVVj/PpPv8+p/7vFFBQc8RlrvTBF4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745554778; c=relaxed/simple;
-	bh=HvUQ2jlkbOcoo0ZLx18H2YZfkCaqCX2iH2Clv+lgH08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TvbChDxW9oYSenYJwpHH75XOC4sYyiq4BJjDCbnrc9yxVk8hDVKLSqt6819Xd9LhNAMGAeKespg8p2HxgZfB69F/CSjqlk1DtXsCBt8MSmdFLiwllV+RRMxcMVFE/U/07HEUGwQ8COpua5U7g+Weks2pRggi4Tliu9+QAJVCeug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dj3xELOr; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1745558439; c=relaxed/simple;
+	bh=YgfellHQmxXYk65BoQlT5O/5ilMLx54xqR7J1ZTwCMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oW5RW4eFNirN41yIWU2LsitAUlxTdK2Bm8rVEvgQxEMOQiVXz5yMfkJZqBpBbQvdv45KxKgY1yLOIOzqgFKAr3SoJ3SBo2SGFkN96qE5hcQ5X7Qd5uKZ3lcL/AFyAa1bjUDgSQQA+imrPkDzCDo5xZbVPvoqJDZjuxLvdVJPr6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DgRz3Ejq; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dj3xELOr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DgRz3Ejq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745554776; x=1777090776;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HvUQ2jlkbOcoo0ZLx18H2YZfkCaqCX2iH2Clv+lgH08=;
-  b=dj3xELOraIB7aik0g0Oa+q8TG7lsShKJ9P5AsSAEqG8mdyTb6xBAmqmG
-   qVPH75qNAP6W9SRgO1wARjqk5L0O7m+IoneYf/wWGUoUVMcCK0E32Qtnl
-   9mcrog8MllCLsIa9gD9fjfefrjC32EyuafY1o3Et0k5Vn/s9xMBNLabFD
-   +l1sp+Brmmszt0wOYdKcvIKRbP3ugVEV1XqjXFdf9v/QCoNK8ejhZvpGF
-   P21RVEKAauvSTCehaqSJxIeWq5UMkEEj2F9MEbuhn1rvXU2O49Wn99+rc
-   uHd1Qs9XNtflbgkQdwZ5+qboy5QJOLl2hMJZCBzz8JhWPXr9mREVr9lv1
+  t=1745558437; x=1777094437;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YgfellHQmxXYk65BoQlT5O/5ilMLx54xqR7J1ZTwCMM=;
+  b=DgRz3EjqP/r4deD8wgS1ch4pQ387G5Urci7lo82fkuc8WTqiTzAcQSL1
+   TX2ZS+EG/yVXCRXa3emaptWQoTLueBZSv5IVxeWriLat1BgVin4jcaNqn
+   GRCblGDNgtXonrC8/AqV7Uw+gL2Y+W0UxaWPlDO0RAhGl5DT2GbMuQjJ2
+   QPIxaZGZO/L1+S0dRRCSaIlxS4ATr5uRZdxZ9Pjc+tIGPnsycabuUdPl7
+   EGhsBK50uCXFSgDqG5tWDKQ0H0Dwp0thU5cTF0VQaL2Ku+ir5jO/H3PKz
+   vUSv0P2AFO7Z14iGBXhrN/aOiW8XHzrx/yd0+YpMsTaBMQMPlXSL0jrT3
    A==;
-X-CSE-ConnectionGUID: TxoXaHseSHWH9y8Vg7KDwA==
-X-CSE-MsgGUID: UeWCaX8YScmvYOeBhuK1YQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47225233"
+X-CSE-ConnectionGUID: IqEkvdUCQC24SFNSmUyGJw==
+X-CSE-MsgGUID: +O1BApbiQHyYya15WB9WKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="69704807"
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="47225233"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 21:19:35 -0700
-X-CSE-ConnectionGUID: mud3aOYySRScxADNvob0ig==
-X-CSE-MsgGUID: Uh0zV26bTnKghmeikkJV/A==
+   d="scan'208";a="69704807"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 22:20:37 -0700
+X-CSE-ConnectionGUID: RKfuaV8FRMyohPO9D31akQ==
+X-CSE-MsgGUID: 9LH9dn/iQbmpNK9rDhUUvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="170016448"
+   d="scan'208";a="133792781"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 Apr 2025 21:19:31 -0700
+  by orviesa008.jf.intel.com with ESMTP; 24 Apr 2025 22:20:36 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8AXB-0004pV-0L;
-	Fri, 25 Apr 2025 04:19:29 +0000
-Date: Fri, 25 Apr 2025 12:18:38 +0800
+	id 1u8BUH-0004qm-1k;
+	Fri, 25 Apr 2025 05:20:33 +0000
+Date: Fri, 25 Apr 2025 13:20:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: hans.zhang@cixtech.com, bhelgaas@google.com, lpieralisi@kernel.org,
-	kw@linux.com, manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	peter.chen@cixtech.com, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Manikandan K Pillai <mpillai@cadence.com>,
-	Hans Zhang <hans.zhang@cixtech.com>
-Subject: Re: [PATCH v4 3/5] PCI: cadence: Add header support for PCIe HPA
- controller
-Message-ID: <202504251214.ngJwGxvn-lkp@intel.com>
-References: <20250424010445.2260090-4-hans.zhang@cixtech.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1593/1593] block/blk-mq-sched.c:219:5:
+ warning: no previous prototype for '__blk_mq_sched_dispatch_requests'
+Message-ID: <202504251357.XH0GnYXx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,102 +61,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424010445.2260090-4-hans.zhang@cixtech.com>
 
-Hi,
+Hi Salman,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on fc96b232f8e7c0a6c282f47726b2ff6a5fb341d2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hans-zhang-cixtech-com/dt-bindings-pci-cadence-Extend-compatible-for-new-RP-configuration/20250424-090651
-base:   fc96b232f8e7c0a6c282f47726b2ff6a5fb341d2
-patch link:    https://lore.kernel.org/r/20250424010445.2260090-4-hans.zhang%40cixtech.com
-patch subject: [PATCH v4 3/5] PCI: cadence: Add header support for PCIe HPA controller
-config: i386-buildonly-randconfig-003-20250425 (https://download.01.org/0day-ci/archive/20250425/202504251214.ngJwGxvn-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251214.ngJwGxvn-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   08111f03f1ec65598372cfe9bf64f366d575671e
+commit: c1ea82c0ddde70d5998c2f547520afbee10bea2a [1593/1593] block: Limit number of items taken from the I/O scheduler in one go
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250425/202504251357.XH0GnYXx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251357.XH0GnYXx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504251214.ngJwGxvn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504251357.XH0GnYXx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pci/controller/cadence/pcie-cadence.c:9:
->> drivers/pci/controller/cadence/pcie-cadence.h:851:8: error: expected ')'
-     851 |                                                  int where)
-         |                                                  ^
-   drivers/pci/controller/cadence/pcie-cadence.h:850:49: note: to match this '('
-     850 | static inline void __iomem *cdns_pci_hpa_map_bus(struct pci_bus *bus, unsigned int devfn
-         |                                                 ^
-   1 error generated.
+>> block/blk-mq-sched.c:219:5: warning: no previous prototype for '__blk_mq_sched_dispatch_requests' [-Wmissing-prototypes]
+     219 | int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +851 drivers/pci/controller/cadence/pcie-cadence.h
+vim +/__blk_mq_sched_dispatch_requests +219 block/blk-mq-sched.c
 
-   811	
-   812	#ifdef CONFIG_PCIE_CADENCE_HOST
-   813	int cdns_pcie_host_link_setup(struct cdns_pcie_rc *rc);
-   814	int cdns_pcie_host_init(struct cdns_pcie_rc *rc);
-   815	int cdns_pcie_host_setup(struct cdns_pcie_rc *rc);
-   816	void __iomem *cdns_pci_map_bus(struct pci_bus *bus, unsigned int devfn,
-   817				       int where);
-   818	int cdns_pcie_host_init_root_port(struct cdns_pcie_rc *rc);
-   819	int cdns_pcie_host_bar_ib_config(struct cdns_pcie_rc *rc,
-   820					 enum cdns_pcie_rp_bar bar,
-   821					 u64 cpu_addr, u64 size,
-   822					 unsigned long flags);
-   823	int cdns_pcie_host_init_address_translation(struct cdns_pcie_rc *rc);
-   824	void __iomem *cdns_pci_hpa_map_bus(struct pci_bus *bus, unsigned int devfn, int where);
-   825	int cdns_pcie_hpa_host_init_root_port(struct cdns_pcie_rc *rc);
-   826	int cdns_pcie_hpa_host_bar_ib_config(struct cdns_pcie_rc *rc,
-   827					     enum cdns_pcie_rp_bar bar,
-   828					     u64 cpu_addr, u64 size,
-   829					     unsigned long flags);
-   830	int cdns_pcie_hpa_host_init_address_translation(struct cdns_pcie_rc *rc);
-   831	int cdns_pcie_hpa_host_init(struct cdns_pcie_rc *rc);
-   832	#else
-   833	static inline int cdns_pcie_host_link_setup(struct cdns_pcie_rc *rc)
-   834	{
-   835		return 0;
-   836	}
-   837	static inline int cdns_pcie_host_init(struct cdns_pcie_rc *rc)
-   838	{
-   839		return 0;
-   840	}
-   841	static inline int cdns_pcie_host_setup(struct cdns_pcie_rc *rc)
-   842	{
-   843		return 0;
-   844	}
-   845	static inline void __iomem *cdns_pci_map_bus(struct pci_bus *bus, unsigned int devfn,
-   846						     int where)
-   847	{
-   848		return NULL;
-   849	}
-   850	static inline void __iomem *cdns_pci_hpa_map_bus(struct pci_bus *bus, unsigned int devfn
- > 851							 int where)
-   852	{
-   853		return NULL;
-   854	}
-   855	static inline int cdns_pcie_hpa_host_init_root_port(struct cdns_pcie_rc *rc)
-   856	{
-   857		return 0;
-   858	}
-   859	static inline int cdns_pcie_hpa_host_bar_ib_config(struct cdns_pcie_rc *rc,
-   860							   enum cdns_pcie_rp_bar bar,
-   861							   u64 cpu_addr, u64 size,
-   862							   unsigned long flags)
-   863	{
-   864		return 0;
-   865	}
-   866	static inline int cdns_pcie_hpa_host_init_address_translation(struct cdns_pcie_rc *rc)
-   867	{
-   868		return 0;
-   869	}
-   870	#endif
-   871	
+   218	
+ > 219	int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
+   220	{
+   221		struct request_queue *q = hctx->queue;
+   222		struct elevator_queue *e = q->elevator;
+   223		const bool has_sched_dispatch = e && e->type->ops.mq.dispatch_request;
+   224		int ret = 0;
+   225		LIST_HEAD(rq_list);
+   226	
+   227		/*
+   228		 * If we have previous entries on our dispatch list, grab them first for
+   229		 * more fair dispatch.
+   230		 */
+   231		if (!list_empty_careful(&hctx->dispatch)) {
+   232			spin_lock(&hctx->lock);
+   233			if (!list_empty(&hctx->dispatch))
+   234				list_splice_init(&hctx->dispatch, &rq_list);
+   235			spin_unlock(&hctx->lock);
+   236		}
+   237	
+   238		/*
+   239		 * Only ask the scheduler for requests, if we didn't have residual
+   240		 * requests from the dispatch list. This is to avoid the case where
+   241		 * we only ever dispatch a fraction of the requests available because
+   242		 * of low device queue depth. Once we pull requests out of the IO
+   243		 * scheduler, we can no longer merge or sort them. So it's best to
+   244		 * leave them there for as long as we can. Mark the hw queue as
+   245		 * needing a restart in that case.
+   246		 *
+   247		 * We want to dispatch from the scheduler if there was nothing
+   248		 * on the dispatch list or we were able to dispatch from the
+   249		 * dispatch list.
+   250		 */
+   251		if (!list_empty(&rq_list)) {
+   252			blk_mq_sched_mark_restart_hctx(hctx);
+   253			if (blk_mq_dispatch_rq_list(q, &rq_list, false)) {
+   254				if (has_sched_dispatch)
+   255					ret = blk_mq_do_dispatch_sched(hctx);
+   256				else
+   257					ret = blk_mq_do_dispatch_ctx(hctx);
+   258			}
+   259		} else if (has_sched_dispatch) {
+   260			ret = blk_mq_do_dispatch_sched(hctx);
+   261		} else if (hctx->dispatch_busy) {
+   262			/* dequeue request one by one from sw queue if queue is busy */
+   263			ret = blk_mq_do_dispatch_ctx(hctx);
+   264		} else {
+   265			blk_mq_flush_busy_ctxs(hctx, &rq_list);
+   266			blk_mq_dispatch_rq_list(q, &rq_list, false);
+   267		}
+   268	
+   269		return ret;
+   270	}
+   271	
 
 -- 
 0-DAY CI Kernel Test Service
