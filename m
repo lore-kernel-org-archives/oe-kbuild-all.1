@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7F3224B06
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 11:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B91A252283
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 11:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745582174; cv=none; b=GMnG4O/GkQigRoLUh5ftK6gs0Zdb+sEpw+cYawzoGICei/bLCsUuosR62X+hPXEbFvVPDqFeJgIK/rTeMqDDX7iLpzICTRPL0KCDjyhz0piSeyKCzt9anXXvZhkQ4MkffBopwXHCa2wPo6E6Xd+U1Cj02OVmRDGdxLr+9nvSaIo=
+	t=1745582176; cv=none; b=ScRtOOb2gQ0li2WT8FRzZ4VuNh0yB9JMYelXmZPL6jz13qC+UfCH8piv2CBIfb/1bCEoWK8iM/K5TR211VbedHYNLqGtbXquc5+mGKogxC9QeScwBNBEfqaY3LDkP8eE8AgGdQeH+IUEQXtrgORZ2xqnVg7hryLPP55FnMI2nls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745582174; c=relaxed/simple;
-	bh=lA3hzoPBORNOiIoShtaFF9hxb8Hu7bBlkottNaDDcmY=;
+	s=arc-20240116; t=1745582176; c=relaxed/simple;
+	bh=9C3J459UPfVH1zjU0q0H/HJRU40Kp0Yj4i39GUSDKtY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UhbdL+TDjTcSZJpURvw5bYAXw+h//oVq3ZYajSizw4DwUh4nt/BR6TD/eHsdsrrUf2OLKGqpwYKaz8w8lcVDjJGYuRoKRj0hmqchfFPYCyM97mxIEZtOdyvgWqihs6X6Qzu5At4Ffw8x234b/vH92SSUDKHMYvox0RgQOSABnow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jbvqNlSZ; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Ujh3QrdTIZHN6O3dDoxhHflxSIukP1SYlfmQR16VIXoRnG/UAGVgYcKuix/6XVuM4cerFWjhMYJ95VgQeRdn58DRNZlEwqxwz7gq+XBHds1E0lLl5CppHxbRDVpcLJgXS1WiffgN9HLEOXoX/o0gT1PmXjgzqgkMxaIq8Kz9004=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wk8uzAcM; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jbvqNlSZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wk8uzAcM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745582171; x=1777118171;
+  t=1745582174; x=1777118174;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lA3hzoPBORNOiIoShtaFF9hxb8Hu7bBlkottNaDDcmY=;
-  b=jbvqNlSZkeyk6Xy55upkdnuExy6QHl2B31iPaYCYdWX5Qh/icHsw9CV4
-   bTvJJ3oCeLsYUXTqTvKe5RTuv3zmkoErDwF9XpmkORqnfU//rxaeRjOIp
-   u/edwJ+FXK/LyeV2ZdjZZc/OOjxVirP+LVVzIgbFzKjY86MANOyXbEBvM
-   K6mHGb6Id9CiLd8L4OBvFCdvU1tEqid/EQD2sdupQuIKeMe9NUjBS62Yw
-   vskwqSW6NtSx+KK3k1rMavOOtz/wl8JGdlxlHk/DBTO4JLOx6pu+BWPPF
-   CqKa8PR9k1s74XDAZf4LIS9uvaNEncaFlz2RfPX+w+zhNSV4O8EUuvjQ+
-   g==;
-X-CSE-ConnectionGUID: tsqfz6j7QcOAr7D+wO/yFg==
-X-CSE-MsgGUID: FkxPZC1xQxOO5M0dLztBLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="51050957"
+  bh=9C3J459UPfVH1zjU0q0H/HJRU40Kp0Yj4i39GUSDKtY=;
+  b=Wk8uzAcMVpaKeBsbt4FFU44YH8Nc01u786r4QsDulJsA2qGRqZSAUHSW
+   h/alyG4l7rj+X80Y5LhVXzKtVjRXf/BZViXebrBSQzoUIUgIXLBP6xkN5
+   pmEcCcomz9X07CxpE3OoEuSxO64/tFBVIWwurPlWiPEi2kdl3QbwqTLI+
+   /YhHIO4+yxGi3FhKXXrMlppKPMcHQntKuB267pnmiiZ9Bs8sZgE2fnlvy
+   FGxv4oqH2XPsfPg3zY30LsrQnLJ1bs5Di1GfMuhT0+wOP0Px6J6bVvDce
+   Hhfsy9U9LRB1xvC/5snCmA2OkBuPvVcoFNMYq7kUjU73FOjZ1+wL1GlBQ
+   w==;
+X-CSE-ConnectionGUID: GwZ6IvYBSPiNb0bhlTDRyA==
+X-CSE-MsgGUID: yC1ehUyOTwWYv/IKcKoidQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="51050960"
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="51050957"
+   d="scan'208";a="51050960"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 04:56:11 -0700
-X-CSE-ConnectionGUID: q6zv8uyxQcKlL6nvJaRcFg==
-X-CSE-MsgGUID: 9F+ihN1KSD+BZQcbMPLSiQ==
+X-CSE-ConnectionGUID: q3BZtJlRToe4Phb8FKR4qQ==
+X-CSE-MsgGUID: wDywpVVTT3qW/PbSKlJQDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="137881061"
+   d="scan'208";a="137881062"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 25 Apr 2025 04:56:10 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8Hf5-00058Z-0f;
+	id 1u8Hf5-00058b-0i;
 	Fri, 25 Apr 2025 11:56:07 +0000
-Date: Fri, 25 Apr 2025 19:55:46 +0800
+Date: Fri, 25 Apr 2025 19:55:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1365/1365]
- drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
- functions is not needed.
-Message-ID: <202504251932.cIMoMrVY-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1425/1425] kernel/sched/debug.c:990:17:
+ error: no member named 'nr_wakeups_preferred_cpus' in 'struct
+ dyn_affinity_stats'
+Message-ID: <202504251943.PQvs9XIE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +63,211 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Hui,
+
+FYI, the error/warning still remains.
+
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
 head:   08111f03f1ec65598372cfe9bf64f366d575671e
-commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [1365/1365] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
-config: x86_64-randconfig-102-20250103 (https://download.01.org/0day-ci/archive/20250425/202504251932.cIMoMrVY-lkp@intel.com/config)
+commit: ebca52abe099caa97d7669d0acc71209ea80cfec [1425/1425] sched: Add statistics for scheduler dynamic affinity
+config: x86_64-randconfig-103-20250219 (https://download.01.org/0day-ci/archive/20250425/202504251943.PQvs9XIE-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251943.PQvs9XIE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504251932.cIMoMrVY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504251943.PQvs9XIE-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
+All errors (new ones prefixed by >>):
 
-vim +614 drivers/acpi/cppc_acpi.c
+   kernel/sched/debug.c:815:6: warning: no previous prototype for function 'sysrq_sched_debug_tidy' [-Wmissing-prototypes]
+     815 | void sysrq_sched_debug_tidy(void)
+         |      ^
+   kernel/sched/debug.c:815:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     815 | void sysrq_sched_debug_tidy(void)
+         | ^
+         | static 
+>> kernel/sched/debug.c:990:17: error: no member named 'nr_wakeups_preferred_cpus' in 'struct dyn_affinity_stats'
+     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
+         |                     ~~~~~~~~  ^
+   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |                                                       ^
+   kernel/sched/debug.c:21:17: note: expanded from macro 'SEQ_printf'
+      21 |                 seq_printf(m, x);               \
+         |                               ^
+>> kernel/sched/debug.c:990:17: error: no member named 'nr_wakeups_preferred_cpus' in 'struct dyn_affinity_stats'
+     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
+         |                     ~~~~~~~~  ^
+   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |                                                       ^
+   kernel/sched/debug.c:23:11: note: expanded from macro 'SEQ_printf'
+      23 |                 pr_cont(x);                     \
+         |                         ^
+   include/linux/printk.h:362:26: note: expanded from macro 'pr_cont'
+     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~
+>> kernel/sched/debug.c:991:17: error: no member named 'nr_wakeups_force_preferred_cpus' in 'struct dyn_affinity_stats'
+     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
+         |                     ~~~~~~~~  ^
+   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |                                                       ^
+   kernel/sched/debug.c:21:17: note: expanded from macro 'SEQ_printf'
+      21 |                 seq_printf(m, x);               \
+         |                               ^
+>> kernel/sched/debug.c:991:17: error: no member named 'nr_wakeups_force_preferred_cpus' in 'struct dyn_affinity_stats'
+     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
+         |                     ~~~~~~~~  ^
+   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
+     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+         |                                                       ^
+   kernel/sched/debug.c:23:11: note: expanded from macro 'SEQ_printf'
+      23 |                 pr_cont(x);                     \
+         |                         ^
+   include/linux/printk.h:362:26: note: expanded from macro 'pr_cont'
+     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~
+   1 warning and 4 errors generated.
 
-   576	
-   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
-   578	{
-   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
-   580		int parsed_core_num = 0;
-   581		int i, ret;
-   582	
-   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
-   584		if (!cpc_pptr)
-   585			return -ENOMEM;
-   586		for_each_possible_cpu(i) {
-   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
-   588			if (!cpc_pptr[i]) {
-   589				ret = -ENOMEM;
-   590				goto out;
-   591			}
-   592		}
-   593	
-   594		/*
-   595		 * We can not use acpi_get_devices() to walk the processor devices
-   596		 * because some processor device is not present.
-   597		 */
-   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
-   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
-   600					  cpc_pptr, (void **)&parsed_core_num);
-   601		if (ret)
-   602			goto out;
-   603		if (parsed_core_num != num_possible_cpus()) {
-   604			ret = -EINVAL;
-   605			goto out;
-   606		}
-   607	
-   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
-   609	
-   610	out:
-   611		for_each_possible_cpu(i) {
-   612			cpc_ptr = cpc_pptr[i];
-   613			if (cpc_ptr)
- > 614				kfree(cpc_ptr);
-   615		}
-   616		kfree(cpc_pptr);
-   617	
-   618		return ret;
-   619	}
-   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
-   621	
+
+vim +990 kernel/sched/debug.c
+
+   924	
+   925	void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
+   926							  struct seq_file *m)
+   927	{
+   928	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
+   929		struct dyn_affinity_stats	*dyn_affi = p->se.dyn_affi_stats;
+   930	#endif
+   931		unsigned long nr_switches;
+   932	
+   933		SEQ_printf(m, "%s (%d, #threads: %d)\n", p->comm, task_pid_nr_ns(p, ns),
+   934							get_nr_threads(p));
+   935		SEQ_printf(m,
+   936			"---------------------------------------------------------"
+   937			"----------\n");
+   938	#define __P(F) \
+   939		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
+   940	#define P(F) \
+   941		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)p->F)
+   942	#define P_SCHEDSTAT(F) \
+   943		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)schedstat_val(p->F))
+   944	#define __PN(F) \
+   945		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)F))
+   946	#define PN(F) \
+   947		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)p->F))
+   948	#define PN_SCHEDSTAT(F) \
+   949		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)schedstat_val(p->F)))
+   950	
+   951		PN(se.exec_start);
+   952		PN(se.vruntime);
+   953		PN(se.sum_exec_runtime);
+   954	
+   955		nr_switches = p->nvcsw + p->nivcsw;
+   956	
+   957		P(se.nr_migrations);
+   958	
+   959		if (schedstat_enabled()) {
+   960			u64 avg_atom, avg_per_cpu;
+   961	
+   962			PN_SCHEDSTAT(se.statistics.sum_sleep_runtime);
+   963			PN_SCHEDSTAT(se.statistics.wait_start);
+   964			PN_SCHEDSTAT(se.statistics.sleep_start);
+   965			PN_SCHEDSTAT(se.statistics.block_start);
+   966			PN_SCHEDSTAT(se.statistics.sleep_max);
+   967			PN_SCHEDSTAT(se.statistics.block_max);
+   968			PN_SCHEDSTAT(se.statistics.exec_max);
+   969			PN_SCHEDSTAT(se.statistics.slice_max);
+   970			PN_SCHEDSTAT(se.statistics.wait_max);
+   971			PN_SCHEDSTAT(se.statistics.wait_sum);
+   972			P_SCHEDSTAT(se.statistics.wait_count);
+   973			PN_SCHEDSTAT(se.statistics.iowait_sum);
+   974			P_SCHEDSTAT(se.statistics.iowait_count);
+   975			P_SCHEDSTAT(se.statistics.nr_migrations_cold);
+   976			P_SCHEDSTAT(se.statistics.nr_failed_migrations_affine);
+   977			P_SCHEDSTAT(se.statistics.nr_failed_migrations_running);
+   978			P_SCHEDSTAT(se.statistics.nr_failed_migrations_hot);
+   979			P_SCHEDSTAT(se.statistics.nr_forced_migrations);
+   980			P_SCHEDSTAT(se.statistics.nr_wakeups);
+   981			P_SCHEDSTAT(se.statistics.nr_wakeups_sync);
+   982			P_SCHEDSTAT(se.statistics.nr_wakeups_migrate);
+   983			P_SCHEDSTAT(se.statistics.nr_wakeups_local);
+   984			P_SCHEDSTAT(se.statistics.nr_wakeups_remote);
+   985			P_SCHEDSTAT(se.statistics.nr_wakeups_affine);
+   986			P_SCHEDSTAT(se.statistics.nr_wakeups_affine_attempts);
+   987			P_SCHEDSTAT(se.statistics.nr_wakeups_passive);
+   988			P_SCHEDSTAT(se.statistics.nr_wakeups_idle);
+   989	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
+ > 990			__P(dyn_affi->nr_wakeups_preferred_cpus);
+ > 991			__P(dyn_affi->nr_wakeups_force_preferred_cpus);
+   992	#endif
+   993	
+   994			avg_atom = p->se.sum_exec_runtime;
+   995			if (nr_switches)
+   996				avg_atom = div64_ul(avg_atom, nr_switches);
+   997			else
+   998				avg_atom = -1LL;
+   999	
+  1000			avg_per_cpu = p->se.sum_exec_runtime;
+  1001			if (p->se.nr_migrations) {
+  1002				avg_per_cpu = div64_u64(avg_per_cpu,
+  1003							p->se.nr_migrations);
+  1004			} else {
+  1005				avg_per_cpu = -1LL;
+  1006			}
+  1007	
+  1008			__PN(avg_atom);
+  1009			__PN(avg_per_cpu);
+  1010		}
+  1011	
+  1012		__P(nr_switches);
+  1013		SEQ_printf(m, "%-45s:%21Ld\n",
+  1014			   "nr_voluntary_switches", (long long)p->nvcsw);
+  1015		SEQ_printf(m, "%-45s:%21Ld\n",
+  1016			   "nr_involuntary_switches", (long long)p->nivcsw);
+  1017	
+  1018		P(se.load.weight);
+  1019		P(se.runnable_weight);
+  1020	#ifdef CONFIG_SMP
+  1021		P(se.avg.load_sum);
+  1022		P(se.avg.runnable_load_sum);
+  1023		P(se.avg.util_sum);
+  1024		P(se.avg.load_avg);
+  1025		P(se.avg.runnable_load_avg);
+  1026		P(se.avg.util_avg);
+  1027		P(se.avg.last_update_time);
+  1028		P(se.avg.util_est.ewma);
+  1029		P(se.avg.util_est.enqueued);
+  1030	#endif
+  1031		P(policy);
+  1032		P(prio);
+  1033		if (task_has_dl_policy(p)) {
+  1034			P(dl.runtime);
+  1035			P(dl.deadline);
+  1036		}
+  1037	#undef PN_SCHEDSTAT
+  1038	#undef PN
+  1039	#undef __PN
+  1040	#undef P_SCHEDSTAT
+  1041	#undef P
+  1042	#undef __P
+  1043	
+  1044		{
+  1045			unsigned int this_cpu = raw_smp_processor_id();
+  1046			u64 t0, t1;
+  1047	
+  1048			t0 = cpu_clock(this_cpu);
+  1049			t1 = cpu_clock(this_cpu);
+  1050			SEQ_printf(m, "%-45s:%21Ld\n",
+  1051				   "clock-delta", (long long)(t1-t0));
+  1052		}
+  1053	
+  1054		sched_show_numa(p, m);
+  1055	}
+  1056	
 
 -- 
 0-DAY CI Kernel Test Service
