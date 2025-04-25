@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06B38BE5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 00:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB71E25771
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 01:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745542695; cv=none; b=a/3fwVI3y0as+0BJcxUe8LABG/kKnLiWKQtPb6nVNgxgsBM9Jf23K85BHjCW4XhGzOZcuOOp93iidOx2Kl7Ey6BuRQ17HfPvfM98FI/9hdhDOLk3PzBPGuCQbsdAUA2CWoqdp5XQM1KwQTpwLOKd5qKcZyUzpf9I870/C7Sx1IU=
+	t=1745543295; cv=none; b=rVonPPfM2yNGE7lQBNLdEJ2rqGvz40snH4NopxIrx7Kdgyg7TNCnNZyPlVQDhsEoQC1F+gMfyGD8hUIx+eomWiaxLJnOQz53Px0yyjybGr/qhmOiHnNGwyH1m+7Dfk070R8Y+fxl36nk4ND4a0estAgF3RHaJyW21SqUc4KiTSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745542695; c=relaxed/simple;
-	bh=XXROPGGSr8kPNfpjwaEmgnU4oHzUG1cM5vuxQ67Rwxw=;
+	s=arc-20240116; t=1745543295; c=relaxed/simple;
+	bh=ELnIq3cUxmxJPcylyc7ZDyrlSniGnm6ZQNfNAdO9kd0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bfOKSRrnHBiwbkGfAsDznt6DAYnNu9THDNoYKidit1g9dWdiS8PVEk1H44j014zxZbs5T9aZKWMnNCuiBVpY6iEolOYud3fmmxZW0Y0BDcqKDkNM1wkkkgJkTyZSeY7KnyfPcfZ6qxkU6fUVtsmgDxW7pN0fwcelz077ZhxD/Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n85ZMVeD; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=HdjUQOWeMHa5i7nKPbGOLZMvOVFlLslsbLLI/5YnbTAH4VXqTETCYjkvGhvxo7mkdNJw8lTuIMoWrGDVLkOmg6zFWFlDAmOLx81zNVfRxovycB3eSGa0ZSmZEotNnVI3YHDnuU5AXhFwI9cSqbg1DkduAcQlbqwTgEn6UUTT/Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZKQ5c8fY; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n85ZMVeD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZKQ5c8fY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745542693; x=1777078693;
+  t=1745543293; x=1777079293;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XXROPGGSr8kPNfpjwaEmgnU4oHzUG1cM5vuxQ67Rwxw=;
-  b=n85ZMVeDoUSIWrlevo14MssBh3Tq7dCQvTTfj/YdlF05FH+/pV/AwBJA
-   CMKeI/0o8zuGqywtYQi9v2hNH2fqdibpB6WsiLQS+oQu5F8ssmwLU3N/i
-   G6xrO4hcyNb+m/2GMlrqmj4/hRqkOLluIqEJN+oLOMLBvxEEWOikGh0YT
-   +qdGRXqGdLJiNZMyIrvh2UgyUbp5VQZ2OpCFAlCv1X1pEJFBbMkl1KslF
-   aK78d1dlNEw+6qbYYHFqfvTKxss/QJnC8zG/G1ci4e/V+NyQ9e1K4dN+r
-   XaAiwMSKrWUOOIHkqHexERx4WHTuD/3nLXKh1vvIZC0FUu/w6cgpWqkYl
-   Q==;
-X-CSE-ConnectionGUID: +89ODQNITTuqNqoV3LyW5A==
-X-CSE-MsgGUID: mfFciOtGR8GpfnKAiJGyvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57844968"
+  bh=ELnIq3cUxmxJPcylyc7ZDyrlSniGnm6ZQNfNAdO9kd0=;
+  b=ZKQ5c8fYh2uvZWxgWLmCuJWx9uhI/kRnNmx++l52ZJqEi/swIeeRDRDc
+   CVMkuHIG/FkBLl5U12AwF8lv7cF0u5Mk5WW9QnZS8mjNfADFYjCtxv40K
+   Ggpbag9nEIrq2eb9S2yWW63r5RdpBO1jdHqVdCpP9ODCY8FSrzTHAKXRE
+   umk46kDSiQ+wqfLIYKmmyK8vHNXqpy09XeGj0FteFOXOI+3E1GwB/uYtv
+   GIX8IQxy87aObkI2nlnT17S454uxYzPYPFLmA5aD7QgePjeZrSKDw8x7l
+   98HdDBct+3/jA9LbCerp7JkXww3Jz+aMuANB0hphDe8Km+GG8Jc0dP5y0
+   g==;
+X-CSE-ConnectionGUID: SWs0FlCaQgq7zR3tW0qxJQ==
+X-CSE-MsgGUID: qbeupFypQiuLyp/PDliwtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="49856040"
 X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="57844968"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 17:58:12 -0700
-X-CSE-ConnectionGUID: TfbnmzU1RH2Z/mg90pM3Pg==
-X-CSE-MsgGUID: SyxxKttLR+2YKJSGpUmmYA==
+   d="scan'208";a="49856040"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 18:08:13 -0700
+X-CSE-ConnectionGUID: 9Qq/XAPAS2ihB4EJ/9rMYQ==
+X-CSE-MsgGUID: nv1s5Xe2SoCXPpbNgS37GA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="163733015"
+   d="scan'208";a="155996564"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 24 Apr 2025 17:58:11 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 24 Apr 2025 18:08:12 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u87OK-0004h3-1k;
-	Fri, 25 Apr 2025 00:58:08 +0000
-Date: Fri, 25 Apr 2025 08:57:08 +0800
+	id 1u87Y1-0004hV-2h;
+	Fri, 25 Apr 2025 01:08:09 +0000
+Date: Fri, 25 Apr 2025 09:07:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 19/19] mm/unevictable.c:496:1:
- warning: 'static' is not at beginning of declaration
-Message-ID: <202504250803.mAwXCIZc-lkp@intel.com>
+To: Xianwei Zhao <xianwei.zhao@amlogic.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [linux-next:master 4797/6092]
+ arch/arm64/boot/dts/amlogic/amlogic-s7d-s905x5m-bm202.dtb:
+ /soc/bus@fe000000/serial@7a000: failed to match any schema with compatible:
+ ['amlogic,s7d-uart', 'amlogic,meson-s4-uart']
+Message-ID: <202504250940.I4ER0z0T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +65,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Xunlei,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   4bad2cd1902185593ae2d7cdf67ac43d5aa2dfe9
-commit: 9eee07ca21b4bcb78a9e0092696f13a0b3db291a [19/19] ck: mm: Pin code section of process in memory
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250425/202504250803.mAwXCIZc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504250803.mAwXCIZc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   393d0c54cae31317deaa9043320c5fd9454deabc
+commit: 1a30661c20dee51675a1ddee1b81b6a0e8580412 [4797/6092] arm64: dts: add support for S7D based Amlogic BM202
+config: arm64-randconfig-051-20250423 (https://download.01.org/0day-ci/archive/20250425/202504250940.I4ER0z0T-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+dtschema version: 2025.3.dev19+g53ef030
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504250940.I4ER0z0T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504250803.mAwXCIZc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504250940.I4ER0z0T-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> mm/unevictable.c:496:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     496 | const static struct proc_ops add_proc_fops = {
-         | ^~~~~
-   mm/unevictable.c:501:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
-     501 | const static struct proc_ops del_proc_fops = {
-         | ^~~~~
-   mm/unevictable.c:501:30: warning: 'del_proc_fops' defined but not used [-Wunused-const-variable=]
-     501 | const static struct proc_ops del_proc_fops = {
-         |                              ^~~~~~~~~~~~~
-   mm/unevictable.c:496:30: warning: 'add_proc_fops' defined but not used [-Wunused-const-variable=]
-     496 | const static struct proc_ops add_proc_fops = {
-         |                              ^~~~~~~~~~~~~
-
-
-vim +/static +496 mm/unevictable.c
-
-   495	
- > 496	const static struct proc_ops add_proc_fops = {
-   497		.proc_read  = proc_read_add_pid,
-   498		.proc_write = proc_write_add_pid,
-   499	};
-   500	
+dtcheck warnings: (new ones prefixed by >>)
+   	['amlogic,s7d-uart', 'amlogic,meson-s4-uart'] is too short
+   	['amlogic,s7d-uart', 'amlogic,meson-s4-uart'] is too long
+   	'amlogic,s7d-uart' is not one of ['amlogic,meson6-uart', 'amlogic,meson8-uart', 'amlogic,meson8b-uart', 'amlogic,meson-gx-uart', 'amlogic,meson-s4-uart', 'amlogic,meson-a1-uart']
+   	'amlogic,meson-g12a-uart' was expected
+   	'amlogic,s7d-uart' is not one of ['amlogic,a4-uart', 'amlogic,t7-uart']
+   	'amlogic,meson-ao-uart' was expected
+   	'amlogic,meson-gx-uart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/amlogic,meson-uart.yaml#
+   arch/arm64/boot/dts/amlogic/amlogic-s7d-s905x5m-bm202.dtb: serial@7a000 (amlogic,s7d-uart): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/amlogic,meson-uart.yaml#
+>> arch/arm64/boot/dts/amlogic/amlogic-s7d-s905x5m-bm202.dtb: /soc/bus@fe000000/serial@7a000: failed to match any schema with compatible: ['amlogic,s7d-uart', 'amlogic,meson-s4-uart']
 
 -- 
 0-DAY CI Kernel Test Service
