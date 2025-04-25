@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDEC1A29A;
-	Fri, 25 Apr 2025 06:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B0822C34A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 06:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745560905; cv=none; b=FyPl1W01WEB4b7wD5neDGMMdZx62TURS3aMVz9XRiSmlU7xwtgLVBYYgb6hZJvWiAP+5bMug8q0JvpEN9HVtMYVT3nRE1EziQoND858wN8vGeph5wopHvFwtFbAM94vT3L4lUlYmF+tZU+lsnmMexFz4vaJDTfKErHldTVAMn50=
+	t=1745562167; cv=none; b=ESbF9KwIj6gpnRdv1B6md3CntDq7qFnF8W57GfsNVV6Lg93jOoOSEnQ9ZE82I/Ss10V9lYdAXjOXwVkyCmfXGA8jSaAQIQoq7gT45BuQatzQk9LrNt71HMWeNoIrjQ4HMQA5crCUnSp/GbTMd3/abv80rFHL6wJvzPd4fA6g5XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745560905; c=relaxed/simple;
-	bh=xU2b+Zi/jPAOs/dygu9xP99GyeH/dv9p6nxAqx+d9P0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MO/sfSC0inYwLvbFq5s9m0qs0r7DXRnGEDeNkc4FP8EKAdy+COnwA67ITWKOzEDfv4wDpLihJcVsgms+c2CogtujswLzDzrT+LQF/tb0SoA35S88LWZRCcYUecLJxMD3l1L1nYeEQLZQUXfBnH10/NiYxvrcf0N5667l+X7f+mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NoEZom0U; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1745562167; c=relaxed/simple;
+	bh=PjxbbCZiE5VNs9qb9Uggk05TimrTVCPZtd/eqegPLWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jkQ8DKiDExcr6aN8CeLhyXtIXgIoVfXfJyX0NBsX9DtZXdPeh+p8ZGGr8OZI1NmPGW4D42J3zzqQQuvH97VWSyRI09EpqSMs3YlWDQEImLvazgR7YKQXKX6urBHm5UPK7fLJ+cKJPh2dI/g7oYvnm+kUB28sIlqsd0BZtaboyNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grYHI+VM; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NoEZom0U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grYHI+VM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745560904; x=1777096904;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xU2b+Zi/jPAOs/dygu9xP99GyeH/dv9p6nxAqx+d9P0=;
-  b=NoEZom0UCVuE1xRMG/PCgQ+ZiwK6TIaLEXWt71mdolo9g73frEYmQkB5
-   AGpex7oZYtlM9zC7e0tCaBWZQdzwueey6Jbz14vamXPBr8P35H0p3zwDJ
-   c8BCFSIXTOXYOEwFFX8lZfWb91Jhw+uLWLxwZeClFvZtkaIbgYHAO1+aM
-   JA+1QYrtHQNZIs348x+ZWxMQSrtXQXC8pv40sLuRXx/PFElUrONi1adR1
-   NB3k+tiwGrwGPMTVpt78UXeZjw/8SneG1sMvTojI/54uQjozKr5TrTa+F
-   /MLxXjK51hAkndU8gcUYa35TnVGCfbDfGynOV2fsTJp2xRTts3q++MCe0
+  t=1745562165; x=1777098165;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PjxbbCZiE5VNs9qb9Uggk05TimrTVCPZtd/eqegPLWU=;
+  b=grYHI+VMqeXd1QpvQyfU2mEJEU2KPm5+DrS5+J109mersN8BhEBYM6N3
+   27wp6TPyVdeCAjd/9GOa0d9cWIfeDqgbvRZofr+2QzoX3zdUi8ICM3dTM
+   Mz8VgEO8EDEl7OY7L5kabcgadXb5Sc2csWGDPqkbgS6ntreB8OnT+zShE
+   6OMUM82fhquEXTklO1nOJvTy1OCc7mEwQqMDvONyA9eF1l+1DGbYMqKuK
+   X63e6ylyINEd3nWU2yJoUcR5PmCOttuFfTIu+9c/UxeG9ktCPpVnqq/fU
+   eY6X6T5YTo9Rxs80RSGNWQrkao4643xKjAvSuVDyeMWPyS9dBXCyUspyH
    g==;
-X-CSE-ConnectionGUID: 9iQwVbZtSEyf812LYtkX9g==
-X-CSE-MsgGUID: 3pRKqcrTTj6FMfNX8OJaLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="69707055"
+X-CSE-ConnectionGUID: dGjH6PoSTLagEO7AeA/gyQ==
+X-CSE-MsgGUID: Czia7QEQRDCAgJ0aow1HFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57416492"
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="69707055"
+   d="scan'208";a="57416492"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 23:01:43 -0700
-X-CSE-ConnectionGUID: b6S8IAIaR/+e7M6jn6Vibg==
-X-CSE-MsgGUID: 7oAiGe6PQ0idckOK5XqdLA==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 23:22:41 -0700
+X-CSE-ConnectionGUID: 7b4v210RQGSpothMzQspWg==
+X-CSE-MsgGUID: 3y4c+yWxSzWALZtvxfXjug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="132707322"
+   d="scan'208";a="132709941"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Apr 2025 23:01:39 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 24 Apr 2025 23:22:39 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8C80-0004rV-0Y;
-	Fri, 25 Apr 2025 06:01:36 +0000
-Date: Fri, 25 Apr 2025 14:01:31 +0800
+	id 1u8CSL-0004s9-1v;
+	Fri, 25 Apr 2025 06:22:37 +0000
+Date: Fri, 25 Apr 2025 14:21:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: hans.zhang@cixtech.com, bhelgaas@google.com, lpieralisi@kernel.org,
-	kw@linux.com, manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	peter.chen@cixtech.com, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Manikandan K Pillai <mpillai@cadence.com>,
-	Hans Zhang <hans.zhang@cixtech.com>
-Subject: Re: [PATCH v4 5/5] PCI: cadence: Add callback functions for RP and
- EP controller
-Message-ID: <202504251312.YvKIAjMl-lkp@intel.com>
-References: <20250424010445.2260090-6-hans.zhang@cixtech.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>
+Subject: [linux-next:master 5697/6092]
+ arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb:
+ /soc/esdhc@1560000: failed to match any schema with compatible:
+ ['fsl,ls1021a-esdhc', 'fsl,esdhc']
+Message-ID: <202504251425.6vvL5HBD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,76 +64,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424010445.2260090-6-hans.zhang@cixtech.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on fc96b232f8e7c0a6c282f47726b2ff6a5fb341d2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/hans-zhang-cixtech-com/dt-bindings-pci-cadence-Extend-compatible-for-new-RP-configuration/20250424-090651
-base:   fc96b232f8e7c0a6c282f47726b2ff6a5fb341d2
-patch link:    https://lore.kernel.org/r/20250424010445.2260090-6-hans.zhang%40cixtech.com
-patch subject: [PATCH v4 5/5] PCI: cadence: Add callback functions for RP and EP controller
-config: i386-buildonly-randconfig-003-20250425 (https://download.01.org/0day-ci/archive/20250425/202504251312.YvKIAjMl-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251312.YvKIAjMl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   393d0c54cae31317deaa9043320c5fd9454deabc
+commit: fbfd01d7532901c8d9306f352399589e152f2a0d [5697/6092] ARM: dts: ls1021a-tqmals1021a: Add LVDS overlay for Tianma TM070JVGH33
+config: arm-randconfig-051-20250424 (https://download.01.org/0day-ci/archive/20250425/202504251425.6vvL5HBD-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+dtschema version: 2025.3.dev19+g53ef030
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251425.6vvL5HBD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504251312.YvKIAjMl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504251425.6vvL5HBD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/pci/controller/cadence/pcie-cadence-plat.c:13:
-   drivers/pci/controller/cadence/pcie-cadence.h:851:8: error: expected ')'
-     851 |                                                  int where)
-         |                                                  ^
-   drivers/pci/controller/cadence/pcie-cadence.h:850:49: note: to match this '('
-     850 | static inline void __iomem *cdns_pci_hpa_map_bus(struct pci_bus *bus, unsigned int devfn
-         |                                                 ^
->> drivers/pci/controller/cadence/pcie-cadence-plat.c:35:25: error: use of undeclared identifier 'cdns_pcie_host_init_root_port'; did you mean 'cdns_pcie_hpa_host_init_root_port'?
-      35 |         .host_init_root_port = cdns_pcie_host_init_root_port,
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                cdns_pcie_hpa_host_init_root_port
-   drivers/pci/controller/cadence/pcie-cadence.h:855:19: note: 'cdns_pcie_hpa_host_init_root_port' declared here
-     855 | static inline int cdns_pcie_hpa_host_init_root_port(struct cdns_pcie_rc *rc)
-         |                   ^
->> drivers/pci/controller/cadence/pcie-cadence-plat.c:36:24: error: use of undeclared identifier 'cdns_pcie_host_bar_ib_config'; did you mean 'cdns_pcie_hpa_host_bar_ib_config'?
-      36 |         .host_bar_ib_config = cdns_pcie_host_bar_ib_config,
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                               cdns_pcie_hpa_host_bar_ib_config
-   drivers/pci/controller/cadence/pcie-cadence.h:859:19: note: 'cdns_pcie_hpa_host_bar_ib_config' declared here
-     859 | static inline int cdns_pcie_hpa_host_bar_ib_config(struct cdns_pcie_rc *rc,
-         |                   ^
->> drivers/pci/controller/cadence/pcie-cadence-plat.c:37:35: error: use of undeclared identifier 'cdns_pcie_host_init_address_translation'; did you mean 'cdns_pcie_hpa_host_init_address_translation'?
-      37 |         .host_init_address_translation = cdns_pcie_host_init_address_translation,
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                          cdns_pcie_hpa_host_init_address_translation
-   drivers/pci/controller/cadence/pcie-cadence.h:866:19: note: 'cdns_pcie_hpa_host_init_address_translation' declared here
-     866 | static inline int cdns_pcie_hpa_host_init_address_translation(struct cdns_pcie_rc *rc)
-         |                   ^
-   4 errors generated.
-
-
-vim +35 drivers/pci/controller/cadence/pcie-cadence-plat.c
-
-    31	
-    32	static const struct cdns_pcie_ops cdns_plat_ops = {
-    33		.link_up = cdns_pcie_linkup,
-    34		.cpu_addr_fixup = cdns_plat_cpu_addr_fixup,
-  > 35		.host_init_root_port = cdns_pcie_host_init_root_port,
-  > 36		.host_bar_ib_config = cdns_pcie_host_bar_ib_config,
-  > 37		.host_init_address_translation = cdns_pcie_host_init_address_translation,
-    38		.detect_quiet_min_delay_set = cdns_pcie_detect_quiet_min_delay_set,
-    39		.set_outbound_region = cdns_pcie_set_outbound_region,
-    40		.set_outbound_region_for_normal_msg =
-    41						    cdns_pcie_set_outbound_region_for_normal_msg,
-    42		.reset_outbound_region = cdns_pcie_reset_outbound_region,
-    43	};
-    44	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: memory-controller@1080000 (fsl,qoriq-memory-controller): 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): compatible:0: 'fsl,ls1021a-esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('big-endian', 'bus-width', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
+>> arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: /soc/esdhc@1560000: failed to match any schema with compatible: ['fsl,ls1021a-esdhc', 'fsl,esdhc']
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: /soc/counter@29d0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: /soc/counter@29e0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: /soc/counter@29f0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: /soc/counter@2a00000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: watchdog@2ad0000 (fsl,imx21-wdt): big-endian: False schema does not allow True
+   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: watchdog@2ad0000 (fsl,imx21-wdt): Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: sai@2b50000 (fsl,vf610-sai): dma-names:1: 'tx' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: sai@2b50000 (fsl,vf610-sai): Unevaluated properties are not allowed ('dma-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: sai@2b60000 (fsl,vf610-sai): dma-names:1: 'tx' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
+>> arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: /soc/dcu@2ce0000: failed to match any schema with compatible: ['fsl,ls1021a-dcu']
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: ethernet@2d10000 (fsl,etsec2): queue-group@2d10000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: ethernet@2d10000 (fsl,etsec2): queue-group@2d14000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: ethernet@2d10000 (fsl,etsec2): Unevaluated properties are not allowed ('queue-group@2d10000', 'queue-group@2d14000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: ethernet@2d50000 (fsl,etsec2): queue-group@2d50000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb: ethernet@2d50000 (fsl,etsec2): queue-group@2d54000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
