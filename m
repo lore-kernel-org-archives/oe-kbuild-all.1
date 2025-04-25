@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A673F9FB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 03:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7757017597
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Apr 2025 03:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745552254; cv=none; b=YDcePOUanPFH5SaVgoSlTOn0YpQHoUclDla4DLMALw3Ya+hkAEqb2+5F9CLx9PUy7RlFZ3TdCEEASCvJ9HbpuE/02xTAxEqt9960ANfdxTYS72+tC4l/oy0t0FfdnVr1rUyUyWpsz/yJ/V6f8Q8AV8QpSA7i3q28ur66n3m0SVs=
+	t=1745552853; cv=none; b=LI3ZVtrXuoNhXbT3cltb5qOuaAEJCLBeksAZ/XZpqVBM78NRsCPpJZadshiDMytvyM0GQsf6/KlvhuYkirw7K9+oX50s97p+P4bVNW+fU7zNWCvDu258fL8R4hjI3HPflvCzEJAihalt5NCOWdhEbXSceAAXyB/ubDvci/NO+Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745552254; c=relaxed/simple;
-	bh=tX+IWUlIERPsv8gkrnAvi8wVokUQZ8j2rGKLLycOZNk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DLPQFNU0Xvt1qOTlENVKNLS/6p7B1NIArGcLYLtMxKv4u2R+jQKVUn4LC+y4AV68vRaNBZ/Cuh6G6Na6TSGM2nbziXEnn5489zAdxhlBkCCR+1JncAxKxgF9Z6TQg1wOPs5WqqXE4Sjt1b5KMnhHMyIebB53SUmmrHRd3C/KvXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQuh1lqB; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1745552853; c=relaxed/simple;
+	bh=JulVXFos8RdJdGgC0d6EdiyUrod8iVZ+BNI5eP2sWoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E74a/ZvFSQQoZQtMOExzflL/o7eAQHCasYNCO9QbSr8CuAT9RJsuc+P+n7Qk/xWdqLeTh9JgLpzYWtukAVJHl4G2c4bCu/pEmKm+PW/8fpu5JWv52Mo9tLeJl0iPZk58t2wWmtAhsFetUT6qTZcpnOE8EwYmOGeQFJEB2QUH0rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E81E/Ogl; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQuh1lqB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E81E/Ogl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745552253; x=1777088253;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tX+IWUlIERPsv8gkrnAvi8wVokUQZ8j2rGKLLycOZNk=;
-  b=EQuh1lqBZEtrrEtIJvMaH70biiZGtA0WG4JMdiLU/7Ag2JyzNb3OTn+E
-   uCT3Yed4Crgbw4kWgyyR+2nVSTjDitie7nXqfYdRhNTc0mG0MEtEGIxva
-   ZjRT+SD9I4D64fg/LssfgHYW3dLxxwqADPl2q53vYbl+d+hEA1Gi/UeEo
-   aSwRef0eyWdnxWfihxD89n/Ds52xRKp7ph9AKtJzA9huWgVR3tG0pagZY
-   dVsvAFycn2oURHc22enltU8byYf25/DMlO1Q5Sr1Ew/O+0+sp2e6Wplb+
-   3nZdteOm5gJlttEhtmzUl0afndUOpfs+nMqwdV4mSq4Yn6YleGieX9MAe
-   Q==;
-X-CSE-ConnectionGUID: M9BtW+18Ra2OVmu7MsugsQ==
-X-CSE-MsgGUID: 4RlobyN3RUGgzucrPUeayQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="64737038"
-X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="64737038"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 20:37:32 -0700
-X-CSE-ConnectionGUID: rDFmjDsNSUGs6S7/iVhGpg==
-X-CSE-MsgGUID: y+1FxILsRhSp5KCZ5SYLLA==
+  t=1745552850; x=1777088850;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JulVXFos8RdJdGgC0d6EdiyUrod8iVZ+BNI5eP2sWoE=;
+  b=E81E/OglYYFzIK+w4A8Kuh8PNgXm1lFeDFh6V8w8INAkez0iW7Hlf+4b
+   79x8uacq7/onQOxRmz0wTOAKJnCgeQVTKATO+bWs1AU0OuZVZWZKGTpWz
+   AsYJzUNccKzEEzoMiX6KFziB+1ZNctB4BzL/H6ZAB7vr/8WFJra4fS4ta
+   I+ReYPB7Nt3P/grIhRWxFCZjlZ5/uRXgP71UC19RRw69eqTLsWtK18mHa
+   yeCKF4ajog874s23XvYIxI5ELsQqxcUhjh9FACB21kP8jMNGND1bUvfg0
+   JU66W6BvywPcr/zj9NDOcfE4Ei8Sb/GHWMRW1emsGuzOwtC7v7AxZ+8oJ
+   w==;
+X-CSE-ConnectionGUID: 6SKzY186SaCh+z0BtaU4Ow==
+X-CSE-MsgGUID: 0zk3YKMjSN+LcRT5bZ6ezQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="46918055"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="46918055"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 20:47:30 -0700
+X-CSE-ConnectionGUID: XihMl34rTw+g8Zx6SHS7Ng==
+X-CSE-MsgGUID: xsl6VZFyRbe87o+Y7jw4FQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="133105324"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="137637594"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Apr 2025 20:37:28 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 Apr 2025 20:47:29 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u89sU-0004oV-03;
-	Fri, 25 Apr 2025 03:37:26 +0000
-Date: Fri, 25 Apr 2025 11:36:40 +0800
+	id 1u8A2A-0004oj-2D;
+	Fri, 25 Apr 2025 03:47:26 +0000
+Date: Fri, 25 Apr 2025 11:47:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Lee Jones <lee@kernel.org>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v4 3/8] mfd: Add Microchip ZL3073x support
-Message-ID: <202504251112.NvSTD02Y-lkp@intel.com>
-References: <20250424154722.534284-4-ivecera@redhat.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1593/1593] block/genhd.c:642:5:
+ warning: no previous prototype for 'disk_scan_partitions'
+Message-ID: <202504251109.LNg7C0pb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,38 +61,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424154722.534284-4-ivecera@redhat.com>
 
-Hi Ivan,
+Hi Yu,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings-dpll-Add-DPLL-device-and-pin/20250424-235141
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250424154722.534284-4-ivecera%40redhat.com
-patch subject: [PATCH net-next v4 3/8] mfd: Add Microchip ZL3073x support
-reproduce: (https://download.01.org/0day-ci/archive/20250425/202504251112.NvSTD02Y-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   08111f03f1ec65598372cfe9bf64f366d575671e
+commit: cdfb5c11ad89867cd28c903369fbfebe3f36ca26 [1593/1593] block: fix kabi broken in ioctl.c
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250425/202504251109.LNg7C0pb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504251109.LNg7C0pb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504251112.NvSTD02Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504251109.LNg7C0pb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/dpll/microchip,zl3073x*.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
-   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
-   make[1]: *** [Makefile:1804: htmldocs] Error 2
-   make: *** [Makefile:248: __sub-make] Error 2
+>> block/genhd.c:642:5: warning: no previous prototype for 'disk_scan_partitions' [-Wmissing-prototypes]
+     642 | int disk_scan_partitions(struct gendisk *disk, fmode_t mode)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   block/genhd.c:533: warning: Function parameter or member 'devt' not described in 'blk_invalidate_devt'
+
+
+vim +/disk_scan_partitions +642 block/genhd.c
+
+d2bf1b6723ed0e Tejun Heo         2010-12-08  641  
+efc73feb2901d2 Christoph Hellwig 2023-04-07 @642  int disk_scan_partitions(struct gendisk *disk, fmode_t mode)
+b9484a857f600c Yu Kuai           2022-08-09  643  {
+b9484a857f600c Yu Kuai           2022-08-09  644  	struct block_device *bdev;
+efc73feb2901d2 Christoph Hellwig 2023-04-07  645  	int ret;
+b9484a857f600c Yu Kuai           2022-08-09  646  
+efc73feb2901d2 Christoph Hellwig 2023-04-07  647  	if (!disk_part_scan_enabled(disk))
+efc73feb2901d2 Christoph Hellwig 2023-04-07  648  		return -EINVAL;
+b9484a857f600c Yu Kuai           2022-08-09  649  
+b9484a857f600c Yu Kuai           2022-08-09  650  	bdev = bdget_disk(disk, 0);
+b9484a857f600c Yu Kuai           2022-08-09  651  	if (!bdev)
+efc73feb2901d2 Christoph Hellwig 2023-04-07  652  		return -ENOMEM;
+b9484a857f600c Yu Kuai           2022-08-09  653  
+b9484a857f600c Yu Kuai           2022-08-09  654  	bdev->bd_invalidated = 1;
+efc73feb2901d2 Christoph Hellwig 2023-04-07  655  
+efc73feb2901d2 Christoph Hellwig 2023-04-07  656  	ret = blkdev_get(bdev, mode, NULL);
+efc73feb2901d2 Christoph Hellwig 2023-04-07  657  	if (!ret)
+efc73feb2901d2 Christoph Hellwig 2023-04-07  658  		blkdev_put(bdev, mode);
+efc73feb2901d2 Christoph Hellwig 2023-04-07  659  
+efc73feb2901d2 Christoph Hellwig 2023-04-07  660  	return ret;
+fbbec472351c99 Christoph Hellwig 2023-04-07  661  }
+fbbec472351c99 Christoph Hellwig 2023-04-07  662  
+
+:::::: The code at line 642 was first introduced by commit
+:::::: efc73feb2901d27dcd01fa859d1378aee42850aa block: merge disk_scan_partitions and blkdev_reread_part
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Yongqiang Liu <duanzi@zju.edu.cn>
 
 -- 
 0-DAY CI Kernel Test Service
