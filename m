@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42F81B415F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 08:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08520149DF0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 10:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745657691; cv=none; b=rQo0b6VqURec3Nk0NMKA4A7M4hQoc8dE6fIyEzJekcB+Vmd50QLerOn5gPQ2JsfoaYIl+kA/3zK1bVrM1IRxN5qPr2XU2e1DEtbb9rEed03Ms30dEud8PDEKBnAOvKiAq8ROr+aVxrbB8l0zv7SfBHzoVyq0SvpYvK16BvYu4Ek=
+	t=1745662557; cv=none; b=q0EVpz4wlX06uY+cYwkM9ZT7ErnC5knrWuN8ZT40uERJHMHuAyVnU80zrh3JWOwQE9BSiuOY1LT79tKcKaBruGW/dlk7k4YdpNukv3hWl6pIN5A/RA7AUfho0rc6lwWVe2oQuHYRM6aHMtXH4aLFsl6JmJ0iP3kXII//gwWdfts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745657691; c=relaxed/simple;
-	bh=s7kevVmE4hen9Evty3NpyfoQ60pX21o3uEWG7lg3mKk=;
+	s=arc-20240116; t=1745662557; c=relaxed/simple;
+	bh=Bgg33G1mN4LgBsqM1Yzp9RAosd2oACBOwE1ILaEVsgo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TypTmAl3xE9XNa/kBPQdl2P3BIDJ75rYGidvNpxFLrcId6csID+FCLg0tRHdepPPBoH8+L+XKsHpR5FxgyUpP3zvY5wcV9h2gYLoVlqO+6aOh9GmzmVwqGN6EbmwGvUKa/SYn4NeSPVx3UJHIxODkl/cquLSj/45nYVmIwFbjYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CRiVlVqx; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=UI2zSrN/RHTTN+QtUnj+igukxbcSCAUxMOSpoJvkafKd03flKuu2VKWytmiEHTsht53O36gzq231fuuVgmoPbgCk2obHlb+I/n9/pKy61soxuatAIToh1rFW9rTdWUJoQs4LKRb0IA5pH4UdHEesm9NECtSDsJmLR/xMRBv9rbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAWTdLnF; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CRiVlVqx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAWTdLnF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745657690; x=1777193690;
+  t=1745662555; x=1777198555;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s7kevVmE4hen9Evty3NpyfoQ60pX21o3uEWG7lg3mKk=;
-  b=CRiVlVqxQ6miw/2Vuf67fYxxQf59OfI4Mhj8Vr5t8+2VGq97NjVviRGp
-   HlMQEpk3iMKFWIwqfdgjJKiRaT1XAGUmNwwpKwOVvOl/vOFqlwDgyc8fL
-   vqzyoJv15rvjG7SVSrKv8ZFtVTRy8WrdjGTrqlxxcYSmpw0SbQGSPall6
-   0Idt85u2+iIGJeW6JUQhoFE1kJDD9EQt+xGv/EJNVwAPfcjYKBV4ywRvc
-   Bz3BBUpCTSaSGxVbl/IUEbAIrQ/vgmFSxuyq4kjhMjQUJz4a76z7F9AOt
-   HMwIq79yZdVABSJ7LceUCh5b3UcjnGhngH6XK0AsHiXuhl2ii8K65Zm3K
-   A==;
-X-CSE-ConnectionGUID: W8jdjfVjQAqRcf8dzf7k6A==
-X-CSE-MsgGUID: Rksddo2iTyWqmSp0dYkRfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="57957782"
+  bh=Bgg33G1mN4LgBsqM1Yzp9RAosd2oACBOwE1ILaEVsgo=;
+  b=iAWTdLnFG3MhYUMr/HM85FmpfDTS1+Ais7TfNuyiJoeAU1cER/NRgn6T
+   aAc8T+leuzy0DfWu2GvFQ85tpzBykH5291orWqGlgKKFE/Pkx1Klt9MTy
+   a35fVLT22UBhvhV8Nt+OuKFUW9ae9oLa6E9tCdmoQ8jOEG3UPixulPbRE
+   UtCOX1lHRTvqS/sNMHgWGUD60JNlK26+74voi3LT77qMTxbnN+C2y4kb0
+   vTBtYtXobqs6A4+RWr4us/XtxpDW9cnwku8wslMVZ0m4PU7Us0ZPRxTl6
+   YJJrD93C/7yoRmudeyqObM9jKDpKHPS8lcAwvJQJHNLue9EtiBVb90+n/
+   w==;
+X-CSE-ConnectionGUID: GoKBo/c4TaqZjANqMNbgVg==
+X-CSE-MsgGUID: lSDrsXumRFeq1ailIMt7xw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="47440630"
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="57957782"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 01:54:49 -0700
-X-CSE-ConnectionGUID: j29CRLpWRvSP5t6hS6Fnow==
-X-CSE-MsgGUID: ry1AqL3dR1eT9zzm4RDeSw==
+   d="scan'208";a="47440630"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 03:15:54 -0700
+X-CSE-ConnectionGUID: iGNUiYHKTDarzNwTKIgAdw==
+X-CSE-MsgGUID: heu8r2mfQLC2d9QR24KzzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="133616640"
+   d="scan'208";a="132988490"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 26 Apr 2025 01:54:48 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Apr 2025 03:15:53 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8bJ7-0005mz-17;
-	Sat, 26 Apr 2025 08:54:45 +0000
-Date: Sat, 26 Apr 2025 16:53:51 +0800
+	id 1u8cZa-0005np-1S;
+	Sat, 26 Apr 2025 10:15:50 +0000
+Date: Sat, 26 Apr 2025 18:15:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Jonathan Cavitt <jonathan.cavitt@intel.com>
-Subject: [drm-xe:drm-xe-next 1/4] ERROR: modpost: "__moddi3"
- [drivers/gpu/drm/xe/xe.ko] undefined!
-Message-ID: <202504261628.EDuMMQs1-lkp@intel.com>
+To: Shengyang Chen <shengyang.chen@starfivetech.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>
+Subject: drivers/phy/starfive/phy-jh7110-dphy-tx.c:178: warning: Cannot
+ understand          * @maps:
+Message-ID: <202504261831.YcGFqEO5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,21 +64,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   238ae3be582070aedd91c75f07483fbb2a77fc45
-commit: c4a2e5f865b7230a9565c57c54b375b1d2ce82f5 [1/4] drm/xe: Add devcoredump chunking
-config: powerpc-randconfig-003-20250426 (https://download.01.org/0day-ci/archive/20250426/202504261628.EDuMMQs1-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504261628.EDuMMQs1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02ddfb981de88a2c15621115dd7be2431252c568
+commit: d3ab7955330843699cdcc413edd7993923e6c016 phy: starfive: Add mipi dphy tx support
+date:   11 months ago
+config: riscv-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250426/202504261831.YcGFqEO5-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504261831.YcGFqEO5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504261628.EDuMMQs1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504261831.YcGFqEO5-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__moddi3" [drivers/gpu/drm/xe/xe.ko] undefined!
+>> drivers/phy/starfive/phy-jh7110-dphy-tx.c:178: warning: Cannot understand          * @maps:
+    on line 178 - I thought it was a doc line
+
+
+vim +178 drivers/phy/starfive/phy-jh7110-dphy-tx.c
+
+   175	
+   176	struct stf_dphy_info {
+   177		/**
+ > 178		 * @maps:
+   179		 *
+   180		 * Physical lanes and logic lanes mapping table.
+   181		 *
+   182		 * The default order is:
+   183		 * [data lane 0, data lane 1, data lane 2, date lane 3, clk lane]
+   184		 */
+   185		u8 maps[STF_MAP_LANES_NUM];
+   186	};
+   187	
 
 -- 
 0-DAY CI Kernel Test Service
