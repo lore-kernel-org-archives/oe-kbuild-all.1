@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83EF17B402;
-	Sat, 26 Apr 2025 14:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716E21991CF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 14:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745676913; cv=none; b=selv9e9BS9lZKxWOOQeIdkA6lsPyMw+a38rYOmumFvUJGfu+NB3N3Xnj2LWagM6/f1gyCc3TZUpZT80KlToYALLp/8CJ/wN/FsDGSidscPNDFTEotw5B6aLJ6iysRb4SsnKdZbk1kk3dddf4u4qLUkoxeHs664LheHK+nThSgiQ=
+	t=1745678776; cv=none; b=QtK/iwekKQqpnrrXIs4ICCN9gkxA1npcZhUwZTI2pGbXpUKVHbfjH/fo1ps2u3SIcS86jbUBynmER+UH5RY6G6InSS5Sl5e0TLhQXBxTVz7Sr+lw5CxxVfBJPVa6978Ab5oIGOig+409g3MbeM2o/F33AvgnX/Pd7FpYDKAqBNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745676913; c=relaxed/simple;
-	bh=KyPVCDaDId5iuitE9xSrLGPFmYffFbpjaVFQl6C9C90=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qapW5D4gnm1OJwms+UWwZ4Yf4BeNSErjtStewvX7kE0igeeQYn0SLjrbhJk+dPJ/oamyfMiMRCofkuRHaHhXPwcCtzbrATwQgxV6OU1HfxSuTzJMWVC5fB1ZUH8zSr9EOzWkVc4AUcP8mTypK77fn6gWO6/w8MtlDKLzg3OYLhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UkcymXCu; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1745678776; c=relaxed/simple;
+	bh=u0XFOZCbUxLTirzcU7SQgvvFhR5eGp7vYanqCWvs+nE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y1QPMYdGQtgmG6jjd6F6mF43n7noCKktnzd1HP4jg/gkh73L/raO+pBvxqN2ie4rBR83Mk24DRGKBG3NKKx0WD7QJhi0mcpl4aeqKUCuj99A7MB6/9kiK/4Y3e9NvKLFhHPT77Xcsdcs/YfdUsLiZbh5QhRvX0NDJqBJeTePbo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lA5S4WX6; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UkcymXCu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lA5S4WX6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745676911; x=1777212911;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KyPVCDaDId5iuitE9xSrLGPFmYffFbpjaVFQl6C9C90=;
-  b=UkcymXCuHAH0gkg5Wt2SmUuKIt1yBGY5ynqj+5S1DZqpDcGJaKzeDDqS
-   IP6EGFFDTVIq7/BrJ4hRo2Ol6d2ypvNJWe1HuEssQntEdaihCUoP1HGeh
-   Smng3To140kaTlSD3Picj9yNuHvD4GABWwlR1ySvOgqEO0SsZ2+oUzX27
-   8N31MwkDYONDHvtPtRa8cUF3mvHDZV9rzctAtQihZAJPiJ6yNa6LOidNX
-   KdewSEjUJsIHeJ8hpqKuYT4yIEihmHCEwzhwT7gag7uEC8JZeg7yaEjLd
-   hKFdDLjWq86zMkmnqem7YGDtEjyTJOG/c+98JVtERXXpNsOk1ItigUae3
-   g==;
-X-CSE-ConnectionGUID: wUvE+2anT7K9kPap3tlGzQ==
-X-CSE-MsgGUID: LCCHd49CRhedTyToSxvL6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="46437831"
+  t=1745678775; x=1777214775;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u0XFOZCbUxLTirzcU7SQgvvFhR5eGp7vYanqCWvs+nE=;
+  b=lA5S4WX6dJHBV5ueAr/12OWJM3VyMFxYmaAdPPdmn0TmwgxuptSmkn3a
+   b4vRgL4vdw1rdfEogLZ+bRDTG77nTz7+Ickq+WZM/z0iGQFOSVrJQZbtM
+   MSvlLdZRoMlanTNsQImdZySBBe+fxn8QIrt1LOfLMXedOQp4U0lMudLJd
+   JZSxrSAl6D51my+M9FRXJMYbsShjHfXjX0+QMpRb1UzNU+U2BtoppQQJZ
+   oOfIcF4JQhV+SUofovTmN9ohhqebk23BAG9aQSCiokQYi1TwKWhNJ0UNU
+   Va1DcSulwzYPHYFzXlVvbk4EQy29nqpzbiBvLM16KjZWKLUSsC6XpIKz7
+   Q==;
+X-CSE-ConnectionGUID: 1Ir52MnZSqm4QJzs1mUtBQ==
+X-CSE-MsgGUID: 7FTaBaw2SFW1Ok3IBxfTmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="47484014"
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="46437831"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 07:15:10 -0700
-X-CSE-ConnectionGUID: 25QIfyFoRGCwRQk8pxa5Qw==
-X-CSE-MsgGUID: NxBMU5IwTGGLgnHzZ6qFOA==
+   d="scan'208";a="47484014"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 07:46:13 -0700
+X-CSE-ConnectionGUID: biQ15ZZpRM2+1uiOdM08FQ==
+X-CSE-MsgGUID: 7YM1dqMrSuGytIYV+a9d8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="134066578"
+   d="scan'208";a="156365063"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2025 07:15:08 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 26 Apr 2025 07:46:11 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8gJ8-0005r3-1L;
-	Sat, 26 Apr 2025 14:15:06 +0000
-Date: Sat, 26 Apr 2025 22:14:54 +0800
+	id 1u8gnA-0005rp-2i;
+	Sat, 26 Apr 2025 14:46:08 +0000
+Date: Sat, 26 Apr 2025 22:45:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org
-Subject: drivers/net/phy/aquantia/aquantia_main.c:353: warning: This comment
- starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202504262247.1UBrDBVN-lkp@intel.com>
+To: Eduard Zingerman <eddyz87@gmail.com>, bpf@vger.kernel.org,
+	ast@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, daniel@iogearbox.net,
+	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev,
+	Eduard Zingerman <eddyz87@gmail.com>
+Subject: Re: [PATCH bpf-next v1 3/4] bpf: use SCC info instead of loop_entry
+Message-ID: <202504262235.h5B7vJiB-lkp@intel.com>
+References: <20250426104634.744077-4-eddyz87@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,90 +65,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250426104634.744077-4-eddyz87@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: 7e5b547cac7a56515b2838b496923e52ec4eeddd net: phy: aquantia: poll status register
-date:   7 months ago
-config: riscv-randconfig-002-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262247.1UBrDBVN-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262247.1UBrDBVN-lkp@intel.com/reproduce)
+Hi Eduard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-compute-SCCs-in-program-control-flow-graph/20250426-184824
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250426104634.744077-4-eddyz87%40gmail.com
+patch subject: [PATCH bpf-next v1 3/4] bpf: use SCC info instead of loop_entry
+config: riscv-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262235.h5B7vJiB-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262235.h5B7vJiB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504262247.1UBrDBVN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504262235.h5B7vJiB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/phy/aquantia/aquantia_main.c:353: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-            * The status register is not immediately correct on line side link up.
+   kernel/bpf/verifier.c: In function 'mark_all_regs_read_and_precise':
+>> kernel/bpf/verifier.c:18238:13: warning: variable 'insn_idx' set but not used [-Wunused-but-set-variable]
+   18238 |         u32 insn_idx;
+         |             ^~~~~~~~
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
 
 
-vim +353 drivers/net/phy/aquantia/aquantia_main.c
+vim +/insn_idx +18238 kernel/bpf/verifier.c
 
-   340	
-   341	static int aqr107_read_status(struct phy_device *phydev)
-   342	{
-   343		int val, ret;
-   344	
-   345		ret = aqr_read_status(phydev);
-   346		if (ret)
-   347			return ret;
-   348	
-   349		if (!phydev->link || phydev->autoneg == AUTONEG_DISABLE)
-   350			return 0;
-   351	
-   352		/**
- > 353		 * The status register is not immediately correct on line side link up.
-   354		 * Poll periodically until it reflects the correct ON state.
-   355		 * Only return fail for read error, timeout defaults to OFF state.
-   356		 */
-   357		ret = phy_read_mmd_poll_timeout(phydev, MDIO_MMD_PHYXS,
-   358						MDIO_PHYXS_VEND_IF_STATUS, val,
-   359						(FIELD_GET(MDIO_PHYXS_VEND_IF_STATUS_TYPE_MASK, val) !=
-   360						MDIO_PHYXS_VEND_IF_STATUS_TYPE_OFF),
-   361						AQR107_OP_IN_PROG_SLEEP,
-   362						AQR107_OP_IN_PROG_TIMEOUT, false);
-   363		if (ret && ret != -ETIMEDOUT)
-   364			return ret;
-   365	
-   366		switch (FIELD_GET(MDIO_PHYXS_VEND_IF_STATUS_TYPE_MASK, val)) {
-   367		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_KR:
-   368			phydev->interface = PHY_INTERFACE_MODE_10GKR;
-   369			break;
-   370		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_KX:
-   371			phydev->interface = PHY_INTERFACE_MODE_1000BASEKX;
-   372			break;
-   373		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_XFI:
-   374			phydev->interface = PHY_INTERFACE_MODE_10GBASER;
-   375			break;
-   376		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_USXGMII:
-   377			phydev->interface = PHY_INTERFACE_MODE_USXGMII;
-   378			break;
-   379		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_XAUI:
-   380			phydev->interface = PHY_INTERFACE_MODE_XAUI;
-   381			break;
-   382		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_SGMII:
-   383			phydev->interface = PHY_INTERFACE_MODE_SGMII;
-   384			break;
-   385		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_RXAUI:
-   386			phydev->interface = PHY_INTERFACE_MODE_RXAUI;
-   387			break;
-   388		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_OCSGMII:
-   389			phydev->interface = PHY_INTERFACE_MODE_2500BASEX;
-   390			break;
-   391		case MDIO_PHYXS_VEND_IF_STATUS_TYPE_OFF:
-   392		default:
-   393			phydev->link = false;
-   394			phydev->interface = PHY_INTERFACE_MODE_NA;
-   395			break;
-   396		}
-   397	
-   398		/* Read possibly downshifted rate from vendor register */
-   399		return aqr107_read_rate(phydev);
-   400	}
-   401	
+ 18154	
+ 18155	/* Open coded iterators introduce loops in the verifier state graph.
+ 18156	 * State graph loops can result in incomplete read and precision marks
+ 18157	 * on individual states. E.g. consider the following states graph:
+ 18158	 *
+ 18159	 *  .-> A --.  Assume the states are visited in the order A, B, C.
+ 18160	 *  |   |   |  Assume that state B reaches a state equivalent to state A.
+ 18161	 *  |   v   v  At this point, state C has not been processed yet,
+ 18162	 *  '-- B   C  so state A does not have any read or precision marks from C yet.
+ 18163	 *             As a result, these marks won't be propagated to B.
+ 18164	 *
+ 18165	 * If the marks on B are incomplete, it would be unsafe to use it in
+ 18166	 * states_equal() checks.
+ 18167	 *
+ 18168	 * To avoid this safety issue, and since states with incomplete read
+ 18169	 * marks can only occur within control flow graph loops, the verifier
+ 18170	 * assumes that any state with bpf_verifier_state->insn_idx residing
+ 18171	 * in a strongly connected component (SCC) has read and precision
+ 18172	 * marks for all registers. This assumption is enforced by the
+ 18173	 * function mark_all_regs_read_and_precise(), which assigns
+ 18174	 * corresponding marks.
+ 18175	 *
+ 18176	 * An intuitive point to call mark_all_regs_read_and_precise() would
+ 18177	 * be when a new state is created in is_state_visited().
+ 18178	 * However, doing so would interfere with widen_imprecise_scalars(),
+ 18179	 * which widens scalars in the current state after checking registers in a
+ 18180	 * parent state. Registers are not widened if they are marked as precise
+ 18181	 * in the parent state.
+ 18182	 *
+ 18183	 * To avoid interfering with widening logic,
+ 18184	 * a call to mark_all_regs_read_and_precise() for state is postponed
+ 18185	 * until no widening is possible in any descendant of state S.
+ 18186	 *
+ 18187	 * Another intuitive spot to call mark_all_regs_read_and_precise()
+ 18188	 * would be in update_branch_counts() when S's branches counter
+ 18189	 * reaches 0. However, this falls short in the following case:
+ 18190	 *
+ 18191	 *	sum = 0
+ 18192	 *	bpf_repeat(10) {                              // a
+ 18193	 *		if (unlikely(bpf_get_prandom_u32()))  // b
+ 18194	 *			sum += 1;
+ 18195	 *		if (bpf_get_prandom_u32())            // c
+ 18196	 *			asm volatile ("");
+ 18197	 *		asm volatile ("goto +0;");            // d
+ 18198	 *	}
+ 18199	 *
+ 18200	 * Here a checkpoint is created at (d) with {sum=0} and the branch counter
+ 18201	 * for (d) reaches 0, so 'sum' would be marked precise.
+ 18202	 * When second branch of (c) reaches (d), checkpoint would be hit,
+ 18203	 * and the precision mark for 'sum' propagated to (a).
+ 18204	 * When the second branch of (b) reaches (a), the state would be {sum=1},
+ 18205	 * no widening would occur, causing verification to continue forever.
+ 18206	 *
+ 18207	 * To avoid such premature precision markings, the verifier postpones
+ 18208	 * the call to mark_all_regs_read_and_precise() for state S even further.
+ 18209	 * Suppose state P is a [grand]parent of state S and is the first state
+ 18210	 * in the current state chain with state->insn_idx within current SCC.
+ 18211	 * mark_all_regs_read_and_precise() for state S is only called once P
+ 18212	 * is fully explored.
+ 18213	 *
+ 18214	 * The struct 'bpf_scc_info' is used to track this condition:
+ 18215	 * - bpf_scc_info->branches counts how many states currently
+ 18216	 *   in env->cur_state or env->head originate from this SCC;
+ 18217	 * - bpf_scc_info->scc_epoch counts how many times 'branches'
+ 18218	 *   has reached zero;
+ 18219	 * - bpf_verifier_state->scc_epoch records the epoch of the SCC
+ 18220	 *   corresponding to bpf_verifier_state->insn_idx at the moment
+ 18221	 *   of state creation.
+ 18222	 *
+ 18223	 * Functions parent_scc_enter() and parent_scc_exit() maintain the
+ 18224	 * bpf_scc_info->{branches,scc_epoch} counters.
+ 18225	 *
+ 18226	 * bpf_scc_info->branches reaching zero indicates that state P is
+ 18227	 * fully explored. Its descendants residing in the same SCC have
+ 18228	 * state->scc_epoch == scc_info->scc_epoch. parent_scc_exit()
+ 18229	 * increments scc_info->scc_epoch, allowing clean_live_states() to
+ 18230	 * detect these states and apply mark_all_regs_read_and_precise().
+ 18231	 */
+ 18232	static void mark_all_regs_read_and_precise(struct bpf_verifier_env *env,
+ 18233						   struct bpf_verifier_state *st)
+ 18234	{
+ 18235		struct bpf_func_state *func;
+ 18236		struct bpf_reg_state *reg;
+ 18237		u16 live_regs;
+ 18238		u32 insn_idx;
+ 18239		int i, j;
+ 18240	
+ 18241		for (i = 0; i <= st->curframe; i++) {
+ 18242			insn_idx = frame_insn_idx(st, i);
+ 18243			live_regs = env->insn_aux_data[st->insn_idx].live_regs_before;
+ 18244			func = st->frame[i];
+ 18245			for (j = 0; j < BPF_REG_FP; j++) {
+ 18246				reg = &func->regs[j];
+ 18247				if (!(BIT(j) & live_regs) || reg->type == NOT_INIT)
+ 18248					continue;
+ 18249				reg->live |= REG_LIVE_READ64;
+ 18250				if (reg->type == SCALAR_VALUE && !is_reg_unbounded(reg))
+ 18251					reg->precise = true;
+ 18252			}
+ 18253			for (j = 0; j < func->allocated_stack / BPF_REG_SIZE; j++) {
+ 18254				reg = &func->stack[j].spilled_ptr;
+ 18255				reg->live |= REG_LIVE_READ64;
+ 18256				if (is_spilled_reg(&func->stack[j]) &&
+ 18257				    reg->type == SCALAR_VALUE && !is_reg_unbounded(reg))
+ 18258					reg->precise = true;
+ 18259			}
+ 18260		}
+ 18261	}
+ 18262	
 
 -- 
 0-DAY CI Kernel Test Service
