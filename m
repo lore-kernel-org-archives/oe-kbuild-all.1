@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B6957C9F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 22:41:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090567494;
+	Sat, 26 Apr 2025 23:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745707307; cv=none; b=NdkrtXRW5hKXdEQgKoZW14ZeGGONwvRkBWJ+xHFHnPA7YzzDS9WSVIfllWPFez1BLW1rbggYMzrGXDyxVeyDbGxnFF9fGeW7K55svFaYN+b+4c7H0viZ20UxjO+FG3tkT442zrS2PKcnITpNl6eEVrjFwIMXTBHHRY2Vv9pshT0=
+	t=1745708569; cv=none; b=RuTOp1BtEeLCD8/8dmzSzP1IV8Oo3FskqZjzQK0D+HTZ/3r9J40NYHegPhW2IgtHkb4iJEIlg7UVI+B7XKPH2psGgdiZqo4DF0bR+x0H5CC1UP1uIsdzRjKSfRyURr58MLWtlxFREKK7EpGknvUqGX4Z+arwJngb8WtvSHrOj90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745707307; c=relaxed/simple;
-	bh=+BFM1rRWCMpNjcjTsMEXpXaFizDvkstCh1idpvbPkwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=izFSuM0ojUu/OVrztJj3D+xCmZNELwSdBbeHiPch/A0+GESjVnwq/kA6ESwc2gHDAz9rOJpgo1ACZirUYlZ/fP133UNb5o0bHmLdjvtX5AlGoggOnnVOz5j1ff0f1NYokqpjdLClH0aY2SEbkc9yZPl3mPHZ6u/dDwOb+4D2tTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iGWNeQtr; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1745708569; c=relaxed/simple;
+	bh=8Sy8u61N0SG7KWgoAF+6QIjhowpXLXZkpX65CJXZmCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XDOS2oYdlQYVzgqG6FEmu3bCWWLCSgra3NoKg3/AmwD34oZyeHlOvv1UiSPvUvYFEZYmGyB6fP58u3QmzWdoqndGh1V00Ab3DdEqbmII9P2W/q87wEXHcJUR/vUkHnVAwvMHO8g172+VvFcsyw+HALRXrAbTqI/iC9RRbXGlNOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ie4pGmIT; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iGWNeQtr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ie4pGmIT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745707306; x=1777243306;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+BFM1rRWCMpNjcjTsMEXpXaFizDvkstCh1idpvbPkwY=;
-  b=iGWNeQtrbQJlWWIg4PhqLCCBG0lbj0Pi1W3fQglM6zH0hMz44aLwHsFo
-   j4esqZQBjIdextbf8YM2Bqp2hjxm6jq/qwGcZhV5sRkLYrbQoe0qwSEFI
-   80MoP4mMRITPkk8iffC2g0RDAPoF6QSct7uqvj5bOz54/AHRSgSGEfvM9
-   AWB/fEGPPl8LdWBqgpMh+bm0vKqORzfGvinl2XmatAFgRChKf+48HK8k4
-   EwkIsfWDD3hKJdifn38aSN3xdAH89JnzwSAvqyt4aY78oHklFiV3PgmN+
-   qM9MsfiUn74o94apWuK5muN6eF7WZN7VxNKk42rZzeGn0jAoQPFk3dDMS
-   A==;
-X-CSE-ConnectionGUID: krDfr9ESRlSE3SA/gBKjEQ==
-X-CSE-MsgGUID: qdgvlPosSx6WrUfvOKRJgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="47212472"
+  t=1745708567; x=1777244567;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8Sy8u61N0SG7KWgoAF+6QIjhowpXLXZkpX65CJXZmCw=;
+  b=ie4pGmIT++0PljxSWZI5T1xaIz3MxsR1XULeXrB4AzLwXLnbp7yHP83I
+   hBVzUEe1Zlfcym8v7hwi7vvasWJV/Q785Vo9YpPoV9BS6AGX0P9OXPUnx
+   //M3GiWcMtHKZvw7iDQQQoug53vZh33F5oZN55WUVpV3JJd+cfo//p4lK
+   yUjgZllmShWjZ2gMH15nfWI/YEwHBnXLKUwHhyq2HlbskYo3INboc2uuk
+   +dq5vJkv0AJQTQemyXY0zBDS3Kyj/5kCHCHTTA+V4i2twtuCco189ilUj
+   5dJQtCzmDmFUEzZTYd/A6dUA8XFMZyQo6ZAkTf8Ud/j93UWxTcD4WTMg8
+   g==;
+X-CSE-ConnectionGUID: s3HbN+WbSvGxR6VGUKFBMQ==
+X-CSE-MsgGUID: Q7brTYcrRT+iEICoCC/Htw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="64862824"
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="47212472"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 15:41:45 -0700
-X-CSE-ConnectionGUID: 576fMRc1RfiVUSURvbGkvQ==
-X-CSE-MsgGUID: kp6GUKY0QBqqVyTytcNPoA==
+   d="scan'208";a="64862824"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 16:02:46 -0700
+X-CSE-ConnectionGUID: Hd2BN2pmS0edHP1aAa1XJg==
+X-CSE-MsgGUID: Mzimxq45TYa7F5La8cI3OA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="138001857"
+   d="scan'208";a="133685505"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 26 Apr 2025 15:41:44 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2025 16:02:45 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8oDN-00060v-2U;
-	Sat, 26 Apr 2025 22:41:41 +0000
-Date: Sun, 27 Apr 2025 06:41:30 +0800
+	id 1u8oXj-00061J-0J;
+	Sat, 26 Apr 2025 23:02:43 +0000
+Date: Sun, 27 Apr 2025 07:01:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chathura Rajapaksha <chathura.abeyrathne.lk@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] audit accesses to unassigned PCI config regions
-Message-ID: <202504270605.UOUHjHe8-lkp@intel.com>
-References: <20250426212253.40473-3-chath@bu.edu>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [linux-next:master 5982/6092] ERROR: modpost: "get_phy_device"
+ [drivers/net/phy/mdio-bus.ko] undefined!
+Message-ID: <202504270639.mT0lh2o1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +62,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250426212253.40473-3-chath@bu.edu>
 
-Hi Chathura,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on f1a3944c860b0615d0513110d8cf62bb94adbb41]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chathura-Rajapaksha/block-accesses-to-unassigned-PCI-config-regions/20250427-052942
-base:   f1a3944c860b0615d0513110d8cf62bb94adbb41
-patch link:    https://lore.kernel.org/r/20250426212253.40473-3-chath%40bu.edu
-patch subject: [RFC PATCH 2/2] audit accesses to unassigned PCI config regions
-config: arm-randconfig-002-20250427 (https://download.01.org/0day-ci/archive/20250427/202504270605.UOUHjHe8-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270605.UOUHjHe8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   393d0c54cae31317deaa9043320c5fd9454deabc
+commit: 52358dd63e348c3b6c488acc105be1aeda8fb923 [5982/6092] net: phy: remove function stubs
+config: powerpc64-randconfig-003-20250427 (https://download.01.org/0day-ci/archive/20250427/202504270639.mT0lh2o1-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270639.mT0lh2o1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504270605.UOUHjHe8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270639.mT0lh2o1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/vfio/pci/vfio_pci_config.c: In function 'vfio_audit_access':
->> drivers/vfio/pci/vfio_pci_config.c:2008:62: warning: format '%ld' expects argument of type 'long int', but argument 9 has type 'size_t {aka unsigned int}' [-Wformat=]
-        "device=%04x:%02x:%02x.%d access=%s offset=0x%llx size=%ld blocked=%u\n",
-                                                               ~~^
-                                                               %d
-
-
-vim +2008 drivers/vfio/pci/vfio_pci_config.c
-
-  1994	
-  1995	static void vfio_audit_access(const struct pci_dev *pdev,
-  1996				      size_t count, loff_t *ppos, bool blocked, unsigned int op)
-  1997	{
-  1998		struct audit_buffer *ab;
-  1999	
-  2000		if (WARN_ON_ONCE(op >= VFIO_AUDIT_MAX))
-  2001			return;
-  2002		if (audit_enabled == AUDIT_OFF)
-  2003			return;
-  2004		ab = audit_log_start(audit_context(), GFP_ATOMIC, AUDIT_VFIO);
-  2005		if (unlikely(!ab))
-  2006			return;
-  2007		audit_log_format(ab,
-> 2008				 "device=%04x:%02x:%02x.%d access=%s offset=0x%llx size=%ld blocked=%u\n",
-  2009				 pci_domain_nr(pdev->bus), pdev->bus->number,
-  2010				 PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn),
-  2011				 vfio_audit_str[op], *ppos, count, blocked);
-  2012		audit_log_end(ab);
-  2013	}
-  2014	
+>> ERROR: modpost: "get_phy_device" [drivers/net/phy/mdio-bus.ko] undefined!
+>> ERROR: modpost: "phy_device_register" [drivers/net/phy/mdio-bus.ko] undefined!
+>> ERROR: modpost: "phy_device_free" [drivers/net/phy/mdio-bus.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
