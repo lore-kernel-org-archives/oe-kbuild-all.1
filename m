@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D58481C4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 19:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51101EA7DD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 20:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745697457; cv=none; b=S5YELIFs0etVbPw1MA8kWao1gad9q6KJljvHwc5ZflKNzHVUdMzNywJJL6xFoJ03rgTWv96OyT3LPAZylZSho3Ww5Vuk69S3KjTx5phPaenc0ljbPesb6DLV58qGoChnZOzpiMynee52UfHqWQEraJhXbZrPsFhmY5uJwhV1bEg=
+	t=1745699319; cv=none; b=gC9ZhS6KL8wygNRJ9u6nf1WNHZJrHoM62OyV93npPhZlWaVXgBzrsLKT/Dxj5gdQANLVhVMLPBmQ/VNmHakFRZyZParg//paaJlJacbKBzsyj5kag5eu34rMIK/RTTCcUZXjBleUvwSaG2QuEHOBeuxpc5/hcAhZtJdWrJbAL6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745697457; c=relaxed/simple;
-	bh=FFIXkVsLxmxtLTTy8CezDMGvHtsP+Y1HCzLLd8tCQDA=;
+	s=arc-20240116; t=1745699319; c=relaxed/simple;
+	bh=mNXXTcVKUUz50eSUe3QE6Wd5LmCexaP8c+TKZxSTxLI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TlKao0WioEuJDTFQ8gPllXnmpgxjyB4v+WiVG28u2/8qYqq9YkLSuVCU3cudu88Y63niVBDpzHc3ZG/5GbfwkLGlNdpkb1Z69dwKSey3s4YVqcYyCz9cAxGuVKRBfbE5dGFJPFdN4WmMdAHf/vneJclCWj//G6QA8ecTNDoAnCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SBW59NN0; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=iSFD7j3HbQZ8lT+Yx0l+R5wpcHN8kqwmLur9ENc36l3CJY2FaPV30In2wBrry7xw4g/90EEdIEUrilYv9eDRl3y/3iIc1D8OwJrydj7QD/CaIZuPxAbkMq15G6a+44NzSOLrInKCr/eYVpzKb5nO4OSlMHGllUHqMGOZl//Keds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LO4q7UkF; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SBW59NN0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LO4q7UkF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745697454; x=1777233454;
+  t=1745699316; x=1777235316;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FFIXkVsLxmxtLTTy8CezDMGvHtsP+Y1HCzLLd8tCQDA=;
-  b=SBW59NN0GY6UWTIEyz0LLL69zcWYSSKqtFnzzxWOE+KPPNPXcjmGCzob
-   KE2Xsy1J0Sob+CgmOxCduRXdVa8gytBB3m/y/QIJdozglaf+uf7reoPc8
-   8z5NoDnYR6LX5sKJTbJQCgKO1EMq7HC3pzacS9THYDL91DSCEbMkN969X
-   TRjnJFHpLFb8TEhPhEb7ya0rXV1aTSDdwVMOdBl+QgU/nxD1CJn9ivrqy
-   YBeBSMU0Z2XuDC+4fH5ym/Rw/MI95g1hIy58oVcUxUhXwnWaE6DhH3s5F
-   CbUoKkGIr+GndK65ekSOZTq9n9Y5I9pF7KY8wTRWBjt3NDbETPzbnlovD
-   Q==;
-X-CSE-ConnectionGUID: N0I77fbYTDK2T3SKykTIzA==
-X-CSE-MsgGUID: I1fF5MvtTSOXKJvJhte+hA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="72703361"
+  bh=mNXXTcVKUUz50eSUe3QE6Wd5LmCexaP8c+TKZxSTxLI=;
+  b=LO4q7UkF1LxTH6dWSClfhIzGj0ncUyHDayPmqCUnMl5mzH+3kKTDwWcG
+   ZyVts7Gkf5xeZRRUbW2/OqXmVwYKKQlq7Eo7RWGXuaNBc7/+umwS5a493
+   qzmaaeNjZ7Bw8y/1S8NAYmWKOp1XLP50aA4JcIQdTUBnS4/oe3VUNXYVB
+   fR514+W1DsrhX64BMAw3jdiJ/qw90n9h/W6tQ7y1pFfWCsrYn3wStcra2
+   gLhGB4KYobjmjQD74JY+Zd6rimYSvXmKdLJBbtKHLPWt5lblKd/b2pm+v
+   deBv9A+6AO2yzTPJKefkKQNix14yKmwMZ7Rjyr2I65Bjzm1ltpUB/GxoA
+   w==;
+X-CSE-ConnectionGUID: JBUgb3O1TeyXtBXiVcyF1w==
+X-CSE-MsgGUID: 3mTuXVMETfOPwOcP6UYrHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="49981174"
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="72703361"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 12:57:33 -0700
-X-CSE-ConnectionGUID: MHBLM3KyR/euUw9zbvZD5A==
-X-CSE-MsgGUID: 0fisutOET0ikuYOLAo8qzg==
+   d="scan'208";a="49981174"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 13:28:35 -0700
+X-CSE-ConnectionGUID: 8BV+OAFUTqubI/9V1aWcdw==
+X-CSE-MsgGUID: Ekmu35D9TaSitN95YcVC3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="134105739"
+   d="scan'208";a="133670546"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2025 12:57:32 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2025 13:28:34 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8leU-0005y9-0V;
-	Sat, 26 Apr 2025 19:57:30 +0000
-Date: Sun, 27 Apr 2025 03:57:04 +0800
+	id 1u8m8W-0005yj-0M;
+	Sat, 26 Apr 2025 20:28:32 +0000
+Date: Sun, 27 Apr 2025 04:28:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peterson Guo <peterson.guo@amd.com>
+To: Andreas Gruenbacher <agruenba@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Alvin Lee <alvin.lee2@amd.com>, Wayne Lin <wayne.lin@amd.com>,
-	linux-doc@vger.kernel.org
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1667:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202504270342.FU9iqFuX-lkp@intel.com>
+	Bob Peterson <rpeterso@redhat.com>
+Subject: fs/gfs2/glock.c:1213: warning: Function parameter or struct member
+ 'ip' not described in '__gfs2_holder_init'
+Message-ID: <202504270418.VcPbMEFk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,86 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Andreas,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: 3c50bf2196aaddcaffe2c7a1a7080470380cbfdd drm/amd/display: Reverse the visual confirm recouts
-date:   2 months ago
-config: sparc64-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270342.FU9iqFuX-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270342.FU9iqFuX-lkp@intel.com/reproduce)
+commit: b016d9a84abdd2efaa273814eaeb59e112ecffbd gfs2: Save ip from gfs2_glock_nq_init
+date:   3 years, 6 months ago
+config: csky-randconfig-r036-20230303 (https://download.01.org/0day-ci/archive/20250427/202504270418.VcPbMEFk-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270418.VcPbMEFk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504270342.FU9iqFuX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270418.VcPbMEFk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1667: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-            * Disable the cursor if there's another pipe above this with a
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1687: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-                    * There is another half plane on same layer because of
+>> fs/gfs2/glock.c:1213: warning: Function parameter or struct member 'ip' not described in '__gfs2_holder_init'
+   fs/gfs2/glock.c:1213: warning: expecting prototype for gfs2_holder_init(). Prototype was for __gfs2_holder_init() instead
 
 
-vim +1667 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c
+vim +1213 fs/gfs2/glock.c
 
-  1654	
-  1655	bool resource_can_pipe_disable_cursor(struct pipe_ctx *pipe_ctx)
-  1656	{
-  1657		struct pipe_ctx *test_pipe, *split_pipe;
-  1658		struct rect r1 = pipe_ctx->plane_res.scl_data.recout;
-  1659		int r1_right, r1_bottom;
-  1660		int cur_layer = pipe_ctx->plane_state->layer_index;
-  1661	
-  1662		reverse_adjust_recout_for_visual_confirm(&r1, pipe_ctx);
-  1663		r1_right = r1.x + r1.width;
-  1664		r1_bottom = r1.y + r1.height;
-  1665	
-  1666		/**
-> 1667		 * Disable the cursor if there's another pipe above this with a
-  1668		 * plane that contains this pipe's viewport to prevent double cursor
-  1669		 * and incorrect scaling artifacts.
-  1670		 */
-  1671		for (test_pipe = pipe_ctx->top_pipe; test_pipe;
-  1672		     test_pipe = test_pipe->top_pipe) {
-  1673			struct rect r2;
-  1674			int r2_right, r2_bottom;
-  1675			// Skip invisible layer and pipe-split plane on same layer
-  1676			if (!test_pipe->plane_state ||
-  1677			    !test_pipe->plane_state->visible ||
-  1678			    test_pipe->plane_state->layer_index == cur_layer)
-  1679				continue;
-  1680	
-  1681			r2 = test_pipe->plane_res.scl_data.recout;
-  1682			reverse_adjust_recout_for_visual_confirm(&r2, test_pipe);
-  1683			r2_right = r2.x + r2.width;
-  1684			r2_bottom = r2.y + r2.height;
-  1685	
-  1686			/**
-  1687			 * There is another half plane on same layer because of
-  1688			 * pipe-split, merge together per same height.
-  1689			 */
-  1690			for (split_pipe = pipe_ctx->top_pipe; split_pipe;
-  1691			     split_pipe = split_pipe->top_pipe)
-  1692				if (split_pipe->plane_state->layer_index == test_pipe->plane_state->layer_index) {
-  1693					struct rect r2_half;
-  1694	
-  1695					r2_half = split_pipe->plane_res.scl_data.recout;
-  1696					reverse_adjust_recout_for_visual_confirm(&r2_half, split_pipe);
-  1697					r2.x = min(r2_half.x, r2.x);
-  1698					r2.width = r2.width + r2_half.width;
-  1699					r2_right = r2.x + r2.width;
-  1700					r2_bottom = min(r2_bottom, r2_half.y + r2_half.height);
-  1701					break;
-  1702				}
-  1703	
-  1704			if (r1.x >= r2.x && r1.y >= r2.y && r1_right <= r2_right && r1_bottom <= r2_bottom)
-  1705				return true;
-  1706		}
-  1707	
-  1708		return false;
-  1709	}
-  1710	
+b3b94faa5fe596 David Teigland      2006-01-16  1201  
+b3b94faa5fe596 David Teigland      2006-01-16  1202  /**
+b3b94faa5fe596 David Teigland      2006-01-16  1203   * gfs2_holder_init - initialize a struct gfs2_holder in the default way
+b3b94faa5fe596 David Teigland      2006-01-16  1204   * @gl: the glock
+b3b94faa5fe596 David Teigland      2006-01-16  1205   * @state: the state we're requesting
+b3b94faa5fe596 David Teigland      2006-01-16  1206   * @flags: the modifier flags
+b3b94faa5fe596 David Teigland      2006-01-16  1207   * @gh: the holder structure
+b3b94faa5fe596 David Teigland      2006-01-16  1208   *
+b3b94faa5fe596 David Teigland      2006-01-16  1209   */
+b3b94faa5fe596 David Teigland      2006-01-16  1210  
+b016d9a84abdd2 Andreas Gruenbacher 2021-09-30  1211  void __gfs2_holder_init(struct gfs2_glock *gl, unsigned int state, u16 flags,
+b016d9a84abdd2 Andreas Gruenbacher 2021-09-30  1212  			struct gfs2_holder *gh, unsigned long ip)
+b3b94faa5fe596 David Teigland      2006-01-16 @1213  {
+b3b94faa5fe596 David Teigland      2006-01-16  1214  	INIT_LIST_HEAD(&gh->gh_list);
+b3b94faa5fe596 David Teigland      2006-01-16  1215  	gh->gh_gl = gl;
+b016d9a84abdd2 Andreas Gruenbacher 2021-09-30  1216  	gh->gh_ip = ip;
+b1e058da50f793 Pavel Emelyanov     2008-02-07  1217  	gh->gh_owner_pid = get_pid(task_pid(current));
+b3b94faa5fe596 David Teigland      2006-01-16  1218  	gh->gh_state = state;
+b3b94faa5fe596 David Teigland      2006-01-16  1219  	gh->gh_flags = flags;
+b3b94faa5fe596 David Teigland      2006-01-16  1220  	gh->gh_error = 0;
+b3b94faa5fe596 David Teigland      2006-01-16  1221  	gh->gh_iflags = 0;
+b3b94faa5fe596 David Teigland      2006-01-16  1222  	gfs2_glock_hold(gl);
+b3b94faa5fe596 David Teigland      2006-01-16  1223  }
+b3b94faa5fe596 David Teigland      2006-01-16  1224  
+
+:::::: The code at line 1213 was first introduced by commit
+:::::: b3b94faa5fe5968827ba0640ee9fba4b3e7f736e [GFS2] The core of GFS2
+
+:::::: TO: David Teigland <teigland@redhat.com>
+:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
