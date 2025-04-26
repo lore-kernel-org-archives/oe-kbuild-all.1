@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE131A8F8A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 18:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279D9481C4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 19:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745693672; cv=none; b=i9pyua4C8TmC3D2GmQQozXqTUmkAfLQm4SpNTNp7C16e+fVNUFW6G1CwwLULSH4Q3O9u/sOfsKIfEvX/UNgvsjUb5B/kcvuLVC1hlof94Ax8M9v6xTQqc/mDy1GeBq+qd1BQLGMc+bpx7FJ1+5hPGiJfw2orbX9VeYt8YO+2GaM=
+	t=1745694334; cv=none; b=d4P9SUG7Ro9PA3w77nK2t0R5DFgdrAF6BF8cXQgEBeZIBHEDaB0+jNxrBpwqCjMy6w6swly4A9el9O8lABjfW/hbU/Lf3yMJjRwND9Exq9XY8n4FwVdfghCB8QKXW+IK4MDmLhCnev05qOB8Tvt6fBytrlTZNOD8Q5/dS7MU6GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745693672; c=relaxed/simple;
-	bh=NEhAH6oIQNX33fLKiJP0JySq0BboMwHUOP1khrBoGDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JXcPQKMbzZVwx22xUdDscWEmf1LvSM0Ey7P3YRUtRM1mYYCErO+LbFDUXnUEfhCTnx0D6TsI+s/F72bCrRbVm0Aaf0GKBokgsyh9Z9vpVerKX7xEWVAAey8VJOsM0/JOHkJh0xXzMdpyInNZNmZJ0B1iFgekxP6rbze0lq4ZuC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Grv8umOw; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1745694334; c=relaxed/simple;
+	bh=HICEtZaAQRFHap7zIQoBmWTYfBPkkeBT85z5LMrKE8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=upvrD2XPvCgR/uywHZgFjKbdk5sjnl+T8w/lmbwuji+Hk59puowIWhO7tHw+ethHy0Xf/S9K1WdpChVMely90HLx4WX1QhjLCte11eNZbw0OwzofX5BPNbiFH7aaa7iVmUYjaerGaf3jCdlsGNU2UWNML64b8jS/08iuRVEayFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0tbGGV8; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Grv8umOw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0tbGGV8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745693671; x=1777229671;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NEhAH6oIQNX33fLKiJP0JySq0BboMwHUOP1khrBoGDA=;
-  b=Grv8umOwca8xgzbQ9FJLcGfqm4/TGHX83YQXQzsnzk8D5cV1YAFGf+We
-   UByQQI2fLWlSgrstVNc4GvHdL/mBImILhrKPMSaJvnq/hn4RRSI0QThce
-   RQBBlvmAqmC8qzqvqqQQwEh4Fjtckgl1VCzmgAJk92jgFEN4J1ibHrSh7
-   RP0VXyFOmCzgMBibPwwRncUiTnHUG6ucbW6Ahy0zvGiwEWwGDoMMPB6iA
-   RqzvYSzQC0HNrpMGEdq7UNCfoTqoPPIcnHGcdNJ3CiUbk2O782Dm/s6pi
-   cKlysmcBJJDAasvcg2lJ3c+JMYUp5gkrjCggen1YPqCwMRNT2mPrNEFzL
-   w==;
-X-CSE-ConnectionGUID: Qw6RGWfuQ6iwPVdNpMaeuA==
-X-CSE-MsgGUID: 7ypfByq7TiSA2XC+PmbQ0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="46562797"
+  t=1745694331; x=1777230331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HICEtZaAQRFHap7zIQoBmWTYfBPkkeBT85z5LMrKE8A=;
+  b=B0tbGGV8cSjoKmHteC5y/lA8WtDs5yNEdoirsuqCp9qHu6qUFLz7p2BL
+   KlwCJ2Jpo8E1SRQ1q9IDx5tOkmIeBgh3wIpLBsvlvSikO5n2IEGIGwls0
+   wVKOPNAHoHYdUHrCewUPuv2BIseiZclxOP2fn6bPfeLUnpJzz4FwbYZCV
+   oGT1VMjabILDu3j2dRx/ntaDyA2yx+r2rXPK+s91NVfN1r7hb+9HXNE+C
+   CP/p9SGETU28KwhDBN4U/sP7KYYX2Lxwd5vdSgP1EPyMH9ZsUULrmV1uy
+   fMMiowMy/W37NsTlFWjA7Du1DjGlQ66+MUb64GUTSSbxML572uaBFpsD4
+   Q==;
+X-CSE-ConnectionGUID: HGCTAqHaRMy4nb5KAMLRNA==
+X-CSE-MsgGUID: anwGSnQcR0W4f5gGduGDJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="51147087"
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="46562797"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 11:54:30 -0700
-X-CSE-ConnectionGUID: SIDxRh8qSxSwsCBjAX1zVA==
-X-CSE-MsgGUID: zRZsg5ydTxG4o0qsP9Vc+Q==
+   d="scan'208";a="51147087"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 12:05:30 -0700
+X-CSE-ConnectionGUID: MmtfxJ28TrKutqY06FgGBg==
+X-CSE-MsgGUID: M+VDgQ65QwKJF0RDln6ykQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="133661367"
+   d="scan'208";a="137216153"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2025 11:54:28 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Apr 2025 12:05:29 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8kfS-0005xH-0v;
-	Sat, 26 Apr 2025 18:54:26 +0000
-Date: Sun, 27 Apr 2025 02:54:04 +0800
+	id 1u8kq6-0005xN-2w;
+	Sat, 26 Apr 2025 19:05:26 +0000
+Date: Sun, 27 Apr 2025 03:05:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ovidiu Bunea <Ovidiu.Bunea@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-	Hamza Mahfooz <hamza.mahfooz@amd.com>, linux-doc@vger.kernel.org
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn35/dcn35_dccg.c:1416:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202504270214.c0aGJBHt-lkp@intel.com>
+To: Darshan Rathod <darshanrathod475@gmail.com>, abbotti@mev.co.uk0
+Cc: oe-kbuild-all@lists.linux.dev, hsweeten@visionengravers.com,
+	linux-kernel@vger.kernel.org,
+	Darshan Rathod <darshanrathod475@gmail.com>
+Subject: Re: [PATCH] Staging: comedi: das16: Fixed a stucture warning in code
+Message-ID: <202504270205.NwA93W44-lkp@intel.com>
+References: <20250426113627.36525-1-darshanrathod475@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,107 +64,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250426113627.36525-1-darshanrathod475@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: a3e6079bd93d5c66a43bf6a5f90e5b98465dc7b3 drm/amd/display: Remove PIPE_DTO_SRC_SEL programming from set_dtbclk_dto
-date:   5 months ago
-config: i386-buildonly-randconfig-002-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270214.c0aGJBHt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270214.c0aGJBHt-lkp@intel.com/reproduce)
+Hi Darshan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Darshan-Rathod/Staging-comedi-das16-Fixed-a-stucture-warning-in-code/20250426-193741
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250426113627.36525-1-darshanrathod475%40gmail.com
+patch subject: [PATCH] Staging: comedi: das16: Fixed a stucture warning in code
+config: powerpc-randconfig-003-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270205.NwA93W44-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270205.NwA93W44-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504270214.c0aGJBHt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270205.NwA93W44-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn35/dcn35_dccg.c:1416: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-                    * PIPEx_DTO_SRC_SEL should not be programmed during DTBCLK update since OTG may still be on, and the
+   drivers/comedi/drivers/das16.c: In function 'das16_ai_range':
+>> drivers/comedi/drivers/das16.c:969:18: error: assignment of member 'length' in read-only object
+      lrange->length = 1;
+                     ^
+>> drivers/comedi/drivers/das16.c:971:15: error: assignment of member 'min' in read-only object
+      krange->min = min;
+                  ^
+>> drivers/comedi/drivers/das16.c:972:15: error: assignment of member 'max' in read-only object
+      krange->max = max;
+                  ^
+>> drivers/comedi/drivers/das16.c:973:17: error: assignment of member 'flags' in read-only object
+      krange->flags = UNIT_volt;
+                    ^
+   drivers/comedi/drivers/das16.c: In function 'das16_ao_range':
+   drivers/comedi/drivers/das16.c:1003:18: error: assignment of member 'length' in read-only object
+      lrange->length = 1;
+                     ^
+   drivers/comedi/drivers/das16.c:1005:15: error: assignment of member 'min' in read-only object
+      krange->min = min;
+                  ^
+   drivers/comedi/drivers/das16.c:1006:15: error: assignment of member 'max' in read-only object
+      krange->max = max;
+                  ^
+   drivers/comedi/drivers/das16.c:1007:17: error: assignment of member 'flags' in read-only object
+      krange->flags = UNIT_volt;
+                    ^
 
 
-vim +1416 drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn35/dcn35_dccg.c
+vim +/length +969 drivers/comedi/drivers/das16.c
 
-  1348	
-  1349	/* Controls the generation of pixel valid for OTG in (OTG -> HPO case) */
-  1350	static void dccg35_set_dtbclk_dto(
-  1351			struct dccg *dccg,
-  1352			const struct dtbclk_dto_params *params)
-  1353	{
-  1354		struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
-  1355		/* DTO Output Rate / Pixel Rate = 1/4 */
-  1356		int req_dtbclk_khz = params->pixclk_khz / 4;
-  1357	
-  1358		if (params->ref_dtbclk_khz && req_dtbclk_khz) {
-  1359			uint32_t modulo, phase;
-  1360	
-  1361			switch (params->otg_inst) {
-  1362			case 0:
-  1363				REG_UPDATE(DCCG_GATE_DISABLE_CNTL5, DTBCLK_P0_GATE_DISABLE, 1);
-  1364				break;
-  1365			case 1:
-  1366				REG_UPDATE(DCCG_GATE_DISABLE_CNTL5, DTBCLK_P1_GATE_DISABLE, 1);
-  1367				break;
-  1368			case 2:
-  1369				REG_UPDATE(DCCG_GATE_DISABLE_CNTL5, DTBCLK_P2_GATE_DISABLE, 1);
-  1370				break;
-  1371			case 3:
-  1372				REG_UPDATE(DCCG_GATE_DISABLE_CNTL5, DTBCLK_P3_GATE_DISABLE, 1);
-  1373				break;
-  1374			}
-  1375	
-  1376			// phase / modulo = dtbclk / dtbclk ref
-  1377			modulo = params->ref_dtbclk_khz * 1000;
-  1378			phase = req_dtbclk_khz * 1000;
-  1379	
-  1380			REG_WRITE(DTBCLK_DTO_MODULO[params->otg_inst], modulo);
-  1381			REG_WRITE(DTBCLK_DTO_PHASE[params->otg_inst], phase);
-  1382	
-  1383			REG_UPDATE(OTG_PIXEL_RATE_CNTL[params->otg_inst],
-  1384					DTBCLK_DTO_ENABLE[params->otg_inst], 1);
-  1385	
-  1386			REG_WAIT(OTG_PIXEL_RATE_CNTL[params->otg_inst],
-  1387					DTBCLKDTO_ENABLE_STATUS[params->otg_inst], 1,
-  1388					1, 100);
-  1389	
-  1390			/* program OTG_PIXEL_RATE_DIV for DIVK1 and DIVK2 fields */
-  1391			dccg35_set_pixel_rate_div(dccg, params->otg_inst, PIXEL_RATE_DIV_BY_1, PIXEL_RATE_DIV_BY_1);
-  1392	
-  1393			/* The recommended programming sequence to enable DTBCLK DTO to generate
-  1394			 * valid pixel HPO DPSTREAM ENCODER, specifies that DTO source select should
-  1395			 * be set only after DTO is enabled.
-  1396			 * PIPEx_DTO_SRC_SEL should not be programmed during DTBCLK update since OTG may still be on, and the
-  1397			 * programming is handled in program_pix_clk() regardless, so it can be removed from here.
-  1398			 */
-  1399		} else {
-  1400			switch (params->otg_inst) {
-  1401			case 0:
-  1402				REG_UPDATE(DCCG_GATE_DISABLE_CNTL5, DTBCLK_P0_GATE_DISABLE, 0);
-  1403				break;
-  1404			case 1:
-  1405				REG_UPDATE(DCCG_GATE_DISABLE_CNTL5, DTBCLK_P1_GATE_DISABLE, 0);
-  1406				break;
-  1407			case 2:
-  1408				REG_UPDATE(DCCG_GATE_DISABLE_CNTL5, DTBCLK_P2_GATE_DISABLE, 0);
-  1409				break;
-  1410			case 3:
-  1411				REG_UPDATE(DCCG_GATE_DISABLE_CNTL5, DTBCLK_P3_GATE_DISABLE, 0);
-  1412				break;
-  1413			}
-  1414	
-  1415			/**
-> 1416			 * PIPEx_DTO_SRC_SEL should not be programmed during DTBCLK update since OTG may still be on, and the
-  1417			 * programming is handled in program_pix_clk() regardless, so it can be removed from here.
-  1418			 */
-  1419			REG_UPDATE(OTG_PIXEL_RATE_CNTL[params->otg_inst],
-  1420					DTBCLK_DTO_ENABLE[params->otg_inst], 0);
-  1421	
-  1422			REG_WRITE(DTBCLK_DTO_MODULO[params->otg_inst], 0);
-  1423			REG_WRITE(DTBCLK_DTO_PHASE[params->otg_inst], 0);
-  1424		}
-  1425	}
-  1426	
+742c4a095973f6 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-12  947  
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  948  static const struct comedi_lrange *das16_ai_range(struct comedi_device *dev,
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  949  						  struct comedi_subdevice *s,
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  950  						  struct comedi_devconfig *it,
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  951  						  unsigned int pg_type,
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  952  						  unsigned int status)
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  953  {
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  954  	unsigned int min = it->options[4];
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  955  	unsigned int max = it->options[5];
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  956  
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  957  	/* get any user-defined input range */
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  958  	if (pg_type == das16_pg_none && (min || max)) {
+5c47473ec0f437 drivers/comedi/drivers/das16.c         Darshan Rathod      2025-04-26  959  		const struct comedi_lrange *lrange;
+5c47473ec0f437 drivers/comedi/drivers/das16.c         Darshan Rathod      2025-04-26  960  		const struct comedi_krange *krange;
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  961  
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  962  		/* allocate single-range range table */
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  963  		lrange = comedi_alloc_spriv(s,
+ee8ed0141d532d drivers/comedi/drivers/das16.c         Gustavo A. R. Silva 2022-01-25  964  					    struct_size(lrange, range, 1));
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  965  		if (!lrange)
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  966  			return &range_unknown;
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  967  
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  968  		/* initialize ai range */
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26 @969  		lrange->length = 1;
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  970  		krange = lrange->range;
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26 @971  		krange->min = min;
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26 @972  		krange->max = max;
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26 @973  		krange->flags = UNIT_volt;
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  974  
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  975  		return lrange;
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  976  	}
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  977  
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  978  	/* use software programmable range */
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  979  	if (status & DAS16_STATUS_UNIPOLAR)
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  980  		return das16_ai_uni_lranges[pg_type];
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  981  	return das16_ai_bip_lranges[pg_type];
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  982  }
+0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  983  
 
 -- 
 0-DAY CI Kernel Test Service
