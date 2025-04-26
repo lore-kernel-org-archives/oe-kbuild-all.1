@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09A122D7B7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 12:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E06F2AEE2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 13:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745670066; cv=none; b=KjUIr7zlh0pfmI3+Yrus59AO1SYOJtiV0dq4PPXmGC6rWpij48VbIde4fQkT7i4VnyWmUMiudn28Z5TVIHeP7OBw+cWnE2K/dXG7PgCv6xd5c08IOZmcH8CCPZAKxRWlcFFot+SMJ5QRBjWGXhMxu7EKp/GGOl193Riae0KY/2M=
+	t=1745674390; cv=none; b=AoETl0RXTPf66IDg7Jn4DuHdyFQNg1mxoXZMKqeFOWZgZjkpRyuH9Z8yyxa4lWALq0JgZlHJfnuGexapS03BUX6PGU6TIK47RDSqIKJaKZvehNM/sN+bWlZjH+f0tkqIcmDDrrix2wpbaQ6IRHMI9hIt4PPK2n9q22B6I/X4dPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745670066; c=relaxed/simple;
-	bh=9B36O3TVmdU2j+6b4aV49wQf8xcZzj1Fs7I7g7pbQx0=;
+	s=arc-20240116; t=1745674390; c=relaxed/simple;
+	bh=0qGhH3+U1SPTs017FsmMyMhnlJ+pkiy8FKu/cYJDvks=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mrnBYaPT5aqZgx8v6B8+tk/Dhp/HlHgheIpN4FnFJ6iqDYf6PWez5pARMESc9ngzfIcGWA87aEOlntzlIoHOno9JShgBZOVRS0Aa7lg5UWwI8wUy+bR+dI9Kh6ZGZSN1vrYEfCy2KK3Ljby10SxfdmkbfKJOMpfC/Zv/j84KPIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=imfDSZhF; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=D2vQHg3g07pl8fIXgr1eELwhZ/RY0pkDSe5AmzsWNC/HklHTJY+APltwPGtFKIKzzIqrWQLrblNqD0mOy3kPeOS7jqhCB2LItBL/kHBsBvB7Zzg4EmFxvYBeDtZikpEKl5rDI8lxeZxP6H7c9VHAC4hy+xIpd5boBko4DVkejVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j+scJeLg; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imfDSZhF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+scJeLg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745670065; x=1777206065;
+  t=1745674388; x=1777210388;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9B36O3TVmdU2j+6b4aV49wQf8xcZzj1Fs7I7g7pbQx0=;
-  b=imfDSZhFbRxZLdQJpAK+rJDxw8AvHbgYk/tLTEgPpXo4OCkyV/STEoQi
-   vo4Vfe8o6/L4kIpevLEbqgTTe0VzEAy1ZAHWTq5nU7vRWHzqOsNMATJK0
-   X6TXI121M0qzMFJs0TFQOv2Fuq1NjnvBCLqLnpw9N9HGr5vqpswamEoYx
-   HATnddtFyQMiaDExy1nzyIbcdfZy3jNT9MBJ1uQGGGY/Qiju3mlhIUdQh
-   F+7qXhy6+UN6CuMbx3+jAskNBt81pL0BZuCn6lwevH7yhHIcmoni4cvoI
-   Vog2Av86mEpZEaD1ZIw0m+s3i20//ACoHHeQ99GdY82WHZ4DvfclD2m3G
-   Q==;
-X-CSE-ConnectionGUID: w6hyG5mpQSGsy42+SCaBuQ==
-X-CSE-MsgGUID: 8h/iHua6Rm+/sV7mbC2EFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="57963016"
+  bh=0qGhH3+U1SPTs017FsmMyMhnlJ+pkiy8FKu/cYJDvks=;
+  b=j+scJeLg3fc0fzWsPrOmJPA7dV4KlGekBWt2tpiwVj1j7Hn4i4i3k8Pk
+   otqLRrgeYeRJ/D6jKdW5l0jRaDKwvxoyjkJORaPsTXJdWp+Yc6bS6Tn49
+   dOw3JCZIKiF6duM4a+VLK/7IH1/gWRIDlkP2SnSghYs5IVk51IiXNKHZ0
+   czJLMmB4IiIBwjZpN9s10wbmV+vpvenSuMR5QS2Ga6gL+7iAVeeEiZfiX
+   U4I0mPVUm7uXCWId7w3VU8pUI6rfTw9T9v602dX6yFCJmrt7+xuBxYgVj
+   iZO8ckIVrXxiyu6pKcQoPIVPnV6aXZO65lKKfSpxTn3nzSGY/y5aGPnKw
+   w==;
+X-CSE-ConnectionGUID: tOuU+xxaTWG2ZHNJPdoONQ==
+X-CSE-MsgGUID: 1rbRmLaPQIWaMsRXQ64z+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="47481545"
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="57963016"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 05:21:02 -0700
-X-CSE-ConnectionGUID: iS2RKCw5SIiaFGyDyD6oXQ==
-X-CSE-MsgGUID: DgBZyib7QYe3MbEeDrrp8w==
+   d="scan'208";a="47481545"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 06:33:07 -0700
+X-CSE-ConnectionGUID: KUSVCJB3SRi3R1kehzEFJg==
+X-CSE-MsgGUID: bDjypwCPQeygCEYnaFa55A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="137170500"
+   d="scan'208";a="133038441"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Apr 2025 05:21:00 -0700
+  by orviesa006.jf.intel.com with ESMTP; 26 Apr 2025 06:33:06 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8eWg-0005ou-0P;
-	Sat, 26 Apr 2025 12:20:58 +0000
-Date: Sat, 26 Apr 2025 20:20:10 +0800
+	id 1u8feR-0005px-1V;
+	Sat, 26 Apr 2025 13:33:03 +0000
+Date: Sat, 26 Apr 2025 21:32:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: drivers/pci/controller/dwc/pcie-qcom.c:247: warning: Function
- parameter or struct member 'no_l0s' not described in 'qcom_pcie_cfg'
-Message-ID: <202504262001.OoBjFg5j-lkp@intel.com>
+	Mark Brown <broonie@kernel.org>
+Subject: sound/soc/qcom/sdw.c:93: warning: cannot understand function
+ prototype: 'ret = sdw_enable_stream(sruntime); '
+Message-ID: <202504262154.sBmNTrcB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,43 +65,88 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: 1d648bf79d4dca909f242b1a0cdc458e4f9d0253 PCI: qcom: Override NO_SNOOP attribute for SA8775P RC
-date:   10 months ago
-config: sh-randconfig-002-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262001.OoBjFg5j-lkp@intel.com/config)
+commit: db7e59e6a39a4d3d54ca8197c796557e6d480b0d ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
+date:   6 months ago
+config: sh-randconfig-002-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262154.sBmNTrcB-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262001.OoBjFg5j-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262154.sBmNTrcB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504262001.OoBjFg5j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504262154.sBmNTrcB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-qcom.c:247: warning: Function parameter or struct member 'no_l0s' not described in 'qcom_pcie_cfg'
+>> sound/soc/qcom/sdw.c:93: warning: cannot understand function prototype: 'ret = sdw_enable_stream(sruntime); '
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +247 drivers/pci/controller/dwc/pcie-qcom.c
+vim +93 sound/soc/qcom/sdw.c
 
-82a823833f4e37 drivers/pci/host/pcie-qcom.c           Stanimir Varbanov 2015-12-18  236  
-1d648bf79d4dca drivers/pci/controller/dwc/pcie-qcom.c Mrinmay Sarkar    2024-03-11  237   /**
-1d648bf79d4dca drivers/pci/controller/dwc/pcie-qcom.c Mrinmay Sarkar    2024-03-11  238    * struct qcom_pcie_cfg - Per SoC config struct
-1d648bf79d4dca drivers/pci/controller/dwc/pcie-qcom.c Mrinmay Sarkar    2024-03-11  239    * @ops: qcom PCIe ops structure
-1d648bf79d4dca drivers/pci/controller/dwc/pcie-qcom.c Mrinmay Sarkar    2024-03-11  240    * @override_no_snoop: Override NO_SNOOP attribute in TLP to enable cache
-1d648bf79d4dca drivers/pci/controller/dwc/pcie-qcom.c Mrinmay Sarkar    2024-03-11  241    * snooping
-1d648bf79d4dca drivers/pci/controller/dwc/pcie-qcom.c Mrinmay Sarkar    2024-03-11  242    */
-b89ff410253d74 drivers/pci/controller/dwc/pcie-qcom.c Prasad Malisetty  2021-10-07  243  struct qcom_pcie_cfg {
-b89ff410253d74 drivers/pci/controller/dwc/pcie-qcom.c Prasad Malisetty  2021-10-07  244  	const struct qcom_pcie_ops *ops;
-1d648bf79d4dca drivers/pci/controller/dwc/pcie-qcom.c Mrinmay Sarkar    2024-03-11  245  	bool override_no_snoop;
-d1997c98781459 drivers/pci/controller/dwc/pcie-qcom.c Johan Hovold      2024-03-06  246  	bool no_l0s;
-b89ff410253d74 drivers/pci/controller/dwc/pcie-qcom.c Prasad Malisetty  2021-10-07 @247  };
-b89ff410253d74 drivers/pci/controller/dwc/pcie-qcom.c Prasad Malisetty  2021-10-07  248  
+d32bac9cb09cce Krzysztof Kozlowski 2023-11-28   52  
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   53  int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   54  			 struct sdw_stream_runtime *sruntime,
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   55  			 bool *stream_prepared)
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   56  {
+77678a25d1ecf7 Krzysztof Kozlowski 2024-04-30   57  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+9b1a2dfa8a00ff Kuninori Morimoto   2023-09-11   58  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   59  	int ret;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   60  
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   61  	if (!sruntime)
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   62  		return 0;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   63  
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   64  	switch (cpu_dai->id) {
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   65  	case WSA_CODEC_DMA_RX_0:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   66  	case WSA_CODEC_DMA_RX_1:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   67  	case RX_CODEC_DMA_RX_0:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   68  	case RX_CODEC_DMA_RX_1:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   69  	case TX_CODEC_DMA_TX_0:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   70  	case TX_CODEC_DMA_TX_1:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   71  	case TX_CODEC_DMA_TX_2:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   72  	case TX_CODEC_DMA_TX_3:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   73  		break;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   74  	default:
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   75  		return 0;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   76  	}
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   77  
+e2e53088635924 Srinivas Kandagatla 2023-03-23   78  	if (*stream_prepared)
+e2e53088635924 Srinivas Kandagatla 2023-03-23   79  		return 0;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   80  
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   81  	ret = sdw_prepare_stream(sruntime);
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   82  	if (ret)
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   83  		return ret;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   84  
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   85  	/**
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   86  	 * NOTE: there is a strict hw requirement about the ordering of port
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   87  	 * enables and actual WSA881x PA enable. PA enable should only happen
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   88  	 * after soundwire ports are enabled if not DC on the line is
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   89  	 * accumulated resulting in Click/Pop Noise
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   90  	 * PA enable/mute are handled as part of codec DAPM and digital mute.
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   91  	 */
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   92  
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31  @93  	ret = sdw_enable_stream(sruntime);
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   94  	if (ret) {
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   95  		sdw_deprepare_stream(sruntime);
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   96  		return ret;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   97  	}
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   98  	*stream_prepared  = true;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31   99  
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31  100  	return ret;
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31  101  }
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31  102  EXPORT_SYMBOL_GPL(qcom_snd_sdw_prepare);
+0cbf1ecd8c4801 Stephan Gerhold     2022-12-31  103  
 
-:::::: The code at line 247 was first introduced by commit
-:::::: b89ff410253d7468f84720d2d5c2bb0bafedf3bd PCI: qcom: Replace ops with struct pcie_cfg in pcie match data
+:::::: The code at line 93 was first introduced by commit
+:::::: 0cbf1ecd8c4801ec7566231491f7ad9cec31098b ASoC: qcom: Fix building APQ8016 machine driver without SOUNDWIRE
 
-:::::: TO: Prasad Malisetty <pmaliset@codeaurora.org>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+:::::: TO: Stephan Gerhold <stephan@gerhold.net>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
