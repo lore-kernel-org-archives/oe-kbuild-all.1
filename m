@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716E21991CF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 14:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1BB25C81A;
+	Sat, 26 Apr 2025 15:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745678776; cv=none; b=QtK/iwekKQqpnrrXIs4ICCN9gkxA1npcZhUwZTI2pGbXpUKVHbfjH/fo1ps2u3SIcS86jbUBynmER+UH5RY6G6InSS5Sl5e0TLhQXBxTVz7Sr+lw5CxxVfBJPVa6978Ab5oIGOig+409g3MbeM2o/F33AvgnX/Pd7FpYDKAqBNk=
+	t=1745680038; cv=none; b=hwP3BPtKMNoIREJdmReUfj1/FI4ZCD+nNydoVdQHcfK8m4A2B/omlrxRAvNEQEI0wHKElnxPZEuPvWXQBxns6zUw0CT4d5yh5fbFVGWdMpjtCKgSJXdsq+UvuO66rJvaJVUjM77N7Tl7dAGIVuogUxqJBjEWF2GQidrLFE1w2vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745678776; c=relaxed/simple;
-	bh=u0XFOZCbUxLTirzcU7SQgvvFhR5eGp7vYanqCWvs+nE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y1QPMYdGQtgmG6jjd6F6mF43n7noCKktnzd1HP4jg/gkh73L/raO+pBvxqN2ie4rBR83Mk24DRGKBG3NKKx0WD7QJhi0mcpl4aeqKUCuj99A7MB6/9kiK/4Y3e9NvKLFhHPT77Xcsdcs/YfdUsLiZbh5QhRvX0NDJqBJeTePbo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lA5S4WX6; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1745680038; c=relaxed/simple;
+	bh=PEQwD/lQ5ZSizz+elzJnGm+DT2hvILIDJK0qmqPIWXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NPf3iFH2XSwaoM5jjHY4AVAQjX1bZvi/rhpJXOR1zzdibBCrolAdf8U/uyaKqjqzstmXCmlijwxtGWwH5fuyteSRtcojAox6G4YLWL50DyGfjPKSruULHjB11zh07SZjvLDd3OrOPVcdYQ3yyO4fbZ3041TwDxIhtMRTth0hfus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WIMuig6N; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lA5S4WX6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WIMuig6N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745678775; x=1777214775;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u0XFOZCbUxLTirzcU7SQgvvFhR5eGp7vYanqCWvs+nE=;
-  b=lA5S4WX6dJHBV5ueAr/12OWJM3VyMFxYmaAdPPdmn0TmwgxuptSmkn3a
-   b4vRgL4vdw1rdfEogLZ+bRDTG77nTz7+Ickq+WZM/z0iGQFOSVrJQZbtM
-   MSvlLdZRoMlanTNsQImdZySBBe+fxn8QIrt1LOfLMXedOQp4U0lMudLJd
-   JZSxrSAl6D51my+M9FRXJMYbsShjHfXjX0+QMpRb1UzNU+U2BtoppQQJZ
-   oOfIcF4JQhV+SUofovTmN9ohhqebk23BAG9aQSCiokQYi1TwKWhNJ0UNU
-   Va1DcSulwzYPHYFzXlVvbk4EQy29nqpzbiBvLM16KjZWKLUSsC6XpIKz7
+  t=1745680035; x=1777216035;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PEQwD/lQ5ZSizz+elzJnGm+DT2hvILIDJK0qmqPIWXI=;
+  b=WIMuig6NrKRh0+dFb+KZZHiFaleAl9wVlLAyknc9pYdgr3ToHR8oCqRw
+   OlObapDfrBYNNj93gRgjzql/pyQDqv5eKcH5r2e7dE/IC/94wiCoLDRTd
+   LFN3ObhRSy6tzy1LT9Ea0dtjldctQ5wOyuJLBiKXmKHcbXlUc4xq4MY+q
+   aGrbw3RftRZrBBBeojifqjUns3YyAA334XGP6Yxn5lDUkEM1c7d+zj7xt
+   UZ5L6l+uqlkeTXw+jyec6XYgRUKM6elaya7nmy0zHYPIf0WxhJnv9WyLs
+   UUGLA4DmqlAS1SYYzWgklvnZUa1+N3eDEzVDxxwG+Lorj7i7GHSSkE9du
    Q==;
-X-CSE-ConnectionGUID: 1Ir52MnZSqm4QJzs1mUtBQ==
-X-CSE-MsgGUID: 7FTaBaw2SFW1Ok3IBxfTmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="47484014"
+X-CSE-ConnectionGUID: Wk6x4mhXREWyaRYnbu+WzQ==
+X-CSE-MsgGUID: wCfwGRbAQ7+WHhxPr1/Qjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="47029504"
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="47484014"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 07:46:13 -0700
-X-CSE-ConnectionGUID: biQ15ZZpRM2+1uiOdM08FQ==
-X-CSE-MsgGUID: 7YM1dqMrSuGytIYV+a9d8w==
+   d="scan'208";a="47029504"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 08:07:14 -0700
+X-CSE-ConnectionGUID: FBOfz7P1T9i/0NA3tSAZAQ==
+X-CSE-MsgGUID: 7Y1EePHHQq+a1QOPPdcWPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="156365063"
+   d="scan'208";a="138116515"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Apr 2025 07:46:11 -0700
+  by orviesa004.jf.intel.com with ESMTP; 26 Apr 2025 08:07:12 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8gnA-0005rp-2i;
-	Sat, 26 Apr 2025 14:46:08 +0000
-Date: Sat, 26 Apr 2025 22:45:58 +0800
+	id 1u8h7W-0005sJ-15;
+	Sat, 26 Apr 2025 15:07:10 +0000
+Date: Sat, 26 Apr 2025 23:06:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eduard Zingerman <eddyz87@gmail.com>, bpf@vger.kernel.org,
-	ast@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, daniel@iogearbox.net,
-	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev,
-	Eduard Zingerman <eddyz87@gmail.com>
-Subject: Re: [PATCH bpf-next v1 3/4] bpf: use SCC info instead of loop_entry
-Message-ID: <202504262235.h5B7vJiB-lkp@intel.com>
-References: <20250426104634.744077-4-eddyz87@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kuogee Hsieh <quic_khsieh@quicinc.com>
+Subject: drivers/gpu/drm/msm/dp/dp_link.c:1144: warning: Function parameter
+ or struct member 'DP_TRAIN_LEVEL_MAX' not described in 'if'
+Message-ID: <202504262322.aKhjr99H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,148 +63,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250426104634.744077-4-eddyz87@gmail.com>
 
-Hi Eduard,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-compute-SCCs-in-program-control-flow-graph/20250426-184824
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250426104634.744077-4-eddyz87%40gmail.com
-patch subject: [PATCH bpf-next v1 3/4] bpf: use SCC info instead of loop_entry
-config: riscv-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262235.h5B7vJiB-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262235.h5B7vJiB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02ddfb981de88a2c15621115dd7be2431252c568
+commit: 22578178e5dd6d3aa4490879df8b6c2977d980be drm/msm/dp: allow voltage swing / pre emphasis of 3
+date:   1 year, 1 month ago
+config: arm64-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262322.aKhjr99H-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262322.aKhjr99H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504262235.h5B7vJiB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504262322.aKhjr99H-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/verifier.c: In function 'mark_all_regs_read_and_precise':
->> kernel/bpf/verifier.c:18238:13: warning: variable 'insn_idx' set but not used [-Wunused-but-set-variable]
-   18238 |         u32 insn_idx;
-         |             ^~~~~~~~
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
+   drivers/gpu/drm/msm/dp/dp_link.c:641: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * Read the device service IRQ vector (Byte 0x201) to determine
+   drivers/gpu/drm/msm/dp/dp_link.c:659: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * Read the link request byte (Byte 0x218) to determine what type
+   drivers/gpu/drm/msm/dp/dp_link.c:852: warning: Function parameter or struct member 'link->drm_dev' not described in 'drm_dbg_dp'
+   drivers/gpu/drm/msm/dp/dp_link.c:852: warning: Function parameter or struct member '0x%x' not described in 'drm_dbg_dp'
+   drivers/gpu/drm/msm/dp/dp_link.c:852: warning: Function parameter or struct member '0x%x\n"' not described in 'drm_dbg_dp'
+   drivers/gpu/drm/msm/dp/dp_link.c:852: warning: expecting prototype for Update the voltage and pre(). Prototype was for drm_dbg_dp() instead
+>> drivers/gpu/drm/msm/dp/dp_link.c:1144: warning: Function parameter or struct member 'DP_TRAIN_LEVEL_MAX' not described in 'if'
+   drivers/gpu/drm/msm/dp/dp_link.c:1144: warning: expecting prototype for Adjust the voltage swing and pre(). Prototype was for if() instead
 
 
-vim +/insn_idx +18238 kernel/bpf/verifier.c
+vim +1144 drivers/gpu/drm/msm/dp/dp_link.c
 
- 18154	
- 18155	/* Open coded iterators introduce loops in the verifier state graph.
- 18156	 * State graph loops can result in incomplete read and precision marks
- 18157	 * on individual states. E.g. consider the following states graph:
- 18158	 *
- 18159	 *  .-> A --.  Assume the states are visited in the order A, B, C.
- 18160	 *  |   |   |  Assume that state B reaches a state equivalent to state A.
- 18161	 *  |   v   v  At this point, state C has not been processed yet,
- 18162	 *  '-- B   C  so state A does not have any read or precision marks from C yet.
- 18163	 *             As a result, these marks won't be propagated to B.
- 18164	 *
- 18165	 * If the marks on B are incomplete, it would be unsafe to use it in
- 18166	 * states_equal() checks.
- 18167	 *
- 18168	 * To avoid this safety issue, and since states with incomplete read
- 18169	 * marks can only occur within control flow graph loops, the verifier
- 18170	 * assumes that any state with bpf_verifier_state->insn_idx residing
- 18171	 * in a strongly connected component (SCC) has read and precision
- 18172	 * marks for all registers. This assumption is enforced by the
- 18173	 * function mark_all_regs_read_and_precise(), which assigns
- 18174	 * corresponding marks.
- 18175	 *
- 18176	 * An intuitive point to call mark_all_regs_read_and_precise() would
- 18177	 * be when a new state is created in is_state_visited().
- 18178	 * However, doing so would interfere with widen_imprecise_scalars(),
- 18179	 * which widens scalars in the current state after checking registers in a
- 18180	 * parent state. Registers are not widened if they are marked as precise
- 18181	 * in the parent state.
- 18182	 *
- 18183	 * To avoid interfering with widening logic,
- 18184	 * a call to mark_all_regs_read_and_precise() for state is postponed
- 18185	 * until no widening is possible in any descendant of state S.
- 18186	 *
- 18187	 * Another intuitive spot to call mark_all_regs_read_and_precise()
- 18188	 * would be in update_branch_counts() when S's branches counter
- 18189	 * reaches 0. However, this falls short in the following case:
- 18190	 *
- 18191	 *	sum = 0
- 18192	 *	bpf_repeat(10) {                              // a
- 18193	 *		if (unlikely(bpf_get_prandom_u32()))  // b
- 18194	 *			sum += 1;
- 18195	 *		if (bpf_get_prandom_u32())            // c
- 18196	 *			asm volatile ("");
- 18197	 *		asm volatile ("goto +0;");            // d
- 18198	 *	}
- 18199	 *
- 18200	 * Here a checkpoint is created at (d) with {sum=0} and the branch counter
- 18201	 * for (d) reaches 0, so 'sum' would be marked precise.
- 18202	 * When second branch of (c) reaches (d), checkpoint would be hit,
- 18203	 * and the precision mark for 'sum' propagated to (a).
- 18204	 * When the second branch of (b) reaches (a), the state would be {sum=1},
- 18205	 * no widening would occur, causing verification to continue forever.
- 18206	 *
- 18207	 * To avoid such premature precision markings, the verifier postpones
- 18208	 * the call to mark_all_regs_read_and_precise() for state S even further.
- 18209	 * Suppose state P is a [grand]parent of state S and is the first state
- 18210	 * in the current state chain with state->insn_idx within current SCC.
- 18211	 * mark_all_regs_read_and_precise() for state S is only called once P
- 18212	 * is fully explored.
- 18213	 *
- 18214	 * The struct 'bpf_scc_info' is used to track this condition:
- 18215	 * - bpf_scc_info->branches counts how many states currently
- 18216	 *   in env->cur_state or env->head originate from this SCC;
- 18217	 * - bpf_scc_info->scc_epoch counts how many times 'branches'
- 18218	 *   has reached zero;
- 18219	 * - bpf_verifier_state->scc_epoch records the epoch of the SCC
- 18220	 *   corresponding to bpf_verifier_state->insn_idx at the moment
- 18221	 *   of state creation.
- 18222	 *
- 18223	 * Functions parent_scc_enter() and parent_scc_exit() maintain the
- 18224	 * bpf_scc_info->{branches,scc_epoch} counters.
- 18225	 *
- 18226	 * bpf_scc_info->branches reaching zero indicates that state P is
- 18227	 * fully explored. Its descendants residing in the same SCC have
- 18228	 * state->scc_epoch == scc_info->scc_epoch. parent_scc_exit()
- 18229	 * increments scc_info->scc_epoch, allowing clean_live_states() to
- 18230	 * detect these states and apply mark_all_regs_read_and_precise().
- 18231	 */
- 18232	static void mark_all_regs_read_and_precise(struct bpf_verifier_env *env,
- 18233						   struct bpf_verifier_state *st)
- 18234	{
- 18235		struct bpf_func_state *func;
- 18236		struct bpf_reg_state *reg;
- 18237		u16 live_regs;
- 18238		u32 insn_idx;
- 18239		int i, j;
- 18240	
- 18241		for (i = 0; i <= st->curframe; i++) {
- 18242			insn_idx = frame_insn_idx(st, i);
- 18243			live_regs = env->insn_aux_data[st->insn_idx].live_regs_before;
- 18244			func = st->frame[i];
- 18245			for (j = 0; j < BPF_REG_FP; j++) {
- 18246				reg = &func->regs[j];
- 18247				if (!(BIT(j) & live_regs) || reg->type == NOT_INIT)
- 18248					continue;
- 18249				reg->live |= REG_LIVE_READ64;
- 18250				if (reg->type == SCALAR_VALUE && !is_reg_unbounded(reg))
- 18251					reg->precise = true;
- 18252			}
- 18253			for (j = 0; j < func->allocated_stack / BPF_REG_SIZE; j++) {
- 18254				reg = &func->stack[j].spilled_ptr;
- 18255				reg->live |= REG_LIVE_READ64;
- 18256				if (is_spilled_reg(&func->stack[j]) &&
- 18257				    reg->type == SCALAR_VALUE && !is_reg_unbounded(reg))
- 18258					reg->precise = true;
- 18259			}
- 18260		}
- 18261	}
- 18262	
+  1108	
+  1109	int dp_link_adjust_levels(struct dp_link *dp_link, u8 *link_status)
+  1110	{
+  1111		int i;
+  1112		u8 max_p_level;
+  1113		int v_max = 0, p_max = 0;
+  1114		struct dp_link_private *link;
+  1115	
+  1116		if (!dp_link) {
+  1117			DRM_ERROR("invalid input\n");
+  1118			return -EINVAL;
+  1119		}
+  1120	
+  1121		link = container_of(dp_link, struct dp_link_private, dp_link);
+  1122	
+  1123		/* use the max level across lanes */
+  1124		for (i = 0; i < dp_link->link_params.num_lanes; i++) {
+  1125			u8 data_v = drm_dp_get_adjust_request_voltage(link_status, i);
+  1126			u8 data_p = drm_dp_get_adjust_request_pre_emphasis(link_status,
+  1127										 i);
+  1128			drm_dbg_dp(link->drm_dev,
+  1129					"lane=%d req_vol_swing=%d req_pre_emphasis=%d\n",
+  1130					i, data_v, data_p);
+  1131			if (v_max < data_v)
+  1132				v_max = data_v;
+  1133			if (p_max < data_p)
+  1134				p_max = data_p;
+  1135		}
+  1136	
+  1137		dp_link->phy_params.v_level = v_max >> DP_TRAIN_VOLTAGE_SWING_SHIFT;
+  1138		dp_link->phy_params.p_level = p_max >> DP_TRAIN_PRE_EMPHASIS_SHIFT;
+  1139	
+  1140		/**
+  1141		 * Adjust the voltage swing and pre-emphasis level combination to within
+  1142		 * the allowable range.
+  1143		 */
+> 1144		if (dp_link->phy_params.v_level > DP_TRAIN_LEVEL_MAX) {
+  1145			drm_dbg_dp(link->drm_dev,
+  1146				"Requested vSwingLevel=%d, change to %d\n",
+  1147				dp_link->phy_params.v_level,
+  1148				DP_TRAIN_LEVEL_MAX);
+  1149			dp_link->phy_params.v_level = DP_TRAIN_LEVEL_MAX;
+  1150		}
+  1151	
+  1152		if (dp_link->phy_params.p_level > DP_TRAIN_LEVEL_MAX) {
+  1153			drm_dbg_dp(link->drm_dev,
+  1154				"Requested preEmphasisLevel=%d, change to %d\n",
+  1155				dp_link->phy_params.p_level,
+  1156				DP_TRAIN_LEVEL_MAX);
+  1157			dp_link->phy_params.p_level = DP_TRAIN_LEVEL_MAX;
+  1158		}
+  1159	
+  1160		max_p_level = DP_TRAIN_LEVEL_MAX - dp_link->phy_params.v_level;
+  1161		if (dp_link->phy_params.p_level > max_p_level) {
+  1162			drm_dbg_dp(link->drm_dev,
+  1163				"Requested preEmphasisLevel=%d, change to %d\n",
+  1164				dp_link->phy_params.p_level,
+  1165				max_p_level);
+  1166			dp_link->phy_params.p_level = max_p_level;
+  1167		}
+  1168	
+  1169		drm_dbg_dp(link->drm_dev, "adjusted: v_level=%d, p_level=%d\n",
+  1170			dp_link->phy_params.v_level, dp_link->phy_params.p_level);
+  1171	
+  1172		return 0;
+  1173	}
+  1174	
 
 -- 
 0-DAY CI Kernel Test Service
