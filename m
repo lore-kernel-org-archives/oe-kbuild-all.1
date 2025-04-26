@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E798B200138
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 02:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913C91459F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 04:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745636069; cv=none; b=VKmATSklibnc2ehkPtvbVZfe4+a1JENWOdjpD9YqdFRPnr8OI5YdVzylYHVju5Z1BxKH3Nc6xR1a/fl4B+sjisn5hOJqJUJq+3AaIvSW13fZ/AhOwKsvBMPv1Er1A3zgWl8X+WXGb+T/ynVERXyRmTyci0fKa8sWKsPmpsQ1o2c=
+	t=1745642858; cv=none; b=H1lth8596fuT4joe0lJebAbpJfsg78L3GpcRDIz6s574u8hSVCWjDjOLiV0gx/JqHPy4ScNu0qIsHDaRuZzwpzUFhjd81mOYbMg3l0Ny2Ozu7zPzzkpKZNO+0O6nVOVMcGHfMORcU4C811FPhwnNUMjb7h0+5ygMwTGxP+bevJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745636069; c=relaxed/simple;
-	bh=krWw2qpJONsAnp99cvlMBBYaMm3NDLtFvniWE1+WEp0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rK5Jpvnwu55/Kz/z9zXONPepZtqkQWMSYlTxY2tcVimYgL7w3ZbFD4J3dX/nSX+oVVB+Ol5FZyB7WYBavAUBAp9l+EN144MtoAjaCpMR5eBEDzcfLW7ritPx8sspSuvz+Gw6BjfCRqseVlsvtVnki4JldyRulubvrXyxzRLraU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NO3yK2tT; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1745642858; c=relaxed/simple;
+	bh=Pwj2pD0Y5iJR/YgIKVz2ShrUKt3/7MLRgBv+br9tb80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rGHJtM1Gj2y4veEnq4k3ZgmATjSmpXF8ZglR1IcoV+OX4GWH21hiFrLc6qQigLMVdu9Bbj1zZJiMhVn1RIn8fPIU1eLG3afeIdw3Abq+HCmRAGuXZkqPyIvbb32/3iteXhp9s7ZRRI08bI5xizQN0aNh5rHmjHUvsbfBoBMzwjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TCTG3cXT; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NO3yK2tT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TCTG3cXT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745636068; x=1777172068;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=krWw2qpJONsAnp99cvlMBBYaMm3NDLtFvniWE1+WEp0=;
-  b=NO3yK2tTdlrWEZl/vTlqggr4vA5jbSTr2vttAPXokPqRJfQmnorVEoAC
-   M0+NuYjBw5e25AcqzyZ5Q/fieWYMZL3eYI2dODFvl5DRy9gRbZ+vrETMr
-   NB12bRtMSM9uP+SDtZdj/4nA6r3FSt5Lmx0CJTnRUOlG9A7jSXWKkXsll
-   oAMiIDiV/csXqnFU/WYK/II6XKGyyRwQwVDvPybmAbF3ahJa3g8kTL49Q
-   SXcktF5whRK8Lt9TLz1kFVb2RGIdI421Qoi5iAd/0QBaBnRBy3mGjVRV3
-   xx4Sh1FcZgl/96dMw1XzyZ4pb2kJdryIPKJ+q0W5KJQ5EZS9TrPUB+SUH
-   w==;
-X-CSE-ConnectionGUID: 7BjFKsbPQDCqIMr67zKzPA==
-X-CSE-MsgGUID: vwOZbuhcRsylL8nIbmO+FA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="47467625"
+  t=1745642856; x=1777178856;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Pwj2pD0Y5iJR/YgIKVz2ShrUKt3/7MLRgBv+br9tb80=;
+  b=TCTG3cXTndX3djbAkLuijIZ4Zd7DhB9Br6ugFTkLFEWXJ0KhMAd/KgJr
+   8IZt0RhTv+pbwiJ8sWkzJ0+kVsopB11ENTniz2Fhv6/0QOaYEFCZKPjbQ
+   kM1PrM5gJuBpzs2vCsN054Fm3MxUGjtDqW38QO8vJASro4Nuu5S0O/RGg
+   Jk5iTnwTaIKDRJ1z/ZF2x/picUpgV3q+7X+/2pZZG+BUT5bc2LquynvHf
+   kTBhJnWY8cvD2ZqWf3poTjTkVODJZ0yySDpsdFtZ23+lkgYen+0hAvMpQ
+   2AnGIVdluZAMYl1b0GMF/lZcAFvhYIM8+j/xYXQQM0FOYvwGKK2CAp4Rv
+   A==;
+X-CSE-ConnectionGUID: k8QRxEKYS5i1sX3lZhiPpA==
+X-CSE-MsgGUID: rE78aufzSumdhUyfrfoWOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="64836056"
 X-IronPort-AV: E=Sophos;i="6.15,240,1739865600"; 
-   d="scan'208";a="47467625"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 19:54:25 -0700
-X-CSE-ConnectionGUID: hOn8ZKmjRayOjQGTM9ITqg==
-X-CSE-MsgGUID: SkSofne1T1CYIyfOrLIQrw==
+   d="scan'208";a="64836056"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 21:47:35 -0700
+X-CSE-ConnectionGUID: v6lAdVMuR3S8iK9FVPvOhw==
+X-CSE-MsgGUID: 1Ev+ij+nRgWV74SWSDegzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,240,1739865600"; 
-   d="scan'208";a="137100832"
+   d="scan'208";a="133377135"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Apr 2025 19:54:23 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 25 Apr 2025 21:47:31 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8VgL-0005fz-2I;
-	Sat, 26 Apr 2025 02:54:21 +0000
-Date: Sat, 26 Apr 2025 10:53:49 +0800
+	id 1u8XRp-0005hR-0Y;
+	Sat, 26 Apr 2025 04:47:29 +0000
+Date: Sat, 26 Apr 2025 12:47:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bertrand Wlodarczyk <bertrand.wlodarczyk@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Tim Chen <tim.c.chen@linux.intel.com>
-Subject: mm/vmscan.o: warning: objtool: shrink_node+0x1a59: sibling call from
- callable instruction with modified stack frame
-Message-ID: <202504261055.rmRAbIb9-lkp@intel.com>
+To: Yunhui Cui <cuiyunhui@bytedance.com>, arnd@arndb.de,
+	andriy.shevchenko@linux.intel.com, benjamin.larsson@genexis.eu,
+	gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
+	ilpo.jarvinen@linux.intel.com, jirislaby@kernel.org,
+	jkeeping@inmusicbrands.com, john.ogness@linutronix.de,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	markus.mayer@linaro.org, matt.porter@linaro.org,
+	namcao@linutronix.de, paulmck@kernel.org, pmladek@suse.com,
+	schnelle@linux.ibm.com, sunilvl@ventanamicro.com,
+	tim.kryger@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 2/4] serial: 8250: introduce serial8250_discard_data()
+Message-ID: <202504261249.RVGiOFHl-lkp@intel.com>
+References: <20250425062425.68761-2-cuiyunhui@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +71,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250425062425.68761-2-cuiyunhui@bytedance.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: 6e80c0aaad469e0a923ea0d7018fb1464e992018 vmscan, cleanup: add for_each_managed_zone_pgdat macro
-date:   6 weeks ago
-config: x86_64-randconfig-104-20250426 (https://download.01.org/0day-ci/archive/20250426/202504261055.rmRAbIb9-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504261055.rmRAbIb9-lkp@intel.com/reproduce)
+Hi Yunhui,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on soc/for-next]
+[cannot apply to tty/tty-testing tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.15-rc3 next-20250424]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunhui-Cui/serial-8250-introduce-serial8250_discard_data/20250425-142655
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20250425062425.68761-2-cuiyunhui%40bytedance.com
+patch subject: [PATCH v4 2/4] serial: 8250: introduce serial8250_discard_data()
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250426/202504261249.RVGiOFHl-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504261249.RVGiOFHl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504261055.rmRAbIb9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504261249.RVGiOFHl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> mm/vmscan.o: warning: objtool: shrink_node+0x1a59: sibling call from callable instruction with modified stack frame
+   drivers/tty/serial/8250/8250_port.c: In function 'serial8250_get_poll_char':
+>> drivers/tty/serial/8250/8250_port.c:2146:39: error: 'flags' undeclared (first use in this function)
+    2146 |         uart_port_lock_irqsave(port, &flags);
+         |                                       ^~~~~
+   drivers/tty/serial/8250/8250_port.c:2146:39: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/tty/serial/8250/8250_port.c:2151:1: warning: label 'out' defined but not used [-Wunused-label]
+    2151 | out:
+         | ^~~
+
+
+vim +/flags +2146 drivers/tty/serial/8250/8250_port.c
+
+  2131	
+  2132	#ifdef CONFIG_CONSOLE_POLL
+  2133	/*
+  2134	 * Console polling routines for writing and reading from the uart while
+  2135	 * in an interrupt or debug context.
+  2136	 */
+  2137	
+  2138	static int serial8250_get_poll_char(struct uart_port *port)
+  2139	{
+  2140		struct uart_8250_port *up = up_to_u8250p(port);
+  2141		int status = NO_POLL_CHAR;
+  2142		u16 lsr;
+  2143	
+  2144		serial8250_rpm_get(up);
+  2145	
+> 2146		uart_port_lock_irqsave(port, &flags);
+  2147		lsr = serial_port_in(port, UART_LSR);
+  2148		if ((lsr & UART_LSR_DR))
+  2149			status = serial_port_in(port, UART_RX);
+  2150		uart_port_unlock_irqrestore(port, flags);
+> 2151	out:
+  2152		serial8250_rpm_put(up);
+  2153		return status;
+  2154	}
+  2155	
 
 -- 
 0-DAY CI Kernel Test Service
