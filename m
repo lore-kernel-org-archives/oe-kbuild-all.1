@@ -1,280 +1,152 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434801D5161
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 19:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D58481C4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 19:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745697068; cv=none; b=cvj+ugcXj72gHJD2+e29XxYjUKh2wGgpdFXtV9iPk+sFiEmQ0RrghrBDzj5EcZAwHer+4ouS6rCo1VIuPc4O2SiQSzvVK5KGssCP5HfBXgCkHtk1y3uG/8WsmRXCR/btYv7PDoD2tKFkxYW/cGznEIwDR5mCDge9tRTjlFSHLFE=
+	t=1745697457; cv=none; b=S5YELIFs0etVbPw1MA8kWao1gad9q6KJljvHwc5ZflKNzHVUdMzNywJJL6xFoJ03rgTWv96OyT3LPAZylZSho3Ww5Vuk69S3KjTx5phPaenc0ljbPesb6DLV58qGoChnZOzpiMynee52UfHqWQEraJhXbZrPsFhmY5uJwhV1bEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745697068; c=relaxed/simple;
-	bh=vADPwB0/xu4a2SLfmJy8ySH0qxf//O7BvwSjdBaNAOs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cXZTz8PUgQ6Ly9qQM+saJWU5GTL4hXvPaEmEdfBTg+r7p8B646ITe+kjZky2dgqAXZ+Fl7KCAyR+K8tpc7yqKCDg7BDlJyaqZ9zQX62x9lor4KCTaxDSc7dnGRbJGlDYgdMU8Ugarg1VXaEdPxOxU2nRdvodIu5AkniUuGcyZwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BIKnvs59; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745697457; c=relaxed/simple;
+	bh=FFIXkVsLxmxtLTTy8CezDMGvHtsP+Y1HCzLLd8tCQDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TlKao0WioEuJDTFQ8gPllXnmpgxjyB4v+WiVG28u2/8qYqq9YkLSuVCU3cudu88Y63niVBDpzHc3ZG/5GbfwkLGlNdpkb1Z69dwKSey3s4YVqcYyCz9cAxGuVKRBfbE5dGFJPFdN4WmMdAHf/vneJclCWj//G6QA8ecTNDoAnCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SBW59NN0; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BIKnvs59"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so3243751b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 12:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745697066; x=1746301866; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=d3TbxyqNJ8gSNlYw9aB780fhXGPkRknkL4U1B6hAsGE=;
-        b=BIKnvs59HXntsWoUDYLtbQYMveCvoeGKeoyQ7tyTZISQI80/WxbASOxZ1Gk/aC6GX1
-         yIfHSEZNTgHD8Psy1J+9YRVJU2IgnsygHpMu1ZI9xjWC/pV0mvrBjk1tK7QXVh4dAsoH
-         j3Wymkr4HJySvLkB14Yqc1R1Zc6mRtEHkakcziMZjYtSu81+hAZfq4IE9SvP5feZBUda
-         FASZ0y0gGMoyWvVbgzIxrCllqxDZr529szmO+z96w6GijdVyeMfqezau9fs7uk26Agns
-         4wM3AJLt70gNCQCeeJqU3t/GfbjysYgZ0mdLLJPYoIvmWnUe2UKMT1TZgt0mVCfHv1k3
-         FCIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745697066; x=1746301866;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d3TbxyqNJ8gSNlYw9aB780fhXGPkRknkL4U1B6hAsGE=;
-        b=XDJSxGMPX8b3tAe27bsCjzQ/rdbkqjXK6RYiLwilnIdopGbdchnKZfzobNMEEKUGQN
-         tRo5UX7oXJ293lG5GubAQg+mJRLux7vdXD2DjJt3g+uCYvhEVk6jBvNSCo3ids1Q/UoX
-         p/o41AdxsPG/Jrjd14QTJnw8e5+wDdN359AgZdZtn5mwndooxVQgAHfioYE2Yf2x/J13
-         ebSKlmS/9DwDhm/sZTOrcYNNf57v8ag4273F97Lr44S/s+APuvQmugKkMoVoYhEA0IM+
-         YI/TgC5mtp2UnKVjFXF6atp013dqQ/hjqTFUUsH4RKOMdHVeFL2IfSMVqjPxV8Pd/93u
-         oq8w==
-X-Gm-Message-State: AOJu0YzqV6j7XmDafM2F021CSDCHClDF35ZDcTOv+wb7hRgZkmMYADfw
-	lpIHlwwDPptJ3mhlJl2df4gzdG/2XTmiQ/8OT1+27VMsSfVZ0D2/
-X-Gm-Gg: ASbGncsdvjyXNhNhINa4vTRZfnog81jqejrytxpdWseUt7RH6ovwrKpl0tUBfUQP2QT
-	r5XNnJdALEx6EmFXoTr/BORDbFT8Wg9XBldmZ8YklLb8u2zptyk5o6zYmXyh+QsEN3PgD8MRZxH
-	N/hoPG4qQhHbJ7i4zwiLs9Rn37RKLC4/EE6yfWl6mLHMlx1vfIA6sC1mibgCYXFPy8CdfqeYQk+
-	nU8MFrgfwQd8Q+GDpp0YQF1KuwYl5xohOlQdIgeh15LN30qt4RphBGghFlY8PQWkz6d20RuIx8S
-	xEjWU10XJM8RdKJIfTGFieiSUIpZqtP8oy9j3XwzLOqPFHc=
-X-Google-Smtp-Source: AGHT+IFFW0I6dxWFr6IxGn94nRWCSL7WVULhsfm/+Ph2n/pkfbe+c/NPHUfAEGQL0JOMqcQvm5rQLw==
-X-Received: by 2002:a05:6a20:12d1:b0:1ee:e96a:d9ed with SMTP id adf61e73a8af0-2045b6c21eamr9785943637.7.1745697066388;
-        Sat, 26 Apr 2025 12:51:06 -0700 (PDT)
-Received: from [192.168.0.56] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a9a560sm5310627b3a.135.2025.04.26.12.51.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Apr 2025 12:51:06 -0700 (PDT)
-Message-ID: <39942ee3ccbc7aba2017ee2d31add0cc1b538b22.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v1 3/4] bpf: use SCC info instead of loop_entry
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: kernel test robot <lkp@intel.com>, bpf@vger.kernel.org, ast@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, daniel@iogearbox.net, 
-	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev
-Date: Sat, 26 Apr 2025 12:51:04 -0700
-In-Reply-To: <202504262235.h5B7vJiB-lkp@intel.com>
-References: <20250426104634.744077-4-eddyz87@gmail.com>
-	 <202504262235.h5B7vJiB-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SBW59NN0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745697454; x=1777233454;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FFIXkVsLxmxtLTTy8CezDMGvHtsP+Y1HCzLLd8tCQDA=;
+  b=SBW59NN0GY6UWTIEyz0LLL69zcWYSSKqtFnzzxWOE+KPPNPXcjmGCzob
+   KE2Xsy1J0Sob+CgmOxCduRXdVa8gytBB3m/y/QIJdozglaf+uf7reoPc8
+   8z5NoDnYR6LX5sKJTbJQCgKO1EMq7HC3pzacS9THYDL91DSCEbMkN969X
+   TRjnJFHpLFb8TEhPhEb7ya0rXV1aTSDdwVMOdBl+QgU/nxD1CJn9ivrqy
+   YBeBSMU0Z2XuDC+4fH5ym/Rw/MI95g1hIy58oVcUxUhXwnWaE6DhH3s5F
+   CbUoKkGIr+GndK65ekSOZTq9n9Y5I9pF7KY8wTRWBjt3NDbETPzbnlovD
+   Q==;
+X-CSE-ConnectionGUID: N0I77fbYTDK2T3SKykTIzA==
+X-CSE-MsgGUID: I1fF5MvtTSOXKJvJhte+hA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="72703361"
+X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
+   d="scan'208";a="72703361"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 12:57:33 -0700
+X-CSE-ConnectionGUID: MHBLM3KyR/euUw9zbvZD5A==
+X-CSE-MsgGUID: 0fisutOET0ikuYOLAo8qzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
+   d="scan'208";a="134105739"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2025 12:57:32 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8leU-0005y9-0V;
+	Sat, 26 Apr 2025 19:57:30 +0000
+Date: Sun, 27 Apr 2025 03:57:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peterson Guo <peterson.guo@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Alvin Lee <alvin.lee2@amd.com>, Wayne Lin <wayne.lin@amd.com>,
+	linux-doc@vger.kernel.org
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1667:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202504270342.FU9iqFuX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 2025-04-26 at 22:45 +0800, kernel test robot wrote:
-> Hi Eduard,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on bpf-next/master]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/b=
-pf-compute-SCCs-in-program-control-flow-graph/20250426-184824
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20250426104634.744077-4-eddyz87%=
-40gmail.com
-> patch subject: [PATCH bpf-next v1 3/4] bpf: use SCC info instead of loop_=
-entry
-> config: riscv-randconfig-001-20250426 (https://download.01.org/0day-ci/ar=
-chive/20250426/202504262235.h5B7vJiB-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250426/202504262235.h5B7vJiB-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202504262235.h5B7vJiB-lkp=
-@intel.com/
->=20
-> All warnings (new ones prefixed by >>):
->=20
->    kernel/bpf/verifier.c: In function 'mark_all_regs_read_and_precise':
-> > > kernel/bpf/verifier.c:18238:13: warning: variable 'insn_idx' set but =
-not used [-Wunused-but-set-variable]
->    18238 |         u32 insn_idx;
->          |             ^~~~~~~~
->    At top level:
->    cc1: note: unrecognized command-line option '-Wno-unterminated-string-=
-initialization' may have been intended to silence earlier diagnostics
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02ddfb981de88a2c15621115dd7be2431252c568
+commit: 3c50bf2196aaddcaffe2c7a1a7080470380cbfdd drm/amd/display: Reverse the visual confirm recouts
+date:   2 months ago
+config: sparc64-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270342.FU9iqFuX-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270342.FU9iqFuX-lkp@intel.com/reproduce)
 
-I messed up when extracting frame_insn_idx().
-The function needs to be updated as:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270342.FU9iqFuX-lkp@intel.com/
 
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index ae642459f342..06c2b3806666 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -18240,7 +18240,7 @@ static void mark_all_regs_read_and_precise(struct b=
-pf_verifier_env *env,
-=20
-        for (i =3D 0; i <=3D st->curframe; i++) {
-                insn_idx =3D frame_insn_idx(st, i);
--               live_regs =3D env->insn_aux_data[st->insn_idx].live_regs_be=
-fore;
-+               live_regs =3D env->insn_aux_data[insn_idx].live_regs_before=
-;
-                func =3D st->frame[i];
-                for (j =3D 0; j < BPF_REG_FP; j++) {
-                        reg =3D &func->regs[j];
+All warnings (new ones prefixed by >>):
 
-I'll try to figure out a test case failing w/o above hunk.
-Also, patch #3 probably worth splitting in two:
-- one adding new logic;
-- one removing old logic.
-
-Will wait a few days before sending v2.
-
-> vim +/insn_idx +18238 kernel/bpf/verifier.c
->=20
->  18154=09
->  18155	/* Open coded iterators introduce loops in the verifier state grap=
-h.
->  18156	 * State graph loops can result in incomplete read and precision m=
-arks
->  18157	 * on individual states. E.g. consider the following states graph:
->  18158	 *
->  18159	 *  .-> A --.  Assume the states are visited in the order A, B, C.
->  18160	 *  |   |   |  Assume that state B reaches a state equivalent to s=
-tate A.
->  18161	 *  |   v   v  At this point, state C has not been processed yet,
->  18162	 *  '-- B   C  so state A does not have any read or precision mark=
-s from C yet.
->  18163	 *             As a result, these marks won't be propagated to B.
->  18164	 *
->  18165	 * If the marks on B are incomplete, it would be unsafe to use it =
-in
->  18166	 * states_equal() checks.
->  18167	 *
->  18168	 * To avoid this safety issue, and since states with incomplete re=
-ad
->  18169	 * marks can only occur within control flow graph loops, the verif=
-ier
->  18170	 * assumes that any state with bpf_verifier_state->insn_idx residi=
-ng
->  18171	 * in a strongly connected component (SCC) has read and precision
->  18172	 * marks for all registers. This assumption is enforced by the
->  18173	 * function mark_all_regs_read_and_precise(), which assigns
->  18174	 * corresponding marks.
->  18175	 *
->  18176	 * An intuitive point to call mark_all_regs_read_and_precise() wou=
-ld
->  18177	 * be when a new state is created in is_state_visited().
->  18178	 * However, doing so would interfere with widen_imprecise_scalars(=
-),
->  18179	 * which widens scalars in the current state after checking regist=
-ers in a
->  18180	 * parent state. Registers are not widened if they are marked as p=
-recise
->  18181	 * in the parent state.
->  18182	 *
->  18183	 * To avoid interfering with widening logic,
->  18184	 * a call to mark_all_regs_read_and_precise() for state is postpon=
-ed
->  18185	 * until no widening is possible in any descendant of state S.
->  18186	 *
->  18187	 * Another intuitive spot to call mark_all_regs_read_and_precise()
->  18188	 * would be in update_branch_counts() when S's branches counter
->  18189	 * reaches 0. However, this falls short in the following case:
->  18190	 *
->  18191	 *	sum =3D 0
->  18192	 *	bpf_repeat(10) {                              // a
->  18193	 *		if (unlikely(bpf_get_prandom_u32()))  // b
->  18194	 *			sum +=3D 1;
->  18195	 *		if (bpf_get_prandom_u32())            // c
->  18196	 *			asm volatile ("");
->  18197	 *		asm volatile ("goto +0;");            // d
->  18198	 *	}
->  18199	 *
->  18200	 * Here a checkpoint is created at (d) with {sum=3D0} and the bran=
-ch counter
->  18201	 * for (d) reaches 0, so 'sum' would be marked precise.
->  18202	 * When second branch of (c) reaches (d), checkpoint would be hit,
->  18203	 * and the precision mark for 'sum' propagated to (a).
->  18204	 * When the second branch of (b) reaches (a), the state would be {=
-sum=3D1},
->  18205	 * no widening would occur, causing verification to continue forev=
-er.
->  18206	 *
->  18207	 * To avoid such premature precision markings, the verifier postpo=
-nes
->  18208	 * the call to mark_all_regs_read_and_precise() for state S even f=
-urther.
->  18209	 * Suppose state P is a [grand]parent of state S and is the first =
-state
->  18210	 * in the current state chain with state->insn_idx within current =
-SCC.
->  18211	 * mark_all_regs_read_and_precise() for state S is only called onc=
-e P
->  18212	 * is fully explored.
->  18213	 *
->  18214	 * The struct 'bpf_scc_info' is used to track this condition:
->  18215	 * - bpf_scc_info->branches counts how many states currently
->  18216	 *   in env->cur_state or env->head originate from this SCC;
->  18217	 * - bpf_scc_info->scc_epoch counts how many times 'branches'
->  18218	 *   has reached zero;
->  18219	 * - bpf_verifier_state->scc_epoch records the epoch of the SCC
->  18220	 *   corresponding to bpf_verifier_state->insn_idx at the moment
->  18221	 *   of state creation.
->  18222	 *
->  18223	 * Functions parent_scc_enter() and parent_scc_exit() maintain the
->  18224	 * bpf_scc_info->{branches,scc_epoch} counters.
->  18225	 *
->  18226	 * bpf_scc_info->branches reaching zero indicates that state P is
->  18227	 * fully explored. Its descendants residing in the same SCC have
->  18228	 * state->scc_epoch =3D=3D scc_info->scc_epoch. parent_scc_exit()
->  18229	 * increments scc_info->scc_epoch, allowing clean_live_states() to
->  18230	 * detect these states and apply mark_all_regs_read_and_precise().
->  18231	 */
->  18232	static void mark_all_regs_read_and_precise(struct bpf_verifier_env=
- *env,
->  18233						   struct bpf_verifier_state *st)
->  18234	{
->  18235		struct bpf_func_state *func;
->  18236		struct bpf_reg_state *reg;
->  18237		u16 live_regs;
->  18238		u32 insn_idx;
->  18239		int i, j;
->  18240=09
->  18241		for (i =3D 0; i <=3D st->curframe; i++) {
->  18242			insn_idx =3D frame_insn_idx(st, i);
->  18243			live_regs =3D env->insn_aux_data[st->insn_idx].live_regs_before;
->  18244			func =3D st->frame[i];
->  18245			for (j =3D 0; j < BPF_REG_FP; j++) {
->  18246				reg =3D &func->regs[j];
->  18247				if (!(BIT(j) & live_regs) || reg->type =3D=3D NOT_INIT)
->  18248					continue;
->  18249				reg->live |=3D REG_LIVE_READ64;
->  18250				if (reg->type =3D=3D SCALAR_VALUE && !is_reg_unbounded(reg))
->  18251					reg->precise =3D true;
->  18252			}
->  18253			for (j =3D 0; j < func->allocated_stack / BPF_REG_SIZE; j++) {
->  18254				reg =3D &func->stack[j].spilled_ptr;
->  18255				reg->live |=3D REG_LIVE_READ64;
->  18256				if (is_spilled_reg(&func->stack[j]) &&
->  18257				    reg->type =3D=3D SCALAR_VALUE && !is_reg_unbounded(reg))
->  18258					reg->precise =3D true;
->  18259			}
->  18260		}
->  18261	}
->  18262=09
->=20
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1667: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * Disable the cursor if there's another pipe above this with a
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1687: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+                    * There is another half plane on same layer because of
 
 
+vim +1667 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c
+
+  1654	
+  1655	bool resource_can_pipe_disable_cursor(struct pipe_ctx *pipe_ctx)
+  1656	{
+  1657		struct pipe_ctx *test_pipe, *split_pipe;
+  1658		struct rect r1 = pipe_ctx->plane_res.scl_data.recout;
+  1659		int r1_right, r1_bottom;
+  1660		int cur_layer = pipe_ctx->plane_state->layer_index;
+  1661	
+  1662		reverse_adjust_recout_for_visual_confirm(&r1, pipe_ctx);
+  1663		r1_right = r1.x + r1.width;
+  1664		r1_bottom = r1.y + r1.height;
+  1665	
+  1666		/**
+> 1667		 * Disable the cursor if there's another pipe above this with a
+  1668		 * plane that contains this pipe's viewport to prevent double cursor
+  1669		 * and incorrect scaling artifacts.
+  1670		 */
+  1671		for (test_pipe = pipe_ctx->top_pipe; test_pipe;
+  1672		     test_pipe = test_pipe->top_pipe) {
+  1673			struct rect r2;
+  1674			int r2_right, r2_bottom;
+  1675			// Skip invisible layer and pipe-split plane on same layer
+  1676			if (!test_pipe->plane_state ||
+  1677			    !test_pipe->plane_state->visible ||
+  1678			    test_pipe->plane_state->layer_index == cur_layer)
+  1679				continue;
+  1680	
+  1681			r2 = test_pipe->plane_res.scl_data.recout;
+  1682			reverse_adjust_recout_for_visual_confirm(&r2, test_pipe);
+  1683			r2_right = r2.x + r2.width;
+  1684			r2_bottom = r2.y + r2.height;
+  1685	
+  1686			/**
+  1687			 * There is another half plane on same layer because of
+  1688			 * pipe-split, merge together per same height.
+  1689			 */
+  1690			for (split_pipe = pipe_ctx->top_pipe; split_pipe;
+  1691			     split_pipe = split_pipe->top_pipe)
+  1692				if (split_pipe->plane_state->layer_index == test_pipe->plane_state->layer_index) {
+  1693					struct rect r2_half;
+  1694	
+  1695					r2_half = split_pipe->plane_res.scl_data.recout;
+  1696					reverse_adjust_recout_for_visual_confirm(&r2_half, split_pipe);
+  1697					r2.x = min(r2_half.x, r2.x);
+  1698					r2.width = r2.width + r2_half.width;
+  1699					r2_right = r2.x + r2.width;
+  1700					r2_bottom = min(r2_bottom, r2_half.y + r2_half.height);
+  1701					break;
+  1702				}
+  1703	
+  1704			if (r1.x >= r2.x && r1.y >= r2.y && r1_right <= r2_right && r1_bottom <= r2_bottom)
+  1705				return true;
+  1706		}
+  1707	
+  1708		return false;
+  1709	}
+  1710	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
