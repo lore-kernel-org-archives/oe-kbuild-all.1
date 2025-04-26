@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0126136
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 16:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1765425C826;
+	Sat, 26 Apr 2025 16:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745684965; cv=none; b=aUNXHBw8OLHNvLruPo9Jv/VmdIdztAod902YYCZB+7r4cR0v6N4V1JypRGxCNTTD4kk1mV+lZfC90g3fuxBE+mDs+dpVG1ZuF4cp78VgKDzyamU9af74jetDwuFqPQT2VknRixlPlWc4X/x30YH1RfZBXBzbZA0pKPh9nod9dGQ=
+	t=1745686164; cv=none; b=hTd3EZtEC2nzPBWpTcxg2tj0kYvpLbg9rCdzmRmeB70Xhoh9XONtXJuWalsYoo8wHuZi0FkLBvBOgToaIGc+CC1J0ryo1L/YR3Xo98Q4UCnVHJwiiJKl+gGsGTqWpAGW3MoDbeBBDZzzYIdth29W9ckmLnZLvjD0OMUZk1ggM3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745684965; c=relaxed/simple;
-	bh=2GWhl92P7oAW9ExEf7++CKsqJSUvpkesZH5ExqqP6yI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UUNGZdzLvNSBU76WfjQs8f3i/0tmP+J7RQYQJApbdzVWf9q1NRvD6VzUYhhWh05hPRg54r/oaMFR5cQ0HI/ICrAEWWqXK9hGVP5hDrh7WhHNN0kYH8BCMvJfQLIIuRW/rBZsmNv1EIJ2pnLSsZq3TjqmunLF7VHWFNifo0vgpU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XvUg6ll5; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1745686164; c=relaxed/simple;
+	bh=V4+TZl8fcr9Q0wXgQgzoLtvYSlv5lmsMYdpJdBEhc/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CpJCVYA3WjolEAk2nujeER1YWUg7ku/BzxRrPstNIU5poRloqFxRxCwLWFx4vmkrQlbQvfSe1lkN2zeSQ25vY4aEi8+uB629Q736E8h3iNq8zy9DtPaS54VJ+/1hqnphJQ1pkuWofSec8A1Kb3EqaTayXy7BXZi42IYcYfG0cTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RuorZh3o; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XvUg6ll5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RuorZh3o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745684962; x=1777220962;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2GWhl92P7oAW9ExEf7++CKsqJSUvpkesZH5ExqqP6yI=;
-  b=XvUg6ll53Squ+koQ+RxwhvaG5GmN7BLKB8lyumSRMghkUHMmAy1CodGR
-   wylDp/+Wa8lTaKhXo4WIgP5JNTK095bCGRTT/bkRPCnbeXH1JNz3+Ei1v
-   NTQeg4S4XwNFLpqYnjdiYIu6qx3Rc1haM4K/w2D4Cbo8rmmEDjSfSArQO
-   /vSykO6reagKzUSTqFL35v+W5xHrOdrOoQVLx+Nz04xMyivHtfKHk6fiy
-   1DHpXmiAW501lOxjSqsGkvgQf7BLxbkujB6RX88eafxL+2BJK5UMH/9Z0
-   uK9His8VBxvAKJE7Xe1zGMAtMIBAw3ez7LdztdpfKwVPFIk9F5RJMzZ0T
+  t=1745686162; x=1777222162;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V4+TZl8fcr9Q0wXgQgzoLtvYSlv5lmsMYdpJdBEhc/M=;
+  b=RuorZh3o4TfG/BvoBnj8WtSR1WmfPrRHVyei58S3MDxpbwria70bEVvy
+   7wH5Ig2u59ET2rujYJjI8bHFLpa55iW1h59jgjwZPpsgkaD9X731/lSXI
+   JC4ijHpiLoRZHyZgW0tYvMYg6NE3gKOoZGRjG70M2sQxcIX3CwH87+y+P
+   vaBtzD4Hh4wBrgaDIAnb1wlbSaC1MTiXxjAjh9W09zWCAU0MI1JigE4J/
+   sIE6X7SLokhUdKPkCMCjYn1g2MVtPH7YOZA/TGgxZouLUsp7cTDYW2DwE
+   BigO05Dk+xS+dJX6U1Dok1vGrT/pUjvdOisVNrZ3jsWc2DKGn6LoEF9Ue
    w==;
-X-CSE-ConnectionGUID: lCdhs5uKTTac5wE/JnI0Lw==
-X-CSE-MsgGUID: 58rZu5u9SVy2nbTzqNsmTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="47409890"
+X-CSE-ConnectionGUID: 9axNKGvcSKGgCVKMBBeLOw==
+X-CSE-MsgGUID: RfkxN3dpSZW5z8cBMBUZag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="64854292"
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="47409890"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 09:29:21 -0700
-X-CSE-ConnectionGUID: EGaZ1FxsSOanIGctfTMPHA==
-X-CSE-MsgGUID: iwt7+TXJSHGMZGg0Ez2+EQ==
+   d="scan'208";a="64854292"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 09:49:21 -0700
+X-CSE-ConnectionGUID: bYDClL1sR8SOZNQYjUs6zg==
+X-CSE-MsgGUID: YgHuZT8sQRCcqJfiOMRTTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="170359922"
+   d="scan'208";a="164212010"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Apr 2025 09:29:19 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 26 Apr 2025 09:49:20 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8iOy-0005uv-1V;
-	Sat, 26 Apr 2025 16:29:16 +0000
-Date: Sun, 27 Apr 2025 00:28:21 +0800
+	id 1u8iiL-0005vP-38;
+	Sat, 26 Apr 2025 16:49:17 +0000
+Date: Sun, 27 Apr 2025 00:48:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Subject: Re: [PATCH v2 1/3] soc: qcom: socinfo: Add support for new fields in
- revision 20
-Message-ID: <202504270011.Jftyvklb-lkp@intel.com>
-References: <20250425135946.1087065-1-mukesh.ojha@oss.qualcomm.com>
+To: Roger Quadros <rogerq@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Simon Horman <horms@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: drivers/net/ethernet/ti/cpsw_ale.c:1360: warning: This comment
+ starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202504270023.hRD576RW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,219 +64,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250425135946.1087065-1-mukesh.ojha@oss.qualcomm.com>
 
-Hi Mukesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.15-rc3 next-20250424]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/soc-qcom-socinfo-Add-support-for-new-fields-in-revision-21/20250425-220213
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250425135946.1087065-1-mukesh.ojha%40oss.qualcomm.com
-patch subject: [PATCH v2 1/3] soc: qcom: socinfo: Add support for new fields in revision 20
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250427/202504270011.Jftyvklb-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270011.Jftyvklb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02ddfb981de88a2c15621115dd7be2431252c568
+commit: eb41dd76abce6a13bd7ad9c779dd560136caf60a net: ethernet: ti: cpsw_ale: add Policer and Thread control register fields
+date:   8 months ago
+config: arm64-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270023.hRD576RW-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270023.hRD576RW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504270011.Jftyvklb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270023.hRD576RW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/soc/qcom/socinfo.c: In function 'socinfo_debugfs_init':
->> drivers/soc/qcom/socinfo.c:613:17: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     613 |                 debugfs_create_u32("raw_package_type", 0444, qcom_socinfo->dbg_root,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     614 |                                    &qcom_socinfo->info.raw_package_type);
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/qcom/socinfo.c:615:9: note: here
-     615 |         case SOCINFO_VERSION(0, 19):
-         |         ^~~~
+>> drivers/net/ethernet/ti/cpsw_ale.c:1360: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * REG_FIELDS not defined for this as fields cannot be correctly
 
 
-vim +613 drivers/soc/qcom/socinfo.c
+vim +1360 drivers/net/ethernet/ti/cpsw_ale.c
 
-   592	
-   593	static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
-   594					 struct socinfo *info, size_t info_size)
-   595	{
-   596		struct smem_image_version *versions;
-   597		struct dentry *dentry;
-   598		size_t size;
-   599		int i;
-   600		unsigned int num_pmics;
-   601		unsigned int pmic_array_offset;
-   602	
-   603		qcom_socinfo->dbg_root = debugfs_create_dir("qcom_socinfo", NULL);
-   604	
-   605		qcom_socinfo->info.fmt = __le32_to_cpu(info->fmt);
-   606	
-   607		debugfs_create_x32("info_fmt", 0444, qcom_socinfo->dbg_root,
-   608				   &qcom_socinfo->info.fmt);
-   609	
-   610		switch (qcom_socinfo->info.fmt) {
-   611		case SOCINFO_VERSION(0, 20):
-   612			qcom_socinfo->info.raw_package_type = __le32_to_cpu(info->raw_package_type);
- > 613			debugfs_create_u32("raw_package_type", 0444, qcom_socinfo->dbg_root,
-   614					   &qcom_socinfo->info.raw_package_type);
-   615		case SOCINFO_VERSION(0, 19):
-   616			qcom_socinfo->info.num_func_clusters = __le32_to_cpu(info->num_func_clusters);
-   617			qcom_socinfo->info.boot_cluster = __le32_to_cpu(info->boot_cluster);
-   618			qcom_socinfo->info.boot_core = __le32_to_cpu(info->boot_core);
-   619	
-   620			debugfs_create_u32("num_func_clusters", 0444, qcom_socinfo->dbg_root,
-   621					   &qcom_socinfo->info.num_func_clusters);
-   622			debugfs_create_u32("boot_cluster", 0444, qcom_socinfo->dbg_root,
-   623					   &qcom_socinfo->info.boot_cluster);
-   624			debugfs_create_u32("boot_core", 0444, qcom_socinfo->dbg_root,
-   625					   &qcom_socinfo->info.boot_core);
-   626			fallthrough;
-   627		case SOCINFO_VERSION(0, 18):
-   628		case SOCINFO_VERSION(0, 17):
-   629			qcom_socinfo->info.oem_variant = __le32_to_cpu(info->oem_variant);
-   630			debugfs_create_u32("oem_variant", 0444, qcom_socinfo->dbg_root,
-   631					   &qcom_socinfo->info.oem_variant);
-   632			fallthrough;
-   633		case SOCINFO_VERSION(0, 16):
-   634			qcom_socinfo->info.feature_code = __le32_to_cpu(info->feature_code);
-   635			qcom_socinfo->info.pcode = __le32_to_cpu(info->pcode);
-   636	
-   637			debugfs_create_u32("feature_code", 0444, qcom_socinfo->dbg_root,
-   638					   &qcom_socinfo->info.feature_code);
-   639			debugfs_create_u32("pcode", 0444, qcom_socinfo->dbg_root,
-   640					   &qcom_socinfo->info.pcode);
-   641			fallthrough;
-   642		case SOCINFO_VERSION(0, 15):
-   643			qcom_socinfo->info.nmodem_supported = __le32_to_cpu(info->nmodem_supported);
-   644	
-   645			debugfs_create_u32("nmodem_supported", 0444, qcom_socinfo->dbg_root,
-   646					   &qcom_socinfo->info.nmodem_supported);
-   647			fallthrough;
-   648		case SOCINFO_VERSION(0, 14):
-   649			qcom_socinfo->info.num_clusters = __le32_to_cpu(info->num_clusters);
-   650			qcom_socinfo->info.ncluster_array_offset = __le32_to_cpu(info->ncluster_array_offset);
-   651			qcom_socinfo->info.num_subset_parts = __le32_to_cpu(info->num_subset_parts);
-   652			qcom_socinfo->info.nsubset_parts_array_offset =
-   653				__le32_to_cpu(info->nsubset_parts_array_offset);
-   654	
-   655			debugfs_create_u32("num_clusters", 0444, qcom_socinfo->dbg_root,
-   656					   &qcom_socinfo->info.num_clusters);
-   657			debugfs_create_u32("ncluster_array_offset", 0444, qcom_socinfo->dbg_root,
-   658					   &qcom_socinfo->info.ncluster_array_offset);
-   659			debugfs_create_u32("num_subset_parts", 0444, qcom_socinfo->dbg_root,
-   660					   &qcom_socinfo->info.num_subset_parts);
-   661			debugfs_create_u32("nsubset_parts_array_offset", 0444, qcom_socinfo->dbg_root,
-   662					   &qcom_socinfo->info.nsubset_parts_array_offset);
-   663			fallthrough;
-   664		case SOCINFO_VERSION(0, 13):
-   665			qcom_socinfo->info.nproduct_id = __le32_to_cpu(info->nproduct_id);
-   666	
-   667			debugfs_create_u32("nproduct_id", 0444, qcom_socinfo->dbg_root,
-   668					   &qcom_socinfo->info.nproduct_id);
-   669			DEBUGFS_ADD(info, chip_id);
-   670			fallthrough;
-   671		case SOCINFO_VERSION(0, 12):
-   672			qcom_socinfo->info.chip_family =
-   673				__le32_to_cpu(info->chip_family);
-   674			qcom_socinfo->info.raw_device_family =
-   675				__le32_to_cpu(info->raw_device_family);
-   676			qcom_socinfo->info.raw_device_num =
-   677				__le32_to_cpu(info->raw_device_num);
-   678	
-   679			debugfs_create_x32("chip_family", 0444, qcom_socinfo->dbg_root,
-   680					   &qcom_socinfo->info.chip_family);
-   681			debugfs_create_x32("raw_device_family", 0444,
-   682					   qcom_socinfo->dbg_root,
-   683					   &qcom_socinfo->info.raw_device_family);
-   684			debugfs_create_x32("raw_device_number", 0444,
-   685					   qcom_socinfo->dbg_root,
-   686					   &qcom_socinfo->info.raw_device_num);
-   687			fallthrough;
-   688		case SOCINFO_VERSION(0, 11):
-   689			num_pmics = le32_to_cpu(info->num_pmics);
-   690			pmic_array_offset = le32_to_cpu(info->pmic_array_offset);
-   691			if (pmic_array_offset + 2 * num_pmics * sizeof(u32) <= info_size)
-   692				DEBUGFS_ADD(info, pmic_model_array);
-   693			fallthrough;
-   694		case SOCINFO_VERSION(0, 10):
-   695		case SOCINFO_VERSION(0, 9):
-   696			qcom_socinfo->info.foundry_id = __le32_to_cpu(info->foundry_id);
-   697	
-   698			debugfs_create_u32("foundry_id", 0444, qcom_socinfo->dbg_root,
-   699					   &qcom_socinfo->info.foundry_id);
-   700			fallthrough;
-   701		case SOCINFO_VERSION(0, 8):
-   702		case SOCINFO_VERSION(0, 7):
-   703			DEBUGFS_ADD(info, pmic_model);
-   704			DEBUGFS_ADD(info, pmic_die_rev);
-   705			fallthrough;
-   706		case SOCINFO_VERSION(0, 6):
-   707			qcom_socinfo->info.hw_plat_subtype =
-   708				__le32_to_cpu(info->hw_plat_subtype);
-   709	
-   710			debugfs_create_u32("hardware_platform_subtype", 0444,
-   711					   qcom_socinfo->dbg_root,
-   712					   &qcom_socinfo->info.hw_plat_subtype);
-   713			fallthrough;
-   714		case SOCINFO_VERSION(0, 5):
-   715			qcom_socinfo->info.accessory_chip =
-   716				__le32_to_cpu(info->accessory_chip);
-   717	
-   718			debugfs_create_u32("accessory_chip", 0444,
-   719					   qcom_socinfo->dbg_root,
-   720					   &qcom_socinfo->info.accessory_chip);
-   721			fallthrough;
-   722		case SOCINFO_VERSION(0, 4):
-   723			qcom_socinfo->info.plat_ver = __le32_to_cpu(info->plat_ver);
-   724	
-   725			debugfs_create_u32("platform_version", 0444,
-   726					   qcom_socinfo->dbg_root,
-   727					   &qcom_socinfo->info.plat_ver);
-   728			fallthrough;
-   729		case SOCINFO_VERSION(0, 3):
-   730			qcom_socinfo->info.hw_plat = __le32_to_cpu(info->hw_plat);
-   731	
-   732			debugfs_create_u32("hardware_platform", 0444,
-   733					   qcom_socinfo->dbg_root,
-   734					   &qcom_socinfo->info.hw_plat);
-   735			fallthrough;
-   736		case SOCINFO_VERSION(0, 2):
-   737			qcom_socinfo->info.raw_ver  = __le32_to_cpu(info->raw_ver);
-   738	
-   739			debugfs_create_u32("raw_version", 0444, qcom_socinfo->dbg_root,
-   740					   &qcom_socinfo->info.raw_ver);
-   741			fallthrough;
-   742		case SOCINFO_VERSION(0, 1):
-   743			DEBUGFS_ADD(info, build_id);
-   744			break;
-   745		}
-   746	
-   747		versions = qcom_smem_get(QCOM_SMEM_HOST_ANY, SMEM_IMAGE_VERSION_TABLE,
-   748					 &size);
-   749	
-   750		for (i = 0; i < ARRAY_SIZE(socinfo_image_names); i++) {
-   751			if (!socinfo_image_names[i])
-   752				continue;
-   753	
-   754			dentry = debugfs_create_dir(socinfo_image_names[i],
-   755						    qcom_socinfo->dbg_root);
-   756			debugfs_create_file("name", 0444, dentry, &versions[i],
-   757					    &qcom_image_name_ops);
-   758			debugfs_create_file("variant", 0444, dentry, &versions[i],
-   759					    &qcom_image_variant_ops);
-   760			debugfs_create_file("oem", 0444, dentry, &versions[i],
-   761					    &qcom_image_oem_ops);
-   762		}
-   763	}
-   764	
+  1319	
+  1320	static const struct reg_field ale_fields_cpsw_nu[] = {
+  1321		/* CPSW_ALE_IDVER_REG */
+  1322		[MINOR_VER]	= REG_FIELD(ALE_IDVER, 0, 7),
+  1323		[MAJOR_VER]	= REG_FIELD(ALE_IDVER, 8, 10),
+  1324		/* CPSW_ALE_STATUS_REG */
+  1325		[ALE_ENTRIES]	= REG_FIELD(ALE_STATUS, 0, 7),
+  1326		[ALE_POLICERS]	= REG_FIELD(ALE_STATUS, 8, 15),
+  1327		/* CPSW_ALE_POLICER_PORT_OUI_REG */
+  1328		[POL_PORT_MEN]	= REG_FIELD(ALE_POLICER_PORT_OUI, 31, 31),
+  1329		[POL_TRUNK_ID]	= REG_FIELD(ALE_POLICER_PORT_OUI, 30, 30),
+  1330		[POL_PORT_NUM]	= REG_FIELD(ALE_POLICER_PORT_OUI, 25, 25),
+  1331		[POL_PRI_MEN]	= REG_FIELD(ALE_POLICER_PORT_OUI, 19, 19),
+  1332		[POL_PRI_VAL]	= REG_FIELD(ALE_POLICER_PORT_OUI, 16, 18),
+  1333		[POL_OUI_MEN]	= REG_FIELD(ALE_POLICER_PORT_OUI, 15, 15),
+  1334		[POL_OUI_INDEX]	= REG_FIELD(ALE_POLICER_PORT_OUI, 0, 5),
+  1335	
+  1336		/* CPSW_ALE_POLICER_DA_SA_REG */
+  1337		[POL_DST_MEN]	= REG_FIELD(ALE_POLICER_DA_SA, 31, 31),
+  1338		[POL_DST_INDEX]	= REG_FIELD(ALE_POLICER_DA_SA, 16, 21),
+  1339		[POL_SRC_MEN]	= REG_FIELD(ALE_POLICER_DA_SA, 15, 15),
+  1340		[POL_SRC_INDEX]	= REG_FIELD(ALE_POLICER_DA_SA, 0, 5),
+  1341	
+  1342		/* CPSW_ALE_POLICER_VLAN_REG */
+  1343		[POL_OVLAN_MEN]		= REG_FIELD(ALE_POLICER_VLAN, 31, 31),
+  1344		[POL_OVLAN_INDEX]	= REG_FIELD(ALE_POLICER_VLAN, 16, 21),
+  1345		[POL_IVLAN_MEN]		= REG_FIELD(ALE_POLICER_VLAN, 15, 15),
+  1346		[POL_IVLAN_INDEX]	= REG_FIELD(ALE_POLICER_VLAN, 0, 5),
+  1347	
+  1348		/* CPSW_ALE_POLICER_ETHERTYPE_IPSA_REG */
+  1349		[POL_ETHERTYPE_MEN]	= REG_FIELD(ALE_POLICER_ETHERTYPE_IPSA, 31, 31),
+  1350		[POL_ETHERTYPE_INDEX]	= REG_FIELD(ALE_POLICER_ETHERTYPE_IPSA, 16, 21),
+  1351		[POL_IPSRC_MEN]		= REG_FIELD(ALE_POLICER_ETHERTYPE_IPSA, 15, 15),
+  1352		[POL_IPSRC_INDEX]	= REG_FIELD(ALE_POLICER_ETHERTYPE_IPSA, 0, 5),
+  1353	
+  1354		/* CPSW_ALE_POLICER_IPDA_REG */
+  1355		[POL_IPDST_MEN]		= REG_FIELD(ALE_POLICER_IPDA, 31, 31),
+  1356		[POL_IPDST_INDEX]	= REG_FIELD(ALE_POLICER_IPDA, 16, 21),
+  1357	
+  1358		/* CPSW_ALE_POLICER_TBL_CTL_REG */
+  1359		/**
+> 1360		 * REG_FIELDS not defined for this as fields cannot be correctly
+  1361		 * used independently
+  1362		 */
+  1363	
+  1364		/* CPSW_ALE_POLICER_CTL_REG */
+  1365		[POL_EN]		= REG_FIELD(ALE_POLICER_CTL, 31, 31),
+  1366		[POL_RED_DROP_EN]	= REG_FIELD(ALE_POLICER_CTL, 29, 29),
+  1367		[POL_YELLOW_DROP_EN]	= REG_FIELD(ALE_POLICER_CTL, 28, 28),
+  1368		[POL_YELLOW_THRESH]	= REG_FIELD(ALE_POLICER_CTL, 24, 26),
+  1369		[POL_POL_MATCH_MODE]	= REG_FIELD(ALE_POLICER_CTL, 22, 23),
+  1370		[POL_PRIORITY_THREAD_EN] = REG_FIELD(ALE_POLICER_CTL, 21, 21),
+  1371		[POL_MAC_ONLY_DEF_DIS]	= REG_FIELD(ALE_POLICER_CTL, 20, 20),
+  1372	
+  1373		/* CPSW_ALE_POLICER_TEST_CTL_REG */
+  1374		[POL_TEST_CLR]		= REG_FIELD(ALE_POLICER_TEST_CTL, 31, 31),
+  1375		[POL_TEST_CLR_RED]	= REG_FIELD(ALE_POLICER_TEST_CTL, 30, 30),
+  1376		[POL_TEST_CLR_YELLOW]	= REG_FIELD(ALE_POLICER_TEST_CTL, 29, 29),
+  1377		[POL_TEST_CLR_SELECTED]	= REG_FIELD(ALE_POLICER_TEST_CTL, 28, 28),
+  1378		[POL_TEST_ENTRY]	= REG_FIELD(ALE_POLICER_TEST_CTL, 0, 4),
+  1379	
+  1380		/* CPSW_ALE_POLICER_HIT_STATUS_REG */
+  1381		[POL_STATUS_HIT]	= REG_FIELD(ALE_POLICER_HIT_STATUS, 31, 31),
+  1382		[POL_STATUS_HIT_RED]	= REG_FIELD(ALE_POLICER_HIT_STATUS, 30, 30),
+  1383		[POL_STATUS_HIT_YELLOW]	= REG_FIELD(ALE_POLICER_HIT_STATUS, 29, 29),
+  1384	
+  1385		/* CPSW_ALE_THREAD_DEF_REG */
+  1386		[ALE_DEFAULT_THREAD_EN]		= REG_FIELD(ALE_THREAD_DEF, 15, 15),
+  1387		[ALE_DEFAULT_THREAD_VAL]	= REG_FIELD(ALE_THREAD_DEF, 0, 5),
+  1388	
+  1389		/* CPSW_ALE_THREAD_CTL_REG */
+  1390		[ALE_THREAD_CLASS_INDEX] = REG_FIELD(ALE_THREAD_CTL, 0, 4),
+  1391	
+  1392		/* CPSW_ALE_THREAD_VAL_REG */
+  1393		[ALE_THREAD_ENABLE]	= REG_FIELD(ALE_THREAD_VAL, 15, 15),
+  1394		[ALE_THREAD_VALUE]	= REG_FIELD(ALE_THREAD_VAL, 0, 5),
+  1395	};
+  1396	
 
 -- 
 0-DAY CI Kernel Test Service
