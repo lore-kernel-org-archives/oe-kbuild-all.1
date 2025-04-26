@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC3222370A;
-	Sat, 26 Apr 2025 11:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A3D2153D0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 11:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745665682; cv=none; b=QA+ZesRunkAfpA4TuWk19sVcETozzr0q7IUt3t+RwSTsEkFfEJfyx/ndU7xTR7VlwEkzJLsX0sUp/YbBJ2ainrGHVRjNtWJIM2gRp6s3Q73INIOOMWqZ8TGqosXLs1ayYbGRQYMkiXhIeOWF+B4pTvn17PwiLWQ6q+HOwgK4it8=
+	t=1745668142; cv=none; b=HG/wS9Y6a3vhGHnpFsF4+V70eFu/csLYXkxXrKxVxsBI0A3htFEfoac3Ac/Cc06C45CadaLoJH1vlX934tScsKyH846zlxTNJd01b27h9IrRAigieJn+u7akigfNUwFbMDgP3JAvBPQQ75hcqCYnNzFsY1hUBYbeuef8+cSQmUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745665682; c=relaxed/simple;
-	bh=GyW16Txf4WFU4MSIoY4oJy27x/Bf7MkTk/oUJden00Q=;
+	s=arc-20240116; t=1745668142; c=relaxed/simple;
+	bh=9qY009RV75gqbE+jedcoHrBfx5CXmKwBngAS1X7fotI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E1ID931BBfh4kbKzU2M3d7uFjle1SqJUbECOCTp4yndsH26rv5B3HbWZR4yKzqRDfIj43BoGeYTiWQ5E8v3a78H7tM4YaKkNq9r5LnhSr9tH59XGDuFMKecyYpN5Db9MOOmwpxcJE1lasLisS/YhBLJlwHA3gLuwFep60dFZIzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8Xli4Au; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=CyL6pnuJ+6L42FmYUEh/c/TC+vzF1+FOTFGghp1xrRMSYP+F3B+b6xU5Ulz6cQ5NlnQcZx9QrdOBDyuf6oOmjK6hj9PEF61q/y8KE9t6VeABIjSvBs7qQGinAUKvZXs0qkCnAlRF0bSIwYgd2l29pBVMZnJldQ0BXwEAkIx5YEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KU2t9Kw+; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8Xli4Au"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KU2t9Kw+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745665680; x=1777201680;
+  t=1745668140; x=1777204140;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GyW16Txf4WFU4MSIoY4oJy27x/Bf7MkTk/oUJden00Q=;
-  b=b8Xli4AucHJgSmXzMA88kDlyjjYeM4XB3xCVkDV8lLK09CDA7hUqiTrv
-   LDMu2QKskC+4iLOXRYv1z3NKwdakW4goF6mGAzwC4vtYxWP1XNOrjys7X
-   8dpAlQMy7w9/tTxeA/SwDpG8smTXhP0RdV6mnW9g+G45/OpOmauk1EawC
-   wynHmFmfUNaqquYKbQTTz93I/M15zDqzTKGJngeFqEiZ+1/MvjQ63pI6Y
-   DPAOcfNVd2cOmHZoTmplP5QfRf2cEeAoSAy2rgh8hN7edYbPYOl8OG4wf
-   gUIPGd5lX93afZJDE+nQe5hS6hAC9b46uevR0xKkaBlJroxii5dxxNdd7
+  bh=9qY009RV75gqbE+jedcoHrBfx5CXmKwBngAS1X7fotI=;
+  b=KU2t9Kw+fvDazhZysctW2ZsqWDY0/nfIotXk+7skZ1YoJo58+fNjgexW
+   l7Qb9rKaXGDsHoXixM3rxDa/l1eiFLANFwGTyqO/62T/QHa/T+pl9UNVe
+   +7gJ+UpUfUIEHSttr/ZXcYyDLRJ6ZNlBfFDzqvN/nMNdQR73Jkx5KxOJ1
+   Zh3dmEdcY88Etfki/7I7onQh11G8iLAzoNFPfH7MYOIXHq7PTacXjPwDu
+   ZGbLE+FeZZbP1eTG8wS1QwcPUBoiJH85ryWXzLs5wOAQvjYaJHYkzF9BP
+   cZdet55EVpYqnFyDr+wESa03WmRuhdFEZrR2Y8bdHijcfiS+3AebXCR4h
    A==;
-X-CSE-ConnectionGUID: LkzWCDl7SpW+NtxJNM4q5Q==
-X-CSE-MsgGUID: gKcDSLo7TJiYyDB9AEKS/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="50986551"
+X-CSE-ConnectionGUID: +wmjClSSQkmOkvz5vSerUg==
+X-CSE-MsgGUID: J6yf6CNDS5OSV2znwmmRgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="64845775"
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="50986551"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 04:07:58 -0700
-X-CSE-ConnectionGUID: qdAgFR39Q7aT5Mw6hPTtXg==
-X-CSE-MsgGUID: Vo/VSuUrRLy/QEgbsNTuWA==
+   d="scan'208";a="64845775"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 04:48:59 -0700
+X-CSE-ConnectionGUID: d1B1/+U/R7+zf63cNUhacg==
+X-CSE-MsgGUID: SzZrDdoRRPODvMWF8ShVlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="132995474"
+   d="scan'208";a="134049929"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Apr 2025 04:07:56 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2025 04:48:58 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8dNx-0005oB-28;
-	Sat, 26 Apr 2025 11:07:53 +0000
-Date: Sat, 26 Apr 2025 19:07:16 +0800
+	id 1u8e1g-0005oT-0J;
+	Sat, 26 Apr 2025 11:48:56 +0000
+Date: Sat, 26 Apr 2025 19:48:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-doc@vger.kernel.org
-Subject: io_uring/io-wq.c:80: warning: This comment starts with '/**', but
- isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202504261846.jvwwfMUN-lkp@intel.com>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	Friedrich Vock <friedrich.vock@gmx.de>
+Subject: kernel/cgroup/dmem.c:21: warning: Cannot understand          * @ref:
+ References keeping the region alive.
+Message-ID: <202504261939.1yj5iNwS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,57 +66,71 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: 751eedc4b4b79332ecf1a78c0dbeb47d573a8f59 io_uring/io-wq: move worker lists to struct io_wq_acct
-date:   10 weeks ago
-config: s390-randconfig-002-20250426 (https://download.01.org/0day-ci/archive/20250426/202504261846.jvwwfMUN-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504261846.jvwwfMUN-lkp@intel.com/reproduce)
+commit: b168ed458ddecc176f3b9a1f4bcd83d7a4541c14 kernel/cgroup: Add "dmem" memory accounting cgroup
+date:   4 months ago
+config: riscv-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250426/202504261939.1yj5iNwS-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504261939.1yj5iNwS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504261846.jvwwfMUN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504261939.1yj5iNwS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> io_uring/io-wq.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-            * Protects access to the worker lists.
-   io_uring/io-wq.c:89: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-            * The list of free workers.  Protected by #workers_lock
-   io_uring/io-wq.c:95: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-            * The list of all workers.  Protected by #workers_lock
+>> kernel/cgroup/dmem.c:21: warning: Cannot understand          * @ref: References keeping the region alive.
+    on line 21 - I thought it was a doc line
+>> kernel/cgroup/dmem.c:30: warning: Cannot understand          * @region_node: Linked into &dmem_cgroup_regions list.
+    on line 30 - I thought it was a doc line
+>> kernel/cgroup/dmem.c:36: warning: Cannot understand          * @pools: List of pools linked to this region.
+    on line 36 - I thought it was a doc line
+>> kernel/cgroup/dmem.c:48: warning: Cannot understand          * @unregistered: Whether the region is unregistered by its caller.
+    on line 48 - I thought it was a doc line
+   kernel/cgroup/dmem.c:300: warning: Excess function parameter 'dev' description in 'dmem_cgroup_state_evict_valuable'
+   kernel/cgroup/dmem.c:300: warning: Excess function parameter 'index' description in 'dmem_cgroup_state_evict_valuable'
+   kernel/cgroup/dmem.c:635: warning: Function parameter or struct member 'region' not described in 'dmem_cgroup_try_charge'
+   kernel/cgroup/dmem.c:635: warning: Excess function parameter 'dev' description in 'dmem_cgroup_try_charge'
 
 
-vim +80 io_uring/io-wq.c
+vim +21 kernel/cgroup/dmem.c
 
-    77	
-    78	struct io_wq_acct {
-    79		/**
-  > 80		 * Protects access to the worker lists.
-    81		 */
-    82		raw_spinlock_t workers_lock;
-    83	
-    84		unsigned nr_workers;
-    85		unsigned max_workers;
-    86		atomic_t nr_running;
-    87	
-    88		/**
-    89		 * The list of free workers.  Protected by #workers_lock
-    90		 * (write) and RCU (read).
-    91		 */
-    92		struct hlist_nulls_head free_list;
-    93	
-    94		/**
-    95		 * The list of all workers.  Protected by #workers_lock
-    96		 * (write) and RCU (read).
-    97		 */
-    98		struct list_head all_list;
-    99	
-   100		raw_spinlock_t lock;
-   101		struct io_wq_work_list work_list;
-   102		unsigned long flags;
-   103	};
-   104	
+    18	
+    19	struct dmem_cgroup_region {
+    20		/**
+  > 21		 * @ref: References keeping the region alive.
+    22		 * Keeps the region reference alive after a succesful RCU lookup.
+    23		 */
+    24		struct kref ref;
+    25	
+    26		/** @rcu: RCU head for freeing */
+    27		struct rcu_head rcu;
+    28	
+    29		/**
+  > 30		 * @region_node: Linked into &dmem_cgroup_regions list.
+    31		 * Protected by RCU and global spinlock.
+    32		 */
+    33		struct list_head region_node;
+    34	
+    35		/**
+  > 36		 * @pools: List of pools linked to this region.
+    37		 * Protected by global spinlock only
+    38		 */
+    39		struct list_head pools;
+    40	
+    41		/** @size: Size of region, in bytes */
+    42		u64 size;
+    43	
+    44		/** @name: Name describing the node, set by dmem_cgroup_register_region */
+    45		char *name;
+    46	
+    47		/**
+  > 48		 * @unregistered: Whether the region is unregistered by its caller.
+    49		 * No new pools should be added to the region afterwards.
+    50		 */
+    51		bool unregistered;
+    52	};
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
