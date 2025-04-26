@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D785B189B8C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 13:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CDB17E4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 14:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745675651; cv=none; b=d5/fB2K+j56Fji8/tWZg2wy6om2twJYa9hsvz02/FVSNvmkEn4p+SWImMezl5Fr0tWjMqvK0nJUspU4BznxD8zjXNcfFztX1oQl2zK/WgiRDS6bEH1yah3y9q+JJvrZV3o7Ajn9pHrsy6H2e7ROPMeiuWgVaqYCcBa+w6fAasQQ=
+	t=1745676313; cv=none; b=kGsPCZ2IJmZpFK506fgmAmwm+vc3l0LfCBfdmReGyb9L0wH4Xx2GjCRZO4Y6Okyy1xWMPCdH6pDGYGg1RodgY2jeeYcY1KkDCZd2zxDd0sa8SbmnPZkowgaP2z1Ww89dN5dZ3Bsph/0LHZJC5VC1CWGBwuk/LeMFpi68yhyKSzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745675651; c=relaxed/simple;
-	bh=Bq4NL4fbSYSVSelTOMMmjwb7zt/O6DpSlBDxmYSqjr0=;
+	s=arc-20240116; t=1745676313; c=relaxed/simple;
+	bh=4+YbDbrGVbTcVZXLZ9dgDnxjuRt9ZCVK58u0i2ZzWYs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JBF6CD3OTnaM0uFGiiHjdO9Lt8cyiDKxvvkO+vvmtokZ73idQr9I+MHa2q4YEwL2KovSv5dxtzP+dwpX/r34OvZa7xptT7Gu3TqZ6l4SL36yM8MIAFvpsCaWMDN113azaEDF36462JzT7iZ9zeoBw9LssMXJTMjQZ7bycMSInQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iIbOXzVg; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=YPNXrWaYOvDeKfjcc8r0w8AihbAbwvb/2sWgFog7GUOCqYRpWWyEJEzHAiXOk0iWvaCO2LZWPrreplw+2nsJChPvdwl3FF2my3zPW0OudvhabzlGCoj/+ylMPCx7l+StLCbVIrv1Oxfllv9RHg5o/0SU545uTD7UYWEkucS1CC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsFTZcKc; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iIbOXzVg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsFTZcKc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745675649; x=1777211649;
+  t=1745676311; x=1777212311;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bq4NL4fbSYSVSelTOMMmjwb7zt/O6DpSlBDxmYSqjr0=;
-  b=iIbOXzVgqfbVBOPtFXo2J6LvOUGocTKuwJr7t12w2DVqCpANbL9p0Q1l
-   61o6q87NczYA3rXOszVCDIg/0lh6Oe56xjU3OntfwQ9SArU1bIo3cKtyA
-   bGcZfQ3gI2gPLYbyU9nuBi15s1khc4xcMhhTAaEnTxpwcLdyWHi9Bu1/z
-   0HiEWONLYB1t+4E2G9qHCvVjCLSac3886+rVrNZItKLW6Mz8XMExGK9Y5
-   DhA9ttQkUE1ap5cmlw0Q3y9YLVbb/LZs1OjCG0ZmJN7t3QfQq1c6bS3sT
-   uK1Xc0ftu1ovA07iwDNXDiV2xifCUnOq3pyTyctsGe9BfLSdB3137q4wU
+  bh=4+YbDbrGVbTcVZXLZ9dgDnxjuRt9ZCVK58u0i2ZzWYs=;
+  b=JsFTZcKchGRKObh7hfM62xlQBUwsad9AwTSvf1abbiZpca2zqHV1Bl0n
+   K1I6pdtmOhZrPJZW2umjx3u3wSL5W0g10UTa2IbDAT7+dAnOdCdesld9S
+   clcoDIYSL4AgXaZksV44ENEyWoK5nJo8mxCenRwCCN4omBIknUK66FSBW
+   8OboQ3ae5dhea8hyUYTsLmK36WfoErkxul+D1zVTKh4mUFGVvdCYxQ+C8
+   3XEc56Sr0pRoaLGrLhzuVM/vZsuGfIZh/I8eoCAHdADeHwpHRstenzLOF
+   kbctBJ0wxmcoR/lAALgPpFo/8MCh0gcjLVmm0lnZNuFACQlO8W4h9inLY
    g==;
-X-CSE-ConnectionGUID: RmSMSFYLRe6Q0DGws8P+Cw==
-X-CSE-MsgGUID: FaS5I3grSRmi92VSzMDoqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="46436164"
+X-CSE-ConnectionGUID: 7frVIF1pRpaRQuPbXxDeVw==
+X-CSE-MsgGUID: fuk6xfW/TJSxPaKlIlWTow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="58687120"
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="46436164"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 06:54:08 -0700
-X-CSE-ConnectionGUID: VAaCOq1uTaKnqiUl/6wEbw==
-X-CSE-MsgGUID: 3/JNZBneSyug/BVNoe09MQ==
+   d="scan'208";a="58687120"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 07:05:10 -0700
+X-CSE-ConnectionGUID: 5wt15beaR2ePFfsRsw4AAQ==
+X-CSE-MsgGUID: 7tbyT3ixSLCWh5zNawQEfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="134063680"
+   d="scan'208";a="134107856"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2025 06:54:07 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Apr 2025 07:05:08 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8fym-0005qJ-2m;
-	Sat, 26 Apr 2025 13:54:04 +0000
-Date: Sat, 26 Apr 2025 21:54:01 +0800
+	id 1u8g9R-0005qx-2k;
+	Sat, 26 Apr 2025 14:05:05 +0000
+Date: Sat, 26 Apr 2025 22:04:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Herdler <herdler@nurfuerspam.de>
+To: Aurabindo Pillai <aurabindo.pillai@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: drivers/staging/media/av7110/av7110.c:162: warning: cannot
- understand function prototype: '} else if (av7110_init_analog_module(av7110)
- == 0) '
-Message-ID: <202504262127.FkkWHzfs-lkp@intel.com>
+	Alex Deucher <alexander.deucher@amd.com>, linux-doc@vger.kernel.org
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:79:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202504262246.HqBWltOk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,111 +66,90 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: 3c08dc38e3cf018a74c64e75cebcc803d973196c media: av7110: coding style fixes: comparsations
-date:   11 months ago
-config: x86_64-buildonly-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262127.FkkWHzfs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262127.FkkWHzfs-lkp@intel.com/reproduce)
+commit: 08502cebee7c54d58fee0a54a98064dade4cc4de drm/amd/display: Add DCN401 dependant changes for DMCUB
+date:   1 year ago
+config: sparc64-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262246.HqBWltOk-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262246.HqBWltOk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504262127.FkkWHzfs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504262246.HqBWltOk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/staging/media/av7110/av7110.c:162: warning: cannot understand function prototype: '} else if (av7110_init_analog_module(av7110) == 0) '
+>> drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:79: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+                    * Timeout covers both the ACK and the wait
+   drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:283: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * outbox1 wptr register is accessed without locks (dal & dc)
+   drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:292: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * outbox1 rptr register is accessed without locks (dal & dc)
 
 
-vim +162 drivers/staging/media/av7110/av7110.c
+vim +79 drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c
 
-   112	
-   113	static void init_av7110_av(struct av7110 *av7110)
-   114	{
-   115		int ret;
-   116		struct saa7146_dev *dev = av7110->dev;
-   117	
-   118		/* set internal volume control to maximum */
-   119		av7110->adac_type = DVB_ADAC_TI;
-   120		ret = av7110_set_volume(av7110, av7110->mixer.volume_left, av7110->mixer.volume_right);
-   121		if (ret < 0)
-   122			printk("dvb-ttpci:cannot set internal volume to maximum:%d\n",ret);
-   123	
-   124		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetMonitorType,
-   125				    1, (u16)av7110->display_ar);
-   126		if (ret < 0)
-   127			printk("dvb-ttpci: unable to set aspect ratio\n");
-   128		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetPanScanType,
-   129				    1, av7110->display_panscan);
-   130		if (ret < 0)
-   131			printk("dvb-ttpci: unable to set pan scan\n");
-   132	
-   133		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 2, wss_cfg_4_3);
-   134		if (ret < 0)
-   135			printk("dvb-ttpci: unable to configure 4:3 wss\n");
-   136		ret = av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 2, 3, wss_cfg_16_9);
-   137		if (ret < 0)
-   138			printk("dvb-ttpci: unable to configure 16:9 wss\n");
-   139	
-   140		ret = av7710_set_video_mode(av7110, vidmode);
-   141		if (ret < 0)
-   142			printk("dvb-ttpci:cannot set video mode:%d\n",ret);
-   143	
-   144		/* handle different card types */
-   145		/* remaining inits according to card and frontend type */
-   146		av7110->analog_tuner_flags = 0;
-   147		av7110->current_input = 0;
-   148		if (dev->pci->subsystem_vendor == 0x13c2 && dev->pci->subsystem_device == 0x000a)
-   149			av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, ADSwitch, 1, 0); // SPDIF on
-   150		if (i2c_writereg(av7110, 0x20, 0x00, 0x00) == 1) {
-   151			printk ("dvb-ttpci: Crystal audio DAC @ card %d detected\n",
-   152				av7110->dvb_adapter.num);
-   153			av7110->adac_type = DVB_ADAC_CRYSTAL;
-   154			i2c_writereg(av7110, 0x20, 0x01, 0xd2);
-   155			i2c_writereg(av7110, 0x20, 0x02, 0x49);
-   156			i2c_writereg(av7110, 0x20, 0x03, 0x00);
-   157			i2c_writereg(av7110, 0x20, 0x04, 0x00);
-   158	
-   159			/**
-   160			 * some special handling for the Siemens DVB-C cards...
-   161			 */
- > 162		} else if (av7110_init_analog_module(av7110) == 0) {
-   163			/* done. */
-   164		} else if (dev->pci->subsystem_vendor == 0x110a) {
-   165			printk("dvb-ttpci: DVB-C w/o analog module @ card %d detected\n",
-   166				av7110->dvb_adapter.num);
-   167			av7110->adac_type = DVB_ADAC_NONE;
-   168		} else {
-   169			av7110->adac_type = adac;
-   170			printk("dvb-ttpci: adac type set to %d @ card %d\n",
-   171				av7110->adac_type, av7110->dvb_adapter.num);
-   172		}
-   173	
-   174		if (av7110->adac_type == DVB_ADAC_NONE || av7110->adac_type == DVB_ADAC_MSP34x0) {
-   175			// switch DVB SCART on
-   176			ret = av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, MainSwitch, 1, 0);
-   177			if (ret < 0)
-   178				printk("dvb-ttpci:cannot switch on SCART(Main):%d\n",ret);
-   179			ret = av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, ADSwitch, 1, 1);
-   180			if (ret < 0)
-   181				printk("dvb-ttpci:cannot switch on SCART(AD):%d\n",ret);
-   182			if (rgb_on &&
-   183			    ((av7110->dev->pci->subsystem_vendor == 0x110a) ||
-   184			     (av7110->dev->pci->subsystem_vendor == 0x13c2)) &&
-   185			     (av7110->dev->pci->subsystem_device == 0x0000)) {
-   186				saa7146_setgpio(dev, 1, SAA7146_GPIO_OUTHI); // RGB on, SCART pin 16
-   187				//saa7146_setgpio(dev, 3, SAA7146_GPIO_OUTLO); // SCARTpin 8
-   188			}
-   189		}
-   190	
-   191		if (dev->pci->subsystem_vendor == 0x13c2 && dev->pci->subsystem_device == 0x000e)
-   192			av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, SpdifSwitch, 1, 0); // SPDIF on
-   193	
-   194		ret = av7110_set_volume(av7110, av7110->mixer.volume_left, av7110->mixer.volume_right);
-   195		if (ret < 0)
-   196			printk("dvb-ttpci:cannot set volume :%d\n",ret);
-   197	}
-   198	
+70839da6360500 Aurabindo Pillai 2024-04-19   62  
+70839da6360500 Aurabindo Pillai 2024-04-19   63  void dmub_dcn401_reset(struct dmub_srv *dmub)
+70839da6360500 Aurabindo Pillai 2024-04-19   64  {
+70839da6360500 Aurabindo Pillai 2024-04-19   65  	union dmub_gpint_data_register cmd;
+70839da6360500 Aurabindo Pillai 2024-04-19   66  	const uint32_t timeout = 30;
+70839da6360500 Aurabindo Pillai 2024-04-19   67  	uint32_t in_reset, scratch, i;
+70839da6360500 Aurabindo Pillai 2024-04-19   68  
+70839da6360500 Aurabindo Pillai 2024-04-19   69  	REG_GET(DMCUB_CNTL2, DMCUB_SOFT_RESET, &in_reset);
+70839da6360500 Aurabindo Pillai 2024-04-19   70  
+70839da6360500 Aurabindo Pillai 2024-04-19   71  	if (in_reset == 0) {
+70839da6360500 Aurabindo Pillai 2024-04-19   72  		cmd.bits.status = 1;
+70839da6360500 Aurabindo Pillai 2024-04-19   73  		cmd.bits.command_code = DMUB_GPINT__STOP_FW;
+70839da6360500 Aurabindo Pillai 2024-04-19   74  		cmd.bits.param = 0;
+70839da6360500 Aurabindo Pillai 2024-04-19   75  
+70839da6360500 Aurabindo Pillai 2024-04-19   76  		dmub->hw_funcs.set_gpint(dmub, cmd);
+70839da6360500 Aurabindo Pillai 2024-04-19   77  
+70839da6360500 Aurabindo Pillai 2024-04-19   78  		/**
+70839da6360500 Aurabindo Pillai 2024-04-19  @79  		 * Timeout covers both the ACK and the wait
+70839da6360500 Aurabindo Pillai 2024-04-19   80  		 * for remaining work to finish.
+70839da6360500 Aurabindo Pillai 2024-04-19   81  		 *
+70839da6360500 Aurabindo Pillai 2024-04-19   82  		 * This is mostly bound by the PHY disable sequence.
+70839da6360500 Aurabindo Pillai 2024-04-19   83  		 * Each register check will be greater than 1us, so
+70839da6360500 Aurabindo Pillai 2024-04-19   84  		 * don't bother using udelay.
+70839da6360500 Aurabindo Pillai 2024-04-19   85  		 */
+70839da6360500 Aurabindo Pillai 2024-04-19   86  
+70839da6360500 Aurabindo Pillai 2024-04-19   87  		for (i = 0; i < timeout; ++i) {
+70839da6360500 Aurabindo Pillai 2024-04-19   88  			if (dmub->hw_funcs.is_gpint_acked(dmub, cmd))
+70839da6360500 Aurabindo Pillai 2024-04-19   89  				break;
+70839da6360500 Aurabindo Pillai 2024-04-19   90  		}
+70839da6360500 Aurabindo Pillai 2024-04-19   91  
+70839da6360500 Aurabindo Pillai 2024-04-19   92  		for (i = 0; i < timeout; ++i) {
+70839da6360500 Aurabindo Pillai 2024-04-19   93  			scratch = dmub->hw_funcs.get_gpint_response(dmub);
+70839da6360500 Aurabindo Pillai 2024-04-19   94  			if (scratch == DMUB_GPINT__STOP_FW_RESPONSE)
+70839da6360500 Aurabindo Pillai 2024-04-19   95  				break;
+70839da6360500 Aurabindo Pillai 2024-04-19   96  		}
+70839da6360500 Aurabindo Pillai 2024-04-19   97  
+70839da6360500 Aurabindo Pillai 2024-04-19   98  		/* Force reset in case we timed out, DMCUB is likely hung. */
+70839da6360500 Aurabindo Pillai 2024-04-19   99  	}
+70839da6360500 Aurabindo Pillai 2024-04-19  100  
+70839da6360500 Aurabindo Pillai 2024-04-19  101  	REG_UPDATE(DMCUB_CNTL2, DMCUB_SOFT_RESET, 1);
+70839da6360500 Aurabindo Pillai 2024-04-19  102  	REG_UPDATE(DMCUB_CNTL, DMCUB_ENABLE, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  103  	REG_UPDATE(MMHUBBUB_SOFT_RESET, DMUIF_SOFT_RESET, 1);
+70839da6360500 Aurabindo Pillai 2024-04-19  104  	REG_WRITE(DMCUB_INBOX1_RPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  105  	REG_WRITE(DMCUB_INBOX1_WPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  106  	REG_WRITE(DMCUB_OUTBOX1_RPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  107  	REG_WRITE(DMCUB_OUTBOX1_WPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  108  	REG_WRITE(DMCUB_OUTBOX0_RPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  109  	REG_WRITE(DMCUB_OUTBOX0_WPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  110  	REG_WRITE(DMCUB_SCRATCH0, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  111  
+70839da6360500 Aurabindo Pillai 2024-04-19  112  	/* Clear the GPINT command manually so we don't reset again. */
+70839da6360500 Aurabindo Pillai 2024-04-19  113  	cmd.all = 0;
+70839da6360500 Aurabindo Pillai 2024-04-19  114  	dmub->hw_funcs.set_gpint(dmub, cmd);
+70839da6360500 Aurabindo Pillai 2024-04-19  115  }
+70839da6360500 Aurabindo Pillai 2024-04-19  116  
+
+:::::: The code at line 79 was first introduced by commit
+:::::: 70839da6360500a82e4d5f78499284474cbed7c1 drm/amd/display: Add new DCN401 sources
+
+:::::: TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
