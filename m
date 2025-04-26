@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51101EA7DD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 20:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FA7187FFA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 21:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745699319; cv=none; b=gC9ZhS6KL8wygNRJ9u6nf1WNHZJrHoM62OyV93npPhZlWaVXgBzrsLKT/Dxj5gdQANLVhVMLPBmQ/VNmHakFRZyZParg//paaJlJacbKBzsyj5kag5eu34rMIK/RTTCcUZXjBleUvwSaG2QuEHOBeuxpc5/hcAhZtJdWrJbAL6Y=
+	t=1745701240; cv=none; b=mSMTIMtYdO7p4kYFzjOysjLSDHQlrCw2sR2TlW3Mau1ecdzTF76GUNMJ7u+moDjNMaIjauRm5tnL1FVWzBrgVMA12U8HF55SV2ZttkoTKi05ZuKbfXOo+/8lYcRoEwXPJxxrjWhX7MfQlSPTTta0VFia4j2jaocgv+zBW7vAjY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745699319; c=relaxed/simple;
-	bh=mNXXTcVKUUz50eSUe3QE6Wd5LmCexaP8c+TKZxSTxLI=;
+	s=arc-20240116; t=1745701240; c=relaxed/simple;
+	bh=33Wf2PI+zGPvkZcomFlBU/xgf0HsrI1SLw/lHLdvQgw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iSFD7j3HbQZ8lT+Yx0l+R5wpcHN8kqwmLur9ENc36l3CJY2FaPV30In2wBrry7xw4g/90EEdIEUrilYv9eDRl3y/3iIc1D8OwJrydj7QD/CaIZuPxAbkMq15G6a+44NzSOLrInKCr/eYVpzKb5nO4OSlMHGllUHqMGOZl//Keds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LO4q7UkF; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=AXshhtj7c9omxm2k607MuP4TluiOK1a0xF/HQmCWw70xzOT4HRUaITza0/nMV9q1ZzbcMqd+2h/iNqLR04iKyK+2vTb3FCdm/eDSwwQJ7z0rfGjF03/SEM87qW8Wl5JImaitYKLqswc592m7+zL/DZpNIwn+03UZpOCyQVxLJTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rb3H/Opj; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LO4q7UkF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rb3H/Opj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745699316; x=1777235316;
+  t=1745701239; x=1777237239;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mNXXTcVKUUz50eSUe3QE6Wd5LmCexaP8c+TKZxSTxLI=;
-  b=LO4q7UkF1LxTH6dWSClfhIzGj0ncUyHDayPmqCUnMl5mzH+3kKTDwWcG
-   ZyVts7Gkf5xeZRRUbW2/OqXmVwYKKQlq7Eo7RWGXuaNBc7/+umwS5a493
-   qzmaaeNjZ7Bw8y/1S8NAYmWKOp1XLP50aA4JcIQdTUBnS4/oe3VUNXYVB
-   fR514+W1DsrhX64BMAw3jdiJ/qw90n9h/W6tQ7y1pFfWCsrYn3wStcra2
-   gLhGB4KYobjmjQD74JY+Zd6rimYSvXmKdLJBbtKHLPWt5lblKd/b2pm+v
-   deBv9A+6AO2yzTPJKefkKQNix14yKmwMZ7Rjyr2I65Bjzm1ltpUB/GxoA
+  bh=33Wf2PI+zGPvkZcomFlBU/xgf0HsrI1SLw/lHLdvQgw=;
+  b=Rb3H/OpjZvaYXj44hbORFjx/kTpskgLWU39nNS0Xa2lrwrHJWGaJXxv7
+   lq6jMN4tnm3g00aHfpVg1bHBe2ERRd3wGZfwDftLbU0bWPtkDXuHVHndL
+   fHKYjyfUyq8KkGt31ZJ9WWgdmvFPuBil/3pxiqkSbuCyc9ypaZWlmXr5a
+   YgHYp1Lw3mVopfNzmJCku4aqS065lJcTcND9TsH08IMsSYYXhZmqOpkIL
+   v6MdOwg/o7oBI2oTKKwi1xMFMcNOS22U73gGUvzMZXrvgt603u9dvGiKL
+   RyIbADbLaNRoGfOvSUK4PgoO0QhIIhUKsMwXQwabjCZMEfEo5/V1Iwwj3
    w==;
-X-CSE-ConnectionGUID: JBUgb3O1TeyXtBXiVcyF1w==
-X-CSE-MsgGUID: 3mTuXVMETfOPwOcP6UYrHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="49981174"
+X-CSE-ConnectionGUID: jiUtTrihQc67I4g+4RtEMA==
+X-CSE-MsgGUID: iWCqz5fYTNyEc/8/dHIizg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="51001167"
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="49981174"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 13:28:35 -0700
-X-CSE-ConnectionGUID: 8BV+OAFUTqubI/9V1aWcdw==
-X-CSE-MsgGUID: Ekmu35D9TaSitN95YcVC3w==
+   d="scan'208";a="51001167"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 14:00:39 -0700
+X-CSE-ConnectionGUID: B4AjNn02TCWNWxXFsYGbCw==
+X-CSE-MsgGUID: n66orxfuT7+Hd7ZlSOHqmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="133670546"
+   d="scan'208";a="137227638"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2025 13:28:34 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Apr 2025 14:00:36 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8m8W-0005yj-0M;
-	Sat, 26 Apr 2025 20:28:32 +0000
-Date: Sun, 27 Apr 2025 04:28:25 +0800
+	id 1u8mdW-0005zV-19;
+	Sat, 26 Apr 2025 21:00:34 +0000
+Date: Sun, 27 Apr 2025 04:59:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Gruenbacher <agruenba@redhat.com>
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bob Peterson <rpeterso@redhat.com>
-Subject: fs/gfs2/glock.c:1213: warning: Function parameter or struct member
- 'ip' not described in '__gfs2_holder_init'
-Message-ID: <202504270418.VcPbMEFk-lkp@intel.com>
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: drivers/gpu/drm/panel/panel-himax-hx83102.c:67: warning: Cannot
+ understand          * @width_mm: width of the panel's active display area
+Message-ID: <202504270445.BKZnZEmV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,61 +65,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Andreas,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: b016d9a84abdd2efaa273814eaeb59e112ecffbd gfs2: Save ip from gfs2_glock_nq_init
-date:   3 years, 6 months ago
-config: csky-randconfig-r036-20230303 (https://download.01.org/0day-ci/archive/20250427/202504270418.VcPbMEFk-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270418.VcPbMEFk-lkp@intel.com/reproduce)
+commit: 0ef94554dc40fbdb7e57ff90cd1e7fa71e1e89fd drm/panel: himax-hx83102: Break out as separate driver
+date:   12 months ago
+config: sparc-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270445.BKZnZEmV-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 10.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270445.BKZnZEmV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504270418.VcPbMEFk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270445.BKZnZEmV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/gfs2/glock.c:1213: warning: Function parameter or struct member 'ip' not described in '__gfs2_holder_init'
-   fs/gfs2/glock.c:1213: warning: expecting prototype for gfs2_holder_init(). Prototype was for __gfs2_holder_init() instead
+>> drivers/gpu/drm/panel/panel-himax-hx83102.c:67: warning: Cannot understand          * @width_mm: width of the panel's active display area
+    on line 67 - I thought it was a doc line
 
 
-vim +1213 fs/gfs2/glock.c
+vim +67 drivers/gpu/drm/panel/panel-himax-hx83102.c
 
-b3b94faa5fe596 David Teigland      2006-01-16  1201  
-b3b94faa5fe596 David Teigland      2006-01-16  1202  /**
-b3b94faa5fe596 David Teigland      2006-01-16  1203   * gfs2_holder_init - initialize a struct gfs2_holder in the default way
-b3b94faa5fe596 David Teigland      2006-01-16  1204   * @gl: the glock
-b3b94faa5fe596 David Teigland      2006-01-16  1205   * @state: the state we're requesting
-b3b94faa5fe596 David Teigland      2006-01-16  1206   * @flags: the modifier flags
-b3b94faa5fe596 David Teigland      2006-01-16  1207   * @gh: the holder structure
-b3b94faa5fe596 David Teigland      2006-01-16  1208   *
-b3b94faa5fe596 David Teigland      2006-01-16  1209   */
-b3b94faa5fe596 David Teigland      2006-01-16  1210  
-b016d9a84abdd2 Andreas Gruenbacher 2021-09-30  1211  void __gfs2_holder_init(struct gfs2_glock *gl, unsigned int state, u16 flags,
-b016d9a84abdd2 Andreas Gruenbacher 2021-09-30  1212  			struct gfs2_holder *gh, unsigned long ip)
-b3b94faa5fe596 David Teigland      2006-01-16 @1213  {
-b3b94faa5fe596 David Teigland      2006-01-16  1214  	INIT_LIST_HEAD(&gh->gh_list);
-b3b94faa5fe596 David Teigland      2006-01-16  1215  	gh->gh_gl = gl;
-b016d9a84abdd2 Andreas Gruenbacher 2021-09-30  1216  	gh->gh_ip = ip;
-b1e058da50f793 Pavel Emelyanov     2008-02-07  1217  	gh->gh_owner_pid = get_pid(task_pid(current));
-b3b94faa5fe596 David Teigland      2006-01-16  1218  	gh->gh_state = state;
-b3b94faa5fe596 David Teigland      2006-01-16  1219  	gh->gh_flags = flags;
-b3b94faa5fe596 David Teigland      2006-01-16  1220  	gh->gh_error = 0;
-b3b94faa5fe596 David Teigland      2006-01-16  1221  	gh->gh_iflags = 0;
-b3b94faa5fe596 David Teigland      2006-01-16  1222  	gfs2_glock_hold(gl);
-b3b94faa5fe596 David Teigland      2006-01-16  1223  }
-b3b94faa5fe596 David Teigland      2006-01-16  1224  
-
-:::::: The code at line 1213 was first introduced by commit
-:::::: b3b94faa5fe5968827ba0640ee9fba4b3e7f736e [GFS2] The core of GFS2
-
-:::::: TO: David Teigland <teigland@redhat.com>
-:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
+    62	
+    63	struct hx83102_panel_desc {
+    64		const struct drm_display_mode *modes;
+    65	
+    66		/**
+  > 67		 * @width_mm: width of the panel's active display area
+    68		 * @height_mm: height of the panel's active display area
+    69		 */
+    70		struct {
+    71			unsigned int width_mm;
+    72			unsigned int height_mm;
+    73		} size;
+    74	
+    75		int (*init)(struct hx83102 *ctx);
+    76	};
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
