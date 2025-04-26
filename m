@@ -1,61 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279D9481C4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 19:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3071213D891
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 19:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745694334; cv=none; b=d4P9SUG7Ro9PA3w77nK2t0R5DFgdrAF6BF8cXQgEBeZIBHEDaB0+jNxrBpwqCjMy6w6swly4A9el9O8lABjfW/hbU/Lf3yMJjRwND9Exq9XY8n4FwVdfghCB8QKXW+IK4MDmLhCnev05qOB8Tvt6fBytrlTZNOD8Q5/dS7MU6GY=
+	t=1745694934; cv=none; b=KdpE1kqj7vFs2RcsXxRpovO5fBN4azxMvZO5cAB3VZnT/HOv6RRay4GjQ+XSj93VLQvaT2/Os1exGuPcmRhEIAd1LuLj+rTgAQeCVnVHOK9dLxi6aMfo/BvziTz8dsKZehot4/joja93PaEmCnPE0oulauijTulhvVaFUBEZh08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745694334; c=relaxed/simple;
-	bh=HICEtZaAQRFHap7zIQoBmWTYfBPkkeBT85z5LMrKE8A=;
+	s=arc-20240116; t=1745694934; c=relaxed/simple;
+	bh=brOk3A6MPbfofZsQC9PM6kvZwS6E7KFFlMtFDrx1zJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=upvrD2XPvCgR/uywHZgFjKbdk5sjnl+T8w/lmbwuji+Hk59puowIWhO7tHw+ethHy0Xf/S9K1WdpChVMely90HLx4WX1QhjLCte11eNZbw0OwzofX5BPNbiFH7aaa7iVmUYjaerGaf3jCdlsGNU2UWNML64b8jS/08iuRVEayFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0tbGGV8; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLrOIyd5fws4gFEA9B2dcIUf8bieewTIKb4LEW8T9vdCc97pS55cQmr/aQQE1aFVMlgvBXF1cKaf3GG6FEKkXOuMUGcdzMRyBiP15EAtEESgdMaCIyPR4q3NlMnzf5u1XKnMOmbAykHKl6IEYCzCz1m0vqEr9cEwb4rZQUDHId0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=frwqe0Gj; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0tbGGV8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="frwqe0Gj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745694331; x=1777230331;
+  t=1745694933; x=1777230933;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HICEtZaAQRFHap7zIQoBmWTYfBPkkeBT85z5LMrKE8A=;
-  b=B0tbGGV8cSjoKmHteC5y/lA8WtDs5yNEdoirsuqCp9qHu6qUFLz7p2BL
-   KlwCJ2Jpo8E1SRQ1q9IDx5tOkmIeBgh3wIpLBsvlvSikO5n2IEGIGwls0
-   wVKOPNAHoHYdUHrCewUPuv2BIseiZclxOP2fn6bPfeLUnpJzz4FwbYZCV
-   oGT1VMjabILDu3j2dRx/ntaDyA2yx+r2rXPK+s91NVfN1r7hb+9HXNE+C
-   CP/p9SGETU28KwhDBN4U/sP7KYYX2Lxwd5vdSgP1EPyMH9ZsUULrmV1uy
-   fMMiowMy/W37NsTlFWjA7Du1DjGlQ66+MUb64GUTSSbxML572uaBFpsD4
-   Q==;
-X-CSE-ConnectionGUID: HGCTAqHaRMy4nb5KAMLRNA==
-X-CSE-MsgGUID: anwGSnQcR0W4f5gGduGDJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="51147087"
+  bh=brOk3A6MPbfofZsQC9PM6kvZwS6E7KFFlMtFDrx1zJQ=;
+  b=frwqe0GjJbZhaoJrpsquC6+9hmJlNgQ66mH0i8huhOG4ZshdyERfd12L
+   esQ9OtMb+3e63riTg6872nxjHaYc3DzuAl/d9iI8J5VG5yPbwFJXF4LQx
+   A0i3vMx12lOx+ZkfKc0O0m/wVCGTBnTjrtR6e6L8YZ5B0HK9KEnH3Jpwy
+   ATrVh5kV2vdRA5QMnSW+fpdrwuE8x5V6dnQb+hY0xp9LZu05RPKZH3p9a
+   osL/F9y0MBzBpp8C3Z5g+KbR0ulLt8UDQuY1BTyTT8G0WaygbN9GnxLpH
+   JdWWoVDnF+cdVn6U0Xa9f1HsgO4VISGozgwUlWMdX0qcPsiVKTTsnUO5s
+   A==;
+X-CSE-ConnectionGUID: mKKt0qHyTjGFNwszR2T8Mw==
+X-CSE-MsgGUID: HJ8lhdpLTFuO8Dhi9an3ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="46445887"
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="51147087"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 12:05:30 -0700
-X-CSE-ConnectionGUID: MmtfxJ28TrKutqY06FgGBg==
-X-CSE-MsgGUID: M+VDgQ65QwKJF0RDln6ykQ==
+   d="scan'208";a="46445887"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 12:15:33 -0700
+X-CSE-ConnectionGUID: gokFKn95S0S6quEt4GqBow==
+X-CSE-MsgGUID: tawfhFxxRKmiVUC6cgQZOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="137216153"
+   d="scan'208";a="133477669"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Apr 2025 12:05:29 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 26 Apr 2025 12:15:29 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8kq6-0005xN-2w;
-	Sat, 26 Apr 2025 19:05:26 +0000
-Date: Sun, 27 Apr 2025 03:05:06 +0800
+	id 1u8kzn-0005xV-1e;
+	Sat, 26 Apr 2025 19:15:27 +0000
+Date: Sun, 27 Apr 2025 03:15:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Darshan Rathod <darshanrathod475@gmail.com>, abbotti@mev.co.uk0
-Cc: oe-kbuild-all@lists.linux.dev, hsweeten@visionengravers.com,
-	linux-kernel@vger.kernel.org,
-	Darshan Rathod <darshanrathod475@gmail.com>
-Subject: Re: [PATCH] Staging: comedi: das16: Fixed a stucture warning in code
-Message-ID: <202504270205.NwA93W44-lkp@intel.com>
-References: <20250426113627.36525-1-darshanrathod475@gmail.com>
+To: David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/6] iio: introduce IIO_DECLARE_BUFFER_WITH_TS macros
+Message-ID: <202504270311.4lppXI1u-lkp@intel.com>
+References: <20250425-iio-introduce-iio_declare_buffer_with_ts-v3-1-f12df1bff248@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,96 +72,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250426113627.36525-1-darshanrathod475@gmail.com>
+In-Reply-To: <20250425-iio-introduce-iio_declare_buffer_with_ts-v3-1-f12df1bff248@baylibre.com>
 
-Hi Darshan,
+Hi David,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on staging/staging-testing]
+[auto build test ERROR on aff301f37e220970c2f301b5c65a8bfedf52058e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Darshan-Rathod/Staging-comedi-das16-Fixed-a-stucture-warning-in-code/20250426-193741
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250426113627.36525-1-darshanrathod475%40gmail.com
-patch subject: [PATCH] Staging: comedi: das16: Fixed a stucture warning in code
-config: powerpc-randconfig-003-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270205.NwA93W44-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270205.NwA93W44-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-introduce-IIO_DECLARE_BUFFER_WITH_TS-macros/20250426-051240
+base:   aff301f37e220970c2f301b5c65a8bfedf52058e
+patch link:    https://lore.kernel.org/r/20250425-iio-introduce-iio_declare_buffer_with_ts-v3-1-f12df1bff248%40baylibre.com
+patch subject: [PATCH v3 1/6] iio: introduce IIO_DECLARE_BUFFER_WITH_TS macros
+config: openrisc-randconfig-r053-20250427 (https://download.01.org/0day-ci/archive/20250427/202504270311.4lppXI1u-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270311.4lppXI1u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504270205.NwA93W44-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270311.4lppXI1u-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/comedi/drivers/das16.c: In function 'das16_ai_range':
->> drivers/comedi/drivers/das16.c:969:18: error: assignment of member 'length' in read-only object
-      lrange->length = 1;
-                     ^
->> drivers/comedi/drivers/das16.c:971:15: error: assignment of member 'min' in read-only object
-      krange->min = min;
-                  ^
->> drivers/comedi/drivers/das16.c:972:15: error: assignment of member 'max' in read-only object
-      krange->max = max;
-                  ^
->> drivers/comedi/drivers/das16.c:973:17: error: assignment of member 'flags' in read-only object
-      krange->flags = UNIT_volt;
-                    ^
-   drivers/comedi/drivers/das16.c: In function 'das16_ao_range':
-   drivers/comedi/drivers/das16.c:1003:18: error: assignment of member 'length' in read-only object
-      lrange->length = 1;
-                     ^
-   drivers/comedi/drivers/das16.c:1005:15: error: assignment of member 'min' in read-only object
-      krange->min = min;
-                  ^
-   drivers/comedi/drivers/das16.c:1006:15: error: assignment of member 'max' in read-only object
-      krange->max = max;
-                  ^
-   drivers/comedi/drivers/das16.c:1007:17: error: assignment of member 'flags' in read-only object
-      krange->flags = UNIT_volt;
-                    ^
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/kobject.h:19,
+                    from include/linux/cdev.h:5,
+                    from drivers/iio/industrialio-core.c:13:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/iio/iio.h:815:1: note: in expansion of macro 'static_assert'
+     815 | static_assert(IIO_DMA_MINALIGN % sizeof(s64) == 0,
+         | ^~~~~~~~~~~~~
 
 
-vim +/length +969 drivers/comedi/drivers/das16.c
+vim +78 include/linux/build_bug.h
 
-742c4a095973f6 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-12  947  
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  948  static const struct comedi_lrange *das16_ai_range(struct comedi_device *dev,
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  949  						  struct comedi_subdevice *s,
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  950  						  struct comedi_devconfig *it,
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  951  						  unsigned int pg_type,
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  952  						  unsigned int status)
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  953  {
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  954  	unsigned int min = it->options[4];
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  955  	unsigned int max = it->options[5];
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  956  
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  957  	/* get any user-defined input range */
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  958  	if (pg_type == das16_pg_none && (min || max)) {
-5c47473ec0f437 drivers/comedi/drivers/das16.c         Darshan Rathod      2025-04-26  959  		const struct comedi_lrange *lrange;
-5c47473ec0f437 drivers/comedi/drivers/das16.c         Darshan Rathod      2025-04-26  960  		const struct comedi_krange *krange;
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  961  
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  962  		/* allocate single-range range table */
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  963  		lrange = comedi_alloc_spriv(s,
-ee8ed0141d532d drivers/comedi/drivers/das16.c         Gustavo A. R. Silva 2022-01-25  964  					    struct_size(lrange, range, 1));
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  965  		if (!lrange)
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  966  			return &range_unknown;
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  967  
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  968  		/* initialize ai range */
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26 @969  		lrange->length = 1;
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  970  		krange = lrange->range;
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26 @971  		krange->min = min;
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26 @972  		krange->max = max;
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26 @973  		krange->flags = UNIT_volt;
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  974  
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  975  		return lrange;
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  976  	}
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  977  
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  978  	/* use software programmable range */
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  979  	if (status & DAS16_STATUS_UNIPOLAR)
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  980  		return das16_ai_uni_lranges[pg_type];
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  981  	return das16_ai_bip_lranges[pg_type];
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  982  }
-0ce8280e287609 drivers/staging/comedi/drivers/das16.c H Hartley Sweeten   2015-01-26  983  
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
 
 -- 
 0-DAY CI Kernel Test Service
