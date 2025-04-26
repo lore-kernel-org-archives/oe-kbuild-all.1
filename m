@@ -1,108 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FA7187FFA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 21:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9281FCFEC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Apr 2025 21:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745701240; cv=none; b=mSMTIMtYdO7p4kYFzjOysjLSDHQlrCw2sR2TlW3Mau1ecdzTF76GUNMJ7u+moDjNMaIjauRm5tnL1FVWzBrgVMA12U8HF55SV2ZttkoTKi05ZuKbfXOo+/8lYcRoEwXPJxxrjWhX7MfQlSPTTta0VFia4j2jaocgv+zBW7vAjY4=
+	t=1745704484; cv=none; b=DjymWzekhMvWRYiOl0fkPHwY09HqjhPU/icwakgWWC+ztgD41F+JBcHlnh09KiRrrPXFr94tMmOGa/UiyrFHynodgJW39FshHBXALY1NdZLy7s1MiJwVqLFukKi4U5+FgdR/mbMuns9Om5pPR5RDMq+Qd+wkz+0oeNQRqzxRiwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745701240; c=relaxed/simple;
-	bh=33Wf2PI+zGPvkZcomFlBU/xgf0HsrI1SLw/lHLdvQgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AXshhtj7c9omxm2k607MuP4TluiOK1a0xF/HQmCWw70xzOT4HRUaITza0/nMV9q1ZzbcMqd+2h/iNqLR04iKyK+2vTb3FCdm/eDSwwQJ7z0rfGjF03/SEM87qW8Wl5JImaitYKLqswc592m7+zL/DZpNIwn+03UZpOCyQVxLJTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rb3H/Opj; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745704484; c=relaxed/simple;
+	bh=zOvKS8HfF3ul3wcfcEnnWBhtgOVVT5StFc39IBR/X3s=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dxWS2JfttpcnEtaj2vHgZ6xH1stqQUMSdqHOgstWcCjb1V3SRDGNuZSVal/WK+E36WY5gtbE3jKp0nAg7DI0ym7+B0jsXdFfnJStl2t+FxmcqDNuNSro2Jbtmv/mraYB0JJkN1IGZU7jH3t5uDcHTLvd7kunzaTsasQ1QFDxtMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=A+q1c1nJ; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nurfuerspam.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rb3H/Opj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745701239; x=1777237239;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=33Wf2PI+zGPvkZcomFlBU/xgf0HsrI1SLw/lHLdvQgw=;
-  b=Rb3H/OpjZvaYXj44hbORFjx/kTpskgLWU39nNS0Xa2lrwrHJWGaJXxv7
-   lq6jMN4tnm3g00aHfpVg1bHBe2ERRd3wGZfwDftLbU0bWPtkDXuHVHndL
-   fHKYjyfUyq8KkGt31ZJ9WWgdmvFPuBil/3pxiqkSbuCyc9ypaZWlmXr5a
-   YgHYp1Lw3mVopfNzmJCku4aqS065lJcTcND9TsH08IMsSYYXhZmqOpkIL
-   v6MdOwg/o7oBI2oTKKwi1xMFMcNOS22U73gGUvzMZXrvgt603u9dvGiKL
-   RyIbADbLaNRoGfOvSUK4PgoO0QhIIhUKsMwXQwabjCZMEfEo5/V1Iwwj3
-   w==;
-X-CSE-ConnectionGUID: jiUtTrihQc67I4g+4RtEMA==
-X-CSE-MsgGUID: iWCqz5fYTNyEc/8/dHIizg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="51001167"
-X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="51001167"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 14:00:39 -0700
-X-CSE-ConnectionGUID: B4AjNn02TCWNWxXFsYGbCw==
-X-CSE-MsgGUID: n66orxfuT7+Hd7ZlSOHqmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="137227638"
-Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Apr 2025 14:00:36 -0700
-Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u8mdW-0005zV-19;
-	Sat, 26 Apr 2025 21:00:34 +0000
-Date: Sun, 27 Apr 2025 04:59:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: drivers/gpu/drm/panel/panel-himax-hx83102.c:67: warning: Cannot
- understand          * @width_mm: width of the panel's active display area
-Message-ID: <202504270445.BKZnZEmV-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="A+q1c1nJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nurfuerspam.de;
+	s=s31663417; t=1745704469; x=1746309269; i=herdler@nurfuerspam.de;
+	bh=6UX8WR1b1aNo3GfDGyLRiWCoP0+LlBWXXJWJ/Mv8Te0=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=A+q1c1nJH5Cjst+gBBANLOHsStojP3uQX2MqbBuv7U5TmWkszAL15/alKVy/f27j
+	 zibyAFu+itlNV2FJFEtApKYiXKrkfRLWB3qzjDVt2xLn+gUxC7dvCnGeJyqg8ggMl
+	 cNVPQ2GJsmuckKQVmguo2fpYV58gLndL+NeGjP1JhqTRdpaQusV8ozPvviU/gK8s3
+	 TmefAE5KwhjCbQbHMXnSX5I541hSxhtJaRgNjqvDNi9IbjB1sNIQbmwLdkP3wyLVE
+	 soNigxRPwweNH7tqs5jAv+xkel63QHtrmBM4hse3ljVsmAR4L/uuwfhZZCq3nyNoh
+	 /xinAK7jtjclt8Q55w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from astro.haus ([178.132.68.48]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhlGk-1umW0b1cvo-00kDdv; Sat, 26
+ Apr 2025 23:54:29 +0200
+From: Stefan Herdler <herdler@nurfuerspam.de>
+To: lkp@intel.com
+Cc: herdler@nurfuerspam.de,
+	hverkuil@xs4all.nl,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH] media: av7110: Workaround a compiler warning
+Date: Sat, 26 Apr 2025 23:54:09 +0200
+Message-Id: <20250426215409.36852-1-herdler@nurfuerspam.de>
+X-Mailer: git-send-email 2.34.0
+In-Reply-To: <202504262127.FkkWHzfs-lkp@intel.com>
+References: <202504262127.FkkWHzfs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:xypEWkhXizihWrQsChbcn5DlIjhdILF7i4NAb888rLBpvNxWpHB
+ G/adbFSH/Mfbs2rFzTmMB/8qfWCS3UibYYqqSwBYs57u7pAv9ELAWx5A5Rs1qAh9aPPxSds
+ FqXiAB9Gjzy+xgCRL/V0CzYD2f0FleATyKRoE1Zoj1/QiJ1/kU2BTjzFatkxRSR76h9OL8n
+ Ukf8F0l1rTd7yUM39FqmA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:6sedqHscmFU=;t3uBPmbvm1V2JFsLBbdrgYpuxKx
+ 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
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: 0ef94554dc40fbdb7e57ff90cd1e7fa71e1e89fd drm/panel: himax-hx83102: Break out as separate driver
-date:   12 months ago
-config: sparc-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270445.BKZnZEmV-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 10.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270445.BKZnZEmV-lkp@intel.com/reproduce)
+Avoid compiler warning caused by an empty block statement.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504270445.BKZnZEmV-lkp@intel.com/
+Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202504262127.FkkWHzfs-lkp@in=
+tel.com/
+=2D--
 
-All warnings (new ones prefixed by >>):
+I could not reproduce this warning with gcc10 here, but I already had simi=
+lar
+warnings with gcc12 on other projects.
+I think it has most probably been triggered by the empty block statement.
 
->> drivers/gpu/drm/panel/panel-himax-hx83102.c:67: warning: Cannot understand          * @width_mm: width of the panel's active display area
-    on line 67 - I thought it was a doc line
+I'm pretty confident this patch will fix the warning, but not 100% sure.
+
+The kernel test robot will pick this patch and test is anyway, if I'm corr=
+ect.
+Let's wait, if it complains again.
+That's the best I can do right now.
+
+Regards
+Stefan
 
 
-vim +67 drivers/gpu/drm/panel/panel-himax-hx83102.c
+ drivers/staging/media/av7110/av7110.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-    62	
-    63	struct hx83102_panel_desc {
-    64		const struct drm_display_mode *modes;
-    65	
-    66		/**
-  > 67		 * @width_mm: width of the panel's active display area
-    68		 * @height_mm: height of the panel's active display area
-    69		 */
-    70		struct {
-    71			unsigned int width_mm;
-    72			unsigned int height_mm;
-    73		} size;
-    74	
-    75		int (*init)(struct hx83102 *ctx);
-    76	};
-    77	
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media=
+/av7110/av7110.c
+index bc9a2a40a..962536ed7 100644
+=2D-- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -159,7 +159,7 @@ static void init_av7110_av(struct av7110 *av7110)
+ 		 * some special handling for the Siemens DVB-C cards...
+ 		 */
+ 	} else if (av7110_init_analog_module(av7110) =3D=3D 0) {
+-		/* done. */
++		goto init_skip_analog_module;
+ 	} else if (dev->pci->subsystem_vendor =3D=3D 0x110a) {
+ 		pr_info("DVB-C w/o analog module @ card %d detected\n", av7110->dvb_ada=
+pter.num);
+ 		av7110->adac_type =3D DVB_ADAC_NONE;
+@@ -168,6 +168,7 @@ static void init_av7110_av(struct av7110 *av7110)
+ 		pr_info("adac type set to %d @ card %d\n", av7110->adac_type, av7110->d=
+vb_adapter.num);
+ 	}
+=20
++init_skip_analog_module:
+ 	if (av7110->adac_type =3D=3D DVB_ADAC_NONE || av7110->adac_type =3D=3D D=
+VB_ADAC_MSP34x0) {
+ 		// switch DVB SCART on
+ 		ret =3D av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, MainSwitch, 1, 0);
+=2D-=20
+2.34.0
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
