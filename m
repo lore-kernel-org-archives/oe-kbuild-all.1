@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD096237163
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Apr 2025 06:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02745241695
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Apr 2025 08:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745734523; cv=none; b=i2oFigaI4uo93A+VfrRCKQVapkpm8PN+87L+UEuZrUlYRWR5lDoHdtQSJVr4NjaIarG2mxC/2PimQWsybhSMFekEs/Sz9pexpIrhi70dN1n/N3GQ2lTDAiH6JSKZBcUDIp0ydiYyKPLQMo/L/ybUdXBOFOMMJ0+3Am5T0fwCFB4=
+	t=1745743170; cv=none; b=aT6NTSRESMsMcdNm4zx9wemkHyaUwAbHwQmtpX/Ary/KIeCQVYq3E8fBLx8r+IAiHoo037Y5O/4BfW3QRByrBcAQao6lhBHJHwL6QHNQifMC94alw9+aqXhu/zgu2YGsJzwk5vhM7deDjvFIXrndLpSrxlmLCkcZHNuV2qR/Nuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745734523; c=relaxed/simple;
-	bh=Spv2kcfLKKvB3c9NmgCG1sn10fxF0SOsf1c+Sb8hYjM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jS2bXpa47ZxECGDbZXi2XzMKWdUsVZgxXLk5Oiw0GT6zehGcsLXRpKN17U5mJH6tLzgJ1RD/sLN+Xz0QekTjgfO0up7BQjhSniPJThTnnZ5U44wGT/10mW0ndBpRtBwhUsxGWSOtGXBTUr4EdOKCNstlTNi3Eu0C4YR91cm6+dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=am4DW47U; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1745743170; c=relaxed/simple;
+	bh=3JJDGurve+hRagJydOAH5F2IgPnuoUcTq5M/7yzwLbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u64YwHr7LLp/ZPTjbBXyPgb2qTLc3PXoPXZh0V7LRPF2ZLplpsXFV1j3nBOr7iPqtS7noNtpQHv360lvu0Qh2JtO/f6qe4JExBOH9+zygmTiL9st74rDpD221Xq67QlRGkZ3LyrB3AWZ/KNCHyxtiit73sE3BIgYOzzxng6+y30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGYfzLQg; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="am4DW47U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGYfzLQg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745734522; x=1777270522;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Spv2kcfLKKvB3c9NmgCG1sn10fxF0SOsf1c+Sb8hYjM=;
-  b=am4DW47UgQKzGX1aguTLSC60NYMmgJziFMufUUaCAA/URA/2u4T41Xwm
-   M5vx6y5vj87YKUhlYLPT5SAAMbmda6RnXgG7IWXzKBUot8YbY/PljB7Fj
-   eiKqz+Dm2qotEE4+tsGWyg0msaPZY0N9v8ZFHz+XluQdjcD4BD3xWr/SD
-   N8K3JPHkCTXCgWskLF6OJmeJ4cA3Yi8DfsuC0WYE5YfDpLs+7NH7bJU8P
-   YXAIX9g2AATkJEUjQgtZKCq+M4OtFUCCWlhzB0/UDX/GgaUa3dtx+xq5i
-   UFZh1Ib04xnmxko0O2c7+/8ivfRdKmD3+nrlO3BpUelu0rs75mv2Soyrd
-   A==;
-X-CSE-ConnectionGUID: WNrmgYA4RQiQS25h18nPVw==
-X-CSE-MsgGUID: 42VhMPm4RNOGZ6GVnG7coQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="46578508"
+  t=1745743169; x=1777279169;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3JJDGurve+hRagJydOAH5F2IgPnuoUcTq5M/7yzwLbQ=;
+  b=FGYfzLQgtjvTw8y9rn3hwzSRObqLrvY9Fxa4RmOVHde1rgI+leHNylHp
+   8DsmJKwmhqIwMcInIudHObeUUMajWy7wdFC4HbHi5x19ic5rgg6Rxywv3
+   jevcmkxgMaVki5MFQItu0QNIVcziqxWJQJ/kEgu+RspHyqJda51sTyjgS
+   94kzk+YxqQn4zEp/QmVIIAia0mSV8XDr21W31SkeTToyWGJWe3ajQG/VN
+   +jXyYiEQ1SAWPT+ku+A79oVGy9S5SpIm3pvVSmD0k90NAwHGDaZV84YS5
+   Vu0fhinaeB6ia8eOEAjNPe81A68ZzlDND1MJKRyODxSXoRRH9n3jvBZW1
+   g==;
+X-CSE-ConnectionGUID: 9ZNhnSjPQ1iv4/QiDpth2g==
+X-CSE-MsgGUID: LXR7s+njR+mVOpGJxd0Blw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="51019951"
 X-IronPort-AV: E=Sophos;i="6.15,243,1739865600"; 
-   d="scan'208";a="46578508"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 23:15:18 -0700
-X-CSE-ConnectionGUID: mRi7tWCUQTGA35hwXdMYIw==
-X-CSE-MsgGUID: ZGNuoRJGTOGcBShz+Ebfmg==
+   d="scan'208";a="51019951"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2025 01:39:28 -0700
+X-CSE-ConnectionGUID: X/0Q7e+NRPCHQlG2RMExcA==
+X-CSE-MsgGUID: +s39nTQgSrOmKR05DHz2wQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,243,1739865600"; 
-   d="scan'208";a="138331905"
+   d="scan'208";a="134199044"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Apr 2025 23:15:16 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 27 Apr 2025 01:39:26 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8vII-000691-1n;
-	Sun, 27 Apr 2025 06:15:14 +0000
-Date: Sun, 27 Apr 2025 14:15:12 +0800
+	id 1u8xXo-0006CP-0j;
+	Sun, 27 Apr 2025 08:39:24 +0000
+Date: Sun, 27 Apr 2025 16:38:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lijo Lazar <lijo.lazar@amd.com>
+To: Jianhua Lin <jianhua.lin@mediatek.com>, mchehab@kernel.org,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Kenneth Feng <kenneth.feng@amd.com>, linux-doc@vger.kernel.org
-Subject: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/arcturus_ppt.c:1348:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202504271422.D6cqMlZ0-lkp@intel.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	Jianhua Lin <jianhua.lin@mediatek.com>
+Subject: Re: [PATCH 1/1] media: mediatek: jpeg: add compatible for MT8188 SoC
+Message-ID: <202504271638.9nCgQcOR-lkp@intel.com>
+References: <20250426081928.27351-1-jianhua.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,64 +67,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250426081928.27351-1-jianhua.lin@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: da868898cf4c5ddbd1f7406e356edce5d7211eb5 drm/amd/pm: Remove arcturus min power limit
-date:   5 months ago
-config: sparc-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250427/202504271422.D6cqMlZ0-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 10.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504271422.D6cqMlZ0-lkp@intel.com/reproduce)
+Hi Jianhua,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on linus/master v6.15-rc3 next-20250424]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jianhua-Lin/media-mediatek-jpeg-add-compatible-for-MT8188-SoC/20250426-162259
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250426081928.27351-1-jianhua.lin%40mediatek.com
+patch subject: [PATCH 1/1] media: mediatek: jpeg: add compatible for MT8188 SoC
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250427/202504271638.9nCgQcOR-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504271638.9nCgQcOR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504271422.D6cqMlZ0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504271638.9nCgQcOR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/arcturus_ppt.c:1348: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-            * No lower bound is imposed on the limit. Any unreasonable limit set
+>> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1948:10: error: 'const struct mtk_jpeg_variant' has no member named 'support_34bit'
+    1948 |         .support_34bit = true,
+         |          ^~~~~~~~~~~~~
+   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1964:10: error: 'const struct mtk_jpeg_variant' has no member named 'support_34bit'
+    1964 |         .support_34bit = true,
+         |          ^~~~~~~~~~~~~
 
 
-vim +1348 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/arcturus_ppt.c
+vim +1948 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
 
-  1321	
-  1322	static int arcturus_get_power_limit(struct smu_context *smu,
-  1323						uint32_t *current_power_limit,
-  1324						uint32_t *default_power_limit,
-  1325						uint32_t *max_power_limit,
-  1326						uint32_t *min_power_limit)
-  1327	{
-  1328		PPTable_t *pptable = smu->smu_table.driver_pptable;
-  1329		uint32_t power_limit;
-  1330	
-  1331		if (smu_v11_0_get_current_power_limit(smu, &power_limit)) {
-  1332			/* the last hope to figure out the ppt limit */
-  1333			if (!pptable) {
-  1334				dev_err(smu->adev->dev, "Cannot get PPT limit due to pptable missing!");
-  1335				return -EINVAL;
-  1336			}
-  1337			power_limit =
-  1338				pptable->SocketPowerLimitAc[PPT_THROTTLER_PPT0];
-  1339		}
-  1340	
-  1341		if (current_power_limit)
-  1342			*current_power_limit = power_limit;
-  1343		if (default_power_limit)
-  1344			*default_power_limit = power_limit;
-  1345		if (max_power_limit)
-  1346			*max_power_limit = power_limit;
-  1347		/**
-> 1348		 * No lower bound is imposed on the limit. Any unreasonable limit set
-  1349		 * will result in frequent throttling.
-  1350		 */
-  1351		if (min_power_limit)
-  1352			*min_power_limit = 0;
-  1353	
-  1354		return 0;
-  1355	}
-  1356	
+  1934	
+  1935	static const struct mtk_jpeg_variant mtk8188_jpegenc_drvdata = {
+  1936		.clks = mtk_jpeg_clocks,
+  1937		.num_clks = ARRAY_SIZE(mtk_jpeg_clocks),
+  1938		.formats = mtk_jpeg_enc_formats,
+  1939		.num_formats = MTK_JPEG_ENC_NUM_FORMATS,
+  1940		.qops = &mtk_jpeg_enc_qops,
+  1941		.irq_handler = mtk_jpeg_enc_irq,
+  1942		.hw_reset = mtk_jpeg_enc_reset,
+  1943		.m2m_ops = &mtk_jpeg_enc_m2m_ops,
+  1944		.dev_name = "mtk-jpeg-enc",
+  1945		.ioctl_ops = &mtk_jpeg_enc_ioctl_ops,
+  1946		.out_q_default_fourcc = V4L2_PIX_FMT_YUYV,
+  1947		.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
+> 1948		.support_34bit = true,
+  1949	};
+  1950	
 
 -- 
 0-DAY CI Kernel Test Service
