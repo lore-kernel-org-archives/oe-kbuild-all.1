@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCC718DB24
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Apr 2025 21:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70731EF38F;
+	Sun, 27 Apr 2025 22:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745789845; cv=none; b=EffH8kRLdF9xkgqxmJLTECkw6etyyCSnUjO0sYR8J8YsRY+SbLh6PCqcO4mYV9ppa/lH5/TcuDUulCjj3oy1lxt3+q02SERWPS6u5DwU4+g+txGJDncqT2BOSJe/uGcNnBW5Ujc7JXwX/5O7WMADIPqMxH6guoefp4WO7FJUOVs=
+	t=1745792371; cv=none; b=TtY8pa2xfFXCet598nTyjaDeOAnKNp3GPZ4lKO0EM5ixt8nRUVPpglRotXiLY+W/740MVgQRj7mzLSXLCVexZxKGodLKSnf8PW70zhpbEG+TU5uA+JN6IR5jSuZs3KpiTMKimaZwaQNPdBbOplONpYknoEo9E9F0khctnDB8tK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745789845; c=relaxed/simple;
-	bh=4/N/81IEoXrJM9MBN/nJeS0up7G3RDxRZwPnPkRY+3I=;
+	s=arc-20240116; t=1745792371; c=relaxed/simple;
+	bh=pK2Rfrkca+Z47S8qjbclg2Q9eSpavlYxdJ9BIoBb384=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Za9C/r7dAjKmAy8I7Ozccv1xRUfowLGnkT/P0ffHSmBha2ioKS6TiOf6ClkVpSYBVun30gk1H0DXRnRw/8WDbW1ygDnEnZV+fNfWTyZqLj5zX4CD9zLR8+pxJqxcnXNZUpd3mfc2m0WwsWcJThKCNwKH1LboDPRK29B3QwYdRlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1xgdtkc; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=GOLho8plVErITSQjswx9sGLu9+LWTFzsSYkBoSD46bewPRjI1wi709yveyrSGInsGYczvB9lMNKvFuH9Y2qKiMaysGUtp960I6+eCE+BNMZqJ67i0yR+XEyXRbz0nXtDbIXeVQVty1kAQd2tvGybBaFZAqpzzj3xIOyRFtML39Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEJsPBjo; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1xgdtkc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEJsPBjo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745789843; x=1777325843;
+  t=1745792368; x=1777328368;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4/N/81IEoXrJM9MBN/nJeS0up7G3RDxRZwPnPkRY+3I=;
-  b=Q1xgdtkceTN+w4luVSdlk+/UOUHjXId+DBbv5FA8fB5ESLwHBs2M3rfy
-   3d1nudGU3aPfICQdU0w8wJJ01kfUAYSX92qYCJhzB40iYvxF0U/p6NeNg
-   NB1raheyP/oViDKKyLOYRS4kUVm58bTq3d0MhVwj17G9t5J1KD8ZxlePR
-   yDLXiFuRm8cZOOI2Aa6in1RoMAi63bp2cB9DrhDSMwlDIsMf2SeGp1xG/
-   fX1QAIoHXZEBzU52waUW1Z8Iryi1U5v5Rtpjnsrrjdj6mDdawLcF6KpzG
-   N7J/F4l5BEbB5ytLG8vhG08H4NtWB3IKI/B0p3gHuoU26vfUvSNN8VJJS
-   Q==;
-X-CSE-ConnectionGUID: AlcmbYcqRjGDpsFlwGReMw==
-X-CSE-MsgGUID: nh1i2uSxTQK0Tj8ku5VWIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="34986298"
+  bh=pK2Rfrkca+Z47S8qjbclg2Q9eSpavlYxdJ9BIoBb384=;
+  b=eEJsPBjo9vitWSDCAILo6WXYSOQHiAiRfUpPpgswdOmMJfZ1ITWF6mnE
+   UleCGEviEZLckAyEV7oKkerQBi3PcPNoOgV3W7zM8MROrw+MYWeOMN1OP
+   R5yzAxI9hcJC9Q6S/hDQlWvqYd8AYhZcfQhT0jT6hc4JkaACCF39KIk6L
+   6V72eN9MLHHKtnnQrYuvGzrdChN8l7cPZaRpaWL3WeEpaRe2gapC+M+bV
+   LqZVuwqGKpWo2fNGlbXumVl1JhBJCWifGStlYXEP1qxuUYj6ObXkn1K2r
+   MOKpEm7sloELcrFHpSqOHgFg9JyBjYfATU0u7uc7UAP/uMkQfuyc8yQ2V
+   w==;
+X-CSE-ConnectionGUID: jwPsg5a6RzWDNByhE6D6DA==
+X-CSE-MsgGUID: TCnXD+lRQEiuyyg6iWOLXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="51194165"
 X-IronPort-AV: E=Sophos;i="6.15,244,1739865600"; 
-   d="scan'208";a="34986298"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2025 14:37:22 -0700
-X-CSE-ConnectionGUID: VoaLz8KeSD2MI1YZQyFxQQ==
-X-CSE-MsgGUID: dm4W74+/R+SIZyn3OWmSmA==
+   d="scan'208";a="51194165"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2025 15:19:27 -0700
+X-CSE-ConnectionGUID: BGGc8FArTWKVhr7bS/HM2g==
+X-CSE-MsgGUID: 9pFRPTiRSWmiMz7V3jm9iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,244,1739865600"; 
-   d="scan'208";a="156575098"
+   d="scan'208";a="133883606"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Apr 2025 14:37:20 -0700
+  by orviesa007.jf.intel.com with ESMTP; 27 Apr 2025 15:19:23 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u99gb-0006TV-1S;
-	Sun, 27 Apr 2025 21:37:17 +0000
-Date: Mon, 28 Apr 2025 05:37:06 +0800
+	id 1u9ALI-0006U9-33;
+	Sun, 27 Apr 2025 22:19:20 +0000
+Date: Mon, 28 Apr 2025 06:19:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kairui Song <ryncsn@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Matthew Wilcox <willy@infradead.org>,
@@ -62,7 +62,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>
 Subject: Re: [PATCH 5/6] mm: move folio_index to mm/swap.h and remove no
  longer needed helper
-Message-ID: <202504280515.4WwtyfOc-lkp@intel.com>
+Message-ID: <202504280527.sowjkuQU-lkp@intel.com>
 References: <20250427185908.90450-6-ryncsn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,31 +84,43 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/fuse-drop-usa
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20250427185908.90450-6-ryncsn%40gmail.com
 patch subject: [PATCH 5/6] mm: move folio_index to mm/swap.h and remove no longer needed helper
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250428/202504280515.4WwtyfOc-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250428/202504280515.4WwtyfOc-lkp@intel.com/reproduce)
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20250428/202504280527.sowjkuQU-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250428/202504280527.sowjkuQU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504280515.4WwtyfOc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504280527.sowjkuQU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/page-writeback.c: In function '__folio_mark_dirty':
->> mm/page-writeback.c:2767:50: error: implicit declaration of function 'folio_index'; did you mean 'folio_inode'? [-Wimplicit-function-declaration]
+>> mm/page-writeback.c:2767:36: error: call to undeclared function 'folio_index'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     2767 |                 __xa_set_mark(&mapping->i_pages, folio_index(folio),
-         |                                                  ^~~~~~~~~~~
-         |                                                  folio_inode
+         |                                                  ^
+   mm/page-writeback.c:2767:36: note: did you mean 'folio_inode'?
+   include/linux/pagemap.h:567:29: note: 'folio_inode' declared here
+     567 | static inline struct inode *folio_inode(struct folio *folio)
+         |                             ^
+   mm/page-writeback.c:3047:38: error: call to undeclared function 'folio_index'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3047 |                 __xa_clear_mark(&mapping->i_pages, folio_index(folio),
+         |                                                    ^
+   mm/page-writeback.c:3084:36: error: call to undeclared function 'folio_index'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3084 |                 XA_STATE(xas, &mapping->i_pages, folio_index(folio));
+         |                                                  ^
+   3 errors generated.
 --
-   mm/gup.c: In function 'memfd_pin_folios':
->> mm/gup.c:3652:49: error: implicit declaration of function 'folio_index'; did you mean 'folio_inode'? [-Wimplicit-function-declaration]
+>> mm/gup.c:3652:21: error: call to undeclared function 'folio_index'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     3652 |                                     next_idx != folio_index(fbatch.folios[i]))
-         |                                                 ^~~~~~~~~~~
-         |                                                 folio_inode
+         |                                                 ^
+   mm/gup.c:3652:21: note: did you mean 'folio_inode'?
+   include/linux/pagemap.h:567:29: note: 'folio_inode' declared here
+     567 | static inline struct inode *folio_inode(struct folio *folio)
+         |                             ^
+   1 error generated.
 
 
-vim +2767 mm/page-writeback.c
+vim +/folio_index +2767 mm/page-writeback.c
 
 b9ea25152e5636 Konstantin Khlebnikov   2015-04-14  2742  
 6e1cae881a0646 Matthew Wilcox (Oracle  2021-06-28  2743) /*
