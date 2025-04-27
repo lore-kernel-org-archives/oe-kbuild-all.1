@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32646747F;
-	Sat, 26 Apr 2025 23:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A467D2B9BC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Apr 2025 01:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745710371; cv=none; b=MmvYFF+8ru+3f6gF7f1e+J0/hTag7iO2Lf93rwSZlM2IuIQhoYTQT5FDtQx5CootvPZFqS2OyF5sXDtLvvlPbrcKO5wGh1/DHO3e4LFhQx1tWTfF78l0cK8jy910NAVpLlMPfQ7GuyqApjIvkrDYMNAHErb8I2bK07J7WRCjcRs=
+	t=1745718964; cv=none; b=BaYsBZHG33yeZD6vAr7HVebgruo4b7e9Gxh8MdLusF+t42pcI/SB8z32L3CNYyQNNJwTG/sA5azVF0MKuVnTOi4cxHfdVgWrmmPygcq+FdAFW0IDTdT+RRXU001H/c/EezAknZoAo+xEPFNv0gcI6c1idBVM/efD0RCyNYNIH+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745710371; c=relaxed/simple;
-	bh=k8ZVkr6CliA3+udI94SAURtacqxZgPrsY3DirrGRsGI=;
+	s=arc-20240116; t=1745718964; c=relaxed/simple;
+	bh=m6wMOhB/QmSA6Bw/+B6zy/hHoBsN2Sv1XTfyaFFtEfA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uQzqh/vf1e6smj6S38camxLHmtY1aPeIGnzR2bXnNd1DBq+YhNPvWDCVAmcbnbq+NAG51yroSszpBf6HY+dTJka6VBYwM1gH1xK+btmllpvKu8ujGaKUqC5wkI30H50KtvPYmTNz5RZlp7WglWviZjBNLTvDsXzhculz17Tfn48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=biKnX8UT; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=tpF4Xp7ikYqhfbCztM8VAv/7H42lwiUHESmpR3zMJxUq0DzfkZuaGATVJf8y37ZzfNLrFqKqaGrnIjl3qQzrCnyhkFEnIatQOISVhyzBziDheoe7OmJpsgbZ64KromRLsFsjRiIsMuEkQ9a4kVBRwnLA5EDKdJk8ICoDWhYThfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNpwHDBQ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="biKnX8UT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNpwHDBQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745710370; x=1777246370;
+  t=1745718962; x=1777254962;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=k8ZVkr6CliA3+udI94SAURtacqxZgPrsY3DirrGRsGI=;
-  b=biKnX8UTxO+bPfdsBCfECpZ7eCqXhacT90KA/yeHBTXijjgQK7KE0gIT
-   QvvKPZJvUbJEM5hVG/a1B5bi3KajcGgEfQZRcuYQpJoyo4X3u6Rt6nK+l
-   IJe8BB7W2/KGXz2HuGFJfWuszhMvjP6myN/KmN4X06Uz30sUXclN4her9
-   5D4iDGZJ5RBIccjsuCEgxFg8Vlrui8G23kzQrE3pPo8MR3EQ05Xj1efn0
-   UVW4MW9JC7iDUVPnIBTImG6iRLcxTZXdogLzARzc6yhYssSpqCysWUSPu
-   dcqo3GPqGf3q2DIfkVLlGZYmyrK5PkrKzwX32A6epKxnP2PNoefwvc16Z
-   w==;
-X-CSE-ConnectionGUID: yjVUJYOPSCmkqY5kRj+d4Q==
-X-CSE-MsgGUID: LhqJa1QkRhOrpDRo6UJ7eA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="47218202"
-X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="47218202"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 16:32:49 -0700
-X-CSE-ConnectionGUID: 7b2e/8ktQriMBZ7IJxsM8w==
-X-CSE-MsgGUID: +wziMIuVRjGVxw3dGq+kVg==
+  bh=m6wMOhB/QmSA6Bw/+B6zy/hHoBsN2Sv1XTfyaFFtEfA=;
+  b=mNpwHDBQDbpktmdVbzYf0/kjzVu3k2bexD5qmRM5MBOuYhV0x27SeqNZ
+   8Q8kZpShFInhYlHKqHAlUGL+lO9ylYVZmJBRY0fjWgvyJf2r/zVSy8dZ3
+   SPz6nlGYYIKb7pm/BW65TGuyQQb8xsIfXE9v/XoXc73CZ5aydi7oRAtbI
+   jcBZjS9TE8/HjC2/FKpnpvWKI41fC3qqRKe1kXFT5F/6T/B4nc0a2cUVU
+   4zy/iqrF4VAkLlT7E2EL/yn6T1rRwsCRWdUL7TzQTubwAE75rpUdgXcxs
+   2ucLL+54UoLMC+XaO0B6BwQQc1qgzhPMt6FAo9v1kVpWn3GMngSPkK1cG
+   A==;
+X-CSE-ConnectionGUID: ycTiSdjNS5iKRW9W2+2hrw==
+X-CSE-MsgGUID: ICY8i/dMRZic32hLx37JZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="58704531"
+X-IronPort-AV: E=Sophos;i="6.15,243,1739865600"; 
+   d="scan'208";a="58704531"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 18:56:01 -0700
+X-CSE-ConnectionGUID: vvRSLw4UQXqozfsE2gGZvQ==
+X-CSE-MsgGUID: IqCyKMdLRpqRQLXF41FxXQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
-   d="scan'208";a="132927021"
+X-IronPort-AV: E=Sophos;i="6.15,243,1739865600"; 
+   d="scan'208";a="133736627"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Apr 2025 16:32:48 -0700
+  by orviesa007.jf.intel.com with ESMTP; 26 Apr 2025 18:55:57 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8p0n-00061l-0P;
-	Sat, 26 Apr 2025 23:32:45 +0000
-Date: Sun, 27 Apr 2025 07:32:25 +0800
+	id 1u8rFK-00063Z-2U;
+	Sun, 27 Apr 2025 01:55:54 +0000
+Date: Sun, 27 Apr 2025 09:54:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chathura Rajapaksha <chathura.abeyrathne.lk@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] audit accesses to unassigned PCI config regions
-Message-ID: <202504270713.ZepwWC7B-lkp@intel.com>
-References: <20250426212253.40473-3-chath@bu.edu>
+To: David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/6] iio: introduce IIO_DECLARE_BUFFER_WITH_TS macros
+Message-ID: <202504270919.3FGvikEj-lkp@intel.com>
+References: <20250425-iio-introduce-iio_declare_buffer_with_ts-v3-1-f12df1bff248@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +72,162 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250426212253.40473-3-chath@bu.edu>
+In-Reply-To: <20250425-iio-introduce-iio_declare_buffer_with_ts-v3-1-f12df1bff248@baylibre.com>
 
-Hi Chathura,
+Hi David,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on f1a3944c860b0615d0513110d8cf62bb94adbb41]
+[auto build test WARNING on aff301f37e220970c2f301b5c65a8bfedf52058e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chathura-Rajapaksha/block-accesses-to-unassigned-PCI-config-regions/20250427-052942
-base:   f1a3944c860b0615d0513110d8cf62bb94adbb41
-patch link:    https://lore.kernel.org/r/20250426212253.40473-3-chath%40bu.edu
-patch subject: [RFC PATCH 2/2] audit accesses to unassigned PCI config regions
-config: arm-randconfig-003-20250427 (https://download.01.org/0day-ci/archive/20250427/202504270713.ZepwWC7B-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270713.ZepwWC7B-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-introduce-IIO_DECLARE_BUFFER_WITH_TS-macros/20250426-051240
+base:   aff301f37e220970c2f301b5c65a8bfedf52058e
+patch link:    https://lore.kernel.org/r/20250425-iio-introduce-iio_declare_buffer_with_ts-v3-1-f12df1bff248%40baylibre.com
+patch subject: [PATCH v3 1/6] iio: introduce IIO_DECLARE_BUFFER_WITH_TS macros
+config: i386-randconfig-r133-20250427 (https://download.01.org/0day-ci/archive/20250427/202504270919.3FGvikEj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270919.3FGvikEj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504270713.ZepwWC7B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270919.3FGvikEj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/iio/accel/adxl313_core.c: note: in included file (through drivers/iio/accel/adxl313.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adxl345_core.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adxl355_core.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adxl313_spi.c: note: in included file (through drivers/iio/accel/adxl313.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adis16201.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adis16209.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/dmard09.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/da311.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adxl313_i2c.c: note: in included file (through drivers/iio/accel/adxl313.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adxl367_spi.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/da280.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/kxsd9.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/bma220_spi.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/kionix-kx022a.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adxl372.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/kxcjk-1013.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/fxls8962af-core.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adxl380.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/adxl367.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/mma7455_core.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/mc3230.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/ssp_accel_sensor.c: note: in included file (through include/linux/iio/common/ssp_sensors.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/mma7660.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/sca3300.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/mma9551.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/mma9551_core.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/mxc4005.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/stk8312.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/stk8ba50.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/sca3000.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/msa311.c: note: in included file (through include/linux/iio/buffer.h):
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
+--
+   drivers/iio/accel/mma9553.c: note: in included file:
+>> include/linux/iio/iio.h:815:1: sparse: sparse: static assertion failed: "macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment"
 
->> drivers/vfio/pci/vfio_pci_config.c:2011:32: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-    2008 |                          "device=%04x:%02x:%02x.%d access=%s offset=0x%llx size=%ld blocked=%u\n",
-         |                                                                                 ~~~
-         |                                                                                 %zu
-    2009 |                          pci_domain_nr(pdev->bus), pdev->bus->number,
-    2010 |                          PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn),
-    2011 |                          vfio_audit_str[op], *ppos, count, blocked);
-         |                                                     ^~~~~
-   1 warning generated.
+vim +815 include/linux/iio/iio.h
 
-
-vim +2011 drivers/vfio/pci/vfio_pci_config.c
-
-  1994	
-  1995	static void vfio_audit_access(const struct pci_dev *pdev,
-  1996				      size_t count, loff_t *ppos, bool blocked, unsigned int op)
-  1997	{
-  1998		struct audit_buffer *ab;
-  1999	
-  2000		if (WARN_ON_ONCE(op >= VFIO_AUDIT_MAX))
-  2001			return;
-  2002		if (audit_enabled == AUDIT_OFF)
-  2003			return;
-  2004		ab = audit_log_start(audit_context(), GFP_ATOMIC, AUDIT_VFIO);
-  2005		if (unlikely(!ab))
-  2006			return;
-  2007		audit_log_format(ab,
-  2008				 "device=%04x:%02x:%02x.%d access=%s offset=0x%llx size=%ld blocked=%u\n",
-  2009				 pci_domain_nr(pdev->bus), pdev->bus->number,
-  2010				 PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn),
-> 2011				 vfio_audit_str[op], *ppos, count, blocked);
-  2012		audit_log_end(ab);
-  2013	}
-  2014	
+   782	
+   783	#define __IIO_DECLARE_BUFFER_WITH_TS(type, name, count) \
+   784		static_assert(count); \
+   785		type name[ALIGN((count), sizeof(s64) / sizeof(type)) + sizeof(s64) / sizeof(type)]
+   786	
+   787	/**
+   788	 * IIO_DECLARE_BUFFER_WITH_TS() - Declare a buffer with timestamp
+   789	 * @type: element type of the buffer
+   790	 * @name: identifier name of the buffer
+   791	 * @count: number of elements in the buffer
+   792	 *
+   793	 * Declares a buffer that is safe to use with iio_push_to_buffer_with_ts(). In
+   794	 * addition to allocating enough space for @count elements of @type, it also
+   795	 * allocates space for a s64 timestamp at the end of the buffer and ensures
+   796	 * proper alignment of the timestamp.
+   797	 */
+   798	#define IIO_DECLARE_BUFFER_WITH_TS(type, name, count) \
+   799		__IIO_DECLARE_BUFFER_WITH_TS(type, name, count) __aligned(sizeof(s64))
+   800	
+   801	/**
+   802	 * IIO_DECLARE_DMA_BUFFER_WITH_TS() - Declare a DMA-aligned buffer with timestamp
+   803	 * @type: element type of the buffer
+   804	 * @name: identifier name of the buffer
+   805	 * @count: number of elements in the buffer
+   806	 *
+   807	 * Same as IIO_DECLARE_BUFFER_WITH_TS(), but is uses __aligned(IIO_DMA_MINALIGN)
+   808	 * to ensure that the buffer doesn't share cachelines with anything that comes
+   809	 * before it in a struct. This should not be used for stack-allocated buffers
+   810	 * as stack memory cannot generally be used for DMA.
+   811	 */
+   812	#define IIO_DECLARE_DMA_BUFFER_WITH_TS(type, name, count) \
+   813		__IIO_DECLARE_BUFFER_WITH_TS(type, name, count) __aligned(IIO_DMA_MINALIGN)
+   814	
+ > 815	static_assert(IIO_DMA_MINALIGN % sizeof(s64) == 0,
+   816		"macros above assume that IIO_DMA_MINALIGN also ensures s64 timestamp alignment");
+   817	
 
 -- 
 0-DAY CI Kernel Test Service
