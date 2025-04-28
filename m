@@ -1,59 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B291C1F0C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474CC1D5159
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 01:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745889588; cv=none; b=e8A5H/khUgRz6xMbXgihz080kVl4cR0HuONBpu6yt35Ub3Qsjlehfys8JxCEiKVpkT77ZQebLFDMKyNMigUQBU2MByumZ/GckhyqUdoDS3zxTbwpK4GwDfAYLAuXJb4DxRskEwUw5PNpiyRjcYgLdJu33l2OkW972YzbwmAHLGc=
+	t=1745889588; cv=none; b=Ztv8G6K3kWO4sHOqR013vy2J0Sj0OmHBT44ZPLewjyb0OWv3pARTTykt5qW9cpzNztaeY/yGTwkWIMlaDtQsQRwi4XUgJgliSB/TzH+ICcrxbf7m8OOjGk70Nan9Ybe5aVamqemeqi2/kiX5YK4CbJAmaE+s0wD8xwOZNzGqvFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745889588; c=relaxed/simple;
-	bh=YqqqAbhjx7n07GatNn8DJVZ6TuBoq0kXLy5R0OMNVXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZauVTxRSfHpZdkj1Mm2wtpnqfKDkKsoeiotgLMC5vk9pBOjsCPasoL61jIyJGdC+OTpPFiwEeC6KVu3Y1EFO7WPeyDExH/96cDwyv4hOLe6tOA0czrYxRlhUtspErhr7bpLu7zCKe4C8dm67mtmMxe3nrUoz/Ka57dALHXVYobY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBIcVTKd; arc=none smtp.client-ip=198.175.65.15
+	bh=Pu2wLgfGRRq8hrC3IwkTdD3V5uw2TWb1PcFwwrUwlGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RR5Wk4hIdCRrDJOV4s7uIQkebPcEmHYDmdZEwOSqNTb2EUFznggc0fa7asfAgzVL+CXFYypjekt8HPi6dZdVoWZCsBY3jiN9MrYZ0afi8jTgaw6j8SAoZ62PaTySubc5ckWvj47Vx+TYwCq79MlMGemrMjLx5jGbuAboHhjv2nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iguI8i3d; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBIcVTKd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iguI8i3d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1745889587; x=1777425587;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YqqqAbhjx7n07GatNn8DJVZ6TuBoq0kXLy5R0OMNVXE=;
-  b=IBIcVTKd699uOuZOFZ5hzdu35T7mdx30z0FZcShmgK6wTRO0hk62NLJX
-   6AaZ+erLjwvTpppG8vz0Ni4jcgFTmxUiEk7Z3qDWDiPFdDJhsRozwghja
-   2sFfHeBpJoDRhEtdfNMCS4zvwPiPBjYdqRMT4LMKvTdsLw2cXvz1ND9eU
-   c3yjDcUEF2YOSNyazZFIvpjoifODMIlgpC9R+kdlRjkI21xhEXngz49Vc
-   tZVXPiKVdocEwq761g27mrq1hQLeuWkkPtywhnrDnqxKB0pCzXQeDV7h/
-   rNlg4pY68pDC0wzGv5AxXtjNcBYX7zvyMenEn+F8Aruuc5xiPRBpKlh1Q
-   A==;
-X-CSE-ConnectionGUID: t+pVTlPTQd2MJ8rMJXb4bA==
-X-CSE-MsgGUID: FhTR1ksYQNWoBmRj/EIdmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="51165292"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Pu2wLgfGRRq8hrC3IwkTdD3V5uw2TWb1PcFwwrUwlGw=;
+  b=iguI8i3doVhbiCwEOAKSsQE3dczPu65/3KI8QWaj4f9WG3+VPjTBoVQw
+   Xep/WVcQbY8UtQqsQw7hgO3f/y8o1oenX1UbO/QGc8WbTRWL3vsEeClFb
+   8ruCNtx3/9Erlr8mlyzYeLL0HW+GIUrcxOg7SGzeXSsrO1MK3ashuYnjc
+   if1xu29QF9vGa3vF4SanNBmzSymbPAHwlG4bYm6JKvNz4rCobM0D4F0Bf
+   onJZs+Dramnlm7Z5RBzDQ2+Rdi0EKj36QialHjcUWq67VqfA7VDqi+ngE
+   CNdZIfZQhutkfa/xfngmtg7pnqVAoRGZ7sZ4pKc1IQ1a1/sbYv3T7Q3Ef
+   w==;
+X-CSE-ConnectionGUID: MQxu3m2VSqKhNth7eUREnQ==
+X-CSE-MsgGUID: 1zKAspopRdOWF9a9Lh6zKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="51165291"
 X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="51165292"
+   d="scan'208";a="51165291"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 18:19:35 -0700
-X-CSE-ConnectionGUID: 28iTd8RsTJyz8/gIaEMXSQ==
-X-CSE-MsgGUID: GMQviz0cRj+oqna8xKku+w==
+X-CSE-ConnectionGUID: lkC3NN5QQKu5gK1cmNNkwA==
+X-CSE-MsgGUID: Xt1DrXtvTW+qYMXWaPwTCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="164775828"
+   d="scan'208";a="164775792"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Apr 2025 18:19:29 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 28 Apr 2025 18:19:28 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9Zd9-00004j-1H;
-	Tue, 29 Apr 2025 01:19:27 +0000
-Date: Tue, 29 Apr 2025 06:34:17 +0800
+	id 1u9Zd7-00001Y-1n;
+	Tue, 29 Apr 2025 01:19:25 +0000
+Date: Tue, 29 Apr 2025 01:10:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 1/1] include/linux/string.h:294:30:
- warning: '__builtin_strncpy' output truncated before terminating nul copying
- 8 bytes from a string of the same length
-Message-ID: <202504290636.O2Uqc8di-lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, thomas.petazzoni@bootlin.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Mark Yacoub <markyacoub@google.com>,
+	Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH] drm: writeback: Fix drm_writeback_connector_cleanup
+ signature
+Message-ID: <202504290021.ZR6XX2Sc-lkp@intel.com>
+References: <20250428-drm-fix-writeback-cleanup-v1-1-e4c723868b73@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +70,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250428-drm-fix-writeback-cleanup-v1-1-e4c723868b73@bootlin.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   1aec9e76fe4a65b0a26fa1b30bdb3400d9728b2d
-commit: 185c2266c1df80bec001c987d64cae2d9cd13816 [1/1] bpf: Fix truncation handling for mod32 dst reg wrt zero
-config: arm64-randconfig-004-20250429 (https://download.01.org/0day-ci/archive/20250429/202504290636.O2Uqc8di-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290636.O2Uqc8di-lkp@intel.com/reproduce)
+Hi Louis,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b848cd418aebdb313364b4843f41fae82281a823]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-writeback-Fix-drm_writeback_connector_cleanup-signature/20250428-163254
+base:   b848cd418aebdb313364b4843f41fae82281a823
+patch link:    https://lore.kernel.org/r/20250428-drm-fix-writeback-cleanup-v1-1-e4c723868b73%40bootlin.com
+patch subject: [PATCH] drm: writeback: Fix drm_writeback_connector_cleanup signature
+config: arm-randconfig-002-20250428 (https://download.01.org/0day-ci/archive/20250429/202504290021.ZR6XX2Sc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290021.ZR6XX2Sc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504290636.O2Uqc8di-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504290021.ZR6XX2Sc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/processor.h:28,
-                    from include/asm-generic/qrwlock.h:14,
-                    from ./arch/arm64/include/generated/asm/qrwlock.h:1,
-                    from arch/arm64/include/asm/spinlock.h:8,
-                    from include/linux/spinlock.h:89,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from drivers/nvme/target/discovery.c:7:
-   In function 'strncpy',
-       inlined from 'nvmet_execute_identify_disc_ctrl' at drivers/nvme/target/discovery.c:243:2:
->> include/linux/string.h:294:30: warning: '__builtin_strncpy' output truncated before terminating nul copying 8 bytes from a string of the same length [-Wstringop-truncation]
-     294 | #define __underlying_strncpy __builtin_strncpy
-         |                              ^
-   include/linux/string.h:304:9: note: in expansion of macro '__underlying_strncpy'
-     304 |  return __underlying_strncpy(p, q, size);
-         |         ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_writeback.c:354: warning: Function parameter or struct member 'data' not described in 'drm_writeback_connector_cleanup'
+>> drivers/gpu/drm/drm_writeback.c:354: warning: Excess function parameter 'wb_connector' description in 'drm_writeback_connector_cleanup'
 
 
-vim +/__builtin_strncpy +294 include/linux/string.h
+vim +354 drivers/gpu/drm/drm_writeback.c
 
-b008ae4cc74d3a Daniel Axtens 2020-06-03  272  
-b008ae4cc74d3a Daniel Axtens 2020-06-03  273  #ifdef CONFIG_KASAN
-b008ae4cc74d3a Daniel Axtens 2020-06-03  274  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  275  extern int __underlying_memcmp(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  276  extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  277  extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  278  extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(memset);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  279  extern char *__underlying_strcat(char *p, const char *q) __RENAME(strcat);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  280  extern char *__underlying_strcpy(char *p, const char *q) __RENAME(strcpy);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  281  extern __kernel_size_t __underlying_strlen(const char *p) __RENAME(strlen);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  282  extern char *__underlying_strncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  283  extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
-b008ae4cc74d3a Daniel Axtens 2020-06-03  284  #else
-b008ae4cc74d3a Daniel Axtens 2020-06-03  285  #define __underlying_memchr	__builtin_memchr
-b008ae4cc74d3a Daniel Axtens 2020-06-03  286  #define __underlying_memcmp	__builtin_memcmp
-b008ae4cc74d3a Daniel Axtens 2020-06-03  287  #define __underlying_memcpy	__builtin_memcpy
-b008ae4cc74d3a Daniel Axtens 2020-06-03  288  #define __underlying_memmove	__builtin_memmove
-b008ae4cc74d3a Daniel Axtens 2020-06-03  289  #define __underlying_memset	__builtin_memset
-b008ae4cc74d3a Daniel Axtens 2020-06-03  290  #define __underlying_strcat	__builtin_strcat
-b008ae4cc74d3a Daniel Axtens 2020-06-03  291  #define __underlying_strcpy	__builtin_strcpy
-b008ae4cc74d3a Daniel Axtens 2020-06-03  292  #define __underlying_strlen	__builtin_strlen
-b008ae4cc74d3a Daniel Axtens 2020-06-03  293  #define __underlying_strncat	__builtin_strncat
-b008ae4cc74d3a Daniel Axtens 2020-06-03 @294  #define __underlying_strncpy	__builtin_strncpy
-b008ae4cc74d3a Daniel Axtens 2020-06-03  295  #endif
-b008ae4cc74d3a Daniel Axtens 2020-06-03  296  
-
-:::::: The code at line 294 was first introduced by commit
-:::::: b008ae4cc74d3ab43074099746f6c32d353e01aa string.h: fix incompatibility between FORTIFY_SOURCE and KASAN
-
-:::::: TO: Daniel Axtens <dja@axtens.net>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+935774cd71fe60 Brian Starkey 2017-03-29  342  
+1914ba2b91ea8e Louis Chauvet 2025-01-16  343  /**
+1914ba2b91ea8e Louis Chauvet 2025-01-16  344   * drm_writeback_connector_cleanup - Cleanup the writeback connector
+1914ba2b91ea8e Louis Chauvet 2025-01-16  345   * @dev: DRM device
+1914ba2b91ea8e Louis Chauvet 2025-01-16  346   * @wb_connector: Pointer to the writeback connector to clean up
+1914ba2b91ea8e Louis Chauvet 2025-01-16  347   *
+1914ba2b91ea8e Louis Chauvet 2025-01-16  348   * This will decrement the reference counter of blobs and destroy properties. It
+1914ba2b91ea8e Louis Chauvet 2025-01-16  349   * will also clean the remaining jobs in this writeback connector. Caution: This helper will not
+1914ba2b91ea8e Louis Chauvet 2025-01-16  350   * clean up the attached encoder and the drm_connector.
+1914ba2b91ea8e Louis Chauvet 2025-01-16  351   */
+1914ba2b91ea8e Louis Chauvet 2025-01-16  352  static void drm_writeback_connector_cleanup(struct drm_device *dev,
+928d313d023526 Louis Chauvet 2025-04-28  353  					    void *data)
+1914ba2b91ea8e Louis Chauvet 2025-01-16 @354  {
+1914ba2b91ea8e Louis Chauvet 2025-01-16  355  	unsigned long flags;
+1914ba2b91ea8e Louis Chauvet 2025-01-16  356  	struct drm_writeback_job *pos, *n;
+928d313d023526 Louis Chauvet 2025-04-28  357  	struct drm_writeback_connector *wb_connector = data;
+1914ba2b91ea8e Louis Chauvet 2025-01-16  358  
+1914ba2b91ea8e Louis Chauvet 2025-01-16  359  	delete_writeback_properties(dev);
+1914ba2b91ea8e Louis Chauvet 2025-01-16  360  	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
+1914ba2b91ea8e Louis Chauvet 2025-01-16  361  
+1914ba2b91ea8e Louis Chauvet 2025-01-16  362  	spin_lock_irqsave(&wb_connector->job_lock, flags);
+1914ba2b91ea8e Louis Chauvet 2025-01-16  363  	list_for_each_entry_safe(pos, n, &wb_connector->job_queue, list_entry) {
+1914ba2b91ea8e Louis Chauvet 2025-01-16  364  		list_del(&pos->list_entry);
+ff3881cc6a588f Dan Carpenter 2025-02-12  365  		drm_writeback_cleanup_job(pos);
+1914ba2b91ea8e Louis Chauvet 2025-01-16  366  	}
+1914ba2b91ea8e Louis Chauvet 2025-01-16  367  	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
+1914ba2b91ea8e Louis Chauvet 2025-01-16  368  }
+1914ba2b91ea8e Louis Chauvet 2025-01-16  369  
 
 -- 
 0-DAY CI Kernel Test Service
