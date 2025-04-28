@@ -1,262 +1,172 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0529918BBBB;
-	Mon, 28 Apr 2025 22:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB5E13A41F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 01:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745878217; cv=none; b=MJLOdjJQroGYNmd7eqdMGwabqyYisWOyb6upUi8TmepYVYMwvYOOlrmeRDRnEhKRQmzA5yTtXQteyQ/rBQDdltTXVFyb1fFz1Gu8RdcTlKPVYs9VngMwehIyAlDJnmcJcSb5710o5OF1SBpxXOxrYibFYThznTLueAVq3rJr1CI=
+	t=1745889573; cv=none; b=Fk5fFQ7HWHuWMajNqJpN9X7sRYMPPSyBcciOzssY+Vsom45lWfTt19hu+xjpHHkCMmZ1qv53OoXKQ7FMDLZT5vNKY7FedZAZTZSJKtIx/+7AQkl7L7109A4doIvtn623x2yr7sGvnM1sG+W+CaZajcxDJZrbp3gEuwXWN1qbKuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745878217; c=relaxed/simple;
-	bh=uIzPWoRnQgetoFt6qUJlH+8oIS0aGCriUQItkH/OtvU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XZR5SYjh36RynrnFlfxtJwMsidCfcLDG4Y4P8WqJReRXv6gJIhOSSj3nJTgTX4gez57EE2yngRdnoYb3r3DQCgIx2gXaVgSyImkGpiL9cVnh0dacBdkTfUYAPQS/dA2tseZdDD/m2a55+Bz7VM9mYUBDFtrPbyYjwtotjJAdc3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlK12vwz; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745889573; c=relaxed/simple;
+	bh=Ig6rBPtJSH8iA/rKKNMYpbEYMMPT9H1HG6g552xirrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tkf6bktgYoiYhr9O10pEVfA0SM/BBsqz/HWI4dGh2aMDsPZ7qxpDwiJYTBLqI2BTCMpJiM2cuK3gw56AhkFHL/Id5Uxr6uXYdPQUso6DYmjfURI3zY2LfTwlGS7cLLPiPVEU3BxJZQmQPYpoQvYsv7CsMwA0gzikWQHuuX62fSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImVVA5Sv; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlK12vwz"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6f0c30a1ca3so63356586d6.1;
-        Mon, 28 Apr 2025 15:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745878214; x=1746483014; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G68A8gbIzA2mqZ+V7TIqI4HzTFE3WV0mnGFlPr8YtK8=;
-        b=dlK12vwzjq8Dy5O0cWh6BK3MR+QDb+OX08J/wPdcd6qBH/zDHRrksqjnxurZMWHdNC
-         mr5Yd796PolUvI181rj9PrQ05kLkjmH98OxmXu4zpttYtvRDMtY3V5JyckAqkCspVFk0
-         nBNZbqm9yX51rAIOpcx+xE36ck5lO1y1nt1NmbG1HGy87Z1bB9BCwAOi7KtsCyNp+C+/
-         Zazvg3knEpBQfxugB3lSM68PFVqVvUb2UPcVeHHojEjSAiKau1B/PZZSU7G3VC+aMZSp
-         ZoyB0QjhOfv8He+Il5JKnVo6ZAmPoX7y2Gez1GEw1ZO8Rsi3zFROS1pBirlrflejoN7v
-         zWig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745878214; x=1746483014;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G68A8gbIzA2mqZ+V7TIqI4HzTFE3WV0mnGFlPr8YtK8=;
-        b=Rp2WEZBrgjivRTsu3NGDHHL8bJdYdXDlA47IL1+84adYiWsR7syK94YnaNvuzIofmP
-         nOCr/HysjHwcY9l3F+RJSdHWruFRIg0pV9MDk6on4acqVNdjipNIZzyrJq8hzez7MSRQ
-         gUMf9cBmEvgpTpoMnNVqSkP9Z3Jm5gM2VHNfiwSCMtIC/TRK8Cj5eQYMdDuGT5uZPp1S
-         w6w67U0V7xQRiP2yoOyxH7sWDcpjJnVioNyUGBJyp2cxQyfxqoLnbzm9ytN2VO2evLw5
-         K2+pDX5H06ofiN8P6rRtljOnN7+vYUPqYlZOb/C+PGU+Uj8Id5xwu4OTMQEIO5OzlaM+
-         fUtA==
-X-Forwarded-Encrypted: i=1; AJvYcCU79Gv0QI00bKGQ/l/Ym3WP3Hl0JocYpqyTxxZEYzJXOfq7InmU96vuAGGuJQ7HS6ntgBm3DQxEer+Yy/dC@lists.linux.dev
-X-Gm-Message-State: AOJu0YxWozent30PAbq7/unr8Hg3dRhvkiJa191+lJZDJk96DbJfSl6H
-	QswrZd1CUm1osIbpb+2bYLagiJjf7FvmuufKjeFxdVxsZnLDdSLlF1EL7BBqDFyboj9IG5qgqvW
-	KVLUXjP6C9dI8j5GEqmbvNF6nyk0=
-X-Gm-Gg: ASbGnctAUe9R/wdpG/6S56z5gxtSHYZjY5MT/vDqwAr+YJ6VBZii42h2WdLQ/iFVoy9
-	l3ij2OVKLvsrqS/WjyNDK+/vnihKucEkFXW3ezEeC7chEfGZfTB6YKIOm8sya3MB2CBs8dKGMsn
-	jdrm1vfToTzHSbfch1U2BlnsEH3LW5E31cEfhJFA==
-X-Google-Smtp-Source: AGHT+IE22CIMJ3/Dy12So6gWQ5dHnjecZh2lK3MyEjrATJvZ3z0iQuEMuG3GgsKEHb+cPpONIvs2MczKNZE3GaOWFGE=
-X-Received: by 2002:a05:6214:d65:b0:6e8:c713:31fa with SMTP id
- 6a1803df08f44-6f4f1b9b9eamr13701926d6.9.1745878213615; Mon, 28 Apr 2025
- 15:10:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImVVA5Sv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745889571; x=1777425571;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ig6rBPtJSH8iA/rKKNMYpbEYMMPT9H1HG6g552xirrA=;
+  b=ImVVA5Sv5N0kyH5bSrwsggC89PycUww573KFtopDbDXm5FR3WahWWP/b
+   4O5PP1bN/App8JUnOnzV5KAa6VsNFyKxNmCSjauREiFqHVUFvMUGq+E3L
+   0uGjuljoFQSgbe+lyDnOiQaRUMYYi9tQvs5w3zJ0st8U731zuxS5alvSF
+   fUk1sK4c+hz1OMiDzannD5AfYLnZP8cUYE01s7NS6Bt0TG1GDpSYWI7Bk
+   eOaPlln8d2u0qYcfJ0WG1y/6Owrodi556LxMW7jIbJUHvD3Adcl6wYj8X
+   5xxcq2CB9JDzUi+2FTQ5ngpnWz8nlhopMMlTSV2/QbQJH3buww/6NdHMy
+   Q==;
+X-CSE-ConnectionGUID: /P6zHDO1SJ+DzDUnldsAHg==
+X-CSE-MsgGUID: zLyQUO4FR3KDkolhnGLEeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="72874006"
+X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
+   d="scan'208";a="72874006"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 18:19:30 -0700
+X-CSE-ConnectionGUID: r77JBzqSTnuIYgcATmIDgQ==
+X-CSE-MsgGUID: N/AslonpRyWcRq2J0NQ1WQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
+   d="scan'208";a="133581475"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 28 Apr 2025 18:19:28 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u9Zd7-00001g-27;
+	Tue, 29 Apr 2025 01:19:25 +0000
+Date: Tue, 29 Apr 2025 02:57:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <len.brown@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [rft, PATCH v1 1/1] PM: Don't use "proxy" headers
+Message-ID: <202504290212.e8iXOU2x-lkp@intel.com>
+References: <20250428071922.3264455-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250426000828.3216220-4-joannelkoong@gmail.com> <202504270319.GmkEM1Xg-lkp@intel.com>
-In-Reply-To: <202504270319.GmkEM1Xg-lkp@intel.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 28 Apr 2025 15:10:02 -0700
-X-Gm-Features: ATxdqUEue-pjLCwu47H75XWwWB18kNTPsRbl5NdPPz05R0lLZOHA2myeYKL-MTk
-Message-ID: <CAJnrk1YT+Q1_Fw4zNm-nutNrM1rA44brtGJKNr2u_zt2XFQwkQ@mail.gmail.com>
-Subject: Re: [PATCH v5 03/11] fuse: refactor fuse_fill_write_pages()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, miklos@szeredi.hu, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	jlayton@kernel.org, jefflexu@linux.alibaba.com, josef@toxicpanda.com, 
-	bernd.schubert@fastmail.fm, willy@infradead.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250428071922.3264455-1-andriy.shevchenko@linux.intel.com>
 
-On Sun, Apr 27, 2025 at 10:32=E2=80=AFPM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
->
-> Hi Joanne,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-=
-support-copying-large-folios/20250426-081219
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git=
- for-next
-> patch link:    https://lore.kernel.org/r/20250426000828.3216220-4-joannel=
-koong%40gmail.com
-> patch subject: [PATCH v5 03/11] fuse: refactor fuse_fill_write_pages()
-> config: i386-randconfig-141-20250426 (https://download.01.org/0day-ci/arc=
-hive/20250427/202504270319.GmkEM1Xg-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202504270319.GmkEM1Xg-lkp@intel.com/
->
-> smatch warnings:
-> fs/fuse/file.c:1207 fuse_fill_write_pages() error: uninitialized symbol '=
-err'.
->
-> vim +/err +1207 fs/fuse/file.c
->
-> 4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1127  static ssize_t fuse_f=
-ill_write_pages(struct fuse_io_args *ia,
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1128                       =
-            struct address_space *mapping,
-> 338f2e3f3341a9 Miklos Szeredi     2019-09-10  1129                       =
-            struct iov_iter *ii, loff_t pos,
-> 338f2e3f3341a9 Miklos Szeredi     2019-09-10  1130                       =
-            unsigned int max_pages)
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1131  {
-> 4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1132      struct fuse_args_=
-pages *ap =3D &ia->ap;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1133      struct fuse_conn =
-*fc =3D get_fuse_conn(mapping->host);
-> 09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1134      unsigned offset =
-=3D pos & (PAGE_SIZE - 1);
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1135      size_t count =3D =
-0;
-> dfda790dfda452 Joanne Koong       2025-04-25  1136      unsigned int num;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1137      int err;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1138
-> dfda790dfda452 Joanne Koong       2025-04-25  1139      num =3D min(iov_i=
-ter_count(ii), fc->max_write);
->
-> Can iov_iter_count() return zero here?
->
-> dfda790dfda452 Joanne Koong       2025-04-25  1140      num =3D min(num, =
-max_pages << PAGE_SHIFT);
-> dfda790dfda452 Joanne Koong       2025-04-25  1141
-> 338f2e3f3341a9 Miklos Szeredi     2019-09-10  1142      ap->args.in_pages=
- =3D true;
-> 68bfb7eb7f7de3 Joanne Koong       2024-10-24  1143      ap->descs[0].offs=
-et =3D offset;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1144
-> dfda790dfda452 Joanne Koong       2025-04-25  1145      while (num) {
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1146              size_t tm=
-p;
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1147              struct fo=
-lio *folio;
-> 09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1148              pgoff_t i=
-ndex =3D pos >> PAGE_SHIFT;
-> dfda790dfda452 Joanne Koong       2025-04-25  1149              unsigned =
-bytes =3D min(PAGE_SIZE - offset, num);
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1150
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1151   again:
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1152              folio =3D=
- __filemap_get_folio(mapping, index, FGP_WRITEBEGIN,
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1153                       =
-                   mapping_gfp_mask(mapping));
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1154              if (IS_ER=
-R(folio)) {
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1155                      e=
-rr =3D PTR_ERR(folio);
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1156                      b=
-reak;
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1157              }
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1158
-> 931e80e4b3263d anfei zhou         2010-02-02  1159              if (mappi=
-ng_writably_mapped(mapping))
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1160                      f=
-lush_dcache_folio(folio);
-> 931e80e4b3263d anfei zhou         2010-02-02  1161
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1162              tmp =3D c=
-opy_folio_from_iter_atomic(folio, offset, bytes, ii);
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1163              flush_dca=
-che_folio(folio);
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1164
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1165              if (!tmp)=
- {
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1166                      f=
-olio_unlock(folio);
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1167                      f=
-olio_put(folio);
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1168
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1169                      /=
-*
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1170                       =
-* Ensure forward progress by faulting in
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1171                       =
-* while not holding the folio lock:
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1172                       =
-*/
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1173                      i=
-f (fault_in_iov_iter_readable(ii, bytes)) {
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1174                       =
-       err =3D -EFAULT;
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1175                       =
-       break;
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1176                      }
-> faa794dd2e17e7 Dave Hansen        2025-01-29  1177
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1178                      g=
-oto again;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1179              }
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1180
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1181              err =3D 0=
-;
-> f2ef459bab7326 Joanne Koong       2024-10-24  1182              ap->folio=
-s[ap->num_folios] =3D folio;
-> 68bfb7eb7f7de3 Joanne Koong       2024-10-24  1183              ap->descs=
-[ap->num_folios].length =3D tmp;
-> f2ef459bab7326 Joanne Koong       2024-10-24  1184              ap->num_f=
-olios++;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1185
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1186              count +=
-=3D tmp;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1187              pos +=3D =
-tmp;
-> dfda790dfda452 Joanne Koong       2025-04-25  1188              num -=3D =
-tmp;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1189              offset +=
-=3D tmp;
-> 09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1190              if (offse=
-t =3D=3D PAGE_SIZE)
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1191                      o=
-ffset =3D 0;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1192
-> 4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1193              /* If we =
-copied full page, mark it uptodate */
-> 4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1194              if (tmp =
-=3D=3D PAGE_SIZE)
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1195                      f=
-olio_mark_uptodate(folio);
-> 4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1196
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1197              if (folio=
-_test_uptodate(folio)) {
-> 9bafbe7ae01321 Josef Bacik        2024-09-30  1198                      f=
-olio_unlock(folio);
-> 4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1199              } else {
-> f2ef459bab7326 Joanne Koong       2024-10-24  1200                      i=
-a->write.folio_locked =3D true;
-> 4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1201                      b=
-reak;
-> 4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1202              }
-> dfda790dfda452 Joanne Koong       2025-04-25  1203              if (!fc->=
-big_writes || offset !=3D 0)
-> 78bb6cb9a890d3 Miklos Szeredi     2008-05-12  1204                      b=
-reak;
-> dfda790dfda452 Joanne Koong       2025-04-25  1205      }
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1206
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30 @1207      return count > 0 =
-? count : err;
-> ea9b9907b82a09 Nicholas Piggin    2008-04-30  1208  }
->
+Hi Andy,
 
-I'll initialize err to 0 in v6. I'll wait for more reviews/comments on
-the patchset before sending that out.
+kernel test robot noticed the following build errors:
 
-Thanks,
-Joanne
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.15-rc4 next-20250428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/PM-Don-t-use-proxy-headers/20250428-152021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20250428071922.3264455-1-andriy.shevchenko%40linux.intel.com
+patch subject: [rft, PATCH v1 1/1] PM: Don't use "proxy" headers
+config: sh-randconfig-001-20250428 (https://download.01.org/0day-ci/archive/20250429/202504290212.e8iXOU2x-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290212.e8iXOU2x-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504290212.e8iXOU2x-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/sh/kernel/reboot.c:2:
+>> include/linux/pm.h:690:18: error: field 'suspend_timer' has incomplete type
+     690 |  struct hrtimer  suspend_timer;
+         |                  ^~~~~~~~~~~~~
+   cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
+
+
+vim +/suspend_timer +690 include/linux/pm.h
+
+08810a4119aaeb Rafael J. Wysocki 2017-10-25  660  
+1eede070a59e1c Rafael J. Wysocki 2008-05-20  661  struct dev_pm_info {
+1eede070a59e1c Rafael J. Wysocki 2008-05-20  662  	pm_message_t		power_state;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  663  	bool			can_wakeup:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  664  	bool			async_suspend:1;
+9ed9895370aedd Rafael J. Wysocki 2016-10-30  665  	bool			in_dpm_list:1;	/* Owned by the PM core */
+f76b168b6f117a Alan Stern        2011-06-18  666  	bool			is_prepared:1;	/* Owned by the PM core */
+6d0e0e84f66d32 Alan Stern        2011-06-18  667  	bool			is_suspended:1;	/* Ditto */
+3d2699bc179a10 Liu, Chuansheng   2014-02-18  668  	bool			is_noirq_suspended:1;
+3d2699bc179a10 Liu, Chuansheng   2014-02-18  669  	bool			is_late_suspended:1;
+85945c28b5a888 Sudeep Holla      2019-02-14  670  	bool			no_pm:1;
+bed2b42d9f0b41 Rafael J. Wysocki 2012-08-06  671  	bool			early_init:1;	/* Owned by the PM core */
+aae4518b3124b2 Rafael J. Wysocki 2014-05-16  672  	bool			direct_complete:1;	/* Owned by the PM core */
+08810a4119aaeb Rafael J. Wysocki 2017-10-25  673  	u32			driver_flags;
+074037ec79bea7 Rafael J. Wysocki 2010-09-22  674  	spinlock_t		lock;
+1eede070a59e1c Rafael J. Wysocki 2008-05-20  675  #ifdef CONFIG_PM_SLEEP
+1eede070a59e1c Rafael J. Wysocki 2008-05-20  676  	struct list_head	entry;
+5af84b82701a96 Rafael J. Wysocki 2010-01-23  677  	struct completion	completion;
+074037ec79bea7 Rafael J. Wysocki 2010-09-22  678  	struct wakeup_source	*wakeup;
+4ca46ff3e0d8c2 Rafael J. Wysocki 2011-10-16  679  	bool			wakeup_path:1;
+feb70af0e3ac68 Rafael J. Wysocki 2012-08-13  680  	bool			syscore:1;
+aa8e54b559479d Tomeu Vizoso      2016-01-07  681  	bool			no_pm_callbacks:1;	/* Owned by the PM core */
+3038b22bc09856 Rafael J. Wysocki 2025-02-25  682  	bool			work_in_progress:1;	/* Owned by the PM core */
+bca84a7b93fdc7 Rafael J. Wysocki 2025-02-18  683  	bool			smart_suspend:1;	/* Owned by the PM core */
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  684  	bool			must_resume:1;		/* Owned by the PM core */
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  685  	bool			may_skip_resume:1;	/* Set by subsystems */
+805bdaec1a4415 Rafael J. Wysocki 2011-02-24  686  #else
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  687  	bool			should_wakeup:1;
+1eede070a59e1c Rafael J. Wysocki 2008-05-20  688  #endif
+d30d819dc83107 Rafael J. Wysocki 2014-11-27  689  #ifdef CONFIG_PM
+8234f6734c5d74 Vincent Guittot   2018-12-14 @690  	struct hrtimer		suspend_timer;
+6b61d49a55796d Grygorii Strashko 2020-09-18  691  	u64			timer_expires;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  692  	struct work_struct	work;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  693  	wait_queue_head_t	wait_queue;
+4990d4fe327b9d Tony Lindgren     2015-05-18  694  	struct wake_irq		*wakeirq;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  695  	atomic_t		usage_count;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  696  	atomic_t		child_count;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  697  	unsigned int		disable_depth:3;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  698  	bool			idle_notification:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  699  	bool			request_pending:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  700  	bool			deferred_resume:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  701  	bool			needs_force_resume:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  702  	bool			runtime_auto:1;
+372a12ed9d99c0 Ulf Hansson       2016-04-08  703  	bool			ignore_children:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  704  	bool			no_callbacks:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  705  	bool			irq_safe:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  706  	bool			use_autosuspend:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  707  	bool			timer_autosuspends:1;
+b017500ab53c06 Rafael J. Wysocki 2024-01-22  708  	bool			memalloc_noio:1;
+baa8809f60971d Rafael J. Wysocki 2016-10-30  709  	unsigned int		links_count;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  710  	enum rpm_request	request;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  711  	enum rpm_status		runtime_status;
+c24efa6732788f Rafael J. Wysocki 2021-12-07  712  	enum rpm_status		last_status;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  713  	int			runtime_error;
+15bcb91d7e607d Alan Stern        2010-09-25  714  	int			autosuspend_delay;
+8234f6734c5d74 Vincent Guittot   2018-12-14  715  	u64			last_busy;
+a08c2a5a319411 Thara Gopinath    2019-01-23  716  	u64			active_time;
+a08c2a5a319411 Thara Gopinath    2019-01-23  717  	u64			suspended_time;
+a08c2a5a319411 Thara Gopinath    2019-01-23  718  	u64			accounting_timestamp;
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  719  #endif
+5c095a0e0d600d Rafael J. Wysocki 2011-08-25  720  	struct pm_subsys_data	*subsys_data;  /* Owned by the subsystem. */
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  721  	void (*set_latency_tolerance)(struct device *, s32);
+5f986c590fcf42 Rafael J. Wysocki 2012-10-23  722  	struct dev_pm_qos	*qos;
+1eede070a59e1c Rafael J. Wysocki 2008-05-20  723  };
+1eede070a59e1c Rafael J. Wysocki 2008-05-20  724  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
