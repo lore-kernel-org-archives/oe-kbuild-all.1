@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B8F1D63F8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Apr 2025 07:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF9A25C82F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Apr 2025 08:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745824449; cv=none; b=uKgXaUf6Wfm7hGWFLGwsPkTSO/TX9q9GmcDvCsmg7KRXCnWa62aLHsd+WueU5XJoNpGD3DEYF0oUI7xzvpfO7kzQQxy0jKJQZv/Alx2qP1M9WA2Lse2IMr7DqPZrP9u61P+J67QTwKu9pmnrSoSzy5B89wemu/Tjx5qTthHZfYM=
+	t=1745830040; cv=none; b=DtZ8U9xFd9JN5OtKv9bOh/QPdLBSvMufJK3gF1d1Jwv78Au27t86cCt0+P+pMSlWW26+KA1CYjz6kBCEVPsyrd3qyEdxmR6gtOWZZ0HsAu8FQWOMolAndVqyMxaAgi/TWG+4PukdaPd+6tIDl9MFSIl1w5k9uw+/X87OlOew8QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745824449; c=relaxed/simple;
-	bh=InPFv7NzxrLdMuKj7vrbwJrkYbLdh0+6ESBqGAOmfF0=;
+	s=arc-20240116; t=1745830040; c=relaxed/simple;
+	bh=70oDwUtwYqEyETXz7oCBoL3rbNqfBiLdDstId/VbxTo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KtSxSXIWTciTPOCmt6PFYTqwllnJBcpSysVSduCnkndkHEPYBoqh1pkB86LjBypJdD0R/xAPmy9GcCwnIkC0eFNTsKbi6yI6OC48907tEQTU1vvooL3emN8ot9jZr2JlNTi0ngDG0w70qYg1aTSWyio/U6gARue9sE314GhHBp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D3J8+hYZ; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=BLKcAQrr2wFfSJC34mmdVjiA7Jwvl/wSthdT0Nmi3HpkGLIrDTThefGcxLBEGCrY+rsVQRPdwmrOPOEXq1UfSHlUCRaEldZpC47ivjcsWaCIMl9tsd5531hGYLqAHUHS+XUJ1DBHxBb0kQlE5+LZKcx8POKxFMPQ2MWxAhQm+1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hx/1CHIk; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D3J8+hYZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hx/1CHIk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745824447; x=1777360447;
+  t=1745830038; x=1777366038;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=InPFv7NzxrLdMuKj7vrbwJrkYbLdh0+6ESBqGAOmfF0=;
-  b=D3J8+hYZqveK+I6Sk2tH4A0LjdBWwg/4wyQR6KDJPECsDco5hco1Cwiz
-   QPN4JVgHdT2hNMyVOvsJPIJQCW0WDzAmaI1B4tjS8jFtff+17dCinWOfJ
-   ONsSFfByk+9Jfr+aOpgKvHn2eoAli8F0Us9esOZiUMLZFewYb1dkaUxs1
-   OTSNKHzeXYDNJ42PheBW88AycosiUcUkxWLlGee6MUQ6YLorPCuT+ZG10
-   NBQMaOsyV2IPzFgKk12VcDP2inB3v9MHXgbLO58+Pq9MGh/fGCFEQNBER
-   A9CKZqw/VXGXgY5eAD4Iq3+Og8J7uqHgN6IrW5XJXnmuMDZdQyaZ+X0Pc
-   g==;
-X-CSE-ConnectionGUID: mzrlb9VjRkKX9eFpicbFHw==
-X-CSE-MsgGUID: d+cLiPioS62Bspk/74vFoQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="50055386"
+  bh=70oDwUtwYqEyETXz7oCBoL3rbNqfBiLdDstId/VbxTo=;
+  b=hx/1CHIkVe9yhkIjevbjduR0nM5zgUAxP9i0s+xFPpRe2OOVSUm4cwJb
+   MgVoBMndT350s+cLM6LKQWCgmTRjI6U1oeawAK+U7/2Asyy/DcK+pMmsA
+   DdaXtzrkJ9XSBbAtzsPUlxTZd2I6/8z9gY1HmJRXXz0VGd9F5+CnYTtYv
+   Hx3vyFalqiRxSjA4OOblftQLYoLGmgRW4rhlydun2PScNDkL95atXVRpR
+   Cmrcj5S+MlY7V2dx2bYP3urg+8yrpLHzZIPUXWLWBzYS8F35sbzzI1Zl1
+   PXzQeVuUhi+3wKScD/2hX6FX3c60QE6vo6Aneea+bZHPzMTAU+OgS7bRe
+   Q==;
+X-CSE-ConnectionGUID: 6GhQDUV1SQinF1nxq0VazA==
+X-CSE-MsgGUID: 4C1He2vNSJi2STBWGWiuIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="47538245"
 X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
-   d="scan'208";a="50055386"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 00:14:06 -0700
-X-CSE-ConnectionGUID: LSbsf5n/Qnex1vpO6CEr5Q==
-X-CSE-MsgGUID: ca64yB/wRj+r5F14JJoB2Q==
+   d="scan'208";a="47538245"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 01:47:17 -0700
+X-CSE-ConnectionGUID: UeWbODFoQYKTPNSUv7pfkA==
+X-CSE-MsgGUID: lR2eVMfHQrmLY4hfOblAng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
-   d="scan'208";a="156655031"
+   d="scan'208";a="138453577"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Apr 2025 00:14:05 -0700
+  by orviesa004.jf.intel.com with ESMTP; 28 Apr 2025 01:47:14 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9Igk-0006hZ-33;
-	Mon, 28 Apr 2025 07:14:02 +0000
-Date: Mon, 28 Apr 2025 15:13:33 +0800
+	id 1u9K8t-0006lB-1R;
+	Mon, 28 Apr 2025 08:47:11 +0000
+Date: Mon, 28 Apr 2025 16:46:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
-	matthew.brost@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH] drm/xe/tests: fix the bo evict build break
-Message-ID: <202504281424.5u93dWXu-lkp@intel.com>
-References: <20250428034043.407486-1-airlied@gmail.com>
+To: Igor Belousov <igor.b@beldev.am>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	hannes@cmpxchg.org, minchan@kernel.org, nphamcs@gmail.com,
+	senozhatsky@chromium.org, shakeel.butt@linux.dev,
+	yosry.ahmed@linux.dev, Igor Belousov <igor.b@beldev.am>
+Subject: Re: [PATCH mm-new] mm/zblock: avoid failing the build
+Message-ID: <202504281654.Cj20Gqsl-lkp@intel.com>
+References: <20250428065727.57990-1-igor.b@beldev.am>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,155 +66,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250428034043.407486-1-airlied@gmail.com>
+In-Reply-To: <20250428065727.57990-1-igor.b@beldev.am>
 
-Hi Dave,
+Hi Igor,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on drm/drm-next drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.15-rc3 next-20250424]
-[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-xe-tests-fix-the-bo-evict-build-break/20250428-114114
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250428034043.407486-1-airlied%40gmail.com
-patch subject: [PATCH] drm/xe/tests: fix the bo evict build break
-config: loongarch-randconfig-002-20250428 (https://download.01.org/0day-ci/archive/20250428/202504281424.5u93dWXu-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250428/202504281424.5u93dWXu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Belousov/mm-zblock-avoid-failing-the-build/20250428-150012
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250428065727.57990-1-igor.b%40beldev.am
+patch subject: [PATCH mm-new] mm/zblock: avoid failing the build
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250428/202504281654.Cj20Gqsl-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250428/202504281654.Cj20Gqsl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504281424.5u93dWXu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504281654.Cj20Gqsl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/xe/xe_migrate.c:1723:
-   drivers/gpu/drm/xe/tests/xe_migrate.c: In function 'test_migrate':
->> drivers/gpu/drm/xe/tests/xe_migrate.c:515:15: error: too few arguments to function 'xe_bo_evict'
-     515 |         ret = xe_bo_evict(vram_bo);
-         |               ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_migrate.c:23:
-   drivers/gpu/drm/xe/xe_bo.h:274:5: note: declared here
-     274 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc);
-         |     ^~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/xe/xe_dma_buf.c:322:
-   drivers/gpu/drm/xe/tests/xe_dma_buf.c: In function 'check_residency':
->> drivers/gpu/drm/xe/tests/xe_dma_buf.c:68:15: error: too few arguments to function 'xe_bo_evict'
-      68 |         ret = xe_bo_evict(exported);
-         |               ^~~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_dma_buf.c:17:
-   drivers/gpu/drm/xe/xe_bo.h:274:5: note: declared here
-     274 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc);
-         |     ^~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/xe/xe_bo.c:2949:
-   drivers/gpu/drm/xe/tests/xe_bo.c: In function 'ccs_test_migrate':
->> drivers/gpu/drm/xe/tests/xe_bo.c:63:15: error: too few arguments to function 'xe_bo_evict'
-      63 |         ret = xe_bo_evict(bo);
-         |               ^~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_bo.c:2769:5: note: declared here
-    2769 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc)
-         |     ^~~~~~~~~~~
+   In file included from mm/zblock.c:27:
+>> mm/zblock.h:24:2: error: invalid preprocessing directive #warn; did you mean #warning?
+      24 | #warn This PAGE_SIZE is not quite supported yet
+         |  ^~~~
+         |  warning
 
 
-vim +/xe_bo_evict +515 drivers/gpu/drm/xe/tests/xe_migrate.c
+vim +24 mm/zblock.h
 
-   493	
-   494	static void test_migrate(struct xe_device *xe, struct xe_tile *tile,
-   495				 struct xe_bo *sys_bo, struct xe_bo *vram_bo, struct xe_bo *ccs_bo,
-   496				 struct kunit *test)
-   497	{
-   498		struct dma_fence *fence;
-   499		u64 expected, retval;
-   500		long timeout;
-   501		long ret;
-   502	
-   503		expected = 0xd0d0d0d0d0d0d0d0;
-   504		xe_map_memset(xe, &sys_bo->vmap, 0, 0xd0, sys_bo->size);
-   505	
-   506		fence = blt_copy(tile, sys_bo, vram_bo, false, "Blit copy from sysmem to vram", test);
-   507		if (!sanity_fence_failed(xe, fence, "Blit copy from sysmem to vram", test)) {
-   508			retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
-   509			if (retval == expected)
-   510				KUNIT_FAIL(test, "Sanity check failed: VRAM must have compressed value\n");
-   511		}
-   512		dma_fence_put(fence);
-   513	
-   514		kunit_info(test, "Evict vram buffer object\n");
- > 515		ret = xe_bo_evict(vram_bo);
-   516		if (ret) {
-   517			KUNIT_FAIL(test, "Failed to evict bo.\n");
-   518			return;
-   519		}
-   520	
-   521		ret = xe_bo_vmap(vram_bo);
-   522		if (ret) {
-   523			KUNIT_FAIL(test, "Failed to vmap vram bo: %li\n", ret);
-   524			return;
-   525		}
-   526	
-   527		retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
-   528		check(retval, expected, "Clear evicted vram data first value", test);
-   529		retval = xe_map_rd(xe, &vram_bo->vmap, vram_bo->size - 8, u64);
-   530		check(retval, expected, "Clear evicted vram data last value", test);
-   531	
-   532		fence = blt_copy(tile, vram_bo, ccs_bo,
-   533				 true, "Blit surf copy from vram to sysmem", test);
-   534		if (!sanity_fence_failed(xe, fence, "Clear ccs buffer data", test)) {
-   535			retval = xe_map_rd(xe, &ccs_bo->vmap, 0, u64);
-   536			check(retval, 0, "Clear ccs data first value", test);
-   537	
-   538			retval = xe_map_rd(xe, &ccs_bo->vmap, ccs_bo->size - 8, u64);
-   539			check(retval, 0, "Clear ccs data last value", test);
-   540		}
-   541		dma_fence_put(fence);
-   542	
-   543		kunit_info(test, "Restore vram buffer object\n");
-   544		ret = xe_bo_validate(vram_bo, NULL, false);
-   545		if (ret) {
-   546			KUNIT_FAIL(test, "Failed to validate vram bo for: %li\n", ret);
-   547			return;
-   548		}
-   549	
-   550		/* Sync all migration blits */
-   551		timeout = dma_resv_wait_timeout(vram_bo->ttm.base.resv,
-   552						DMA_RESV_USAGE_KERNEL,
-   553						true,
-   554						5 * HZ);
-   555		if (timeout <= 0) {
-   556			KUNIT_FAIL(test, "Failed to sync bo eviction.\n");
-   557			return;
-   558		}
-   559	
-   560		ret = xe_bo_vmap(vram_bo);
-   561		if (ret) {
-   562			KUNIT_FAIL(test, "Failed to vmap vram bo: %li\n", ret);
-   563			return;
-   564		}
-   565	
-   566		retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
-   567		check(retval, expected, "Restored value must be equal to initial value", test);
-   568		retval = xe_map_rd(xe, &vram_bo->vmap, vram_bo->size - 8, u64);
-   569		check(retval, expected, "Restored value must be equal to initial value", test);
-   570	
-   571		fence = blt_copy(tile, vram_bo, ccs_bo,
-   572				 true, "Blit surf copy from vram to sysmem", test);
-   573		if (!sanity_fence_failed(xe, fence, "Clear ccs buffer data", test)) {
-   574			retval = xe_map_rd(xe, &ccs_bo->vmap, 0, u64);
-   575			check(retval, 0, "Clear ccs data first value", test);
-   576			retval = xe_map_rd(xe, &ccs_bo->vmap, ccs_bo->size - 8, u64);
-   577			check(retval, 0, "Clear ccs data last value", test);
-   578		}
-   579		dma_fence_put(fence);
-   580	}
-   581	
+    16	
+    17	#if PAGE_SIZE == 0x1000
+    18	/* max 128 slots per block, max table size 32 */
+    19	#define SLOT_BITS 7
+    20	#elif PAGE_SIZE == 0x4000
+    21	/* max 256 slots per block, max table size 64 */
+    22	#define SLOT_BITS 8
+    23	#else
+  > 24	#warn This PAGE_SIZE is not quite supported yet
+    25	#define SLOT_BITS 8
+    26	#endif
+    27	
 
 -- 
 0-DAY CI Kernel Test Service
