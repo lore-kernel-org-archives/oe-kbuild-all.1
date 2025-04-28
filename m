@@ -1,116 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF9A25C82F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Apr 2025 08:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A8325F7AA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Apr 2025 10:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745830040; cv=none; b=DtZ8U9xFd9JN5OtKv9bOh/QPdLBSvMufJK3gF1d1Jwv78Au27t86cCt0+P+pMSlWW26+KA1CYjz6kBCEVPsyrd3qyEdxmR6gtOWZZ0HsAu8FQWOMolAndVqyMxaAgi/TWG+4PukdaPd+6tIDl9MFSIl1w5k9uw+/X87OlOew8QI=
+	t=1745837648; cv=none; b=F6Ayd/4PX6CnkmWI0iR0aowzTloiYrje4+V0/9JcndBFYCfUvc+6f6aXgxyr7BVf97MmWANI01rqlDgcVfKzHIeF/6mO9fqaIWPSIuHaHSH9yMEdwW4QMW+4a+Cb9Wwvul7MRqvERrgt9JeWqZF44UkhSV22tNQstIyjeDRiNZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745830040; c=relaxed/simple;
-	bh=70oDwUtwYqEyETXz7oCBoL3rbNqfBiLdDstId/VbxTo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BLKcAQrr2wFfSJC34mmdVjiA7Jwvl/wSthdT0Nmi3HpkGLIrDTThefGcxLBEGCrY+rsVQRPdwmrOPOEXq1UfSHlUCRaEldZpC47ivjcsWaCIMl9tsd5531hGYLqAHUHS+XUJ1DBHxBb0kQlE5+LZKcx8POKxFMPQ2MWxAhQm+1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hx/1CHIk; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745837648; c=relaxed/simple;
+	bh=vJYYTWjFyBDX+IlkKzxTjJZfUn9LjHFj0wZGb1hpmMA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=m/4Vkw7Btc07HMQr2vB9CvOi1soZRIVXjMsGrrRgahyLBqdAH4CM42hgoKYdeck0yFemyLsGMxgxFRXZemiNPPmUjO+UjAb6Ocac/Se3nfrHYqHxScrEHukNO1A8Ofr8mCY4KZ7CnltlDEwh3FkLZ6+GVtE+sh45wbznqfFvdBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fbPOoBW3; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hx/1CHIk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745830038; x=1777366038;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=70oDwUtwYqEyETXz7oCBoL3rbNqfBiLdDstId/VbxTo=;
-  b=hx/1CHIkVe9yhkIjevbjduR0nM5zgUAxP9i0s+xFPpRe2OOVSUm4cwJb
-   MgVoBMndT350s+cLM6LKQWCgmTRjI6U1oeawAK+U7/2Asyy/DcK+pMmsA
-   DdaXtzrkJ9XSBbAtzsPUlxTZd2I6/8z9gY1HmJRXXz0VGd9F5+CnYTtYv
-   Hx3vyFalqiRxSjA4OOblftQLYoLGmgRW4rhlydun2PScNDkL95atXVRpR
-   Cmrcj5S+MlY7V2dx2bYP3urg+8yrpLHzZIPUXWLWBzYS8F35sbzzI1Zl1
-   PXzQeVuUhi+3wKScD/2hX6FX3c60QE6vo6Aneea+bZHPzMTAU+OgS7bRe
-   Q==;
-X-CSE-ConnectionGUID: 6GhQDUV1SQinF1nxq0VazA==
-X-CSE-MsgGUID: 4C1He2vNSJi2STBWGWiuIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="47538245"
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
-   d="scan'208";a="47538245"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 01:47:17 -0700
-X-CSE-ConnectionGUID: UeWbODFoQYKTPNSUv7pfkA==
-X-CSE-MsgGUID: lR2eVMfHQrmLY4hfOblAng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
-   d="scan'208";a="138453577"
-Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Apr 2025 01:47:14 -0700
-Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u9K8t-0006lB-1R;
-	Mon, 28 Apr 2025 08:47:11 +0000
-Date: Mon, 28 Apr 2025 16:46:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Igor Belousov <igor.b@beldev.am>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	hannes@cmpxchg.org, minchan@kernel.org, nphamcs@gmail.com,
-	senozhatsky@chromium.org, shakeel.butt@linux.dev,
-	yosry.ahmed@linux.dev, Igor Belousov <igor.b@beldev.am>
-Subject: Re: [PATCH mm-new] mm/zblock: avoid failing the build
-Message-ID: <202504281654.Cj20Gqsl-lkp@intel.com>
-References: <20250428065727.57990-1-igor.b@beldev.am>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fbPOoBW3"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3995ff6b066so2293532f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Apr 2025 03:54:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745837644; x=1746442444; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vJYYTWjFyBDX+IlkKzxTjJZfUn9LjHFj0wZGb1hpmMA=;
+        b=fbPOoBW33y6eOBzCJpUZ3dnAHfB4VAQ3LvnVCL/EkPlW4ISaqzucacn0IigOWVH6U5
+         usLWHwu3MDyrjCOCqeF7J/kLPLYzuluSHcUv54RoWUMSiI0FriwkpZ+LV6SNiyT1UMIj
+         TEO+JYV1n3fjGlgZS27OrSmlerJuI8goUXwlaXlaBKQnvxUKyuX30We4AxANPbGoTMO3
+         4Nd71dOcDU15E0paKaiLOAS0+t4e8Zgf65LNcoYu6Xcz9qfSQ9DZLoUrT6J2ziClwSUM
+         QhnomAnANl606K0c7tkxRSpZRr1RZ+TihT8UUUx53deN11y7ysF8nNpYUcum6DEtSV2P
+         zW/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745837644; x=1746442444;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vJYYTWjFyBDX+IlkKzxTjJZfUn9LjHFj0wZGb1hpmMA=;
+        b=AO25w8t5s/BE7J084eEnyC11DtBDsOiWETEEU/0rxUipZm4tLf90occn4YJlB6m5K7
+         TO17tikSUcNy/rOyPJhw9n8UbdRBIerUz7JsbghjHka3nQV5O8hWgAuFr6lsPU5zAxy5
+         nRPiTIOde6hnuRm1bMmTWlnBbeEi3J5rnNVxj5g5EB5s2V3tk/r1SJ0HjPE/x7xby7p6
+         GSh09ygLdNPDLK3loxCBf6susyhw++fbrxUUU+yQ8MImKqxc7RPaIFhb5AI+6oQoZa9b
+         gvtxA+zmmGQHYglc5nUSjti4CFL6Gxf5DJuzg8z9Ulk8YJ/87QEsyCt7FEcUcNTLMrev
+         1WNw==
+X-Forwarded-Encrypted: i=1; AJvYcCXe2Wbh7nf3PJ67LsDDMPZXZjvX6pjEMlfLMTs9ekVZFzFHkMTkIJ5A5RvtVA9xMyy1POe0EiQRUuPs9NHD@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIX/giWjIohc92HKF5eVQbIC1pq0KbTml86XeTnC7tc/t9piCX
+	KMgPvHpuo/b0YD/zsFY/tEJUIQYde8CDufu7jbQ1ozl07M2is/hxRiziwv35zcU=
+X-Gm-Gg: ASbGnctkY6xfF0uQE40AGrjth0IDIBCVwkFOet8GLDd+3t0mn8lF/+w48PsbB5gSdQl
+	sqCnTyloyBhDMtQxW16JLPDJa/NHG2WglPWmaqSwy3EQAzZHyW0oNq6ObCD/110/dmLnIL//S3R
+	I21eFU31MXrkHaBebGdC1D9a+b0KS/TxUtbRqIWkGBcFknPsYG83wM/23OX5/MD7Thlac+gbop9
+	Q5hOpMeUAgyvWqzJUuD7vgNw5FleBdtUARJfHjBYMkFHjOr+/MtYPYiUS8qvbmvXvQYRXHYwtT/
+	qv66rez1pWHDAbrzngj3HzIeI/DqeJIFfmpxBxELvq2V
+X-Google-Smtp-Source: AGHT+IE5ALPDQ2XMbchs7dJLxyLSOiymC/SUhWH5ENA4v0SqHQ/mBm4J43KbUFaK+HBjkuPR28vHcQ==
+X-Received: by 2002:a05:6000:4029:b0:3a0:8298:143d with SMTP id ffacd0b85a97d-3a08298145emr3587865f8f.13.1745837644433;
+        Mon, 28 Apr 2025 03:54:04 -0700 (PDT)
+Received: from draszik.lan ([80.111.64.44])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073ca5debsm10907346f8f.38.2025.04.28.03.54.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 03:54:04 -0700 (PDT)
+Message-ID: <e377be676ffd2b6a697b39c3ab11007f5db53fb2.camel@linaro.org>
+Subject: Re: [krzk:next/drivers 7/7]
+ drivers/firmware/samsung/exynos-acpm.c:672: warning: Function parameter or
+ struct member 'acpm_np' not described in 'acpm_get_by_node'
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Date: Mon, 28 Apr 2025 11:54:03 +0100
+In-Reply-To: <3f0f7795-93dd-43c8-b64b-ace90cf26447@kernel.org>
+References: <202504222051.7TqaSQ48-lkp@intel.com>
+	 <3f0f7795-93dd-43c8-b64b-ace90cf26447@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3-2+build1 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250428065727.57990-1-igor.b@beldev.am>
 
-Hi Igor,
+Hi Krzysztof,
 
-kernel test robot noticed the following build errors:
+On Thu, 2025-04-24 at 22:37 +0200, Krzysztof Kozlowski wrote:
+> On 22/04/2025 14:52, kernel test robot wrote:
+> > tree:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/krzk/=
+linux.git=C2=A0next/drivers
+> > head:=C2=A0=C2=A0 a8dc26a0ec43fd416ca781a8030807e65f71cfc5
+> > commit: a8dc26a0ec43fd416ca781a8030807e65f71cfc5 [7/7] firmware: exynos=
+-acpm: introduce devm_acpm_get_by_node()
+> > config: i386-buildonly-randconfig-001-20250422
+> > (https://download.01.org/0day-ci/archive/20250422/202504222051.7TqaSQ48=
+-lkp@intel.com/config)
+> > compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project=C2=
+=A058df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250422/202504222051.7TqaSQ48-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202504222051.7TqaSQ48-l=
+kp@intel.com/
+> >=20
+> > All warnings (new ones prefixed by >>):
+> >=20
+> > > > drivers/firmware/samsung/exynos-acpm.c:672: warning: Function param=
+eter or struct member 'acpm_np' not described in
+> > > > 'acpm_get_by_node'
+> > > > drivers/firmware/samsung/exynos-acpm.c:672: warning: expecting prot=
+otype for acpm_get_by_phandle(). Prototype was for
+> > > > acpm_get_by_node() instead
+>=20
+> Not sure if this was result of long holidays or just ignoring this... if
+> the latter then: please always respond/address somehow bot reports.
+>=20
+> I sent fix for that, but in general I expect active contributors to fix
+> their own patches.
 
-[auto build test ERROR on akpm-mm/mm-everything]
+Thanks for submitting the fix, and yes, I was away.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Belousov/mm-zblock-avoid-failing-the-build/20250428-150012
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250428065727.57990-1-igor.b%40beldev.am
-patch subject: [PATCH mm-new] mm/zblock: avoid failing the build
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250428/202504281654.Cj20Gqsl-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250428/202504281654.Cj20Gqsl-lkp@intel.com/reproduce)
+Cheers,
+Andre'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504281654.Cj20Gqsl-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from mm/zblock.c:27:
->> mm/zblock.h:24:2: error: invalid preprocessing directive #warn; did you mean #warning?
-      24 | #warn This PAGE_SIZE is not quite supported yet
-         |  ^~~~
-         |  warning
-
-
-vim +24 mm/zblock.h
-
-    16	
-    17	#if PAGE_SIZE == 0x1000
-    18	/* max 128 slots per block, max table size 32 */
-    19	#define SLOT_BITS 7
-    20	#elif PAGE_SIZE == 0x4000
-    21	/* max 256 slots per block, max table size 64 */
-    22	#define SLOT_BITS 8
-    23	#else
-  > 24	#warn This PAGE_SIZE is not quite supported yet
-    25	#define SLOT_BITS 8
-    26	#endif
-    27	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
