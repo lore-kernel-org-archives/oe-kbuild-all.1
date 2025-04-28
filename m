@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AF429CEB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Apr 2025 06:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B8F1D63F8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Apr 2025 07:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745820726; cv=none; b=Xd95zv1YZm0TAg940ZxVruFi0Cjso4d39ruQBR0KqsPvQ6u1IFS4z9h78Onk/HGYgm6Pu2if76EK62YYcvwtzUdY6ExLnupIf8yzj2wCuvm5tMOCHCzWw3CB9teKueUa+3mdLXY0M1edL8SMLYvLgdKycC1iQWuPxO6jkD/Dhjw=
+	t=1745824449; cv=none; b=uKgXaUf6Wfm7hGWFLGwsPkTSO/TX9q9GmcDvCsmg7KRXCnWa62aLHsd+WueU5XJoNpGD3DEYF0oUI7xzvpfO7kzQQxy0jKJQZv/Alx2qP1M9WA2Lse2IMr7DqPZrP9u61P+J67QTwKu9pmnrSoSzy5B89wemu/Tjx5qTthHZfYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745820726; c=relaxed/simple;
-	bh=9VFKEeiK6JI4XVbE/KksWzGslEhHpjfYU+UURnodd6M=;
+	s=arc-20240116; t=1745824449; c=relaxed/simple;
+	bh=InPFv7NzxrLdMuKj7vrbwJrkYbLdh0+6ESBqGAOmfF0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gUxBObqekP0u1GIXa/r1NEl9YqEtVuK32xLrFsMSRctgceMuTQYIeALb6KbGb3sVToswsQLc6JYQxwsG3TRtzSQswki8OGPemscJ/JZbwmtvo52tMA0JYzOGQBrlgYJJOgKBWiRHPK5Jx420MvUWtKUERVIAxRfNNskThhXEN5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RAQlzICX; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=KtSxSXIWTciTPOCmt6PFYTqwllnJBcpSysVSduCnkndkHEPYBoqh1pkB86LjBypJdD0R/xAPmy9GcCwnIkC0eFNTsKbi6yI6OC48907tEQTU1vvooL3emN8ot9jZr2JlNTi0ngDG0w70qYg1aTSWyio/U6gARue9sE314GhHBp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D3J8+hYZ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RAQlzICX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D3J8+hYZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745820725; x=1777356725;
+  t=1745824447; x=1777360447;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9VFKEeiK6JI4XVbE/KksWzGslEhHpjfYU+UURnodd6M=;
-  b=RAQlzICXBchaNII48Xe0MgvbpNJAT8Q4VI7kWFXX2IQcWkiBIyVNg90i
-   oB9Ij3ujtWpRrf9WCRfhk4XVipMCSWo8+Tat6E/SAkUAMKMh3wQtbPD3z
-   hPdg4tkp+SoY3uPYwwMSr+veBc6N0ebKwQeEIR73gP0kLvXOfl7D0C99z
-   QWQAs52WjrNh0R7WtyG/d6K3W+v0SKHhBdW/FBkTGX7yZrnF1HomyqK+R
-   ikcihAPwSC7Y11AzX+rlSbq7iSD62Kge/swsW40Uy5C+u+jB4AP40f/Mc
-   Y9yQb+BqZOlceoNAZqAjXPI75aqWI5eIp6rVDyi7rx2R9yOhO+oodtPcu
-   A==;
-X-CSE-ConnectionGUID: mHspuWLGTRq8MlsP7VX8PQ==
-X-CSE-MsgGUID: Bsv1iyOvSoS5Xr3vsZOYfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="58380872"
+  bh=InPFv7NzxrLdMuKj7vrbwJrkYbLdh0+6ESBqGAOmfF0=;
+  b=D3J8+hYZqveK+I6Sk2tH4A0LjdBWwg/4wyQR6KDJPECsDco5hco1Cwiz
+   QPN4JVgHdT2hNMyVOvsJPIJQCW0WDzAmaI1B4tjS8jFtff+17dCinWOfJ
+   ONsSFfByk+9Jfr+aOpgKvHn2eoAli8F0Us9esOZiUMLZFewYb1dkaUxs1
+   OTSNKHzeXYDNJ42PheBW88AycosiUcUkxWLlGee6MUQ6YLorPCuT+ZG10
+   NBQMaOsyV2IPzFgKk12VcDP2inB3v9MHXgbLO58+Pq9MGh/fGCFEQNBER
+   A9CKZqw/VXGXgY5eAD4Iq3+Og8J7uqHgN6IrW5XJXnmuMDZdQyaZ+X0Pc
+   g==;
+X-CSE-ConnectionGUID: mzrlb9VjRkKX9eFpicbFHw==
+X-CSE-MsgGUID: d+cLiPioS62Bspk/74vFoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="50055386"
 X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
-   d="scan'208";a="58380872"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2025 23:12:04 -0700
-X-CSE-ConnectionGUID: 1+/wircxSC+zaa1j+jwsmw==
-X-CSE-MsgGUID: i3LZolW/SKSAhNUcSdgi4A==
+   d="scan'208";a="50055386"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 00:14:06 -0700
+X-CSE-ConnectionGUID: LSbsf5n/Qnex1vpO6CEr5Q==
+X-CSE-MsgGUID: ca64yB/wRj+r5F14JJoB2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
-   d="scan'208";a="133730131"
+   d="scan'208";a="156655031"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Apr 2025 23:12:01 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 28 Apr 2025 00:14:05 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9Hig-0006fZ-25;
-	Mon, 28 Apr 2025 06:11:58 +0000
-Date: Mon, 28 Apr 2025 14:11:04 +0800
+	id 1u9Igk-0006hZ-33;
+	Mon, 28 Apr 2025 07:14:02 +0000
+Date: Mon, 28 Apr 2025 15:13:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Suren Baghdasaryan <surenb@google.com>,
-	David Rientjes <rientjes@google.com>, Josh Don <joshdon@google.com>,
-	Chuyi Zhou <zhouchuyi@bytedance.com>, cgroups@vger.kernel.org,
-	bpf@vger.kernel.org, Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH rfc 09/12] sched: psi: bpf hook to handle psi events
-Message-ID: <202504281309.smYiDStM-lkp@intel.com>
-References: <20250428033617.3797686-10-roman.gushchin@linux.dev>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+	matthew.brost@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH] drm/xe/tests: fix the bo evict build break
+Message-ID: <202504281424.5u93dWXu-lkp@intel.com>
+References: <20250428034043.407486-1-airlied@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,43 +63,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250428033617.3797686-10-roman.gushchin@linux.dev>
+In-Reply-To: <20250428034043.407486-1-airlied@gmail.com>
 
-Hi Roman,
+Hi Dave,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on drm/drm-next drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.15-rc3 next-20250424]
+[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Gushchin/mm-introduce-a-bpf-hook-for-OOM-handling/20250428-113742
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250428033617.3797686-10-roman.gushchin%40linux.dev
-patch subject: [PATCH rfc 09/12] sched: psi: bpf hook to handle psi events
-config: sh-randconfig-001-20250428 (https://download.01.org/0day-ci/archive/20250428/202504281309.smYiDStM-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250428/202504281309.smYiDStM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-xe-tests-fix-the-bo-evict-build-break/20250428-114114
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250428034043.407486-1-airlied%40gmail.com
+patch subject: [PATCH] drm/xe/tests: fix the bo evict build break
+config: loongarch-randconfig-002-20250428 (https://download.01.org/0day-ci/archive/20250428/202504281424.5u93dWXu-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250428/202504281424.5u93dWXu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504281309.smYiDStM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504281424.5u93dWXu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:94:
->> kernel/sched/psi.c:193:38: warning: 'bpf_psi_hook_set' defined but not used [-Wunused-const-variable=]
-     193 | static const struct btf_kfunc_id_set bpf_psi_hook_set = {
-         |                                      ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_migrate.c:1723:
+   drivers/gpu/drm/xe/tests/xe_migrate.c: In function 'test_migrate':
+>> drivers/gpu/drm/xe/tests/xe_migrate.c:515:15: error: too few arguments to function 'xe_bo_evict'
+     515 |         ret = xe_bo_evict(vram_bo);
+         |               ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_migrate.c:23:
+   drivers/gpu/drm/xe/xe_bo.h:274:5: note: declared here
+     274 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc);
+         |     ^~~~~~~~~~~
+--
+   In file included from drivers/gpu/drm/xe/xe_dma_buf.c:322:
+   drivers/gpu/drm/xe/tests/xe_dma_buf.c: In function 'check_residency':
+>> drivers/gpu/drm/xe/tests/xe_dma_buf.c:68:15: error: too few arguments to function 'xe_bo_evict'
+      68 |         ret = xe_bo_evict(exported);
+         |               ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_dma_buf.c:17:
+   drivers/gpu/drm/xe/xe_bo.h:274:5: note: declared here
+     274 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc);
+         |     ^~~~~~~~~~~
+--
+   In file included from drivers/gpu/drm/xe/xe_bo.c:2949:
+   drivers/gpu/drm/xe/tests/xe_bo.c: In function 'ccs_test_migrate':
+>> drivers/gpu/drm/xe/tests/xe_bo.c:63:15: error: too few arguments to function 'xe_bo_evict'
+      63 |         ret = xe_bo_evict(bo);
+         |               ^~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c:2769:5: note: declared here
+    2769 | int xe_bo_evict(struct xe_bo *bo, bool force_alloc)
+         |     ^~~~~~~~~~~
 
 
-vim +/bpf_psi_hook_set +193 kernel/sched/psi.c
+vim +/xe_bo_evict +515 drivers/gpu/drm/xe/tests/xe_migrate.c
 
-   192	
- > 193	static const struct btf_kfunc_id_set bpf_psi_hook_set = {
-   194		.owner = THIS_MODULE,
-   195		.set   = &bpf_psi_hooks,
-   196	};
-   197	
+   493	
+   494	static void test_migrate(struct xe_device *xe, struct xe_tile *tile,
+   495				 struct xe_bo *sys_bo, struct xe_bo *vram_bo, struct xe_bo *ccs_bo,
+   496				 struct kunit *test)
+   497	{
+   498		struct dma_fence *fence;
+   499		u64 expected, retval;
+   500		long timeout;
+   501		long ret;
+   502	
+   503		expected = 0xd0d0d0d0d0d0d0d0;
+   504		xe_map_memset(xe, &sys_bo->vmap, 0, 0xd0, sys_bo->size);
+   505	
+   506		fence = blt_copy(tile, sys_bo, vram_bo, false, "Blit copy from sysmem to vram", test);
+   507		if (!sanity_fence_failed(xe, fence, "Blit copy from sysmem to vram", test)) {
+   508			retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
+   509			if (retval == expected)
+   510				KUNIT_FAIL(test, "Sanity check failed: VRAM must have compressed value\n");
+   511		}
+   512		dma_fence_put(fence);
+   513	
+   514		kunit_info(test, "Evict vram buffer object\n");
+ > 515		ret = xe_bo_evict(vram_bo);
+   516		if (ret) {
+   517			KUNIT_FAIL(test, "Failed to evict bo.\n");
+   518			return;
+   519		}
+   520	
+   521		ret = xe_bo_vmap(vram_bo);
+   522		if (ret) {
+   523			KUNIT_FAIL(test, "Failed to vmap vram bo: %li\n", ret);
+   524			return;
+   525		}
+   526	
+   527		retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
+   528		check(retval, expected, "Clear evicted vram data first value", test);
+   529		retval = xe_map_rd(xe, &vram_bo->vmap, vram_bo->size - 8, u64);
+   530		check(retval, expected, "Clear evicted vram data last value", test);
+   531	
+   532		fence = blt_copy(tile, vram_bo, ccs_bo,
+   533				 true, "Blit surf copy from vram to sysmem", test);
+   534		if (!sanity_fence_failed(xe, fence, "Clear ccs buffer data", test)) {
+   535			retval = xe_map_rd(xe, &ccs_bo->vmap, 0, u64);
+   536			check(retval, 0, "Clear ccs data first value", test);
+   537	
+   538			retval = xe_map_rd(xe, &ccs_bo->vmap, ccs_bo->size - 8, u64);
+   539			check(retval, 0, "Clear ccs data last value", test);
+   540		}
+   541		dma_fence_put(fence);
+   542	
+   543		kunit_info(test, "Restore vram buffer object\n");
+   544		ret = xe_bo_validate(vram_bo, NULL, false);
+   545		if (ret) {
+   546			KUNIT_FAIL(test, "Failed to validate vram bo for: %li\n", ret);
+   547			return;
+   548		}
+   549	
+   550		/* Sync all migration blits */
+   551		timeout = dma_resv_wait_timeout(vram_bo->ttm.base.resv,
+   552						DMA_RESV_USAGE_KERNEL,
+   553						true,
+   554						5 * HZ);
+   555		if (timeout <= 0) {
+   556			KUNIT_FAIL(test, "Failed to sync bo eviction.\n");
+   557			return;
+   558		}
+   559	
+   560		ret = xe_bo_vmap(vram_bo);
+   561		if (ret) {
+   562			KUNIT_FAIL(test, "Failed to vmap vram bo: %li\n", ret);
+   563			return;
+   564		}
+   565	
+   566		retval = xe_map_rd(xe, &vram_bo->vmap, 0, u64);
+   567		check(retval, expected, "Restored value must be equal to initial value", test);
+   568		retval = xe_map_rd(xe, &vram_bo->vmap, vram_bo->size - 8, u64);
+   569		check(retval, expected, "Restored value must be equal to initial value", test);
+   570	
+   571		fence = blt_copy(tile, vram_bo, ccs_bo,
+   572				 true, "Blit surf copy from vram to sysmem", test);
+   573		if (!sanity_fence_failed(xe, fence, "Clear ccs buffer data", test)) {
+   574			retval = xe_map_rd(xe, &ccs_bo->vmap, 0, u64);
+   575			check(retval, 0, "Clear ccs data first value", test);
+   576			retval = xe_map_rd(xe, &ccs_bo->vmap, ccs_bo->size - 8, u64);
+   577			check(retval, 0, "Clear ccs data last value", test);
+   578		}
+   579		dma_fence_put(fence);
+   580	}
+   581	
 
 -- 
 0-DAY CI Kernel Test Service
