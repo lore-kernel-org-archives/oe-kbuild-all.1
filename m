@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE12A1519AD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 06:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7939727057C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 06:20:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745907628; cv=none; b=BXMBHcGKwf7zSHaK4Z0z9Yvdnxut3Yy2dikS8STnIRDQ3ARy10k0IudlqvBleeNCeh7vDSuUAY5IjcDQ6zUZK0zWWx75XZkVC3G399CLhotrNOFrlbznWQFz0aMngnXN2UsWmugj9LAFxSYApSWMg2BijNXp07aGJhlN9t94aMU=
+	t=1745907631; cv=none; b=jsfSE5zHn/1erwnjjzvd5XpJg1wqRMCF0rjbooTQgBUOw+NA/tfPvl0YCeEmAyqvSGuSHwddVPfqh0vQ4K7rPzvM4qHRtIaN1msBCXkUgMBK7/vjXc2VlzdQatsgjddiI2cHe9c7C2Y6MkEQmiZwXQdLZs1udflyd2GJa5blG8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745907628; c=relaxed/simple;
-	bh=4o/0a9LN73RQIVJwRvjmfyBecr+7vkkuWrxno4Lw1Sg=;
+	s=arc-20240116; t=1745907631; c=relaxed/simple;
+	bh=d5J3wHgt/Kp0s6YUSH6Pk4Xy1CCjj2GgJP3YyY7wyjY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cdX3khw5gyldbFANpNWd10nh6fpFxZ0EfKn6FonO1PyDDLnNIWwJAIiE7EMbvkA8iRHQVhRSXT92LKxUFv0GsgwJDNbVxHc/W/H2F5NogWrWTnOG7qwrJsUeh+n5pseyQfWBHmXW2R9sWYLqhZQGo5N6HXBQ8VcuglFOBH6u2y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWDZv+f+; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=nCxrOsEkJX0BTDbrl0IY4wp4cloGC199JTRS3hMKaiV/WLtqQKApOC69/HBVBmt6m7/PJY8rXJnUU99H/J9WhfrdVRyrIEgqBqWFb4lU949r1ACESeFbUeANlgZNbvoUL12qenieLNAHEvAGAmzN40SS2GX+FVOSA5/JsZL71UE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+nYAaJg; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWDZv+f+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+nYAaJg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745907626; x=1777443626;
+  t=1745907628; x=1777443628;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4o/0a9LN73RQIVJwRvjmfyBecr+7vkkuWrxno4Lw1Sg=;
-  b=QWDZv+f+KBf/MTPJGXbWR0F0rbItFqYfCnncuQPsK4IwTnniuMiAN0fr
-   D7sqKcFSA//ZD2WUvdbP9EeM0YZSMpR3jerlC7QEUSpp5eNQ/fPy0PG7v
-   lQf1IK/5IBvMonpJ4GdvHwylwkx5B4dzaAztSwnRGsRkYOxNzEdFDXqjq
-   nUcCNFQRhOEiy9WPaPd0ayO89Lc+jPuXrI5DS/1Rh5brp8D90dzGVAv+L
-   Hg85jGLYBYq+HXbZQjWx2jtIsrJ+K0Ph6/iXDEXiG7n8dlV00W4eFRpUf
-   5+YZSbISdShZAqMlilV8VirPzBKDJ2eLDmHCiWYxotjwatYvnHGCvleBb
-   Q==;
-X-CSE-ConnectionGUID: McB1VDR9Q1qvZem77tutFg==
-X-CSE-MsgGUID: YQ99E/3TQCG6ASajx7pRQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="72893040"
+  bh=d5J3wHgt/Kp0s6YUSH6Pk4Xy1CCjj2GgJP3YyY7wyjY=;
+  b=i+nYAaJg+yS0oGeHejNPc6wk3NYcLVFbUSviYXazVL+TFoUY+3xxsQlo
+   oQOXPSLH7sRoBXZtyjuKsFqDVtpBM8+0pwL1flP/oYjFes0lKdneUsKx+
+   Tv9G1PCmgREPgeMXuWgM+WY+Dg18ZPIpe9dHL4iDn+4G7TdOm7EcuK1js
+   /vHYmOG0DFQzTG2rJ7nwU7jGbWyJ3ajcMN3fnyx42dKhPnHkaScLr/IGH
+   jqXRBsfZ/YGeA9Ya7kaN9BTVQVQDcF7TlLlygWiAyQBRQFe2liuY60Pvp
+   rwnkZp79fnd8RU2+Xht4IWGs6II6LC8mM2sLfUcGJHZKseHPTIPbNpb/0
+   w==;
+X-CSE-ConnectionGUID: p1dOfyalQOy2Nz7FjMhpjw==
+X-CSE-MsgGUID: e5rh+uj5SLmx+unlr503Rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="72893041"
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="72893040"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
+   d="scan'208";a="72893041"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 23:20:25 -0700
-X-CSE-ConnectionGUID: lzvoIK3rTsW8KpX9tOqWNQ==
-X-CSE-MsgGUID: Qpfrl2alT2iPCH5gCvXNPg==
+X-CSE-ConnectionGUID: njprnr3HQO+ud+nQxXQNaQ==
+X-CSE-MsgGUID: rs77bSUvTCOIWzd4rx8IuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="134245221"
+   d="scan'208";a="134711794"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Apr 2025 23:20:23 -0700
+  by orviesa008.jf.intel.com with ESMTP; 28 Apr 2025 23:20:24 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9eKL-0000W1-1Y;
+	id 1u9eKL-0000Vz-1T;
 	Tue, 29 Apr 2025 06:20:21 +0000
-Date: Tue, 29 Apr 2025 14:19:47 +0800
+Date: Tue, 29 Apr 2025 14:19:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks 17/18]
- arch/arm64/kernel/entry.S:592: Error: unknown mnemonic
- `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,t,64,sync'
-Message-ID: <202504291450.X1C7hwF6-lkp@intel.com>
+Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks 16/18]
+ kernel/fork.c:216:38: error: size of array 'dynamic_stack_pages' is too
+ large
+Message-ID: <202504291420.ZbMxQXf9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,62 +65,57 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks
 head:   6f50dac461ca66220a13a927db438e4a75708444
-commit: 9f8b2eeb16285187ca7653f6e4ad94fdb43c9096 [17/18] HACK: aarch64 dynamic stack
-config: arm64-randconfig-004-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291450.X1C7hwF6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291450.X1C7hwF6-lkp@intel.com/reproduce)
+commit: b4f83b9239ff94d246c17afc4d32fea20f8afd4b [16/18] HACK: just enable dynamic stack
+config: arm64-randconfig-001-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291420.ZbMxQXf9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291420.ZbMxQXf9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504291450.X1C7hwF6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504291420.ZbMxQXf9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/arm64/kernel/entry.S: Assembler messages:
->> arch/arm64/kernel/entry.S:592: Error: unknown mnemonic `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,t,64,sync'
->> arch/arm64/kernel/entry.S:597: Error: unknown mnemonic `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,h,64,sync'
-   arch/arm64/kernel/entry.S:910: Error: unknown mnemonic `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,t,64,sync'
-   arch/arm64/kernel/entry.S:910: Error: unknown mnemonic `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,h,64,sync'
-   arch/arm64/kernel/entry.S:911: Error: unknown mnemonic `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,t,64,sync'
-   arch/arm64/kernel/entry.S:911: Error: unknown mnemonic `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,h,64,sync'
-   arch/arm64/kernel/entry.S:912: Error: unknown mnemonic `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,t,64,sync'
-   arch/arm64/kernel/entry.S:912: Error: unknown mnemonic `kernel_ventry_el1_sync' -- `kernel_ventry_el1_sync 1,h,64,sync'
+   In file included from include/asm-generic/percpu.h:7:0,
+                    from arch/arm64/include/asm/percpu.h:259,
+                    from include/linux/irqflags.h:19,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from kernel/fork.c:16:
+>> kernel/fork.c:216:38: error: size of array 'dynamic_stack_pages' is too large
+    static DEFINE_PER_CPU(struct page *, dynamic_stack_pages[THREAD_DYNAMIC_PAGES]);
+                                         ^
+   include/linux/percpu-defs.h:102:37: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
+     __PCPU_ATTRS(sec) __typeof__(type) name
+                                        ^~~~
+   kernel/fork.c:216:8: note: in expansion of macro 'DEFINE_PER_CPU'
+    static DEFINE_PER_CPU(struct page *, dynamic_stack_pages[THREAD_DYNAMIC_PAGES]);
+           ^~~~~~~~~~~~~~
+>> kernel/fork.c:216:38: warning: 'dynamic_stack_pages' defined but not used [-Wunused-variable]
+    static DEFINE_PER_CPU(struct page *, dynamic_stack_pages[THREAD_DYNAMIC_PAGES]);
+                                         ^
+   include/linux/percpu-defs.h:102:37: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
+     __PCPU_ATTRS(sec) __typeof__(type) name
+                                        ^~~~
+   kernel/fork.c:216:8: note: in expansion of macro 'DEFINE_PER_CPU'
+    static DEFINE_PER_CPU(struct page *, dynamic_stack_pages[THREAD_DYNAMIC_PAGES]);
+           ^~~~~~~~~~~~~~
 
 
-vim +592 arch/arm64/kernel/entry.S
+vim +/dynamic_stack_pages +216 kernel/fork.c
 
-   582	
-   583		.text
-   584	
-   585	/*
-   586	 * Exception vectors.
-   587	 */
-   588		.pushsection ".entry.text", "ax"
-   589	
-   590		.align	11
-   591	SYM_CODE_START(vectors)
- > 592		kernel_ventry_el1_sync	1, t, 64, sync		// Synchronous EL1t
-   593		kernel_ventry	1, t, 64, irq		// IRQ EL1t
-   594		kernel_ventry	1, t, 64, fiq		// FIQ EL1t
-   595		kernel_ventry	1, t, 64, error		// Error EL1t
-   596	
- > 597		kernel_ventry_el1_sync	1, h, 64, sync		// Synchronous EL1h
-   598		kernel_ventry	1, h, 64, irq		// IRQ EL1h
-   599		kernel_ventry	1, h, 64, fiq		// FIQ EL1h
-   600		kernel_ventry	1, h, 64, error		// Error EL1h
-   601	
-   602		kernel_ventry	0, t, 64, sync		// Synchronous 64-bit EL0
-   603		kernel_ventry	0, t, 64, irq		// IRQ 64-bit EL0
-   604		kernel_ventry	0, t, 64, fiq		// FIQ 64-bit EL0
-   605		kernel_ventry	0, t, 64, error		// Error 64-bit EL0
-   606	
-   607		kernel_ventry	0, t, 32, sync		// Synchronous 32-bit EL0
-   608		kernel_ventry	0, t, 32, irq		// IRQ 32-bit EL0
-   609		kernel_ventry	0, t, 32, fiq		// FIQ 32-bit EL0
-   610		kernel_ventry	0, t, 32, error		// Error 32-bit EL0
-   611	SYM_CODE_END(vectors)
-   612	
+a8fb2753964914 Pasha Tatashin 2024-03-11  215  
+a8fb2753964914 Pasha Tatashin 2024-03-11 @216  static DEFINE_PER_CPU(struct page *, dynamic_stack_pages[THREAD_DYNAMIC_PAGES]);
+a8fb2753964914 Pasha Tatashin 2024-03-11  217  
+
+:::::: The code at line 216 was first introduced by commit
+:::::: a8fb2753964914b981bf07f4ba2382272361d2bf fork: Dynamic Kernel Stacks
+
+:::::: TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
