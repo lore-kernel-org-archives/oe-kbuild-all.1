@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B8E2192E2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 15:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB0140C03
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 15:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745939353; cv=none; b=bHNrUMsKVNteEWky83TMyaix/wjPj8VVgmjNg44OZvFu1gE/QhZu8jFohIZwD/kxoIL7yBFD/FzKdZjGssQ6ANQ3wSdnJtoDx2nUPPY/7h/7KypvuRHsKLtjsAJKl1GmH4tnNTQV0lzRXy+YgVgxb5C8AOkNxJIKHFzz8MDqSPA=
+	t=1745939355; cv=none; b=Z4Bl9izHM6/x3Ixp0DovV0CrEw2RBS1QTqQyW0GiYF+ro8PP9hAox1qp3cs62PBe+RHr/A1/oieCQ+1fNSd5G0fsuWSHfGAZAf74KHPdGxgionu9NxCFWNdyK60B7PHIDp8jJhUXnEmRGFAq479dDcVCkAKVBUd/+Aj7y1W5BDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745939353; c=relaxed/simple;
-	bh=aR1k9FJ2Bs3MpO+shFOIcne6CSL9E2BHGUTm2TSS9tI=;
+	s=arc-20240116; t=1745939355; c=relaxed/simple;
+	bh=CD7Fvz/x4/jSFkDHGazGmimGHodq1DcirqYH2k5bFQ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u5W+3/zhuOIZBIQs0zECmxBe8vcuh/ZK5WOYCcVExQZhMEMgVwm4nfMm5ym0X5fjUF43biFJWDbbXSwr6842WoULKBT8lfkM+o2v5rWNcZcwF0VqCuQxlpRZI/jHPe4uyLcCftqirzPtF0/M/+l7Z+PG8NaQwTUhJEnOzacrRqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JljEs+Em; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=keM2sD1BWmY6bY8AFAs2ihCrKMnOYSG8DrGzcPyboynb0i8NlGpcZ05RRLuYF+XcwfNBMaA5ZLARy/YqeGymSEVSztousPvsCNAIdadZeBeL/4MPtQ8GtipipshImYn7ij2TE2rpmICgxyVZmIiVsm2W2SS/NYNNxTAK/rLw1Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UO+WhJLt; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JljEs+Em"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UO+WhJLt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745939351; x=1777475351;
+  t=1745939353; x=1777475353;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aR1k9FJ2Bs3MpO+shFOIcne6CSL9E2BHGUTm2TSS9tI=;
-  b=JljEs+EmS2KCTTAm+mDSTLakUOFmU2hnGASd5Oc09LZfcKZyQwgqNe9s
-   Rl2w4Xur1SKmVbv2Rj/Q40DP0uahyhbF0KimgEmb+e44Ws4FmbB1D/tcY
-   oyeoP3svbx/FrCzcdtVnyPIMbqo0JyQRIdaLY08bPsEN/9PvbBpwih4lr
-   VoSrGCEu3yLpbrONzvY3nyfGuwHzIlqg7jfb3zU75GWMcJUaIEazP69gT
-   f4k1H16dNCTiTj5va/eajF832wO/KX4MQWQM/nZTNuU6tsEQ74PYm7ACj
-   9VVP7K56yydpw98oTp22Vd8YjtqlGY6sVPZVD1e5+LtasW4RBJc/Alegh
-   Q==;
-X-CSE-ConnectionGUID: jTH/Ze/WSwuhViuJ3DL8+w==
-X-CSE-MsgGUID: yCDiSK1lSd6T3hG3PdRbyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="50228912"
+  bh=CD7Fvz/x4/jSFkDHGazGmimGHodq1DcirqYH2k5bFQ0=;
+  b=UO+WhJLtMB3r65fn9/4ytRUgXBK/V43DvCQ1GHHB0lMj24vlI7+oUyBx
+   MpsfEAKsFJdxt+tyUPzJpJHnK0cYonrnKrvgeQEnkTQQOLCTRa2ao7ggR
+   bsdL6K0wmKHSItTS3OtKuPVknALl5TswL3iA7bYV1aGudmK/e2NYwjH/B
+   DMfwCL5OoGDQ3k7zdFFF0bGiMAcs7XKm8DfUc896CXlKLyj/HiRbGdHgK
+   NQbgGKYlJLVY3yW5i+QIfMUnarHeEssAbwXc4VUBS02Zns4vdqWicVK3B
+   rPT9kbwPbItzknusdixG61V17qpYo8BeA5ABTYRwHiWJvHhFCkQA6HLhp
+   g==;
+X-CSE-ConnectionGUID: Le/TEebJQ7iUiCxvY+aRxA==
+X-CSE-MsgGUID: 4jEoVDeWR5GBWuWJ4jrjhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="50228909"
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="50228912"
+   d="scan'208";a="50228909"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 08:09:09 -0700
-X-CSE-ConnectionGUID: 2TxjKuVZTmyEvwucrNBGKw==
-X-CSE-MsgGUID: BcQqd7tETJStCgqNZ+U2iw==
+X-CSE-ConnectionGUID: emZtIpu6T8y5lvmvv2MF8Q==
+X-CSE-MsgGUID: ULL9Hb3KTzmEJ3E2hKK4gA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="138834821"
+   d="scan'208";a="138834819"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 29 Apr 2025 08:09:08 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9ma1-0000o7-0o;
+	id 1u9ma1-0000oB-0y;
 	Tue, 29 Apr 2025 15:09:05 +0000
-Date: Tue, 29 Apr 2025 23:08:40 +0800
+Date: Tue, 29 Apr 2025 23:08:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 1/1] arch/arm/mm/fault.c:28:6: sparse:
- sparse: symbol 'copy_from_kernel_nofault_allowed' was not declared. Should
- it be static?
-Message-ID: <202504292248.4b9Un345-lkp@intel.com>
+Subject: [jlayton:reftrack-dbgfs 7/11] lib/ref_tracker.c:373: warning: Excess
+ function parameter 'fmt' description in 'ref_tracker_dir_debugfs'
+Message-ID: <202504292314.hTb3yOEn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,40 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   1aec9e76fe4a65b0a26fa1b30bdb3400d9728b2d
-commit: 11bb05969b19050a0f9baa6bcd1cb23439b267e3 [1/1] ARM: 9350/1: fault: Implement copy_from_kernel_nofault_allowed()
-config: arm-randconfig-r111-20250429 (https://download.01.org/0day-ci/archive/20250429/202504292248.4b9Un345-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250429/202504292248.4b9Un345-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git reftrack-dbgfs
+head:   1c49f3ad833f720bc692137505882e0fbdabb7e4
+commit: 49976a94ff22bbf15bf84f195ef6dbbeba17c7a8 [7/11] ref_tracker: automatically register a file in debugfs for a ref_tracker_dir
+config: x86_64-buildonly-randconfig-004-20250429 (https://download.01.org/0day-ci/archive/20250429/202504292314.hTb3yOEn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292314.hTb3yOEn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504292248.4b9Un345-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504292314.hTb3yOEn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/mm/fault.c:28:6: sparse: sparse: symbol 'copy_from_kernel_nofault_allowed' was not declared. Should it be static?
-   arch/arm/mm/fault.c:217:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] fault @@     got int @@
-   arch/arm/mm/fault.c:217:15: sparse:     expected restricted vm_fault_t [usertype] fault
-   arch/arm/mm/fault.c:217:15: sparse:     got int
-   arch/arm/mm/fault.c:229:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] fault @@     got int @@
-   arch/arm/mm/fault.c:229:23: sparse:     expected restricted vm_fault_t [usertype] fault
-   arch/arm/mm/fault.c:229:23: sparse:     got int
-   arch/arm/mm/fault.c:342:13: sparse: sparse: restricted vm_fault_t degrades to integer
-   arch/arm/mm/fault.c:342:13: sparse: sparse: restricted vm_fault_t degrades to integer
-   arch/arm/mm/fault.c:375:24: sparse: sparse: restricted vm_fault_t degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +/copy_from_kernel_nofault_allowed +28 arch/arm/mm/fault.c
+>> lib/ref_tracker.c:373: warning: Excess function parameter 'fmt' description in 'ref_tracker_dir_debugfs'
+>> lib/ref_tracker.c:373: warning: Excess function parameter '...' description in 'ref_tracker_dir_debugfs'
 
-    27	
-  > 28	bool copy_from_kernel_nofault_allowed(const void *unsafe_src, size_t size)
-    29	{
-    30		unsigned long addr = (unsigned long)unsafe_src;
-    31	
-    32		return addr >= TASK_SIZE && ULONG_MAX - addr >= size;
-    33	}
-    34	
+
+vim +373 lib/ref_tracker.c
+
+   360	
+   361	/**
+   362	 * ref_tracker_dir_debugfs - create debugfs file for ref_tracker_dir
+   363	 * @dir: ref_tracker_dir to be associated with debugfs file
+   364	 * @fmt: format string for filename
+   365	 * @...: arguments for the format string
+   366	 *
+   367	 * Call this function to create a debugfs file for your ref_tracker_dir that
+   368	 * displays the current refcounts for the object. It will be automatically
+   369	 * removed when the ref_tracker_dir exits. The filename must be unique. If
+   370	 * the creation fails then the pr_warn will be emitted.
+   371	 */
+   372	void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
+ > 373	{
+   374		char name[NAME_MAX + 1];
+   375		int ret;
+   376	
+   377		/* No-op if already created */
+   378		if (!IS_ERR_OR_NULL(dir->dentry))
+   379			return;
+   380	
+   381		ret = snprintf(name, sizeof(name), "%s@%px", dir->class, dir);
+   382		name[sizeof(name) - 1] = '\0';
+   383	
+   384		if (ret < sizeof(name))
+   385			dir->dentry = debugfs_create_file(name, S_IFREG | 0400,
+   386							  ref_tracker_debug_dir, dir,
+   387							  &ref_tracker_debugfs_fops);
+   388		else
+   389			dir->dentry = ERR_PTR(-ENAMETOOLONG);
+   390	
+   391		if (IS_ERR(dir->dentry))
+   392			pr_warn("ref_tracker: unable to create debugfs file for %s: %pe\n",
+   393				name, dir->dentry);
+   394	}
+   395	EXPORT_SYMBOL(ref_tracker_dir_debugfs);
+   396	
 
 -- 
 0-DAY CI Kernel Test Service
