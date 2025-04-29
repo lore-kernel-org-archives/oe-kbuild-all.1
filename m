@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EDB26B09D;
-	Tue, 29 Apr 2025 21:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D92726B09D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 21:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745961203; cv=none; b=G2JPJ1CagUpsndDh022FE3Q5+OaX0q5xzc9nqwFj2wOvyRRbJE+mKx1ehFk5/i+hZ9EPdQoY+XFJPcgOq2+yLQI4V8UZ1IDnsoV/FXJrnvevW8ZfxTOHRYbkqppwuHKGGlJ9cRmszZkMpl/WTlANFwdeKI3n+QOrP7yj00G5Pzs=
+	t=1745961263; cv=none; b=orpCnxAmWfCRRIDjgd4Pzd8cs+bQM1jEXd8iVySjUXQIH9JE8Yx1zvai4mETi7YljOd2+c5x4aaEum4CNU/XG7zPFY/Rfe+bJTTb4IP/yWabe2ho7KA3byiTAcKiaaL6+OM3GLujYBGQA9+Rkm2FZif6HsnxeLZ4zP1FlI05maE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745961203; c=relaxed/simple;
-	bh=bTN0JkUWPSVCZQRsauTJMMOzu5Ap0cjC8JTZw2v8txk=;
+	s=arc-20240116; t=1745961263; c=relaxed/simple;
+	bh=TH5lMGSmLE+dQlUkLLDYKm0u56KH6U9rLKnY9wwf9qg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BFqQQgxt/NpGsUb/+n7ufVdXma7d6hnQaRBShJpb7cMabqOg6pCMFRc+x62gRy0fJpcVYUHEwoBt/DnZNOL2vMAjjR65qfo7t9huZ6jxc51MthmjCNOqSDzW1018wXNSeymmvGVpeGr2IYaiXM+jqbZ7tXziDDtLgIyusCHItBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ELwkq01w; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZWZu1u3sm2xgrAO0PCPr5dVdDlJ+y4uLVRY5uxb9yqyP+jdrp4/G4TATwN4ifdXhyTS71kRX9giIOBoyF98bK7d97M5yqfbS0fwmFFz8jtDiCYUZ3ZyhQCnt+ZDTsgrv0SeTQAJB2Lfyagy4NlBCorsKEArSqgo34vN3RYfutqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R5wxYpd0; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ELwkq01w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R5wxYpd0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745961201; x=1777497201;
+  t=1745961261; x=1777497261;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bTN0JkUWPSVCZQRsauTJMMOzu5Ap0cjC8JTZw2v8txk=;
-  b=ELwkq01w7RrAc2c9bm9aJJrb8tD0fir5mvZVJQAK1GndA/k2CNNeCtKr
-   8mBLDAWzUTbtKnZKiGk3AKr7g3JKL9+ARN50gfRCBSQl3JLHYT7zcx/Be
-   repvxX7oEyBfe0/NFRQDCskjIOK3GyKjbOx42ALYV6sBcc9MZbv2yDM6M
-   kIx0Hhtv7GFtsXZrRUduDjeqzcvJhoDrHgPnVuJiEmv9CadvgNJWllfiC
-   K//nVBobKpULjPEIM3UqZUYbWGL83ijmFJMmTMLHmpEq2FvJtUfE/rJ78
-   hHL7liaqxtGeIxhJIXhjR11EOvTfFPWgp55hXaJJkROAAx/92di3iHWgb
+  bh=TH5lMGSmLE+dQlUkLLDYKm0u56KH6U9rLKnY9wwf9qg=;
+  b=R5wxYpd0wIUhv3HG9MhZ7pwDK4BD1PR8ZdtsV6W9EfU5sipY8XQnBahx
+   4YCm1WWh7Rjus6CZQZ5x313Dz+gozAGdFePaz4qpNab+b3JvAxelA8Tx/
+   /1modL5f3L6DEiIrG84edVsFwk2nOrlSAxSyyd70j1erPcU6LJiu1sKBs
+   ZeRsUJWFG1YqgRj8Tt5F601JFWbcJqJKW7cndytVajeERd+I4E3BgWfAu
+   HDu/fpz33HesbvCakaQb1xljgj87/4H7ikYoZMFYBOQ+TCllNSeZfad3y
+   kZHNqbtC6plaTjnU4ri2ezrBlEwCDh4eBOExdn6qeL8H6yVlEVOh8tVuv
    A==;
-X-CSE-ConnectionGUID: VSmE5HJbTIScsEiGjWmujw==
-X-CSE-MsgGUID: bXgcUkUsQEacofyhIN1qsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="50261627"
+X-CSE-ConnectionGUID: mfO2ikXdQkORvDnI/u466w==
+X-CSE-MsgGUID: 8hURphpPT9qIQHHTxbHqMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58238113"
 X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="50261627"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 14:13:20 -0700
-X-CSE-ConnectionGUID: diJ3Yh5WR+SCH7A4r9IhNw==
-X-CSE-MsgGUID: 8+5E6udMTz26XcIOTQF/9A==
+   d="scan'208";a="58238113"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 14:14:21 -0700
+X-CSE-ConnectionGUID: 2IDhdWGESXm/OvnscH2nuQ==
+X-CSE-MsgGUID: fZMpIpWAQySJ6KH8MHi5eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="134926499"
+   d="scan'208";a="171173419"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 Apr 2025 14:13:19 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2025 14:14:19 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9sGS-0002x9-22;
-	Tue, 29 Apr 2025 21:13:16 +0000
-Date: Wed, 30 Apr 2025 05:13:15 +0800
+	id 1u9sHQ-0002xD-2J;
+	Tue, 29 Apr 2025 21:14:16 +0000
+Date: Wed, 30 Apr 2025 05:13:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC V1 6/6] powerpc: Enable Generic Entry/Exit for syscalls.
-Message-ID: <202504300415.c8gU3WVo-lkp@intel.com>
+Message-ID: <202504300413.Lm1Kilgl-lkp@intel.com>
 References: <20250428152225.66044-9-mchauras@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -79,32 +79,52 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Chaurasiya/p
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
 patch link:    https://lore.kernel.org/r/20250428152225.66044-9-mchauras%40linux.ibm.com
 patch subject: [RFC V1 6/6] powerpc: Enable Generic Entry/Exit for syscalls.
-config: powerpc-randconfig-001-20250430 (https://download.01.org/0day-ci/archive/20250430/202504300415.c8gU3WVo-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300415.c8gU3WVo-lkp@intel.com/reproduce)
+config: powerpc-randconfig-003-20250430 (https://download.01.org/0day-ci/archive/20250430/202504300413.Lm1Kilgl-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300413.Lm1Kilgl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504300415.c8gU3WVo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504300413.Lm1Kilgl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> arch/powerpc/kernel/interrupt.c:212:16: error: use of undeclared identifier 'local_paca'
-     212 |         if (unlikely((local_paca->generic_fw_flags & GFW_RESTORE_ALL) == GFW_RESTORE_ALL)) {
-         |                       ^
-   arch/powerpc/kernel/interrupt.c:214:3: error: use of undeclared identifier 'local_paca'
-     214 |                 local_paca->generic_fw_flags &= ~GFW_RESTORE_ALL;
-         |                 ^
-   2 errors generated.
+   In file included from include/asm-generic/bug.h:5:0,
+                    from arch/powerpc/include/asm/bug.h:116,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from arch/powerpc/include/asm/processor.h:41,
+                    from include/linux/sched.h:13,
+                    from include/linux/context_tracking.h:5,
+                    from arch/powerpc/kernel/interrupt.c:3:
+   arch/powerpc/kernel/interrupt.c: In function 'syscall_exit_prepare':
+>> arch/powerpc/kernel/interrupt.c:212:16: error: 'local_paca' undeclared (first use in this function); did you mean 'local_inc'?
+     if (unlikely((local_paca->generic_fw_flags & GFW_RESTORE_ALL) == GFW_RESTORE_ALL)) {
+                   ^
+   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   arch/powerpc/kernel/interrupt.c:212:16: note: each undeclared identifier is reported only once for each function it appears in
+     if (unlikely((local_paca->generic_fw_flags & GFW_RESTORE_ALL) == GFW_RESTORE_ALL)) {
+                   ^
+   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
 --
->> arch/powerpc/kernel/signal.c:376:2: error: use of undeclared identifier 'local_paca'
-     376 |         local_paca->generic_fw_flags |= GFW_RESTORE_ALL;
-         |         ^
-   1 error generated.
+   arch/powerpc/kernel/signal.c: In function 'arch_do_signal_or_restart':
+>> arch/powerpc/kernel/signal.c:376:2: error: 'local_paca' undeclared (first use in this function); did you mean 'local_inc'?
+     local_paca->generic_fw_flags |= GFW_RESTORE_ALL;
+     ^~~~~~~~~~
+     local_inc
+   arch/powerpc/kernel/signal.c:376:2: note: each undeclared identifier is reported only once for each function it appears in
+--
+>> arch/powerpc/kernel/ptrace/ptrace.c:196:12: warning: 'do_seccomp' defined but not used [-Wunused-function]
+    static int do_seccomp(struct pt_regs *regs)
+               ^~~~~~~~~~
 
 
-vim +/local_paca +212 arch/powerpc/kernel/interrupt.c
+vim +212 arch/powerpc/kernel/interrupt.c
 
    153	
    154	/*
