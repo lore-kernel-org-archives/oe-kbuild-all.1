@@ -1,235 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9311220C477
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 01:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745891876; cv=fail; b=fbyrmkgFodEokWk/ADXh9aILjE9/6ldJvAGMaQ+W/SmQEHOiFuZcMX6CMEUgZ9EmgwgkkBnDNcjqBV9dbeRrvHeSABGMLRdINHA2JREa+d54PcZ4sVzFgniyiLR+NxG8n40twvkXFiwrK9E6iaNZQL1Rlj7xRKXXSVTkcaH532M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745891876; c=relaxed/simple;
-	bh=6C+csWvidEBoViYJyBl2pzA+YeVGJAkPP22NxQkaKYA=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=X182jJe6KnJSjGjzvZMOCuKZAf/XizJGofm1ITVQUzW7MYmIM52WeGQu7HlgkVPs+VnkhQKW/hXOkS4eFmFFyyaNwxkE+kjzZPBLUPmFGQ68kGbXmXt07y0uhAL8ajbM1xv80wTlRVOfW5f/t0T0AZYBdKp2Tga2N/0QuwTBJI4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MhlfZj1c; arc=fail smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3204015A858
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 02:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745894098; cv=none; b=hj+TIHJ7dqf0wSxYMWOXJPZlx06wP8p67gZioLx7hcfDtwK9XTeRAzWfHnTEX6sdXzH2WIfbsBSKmBjMx/qaMJosqWrEFUD3M/yegXsDKTIW3upt3TDUSjtnZAkH2Pg4S0+zFCPOS+hEMccBo6zlgLVKrA/cEqNguszdmI/d4Fk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745894098; c=relaxed/simple;
+	bh=5zoTRy+ZA3TI0f2K0ExTkspVgIg/yCiljsH4BZDfUEA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=o1TVjMk3qqM9MfPTmsxKjE3qsZenDzA3gfd9wKjlj9IUuUqXmSP85SbK8+t5p5xwOGdmQyfPo32UEHaLuLz3pRX1ktR3b974njwEDmGrZ8+vNlqoSiL2T1kLXfzXE8Nok4MMtmK496D5kSeiBqgd8uG/ymPzcJYJD11iQWDrILs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9pFI0td; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MhlfZj1c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9pFI0td"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745891874; x=1777427874;
+  t=1745894095; x=1777430095;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6C+csWvidEBoViYJyBl2pzA+YeVGJAkPP22NxQkaKYA=;
-  b=MhlfZj1c3jagBY/SBzx9GsYD5NCzarkJ+WE00C9t2XfHdQkyg3kAxMpe
-   zsWhZnUBAGvgetzYTChtg+TCZkvo6PBpDO4b1ZE4tq9310TQpDJjh/TqV
-   S+xhYdG/fcKdG4/IXUQQEVSvQdNqc/TjtuSkC74ESKMmSmI9oAbE5L7R+
-   COcXWnPmBfJzONBVKvuopMFcSfIZ9/np5yBwjUnfaPO/uYP/g91AEyo7e
-   oX5LsnHnCNEmII+gTdz3Vl0MnbUEOUdytUxeRIA181jCfOeyOGElO/AXM
-   eC4ZRafsV0zXfYHtaVTvVGt8s3cLRQk15psy3b2R9lkGbS3BclmclYYb3
-   w==;
-X-CSE-ConnectionGUID: 79tvate4QQyu2pC258j5MQ==
-X-CSE-MsgGUID: ZU72oFYxRlW3c+x70cjCtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="58152550"
+  bh=5zoTRy+ZA3TI0f2K0ExTkspVgIg/yCiljsH4BZDfUEA=;
+  b=M9pFI0tddcfVR9yedCBzVdckrAMXcm6MoXVO8wUE2kGpz5N1S3KvsIFp
+   tGXMJ6tqluoyoRnr5SobNUvro94IwDXlZvfqV4K4Amh+hyGGYSM0ua0HZ
+   aoGUmxuFwWxJBvozwQavGBp98QluVTG/Uvadar6eo9nY77OV/upI2uL+m
+   d/sE5TlIhAggrCM6ta8lO8p11X2Ws8VGsjqfyQU1qGSwD6wqCfygsl9zj
+   C7oRbm3sJjXUUd6AVHuhQI7Qe7SaWJ2wO+hnnJrTdeu1RApEyt/uwczxU
+   b1wNivJoVplNtAQtg0S6fMQ95PfQSERj3g0dtzKm8MEKZmyk2uu0qqQYO
+   A==;
+X-CSE-ConnectionGUID: i+BMGUVATraGEx8yhUYhdA==
+X-CSE-MsgGUID: VFyQlAYcQDyME+3JWtaLFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="50160490"
 X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="58152550"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 18:57:53 -0700
-X-CSE-ConnectionGUID: NnQlAIdNQMOpS32B8/gKMw==
-X-CSE-MsgGUID: U1IrqYYnQ1yjzbUdT0oLDw==
+   d="scan'208";a="50160490"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 19:34:54 -0700
+X-CSE-ConnectionGUID: HBh1Tn3VQMuNR7oGOTmfag==
+X-CSE-MsgGUID: mNXGw7cDSrOnDUUcmbWpnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="134641939"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 18:45:05 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 28 Apr 2025 18:45:04 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Mon, 28 Apr 2025 18:45:04 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 28 Apr 2025 18:44:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cRPwEKGl3iiNXyKg2n3pizkSRMo3q0as0K6zhOfQl36W62CF2QIamxWPLZ+T3gBFLJ9pGiyOUokYOuthPjB5wXw4nG9oq1UaouWI3zLd5WLckzav/7vi6+ZvWR3X4bFHOSZ48cSsRijch6Su3U9fsDLxGenzktCuA2VbDOlaf4wnu2f9Vz0uRFDL4/RvaCzNv4kP6Br4MPi7nB6lI2bM71MVXwhrIuiQ4ASKVCSdGrQgpjy0Oq23swh5dD9NsixSPwEK++fOtQyiGqXxGHDVkKhwlhhyKdLJYIux9jDz5G8eYHfZPq9Q7ppek4yAI/vmHv6DEnH8jCILt3Sm1Oiniw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4SA/T6bLCNWLjlW7xlQCTAiBsK4FHo367Kq8RJRHN4A=;
- b=QIH9aBtdDDdsGLodR6Gh27ZBL0EEoIlLR8PF0+uWKq07AKg2j0HExgPhIeD0xk8SBLHa3OufVicd5xGcWtOJYdnMiAfVtYc/B4JpN26YUHbk5b14+CsZJgzWqAA2U8mvg6sH8lXBvbCdBpJp/unLlWcrag+aOgPFU+wjbHiNmxteZR4CYIqPQjQtOm73ytrC8q00nUPWz37cadMqIpo2iU3qlO2Wbwua7rN9bfGK8mnjZCg4omHaf/bjBIp79glX3vLe/nt4RusMXvgKyRn97sHRgGxagyr7HrHgRDm440c05ipeloT9ZUE7NfD7u2sTQHlnKaEYguycbEMm+YBlZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
- by CYYPR11MB8386.namprd11.prod.outlook.com (2603:10b6:930:bf::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Tue, 29 Apr
- 2025 01:44:40 +0000
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a]) by PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a%6]) with mapi id 15.20.8678.028; Tue, 29 Apr 2025
- 01:44:40 +0000
-Date: Tue, 29 Apr 2025 09:44:32 +0800
+   d="scan'208";a="133593452"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 28 Apr 2025 19:34:51 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u9ao5-0000QJ-1b;
+	Tue, 29 Apr 2025 02:34:49 +0000
+Date: Tue, 29 Apr 2025 10:34:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Binbin Zhou <zhoubinbin@loongson.cn>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Huacai
- Chen" <chenhuacai@kernel.org>
-Subject: arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000
- (loongson,ls2k-pci): i2s@7,0:interrupts:0:0: 78 is not one of [1, 2, 3, 4]
-Message-ID: <aBAvAEeYFFH82HuT@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0167.apcprd04.prod.outlook.com (2603:1096:4::29)
- To PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: arch/arm64/boot/dts/apm/apm-mustang.dtb: mmc@1c000000
+ (arasan,sdhci-4.9a): Unevaluated properties are not allowed ('dma-coherent'
+ was unexpected)
+Message-ID: <202504291052.7vw8beT7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5674:EE_|CYYPR11MB8386:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1df87d4b-94ad-46a4-da75-08dd86bf681e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|13003099007|220923002;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ydBXX8NQigRcQ7KyW0Dl7aPf/Vz2ZD2Tec5RPRFarlOQgRcZbYPSTZXYwigS?=
- =?us-ascii?Q?xxW9ayyGJGfNYdfN+EKH/bm7Qg8bhi2QF1lGN4TqqzVgK23c1bFuyEsEz8YA?=
- =?us-ascii?Q?O41XHQv3yzRvBFqJFXNUOsGkZzm41rqrQ8ESkTkw1FVKIGeeqEXmLsGUMcD+?=
- =?us-ascii?Q?m/HdLLlBQ0m9/6n+nkGE+6Ibq+naayDbLJBOm+8mbXn55LQC3rLWjombYxGH?=
- =?us-ascii?Q?Jk5c8e1z+wyqr8k9ELf0OXYJLl3d1WN8GVtBh1CQtyjbKMI1m5lzv1BYgW5H?=
- =?us-ascii?Q?2PyRV6wap4WiwXCPMKGpZxkbRhAStBinp1vqDF6ugFuVzE713pdUMFA2PUXs?=
- =?us-ascii?Q?vIREqR6L7V9EZCMFYP6Gyr/7OfvGWO1IiSIe7kLHQlcAFJ0xFeXiZgBIgGNr?=
- =?us-ascii?Q?iSNISED7oUodcQa+U9g2cyw7aTYbbGRsCvKezjnk8yfc3+TjWlKMl0SFeQNP?=
- =?us-ascii?Q?lsjIeOTBswOVYydue9PHmPBC/njEFd45gU4JTkcNFcXj64VvErZ+9TZsavX8?=
- =?us-ascii?Q?zu12jzUPCzYR0gpSjHWKSZc2lobbUFVpmORBlAOfhN+Ma5zgrQJm69RlhbJE?=
- =?us-ascii?Q?F3Re6+XyYg8uKXATLhV78XyCLPGjXvPj7sCA73CAyziaceV6txD5dtLSa5Ce?=
- =?us-ascii?Q?GNFLinB+SwP+lNjcIir8Pi5FkhEXASqakdVDoPsI3AOFc88EJhmVHEHCkzNO?=
- =?us-ascii?Q?tydsPLFi8+PZPjzyJO34ODziO34eu/nWOtC5CdlKeMbHNjPH7DMQslvvuIUf?=
- =?us-ascii?Q?xYuLhCyXsi25pvkKoytp93iTbabz6NGi6mAChNW+m9oPCUsBYPF/soSIWlhi?=
- =?us-ascii?Q?nsJUKXrWEdgdYN6LbI+lHe1ykEUr0xbI5fGfquvkzafmGiXH5xlbPqLyrI/j?=
- =?us-ascii?Q?ifeMdKfz/hhZ5q0kgAYhdavIhTYBQM25Ei5bdhU6BEtJ2/3RjqffSkMd2A15?=
- =?us-ascii?Q?h2pN1F8m2ObVzZwDeEwAEeGZ+sTgEHOXUwRbVqPLmDchfInRor5xR+zWwj/c?=
- =?us-ascii?Q?uD2H0BKIfSpdDGR+O/XKFT213WUYQ4vNgFurnOFTSFIdk16MV+pQacuf7xvo?=
- =?us-ascii?Q?XmwQ89B+U2O0zZJrDQj+mu1e8kT+Ai5vIdmkoLegfz4/J6XlFGeJym+oTnrL?=
- =?us-ascii?Q?CEYzvdVsnMoQjVqHvxcuCgQjTC53BPIZyVDL+f//6NlDsK8+Vpy5FgQgRNZz?=
- =?us-ascii?Q?e1O9mv4Su6/s1ld7pLrX8XKklh7kMC7rn/RGQX5HGgsNyseHrySS/Tk9N5lj?=
- =?us-ascii?Q?4u/6xI/MuoZMR/A/8YgBT+AuSvsAjRDMhIEDf3ysHWFwFG86YW2NrbKjq69K?=
- =?us-ascii?Q?l8ZHbOL8nxo5kE0ZZ9H2xB0mjnkLSZY6vpvE19PtwqHAbzZgf09MRJ2iG/Le?=
- =?us-ascii?Q?jtn2LhS4KS0Js0GwgqiXLIhInf1X2aFUn5JpPa/NY1eUkRO8ccEUf6y/8Pwh?=
- =?us-ascii?Q?+E4ny9cXZMU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5674.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007)(220923002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M8W16/O9UV8JGN+Vl8ps2vb9DnMWxBFNmEtMMoUYdp5G2GDIFYvZvdfWsx8+?=
- =?us-ascii?Q?6NtR2P/xUzv83/u7sn5WXbgcfwPGVtJnV0oUR76UrKJAQ7p+2JHGnTvWtsLf?=
- =?us-ascii?Q?yqxKrTeAneMyffDp5c0121AOy59dwOlSWAOig3L7hEY4IhRVlIztSvUzskJ+?=
- =?us-ascii?Q?Dajpc8LR5ctCRdbqxQZIUFLwkZgqmeuxNXJ+nyDeQaR0N9q26ckucjyTup1g?=
- =?us-ascii?Q?59niU9mZsYm4DSU5Sk8N3nZkvR8pHi2HoNsERFcQ3DKzl2T8Rj+F2AdDKnZH?=
- =?us-ascii?Q?7vaV5M7cT57d86WMhv/ZYrgPcgTvD0a4j0ohORt41PXJ7lvGgFQ4Ctb12twH?=
- =?us-ascii?Q?DZqGughZJt02/eLMT3XJcLMBuRyc1ND5IZSvrhiKQQhkJk8YjBHgH9tuBeJs?=
- =?us-ascii?Q?g3/pyOMjFLIgPrqZOgi25D5B4/qBohDOphwX7WKP0+0g3wFUt/u2aRtvi/2O?=
- =?us-ascii?Q?MYysQzQCvV9a5lG+uKq0JktfDq3tjwpEV2FVGv5uACjVa1dMMkb+NgdthQ2o?=
- =?us-ascii?Q?RFRyqbiaOGb3deM6cUnGW7MUOBP2iDU0O8TWjw+WHeDG2NFC+pltFcKj2YHf?=
- =?us-ascii?Q?HY94ZUBggb4BSjpvXlqWZTLRK7vjMLafj0BT30GvLHsqIPRqlWM/OsZqVNil?=
- =?us-ascii?Q?7YGclaTVrM7X/Or6qh5Xp996oOTVsS8VtAz37aPhRtPPkrUIX4TwBRgTUUxJ?=
- =?us-ascii?Q?PWJEU3jhmgbAODml82GizycsWoahJkpiqA5LYisEWMg5nUsB20WnoiQBs6v5?=
- =?us-ascii?Q?Cci/SZAKnbrBCRbO1GLPPxVMQDnq9gjvM3EP9xWGu3E0nkNRNjBmYhKK3k7U?=
- =?us-ascii?Q?tMv3TYxia3ndixr+MoOIasbYdarqPiFL35XPgrke7OmJ4T4dJI6e2JfM3TQ3?=
- =?us-ascii?Q?vBoGBGsZYuSwIFvb5qYH3QvspOBs/ALU+ldVPFI1dB4suna8RvrZybZ32nHY?=
- =?us-ascii?Q?apvqhIhBcU4tsxZvogHVheiiUz29Jp16XUL+dI9vJh1dmnDqUlbZxPg9oLya?=
- =?us-ascii?Q?SeNpeMVGtV+1Uek/DkCO+DiMaidIYH08irOvVE/0Z8MkZxqqqmTUhk3Kkkus?=
- =?us-ascii?Q?EMdFJZdORZr56pu3FAZFoAJiwa5rBi6nWBPPReXx5OXEkF1yfOY+oJyt9UJu?=
- =?us-ascii?Q?W3KTLv1lX2/AqJLblWJbYiX/4h52X73DnDWxbMdN3/6WgR8tWgonM7JAoLqr?=
- =?us-ascii?Q?WNYvjClluF/HfFq6nxoa5bdjTfR9+XsqrFGD8z2RbPVhNKBrW5WuAT9/FgAa?=
- =?us-ascii?Q?z+/qmVwbBPkxTMQgO8xCXAu43TlyOtQlr8fsoNr/BRGpatutB0Tx64MLsglJ?=
- =?us-ascii?Q?lt0PhzdSLvRVJnwEW3gqx9A1WFLh8iR/Cz3ozWCeKaGeLvmxmv/QcJW8Q+AR?=
- =?us-ascii?Q?oFMeYmYdJltFkl8/HYnEaiYVtmuX7XKA/R3YiclTJ0ImvY5ErseFQACJ8qO6?=
- =?us-ascii?Q?yC57aZ/dyGoN2Do0bBhCY3anKzhZ5unf8wA4vTVEWPyMBjX1+xmH673Behzs?=
- =?us-ascii?Q?4Vku6zODtJ3RiOrGdSDA8v16iOI1rSCeADSKpr+QkLqKPOwM0Ry17QKJ48XZ?=
- =?us-ascii?Q?00qFlROHEe/2d9cCFenO5KnOhtuBa0IXXlZMlWxwGb1I7T/60AswAEGb8X3Q?=
- =?us-ascii?Q?HQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1df87d4b-94ad-46a4-da75-08dd86bf681e
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5674.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 01:44:40.3181
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RxN9jo7/2niTL0netVgCR6YNRrRPI6WXY+O+rdgJRVrnFNIfHYVVxUItwsudcIGTrW6Oekph4tEOOg4BKLTXJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8386
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b4432656b36e5cc1d50a1f2dc15357543add530e
-commit: 900f6267e9e39f9f601f5eaf0ea32d620b9130d2 LoongArch: dts: Add I2S support to Loongson-2K2000
-date:   5 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 5 months ago
-config: loongarch-randconfig-052-20250428 (https://download.01.org/0day-ci/archive/20250429/202504290259.1kSRQIjn-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.4.0
+head:   ca91b9500108d4cf083a635c2e11c884d5dd20ea
+commit: 7597794706952db4adada29b2a6593251cddcd85 dt-bindings: mmc: Change to additionalProperties to fix fail detect Unevaluated property
+date:   7 weeks ago
+config: arm64-randconfig-052-20250428 (https://download.01.org/0day-ci/archive/20250429/202504291052.7vw8beT7-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290259.1kSRQIjn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291052.7vw8beT7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504290259.1kSRQIjn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504291052.7vw8beT7-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,0:interrupts:0: [48, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0:0: 22 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0: [22, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0:0: 28 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0: [28, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
->> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts:0:0: 78 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
->> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts:0: [78, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts: [[78, 4], [79, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0: [16, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-range', 'device_type', 'display@6,1', 'ethernet@3,0', 'ethernet@3,1', 'ethernet@3,2', 'i2s@7,0', 'msi-parent', 'pcie@10,0', 'pcie@9,0', 'pcie@a,0', 'pcie@b,0', 'pcie@c,0', 'pcie@d,0', 'pcie@e,0', 'pcie@f,0', 'sata@8,0', 'usb@19,0', 'usb@4,0' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0:0: 12 is not one of [1, 2, 3, 4]
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/pcie@1f2c0000: failed to match any schema with compatible: ['apm,xgene-storm-pcie', 'apm,xgene-pcie']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/pcie@1f2d0000: failed to match any schema with compatible: ['apm,xgene-storm-pcie', 'apm,xgene-pcie']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/pcie@1f2d0000: failed to match any schema with compatible: ['apm,xgene-storm-pcie', 'apm,xgene-pcie']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/pcie@1f500000: failed to match any schema with compatible: ['apm,xgene-storm-pcie', 'apm,xgene-pcie']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/pcie@1f500000: failed to match any schema with compatible: ['apm,xgene-storm-pcie', 'apm,xgene-pcie']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/pcie@1f510000: failed to match any schema with compatible: ['apm,xgene-storm-pcie', 'apm,xgene-pcie']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/pcie@1f510000: failed to match any schema with compatible: ['apm,xgene-storm-pcie', 'apm,xgene-pcie']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/mailbox@10540000: failed to match any schema with compatible: ['apm,xgene-slimpro-mbox']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/i2cslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-i2c']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/hwmonslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-hwmon']
+>> arch/arm64/boot/dts/apm/apm-mustang.dtb: mmc@1c000000 (arasan,sdhci-4.9a): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/gpio0@1701c000: failed to match any schema with compatible: ['apm,xgene-gpio']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/phy@1f21a000: failed to match any schema with compatible: ['apm,xgene-phy']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/phy@1f22a000: failed to match any schema with compatible: ['apm,xgene-phy']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/phy@1f23a000: failed to match any schema with compatible: ['apm,xgene-phy']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/sata@1a000000: failed to match any schema with compatible: ['apm,xgene-ahci']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/sata@1a400000: failed to match any schema with compatible: ['apm,xgene-ahci']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/sata@1a800000: failed to match any schema with compatible: ['apm,xgene-ahci']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/gpio@17001000: failed to match any schema with compatible: ['apm,xgene-gpio-sb']
+   arch/arm64/boot/dts/apm/apm-mustang.dtb: /soc/rtc@10510000: failed to match any schema with compatible: ['apm,xgene-rtc']
 --
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,0:interrupts:0: [48, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0:0: 22 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0: [22, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0:0: 28 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0: [28, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts:0:0: 78 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts:0: [78, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts: [[78, 4], [79, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0: [16, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/mailbox@10540000: failed to match any schema with compatible: ['apm,xgene-slimpro-mbox']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/i2cslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-i2c']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/hwmonslimpro: failed to match any schema with compatible: ['apm,xgene-slimpro-hwmon']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pcie@1f2b0000: failed to match any schema with compatible: ['apm,xgene-pcie', 'apm,xgene2-pcie']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pcie@1f2b0000: failed to match any schema with compatible: ['apm,xgene-pcie', 'apm,xgene2-pcie']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pcie@1f2c0000: failed to match any schema with compatible: ['apm,xgene-pcie', 'apm,xgene2-pcie']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/pcie@1f2c0000: failed to match any schema with compatible: ['apm,xgene-pcie', 'apm,xgene2-pcie']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/sata@1a000000: failed to match any schema with compatible: ['apm,xgene-ahci-v2']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/sata@1a200000: failed to match any schema with compatible: ['apm,xgene-ahci-v2']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/sata@1a400000: failed to match any schema with compatible: ['apm,xgene-ahci-v2']
+>> arch/arm64/boot/dts/apm/apm-merlin.dtb: mmc@1c000000 (arasan,sdhci-4.9a): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/gpio@1f63c000: failed to match any schema with compatible: ['apm,xgene-gpio']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/gpio@17001000: failed to match any schema with compatible: ['apm,xgene-gpio-sb']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/mdio@1f610000: failed to match any schema with compatible: ['apm,xgene-mdio-xfi']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/ethernet@1f610000: failed to match any schema with compatible: ['apm,xgene2-sgenet']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: /soc/ethernet@1f620000: failed to match any schema with compatible: ['apm,xgene2-xgenet']
+   arch/arm64/boot/dts/apm/apm-merlin.dtb: i2c@10511000 (snps,designware-i2c): Unevaluated properties are not allowed ('#clock-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/snps,designware-i2c.yaml#
+--
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/internal-regs@d0000000/ethernet@40000: failed to match any schema with compatible: ['marvell,armada-3700-neta']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/internal-regs@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: usb@5e000 (marvell,armada-3700-ehci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/internal-regs@d0000000/xor@60900: failed to match any schema with compatible: ['marvell,armada-3700-xor']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/internal-regs@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
+>> arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: mmc@d8000 (marvell,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon-emmc' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /soc/pcie@d0070000: failed to match any schema with compatible: ['marvell,armada-3700-pcie']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-emmc.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware']
+--
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/internal-regs@d0000000/ethernet@40000: failed to match any schema with compatible: ['marvell,armada-3700-neta']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/internal-regs@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: usb@5e000 (marvell,armada-3700-ehci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/internal-regs@d0000000/xor@60900: failed to match any schema with compatible: ['marvell,armada-3700-xor']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/internal-regs@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
+>> arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: mmc@d8000 (marvell,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon-emmc' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /soc/pcie@d0070000: failed to match any schema with compatible: ['marvell,armada-3700-pcie']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: usb3-phy (usb-nop-xceiv): '#phy-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-ultra.dtb: gpio-leds (gpio-leds): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+--
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: /soc/internal-regs@d0000000/ethernet@40000: failed to match any schema with compatible: ['marvell,armada-3700-neta']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: usb@58000 (marvell,armada3700-xhci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: /soc/internal-regs@d0000000/system-controller@5d800: failed to match any schema with compatible: ['marvell,armada-3700-usb2-host-device-misc', 'syscon']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: usb@5e000 (marvell,armada-3700-ehci): phy-names:0: 'usb' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: usb@5e000 (marvell,armada-3700-ehci): Unevaluated properties are not allowed ('marvell,usb-misc-reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: /soc/internal-regs@d0000000/xor@60900: failed to match any schema with compatible: ['marvell,armada-3700-xor']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: /soc/internal-regs@d0000000/mailbox@b0000: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-mailbox']
+>> arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: mmc@d8000 (marvell,armada-3700-sdhci): Unevaluated properties are not allowed ('marvell,xenon-emmc' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: /soc/pcie@d0070000: failed to match any schema with compatible: ['marvell,armada-3700-pcie']
+   arch/arm64/boot/dts/marvell/armada-3720-espressobin-v7-emmc.dtb: /firmware/armada-3700-rwtm: failed to match any schema with compatible: ['marvell,armada-3700-rwtm-firmware']
+--
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mt6331 (mediatek,mt6331): 'regulators' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: /soc/pwrap@1000d000/mt6331/mt6331regulator: failed to match any schema with compatible: ['mediatek,mt6331-regulator']
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: intpol-controller@10200620 (mediatek,mt6795-sysirq): $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: iommu@10205000 (mediatek,mt6795-m4u): 'mediatek,infracfg' is a required property
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): mediatek,latch-ck: 20 is greater than the maximum of 7
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11230000 (mediatek,mt6795-mmc): Unevaluated properties are not allowed ('mediatek,latch-ck' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11240000 (mediatek,mt6795-mmc): 'pinctrl-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11240000 (mediatek,mt6795-mmc): 'pinctrl-0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11240000 (mediatek,mt6795-mmc): 'pinctrl-1' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11250000 (mediatek,mt6795-mmc): 'pinctrl-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: mmc@11250000 (mediatek,mt6795-mmc): 'pinctrl-0' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
