@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E06255E47
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 20:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F4B25EF84
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 20:26:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745958406; cv=none; b=oD8OHBWX9C+MQeUmv3YJSr9E6LCaVC2Zso4uS+4ROdnpEtm/oWmrxFeC265nGuCmPSbCGQIPAopnMoPo9rdbd/XTHPiRdZXryDv92fSMkB3vhv1lu0v+54DHBsQrOmD0PSpwHrqadied+tO1sVWej1bqHjmRjFAYFuFDX21rRXs=
+	t=1745958408; cv=none; b=cRYBxYrxmmXojmq+9RCKJpnThVOcwLJkhJ+W2AJuS+xciG0pgMvSFRWOUw41tuqD5w3bHYJxMJw2VYw+wiCRfccFeXmMYcI9ASoaM4W1ilLL7vZutt5LYBNZCyUbmj5YJ7j11oWZA9PiWIa/GV0yf70QT8PnFnIObHwmOZGQTuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745958406; c=relaxed/simple;
-	bh=ikAYejsMdZ+g2FOgy0OBtMgHnefR4CRxqBPnBfGkncI=;
+	s=arc-20240116; t=1745958408; c=relaxed/simple;
+	bh=O9SN6KXyLttQ9J/2YmYAJmKCLphDwPcZ4jsTd8VgA80=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sniUC3rsO7mYT6pawhOQ72pVpE/IdJNVr5QeWeAhqgKzcG48bci7unW52CqT8iFJPM9CrXT6rYbilzPLoph47G5VYDyBRi0+w4EyMFxYPE5wr5ZTVXixdFdJhFgtsDlCfKEoZ/UmXqLrt8ZfGcoH2SA+Yp1YgWuqtZcIGwAch64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=filwEHCJ; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=iOpwcBnfimH1hJ+JgRZNTrQl8Q+mYy3DwHoym0HHwr61ieMDTb0jRhHS1mGhqAP6wmj3GrAyh4/D3H+0HjtBIm42g1U8Jdwn+OB+9ThXJdecwhe+XsJA2JOV729/NGMq7XmKK7r8dQQEPrqqPJC7p1ttilgswFR1P2zxAP4KeCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fr/NaEIX; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="filwEHCJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fr/NaEIX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745958404; x=1777494404;
+  t=1745958406; x=1777494406;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ikAYejsMdZ+g2FOgy0OBtMgHnefR4CRxqBPnBfGkncI=;
-  b=filwEHCJwC5Th6RBiTjVztQLIE/HWZOPMZfjdA+55OAGJgHBGRmxHG0M
-   t5fEVrg9VBWtWYYIvlvx9bwpz4npONcltIdc0i8r5X5I1beoWvgj1Kw9h
-   8hBe871yv2TA65Auu/qwKhe+QCteresNzzWiTLqscq87vu9IONpUJGL6w
-   zo2ok8Ifpn8x8tLc78Hdw9CeqcBgpZJ0eUDsmat0OdlQvSUV6mFwo8rG3
-   fBoemV4nJTZxJ1bPoTmjPUsa6f3SsJZo0NVJ32jxxthVCb6NSczH+UTHA
-   +Ut+1A42J3urySavT4EjF547v9nNcA3WYs/uqCzDGh5l5GijwgbFJAt0w
-   Q==;
-X-CSE-ConnectionGUID: 0QziYkzGQxCPvoPD3sOqYw==
-X-CSE-MsgGUID: kzIDZrztRmWmojikwln6Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51264940"
+  bh=O9SN6KXyLttQ9J/2YmYAJmKCLphDwPcZ4jsTd8VgA80=;
+  b=fr/NaEIXc7viFoP+1NqcVU2hVO5AVNuQ6DjFezWikI7WzihtNoIsw7C+
+   bFanqvofmNCp1Gfa0F9YT1q6U80BsX/WAwDtuZ8n+k8xbqjeBUVHjzReJ
+   wU8IaAFZB+/1ibSNGYFHMiqib7M3Z67P3pF2A3/lPYrODASjHFPTiYhJM
+   Gx77J3hWLq0vSkq2F6q16LlC4x/PdEnsjOQ37sn/FjopF9k9HNl98Ckip
+   Yu0BGNPKarpU2eWAQiUTJ+1Dvth+bjhsyhMvIycTi+MyEmtOQfNq3CV+H
+   6jpjZATuerQmUZZ40Mthq1HbOd+O8cV23ukTXtD2FArlAsfja1fbYsHFm
+   w==;
+X-CSE-ConnectionGUID: rPokSuyNQp2IBztlgEEJGA==
+X-CSE-MsgGUID: xQryxdvZQeShtZPUrP8taw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51264942"
 X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="51264940"
+   d="scan'208";a="51264942"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 13:26:41 -0700
-X-CSE-ConnectionGUID: vyxxRBNKSRuTMeCCw/R8hg==
-X-CSE-MsgGUID: JfNn2aqLTieCc1V15fLzrg==
+X-CSE-ConnectionGUID: QGxSJYrZRFCBbMU2+BO8Dw==
+X-CSE-MsgGUID: m5cwJWAwRRWXwJUb4rVZSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="133641181"
+   d="scan'208";a="133641186"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 Apr 2025 13:26:40 -0700
+  by orviesa009.jf.intel.com with ESMTP; 29 Apr 2025 13:26:41 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9rXJ-0002ut-1U;
+	id 1u9rXJ-0002un-1J;
 	Tue, 29 Apr 2025 20:26:37 +0000
 Date: Wed, 30 Apr 2025 04:26:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1597/1597]
- include/linux/thread_info.h:59:17: warning: 'b' may be used uninitialized
-Message-ID: <202504300437.9dd9ulNF-lkp@intel.com>
+To: Aaron Kling <webgeek1234@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [linux-next:master 5714/7105]
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: cec@3960000
+ (nvidia,tegra186-cec): compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202504300428.XjDiAPOA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +64,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   a48a35466505c8a52da57596944bd0b4485e825f
-commit: b9f356e64a7eda411ba8b63df9d4c5e204f16025 [1597/1597] block-io-hierarchy: core hierarchy iodump implementation
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250430/202504300437.9dd9ulNF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300437.9dd9ulNF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9d9096722447b77662d4237a09909bde7774f22e
+commit: 5bc68bd3826e573f9a83c82c5107536cf616fea8 [5714/7105] media: dt-bindings: Document Tegra186 and Tegra194 cec
+config: arm64-randconfig-053-20250429 (https://download.01.org/0day-ci/archive/20250430/202504300428.XjDiAPOA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300428.XjDiAPOA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504300437.9dd9ulNF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504300428.XjDiAPOA-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/asm-generic/preempt.h:5,
-                    from ./arch/arm64/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:81,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7,
-                    from include/linux/seq_file.h:11,
-                    from block/blk-io-hierarchy/iodump.c:14:
-   In function 'check_object_size',
-       inlined from 'check_copy_size' at include/linux/thread_info.h:90:2,
-       inlined from 'copy_from_user' at include/linux/uaccess.h:143:6,
-       inlined from 'threshold_store' at block/blk-io-hierarchy/iodump.c:240:6:
->> include/linux/thread_info.h:59:17: warning: 'b' may be used uninitialized [-Wmaybe-uninitialized]
-      59 |                 __check_object_size(ptr, n, to_user);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/thread_info.h: In function 'threshold_store':
-   include/linux/thread_info.h:52:13: note: by argument 1 of type 'const void *' to '__check_object_size' declared here
-      52 | extern void __check_object_size(const void *ptr, unsigned long n,
-         |             ^~~~~~~~~~~~~~~~~~~
-   block/blk-io-hierarchy/iodump.c:234:14: note: 'b' declared here
-     234 |         char b[MAX_BUF_LEN + 1];
-         |              ^
-
-
-vim +/b +59 include/linux/thread_info.h
-
-0f60a8efe4005a Kees Cook 2016-07-12  50  
-f5509cc18daa7f Kees Cook 2016-06-07  51  #ifdef CONFIG_HARDENED_USERCOPY
-f5509cc18daa7f Kees Cook 2016-06-07  52  extern void __check_object_size(const void *ptr, unsigned long n,
-f5509cc18daa7f Kees Cook 2016-06-07  53  					bool to_user);
-f5509cc18daa7f Kees Cook 2016-06-07  54  
-a85d6b8242dc78 Kees Cook 2016-09-07  55  static __always_inline void check_object_size(const void *ptr, unsigned long n,
-f5509cc18daa7f Kees Cook 2016-06-07  56  					      bool to_user)
-f5509cc18daa7f Kees Cook 2016-06-07  57  {
-81409e9e280588 Kees Cook 2016-08-31  58  	if (!__builtin_constant_p(n))
-f5509cc18daa7f Kees Cook 2016-06-07 @59  		__check_object_size(ptr, n, to_user);
-f5509cc18daa7f Kees Cook 2016-06-07  60  }
-f5509cc18daa7f Kees Cook 2016-06-07  61  #else
-f5509cc18daa7f Kees Cook 2016-06-07  62  static inline void check_object_size(const void *ptr, unsigned long n,
-f5509cc18daa7f Kees Cook 2016-06-07  63  				     bool to_user)
-f5509cc18daa7f Kees Cook 2016-06-07  64  { }
-f5509cc18daa7f Kees Cook 2016-06-07  65  #endif /* CONFIG_HARDENED_USERCOPY */
-f5509cc18daa7f Kees Cook 2016-06-07  66  
-
-:::::: The code at line 59 was first introduced by commit
-:::::: f5509cc18daa7f82bcc553be70df2117c8eedc16 mm: Hardened usercopy
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
+   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
+>> arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: cec@3960000 (nvidia,tegra186-cec): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra186-cec'] is too short
+   	'nvidia,tegra186-cec' is not one of ['nvidia,tegra114-cec', 'nvidia,tegra124-cec', 'nvidia,tegra210-cec']
+   	from schema $id: http://devicetree.org/schemas/media/cec/nvidia,tegra114-cec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /pcie@10003000: failed to match any schema with compatible: ['nvidia,tegra186-pcie']
+   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /gpu@17000000: failed to match any schema with compatible: ['nvidia,gp10b']
+   arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dtb: /bpmp/i2c/pmic@3c: failed to match any schema with compatible: ['maxim,max77620']
+--
+   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
+   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
+>> arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: cec@3960000 (nvidia,tegra186-cec): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra186-cec'] is too short
+   	'nvidia,tegra186-cec' is not one of ['nvidia,tegra114-cec', 'nvidia,tegra124-cec', 'nvidia,tegra210-cec']
+   	from schema $id: http://devicetree.org/schemas/media/cec/nvidia,tegra114-cec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /pcie@10003000: failed to match any schema with compatible: ['nvidia,tegra186-pcie']
+   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /gpu@17000000: failed to match any schema with compatible: ['nvidia,gp10b']
+   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: /bpmp/i2c/pmic@3c: failed to match any schema with compatible: ['maxim,max77620']
+   arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dtb: thermal-zones: cpu-thermal:cooling-maps: 'cpu-active', 'cpu-critical', 'cpu-hot', 'cpu-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+--
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-admaif.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dtb: hda@3510000 (nvidia,tegra194-hda): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra194-hda'] is too short
+   	'nvidia,tegra30-hda' was expected
+   	'nvidia,tegra132-hda' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dtb: padctl@3520000 (nvidia,tegra194-xusb-padctl): ports:usb2-0: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra194-xusb-padctl.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dtb: padctl@3520000 (nvidia,tegra194-xusb-padctl): ports:usb2-0: 'connector' is a dependency of 'usb-role-switch'
+   	from schema $id: http://devicetree.org/schemas/phy/nvidia,tegra194-xusb-padctl.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dtb: cec@3960000 (nvidia,tegra194-cec): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra194-cec'] is too short
+   	'nvidia,tegra194-cec' is not one of ['nvidia,tegra114-cec', 'nvidia,tegra124-cec', 'nvidia,tegra210-cec']
+   	from schema $id: http://devicetree.org/schemas/media/cec/nvidia,tegra114-cec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dtb: gpio@c2f0000 (nvidia,tegra194-gpio-aon): 'gpio-ranges' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/nvidia,tegra186-gpio.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dtb: /bus@0/gpu@17000000: failed to match any schema with compatible: ['nvidia,gv11b']
+   arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dtb: /bpmp/i2c/pmic@3c: failed to match any schema with compatible: ['maxim,max20024']
+   arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dtb: thermal-zones: cpu-thermal:cooling-maps: 'cpu-active', 'cpu-critical', 'cpu-hot', 'cpu-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+--
+   arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: /bus@0/ethernet@2490000: failed to match any schema with compatible: ['nvidia,tegra194-eqos', 'nvidia,tegra186-eqos', 'snps,dwc-qos-ethernet-4.10']
+   arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: ahub@2900800 (nvidia,tegra194-ahub): admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: admaif@290f000 (nvidia,tegra194-admaif): 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-admaif.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: hda@3510000 (nvidia,tegra194-hda): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra194-hda'] is too short
+   	'nvidia,tegra30-hda' was expected
+   	'nvidia,tegra132-hda' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: cec@3960000 (nvidia,tegra194-cec): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra194-cec'] is too short
+   	'nvidia,tegra194-cec' is not one of ['nvidia,tegra114-cec', 'nvidia,tegra124-cec', 'nvidia,tegra210-cec']
+   	from schema $id: http://devicetree.org/schemas/media/cec/nvidia,tegra114-cec.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: gpio@c2f0000 (nvidia,tegra194-gpio-aon): 'gpio-ranges' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/nvidia,tegra186-gpio.yaml#
+   arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: /bus@0/gpu@17000000: failed to match any schema with compatible: ['nvidia,gv11b']
+   arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: /bpmp/i2c/pmic@3c: failed to match any schema with compatible: ['maxim,max20024']
+   arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: thermal-zones: cpu-thermal:cooling-maps: 'cpu-active', 'cpu-critical', 'cpu-hot', 'cpu-passive' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
