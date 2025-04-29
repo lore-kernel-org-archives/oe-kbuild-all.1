@@ -1,116 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D60827604B;
-	Tue, 29 Apr 2025 08:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32CF20D4EB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 08:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745914700; cv=none; b=aG6FPqK5wTLbejNWUAcIoRed1XspQPPQwvGw3p8AQqVVpBiCn2Akl2a+BALNLu07S9peL22LjQ/pn15TjS0gKJX8jV7YIaX3JiOFHNfClwX4Xiaxm3ZwibItKZNp+2x7eeXHgLu/agvHLvkGKzP+jSd9k1iLai7T2l9oFnVgt9s=
+	t=1745915270; cv=none; b=r2EJWFLif7mAOUwedCeMbZBJIUQLssy70KItBW0L7sgRSd64sIvhtT0/ksL0x/4gZxsH3ESSvnSWeHATD+5Z0qdqmjHgLG5Is2fQAWNKfqTAd03wD6jonebtlogSVDlkeiWdPizbmFcHnZnuLxoEDR5FqEpk1Fdk972HvWzjkcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745914700; c=relaxed/simple;
-	bh=UU272B4ISUmQPUHG+vKGbR6DIbnnLc12LpxeY58WgzA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RHHw8nu+7xmTG2T0hjySuYefuaP8u7ofowdEMz7nuK/0Q6JY9sqWTkeK8Y9pSi0BUD9quIbfCx3lyuJ2zk/0F8jz5Sl+lKCayDBZV2nsfduaqfBLcvqrEKozhdCZjJmcTvcfzid9u0+2Z/lAZ8ievDT8zsNnLrdwCmg9I0AH1ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HfNywPqL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745915270; c=relaxed/simple;
+	bh=KjjF4PWG86HZboE9jG9zKJM6ZqNu0kz/xDh0EFiEIMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fiEFTmbc56poN5GFSgWrGhPenDykpJPd3w8qwnA5Ubu4aFIjfAHXG6MS0kGFwDVgDjsZ714zXhv4vGv864ajMxkZMnE34FqDTwkMPSRJtNWkIIIOwMJCaFjLiIcAEXITPPmByDOilCB6dzCrGMPT5Na70KsRjJPt/+OOA1LJyHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hk1WgHWZ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HfNywPqL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF1FDC4CEED;
-	Tue, 29 Apr 2025 08:18:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745914699;
-	bh=UU272B4ISUmQPUHG+vKGbR6DIbnnLc12LpxeY58WgzA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HfNywPqL/EmOeMd0nv9Lj+ENZGdB1GdlRBerMYfwMOMK2grKuM7xmrJwKEdr3Eppk
-	 HWC2Z046bBueEqBYkaYPharFVnxl8+pqGPtI9ZVREO2F64m3mBG/UOZwZiCCYKy7B/
-	 U79xj16QhiqsUbouS5EkUwtfMH4YkCNqtpw3J3VpFYLPDhi/sa0bJ4Mwp6ORPGJ6OR
-	 lQZGFOkgsXOr+Vo2V4qgkaMmLFIBhx8sz9Wn7Ex4rkayKrqIhJFvp8ZbxIYpssG99n
-	 UemJ2gXopw6O6J0K85E2RgnQJmXNFiF9xwDTZiDmWsnCIDwp11Ti44yVPurnJDoJUt
-	 /zuuGaStqq7Xg==
-Message-ID: <84fd01d9-d320-4296-9c42-0fb5238a8505@kernel.org>
-Date: Tue, 29 Apr 2025 10:18:16 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hk1WgHWZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745915269; x=1777451269;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KjjF4PWG86HZboE9jG9zKJM6ZqNu0kz/xDh0EFiEIMg=;
+  b=Hk1WgHWZGpHI4JPMJIBEUklgxNO2cZ+QAL3VCdpKo11S+OV4GQfH4K2o
+   PPTYsTjNZsmnRfEsIpguxA7U7cSiPh2MiXddNXeF8JpCua7E6JxaePiUj
+   kCZJNoGgyNE4zPHTDWRHId36++jWYLRL71VOC8z4EtAIt4eNl2L6O3cdK
+   TchfiRUq8p7231KQ4dEZC/KCV8vcuJquyFep1tK8WJH65RCx1aBNxZ1g4
+   iKySMXQ4c2QAtZ/Ch7oAFSheOqRjIPliZ2gwLp+2YD/eKqgTiwfNZCm+R
+   jSGOa87q3pDAcLDES3yW22Zepu+A+jKwgunWLi+ARkgpwifeLQoTF5u3j
+   w==;
+X-CSE-ConnectionGUID: A1x8v5K7TAyXKRb+l9l35g==
+X-CSE-MsgGUID: qQhWUCKpTuyxXH/NAWc05g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="47664342"
+X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
+   d="scan'208";a="47664342"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 01:27:48 -0700
+X-CSE-ConnectionGUID: 5GNmsj0VRXenNvRt/CkoNA==
+X-CSE-MsgGUID: ZYNkhSwXSvymuU9q4xl81Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
+   d="scan'208";a="170994316"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2025 01:27:47 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u9gJc-0000aB-1k;
+	Tue, 29 Apr 2025 08:27:44 +0000
+Date: Tue, 29 Apr 2025 16:27:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 341/341] mm/migrate.c:425
+ folio_migrate_mapping() warn: inconsistent indenting
+Message-ID: <202504291636.w2GvGu42-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: sound/soc/qcom/sdw.c:93: warning: cannot understand function
- prototype: 'ret = sdw_enable_stream(sruntime); '
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>
-References: <202504262154.sBmNTrcB-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <202504262154.sBmNTrcB-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 26/04/2025 15:32, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   02ddfb981de88a2c15621115dd7be2431252c568
-> commit: db7e59e6a39a4d3d54ca8197c796557e6d480b0d ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
-> date:   6 months ago
-> config: sh-randconfig-002-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262154.sBmNTrcB-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 12.4.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262154.sBmNTrcB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504262154.sBmNTrcB-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> sound/soc/qcom/sdw.c:93: warning: cannot understand function prototype: 'ret = sdw_enable_stream(sruntime); '
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   8f5b4196a326e7f50cd98235ca8fe8608da0db46
+commit: 49100c0b070e900f87c8fac3be9b9ef8a30fa673 [341/341] mm/migrate: fix shmem xarray update during migration
+config: x86_64-randconfig-161-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291636.w2GvGu42-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-This looks like compiler issue. I check the config and SOUNDWIRE is
-selected thus sdw_enable_stream() is reachable. I also cannot reproduce
-it sh4-linux-gnu-gcc v14.2.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504291636.w2GvGu42-lkp@intel.com/
 
-Best regards,
-Krzysztof
+smatch warnings:
+mm/migrate.c:425 folio_migrate_mapping() warn: inconsistent indenting
+
+vim +425 mm/migrate.c
+
+0b3901b38d9d91 Jan Kara                2018-12-28  374  
+b20a35035f983f Christoph Lameter       2006-03-22  375  /*
+c3fcf8a5daacf3 Christoph Lameter       2006-06-23  376   * Replace the page in the mapping.
+5b5c7120e21542 Christoph Lameter       2006-06-23  377   *
+5b5c7120e21542 Christoph Lameter       2006-06-23  378   * The number of remaining references must be:
+5b5c7120e21542 Christoph Lameter       2006-06-23  379   * 1 for anonymous pages without a mapping
+5b5c7120e21542 Christoph Lameter       2006-06-23  380   * 2 for pages with a mapping
+266cf658efcf6a David Howells           2009-04-03  381   * 3 for pages with a mapping and PagePrivate/PagePrivate2 set.
+b20a35035f983f Christoph Lameter       2006-03-22  382   */
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  383) int folio_migrate_mapping(struct address_space *mapping,
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  384) 		struct folio *newfolio, struct folio *folio, int extra_count)
+b20a35035f983f Christoph Lameter       2006-03-22  385  {
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  386) 	XA_STATE(xas, &mapping->i_pages, folio_index(folio));
+42cb14b110a569 Hugh Dickins            2015-11-05  387  	struct zone *oldzone, *newzone;
+42cb14b110a569 Hugh Dickins            2015-11-05  388  	int dirty;
+108ca8358139be Matthew Wilcox (Oracle  2022-06-06  389) 	int expected_count = folio_expected_refs(mapping, folio) + extra_count;
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  390) 	long nr = folio_nr_pages(folio);
+be72d197b2281e Charan Teja Kalla       2023-12-14  391  	long entries, i;
+8763cb45ab967a Jérôme Glisse           2017-09-08  392  
+6c5240ae7f48c8 Christoph Lameter       2006-06-23  393  	if (!mapping) {
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  394  		/* Anonymous page without mapping */
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  395) 		if (folio_ref_count(folio) != expected_count)
+6c5240ae7f48c8 Christoph Lameter       2006-06-23  396  			return -EAGAIN;
+cf4b769abb8aef Hugh Dickins            2015-11-05  397  
+cf4b769abb8aef Hugh Dickins            2015-11-05  398  		/* No turning back from here */
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  399) 		newfolio->index = folio->index;
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  400) 		newfolio->mapping = folio->mapping;
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  401) 		if (folio_test_swapbacked(folio))
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  402) 			__folio_set_swapbacked(newfolio);
+cf4b769abb8aef Hugh Dickins            2015-11-05  403  
+78bd52097d0420 Rafael Aquini           2012-12-11  404  		return MIGRATEPAGE_SUCCESS;
+6c5240ae7f48c8 Christoph Lameter       2006-06-23  405  	}
+6c5240ae7f48c8 Christoph Lameter       2006-06-23  406  
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  407) 	oldzone = folio_zone(folio);
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  408) 	newzone = folio_zone(newfolio);
+42cb14b110a569 Hugh Dickins            2015-11-05  409  
+89eb946a7432be Matthew Wilcox          2017-12-04  410  	xas_lock_irq(&xas);
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  411) 	if (!folio_ref_freeze(folio, expected_count)) {
+89eb946a7432be Matthew Wilcox          2017-12-04  412  		xas_unlock_irq(&xas);
+e286781d5f2e9c Nicholas Piggin         2008-07-25  413  		return -EAGAIN;
+e286781d5f2e9c Nicholas Piggin         2008-07-25  414  	}
+e286781d5f2e9c Nicholas Piggin         2008-07-25  415  
+b20a35035f983f Christoph Lameter       2006-03-22  416  	/*
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  417) 	 * Now we know that no one else is looking at the folio:
+cf4b769abb8aef Hugh Dickins            2015-11-05  418  	 * no turning back from here.
+b20a35035f983f Christoph Lameter       2006-03-22  419  	 */
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  420) 	newfolio->index = folio->index;
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  421) 	newfolio->mapping = folio->mapping;
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  422) 	folio_ref_add(newfolio, nr); /* add cache reference */
+49100c0b070e90 Zi Yan                  2025-03-05  423  	if (folio_test_swapbacked(folio))
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  424) 		__folio_set_swapbacked(newfolio);
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07 @425)     if (folio_test_swapcache(folio)) {
+3372c3ffc34509 Zi Yan                  2024-03-06  426          int i;
+3372c3ffc34509 Zi Yan                  2024-03-06  427  
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  428)         folio_set_swapcache(newfolio);
+3372c3ffc34509 Zi Yan                  2024-03-06  429          for (i = 0; i < nr; i++)
+3372c3ffc34509 Zi Yan                  2024-03-06  430              set_page_private(folio_page(newfolio, i),
+3372c3ffc34509 Zi Yan                  2024-03-06  431                  page_private(folio_page(folio, i)));
+be72d197b2281e Charan Teja Kalla       2023-12-14  432  		entries = nr;
+6326fec1122cde Nicholas Piggin         2016-12-25  433  	} else {
+be72d197b2281e Charan Teja Kalla       2023-12-14  434  		entries = 1;
+6326fec1122cde Nicholas Piggin         2016-12-25  435  	}
+b20a35035f983f Christoph Lameter       2006-03-22  436  
+42cb14b110a569 Hugh Dickins            2015-11-05  437  	/* Move dirty while page refs frozen and newpage not yet exposed */
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  438) 	dirty = folio_test_dirty(folio);
+42cb14b110a569 Hugh Dickins            2015-11-05  439  	if (dirty) {
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  440) 		folio_clear_dirty(folio);
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  441) 		folio_set_dirty(newfolio);
+42cb14b110a569 Hugh Dickins            2015-11-05  442  	}
+42cb14b110a569 Hugh Dickins            2015-11-05  443  
+be72d197b2281e Charan Teja Kalla       2023-12-14  444  	/* Swap cache still stores N entries instead of a high-order entry */
+be72d197b2281e Charan Teja Kalla       2023-12-14  445  	for (i = 0; i < entries; i++) {
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  446) 		xas_store(&xas, newfolio);
+be72d197b2281e Charan Teja Kalla       2023-12-14  447  		xas_next(&xas);
+be72d197b2281e Charan Teja Kalla       2023-12-14  448  	}
+7cf9c2c76c1a17 Nicholas Piggin         2006-12-06  449  
+7cf9c2c76c1a17 Nicholas Piggin         2006-12-06  450  	/*
+937a94c9db30a8 Jacobo Giralt           2012-01-10  451  	 * Drop cache reference from old page by unfreezing
+937a94c9db30a8 Jacobo Giralt           2012-01-10  452  	 * to one less reference.
+7cf9c2c76c1a17 Nicholas Piggin         2006-12-06  453  	 * We know this isn't the last reference.
+7cf9c2c76c1a17 Nicholas Piggin         2006-12-06  454  	 */
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  455) 	folio_ref_unfreeze(folio, expected_count - nr);
+7cf9c2c76c1a17 Nicholas Piggin         2006-12-06  456  
+89eb946a7432be Matthew Wilcox          2017-12-04  457  	xas_unlock(&xas);
+42cb14b110a569 Hugh Dickins            2015-11-05  458  	/* Leave irq disabled to prevent preemption while updating stats */
+42cb14b110a569 Hugh Dickins            2015-11-05  459  
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  460  	/*
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  461  	 * If moved to a different zone then also account
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  462  	 * the page for that zone. Other VM counters will be
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  463  	 * taken care of when we establish references to the
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  464  	 * new page and drop references to the old page.
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  465  	 *
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  466  	 * Note that anonymous pages are accounted for
+4b9d0fab7166c9 Mel Gorman              2016-07-28  467  	 * via NR_FILE_PAGES and NR_ANON_MAPPED if they
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  468  	 * are mapped to swap space.
+0e8c7d0fd5b499 Christoph Lameter       2007-04-23  469  	 */
+42cb14b110a569 Hugh Dickins            2015-11-05  470  	if (newzone != oldzone) {
+0d1c20722ab333 Johannes Weiner         2020-06-03  471  		struct lruvec *old_lruvec, *new_lruvec;
+0d1c20722ab333 Johannes Weiner         2020-06-03  472  		struct mem_cgroup *memcg;
+0d1c20722ab333 Johannes Weiner         2020-06-03  473  
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  474) 		memcg = folio_memcg(folio);
+0d1c20722ab333 Johannes Weiner         2020-06-03  475  		old_lruvec = mem_cgroup_lruvec(memcg, oldzone->zone_pgdat);
+0d1c20722ab333 Johannes Weiner         2020-06-03  476  		new_lruvec = mem_cgroup_lruvec(memcg, newzone->zone_pgdat);
+0d1c20722ab333 Johannes Weiner         2020-06-03  477  
+5c447d274f3746 Shakeel Butt            2021-01-23  478  		__mod_lruvec_state(old_lruvec, NR_FILE_PAGES, -nr);
+5c447d274f3746 Shakeel Butt            2021-01-23  479  		__mod_lruvec_state(new_lruvec, NR_FILE_PAGES, nr);
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  480) 		if (folio_test_swapbacked(folio) && !folio_test_swapcache(folio)) {
+5c447d274f3746 Shakeel Butt            2021-01-23  481  			__mod_lruvec_state(old_lruvec, NR_SHMEM, -nr);
+5c447d274f3746 Shakeel Butt            2021-01-23  482  			__mod_lruvec_state(new_lruvec, NR_SHMEM, nr);
+4b02108ac1b335 KOSAKI Motohiro         2009-09-21  483  		}
+b6038942480e57 Shakeel Butt            2021-02-24  484  #ifdef CONFIG_SWAP
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  485) 		if (folio_test_swapcache(folio)) {
+b6038942480e57 Shakeel Butt            2021-02-24  486  			__mod_lruvec_state(old_lruvec, NR_SWAPCACHE, -nr);
+b6038942480e57 Shakeel Butt            2021-02-24  487  			__mod_lruvec_state(new_lruvec, NR_SWAPCACHE, nr);
+b6038942480e57 Shakeel Butt            2021-02-24  488  		}
+b6038942480e57 Shakeel Butt            2021-02-24  489  #endif
+f56753ac2a9081 Christoph Hellwig       2020-09-24  490  		if (dirty && mapping_can_writeback(mapping)) {
+5c447d274f3746 Shakeel Butt            2021-01-23  491  			__mod_lruvec_state(old_lruvec, NR_FILE_DIRTY, -nr);
+5c447d274f3746 Shakeel Butt            2021-01-23  492  			__mod_zone_page_state(oldzone, NR_ZONE_WRITE_PENDING, -nr);
+5c447d274f3746 Shakeel Butt            2021-01-23  493  			__mod_lruvec_state(new_lruvec, NR_FILE_DIRTY, nr);
+5c447d274f3746 Shakeel Butt            2021-01-23  494  			__mod_zone_page_state(newzone, NR_ZONE_WRITE_PENDING, nr);
+42cb14b110a569 Hugh Dickins            2015-11-05  495  		}
+42cb14b110a569 Hugh Dickins            2015-11-05  496  	}
+42cb14b110a569 Hugh Dickins            2015-11-05  497  	local_irq_enable();
+b20a35035f983f Christoph Lameter       2006-03-22  498  
+78bd52097d0420 Rafael Aquini           2012-12-11  499  	return MIGRATEPAGE_SUCCESS;
+b20a35035f983f Christoph Lameter       2006-03-22  500  }
+3417013e0d183b Matthew Wilcox (Oracle  2021-05-07  501) EXPORT_SYMBOL(folio_migrate_mapping);
+b20a35035f983f Christoph Lameter       2006-03-22  502  
+
+:::::: The code at line 425 was first introduced by commit
+:::::: 3417013e0d183be9b42d794082eec0ec1c5b5f15 mm/migrate: Add folio_migrate_mapping()
+
+:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
+:::::: CC: Matthew Wilcox (Oracle) <willy@infradead.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
