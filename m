@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41E021CFF6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 15:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E8B40C03
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 15:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745939359; cv=none; b=V/miEZFmfpr9b6dAsDVj/eQC7AAM3obrCkkamaps1nG5Dhr8FHX8F6VJdhSvHJmz+SyLZkzyd4Z6adc9GLXb9Sax7qaBLjYS/wBoCvKzklfKmiqPiIy/9+8VCYD9LzebmBcsdX1NThw2Wxut603aOTl+6Nqj4Z2XzqPBwB2yQHE=
+	t=1745939591; cv=none; b=TLZivIfTI/0G3t6HIJ/sxpP5BVwBT4QHdBiwW7Mrmxt11KSaZJPX2z+NEY2hW7dqYfEAJWTguw5skXWpweWP3WqdUKgeaKKWsAzKbJyGDynLd5qH0x1OjP/nIbDGQopUp2xlQ2oQb3+nPJDlEfr5fYpJDJ/8XxO8riLKgtEwyag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745939359; c=relaxed/simple;
-	bh=ojkcmuoTOZc+OvrBxj7j7/ITRR6GPZahdKeeEgC9hTI=;
+	s=arc-20240116; t=1745939591; c=relaxed/simple;
+	bh=aMk595Sw57SDn5/PZwLT1d0lEKN70ScJQzw+hh7/TZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RLS94Ba/eZpR4FSfsaB1OMD4IzRpyEPcxxHt/fjj2+7kH3X1v7lH4aFx+RpXfF7EAvKEHtAyQYXSLJ/YC9SuohKkbhN5QJDR3+Y8ltfs3mvVWDbmvhDZpyQhr8svW4AgbUxzs0oTCezGSWkO6YpbROHT+iJ4U+ZwX8e0yxmrDm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5UVHup5; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=p6Fz+nZ771P40O4j5VJs8V5WzxR5ASlsI1JJyx0BA/fHlmNbNa7G1WgSdmbhMsj/4BnCQU5cf2zSynY8mkkRlmcV9+AKROyNja2JLQFjGFJsCHs8W4SO7Z5CB3Tv2dovRdodUu8weW4Ye509rMYz6JYSUOypFfZGyX7p1D0jqhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k47dz9sZ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5UVHup5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k47dz9sZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745939358; x=1777475358;
+  t=1745939590; x=1777475590;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ojkcmuoTOZc+OvrBxj7j7/ITRR6GPZahdKeeEgC9hTI=;
-  b=d5UVHup5Yl84kOg2ohVeKu8qvaYkkh+GShpQRgb+ufVIkATe3DJI8Gmo
-   8CvIPveSBAXGQXR0EH5/pOYXdPOLxP6Ogtb61jB2CUj9j/W9qClOYW9bx
-   7XZ6lergY7XgqMhEGXW73gs7ssqbqWj18/njl303XWj5QaxX6NRTN2n4E
-   fM5mdr1xwcEW/cCAnMsuGjW+bsxN/8Y49nAVCYwJrq5roIrLpWxxUaGdK
-   d5UkXBhWwbfem+VD/V9UEila1Ym4ZbMLCpY+7JylN6FQ7Ac/8jQE8Ns5p
-   7cgDAhEci9zvgmBl1ofHgJPrxdyYTqxFn7xX2KhlWzqegm+B1bNQ5qx2H
+  bh=aMk595Sw57SDn5/PZwLT1d0lEKN70ScJQzw+hh7/TZA=;
+  b=k47dz9sZbZ+qpUCi3wW4F6qwc4a73SebZWz/PvLzTlsWmYR0H2bRkzov
+   hM5LlCXzQO6G9z5sWihdzDVw+AhUUHSrq0uhOyx8q0itDeLjvnKOkduqd
+   WD+YQapojRxXob5qiPtjnGEVx2XdjWi522bowtIeYbnVqId2r/FL85bbK
+   CECh1kBXe1vslspU81ZZmGE15v3d22A6ai+pXsDFVRP7J0VzYNmT1dEQF
+   I5JWCcKQWqNKtYtyfd3cPCz2H/kEJaf5/kT2t2MFTayqlTibVJ7sI6ncp
+   AKl/4uf7JXzcYCsQWeSHPH1JbC3I16+rUAGImGN3xPbt5cKrlik2tsSCl
    g==;
-X-CSE-ConnectionGUID: +lezXJuJQMqvk9TFmrRH9w==
-X-CSE-MsgGUID: i9DrW4CeQECHT0VHCBX4lw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="50228917"
+X-CSE-ConnectionGUID: TekpVOKhT6ORD+0GDEmXBg==
+X-CSE-MsgGUID: vu/CJrapTlawknKomh6A3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="46815738"
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="50228917"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 08:09:09 -0700
-X-CSE-ConnectionGUID: 6woIGgMWT2O+NUM5FQtStA==
-X-CSE-MsgGUID: u+4nm9mrRsqJXq6D1Wyidw==
+   d="scan'208";a="46815738"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 08:13:09 -0700
+X-CSE-ConnectionGUID: Jt3gcUWkQcO88n+sok+MQw==
+X-CSE-MsgGUID: wWSU1IRbQ7a1XD5HYCXweA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="138834820"
+   d="scan'208";a="138656357"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 29 Apr 2025 08:09:08 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 29 Apr 2025 08:13:08 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9ma1-0000oH-1N;
-	Tue, 29 Apr 2025 15:09:05 +0000
-Date: Tue, 29 Apr 2025 23:08:39 +0800
+	id 1u9mdu-0000oh-0e;
+	Tue, 29 Apr 2025 15:13:06 +0000
+Date: Tue, 29 Apr 2025 23:12:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb:
- nand-controller@ff100000 (xlnx,zynqmp-nand-controller): Unevaluated
- properties are not allowed ('arasan,has-mdma', 'power-domains' were
- unexpected)
-Message-ID: <202504292212.luCFluoD-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot+extras/v6.15-rc3 128/152]
+ fs/resctrl/ctrlmondata.c:585:9: error: implicit declaration of function
+ 'resctrl_arch_mon_ctx_free'; did you mean 'resctrl_arch_mon_ctx_alloc'?
+Message-ID: <202504292308.nO2DWRuw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,29 +63,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ca91b9500108d4cf083a635c2e11c884d5dd20ea
-commit: 499a4b16a4869a901a9bc601bc1e0b8f60151e93 dt-bindings: mtd: arasan,nand-controller: Ensure all properties are defined
-date:   3 months ago
-config: arm64-randconfig-052-20250428 (https://download.01.org/0day-ci/archive/20250429/202504292212.luCFluoD-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292212.luCFluoD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot+extras/v6.15-rc3
+head:   89e83f0ddb42053b6e3e6d4a9ce2fd3dd521c3d6
+commit: c4df656cb6afb482b2d7cb0bc404beb995ffe165 [128/152] x86/resctrl: Add stub to allow other architecture to disable monitor overflow
+config: x86_64-buildonly-randconfig-002-20250429 (https://download.01.org/0day-ci/archive/20250429/202504292308.nO2DWRuw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292308.nO2DWRuw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504292212.luCFluoD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504292308.nO2DWRuw-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: nand-controller@ff100000 (xlnx,zynqmp-nand-controller): Unevaluated properties are not allowed ('arasan,has-mdma', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/arasan,nand-controller.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: /axi/spi@ff050000/flash@0: failed to match any schema with compatible: ['atmel,at45db041e', 'atmel,at45', 'atmel,dataflash']
-   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: /axi/spi@ff050000/flash@0: failed to match any schema with compatible: ['atmel,at45db041e', 'atmel,at45', 'atmel,dataflash']
-   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: /axi/spi@ff050000/flash@0: failed to match any schema with compatible: ['atmel,at45db041e', 'atmel,at45', 'atmel,dataflash']
+All errors (new ones prefixed by >>):
+
+   fs/resctrl/ctrlmondata.c: In function 'mon_event_read':
+>> fs/resctrl/ctrlmondata.c:585:9: error: implicit declaration of function 'resctrl_arch_mon_ctx_free'; did you mean 'resctrl_arch_mon_ctx_alloc'? [-Werror=implicit-function-declaration]
+     585 |         resctrl_arch_mon_ctx_free(r, evtid, rr->arch_mon_ctx);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         resctrl_arch_mon_ctx_alloc
+   cc1: some warnings being treated as errors
 --
->> arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm017-dc3.dtb: nand-controller@ff100000 (xlnx,zynqmp-nand-controller): Unevaluated properties are not allowed ('arasan,has-mdma', 'num-cs', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/arasan,nand-controller.yaml#
+   fs/resctrl/monitor.c: In function '__check_limbo':
+>> fs/resctrl/monitor.c:188:9: error: implicit declaration of function 'resctrl_arch_mon_ctx_free'; did you mean 'resctrl_arch_mon_ctx_alloc'? [-Werror=implicit-function-declaration]
+     188 |         resctrl_arch_mon_ctx_free(r, QOS_L3_OCCUP_EVENT_ID, arch_mon_ctx);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         resctrl_arch_mon_ctx_alloc
+   cc1: some warnings being treated as errors
+
+
+vim +585 fs/resctrl/ctrlmondata.c
+
+37d06f24730eb0 James Morse 2025-04-24  548  
+37d06f24730eb0 James Morse 2025-04-24  549  void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
+37d06f24730eb0 James Morse 2025-04-24  550  		    struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
+37d06f24730eb0 James Morse 2025-04-24  551  		    cpumask_t *cpumask, int evtid, int first)
+37d06f24730eb0 James Morse 2025-04-24  552  {
+37d06f24730eb0 James Morse 2025-04-24  553  	int cpu;
+37d06f24730eb0 James Morse 2025-04-24  554  
+37d06f24730eb0 James Morse 2025-04-24  555  	/* When picking a CPU from cpu_mask, ensure it can't race with cpuhp */
+37d06f24730eb0 James Morse 2025-04-24  556  	lockdep_assert_cpus_held();
+37d06f24730eb0 James Morse 2025-04-24  557  
+37d06f24730eb0 James Morse 2025-04-24  558  	/*
+37d06f24730eb0 James Morse 2025-04-24  559  	 * Setup the parameters to pass to mon_event_count() to read the data.
+37d06f24730eb0 James Morse 2025-04-24  560  	 */
+37d06f24730eb0 James Morse 2025-04-24  561  	rr->rgrp = rdtgrp;
+37d06f24730eb0 James Morse 2025-04-24  562  	rr->evtid = evtid;
+37d06f24730eb0 James Morse 2025-04-24  563  	rr->r = r;
+37d06f24730eb0 James Morse 2025-04-24  564  	rr->d = d;
+37d06f24730eb0 James Morse 2025-04-24  565  	rr->first = first;
+37d06f24730eb0 James Morse 2025-04-24  566  	rr->arch_mon_ctx = resctrl_arch_mon_ctx_alloc(r, evtid);
+37d06f24730eb0 James Morse 2025-04-24  567  	if (IS_ERR(rr->arch_mon_ctx)) {
+37d06f24730eb0 James Morse 2025-04-24  568  		rr->err = -EINVAL;
+37d06f24730eb0 James Morse 2025-04-24  569  		return;
+37d06f24730eb0 James Morse 2025-04-24  570  	}
+37d06f24730eb0 James Morse 2025-04-24  571  
+37d06f24730eb0 James Morse 2025-04-24  572  	cpu = cpumask_any_housekeeping(cpumask, RESCTRL_PICK_ANY_CPU);
+37d06f24730eb0 James Morse 2025-04-24  573  
+37d06f24730eb0 James Morse 2025-04-24  574  	/*
+37d06f24730eb0 James Morse 2025-04-24  575  	 * cpumask_any_housekeeping() prefers housekeeping CPUs, but
+37d06f24730eb0 James Morse 2025-04-24  576  	 * are all the CPUs nohz_full? If yes, pick a CPU to IPI.
+37d06f24730eb0 James Morse 2025-04-24  577  	 * MPAM's resctrl_arch_rmid_read() is unable to read the
+37d06f24730eb0 James Morse 2025-04-24  578  	 * counters on some platforms if its called in IRQ context.
+37d06f24730eb0 James Morse 2025-04-24  579  	 */
+37d06f24730eb0 James Morse 2025-04-24  580  	if (tick_nohz_full_cpu(cpu))
+37d06f24730eb0 James Morse 2025-04-24  581  		smp_call_function_any(cpumask, mon_event_count, rr, 1);
+37d06f24730eb0 James Morse 2025-04-24  582  	else
+37d06f24730eb0 James Morse 2025-04-24  583  		smp_call_on_cpu(cpu, smp_mon_event_count, rr, false);
+37d06f24730eb0 James Morse 2025-04-24  584  
+37d06f24730eb0 James Morse 2025-04-24 @585  	resctrl_arch_mon_ctx_free(r, evtid, rr->arch_mon_ctx);
+37d06f24730eb0 James Morse 2025-04-24  586  }
+37d06f24730eb0 James Morse 2025-04-24  587  
+
+:::::: The code at line 585 was first introduced by commit
+:::::: 37d06f24730eb0e770949e2d27f04b9639a994dc AUTO SPLIT
+
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: James Morse <james.morse@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
