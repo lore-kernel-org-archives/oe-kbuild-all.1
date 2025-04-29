@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D2610F2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 18:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8390213E67;
+	Tue, 29 Apr 2025 18:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745951989; cv=none; b=qjmcTx4RSThy8pNN3X9n+5D1OOFAvlaNrbnHevWxeoVTnFo0PqDWlusUXBQBlBYpI9iOr2/dzHu/xyDjY87i1Co7iGDy47w85EHqfQ1acplTIup8pSCaBrmKjUejdDRRUTsuUe2vED9bDX9AzLmM4kwF8lWXOdxMHrTBnAFBPys=
+	t=1745952000; cv=none; b=YbnJsZNPnPU/Ppjol4NHC+Gy2xi0ZpeB7wfGUMZqYqx7g4qBv8ojJea4QYsW1C7zwl5lXPOyy73z0XZ2jMfRB8P4Dkp9QXgrMgjNcQYetKQdFg3s0epCYA9ktiS5e/7jO755vtI9dS9SrlTtAjnOCPfaeBZoKKk/bFGKLxeX0f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745951989; c=relaxed/simple;
-	bh=WnWGSbw4F+GMQDNdEUxP9ml1XZv+NSEXpWQFlkIVM6g=;
+	s=arc-20240116; t=1745952000; c=relaxed/simple;
+	bh=4qy4I7VGvEmCy9gD5Fr0IDep138BqAEDPnMyr1tHWL8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DJ8sz0AmxjAI8xaZtV1T+pIF865IQVdrOiwnOovFV8l57B/LQToEQs5Q9Rklv+qTIQC2/COLW8oU339ZbSYVNTtzPNk37l8sRZyKohV5YdFTSTiPd7C2WjYAdtXw1vMlfR8A/C6t8emfmBrOm1Mb0iccjFvp4Y1L2JrNOwmAueA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gfh+ucXD; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=IBKdix+52Z+BXnLu0JDsTDHaLLhl7GR50R3r/uAh3T5pBtej87OzFU5dKCD1+P5/+b76zNAXZU1s+LgdoaWk8/m0Lko/NgMnWZolh7X6SdlHz2vHBdSgryeEqc4zf0l0qt5JwfdvzOfuDse+cR+52sAeC02bh7JHHfuoOS9Ns9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KhPyzVMA; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gfh+ucXD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KhPyzVMA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745951987; x=1777487987;
+  t=1745951998; x=1777487998;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WnWGSbw4F+GMQDNdEUxP9ml1XZv+NSEXpWQFlkIVM6g=;
-  b=gfh+ucXD3aVM/G4x+SDO8eRu63d/PC9kcv/AWDvmGuQ2P3AQeCYZlBOC
-   o7E/sXiVwix/puaj9jc4BBBF7oUc5HG9v40ApvxVfCo9eb/zMUQbTnbYE
-   gd8gZwpm6wbDj3ayqGvb3k4dwIXrQBeByxPfRJ6YzH1W1NSJcQ80rDVlB
-   FsTsimRZT5TEEvLUmnv8hV3+Tachv2LXo1BU33qhsFBb5AJzlEXcqnC3J
-   lOAMR55BUKw0zUc680X0aosgjeDXD7vqEpxbslSuzvOyV/50H5WRa0oDd
-   E8AZ/OwoXzJ0sQzTCvM/UQkSh0moGbkYl3JU49vX/F6nEO/a6zdqEnucw
+  bh=4qy4I7VGvEmCy9gD5Fr0IDep138BqAEDPnMyr1tHWL8=;
+  b=KhPyzVMAm+Fccho4i655W/BOSf2CAAsCNrD1HgSnumtdIFVZyfm+yBbl
+   B7y8VcWEd06MqPlyxrtyZdm08eCrT8iKswKswOQL9AQravRJrExaidICv
+   iaXxGajGy267y+SMm/zoLi5wOPi5DRpwZEYG/ApHGHyG7epoNlmTw68WW
+   jYEyy6KnjL94tnOYGbF+YJT7VV6uUPSnS3HGWWuUR+yx/FTIY8kToU7em
+   F2fNuXcTJJJ29Tyh4yxlr2PtmRg9PVcjhGEht4QCxzlDRFLwmPl0la4C9
+   UuXvDXmsALAgndvwBJD4wct6l3xf9DEwb2MHEvUZQ/sikWC+s2ZGgebbK
    w==;
-X-CSE-ConnectionGUID: jYc4BUSKQWCd39A1m7Y6Rg==
-X-CSE-MsgGUID: S/0WJEBUT5CtBh8dFb5pdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="72974051"
+X-CSE-ConnectionGUID: tCVXIct9SuChG2go8gLJEw==
+X-CSE-MsgGUID: oX5shtebQmafxWajP8nAJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47501335"
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="72974051"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 11:39:47 -0700
-X-CSE-ConnectionGUID: T6EJ4spOQiOJjY52ByhGlg==
-X-CSE-MsgGUID: nRuLpEW/S7SeLWOJlGuqPA==
+   d="scan'208";a="47501335"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 11:39:45 -0700
+X-CSE-ConnectionGUID: yTkuV3n/RpuLmdTLj65vvw==
+X-CSE-MsgGUID: 2PY4/xmkRJ+A1vcr7bN3sQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="138714760"
+   d="scan'208";a="134227559"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Apr 2025 11:39:45 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Apr 2025 11:39:45 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9prq-0002qe-33;
+	id 1u9prq-0002qh-36;
 	Tue, 29 Apr 2025 18:39:42 +0000
-Date: Wed, 30 Apr 2025 02:38:58 +0800
+Date: Wed, 30 Apr 2025 02:38:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko.stuebner@cherry.de>
-Cc: oe-kbuild-all@lists.linux.dev, Dragan Simic <dsimic@manjaro.org>
-Subject: [linux-next:master 6416/7105]
- arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb:
- panel@0 (leadtek,ltk050h3148w): 'port' does not match any of the regexes:
- 'pinctrl-[0-9]+'
-Message-ID: <202504300218.VDqQqGTT-lkp@intel.com>
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	James Morse <james.morse@arm.com>
+Subject: [morse:mpam/snapshot/v6.15-rc3 100/110]
+ include/linux/debugfs.h:419:2: warning: void function
+ 'debugfs_create_cpumask' should not return a value
+Message-ID: <202504300247.bnFT3fxj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +64,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9d9096722447b77662d4237a09909bde7774f22e
-commit: 777055e02f739b5df943366323f58eeb68d90e67 [6416/7105] arm64: dts: rockchip: add overlay for tiger-haikou video-demo adapter
-config: arm64-randconfig-053-20250429 (https://download.01.org/0day-ci/archive/20250430/202504300218.VDqQqGTT-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300218.VDqQqGTT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.15-rc3
+head:   2cc3eff27207d40f181a59f04660a1e8e9746ff8
+commit: 482d40a25255bb2c3df8cebda0f06cd2af2d4b95 [100/110] debugfs: Add stub to fix the build when debugfs is not enabled
+config: arm-randconfig-003-20250430 (https://download.01.org/0day-ci/archive/20250430/202504300247.bnFT3fxj-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300247.bnFT3fxj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504300218.VDqQqGTT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504300247.bnFT3fxj-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: panel@0 (leadtek,ltk050h3148w): 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/panel/leadtek,ltk050h3146w.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: /edp@fdec0000: failed to match any schema with compatible: ['rockchip,rk3588-edp']
+All warnings (new ones prefixed by >>):
+
+   In file included from block/blk-sysfs.c:12:
+>> include/linux/debugfs.h:419:2: warning: void function 'debugfs_create_cpumask' should not return a value [-Wreturn-mismatch]
+     419 |         return ERR_PTR(-ENODEV);
+         |         ^      ~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/debugfs_create_cpumask +419 include/linux/debugfs.h
+
+   415	
+   416	static inline void debugfs_create_cpumask(const char *name, umode_t mode,
+   417						  struct dentry *parent, struct cpumask *value)
+   418	{
+ > 419		return ERR_PTR(-ENODEV);
+   420	}
+   421	
 
 -- 
 0-DAY CI Kernel Test Service
