@@ -1,57 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9992517AB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157E8252284
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 17:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745948081; cv=none; b=oJYYMybuqhB9vYqh6FxJ/r0V2716OKV9bMXYyma7ONGSEB0MhleRnesg/emj+3Il8jr7o2zfwGyK3gWYwxGopTpXdsykp7ysALI7Mdtp6ptn10kJZ5y7hAXWNczElbTeh1/cGotzSP+rUaf69h0F4YIc8Ch/ra0KWI30Ukc4Bkc=
+	t=1745948081; cv=none; b=SKZzrgoYRy9s0ocKAo1cbCTcd4woQWgDipJszMPPMtCunrY6+nuCb3bT4YzwRMzU/r7epnbmDc5DLTijn+EU6KAmPkgz32e2UKY120kc4pdsKebe4WahoBC7Gf/S5s4ABeeQwV2AGkcNHTN2OqkzbXUy4dT76sM7ajoSlFSOsaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745948081; c=relaxed/simple;
-	bh=eUeMjDBGXnEwBzBE2+CRts6apRj606KaVLCrTVQ2PLw=;
+	bh=LD4rYR669vAzv85fVu5NE/1A0wSqPOw9NDWwhrgj8SU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rMBLam70HZUSNSmDoiV53JWbRE2m+H586Xd6f23U+tjbqJWCnVdAnwjSHqn866W0kj4LifuEf/xi9QUk0l/T2DEwafmFOjxHizKW5vnZih0EF4yjzZUTf4TA0+7HHKPWZ+k8PYlb0SmFQdYRg+u1p90g26J6lhK+QU0IM8ho33Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhwi5Dzb; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=QVAQslm63WyMv5A1LOl5L4xeA92itEfz1En+ZMPArZ42XQTUrUxpN0ceG25V9m8asqoBQMQ0JVF6W70lL4pm57STYbbPVti42uA2BmBXT/279yJL1m6z8EOd/+WSP3tw2fVpJ/UpDdzgIpQV1wFUtdlxNRyegU0shRohLrzazxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=irBPijdR; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhwi5Dzb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irBPijdR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1745948080; x=1777484080;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eUeMjDBGXnEwBzBE2+CRts6apRj606KaVLCrTVQ2PLw=;
-  b=hhwi5DzbugEiyJD2uuZC/1MC9UL8ebQna4c+QKap9iBShcHc90ldeo0g
-   DAQfDmAe/Wz3Y1MLKqnjXw54K5TFTs/m8MfT57Z2tC1Q7PaFgOPZW0v6H
-   gm5LKlpAJDLEWjtu4GUleAr3YjQA42ro2CilEzjqcYnvhE5QwLWAkvMho
-   zbQHoIilVnaChdBW9zuIop5mdbLBKhNTCr8PO9F/cz7FchY3dIttmlMWs
-   feV8Fm24bXkxBnbbnheYukxdIzFL24+0KWHqZQY9beX+UAAQ1GYGt3tLC
-   mzDw6IrORW/mdVKoT5NMln7yX7hm5mJNoGr2OdAKrv3ncjD5j5nJglX3I
-   A==;
-X-CSE-ConnectionGUID: O0IeFvJyRf2EvRpRWXEQnA==
-X-CSE-MsgGUID: Uo3UM9RPRuCqKi4Rbl2Ljw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="64998501"
+  bh=LD4rYR669vAzv85fVu5NE/1A0wSqPOw9NDWwhrgj8SU=;
+  b=irBPijdRfmtJdzc5RwSZlQihftpT70PvK5vTcWO6fjW2HhP6YPMRE4GS
+   ElUaEJH/pkLb495tlinQVBaiHLBVgZXSXQXLBKGxJYZMlIw1IlJuuYKp5
+   IHfwK0TbznCtiiF1iR4Jc+fRgML51ROHn8PKQgNosyewWWyJ5SWCskrig
+   pJi2BUHfUyZs10/jhTULy5q8/MmYtjXa3Y7ktMEarqRHViQOE7RLdVUZu
+   tGobLBrrpEDJe3kkiapmwe5yHX8HmWNAN+joNq5fs7kFFYfr7Dp45AQr7
+   rh6eDT4QqEiNoXWohBG7yk0SwLEI3CC8t53euLirgmChvrhArYxQ8cdlc
+   g==;
+X-CSE-ConnectionGUID: eBlpq31bSVuycCztUCWN9Q==
+X-CSE-MsgGUID: KEYAGFiZTGKKLX0McSp57g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="64998504"
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="64998501"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
+   d="scan'208";a="64998504"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 10:34:38 -0700
-X-CSE-ConnectionGUID: uE6f45ebSsO8jHR8VOFMRw==
-X-CSE-MsgGUID: haZktk4+Txy6LFKo+ulJmg==
+X-CSE-ConnectionGUID: dFL8wmQKQzWfRTCUFqFqtQ==
+X-CSE-MsgGUID: d6DHhbMjRX6q9toye+ZgWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="139075569"
+   d="scan'208";a="133786107"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 29 Apr 2025 10:34:37 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Apr 2025 10:34:36 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9oqk-0001pP-0e;
-	Tue, 29 Apr 2025 17:34:30 +0000
-Date: Wed, 30 Apr 2025 01:34:08 +0800
+	id 1u9oqj-0001oZ-24;
+	Tue, 29 Apr 2025 17:34:29 +0000
+Date: Wed, 30 Apr 2025 01:34:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?L=E9o_Paill=E9?= <leo.paille@enseirb-matmeca.fr>
-Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>
-Subject: [rust:pr/1161 161/195] warning: unresolved link to `sk_buff`
-Message-ID: <202504300119.A15bTkJ0-lkp@intel.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [linux-next:master 5290/7105]
+ arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: isp@fed00000
+ (renesas,r8a779h0-isp): 'clock-names', 'interrupt-names', 'reg-names',
+ 'renesas,vspx', 'reset-names' do not match any of the regexes:
+ 'pinctrl-[0-9]+'
+Message-ID: <202504300143.nxLyJNkY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +67,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Rust-for-Linux/linux pr/1161
-head:   9f5fa1ba161d636d346f72ba808ce20ee4a3fa70
-commit: 3243ef7613ae49ea80ebfbf22ee5ea1c8665ae5d [161/195] logs emitted packets
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250430/202504300119.A15bTkJ0-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300119.A15bTkJ0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9d9096722447b77662d4237a09909bde7774f22e
+commit: 9f78a29caacef6df5d6a43e85d1112e39cfa3b34 [5290/7105] arm64: dts: renesas: r8a779h0: Add ISP core function block
+config: arm64-randconfig-053-20250429 (https://download.01.org/0day-ci/archive/20250430/202504300143.nxLyJNkY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300143.nxLyJNkY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504300119.A15bTkJ0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504300143.nxLyJNkY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> warning: unresolved link to `sk_buff`
-   --> rust/kernel/net/dev.rs:494:22
-   |
-   494 |     /// Consumes a [`sk_buff`] object.
-   |                      ^^^^^^^ no item named `sk_buff` in scope
-   |
-   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1129.12-1139.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1158.12-1168.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1187.12-1197.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1216.12-1226.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1245.12-1255.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1274.12-1284.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1303.12-1313.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1332.12-1342.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1955.10-1965.6: Warning (graph_child_address): /soc/display@feb00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779h0.dtsi:1989.12-1999.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: isp@fed00000 (renesas,r8a779h0-isp): 'clock-names', 'interrupt-names', 'reg-names', 'renesas,vspx', 'reset-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: isp@fed00000 (renesas,r8a779h0-isp): clocks: [[8, 1, 612], [8, 1, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: isp@fed00000 (renesas,r8a779h0-isp): interrupts: [[0, 473, 4], [0, 475, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: isp@fed00000 (renesas,r8a779h0-isp): reg: [[0, 4275044352, 0, 65536], [0, 4273995776, 0, 1048576]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: isp@fed00000 (renesas,r8a779h0-isp): resets: [[8, 612], [8, 16]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
+>> arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: isp@fed20000 (renesas,r8a779h0-isp): 'clock-names', 'interrupt-names', 'reg-names', 'reset-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/renesas,isp.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
