@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B5621A449
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 04:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B3F433B3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 05:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745899390; cv=none; b=qjHn4FzW7Rv05s1iBgMNaY44MVR2NxO5id39gAJ2VHeyFSBYnE9feT37ZsLt6DmulDO7panwzHkGx9mkgx4DKb58z+r+hDjqp4wktFT5vOD2ETKbwHEzbLBUqWb6ciUSJyUO2oO8T+gTMa7WZDIs1klvmpwUzerRk519s0WV+8U=
+	t=1745904977; cv=none; b=s/4ip8D7jAopDnjieyUTgFTsTPlZ0BaVoB+oT2fJ3RzWUk3/6Arpehxvi+XJVciSAEwrEVVZmIk2pOad/CFuOJT5y5VCzbvhRNUfSSOvsXRMMHQ8JJ+XK5C+qDyS7UnHKZxxsT2x36rPKm8fgQnK8QZxVDm0Defuxp+H1FrL0Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745899390; c=relaxed/simple;
-	bh=OD7S5i9kfka/Kkir/GuAYAAHX7f7CfTC+/4dMcUFSR0=;
+	s=arc-20240116; t=1745904977; c=relaxed/simple;
+	bh=bSmn4vXGgg5+WTfp4cKs47zBY2mVAC8bNqS+AS/3aoM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tmCMRTtRIYtXGw9QxGkKOflgmR15mSNUXjZdUO/BJtLbT4oJ9o3ZkTpntF5x+rLRA+idR6xblk7mMPXVrZyRmTu7zUq4QtDw0/rNhOurh5tLjmeDpyWhWGgS/SutyLUCc3rtE0ulir1lN63cK/7Kgtr04f+0QI98ikWJz57EFk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsCXq1Fc; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=oJC27dOOJ5po1di7lzjhKYhVjhqDETTdMRZWHAXey+OT5SI7tAss9jESx3FRlZa7ZljhPf9ywjqRa5xVKwfmcCoQuhU8LW7bIygviFbeiWIYsA5rpQL8tAsp8jtlTQMWbHUqhvMlc9twQ/+357G5KQGobg/aBVvk08p5AyOwrlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJ6SSDK1; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsCXq1Fc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJ6SSDK1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745899387; x=1777435387;
+  t=1745904976; x=1777440976;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OD7S5i9kfka/Kkir/GuAYAAHX7f7CfTC+/4dMcUFSR0=;
-  b=JsCXq1Fc0vNopiWMayOZXOUQPVyMU9Ech4sKfykpb0e8e4pF8fPQ3X4D
-   zqeHo7coQ4XNooeW3kUgeKp7vMQmthKsos0WLv9qh0sUpQUzoqUqmnS31
-   w5Rv11ar07vcKutFT1QF5yp8Tqp43GguPUqDSiUqYZErfGDFMzTfKFwsv
-   5IVF8n1ETlsF7mrsXk4ciWLEN06QPmFqnF49DHGm8iYOwS4dlKHXjV7Wy
-   GwSPYhIaAME4SduT4sQ2G8nQ5gJ3MzQ3AnHYAcDOo6rYCtRaP2bdaqZPX
-   RuljCeDIy56qBJZOk5IfxRjKGUJaWAwHMJotUOWPsbmFk+FNfZFjxGBYM
-   w==;
-X-CSE-ConnectionGUID: 3dKSEVCrT7qUUiHdb/bnXg==
-X-CSE-MsgGUID: n6T2wTlSQJG6CCMwtwHdrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="58879061"
+  bh=bSmn4vXGgg5+WTfp4cKs47zBY2mVAC8bNqS+AS/3aoM=;
+  b=lJ6SSDK1hKyGuVMmVCp8BYfW0rHtexyJx36XfdTTKSZnHuD971FfIJKd
+   XC1s0QRetR3rYofYIa/WHlxAtltmuJSNYBUOOg/gHo2F5GLxz5pztXWv6
+   PAtOLEPF+zZz741qCVc6ax1HhqzCDMyL/g5K4sjg3mBc4UDZPUzN1yWtg
+   fB9Rk1HewXLOJaGufcbj0wEPsHrf0Ghz/UVW505QuJkOGh5lhBZei1e6h
+   gCS2M3JCKaoPOAFseUczbPU94Cz4Mw0twkUgbdALSZhIOSFJVqLJuxI7V
+   enInqvWZycOASzmnEEwMMIHQ4pXpEidKKOhyBFGVMmi4j11dO69b0yAh7
+   Q==;
+X-CSE-ConnectionGUID: vzvn9onJQ56RzNd48C+YJA==
+X-CSE-MsgGUID: Hn2jvWYMQDyRQizp7bBszw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="57715466"
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="58879061"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 21:03:06 -0700
-X-CSE-ConnectionGUID: haV+AHFATI6rOl0WaV2ofg==
-X-CSE-MsgGUID: RRA+3anwTKq+4dknbLiV5w==
+   d="scan'208";a="57715466"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 22:36:15 -0700
+X-CSE-ConnectionGUID: NJQrhJnmSfCJg0Q5QrH0Aw==
+X-CSE-MsgGUID: ngripj2yQW6VXPcxtV5uug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="138799695"
+   d="scan'208";a="156953577"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Apr 2025 21:03:05 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 28 Apr 2025 22:36:14 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9cBT-0000SJ-0C;
-	Tue, 29 Apr 2025 04:03:03 +0000
-Date: Tue, 29 Apr 2025 12:02:27 +0800
+	id 1u9ddb-0000UJ-2j;
+	Tue, 29 Apr 2025 05:36:11 +0000
+Date: Tue, 29 Apr 2025 13:35:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+To: Linus Walleij <linus.walleij@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1597/1597]
- include/linux/ktask.h:123:35: warning: cast between incompatible function
- types from 'int (*)(long unsigned int,  long unsigned int,  struct hf_args
- *)' to 'int (*)(void *, void *, void *)'
-Message-ID: <202504291102.S4UEqzyV-lkp@intel.com>
+Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks 17/18]
+ arch/arm64/mm/fault.c:914:6: warning: no previous prototype for
+ 'do_stack_abort'
+Message-ID: <202504291308.KSvqxtSl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,52 +63,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   230c2b30f879859ac3e9d3cc46407a9dbb103160
-commit: 4733c59fabc3d9c145aca2f1c86b4872a7fb671d [1597/1597] hugetlbfs: parallelize hugetlbfs_fallocate with ktask
-config: arm64-randconfig-002-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291102.S4UEqzyV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291102.S4UEqzyV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks
+head:   6f50dac461ca66220a13a927db438e4a75708444
+commit: 9f8b2eeb16285187ca7653f6e4ad94fdb43c9096 [17/18] HACK: aarch64 dynamic stack
+config: arm64-randconfig-003-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291308.KSvqxtSl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291308.KSvqxtSl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504291102.S4UEqzyV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504291308.KSvqxtSl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/hugetlbfs/inode.c:39:
-   fs/hugetlbfs/inode.c: In function 'hugetlbfs_fallocate':
->> include/linux/ktask.h:123:35: warning: cast between incompatible function types from 'int (*)(long unsigned int,  long unsigned int,  struct hf_args *)' to 'int (*)(void *, void *, void *)' [-Wcast-function-type]
-     123 |                 .kc_thread_func = (ktask_thread_func)(thread_func),          \
-         |                                   ^
-   include/linux/ktask.h:139:17: note: in expansion of macro 'KTASK_CTL_INITIALIZER'
-     139 |                 KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size) \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   fs/hugetlbfs/inode.c:635:17: note: in expansion of macro 'DEFINE_KTASK_CTL'
-     635 |                 DEFINE_KTASK_CTL(ctl, hugetlbfs_fallocate_chunk,
-         |                 ^~~~~~~~~~~~~~~~
+>> arch/arm64/mm/fault.c:914:6: warning: no previous prototype for 'do_stack_abort' [-Wmissing-prototypes]
+     914 | void do_stack_abort(unsigned long far, struct pt_regs *regs)
+         |      ^~~~~~~~~~~~~~
 
 
-vim +123 include/linux/ktask.h
+vim +/do_stack_abort +914 arch/arm64/mm/fault.c
 
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  120  
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  121  #define KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size)	     \
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  122  	{								     \
-c48676ef6b6f9cb Daniel Jordan 2019-08-14 @123  		.kc_thread_func = (ktask_thread_func)(thread_func),	     \
-69cc5b58cc50d2f Daniel Jordan 2019-08-14  124  		.kc_undo_func = NULL,					     \
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  125  		.kc_func_arg = (func_arg),				     \
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  126  		.kc_min_chunk_size = (min_chunk_size),			     \
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  127  		.kc_iter_func = (ktask_iter_range),			     \
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  128  		.kc_max_threads = 0,					     \
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  129  	}
-c48676ef6b6f9cb Daniel Jordan 2019-08-14  130  
-
-:::::: The code at line 123 was first introduced by commit
-:::::: c48676ef6b6f9cb8497d6264ae9ff71b87630337 ktask: multithread CPU-intensive kernel work
-
-:::::: TO: Daniel Jordan <daniel.m.jordan@oracle.com>
-:::::: CC: Xie XiuQi <xiexiuqi@huawei.com>
+   913	
+ > 914	void do_stack_abort(unsigned long far, struct pt_regs *regs)
+   915	{
+   916		unsigned long addr = untagged_addr(far);
+   917	
+   918		/* Deal with dynamic pagiong in of new physical stack pages */
+   919		if (!dynamic_stack_fault(current, addr)) {
+   920			/* Not good */
+   921			unsigned long esr = read_sysreg(esr_el1);
+   922			die_kernel_fault("dynamic_stack_fault", addr, esr, regs);
+   923		}
+   924	}
+   925	
 
 -- 
 0-DAY CI Kernel Test Service
