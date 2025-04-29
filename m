@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899DA2741C2;
-	Tue, 29 Apr 2025 22:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA69129E04F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 22:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745966307; cv=none; b=hUGfsrFiqRNi4G2rWgSdR58Cu4u3bSrmF2yFBwfX9x7foxxy0dL77Yof+i5D9bHeYQT6u2m69XuWtcyLXG8ocQfKPvCgIzHxTG6YkVQMC8wDMBdzMJ1dXtZ7f3CBaQlTsslnf/CbOYO1TXU7yJ9STbVEonMmRPHGg9huQMeM+hg=
+	t=1745967028; cv=none; b=VhJMeqkM9mCTJkOg20B5vLuDufJIDvkQh6QjjI9xX0jn9rhScsZphWKQBYVZYFHrBcoFkpBaxsftGvOkfq6v4biQZIgfA700XW/JrvWEzWcO1m0OybpAfkG8FMKfI9v6nZt0npXVPnzZuY2lIk66J1TlMXmf3tZQovSK3/WDmH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745966307; c=relaxed/simple;
-	bh=9j0OBpPTy7CNxdm0ZJpE9tcdc4Fsfevskh7TEvuHBAc=;
+	s=arc-20240116; t=1745967028; c=relaxed/simple;
+	bh=qcATI4kyA6jhncucsOvHAR8+CWkUQbOfdkfLUWaOrcI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gxVh62b9Sbzji+YG/d4i9243wHLBeuaLYSCjR4aKlGM9q9WtcOLdLziHtxn/0eYoVoaxI4xASSSAX4H4ljS9mwi1CAoUMz843BuNLWefX5YXj0Pr0x0bMOT8lVa5FALfhKgSqdchy5UOiwMcS93fVybRxqTMwqlBrSd5j1XqlHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhTK47+t; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=JkZYYy/ZZwVdwboFnFJNCW75bxfh2d+eOvYq53xDSr+CR00Fgd6o7L8OwRHyRj0B9ST3qPo5eQLx4AtVEOezqahdzN211fMTGnKsYmkrjCjwDcrs9JwifCNo2Omo1LTi/3ssQLzFf2n09hCpCHOOiqW736fCsMANpfRslOcMHpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUcvWGQk; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhTK47+t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUcvWGQk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745966306; x=1777502306;
+  t=1745967026; x=1777503026;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9j0OBpPTy7CNxdm0ZJpE9tcdc4Fsfevskh7TEvuHBAc=;
-  b=hhTK47+tWiAs99FfIiakRrxdOI8b/948vAD97ym5zRr5PiWXMNrpulCR
-   tyJGkn5PmpLBN8hEeJfHY1ciLV+gw8Ht7KeXborJFxL6X0bgCghRKX9gl
-   xrRbCC9n/nekZiF3ftAfC7xb/HKwX704TltJUPcXIFCRu7EJ/FIKjpW6R
-   C3RUvRWrV+y18BRndl/x+41fz9uA0a1XomGF+Tx26lFvHndArIIQWd13k
-   Fjb+7eT02hB5fQrYDsJlwUvXjP5v1IcOWUnqvvvsR23WQZl8IMS4EFo+x
-   LbTJCvWa6dRT5J3xlseiyXWLAqzG96Wi19lRAZhgJzRrzIjoJm1yA+YkF
-   A==;
-X-CSE-ConnectionGUID: +WRoZEa9RN2YwqGTsrP7hA==
-X-CSE-MsgGUID: ylgtVBY2SYa5+RLOYGopzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51427994"
+  bh=qcATI4kyA6jhncucsOvHAR8+CWkUQbOfdkfLUWaOrcI=;
+  b=SUcvWGQksVw8g8B83Vb6hTYK57rxrIAsKAiVLqfPWP+KXmEwj7V45+3Q
+   h9nmDVsKKFPS/qpIKRr/GthGqxBQklJ0VzyfWDfQjwgCx2aK3W08Ucm9x
+   9N1VFTx9shd2L8QH0sJNp0oFgTFV1sYaJVxk/MhnGgNQQpsy6uEBDxC3V
+   W2+OQn/X6I1i7iC9rEnIchdg5ngnP57P6F9t41Jlum+LHpc1pgM7RqRki
+   B3MlVrdywuHKOOZle+0w7KMvBhv7OzQoAxdZ9AXOC7vvHZUuCLzyzMoYK
+   MwgSPjzwSGh2wTFUKOEfvDGGjvBuAAms1XePk4VNC7SDcMljgFgbMLsVY
+   Q==;
+X-CSE-ConnectionGUID: a5Ogg9D/T8KfjfC4zZi9Ew==
+X-CSE-MsgGUID: jhFiAUuTRw+gLLbE4jbflg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58267198"
 X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="51427994"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 15:38:23 -0700
-X-CSE-ConnectionGUID: HmcNqxyQTMW8M/btigjxDQ==
-X-CSE-MsgGUID: dOALC5XtQh+q5bhAJOzfnQ==
+   d="scan'208";a="58267198"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 15:50:25 -0700
+X-CSE-ConnectionGUID: 3sxme/OSTHKde+zSe7BqoQ==
+X-CSE-MsgGUID: K8PuLYrmQg+/5BqBVOeUkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="138765459"
+   d="scan'208";a="133842176"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Apr 2025 15:38:21 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Apr 2025 15:50:23 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9tal-0002zm-2S;
-	Tue, 29 Apr 2025 22:38:19 +0000
-Date: Wed, 30 Apr 2025 06:37:36 +0800
+	id 1u9tmO-000305-1o;
+	Tue, 29 Apr 2025 22:50:20 +0000
+Date: Wed, 30 Apr 2025 06:50:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [jgunthorpe:iommu_pt 19/22] ld.lld: error: undefined symbol:
- pt_iommu_x86_64_hw_info
-Message-ID: <202504300622.6hXIcimG-lkp@intel.com>
+To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: drivers/memory/emif.c:70: warning: Function parameter or struct
+ member 'lpmode' not described in 'emif_data'
+Message-ID: <202504300653.UsxspPy7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,73 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   c1dec260d8b78443ef82054138c29a8d3d155a74
-commit: ee6aae7327cd34c61889435908500dbce710d984 [19/22] iommu/amd: Use the generic iommu page table
-config: x86_64-buildonly-randconfig-006-20250430 (https://download.01.org/0day-ci/archive/20250430/202504300622.6hXIcimG-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300622.6hXIcimG-lkp@intel.com/reproduce)
+Hi Sergei,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ca91b9500108d4cf083a635c2e11c884d5dd20ea
+commit: ca7d8b980b67f133317525c4273e144116ee1ae5 memory: add Renesas RPC-IF driver
+date:   4 years, 10 months ago
+config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250430/202504300653.UsxspPy7-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300653.UsxspPy7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504300622.6hXIcimG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504300653.UsxspPy7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: pt_iommu_x86_64_hw_info
-   >>> referenced by iommu.c:2144 (drivers/iommu/amd/iommu.c:2144)
-   >>>               vmlinux.o:(amd_iommu_attach_device)
---
->> ld.lld: error: undefined symbol: pt_iommu_amdv1_hw_info
-   >>> referenced by iommu.c:2029 (drivers/iommu/amd/iommu.c:2029)
-   >>>               vmlinux.o:(set_dte_entry)
---
->> ld.lld: error: undefined symbol: pt_iommu_x86_64_unmap_pages
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(amdv2_ops)
---
->> ld.lld: error: undefined symbol: pt_iommu_amdv1_init
-   >>> referenced by iommu.c:2608 (drivers/iommu/amd/iommu.c:2608)
-   >>>               vmlinux.o:(amd_iommu_domain_alloc_paging_v1)
---
->> ld.lld: error: undefined symbol: pt_iommu_x86_64_init
-   >>> referenced by iommu.c:2669 (drivers/iommu/amd/iommu.c:2669)
-   >>>               vmlinux.o:(amd_iommu_domain_alloc_paging_v2)
---
->> ld.lld: error: undefined symbol: pt_iommu_amdv1_read_and_clear_dirty
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(amdv1_dirty_ops)
---
->> ld.lld: error: undefined symbol: pt_iommu_amdv1_map_pages
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(amdv1_ops)
---
->> ld.lld: error: undefined symbol: pt_iommu_amdv1_iova_to_phys
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(amdv1_ops)
---
->> ld.lld: error: undefined symbol: pt_iommu_amdv1_unmap_pages
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(amdv1_ops)
---
->> ld.lld: error: undefined symbol: pt_iommu_x86_64_map_pages
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(amdv2_ops)
---
->> ld.lld: error: undefined symbol: pt_iommu_x86_64_iova_to_phys
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(amdv2_ops)
+>> drivers/memory/emif.c:70: warning: Function parameter or struct member 'lpmode' not described in 'emif_data'
+   drivers/memory/emif.c:70: warning: Function parameter or struct member 'irq_state' not described in 'emif_data'
+   drivers/memory/emif.c:70: warning: Function parameter or struct member 'addressing' not described in 'emif_data'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_PT_AMDV1
-   Depends on [n]: GENERIC_PT [=n] && IOMMU_PT [=n] && !GENERIC_ATOMIC64 [=n]
-   Selected by [y]:
-   - AMD_IOMMU [=y] && IOMMU_SUPPORT [=y] && X86_64 [=y] && PCI [=y] && ACPI [=y] && HAVE_CMPXCHG_DOUBLE [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_PT_X86_64
-   Depends on [n]: GENERIC_PT [=n] && IOMMU_PT [=n] && !GENERIC_ATOMIC64 [=n]
-   Selected by [y]:
-   - AMD_IOMMU [=y] && IOMMU_SUPPORT [=y] && X86_64 [=y] && PCI [=y] && ACPI [=y] && HAVE_CMPXCHG_DOUBLE [=y]
+
+vim +70 drivers/memory/emif.c
+
+7ec944538dde3d7 Aneesh V 2012-04-27  30  
+7ec944538dde3d7 Aneesh V 2012-04-27  31  /**
+7ec944538dde3d7 Aneesh V 2012-04-27  32   * struct emif_data - Per device static data for driver's use
+7ec944538dde3d7 Aneesh V 2012-04-27  33   * @duplicate:			Whether the DDR devices attached to this EMIF
+7ec944538dde3d7 Aneesh V 2012-04-27  34   *				instance are exactly same as that on EMIF1. In
+7ec944538dde3d7 Aneesh V 2012-04-27  35   *				this case we can save some memory and processing
+7ec944538dde3d7 Aneesh V 2012-04-27  36   * @temperature_level:		Maximum temperature of LPDDR2 devices attached
+7ec944538dde3d7 Aneesh V 2012-04-27  37   *				to this EMIF - read from MR4 register. If there
+7ec944538dde3d7 Aneesh V 2012-04-27  38   *				are two devices attached to this EMIF, this
+7ec944538dde3d7 Aneesh V 2012-04-27  39   *				value is the maximum of the two temperature
+7ec944538dde3d7 Aneesh V 2012-04-27  40   *				levels.
+7ec944538dde3d7 Aneesh V 2012-04-27  41   * @node:			node in the device list
+7ec944538dde3d7 Aneesh V 2012-04-27  42   * @base:			base address of memory-mapped IO registers.
+7ec944538dde3d7 Aneesh V 2012-04-27  43   * @dev:			device pointer.
+a93de288aad3b04 Aneesh V 2012-04-27  44   * @addressing			table with addressing information from the spec
+a93de288aad3b04 Aneesh V 2012-04-27  45   * @regs_cache:			An array of 'struct emif_regs' that stores
+a93de288aad3b04 Aneesh V 2012-04-27  46   *				calculated register values for different
+a93de288aad3b04 Aneesh V 2012-04-27  47   *				frequencies, to avoid re-calculating them on
+a93de288aad3b04 Aneesh V 2012-04-27  48   *				each DVFS transition.
+a93de288aad3b04 Aneesh V 2012-04-27  49   * @curr_regs:			The set of register values used in the last
+a93de288aad3b04 Aneesh V 2012-04-27  50   *				frequency change (i.e. corresponding to the
+a93de288aad3b04 Aneesh V 2012-04-27  51   *				frequency in effect at the moment)
+7ec944538dde3d7 Aneesh V 2012-04-27  52   * @plat_data:			Pointer to saved platform data.
+aac10aaa8cc65a6 Aneesh V 2012-04-27  53   * @debugfs_root:		dentry to the root folder for EMIF in debugfs
+e6b42eb6a66c188 Aneesh V 2012-08-17  54   * @np_ddr:			Pointer to ddr device tree node
+7ec944538dde3d7 Aneesh V 2012-04-27  55   */
+7ec944538dde3d7 Aneesh V 2012-04-27  56  struct emif_data {
+7ec944538dde3d7 Aneesh V 2012-04-27  57  	u8				duplicate;
+7ec944538dde3d7 Aneesh V 2012-04-27  58  	u8				temperature_level;
+a93de288aad3b04 Aneesh V 2012-04-27  59  	u8				lpmode;
+7ec944538dde3d7 Aneesh V 2012-04-27  60  	struct list_head		node;
+a93de288aad3b04 Aneesh V 2012-04-27  61  	unsigned long			irq_state;
+7ec944538dde3d7 Aneesh V 2012-04-27  62  	void __iomem			*base;
+7ec944538dde3d7 Aneesh V 2012-04-27  63  	struct device			*dev;
+a93de288aad3b04 Aneesh V 2012-04-27  64  	const struct lpddr2_addressing	*addressing;
+a93de288aad3b04 Aneesh V 2012-04-27  65  	struct emif_regs		*regs_cache[EMIF_MAX_NUM_FREQUENCIES];
+a93de288aad3b04 Aneesh V 2012-04-27  66  	struct emif_regs		*curr_regs;
+7ec944538dde3d7 Aneesh V 2012-04-27  67  	struct emif_platform_data	*plat_data;
+aac10aaa8cc65a6 Aneesh V 2012-04-27  68  	struct dentry			*debugfs_root;
+e6b42eb6a66c188 Aneesh V 2012-08-17  69  	struct device_node		*np_ddr;
+7ec944538dde3d7 Aneesh V 2012-04-27 @70  };
+7ec944538dde3d7 Aneesh V 2012-04-27  71  
+
+:::::: The code at line 70 was first introduced by commit
+:::::: 7ec944538dde3d7f490bd4d2619051789db5c3c3 memory: emif: add basic infrastructure for EMIF driver
+
+:::::: TO: Aneesh V <aneesh@ti.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
