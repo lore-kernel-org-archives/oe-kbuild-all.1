@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D92726B09D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 21:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDBB26A1CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 21:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745961263; cv=none; b=orpCnxAmWfCRRIDjgd4Pzd8cs+bQM1jEXd8iVySjUXQIH9JE8Yx1zvai4mETi7YljOd2+c5x4aaEum4CNU/XG7zPFY/Rfe+bJTTb4IP/yWabe2ho7KA3byiTAcKiaaL6+OM3GLujYBGQA9+Rkm2FZif6HsnxeLZ4zP1FlI05maE=
+	t=1745961263; cv=none; b=LhbkPQX4Wf+C81ZRhorq/BBcBQbelCRfk6bJmbH3ZVI/L9k0cH8WPl206fxNqSzsAY/1DEReUtQRhpv3AfhvrC7YbZ65UtF7+fpdGlE01hr5UPKkiP4fx0Mj3yLrK8CfpzLgIwTcvryXEU4lhNgQFh2kmWrFo2OfGj9SojU1NPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745961263; c=relaxed/simple;
-	bh=TH5lMGSmLE+dQlUkLLDYKm0u56KH6U9rLKnY9wwf9qg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZWZu1u3sm2xgrAO0PCPr5dVdDlJ+y4uLVRY5uxb9yqyP+jdrp4/G4TATwN4ifdXhyTS71kRX9giIOBoyF98bK7d97M5yqfbS0fwmFFz8jtDiCYUZ3ZyhQCnt+ZDTsgrv0SeTQAJB2Lfyagy4NlBCorsKEArSqgo34vN3RYfutqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R5wxYpd0; arc=none smtp.client-ip=192.198.163.11
+	bh=PflBi2rPgQ1EdgttHcHKn4P6Fa1vBz0HVP9n3BaZvks=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ht+X0PfB7uqFmJNffwjfVfDzxYXY6De/IPjgZdggbMrqwncJ/jX+SX63dkNprvbUY5hMvo0R6t+EUsKm+spxpk4QjAo9cxGNmPpx2fQurDWBkYrUEeXW6RgDFQclvkyFDNXhuUViz2X3rCEGlyUMeTvYekQvsNGGZFdUKznjEIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpPNQZMd; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R5wxYpd0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpPNQZMd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745961261; x=1777497261;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TH5lMGSmLE+dQlUkLLDYKm0u56KH6U9rLKnY9wwf9qg=;
-  b=R5wxYpd0wIUhv3HG9MhZ7pwDK4BD1PR8ZdtsV6W9EfU5sipY8XQnBahx
-   4YCm1WWh7Rjus6CZQZ5x313Dz+gozAGdFePaz4qpNab+b3JvAxelA8Tx/
-   /1modL5f3L6DEiIrG84edVsFwk2nOrlSAxSyyd70j1erPcU6LJiu1sKBs
-   ZeRsUJWFG1YqgRj8Tt5F601JFWbcJqJKW7cndytVajeERd+I4E3BgWfAu
-   HDu/fpz33HesbvCakaQb1xljgj87/4H7ikYoZMFYBOQ+TCllNSeZfad3y
-   kZHNqbtC6plaTjnU4ri2ezrBlEwCDh4eBOExdn6qeL8H6yVlEVOh8tVuv
-   A==;
-X-CSE-ConnectionGUID: mfO2ikXdQkORvDnI/u466w==
-X-CSE-MsgGUID: 8hURphpPT9qIQHHTxbHqMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58238113"
+  t=1745961262; x=1777497262;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PflBi2rPgQ1EdgttHcHKn4P6Fa1vBz0HVP9n3BaZvks=;
+  b=HpPNQZMdGO6HOTAVXF9TSo81zgYAIM1bJsO/xnhIvbqNXQBwiwOIp++N
+   CZa8hxSewYlwGUuK73VsZECLQu0LWP1Pgav8W8RBBYIbPH/UfhVZaSh27
+   Q1S6eNEI0/tRlIObqy5wFSTQ3oGzk7rKTV+bqFO8HCx+81W6NfKMmIBU6
+   ic78cH8W7G8rFmN94XeLkIHONG9KYcz31jpDA1E3OHO2tHqDTU/czrvir
+   E8kIsnrTepYD57eIExe/4gZH2Lrr/GntSk+1KCetH6Elbf6kwipx4llAy
+   WHdxofEqM58tqr+aHQ3VSehSRh6ghg+GUGbdAxTRzOeBw3eODWAOkZPW7
+   g==;
+X-CSE-ConnectionGUID: h7QUdOXdSgaIuZ39hzFFnw==
+X-CSE-MsgGUID: qBWph2Y6THSR+uuu0h0jaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58969092"
 X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="58238113"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 14:14:21 -0700
-X-CSE-ConnectionGUID: 2IDhdWGESXm/OvnscH2nuQ==
-X-CSE-MsgGUID: fZMpIpWAQySJ6KH8MHi5eg==
+   d="scan'208";a="58969092"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 14:14:21 -0700
+X-CSE-ConnectionGUID: ubYRL+JySqqHvWJ8qKc5Kw==
+X-CSE-MsgGUID: kAjx4/nVRzGxQxzdtKfIXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="171173419"
+   d="scan'208";a="134439292"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2025 14:14:19 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 Apr 2025 14:14:19 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9sHQ-0002xD-2J;
+	id 1u9sHQ-0002xF-2N;
 	Tue, 29 Apr 2025 21:14:16 +0000
-Date: Wed, 30 Apr 2025 05:13:17 +0800
+Date: Wed, 30 Apr 2025 05:13:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC V1 6/6] powerpc: Enable Generic Entry/Exit for syscalls.
-Message-ID: <202504300413.Lm1Kilgl-lkp@intel.com>
-References: <20250428152225.66044-9-mchauras@linux.ibm.com>
+Subject: [android-common:android11-5.4 0/1]
+ drivers/gpu/drm/bridge/lt9611.c:886: undefined reference to
+ `mipi_dsi_detach'
+Message-ID: <202504300539.msyZAwlI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,140 +62,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250428152225.66044-9-mchauras@linux.ibm.com>
 
-Hi Mukesh,
+Hi Bjorn,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on powerpc/next]
-[also build test ERROR on powerpc/fixes linus/master v6.15-rc4 next-20250429]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Chaurasiya/powerpc-rename-arch_irq_disabled_regs/20250428-232533
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20250428152225.66044-9-mchauras%40linux.ibm.com
-patch subject: [RFC V1 6/6] powerpc: Enable Generic Entry/Exit for syscalls.
-config: powerpc-randconfig-003-20250430 (https://download.01.org/0day-ci/archive/20250430/202504300413.Lm1Kilgl-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300413.Lm1Kilgl-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   1aec9e76fe4a65b0a26fa1b30bdb3400d9728b2d
+commit: e6a29264cb40ef13183ab065e391f320fbcf3ecc [0/1] ANDROID: drm/bridge: Introduce LT9611 DSI to HDMI bridge
+config: i386-randconfig-063-20250429 (https://download.01.org/0day-ci/archive/20250430/202504300539.msyZAwlI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504300539.msyZAwlI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504300413.Lm1Kilgl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504300539.msyZAwlI-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:5:0,
-                    from arch/powerpc/include/asm/bug.h:116,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/powerpc/include/asm/processor.h:41,
-                    from include/linux/sched.h:13,
-                    from include/linux/context_tracking.h:5,
-                    from arch/powerpc/kernel/interrupt.c:3:
-   arch/powerpc/kernel/interrupt.c: In function 'syscall_exit_prepare':
->> arch/powerpc/kernel/interrupt.c:212:16: error: 'local_paca' undeclared (first use in this function); did you mean 'local_inc'?
-     if (unlikely((local_paca->generic_fw_flags & GFW_RESTORE_ALL) == GFW_RESTORE_ALL)) {
-                   ^
-   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
-    # define unlikely(x) __builtin_expect(!!(x), 0)
-                                             ^
-   arch/powerpc/kernel/interrupt.c:212:16: note: each undeclared identifier is reported only once for each function it appears in
-     if (unlikely((local_paca->generic_fw_flags & GFW_RESTORE_ALL) == GFW_RESTORE_ALL)) {
-                   ^
-   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
-    # define unlikely(x) __builtin_expect(!!(x), 0)
-                                             ^
---
-   arch/powerpc/kernel/signal.c: In function 'arch_do_signal_or_restart':
->> arch/powerpc/kernel/signal.c:376:2: error: 'local_paca' undeclared (first use in this function); did you mean 'local_inc'?
-     local_paca->generic_fw_flags |= GFW_RESTORE_ALL;
-     ^~~~~~~~~~
-     local_inc
-   arch/powerpc/kernel/signal.c:376:2: note: each undeclared identifier is reported only once for each function it appears in
---
->> arch/powerpc/kernel/ptrace/ptrace.c:196:12: warning: 'do_seccomp' defined but not used [-Wunused-function]
-    static int do_seccomp(struct pt_regs *regs)
-               ^~~~~~~~~~
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: drivers/gpu/drm/bridge/lt9611.o: in function `lt9611_bridge_detach':
+>> drivers/gpu/drm/bridge/lt9611.c:886: undefined reference to `mipi_dsi_detach'
+>> ld: drivers/gpu/drm/bridge/lt9611.c:887: undefined reference to `mipi_dsi_device_unregister'
+>> ld: drivers/gpu/drm/bridge/lt9611.c:890: undefined reference to `mipi_dsi_detach'
+   ld: drivers/gpu/drm/bridge/lt9611.c:891: undefined reference to `mipi_dsi_device_unregister'
+   ld: drivers/gpu/drm/bridge/lt9611.o: in function `lt9611_attach_dsi':
+>> drivers/gpu/drm/bridge/lt9611.c:808: undefined reference to `of_find_mipi_dsi_host_by_node'
+>> ld: drivers/gpu/drm/bridge/lt9611.c:814: undefined reference to `mipi_dsi_device_register_full'
+>> ld: drivers/gpu/drm/bridge/lt9611.c:825: undefined reference to `mipi_dsi_attach'
+   ld: drivers/gpu/drm/bridge/lt9611.c:828: undefined reference to `mipi_dsi_device_unregister'
+   ld: drivers/gpu/drm/bridge/lt9611.o: in function `lt9611_bridge_attach':
+>> drivers/gpu/drm/bridge/lt9611.c:876: undefined reference to `mipi_dsi_device_unregister'
 
 
-vim +212 arch/powerpc/kernel/interrupt.c
+vim +886 drivers/gpu/drm/bridge/lt9611.c
 
-   153	
-   154	/*
-   155	 * This should be called after a syscall returns, with r3 the return value
-   156	 * from the syscall. If this function returns non-zero, the system call
-   157	 * exit assembly should additionally load all GPR registers and CTR and XER
-   158	 * from the interrupt frame.
-   159	 *
-   160	 * The function graph tracer can not trace the return side of this function,
-   161	 * because RI=0 and soft mask state is "unreconciled", so it is marked notrace.
-   162	 */
-   163	notrace unsigned long syscall_exit_prepare(unsigned long r3,
-   164						   struct pt_regs *regs,
-   165						   long scv)
-   166	{
-   167		unsigned long ti_flags;
-   168		unsigned long ret = 0;
-   169		bool is_not_scv = !IS_ENABLED(CONFIG_PPC_BOOK3S_64) || !scv;
-   170	
-   171		kuap_assert_locked();
-   172	
-   173		regs->result = r3;
-   174	
-   175		ti_flags = read_thread_flags();
-   176	
-   177		if (unlikely(r3 >= (unsigned long)-MAX_ERRNO) && is_not_scv) {
-   178			if (likely(!(ti_flags & (_TIF_NOERROR | _TIF_RESTOREALL)))) {
-   179				r3 = -r3;
-   180				regs->ccr |= 0x10000000; /* Set SO bit in CR */
-   181			}
-   182		}
-   183	
-   184		if (unlikely(ti_flags & _TIF_PERSYSCALL_MASK)) {
-   185			if (ti_flags & _TIF_RESTOREALL)
-   186				ret = _TIF_RESTOREALL;
-   187			else
-   188				regs->gpr[3] = r3;
-   189			clear_bits(_TIF_PERSYSCALL_MASK, &current_thread_info()->flags);
-   190		} else {
-   191			regs->gpr[3] = r3;
-   192		}
-   193	
-   194		if (unlikely(ti_flags & _TIF_SYSCALL_DOTRACE)) {
-   195			ret |= _TIF_RESTOREALL;
-   196		}
-   197	
-   198	again:
-   199		syscall_exit_to_user_mode(regs);
-   200	
-   201		user_enter_irqoff();
-   202		if (!prep_irq_for_enabled_exit(true)) {
-   203			user_exit_irqoff();
-   204			local_irq_enable();
-   205			local_irq_disable();
-   206			goto again;
-   207		}
-   208	
-   209		/* Restore user access locks last */
-   210		kuap_user_restore(regs);
-   211	
- > 212		if (unlikely((local_paca->generic_fw_flags & GFW_RESTORE_ALL) == GFW_RESTORE_ALL)) {
-   213			ret |= _TIF_RESTOREALL;
-   214			local_paca->generic_fw_flags &= ~GFW_RESTORE_ALL;
-   215		}
-   216	#ifdef CONFIG_PPC64
-   217		regs->exit_result = ret;
-   218	#endif
-   219	
-   220		return ret;
-   221	}
-   222	
+   799	
+   800	static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
+   801							 struct device_node *dsi_node)
+   802	{
+   803		const struct mipi_dsi_device_info info = { "lt9611", 0, NULL };
+   804		struct mipi_dsi_device *dsi;
+   805		struct mipi_dsi_host *host;
+   806		int ret;
+   807	
+ > 808		host = of_find_mipi_dsi_host_by_node(dsi_node);
+   809		if (!host) {
+   810			dev_err(lt9611->dev, "failed to find dsi host\n");
+   811			return ERR_PTR(-EPROBE_DEFER);
+   812		}
+   813	
+ > 814		dsi = mipi_dsi_device_register_full(host, &info);
+   815		if (IS_ERR(dsi)) {
+   816			dev_err(lt9611->dev, "failed to create dsi device\n");
+   817			return dsi;
+   818		}
+   819	
+   820		dsi->lanes = 4;
+   821		dsi->format = MIPI_DSI_FMT_RGB888;
+   822		dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+   823				  MIPI_DSI_MODE_VIDEO_HSE;
+   824	
+ > 825		ret = mipi_dsi_attach(dsi);
+   826		if (ret < 0) {
+   827			dev_err(lt9611->dev, "failed to attach dsi to host\n");
+   828			mipi_dsi_device_unregister(dsi);
+   829			return ERR_PTR(ret);
+   830		}
+   831	
+   832		return dsi;
+   833	}
+   834	
+   835	static int lt9611_bridge_attach(struct drm_bridge *bridge)
+   836	{
+   837		struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+   838		int ret;
+   839	
+   840		dev_dbg(lt9611->dev, "bridge attach\n");
+   841	
+   842		ret = drm_connector_init(bridge->dev, &lt9611->connector,
+   843					 &lt9611_bridge_connector_funcs,
+   844					 DRM_MODE_CONNECTOR_HDMIA);
+   845		if (ret) {
+   846			DRM_ERROR("Failed to initialize connector with drm\n");
+   847			return ret;
+   848		}
+   849	
+   850		drm_connector_helper_add(&lt9611->connector,
+   851					 &lt9611_bridge_connector_helper_funcs);
+   852		drm_connector_attach_encoder(&lt9611->connector, bridge->encoder);
+   853	
+   854		if (!bridge->encoder) {
+   855			DRM_ERROR("Parent encoder object not found");
+   856			return -ENODEV;
+   857		}
+   858	
+   859		/* Attach primary DSI */
+   860		lt9611->dsi0 = lt9611_attach_dsi(lt9611, lt9611->dsi0_node);
+   861		if (IS_ERR(lt9611->dsi0))
+   862			return PTR_ERR(lt9611->dsi0);
+   863	
+   864		/* Attach secondary DSI, if specified */
+   865		if (lt9611->dsi1_node) {
+   866			lt9611->dsi1 = lt9611_attach_dsi(lt9611, lt9611->dsi1_node);
+   867			if (IS_ERR(lt9611->dsi1)) {
+   868				ret = PTR_ERR(lt9611->dsi1);
+   869				goto err_unregister_dsi0;
+   870			}
+   871		}
+   872	
+   873		return 0;
+   874	
+   875	err_unregister_dsi0:
+ > 876		mipi_dsi_device_unregister(lt9611->dsi0);
+   877	
+   878		return ret;
+   879	}
+   880	
+   881	static void lt9611_bridge_detach(struct drm_bridge *bridge)
+   882	{
+   883		struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+   884	
+   885		if (lt9611->dsi1) {
+ > 886			mipi_dsi_detach(lt9611->dsi1);
+ > 887			mipi_dsi_device_unregister(lt9611->dsi1);
+   888		}
+   889	
+ > 890		mipi_dsi_detach(lt9611->dsi0);
+   891		mipi_dsi_device_unregister(lt9611->dsi0);
+   892	}
+   893	
 
 -- 
 0-DAY CI Kernel Test Service
