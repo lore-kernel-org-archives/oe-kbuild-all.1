@@ -1,150 +1,469 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A066317E0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 08:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1866279338
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 09:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745916350; cv=none; b=EMfDE2nn8G8+kzlopDp+ttIKgYkIc5J4kY5KP++0PWF7C4aMLNNWIVOnkmZ5iWDkMyAEjuyjNtLqufvtIa3Xv7lOTgPRfuYXEQUbX2SEA1fhq9m0gnONlEvosooqETmoWqLGU7XZmQl5yX9cIYGr4QW1niktoFi/uBYRvK9xLHw=
+	t=1745920322; cv=none; b=XkQQBRBWDudxXr/PyoLKECtARrICMihAdyj/oF6YpY08m8d3z9ryMEAkxI4IHj+YeoNuvMm17UNqIFXKasUi+8JGjtbJcu4XwYOEu8FEZlwWq7prTlW0pix8yxEaL35yPXw/KkGIUFIIA7NCoakKOE8ZbNVO/OV1fRNlWRTl0ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745916350; c=relaxed/simple;
-	bh=WbvbuG34tjL3mqFCzXv1DrWhk6b5LMlwEDG1mGo4/5U=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=AYPQelVF1Ay+1xJ615PDWrJlOxBfiisB0sisK8S1GY3/YWGst8vd9fiddBIrrjO1QEgR2V6nDwqNTfmvbmQhUXYaywwbIm8zHGUvwrhVYO2S4s7BpII/Os5ii9JSj8EAqw8R/UPz9HUwgQoxKcmh+aO3OP+FIKsyXBFSlX9VSwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gVoyA+1D; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745920322; c=relaxed/simple;
+	bh=kUhHjZD6b0+b+iofLufMaBxzv6UJkA1SHyfJPgxmyLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DVCtVOk2hk8jdlAb4a13YEmZ83aepa+pri9SWUgD7/9Cowwv1KPB4t9lhrVxU28AcTb12pQvSKCP8g5w7+kZ0jxX48h/lTlI2kVtgfxyJbaRzOlMxDyZv034I6H07h8/pmEhDkFblanZ0NQWeJSlKSKmifueUVmwC4wkF9ruksQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nTprGztn; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gVoyA+1D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nTprGztn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745916349; x=1777452349;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=WbvbuG34tjL3mqFCzXv1DrWhk6b5LMlwEDG1mGo4/5U=;
-  b=gVoyA+1D2cby6gVKYELJzjmC48obaefarTHgMDBmzNiYGrmJP0r+Aw2w
-   VgNu9f8D52jRlb+raRr4RHdAoWOhOdsMR6euPafZWTR+F4H/x5dxGe8UP
-   P2p0BmhCXyCxQ7zRlxWG5axNoyMcokhwCymKqa4t6uyHXWhh5ajWImiVE
-   dNps5uuqNE0yaDNEnv4PmUX04xuPSdLrPMhWtQmGUmGIk1naCrPr4osoO
-   tOarVwnAlozQDtZRUMQVSK7dG+ybGn3HreyckiAzu5hgVpCSkrbXt89VD
-   F505D/IGAvoObawq4+LyiVbiqjB5Oj0LbQsce3qhCJIEnmRBbhioewW2c
-   g==;
-X-CSE-ConnectionGUID: psvvS5nHStSkk2UPXzolVg==
-X-CSE-MsgGUID: oma0hISBQhqU5OTYkl7DLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="72906403"
+  t=1745920317; x=1777456317;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kUhHjZD6b0+b+iofLufMaBxzv6UJkA1SHyfJPgxmyLs=;
+  b=nTprGztn9NU3SVXTjK54dEyLMljL5HZUcK8M9i7UM+XS4NuRbbOh+mOY
+   jZZ1BffLLLwT5aeVWBLb1JXNKmwu6cd03iCylkE72udWebPz+9DE91R3M
+   wDeND1U5ix+oQy1hyJoAMa/izefMKBo9Nf3glS+SazwEsZpH/0xVbl0vW
+   sE4iVADVj4y6HDoiGE4URNws9U7kA0u1Skml/jJ5XqYbiTGOy9upN1StK
+   cMf6K6RvtN3/FvrDRYbSGpVqXGSb0i17cVauSOAhQaLSYVkz8nvJbi8an
+   78uqzeVe2lVFo9kj+6HtDh2pMKhvsw4XC3EcnJt+QdRjuOyFWHZ4xpYfK
+   w==;
+X-CSE-ConnectionGUID: oJAr67WSQmuEGUvyDuFPhQ==
+X-CSE-MsgGUID: gzBg6bO8RJqx9KenUEjXMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="70037722"
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="72906403"
+   d="scan'208";a="70037722"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 01:45:48 -0700
-X-CSE-ConnectionGUID: upQmU7t2SgSqctIb/V5wxg==
-X-CSE-MsgGUID: p/XP9ISET/Gnh8D+12EOJw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 02:51:57 -0700
+X-CSE-ConnectionGUID: ivAKNJ4QTjmcfhd4PkXhSA==
+X-CSE-MsgGUID: xcDLQhVvQFWh0XFQljA4IQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="138754118"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.205])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 01:45:46 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 29 Apr 2025 11:45:42 +0300 (EEST)
-To: kernel test robot <lkp@intel.com>, Vadim Pasternak <vadimp@nvidia.com>
-cc: oe-kbuild-all@lists.linux.dev, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    Hans de Goede <hdegoede@redhat.com>, Michael Shych <michaelsh@nvidia.com>
-Subject: Re: [pdx86-platform-drivers-x86:review-ilpo-next 59/60]
- drivers/platform/mellanox/nvsw-sn2201.c:1303:14: warning: argument 1 null
- where non-null expected
-In-Reply-To: <202504290944.hOoFRFoq-lkp@intel.com>
-Message-ID: <6533a563-0d8f-9703-3887-24d28d889652@linux.intel.com>
-References: <202504290944.hOoFRFoq-lkp@intel.com>
+   d="scan'208";a="138765231"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 29 Apr 2025 02:51:54 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u9hd2-0000dH-0c;
+	Tue, 29 Apr 2025 09:51:52 +0000
+Date: Tue, 29 Apr 2025 17:51:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2175/2175]
+ drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:432:6: error: no
+ previous prototype for function 'sxe_debugfs_entries_init'
+Message-ID: <202504291722.ZB4nQmaR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 29 Apr 2025, kernel test robot wrote:
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   39356b4c041558637f7495ab0298150771a435ba
+commit: dd013ad487534c1838afc2f55efdb5daec15aace [2175/2175] Ethernet: Linkdata: Supports Linkdata ethernet Controllers
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250429/202504291722.ZB4nQmaR-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291722.ZB4nQmaR-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
-> head:   4d17f22bc6e9f6a9d94ee4313f6bf3cfa194726c
-> commit: bf180d44c6416f8e68c9a1fa349be008ccedd797 [59/60] platform: mellanox: nvsw-sn2200: Add support for new system flavour
-> config: x86_64-buildonly-randconfig-004-20250429 (https://download.01.org/0day-ci/archive/20250429/202504290944.hOoFRFoq-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290944.hOoFRFoq-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504290944.hOoFRFoq-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/platform/mellanox/nvsw-sn2201.c: In function 'nvsw_sn2201_probe':
-> >> drivers/platform/mellanox/nvsw-sn2201.c:1303:14: warning: argument 1 null where non-null expected [-Wnonnull]
->     1303 |         if (!strcmp(sku, "HI168"))
->          |              ^~~~~~~~~~~~~~~~~~~~
->    In file included from include/linux/bitmap.h:13,
->                     from include/linux/cpumask.h:12,
->                     from arch/x86/include/asm/tlbbatch.h:5,
->                     from include/linux/mm_types_task.h:17,
->                     from include/linux/sched.h:38,
->                     from include/linux/ratelimit.h:6,
->                     from include/linux/dev_printk.h:16,
->                     from include/linux/device.h:15,
->                     from drivers/platform/mellanox/nvsw-sn2201.c:8:
->    include/linux/string.h:161:12: note: in a call to function 'strcmp' declared 'nonnull'
->      161 | extern int strcmp(const char *,const char *);
->          |            ^~~~~~
-> 
-> 
-> vim +1303 drivers/platform/mellanox/nvsw-sn2201.c
-> 
->   1290	
->   1291	static int nvsw_sn2201_probe(struct platform_device *pdev)
->   1292	{
->   1293		struct nvsw_sn2201 *nvsw_sn2201;
->   1294		const char *sku;
->   1295		int ret;
->   1296	
->   1297		nvsw_sn2201 = devm_kzalloc(&pdev->dev, sizeof(*nvsw_sn2201), GFP_KERNEL);
->   1298		if (!nvsw_sn2201)
->   1299			return -ENOMEM;
->   1300	
->   1301		/* Validate system powering type - only HI168 SKU supports extrenal power. */
->   1302		sku = dmi_get_system_info(DMI_PRODUCT_SKU);
-> > 1303		if (!strcmp(sku, "HI168"))
->   1304			nvsw_sn2201->ext_pwr_source = true;
->   1305	
->   1306		nvsw_sn2201->dev = &pdev->dev;
->   1307		platform_set_drvdata(pdev, nvsw_sn2201);
->   1308		ret = platform_device_add_resources(pdev, nvsw_sn2201_lpc_io_resources,
->   1309					      ARRAY_SIZE(nvsw_sn2201_lpc_io_resources));
->   1310		if (ret)
->   1311			return ret;
->   1312	
->   1313		nvsw_sn2201->main_mux_deferred_nr = NVSW_SN2201_MAIN_MUX_DEFER_NR;
->   1314		nvsw_sn2201->main_mux_devs = nvsw_sn2201_main_mux_brdinfo;
->   1315		nvsw_sn2201->cpld_devs = nvsw_sn2201_cpld_brdinfo;
->   1316		if (nvsw_sn2201->ext_pwr_source) {
->   1317			nvsw_sn2201->sn2201_devs = nvsw_sn2201_busbar_static_brdinfo;
->   1318			nvsw_sn2201->sn2201_devs_num = ARRAY_SIZE(nvsw_sn2201_busbar_static_brdinfo);
->   1319		} else {
->   1320			nvsw_sn2201->sn2201_devs = nvsw_sn2201_static_brdinfo;
->   1321			nvsw_sn2201->sn2201_devs_num = ARRAY_SIZE(nvsw_sn2201_static_brdinfo);
->   1322		}
->   1323	
->   1324		return nvsw_sn2201_config_pre_init(nvsw_sn2201);
->   1325	}
->   1326	
-> 
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504291722.ZB4nQmaR-lkp@intel.com/
 
-Hi Vadim,
+All error/warnings (new ones prefixed by >>):
 
-As this change is only in the review-ilpo-next branch. I drop it and the 
-Documentation change, please fix this warning and resubmit the last two 
-patches, thank you.
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_xdp.c:11:
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_xdp.h:15:
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe.h:15:
+   In file included from include/linux/pci.h:1670:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_xdp.c:410:6: error: no previous prototype for function 'sxe_txrx_ring_enable' [-Werror,-Wmissing-prototypes]
+     410 | void sxe_txrx_ring_enable(struct sxe_adapter *adapter, u32 ring_idx)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_xdp.c:410:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     410 | void sxe_txrx_ring_enable(struct sxe_adapter *adapter, u32 ring_idx)
+         | ^
+         | static 
+   5 errors generated.
+--
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:14:
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe.h:15:
+   In file included from include/linux/pci.h:1670:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:432:6: error: no previous prototype for function 'sxe_debugfs_entries_init' [-Werror,-Wmissing-prototypes]
+     432 | void sxe_debugfs_entries_init(struct sxe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:432:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     432 | void sxe_debugfs_entries_init(struct sxe_adapter *adapter)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:459:6: error: no previous prototype for function 'sxe_debugfs_entries_exit' [-Werror,-Wmissing-prototypes]
+     459 | void sxe_debugfs_entries_exit(struct sxe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:459:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     459 | void sxe_debugfs_entries_exit(struct sxe_adapter *adapter)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:465:6: error: no previous prototype for function 'sxe_debugfs_init' [-Werror,-Wmissing-prototypes]
+     465 | void sxe_debugfs_init(void)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:465:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     465 | void sxe_debugfs_init(void)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:470:6: error: no previous prototype for function 'sxe_debugfs_exit' [-Werror,-Wmissing-prototypes]
+     470 | void sxe_debugfs_exit(void)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:470:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     470 | void sxe_debugfs_exit(void)
+         | ^
+         | static 
+   8 errors generated.
+--
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c:11:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c:2022:5: error: no previous prototype for function 'sxe_reg_test' [-Werror,-Wmissing-prototypes]
+    2022 | int sxe_reg_test(struct sxe_adapter *adapter)
+         |     ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c:2022:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2022 | int sxe_reg_test(struct sxe_adapter *adapter)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c:2644:5: error: no previous prototype for function 'sxe_phys_id_set' [-Werror,-Wmissing-prototypes]
+    2644 | int sxe_phys_id_set(struct net_device *netdev, enum ethtool_phys_id_state state)
+         |     ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c:2644:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2644 | int sxe_phys_id_set(struct net_device *netdev, enum ethtool_phys_id_state state)
+         | ^
+         | static 
+   6 errors generated.
+--
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:15:
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_pci.h:14:
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe.h:15:
+   In file included from include/linux/pci.h:1670:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:230:6: error: no previous prototype for function 'sxe_hw_no_snoop_disable' [-Werror,-Wmissing-prototypes]
+     230 | void sxe_hw_no_snoop_disable(struct sxe_hw *hw)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:230:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     230 | void sxe_hw_no_snoop_disable(struct sxe_hw *hw)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:262:6: error: no previous prototype for function 'sxe_hw_uc_addr_pool_del' [-Werror,-Wmissing-prototypes]
+     262 | void sxe_hw_uc_addr_pool_del(struct sxe_hw *hw, u32 rar_idx, u32 pool_idx)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:262:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     262 | void sxe_hw_uc_addr_pool_del(struct sxe_hw *hw, u32 rar_idx, u32 pool_idx)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:283:5: error: no previous prototype for function 'sxe_hw_uc_addr_pool_enable' [-Werror,-Wmissing-prototypes]
+     283 | s32 sxe_hw_uc_addr_pool_enable(struct sxe_hw *hw, u8 rar_idx, u8 pool_idx)
+         |     ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:283:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     283 | s32 sxe_hw_uc_addr_pool_enable(struct sxe_hw *hw, u8 rar_idx, u8 pool_idx)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:337:5: error: no previous prototype for function 'sxe_hw_nic_reset' [-Werror,-Wmissing-prototypes]
+     337 | s32 sxe_hw_nic_reset(struct sxe_hw *hw)
+         |     ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:337:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     337 | s32 sxe_hw_nic_reset(struct sxe_hw *hw)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:367:6: error: no previous prototype for function 'sxe_hw_pf_rst_done_set' [-Werror,-Wmissing-prototypes]
+     367 | void sxe_hw_pf_rst_done_set(struct sxe_hw *hw)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:367:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     367 | void sxe_hw_pf_rst_done_set(struct sxe_hw *hw)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:735:5: error: no previous prototype for function 'sxe_hw_pending_irq_read_clear' [-Werror,-Wmissing-prototypes]
+     735 | u32 sxe_hw_pending_irq_read_clear(struct sxe_hw *hw)
+         |     ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:735:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     735 | u32 sxe_hw_pending_irq_read_clear(struct sxe_hw *hw)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:740:6: error: no previous prototype for function 'sxe_hw_pending_irq_write_clear' [-Werror,-Wmissing-prototypes]
+     740 | void sxe_hw_pending_irq_write_clear(struct sxe_hw *hw, u32 value)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:740:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     740 | void sxe_hw_pending_irq_write_clear(struct sxe_hw *hw, u32 value)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:745:5: error: no previous prototype for function 'sxe_hw_irq_cause_get' [-Werror,-Wmissing-prototypes]
+     745 | u32 sxe_hw_irq_cause_get(struct sxe_hw *hw)
+         |     ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:745:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     745 | u32 sxe_hw_irq_cause_get(struct sxe_hw *hw)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:765:6: error: no previous prototype for function 'sxe_hw_ring_irq_auto_disable' [-Werror,-Wmissing-prototypes]
+     765 | void sxe_hw_ring_irq_auto_disable(struct sxe_hw *hw, bool is_msix)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:765:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     765 | void sxe_hw_ring_irq_auto_disable(struct sxe_hw *hw, bool is_msix)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:775:6: error: no previous prototype for function 'sxe_hw_irq_general_reg_set' [-Werror,-Wmissing-prototypes]
+     775 | void sxe_hw_irq_general_reg_set(struct sxe_hw *hw, u32 value)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     775 | void sxe_hw_irq_general_reg_set(struct sxe_hw *hw, u32 value)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:780:5: error: no previous prototype for function 'sxe_hw_irq_general_reg_get' [-Werror,-Wmissing-prototypes]
+     780 | u32 sxe_hw_irq_general_reg_get(struct sxe_hw *hw)
+         |     ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:780:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     780 | u32 sxe_hw_irq_general_reg_get(struct sxe_hw *hw)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:790:6: error: no previous prototype for function 'sxe_hw_event_irq_map' [-Werror,-Wmissing-prototypes]
+     790 | void sxe_hw_event_irq_map(struct sxe_hw *hw, u8 offset, u16 irq_idx)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:790:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     790 | void sxe_hw_event_irq_map(struct sxe_hw *hw, u8 offset, u16 irq_idx)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:806:6: error: no previous prototype for function 'sxe_hw_ring_irq_map' [-Werror,-Wmissing-prototypes]
+     806 | void sxe_hw_ring_irq_map(struct sxe_hw *hw, bool is_tx, u16 reg_idx,
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:806:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     806 | void sxe_hw_ring_irq_map(struct sxe_hw *hw, bool is_tx, u16 reg_idx,
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:823:6: error: no previous prototype for function 'sxe_hw_ring_irq_interval_set' [-Werror,-Wmissing-prototypes]
+     823 | void sxe_hw_ring_irq_interval_set(struct sxe_hw *hw, u16 irq_idx, u32 interval)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:823:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     823 | void sxe_hw_ring_irq_interval_set(struct sxe_hw *hw, u16 irq_idx, u32 interval)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:838:6: error: no previous prototype for function 'sxe_hw_event_irq_auto_clear_set' [-Werror,-Wmissing-prototypes]
+     838 | void sxe_hw_event_irq_auto_clear_set(struct sxe_hw *hw, u32 value)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:838:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     838 | void sxe_hw_event_irq_auto_clear_set(struct sxe_hw *hw, u32 value)
+         | ^
+         | static 
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:15:
+   In file included from include/linux/ethtool.h:18:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:136:5: error: no previous prototype for function 'sxe_msi_irq_init' [-Werror,-Wmissing-prototypes]
+     136 | int sxe_msi_irq_init(struct sxe_adapter *adapter)
+         |     ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:136:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     136 | int sxe_msi_irq_init(struct sxe_adapter *adapter)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:182:6: error: no previous prototype for function 'sxe_disable_dcb' [-Werror,-Wmissing-prototypes]
+     182 | void sxe_disable_dcb(struct sxe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:182:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     182 | void sxe_disable_dcb(struct sxe_adapter *adapter)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:212:6: error: no previous prototype for function 'sxe_disable_rss' [-Werror,-Wmissing-prototypes]
+     212 | void sxe_disable_rss(struct sxe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:212:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     212 | void sxe_disable_rss(struct sxe_adapter *adapter)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:729:6: error: no previous prototype for function 'sxe_lsc_irq_handler' [-Werror,-Wmissing-prototypes]
+     729 | void sxe_lsc_irq_handler(struct sxe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:729:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     729 | void sxe_lsc_irq_handler(struct sxe_adapter *adapter)
+         | ^
+         | static 
+>> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:745:6: error: no previous prototype for function 'sxe_mailbox_irq_handler' [-Werror,-Wmissing-prototypes]
+     745 | void sxe_mailbox_irq_handler(struct sxe_adapter *adapter)
+         |      ^
+   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:745:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     745 | void sxe_mailbox_irq_handler(struct sxe_adapter *adapter)
+         | ^
+         | static 
+   9 errors generated.
+..
+
+
+vim +/sxe_debugfs_entries_init +432 drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c
+
+   431	
+ > 432	void sxe_debugfs_entries_init(struct sxe_adapter *adapter)
+   433	{
+   434		struct dentry *dir;
+   435		const char *name = pci_name(adapter->pdev);
+   436	
+   437		adapter->debugfs_entries = debugfs_create_dir(name, sxe_debugfs_root);
+   438		dir = debugfs_create_file("reg_ops", 0600, adapter->debugfs_entries,
+   439					  adapter, &sxe_debugfs_reg_ops_fops);
+   440		if (!dir || dir == ERR_PTR(-ENODEV))
+   441			LOG_INFO_BDF("debugfs:reg_ops file create failed\n");
+   442	
+   443		dir = debugfs_create_file("netdev_ops", 0600, adapter->debugfs_entries,
+   444					  adapter, &sxe_debugfs_netdev_ops_fops);
+   445		if (!dir || dir == ERR_PTR(-ENODEV))
+   446			LOG_INFO_BDF("debugfs:netdev_ops file create failed\n");
+   447	
+   448		dir = debugfs_create_file("hw_stats", 0400, adapter->debugfs_entries,
+   449					  adapter, &sxe_debugfs_hw_stats_fops);
+   450		if (!dir || dir == ERR_PTR(-ENODEV))
+   451			LOG_INFO_BDF("debugfs:hw_stats file create failed\n");
+   452	
+   453		dir = debugfs_create_file("sfp_info", 0400, adapter->debugfs_entries,
+   454					  adapter, &sxe_debugfs_sfp_info_fops);
+   455		if (!dir || dir == ERR_PTR(-ENODEV))
+   456			LOG_INFO_BDF("debugfs:sfp_info file create failed\n");
+   457	}
+   458	
+ > 459	void sxe_debugfs_entries_exit(struct sxe_adapter *adapter)
+   460	{
+   461		debugfs_remove_recursive(adapter->debugfs_entries);
+   462		adapter->debugfs_entries = NULL;
+   463	}
+   464	
+ > 465	void sxe_debugfs_init(void)
+   466	{
+   467		sxe_debugfs_root = debugfs_create_dir(SXE_DRV_NAME, NULL);
+   468	}
+   469	
+ > 470	void sxe_debugfs_exit(void)
 
 -- 
- i.
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
