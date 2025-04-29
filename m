@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A82BE7B8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 13:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25933207
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 13:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745932664; cv=none; b=ofaYVot3bVhUDX0CQt2XRhT8C6/vRJyIqHypZrk9fBo1ydWjbJuQ2BwvTBRFV+O++3h9xFdSt/ymanRtN0pLMHvs2Lm+ZoBaxkO9jDqZFCSPeyDn5G1B0yhxuoN/HP7ZAI3xsOMbNPg2iu9qHKlAv5l8G9D0YQQoiTstxZcGmns=
+	t=1745933388; cv=none; b=ZHc386F/2iHOU7p2oMowxs7cjih7dOuev+vEuJvH5mhfNPDV+jqU7klJYSEelxQofsnS39Q7X83kidK88xsksBcrBKOrzLRTodnGpBU6NzW8RjwGsUA9FAzOOahx7df/e5qgqD4oEDT0inPA/mqT8KOjzmIUk3iIUvPfLJsvqjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745932664; c=relaxed/simple;
-	bh=enJ4/qe5OmyWpDDJsjG64GMBSx8d9uTciOJ+SI+QEP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BNYESN8kMqS4MI+iPf/Wzh0qQuWLsBv3CPDDYJpDiWag15gdKSYhSrblPYLAuPWurpA0d5D9vrulaB0u6uB+oIxIPGc9GAZ+5rZ5RVc1tXhdlDJRVJARinSkZcRRFxU2MUULOhZUT8otIxT0IYKPVq7bK/Scb5p+9UWbmm8Xgds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GI7SbQcu; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1745933388; c=relaxed/simple;
+	bh=Whwr+9l41YP9STYkQ/1ThI+dnOqAHdVf9Mdd37OTqX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tRcC7UB+zfU3HYG6gOV8vgsSDrf+tz5pQGKE/odW9pEGb+c3fwf8iPDpytJNpk6lPAKDwA31ttmNL7SvdKuIX6i/maBaEriwFSGfZma2NUa1p2VqEokrbLyMSAXOfmXNG2q+SF5RYJkP05wgEgbuCSUIIFdd9jFEg4Xc4xDwXRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Puib2IAs; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GI7SbQcu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Puib2IAs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745932663; x=1777468663;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=enJ4/qe5OmyWpDDJsjG64GMBSx8d9uTciOJ+SI+QEP0=;
-  b=GI7SbQcutMGaIXSmOGhdL0pEvDN0Pbvb5WbDJbBR45JQNSRPsAOfc4Q6
-   YYUl7vvEJ45xPAz0iXKwC+S7YOV9WAjMbDAgqatBdUTtTuQIPIJbmDNjn
-   GAVCu+InTah3B/Qdp8+FUc5JsP+jrQSYzifzGScKmyUS/sxWKP6oEGEKX
-   f8POazAMblZY6ui+zNkt/6FO+RpACRZbSreUUcIuiG8wtG/3gcApIL3Yh
-   59Ck8IlvEh30A24UoGzBO9nIRbl0EOyax6hKk/tR1orliJVOxa+WaGpja
-   KL8XCXQdzdA5WifH3R60lR+tDXS3CkeXmDPd2EDOhRJU6ohuzYpiJf4cT
+  t=1745933386; x=1777469386;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Whwr+9l41YP9STYkQ/1ThI+dnOqAHdVf9Mdd37OTqX0=;
+  b=Puib2IAsekkIOc3pOqXOGPjPtchNqdRSRLdOFJb8UNfepmt3GT6z927u
+   7HzymygwOr2n40b5EyieUF75h9FlXdkrpBkJHlLdxNQxQtwkdlCh9SaGM
+   59rDtbGTdmBNEIAhNg5PcYF9RwBMN2ZSz4dGHjhpGQ1UI+cAPz5wyRcrE
+   b9Ahc8vg0VjRXhgs80qbm6jd6JlFfXO1z46h66rjqx3Z7tszApvht68Qu
+   QH6Kvdg4UnnAgunHjuceaUctXhGLxjBsXTRbq+pKSXFBDZqXesurhYWe6
+   QmJBoogbm4LJ0UrUfWfKKLdudOWu6F1jyaxd/u1pBYY0rL3iLbQPe4i8Y
    Q==;
-X-CSE-ConnectionGUID: TsczCmX1QsS07SQpbWthPw==
-X-CSE-MsgGUID: nCv+OhdFRiSmOqKnYRtbbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58210218"
+X-CSE-ConnectionGUID: DEJtYvyiSvqb0aIFzmcBsg==
+X-CSE-MsgGUID: qEK9582mSwyC/FDq+0Mj7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51376306"
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="58210218"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 06:17:42 -0700
-X-CSE-ConnectionGUID: ZrHQZe2JTlKnPKat2lXGQg==
-X-CSE-MsgGUID: pRIkW2lQRlOtpE76hpmPuA==
+   d="scan'208";a="51376306"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 06:29:45 -0700
+X-CSE-ConnectionGUID: cmBLZoefS7Cieu8WlhaxWg==
+X-CSE-MsgGUID: /eu5IBmfRHSlYrIGiT80og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="138628671"
+   d="scan'208";a="133775633"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Apr 2025 06:17:40 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 29 Apr 2025 06:29:41 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9kqA-0000jb-1A;
-	Tue, 29 Apr 2025 13:17:38 +0000
-Date: Tue, 29 Apr 2025 21:16:45 +0800
+	id 1u9l1n-0000jn-0k;
+	Tue, 29 Apr 2025 13:29:39 +0000
+Date: Tue, 29 Apr 2025 21:28:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/common 5/6] fs/f2fs/data.c:153:52: error: 'sbi'
- undeclared
-Message-ID: <202504292118.Odh4ZSgo-lkp@intel.com>
+To: Pawel Dembicki <paweldembicki@gmail.com>, linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Pawel Dembicki <paweldembicki@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Greg KH <greg@kroah.com>,
+	Shen Lichuan <shenlichuan@vivo.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Charles Hsu <ythsu0511@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 5/5] dt-bindings: hwmon: Add bindings for mpq8785 driver
+Message-ID: <202504291853.nDOvzGEJ-lkp@intel.com>
+References: <20250428221420.2077697-6-paweldembicki@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,80 +72,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250428221420.2077697-6-paweldembicki@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
-head:   0d3a805efb57a446736f275ab88d6f8b29a3ad09
-commit: 238708a6490ffcfb6314c2a8b2238d2bf2b3178b [5/6] f2fs: fix to do sanity check on node footer in read_end_io
-config: sparc-randconfig-001-20250429 (https://download.01.org/0day-ci/archive/20250429/202504292118.Odh4ZSgo-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292118.Odh4ZSgo-lkp@intel.com/reproduce)
+Hi Pawel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.15-rc4 next-20250428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Dembicki/hwmon-pmbus-mpq8785-Prepare-driver-for-multiple-device-support/20250429-061658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250428221420.2077697-6-paweldembicki%40gmail.com
+patch subject: [PATCH 5/5] dt-bindings: hwmon: Add bindings for mpq8785 driver
+config: csky-randconfig-052-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291853.nDOvzGEJ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.5.0
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291853.nDOvzGEJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504292118.Odh4ZSgo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504291853.nDOvzGEJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/f2fs/data.c: In function 'f2fs_finish_read_bio':
->> fs/f2fs/data.c:153:52: error: 'sbi' undeclared (first use in this function)
-     153 |                 if (folio->mapping == NODE_MAPPING(sbi)) {
-         |                                                    ^~~
-   fs/f2fs/data.c:153:52: note: each undeclared identifier is reported only once for each function it appears in
->> fs/f2fs/data.c:154:29: error: implicit declaration of function 'sanity_check_node_footer' [-Werror=implicit-function-declaration]
-     154 |                         if (sanity_check_node_footer(sbi, folio, folio->index,
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/sbi +153 fs/f2fs/data.c
-
-   122	
-   123	/*
-   124	 * Update and unlock a bio's pages, and free the bio.
-   125	 *
-   126	 * This marks pages up-to-date only if there was no error in the bio (I/O error,
-   127	 * decryption error, or verity error), as indicated by bio->bi_status.
-   128	 *
-   129	 * "Compressed pages" (pagecache pages backed by a compressed cluster on-disk)
-   130	 * aren't marked up-to-date here, as decompression is done on a per-compression-
-   131	 * cluster basis rather than a per-bio basis.  Instead, we only must do two
-   132	 * things for each compressed page here: call f2fs_end_read_compressed_page()
-   133	 * with failed=true if an error occurred before it would have normally gotten
-   134	 * called (i.e., I/O error or decryption error, but *not* verity error), and
-   135	 * release the bio's reference to the decompress_io_ctx of the page's cluster.
-   136	 */
-   137	static void f2fs_finish_read_bio(struct bio *bio, bool in_task)
-   138	{
-   139		struct folio_iter fi;
-   140		struct bio_post_read_ctx *ctx = bio->bi_private;
-   141	
-   142		bio_for_each_folio_all(fi, bio) {
-   143			struct folio *folio = fi.folio;
-   144	
-   145			if (f2fs_is_compressed_page(&folio->page)) {
-   146				if (ctx && !ctx->decompression_attempted)
-   147					f2fs_end_read_compressed_page(&folio->page, true, 0,
-   148								in_task);
-   149				f2fs_put_folio_dic(folio, in_task);
-   150				continue;
-   151			}
-   152	
- > 153			if (folio->mapping == NODE_MAPPING(sbi)) {
- > 154				if (sanity_check_node_footer(sbi, folio, folio->index,
-   155							NODE_TYPE_REGULAR, true))
-   156					bio->bi_status = BLK_STS_IOERR;
-   157			}
-   158	
-   159			dec_page_count(F2FS_F_SB(folio), __read_io_type(folio));
-   160			folio_end_read(folio, bio->bi_status == 0);
-   161		}
-   162	
-   163		if (ctx)
-   164			mempool_free(ctx, bio_post_read_ctx_pool);
-   165		bio_put(bio);
-   166	}
-   167	
+>> Warning: Duplicate compatible "mps,mpq8785" found in schemas matching "$id":
+   	http://devicetree.org/schemas/trivial-devices.yaml#
+   	http://devicetree.org/schemas/hwmon/pmbus/mps,mpq8785.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
