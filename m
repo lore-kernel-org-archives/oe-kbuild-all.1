@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B192C10A9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 13:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17F22D193B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 14:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745934714; cv=none; b=bq8UV3RflHhEMjgwSlmMvlQ1qiX7HsnzGy9kTVnj1fE6/iNkRYFPwfBqjJL48ypTsqKwRvA+caJoUcxvfINnDPsY7ujqdOYZCulJK7ctHSPho15Mmwy4wTMfqFQWmS4hAktGm0FzTF+M8TncDUx3TXbOw2NgGRUBE35GX58DxBo=
+	t=1745935997; cv=none; b=u4SOJvhGqMOn9KuHxxVlMI9L258Qb6jE4PlXznjYrhR+zrmq/syzNT0xTEs2Kc4SBuOtrQuYmaOpkXDHq7IKcS9INxHTX91gcCsQhmsObm2pzYB/HJmsAbCALSaAjHsVwkBg+OWPRl3gxJrl593rGqX3xHFnPWyJKEnsqnvi900=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745934714; c=relaxed/simple;
-	bh=BbMMk5Ru/CCU0u4mHoBte1lXJvGLOzRWs/+YmnDaFlM=;
+	s=arc-20240116; t=1745935997; c=relaxed/simple;
+	bh=AkgpgKV7X9POGuJk6xqHjMbCCftfpKC/vgggx3BD5Mw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X2idHxGr4SWb8PQyUTaiuvvn9nHjucLl1+f43BJ4aXRIqN3dbqJGYO7Q/nbB+wTrsMUlf7Q2Fzc6pDcjsqyga9SaleO1MiDVHmovgCiRTjROrPPCzyaL3ZzQTu4fE3PiJf7DMl125uwMHxyIH2XX8wQZ5mluhjwiBBXSNqRhVe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjsMWqXk; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Hbz97lwccnGe4T40ELwnm4DjNcRfIu+SR9kZd4vgPY44XtI9hQZ6H8hjwfSo85RI4SY6/5PYj4ERxgpydTx3lSUlWpnh1mcVPOipj0BxoX3xlEhZDoJqxf4wyFKnIHjKaFNKM57iyAaTu++3bxgxptKV8uOl2VQuy/FQBRVzyAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yy7wIxnQ; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjsMWqXk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yy7wIxnQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745934710; x=1777470710;
+  t=1745935996; x=1777471996;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BbMMk5Ru/CCU0u4mHoBte1lXJvGLOzRWs/+YmnDaFlM=;
-  b=BjsMWqXkgBQLDEkX0noDoY17NQAUG3VJe2O5s2+LsNjvY7en1w0Utttv
-   NZvjvpSXGXvWTA3GRS2VJuvpwTypfZcuef5q4cS7Yj0B0zD0XwBEIWezY
-   pIedXOJE0ev3W6VNQdUO/xJWrhw8qAFNoamz5FnPZzebvkWr6eZKtpifJ
-   08Hec+ZRkM8rlIIp68LSoyj/fPOKBtPEAaZuKwsZ937ARN1HASON/+Cza
-   Edeq4LSyreMMHPDmyoGlLZ9QF2QVPMlxcGetV/aJz/zj2gLxUEmznnyYD
-   p8TrmzmU0EbnL46G+XNllGtmKwLeMRNlxqIHpncC5pEddsEy8hvjPpR2y
-   g==;
-X-CSE-ConnectionGUID: V1seJMOTRtqNH2jKO1uMKQ==
-X-CSE-MsgGUID: ideAirxoQ/2v4c0IbUgTHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58546732"
+  bh=AkgpgKV7X9POGuJk6xqHjMbCCftfpKC/vgggx3BD5Mw=;
+  b=Yy7wIxnQfjtaZt/Oo3pZ3RO43tTOfmPfki1xJHqBJ//R/tRGhty6hApD
+   LtfFqCllEqJyyEuVHfH6zBeBcaiusd5StI8yFrz6/eakyvS8E56+3mKGr
+   lYtnYOfLHmoWlfnvgPYeT/dyZrMnZkiVGsj37Uf6/6EDKZKKAbTpF1vv3
+   dSE4ekPLlxkoUq5MLoqS6Zz+BAN4rJIAk9uIACyVqHmaDwckZnO4SZHlx
+   Fi6Jdt4qbKU1wETTazJ46/7L9Cy9hUzBGM9QFKTkCDUA91wyiv+vlMQx+
+   XlwZSpCbeu3Pfa1lSOiGCGAEqNggUAML8N5/BPA+1E5FugOK0Pl027bf2
+   A==;
+X-CSE-ConnectionGUID: pr5ViWOsTlGnBEIUODL2kA==
+X-CSE-MsgGUID: 8K7Yeau8TDqjb5q0aXNSdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47654136"
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="58546732"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 06:51:49 -0700
-X-CSE-ConnectionGUID: SqgKlHsrTgesQEUg1Kjn+A==
-X-CSE-MsgGUID: itJ7E5H5R2W8Zbh8sGl0MA==
+   d="scan'208";a="47654136"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 07:12:57 -0700
+X-CSE-ConnectionGUID: 1OdWna+7TOGxMlAOVynxOg==
+X-CSE-MsgGUID: kZiuGYb+ShS3ta17vh1NBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="157061661"
+   d="scan'208";a="137869490"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Apr 2025 06:51:47 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2025 07:12:55 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9lNA-0000kl-3A;
-	Tue, 29 Apr 2025 13:51:44 +0000
-Date: Tue, 29 Apr 2025 21:50:53 +0800
+	id 1u9lhc-0000lN-2X;
+	Tue, 29 Apr 2025 14:12:52 +0000
+Date: Tue, 29 Apr 2025 22:12:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alessevan <44125445+Alessevan@users.noreply.github.com>
-Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>
-Subject: [rust:pr/1161 56/195] drivers/net/ethernet/realtek/8139c.c:7:
- warning: expecting prototype for 8139c.c(). Prototype was for DRV_NAME()
- instead
-Message-ID: <202504292127.xFQEFE7s-lkp@intel.com>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 7097/7105] Diff in rust/kernel/auxiliary.rs at
+ line 74:
+Message-ID: <202504292246.6rkRXOWd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,28 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Rust-for-Linux/linux pr/1161
-head:   9f5fa1ba161d636d346f72ba808ce20ee4a3fa70
-commit: 15b4eed3e4b6bd5d5799c52a1550ad763e31adda [56/195] feat: print MAC address in C driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250429/202504292127.xFQEFE7s-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292127.xFQEFE7s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9d9096722447b77662d4237a09909bde7774f22e
+commit: 4011c642639869dd11f1b59ddbb2351b89ed0b1e [7097/7105] Merge branch 'xarray-next' of https://github.com/Rust-for-Linux/linux.git
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250429/202504292246.6rkRXOWd-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292246.6rkRXOWd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504292127.xFQEFE7s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504292246.6rkRXOWd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/realtek/8139c.c:7: warning: expecting prototype for 8139c.c(). Prototype was for DRV_NAME() instead
-
-
-vim +7 drivers/net/ethernet/realtek/8139c.c
-
-   > 7	#define DRV_NAME "8139c"
-     8	#define DRV_VERSION "0.0.1"
-     9	
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/auxiliary.rs at line 74:
+                    // SAFETY: By the type invariant `adev.as_raw` returns a valid pointer to a
+                    // `struct auxiliary_device`.
+                    unsafe {
+   -		    bindings::auxiliary_set_drvdata(adev.as_raw(), data.into_foreign().cast())
+   -		};
+   +                    bindings::auxiliary_set_drvdata(adev.as_raw(), data.into_foreign().cast())
+   +                };
+                }
+                Err(err) => return Error::to_errno(err),
+            }
+>> Diff in rust/kernel/auxiliary.rs at line 74:
+                    // SAFETY: By the type invariant `adev.as_raw` returns a valid pointer to a
+                    // `struct auxiliary_device`.
+                    unsafe {
+   -		    bindings::auxiliary_set_drvdata(adev.as_raw(), data.into_foreign().cast())
+   -		};
+   +                    bindings::auxiliary_set_drvdata(adev.as_raw(), data.into_foreign().cast())
+   +                };
+                }
+                Err(err) => return Error::to_errno(err),
+            }
+   make[2]: *** [Makefile:1838: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
