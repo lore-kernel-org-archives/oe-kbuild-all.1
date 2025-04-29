@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25933207
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 13:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B192C10A9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 13:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745933388; cv=none; b=ZHc386F/2iHOU7p2oMowxs7cjih7dOuev+vEuJvH5mhfNPDV+jqU7klJYSEelxQofsnS39Q7X83kidK88xsksBcrBKOrzLRTodnGpBU6NzW8RjwGsUA9FAzOOahx7df/e5qgqD4oEDT0inPA/mqT8KOjzmIUk3iIUvPfLJsvqjg=
+	t=1745934714; cv=none; b=bq8UV3RflHhEMjgwSlmMvlQ1qiX7HsnzGy9kTVnj1fE6/iNkRYFPwfBqjJL48ypTsqKwRvA+caJoUcxvfINnDPsY7ujqdOYZCulJK7ctHSPho15Mmwy4wTMfqFQWmS4hAktGm0FzTF+M8TncDUx3TXbOw2NgGRUBE35GX58DxBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745933388; c=relaxed/simple;
-	bh=Whwr+9l41YP9STYkQ/1ThI+dnOqAHdVf9Mdd37OTqX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tRcC7UB+zfU3HYG6gOV8vgsSDrf+tz5pQGKE/odW9pEGb+c3fwf8iPDpytJNpk6lPAKDwA31ttmNL7SvdKuIX6i/maBaEriwFSGfZma2NUa1p2VqEokrbLyMSAXOfmXNG2q+SF5RYJkP05wgEgbuCSUIIFdd9jFEg4Xc4xDwXRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Puib2IAs; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1745934714; c=relaxed/simple;
+	bh=BbMMk5Ru/CCU0u4mHoBte1lXJvGLOzRWs/+YmnDaFlM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X2idHxGr4SWb8PQyUTaiuvvn9nHjucLl1+f43BJ4aXRIqN3dbqJGYO7Q/nbB+wTrsMUlf7Q2Fzc6pDcjsqyga9SaleO1MiDVHmovgCiRTjROrPPCzyaL3ZzQTu4fE3PiJf7DMl125uwMHxyIH2XX8wQZ5mluhjwiBBXSNqRhVe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjsMWqXk; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Puib2IAs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjsMWqXk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745933386; x=1777469386;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Whwr+9l41YP9STYkQ/1ThI+dnOqAHdVf9Mdd37OTqX0=;
-  b=Puib2IAsekkIOc3pOqXOGPjPtchNqdRSRLdOFJb8UNfepmt3GT6z927u
-   7HzymygwOr2n40b5EyieUF75h9FlXdkrpBkJHlLdxNQxQtwkdlCh9SaGM
-   59rDtbGTdmBNEIAhNg5PcYF9RwBMN2ZSz4dGHjhpGQ1UI+cAPz5wyRcrE
-   b9Ahc8vg0VjRXhgs80qbm6jd6JlFfXO1z46h66rjqx3Z7tszApvht68Qu
-   QH6Kvdg4UnnAgunHjuceaUctXhGLxjBsXTRbq+pKSXFBDZqXesurhYWe6
-   QmJBoogbm4LJ0UrUfWfKKLdudOWu6F1jyaxd/u1pBYY0rL3iLbQPe4i8Y
-   Q==;
-X-CSE-ConnectionGUID: DEJtYvyiSvqb0aIFzmcBsg==
-X-CSE-MsgGUID: qEK9582mSwyC/FDq+0Mj7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51376306"
+  t=1745934710; x=1777470710;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BbMMk5Ru/CCU0u4mHoBte1lXJvGLOzRWs/+YmnDaFlM=;
+  b=BjsMWqXkgBQLDEkX0noDoY17NQAUG3VJe2O5s2+LsNjvY7en1w0Utttv
+   NZvjvpSXGXvWTA3GRS2VJuvpwTypfZcuef5q4cS7Yj0B0zD0XwBEIWezY
+   pIedXOJE0ev3W6VNQdUO/xJWrhw8qAFNoamz5FnPZzebvkWr6eZKtpifJ
+   08Hec+ZRkM8rlIIp68LSoyj/fPOKBtPEAaZuKwsZ937ARN1HASON/+Cza
+   Edeq4LSyreMMHPDmyoGlLZ9QF2QVPMlxcGetV/aJz/zj2gLxUEmznnyYD
+   p8TrmzmU0EbnL46G+XNllGtmKwLeMRNlxqIHpncC5pEddsEy8hvjPpR2y
+   g==;
+X-CSE-ConnectionGUID: V1seJMOTRtqNH2jKO1uMKQ==
+X-CSE-MsgGUID: ideAirxoQ/2v4c0IbUgTHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58546732"
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="51376306"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 06:29:45 -0700
-X-CSE-ConnectionGUID: cmBLZoefS7Cieu8WlhaxWg==
-X-CSE-MsgGUID: /eu5IBmfRHSlYrIGiT80og==
+   d="scan'208";a="58546732"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 06:51:49 -0700
+X-CSE-ConnectionGUID: SqgKlHsrTgesQEUg1Kjn+A==
+X-CSE-MsgGUID: itJ7E5H5R2W8Zbh8sGl0MA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="133775633"
+   d="scan'208";a="157061661"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Apr 2025 06:29:41 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Apr 2025 06:51:47 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9l1n-0000jn-0k;
-	Tue, 29 Apr 2025 13:29:39 +0000
-Date: Tue, 29 Apr 2025 21:28:54 +0800
+	id 1u9lNA-0000kl-3A;
+	Tue, 29 Apr 2025 13:51:44 +0000
+Date: Tue, 29 Apr 2025 21:50:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pawel Dembicki <paweldembicki@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Pawel Dembicki <paweldembicki@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Greg KH <greg@kroah.com>,
-	Shen Lichuan <shenlichuan@vivo.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Charles Hsu <ythsu0511@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/5] dt-bindings: hwmon: Add bindings for mpq8785 driver
-Message-ID: <202504291853.nDOvzGEJ-lkp@intel.com>
-References: <20250428221420.2077697-6-paweldembicki@gmail.com>
+To: Alessevan <44125445+Alessevan@users.noreply.github.com>
+Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>
+Subject: [rust:pr/1161 56/195] drivers/net/ethernet/realtek/8139c.c:7:
+ warning: expecting prototype for 8139c.c(). Prototype was for DRV_NAME()
+ instead
+Message-ID: <202504292127.xFQEFE7s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,37 +62,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250428221420.2077697-6-paweldembicki@gmail.com>
 
-Hi Pawel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.15-rc4 next-20250428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Dembicki/hwmon-pmbus-mpq8785-Prepare-driver-for-multiple-device-support/20250429-061658
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250428221420.2077697-6-paweldembicki%40gmail.com
-patch subject: [PATCH 5/5] dt-bindings: hwmon: Add bindings for mpq8785 driver
-config: csky-randconfig-052-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291853.nDOvzGEJ-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.5.0
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291853.nDOvzGEJ-lkp@intel.com/reproduce)
+tree:   https://github.com/Rust-for-Linux/linux pr/1161
+head:   9f5fa1ba161d636d346f72ba808ce20ee4a3fa70
+commit: 15b4eed3e4b6bd5d5799c52a1550ad763e31adda [56/195] feat: print MAC address in C driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250429/202504292127.xFQEFE7s-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292127.xFQEFE7s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504291853.nDOvzGEJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504292127.xFQEFE7s-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: Duplicate compatible "mps,mpq8785" found in schemas matching "$id":
-   	http://devicetree.org/schemas/trivial-devices.yaml#
-   	http://devicetree.org/schemas/hwmon/pmbus/mps,mpq8785.yaml#
+>> drivers/net/ethernet/realtek/8139c.c:7: warning: expecting prototype for 8139c.c(). Prototype was for DRV_NAME() instead
+
+
+vim +7 drivers/net/ethernet/realtek/8139c.c
+
+   > 7	#define DRV_NAME "8139c"
+     8	#define DRV_VERSION "0.0.1"
+     9	
 
 -- 
 0-DAY CI Kernel Test Service
