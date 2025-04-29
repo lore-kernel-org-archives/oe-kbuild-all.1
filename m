@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDDC278E42;
-	Tue, 29 Apr 2025 10:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A82BE7B8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 13:17:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745923455; cv=none; b=eYaNbOQFUHss+4I0aWHJJPmdD0cIrspblTEaq6t5eGzrSEFNpRZxzSkrjEMpYzLiOrSwmJX+BEZ9y0J1IGk9o4n2KRutpXDhhvwYV719nxx/Fr29QADW5gQWCp8JHvHhLvFQvjiHT1YAGGW6sDczqCbhzuoPFQQx3wQqol+ZgPg=
+	t=1745932664; cv=none; b=ofaYVot3bVhUDX0CQt2XRhT8C6/vRJyIqHypZrk9fBo1ydWjbJuQ2BwvTBRFV+O++3h9xFdSt/ymanRtN0pLMHvs2Lm+ZoBaxkO9jDqZFCSPeyDn5G1B0yhxuoN/HP7ZAI3xsOMbNPg2iu9qHKlAv5l8G9D0YQQoiTstxZcGmns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745923455; c=relaxed/simple;
-	bh=m/qJy+b8NE/HLp9V6SCwIyhElarYggTKKzO6CI8FZFY=;
+	s=arc-20240116; t=1745932664; c=relaxed/simple;
+	bh=enJ4/qe5OmyWpDDJsjG64GMBSx8d9uTciOJ+SI+QEP0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FXa1mqxJZxboG2W4BXo8HyCa8EVsl9m+HLGO0jfcg2CmTAi0/m7ZeVeYhubBt0Ka3f+axubTlPgTOjLKyaHsssWrMuhF1PmC9V/XKUNSYW/IkWPM71hfjSYS6HKuXeMuEcJ3XaIf4P0KkeCRfmgaY1XzqEyiinfk2oG2OmANvlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UflEYS+z; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=BNYESN8kMqS4MI+iPf/Wzh0qQuWLsBv3CPDDYJpDiWag15gdKSYhSrblPYLAuPWurpA0d5D9vrulaB0u6uB+oIxIPGc9GAZ+5rZ5RVc1tXhdlDJRVJARinSkZcRRFxU2MUULOhZUT8otIxT0IYKPVq7bK/Scb5p+9UWbmm8Xgds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GI7SbQcu; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UflEYS+z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GI7SbQcu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745923453; x=1777459453;
+  t=1745932663; x=1777468663;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m/qJy+b8NE/HLp9V6SCwIyhElarYggTKKzO6CI8FZFY=;
-  b=UflEYS+zaz7FxWMMehzWUK45neFXI1cbOpJABMyWnAOfEoOBPLWuIlF2
-   6ULFU0SaXKuS8VZQjr1YSeNQI7hJL6RTLtg31g1Nz0TdgwOD5ZM0PUJKe
-   YAXLu7qzJp8fVptpMgPvByyo0jHxhXQRzdI31JwcSLEaSlEq6bcNY6kKz
-   NNNujgluIDtInydzfoBsuomx9yQYLWbUloGtKNlhGxiIBRM95mtrwkHhT
-   F7AXfUCUOhJf2baiOUViIcxhozMyJMcX0emHsLw0b2Exg3FXpsSkO0L8w
-   R0xbG9p5M6Lp+fGdRmPRHxM8n0rrXhcf3kkndjCckraPWU/z3X5vJRiOx
-   A==;
-X-CSE-ConnectionGUID: yMBbHei2TuK/iLp0U+J3cg==
-X-CSE-MsgGUID: IsBWvAV5RBSWgLPi4+VVrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="58190987"
-X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="58190987"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 03:44:12 -0700
-X-CSE-ConnectionGUID: MfsDg1wETeyZlTYfM/4AbA==
-X-CSE-MsgGUID: bBhn+R+5SSOSIp6Yb+Vg1w==
+  bh=enJ4/qe5OmyWpDDJsjG64GMBSx8d9uTciOJ+SI+QEP0=;
+  b=GI7SbQcutMGaIXSmOGhdL0pEvDN0Pbvb5WbDJbBR45JQNSRPsAOfc4Q6
+   YYUl7vvEJ45xPAz0iXKwC+S7YOV9WAjMbDAgqatBdUTtTuQIPIJbmDNjn
+   GAVCu+InTah3B/Qdp8+FUc5JsP+jrQSYzifzGScKmyUS/sxWKP6oEGEKX
+   f8POazAMblZY6ui+zNkt/6FO+RpACRZbSreUUcIuiG8wtG/3gcApIL3Yh
+   59Ck8IlvEh30A24UoGzBO9nIRbl0EOyax6hKk/tR1orliJVOxa+WaGpja
+   KL8XCXQdzdA5WifH3R60lR+tDXS3CkeXmDPd2EDOhRJU6ohuzYpiJf4cT
+   Q==;
+X-CSE-ConnectionGUID: TsczCmX1QsS07SQpbWthPw==
+X-CSE-MsgGUID: nCv+OhdFRiSmOqKnYRtbbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58210218"
+X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
+   d="scan'208";a="58210218"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 06:17:42 -0700
+X-CSE-ConnectionGUID: ZrHQZe2JTlKnPKat2lXGQg==
+X-CSE-MsgGUID: pRIkW2lQRlOtpE76hpmPuA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="133672806"
+X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
+   d="scan'208";a="138628671"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Apr 2025 03:44:11 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Apr 2025 06:17:40 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9iRd-0000fB-0w;
-	Tue, 29 Apr 2025 10:44:09 +0000
-Date: Tue, 29 Apr 2025 18:43:09 +0800
+	id 1u9kqA-0000jb-1A;
+	Tue, 29 Apr 2025 13:17:38 +0000
+Date: Tue, 29 Apr 2025 21:16:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/common 5/6] fs/f2fs/data.c:153:38: error: use of
- undeclared identifier 'sbi'
-Message-ID: <202504291850.1MMsrq8x-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
+	Chao Yu <chao@kernel.org>
+Subject: [chao:bugfix/common 5/6] fs/f2fs/data.c:153:52: error: 'sbi'
+ undeclared
+Message-ID: <202504292118.Odh4ZSgo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,27 +66,26 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
 head:   0d3a805efb57a446736f275ab88d6f8b29a3ad09
 commit: 238708a6490ffcfb6314c2a8b2238d2bf2b3178b [5/6] f2fs: fix to do sanity check on node footer in read_end_io
-config: s390-randconfig-001-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291850.1MMsrq8x-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504291850.1MMsrq8x-lkp@intel.com/reproduce)
+config: sparc-randconfig-001-20250429 (https://download.01.org/0day-ci/archive/20250429/202504292118.Odh4ZSgo-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292118.Odh4ZSgo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504291850.1MMsrq8x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504292118.Odh4ZSgo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/f2fs/data.c:153:38: error: use of undeclared identifier 'sbi'
+   fs/f2fs/data.c: In function 'f2fs_finish_read_bio':
+>> fs/f2fs/data.c:153:52: error: 'sbi' undeclared (first use in this function)
      153 |                 if (folio->mapping == NODE_MAPPING(sbi)) {
-         |                                                    ^
->> fs/f2fs/data.c:154:8: error: call to undeclared function 'sanity_check_node_footer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |                                                    ^~~
+   fs/f2fs/data.c:153:52: note: each undeclared identifier is reported only once for each function it appears in
+>> fs/f2fs/data.c:154:29: error: implicit declaration of function 'sanity_check_node_footer' [-Werror=implicit-function-declaration]
      154 |                         if (sanity_check_node_footer(sbi, folio, folio->index,
-         |                             ^
-   fs/f2fs/data.c:154:33: error: use of undeclared identifier 'sbi'
-     154 |                         if (sanity_check_node_footer(sbi, folio, folio->index,
-         |                                                      ^
-   3 errors generated.
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
 vim +/sbi +153 fs/f2fs/data.c
