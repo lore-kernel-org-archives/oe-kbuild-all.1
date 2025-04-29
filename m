@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08D61D90A9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C131D514F
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 01:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745889590; cv=none; b=Xh+c4nAvv03bojxJt1juCdEF2F6a/OT0q6Jq9m0RYrDAMRJGYo5P8BdhPAwkhdl0+MUb0lsIBI9lEyJtwJWuSjCNB9ZbMuNpKW/04SSVYcIvseKlz3XyvEDFTG1M8fU+Gzpy/jEZ6JzsQ8wQJg1cTb31JcPW5d3zNUUlW8aK2no=
+	t=1745889590; cv=none; b=a5YK7+2P4cBJYcU2sQJJRfVGkvzQeAkLZplwA7eQaTIn8KAC2tZQulrxLzOvnF5ACbT/3MfdAMRJWB3BaxcptimghTiSdgCq1zlX3GnDVZYQH8MMuLIERDOltHJzgUzfS7+n2KHKu/8F2eSMbqWA/Y+KpwPG7q4U5f7/WF+rIqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745889590; c=relaxed/simple;
-	bh=JGFsuXEaBArvdOwz2LsN39fAihdxRl9xDbq+kwZJ3as=;
+	bh=ESfGqGQLctRui4NTLoqwyeRM30pIreBKANNrLvwIEzg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LoBBe1hZzdE2IiQtLeNDok0l0fBKD8xZhAtX4jw5I9Yw2oGfsQZ9kVXdR1RVMFWrb0EWtb1GsgKdxg+p68s3veMi24MgtFoktZ5m33+UP/aYFYxxrP6GpgVCnQPvOL2Ym58hi/CoDu6WnLpgPMYJ0LiziAs7ayHnBamm4nL7t1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XXY8Dm4q; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=WcmyrHPl7b3GKuYvahlTzXdqpaUyI4gNodfkJOpfR7mG8KW0spfQLzTzvLV/jlNPDwSW4WokRWKW9me3QazQF4BSQUeBonRXhvO7HwfhrtBKnA8Jnkzf/4rcmjZdGKonIcO/n0hv8YiO3nZZT+Pe250Te3byyOXwjc1uG+pB8tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fVjjL8lv; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XXY8Dm4q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fVjjL8lv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745889588; x=1777425588;
+  t=1745889589; x=1777425589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JGFsuXEaBArvdOwz2LsN39fAihdxRl9xDbq+kwZJ3as=;
-  b=XXY8Dm4qa/pzR+sCNoVsseP1K+cI8KN4avIlRV7GvYgFATtm/kfzoOKV
-   5K43vE5i5BrLVu4ys2qSPgIxs99Tv6Dd85GKJ/+B+FDKIB51t7Qb+HgR6
-   qTbKSHogdGDbWBZql//fZ+McJI6yIbvUwrHVKEq6j1f7u/vlPEO4H2HPO
-   uvxJAn3w3lnWobN5ztP+N4cPaFRnDw7Khz+SnxGlDajq+tnJtCmjRUHvI
-   RX1/Z8rcxICKbDoBMMT87l76j25ONG3EzBChMOnCL+pxX/AL0bjnctIYX
-   K017ojOJDA2xlnPPA9/tVXe2DigVeuyuOr7yZcKZIbl5ayiZ9hfqXypIP
-   Q==;
-X-CSE-ConnectionGUID: tEDmUMuoQtuyNCvwTibWig==
-X-CSE-MsgGUID: coapGsC/Th6dEZndvtQdwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="51165298"
+  bh=ESfGqGQLctRui4NTLoqwyeRM30pIreBKANNrLvwIEzg=;
+  b=fVjjL8lvNzQ7lj4NrLIrodHTsf/vysHg5PDP9+xWFuteBCNU+jqky2nm
+   m5XD0baM0rwMG9OnVfeNISkP2oslJBQ4bsGc57goStV5NMreAE/hqwCEs
+   qiZdzPYDbfS+huiZwxEupi4yIi2GEX/Zj7vE1xSHVWgFOmqft0bAg34JL
+   eXn7eOZ1a+xQEytC1b5TYcRry+rgA2glYLcDldFTOWq/ac9WDIZkutmpH
+   7rieSOH7HipP2DTBBg8BBH+YCT9stYUwawSQKvAzs+i8fvVbc+C7ihJro
+   hI9C9Xpojl41A9HZOzEJq6PKgJSyxe0yvg3NPVD49JU3ooG4L9qu/07oj
+   A==;
+X-CSE-ConnectionGUID: zY1Q3S+8RD62PoG8gwocfA==
+X-CSE-MsgGUID: X+LfqOXLQKaWW2oGB7xRTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="51165295"
 X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="51165298"
+   d="scan'208";a="51165295"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 18:19:35 -0700
-X-CSE-ConnectionGUID: Wvm6+M9nSTuoTLNek6j+8Q==
-X-CSE-MsgGUID: 3yLrhXVaQoOvK+ce3ZJ6Sg==
+X-CSE-ConnectionGUID: bMCRH2pJTfOHMEAdkPvPIg==
+X-CSE-MsgGUID: Jor/ccutQVGIkZTVsaFvbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="164775842"
+   d="scan'208";a="164775844"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 28 Apr 2025 18:19:30 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9ZdA-00006N-0v;
+	id 1u9ZdA-00006Q-0z;
 	Tue, 29 Apr 2025 01:19:28 +0000
-Date: Tue, 29 Apr 2025 06:44:35 +0800
+Date: Tue, 29 Apr 2025 08:39:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Joel Fernandes <joelagnelf@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 37/37]
- drivers/gpu/drm/mediatek/mtk_dp_v2.c:4373:6: warning: no previous prototype
- for function 'mtk_dp_hdcp_atomic_check'
-Message-ID: <202504290656.kQuDoFZM-lkp@intel.com>
+Subject: [jfern:nova-gsp-fixups 21/42] Diff in drivers/gpu/nova-core/vbios.rs
+ at line 70:
+Message-ID: <202504290843.KHQbVl6l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,144 +62,187 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   f02706a87d01b3276dd25abaab122a7c8adbc6ac
-commit: 0d43a2e82b935a7486ba1c21669596ff0a59ac27 [37/37] CHROMIUM: drm/mediatek: refine mst control flow
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250429/202504290656.kQuDoFZM-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290656.kQuDoFZM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova-gsp-fixups
+head:   854374f0545cd01b0d66384526d9ecdf7a894ff8
+commit: 3c3016a9891b04c678f290765e10f51dbee52da4 [21/42] nova-core: vbios: Fixup: Move data into struct Vbios
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250429/202504290843.KHQbVl6l-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290843.KHQbVl6l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504290656.kQuDoFZM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504290843.KHQbVl6l-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the jfern/nova-gsp-fixups HEAD 854374f0545cd01b0d66384526d9ecdf7a894ff8 builds fine.
+      It only hurts bisectability.
 
-   In file included from drivers/gpu/drm/mediatek/mtk_dp_v2.c:8:
-   In file included from include/drm/display/drm_dp_helper.h:27:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:20:
-   In file included from include/linux/mm.h:2194:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2565:6: warning: no previous prototype for function 'mtk_dp_dsc_support_v2' [-Wmissing-prototypes]
-    2565 | void mtk_dp_dsc_support_v2(struct mtk_dp *mtk_dp)
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2565:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2565 | void mtk_dp_dsc_support_v2(struct mtk_dp *mtk_dp)
-         | ^
-         | static 
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2573:6: warning: no previous prototype for function 'mtk_dp_dsc_enable_v2' [-Wmissing-prototypes]
-    2573 | void mtk_dp_dsc_enable_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2573:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2573 | void mtk_dp_dsc_enable_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
-         | ^
-         | static 
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2603:6: warning: no previous prototype for function 'mtk_dp_dsc_disable_v2' [-Wmissing-prototypes]
-    2603 | void mtk_dp_dsc_disable_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2603:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2603 | void mtk_dp_dsc_disable_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
-         | ^
-         | static 
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2633:6: warning: no previous prototype for function 'mtk_dp_set_chunk_size_v2' [-Wmissing-prototypes]
-    2633 | void mtk_dp_set_chunk_size_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id,
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2633:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2633 | void mtk_dp_set_chunk_size_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id,
-         | ^
-         | static 
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2652:6: warning: no previous prototype for function 'mtk_dp_dsc_set_param_v2' [-Wmissing-prototypes]
-    2652 | void mtk_dp_dsc_set_param_v2(struct mtk_dp *mtk_dp,
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2652:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2652 | void mtk_dp_dsc_set_param_v2(struct mtk_dp *mtk_dp,
-         | ^
-         | static 
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2678:6: warning: no previous prototype for function 'mtk_dp_dsc_set_pps_v2' [-Wmissing-prototypes]
-    2678 | void mtk_dp_dsc_set_pps_v2(struct mtk_dp *mtk_dp,
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2678:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2678 | void mtk_dp_dsc_set_pps_v2(struct mtk_dp *mtk_dp,
-         | ^
-         | static 
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2698:6: warning: no previous prototype for function 'mtk_dp_dsc_pps_send_v2' [-Wmissing-prototypes]
-    2698 | void mtk_dp_dsc_pps_send_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2698:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2698 | void mtk_dp_dsc_pps_send_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
-         | ^
-         | static 
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2704:6: warning: no previous prototype for function 'mtk_dp_dsc_parse_pps_param_v2' [-Wmissing-prototypes]
-    2704 | void mtk_dp_dsc_parse_pps_param_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id, u8 *pps)
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2704:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2704 | void mtk_dp_dsc_parse_pps_param_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id, u8 *pps)
-         | ^
-         | static 
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:3694:5: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-    3694 |         u8 data;
-         |            ^
->> drivers/gpu/drm/mediatek/mtk_dp_v2.c:4373:6: warning: no previous prototype for function 'mtk_dp_hdcp_atomic_check' [-Wmissing-prototypes]
-    4373 | void mtk_dp_hdcp_atomic_check(struct mtk_dp *mtk_dp, enum dp_encoder_id id,
-         |      ^
-   drivers/gpu/drm/mediatek/mtk_dp_v2.c:4373:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4373 | void mtk_dp_hdcp_atomic_check(struct mtk_dp *mtk_dp, enum dp_encoder_id id,
-         | ^
-         | static 
-   14 warnings generated.
+All errors (new ones prefixed by >>):
 
-
-vim +/mtk_dp_hdcp_atomic_check +4373 drivers/gpu/drm/mediatek/mtk_dp_v2.c
-
-218314d73d3257 mac.shen 2025-01-27  4372  
-56c7482df8dc4a Mac Shen 2025-02-02 @4373  void mtk_dp_hdcp_atomic_check(struct mtk_dp *mtk_dp, enum dp_encoder_id id,
-56c7482df8dc4a Mac Shen 2025-02-02  4374  			      struct drm_connector_state *state)
-218314d73d3257 mac.shen 2025-01-27  4375  {
-56c7482df8dc4a Mac Shen 2025-02-02  4376  	bool need_hdcp;
-218314d73d3257 mac.shen 2025-01-27  4377  
-56c7482df8dc4a Mac Shen 2025-02-02  4378  	mutex_lock(&mtk_dp->hdcp_mutex);
-56c7482df8dc4a Mac Shen 2025-02-02  4379  
-56c7482df8dc4a Mac Shen 2025-02-02  4380  	need_hdcp = mtk_dp_hdcp_need_hdcp(mtk_dp);
-218314d73d3257 mac.shen 2025-01-27  4381  
-0d43a2e82b935a Mac Shen 2025-03-04  4382  	if (!need_hdcp)
-218314d73d3257 mac.shen 2025-01-27  4383  		mtk_dp_hdcp_disable(mtk_dp);
-218314d73d3257 mac.shen 2025-01-27  4384  
-56c7482df8dc4a Mac Shen 2025-02-02  4385  	if (need_hdcp)
-218314d73d3257 mac.shen 2025-01-27  4386  		mtk_dp_hdcp_enable(mtk_dp);
-56c7482df8dc4a Mac Shen 2025-02-02  4387  
-56c7482df8dc4a Mac Shen 2025-02-02  4388  	mutex_unlock(&mtk_dp->hdcp_mutex);
-218314d73d3257 mac.shen 2025-01-27  4389  }
-218314d73d3257 mac.shen 2025-01-27  4390  
-
-:::::: The code at line 4373 was first introduced by commit
-:::::: 56c7482df8dc4a22d074197a9e4313cc79b734a3 CHROMIUM: drm/mediatek: Add support for MST HDCP
-
-:::::: TO: Mac Shen <mac.shen@mediatek.corp-partner.google.com>
-:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/vbios.rs at line 70:
+        }
+    
+        /// Read bytes at a specific offset, filling any gap
+   -    fn read_more_at_offset(
+   -        &mut self,
+   -        bar0: &Devres<Bar0>,
+   -        offset: usize,
+   -        len: usize,
+   -    ) -> Result {
+   +    fn read_more_at_offset(&mut self, bar0: &Devres<Bar0>, offset: usize, len: usize) -> Result {
+            if offset > BIOS_MAX_SCAN_LEN {
+                pr_err!("Error: exceeded BIOS scan limit.\n");
+                return Err(EINVAL);
+   Diff in drivers/gpu/nova-core/vbios.rs at line 104:
+        ) -> Result<BiosImage> {
+            let data_len = self.data.as_ref().ok_or(EINVAL)?.len();
+            if offset + len > data_len {
+   -            self.read_more_at_offset(bar0, offset, len).inspect_err(|e| {
+   -                pr_err!("Failed to read more at offset {:#x}: {:?}\n", offset, e)
+   -            })?;
+   +            self.read_more_at_offset(bar0, offset, len)
+   +                .inspect_err(|e| {
+   +                    pr_err!("Failed to read more at offset {:#x}: {:?}\n", offset, e)
+   +                })?;
+            }
+    
+            let data = self.data.as_ref().ok_or(EINVAL)?;
+   Diff in drivers/gpu/nova-core/vbios.rs at line 137:
+            loop {
+                // Try to parse a BIOS image at the current offset
+                // This will now check for all valid ROM signatures (0xAA55, 0xBB77, 0x4E56)
+   -            let image_size =
+   -                vbios.read_bios_image_at_offset(bar0, cur_offset, BIOS_READ_AHEAD_SIZE)
+   -                    .and_then(|image| image.image_size_bytes())
+   -                    .inspect_err(|e| {
+   -                        pr_err!(
+   -                            "Failed to parse initial BIOS image headers at offset {:#x}: {:?}\n",
+   -                            cur_offset,
+   -                            e
+   -                        );
+   -                    })?;
+   +            let image_size = vbios
+   +                .read_bios_image_at_offset(bar0, cur_offset, BIOS_READ_AHEAD_SIZE)
+   +                .and_then(|image| image.image_size_bytes())
+   +                .inspect_err(|e| {
+   +                    pr_err!(
+   +                        "Failed to parse initial BIOS image headers at offset {:#x}: {:?}\n",
+   +                        cur_offset,
+   +                        e
+   +                    );
+   +                })?;
+    
+                // Create a new BiosImage with the full image data
+   -            let full_image =
+   -                vbios.read_bios_image_at_offset(bar0, cur_offset, image_size)
+   -                    .inspect_err(|e| {
+   -                        pr_err!(
+   -                            "Failed to parse full BIOS image at offset {:#x}: {:?}\n",
+   -                            cur_offset,
+   -                            e
+   -                        );
+   -                    })?;
+   +            let full_image = vbios
+   +                .read_bios_image_at_offset(bar0, cur_offset, image_size)
+   +                .inspect_err(|e| {
+   +                    pr_err!(
+   +                        "Failed to parse full BIOS image at offset {:#x}: {:?}\n",
+   +                        cur_offset,
+   +                        e
+   +                    );
+   +                })?;
+    
+                // Determine the image type
+                let image_type = full_image.image_type_str();
+>> Diff in drivers/gpu/nova-core/vbios.rs at line 70:
+        }
+    
+        /// Read bytes at a specific offset, filling any gap
+   -    fn read_more_at_offset(
+   -        &mut self,
+   -        bar0: &Devres<Bar0>,
+   -        offset: usize,
+   -        len: usize,
+   -    ) -> Result {
+   +    fn read_more_at_offset(&mut self, bar0: &Devres<Bar0>, offset: usize, len: usize) -> Result {
+            if offset > BIOS_MAX_SCAN_LEN {
+                pr_err!("Error: exceeded BIOS scan limit.\n");
+                return Err(EINVAL);
+   Diff in drivers/gpu/nova-core/vbios.rs at line 104:
+        ) -> Result<BiosImage> {
+            let data_len = self.data.as_ref().ok_or(EINVAL)?.len();
+            if offset + len > data_len {
+   -            self.read_more_at_offset(bar0, offset, len).inspect_err(|e| {
+   -                pr_err!("Failed to read more at offset {:#x}: {:?}\n", offset, e)
+   -            })?;
+   +            self.read_more_at_offset(bar0, offset, len)
+   +                .inspect_err(|e| {
+   +                    pr_err!("Failed to read more at offset {:#x}: {:?}\n", offset, e)
+   +                })?;
+            }
+    
+            let data = self.data.as_ref().ok_or(EINVAL)?;
+   Diff in drivers/gpu/nova-core/vbios.rs at line 137:
+            loop {
+                // Try to parse a BIOS image at the current offset
+                // This will now check for all valid ROM signatures (0xAA55, 0xBB77, 0x4E56)
+   -            let image_size =
+   -                vbios.read_bios_image_at_offset(bar0, cur_offset, BIOS_READ_AHEAD_SIZE)
+   -                    .and_then(|image| image.image_size_bytes())
+   -                    .inspect_err(|e| {
+   -                        pr_err!(
+   -                            "Failed to parse initial BIOS image headers at offset {:#x}: {:?}\n",
+   -                            cur_offset,
+   -                            e
+   -                        );
+   -                    })?;
+   +            let image_size = vbios
+   +                .read_bios_image_at_offset(bar0, cur_offset, BIOS_READ_AHEAD_SIZE)
+   +                .and_then(|image| image.image_size_bytes())
+   +                .inspect_err(|e| {
+   +                    pr_err!(
+   +                        "Failed to parse initial BIOS image headers at offset {:#x}: {:?}\n",
+   +                        cur_offset,
+   +                        e
+   +                    );
+   +                })?;
+    
+                // Create a new BiosImage with the full image data
+   -            let full_image =
+   -                vbios.read_bios_image_at_offset(bar0, cur_offset, image_size)
+   -                    .inspect_err(|e| {
+   -                        pr_err!(
+   -                            "Failed to parse full BIOS image at offset {:#x}: {:?}\n",
+   -                            cur_offset,
+   -                            e
+   -                        );
+   -                    })?;
+   +            let full_image = vbios
+   +                .read_bios_image_at_offset(bar0, cur_offset, image_size)
+   +                .inspect_err(|e| {
+   +                    pr_err!(
+   +                        "Failed to parse full BIOS image at offset {:#x}: {:?}\n",
+   +                        cur_offset,
+   +                        e
+   +                    );
+   +                })?;
+    
+                // Determine the image type
+                let image_type = full_image.image_type_str();
+   make[2]: *** [Makefile:1828: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
