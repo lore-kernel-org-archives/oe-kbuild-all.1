@@ -1,171 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DD41E0B86
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 17:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425151E8331
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 18:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746034303; cv=none; b=Ka1Jc2eVCziangpDjodeKdDs+5cep+T06Mzupl2uZr/dfInLGfrQPINFsxZdIKbn1hRYyItmsmnt5u3Yry4kJoofTk+Tc6tIcl0VwvUlY2H97THYNPDNR2T4o2BEN2VY/d2etlHjTWeYvU6PAQP9m1fh/Jfwc+E8XH5yaHPhozQ=
+	t=1746038843; cv=none; b=I/ZU6h8QdUsL2bfClot4i7uxbeac9zA7LH4EoXOIKO2T092MTi1nRayD0wPE6NjbUKhvkq1GxZeuGxUF5vmB4trH9ylT73IdIIkJ9eIHQiiV8cVDkPyRq74HX2ofZTJjKEfKybV+ybMMB+iMxeA2El4TA5kcnaJ0orAJwqeVft4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746034303; c=relaxed/simple;
-	bh=yvI/esc+pD0TavPABcaP2qWaK6zW9DmXuY8nrBwEK38=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AlzmPj07uKRWp5GXanHcVF2853DmbTrngEovIuxgpcgRgZobZ+q+iuYeAqc+kt4kxgF6aw5oR0VHwCHgR4jNSiQ++PYSLPs8ANbxPNBdEwXM8BugSfGjQGJarOGXQWrfItEkg3tdPR5/WGmwzypmEcUZdLPwPXYSUeL2imLoZTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HnG/XJlv; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746038843; c=relaxed/simple;
+	bh=kX9RrO9cv9xhfG/paXyteB+lzW1VcQQfL23l0+9gANE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fWSOOpz8ATxdT30iXx+rIWqt+dAhJYwX7i16d05BSvc44oASS4uJE+6ZstzDm3bemRqYvN9ShWuVh+fDtVh/cSFfmjf7EGwkLJ8GJYpCNUV7Neu9DqinduWyAzVtZoi3R31cq3TSB1hsCe0dszMlIs6aqrZry3LojdnFMNo05TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AAxAeywS; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HnG/XJlv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746034301; x=1777570301;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yvI/esc+pD0TavPABcaP2qWaK6zW9DmXuY8nrBwEK38=;
-  b=HnG/XJlvaMUmsIkXjWXybL2ESqq8aGZj6fAwMF3qqjz9Vt3OU4Vgu37P
-   RQNpf4L30uTlnVrvK27o1sYnupRFPMOI03X/NiVZsk8xi4axw6oZ7imLS
-   TFbkkAtN8z0b1jaDgmi6aRwLUgGHCeyG40Dq6gsZB7GG9sVagWIPlAG4E
-   WpaeTa3gbEdpDyBwxKWUkgK28BHy073QzDk31j2UEPvG3pNa8VdY0J93u
-   k942sMbEnKLpkLWa8pW7T0Ypibq6u/8UTjzjq4qId8Bw5JjOZ4nx3l2pT
-   ij67q9C9IorgGwu588+V4F6v9XXVOCWyLjq+R4r9YhlSsNR6thn1U3kfU
-   A==;
-X-CSE-ConnectionGUID: I6z3Ua8yT4uVjKWa71pNsw==
-X-CSE-MsgGUID: AdrucTyIRGeZuAem2QZH6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47795032"
-X-IronPort-AV: E=Sophos;i="6.15,252,1739865600"; 
-   d="scan'208";a="47795032"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 10:31:41 -0700
-X-CSE-ConnectionGUID: W7DXfTlDRNitS7CEj8xIBw==
-X-CSE-MsgGUID: UOGZzn0LQsCBiWPVScpzgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,252,1739865600"; 
-   d="scan'208";a="135157434"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Apr 2025 10:31:40 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uABHV-0003en-0n;
-	Wed, 30 Apr 2025 17:31:37 +0000
-Date: Thu, 1 May 2025 01:30:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>
-Subject: [lee-mfd:for-mfd-next 18/50] drivers/mfd/sec-acpm.c:346:16: error:
- implicit declaration of function 'devm_acpm_get_by_node'; did you mean
- 'devm_acpm_get_by_phandle'?
-Message-ID: <202505010115.ssBCiBac-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AAxAeywS"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so1039365e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 11:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746038839; x=1746643639; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kX9RrO9cv9xhfG/paXyteB+lzW1VcQQfL23l0+9gANE=;
+        b=AAxAeywSfkFkZZ5vgP3vmNS9Pn1h2/Sif7ex1cUHAwOLLDjTCQw11xurJUzwOH99+C
+         OnWhC2lAqi7/yPwNur8EQOvzn4Rb1YS0VudrvtG5D4thzOkinfrY3Wj2mkLGbjIllb5s
+         qMv4c2ERt6o/cpLW2tvBlSOT0REN0USV1OpupkZE32SG1BRAMKBIpwGE+oJBYlsWvJOD
+         7QJR9a3XDB7d5b2wQ4iV1pQXrTA8xlhmNyjDHHkavJFBe5ZbGdeWtb5VDjJf71TDZ95H
+         YWtEuY2qq99ByiBJ2ZqitAjqoj+NJDssBVGshaXBo1H+Da9iaHNkBVo/VibWpGUCPzXI
+         w7NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746038839; x=1746643639;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kX9RrO9cv9xhfG/paXyteB+lzW1VcQQfL23l0+9gANE=;
+        b=esYGbPigXU6tQvlZS1+W4yS/C+a9iDeKga1zvQsu+YpSB0DnjkB+Oli7DBh4SULByl
+         uYX3FB+m34YyJa/fnztXoqlj/oRcTdC2/J1I8jtX0By9FjpDQA8ZA075r+H6mwfoskeM
+         wMK5GKNh+pZH6RIaj4m8EH22rsXgmDvjD7L0tPfxvNvOx/QsPyUkySKPAo3AUcRlluwE
+         0wlcB8as0zIhPi1WrsGEzj+egYPd5PZX05Jv6OjM+OpSH5sYpm8E1vKmSgT2URNF1PyT
+         TIwbaWKSfA6+GRWNXHq4a4YNauTC9cni0wVLk1UeCpPn/gS3LnX2fBY5ck/8L3UEL/hQ
+         Q6Sw==
+X-Gm-Message-State: AOJu0YytNwyfQRot5zyImZ36+R7G+RGFsHqzPQiGCU31VaFLZorP6Myn
+	nkFq7lLC2E+lNwjpI6rbodE6jIOpr2sdIKFDpPK6rtAkaKNkYaDscHmJ4pXx9dA=
+X-Gm-Gg: ASbGncuqBP5FFzQ5IwrEXXNw4hHyI+LplZ+0aNmNrDJTYWqPej5i6e9BT3wgbIqOPY7
+	tKvqGEHYtBECfKgzbtL537L1vZbasgpMjhNbBhQuH88gbMJNM+3igUuGO/EyvxBRQSQ/+XeCCPf
+	PjzFoBR389+EhfutrL6C8LOZ+lNWMdfsLgmMlKZeepVb8UK3OAgAEGcfwVRjCbGEmYqnAe2XpNr
+	cx6bGqJWs2nf3nnOX+Xqb3Y9YU4mYJBZmu/nphUDu42fhSEEuWmwUTryqQRDoYtoB31McU8gSq/
+	khIhHPZXABsAz/yWVd4RO6bZGsTb1pHDxFGiPaZHKDkI
+X-Google-Smtp-Source: AGHT+IHGJApHPyojTTdKcJaQCXvH/tX/pQbeA+RkLhaQA3Opj/wdMIz+ma15+m0hrMYJzt0IV4WQlg==
+X-Received: by 2002:a05:600c:1f0c:b0:43d:b51:46fb with SMTP id 5b1f17b1804b1-441b1f31004mr44295095e9.2.1746038839506;
+        Wed, 30 Apr 2025 11:47:19 -0700 (PDT)
+Received: from draszik.lan ([80.111.64.44])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b2b972a0sm34463945e9.7.2025.04.30.11.47.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 11:47:19 -0700 (PDT)
+Message-ID: <fd11ee67a3d51aef6305c477b140d911da0b2af4.camel@linaro.org>
+Subject: Re: [lee-mfd:for-mfd-next 18/50] drivers/mfd/sec-acpm.c:346:16:
+ error: implicit declaration of function 'devm_acpm_get_by_node'; did you
+ mean 'devm_acpm_get_by_phandle'?
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Date: Wed, 30 Apr 2025 19:47:18 +0100
+In-Reply-To: <202505010115.ssBCiBac-lkp@intel.com>
+References: <202505010115.ssBCiBac-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3-2+build1 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-head:   566b001ca4f65878d5e9b0e9d23ba2d55bf4c630
-commit: 690f145503fe1e4d31a1f0250122b3e04876ee90 [18/50] mfd: sec: Add support for S2MPG10 PMIC
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250501/202505010115.ssBCiBac-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505010115.ssBCiBac-lkp@intel.com/reproduce)
+Hi Lee,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505010115.ssBCiBac-lkp@intel.com/
+On Thu, 2025-05-01 at 01:30 +0800, kernel test robot wrote:
+> tree:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd=
+.git=C2=A0for-mfd-next
+> head:=C2=A0=C2=A0 566b001ca4f65878d5e9b0e9d23ba2d55bf4c630
+> commit: 690f145503fe1e4d31a1f0250122b3e04876ee90 [18/50] mfd: sec: Add su=
+pport for S2MPG10 PMIC
+> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250501=
+/202505010115.ssBCiBac-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250501/202505010115.ssBCiBac-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202505010115.ssBCiBac-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> =C2=A0=C2=A0 drivers/mfd/sec-acpm.c: In function 'sec_pmic_acpm_probe':
+> > > drivers/mfd/sec-acpm.c:346:16: error: implicit declaration of functio=
+n 'devm_acpm_get_by_node'; did you mean
+> > > 'devm_acpm_get_by_phandle'? [-Wimplicit-function-declaration]
+> =C2=A0=C2=A0=C2=A0=C2=A0 346 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 acpm =3D devm_acpm_get_by_node(dev, dev->parent->of_node);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~=
+~~~~~~~~~~~~~~~~
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 devm_=
+acpm_get_by_phandle
+> > > drivers/mfd/sec-acpm.c:346:14: error: assignment to 'const struct acp=
+m_handle *' from 'int' makes pointer from integer without a
+> > > cast [-Wint-conversion]
+> =C2=A0=C2=A0=C2=A0=C2=A0 346 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 acpm =3D devm_acpm_get_by_node(dev, dev->parent->of_node);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
 
-All errors (new ones prefixed by >>):
+The commit replacing devm_acpm_get_by_phandle() with
+devm_acpm_get_by_node() exists in linux-next
+https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/com=
+mit/?id=3Da8dc26a0ec43fd416ca781a8030807e65f71cfc5
 
-   drivers/mfd/sec-acpm.c: In function 'sec_pmic_acpm_probe':
->> drivers/mfd/sec-acpm.c:346:16: error: implicit declaration of function 'devm_acpm_get_by_node'; did you mean 'devm_acpm_get_by_phandle'? [-Wimplicit-function-declaration]
-     346 |         acpm = devm_acpm_get_by_node(dev, dev->parent->of_node);
-         |                ^~~~~~~~~~~~~~~~~~~~~
-         |                devm_acpm_get_by_phandle
->> drivers/mfd/sec-acpm.c:346:14: error: assignment to 'const struct acpm_handle *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     346 |         acpm = devm_acpm_get_by_node(dev, dev->parent->of_node);
-         |              ^
+https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log=
+/drivers/firmware/samsung
 
 
-vim +346 drivers/mfd/sec-acpm.c
+Cheers,
+Andre'
 
-   332	
-   333	static int sec_pmic_acpm_probe(struct platform_device *pdev)
-   334	{
-   335		struct regmap *regmap_common, *regmap_pmic, *regmap;
-   336		const struct sec_pmic_acpm_platform_data *pdata;
-   337		struct sec_pmic_acpm_shared_bus_context *shared_ctx;
-   338		const struct acpm_handle *acpm;
-   339		struct device *dev = &pdev->dev;
-   340		int ret, irq;
-   341	
-   342		pdata = device_get_match_data(dev);
-   343		if (!pdata)
-   344			return dev_err_probe(dev, -ENODEV, "unsupported device type\n");
-   345	
- > 346		acpm = devm_acpm_get_by_node(dev, dev->parent->of_node);
-   347		if (IS_ERR(acpm))
-   348			return dev_err_probe(dev, PTR_ERR(acpm), "failed to get acpm\n");
-   349	
-   350		irq = platform_get_irq(pdev, 0);
-   351		if (irq < 0)
-   352			return irq;
-   353	
-   354		shared_ctx = devm_kzalloc(dev, sizeof(*shared_ctx), GFP_KERNEL);
-   355		if (!shared_ctx)
-   356			return -ENOMEM;
-   357	
-   358		shared_ctx->acpm = acpm;
-   359		shared_ctx->acpm_chan_id = pdata->acpm_chan_id;
-   360		shared_ctx->speedy_channel = pdata->speedy_channel;
-   361	
-   362		regmap_common = sec_pmic_acpm_regmap_init(dev, shared_ctx, SEC_PMIC_ACPM_ACCESSTYPE_COMMON,
-   363							  pdata->regmap_cfg_common, false);
-   364		if (IS_ERR(regmap_common))
-   365			return PTR_ERR(regmap_common);
-   366	
-   367		/* Mask all interrupts from 'common' block, until successful init */
-   368		ret = regmap_write(regmap_common, S2MPG10_COMMON_INT_MASK, S2MPG10_COMMON_INT_SRC);
-   369		if (ret)
-   370			return dev_err_probe(dev, ret, "failed to mask common block interrupts\n");
-   371	
-   372		regmap_pmic = sec_pmic_acpm_regmap_init(dev, shared_ctx, SEC_PMIC_ACPM_ACCESSTYPE_PMIC,
-   373							pdata->regmap_cfg_pmic, false);
-   374		if (IS_ERR(regmap_pmic))
-   375			return PTR_ERR(regmap_pmic);
-   376	
-   377		regmap = sec_pmic_acpm_regmap_init(dev, shared_ctx, SEC_PMIC_ACPM_ACCESSTYPE_RTC,
-   378						   pdata->regmap_cfg_rtc, true);
-   379		if (IS_ERR(regmap))
-   380			return PTR_ERR(regmap);
-   381	
-   382		regmap = sec_pmic_acpm_regmap_init(dev, shared_ctx, SEC_PMIC_ACPM_ACCESSTYPE_METER,
-   383						   pdata->regmap_cfg_meter, true);
-   384		if (IS_ERR(regmap))
-   385			return PTR_ERR(regmap);
-   386	
-   387		ret = sec_pmic_probe(dev, pdata->device_type, irq, regmap_pmic, NULL);
-   388		if (ret)
-   389			return ret;
-   390	
-   391		if (device_property_read_bool(dev, "wakeup-source"))
-   392			devm_device_init_wakeup(dev);
-   393	
-   394		/* Unmask PMIC interrupt from 'common' block, now that everything is in place. */
-   395		ret = regmap_clear_bits(regmap_common, S2MPG10_COMMON_INT_MASK,
-   396					S2MPG10_COMMON_INT_SRC_PMIC);
-   397		if (ret)
-   398			return dev_err_probe(dev, ret, "failed to unmask PMIC interrupt\n");
-   399	
-   400		/* Mask all interrupts from 'common' block on shutdown */
-   401		ret = devm_add_action_or_reset(dev, sec_pmic_acpm_mask_common_irqs, regmap_common);
-   402		if (ret)
-   403			return ret;
-   404	
-   405		return 0;
-   406	}
-   407	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
