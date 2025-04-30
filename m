@@ -1,251 +1,217 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E67617CA17
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 15:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746028575; cv=fail; b=CFgPIVLcL2V8uIcVGNSNKJT5FkxLkGycQOLxavLU5X1qLZMCKCclJTX1YTOzXyeIIYuR1TzuJeDsjGSLA5v0p1vrOBEDNtopKi8la4FmqWxG4Y2saMfXIcX0IKhBqrf6gtc/A7PjRHQrt6CaUExsylfhk6RVM01IEoOJXSv/aVw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746028575; c=relaxed/simple;
-	bh=BxBHi55rD1UDnTsoPLc5JBoHQVRhc9cOk2ZMPbNdQog=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=OBf9D6CSA3ha4K0ioJpWLlE1okbQxxf37NEWxWAbyagYZ//j6pFRy1aiZoG8ShdvUPUS3zGOl17kXqPB90E3+fMQIrhHTMOsOUiYSuaR5mEXzAY8VvHALTA+7eIsxelGEh7RZ7KADsUXmKOrykYA73ZbHALVzD6TmGi2dHPz+9I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=J8VtF2oH; arc=fail smtp.client-ip=40.107.223.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF14D1ADC69
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 16:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746031539; cv=none; b=JdelGirlxIARm657QOVG98lM1MDlv0A7M+swt6YWEG6EmVl+QQsqx+zkdsbaLqLgD/wTEZs7fI2v4m+5a0V5oYL8HYlncDCcs7jTr7YQ0aWUgnisE9naRaOhlb3dTkuOLDzR73aPU+WjVUPwTe4XwZmGVSmo2fVr5LolxeBhtoQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746031539; c=relaxed/simple;
+	bh=GfZ/oxLdGM2rNyTzToyHmHtdM8m02K2D4UFI3yWWFXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XXRDKVV5kDEhsRJVaw3cy9vRges2pqqBWwcx5H+MiH9hCHvR5v0NuhlemoWDEk67JnR7BkEQh0hS7xrog3j0vRZ96OJ4y3Cbk4LUMFr49ruvxDrlbKjkDxyYU1xOD+T9xwj5+al6A5vARP0D/g8Z/EBONQxOnt1+2k5daVM5VCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZC+2OZGD; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="J8VtF2oH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fe8o+EPaONsg4PRDwcOcMo0vHcH4105N9yhB671RpsCGlD8uLX6j4DPvfkWVbqAsOF9kpbwWZmuAb0Vt+rVwGcloMOcUDK2kTHp8R4mD9tNMhLtcqPqSlewxfM4FirZKBjt911JZlkrUjaDA7t0k7FX1r5z+Ng8hM671+3mv3cgzLYTMdVhXKsicmkvzolZz+mAseuPpze4tFSAYLMYoRXC3aj8fKUuJQlfqEKheTYA4Ft+Jm4rG5NY4WeL5gIthrTOMteqF9p7dtcGRG7Iz80xxKaWa/CRTxXteRRZo18yyhnxxXm+nwalQwz5LFw2Rimq97m+MNx/T7x7RKssBNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BxBHi55rD1UDnTsoPLc5JBoHQVRhc9cOk2ZMPbNdQog=;
- b=yW1P1HoXr0fDM9q7kVD49JKqj0lKrqqzE6kOspC0K1V5YjRK6IFgViF4RGVHQ2Rv98dqlt6xwCbwM4jDXFWxxTdMjfaTIM9kAvv5C6m4WBAVRPaz9zGMWrCxG+Z00mKHaOeU9jIQLr6wiDRCQMqdLtDIfEpNgZ1T0tuMzDaGFUJbmgf57uOWyDORT/OL8YdhfuBnx2ZmDUIbZM9OQddxQWg1/sn2TaOS+pxS8zaO35Wb1P21aNa77ISRPGP3wGxNdMeHk+TRGZEhvdaANoWVfJhqfdY1DreHh2mkyepEd8hV1YQwQsMn06kMkiFhAItm9EywavVTDPPoPAI92onuag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BxBHi55rD1UDnTsoPLc5JBoHQVRhc9cOk2ZMPbNdQog=;
- b=J8VtF2oHjEjC32yCUEPr13FoSM1DNDvVJ+Wr3ZwP7UrLGDdYOS65CQo8C7XHNty8WgXe+7ATlqsZddM17xx2ifOfpcmS8PyIPO2rWaq6SnS6xiqLFvytlzDPhH5X8VnULfE8bqqu5RFB4rVbSft+CfIu68KZLuhWhswumDNVkEKmi5FciI+zSUPr8ylcUAjTrLQkjacbqblbSvosJ2udkK/1WvVHKUHKGoH0LKbIaGhvBhxDG9/rgQbJMc5kb9nTSBia6iaiJqk2U9oxaRZ+2Wo64/zfBEPQRCif+wpb436XtfmPOQfpTXUmaXvmZ+OxrA7v7LNwvXgyosbpX1wTlw==
-Received: from PH7PR12MB6668.namprd12.prod.outlook.com (2603:10b6:510:1aa::12)
- by DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8678.31; Wed, 30 Apr 2025 15:56:07 +0000
-Received: from PH7PR12MB6668.namprd12.prod.outlook.com
- ([fe80::6d5b:2553:adc8:b6a6]) by PH7PR12MB6668.namprd12.prod.outlook.com
- ([fe80::6d5b:2553:adc8:b6a6%5]) with mapi id 15.20.8699.012; Wed, 30 Apr 2025
- 15:56:07 +0000
-From: Vadim Pasternak <vadimp@nvidia.com>
-To: =?utf-8?B?SWxwbyBKw6RydmluZW4=?= <ilpo.jarvinen@linux.intel.com>, kernel
- test robot <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Hans de Goede
-	<hdegoede@redhat.com>, Michael Shych <michaelsh@nvidia.com>
-Subject: RE: [pdx86-platform-drivers-x86:review-ilpo-next 59/60]
- drivers/platform/mellanox/nvsw-sn2201.c:1303:14: warning: argument 1 null
- where non-null expected
-Thread-Topic: [pdx86-platform-drivers-x86:review-ilpo-next 59/60]
- drivers/platform/mellanox/nvsw-sn2201.c:1303:14: warning: argument 1 null
- where non-null expected
-Thread-Index: AQHbuKloAvX0C+tjZ0+luTWyz1z+QrO6VNsAgAIKEUA=
-Date: Wed, 30 Apr 2025 15:56:07 +0000
-Message-ID:
- <PH7PR12MB6668F5C045FE55E86742FB91AF832@PH7PR12MB6668.namprd12.prod.outlook.com>
-References: <202504290944.hOoFRFoq-lkp@intel.com>
- <6533a563-0d8f-9703-3887-24d28d889652@linux.intel.com>
-In-Reply-To: <6533a563-0d8f-9703-3887-24d28d889652@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR12MB6668:EE_|DM3PR12MB9416:EE_
-x-ms-office365-filtering-correlation-id: b5270cfc-4503-4f9d-388c-08dd87ff8518
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?TFVlbDE1NjhBV2tkeldwWWRkNVU0VFJ2WnBpMUhtQi9ZZWhpQ3hqN212TTYw?=
- =?utf-8?B?QWk3bzFyN3pKQk9qdHljOHMwd1VwRHlDYkI2ZVZXNldpUGdBU1NPdmxZN1ZU?=
- =?utf-8?B?U3Jyc0NMRkpVSXFlaG82aEg2akpxWExQcllOc1ljeVNGWXlRZ2NyMCs5b2Y5?=
- =?utf-8?B?WDZmbUJtYjBKR0ZCdEI4QzdLRTlJKzVnd1dHNWk1aUkvRmliYmRIZTMvdnhE?=
- =?utf-8?B?L0lUK1BkcGU2NCt2VDJjY0lmR3BieHB6R2VmM3c5eDNoWnlSdnZTOVVZcitD?=
- =?utf-8?B?M1pIVUU4UHhJZmZKTVc2cFZSVFN2UHdzT1lpTzlpNXNXLzloanJlM2lHYWJm?=
- =?utf-8?B?SFJTOEQxdUdlMCtpVnRvb1ZoNWtkRXRmaXNNQkwrUkZOMElDQlo3UG44M0R0?=
- =?utf-8?B?LzFBL2lOYjByMWpXb2U2MEg4ZHJkNFBBVnNTYlV2bjRYYmdkaUdrby92cGZt?=
- =?utf-8?B?WlBrZUMzK01QSHA0Uy82bFR3RjBIZkJzYk9jUTd4bzVhajM1TlVnSklWOE9z?=
- =?utf-8?B?blRzd2YxQ2FIY0tDUEVOdjJwSkNyby8wdGNOMXk0K093bGw1L0txd20yNTB2?=
- =?utf-8?B?WWN0UTZKYzF1RU5icGRSbHBnWnRKekN2QkpuZzBlTEEyS09mNDBHT0VRUVpG?=
- =?utf-8?B?dnorVFVrcmp6bmZPa25Xc1ZPeTVTWVg3Qm85MXR3M0tmMmlUQ3lidWc1bXh3?=
- =?utf-8?B?SWFCU1NZZ2xKMTVXUWRqUzdsd2pPQVZiSitTRXlhK3BZWTkxU3BtdFVSaVZL?=
- =?utf-8?B?ZUV2ZXZhVjMwNDdKUHVKRS9PdzZ4V0hEMExlYlh5a2lQeTdJZWVXVkxreFRN?=
- =?utf-8?B?N01JRGYzQ056YmhTZmRIUXdpalZld2NLaWI1TllVY20rUmpjOVdNUllEUzBY?=
- =?utf-8?B?M0F1cW9uayt0T1pZSEYxMXFTZE5rSHdVSExENGptUzI3Q29tRWQ0am41b2FI?=
- =?utf-8?B?UmM3RnZDODdzTWtSVEsyQXpCSXhmRkpES0JZU0F0SGV1WUNyWm9DZG9vek4v?=
- =?utf-8?B?SnBTTis3b0x6MVQwMHRnZklEN24zVEZZeUF1VFNQazZ0OFEyQjZObEpFZEhY?=
- =?utf-8?B?WU9uUGN3WmxOUk8yWDF5UldndDFON0VSNm12aWxZa2c3ellUUE9xSC9sU0Jp?=
- =?utf-8?B?dCtCa3VxcTNvcVhRRllKQThVcXZGdkNGZ3BITFhac2xvOERPVlJzd1N0OFpl?=
- =?utf-8?B?Y2paNUhoSTlMeXFtWmREZW9mNm53MTlDZklKOUdmS1YxWlhBWXd0dUZvWnBh?=
- =?utf-8?B?OE4zVUxubUxYVlJsNzNQNVJvRlBjYUVzUWF2cnVMZHF2dW9uZUFRZGJDQWtG?=
- =?utf-8?B?SklsTmU0YW9yeUVjUTJETjlkUDkzTndqS043MVBYVjF3YktIbUxGV291bHRa?=
- =?utf-8?B?K0EveCtDRTFVRTR2bTRrR0w0RURIVW5Hei9rYlFkZ1VkdThOdDR1empkbWlJ?=
- =?utf-8?B?bS9IaW8vWk1SY3lDNTBMMlhpcnRuM2FDbzNSdFRxYmx3VHN5M2loZGJPanFp?=
- =?utf-8?B?MjcraDBJQ09kTXZTVVIvRXRxVUVnRlg4ZzFsUmMzWExwaWkrUllLMlNMOWxC?=
- =?utf-8?B?QUpPKzhvK1IxSDI5eWl0Uys3WGFpRGlYdFF6VTJib3RONzNYb204NW0yc29x?=
- =?utf-8?B?K0RMa1MyMXk0Ykw2TDQxbEJWY0RIR0wrdlcvbGVQZzA5QWNzbTVjc3gyS1FS?=
- =?utf-8?B?dENScXhTU0tMZnRYUDdmMGxDN0J2WUYwWTlTak9pdDRDdThnaG1nS21TekxJ?=
- =?utf-8?B?YkczeGRXeWYybDYxY3NYelkzV0NycC91Uy92S1lsTmhReTV3Y29UTk9YRVBs?=
- =?utf-8?B?a3Z0T1pqTnBVZHpQVnd0YnhHVXNEY212c3lDVHdEU1Z3TFRWR2tOWjFDdmlD?=
- =?utf-8?B?YnFJYmd1RmdhL3BJYUplTGJSZjdxS1Ryd0Zib2h6a2EraUZWS1o0N0F6WG9r?=
- =?utf-8?Q?doVQr6eNZwA=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6668.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ajZNTXcxNXJmWEdxMmhSRWFWMVk0WXlRc1J1N204VnlsNWVUUkllc0hxUVZu?=
- =?utf-8?B?blVKVnV0cnk4WG40WWM3S1BNanhrMjc4alJUdU5tcHNyL3NubUFUaUVWVjdj?=
- =?utf-8?B?N0hKM0g4UkY1WktWbUtYd3pRYWdRZHBtM0Y0WmhFU2d0aGJDM0xRQlI3d0JL?=
- =?utf-8?B?ZnNobVA1cWh0a2I5d3RyZnZ5OUprM3NYS3BpelY2QldkcnFraVoyUTh2bmpi?=
- =?utf-8?B?OUQ5ZmhkWXk0NGc2UlI1RS9RMDllMjdVTjl6cUVFNGwxUWpNdVJRWEM3QTNs?=
- =?utf-8?B?emIxYlBRNEZEeVZCL3I4enJyOUlPYWZiK2o5b1NPM216dm80MlZiZ2RJWDhS?=
- =?utf-8?B?MDFFY0lUS3BRcTluVmxPSzFuc0hVZHY2RHNsSUtuVnZIVXphVEs2QzVBVDN1?=
- =?utf-8?B?a0I3RC9rVWVkeWlkSlN3Y2VHOTFDMnhmTjcvWDhjMFBzSWdQc2hZamQ0TVBt?=
- =?utf-8?B?WFp5Skt3ams1bmpxYmxwSTJiaFk3YnFTZHNQUFRxTzYvcU5pMTM5UkZmZTZt?=
- =?utf-8?B?Y3ZQTlJmQ3Q0aGxiVUxWWm9jbWVIMjEyZkQyQUNUS0RYSnU5Qk45MXhSdHoy?=
- =?utf-8?B?TDRBSll0Znp5Q05JTjNyVFlwc28yS2ZpSDNXQlphYTl6SXhZK1U4a011NEVF?=
- =?utf-8?B?emdXU0l4d0F6R2FFRFNpTGJXWTRiVFg3SEVzaldFQklWT2pSaW1PYnFBSHFF?=
- =?utf-8?B?VnVvS0pWM1U1V3g1TEpIN1lhbDNQRDdVUzdyZDNxc2VwdjN5dnk1Z3JaYmVZ?=
- =?utf-8?B?YlRCVEtyYWw0azFhTUFMd2UwTFcxMVRxU1RZVTJ5Z2tSZGc3OHUrV0dNdFRm?=
- =?utf-8?B?TTgwd0M0ZE9XZjRtTWNnTzZUakdWbXRpOUFCck1rK0F0bzZ6SXZUNzBjRFhl?=
- =?utf-8?B?N1pqZDBUbkhmR3FJSE1zaUYvM2VRaXM1bkRDbDhZNFpJc3Zyc2tMMFdGbU9C?=
- =?utf-8?B?cUVuM2txaDJhdjJuaVlWL2RyMGhMR2ViVnJBaGMrNHBqaTg2NTBzYzZEbHJz?=
- =?utf-8?B?T2tBQWFsODlENkw5azBrcVcweUIvTDNKRXl5cDNuOEwvTnpiNTBabGI4S29E?=
- =?utf-8?B?UUR3Q0U4UXBHdTY5ZDFXUDZabUY4QXZhRVVCMjc1T0FGRmRsYVgzdVFEUDZk?=
- =?utf-8?B?REMvUGxvV3JOM2V1MXdsSGNEL3Z4UDhMVHNvNWt5NjQrUzNVcVNhbFJIY2hW?=
- =?utf-8?B?aGJDMTBxeWEwdGsyV2kyRTlsV2t6NWJkWUZzc0FueWZKOXpYQmVXRkdZQ1pv?=
- =?utf-8?B?ckZsYytDczRQbDY3NHNraC9ZT3FnMDdVYkpCSCtwR2NLUlhVSWp2Zk1uR3V0?=
- =?utf-8?B?eDQ5UEw0YUZqWXB5Wm5idGp3L0JRcW9JKzlIazk1UXpJbVR5c3ZLSFloS0N6?=
- =?utf-8?B?OGZKNk9raExublNEbDlqbm91OHVQN2V1eW5WYzBaSk40MkFVYldiK0ZoVEF2?=
- =?utf-8?B?TXlsOWZ4Qy9Xc1hlNDJ4dzJQYVJ5Z1pvVWt5R1FWQ3dzRy90RU1EQ1lYc0hB?=
- =?utf-8?B?UTA0ZWNIaDV4M1pSWXVDaU90SHNYUDFNdmgySENyNHo3TFM2T1dGT2hQcWpn?=
- =?utf-8?B?bTJhTjdYUWFrZ1NEckFrNGxMd3JmVkFkSzByWGZ0MEg3RFIzUWluc2ZrdXJQ?=
- =?utf-8?B?MUlXYmlGd1NSSFVCaG9zVUJQQkFjbUMvN1BRb09aaE41WnJxUTZPRmh2UXB6?=
- =?utf-8?B?VGxVV0NIRllSTUlxb04ySmhYVlNuSFFJYmhzUllVTzNJNkpvZk1ZRlZkanhI?=
- =?utf-8?B?UTA0QWNja3pYc05sZ0M5TzhDTGNsTmN0K1REdk5QRnRBajlyZVJLSFE0SjZl?=
- =?utf-8?B?MGlsTGpUcVhiQ0R6NUlnMm13RXo3RGZ6RVBJWThLZHByQ0xlMkxUd0dCRjZU?=
- =?utf-8?B?UlNVZDdLRTRPZnBIc2V5emJBd01rVldpYWFkZXN1RGV1YWRxL0IwUTkxNnhx?=
- =?utf-8?B?aGZtWjNzUWU3SlEzYUY5R2R3eTk3NlRBSnk5bUtmYUpEQzJvbjJTUzdrVEg2?=
- =?utf-8?B?eGx2aHBmRlRvblpJRWFmR1ZFTVZFUXFEdGROd0FDaTh3MmdWWTI3c2hTTU5Y?=
- =?utf-8?B?cGoreWNUYzFXamZGMFdraDdTSWluV0EveHBhUjd4T216UFdDcVltSEhIWTJj?=
- =?utf-8?Q?XV+s=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZC+2OZGD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746031537; x=1777567537;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GfZ/oxLdGM2rNyTzToyHmHtdM8m02K2D4UFI3yWWFXo=;
+  b=ZC+2OZGDisTSk/uoRo6mA5YHwgAsVApSJQ5LzNTXPTvu2x3HibmpVGZU
+   7jZ9WPHpNRNqdWharLHE7cAjIiCHOtKrzmMqUn3xAtI9QHJNofA4EqVNh
+   iYQe2qOiP89IVvPhAfmCsZVGdrj1le4SihICfuCamipPZLdecpgnyBdkO
+   1beE1aFCvFjSFnVz7b+T653uraBh9rK8H5auTXp/K9A49vMkDF2OvM1Co
+   TuGR0awk5QrdRaJGPIYscu20PtdSMRXZnO8znHzyMH0LKuT2XK2mawoVx
+   czmW7wbOFNpaVWhLYF8SJTnpxSjQXniA7DNA2dBlljq7xMyaFcBhhj2b3
+   g==;
+X-CSE-ConnectionGUID: J6nhHafxTECXkCi2KBOxjA==
+X-CSE-MsgGUID: RzeyiqfpT+6cx/7DxmDEig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47839053"
+X-IronPort-AV: E=Sophos;i="6.15,252,1739865600"; 
+   d="scan'208";a="47839053"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 09:45:36 -0700
+X-CSE-ConnectionGUID: nuXKEVz9SgeqUCvF83M1IQ==
+X-CSE-MsgGUID: TRDnSN4aT6m57UVwv1V5Pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,252,1739865600"; 
+   d="scan'208";a="134672241"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 30 Apr 2025 09:45:35 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uAAYu-0003cJ-2U;
+	Wed, 30 Apr 2025 16:45:32 +0000
+Date: Thu, 1 May 2025 00:45:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-kernelci 21/21] drivers/spi/spi-stm32-ospi.c:828:67:
+ error: passing argument 3 of 'of_reserved_mem_region_to_resource' from
+ incompatible pointer type
+Message-ID: <202505010010.EVmPBhis-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6668.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5270cfc-4503-4f9d-388c-08dd87ff8518
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2025 15:56:07.5719
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Sr31RzeSh9q6WDTlmrft86xISRuLrmhFF0NTO+H920UO+xbDAucSdTuj+dqlJ9MOLWH9qAggG3c6vYFS/TKEjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9416
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSWxwbyBKw6RydmluZW4g
-PGlscG8uamFydmluZW5AbGludXguaW50ZWwuY29tPg0KPiBTZW50OiBUdWVzZGF5LCAyOSBBcHJp
-bCAyMDI1IDExOjQ2DQo+IFRvOiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT47IFZh
-ZGltIFBhc3Rlcm5hayA8dmFkaW1wQG52aWRpYS5jb20+DQo+IENjOiBvZS1rYnVpbGQtYWxsQGxp
-c3RzLmxpbnV4LmRldjsgQW5keSBTaGV2Y2hlbmtvDQo+IDxhbmRyaXkuc2hldmNoZW5rb0BsaW51
-eC5pbnRlbC5jb20+OyBIYW5zIGRlIEdvZWRlDQo+IDxoZGVnb2VkZUByZWRoYXQuY29tPjsgTWlj
-aGFlbCBTaHljaCA8bWljaGFlbHNoQG52aWRpYS5jb20+DQo+IFN1YmplY3Q6IFJlOiBbcGR4ODYt
-cGxhdGZvcm0tZHJpdmVycy14ODY6cmV2aWV3LWlscG8tbmV4dCA1OS82MF0NCj4gZHJpdmVycy9w
-bGF0Zm9ybS9tZWxsYW5veC9udnN3LXNuMjIwMS5jOjEzMDM6MTQ6IHdhcm5pbmc6IGFyZ3VtZW50
-IDEgbnVsbA0KPiB3aGVyZSBub24tbnVsbCBleHBlY3RlZA0KPiANCj4gT24gVHVlLCAyOSBBcHIg
-MjAyNSwga2VybmVsIHRlc3Qgcm9ib3Qgd3JvdGU6DQo+IA0KPiA+IHRyZWU6ICAgaHR0cHM6Ly9n
-aXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvcGR4ODYvcGxhdGZvcm0tZHJp
-dmVycy0NCj4geDg2LmdpdCByZXZpZXctaWxwby1uZXh0DQo+ID4gaGVhZDogICA0ZDE3ZjIyYmM2
-ZTlmNmE5ZDk0ZWU0MzEzZjZiZjNjZmExOTQ3MjZjDQo+ID4gY29tbWl0OiBiZjE4MGQ0NGM2NDE2
-ZjhlNjhjOWExZmEzNDliZTAwOGNjZWRkNzk3IFs1OS82MF0gcGxhdGZvcm06DQo+ID4gbWVsbGFu
-b3g6IG52c3ctc24yMjAwOiBBZGQgc3VwcG9ydCBmb3IgbmV3IHN5c3RlbSBmbGF2b3VyDQo+ID4g
-Y29uZmlnOiB4ODZfNjQtYnVpbGRvbmx5LXJhbmRjb25maWctMDA0LTIwMjUwNDI5DQo+ID4gKGh0
-dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktDQo+IGNpL2FyY2hpdmUvMjAyNTA0MjkvMjAyNTA0
-MjkwOTQ0LmhPb0ZSRm8NCj4gPiBxLWxrcEBpbnRlbC5jb20vY29uZmlnKQ0KPiA+IGNvbXBpbGVy
-OiBnY2MtMTIgKERlYmlhbiAxMi4yLjAtMTQpIDEyLjIuMCByZXByb2R1Y2UgKHRoaXMgaXMgYSBX
-PTENCj4gPiBidWlsZCk6DQo+ID4gKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktDQo+IGNp
-L2FyY2hpdmUvMjAyNTA0MjkvMjAyNTA0MjkwOTQ0LmhPb0ZSRm8NCj4gPiBxLWxrcEBpbnRlbC5j
-b20vcmVwcm9kdWNlKQ0KPiA+DQo+ID4gSWYgeW91IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0
-ZSBwYXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcNCj4gPiB2ZXJzaW9uIG9mIHRoZSBz
-YW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZ3MNCj4gPiB8IFJlcG9y
-dGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4gPiB8IENsb3NlczoN
-Cj4gPiB8IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL29lLWtidWlsZC1hbGwvMjAyNTA0MjkwOTQ0
-LmhPb0ZSRm9xLWxrcEBpbnRlDQo+ID4gfCBsLmNvbS8NCj4gPg0KPiA+IEFsbCB3YXJuaW5ncyAo
-bmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pOg0KPiA+DQo+ID4gICAgZHJpdmVycy9wbGF0Zm9ybS9t
-ZWxsYW5veC9udnN3LXNuMjIwMS5jOiBJbiBmdW5jdGlvbg0KPiAnbnZzd19zbjIyMDFfcHJvYmUn
-Og0KPiA+ID4+IGRyaXZlcnMvcGxhdGZvcm0vbWVsbGFub3gvbnZzdy1zbjIyMDEuYzoxMzAzOjE0
-OiB3YXJuaW5nOiBhcmd1bWVudA0KPiA+ID4+IDEgbnVsbCB3aGVyZSBub24tbnVsbCBleHBlY3Rl
-ZCBbLVdub25udWxsXQ0KPiA+ICAgICAxMzAzIHwgICAgICAgICBpZiAoIXN0cmNtcChza3UsICJI
-STE2OCIpKQ0KPiA+ICAgICAgICAgIHwgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+
-DQo+ID4gICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvYml0bWFwLmg6MTMs
-DQo+ID4gICAgICAgICAgICAgICAgICAgICBmcm9tIGluY2x1ZGUvbGludXgvY3B1bWFzay5oOjEy
-LA0KPiA+ICAgICAgICAgICAgICAgICAgICAgZnJvbSBhcmNoL3g4Ni9pbmNsdWRlL2FzbS90bGJi
-YXRjaC5oOjUsDQo+ID4gICAgICAgICAgICAgICAgICAgICBmcm9tIGluY2x1ZGUvbGludXgvbW1f
-dHlwZXNfdGFzay5oOjE3LA0KPiA+ICAgICAgICAgICAgICAgICAgICAgZnJvbSBpbmNsdWRlL2xp
-bnV4L3NjaGVkLmg6MzgsDQo+ID4gICAgICAgICAgICAgICAgICAgICBmcm9tIGluY2x1ZGUvbGlu
-dXgvcmF0ZWxpbWl0Lmg6NiwNCj4gPiAgICAgICAgICAgICAgICAgICAgIGZyb20gaW5jbHVkZS9s
-aW51eC9kZXZfcHJpbnRrLmg6MTYsDQo+ID4gICAgICAgICAgICAgICAgICAgICBmcm9tIGluY2x1
-ZGUvbGludXgvZGV2aWNlLmg6MTUsDQo+ID4gICAgICAgICAgICAgICAgICAgICBmcm9tIGRyaXZl
-cnMvcGxhdGZvcm0vbWVsbGFub3gvbnZzdy1zbjIyMDEuYzo4Og0KPiA+ICAgIGluY2x1ZGUvbGlu
-dXgvc3RyaW5nLmg6MTYxOjEyOiBub3RlOiBpbiBhIGNhbGwgdG8gZnVuY3Rpb24gJ3N0cmNtcCcg
-ZGVjbGFyZWQNCj4gJ25vbm51bGwnDQo+ID4gICAgICAxNjEgfCBleHRlcm4gaW50IHN0cmNtcChj
-b25zdCBjaGFyICosY29uc3QgY2hhciAqKTsNCj4gPiAgICAgICAgICB8ICAgICAgICAgICAgXn5+
-fn5+DQo+ID4NCj4gPg0KPiA+IHZpbSArMTMwMyBkcml2ZXJzL3BsYXRmb3JtL21lbGxhbm94L252
-c3ctc24yMjAxLmMNCj4gPg0KPiA+ICAgMTI5MA0KPiA+ICAgMTI5MQlzdGF0aWMgaW50IG52c3df
-c24yMjAxX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ID4gICAxMjkyCXsN
-Cj4gPiAgIDEyOTMJCXN0cnVjdCBudnN3X3NuMjIwMSAqbnZzd19zbjIyMDE7DQo+ID4gICAxMjk0
-CQljb25zdCBjaGFyICpza3U7DQo+ID4gICAxMjk1CQlpbnQgcmV0Ow0KPiA+ICAgMTI5Ng0KPiA+
-ICAgMTI5NwkJbnZzd19zbjIyMDEgPSBkZXZtX2t6YWxsb2MoJnBkZXYtPmRldiwNCj4gc2l6ZW9m
-KCpudnN3X3NuMjIwMSksIEdGUF9LRVJORUwpOw0KPiA+ICAgMTI5OAkJaWYgKCFudnN3X3NuMjIw
-MSkNCj4gPiAgIDEyOTkJCQlyZXR1cm4gLUVOT01FTTsNCj4gPiAgIDEzMDANCj4gPiAgIDEzMDEJ
-CS8qIFZhbGlkYXRlIHN5c3RlbSBwb3dlcmluZyB0eXBlIC0gb25seSBISTE2OCBTS1UNCj4gc3Vw
-cG9ydHMgZXh0cmVuYWwgcG93ZXIuICovDQo+ID4gICAxMzAyCQlza3UgPSBkbWlfZ2V0X3N5c3Rl
-bV9pbmZvKERNSV9QUk9EVUNUX1NLVSk7DQo+ID4gPiAxMzAzCQlpZiAoIXN0cmNtcChza3UsICJI
-STE2OCIpKQ0KPiA+ICAgMTMwNAkJCW52c3dfc24yMjAxLT5leHRfcHdyX3NvdXJjZSA9IHRydWU7
-DQo+ID4gICAxMzA1DQo+ID4gICAxMzA2CQludnN3X3NuMjIwMS0+ZGV2ID0gJnBkZXYtPmRldjsN
-Cj4gPiAgIDEzMDcJCXBsYXRmb3JtX3NldF9kcnZkYXRhKHBkZXYsIG52c3dfc24yMjAxKTsNCj4g
-PiAgIDEzMDgJCXJldCA9IHBsYXRmb3JtX2RldmljZV9hZGRfcmVzb3VyY2VzKHBkZXYsDQo+IG52
-c3dfc24yMjAxX2xwY19pb19yZXNvdXJjZXMsDQo+ID4gICAxMzA5DQo+IEFSUkFZX1NJWkUobnZz
-d19zbjIyMDFfbHBjX2lvX3Jlc291cmNlcykpOw0KPiA+ICAgMTMxMAkJaWYgKHJldCkNCj4gPiAg
-IDEzMTEJCQlyZXR1cm4gcmV0Ow0KPiA+ICAgMTMxMg0KPiA+ICAgMTMxMwkJbnZzd19zbjIyMDEt
-Pm1haW5fbXV4X2RlZmVycmVkX25yID0NCj4gTlZTV19TTjIyMDFfTUFJTl9NVVhfREVGRVJfTlI7
-DQo+ID4gICAxMzE0CQludnN3X3NuMjIwMS0+bWFpbl9tdXhfZGV2cyA9DQo+IG52c3dfc24yMjAx
-X21haW5fbXV4X2JyZGluZm87DQo+ID4gICAxMzE1CQludnN3X3NuMjIwMS0+Y3BsZF9kZXZzID0N
-Cj4gbnZzd19zbjIyMDFfY3BsZF9icmRpbmZvOw0KPiA+ICAgMTMxNgkJaWYgKG52c3dfc24yMjAx
-LT5leHRfcHdyX3NvdXJjZSkgew0KPiA+ICAgMTMxNwkJCW52c3dfc24yMjAxLT5zbjIyMDFfZGV2
-cyA9DQo+IG52c3dfc24yMjAxX2J1c2Jhcl9zdGF0aWNfYnJkaW5mbzsNCj4gPiAgIDEzMTgJCQlu
-dnN3X3NuMjIwMS0+c24yMjAxX2RldnNfbnVtID0NCj4gQVJSQVlfU0laRShudnN3X3NuMjIwMV9i
-dXNiYXJfc3RhdGljX2JyZGluZm8pOw0KPiA+ICAgMTMxOQkJfSBlbHNlIHsNCj4gPiAgIDEzMjAJ
-CQludnN3X3NuMjIwMS0+c24yMjAxX2RldnMgPQ0KPiBudnN3X3NuMjIwMV9zdGF0aWNfYnJkaW5m
-bzsNCj4gPiAgIDEzMjEJCQludnN3X3NuMjIwMS0+c24yMjAxX2RldnNfbnVtID0NCj4gQVJSQVlf
-U0laRShudnN3X3NuMjIwMV9zdGF0aWNfYnJkaW5mbyk7DQo+ID4gICAxMzIyCQl9DQo+ID4gICAx
-MzIzDQo+ID4gICAxMzI0CQlyZXR1cm4gbnZzd19zbjIyMDFfY29uZmlnX3ByZV9pbml0KG52c3df
-c24yMjAxKTsNCj4gPiAgIDEzMjUJfQ0KPiA+ICAgMTMyNg0KPiA+DQo+ID4NCj4gDQo+IEhpIFZh
-ZGltLA0KPiANCj4gQXMgdGhpcyBjaGFuZ2UgaXMgb25seSBpbiB0aGUgcmV2aWV3LWlscG8tbmV4
-dCBicmFuY2guIEkgZHJvcCBpdCBhbmQgdGhlDQo+IERvY3VtZW50YXRpb24gY2hhbmdlLCBwbGVh
-c2UgZml4IHRoaXMgd2FybmluZyBhbmQgcmVzdWJtaXQgdGhlIGxhc3QgdHdvDQo+IHBhdGNoZXMs
-IHRoYW5rIHlvdS4NCj4gDQoNCkhpIElscG8sDQoNClN1cmUuIERvaW5nIGl0Lg0KSSBzYXcgeW91
-IGFscmVhZHkgZml4ZWQgYW5vdGhlciB3YXJuaW5nIGluIEtjb25maWcgLSB0aGFuayB5b3UgdmVy
-eSBtdWNoLg0KDQpUaGFua3MsDQpWYWRpbS4NCg0KDQo+IC0tDQo+ICBpLg0KDQo=
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   3474fc53f28d0824c7020ddffc8559e8302f7415
+commit: 3474fc53f28d0824c7020ddffc8559e8302f7415 [21/21] spi: Use of_reserved_mem_region_to_resource() for "memory-region"
+config: arc-randconfig-001-20250430 (https://download.01.org/0day-ci/archive/20250501/202505010010.EVmPBhis-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505010010.EVmPBhis-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505010010.EVmPBhis-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/spi/spi-stm32-ospi.c: In function 'stm32_ospi_get_resources':
+>> drivers/spi/spi-stm32-ospi.c:828:67: error: passing argument 3 of 'of_reserved_mem_region_to_resource' from incompatible pointer type [-Wincompatible-pointer-types]
+     828 |         ret = of_reserved_mem_region_to_resource(dev->of_node, 0, &res);
+         |                                                                   ^~~~
+         |                                                                   |
+         |                                                                   struct resource **
+   In file included from drivers/spi/spi-stm32-ospi.c:23:
+   include/linux/of_reserved_mem.h:44:75: note: expected 'struct resource *' but argument is of type 'struct resource **'
+      44 |                                        unsigned int idx, struct resource *res);
+         |                                                          ~~~~~~~~~~~~~~~~~^~~
+>> drivers/spi/spi-stm32-ospi.c:830:47: error: passing argument 1 of 'resource_size' from incompatible pointer type [-Wincompatible-pointer-types]
+     830 |                 ospi->mm_size = resource_size(&res);
+         |                                               ^~~~
+         |                                               |
+         |                                               struct resource **
+   In file included from include/linux/device.h:17,
+                    from include/linux/dma-mapping.h:5,
+                    from drivers/spi/spi-stm32-ospi.c:9:
+   include/linux/ioport.h:289:68: note: expected 'const struct resource *' but argument is of type 'struct resource **'
+     289 | static inline resource_size_t resource_size(const struct resource *res)
+         |                                             ~~~~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/spi/spi-stm32-ospi.c:831:60: error: passing argument 2 of 'devm_ioremap_resource' from incompatible pointer type [-Wincompatible-pointer-types]
+     831 |                 ospi->mm_base = devm_ioremap_resource(dev, &res);
+         |                                                            ^~~~
+         |                                                            |
+         |                                                            struct resource **
+   In file included from include/linux/device.h:31:
+   include/linux/device/devres.h:101:80: note: expected 'const struct resource *' but argument is of type 'struct resource **'
+     101 | void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res);
+         |                                                         ~~~~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/spi/spi-stm32-ospi.c:776:29: warning: unused variable 'node' [-Wunused-variable]
+     776 |         struct device_node *node;
+         |                             ^~~~
+>> drivers/spi/spi-stm32-ospi.c:775:30: warning: unused variable 'rmem' [-Wunused-variable]
+     775 |         struct reserved_mem *rmem = NULL;
+         |                              ^~~~
+
+
+vim +/of_reserved_mem_region_to_resource +828 drivers/spi/spi-stm32-ospi.c
+
+   769	
+   770	static int stm32_ospi_get_resources(struct platform_device *pdev)
+   771	{
+   772		struct device *dev = &pdev->dev;
+   773		struct stm32_ospi *ospi = platform_get_drvdata(pdev);
+   774		struct resource *res;
+ > 775		struct reserved_mem *rmem = NULL;
+ > 776		struct device_node *node;
+   777		int ret;
+   778	
+   779		ospi->regs_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+   780		if (IS_ERR(ospi->regs_base))
+   781			return PTR_ERR(ospi->regs_base);
+   782	
+   783		ospi->regs_phys_base = res->start;
+   784	
+   785		ospi->clk = devm_clk_get(dev, NULL);
+   786		if (IS_ERR(ospi->clk))
+   787			return dev_err_probe(dev, PTR_ERR(ospi->clk),
+   788					     "Can't get clock\n");
+   789	
+   790		ospi->clk_rate = clk_get_rate(ospi->clk);
+   791		if (!ospi->clk_rate) {
+   792			dev_err(dev, "Invalid clock rate\n");
+   793			return -EINVAL;
+   794		}
+   795	
+   796		ospi->irq = platform_get_irq(pdev, 0);
+   797		if (ospi->irq < 0)
+   798			return ospi->irq;
+   799	
+   800		ret = devm_request_irq(dev, ospi->irq, stm32_ospi_irq, 0,
+   801				       dev_name(dev), ospi);
+   802		if (ret) {
+   803			dev_err(dev, "Failed to request irq\n");
+   804			return ret;
+   805		}
+   806	
+   807		ospi->rstc = devm_reset_control_array_get_optional_exclusive(dev);
+   808		if (IS_ERR(ospi->rstc))
+   809			return dev_err_probe(dev, PTR_ERR(ospi->rstc),
+   810					     "Can't get reset\n");
+   811	
+   812		ospi->dma_chrx = dma_request_chan(dev, "rx");
+   813		if (IS_ERR(ospi->dma_chrx)) {
+   814			ret = PTR_ERR(ospi->dma_chrx);
+   815			ospi->dma_chrx = NULL;
+   816			if (ret == -EPROBE_DEFER)
+   817				goto err_dma;
+   818		}
+   819	
+   820		ospi->dma_chtx = dma_request_chan(dev, "tx");
+   821		if (IS_ERR(ospi->dma_chtx)) {
+   822			ret = PTR_ERR(ospi->dma_chtx);
+   823			ospi->dma_chtx = NULL;
+   824			if (ret == -EPROBE_DEFER)
+   825				goto err_dma;
+   826		}
+   827	
+ > 828		ret = of_reserved_mem_region_to_resource(dev->of_node, 0, &res);
+   829		if (!ret) {
+ > 830			ospi->mm_size = resource_size(&res);
+ > 831			ospi->mm_base = devm_ioremap_resource(dev, &res);
+   832			if (!ospi->mm_base) {
+   833				dev_err(dev, "unable to map memory region: %pR\n", &res);
+   834				ret = -ENOMEM;
+   835				goto err_dma;
+   836			}
+   837	
+   838			if (ospi->mm_size > STM32_OSPI_MAX_MMAP_SZ) {
+   839				dev_err(dev, "Memory map size outsize bounds\n");
+   840				ret = -EINVAL;
+   841				goto err_dma;
+   842			}
+   843		} else {
+   844			dev_info(dev, "No memory-map region found\n");
+   845		}
+   846	
+   847		init_completion(&ospi->data_completion);
+   848		init_completion(&ospi->match_completion);
+   849	
+   850		return 0;
+   851	
+   852	err_dma:
+   853		dev_info(dev, "Can't get all resources (%d)\n", ret);
+   854	
+   855		if (ospi->dma_chtx)
+   856			dma_release_channel(ospi->dma_chtx);
+   857		if (ospi->dma_chrx)
+   858			dma_release_channel(ospi->dma_chrx);
+   859	
+   860		return ret;
+   861	};
+   862	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
