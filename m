@@ -1,135 +1,170 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32ADF1F1319
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 09:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBA51E51FF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 09:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746003777; cv=none; b=ElD/CqqPf6/+WO8kPtUrOErmKexfo3cujWK03X8pLrTWUP6RuKMhZ983oW2yWBLiwxISpdrm1akqZUbVbvCLUQ0bioQ7TYzdzTMIvT+8gSvBXIjKkd3cD+AWvpiUEAIQuUIs4tZKBpl87VZvarkLDYeYrG/Zb9bnOv5L0f55iX4=
+	t=1746005400; cv=none; b=sRtLWqMUyNUzzOU8vbTjxlAoAz/oX2kwESQbAO+mpXIxjagr61AKydI3qATeOlDdR5+GxrKjQ8b6GygAJP1TsPOLh4hN9f+5M34A+mTITO+uXD53tLtMwEJXu3Gc4JAeTBU7wvijSE44SMi0XCXUe/7pZXkA2gHm92bxn3LUKxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746003777; c=relaxed/simple;
-	bh=R61Unc1O3PEjF+JSF1A48jFx0TNkpJAQ9/Rixza4/ww=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NlwGg2DKKZXl6JnA9pARqkDUTV5pBLpTJW1HjqY4cBGNqioxY0lXkX74XWeAf8RZAkm/r23cM4JfWMq9C1tFOUjqBvnI9/ezHlpwYBaNyZdjyQEaw5SMnkmkUts1+nUDxfLHoh3x0femj1p1ELbEHcjb0W/3fwv38qIcvoMLdUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdLlAzzG; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746005400; c=relaxed/simple;
+	bh=6y/EpfSEDdajxjmm4bNOX9LSI3yJ3eDuX1zKegdrzLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iGcJMjwQNuwkKjAjhHKBsICyiRsIjLE7A94XuZ0FSJhXqP4m5cpeNizDRikc2bsvHTcW2jRsemOs/NMqJG6ZDz9vV5DPb09JUqu3UadcmMLpDjYrH9xsFZzq2El4TSEEUMlJv8irQL2F25isCzqD2kkXOHnr9JsnM70QleaCASg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q6Z8KoDi; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdLlAzzG"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-476a720e806so67788991cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 02:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746003773; x=1746608573; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8X+hIncwnwSZUNbNNf14X22Cim2AO62TVydGoqooScU=;
-        b=AdLlAzzG7M63aaQji+Lqmzpa8Omu6lSqeBO5RzrXIckJaCkIj05dqx1r+qmXfOFUHJ
-         +6icSLfQHm/EPQPf+9FZo8UlRsCkPEACRylc9VeB8Src+Ycm/G/Uuc5aVzLAv0b3T76G
-         JTSk1L59tEX07PpfKlN1dYlYNMb1/Bf7cKwktYx6ptLir2IW5zrLICBVAu/SdHZjUUO3
-         KJkfFW8dhOuqe+CbXUrY54UcaKym385Z03gRDe0Bzf/ZaG8kR0JxpbuptS0MncZaaZuG
-         cjE9OBRNsOPxgjJU00ch6kFe3r+DxVjCh//xr2k+OemE+UAV5rGIPbTS/fbUAnN51CDL
-         WhbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746003773; x=1746608573;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8X+hIncwnwSZUNbNNf14X22Cim2AO62TVydGoqooScU=;
-        b=Jd/nIMl9yQ5sTnX7nR40/KhCWMUca4ipTjYfIiny1atSJ6UDs5xKAYJxjKxOtNg8cP
-         nF4Id8Y/XpaKa/g0sWQ+Ya48QdZe12diEfiLKZ+bW/D0aHJfkr+44QHiptJ36kRuHAN4
-         0XSKqMekSEJToxet/Jz0WYuLiuHG9LnVeFF355lPUUfPlYBqLDhJkd6Dyp2YPYQ0D6WE
-         GqPzmQsAh0vTweOnhXNKtLdcC0Ym0SL3PI9Bp/aVYBNFDgVd6691NoBEaUcix8EVOZ/d
-         i8keKyWI3Cwtto/M0a/gcaAQU8nuc6c5WV2OTxEujC6/yEuQHfepsN6xMsC0nb+ImzaO
-         6F3Q==
-X-Gm-Message-State: AOJu0YyEvxNBXMqKRnq9m4aznpMzGLdUew8GkK6u05RrT6WykTliGDqH
-	bjnzZv5t87L6dR0wtUDAltK2cdphcU8JMe2PiBksbedfmsuEReKBOd8y1U7dRdxIUIc4MZVWLdT
-	3XlaeJ0XL5zZKFSfG+Ld9yjmcirQ=
-X-Gm-Gg: ASbGncs7DtWaHj1mF8X5viQQvnooww3Mo6EldX0CtNZTrmKDLZIbfEBN8ITy7EYRP4g
-	6qgDfDtbCc7qgGoXaVIFf4ZVxMbruKR79rKUH6Ro6APnlXQIBX7S39dR+j8uIqGAl3GF0sTfYCD
-	d8x17C3r1pgmaqt0jb4hJVRNU1KOSH/4i0I8N00i8IFxuIZGc/IDWjxg==
-X-Google-Smtp-Source: AGHT+IHnekIPPgGajn+eHiNG9FrgoQGBVIu+d22bq0c7EK8+nbqn49ZCy2HWJYkYVExvwtQsV7kUge2CuQ3TPE2cqt8=
-X-Received: by 2002:a05:622a:620b:b0:476:add4:d2b8 with SMTP id
- d75a77b69052e-489c4f27399mr38473341cf.32.1746003773021; Wed, 30 Apr 2025
- 02:02:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q6Z8KoDi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746005398; x=1777541398;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6y/EpfSEDdajxjmm4bNOX9LSI3yJ3eDuX1zKegdrzLY=;
+  b=Q6Z8KoDipP+UyIvLnLGZxFiT8s+y212MngivV4Rsd6x85xf2f0ZP+vYn
+   MfBArHPLSc07OxAktx+CM4JXsRglsKn0miIo8CmB9/SqFPuqgvzUXIKdc
+   LH6iEtKP3/lFtJj7WWDZ5eUWW2alJ2XqUtbrR0cbSOm2KPIr0FM2S985h
+   otO5dfFURfDxzxLYboSeVPkdGvemLbD2OJQFC/jGLBR8JWpmu56jj79Sl
+   mkWa5+AMjDM+/2RGXIyg7zm806pde9+UXRtPn99lmd22jEXDGBs4Pbocg
+   yl227MuEa6FvpZcFFQJpt9chrOZDUOrakRPg0Mp8kzddQkYQJQjf+x4wh
+   Q==;
+X-CSE-ConnectionGUID: VJV+1LBrTuGP9FNL2Mt0SQ==
+X-CSE-MsgGUID: xcoFIRDLS1mp3Ox1dsMokg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="59033765"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="59033765"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 02:29:58 -0700
+X-CSE-ConnectionGUID: rLL55U8PTMaQabuWIvWqAQ==
+X-CSE-MsgGUID: EoFLqSMNSPq7QJ1tNCxd2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="134016536"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Apr 2025 02:29:55 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uA3lJ-0003Lx-1r;
+	Wed, 30 Apr 2025 09:29:53 +0000
+Date: Wed, 30 Apr 2025 17:28:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
+Subject: Re: [PATCH] btrfs: send: remove btrfs_debug() calls
+Message-ID: <202504301726.KJfSXyNW-lkp@intel.com>
+References: <20250429085349.2169622-1-dsterba@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202504301545.gDwTgEok-lkp@intel.com>
-In-Reply-To: <202504301545.gDwTgEok-lkp@intel.com>
-From: Alexey Charkov <alchark@gmail.com>
-Date: Wed, 30 Apr 2025 13:02:43 +0400
-X-Gm-Features: ATxdqUFqaSd9ealT5-uklgA4yVl4iw1SKTCbfxq3GZMN9FVfdyUu2S3NismOAOY
-Message-ID: <CABjd4Yy+Nd5nwV8WcVda0aO7i7jAm9g0S_zELQexvbgUsvLeow@mail.gmail.com>
-Subject: Re: [linux-next:master 6331/7105] arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb:
- /soc/sdhc@d800a000: failed to match any schema with compatible: ['wm,wm8505-sdhc']
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250429085349.2169622-1-dsterba@suse.com>
 
-On Wed, Apr 30, 2025 at 12:02=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   9d9096722447b77662d4237a09909bde7774f22e
-> commit: 927e1b7ac361fa1a76fb29caa21853c9d8ba315a [6331/7105] ARM: dts: vt=
-8500: Add VIA APC Rock/Paper board
-> config: arm-randconfig-052-20250429 (https://download.01.org/0day-ci/arch=
-ive/20250430/202504301545.gDwTgEok-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df=
-0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> dtschema version: 2025.3.dev21+ge6ea659
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250430/202504301545.gDwTgEok-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504301545.gDwTgEok-lkp=
-@intel.com/
->
-> dtcheck warnings: (new ones prefixed by >>)
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
-/uart1: failed to match any schema with compatible: ['via,vt8500-device-clo=
-ck']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
-/uart2: failed to match any schema with compatible: ['via,vt8500-device-clo=
-ck']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
-/uart3: failed to match any schema with compatible: ['via,vt8500-device-clo=
-ck']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
-/pwm: failed to match any schema with compatible: ['via,vt8500-device-clock=
-']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
-/sdhc: failed to match any schema with compatible: ['via,vt8500-device-cloc=
-k']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/fb@d8051700: failed=
- to match any schema with compatible: ['wm,wm8505-fb']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/ge_rops@d8050400: f=
-ailed to match any schema with compatible: ['wm,prizm-ge-rops']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pwm@d8220000: faile=
-d to match any schema with compatible: ['via,vt8500-pwm']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/timer@d8130100: fai=
-led to match any schema with compatible: ['via,vt8500-timer']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/usb@d8007900: faile=
-d to match any schema with compatible: ['via,vt8500-ehci']
-> >> arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/sdhc@d800a000: fail=
-ed to match any schema with compatible: ['wm,wm8505-sdhc']
->    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/ethernet@d8004000: =
-failed to match any schema with compatible: ['via,vt8500-rhine']
+Hi David,
 
-Note that this should resolve itself once the related bindings change
-[1] gets pulled into linux-next from Ulf's tree.
+kernel test robot noticed the following build warnings:
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git/commit/?h=
-=3Dnext&id=3Dbf45262ace269de52752d26b85d373151b8fea8c
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.15-rc4 next-20250429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Best regards,
-Alexey
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Sterba/btrfs-send-remove-btrfs_debug-calls/20250429-165603
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250429085349.2169622-1-dsterba%40suse.com
+patch subject: [PATCH] btrfs: send: remove btrfs_debug() calls
+config: arc-randconfig-001-20250430 (https://download.01.org/0day-ci/archive/20250430/202504301726.KJfSXyNW-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504301726.KJfSXyNW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504301726.KJfSXyNW-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   fs/btrfs/send.c: In function 'send_rename':
+>> fs/btrfs/send.c:819:31: warning: unused variable 'fs_info' [-Wunused-variable]
+     819 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_link':
+   fs/btrfs/send.c:841:31: warning: unused variable 'fs_info' [-Wunused-variable]
+     841 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_unlink':
+   fs/btrfs/send.c:862:31: warning: unused variable 'fs_info' [-Wunused-variable]
+     862 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_rmdir':
+   fs/btrfs/send.c:882:31: warning: unused variable 'fs_info' [-Wunused-variable]
+     882 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'find_extent_clone':
+>> fs/btrfs/send.c:1568:13: warning: variable 'logical' set but not used [-Wunused-but-set-variable]
+    1568 |         u64 logical;
+         |             ^~~~~~~
+   fs/btrfs/send.c: In function 'send_truncate':
+   fs/btrfs/send.c:2620:31: warning: unused variable 'fs_info' [-Wunused-variable]
+    2620 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_chmod':
+   fs/btrfs/send.c:2645:31: warning: unused variable 'fs_info' [-Wunused-variable]
+    2645 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_fileattr':
+   fs/btrfs/send.c:2670:31: warning: unused variable 'fs_info' [-Wunused-variable]
+    2670 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_chown':
+   fs/btrfs/send.c:2698:31: warning: unused variable 'fs_info' [-Wunused-variable]
+    2698 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_utimes':
+   fs/btrfs/send.c:2724:31: warning: unused variable 'fs_info' [-Wunused-variable]
+    2724 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_create_inode':
+   fs/btrfs/send.c:2839:31: warning: unused variable 'fs_info' [-Wunused-variable]
+    2839 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+   fs/btrfs/send.c: In function 'send_write':
+   fs/btrfs/send.c:5308:31: warning: unused variable 'fs_info' [-Wunused-variable]
+    5308 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+         |                               ^~~~~~~
+
+
+vim +/fs_info +819 fs/btrfs/send.c
+
+31db9f7c23fbf7e Alexander Block 2012-07-25  812  
+31db9f7c23fbf7e Alexander Block 2012-07-25  813  /*
+31db9f7c23fbf7e Alexander Block 2012-07-25  814   * Sends a move instruction to user space
+31db9f7c23fbf7e Alexander Block 2012-07-25  815   */
+31db9f7c23fbf7e Alexander Block 2012-07-25  816  static int send_rename(struct send_ctx *sctx,
+31db9f7c23fbf7e Alexander Block 2012-07-25  817  		     struct fs_path *from, struct fs_path *to)
+31db9f7c23fbf7e Alexander Block 2012-07-25  818  {
+04ab956ee69cdbe Jeff Mahoney    2016-09-20 @819  	struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
+31db9f7c23fbf7e Alexander Block 2012-07-25  820  	int ret;
+31db9f7c23fbf7e Alexander Block 2012-07-25  821  
+31db9f7c23fbf7e Alexander Block 2012-07-25  822  	ret = begin_cmd(sctx, BTRFS_SEND_C_RENAME);
+31db9f7c23fbf7e Alexander Block 2012-07-25  823  	if (ret < 0)
+264515c7cb62661 Filipe Manana   2025-02-20  824  		return ret;
+31db9f7c23fbf7e Alexander Block 2012-07-25  825  
+31db9f7c23fbf7e Alexander Block 2012-07-25  826  	TLV_PUT_PATH(sctx, BTRFS_SEND_A_PATH, from);
+31db9f7c23fbf7e Alexander Block 2012-07-25  827  	TLV_PUT_PATH(sctx, BTRFS_SEND_A_PATH_TO, to);
+31db9f7c23fbf7e Alexander Block 2012-07-25  828  
+31db9f7c23fbf7e Alexander Block 2012-07-25  829  	ret = send_cmd(sctx);
+31db9f7c23fbf7e Alexander Block 2012-07-25  830  
+31db9f7c23fbf7e Alexander Block 2012-07-25  831  tlv_put_failure:
+31db9f7c23fbf7e Alexander Block 2012-07-25  832  	return ret;
+31db9f7c23fbf7e Alexander Block 2012-07-25  833  }
+31db9f7c23fbf7e Alexander Block 2012-07-25  834  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
