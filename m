@@ -1,114 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7CD21B9C3;
-	Wed, 30 Apr 2025 08:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52314214A6E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 08:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746001719; cv=none; b=u2w8dYtcman2krXcIVTEcL6FxhoBXuwFIvGdo/g4HeQXWQ5Nu0ZbTrBs/eY/BSeSPZvpDwUsbnwUxwLlleRFVothCYr70HO6rgwaN4Tcykhay2kYysQkmtUQniwAheK7kDEx6h3fU3c09clezAII+/O+HMvBGEgqqd0cfvmrYgE=
+	t=1746002023; cv=none; b=T7Ca73Ri9FKWtmPLDHhKVUmHHAwUsr19UKpQzeGRz+5A+vtlYsMznascU9/pdhBZ/khs8plUIpbgKkef62rZTtYtPg1IiUyPOVydAK13t5qaMqy51tSPECBGjgI+GaBcdG01NcoZl9SG/cK7wBlG3PieEtAZWKR6A77+ABP386Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746001719; c=relaxed/simple;
-	bh=dRAs2qXXUA/N97RfHpdlApe9kO3tgf2G0Ws27HW/leU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hh9BgXNAyqdpXiWZMpx4lCG/+u5JAJ3xfgLsyFm3KfTgoUXV/f3FmW5UawftkLrk+D2CW24UrZQhneC7y9zqTOxHy7lwOYwr3G2Q0iI7ie7MZwFK8OEECHm5cl7jOHcTp+mFWPfeJebfy3IX8WvQ10tw7NYcL8/uki+bvnPoe6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HLQQRYIK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746002023; c=relaxed/simple;
+	bh=q/+LbTSQVvyaeB39OvKh0Z7Kl8kt7PrkIv1p18GWNcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Cm4PYT4zHC/Bq+d6Uk+brnIRX3G1xgt/yLOcmg041d4qmQSn97kNF6HFqlRYCygprzdoHC67nKJ5m51sbbk3iyVYdbkISKUrq1QJFoCAZxpayhRSK3sx2neSVnmgZx65mZ9obHxlB1XREMIbntTMCNwxpRcK//EMi+5AfUuSqhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZAQfo9h9; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HLQQRYIK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675A2C4CEE9;
-	Wed, 30 Apr 2025 08:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746001718;
-	bh=dRAs2qXXUA/N97RfHpdlApe9kO3tgf2G0Ws27HW/leU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=HLQQRYIKoXpbCGU1oiZAlBYVf2sYWlszXWirWOR7hDLvOKLcxakR6Hs3RjN3ZDT9o
-	 ke/671XCkqpYc76O2on3kpuvoCh9hLTZwUfkWVDNPyp2Cna9grfXVOy82u1s6bDEuP
-	 mLQM87Sif9u9GSoHY1De98kud+SWcTFGTcwpx2u5D2DN6lt6S34n9fHH0lMXSlwYeG
-	 EtCJE+mzLWFKYv5ASk8ITaolzKlv+PBLyNzMkgw4wnnqBXJeCkg8on1KO0My3HCeO3
-	 8kQlMbqSzFqXKZof7wjX/0MP1fTgE1aARvdRqwLGvbX2O+PtPL9ku0h9V7luEzQOZZ
-	 LN8bUTGAV3O9Q==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-Cc: "kernel test robot" <lkp@intel.com>,  "FUJITA Tomonori"
- <fujita.tomonori@gmail.com>,  <oe-kbuild-all@lists.linux.dev>,
-  <linux-kernel@vger.kernel.org>,  "Miguel Ojeda" <ojeda@kernel.org>,
-  "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
-In-Reply-To: <CANiq72n6tTox7jMX89p4vLihghrJeDcBL+MWR8rp4_Y0LyxcKg@mail.gmail.com>
- (Miguel
-	Ojeda's message of "Wed, 30 Apr 2025 07:06:28 +0200")
-References: <202504301208.YQCguEmE-lkp@intel.com>
-	<D4J3Zi4_pJAvvHPii2-9GqOa4jd7dzNzOJ3Wf_Mo95TggON0WGCiDwXrT2vd_aj5G0tt-tqIDp4vi5tjbLE7AA==@protonmail.internalid>
-	<CANiq72n6tTox7jMX89p4vLihghrJeDcBL+MWR8rp4_Y0LyxcKg@mail.gmail.com>
-User-Agent: mu4e 1.12.7; emacs 30.1
-Date: Wed, 30 Apr 2025 10:28:25 +0200
-Message-ID: <87ecxa2guu.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZAQfo9h9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746002022; x=1777538022;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=q/+LbTSQVvyaeB39OvKh0Z7Kl8kt7PrkIv1p18GWNcw=;
+  b=ZAQfo9h9lLBq0LCx24ytklnNK035M30D1XQWLugkUpaijRwe+bou5wB0
+   3Xl3Ygqea7vdDTlgNrgnz3Pms0RMfbjHvS0t2947Ecos0STxC2mxR7mgA
+   /0VfI6Dx5ui+esXygKDpaXEmEd9XSGE1g4YFT48ank+L7YbFUpM7e87Xf
+   JXFuIji9H2YQmlRVf8WJq+M+sM5llMYbuwun/ZvrwVB6N1CaDk+lnr2CA
+   OJ2S7UQ+2kH6HIxzF5U0oGJ/lWVZK9U0cdA2KRgkMkDnGzhzs8xIz1bEx
+   /wsHEflzJV3M6Zcxp3MWqAWzJhieZXNZJaxXwv7GwVVibJQXDl50RiI+f
+   w==;
+X-CSE-ConnectionGUID: vrRioPquTBeSeMBWsWBPIw==
+X-CSE-MsgGUID: CgHgD+BaQImLrQS333JkbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47533839"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="47533839"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:33:41 -0700
+X-CSE-ConnectionGUID: GnwQGHcEQZObHbtoB7M8SA==
+X-CSE-MsgGUID: jPt/TgquT02V7Sfv6js0fg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="165000784"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2025 01:33:39 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uA2sr-0003Iz-1Y;
+	Wed, 30 Apr 2025 08:33:37 +0000
+Date: Wed, 30 Apr 2025 16:32:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ezra Khuzadi <ekhuzadi@uci.edu>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: sound/pci/hda: add quirk for HP Spectre x360 15-eb0xxx
+Message-ID: <aBHgOsqA4qfe7LbN@c757f733ca9e>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPXr0uxh0c_2b2-zJF=N8T6DfccfyvOQRX0X0VO24dS7YsxzzQ@mail.gmail.com>
 
-"Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com> writes:
+Hi,
 
-> On Wed, Apr 30, 2025 at 6:55=E2=80=AFAM kernel test robot <lkp@intel.com>=
- wrote:
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it master
->> head:   8bac8898fe398ffa3e09075ecea2be511725fb0b
->> commit: 584e61452f75bfeac2cdd83730b4059526ec60c7 rust: helpers: Remove v=
-olatile qualifier from io helpers
->> date:   2 weeks ago
->> config: um-randconfig-r063-20250430 (https://download.01.org/0day-ci/arc=
-hive/20250430/202504301208.YQCguEmE-lkp@intel.com/config)
->> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cb=
-f1a2591520c2491aa35339f227775f4d3adf6)
->> rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
->> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arch=
-ive/20250430/202504301208.YQCguEmE-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
-sion of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202504301208.YQCguEmE-lk=
-p@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->> >> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
->>    --> rust/kernel/block/mq/operations.rs:15:33
->>    |
->>    15 | use core::{marker::PhantomData, sync::atomic::AtomicU64, sync::a=
-tomic::Ordering};
->>    |                                 ^^^^^^^^^^^^^^---------
->>    |                                 |             |
->>    |                                 |             help: a similar name =
-exists in the module: `AtomicU32`
->>    |                                 no `AtomicU64` in `sync::atomic`
->> --
->> >> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
->>    --> rust/kernel/block/mq/request.rs:16:20
->>    |
->>    16 |     sync::atomic::{AtomicU64, Ordering},
->>    |                    ^^^^^^^^^
->>    |                    |
->>    |                    no `AtomicU64` in `sync::atomic`
->>    |                    help: a similar name exists in the module: `Atom=
-icU32`
->
-> Cc'ing Andreas.
->
+Thanks for your patch.
 
-Gary sent a patch to fix this a while back [1].
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-Best regards,
-Andreas Hindborg
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: sound/pci/hda: add quirk for HP Spectre x360 15-eb0xxx
+Link: https://lore.kernel.org/stable/CAPXr0uxh0c_2b2-zJF%3DN8T6DfccfyvOQRX0X0VO24dS7YsxzzQ%40mail.gmail.com
 
-[1] https://lore.kernel.org/all/20250219201602.1898383-4-gary@garyguo.net
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
 
