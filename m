@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F511D61AA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 05:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5141D86D6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 05:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745990709; cv=none; b=gdk/loZbWhtpEILWdpIKfylb2Ra2GmjRexTJxBk7Cve7Mh9E6fqUCKDVLuehelXNuwfpwc0Q2ZsPZGH4f9a/MLNGH03dxp4P5PvWHqGo1mPVDc+Z/oWziWLGiGe52vNHsfdI5E/lzNH81q7v5HhcC3s0VfGjQNT7a5nFs8+APv0=
+	t=1745991377; cv=none; b=VBZKnR6ZONW7xWZTZsBygZxOtb+YTfDKuC08rM7/5KpWjTuew72NHU+mj/vXkQo1wTfFZ6OWcoWjvPaNreO7HewXQoiIzpOBjT1n3oemfvYk5C2mKf9YaudHsA7Vs/OYNJI8Ayn/VM8EARRov76V8kaTC9uHS6wpAZ9TmIaXs7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745990709; c=relaxed/simple;
-	bh=Uvc9RpafogA/JqFCAM+QSwlrdFilfmktBoJdQKYTOwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bkPVUP843C7AAIOHkPwJbeoii5sZIrypU5a4WT/ddlokexCyZk1mz/ZyuJMmIw8nv7Jn/mGdOu2qgoTlyZOkUURi7eoPUB6++C9syYBi+vgm/9DfNF2On3SOQcTQ1BtNChj1msLtzPNEVVMknJbowVUZlefnoQQCxzgyHNjBwpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLXGteAX; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1745991377; c=relaxed/simple;
+	bh=qkNRqzaLetnXbthDZ+02HWpZDM7Dejcb6Ifv+OyI2gI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TV5zp+xJv1eSH4B2QAXr4YmMrLhVfjZ4/+wLDJLLW6mTI7vdgDXXUbPZroEISGavU1zuIji4yoxZaUAvn7lhtRcVKjlxOIAQlsts3mpYVsPLi31MMW6NVjXc5gU/8KaMfADIJC6GdudDLbQmfvQTp10n0dSgUPtuT8psKzTJSME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LlEAl+3Z; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLXGteAX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LlEAl+3Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745990707; x=1777526707;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Uvc9RpafogA/JqFCAM+QSwlrdFilfmktBoJdQKYTOwQ=;
-  b=JLXGteAXmngPd1BXn/5nuMQs7LrUf6U/aJaS6pEWVBU3dVuV9VNjOFZE
-   twF/aWkTznDUJh+Q1Yw8LkKuT2d6PvwHPlRmkfQcFAjh03C4lWvKp0cc4
-   bP+9jI7YSoI5vvNx7WNLzpyZhT3rhqJl9OaXUs4EBFumDJlJrfMtHKxau
-   g5O/m+DJhdWwYkLn4uRhWGmwkdv5oDOQChOvpM/UycJWcOWg+7D8HFqqa
-   OBZ9u5kt0OB6flxRKn2+t850LYCGQ+Bz+KM1GK7YEL0JZptecFRXa1gRv
-   YzDse9kj99qogm3QwFpzFPHjr6HciHZpYPqdKUPAQia2uZCBTzT2f/ZOB
-   w==;
-X-CSE-ConnectionGUID: jl69fn9iQraH7wBVFqr+VQ==
-X-CSE-MsgGUID: wB4T0PeMSe6LfBi4c2I3hA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="50293929"
+  t=1745991375; x=1777527375;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qkNRqzaLetnXbthDZ+02HWpZDM7Dejcb6Ifv+OyI2gI=;
+  b=LlEAl+3ZEZB8QhjCTwKz/QCbSJ/LwcweMPjOzTA1QlG89KlkSrbpprmG
+   6kx/GFkGgUZVq4jUh/nXOIc2U8B1wEHlDKJf1nl0zXADh2u8JzsQzwpGb
+   PkIM5kknRvXMPSQQgVgx6b8UPm8U9Od0kQf0W7+qfjxIjQ5kAZOnZ28bY
+   eXYNyNKyLOIRJMTPuPVl8Sl9X3AS0pPuEAjjS/yME0Ev4twIIwJfZzL2f
+   5ksJP5J24lAsI2sBInEqCGHcBt4u+8HjmB9TU57z4Ngtyy8M/Z74LVqrw
+   RyqXJePKOAE0rKGaIl65zWPNqe6k8ijElViAIovWgt5Lb9yjM8iL0SfPT
+   Q==;
+X-CSE-ConnectionGUID: kMVwCBcSRmqEUN5PASLsMQ==
+X-CSE-MsgGUID: XP6+q77zSwOvuz8nvdRlsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="73022538"
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="50293929"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 22:25:06 -0700
-X-CSE-ConnectionGUID: +VgXy0BZSE2oyKDCZZ7Wfg==
-X-CSE-MsgGUID: 8+0cGS84RjCsARvCpypUrA==
+   d="scan'208";a="73022538"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 22:36:14 -0700
+X-CSE-ConnectionGUID: Tm8+kCPLQKmrtyrTulHBOQ==
+X-CSE-MsgGUID: rpoIVj1rTmaU9sTCPIEO3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="134542611"
+   d="scan'208";a="133929533"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Apr 2025 22:25:05 -0700
+  by orviesa010.jf.intel.com with ESMTP; 29 Apr 2025 22:36:06 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9zwM-0003BN-2T;
-	Wed, 30 Apr 2025 05:25:02 +0000
-Date: Wed, 30 Apr 2025 13:24:52 +0800
+	id 1uA072-0003Bh-0e;
+	Wed, 30 Apr 2025 05:36:04 +0000
+Date: Wed, 30 Apr 2025 13:35:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova-docs 6/9] Diff in
- drivers/gpu/nova-core/firmware/fwsec.rs at line 178:
-Message-ID: <202504301346.GD0zClWZ-lkp@intel.com>
+To: Dev Jain <dev.jain@arm.com>, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, ryan.roberts@arm.com, david@redhat.com,
+	willy@infradead.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, catalin.marinas@arm.com,
+	will@kernel.org, Liam.Howlett@oracle.com,
+	lorenzo.stoakes@oracle.com, vbabka@suse.cz, jannh@google.com,
+	anshuman.khandual@arm.com, peterx@redhat.com, joey.gouly@arm.com,
+	ioworker0@gmail.com, baohua@kernel.org, kevin.brodsky@arm.com,
+	quic_zhenhuah@quicinc.com, christophe.leroy@csgroup.eu,
+	yangyicong@hisilicon.com, linux-arm-kernel@lists.infradead.org,
+	namit@vmware.com, hughd@google.com, yang@os.amperecomputing.com,
+	ziy@nvidia.com, Dev Jain <dev.jain@arm.com>
+Subject: Re: [PATCH v2 3/7] mm: Add batched versions of
+ ptep_modify_prot_start/commit
+Message-ID: <202504301319.aph2eccP-lkp@intel.com>
+References: <20250429052336.18912-4-dev.jain@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,80 +73,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250429052336.18912-4-dev.jain@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova-docs
-head:   48dda9ccdc08f9f27ec3a67498db90594d3c4789
-commit: af511c6c5ba55c2835ec2480b7761eed4ed849c6 [6/9] gpu: nova-core: Clarify fields in FalconAppifHdrV1
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250430/202504301346.GD0zClWZ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504301346.GD0zClWZ-lkp@intel.com/reproduce)
+Hi Dev,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on arm64/for-next/core linus/master v6.15-rc4 next-20250429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dev-Jain/mm-Refactor-code-in-mprotect/20250429-133151
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250429052336.18912-4-dev.jain%40arm.com
+patch subject: [PATCH v2 3/7] mm: Add batched versions of ptep_modify_prot_start/commit
+config: arm-randconfig-001-20250430 (https://download.01.org/0day-ci/archive/20250430/202504301319.aph2eccP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504301319.aph2eccP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504301346.GD0zClWZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504301319.aph2eccP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in drivers/gpu/nova-core/firmware/fwsec.rs at line 178:
-    
-        // Find the DMEM mapper section in the firmware.
-        for i in 0..hdr.entry_count as usize {
-   -        let app: &FalconAppifV1 =
-   -            unsafe { transmute(fw, hdr_offset + hdr.header_size as usize + i * hdr.entry_size as usize) }?;
-   +        let app: &FalconAppifV1 = unsafe {
-   +            transmute(
-   +                fw,
-   +                hdr_offset + hdr.header_size as usize + i * hdr.entry_size as usize,
-   +            )
-   +        }?;
-    
-            if app.id != NVFW_FALCON_APPIF_ID_DMEMMAPPER {
-                continue;
->> Diff in drivers/gpu/nova-core/firmware/fwsec.rs at line 178:
-    
-        // Find the DMEM mapper section in the firmware.
-        for i in 0..hdr.entry_count as usize {
-   -        let app: &FalconAppifV1 =
-   -            unsafe { transmute(fw, hdr_offset + hdr.header_size as usize + i * hdr.entry_size as usize) }?;
-   +        let app: &FalconAppifV1 = unsafe {
-   +            transmute(
-   +                fw,
-   +                hdr_offset + hdr.header_size as usize + i * hdr.entry_size as usize,
-   +            )
-   +        }?;
-    
-            if app.id != NVFW_FALCON_APPIF_ID_DMEMMAPPER {
-                continue;
->> Diff in drivers/gpu/nova-core/firmware/fwsec.rs at line 178:
-    
-        // Find the DMEM mapper section in the firmware.
-        for i in 0..hdr.entry_count as usize {
-   -        let app: &FalconAppifV1 =
-   -            unsafe { transmute(fw, hdr_offset + hdr.header_size as usize + i * hdr.entry_size as usize) }?;
-   +        let app: &FalconAppifV1 = unsafe {
-   +            transmute(
-   +                fw,
-   +                hdr_offset + hdr.header_size as usize + i * hdr.entry_size as usize,
-   +            )
-   +        }?;
-    
-            if app.id != NVFW_FALCON_APPIF_ID_DMEMMAPPER {
-                continue;
-   make[2]: *** [Makefile:1828: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   In file included from include/linux/mm.h:31,
+                    from arch/arm/kernel/asm-offsets.c:12:
+   include/linux/pgtable.h: In function 'modify_prot_start_ptes':
+   include/linux/pgtable.h:901:8: error: implicit declaration of function 'ptep_modify_prot_start' [-Werror=implicit-function-declaration]
+     901 |  pte = ptep_modify_prot_start(vma, addr, ptep);
+         |        ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pgtable.h: In function 'modify_prot_commit_ptes':
+   include/linux/pgtable.h:921:3: error: implicit declaration of function 'ptep_modify_prot_commit' [-Werror=implicit-function-declaration]
+     921 |   ptep_modify_prot_commit(vma, addr, ptep, old_pte, pte);
+         |   ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pgtable.h: At top level:
+>> include/linux/pgtable.h:1356:21: error: conflicting types for 'ptep_modify_prot_start'
+    1356 | static inline pte_t ptep_modify_prot_start(struct vm_area_struct *vma,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pgtable.h:901:8: note: previous implicit declaration of 'ptep_modify_prot_start' was here
+     901 |  pte = ptep_modify_prot_start(vma, addr, ptep);
+         |        ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/pgtable.h:1367:20: warning: conflicting types for 'ptep_modify_prot_commit'
+    1367 | static inline void ptep_modify_prot_commit(struct vm_area_struct *vma,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pgtable.h:1367:20: error: static declaration of 'ptep_modify_prot_commit' follows non-static declaration
+   include/linux/pgtable.h:921:3: note: previous implicit declaration of 'ptep_modify_prot_commit' was here
+     921 |   ptep_modify_prot_commit(vma, addr, ptep, old_pte, pte);
+         |   ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:98: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=2044487564
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=2044487564
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2044487564
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2044487564
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/ptep_modify_prot_start +1356 include/linux/pgtable.h
+
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1340  
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1341  #ifndef __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1342  /*
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1343   * Start a pte protection read-modify-write transaction, which
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1344   * protects against asynchronous hardware modifications to the pte.
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1345   * The intention is not to prevent the hardware from making pte
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1346   * updates, but to prevent any updates it may make from being lost.
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1347   *
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1348   * This does not protect against other software modifications of the
+2eb70aab25dd9b include/linux/pgtable.h       Bhaskar Chowdhury   2021-05-06  1349   * pte; the appropriate pte lock must be held over the transaction.
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1350   *
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1351   * Note that this interface is intended to be batchable, meaning that
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1352   * ptep_modify_prot_commit may not actually update the pte, but merely
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1353   * queue the update to be done at some later time.  The update must be
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1354   * actually committed before the pte lock is released, however.
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1355   */
+0cbe3e26abe0cf include/asm-generic/pgtable.h Aneesh Kumar K.V    2019-03-05 @1356  static inline pte_t ptep_modify_prot_start(struct vm_area_struct *vma,
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1357  					   unsigned long addr,
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1358  					   pte_t *ptep)
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1359  {
+0cbe3e26abe0cf include/asm-generic/pgtable.h Aneesh Kumar K.V    2019-03-05  1360  	return __ptep_modify_prot_start(vma, addr, ptep);
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1361  }
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1362  
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1363  /*
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1364   * Commit an update to a pte, leaving any hardware-controlled bits in
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1365   * the PTE unmodified.
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1366   */
+0cbe3e26abe0cf include/asm-generic/pgtable.h Aneesh Kumar K.V    2019-03-05 @1367  static inline void ptep_modify_prot_commit(struct vm_area_struct *vma,
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1368  					   unsigned long addr,
+04a8645304500b include/asm-generic/pgtable.h Aneesh Kumar K.V    2019-03-05  1369  					   pte_t *ptep, pte_t old_pte, pte_t pte)
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1370  {
+0cbe3e26abe0cf include/asm-generic/pgtable.h Aneesh Kumar K.V    2019-03-05  1371  	__ptep_modify_prot_commit(vma, addr, ptep, pte);
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1372  }
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1373  #endif /* __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION */
+fe1a6875fcaaac include/asm-generic/pgtable.h Sebastian Siewior   2008-07-15  1374  #endif /* CONFIG_MMU */
+1ea0704e0da65b include/asm-generic/pgtable.h Jeremy Fitzhardinge 2008-06-16  1375  
 
 -- 
 0-DAY CI Kernel Test Service
