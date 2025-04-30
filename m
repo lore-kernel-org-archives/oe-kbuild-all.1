@@ -1,95 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837861E1A16
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 08:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7CD21B9C3;
+	Wed, 30 Apr 2025 08:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746000171; cv=none; b=Nek2Emmbh2ukXO2hH30oQiKMiX/Xmh7NqXtPb3N8Y26Y4l3ZOyiBJPWylUkW5YCDpkb3qvZuQ8TS86AMZwhN8gXDqhprr/DKIFwzI0dztlFXmcF9uRh58d2DFLsdCRvwcrGexIq0/wMUqtl/IOKDbpWGFH5nxjo04VPJs4wKSeo=
+	t=1746001719; cv=none; b=u2w8dYtcman2krXcIVTEcL6FxhoBXuwFIvGdo/g4HeQXWQ5Nu0ZbTrBs/eY/BSeSPZvpDwUsbnwUxwLlleRFVothCYr70HO6rgwaN4Tcykhay2kYysQkmtUQniwAheK7kDEx6h3fU3c09clezAII+/O+HMvBGEgqqd0cfvmrYgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746000171; c=relaxed/simple;
-	bh=k2LCz8L2emgXWuR5RqRSW1zX9ubtLycf2ugH7iADh58=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tSx5QIn7aBrYZrHhm3K02c2hQaLtL0ccC3U03YhOKcw/3Pyo+9KCS5n4FL/thE+ZnBJRAuF5y8/iyYqdxYmVRuiab2/5LcKxt5GjYLP69IxwF8xy2FE78qXfZX0BRcFyvR0w5QxOW3BlvGtn8aNosztQGdUiYD4o25fAv0yyzSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dR/da5xM; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746001719; c=relaxed/simple;
+	bh=dRAs2qXXUA/N97RfHpdlApe9kO3tgf2G0Ws27HW/leU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hh9BgXNAyqdpXiWZMpx4lCG/+u5JAJ3xfgLsyFm3KfTgoUXV/f3FmW5UawftkLrk+D2CW24UrZQhneC7y9zqTOxHy7lwOYwr3G2Q0iI7ie7MZwFK8OEECHm5cl7jOHcTp+mFWPfeJebfy3IX8WvQ10tw7NYcL8/uki+bvnPoe6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HLQQRYIK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dR/da5xM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746000169; x=1777536169;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k2LCz8L2emgXWuR5RqRSW1zX9ubtLycf2ugH7iADh58=;
-  b=dR/da5xM7R/6gko7IffwMXSOOTrHwKCDhGIAs8TcxmSipT/FgwUTZgNJ
-   pV34sq09SxiF9Y8PsD8rc2Y0qRwtrBp41C0lSZ8Y/RRr8UEPwME1A5D0I
-   g0oJNxN97+8lJ4jSd+jMcduec/RsteCYYQHb7pGZUYGaRXPglmRoARxDv
-   fnnavQlxWAUV9jEeT/pbHuxAh1DtppZkhcBCO7FmVNACWGnw+ZS3nlEN6
-   yo36Rb8BI5x5BaHS/X/rBFnV+Bi0rmAe3Amm0VTJG/tuOa3qQj84BYzfn
-   qVl105syoOnLuVu8R/88C2QW+RKS3S+B2MZsIc6scGftyWzs+GvkmJVb3
-   A==;
-X-CSE-ConnectionGUID: LLUMxdp7SBSthkgVx9iGdg==
-X-CSE-MsgGUID: BUMsPbImRWuv9MRvVd6Wtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47798281"
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="47798281"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:02:48 -0700
-X-CSE-ConnectionGUID: 2lwh/0QTSsCGb87LGlPPGQ==
-X-CSE-MsgGUID: SoJhFMjSTsiY/8O/9Ttg6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="133958895"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 30 Apr 2025 01:02:47 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uA2Oy-0003HN-2X;
-	Wed, 30 Apr 2025 08:02:44 +0000
-Date: Wed, 30 Apr 2025 16:01:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexey Charkov <alchark@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 6331/7105]
- arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/sdhc@d800a000: failed to
- match any schema with compatible: ['wm,wm8505-sdhc']
-Message-ID: <202504301545.gDwTgEok-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HLQQRYIK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675A2C4CEE9;
+	Wed, 30 Apr 2025 08:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746001718;
+	bh=dRAs2qXXUA/N97RfHpdlApe9kO3tgf2G0Ws27HW/leU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=HLQQRYIKoXpbCGU1oiZAlBYVf2sYWlszXWirWOR7hDLvOKLcxakR6Hs3RjN3ZDT9o
+	 ke/671XCkqpYc76O2on3kpuvoCh9hLTZwUfkWVDNPyp2Cna9grfXVOy82u1s6bDEuP
+	 mLQM87Sif9u9GSoHY1De98kud+SWcTFGTcwpx2u5D2DN6lt6S34n9fHH0lMXSlwYeG
+	 EtCJE+mzLWFKYv5ASk8ITaolzKlv+PBLyNzMkgw4wnnqBXJeCkg8on1KO0My3HCeO3
+	 8kQlMbqSzFqXKZof7wjX/0MP1fTgE1aARvdRqwLGvbX2O+PtPL9ku0h9V7luEzQOZZ
+	 LN8bUTGAV3O9Q==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+Cc: "kernel test robot" <lkp@intel.com>,  "FUJITA Tomonori"
+ <fujita.tomonori@gmail.com>,  <oe-kbuild-all@lists.linux.dev>,
+  <linux-kernel@vger.kernel.org>,  "Miguel Ojeda" <ojeda@kernel.org>,
+  "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
+In-Reply-To: <CANiq72n6tTox7jMX89p4vLihghrJeDcBL+MWR8rp4_Y0LyxcKg@mail.gmail.com>
+ (Miguel
+	Ojeda's message of "Wed, 30 Apr 2025 07:06:28 +0200")
+References: <202504301208.YQCguEmE-lkp@intel.com>
+	<D4J3Zi4_pJAvvHPii2-9GqOa4jd7dzNzOJ3Wf_Mo95TggON0WGCiDwXrT2vd_aj5G0tt-tqIDp4vi5tjbLE7AA==@protonmail.internalid>
+	<CANiq72n6tTox7jMX89p4vLihghrJeDcBL+MWR8rp4_Y0LyxcKg@mail.gmail.com>
+User-Agent: mu4e 1.12.7; emacs 30.1
+Date: Wed, 30 Apr 2025 10:28:25 +0200
+Message-ID: <87ecxa2guu.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9d9096722447b77662d4237a09909bde7774f22e
-commit: 927e1b7ac361fa1a76fb29caa21853c9d8ba315a [6331/7105] ARM: dts: vt8500: Add VIA APC Rock/Paper board
-config: arm-randconfig-052-20250429 (https://download.01.org/0day-ci/archive/20250430/202504301545.gDwTgEok-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504301545.gDwTgEok-lkp@intel.com/reproduce)
+"Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com> writes:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504301545.gDwTgEok-lkp@intel.com/
+> On Wed, Apr 30, 2025 at 6:55=E2=80=AFAM kernel test robot <lkp@intel.com>=
+ wrote:
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
+it master
+>> head:   8bac8898fe398ffa3e09075ecea2be511725fb0b
+>> commit: 584e61452f75bfeac2cdd83730b4059526ec60c7 rust: helpers: Remove v=
+olatile qualifier from io helpers
+>> date:   2 weeks ago
+>> config: um-randconfig-r063-20250430 (https://download.01.org/0day-ci/arc=
+hive/20250430/202504301208.YQCguEmE-lkp@intel.com/config)
+>> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cb=
+f1a2591520c2491aa35339f227775f4d3adf6)
+>> rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arch=
+ive/20250430/202504301208.YQCguEmE-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
+sion of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202504301208.YQCguEmE-lk=
+p@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>> >> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
+>>    --> rust/kernel/block/mq/operations.rs:15:33
+>>    |
+>>    15 | use core::{marker::PhantomData, sync::atomic::AtomicU64, sync::a=
+tomic::Ordering};
+>>    |                                 ^^^^^^^^^^^^^^---------
+>>    |                                 |             |
+>>    |                                 |             help: a similar name =
+exists in the module: `AtomicU32`
+>>    |                                 no `AtomicU64` in `sync::atomic`
+>> --
+>> >> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
+>>    --> rust/kernel/block/mq/request.rs:16:20
+>>    |
+>>    16 |     sync::atomic::{AtomicU64, Ordering},
+>>    |                    ^^^^^^^^^
+>>    |                    |
+>>    |                    no `AtomicU64` in `sync::atomic`
+>>    |                    help: a similar name exists in the module: `Atom=
+icU32`
+>
+> Cc'ing Andreas.
+>
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks/uart1: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks/uart2: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks/uart3: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks/pwm: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks/sdhc: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/fb@d8051700: failed to match any schema with compatible: ['wm,wm8505-fb']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/ge_rops@d8050400: failed to match any schema with compatible: ['wm,prizm-ge-rops']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pwm@d8220000: failed to match any schema with compatible: ['via,vt8500-pwm']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/timer@d8130100: failed to match any schema with compatible: ['via,vt8500-timer']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/usb@d8007900: failed to match any schema with compatible: ['via,vt8500-ehci']
->> arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/sdhc@d800a000: failed to match any schema with compatible: ['wm,wm8505-sdhc']
-   arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/ethernet@d8004000: failed to match any schema with compatible: ['via,vt8500-rhine']
+Gary sent a patch to fix this a while back [1].
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Best regards,
+Andreas Hindborg
+
+[1] https://lore.kernel.org/all/20250219201602.1898383-4-gary@garyguo.net
+
+
