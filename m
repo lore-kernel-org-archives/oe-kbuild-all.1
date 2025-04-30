@@ -1,83 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52314214A6E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 08:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8DF1EB19B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 08:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746002023; cv=none; b=T7Ca73Ri9FKWtmPLDHhKVUmHHAwUsr19UKpQzeGRz+5A+vtlYsMznascU9/pdhBZ/khs8plUIpbgKkef62rZTtYtPg1IiUyPOVydAK13t5qaMqy51tSPECBGjgI+GaBcdG01NcoZl9SG/cK7wBlG3PieEtAZWKR6A77+ABP386Q=
+	t=1746002603; cv=none; b=EN5Ux+sqUsU2ol4JUb3RyGwE9sMVDV9oIu5eCQOwvd7CNWo3Z6CazribPaaiCDw0mx9rOhiyk3sCV5+pdEHYOJOcnpByOPiLBFuOioxgCWVhdDCezuWVK8w8gxVaR/l5z6vLeQyrsB/8GdIWP7FFxGsnvOrK6y+G8JwuwQ3WNJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746002023; c=relaxed/simple;
-	bh=q/+LbTSQVvyaeB39OvKh0Z7Kl8kt7PrkIv1p18GWNcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Cm4PYT4zHC/Bq+d6Uk+brnIRX3G1xgt/yLOcmg041d4qmQSn97kNF6HFqlRYCygprzdoHC67nKJ5m51sbbk3iyVYdbkISKUrq1QJFoCAZxpayhRSK3sx2neSVnmgZx65mZ9obHxlB1XREMIbntTMCNwxpRcK//EMi+5AfUuSqhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZAQfo9h9; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746002603; c=relaxed/simple;
+	bh=KNpuHzwTaaTYpf7LfrnyBa2FI4gDtfLAyiquhlf2Pro=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iI4Lghr5CRTEhSOYpOObxwKvvvj1UscQjVNCZ+9jz0xusDqPlAbiS3v/luP7zCGZZBpYNluXFm9NyTvuhnW7eqfFdG+LSLzOkca1fZVeR88kJe9R4puqIP5AAhwqpg2WSJFVpmbht9bjTFHBdWZB1spV28EiHk8WO946mFuqda0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uci.edu; spf=pass smtp.mailfrom=uci.edu; dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b=qMrhzKgN; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uci.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uci.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZAQfo9h9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746002022; x=1777538022;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=q/+LbTSQVvyaeB39OvKh0Z7Kl8kt7PrkIv1p18GWNcw=;
-  b=ZAQfo9h9lLBq0LCx24ytklnNK035M30D1XQWLugkUpaijRwe+bou5wB0
-   3Xl3Ygqea7vdDTlgNrgnz3Pms0RMfbjHvS0t2947Ecos0STxC2mxR7mgA
-   /0VfI6Dx5ui+esXygKDpaXEmEd9XSGE1g4YFT48ank+L7YbFUpM7e87Xf
-   JXFuIji9H2YQmlRVf8WJq+M+sM5llMYbuwun/ZvrwVB6N1CaDk+lnr2CA
-   OJ2S7UQ+2kH6HIxzF5U0oGJ/lWVZK9U0cdA2KRgkMkDnGzhzs8xIz1bEx
-   /wsHEflzJV3M6Zcxp3MWqAWzJhieZXNZJaxXwv7GwVVibJQXDl50RiI+f
-   w==;
-X-CSE-ConnectionGUID: vrRioPquTBeSeMBWsWBPIw==
-X-CSE-MsgGUID: CgHgD+BaQImLrQS333JkbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47533839"
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="47533839"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:33:41 -0700
-X-CSE-ConnectionGUID: GnwQGHcEQZObHbtoB7M8SA==
-X-CSE-MsgGUID: jPt/TgquT02V7Sfv6js0fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="165000784"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2025 01:33:39 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uA2sr-0003Iz-1Y;
-	Wed, 30 Apr 2025 08:33:37 +0000
-Date: Wed, 30 Apr 2025 16:32:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ezra Khuzadi <ekhuzadi@uci.edu>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: sound/pci/hda: add quirk for HP Spectre x360 15-eb0xxx
-Message-ID: <aBHgOsqA4qfe7LbN@c757f733ca9e>
+	dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b="qMrhzKgN"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30bee278c2aso8051471fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 01:43:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=uci.edu; s=google; t=1746002600; x=1746607400; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z1qs81RVT7WGaI5EEDOkNWrLzSI42G5tmDul/p84+M0=;
+        b=qMrhzKgNMz2TPueEdcUSQINt70tqnBzVthALNDO/1CmJMeDUHAVhNS616pT8P6irus
+         CO6Q/1FW1wq4IJEYw4re94QlAUvxPTz0jEu+uB7p0/A5unFJX40tt3gDprAbfLQHregZ
+         wK659SIIlIxHQigJjoPnOfAWX64C3O6yW1RMHuVRyhLDgUq5d7JAOlN3fFLFantTx3rY
+         1hflen0QKelh5QnaQFgbTHpN6JNExmHdU/M/6UlUfdCw7mgdCOg0G4tWhkj2b2XCKVpz
+         +gJeqlcVsEpAW3DxOjjvr9kjZnJWX8gu/zCqTPGGoZ5XL/QyAj4vQyQAHDvE9A6QPZSN
+         Yh5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746002600; x=1746607400;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z1qs81RVT7WGaI5EEDOkNWrLzSI42G5tmDul/p84+M0=;
+        b=XAxzI9BocRfljhRq63exT0Fzil8vKwAT5/FIzTFmoTU4K2gliMyTasuUDrnCeX62B4
+         xldLfFfWJwYJE2DdQqfPfGC+xBLtzZQzjhlDyxfltMY83KQHq+PA8MpKSOmrUT72eB9c
+         fkPU/388RfP2gU83d5tR6W8mMYeqTRYc9dVtZn0jATxb2xTjY/UNJfKy6aIzFop1I5Zu
+         G4p1rpUiakmFqgPtbotIm/C4NM0qQLCga9mIEekHOFBXbMBL5h/TJal8ijMKiXzJYfBD
+         W7+8SNFk0Y4Ej2S0swrXFaoQAgSeUEpgL+/KE2Yod1eEntW3hEznpVFu+7nEJuMeg7Gr
+         l9Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1uBIWjhQu23mk7Z2NTbf8RlJrv8Ng9oA2gM7UiMy8CASpysnBxAsXB4gwtuP0plMj4CP6+XEUub+4Xj+d@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7RAgyAcKFSweo2OkA6D3g+1Q2JYEkm1Z2PTAr+rohw9JJcT0o
+	X5ScbrXHgSErsmNGx867kXontM6MDxjrf7qPEQj4vXfQic9wByLYih6V2hbcNcshd9bY84Zr+Dj
+	8rhurLfNhliKDct3ju7/pMobrt4931gdNi1V9vA==
+X-Gm-Gg: ASbGncvRtrCbRmsWon/9d8IwsLwz+8GY4VRzRjbFWNi2ISUVtgQeAdHepUPX7uylNx1
+	rZC3JhrzldOdZslNOB4ePCPgKCJG7jHdPG1EcKJnbBfHRkmsbcfQIneoDMbVKEHeyCyJk1+wUAo
+	Gk1ttoH4yX4FFmJHZ3O6AT6BltJ8ocBdS32AKY+x+yqUWLl2Q=
+X-Google-Smtp-Source: AGHT+IEj2xNmii2aVrB0HPnZcj1cS2DilF+s1D1CmUyT4TXXlXak86RbcnaZ+lF+p2b/bE6q5sm0vkwf9XHDx/ezzxg=
+X-Received: by 2002:a2e:a808:0:b0:30b:a100:7fec with SMTP id
+ 38308e7fff4ca-31e7d4d6977mr5091471fa.12.1746002599538; Wed, 30 Apr 2025
+ 01:43:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPXr0uxh0c_2b2-zJF=N8T6DfccfyvOQRX0X0VO24dS7YsxzzQ@mail.gmail.com>
+References: <CAPXr0uxh0c_2b2-zJF=N8T6DfccfyvOQRX0X0VO24dS7YsxzzQ@mail.gmail.com>
+ <aBHgOsqA4qfe7LbN@c757f733ca9e>
+In-Reply-To: <aBHgOsqA4qfe7LbN@c757f733ca9e>
+From: Ezra Khuzadi <ekhuzadi@uci.edu>
+Date: Wed, 30 Apr 2025 01:43:08 -0700
+X-Gm-Features: ATxdqUFr52ls8iRfGl3SJa_g3FJ8AF-6Py3XE-3yWU18Haruwxmc1FYYj3yD3U4
+Message-ID: <CAPXr0uxJg0kMu_N7Gxb14kVdhkFGXO_KbK5RxfAcY9dEA8vrEA@mail.gmail.com>
+Subject: Re: sound/pci/hda: add quirk for HP Spectre x360 15-eb0xxx
+To: kernel test robot <lkp@intel.com>, sound-dev@vger.kernel.org
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+	alsa-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+sound/pci/hda/patch_realtek.c: add quirk for HP Spectre x360 15-eb0xxx
 
-Thanks for your patch.
+Add subsystem ID 0x86e5 for HP Spectre x360 15-eb0xxx so that
+ALC285_FIXUP_HP_SPECTRE_X360_EB1 (GPIO amp-enable, mic-mute LED and
+pinconfigs) is applied.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+Tested on HP Spectre x360 15-eb0043dx (Vendor 0x10ec0285, Subsys 0x103c86e5=
+)
+with legacy HDA driver and hda-verb toggles:
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+  $ cat /proc/asound/card0/codec#0 \
+      | sed -n -e '1,5p;/Vendor Id:/p;/Subsystem Id:/p'
+  Codec: Realtek ALC285
+  Vendor Id: 0x10ec0285
+  Subsystem Id: 0x103c86e5
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: sound/pci/hda: add quirk for HP Spectre x360 15-eb0xxx
-Link: https://lore.kernel.org/stable/CAPXr0uxh0c_2b2-zJF%3DN8T6DfccfyvOQRX0X0VO24dS7YsxzzQ%40mail.gmail.com
+  $ dmesg | grep -i realtek
+  [    5.828728] snd_hda_codec_realtek ehdaudio0D0: ALC285: picked fixup
+        for PCI SSID 103c:86e5
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Signed-off-by: Ezra Khuzadi <ekhuzadi@uci.edu>
+Cc: stable@vger.kernel.org
 
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 877137cb09ac..82ad105e7fa9 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10563,6 +10563,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =
+=3D {
+   SND_PCI_QUIRK(0x103c, 0x86c7, "HP Envy AiO 32", ALC274_FIXUP_HP_ENVY_GPI=
+O),
++  SND_PCI_QUIRK(0x103c, 0x86e5, "HP Spectre x360 15-eb0xxx",
+ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+   SND_PCI_QUIRK(0x103c, 0x86e7, "HP Spectre x360 15-eb0xxx",
+ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+   SND_PCI_QUIRK(0x103c, 0x86e8, "HP Spectre x360 15-eb0xxx",
+ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+   SND_PCI_QUIRK(0x103c, 0x86f9, "HP Spectre x360 13-aw0xxx",
+ALC285_FIXUP_HP_SPECTRE_X360_MUTE_LED),
 
+On Wed, Apr 30, 2025 at 1:33=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi,
+>
+> Thanks for your patch.
+>
+> FYI: kernel test robot notices the stable kernel rule is not satisfied.
+>
+> The check is based on https://urldefense.com/v3/__https://www.kernel.org/=
+doc/html/latest/process/stable-kernel-rules.html*option-1__;Iw!!CzAuKJ42Guq=
+uVTTmVmPViYEvSg!PiCmDJsbkP48HY6ady0rbC21rGusuY-IjJ61JqQnp99GdHsbc5uEQDwV-Q9=
+TeKK7R4THFV7fXQ$
+>
+> Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to ha=
+ve the patch automatically included in the stable tree.
+> Subject: sound/pci/hda: add quirk for HP Spectre x360 15-eb0xxx
+> Link: https://urldefense.com/v3/__https://lore.kernel.org/stable/CAPXr0ux=
+h0c_2b2-zJF*3DN8T6DfccfyvOQRX0X0VO24dS7YsxzzQ*40mail.gmail.com__;JSU!!CzAuK=
+J42GuquVTTmVmPViYEvSg!PiCmDJsbkP48HY6ady0rbC21rGusuY-IjJ61JqQnp99GdHsbc5uEQ=
+DwV-Q9TeKK7R4SyRLIbeQ$
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://urldefense.com/v3/__https://github.com/intel/lkp-tests/wiki__;!!C=
+zAuKJ42GuquVTTmVmPViYEvSg!PiCmDJsbkP48HY6ady0rbC21rGusuY-IjJ61JqQnp99GdHsbc=
+5uEQDwV-Q9TeKK7R4QdTQyPmg$
+>
+>
+>
