@@ -1,110 +1,169 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351336F06A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 06:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9156C1EA7D2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 07:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745995453; cv=none; b=FI22/R3hRRyfdrBIPUlgWEz9zl+qcJ50EE07Vr3PvrVumYiR0bJe8e/hi9th0UpBxEncwYvdWwawbAyWQ+WIlr127dhx/qFE8BlJ+QkLK2qlsKKziCIyfXNlyXbzj4KYwmdcR2Q2/dNVBQ55yS74q/eX4Du/CrchZA73C8XKelg=
+	t=1745996431; cv=none; b=KmjIPGoP3eA1PIYx+tuzZCEjRF+e1DgRR48dpJsHTTACZNOY5R4WO3UWkqkaIv0o6fOVnLDNF+1QVC5Py9NGSl3bdoWq3EOGjvJxYoj3met+WqL1BNsmluBag5EEdk2jAwUxSnlMRpGT5TpUeBGpcyP1H/DIDyCCYKQBsIEI510=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745995453; c=relaxed/simple;
-	bh=XmjJlriSU546WwNijXDXxcjtYzosQfciIJX7qxC5sXM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uZBC04IfhU4JE8SgMcrnGwaTvAyZwKKP9rs9MEDTy05o2Xaiw5R06BNZ0x9dK0TEVjchdCn+rlcvteSi4x9m5iSpBHxOXXeGbIB7MPjJ6ieId9/PZBcCIK1g2P9Gp3sLewuXcMx1cKZqhzIicv2nBw/yWdbPAwZpX6aUVE4iJlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5259327a937so2615333e0c.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 23:44:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745995448; x=1746600248;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GnU9zbusVANKslaJeJSl94vuczo81pzSQY1N+xf6f3A=;
-        b=rQ3Mf89yyvCJppBlhS4ptop8t60NDmvoTaWR/jTantR0SrJ0DSWGGZJwIYsnWpniBN
-         eIlzzFyNAaa2AKoaLVz1HP1zinBFubC9HT9IhOgWremtFc7KRQODMA/rSpN8nvRGC42w
-         GD+aS2yzItInOEaa85kRF1ieNlIrWx+tstmT/t7weVIKvfhL7j5srIG7jsTq5m8Yfa0/
-         wtGnFkIHIlHFX4nwS/mZ0df2A1beeyl1t16fo6cFxc8Mk5AJ1wTMgwimvvHcGe3NqybN
-         1/vnPtxkLFWDQ2NgUg+q5Lypu+x7ONGJRUy8IwesSEZvKhxjacJV1KiFVUvepGgExn98
-         DlJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHpoJRuLPhrWuDgaY5fw0bX5XobY1dIy70AzA/KMZSqbujB8B7DI2DAzxLKW+wD9wC6S0NYhqZiNz4XXRu@lists.linux.dev
-X-Gm-Message-State: AOJu0YwC6MR5EaVmsF2ljYJT60Pddbi6p/Jm6pgjOrPRjNxlq2CdB5oV
-	HJg6hka2uM+SBf7HyaA5B/6P3wiyUns955SUn32cAYV1hgXQ0oAbNQohbl0L
-X-Gm-Gg: ASbGnct0juNUA06zJOcHyKk8DpLTV/emPoPgwUg8FZ7jZH1lqGoePupQzCV2JjM1EP5
-	wsFka/gSEFfM23ioCI2zK6wz2eWrGoDpdEuND05m4HGFWHV7xRoLTg1l6J7Lj2qSwoD5U0zkqY2
-	Uvvxz28+xGZykRUeDP7uVnu2yz1yPEfH1U5VhDqPua0cCMJaRot73w3mruOEk7OZY46vUgvTQBO
-	aRAvcGyW/17Z/LCRL37z+c05YPd+Bscpm1Lnpqk51kivC2FDwWU/r8pa1lzi26D/zMnBIXxAHjK
-	9mjV2pss+Ei9Y0JnPpJMlCLKByHDkmYwe+zd4ym9Nl/+o71MwrZ39QgoRA43Gc0r5QAE5PWLM68
-	MrhFv5x5BX6m0iQ==
-X-Google-Smtp-Source: AGHT+IE7etIghMCQYOwGfUuBn4TJyKvcciNL6MftOQSbCPvFDIC3XAZ9G334yfozdIVm4T/5j9QUBQ==
-X-Received: by 2002:a05:6102:161e:b0:4b2:adfb:4f91 with SMTP id ada2fe7eead31-4dad398f5d1mr1222696137.21.1745995447496;
-        Tue, 29 Apr 2025 23:44:07 -0700 (PDT)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4dad40dc128sm210717137.8.2025.04.29.23.44.06
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Apr 2025 23:44:07 -0700 (PDT)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86d377306ddso2670558241.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 23:44:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXB39j2uVQo2Wz0NLZdGlow+B6k2or83v/6YtxLxsDUC7HJi9io/F6/5hnsUeFltUDWhyuzY70CXzrqKPp0@lists.linux.dev
-X-Received: by 2002:a05:6102:2922:b0:4c1:903e:7bed with SMTP id
- ada2fe7eead31-4dad339cc27mr1480246137.0.1745995446785; Tue, 29 Apr 2025
- 23:44:06 -0700 (PDT)
+	s=arc-20240116; t=1745996431; c=relaxed/simple;
+	bh=lDAAElVeL2HhDUsJldD/M1a2L52b3OMjWfhYBYEOOOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XrQa8AiK4NgzreZ3e1zBAn/mLlBHQDtfKX6NhxxV/2pDCmip2En70uUSzdbP5+Lzkl6G+s9cvCtJr21GXzW8hG61lT02/olRn8MzZtKMlYa19PGzUYCnl9aQSflfc7XOzx/Q6A1VUV0ZYKs0YrXSG18vMW98rhmBo5K5gfEKFs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bnyT5nZi; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bnyT5nZi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745996419; x=1777532419;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lDAAElVeL2HhDUsJldD/M1a2L52b3OMjWfhYBYEOOOk=;
+  b=bnyT5nZirvlQpLiEyGSbwXZQ/dSjdepxKBk6q7L4V0Bj+TmH8oOe4UFx
+   c3LHr9gCtJbUt6R9lrv58e5Dg6cP6aKs0w6hHqvJPaW5bCDM4lOxG2kiy
+   N48iWjtNdMxtPV43XCrcwbQleP0u5awTqdwZuEI0Bv6PZYh+6AP9YEFRb
+   Lm42402JnALWehFa+vlJckUXl96bxSTLxfya1g/GwuUd01RfTLDIQN9Di
+   DqUemrwu5Sx2JJ5UFc0gkNM4msamNkStbDZNetDX+bRMrQba/j6hWx8HE
+   h1v5zpaiTctmndVGlhe+ZgZKVtYzmmtv3wSqI+b+9RDBemFlIw/Y85nCh
+   g==;
+X-CSE-ConnectionGUID: +OqXad6GTHOx3++FM/cHEA==
+X-CSE-MsgGUID: fdp8P4YiQbKKL35VpGRmGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58633224"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="58633224"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 00:00:18 -0700
+X-CSE-ConnectionGUID: kTmG0IYhTIi+7YvVU3n2VA==
+X-CSE-MsgGUID: AyLgbthsR0qxK/swltPhxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="138864310"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 30 Apr 2025 00:00:16 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uA1QT-0003FR-2y;
+	Wed, 30 Apr 2025 07:00:13 +0000
+Date: Wed, 30 Apr 2025 14:59:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Scott Benesh <scott.benesh@microchip.com>,
+	Mike McGowen <mike.mcgowen@microchip.com>,
+	Don Brace <don.brace@microchip.com>
+Subject: [linux-next:master 7001/7105]
+ drivers/scsi/smartpqi/smartpqi_init.c:6006 pqi_is_parity_write_stream()
+ warn: inconsistent indenting
+Message-ID: <202504301441.uwwh8z88-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202504262154.sBmNTrcB-lkp@intel.com> <84fd01d9-d320-4296-9c42-0fb5238a8505@kernel.org>
-In-Reply-To: <84fd01d9-d320-4296-9c42-0fb5238a8505@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 30 Apr 2025 08:43:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWWM=ftk3AYTQJFVcSUnYmqsYRLvK9un5OvR9poevBTgA@mail.gmail.com>
-X-Gm-Features: ATxdqUGCh4k0tCxGJc8o-rbA0OfuL2r0BIEhDobkEiZf3HL2t6VOpsmCQCRIaqk
-Message-ID: <CAMuHMdWWM=ftk3AYTQJFVcSUnYmqsYRLvK9un5OvR9poevBTgA@mail.gmail.com>
-Subject: Re: sound/soc/qcom/sdw.c:93: warning: cannot understand function
- prototype: 'ret = sdw_enable_stream(sruntime); '
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 29 Apr 2025 at 10:18, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On 26/04/2025 15:32, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   02ddfb981de88a2c15621115dd7be2431252c568
-> > commit: db7e59e6a39a4d3d54ca8197c796557e6d480b0d ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
-> > date:   6 months ago
-> > config: sh-randconfig-002-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262154.sBmNTrcB-lkp@intel.com/config)
-> > compiler: sh4-linux-gcc (GCC) 12.4.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262154.sBmNTrcB-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202504262154.sBmNTrcB-lkp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >>> sound/soc/qcom/sdw.c:93: warning: cannot understand function prototype: 'ret = sdw_enable_stream(sruntime); '
->
-> This looks like compiler issue. I check the config and SOUNDWIRE is
-> selected thus sdw_enable_stream() is reachable. I also cannot reproduce
-> it sh4-linux-gnu-gcc v14.2.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9d9096722447b77662d4237a09909bde7774f22e
+commit: 42d033cf4b517e91c187ad2fbd7b30fdc6d2d62c [7001/7105] scsi: smartpqi: Fix smp_processor_id() call trace for preemptible kernels
+config: i386-randconfig-141-20250430 (https://download.01.org/0day-ci/archive/20250430/202504301441.uwwh8z88-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-I also couldn't reproduce it, using the specified commit ID and
-the reproducer instructions, with gcc versions 12.3.0 (Ubuntu
-12.3.0-17ubuntu1) and 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504301441.uwwh8z88-lkp@intel.com/
 
-Gr{oetje,eeting}s,
+New smatch warnings:
+drivers/scsi/smartpqi/smartpqi_init.c:6006 pqi_is_parity_write_stream() warn: inconsistent indenting
 
-                        Geert
+Old smatch warnings:
+drivers/scsi/smartpqi/smartpqi_init.c:1489 pqi_get_raid_map() warn: missing unwind goto?
+
+vim +6006 drivers/scsi/smartpqi/smartpqi_init.c
+
+  5954	
+  5955	static bool pqi_is_parity_write_stream(struct pqi_ctrl_info *ctrl_info,
+  5956		struct scsi_cmnd *scmd)
+  5957	{
+  5958		u32 oldest_jiffies;
+  5959		u8 lru_index;
+  5960		int i;
+  5961		int rc;
+  5962		struct pqi_scsi_dev *device;
+  5963		struct pqi_stream_data *pqi_stream_data;
+  5964		struct pqi_scsi_dev_raid_map_data rmd = { 0 };
+  5965	
+  5966		if (!ctrl_info->enable_stream_detection)
+  5967			return false;
+  5968	
+  5969		rc = pqi_get_aio_lba_and_block_count(scmd, &rmd);
+  5970		if (rc)
+  5971			return false;
+  5972	
+  5973		/* Check writes only. */
+  5974		if (!rmd.is_write)
+  5975			return false;
+  5976	
+  5977		device = scmd->device->hostdata;
+  5978	
+  5979		/* Check for RAID 5/6 streams. */
+  5980		if (device->raid_level != SA_RAID_5 && device->raid_level != SA_RAID_6)
+  5981			return false;
+  5982	
+  5983		/*
+  5984		 * If controller does not support AIO RAID{5,6} writes, need to send
+  5985		 * requests down non-AIO path.
+  5986		 */
+  5987		if ((device->raid_level == SA_RAID_5 && !ctrl_info->enable_r5_writes) ||
+  5988			(device->raid_level == SA_RAID_6 && !ctrl_info->enable_r6_writes))
+  5989			return true;
+  5990	
+  5991		lru_index = 0;
+  5992		oldest_jiffies = INT_MAX;
+  5993		for (i = 0; i < NUM_STREAMS_PER_LUN; i++) {
+  5994			pqi_stream_data = &device->stream_data[i];
+  5995			/*
+  5996			 * Check for adjacent request or request is within
+  5997			 * the previous request.
+  5998			 */
+  5999			if ((pqi_stream_data->next_lba &&
+  6000				rmd.first_block >= pqi_stream_data->next_lba) &&
+  6001				rmd.first_block <= pqi_stream_data->next_lba +
+  6002					rmd.block_cnt) {
+  6003				pqi_stream_data->next_lba = rmd.first_block +
+  6004					rmd.block_cnt;
+  6005				pqi_stream_data->last_accessed = jiffies;
+> 6006					per_cpu_ptr(device->raid_io_stats, raw_smp_processor_id())->write_stream_cnt++;
+  6007				return true;
+  6008			}
+  6009	
+  6010			/* unused entry */
+  6011			if (pqi_stream_data->last_accessed == 0) {
+  6012				lru_index = i;
+  6013				break;
+  6014			}
+  6015	
+  6016			/* Find entry with oldest last accessed time. */
+  6017			if (pqi_stream_data->last_accessed <= oldest_jiffies) {
+  6018				oldest_jiffies = pqi_stream_data->last_accessed;
+  6019				lru_index = i;
+  6020			}
+  6021		}
+  6022	
+  6023		/* Set LRU entry. */
+  6024		pqi_stream_data = &device->stream_data[lru_index];
+  6025		pqi_stream_data->last_accessed = jiffies;
+  6026		pqi_stream_data->next_lba = rmd.first_block + rmd.block_cnt;
+  6027	
+  6028		return false;
+  6029	}
+  6030	
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
