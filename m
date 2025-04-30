@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBA51E51FF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 09:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCF620C472
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 10:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746005400; cv=none; b=sRtLWqMUyNUzzOU8vbTjxlAoAz/oX2kwESQbAO+mpXIxjagr61AKydI3qATeOlDdR5+GxrKjQ8b6GygAJP1TsPOLh4hN9f+5M34A+mTITO+uXD53tLtMwEJXu3Gc4JAeTBU7wvijSE44SMi0XCXUe/7pZXkA2gHm92bxn3LUKxE=
+	t=1746007304; cv=none; b=s63IZerhyOxlYK46bOqCGsQKipYBgLPrURBqcMkPQgmWYpHIVHp62vYbtD/AOaQsOu+CBHgp6E7AgcOSV1N9Rog8ryQ0GwClpTiY0hbtVPinxF8JSh/d/JoitUvo993Z7L9n2ooccGuXEudIzF4X57TmglXOHWE49My4uoyfYrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746005400; c=relaxed/simple;
-	bh=6y/EpfSEDdajxjmm4bNOX9LSI3yJ3eDuX1zKegdrzLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iGcJMjwQNuwkKjAjhHKBsICyiRsIjLE7A94XuZ0FSJhXqP4m5cpeNizDRikc2bsvHTcW2jRsemOs/NMqJG6ZDz9vV5DPb09JUqu3UadcmMLpDjYrH9xsFZzq2El4TSEEUMlJv8irQL2F25isCzqD2kkXOHnr9JsnM70QleaCASg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q6Z8KoDi; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1746007304; c=relaxed/simple;
+	bh=zbQvG1UOZb1VoIdKrB7cIXsdT6mieiPoIJZAx4vzKPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sGbpx2xIg9XeMvmYKfufSSjhcgHBjegv/fnAUABC0AKzhP2bg6Irk0yqZ01HQH/7zEHt3h7JpY17Qnf9Uhm72YVq3HjOvnH2YeluKFAotN3Oksfr7+f0YY+s1joKxYaXY4Qfu+nfG6ZyKmUIBwdHh2W1zB0FggRcbCYnQMAxWVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqlcRipb; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q6Z8KoDi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqlcRipb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746005398; x=1777541398;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6y/EpfSEDdajxjmm4bNOX9LSI3yJ3eDuX1zKegdrzLY=;
-  b=Q6Z8KoDipP+UyIvLnLGZxFiT8s+y212MngivV4Rsd6x85xf2f0ZP+vYn
-   MfBArHPLSc07OxAktx+CM4JXsRglsKn0miIo8CmB9/SqFPuqgvzUXIKdc
-   LH6iEtKP3/lFtJj7WWDZ5eUWW2alJ2XqUtbrR0cbSOm2KPIr0FM2S985h
-   otO5dfFURfDxzxLYboSeVPkdGvemLbD2OJQFC/jGLBR8JWpmu56jj79Sl
-   mkWa5+AMjDM+/2RGXIyg7zm806pde9+UXRtPn99lmd22jEXDGBs4Pbocg
-   yl227MuEa6FvpZcFFQJpt9chrOZDUOrakRPg0Mp8kzddQkYQJQjf+x4wh
-   Q==;
-X-CSE-ConnectionGUID: VJV+1LBrTuGP9FNL2Mt0SQ==
-X-CSE-MsgGUID: xcoFIRDLS1mp3Ox1dsMokg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="59033765"
+  t=1746007301; x=1777543301;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zbQvG1UOZb1VoIdKrB7cIXsdT6mieiPoIJZAx4vzKPE=;
+  b=iqlcRipbkeNHjx1pdJOH7i6VLRZ8Sr+fpltBdAIN+HE00s+DpGc/l0ei
+   Bhit5qBTALq8Xu1x8ia98WimAR46zOHEpr3SFOmcsq5pxPiJ0Jw69iWm9
+   0w99UNI9OUcKWcB9zMobcRqbx6y/EVJALo3Omh29abLE770wbkYC9Nk/c
+   6/N4Oi4OwOe22rz6zCW6cU7WDr3wWRMyWDdbW6aWaWOT0z1d6jSIXhtm1
+   wpfrkNgMFcEZpermdtlF+TefIUz4fABwl0M+3us93GG4j7LCbmN3HwUlJ
+   RUfxT4S8CHp80XBc000svWIzKoA80jjUT9SDQyDzU+Ipw9n/orKgZIeSB
+   A==;
+X-CSE-ConnectionGUID: 8CUnzrZ/S9OVK+SVmMNijw==
+X-CSE-MsgGUID: ajJPaDNPRSOKaYZX4YzMRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47541661"
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="59033765"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 02:29:58 -0700
-X-CSE-ConnectionGUID: rLL55U8PTMaQabuWIvWqAQ==
-X-CSE-MsgGUID: EoFLqSMNSPq7QJ1tNCxd2Q==
+   d="scan'208";a="47541661"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 03:01:40 -0700
+X-CSE-ConnectionGUID: UbJ0uxbVQAKRUb8MNXDrqw==
+X-CSE-MsgGUID: 7VR9IXwMT++CHTFTSI3wzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="134016536"
+   d="scan'208";a="171320811"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 30 Apr 2025 02:29:55 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 Apr 2025 03:01:39 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uA3lJ-0003Lx-1r;
-	Wed, 30 Apr 2025 09:29:53 +0000
-Date: Wed, 30 Apr 2025 17:28:45 +0800
+	id 1uA4G0-0003Mz-1j;
+	Wed, 30 Apr 2025 10:01:36 +0000
+Date: Wed, 30 Apr 2025 18:00:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
-Subject: Re: [PATCH] btrfs: send: remove btrfs_debug() calls
-Message-ID: <202504301726.KJfSXyNW-lkp@intel.com>
-References: <20250429085349.2169622-1-dsterba@suse.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-desktop 1/1]
+ arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: flexcom@e2824000
+ (microchip,sama7d65-flexcom): compatible: 'oneOf' conditional failed, one
+ must be fixed:
+Message-ID: <202504301702.MLb1mc9f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,108 +63,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250429085349.2169622-1-dsterba@suse.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master v6.15-rc4 next-20250429]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Sterba/btrfs-send-remove-btrfs_debug-calls/20250429-165603
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250429085349.2169622-1-dsterba%40suse.com
-patch subject: [PATCH] btrfs: send: remove btrfs_debug() calls
-config: arc-randconfig-001-20250430 (https://download.01.org/0day-ci/archive/20250430/202504301726.KJfSXyNW-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504301726.KJfSXyNW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
+head:   89516ae83e6b7032f6793992ae9ea770ca1a7e71
+commit: afd0fa0834ab7def410d2f92cda9464000fdf1e1 [1/1] ARM: dts: microchip: sama7d65: Add flexcom 10 node
+config: arm-randconfig-052-20250429 (https://download.01.org/0day-ci/archive/20250430/202504301702.MLb1mc9f-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504301702.MLb1mc9f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504301726.KJfSXyNW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504301702.MLb1mc9f-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   fs/btrfs/send.c: In function 'send_rename':
->> fs/btrfs/send.c:819:31: warning: unused variable 'fs_info' [-Wunused-variable]
-     819 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_link':
-   fs/btrfs/send.c:841:31: warning: unused variable 'fs_info' [-Wunused-variable]
-     841 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_unlink':
-   fs/btrfs/send.c:862:31: warning: unused variable 'fs_info' [-Wunused-variable]
-     862 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_rmdir':
-   fs/btrfs/send.c:882:31: warning: unused variable 'fs_info' [-Wunused-variable]
-     882 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'find_extent_clone':
->> fs/btrfs/send.c:1568:13: warning: variable 'logical' set but not used [-Wunused-but-set-variable]
-    1568 |         u64 logical;
-         |             ^~~~~~~
-   fs/btrfs/send.c: In function 'send_truncate':
-   fs/btrfs/send.c:2620:31: warning: unused variable 'fs_info' [-Wunused-variable]
-    2620 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_chmod':
-   fs/btrfs/send.c:2645:31: warning: unused variable 'fs_info' [-Wunused-variable]
-    2645 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_fileattr':
-   fs/btrfs/send.c:2670:31: warning: unused variable 'fs_info' [-Wunused-variable]
-    2670 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_chown':
-   fs/btrfs/send.c:2698:31: warning: unused variable 'fs_info' [-Wunused-variable]
-    2698 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_utimes':
-   fs/btrfs/send.c:2724:31: warning: unused variable 'fs_info' [-Wunused-variable]
-    2724 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_create_inode':
-   fs/btrfs/send.c:2839:31: warning: unused variable 'fs_info' [-Wunused-variable]
-    2839 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-   fs/btrfs/send.c: In function 'send_write':
-   fs/btrfs/send.c:5308:31: warning: unused variable 'fs_info' [-Wunused-variable]
-    5308 |         struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-         |                               ^~~~~~~
-
-
-vim +/fs_info +819 fs/btrfs/send.c
-
-31db9f7c23fbf7e Alexander Block 2012-07-25  812  
-31db9f7c23fbf7e Alexander Block 2012-07-25  813  /*
-31db9f7c23fbf7e Alexander Block 2012-07-25  814   * Sends a move instruction to user space
-31db9f7c23fbf7e Alexander Block 2012-07-25  815   */
-31db9f7c23fbf7e Alexander Block 2012-07-25  816  static int send_rename(struct send_ctx *sctx,
-31db9f7c23fbf7e Alexander Block 2012-07-25  817  		     struct fs_path *from, struct fs_path *to)
-31db9f7c23fbf7e Alexander Block 2012-07-25  818  {
-04ab956ee69cdbe Jeff Mahoney    2016-09-20 @819  	struct btrfs_fs_info *fs_info = sctx->send_root->fs_info;
-31db9f7c23fbf7e Alexander Block 2012-07-25  820  	int ret;
-31db9f7c23fbf7e Alexander Block 2012-07-25  821  
-31db9f7c23fbf7e Alexander Block 2012-07-25  822  	ret = begin_cmd(sctx, BTRFS_SEND_C_RENAME);
-31db9f7c23fbf7e Alexander Block 2012-07-25  823  	if (ret < 0)
-264515c7cb62661 Filipe Manana   2025-02-20  824  		return ret;
-31db9f7c23fbf7e Alexander Block 2012-07-25  825  
-31db9f7c23fbf7e Alexander Block 2012-07-25  826  	TLV_PUT_PATH(sctx, BTRFS_SEND_A_PATH, from);
-31db9f7c23fbf7e Alexander Block 2012-07-25  827  	TLV_PUT_PATH(sctx, BTRFS_SEND_A_PATH_TO, to);
-31db9f7c23fbf7e Alexander Block 2012-07-25  828  
-31db9f7c23fbf7e Alexander Block 2012-07-25  829  	ret = send_cmd(sctx);
-31db9f7c23fbf7e Alexander Block 2012-07-25  830  
-31db9f7c23fbf7e Alexander Block 2012-07-25  831  tlv_put_failure:
-31db9f7c23fbf7e Alexander Block 2012-07-25  832  	return ret;
-31db9f7c23fbf7e Alexander Block 2012-07-25  833  }
-31db9f7c23fbf7e Alexander Block 2012-07-25  834  
+dtcheck warnings: (new ones prefixed by >>)
+   	'atmel,at91sam9260-dbgu' was expected
+   	'microchip,sama7d65-usart' is not one of ['microchip,sam9x60-usart', 'microchip,sam9x7-usart']
+   	'microchip,sam9x60-dbgu' was expected
+   	'microchip,sam9x7-dbgu' was expected
+   	'atmel,at91rm9200-usart' was expected
+   	'microchip,sam9x60-usart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: serial@200 (microchip,sama7d65-usart): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/flexcom@e2020000/serial@200: failed to match any schema with compatible: ['microchip,sama7d65-usart', 'atmel,at91sam9260-usart']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: flexcom@e2824000 (microchip,sama7d65-flexcom): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-flexcom', 'atmel,sama5d2-flexcom'] is too long
+   	'atmel,sama5d2-flexcom' was expected
+   	'microchip,sam9x7-flexcom' was expected
+   	'microchip,sama7g5-flexcom' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/atmel,sama5d2-flexcom.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/flexcom@e2824000: failed to match any schema with compatible: ['microchip,sama7d65-flexcom', 'atmel,sama5d2-flexcom']
 
 -- 
 0-DAY CI Kernel Test Service
