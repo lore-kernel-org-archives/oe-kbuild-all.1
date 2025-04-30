@@ -1,379 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3284F1E8854;
-	Wed, 30 Apr 2025 08:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32ADF1F1319
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 09:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746002630; cv=none; b=WcJsiow4forN19V3TpYHiueE3VZSyXfVVyysz+dA+vLz1pB/q3xdJOfz6nc/lSbj1M5+Maa4qXE4LDOpqmddySS0cFIRyrVgNpbt8W30VSlMCRaghA3ymBZ9fI3jy5Vk8LAV3B7kdx1xh7/LdsRCoIp1gTVKUNFjqOwV4c7dtPg=
+	t=1746003777; cv=none; b=ElD/CqqPf6/+WO8kPtUrOErmKexfo3cujWK03X8pLrTWUP6RuKMhZ983oW2yWBLiwxISpdrm1akqZUbVbvCLUQ0bioQ7TYzdzTMIvT+8gSvBXIjKkd3cD+AWvpiUEAIQuUIs4tZKBpl87VZvarkLDYeYrG/Zb9bnOv5L0f55iX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746002630; c=relaxed/simple;
-	bh=e0eLmi/Xe3l3tZwbT+SGB4AB7jn/mBJ5lfWNNv+rDaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZXxqhOM4/J6Ky/ZeTu6vNcIMIcYKFg6k5IRT0wyxpDBq82qrIyAbwaa2rwzF0xZuy5UCR4K7iVM3s9+73FINdq1ZqfFBHtuJfLYPWXNzrXkMW09Ldu1yTSpVrN62Xo5ZNggD1m3UY8eFeMkUEJu20346/PeUkDbfbUK35MoglUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJcTXZUv; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746003777; c=relaxed/simple;
+	bh=R61Unc1O3PEjF+JSF1A48jFx0TNkpJAQ9/Rixza4/ww=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NlwGg2DKKZXl6JnA9pARqkDUTV5pBLpTJW1HjqY4cBGNqioxY0lXkX74XWeAf8RZAkm/r23cM4JfWMq9C1tFOUjqBvnI9/ezHlpwYBaNyZdjyQEaw5SMnkmkUts1+nUDxfLHoh3x0femj1p1ELbEHcjb0W/3fwv38qIcvoMLdUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdLlAzzG; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJcTXZUv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746002627; x=1777538627;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e0eLmi/Xe3l3tZwbT+SGB4AB7jn/mBJ5lfWNNv+rDaI=;
-  b=FJcTXZUvRiRDb7u47OvUCUP/P75q9OePSJv8JqWF7tJ++ERDJewg7Qc7
-   Siu/wHB4fVWZ1ibaepdAfsscQA5/tu17Mw5SYACSsY7FkXA6IRwlWcgJW
-   JNgmz9sOPNvIqeOaS3QFPaAVj4rOC/lDp9Z2PX5AP0L2YyC6xZ5P6A5XT
-   3/Nhn5mH/GO2HT15lAiOuuiIJtxixVDONJhXNDAUK24V9dclsV+T8VgaC
-   cMb16UOMKzS3hR2hkSDaLwYM/3rMOJfY7KqeA1pShUQdKcpOBRSjueSS2
-   CiNur9tOYRlEhtfi9vrUAe9BQ6jW+iDb5DzN3Yl1SSIMdGt767oWb4GKM
-   w==;
-X-CSE-ConnectionGUID: MWdrCAtbQQW4ARKwOC4rdQ==
-X-CSE-MsgGUID: 2rkOV51gTGSSqjuTgPRmtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58311464"
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="58311464"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:43:46 -0700
-X-CSE-ConnectionGUID: zO8aNOJLS56v+KCGVsD7uw==
-X-CSE-MsgGUID: 8pkdN8vZRpC7z/UGxAxq+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="139178506"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Apr 2025 01:43:44 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uA32b-0003Jl-39;
-	Wed, 30 Apr 2025 08:43:41 +0000
-Date: Wed, 30 Apr 2025 16:43:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bo Liu <liubo03@inspur.com>, agruenba@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gfs2@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bo Liu <liubo03@inspur.com>
-Subject: Re: [PATCH]  gfs2: Remove set but not used variable
- 'xattr_initialized'
-Message-ID: <202504301514.grin2o3x-lkp@intel.com>
-References: <20250429054916.2343-1-liubo03@inspur.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdLlAzzG"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-476a720e806so67788991cf.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 02:02:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746003773; x=1746608573; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8X+hIncwnwSZUNbNNf14X22Cim2AO62TVydGoqooScU=;
+        b=AdLlAzzG7M63aaQji+Lqmzpa8Omu6lSqeBO5RzrXIckJaCkIj05dqx1r+qmXfOFUHJ
+         +6icSLfQHm/EPQPf+9FZo8UlRsCkPEACRylc9VeB8Src+Ycm/G/Uuc5aVzLAv0b3T76G
+         JTSk1L59tEX07PpfKlN1dYlYNMb1/Bf7cKwktYx6ptLir2IW5zrLICBVAu/SdHZjUUO3
+         KJkfFW8dhOuqe+CbXUrY54UcaKym385Z03gRDe0Bzf/ZaG8kR0JxpbuptS0MncZaaZuG
+         cjE9OBRNsOPxgjJU00ch6kFe3r+DxVjCh//xr2k+OemE+UAV5rGIPbTS/fbUAnN51CDL
+         WhbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746003773; x=1746608573;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8X+hIncwnwSZUNbNNf14X22Cim2AO62TVydGoqooScU=;
+        b=Jd/nIMl9yQ5sTnX7nR40/KhCWMUca4ipTjYfIiny1atSJ6UDs5xKAYJxjKxOtNg8cP
+         nF4Id8Y/XpaKa/g0sWQ+Ya48QdZe12diEfiLKZ+bW/D0aHJfkr+44QHiptJ36kRuHAN4
+         0XSKqMekSEJToxet/Jz0WYuLiuHG9LnVeFF355lPUUfPlYBqLDhJkd6Dyp2YPYQ0D6WE
+         GqPzmQsAh0vTweOnhXNKtLdcC0Ym0SL3PI9Bp/aVYBNFDgVd6691NoBEaUcix8EVOZ/d
+         i8keKyWI3Cwtto/M0a/gcaAQU8nuc6c5WV2OTxEujC6/yEuQHfepsN6xMsC0nb+ImzaO
+         6F3Q==
+X-Gm-Message-State: AOJu0YyEvxNBXMqKRnq9m4aznpMzGLdUew8GkK6u05RrT6WykTliGDqH
+	bjnzZv5t87L6dR0wtUDAltK2cdphcU8JMe2PiBksbedfmsuEReKBOd8y1U7dRdxIUIc4MZVWLdT
+	3XlaeJ0XL5zZKFSfG+Ld9yjmcirQ=
+X-Gm-Gg: ASbGncs7DtWaHj1mF8X5viQQvnooww3Mo6EldX0CtNZTrmKDLZIbfEBN8ITy7EYRP4g
+	6qgDfDtbCc7qgGoXaVIFf4ZVxMbruKR79rKUH6Ro6APnlXQIBX7S39dR+j8uIqGAl3GF0sTfYCD
+	d8x17C3r1pgmaqt0jb4hJVRNU1KOSH/4i0I8N00i8IFxuIZGc/IDWjxg==
+X-Google-Smtp-Source: AGHT+IHnekIPPgGajn+eHiNG9FrgoQGBVIu+d22bq0c7EK8+nbqn49ZCy2HWJYkYVExvwtQsV7kUge2CuQ3TPE2cqt8=
+X-Received: by 2002:a05:622a:620b:b0:476:add4:d2b8 with SMTP id
+ d75a77b69052e-489c4f27399mr38473341cf.32.1746003773021; Wed, 30 Apr 2025
+ 02:02:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250429054916.2343-1-liubo03@inspur.com>
+References: <202504301545.gDwTgEok-lkp@intel.com>
+In-Reply-To: <202504301545.gDwTgEok-lkp@intel.com>
+From: Alexey Charkov <alchark@gmail.com>
+Date: Wed, 30 Apr 2025 13:02:43 +0400
+X-Gm-Features: ATxdqUFqaSd9ealT5-uklgA4yVl4iw1SKTCbfxq3GZMN9FVfdyUu2S3NismOAOY
+Message-ID: <CABjd4Yy+Nd5nwV8WcVda0aO7i7jAm9g0S_zELQexvbgUsvLeow@mail.gmail.com>
+Subject: Re: [linux-next:master 6331/7105] arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb:
+ /soc/sdhc@d800a000: failed to match any schema with compatible: ['wm,wm8505-sdhc']
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bo,
+On Wed, Apr 30, 2025 at 12:02=E2=80=AFPM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   9d9096722447b77662d4237a09909bde7774f22e
+> commit: 927e1b7ac361fa1a76fb29caa21853c9d8ba315a [6331/7105] ARM: dts: vt=
+8500: Add VIA APC Rock/Paper board
+> config: arm-randconfig-052-20250429 (https://download.01.org/0day-ci/arch=
+ive/20250430/202504301545.gDwTgEok-lkp@intel.com/config)
+> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df=
+0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+> dtschema version: 2025.3.dev21+ge6ea659
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250430/202504301545.gDwTgEok-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504301545.gDwTgEok-lkp=
+@intel.com/
+>
+> dtcheck warnings: (new ones prefixed by >>)
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
+/uart1: failed to match any schema with compatible: ['via,vt8500-device-clo=
+ck']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
+/uart2: failed to match any schema with compatible: ['via,vt8500-device-clo=
+ck']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
+/uart3: failed to match any schema with compatible: ['via,vt8500-device-clo=
+ck']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
+/pwm: failed to match any schema with compatible: ['via,vt8500-device-clock=
+']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pmc@d8130000/clocks=
+/sdhc: failed to match any schema with compatible: ['via,vt8500-device-cloc=
+k']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/fb@d8051700: failed=
+ to match any schema with compatible: ['wm,wm8505-fb']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/ge_rops@d8050400: f=
+ailed to match any schema with compatible: ['wm,prizm-ge-rops']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/pwm@d8220000: faile=
+d to match any schema with compatible: ['via,vt8500-pwm']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/timer@d8130100: fai=
+led to match any schema with compatible: ['via,vt8500-timer']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/usb@d8007900: faile=
+d to match any schema with compatible: ['via,vt8500-ehci']
+> >> arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/sdhc@d800a000: fail=
+ed to match any schema with compatible: ['wm,wm8505-sdhc']
+>    arch/arm/boot/dts/vt8500/wm8950-apc-rock.dtb: /soc/ethernet@d8004000: =
+failed to match any schema with compatible: ['via,vt8500-rhine']
 
-kernel test robot noticed the following build errors:
+Note that this should resolve itself once the related bindings change
+[1] gets pulled into linux-next from Ulf's tree.
 
-[auto build test ERROR on gfs2/for-next]
-[also build test ERROR on next-20250429]
-[cannot apply to linus/master v6.15-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git/commit/?h=
+=3Dnext&id=3Dbf45262ace269de52752d26b85d373151b8fea8c
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bo-Liu/gfs2-Remove-set-but-not-used-variable-xattr_initialized/20250429-135321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git for-next
-patch link:    https://lore.kernel.org/r/20250429054916.2343-1-liubo03%40inspur.com
-patch subject: [PATCH]  gfs2: Remove set but not used variable 'xattr_initialized'
-config: arm64-randconfig-002-20250430 (https://download.01.org/0day-ci/archive/20250430/202504301514.grin2o3x-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504301514.grin2o3x-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504301514.grin2o3x-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/gfs2/inode.c:905:39: error: use of undeclared identifier 'xattr_initialized'
-     905 |                 dealloc_error = gfs2_ea_dealloc(ip, xattr_initialized);
-         |                                                     ^
-   1 error generated.
-
-
-vim +/xattr_initialized +905 fs/gfs2/inode.c
-
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  667  
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  668  /**
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  669   * gfs2_create_inode - Create a new inode
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  670   * @dir: The parent directory
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  671   * @dentry: The new dentry
-6d4ade986f9c8d fs/gfs2/inode.c     Steven Whitehouse   2013-06-14  672   * @file: If non-NULL, the file which is being opened
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  673   * @mode: The permissions on the new inode
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  674   * @dev: For device nodes, this is the device number
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  675   * @symname: For symlinks, this is the link destination
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  676   * @size: The initial size of the inode (ignored for directories)
-c551f66c5dfefd fs/gfs2/inode.c     Lee Jones           2021-03-30  677   * @excl: Force fail if inode exists
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  678   *
-38552ff676f072 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-02  679   * FIXME: Change to allocate the disk blocks and write them out in the same
-38552ff676f072 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-02  680   * transaction.  That way, we can no longer end up in a situation in which an
-38552ff676f072 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-02  681   * inode is allocated, the node crashes, and the block looks like a valid
-38552ff676f072 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-02  682   * inode.  (With atomic creates in place, we will also no longer need to zero
-38552ff676f072 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-02  683   * the link count and dirty the inode here on failure.)
-38552ff676f072 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-02  684   *
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  685   * Returns: 0 on success, or error code
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  686   */
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  687  
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  688  static int gfs2_create_inode(struct inode *dir, struct dentry *dentry,
-6d4ade986f9c8d fs/gfs2/inode.c     Steven Whitehouse   2013-06-14  689  			     struct file *file,
-175a4eb7ea531c fs/gfs2/inode.c     Al Viro             2011-07-26  690  			     umode_t mode, dev_t dev, const char *symname,
-b452a458caaa95 fs/gfs2/inode.c     Al Viro             2018-06-08  691  			     unsigned int size, int excl)
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  692  {
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  693  	const struct qstr *name = &dentry->d_name;
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  694  	struct posix_acl *default_acl, *acl;
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  695  	struct gfs2_holder d_gh, gh;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  696  	struct inode *inode = NULL;
-8e2e00473598dd fs/gfs2/inode.c     Bob Peterson        2012-07-19  697  	struct gfs2_inode *dip = GFS2_I(dir), *ip;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  698  	struct gfs2_sbd *sdp = GFS2_SB(&dip->i_inode);
-a55a47a3bc82cb fs/gfs2/inode.c     Andreas Gruenbacher 2020-11-27  699  	struct gfs2_glock *io_gl;
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  700  	int error, dealloc_error;
-9dbe9610b9df4e fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  701  	u32 aflags = 0;
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  702  	unsigned blocks = 1;
-19aeb5a65f1a65 fs/gfs2/inode.c     Bob Peterson        2014-09-29  703  	struct gfs2_diradd da = { .bh = NULL, .save_loc = 1, };
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  704  
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  705  	if (!name->len || name->len > GFS2_FNAMESIZE)
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  706  		return -ENAMETOOLONG;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  707  
-2fba46a04c383f fs/gfs2/inode.c     Bob Peterson        2020-02-27  708  	error = gfs2_qa_get(dip);
-0a305e496059a1 fs/gfs2/inode.c     Bob Peterson        2012-06-06  709  	if (error)
-0a305e496059a1 fs/gfs2/inode.c     Bob Peterson        2012-06-06  710  		return error;
-0a305e496059a1 fs/gfs2/inode.c     Bob Peterson        2012-06-06  711  
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  712  	error = gfs2_rindex_update(sdp);
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  713  	if (error)
-2fba46a04c383f fs/gfs2/inode.c     Bob Peterson        2020-02-27  714  		goto fail;
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  715  
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  716  	error = gfs2_glock_nq_init(dip->i_gl, LM_ST_EXCLUSIVE, 0, &d_gh);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  717  	if (error)
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  718  		goto fail;
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  719  	gfs2_holder_mark_uninitialized(&gh);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  720  
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  721  	error = create_ok(dip, name, mode);
-5a00f3cc978be4 fs/gfs2/inode.c     Steven Whitehouse   2013-06-11  722  	if (error)
-5a00f3cc978be4 fs/gfs2/inode.c     Steven Whitehouse   2013-06-11  723  		goto fail_gunlock;
-5a00f3cc978be4 fs/gfs2/inode.c     Steven Whitehouse   2013-06-11  724  
-5a00f3cc978be4 fs/gfs2/inode.c     Steven Whitehouse   2013-06-11  725  	inode = gfs2_dir_search(dir, &dentry->d_name, !S_ISREG(mode) || excl);
-5a00f3cc978be4 fs/gfs2/inode.c     Steven Whitehouse   2013-06-11  726  	error = PTR_ERR(inode);
-5a00f3cc978be4 fs/gfs2/inode.c     Steven Whitehouse   2013-06-11  727  	if (!IS_ERR(inode)) {
-571a4b57975aaa fs/gfs2/inode.c     Al Viro             2014-11-19  728  		if (S_ISDIR(inode->i_mode)) {
-571a4b57975aaa fs/gfs2/inode.c     Al Viro             2014-11-19  729  			iput(inode);
-af4044fd0b77e9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  730  			inode = NULL;
-af4044fd0b77e9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  731  			error = -EISDIR;
-571a4b57975aaa fs/gfs2/inode.c     Al Viro             2014-11-19  732  			goto fail_gunlock;
-571a4b57975aaa fs/gfs2/inode.c     Al Viro             2014-11-19  733  		}
-44bb31bac555b0 fs/gfs2/inode.c     Al Viro             2014-11-19  734  		d_instantiate(dentry, inode);
-6d4ade986f9c8d fs/gfs2/inode.c     Steven Whitehouse   2013-06-14  735  		error = 0;
-0d0d110720d796 fs/gfs2/inode.c     Miklos Szeredi      2013-09-16  736  		if (file) {
-44bb31bac555b0 fs/gfs2/inode.c     Al Viro             2014-11-19  737  			if (S_ISREG(inode->i_mode))
-be12af3ef5e61e fs/gfs2/inode.c     Al Viro             2018-06-08  738  				error = finish_open(file, dentry, gfs2_open_common);
-44bb31bac555b0 fs/gfs2/inode.c     Al Viro             2014-11-19  739  			else
-44bb31bac555b0 fs/gfs2/inode.c     Al Viro             2014-11-19  740  				error = finish_no_open(file, NULL);
-5ca1db41ecdeb0 fs/gfs2/inode.c     Miklos Szeredi      2013-09-23  741  		}
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  742  		gfs2_glock_dq_uninit(&d_gh);
-2297ab6144c2e8 fs/gfs2/inode.c     Bob Peterson        2020-05-04  743  		goto fail;
-5a00f3cc978be4 fs/gfs2/inode.c     Steven Whitehouse   2013-06-11  744  	} else if (error != -ENOENT) {
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  745  		goto fail_gunlock;
-5a00f3cc978be4 fs/gfs2/inode.c     Steven Whitehouse   2013-06-11  746  	}
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  747  
-3c1c0ae1db74b1 fs/gfs2/inode.c     Steven Whitehouse   2014-01-06  748  	error = gfs2_diradd_alloc_required(dir, name, &da);
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  749  	if (error < 0)
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  750  		goto fail_gunlock;
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  751  
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  752  	inode = new_inode(sdp->sd_vfs);
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  753  	error = -ENOMEM;
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  754  	if (!inode)
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  755  		goto fail_gunlock;
-3d0258bc11185c fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-02  756  	ip = GFS2_I(inode);
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  757  
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  758  	error = posix_acl_create(dir, &mode, &default_acl, &acl);
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  759  	if (error)
-783013c0f5c726 fs/gfs2/inode.c     Bob Peterson        2015-12-04  760  		goto fail_gunlock;
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  761  
-2fba46a04c383f fs/gfs2/inode.c     Bob Peterson        2020-02-27  762  	error = gfs2_qa_get(ip);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  763  	if (error)
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  764  		goto fail_free_acls;
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  765  
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  766  	inode->i_mode = mode;
-79ba74808df113 fs/gfs2/inode.c     Steven Whitehouse   2013-03-01  767  	set_nlink(inode, S_ISDIR(mode) ? 2 : 1);
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  768  	inode->i_rdev = dev;
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  769  	inode->i_size = size;
-580f721b6f5ad5 fs/gfs2/inode.c     Jeff Layton         2023-10-04  770  	simple_inode_init_ts(inode);
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  771  	munge_mode_uid_gid(dip, inode);
-00a158be83839f fs/gfs2/inode.c     Abhi Das            2014-09-18  772  	check_and_update_goal(dip);
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  773  	ip->i_goal = dip->i_goal;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  774  	ip->i_diskflags = 0;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  775  	ip->i_eattr = 0;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  776  	ip->i_height = 0;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  777  	ip->i_depth = 0;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  778  	ip->i_entries = 0;
-cc963a11b67b79 fs/gfs2/inode.c     Bob Peterson        2017-03-16  779  	ip->i_no_addr = 0; /* Temporarily zero until real addr is assigned */
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  780  
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  781  	switch(mode & S_IFMT) {
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  782  	case S_IFREG:
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  783  		if ((dip->i_diskflags & GFS2_DIF_INHERIT_JDATA) ||
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  784  		    gfs2_tune_get(sdp, gt_new_files_jdata))
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  785  			ip->i_diskflags |= GFS2_DIF_JDATA;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  786  		gfs2_set_aops(inode);
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  787  		break;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  788  	case S_IFDIR:
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  789  		ip->i_diskflags |= (dip->i_diskflags & GFS2_DIF_INHERIT_JDATA);
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  790  		ip->i_diskflags |= GFS2_DIF_JDATA;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  791  		ip->i_entries = 2;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  792  		break;
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  793  	}
-acc546fd6108cb fs/gfs2/inode.c     Abhi Das            2015-11-10  794  
-acc546fd6108cb fs/gfs2/inode.c     Abhi Das            2015-11-10  795  	/* Force SYSTEM flag on all files and subdirs of a SYSTEM directory */
-acc546fd6108cb fs/gfs2/inode.c     Abhi Das            2015-11-10  796  	if (dip->i_diskflags & GFS2_DIF_SYSTEM)
-acc546fd6108cb fs/gfs2/inode.c     Abhi Das            2015-11-10  797  		ip->i_diskflags |= GFS2_DIF_SYSTEM;
-acc546fd6108cb fs/gfs2/inode.c     Abhi Das            2015-11-10  798  
-28fb30275570e9 fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  799  	gfs2_set_inode_flags(inode);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  800  
-2b0143b5c986be fs/gfs2/inode.c     David Howells       2015-03-17  801  	if ((GFS2_I(d_inode(sdp->sd_root_dir)) == dip) ||
-9dbe9610b9df4e fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  802  	    (dip->i_diskflags & GFS2_DIF_TOPDIR))
-9dbe9610b9df4e fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  803  		aflags |= GFS2_AF_ORLOV;
-9dbe9610b9df4e fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  804  
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  805  	if (default_acl || acl)
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  806  		blocks++;
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  807  
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  808  	error = alloc_dinode(ip, aflags, &blocks);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  809  	if (error)
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  810  		goto fail_free_inode;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  811  
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  812  	gfs2_set_inode_blocks(inode, blocks);
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  813  
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  814  	error = gfs2_glock_get(sdp, ip->i_no_addr, &gfs2_inode_glops, CREATE, &ip->i_gl);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  815  	if (error)
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  816  		goto fail_dealloc_inode;
-98e5a91a6136af fs/gfs2/inode.c     Andreas Gruenbacher 2017-07-19  817  
-dd0ecf54412563 fs/gfs2/inode.c     Andreas Gruenbacher 2020-11-30  818  	error = gfs2_glock_get(sdp, ip->i_no_addr, &gfs2_iopen_glops, CREATE, &io_gl);
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  819  	if (error)
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  820  		goto fail_dealloc_inode;
-dd0ecf54412563 fs/gfs2/inode.c     Andreas Gruenbacher 2020-11-30  821  	gfs2_cancel_delete_work(io_gl);
-1072b3aa6863bc fs/gfs2/inode.c     Andreas Gruenbacher 2024-09-16  822  	io_gl->gl_no_formal_ino = ip->i_no_formal_ino;
-dd0ecf54412563 fs/gfs2/inode.c     Andreas Gruenbacher 2020-11-30  823  
-4ec3c19d058f73 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-05  824  retry:
-3d36e57ff768db fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-30  825  	error = insert_inode_locked4(inode, ip->i_no_addr, iget_test, &ip->i_no_addr);
-4ec3c19d058f73 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-05  826  	if (error == -EBUSY)
-4ec3c19d058f73 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-05  827  		goto retry;
-4ec3c19d058f73 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-05  828  	if (error)
-4ec3c19d058f73 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-05  829  		goto fail_gunlock2;
-3d36e57ff768db fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-30  830  
-ebdc416c9c0bed fs/gfs2/inode.c     Andreas Gruenbacher 2022-04-05  831  	error = gfs2_glock_nq_init(io_gl, LM_ST_SHARED, GL_EXACT | GL_NOPID,
-ebdc416c9c0bed fs/gfs2/inode.c     Andreas Gruenbacher 2022-04-05  832  				   &ip->i_iopen_gh);
-dd0ecf54412563 fs/gfs2/inode.c     Andreas Gruenbacher 2020-11-30  833  	if (error)
-dd0ecf54412563 fs/gfs2/inode.c     Andreas Gruenbacher 2020-11-30  834  		goto fail_gunlock2;
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  835  
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  836  	error = gfs2_glock_nq_init(ip->i_gl, LM_ST_EXCLUSIVE, GL_SKIP, &gh);
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  837  	if (error)
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  838  		goto fail_gunlock3;
-84a79ee68f8404 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-15  839  	clear_bit(GLF_INSTANTIATE_NEEDED, &ip->i_gl->gl_flags);
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  840  
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  841  	error = gfs2_trans_begin(sdp, blocks, 0);
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  842  	if (error)
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  843  		goto fail_gunlock3;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  844  
-6335cf2f0380c0 fs/gfs2/inode.c     Bo Liu              2025-04-29  845  	if (blocks > 1)
-b2c8b3ea871e47 fs/gfs2/inode.c     Steven Whitehouse   2014-02-04  846  		gfs2_init_xattr(ip);
-79ba74808df113 fs/gfs2/inode.c     Steven Whitehouse   2013-03-01  847  	init_dinode(dip, ip, symname);
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  848  	gfs2_trans_end(sdp);
-fd4b4e042c6aac fs/gfs2/inode.c     Steven Whitehouse   2013-02-26  849  
-3d36e57ff768db fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-30  850  	glock_set_object(ip->i_gl, ip);
-8793e149859ab4 fs/gfs2/inode.c     Bob Peterson        2021-10-01  851  	glock_set_object(io_gl, ip);
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  852  	gfs2_set_iop(inode);
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  853  
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  854  	if (default_acl) {
-1a39ba99b5d533 fs/gfs2/inode.c     Al Viro             2016-05-13  855  		error = __gfs2_set_acl(inode, default_acl, ACL_TYPE_DEFAULT);
-6ff9b09e00a441 fs/gfs2/inode.c     Andreas Gruenbacher 2018-11-26  856  		if (error)
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  857  			goto fail_gunlock4;
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  858  		posix_acl_release(default_acl);
-6ff9b09e00a441 fs/gfs2/inode.c     Andreas Gruenbacher 2018-11-26  859  		default_acl = NULL;
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  860  	}
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  861  	if (acl) {
-1a39ba99b5d533 fs/gfs2/inode.c     Al Viro             2016-05-13  862  		error = __gfs2_set_acl(inode, acl, ACL_TYPE_ACCESS);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  863  		if (error)
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  864  			goto fail_gunlock4;
-6ff9b09e00a441 fs/gfs2/inode.c     Andreas Gruenbacher 2018-11-26  865  		posix_acl_release(acl);
-6ff9b09e00a441 fs/gfs2/inode.c     Andreas Gruenbacher 2018-11-26  866  		acl = NULL;
-6ff9b09e00a441 fs/gfs2/inode.c     Andreas Gruenbacher 2018-11-26  867  	}
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  868  
-f45dc26deda00d fs/gfs2/inode.c     Bob Peterson        2014-03-19  869  	error = security_inode_init_security(&ip->i_inode, &dip->i_inode, name,
-f45dc26deda00d fs/gfs2/inode.c     Bob Peterson        2014-03-19  870  					     &gfs2_initxattrs, NULL);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  871  	if (error)
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  872  		goto fail_gunlock4;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  873  
-3c1c0ae1db74b1 fs/gfs2/inode.c     Steven Whitehouse   2014-01-06  874  	error = link_dinode(dip, name, ip, &da);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  875  	if (error)
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  876  		goto fail_gunlock4;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  877  
-79ba74808df113 fs/gfs2/inode.c     Steven Whitehouse   2013-03-01  878  	mark_inode_dirty(inode);
-6d4ade986f9c8d fs/gfs2/inode.c     Steven Whitehouse   2013-06-14  879  	d_instantiate(dentry, inode);
-2c47c1be51fbde fs/gfs2/inode.c     Bob Peterson        2019-11-19  880  	/* After instantiate, errors should result in evict which will destroy
-2c47c1be51fbde fs/gfs2/inode.c     Bob Peterson        2019-11-19  881  	 * both inode and iopen glocks properly. */
-c5bf8fef52ce18 fs/gfs2/inode.c     Miklos Szeredi      2013-09-16  882  	if (file) {
-73a09dd94377e4 fs/gfs2/inode.c     Al Viro             2018-06-08  883  		file->f_mode |= FMODE_CREATED;
-be12af3ef5e61e fs/gfs2/inode.c     Al Viro             2018-06-08  884  		error = finish_open(file, dentry, gfs2_open_common);
-c5bf8fef52ce18 fs/gfs2/inode.c     Miklos Szeredi      2013-09-16  885  	}
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  886  	gfs2_glock_dq_uninit(&d_gh);
-2297ab6144c2e8 fs/gfs2/inode.c     Bob Peterson        2020-05-04  887  	gfs2_qa_put(ip);
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  888  	gfs2_glock_dq_uninit(&gh);
-2c47c1be51fbde fs/gfs2/inode.c     Bob Peterson        2019-11-19  889  	gfs2_glock_put(io_gl);
-2297ab6144c2e8 fs/gfs2/inode.c     Bob Peterson        2020-05-04  890  	gfs2_qa_put(dip);
-3d36e57ff768db fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-30  891  	unlock_new_inode(inode);
-6d4ade986f9c8d fs/gfs2/inode.c     Steven Whitehouse   2013-06-14  892  	return error;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  893  
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  894  fail_gunlock4:
-3d36e57ff768db fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-30  895  	glock_clear_object(ip->i_gl, ip);
-9c1b28081f43c0 fs/gfs2/inode.c     Bob Peterson        2017-07-18  896  	glock_clear_object(io_gl, ip);
-29464ee36bcaae fs/gfs2/inode.c     Andreas Gruenbacher 2022-01-24  897  fail_gunlock3:
-783013c0f5c726 fs/gfs2/inode.c     Bob Peterson        2015-12-04  898  	gfs2_glock_dq_uninit(&ip->i_iopen_gh);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  899  fail_gunlock2:
-2c47c1be51fbde fs/gfs2/inode.c     Bob Peterson        2019-11-19  900  	gfs2_glock_put(io_gl);
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  901  fail_dealloc_inode:
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  902  	set_bit(GIF_ALLOC_FAILED, &ip->i_flags);
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  903  	dealloc_error = 0;
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  904  	if (ip->i_eattr)
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18 @905  		dealloc_error = gfs2_ea_dealloc(ip, xattr_initialized);
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  906  	clear_nlink(inode);
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  907  	mark_inode_dirty(inode);
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  908  	if (!dealloc_error)
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  909  		dealloc_error = gfs2_dinode_dealloc(ip);
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  910  	if (dealloc_error)
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  911  		fs_warn(sdp, "%s: %d\n", __func__, dealloc_error);
-2c63986dd35fa9 fs/gfs2/inode.c     Andreas Gruenbacher 2025-04-18  912  	ip->i_no_addr = 0;
-c9aecf73717f55 fs/gfs2/inode.c     Steven Whitehouse   2012-10-31  913  fail_free_inode:
-9ffa18884cceb2 fs/gfs2/inode.c     Andreas Gruenbacher 2023-01-23  914  	if (ip->i_gl) {
-9ffa18884cceb2 fs/gfs2/inode.c     Andreas Gruenbacher 2023-01-23  915  		gfs2_glock_put(ip->i_gl);
-9ffa18884cceb2 fs/gfs2/inode.c     Andreas Gruenbacher 2023-01-23  916  		ip->i_gl = NULL;
-9ffa18884cceb2 fs/gfs2/inode.c     Andreas Gruenbacher 2023-01-23  917  	}
-7336905a89f191 fs/gfs2/inode.c     Andreas Gruenbacher 2021-12-10  918  	gfs2_rs_deltree(&ip->i_res);
-1595548fe72ca8 fs/gfs2/inode.c     Andreas Gruenbacher 2020-03-06  919  	gfs2_qa_put(ip);
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  920  fail_free_acls:
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  921  	posix_acl_release(default_acl);
-e01580bf9e4d0e fs/gfs2/inode.c     Christoph Hellwig   2013-12-20  922  	posix_acl_release(acl);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  923  fail_gunlock:
-2b47dad866d04f fs/gfs2/inode.c     Steven Whitehouse   2014-01-06  924  	gfs2_dir_no_add(&da);
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  925  	gfs2_glock_dq_uninit(&d_gh);
-15a798f7deb393 fs/gfs2/inode.c     Kefeng Wang         2019-06-05  926  	if (!IS_ERR_OR_NULL(inode)) {
-3d36e57ff768db fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-30  927  		if (inode->i_state & I_NEW)
-3d36e57ff768db fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-30  928  			iget_failed(inode);
-3d36e57ff768db fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-30  929  		else
-40ac218f52aa5c fs/gfs2/inode.c     Steven Whitehouse   2011-08-02  930  			iput(inode);
-40ac218f52aa5c fs/gfs2/inode.c     Steven Whitehouse   2011-08-02  931  	}
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  932  	if (gfs2_holder_initialized(&gh))
-761fdbbce96fb3 fs/gfs2/inode.c     Andreas Gruenbacher 2022-11-04  933  		gfs2_glock_dq_uninit(&gh);
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  934  fail:
-2fba46a04c383f fs/gfs2/inode.c     Bob Peterson        2020-02-27  935  	gfs2_qa_put(dip);
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  936  	return error;
-194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  937  }
-f2741d9898269e fs/gfs2/inode.c     Steven Whitehouse   2011-05-13  938  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Alexey
