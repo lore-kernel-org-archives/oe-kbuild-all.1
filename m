@@ -1,126 +1,214 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910C8EC2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 05:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28960156677
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Apr 2025 05:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745989604; cv=none; b=Bc4Urxo4dYznV5WAMT+T0Q74CsszzXyt9fHIpNBWCETQym317b5lJ13K2Rt2UkuiAnHzhztzjKT/4QzSqID7aWCHoNQqqpJDxMDlDmDT+qUtB54OnMmR1iEtR6/Mctg91UF5w8LEQt1x7vZUONnaR81UScXpAtYVDx39jX0y2x4=
+	t=1745990618; cv=none; b=U8JPjgYWZeOQPI+maKCibtYXuz8BKrzADXzI07YJxgSvgRH5FtIewvHJp44FKonf3Ww7UTG2oRyNJEbN/oAeQOjpOYFLBfOtnw7s/CKpzRZdCBOwCHOkzxp2r6goOoDGnJNBc7U7F21HVaE/rHicN+oGuwR+TkhgusDcZpZXGB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745989604; c=relaxed/simple;
-	bh=LBI2fG5yl1PAjdo0BMunHcJDpVY8i6Vg1flsFNpReZM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t1zTudaU8ujT0su4lbz3JZCWly6Da6SGnqO+hWD3tsiS76s0gU9nw9bXsPwzwCZ6xUC1Xn+9/j2xgXfso2lIaWX5JB8qmW72Ql8+r9UV2K1hemVLfRVDRsXT/r7WWSSIH43fPU0BnBx5B/QRMXvuAhMuLohj5WY4cJRr8v37K8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f0Gzt3V2; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745990618; c=relaxed/simple;
+	bh=lc99vKtC1kH8/GPxS0jIXmvpv1SXkA5lb9/8qNKPrGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FGvQxVhkr5UiO28JmEHdiTjROE1BQ2xk+DaoBT97USUlE+IN5qBoWJvI1DwPAXH+sOq+GBDbj0IJWc9k+UimTzAxC+v6vH0Loz//ZrSRV8zVJPBFkgk1Kx1tO/jZYFO+3RDUmjPd2vkmGoosC3RFzUhW7obDN3PieolWAmyySac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UtwCnO/X; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0Gzt3V2"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3032a9c7cfeso724144a91.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 22:06:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UtwCnO/X"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39ee57c0b8cso7597227f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Apr 2025 22:23:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745989601; x=1746594401; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VPXDhh+HvBh4rGOyWQU6Gi61Wi13PrW/ZJi+FHXHhnc=;
-        b=f0Gzt3V2gXBnfZPiXiIx+Ed+RQEYPgwlVzMZYyYwZRrwDPZG9TJ9+EyGKLcjbhKtxp
-         V+fPJ77uF8MAfFq5oVolNqo1Km8B3DJcTpPeMeem6+ST2cvU4zgH2E4coCCmAp1m8UGt
-         h2XlO9Xc96uda7drI3AtqQPxxpQmwPO7EjcqPT0LIZ0c3GJACLfg1Dq86e/at7RIE1bC
-         WvgUpjutyXBMmGsdqWJi2HR82x2vo93YiomEX7BD7Uz2Dvl+8BxMe1jSX94MC2vAkbsU
-         4tGP9FM7o8ueaawTyNNkOPmlKDgrTtqF86eCwHS3tzSR/AXRwn5uKbszLJ4YtUdyr2by
-         Ey+w==
+        d=linaro.org; s=google; t=1745990614; x=1746595414; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1f5VMcwggTnd1zvTIZlQH75D+VOSxnAn/sp0SKAfqAY=;
+        b=UtwCnO/XCBkqnr27vACCKqif/BVKtyeCW25bhgd9XhFNeLPk50v24rlgsF0grbANzY
+         KoyFtEOReqsQHJyAX+iJvNwJSa3H4gvjWEzKGCrZcNdc9U035qz6Ix8o4+3amlyPLkgH
+         8HFR219Pi02HDKUsEpKC4GataI49CRI70rq6lOHR7T2SU2KJIMfLdgcZb1XRZVajvXNo
+         bSKbGYlfk68jcLnECrXRYxOC3dFov3vmmalwXTPcb1j9h7+SVz0svG77j7OQoNOQk5G1
+         SOWwLTwuCa1gfQT8Dfh/9fxMODhWH2h+cl4nNI/dSYvjBx1G48srDlIUuWfl0gg7gydj
+         8S6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745989601; x=1746594401;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VPXDhh+HvBh4rGOyWQU6Gi61Wi13PrW/ZJi+FHXHhnc=;
-        b=rGDS9lcoB75lDQxeBs3MBac7kHHl2au8sQz+ERmB45oL9kvlc3QYarKUO+3RV0cpCQ
-         SBaEOfuwYigP/oTT3JoOTKPffQFGtOK7A/CqV+/uBVV7jJd9CA6Io3j6StdTFXXEu13b
-         4eycPx+6ADVu90ro3yRkaT5fcSqebynI1RGXuin0g8bDa5YMdXJeY8V4M9OPTBbDXndQ
-         Ng+ZzcMN2B4iOdo3SWOpqF2UGpmjbqVvsWbSiupVxUInTYwIO5wPuMtnLLO9y/yXkQXQ
-         lh2cgMJb9oOUKOZRk1Ir3i2+znJHLej6ucoMZcEduoXRaz0DZlrQDSE4yR0Hnvte9kcb
-         TpDg==
-X-Forwarded-Encrypted: i=1; AJvYcCX3AKADqleQ/yK2/6mMZ67Bt1Mt+iaBoD9lpzal8czAYggWTJczm1GDvm/oNORb+19K8Uh4/y1FlZrWuAx/@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNhlm7IxzawR9jN0p9CPYXhofnHzDyj7u3D4nB6E2MKGSrHkoW
-	ICJe2QVXG+5KyG61/RV2HnOr+eXFbb/9udoLda7wZU80vBaUcPJnFO6ZbaJK0kswj5JdlHwHf4A
-	oL+KoZ/ef/gjE9agLe9QSq6Az9LM=
-X-Gm-Gg: ASbGnctATKUKzM5yL6puB8ccNyeys8zQDoo8bm5yPJyQl4a1D7ytBgkpJ12DxUnpRcX
-	XZx/i8c08p7fECLLZKmKSYfNM3iJ7Nw+MV24pBIsfVH/Ar3WIsKohpZz9VjxWjgkYL6m0RzDN5f
-	2H/fIbwSOqbnK8xeUkUBEICw==
-X-Google-Smtp-Source: AGHT+IEzqC4paYNq+CnclUgZwSKfOpMtymiWrVElxIXTnJhK11ZchV3pDUjrj8GgmxCihX2zoLbLZ65xRi4DAXKpYpc=
-X-Received: by 2002:a17:90b:1b50:b0:305:5f2c:c580 with SMTP id
- 98e67ed59e1d1-30a335595b7mr890206a91.2.1745989600684; Tue, 29 Apr 2025
- 22:06:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745990614; x=1746595414;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1f5VMcwggTnd1zvTIZlQH75D+VOSxnAn/sp0SKAfqAY=;
+        b=ku+aH+tX84CfkwYc6yac2sTwyqcQt9fiMeZTULiqnS/Jp860IBUDy3h95fDpYOdPwE
+         UT+CdSmyI4qb2orYgKwy5304xhe/FBzyXpD/nfFPcGTxV3hSWVigcMgKkR6HFvGfSq21
+         Z/zsyzgQOPk+Aeq/1mRz+mPAxcwX2qNLwEjk2cz1OzeqNSJvOIGrFD4kCEUOVZRfFcD2
+         azMx1F7Qi4hJ46URfl4rZSBSHxQxuvpEwFJgfqqTCCrC28x2celmRGjKzsO9dkjbG2l7
+         ez1cj9k4k7u1ptlVCxz16M88MYNGrK+/qKBWy6Y3k2TsfC9a1fZm8EGHVlBA8jm6FZDg
+         GKMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWIDXJmhDSspe61dWuafjHTqWOi8MjQPrW5T9qaT7TiF26I4khomwdxli2TPPmvvYQT7DSmqI6j2L6H3dKi@lists.linux.dev
+X-Gm-Message-State: AOJu0YysoaAGOEEPAunAX4a5otxGX5txEfM4UdcKgyx0dA89lD0k+OaP
+	0Rqrsv0k2gVxQ7JrsuH0Ar42u7Zb8qwGqmz2sYd/AH0KChdxlbusAQtbFler96Q=
+X-Gm-Gg: ASbGncu/4no7/Ny5msd32mlSBam+prkXhbjdGlH4bJmSulKefp3xV1h3y0+Zaz2JpWQ
+	IhWOO6H3MM/tbuFe6riT27eMTZKNIkWWgpYMDXItVhD2SdWtcz6ZrwUM1o8eOsex41pcCCS3N3J
+	D1Y/hknhsUQfT8TvCyiYqQwzKX8SFTDyuW9TBDoLjnyhTzvI97bBASsrkLcQXC6Dr16faPJ1acp
+	a8uAMOiSYmmuCQcSLnmLJQz1BgnUOvHFOJGx9byCOrw6SytUiRSVrOdjDugmnwNxI7n1Yi/NrA3
+	0k7w+txDixCQvPTM5YMvTzmUemkjL6RIX+/w5dmmxuL6eA==
+X-Google-Smtp-Source: AGHT+IEjM/eKOvjQmQ+sUpr0mVhLXh8f2I+nNcn1s5eK2oUoV2uTyPbD5DYGeCPpnMsg8PPARsWo+g==
+X-Received: by 2002:a05:6000:2401:b0:39c:cc7:3db6 with SMTP id ffacd0b85a97d-3a08f764e47mr1264255f8f.19.1745990614336;
+        Tue, 29 Apr 2025 22:23:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073e46454sm15957248f8f.78.2025.04.29.22.23.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Apr 2025 22:23:33 -0700 (PDT)
+Date: Wed, 30 Apr 2025 08:23:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 1/1]
+ drivers/usb/gadget/composite.c:919 set_config() warn: iterator used outside
+ loop: 'c'
+Message-ID: <202504300435.D2g8DmRD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202504301208.YQCguEmE-lkp@intel.com>
-In-Reply-To: <202504301208.YQCguEmE-lkp@intel.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 30 Apr 2025 07:06:28 +0200
-X-Gm-Features: ATxdqUE04ahtdk0VVUgpSRZDrUSkdYxIwl2xeO0hSjDBIOSm9RZjm6rJjgvOkwQ
-Message-ID: <CANiq72n6tTox7jMX89p4vLihghrJeDcBL+MWR8rp4_Y0LyxcKg@mail.gmail.com>
-Subject: Re: error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
-To: kernel test robot <lkp@intel.com>, Andreas Hindborg <a.hindborg@kernel.org>
-Cc: FUJITA Tomonori <fujita.tomonori@gmail.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Apr 30, 2025 at 6:55=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   8bac8898fe398ffa3e09075ecea2be511725fb0b
-> commit: 584e61452f75bfeac2cdd83730b4059526ec60c7 rust: helpers: Remove vo=
-latile qualifier from io helpers
-> date:   2 weeks ago
-> config: um-randconfig-r063-20250430 (https://download.01.org/0day-ci/arch=
-ive/20250430/202504301208.YQCguEmE-lkp@intel.com/config)
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf=
-1a2591520c2491aa35339f227775f4d3adf6)
-> rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250430/202504301208.YQCguEmE-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202504301208.YQCguEmE-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
->    --> rust/kernel/block/mq/operations.rs:15:33
->    |
->    15 | use core::{marker::PhantomData, sync::atomic::AtomicU64, sync::at=
-omic::Ordering};
->    |                                 ^^^^^^^^^^^^^^---------
->    |                                 |             |
->    |                                 |             help: a similar name e=
-xists in the module: `AtomicU32`
->    |                                 no `AtomicU64` in `sync::atomic`
-> --
-> >> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
->    --> rust/kernel/block/mq/request.rs:16:20
->    |
->    16 |     sync::atomic::{AtomicU64, Ordering},
->    |                    ^^^^^^^^^
->    |                    |
->    |                    no `AtomicU64` in `sync::atomic`
->    |                    help: a similar name exists in the module: `Atomi=
-cU32`
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   1aec9e76fe4a65b0a26fa1b30bdb3400d9728b2d
+commit: 7367e87b6e9eb4de86a6ce799a8fe0178a4384de [1/1] usb: gadget: Set self-powered based on MaxPower and bmAttributes
+config: i386-randconfig-141-20250429 (https://download.01.org/0day-ci/archive/20250430/202504300435.D2g8DmRD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-Cc'ing Andreas.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202504300435.D2g8DmRD-lkp@intel.com/
 
-Cheers,
-Miguel
+New smatch warnings:
+drivers/usb/gadget/composite.c:919 set_config() warn: iterator used outside loop: 'c'
+
+vim +/c +919 drivers/usb/gadget/composite.c
+
+40982be52d8f64c David Brownell    2008-06-19  818  static int set_config(struct usb_composite_dev *cdev,
+40982be52d8f64c David Brownell    2008-06-19  819  		const struct usb_ctrlrequest *ctrl, unsigned number)
+40982be52d8f64c David Brownell    2008-06-19  820  {
+40982be52d8f64c David Brownell    2008-06-19  821  	struct usb_gadget	*gadget = cdev->gadget;
+40982be52d8f64c David Brownell    2008-06-19  822  	struct usb_configuration *c = NULL;
+40982be52d8f64c David Brownell    2008-06-19  823  	int			result = -EINVAL;
+40982be52d8f64c David Brownell    2008-06-19  824  	unsigned		power = gadget_is_otg(gadget) ? 8 : 100;
+40982be52d8f64c David Brownell    2008-06-19  825  	int			tmp;
+40982be52d8f64c David Brownell    2008-06-19  826  
+40982be52d8f64c David Brownell    2008-06-19  827  	if (number) {
+40982be52d8f64c David Brownell    2008-06-19  828  		list_for_each_entry(c, &cdev->configs, list) {
+40982be52d8f64c David Brownell    2008-06-19  829  			if (c->bConfigurationValue == number) {
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  830  				/*
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  831  				 * We disable the FDs of the previous
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  832  				 * configuration only if the new configuration
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  833  				 * is a valid one
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  834  				 */
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  835  				if (cdev->config)
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  836  					reset_config(cdev);
+40982be52d8f64c David Brownell    2008-06-19  837  				result = 0;
+40982be52d8f64c David Brownell    2008-06-19  838  				break;
+40982be52d8f64c David Brownell    2008-06-19  839  			}
+40982be52d8f64c David Brownell    2008-06-19  840  		}
+40982be52d8f64c David Brownell    2008-06-19  841  		if (result < 0)
+40982be52d8f64c David Brownell    2008-06-19  842  			goto done;
+
+c is not a valid usb_configuration pointer at this goto.
+
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  843  	} else { /* Zero configuration value - need to reset the config */
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  844  		if (cdev->config)
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  845  			reset_config(cdev);
+40982be52d8f64c David Brownell    2008-06-19  846  		result = 0;
+bdb64d727216b49 Tatyana Brokhman  2011-06-29  847  	}
+40982be52d8f64c David Brownell    2008-06-19  848  
+e538dfdae85244f Michal Nazarewicz 2011-08-30  849  	INFO(cdev, "%s config #%d: %s\n",
+e538dfdae85244f Michal Nazarewicz 2011-08-30  850  	     usb_speed_string(gadget->speed),
+e538dfdae85244f Michal Nazarewicz 2011-08-30  851  	     number, c ? c->label : "unconfigured");
+40982be52d8f64c David Brownell    2008-06-19  852  
+40982be52d8f64c David Brownell    2008-06-19  853  	if (!c)
+40982be52d8f64c David Brownell    2008-06-19  854  		goto done;
+40982be52d8f64c David Brownell    2008-06-19  855  
+6027f3173e797bf Peter Chen        2014-04-29  856  	usb_gadget_set_state(gadget, USB_STATE_CONFIGURED);
+40982be52d8f64c David Brownell    2008-06-19  857  	cdev->config = c;
+40982be52d8f64c David Brownell    2008-06-19  858  
+40982be52d8f64c David Brownell    2008-06-19  859  	/* Initialize all interfaces by setting them to altsetting zero. */
+40982be52d8f64c David Brownell    2008-06-19  860  	for (tmp = 0; tmp < MAX_CONFIG_INTERFACES; tmp++) {
+40982be52d8f64c David Brownell    2008-06-19  861  		struct usb_function	*f = c->interface[tmp];
+5242658d1b97771 Laurent Pinchart  2009-10-21  862  		struct usb_descriptor_header **descriptors;
+40982be52d8f64c David Brownell    2008-06-19  863  
+40982be52d8f64c David Brownell    2008-06-19  864  		if (!f)
+40982be52d8f64c David Brownell    2008-06-19  865  			break;
+40982be52d8f64c David Brownell    2008-06-19  866  
+5242658d1b97771 Laurent Pinchart  2009-10-21  867  		/*
+5242658d1b97771 Laurent Pinchart  2009-10-21  868  		 * Record which endpoints are used by the function. This is used
+5242658d1b97771 Laurent Pinchart  2009-10-21  869  		 * to dispatch control requests targeted at that endpoint to the
+5242658d1b97771 Laurent Pinchart  2009-10-21  870  		 * function's setup callback instead of the current
+5242658d1b97771 Laurent Pinchart  2009-10-21  871  		 * configuration's setup callback.
+5242658d1b97771 Laurent Pinchart  2009-10-21  872  		 */
+f3bdbe36682631d John Youn         2016-02-05  873  		descriptors = function_descriptors(f, gadget->speed);
+5242658d1b97771 Laurent Pinchart  2009-10-21  874  
+5242658d1b97771 Laurent Pinchart  2009-10-21  875  		for (; *descriptors; ++descriptors) {
+5242658d1b97771 Laurent Pinchart  2009-10-21  876  			struct usb_endpoint_descriptor *ep;
+5242658d1b97771 Laurent Pinchart  2009-10-21  877  			int addr;
+5242658d1b97771 Laurent Pinchart  2009-10-21  878  
+5242658d1b97771 Laurent Pinchart  2009-10-21  879  			if ((*descriptors)->bDescriptorType != USB_DT_ENDPOINT)
+5242658d1b97771 Laurent Pinchart  2009-10-21  880  				continue;
+5242658d1b97771 Laurent Pinchart  2009-10-21  881  
+5242658d1b97771 Laurent Pinchart  2009-10-21  882  			ep = (struct usb_endpoint_descriptor *)*descriptors;
+5242658d1b97771 Laurent Pinchart  2009-10-21  883  			addr = ((ep->bEndpointAddress & 0x80) >> 3)
+5242658d1b97771 Laurent Pinchart  2009-10-21  884  			     |  (ep->bEndpointAddress & 0x0f);
+5242658d1b97771 Laurent Pinchart  2009-10-21  885  			set_bit(addr, f->endpoints);
+5242658d1b97771 Laurent Pinchart  2009-10-21  886  		}
+5242658d1b97771 Laurent Pinchart  2009-10-21  887  
+40982be52d8f64c David Brownell    2008-06-19  888  		result = f->set_alt(f, tmp, 0);
+40982be52d8f64c David Brownell    2008-06-19  889  		if (result < 0) {
+40982be52d8f64c David Brownell    2008-06-19  890  			DBG(cdev, "interface %d (%s/%p) alt 0 --> %d\n",
+40982be52d8f64c David Brownell    2008-06-19  891  					tmp, f->name, f, result);
+40982be52d8f64c David Brownell    2008-06-19  892  
+40982be52d8f64c David Brownell    2008-06-19  893  			reset_config(cdev);
+40982be52d8f64c David Brownell    2008-06-19  894  			goto done;
+40982be52d8f64c David Brownell    2008-06-19  895  		}
+1b9ba000177ee47 Roger Quadros     2011-05-09  896  
+1b9ba000177ee47 Roger Quadros     2011-05-09  897  		if (result == USB_GADGET_DELAYED_STATUS) {
+1b9ba000177ee47 Roger Quadros     2011-05-09  898  			DBG(cdev,
+1b9ba000177ee47 Roger Quadros     2011-05-09  899  			 "%s: interface %d (%s) requested delayed status\n",
+1b9ba000177ee47 Roger Quadros     2011-05-09  900  					__func__, tmp, f->name);
+1b9ba000177ee47 Roger Quadros     2011-05-09  901  			cdev->delayed_status++;
+1b9ba000177ee47 Roger Quadros     2011-05-09  902  			DBG(cdev, "delayed_status count %d\n",
+1b9ba000177ee47 Roger Quadros     2011-05-09  903  					cdev->delayed_status);
+1b9ba000177ee47 Roger Quadros     2011-05-09  904  		}
+40982be52d8f64c David Brownell    2008-06-19  905  	}
+40982be52d8f64c David Brownell    2008-06-19  906  
+40982be52d8f64c David Brownell    2008-06-19  907  	/* when we return, be sure our power usage is valid */
+995567ded019877 Jack Pham         2021-07-20  908  	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
+995567ded019877 Jack Pham         2021-07-20  909  		power = c->MaxPower;
+995567ded019877 Jack Pham         2021-07-20  910  	else
+995567ded019877 Jack Pham         2021-07-20  911  		power = CONFIG_USB_GADGET_VBUS_DRAW;
+995567ded019877 Jack Pham         2021-07-20  912  
+aae7167626ce37a Jack Pham         2020-01-30  913  	if (gadget->speed < USB_SPEED_SUPER)
+aae7167626ce37a Jack Pham         2020-01-30  914  		power = min(power, 500U);
+aae7167626ce37a Jack Pham         2020-01-30  915  	else
+aae7167626ce37a Jack Pham         2020-01-30  916  		power = min(power, 900U);
+40982be52d8f64c David Brownell    2008-06-19  917  done:
+7367e87b6e9eb4d Prashanth K       2025-02-17  918  	if (power > USB_SELF_POWER_VBUS_MAX_DRAW ||
+7367e87b6e9eb4d Prashanth K       2025-02-17 @919  	    !(c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
+                                                              ^^^^^^^^^^^^^^^
+This is an invalid read.
+
+78a92756fc2cab0 Thinh Nguyen      2020-02-03  920  		usb_gadget_clear_selfpowered(gadget);
+7367e87b6e9eb4d Prashanth K       2025-02-17  921  	else
+7367e87b6e9eb4d Prashanth K       2025-02-17  922  		usb_gadget_set_selfpowered(gadget);
+78a92756fc2cab0 Thinh Nguyen      2020-02-03  923  
+40982be52d8f64c David Brownell    2008-06-19  924  	usb_gadget_vbus_draw(gadget, power);
+1b9ba000177ee47 Roger Quadros     2011-05-09  925  	if (result >= 0 && cdev->delayed_status)
+1b9ba000177ee47 Roger Quadros     2011-05-09  926  		result = USB_GADGET_DELAYED_STATUS;
+40982be52d8f64c David Brownell    2008-06-19  927  	return result;
+40982be52d8f64c David Brownell    2008-06-19  928  }
+40982be52d8f64c David Brownell    2008-06-19  929  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
