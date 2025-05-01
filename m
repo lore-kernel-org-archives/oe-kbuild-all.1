@@ -1,133 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943E1262FE0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 22:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C15C269806;
+	Thu,  1 May 2025 23:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746140353; cv=none; b=FFP0uWrcpKiad85XLoNoJDXZ2oD4xEXIUSWYnGNclVDuC9bFL5MEpXR6h9gBnl2po3RRgA/zEAA1nPAg16vTRRC35htxjqDi1nCXceua/aWpcHvQ4ig9gz44WHaK0cl5d7CBn2WunvMNUgz7mpdyuu4LK9sGLFh7bYfMcHFT82Y=
+	t=1746142213; cv=none; b=uawtFziZaasAB4ZXCGUit2vYfWKUwoVUhdCMZek8CdYVmc3MFnEHfCu0haYcWM3cPAoWX/a/rwI66RB/q238p8efn5Ibp7B08mhgEin66km6xsYldvk+XL1qTJLYerPFja0rTzCU9Oy1zhMbw/+17zclH3wGJFzHeJnKGf0vX7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746140353; c=relaxed/simple;
-	bh=VuqnoELnEvk2Nf7UetaqLNzV2RQ+T4JbbkAsve1OGJk=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=nrB1XRe0YVRKk5+GTHnckUL5t4RRDSPaO/8Ufwpz8dDVx2kD0dbXmEk/NK8APLKVxr53Hi9Okd8A+I6W1FAi+BC+8hlkGdcwRd7gUW9e6HjNrFFlu+yz8FRULeyhPtNzXJRp+Tc9ADgBDpoBBsLBJpT02B/h9UcSQk7YN7SWAF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=svg1gv8T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746142213; c=relaxed/simple;
+	bh=aXfmMM0IyA1Pu13nHPIgtToxzTFby9IIeI8NZsGPaNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FbUZQrVkfhNM/AxfLh/h0KC4PxRr5XT9f6Q7errg9P4f2m2xdHPoxQjOioEgmSIdg15ag16epn5c+3Mt0swpisgvGAeVixoRwMA7iVN+22oc+uvJS9JPHbG3URPbz8sxK185YoDIJENGy2LN0pHKpzYva56r3204fV98+VZapeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CU76KPCw; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="svg1gv8T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7081C4CEED;
-	Thu,  1 May 2025 22:59:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1746140353;
-	bh=VuqnoELnEvk2Nf7UetaqLNzV2RQ+T4JbbkAsve1OGJk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=svg1gv8TyYx+D1i/pyZ1bCUfQxcWz+U7V6lM1fnDFppANr9sENoOQtflNVLrplWpA
-	 jSHQQpiA18XTB5gpnkRXcB6p0rLY9Wo/P+PyVwsn7R0UoaygyBlyB3YmMNZtFMCp32
-	 59U6z2P9phy8PaIvnyD5A+7SM4adssdgNdhYML9s=
-Date: Thu, 1 May 2025 15:59:12 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: kernel test robot <lkp@intel.com>, Shivank Garg <shivankg@amd.com>,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-unstable 272/272] include/linux/stddef.h:8:14:
- error: called object is not a function or function pointer
-Message-Id: <20250501155912.fc59c6e36c87c623501fe988@linux-foundation.org>
-In-Reply-To: <aBPtHlqpEsNxAiOV@casper.infradead.org>
-References: <202505020405.YzD9aNCo-lkp@intel.com>
-	<20250501141304.beac3e9d892495eea7a4e9cb@linux-foundation.org>
-	<aBPtHlqpEsNxAiOV@casper.infradead.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CU76KPCw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746142211; x=1777678211;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aXfmMM0IyA1Pu13nHPIgtToxzTFby9IIeI8NZsGPaNg=;
+  b=CU76KPCwOgFxTvLOug33YIRfKTT19IdBl2jm4wUmZ8Bn1VlALMSS2rEE
+   3DVJsnFHgkCxujprPwMvo9J9x2nhVa8BGhbYNTVJfPcQ2W09YDtQqI8ho
+   Md20H2BtO5Zfqu9SkBvmnwVL5TkXoT96Ciubs24UQokiNknxd6dU/v2SH
+   3/h1YD4npbCoitEJIttU1/VBQBcefSroi8pwMUOESYbSXrIYzh0JXpDMd
+   R3uXI2zFixTBavbi40vOeyMSQAcdrMxJHYJO3Y2eq25nZphZ6ZiTzh4c8
+   ayXJSGUhPOcm8x1+8RRzfJd/e8kwGvCMxe24JnYZZWr6yHYrNvpraXQgn
+   g==;
+X-CSE-ConnectionGUID: AWzRPwdcRCiLZxruANeOyA==
+X-CSE-MsgGUID: aDJUA0GbS4ysJyK1Li8yKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47915267"
+X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
+   d="scan'208";a="47915267"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 16:30:10 -0700
+X-CSE-ConnectionGUID: BwCrRmz2Rcuetj5z0SotRA==
+X-CSE-MsgGUID: emGAEMbPQGy9juRAWID4vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
+   d="scan'208";a="165564294"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 01 May 2025 16:30:08 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uAdLy-0004RB-2p;
+	Thu, 01 May 2025 23:30:06 +0000
+Date: Fri, 2 May 2025 07:29:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot+extras/v6.15-rc3 128/152]
+ fs/resctrl/ctrlmondata.c:585:2: error: call to undeclared function
+ 'resctrl_arch_mon_ctx_free'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202505020732.1zsVNl1R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 1 May 2025 22:52:30 +0100 Matthew Wilcox <willy@infradead.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot+extras/v6.15-rc3
+head:   89e83f0ddb42053b6e3e6d4a9ce2fd3dd521c3d6
+commit: c4df656cb6afb482b2d7cb0bc404beb995ffe165 [128/152] x86/resctrl: Add stub to allow other architecture to disable monitor overflow
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250502/202505020732.1zsVNl1R-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020732.1zsVNl1R-lkp@intel.com/reproduce)
 
-> On Thu, May 01, 2025 at 02:13:04PM -0700, Andrew Morton wrote:
-> > Should this new JFS migration code be wrapped in #ifdef CONFIG_MIGRATION?
-> 
-> Yes
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505020732.1zsVNl1R-lkp@intel.com/
 
-OK, thanks, I'll try this.  Maybe there's a way to reduce the amount of
-ifdeffing.  Warning, contains bonus whitespace tuneups!
+All errors (new ones prefixed by >>):
 
---- a/fs/jfs/jfs_metapage.c~jfs-implement-migrate_folio-for-jfs_metapage_aops-fix-2
-+++ a/fs/jfs/jfs_metapage.c
-@@ -152,8 +152,10 @@ static inline void dec_io(struct folio *
- 		handler(folio, anchor->status);
- }
- 
--static int __metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
--				    struct folio *src, enum migrate_mode mode)
-+#ifdef CONFIG_MIGRATION
-+static int __metapage_migrate_folio(struct address_space *mapping,
-+				    struct folio *dst, struct folio *src,
-+				    enum migrate_mode mode)
- {
- 	struct meta_anchor *src_anchor = src->private;
- 	struct metapage *mps[MPS_PER_PAGE] = {0};
-@@ -199,8 +201,10 @@ static int __metapage_migrate_folio(stru
- 
- 	return MIGRATEPAGE_SUCCESS;
- }
-+#endif	/* CONFIG_MIGRATION */
- 
- #else
-+
- static inline struct metapage *folio_to_mp(struct folio *folio, int offset)
- {
- 	return folio->private;
-@@ -224,8 +228,10 @@ static inline void remove_metapage(struc
- #define inc_io(folio) do {} while(0)
- #define dec_io(folio, status, handler) handler(folio, status)
- 
--static int __metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
--				    struct folio *src, enum migrate_mode mode)
-+#ifdef CONFIG_MIGRATION
-+static int __metapage_migrate_folio(struct address_space *mapping,
-+				    struct folio *dst, struct folio *src,
-+				    enum migrate_mode mode)
- {
- 	struct metapage *mp;
- 	int page_offset;
-@@ -249,6 +255,7 @@ static int __metapage_migrate_folio(stru
- 
- 	return MIGRATEPAGE_SUCCESS;
- }
-+#endif	/* CONFIG_MIGRATION */
- 
- #endif
- 
-@@ -629,11 +636,13 @@ static bool metapage_release_folio(struc
- 	return ret;
- }
- 
-+#ifdef CONFIG_MIGRATION
- /*
-  * metapage_migrate_folio - Migration function for JFS metapages
-  */
--static int metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
--				  struct folio *src, enum migrate_mode mode)
-+static int metapage_migrate_folio(struct address_space *mapping,
-+				  struct folio *dst, struct folio *src,
-+				  enum migrate_mode mode)
- {
- 	int expected_count;
- 
-@@ -646,6 +655,9 @@ static int metapage_migrate_folio(struct
- 		return -EAGAIN;
- 	return __metapage_migrate_folio(mapping, dst, src, mode);
- }
-+#else
-+#define metapage_migrate_folio NULL
-+#endif	/* CONFIG_MIGRATION */
- 
- static void metapage_invalidate_folio(struct folio *folio, size_t offset,
- 				    size_t length)
-_
+>> fs/resctrl/ctrlmondata.c:585:2: error: call to undeclared function 'resctrl_arch_mon_ctx_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     585 |         resctrl_arch_mon_ctx_free(r, evtid, rr->arch_mon_ctx);
+         |         ^
+   fs/resctrl/ctrlmondata.c:585:2: note: did you mean 'resctrl_arch_mon_ctx_alloc'?
+   arch/x86/include/asm/resctrl.h:197:21: note: 'resctrl_arch_mon_ctx_alloc' declared here
+     197 | static inline void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r,
+         |                     ^
+   1 error generated.
+--
+>> fs/resctrl/monitor.c:188:2: error: call to undeclared function 'resctrl_arch_mon_ctx_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     188 |         resctrl_arch_mon_ctx_free(r, QOS_L3_OCCUP_EVENT_ID, arch_mon_ctx);
+         |         ^
+   fs/resctrl/monitor.c:188:2: note: did you mean 'resctrl_arch_mon_ctx_alloc'?
+   arch/x86/include/asm/resctrl.h:197:21: note: 'resctrl_arch_mon_ctx_alloc' declared here
+     197 | static inline void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r,
+         |                     ^
+   fs/resctrl/monitor.c:632:2: error: call to undeclared function 'resctrl_arch_mon_ctx_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     632 |         resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
+         |         ^
+   2 errors generated.
 
+
+vim +/resctrl_arch_mon_ctx_free +585 fs/resctrl/ctrlmondata.c
+
+37d06f24730eb0 James Morse 2025-04-24  548  
+37d06f24730eb0 James Morse 2025-04-24  549  void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
+37d06f24730eb0 James Morse 2025-04-24  550  		    struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
+37d06f24730eb0 James Morse 2025-04-24  551  		    cpumask_t *cpumask, int evtid, int first)
+37d06f24730eb0 James Morse 2025-04-24  552  {
+37d06f24730eb0 James Morse 2025-04-24  553  	int cpu;
+37d06f24730eb0 James Morse 2025-04-24  554  
+37d06f24730eb0 James Morse 2025-04-24  555  	/* When picking a CPU from cpu_mask, ensure it can't race with cpuhp */
+37d06f24730eb0 James Morse 2025-04-24  556  	lockdep_assert_cpus_held();
+37d06f24730eb0 James Morse 2025-04-24  557  
+37d06f24730eb0 James Morse 2025-04-24  558  	/*
+37d06f24730eb0 James Morse 2025-04-24  559  	 * Setup the parameters to pass to mon_event_count() to read the data.
+37d06f24730eb0 James Morse 2025-04-24  560  	 */
+37d06f24730eb0 James Morse 2025-04-24  561  	rr->rgrp = rdtgrp;
+37d06f24730eb0 James Morse 2025-04-24  562  	rr->evtid = evtid;
+37d06f24730eb0 James Morse 2025-04-24  563  	rr->r = r;
+37d06f24730eb0 James Morse 2025-04-24  564  	rr->d = d;
+37d06f24730eb0 James Morse 2025-04-24  565  	rr->first = first;
+37d06f24730eb0 James Morse 2025-04-24  566  	rr->arch_mon_ctx = resctrl_arch_mon_ctx_alloc(r, evtid);
+37d06f24730eb0 James Morse 2025-04-24  567  	if (IS_ERR(rr->arch_mon_ctx)) {
+37d06f24730eb0 James Morse 2025-04-24  568  		rr->err = -EINVAL;
+37d06f24730eb0 James Morse 2025-04-24  569  		return;
+37d06f24730eb0 James Morse 2025-04-24  570  	}
+37d06f24730eb0 James Morse 2025-04-24  571  
+37d06f24730eb0 James Morse 2025-04-24  572  	cpu = cpumask_any_housekeeping(cpumask, RESCTRL_PICK_ANY_CPU);
+37d06f24730eb0 James Morse 2025-04-24  573  
+37d06f24730eb0 James Morse 2025-04-24  574  	/*
+37d06f24730eb0 James Morse 2025-04-24  575  	 * cpumask_any_housekeeping() prefers housekeeping CPUs, but
+37d06f24730eb0 James Morse 2025-04-24  576  	 * are all the CPUs nohz_full? If yes, pick a CPU to IPI.
+37d06f24730eb0 James Morse 2025-04-24  577  	 * MPAM's resctrl_arch_rmid_read() is unable to read the
+37d06f24730eb0 James Morse 2025-04-24  578  	 * counters on some platforms if its called in IRQ context.
+37d06f24730eb0 James Morse 2025-04-24  579  	 */
+37d06f24730eb0 James Morse 2025-04-24  580  	if (tick_nohz_full_cpu(cpu))
+37d06f24730eb0 James Morse 2025-04-24  581  		smp_call_function_any(cpumask, mon_event_count, rr, 1);
+37d06f24730eb0 James Morse 2025-04-24  582  	else
+37d06f24730eb0 James Morse 2025-04-24  583  		smp_call_on_cpu(cpu, smp_mon_event_count, rr, false);
+37d06f24730eb0 James Morse 2025-04-24  584  
+37d06f24730eb0 James Morse 2025-04-24 @585  	resctrl_arch_mon_ctx_free(r, evtid, rr->arch_mon_ctx);
+37d06f24730eb0 James Morse 2025-04-24  586  }
+37d06f24730eb0 James Morse 2025-04-24  587  
+
+:::::: The code at line 585 was first introduced by commit
+:::::: 37d06f24730eb0e770949e2d27f04b9639a994dc AUTO SPLIT
+
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: James Morse <james.morse@arm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
