@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A8B126BF1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 23:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379D5266B7E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 23:41:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746142873; cv=none; b=jUmULzIpF7ww3BKA2VKnnvPQpsQGiI/7hNBja5WOKFW1VGJhUkGQjxx3421kAJ0Vv32XkA37KnNqU2Ua8pJThLXYAoU5UL/875lU2hJUDQV550nIUWzKv4bGD2L/flU8S5EJ7rr/6Qrdxsrc/afx1bOzXTuENaRNeQjMUR1/ndY=
+	t=1746142875; cv=none; b=owSqhqydPAfLMQyRmo1uLzXMDF4Dqt7rrfBivPjYXDvIG8T7fwPhsEXj6n6tSV3HCRbtmJSMRcU1ucTdD45To4C4nVjEqztIRKtypGHO73q1SEkZbFlaYtxUKNSSLZYYIjsT0uRcLvlPxGcQgMNev+NONOpICGltTei2cup3kOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746142873; c=relaxed/simple;
-	bh=ojRO9y9QhYghYsOqXoEszSdzwR5Xo9dXbyaQsSTCllo=;
+	s=arc-20240116; t=1746142875; c=relaxed/simple;
+	bh=O1p8exRu3VMRQ2hGBvCPd1h54+d+kCb4Jo0XlGndlr0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TcghmuAhzcJQVgNui6fvMaahbSGunxwVMP0gKUla4lkgzIZE9tt+lmPaRqkpMez5/bt61/18tsH4RL9XhET3HI8pqI3tN3T/HE8g1uczoG2qMpLLQD+jUe6nmCvwsjEw2yU9g0PYvuMm00AikK3wfmrKnubCF1QSZ6eMjCXzeGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q07YB8dd; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=A2JTxA4+WJ2ALcqVlLEfg3w125tSyjJ0/CBtLzczbNf6jUpJAcooL4q5kHQ+sxYFA/OE//UGXqitUjykrIERUbQeHDkZPgr+tTPpCvR29TXQQuLZWqmgbOl2Q7Fhh5x5nGax9PDL57utOiVva9ES+XmnACBiqWCXmmPWf1Ry99o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrzKMznx; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q07YB8dd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrzKMznx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746142872; x=1777678872;
+  t=1746142874; x=1777678874;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ojRO9y9QhYghYsOqXoEszSdzwR5Xo9dXbyaQsSTCllo=;
-  b=Q07YB8ddNYF/tnA0Y1pojz++eYL1x0MFvxCWHZWsNRb1bgdlVBYnlBL1
-   sC0RKNEZ8fzebm0egrhX2R+EYxC1NXrSZUlH/iypN7M9mWyFrvyvrWDWR
-   rzPoqI+y7a27ny4H36MvXhZu7kikl7wjTJKSnMCOazurRKRpynFKjaYjf
-   F7kCotmtJ+/PvwyVXAUlya06YUcb8/XBhI4+ZmyhPtJOBd8DwW1/PpJAl
-   Bo/RpB93O1dWFJAMWFoH+8RF2s/DPaqdtpzpZ9Iib+ShbWfWCTQPf8Rwv
-   qcgRIrIeF7wAJCh3gjFCjnOq+K4FI8k8AUpdnLWnTSKknRlWXtz+ZqyvB
-   Q==;
-X-CSE-ConnectionGUID: /lWpuEiwTrSRGNnGgKfxYA==
-X-CSE-MsgGUID: +DDf4vOlT/OL/B2V8FMLbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="70330469"
+  bh=O1p8exRu3VMRQ2hGBvCPd1h54+d+kCb4Jo0XlGndlr0=;
+  b=YrzKMznxOCbUQSr4X6UhK3SFIpA4gG5xaigg6zKiCoapVgpZlD+qT3G6
+   XKOYbuK0ZEM2GbWwwnSoOi66/IWlyMvDrdGsXtePcvHioqxbEZ9QVmb1s
+   JSziNM4vfCvLtYvoxfhrirwULWmIc9Bh8AidkxpsM0zlf0B05Iuwic2hF
+   iHZSniYygucaQMIDKfrvHkW25uwWAgxZ8yK2cZY4JUICnPQHbV511dLYL
+   z3CaPuuBd4N1OiVB1nxnzmJoBHYYqSiqxPd61HkugS+5v31YgCc4tCufG
+   3T4EE/8el2XFbU3Mlq0k4H0Zx6Fekqk5cwrzzAGIr7Z4JdrMDJIZ6mSlf
+   g==;
+X-CSE-ConnectionGUID: 3IztzZC1SvKzMBv7ImuADg==
+X-CSE-MsgGUID: CstmoIH+QvGKp+JPGd2YWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="70330471"
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="70330469"
+   d="scan'208";a="70330471"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 16:41:11 -0700
-X-CSE-ConnectionGUID: TDxJCKq6SRaMbfQxDRcOoA==
-X-CSE-MsgGUID: w0nLMgxEQbCtFj4B9/7ihQ==
+X-CSE-ConnectionGUID: IalpYmibQ7uRIph/Tsmd1w==
+X-CSE-MsgGUID: 8iVtwPZeQqikCjsdfO/j2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="135035340"
+   d="scan'208";a="135035341"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 01 May 2025 16:41:09 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAdWd-0004RZ-2M;
+	id 1uAdWd-0004Rb-2Q;
 	Thu, 01 May 2025 23:41:07 +0000
-Date: Fri, 2 May 2025 07:40:09 +0800
+Date: Fri, 2 May 2025 07:40:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 13/21]
- drivers/net/ethernet/airoha/airoha_npu.c:430:72: error: expected ';' before
- 'if'
-Message-ID: <202505020739.XjlXU7uG-lkp@intel.com>
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>
+Subject: arch/powerpc/kvm/book3s_xive.c:357:41: sparse: sparse: incorrect
+ type in initializer (different base types)
+Message-ID: <202505020704.ohBUEBYk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,124 +63,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   3474fc53f28d0824c7020ddffc8559e8302f7415
-commit: 187439642c68be0ad8084f0156064c4fa443225c [13/21] net: Use of_reserved_mem_region_to_resource{_byname}() for "memory-region"
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250502/202505020739.XjlXU7uG-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020739.XjlXU7uG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ebd297a2affadb6f6f4d2e5d975c1eda18ac762d
+commit: 0305292f17bc1f4fc66a24a8dd1a5e047673c02d powerpc/io: Use generic raw accessors
+date:   9 weeks ago
+config: powerpc64-randconfig-r122-20250501 (https://download.01.org/0day-ci/archive/20250502/202505020704.ohBUEBYk-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250502/202505020704.ohBUEBYk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505020739.XjlXU7uG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505020704.ohBUEBYk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/powerpc/kvm/book3s_xive.c:51:15: sparse: sparse: cast to restricted __be16
+>> arch/powerpc/kvm/book3s_xive.c:357:41: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be64 [usertype] qw1 @@     got unsigned long long @@
+   arch/powerpc/kvm/book3s_xive.c:357:41: sparse:     expected restricted __be64 [usertype] qw1
+   arch/powerpc/kvm/book3s_xive.c:357:41: sparse:     got unsigned long long
+>> arch/powerpc/kvm/book3s_xive.c:701:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] value @@     got restricted __be64 [usertype] w01 @@
+   arch/powerpc/kvm/book3s_xive.c:701:57: sparse:     expected unsigned long long [usertype] value
+   arch/powerpc/kvm/book3s_xive.c:701:57: sparse:     got restricted __be64 [usertype] w01
+>> arch/powerpc/kvm/book3s_xive.c:702:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] xive_cam_word @@
+   arch/powerpc/kvm/book3s_xive.c:702:32: sparse:     expected unsigned int [usertype] value
+   arch/powerpc/kvm/book3s_xive.c:702:32: sparse:     got restricted __be32 [usertype] xive_cam_word
+>> arch/powerpc/kvm/book3s_xive.c:774:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] w01 @@     got unsigned long long @@
+   arch/powerpc/kvm/book3s_xive.c:774:49: sparse:     expected restricted __be64 [usertype] w01
+   arch/powerpc/kvm/book3s_xive.c:774:49: sparse:     got unsigned long long
 
-   drivers/net/ethernet/airoha/airoha_npu.c: In function 'airoha_npu_probe':
->> drivers/net/ethernet/airoha/airoha_npu.c:430:72: error: expected ';' before 'if'
-     430 |         err = of_reserved_mem_region_to_resource(dev->of_node, 0, &res)
-         |                                                                        ^
-         |                                                                        ;
-     431 |         if (err)
-         |         ~~                                                              
->> drivers/net/ethernet/airoha/airoha_npu.c:465:50: error: 'rmem' undeclared (first use in this function)
-     465 |         err = airoha_npu_run_firmware(dev, base, rmem);
-         |                                                  ^~~~
-   drivers/net/ethernet/airoha/airoha_npu.c:465:50: note: each undeclared identifier is reported only once for each function it appears in
+vim +357 arch/powerpc/kvm/book3s_xive.c
 
+5af50993850a48b Benjamin Herrenschmidt 2017-04-05  335  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  336  static unsigned long xive_vm_h_ipoll(struct kvm_vcpu *vcpu, unsigned long server)
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  337  {
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  338  	struct kvmppc_xive_vcpu *xc = vcpu->arch.xive_vcpu;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  339  	u8 pending = xc->pending;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  340  	u32 hirq;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  341  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  342  	pr_devel("H_IPOLL(server=%ld)\n", server);
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  343  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  344  	xc->stat_vm_h_ipoll++;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  345  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  346  	/* Grab the target VCPU if not the current one */
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  347  	if (xc->server_num != server) {
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  348  		vcpu = kvmppc_xive_find_server(vcpu->kvm, server);
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  349  		if (!vcpu)
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  350  			return H_PARAMETER;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  351  		xc = vcpu->arch.xive_vcpu;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  352  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  353  		/* Scan all priorities */
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  354  		pending = 0xff;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  355  	} else {
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  356  		/* Grab pending interrupt if any */
+b22af9041927075 Alexey Kardashevskiy   2022-05-09 @357  		__be64 qw1 = __raw_readq(xive_tima + TM_QW1_OS);
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  358  		u8 pipr = be64_to_cpu(qw1) & 0xff;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  359  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  360  		if (pipr < 8)
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  361  			pending |= 1 << pipr;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  362  	}
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  363  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  364  	hirq = xive_vm_scan_interrupts(xc, pending, scan_poll);
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  365  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  366  	/* Return interrupt and old CPPR in GPR4 */
+0e85b7df9cb0c65 Jordan Niethe          2023-09-14  367  	kvmppc_set_gpr(vcpu, 4, hirq | (xc->cppr << 24));
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  368  
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  369  	return H_SUCCESS;
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  370  }
+b22af9041927075 Alexey Kardashevskiy   2022-05-09  371  
 
-vim +430 drivers/net/ethernet/airoha/airoha_npu.c
+:::::: The code at line 357 was first introduced by commit
+:::::: b22af9041927075b82bcaf4b6c7a354688198d47 KVM: PPC: Book3s: Remove real mode interrupt controller hcalls handlers
 
-   403	
-   404	static int airoha_npu_probe(struct platform_device *pdev)
-   405	{
-   406		struct device *dev = &pdev->dev;
-   407		struct airoha_npu *npu;
-   408		struct resource res;
-   409		void __iomem *base;
-   410		int i, irq, err;
-   411	
-   412		base = devm_platform_ioremap_resource(pdev, 0);
-   413		if (IS_ERR(base))
-   414			return PTR_ERR(base);
-   415	
-   416		npu = devm_kzalloc(dev, sizeof(*npu), GFP_KERNEL);
-   417		if (!npu)
-   418			return -ENOMEM;
-   419	
-   420		npu->dev = dev;
-   421		npu->ops.ppe_init = airoha_npu_ppe_init;
-   422		npu->ops.ppe_deinit = airoha_npu_ppe_deinit;
-   423		npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
-   424		npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
-   425	
-   426		npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
-   427		if (IS_ERR(npu->regmap))
-   428			return PTR_ERR(npu->regmap);
-   429	
- > 430		err = of_reserved_mem_region_to_resource(dev->of_node, 0, &res)
-   431		if (err)
-   432			return err;
-   433	
-   434		irq = platform_get_irq(pdev, 0);
-   435		if (irq < 0)
-   436			return irq;
-   437	
-   438		err = devm_request_irq(dev, irq, airoha_npu_mbox_handler,
-   439				       IRQF_SHARED, "airoha-npu-mbox", npu);
-   440		if (err)
-   441			return err;
-   442	
-   443		for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
-   444			struct airoha_npu_core *core = &npu->cores[i];
-   445	
-   446			spin_lock_init(&core->lock);
-   447			core->npu = npu;
-   448	
-   449			irq = platform_get_irq(pdev, i + 1);
-   450			if (irq < 0)
-   451				return irq;
-   452	
-   453			err = devm_request_irq(dev, irq, airoha_npu_wdt_handler,
-   454					       IRQF_SHARED, "airoha-npu-wdt", core);
-   455			if (err)
-   456				return err;
-   457	
-   458			INIT_WORK(&core->wdt_work, airoha_npu_wdt_work);
-   459		}
-   460	
-   461		err = dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
-   462		if (err)
-   463			return err;
-   464	
- > 465		err = airoha_npu_run_firmware(dev, base, rmem);
-   466		if (err)
-   467			return dev_err_probe(dev, err, "failed to run npu firmware\n");
-   468	
-   469		regmap_write(npu->regmap, REG_CR_NPU_MIB(10),
-   470			     res.start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
-   471		regmap_write(npu->regmap, REG_CR_NPU_MIB(11), 0x40000); /* SRAM 256K */
-   472		regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
-   473		regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
-   474		msleep(100);
-   475	
-   476		/* setting booting address */
-   477		for (i = 0; i < NPU_NUM_CORES; i++)
-   478			regmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res.start);
-   479		usleep_range(1000, 2000);
-   480	
-   481		/* enable NPU cores */
-   482		/* do not start core3 since it is used for WiFi offloading */
-   483		regmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xf7);
-   484		regmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);
-   485		msleep(100);
-   486	
-   487		platform_set_drvdata(pdev, npu);
-   488	
-   489		return 0;
-   490	}
-   491	
+:::::: TO: Alexey Kardashevskiy <aik@ozlabs.ru>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
