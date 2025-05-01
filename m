@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C781D89FD;
-	Thu,  1 May 2025 10:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375351DC9A3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 10:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746095635; cv=none; b=MQ4maOTK0Yy2s07ES4NOR0pKoqqN3ULyrB8evrC/QV23PZ2CoHhwkBDwHhtc5j0o1MhTK+ewB56LI87hDbX5PywCLb4pEzDIJYLBzmqJMK5xSVsfh2bw0G9cy5ebTdGi/2ooqZJHqBEBR1L5/H+CuUpT+WU2Yp5K3HR/lG5lmUc=
+	t=1746096236; cv=none; b=BkZ1soYE83DeYRKmjlllAlk+hU2DHFY78rm32miJ2oeLtRUiEsP0St/2BsYixg8BcmThVndYe+Yol0EvMoT4mGBYZ5b+UkD778/FfIf68w/3QfZBvBQmBAUwRyEeAPTBNE8jWXoybag+jnwE80eLpGVLNHcK0gvGHJ6GZM1PCSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746095635; c=relaxed/simple;
-	bh=X6UR650SqjHCyahtjHRoHLJWzg+YRrp5P85X9aePAJY=;
+	s=arc-20240116; t=1746096236; c=relaxed/simple;
+	bh=RTIn05W/GtDHSTWDFooGE31tIGmZSdJytnDHyP/r/8g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O9AseHg8HNxl32JDvIKsFLxEUQhIzmfZSzhOTtIiAXv50SkbGyyLHnzd950gai+LAN15BqpXgzTqM2HRNcp2gZGqAwVLZQ51mthpRrGY4bXUg6LA+Tr/Cd+nmZ8wZyCeNA8/K/GlV7X3Y1NHB6eQVFXPlXosdYW+1pB8bkuRzcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIK19x1B; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=PGegFSS8TS9bAOQWLIhlxWoAf4FC112aSa5t10YNwZ4fm6sB4K8ePDHGmJxub+SH/zqpfsKSFZsYExo41hKqcJxLz6LFEn/zc7WgTHdmZQU/PPaRlHchgJMccTxzwJmYeo/yRlL6wyMfg7PPaVqRU7v8FO06q/yrshKTZfBO3hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezB5LhNe; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIK19x1B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezB5LhNe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746095633; x=1777631633;
+  t=1746096235; x=1777632235;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=X6UR650SqjHCyahtjHRoHLJWzg+YRrp5P85X9aePAJY=;
-  b=LIK19x1B9uOqVY7STXK+Z4biUkMFj6BonLAC8n44wgdad8YPiUMDY3MQ
-   xOu+7THMuhyIokYE411+I1FBHd/D/UMJxCk56etkzvYvCXv2lRflVFDcN
-   h+IJFYmSdUVx28nAcXs1set7T1EN44frEkZIUixvcaQzlS8abgAIG0lWO
-   AdjCUEhzgMRZnnGiqlqos9og2IPNC7V2eo4JCJ2kkdNrbdeN7S+BnR7b3
-   0svmcL7jqv0WbfWPw0oDkgMsmCdlUlB4197vyKkXqhD8hAA95awko+bFx
-   WIX7XpBipfL6NNMEIobanVbDP8aKOm2E7nZel4ODCF5Rr91x77yALhwKg
+  bh=RTIn05W/GtDHSTWDFooGE31tIGmZSdJytnDHyP/r/8g=;
+  b=ezB5LhNeEhy1WbjfpZhQk/HSRq1C71Nt7PcJY5B0C+86ovpRx2syx8xV
+   0hiKpMxV9x2ktEn2nv4pbUwZavUtEojOCKo4TrrDQyfvyrI1F8rZ+ViWi
+   NHi0E36/orWi0y1j0MPsZaVDl3xvSPe4hFAOhCYuKN9p1vQxgO/1zk1kL
+   Ev1uO4Dzw2e9+Nn8Bu1xBZV9+VAVraKnlQ7yOeop9jE2R4qaUxcawo9F3
+   cojs2E4FKq++65aqANOUuJ3r9igkanaLTIE7LKt4NE+i2F9cK0I0BPeI0
+   sz9PbKnzMzQ+yeI8ox+ucquw7iVsftP4CkJDx2rz0evuOw0EsUb1VMZsZ
    Q==;
-X-CSE-ConnectionGUID: 1tE1Wfa1R76WES9eWq1/NA==
-X-CSE-MsgGUID: 54oU4YWORfSl1qakZU5Nyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="70266723"
+X-CSE-ConnectionGUID: 24iwGba7QhmOloCYt+uSxQ==
+X-CSE-MsgGUID: WVPdqtj0SCieA+1dZQwzXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47905862"
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="70266723"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 03:33:52 -0700
-X-CSE-ConnectionGUID: GFVwQs/WS9WyCnQPuxzS9A==
-X-CSE-MsgGUID: 9/8z731hQXmpMAACsa26tQ==
+   d="scan'208";a="47905862"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 03:43:55 -0700
+X-CSE-ConnectionGUID: aNT8OLNsSMOv7fvqPLZdlA==
+X-CSE-MsgGUID: RQ5IbqbbTDijirMCsPAeog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="134878633"
+   d="scan'208";a="138369009"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 May 2025 03:33:47 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 01 May 2025 03:43:53 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAREe-00046b-2d;
-	Thu, 01 May 2025 10:33:44 +0000
-Date: Thu, 1 May 2025 18:32:50 +0800
+	id 1uAROR-00046z-0E;
+	Thu, 01 May 2025 10:43:51 +0000
+Date: Thu, 1 May 2025 18:43:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>, bhelgaas@google.com,
-	lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
-	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org,
-	saravanak@google.com, p.zabel@pengutronix.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	claudiu.beznea@tuxon.dev, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 1/8] soc: renesas: r9a08g045-sysc: Add max reg offset
-Message-ID: <202505011843.2uKgWFN0-lkp@intel.com>
-References: <20250430103236.3511989-2-claudiu.beznea.uj@bp.renesas.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 07/10] ref_tracker: add a way to create a symlink to
+ the ref_tracker_dir debugfs file
+Message-ID: <202505011822.GnoqN2Oi-lkp@intel.com>
+References: <20250430-reftrack-dbgfs-v6-7-867c29aff03a@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,45 +63,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250430103236.3511989-2-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20250430-reftrack-dbgfs-v6-7-867c29aff03a@kernel.org>
 
-Hi Claudiu,
+Hi Jeff,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus geert-renesas-devel/next geert-renesas-drivers/renesas-clk robh/for-next arm64/for-next/core linus/master v6.15-rc4 next-20250430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 5bc1018675ec28a8a60d83b378d8c3991faa5a27]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/soc-renesas-r9a08g045-sysc-Add-max-reg-offset/20250430-183951
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250430103236.3511989-2-claudiu.beznea.uj%40bp.renesas.com
-patch subject: [PATCH 1/8] soc: renesas: r9a08g045-sysc: Add max reg offset
-config: arm64-randconfig-003-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011843.2uKgWFN0-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011843.2uKgWFN0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/ref_tracker-don-t-use-pK-in-pr_ostream-output/20250430-230944
+base:   5bc1018675ec28a8a60d83b378d8c3991faa5a27
+patch link:    https://lore.kernel.org/r/20250430-reftrack-dbgfs-v6-7-867c29aff03a%40kernel.org
+patch subject: [PATCH v6 07/10] ref_tracker: add a way to create a symlink to the ref_tracker_dir debugfs file
+config: arc-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011822.GnoqN2Oi-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011822.GnoqN2Oi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505011843.2uKgWFN0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505011822.GnoqN2Oi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/soc/renesas/r9a08g045-sysc.c:23:3: error: field designator 'max_register_offset' does not refer to any field in type 'const struct rz_sysc_init_data'
-      23 |         .max_register_offset = 0xe28,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from include/net/net_trackers.h:4,
+                    from include/net/net_namespace.h:40,
+                    from include/linux/netdevice.h:38,
+                    from include/linux/if_vlan.h:10,
+                    from include/linux/filter.h:21,
+                    from include/linux/bpf_verifier.h:9,
+                    from kernel/bpf/../../tools/lib/bpf/relo_core.c:8,
+                    from kernel/bpf/relo_core.c:2:
+>> include/linux/ref_tracker.h:123:20: error: redefinition of 'ref_tracker_dir_symlink'
+     123 | static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ref_tracker.h:86:20: note: previous definition of 'ref_tracker_dir_symlink' with type 'void(struct ref_tracker_dir *, const char *, ...)'
+      86 | static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/net/net_trackers.h:4,
+                    from include/net/net_namespace.h:40,
+                    from include/linux/netdevice.h:38,
+                    from include/net/sock.h:46,
+                    from include/linux/bpf-cgroup.h:11,
+                    from kernel/bpf/helpers.c:6:
+>> include/linux/ref_tracker.h:123:20: error: redefinition of 'ref_tracker_dir_symlink'
+     123 | static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ref_tracker.h:86:20: note: previous definition of 'ref_tracker_dir_symlink' with type 'void(struct ref_tracker_dir *, const char *, ...)'
+      86 | static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c: In function '____bpf_snprintf':
+   kernel/bpf/helpers.c:1065:9: warning: function '____bpf_snprintf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1065 |         err = bstr_printf(str, str_size, fmt, data.bin_args);
+         |         ^~~
 
 
-vim +23 drivers/soc/renesas/r9a08g045-sysc.c
+vim +/ref_tracker_dir_symlink +123 include/linux/ref_tracker.h
 
-    20	
-    21	const struct rz_sysc_init_data rzg3s_sysc_init_data __initconst = {
-    22		.soc_id_init_data = &rzg3s_sysc_soc_id_init_data,
-  > 23		.max_register_offset = 0xe28,
+   122	
+ > 123	static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
+   124	{
+   125	}
+   126	#endif
+   127	
 
 -- 
 0-DAY CI Kernel Test Service
