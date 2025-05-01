@@ -1,244 +1,175 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2044.outbound.protection.outlook.com [40.107.243.44])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5548F19A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 11:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746099389; cv=fail; b=ARz/QpBxb17zPSSdJPAF2Pr9ved2sDPGMew7WVU2zV/vE+XZPzE7rc2X03PHAnTkv4ekQEXfyluUx6hYKOVPH0gMEoFcLUrcGZ+SJw+ipMZIEBGtw9Y88XQRl6zl/oeTbG1trhgCUL8n/5lw04fCg+VLvgU+PI6NJ0UUeJAGAWY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746099389; c=relaxed/simple;
-	bh=TEmEFImSIPGNdboUUSEZcoPIp2FRxm0mMZQnr/7b/Cw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OMFdiEU4r99KqRyZuhyl2uTn9XXjdRR1Hi/Oyfr2SchU2XcCypi6v41t7fH7nTCDyVGVyNrPejUFfN9iftv+xddDSywWbCtO2/6K9Plx21QmYk0tMX/YbjtV9Hw+2bVWik3GAfTA15wc2xNr45t053CPzzJW3wPdiixqJnq/f3I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=l4lRGsJg; arc=fail smtp.client-ip=40.107.243.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BAD1EB189
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 12:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746101891; cv=none; b=Gmvx5HAyvkccY2LSDvBtZxk4ifJGh7yNmV1llz5nG8qsjp2Gem0E8QdJpS7zbQMEZBJZff9lprzqNecXYcd1bfiKxSj1a4G1px7PxgerVy1CGw8mzobenBXHnOTcbfXPy7lvHVetETCWW66/sUGcrFhOaXqRkt5RBe0x5dbyySY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746101891; c=relaxed/simple;
+	bh=UEYdsGxiWN4LlxdLdoU7WEPousnF+dJgvSTjgk7Vx+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZWl4n/NmmkJeWkncmIQo4Pco+YX2r0fzHGg+pvl4JzcP+ORotbo+m/w36NaP9PSqLvSsYtDFKq/wLqmjn2d7/CbIOamzSTCz9Oa+dhvHd27izSxED7i/KDU90SZ8OFFQEEIuK3f7+ZmzebpKF5w4UNCwj07e+DdYP65JFzUt+EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KpBDeVu6; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="l4lRGsJg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J3J81YFyyXHHaKs+q4kZMf7fMOSOvSUnwAa2xqakz2gSxcj0zdOm5jjkcBpMqIFjw7/E3m5BJYNntD5ruAiSgTFFuKr6MDF1UXRLc5gTPBbUdPWb4dDT7MO0xjh/jtKwsU7KPkSE8F6JCURxDh9M1eFKTTKrAPdY6pW2FnEnmG1SvLNVwoZQcuFI+bAYrwI/faWRlDSJpbDuGw1SGsTyP9R/nwS5QAgPmjX6U5RaZlQdIerF56SR4+0Pl52IL82nrJcNVeSTUxbGEBkEqUJ31XfCRb2Nb4q+KUAW87v5FB5+nrIx/5TorwDwKN1llj07FAF9H5xOwExHzGsahCGWcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pZqSDYE74ihBrv3zphzbFkMlVGvyFruLQenKoTOvSUE=;
- b=qSWJ5XMqS7qCrLzRIn1p7RQXZW8k/EJzGX/87RHz3wTUy13sJ9PqptxKmpQd2zoUv0kk74Di3Uq6OKOYZwyVv19rodBxo4Pe1/fi1CPw6Ndu/sE8K+1K0w94xuEXOnicrS9sndRa8ef/e8bce8QDunVv+GdDfRY+fw+Tku1mvZLDZR89lwgoHFZ09rzwlXrMnMyKG0lyxZ+HjsfShNkJdCRhUTXA2wgzTlmZLEmKJ7zWmfMvtobC9gcrjOjqT3UmiPq/GvPT17EmB8Vdw/n4zD1SiPGdwuecEjRAnS0ua2Lwc74VtO0CtU8hx7cnyidhDj0QRJHpoyTxnYAbOVrjCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pZqSDYE74ihBrv3zphzbFkMlVGvyFruLQenKoTOvSUE=;
- b=l4lRGsJgPVw8chLeZSG29XdkA2YfZF0OVsiUgkZnpolotz629T/r4iRBzALKhmHGHdeL0OuMXAAryZS6UANIoIJHupmb+dNArdUXBQtyja9RiRB0K1W1tNgu/80CGAczqQrVbIk1B69ISNAaT33fk6bBvsNNT3N0I95bKVM8LBk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH2PR12MB4262.namprd12.prod.outlook.com (2603:10b6:610:af::8)
- by SA1PR12MB7344.namprd12.prod.outlook.com (2603:10b6:806:2b7::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.30; Thu, 1 May
- 2025 11:36:24 +0000
-Received: from CH2PR12MB4262.namprd12.prod.outlook.com
- ([fe80::3bdb:bf3d:8bde:7870]) by CH2PR12MB4262.namprd12.prod.outlook.com
- ([fe80::3bdb:bf3d:8bde:7870%7]) with mapi id 15.20.8699.022; Thu, 1 May 2025
- 11:36:24 +0000
-Message-ID: <1967593d-8084-4a4a-b384-35d5adc54eb4@amd.com>
-Date: Thu, 1 May 2025 17:06:18 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [akpm-mm:mm-unstable 272/272] fs/jfs/jfs_metapage.c:637: warning:
- Function parameter or struct member 'mapping' not described in
- 'metapage_migrate_folio'
-To: kernel test robot <lkp@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202505011647.L0LGO7Lm-lkp@intel.com>
-Content-Language: en-US
-From: Shivank Garg <shivankg@amd.com>
-In-Reply-To: <202505011647.L0LGO7Lm-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0188.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:be::20) To CH2PR12MB4262.namprd12.prod.outlook.com
- (2603:10b6:610:af::8)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KpBDeVu6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746101890; x=1777637890;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UEYdsGxiWN4LlxdLdoU7WEPousnF+dJgvSTjgk7Vx+I=;
+  b=KpBDeVu6neRD5K3T4VirF8KjGqq2MI2fceIOO7wZXBt4exIojEy50xEs
+   YkgYq0OZWbWeaNq3cL/bpXwiT/aTAlz5SfI9pxT8hB1SYVK1my79Par/C
+   lbW1CbfaoifQ3AXa6550luV9HxT33sj2IoYeQPAsXg/oAnAQM9D0v7LtZ
+   5haF8cpns6ivuvapsrYr/0lh1w+gRGiOTpEdkn9Fo+FGo0t3JWO2r6UK1
+   jgA+YcNyy6XLYr77XyqWpDewKXYAXJ2ZZOzWPZgvyVAsJMOUscTR9q076
+   7nfJ8ZFR71PmqZD/1YUT8jmEdlczN+VWlKESLS+GSOsXrWfrn/IdDvfL5
+   A==;
+X-CSE-ConnectionGUID: KAIJG61DSmuryrwba2omgA==
+X-CSE-MsgGUID: VU3Z22OuSquH2PL1RTNlWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="59137254"
+X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
+   d="scan'208";a="59137254"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 05:18:09 -0700
+X-CSE-ConnectionGUID: D78MVgKRQGW2mre1auBXsQ==
+X-CSE-MsgGUID: ArCDsaRoQUqUcIMyXw67BQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
+   d="scan'208";a="134870409"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 01 May 2025 05:18:06 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uASrc-00048h-1g;
+	Thu, 01 May 2025 12:18:04 +0000
+Date: Thu, 1 May 2025 20:17:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/bcachefs/io_write.c:1570: warning: Function parameter or struct
+ member 'bch2_write' not described in 'CLOSURE_CALLBACK'
+Message-ID: <202505012019.YvVwRBHJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4262:EE_|SA1PR12MB7344:EE_
-X-MS-Office365-Filtering-Correlation-Id: f161965d-8c28-498b-efeb-08dd88a466be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UkpkcjRySUdJVE9Wb296VzV1NGt3ekgyQ0VsT0o1SE93NnRJc0U1ZXY5L2lv?=
- =?utf-8?B?WTNON3NTdUhTUTdZWkRjN01oaXlpdnk0UUpLd0R0OVZsL1RCc2tmVjI1REtl?=
- =?utf-8?B?R0dLOVRKelAwWlNiUXI3azIreG81RGlmOU44cWt3eWtKTXFFVXdCNzZOUHZm?=
- =?utf-8?B?ZnllTW9BSmJUSTNGb2R3cWpIZ2pTTTN4R1VmUWhUN0xXWjBtYXBrSjFabGFp?=
- =?utf-8?B?VitWcUVhMmNiWW1OcmpidGtxOW8vNWdObjAwbi9HWG1yUDdrRy85djdybW5I?=
- =?utf-8?B?S05XUnhGV3I2bmdCSTlvVTZYZ1BMTjdsU2VHYkJSdmlCY0JQU0xRLzNTeGRq?=
- =?utf-8?B?bUJoZVZydlR2U2g1WVU4djhUN2hhdDNudjJrNXJxSTNtVDdnZEJSNmlQcFkv?=
- =?utf-8?B?SFgxUDFja1V3MG5KV0c0a09naWRaYzF2SXBaSzFucSs5Uk5wZnJHd2FNaDF6?=
- =?utf-8?B?dHBCVUh0OTFUQjJpN3pUbWk5b3A2bUk5WVBYUC9jZzBTMXZyU0FQTTZUZWJR?=
- =?utf-8?B?V2ZGakpHbEszOHAycS81UGM2YW1uUTJVaXp1bExWT1dId1RkYU1rUi9EN0hn?=
- =?utf-8?B?aFJqcjhWUndYSDV3LzNFT0xYbjdXVG45ZmNyWEtSUW4yY296VW5lTWY4eVNw?=
- =?utf-8?B?a2dQamJvZjlsOTRaamE0cUVWRG9JcmRITU5CQ3cwOU1rTy9OV3JSYiszSkFv?=
- =?utf-8?B?Z2RldWZSeFJjZ0grUUxsTUZQUkFwdW5HQmY4QXNqTjcrYkFJaFJWZURlRGg5?=
- =?utf-8?B?MTAwVEpDQWI5R2hYWGZMZmhiQUtMVmxpNml4cFFMTkJsaHpKS0FYbGZ1bUZY?=
- =?utf-8?B?M3kxSkkrRG1NMS93a0tIN0FDc3h0Y2ZvbXYzcGhFQVZmTDlVQmpMa3pyQmpO?=
- =?utf-8?B?blduOFVZMjZxaFZJUGVieXJMTFAxamV4UnlHdVVzVlNiR25lRFFOODN4amxm?=
- =?utf-8?B?ZUtOd1dzUFYrbitKUnJ0eGJMMzV3ZXpQREk1VWQ2bzIvUnR4eHA4L2xWYlBO?=
- =?utf-8?B?ZXQweG9vZnZCTWNTT29Sdms3MFRrdEUzY2dLQlM4M2RFTG1GZzZ4QUxDaVNG?=
- =?utf-8?B?NUtveVp1bm1tbEhCYk4xSDFlUjRXczE2RWMyOVlBVy8zd2FTejN6TTVQdVZp?=
- =?utf-8?B?Y0VKb2dsS2V2ZVg1YlRMb3JFTGZsNDh4Zm5RSHRzdVNSbGlzK25uMytPL25G?=
- =?utf-8?B?dTNhMjdtYTNLNDdIQk8wWGhUQlEwcUdOUEJib0IxQS9ZN2hDdjFLLy9NTUha?=
- =?utf-8?B?REVuM0NiMzBlaCsxRk1DdldFMkZCMmY4U205OS9YYWtRNitDNnQ5dXRmRmVi?=
- =?utf-8?B?NmlHa01JWHl4Yi95NHRkS0lBSTN6eWh0M01qQjhIVWRPWE1lQTRzeU5BYXpw?=
- =?utf-8?B?S0pLTHFDYW05L1RtZ0VCRjlUNWp2SXM2dW9wSjRib2ppMy9YSHpCQkdna2hl?=
- =?utf-8?B?L2F5QjVYeDhwTkRGbWpIVEt2R2h1OXpCY2FIRWM5akFmSXBqNmU5RFlqYTdv?=
- =?utf-8?B?SWE4bVhVcnRrTHhmQjY2WExYa2YwODVXWGNidDB6aUZ4RTBvZDBJd1FwNzU1?=
- =?utf-8?B?dFZYRmF0NmZRRWZHeFNVVlZFMTU3M3Vkem55RHZhQTNhZmFvSGF2RzdRUzlO?=
- =?utf-8?B?YXFDaGY2MStzb1FMZWdpVGN6QW92c2V2OC9oYzVCdG1yS3kxR0JyQkw1SlJD?=
- =?utf-8?B?OGUvM280cE9ZMTJVU3V3emJ0T3M2dzhQdVMzb0txb2VOUFhBaVRpcGk3dlZL?=
- =?utf-8?B?ZWFkNlBuMEJsYVd3SmVyYUEzRDMyQkNScnJhYWdNenlMc09DMzFvK1FMQmla?=
- =?utf-8?B?c1YxSndKR0hTSUx3bUUzWEk4WERVaExHR0lZbU9ocVdhaHFrN2ErbTlKWWs0?=
- =?utf-8?Q?mJTFl6z/4p2w8?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB4262.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eXZoSjhPcUtGcFhmNmp3REp3TDRobVh3S0tWMXdITHdsS1BMbFpDazAyUUk3?=
- =?utf-8?B?ZW9iNFhTUW95SjRDcTc5SG9vbGx5UGVoUDdkaWhrakRqVU1YZjNoaEsyVFJW?=
- =?utf-8?B?b3ZMeGVmUlUzb0xEYkcwNkhPVUhyTDZtM0hOWGdla3pnWVVWYk9FRGVXVCtq?=
- =?utf-8?B?KzV6aXdKOWJnQTVQUStyTVA4aHhyTXVmQkpuYzZ6WUNZVmN2bmhkeVN4cVZW?=
- =?utf-8?B?Q0Q5NThnd2ROYW1abnhMVFpjeHlPQVJ2eDRETHR6VUl2b1hTejN4RjdhTDNn?=
- =?utf-8?B?MnU0ZTJibUlESC9aTHRvV1pXMG80VWprMU80UkRHQlprc0UxT1RSTFgvU1ll?=
- =?utf-8?B?ZVBSS2lRZktpVGJ3bklnNkJNZ1lyZGNYZkQzSFlndFhLT1V3NUZ4SGM0MG5r?=
- =?utf-8?B?NlJabzVlWlRkMEljUjkvdVptVXAyOXNQRTR2aGVwTkJRdytGRWpYWHVlc0l0?=
- =?utf-8?B?UFFwbnE0V3pBU09TdExJUUFYckdiMHAwQnQ2d3NWeHAzaFIrdlJwR0xYWkN3?=
- =?utf-8?B?a0YyQ2g5alhjME04TThzQkNwZThBbXlqUFhoZURjUmhhRys4OGowYzNZMFNI?=
- =?utf-8?B?YmR4aUtKNVBwQW02TEVESDhoSnVBZTQ4NWdOZXJKaFpudXNNME9BSUpXTHh6?=
- =?utf-8?B?Q1poSkN0SmJkQ3EwVjgxUXlvMENBRnpsQnM5bmJvbzdOU3lISXY5ek1Wd2xG?=
- =?utf-8?B?Nk00VUJKeWJVWUFQczFrQVN4YUY0SndxWjlYQ2RjNFFlUXhsSHJXanhzTmdn?=
- =?utf-8?B?UUhrMzhGNWxXNnZEWVVndkZZSE5uUGZwRlNlbmRqL09Tb1hkd1d2ZHFYdjU2?=
- =?utf-8?B?K2p5UWZIcHN5TjhUamhGelJuRWdMdjIxT21vaUhDM0ljdndoMUd0RjRNb2xN?=
- =?utf-8?B?QkdFSW0yTWlvdENMZ1QzSWVsODlTZjJ2ZXQ3dDJCdUpUYzdDSEhVTDJtLzdn?=
- =?utf-8?B?clhVa1dxbE5rSmRQRitRUGFNYkYwU0l6MS84d1FxS2tVUmk3bmw5eGtVK0Nv?=
- =?utf-8?B?Wk9aZklobkhaWE5NKzljQ3RoQmFWbU54N2c1TzVHNjVyakVIeE1Gam9jWTlO?=
- =?utf-8?B?Y2FkYnlpdjFIeG9GWUhlT2w4Y2NlR1NKRG9xQk44Z29iUEJ6eE5pdStaSkZF?=
- =?utf-8?B?bDZ3bkZTdG1nUkZseW5PL0lQWk5kMWtld2szQVV5S3RRZm5BZFRrbnRZTmwv?=
- =?utf-8?B?Z25kd3ltcnBQMDN4bFo3NEUyMkFSUnhkSVh2M3FUaFg5WDRtc201aXFOdVEx?=
- =?utf-8?B?cGtFOGlWbTk4NkExVzhwTlBoZDI4MHBPdTFZNG9sc21DL2pMaUMxd2QxK2xp?=
- =?utf-8?B?OUxHN0tnakZLZzE2WmtlSHljVFlTS0Mwd3R4dllUREQwTW9rR3gzWFN5dWwz?=
- =?utf-8?B?Y0VhRlRCWEZ1c2pyYmRqQUUvOEEvc0pEVnBpOGNlTXlKWllQbEtmMS8wejRx?=
- =?utf-8?B?eVNpaEJtK29CWXpCMmFMckpWaEZhU285Zmp2RnJMb0FsR2J3THVRRi9WMXRS?=
- =?utf-8?B?TXhkT0Z5MGJZWG5BakJHZ0ZvSEdmaDBodDVQNmxlbWZ6R0MyWnpXNkZuNm4x?=
- =?utf-8?B?cEdjUytURVVCY0NRSnJuRXVXQnVoVnNsYmgyS3ZYenNnV1l5ZHhNRHJTNVAx?=
- =?utf-8?B?TUE3K0hwOG4wUXNUa1YxMk1iTHFYVnVIUzE1VlhHZzdUdGdma1BuMURxdDJJ?=
- =?utf-8?B?MmRIRzdNTS9mLzdaY0JWUjNkL1p4QW41bjJYT0dHY0Z6T0JpbFdEWGJ3L0tB?=
- =?utf-8?B?aHhtQmhTNWdQVzBaWVhvNXQxU05YWjNWMmJHeSsyZW5FamlWT210SmtPdVRa?=
- =?utf-8?B?akVOd3VSd1BmNFhHSXRudThqSUgvK3I1ZDlaUjI3ZW5ZRnRpa0h1RWVXNXVH?=
- =?utf-8?B?RDdJMjhqaGZ0MEZoN0JkS1RkZmF3V3A1dmcwdUxJNVBzOXpUOWhlV1UwTTNV?=
- =?utf-8?B?T0tSRTVlMjZRaiswUzUwTVdwTkRKMGxRTnFyRnhxZmhOdmd5SVVJNFd4MnNH?=
- =?utf-8?B?aHhCbFNkZUYzRTI3UzZVUmZUQnhnc3VRY1h6TjdFb0R2NmhwQ3o2WjJZUFIw?=
- =?utf-8?B?WC9pVms1cjJCLzZaY0FWenJYZ01nRVEwVjE0ME1zQUFuYXZzOXZHTXE1TkVQ?=
- =?utf-8?Q?5laXJokOjxVwn96+YxPQf6P/e?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f161965d-8c28-498b-efeb-08dd88a466be
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4262.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2025 11:36:24.0405
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wd0oiIfz4luKiXJ3cosSjELmCgM1FbyiXJCRsrzR1SynPZ+7m4/3OcMxjtRumjfW57jfp2c1MuG3FXs33oz7jA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7344
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Kent,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4f79eaa2ceac86a0e0f304b0bab556cca5bf4f30
+commit: d4e3b928ab487a8aecd1f6a140b40ac365116cfb closures: CLOSURE_CALLBACK() to fix type punning
+date:   1 year, 5 months ago
+config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250501/202505012019.YvVwRBHJ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505012019.YvVwRBHJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505012019.YvVwRBHJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/bcachefs/io_write.c:1570: warning: Function parameter or struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
+>> fs/bcachefs/io_write.c:1570: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
 
 
+vim +1570 fs/bcachefs/io_write.c
 
-On 5/1/2025 1:51 PM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   ea17e4fdc13cae144d90ce8561c2f50a49492037
-> commit: ea17e4fdc13cae144d90ce8561c2f50a49492037 [272/272] jfs: implement migrate_folio for jfs_metapage_aops
-> config: csky-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011647.L0LGO7Lm-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 13.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011647.L0LGO7Lm-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505011647.L0LGO7Lm-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> fs/jfs/jfs_metapage.c:637: warning: Function parameter or struct member 'mapping' not described in 'metapage_migrate_folio'
->>> fs/jfs/jfs_metapage.c:637: warning: Function parameter or struct member 'dst' not described in 'metapage_migrate_folio'
->>> fs/jfs/jfs_metapage.c:637: warning: Function parameter or struct member 'src' not described in 'metapage_migrate_folio'
->>> fs/jfs/jfs_metapage.c:637: warning: Function parameter or struct member 'mode' not described in 'metapage_migrate_folio'
-> 
-> 
-> vim +637 fs/jfs/jfs_metapage.c
-> 
->    631	
->    632	/**
->    633	 * metapage_migrate_folio - Migration function for JFS metapages
->    634	 */
->    635	static int metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
->    636					  struct folio *src, enum migrate_mode mode)
->  > 637	{
->    638		int expected_count;
->    639	
->    640		if (!src->private)
->    641			return filemap_migrate_folio(mapping, dst, src, mode);
->    642	
->    643		/* Check whether page does not have extra refs before we do more work */
->    644		expected_count = folio_expected_ref_count(src) + 1;
->    645		if (folio_ref_count(src) != expected_count)
->    646			return -EAGAIN;
->    647		return __metapage_migrate_folio(mapping, dst, src, mode);
->    648	}
->    649	
-> 
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1551  
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1552  /**
+96dea3d599dbc3 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1553   * bch2_write() - handle a write to a cache device or flash only volume
+96dea3d599dbc3 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1554   * @cl:		&bch_write_op->cl
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1555   *
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1556   * This is the starting point for any data to end up in a cache device; it could
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1557   * be from a normal write, or a writeback write, or a write to a flash only
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1558   * volume - it's also used by the moving garbage collector to compact data in
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1559   * mostly empty buckets.
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1560   *
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1561   * It first writes the data to the cache, creating a list of keys to be inserted
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1562   * (if the data won't fit in a single open bucket, there will be multiple keys);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1563   * after the data is written it calls bch_journal, and after the keys have been
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1564   * added to the next journal write they're inserted into the btree.
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1565   *
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1566   * If op->discard is true, instead of inserting the data it invalidates the
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1567   * region of the cache represented by op->bio and op->inode.
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1568   */
+d4e3b928ab487a fs/bcachefs/io_write.c Kent Overstreet 2023-11-17  1569  CLOSURE_CALLBACK(bch2_write)
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16 @1570  {
+d4e3b928ab487a fs/bcachefs/io_write.c Kent Overstreet 2023-11-17  1571  	closure_type(op, struct bch_write_op, cl);
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1572  	struct bio *bio = &op->wbio.bio;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1573  	struct bch_fs *c = op->c;
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1574  	unsigned data_len;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1575  
+b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1576  	EBUG_ON(op->cl.parent);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1577  	BUG_ON(!op->nr_replicas);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1578  	BUG_ON(!op->write_point.v);
+e88a75ebe86c1d fs/bcachefs/io.c       Kent Overstreet 2022-11-24  1579  	BUG_ON(bkey_eq(op->pos, POS_MAX));
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1580  
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1581  	op->start_time = local_clock();
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1582  	bch2_keylist_init(&op->insert_keys, op->inline_keys);
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1583  	wbio_init(bio)->put_bio = false;
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1584  
+8244f3209b5b49 fs/bcachefs/io.c       Kent Overstreet 2021-12-14  1585  	if (bio->bi_iter.bi_size & (c->opts.block_size - 1)) {
+7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1586  		bch_err_inum_offset_ratelimited(c,
+7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1587  			op->pos.inode,
+7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1588  			op->pos.offset << 9,
+0fefe8d8ef7402 fs/bcachefs/io.c       Kent Overstreet 2020-12-03  1589  			"misaligned write");
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1590  		op->error = -EIO;
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1591  		goto err;
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1592  	}
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1593  
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1594  	if (c->opts.nochanges) {
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1595  		op->error = -BCH_ERR_erofs_no_writes;
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1596  		goto err;
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1597  	}
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1598  
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1599  	if (!(op->flags & BCH_WRITE_MOVE) &&
+d94189ad568f6c fs/bcachefs/io.c       Kent Overstreet 2023-02-09  1600  	    !bch2_write_ref_tryget(c, BCH_WRITE_REF_write)) {
+858536c7cea8bb fs/bcachefs/io.c       Kent Overstreet 2022-12-11  1601  		op->error = -BCH_ERR_erofs_no_writes;
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1602  		goto err;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1603  	}
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1604  
+104c69745fdf7e fs/bcachefs/io.c       Daniel Hill     2022-03-15  1605  	this_cpu_add(c->counters[BCH_COUNTER_io_write], bio_sectors(bio));
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1606  	bch2_increment_clock(c, bio_sectors(bio), WRITE);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1607  
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1608  	data_len = min_t(u64, bio->bi_iter.bi_size,
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1609  			 op->new_i_size - (op->pos.offset << 9));
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1610  
+07358a82bb36ff fs/bcachefs/io.c       Kent Overstreet 2019-11-29  1611  	if (c->opts.inline_data &&
+07358a82bb36ff fs/bcachefs/io.c       Kent Overstreet 2019-11-29  1612  	    data_len <= min(block_bytes(c) / 2, 1024U)) {
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1613  		bch2_write_data_inline(op, data_len);
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1614  		return;
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1615  	}
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1616  
+b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1617  	__bch2_write(op);
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1618  	return;
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1619  err:
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1620  	bch2_disk_reservation_put(c, &op->res);
+46e4bb1c378248 fs/bcachefs/io.c       Kent Overstreet 2019-12-27  1621  
+b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1622  	closure_debug_destroy(&op->cl);
+b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1623  	if (op->end_io)
+c32bd3ad1fe595 fs/bcachefs/io.c       Kent Overstreet 2019-11-11  1624  		op->end_io(op);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1625  }
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1626  
 
-Hi Andrew,
+:::::: The code at line 1570 was first introduced by commit
+:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
 
-Apologies for missing this kernel-doc warning in my local testing.
-Below one-liner change will fix these warnings.
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
-From a0685c29b71cf007bd7fb3e5ed58d1cb74e171a3 Mon Sep 17 00:00:00 2001
-From: Shivank Garg <shivankg@amd.com>
-Date: Thu, 1 May 2025 11:10:54 +0000
-Subject: [PATCH] jfs: Fix kernel-doc warning in jfs_metapage.c
-
-Change comment style from "/**" to "/*" as the metapage_migrate_folio
-function comment is not kernel-doc.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202505011647.L0LGO7Lm-lkp@intel.com/
-Signed-off-by: Shivank Garg <shivankg@amd.com>
----
- fs/jfs/jfs_metapage.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/jfs/jfs_metapage.c b/fs/jfs/jfs_metapage.c
-index f863ba521533..c37835d47821 100644
---- a/fs/jfs/jfs_metapage.c
-+++ b/fs/jfs/jfs_metapage.c
-@@ -629,7 +629,7 @@ static bool metapage_release_folio(struct folio *folio, gfp_t gfp_mask)
- 	return ret;
- }
- 
--/**
-+/*
-  * metapage_migrate_folio - Migration function for JFS metapages
-  */
- static int metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
 -- 
-2.34.1
-
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
