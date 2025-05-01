@@ -1,166 +1,173 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7F62144C9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 19:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518DD23814C
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 19:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746129030; cv=none; b=X1YexFui4b9fmJtIJogqsJ9rhFcGnrTRsz4tleIrfN8n94zVMZ7UJt03AYN9Q+Cj8r73VkmXkbEXBoujz9YqkX9+C3r15s6d4fFEOBzb+Uf9b3GEGipML7XGrhbxl4HeOhruC40zwELy2hgwvQiMMtJ+53Dd6LrUXfigZhSvvZw=
+	t=1746129033; cv=none; b=RvfVcoU8an9hM4OuGHkA9gXwJPgsCNh2F1OMRlIHvgMyd38aG6zh1laKhJpyK1lmeBinvVrxerpw5FAZYhBNEeaz0GVjdHFieCuh+O7rF5GwDkKqMCFADPEbkntWGGTMt5q9LmndtIg4oss+dscHjsh0tt1JtWwIYeU3gfil54M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746129030; c=relaxed/simple;
-	bh=9RoNPI+kBpr/xIAzqLITkYQ3U2KM3NrSldLJ4O4+PC0=;
+	s=arc-20240116; t=1746129033; c=relaxed/simple;
+	bh=j3XVFqJOmEgc3Kxeztq12WifRxzExRA9O0IO+pohifo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ohl20UZUBo84Cj7cYz5OASbEn/us+e5y3qWMd8Fb0CWpVgdhfvQ1a675Vm6WX3GMHUD+GsS/I0dXwzS7r+JXzXKU2PeDEBPJvGlBRfsNZKVf80OfjN9kzmiGzPuagsp+tvi63LTd6LBHUITJFXltrCYZ4y8o53n3682RmurRS7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3VGFk5X; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=gYO7YP3cAJ+d0mMiVO7jjFM9ExdH0ef1M8of4gxm/DtmeYZ0/jQzESY2b+Cc0OGhDnYesFgIy9mZ94qa/XkFB3kwMvXsS4F4u+WU4FNZIk89FD7pNMRbogF92waXSaYyZCvIcQdBpiKPmX/xXSY6mdgD/iKq4epHQYCyA49+WDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OCYBuBA4; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3VGFk5X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OCYBuBA4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746129029; x=1777665029;
+  t=1746129032; x=1777665032;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9RoNPI+kBpr/xIAzqLITkYQ3U2KM3NrSldLJ4O4+PC0=;
-  b=J3VGFk5X91dyWAJa1SNFli5UjrxPV0Z1VG23XMUkptlKvgF3T4yn5pCx
-   JWiQDXMj41AJcnliTLiY1pw4jVrMon5rKhKE+oaNgyX+dXp2P5FdOSJAP
-   ETio0VFCMJ0RyRn1TPPX8nrewIMOtMcaO9fhQ8H9RxYpL4qN56OKe7ugU
-   JQJI2+a+N9FYuJSYXLjdAJCFdqI1vb9sFLJEdv2g68/deCCgj3c2CZhkh
-   AuCAK5H6+wg56XNJOwcSROr5ymkZs9ztbrJL6G0r5sOO/yFEV7gSEd2Xj
-   WXkUJ6DAYYBp9SSLAZjWx57rc8O9pwu6NX/Zs7f2R3/gqPAhKjg0FZJzL
-   w==;
-X-CSE-ConnectionGUID: zFTFDpYoQJCIZETU3lBSwg==
-X-CSE-MsgGUID: imkkOTDiSaeuan9L1eLccQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47901145"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=j3XVFqJOmEgc3Kxeztq12WifRxzExRA9O0IO+pohifo=;
+  b=OCYBuBA4IRh1CvACPHk76N+VjfiCGkYiezCYRSb0XG3Iw7wrm/uDgwV7
+   CFhlCMhm0VbbuSu8c3hrC0IbnDF44IAuAGtJaiCSRj9gfFNcGRP87kX/b
+   ny9MuRaYXCMopTYBrzyNaeK8RAo7dbqZFOgu6Is831JoHwNejV66gtf74
+   jVFKjptc3kp9kbH0QuPqxabfnB5Re1y2sTNQ9YL7BX33PI37HwOCIPL+b
+   VPWX/JqCaFL6DW4B6vA3F2uMzrkpPfowvx0SVW8RUoi0l4NbE42gxVTVL
+   LndONMXS//dqU3vXyDOUtBPyc19QAh38XwUDvI7VDIriwYQB136NhkvzD
+   Q==;
+X-CSE-ConnectionGUID: pm99fL0LTqmO8SQ+evmOcQ==
+X-CSE-MsgGUID: 1DtU1G5LRPS7D3+xzu2XFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47901156"
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="47901145"
+   d="scan'208";a="47901156"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 12:50:28 -0700
-X-CSE-ConnectionGUID: iDbJK2u9SF6NDYMBjGFTjQ==
-X-CSE-MsgGUID: LdBwbA50RUKCYfaMFrpm5g==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 12:50:31 -0700
+X-CSE-ConnectionGUID: leHSOd7WTA6rm1JNi1h3DQ==
+X-CSE-MsgGUID: BvvBGMibQ6STdxxCekon9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="139276610"
+   d="scan'208";a="139276612"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 01 May 2025 12:50:24 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 May 2025 12:50:25 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAZvK-0004M7-28;
+	id 1uAZvK-0004M5-25;
 	Thu, 01 May 2025 19:50:22 +0000
-Date: Fri, 2 May 2025 03:50:15 +0800
+Date: Fri, 2 May 2025 03:50:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org, lars@metafoo.de,
-	Michael.Hennerich@analog.com, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v2 7/7] iio: adc: ad4170: Add support for weigh scale and
- RTD sensors
-Message-ID: <202505020345.iJUIBTwt-lkp@intel.com>
-References: <3687a9e0a479aef9736ad557b341ed2e7d4f5756.1745841276.git.marcelo.schmitt@analog.com>
+To: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jann Horn <jannh@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v14 22/27] riscv: enable kernel access to shadow stack
+ memory via FWFT sbi call
+Message-ID: <202505020328.CJ8EA6Od-lkp@intel.com>
+References: <20250429-v5_user_cfi_series-v14-22-5239410d012a@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <3687a9e0a479aef9736ad557b341ed2e7d4f5756.1745841276.git.marcelo.schmitt@analog.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250429-v5_user_cfi_series-v14-22-5239410d012a@rivosinc.com>
 
-Hi Marcelo,
+Hi Deepak,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 1c2409fe38d5c19015d69851d15ba543d1911932]
+[auto build test ERROR on 4181f8ad7a1061efed0219951d608d4988302af7]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-Add-AD4170/20250428-222010
-base:   1c2409fe38d5c19015d69851d15ba543d1911932
-patch link:    https://lore.kernel.org/r/3687a9e0a479aef9736ad557b341ed2e7d4f5756.1745841276.git.marcelo.schmitt%40analog.com
-patch subject: [PATCH v2 7/7] iio: adc: ad4170: Add support for weigh scale and RTD sensors
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250502/202505020345.iJUIBTwt-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020345.iJUIBTwt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta/mm-VM_SHADOW_STACK-definition-for-riscv/20250430-082727
+base:   4181f8ad7a1061efed0219951d608d4988302af7
+patch link:    https://lore.kernel.org/r/20250429-v5_user_cfi_series-v14-22-5239410d012a%40rivosinc.com
+patch subject: [PATCH v14 22/27] riscv: enable kernel access to shadow stack memory via FWFT sbi call
+config: riscv-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250502/202505020328.CJ8EA6Od-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020328.CJ8EA6Od-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505020345.iJUIBTwt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505020328.CJ8EA6Od-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/iio/adc/ad4170.c: In function 'ad4170_setup_current_src.isra':
->> drivers/iio/adc/ad4170.c:1881:29: warning: 'current_src' is used uninitialized [-Wuninitialized]
-    1881 |                 current_src |= FIELD_PREP(AD4170_CURRENT_SRC_I_OUT_PIN_MSK, pin);
-         |                             ^~
-   drivers/iio/adc/ad4170.c:1875:22: note: 'current_src' was declared here
-    1875 |         unsigned int current_src, i, j;
-         |                      ^~~~~~~~~~~
+   riscv64-linux-ld: arch/riscv/kernel/head.o: in function `section_table':
+>> arch/riscv/kernel/head.S:34:(.head.text+0x1126): undefined reference to `riscv_nousercfi'
 
 
-vim +/current_src +1881 drivers/iio/adc/ad4170.c
+vim +34 arch/riscv/kernel/head.S
 
-  1869	
-  1870	static int ad4170_setup_current_src(struct ad4170_state *st,
-  1871					    struct fwnode_handle *child,
-  1872					    struct ad4170_setup *setup, u32 *exc_pins,
-  1873					    int num_exc_pins, int exc_cur, bool ac_excited)
-  1874	{
-  1875		unsigned int current_src, i, j;
-  1876		int ret;
-  1877	
-  1878		for (i = 0; i < num_exc_pins; i++) {
-  1879			unsigned int pin = exc_pins[i];
-  1880	
-> 1881			current_src |= FIELD_PREP(AD4170_CURRENT_SRC_I_OUT_PIN_MSK, pin);
-  1882			current_src |= FIELD_PREP(AD4170_CURRENT_SRC_I_OUT_VAL_MSK, exc_cur);
-  1883	
-  1884			for (j = 0; j < AD4170_NUM_CURRENT_SRC; j++) {
-  1885				/*
-  1886				 * Excitation current chopping is configured in pairs.
-  1887				 * If current chopping configured and the first end of
-  1888				 * the current source pair has already been assigned,
-  1889				 * skip to the next pair of output currents.
-  1890				 */
-  1891				if (ac_excited && j % 2 != 0)
-  1892					continue;
-  1893	
-  1894				if (st->cur_src_pins[j] == AD4170_CURRENT_SRC_DISABLED) {
-  1895					st->cur_src_pins[j] = pin;
-  1896					break;
-  1897				}
-  1898			}
-  1899			if (j == AD4170_NUM_CURRENT_SRC)
-  1900				return dev_err_probe(&st->spi->dev, -EINVAL,
-  1901						     "Failed to setup IOUT at pin %u\n",
-  1902						     pin);
-  1903	
-  1904			ret = regmap_write(st->regmap, AD4170_CURRENT_SRC_REG(j),
-  1905					   current_src);
-  1906			if (ret)
-  1907				return ret;
-  1908		}
-  1909	
-  1910		if (ac_excited && num_exc_pins > 1) {
-  1911			unsigned int exc_cur_pair;
-  1912	
-  1913			if (st->cur_src_pins[0] == exc_pins[0])
-  1914				exc_cur_pair = 1;
-  1915			else
-  1916				exc_cur_pair = 2;
-  1917	
-  1918			/*
-  1919			 * Configure excitation currents chopping.
-  1920			 * Chop two pairs if using four excitation currents.
-  1921			 */
-  1922			setup->misc |= FIELD_PREP(AD4170_MISC_CHOP_IEXC_MSK,
-  1923						  num_exc_pins == 2 ? exc_cur_pair : 3);
-  1924		}
-  1925	
-  1926		return 0;
-  1927	}
-  1928	
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  20  
+e011995e826f85 Atish Patra    2020-03-17  21  __HEAD
+76329c693924d8 Clément Léger  2023-10-24  22  SYM_CODE_START(_start)
+0f327f2aaad6a8 Atish Patra    2019-06-06  23  	/*
+0f327f2aaad6a8 Atish Patra    2019-06-06  24  	 * Image header expected by Linux boot-loaders. The image header data
+0f327f2aaad6a8 Atish Patra    2019-06-06  25  	 * structure is described in asm/image.h.
+0f327f2aaad6a8 Atish Patra    2019-06-06  26  	 * Do not modify it without modifying the structure and all bootloaders
+0f327f2aaad6a8 Atish Patra    2019-06-06  27  	 * that expects this header format!!
+0f327f2aaad6a8 Atish Patra    2019-06-06  28  	 */
+cb7d2dd5612a77 Atish Patra    2020-09-17  29  #ifdef CONFIG_EFI
+cb7d2dd5612a77 Atish Patra    2020-09-17  30  	/*
+cb7d2dd5612a77 Atish Patra    2020-09-17  31  	 * This instruction decodes to "MZ" ASCII required by UEFI.
+cb7d2dd5612a77 Atish Patra    2020-09-17  32  	 */
+cb7d2dd5612a77 Atish Patra    2020-09-17  33  	c.li s4,-13
+cb7d2dd5612a77 Atish Patra    2020-09-17 @34  	j _start_kernel
+cb7d2dd5612a77 Atish Patra    2020-09-17  35  #else
+0f327f2aaad6a8 Atish Patra    2019-06-06  36  	/* jump to start kernel */
+0f327f2aaad6a8 Atish Patra    2019-06-06  37  	j _start_kernel
+0f327f2aaad6a8 Atish Patra    2019-06-06  38  	/* reserved */
+0f327f2aaad6a8 Atish Patra    2019-06-06  39  	.word 0
+cb7d2dd5612a77 Atish Patra    2020-09-17  40  #endif
+0f327f2aaad6a8 Atish Patra    2019-06-06  41  	.balign 8
+79605f13942619 Sean Anderson  2020-10-22  42  #ifdef CONFIG_RISCV_M_MODE
+79605f13942619 Sean Anderson  2020-10-22  43  	/* Image load offset (0MB) from start of RAM for M-mode */
+79605f13942619 Sean Anderson  2020-10-22  44  	.dword 0
+79605f13942619 Sean Anderson  2020-10-22  45  #else
+0f327f2aaad6a8 Atish Patra    2019-06-06  46  #if __riscv_xlen == 64
+0f327f2aaad6a8 Atish Patra    2019-06-06  47  	/* Image load offset(2MB) from start of RAM */
+0f327f2aaad6a8 Atish Patra    2019-06-06  48  	.dword 0x200000
+0f327f2aaad6a8 Atish Patra    2019-06-06  49  #else
+0f327f2aaad6a8 Atish Patra    2019-06-06  50  	/* Image load offset(4MB) from start of RAM */
+0f327f2aaad6a8 Atish Patra    2019-06-06  51  	.dword 0x400000
+79605f13942619 Sean Anderson  2020-10-22  52  #endif
+0f327f2aaad6a8 Atish Patra    2019-06-06  53  #endif
+0f327f2aaad6a8 Atish Patra    2019-06-06  54  	/* Effective size of kernel image */
+0f327f2aaad6a8 Atish Patra    2019-06-06  55  	.dword _end - _start
+0f327f2aaad6a8 Atish Patra    2019-06-06  56  	.dword __HEAD_FLAGS
+0f327f2aaad6a8 Atish Patra    2019-06-06  57  	.word RISCV_HEADER_VERSION
+0f327f2aaad6a8 Atish Patra    2019-06-06  58  	.word 0
+0f327f2aaad6a8 Atish Patra    2019-06-06  59  	.dword 0
+474efecb65dceb Paul Walmsley  2019-09-13  60  	.ascii RISCV_IMAGE_MAGIC
+0f327f2aaad6a8 Atish Patra    2019-06-06  61  	.balign 4
+474efecb65dceb Paul Walmsley  2019-09-13  62  	.ascii RISCV_IMAGE_MAGIC2
+cb7d2dd5612a77 Atish Patra    2020-09-17  63  #ifdef CONFIG_EFI
+cb7d2dd5612a77 Atish Patra    2020-09-17  64  	.word pe_head_start - _start
+cb7d2dd5612a77 Atish Patra    2020-09-17  65  pe_head_start:
+cb7d2dd5612a77 Atish Patra    2020-09-17  66  
+cb7d2dd5612a77 Atish Patra    2020-09-17  67  	__EFI_PE_HEADER
+cb7d2dd5612a77 Atish Patra    2020-09-17  68  #else
+0f327f2aaad6a8 Atish Patra    2019-06-06  69  	.word 0
+cb7d2dd5612a77 Atish Patra    2020-09-17  70  #endif
+0f327f2aaad6a8 Atish Patra    2019-06-06  71  
 
 -- 
 0-DAY CI Kernel Test Service
