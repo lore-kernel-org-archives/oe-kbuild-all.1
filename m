@@ -1,45 +1,59 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC56621019C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 21:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D3014AD2D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 22:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746136379; cv=none; b=YgbznOrQoHt0Dwmkt2L4ZTo8oRxzKkEqtU00cPNtjYN1fQYTX7f3ArApV2Ux3IMXNz0PiGJ+POFr8u1eNScI2Ciwu4XFVf9utzlWLwXjhM6aCuOMzj9Gggt8WvEJdJsQXfKUfDoVymR2yC85grEBVZZKYS/kk5YNjh3UDr0BF4M=
+	t=1746137098; cv=none; b=CZpBrbKZqfMEdC1Wg2rsEF6qVMtYJT3/a0f7/DpBjiLGnDo14ZJTK3KSfCPtyRbtWwKryobBa2uJe2PdpuhW/phf1HwZvnhgZ6bzgpvr4scbYufuPptAlgCR9ajBweplWAIIm7dj6nntvWlEVpb9mmROfndu1fwJF07adp0KwNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746136379; c=relaxed/simple;
-	bh=VbkOg9ZQ/rtWAm/ir3t/AyiWTocO+YSkRf/qEytI6q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=msC+R4RTerWZX4otfN1VJvO/INNDJSt29i5MvUhvfv0mj5FQTI2KfB+sQHTFQPkOBwE8FdCLiCKqnd4mvGRAkm5hGcKvtcMrGYmIS444i7JdOWBb7XCU0ys6pEDYPB3vtyDIb1JPdJYpnamdJ9qgRpj0PRBa+TO3D5GhY4LVOr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T+nN0w07; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1746137098; c=relaxed/simple;
+	bh=1aMknTIk8cY6dfHF78Gj2aVBsZSfK5H+nkxw2hDPEwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=km8BNlr4TOufOD23O7mBHmR5b+nBbYcsfN8XIubHVOzraslwR6/ypWRm5Df/wZdIBQjg8B7AiZA0CNL7yZtze1ZbxxzXh397/WMjtZmcTZGqzu2PZ7Rp24UJIoUtKGKDXYODUc/VDlARZep8H0fKLh+blSVtqw1niKP91jjF45Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mOkIiCjW; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T+nN0w07"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=VbkOg9ZQ/rtWAm/ir3t/AyiWTocO+YSkRf/qEytI6q4=; b=T+nN0w0742Snlvyo7iTirTB9VA
-	llhZntmz4v2Fw4EVu6m4/z440ddlq6kMcVDFw0YheEbLCOzyS2E5sjG5pScedq2hE6KaKKektcGYZ
-	w76HXOC5d4z9vJMeHCvTGSPTxiOcXAnnZL4hAMbVKChvoavk0WpWGef9LeZuFYyvnbGVnsYZzl18c
-	bdgFjHEHKcf2a99gksO1jT91/qQmupQIp1OBFu+lG2TPLcbygkEilf5EWoEiIV/Sq3fzZkTT4rd9p
-	pOLLowvKkst5m2nv8VXvgrEl0zPGq4kExN4VCTr9FN75sIvflyIQvL+OVR0VZ59FYlxM3A4U4Pw0K
-	r7rkfu8g==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAbpW-0000000Amua-3LWC;
-	Thu, 01 May 2025 21:52:30 +0000
-Date: Thu, 1 May 2025 22:52:30 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, Shivank Garg <shivankg@amd.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-unstable 272/272] include/linux/stddef.h:8:14:
- error: called object is not a function or function pointer
-Message-ID: <aBPtHlqpEsNxAiOV@casper.infradead.org>
-References: <202505020405.YzD9aNCo-lkp@intel.com>
- <20250501141304.beac3e9d892495eea7a4e9cb@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mOkIiCjW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746137096; x=1777673096;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1aMknTIk8cY6dfHF78Gj2aVBsZSfK5H+nkxw2hDPEwM=;
+  b=mOkIiCjWmv1VU6YpymarA68QH/A9+C/no8/SXiwXGHsgo+F2HLnA4+8t
+   AIGrP728KyiPS3Lw/UKHVTVfExugrlr9pEddkuO98Kr9WBIOnI6ipo+ON
+   rmzhykrr8ztSOP90MAW6zTUwJ+odqWuCjd17Pd6bYfViavR3J//+FBIKP
+   K70o4zdmRqaju3uTlXAbaysT0SfyeDadboIkZ/pV4Tk7p+9Z0i7IwPAD+
+   53lAPwQu+Ddfy/jqr4q71LUz7LEzO31tTVTvr3h0WVPFYzmj51wqz5IrT
+   pDtNBzrdV+9OZiM0XzHfwL4AdShu81+JD1cS5HZNwktygO+lAEUzgIY/K
+   Q==;
+X-CSE-ConnectionGUID: 4tHw/775TAOOA/eOJ7/1sg==
+X-CSE-MsgGUID: T3OR7RtOTu+xbW4l1qCF5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47732995"
+X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
+   d="scan'208";a="47732995"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 15:04:56 -0700
+X-CSE-ConnectionGUID: ezhgFz0ASfWdcpp49CuNsA==
+X-CSE-MsgGUID: 0u6rz0mjQE+RGhyrK9ETDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
+   d="scan'208";a="134404688"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 01 May 2025 15:04:56 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uAc1U-0004Pd-34;
+	Thu, 01 May 2025 22:04:52 +0000
+Date: Fri, 2 May 2025 06:04:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:work.coredump.socket 5/6] arm-linux-gnueabi-ld:
+ fs/coredump.c:870:undefined reference to `__sys_connect_file'
+Message-ID: <202505020613.cM3DxNFk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,9 +62,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250501141304.beac3e9d892495eea7a4e9cb@linux-foundation.org>
 
-On Thu, May 01, 2025 at 02:13:04PM -0700, Andrew Morton wrote:
-> Should this new JFS migration code be wrapped in #ifdef CONFIG_MIGRATION?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git work.coredump.socket
+head:   8413dd9a8cbb52fc022c3749a8db1efd0853cf11
+commit: 0f4f9626b03ce4d39ab09f0aadddc1a6898807f6 [5/6] coredump: support AF_UNIX sockets
+config: arm-s3c6400_defconfig (https://download.01.org/0day-ci/archive/20250502/202505020613.cM3DxNFk-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020613.cM3DxNFk-lkp@intel.com/reproduce)
 
-Yes
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505020613.cM3DxNFk-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: fs/coredump.o: in function `do_coredump':
+   fs/coredump.c:851:(.text+0x1674): undefined reference to `__sys_socket_file'
+>> arm-linux-gnueabi-ld: fs/coredump.c:870:(.text+0x1690): undefined reference to `__sys_connect_file'
+>> arm-linux-gnueabi-ld: fs/coredump.c:875:(.text+0x16a0): undefined reference to `sock_from_file'
+>> arm-linux-gnueabi-ld: fs/coredump.c:875:(.text+0x16a8): undefined reference to `__sys_shutdown_sock'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
