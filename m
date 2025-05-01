@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375351DC9A3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 10:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4102E401;
+	Thu,  1 May 2025 11:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746096236; cv=none; b=BkZ1soYE83DeYRKmjlllAlk+hU2DHFY78rm32miJ2oeLtRUiEsP0St/2BsYixg8BcmThVndYe+Yol0EvMoT4mGBYZ5b+UkD778/FfIf68w/3QfZBvBQmBAUwRyEeAPTBNE8jWXoybag+jnwE80eLpGVLNHcK0gvGHJ6GZM1PCSo=
+	t=1746097503; cv=none; b=DKRqYYjM9sz7t0wgdG7P2EhIxfrQBBfCL6oM6CFHPW+ZfKp85ctLQz085OPAsCYjg1JnTrKUHjtQe8XyRs11QWeZmPXJ6qgf7Rp6/o++EIVhSWhQTSnEa38kEL0wC0jucnqDx2rVcI6tKPc14etbFm1GuyjmTKxdI6UDXbi3qQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746096236; c=relaxed/simple;
-	bh=RTIn05W/GtDHSTWDFooGE31tIGmZSdJytnDHyP/r/8g=;
+	s=arc-20240116; t=1746097503; c=relaxed/simple;
+	bh=PC0vtiX0GT1uwQT6asx3Blf1TqWaPL5MDGahxMgwRGY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGegFSS8TS9bAOQWLIhlxWoAf4FC112aSa5t10YNwZ4fm6sB4K8ePDHGmJxub+SH/zqpfsKSFZsYExo41hKqcJxLz6LFEn/zc7WgTHdmZQU/PPaRlHchgJMccTxzwJmYeo/yRlL6wyMfg7PPaVqRU7v8FO06q/yrshKTZfBO3hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezB5LhNe; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z9fJjRI1n+injbMz2kMLo3PGmlg7b+L/ckHr/twH92C1lajdGrdckG3UNmnr8Xx7nVxveh83CQk+tXiRqeyk4DtfNztLAjQSoNaagvBKZWujQlH2spgZi7rmre+4vuFkD4TQCvcziyuCm5TsfGhsXYlhoveL06hTAEQQpDAyKKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFazGlYA; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezB5LhNe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFazGlYA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746096235; x=1777632235;
+  t=1746097501; x=1777633501;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RTIn05W/GtDHSTWDFooGE31tIGmZSdJytnDHyP/r/8g=;
-  b=ezB5LhNeEhy1WbjfpZhQk/HSRq1C71Nt7PcJY5B0C+86ovpRx2syx8xV
-   0hiKpMxV9x2ktEn2nv4pbUwZavUtEojOCKo4TrrDQyfvyrI1F8rZ+ViWi
-   NHi0E36/orWi0y1j0MPsZaVDl3xvSPe4hFAOhCYuKN9p1vQxgO/1zk1kL
-   Ev1uO4Dzw2e9+Nn8Bu1xBZV9+VAVraKnlQ7yOeop9jE2R4qaUxcawo9F3
-   cojs2E4FKq++65aqANOUuJ3r9igkanaLTIE7LKt4NE+i2F9cK0I0BPeI0
-   sz9PbKnzMzQ+yeI8ox+ucquw7iVsftP4CkJDx2rz0evuOw0EsUb1VMZsZ
+  bh=PC0vtiX0GT1uwQT6asx3Blf1TqWaPL5MDGahxMgwRGY=;
+  b=gFazGlYAs2bMATA/Cz4aeE5/gUtfkvdV/qK27k5P2FVWPJoi0H8eKMaA
+   TEsroy5UWk0F5Mfg30z6GP5cdnH15pADBGVqL1pKw/LBpp0VXcwnZB0eY
+   AHLFDnu6oEJ6ZVGDVebiAkpOABYS2Tw1QPmmygStCdTPv6dQ0XZQ6a0je
+   omMuWXeUX1RNGvDIc0Ps0/PW1RYkEROOmBGktMYjLKIT8EUxWAc+tf6Ep
+   qdkT8uGKYjsTkY4cd+rOBABSAzDW7wUsO+lsoatxJTQHL16HsSqfz05QV
+   tYruviJBI77ye9ovn95Eyk5wBH5eZWo6DqctnXSBM0U+8RhV1kGX8L9+5
    Q==;
-X-CSE-ConnectionGUID: 24iwGba7QhmOloCYt+uSxQ==
-X-CSE-MsgGUID: WVPdqtj0SCieA+1dZQwzXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47905862"
+X-CSE-ConnectionGUID: Uruinq3STa2OExlvDBei9w==
+X-CSE-MsgGUID: T8kBAl41QwCTenMAnSmutA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="46878737"
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="47905862"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 03:43:55 -0700
-X-CSE-ConnectionGUID: aNT8OLNsSMOv7fvqPLZdlA==
-X-CSE-MsgGUID: RQ5IbqbbTDijirMCsPAeog==
+   d="scan'208";a="46878737"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 04:05:00 -0700
+X-CSE-ConnectionGUID: 2yq+2HkeT1ePwddbLQ4SCQ==
+X-CSE-MsgGUID: fMCX0tuUQ1+73EH9Ndbllg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="138369009"
+   d="scan'208";a="135325506"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 01 May 2025 03:43:53 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 01 May 2025 04:04:58 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAROR-00046z-0E;
-	Thu, 01 May 2025 10:43:51 +0000
-Date: Thu, 1 May 2025 18:43:02 +0800
+	id 1uARiq-00047N-0B;
+	Thu, 01 May 2025 11:04:56 +0000
+Date: Thu, 1 May 2025 19:04:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 07/10] ref_tracker: add a way to create a symlink to
- the ref_tracker_dir debugfs file
-Message-ID: <202505011822.GnoqN2Oi-lkp@intel.com>
-References: <20250430-reftrack-dbgfs-v6-7-867c29aff03a@kernel.org>
+To: Christoph Hellwig <hch@lst.de>, mst@redhat.com, jasowang@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, eperezma@redhat.com, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev
+Subject: Re: [PATCH] vringh: use bvec_kmap_local
+Message-ID: <202505011849.E2H9cM7C-lkp@intel.com>
+References: <20250430140004.2724391-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,70 +63,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250430-reftrack-dbgfs-v6-7-867c29aff03a@kernel.org>
+In-Reply-To: <20250430140004.2724391-1-hch@lst.de>
 
-Hi Jeff,
+Hi Christoph,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 5bc1018675ec28a8a60d83b378d8c3991faa5a27]
+[auto build test ERROR on mst-vhost/linux-next]
+[also build test ERROR on linus/master v6.15-rc4 next-20250430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/ref_tracker-don-t-use-pK-in-pr_ostream-output/20250430-230944
-base:   5bc1018675ec28a8a60d83b378d8c3991faa5a27
-patch link:    https://lore.kernel.org/r/20250430-reftrack-dbgfs-v6-7-867c29aff03a%40kernel.org
-patch subject: [PATCH v6 07/10] ref_tracker: add a way to create a symlink to the ref_tracker_dir debugfs file
-config: arc-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011822.GnoqN2Oi-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011822.GnoqN2Oi-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/vringh-use-bvec_kmap_local/20250430-220531
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20250430140004.2724391-1-hch%40lst.de
+patch subject: [PATCH] vringh: use bvec_kmap_local
+config: arm64-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011849.E2H9cM7C-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011849.E2H9cM7C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505011822.GnoqN2Oi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505011849.E2H9cM7C-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/net/net_trackers.h:4,
-                    from include/net/net_namespace.h:40,
-                    from include/linux/netdevice.h:38,
-                    from include/linux/if_vlan.h:10,
-                    from include/linux/filter.h:21,
-                    from include/linux/bpf_verifier.h:9,
-                    from kernel/bpf/../../tools/lib/bpf/relo_core.c:8,
-                    from kernel/bpf/relo_core.c:2:
->> include/linux/ref_tracker.h:123:20: error: redefinition of 'ref_tracker_dir_symlink'
-     123 | static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ref_tracker.h:86:20: note: previous definition of 'ref_tracker_dir_symlink' with type 'void(struct ref_tracker_dir *, const char *, ...)'
-      86 | static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/net/net_trackers.h:4,
-                    from include/net/net_namespace.h:40,
-                    from include/linux/netdevice.h:38,
-                    from include/net/sock.h:46,
-                    from include/linux/bpf-cgroup.h:11,
-                    from kernel/bpf/helpers.c:6:
->> include/linux/ref_tracker.h:123:20: error: redefinition of 'ref_tracker_dir_symlink'
-     123 | static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ref_tracker.h:86:20: note: previous definition of 'ref_tracker_dir_symlink' with type 'void(struct ref_tracker_dir *, const char *, ...)'
-      86 | static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c: In function '____bpf_snprintf':
-   kernel/bpf/helpers.c:1065:9: warning: function '____bpf_snprintf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1065 |         err = bstr_printf(str, str_size, fmt, data.bin_args);
-         |         ^~~
+   drivers/vhost/vringh.c: In function 'putu16_iotlb':
+>> drivers/vhost/vringh.c:1332:36: error: passing argument 1 of 'kmap_local_page' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      __virtio16 *to = kmap_local_page(&ivec.iov.bvec[0]);
+                                       ^
+   In file included from include/linux/highmem.h:14:0,
+                    from include/linux/bvec.h:10,
+                    from drivers/vhost/vringh.c:17:
+   include/linux/highmem-internal.h:178:21: note: expected 'struct page *' but argument is of type 'struct bio_vec *'
+    static inline void *kmap_local_page(struct page *page)
+                        ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/ref_tracker_dir_symlink +123 include/linux/ref_tracker.h
+vim +/kmap_local_page +1332 drivers/vhost/vringh.c
 
-   122	
- > 123	static inline void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
-   124	{
-   125	}
-   126	#endif
-   127	
+  1304	
+  1305	static inline int putu16_iotlb(const struct vringh *vrh,
+  1306				       __virtio16 *p, u16 val)
+  1307	{
+  1308		struct iotlb_vec ivec;
+  1309		union {
+  1310			struct iovec iovec;
+  1311			struct bio_vec bvec;
+  1312		} iov;
+  1313		__virtio16 tmp;
+  1314		int ret;
+  1315	
+  1316		ivec.iov.iovec = &iov.iovec;
+  1317		ivec.count = 1;
+  1318	
+  1319		/* Atomic write is needed for putu16 */
+  1320		ret = iotlb_translate(vrh, (u64)(uintptr_t)p, sizeof(*p),
+  1321				      NULL, &ivec, VHOST_MAP_RO);
+  1322		if (ret < 0)
+  1323			return ret;
+  1324	
+  1325		tmp = cpu_to_vringh16(vrh, val);
+  1326	
+  1327		if (vrh->use_va) {
+  1328			ret = __put_user(tmp, (__virtio16 __user *)ivec.iov.iovec[0].iov_base);
+  1329			if (ret)
+  1330				return ret;
+  1331		} else {
+> 1332			__virtio16 *to = kmap_local_page(&ivec.iov.bvec[0]);
+  1333	
+  1334			WRITE_ONCE(*to, tmp);
+  1335			kunmap_local(to);
+  1336		}
+  1337	
+  1338		return 0;
+  1339	}
+  1340	
 
 -- 
 0-DAY CI Kernel Test Service
