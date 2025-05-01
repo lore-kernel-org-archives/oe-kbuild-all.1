@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E0722D7B4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 09:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF22155A4E;
+	Thu,  1 May 2025 09:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746092238; cv=none; b=ija00uZY/3p/P3KYgSLwsA1JhOvVD456XM73afeDosXODrp81k2280pcJhYnssnts3ESMmgZy9EpHht0MCwGGZbs5Iav5j+PC9QlVWjnN9k08FGQWTsAS3K6/SCR3fv2GKkDxVHd7IpLL2qnC2ENdenVe+RnBeA3I6uvFgFOVV4=
+	t=1746092960; cv=none; b=HuZpzN/yqaO5Sa05vInxahmqYHkDmeFmH04MmWOM5hQSXwb+7qaLKBE+VTs9fBHQDK61L5aL60+u1BiySVfzMcPz7WGwyQPRGe5whAS6nWsJnkgchV6SM72h1VAfXEGhvc/clqw5hfccP0CzBOB+eXhGZDiHUgy6HqwqqVKskS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746092238; c=relaxed/simple;
-	bh=7HkpmBy4uOXtgP/kfZ+4ul+zjnVdkK+uvMav1IDO7GE=;
+	s=arc-20240116; t=1746092960; c=relaxed/simple;
+	bh=1esRohv/papPLDdSe2D0wJD6CrWbf7Rb0wcHc4Vktxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ffbcLbmge6Fx4kfzO8Vg+ubaqk8sUXBeyLfokfYdoohLOHSR3yzEQ+TIAI8LPOKBh3J4gIYwtepS8OF34odkNN923YlsYqgfxkQWXiXOAJ1jJVQrPDbghC4osCgLskgyfz7FbkjxApdgO6Fl1w2gAdUII9iBZ3eI6YtXsRjsRz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aK1Q1Mcd; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=I9Gp4kRu29CRAMPPGGV7gB1iALiuVOESYm0Ka16/+FgcR3psnrMK2vY5drk9oTQFWLRocfXxVuRlTK8V4SyjUn0GT+YPhRvA0IZ/FIYH4BNeft4Nodu5+xsQwjLi9h1a4NXPPR3fDoy0UBCEbTArInTfdzdRPo5xLuMyBZXm79E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrJmMMVt; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aK1Q1Mcd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrJmMMVt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746092236; x=1777628236;
+  t=1746092958; x=1777628958;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7HkpmBy4uOXtgP/kfZ+4ul+zjnVdkK+uvMav1IDO7GE=;
-  b=aK1Q1Mcdw884lCDiNc5dnvs39bceZSH/pIXSeAX5EjYBX8TJ04i7nVqp
-   45FfuQ99lBBoPiPZPITb4a7mHskWyY+YeA0Rbrk6ddPMuWUc+EWX6lSnX
-   dLIFxmbxoFEn+on6nJd8L5uMhN44miPaXAofKI+pQl48OCA8LXEAip4PP
-   QiqQcVHrtxkmB4tk0vlSIPjzOkb+m+/pN7T8shpVAou4zpl78ff6qufJY
-   19/10b5pFl75JpxJjX/iloPT4ylGuiudFx/sK/Yc/URbBKxRDSCOat7SG
-   p/B1TonittlYSln2Lvw7WHrDtKJAJoK4fMlqn7oEkL3M+uOAnIOAxV2/9
-   w==;
-X-CSE-ConnectionGUID: cogVyflfTXWCIHpXRVQa3w==
-X-CSE-MsgGUID: vTqS1uJOTuWRMOki8o9RBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47672297"
+  bh=1esRohv/papPLDdSe2D0wJD6CrWbf7Rb0wcHc4Vktxs=;
+  b=SrJmMMVttkXTHk+ObbJUt8GeemYeT/5xUJAQCFmjN1TdQTGovzl7s2if
+   woAbt/Dpg4Qpb8Pg4hXwbzeD26EyBfphuG57tEVpp8TrdiLUQGa2ZMSTR
+   sICpw1Lq2xnyZGrkbOSyWKBa5rtExsxUOTBt6dz/C2zztjWscyl5KvDuB
+   YVcfbP+Ohhxtongf8ILRjA0ePPfyyDY2ih2ftbvctJF+3tzaUUv2/5zDH
+   R33M5/LzEZz7YKv1e9Yc3xYb/opZLgWlHzzuJlD64mRt0KDYtUvcR2RDN
+   QHe3osDBUFtNMjmQkx1gaKgXtqObOoIADhABhvPhguTZcd3NzuSwhI0XK
+   A==;
+X-CSE-ConnectionGUID: H8nMK648QFyFldPJcv7Oog==
+X-CSE-MsgGUID: 8N6M942RTIODy5qmDRSJFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47012503"
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="47672297"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 02:37:15 -0700
-X-CSE-ConnectionGUID: +oETbooFSmyuPuIsABmWhA==
-X-CSE-MsgGUID: A8hsURclRcGMFwsZ1uWTrg==
+   d="scan'208";a="47012503"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 02:49:17 -0700
+X-CSE-ConnectionGUID: hZqqKIDrTZ6x9k4u+5X0cQ==
+X-CSE-MsgGUID: PvvGOntnR1K1gk/ka/Fmng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="171577908"
+   d="scan'208";a="134848637"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 May 2025 02:37:14 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 May 2025 02:49:15 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAQLv-00045B-1z;
-	Thu, 01 May 2025 09:37:11 +0000
-Date: Thu, 1 May 2025 17:37:02 +0800
+	id 1uAQXY-00045V-1i;
+	Thu, 01 May 2025 09:49:12 +0000
+Date: Thu, 1 May 2025 17:49:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Charkov <alchark@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Alexey Charkov <alchark@gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: i2c: i2c-wmt: Convert to YAML
-Message-ID: <202505011756.SZDFqCew-lkp@intel.com>
-References: <20250430-vt8500-i2c-binding-v2-1-0cf22d0c2d42@gmail.com>
+To: Igor Belousov <igor.b@beldev.am>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH mm-new] mm/zblock: avoid failing the build
+Message-ID: <202505011759.kmXPfmFI-lkp@intel.com>
+References: <20250428065727.57990-1-igor.b@beldev.am>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,38 +62,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250430-vt8500-i2c-binding-v2-1-0cf22d0c2d42@gmail.com>
+In-Reply-To: <20250428065727.57990-1-igor.b@beldev.am>
 
-Hi Alexey,
+Hi Igor,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 0af2f6be1b4281385b618cb86ad946eded089ac8]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Charkov/dt-bindings-i2c-i2c-wmt-Convert-to-YAML/20250430-183538
-base:   0af2f6be1b4281385b618cb86ad946eded089ac8
-patch link:    https://lore.kernel.org/r/20250430-vt8500-i2c-binding-v2-1-0cf22d0c2d42%40gmail.com
-patch subject: [PATCH v2] dt-bindings: i2c: i2c-wmt: Convert to YAML
-reproduce: (https://download.01.org/0day-ci/archive/20250501/202505011756.SZDFqCew-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Belousov/mm-zblock-avoid-failing-the-build/20250428-150012
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250428065727.57990-1-igor.b%40beldev.am
+patch subject: [PATCH mm-new] mm/zblock: avoid failing the build
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250501/202505011759.kmXPfmFI-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011759.kmXPfmFI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505011756.SZDFqCew-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505011759.kmXPfmFI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i2c/i2c-wmt.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
-   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
-   make[1]: *** [Makefile:1801: htmldocs] Error 2
-   make: *** [Makefile:248: __sub-make] Error 2
+   In file included from mm/zblock.c:27:
+>> mm/zblock.h:24:2: error: invalid preprocessing directive
+      24 | #warn This PAGE_SIZE is not quite supported yet
+         |  ^
+   1 error generated.
+
+
+vim +24 mm/zblock.h
+
+    16	
+    17	#if PAGE_SIZE == 0x1000
+    18	/* max 128 slots per block, max table size 32 */
+    19	#define SLOT_BITS 7
+    20	#elif PAGE_SIZE == 0x4000
+    21	/* max 256 slots per block, max table size 64 */
+    22	#define SLOT_BITS 8
+    23	#else
+  > 24	#warn This PAGE_SIZE is not quite supported yet
+    25	#define SLOT_BITS 8
+    26	#endif
+    27	
 
 -- 
 0-DAY CI Kernel Test Service
