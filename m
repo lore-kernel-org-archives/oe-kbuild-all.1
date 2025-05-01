@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB4A4A3C;
-	Thu,  1 May 2025 04:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E353253F09
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 05:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746074932; cv=none; b=FtdvJw9u3/x9VnQI4FY1kxP5t0U9g/BZydXOGWznIiH+OUlim7XFD/5FIO+4G7g2Ik/P6SNJnROqAQtFpnftMzdn2krwrH5rR1yiP8ZXdT1GLq0eMIan8llsBvAZB4bm/7E2clOziA1Birrn1hW7p6uA7Y7/JuyZkDF5iXqXyyk=
+	t=1746076201; cv=none; b=HV6IuD0hUkZde78II/GPUoaF7yY4c/3FF1cnc2uFaI+RdegYVIKDNIC+GgjV6wf+HwtOaiqI62RcsYZiohaqfSuOwm9l1xhhV5bn7ye+3aFNZwYCaNN0eXsDqOU+mbxHgJjCi/KPLYuNFj4sLHuS+8nqQ6vu0emegI4VVfIYWzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746074932; c=relaxed/simple;
-	bh=5+aFCGN9TB7JY5KX5yGLtqrOMpZk6lqFKaV399kXqus=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AS/yxl/UAg9HJDod5ynI+Nzje7BJbjejcgLntZSl/B3sS0hjRSPjIdMWW6ZMN85pZCQdhVisuFfU2U1nLlUvQG+LlF773ZZvc2H++DdquztPy0DVALfoRle7KFbdvqGuWJghaGFKIqn0NR4SSTrJB/CB+22cZyfNlCJDJZTNFDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j+K+Lk5P; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1746076201; c=relaxed/simple;
+	bh=4D0v6q2FPCydzL2tI0QPpq6lmvFlFvq+AVNj4AcB2co=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u/Z/bbyyC6pAj3Tqh2k1L/tKH73X5NfxhVmcy/lGQMnTKLT1XcSde80BelkbN66khNpIPF7nR+P5gzWqgGv0TgfuHEvB0scRwCFBg4PxbGcmkFqXd2V10WQ3Ni8DlnqYmzHx3Suejp/XTeiTxv55n+em62IyI28fWiLfvJmCvs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GgIzyP10; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+K+Lk5P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GgIzyP10"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746074930; x=1777610930;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5+aFCGN9TB7JY5KX5yGLtqrOMpZk6lqFKaV399kXqus=;
-  b=j+K+Lk5PKzogCbHjVKlYAJ4MnkoQ5WPKulXiJkSdiwS9THsi2qWRoZIB
-   4vLb5dS89F9j0EYrbe+8W3h6fbV72w5paGmP/TaXw78k/0382DHdt5O5f
-   hgBSe7/Jc7+IWBcj68SyPGKDAQeg/phygZd5fHH2MOCimXq70dOvBVhoA
-   a28TlZQyC1mC2+ZIfkz82p++J5JM0waLk6Re5kw17obi+fEEue/CZScQT
-   tqZVoIsRKsAy69sEgB26H15hVBqYeeq86p62dG2oRIGRQ46jDNJ3noXU2
-   +0bClvZiIn8xPckGmuKtaBB57Nu0jGv/sW08Ill7RUodV/UQ6C/3+67Ta
+  t=1746076198; x=1777612198;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4D0v6q2FPCydzL2tI0QPpq6lmvFlFvq+AVNj4AcB2co=;
+  b=GgIzyP10VngoBRLBpa5ciEZtF7j4yKmS3VpqgLZzqMuewcA8xD9n4YTW
+   xG3U0ifCQoXH6sQliYqleesluvWsmQhHyQU9J/D0G7KYSz1PETllBvpzd
+   Lmt5n34nq3S0+LVdfzT3fZkZ3OO70cF/ATp5Aetrvk4vTcRSRXfxCMUZ3
+   saYBIlMs5ZAnwbGG22Bn2h+/5iek1VKymSScpVBfGnihpufgypy5ffifz
+   70Fn+6reFu216yhCX31yf6PYRriP6V6j2TqEPO7h+LDvjjje0zNUrGVnp
+   EtuE+Op1tkvQJn7SzYY+qF8fxFf02xmbmQwoQp8upATv++cUnu1bnhlbC
    A==;
-X-CSE-ConnectionGUID: c0JA6lpsRtGLcsWEdLdBwA==
-X-CSE-MsgGUID: viXhHATiRlO/4q6l3JE2+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="58737848"
+X-CSE-ConnectionGUID: +YHXqr0cRwGdE75kfyMvtw==
+X-CSE-MsgGUID: LY76za1sR4mrXHBofDeg1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47658809"
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="58737848"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 21:48:49 -0700
-X-CSE-ConnectionGUID: F/01aXNnSl2NiGAbAKVA6Q==
-X-CSE-MsgGUID: MkSyn08WTiqDjsJLTtKZSA==
+   d="scan'208";a="47658809"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 22:09:58 -0700
+X-CSE-ConnectionGUID: GLbqYsz4QjmN398xDP7Kzg==
+X-CSE-MsgGUID: DSoubaDoRLeGAKkvNDuB8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="171538080"
+   d="scan'208";a="135269143"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Apr 2025 21:48:48 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 30 Apr 2025 22:09:52 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uALqn-0003yF-07;
-	Thu, 01 May 2025 04:48:45 +0000
-Date: Thu, 1 May 2025 12:47:45 +0800
+	id 1uAMBB-0003yj-23;
+	Thu, 01 May 2025 05:09:49 +0000
+Date: Thu, 1 May 2025 13:09:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 13/21]
- drivers/net/ethernet/airoha/airoha_npu.c:430:65: error: expected ';' after
- expression
-Message-ID: <202505011210.wdGfu0Ii-lkp@intel.com>
+To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	hannes@cmpxchg.org, yosry.ahmed@linux.dev, nphamcs@gmail.com,
+	chengming.zhou@linux.dev, usamaarif642@gmail.com,
+	ryan.roberts@arm.com, 21cnbao@gmail.com,
+	ying.huang@linux.alibaba.com, akpm@linux-foundation.org,
+	linux-crypto@vger.kernel.org, herbert@gondor.apana.org.au,
+	davem@davemloft.net, clabbe@baylibre.com, ardb@kernel.org,
+	ebiggers@google.com, surenb@google.com, kristen.c.accardi@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, wajdi.k.feghali@intel.com,
+	vinodh.gopal@intel.com, kanchana.p.sridhar@intel.com
+Subject: Re: [PATCH v9 18/19] mm: zswap: zswap_store() will process a folio
+ in batches.
+Message-ID: <202505011147.h3jgtfmE-lkp@intel.com>
+References: <20250430205305.22844-19-kanchana.p.sridhar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,122 +72,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250430205305.22844-19-kanchana.p.sridhar@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   3474fc53f28d0824c7020ddffc8559e8302f7415
-commit: 187439642c68be0ad8084f0156064c4fa443225c [13/21] net: Use of_reserved_mem_region_to_resource{_byname}() for "memory-region"
-config: i386-buildonly-randconfig-003-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011210.wdGfu0Ii-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011210.wdGfu0Ii-lkp@intel.com/reproduce)
+Hi Kanchana,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 2c01d9f3c61101355afde90dc5c0b39d9a772ef3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/crypto-acomp-Remove-request-chaining/20250501-045602
+base:   2c01d9f3c61101355afde90dc5c0b39d9a772ef3
+patch link:    https://lore.kernel.org/r/20250430205305.22844-19-kanchana.p.sridhar%40intel.com
+patch subject: [PATCH v9 18/19] mm: zswap: zswap_store() will process a folio in batches.
+config: arc-randconfig-001-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011147.h3jgtfmE-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011147.h3jgtfmE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505011210.wdGfu0Ii-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505011147.h3jgtfmE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/airoha/airoha_npu.c:430:65: error: expected ';' after expression
-     430 |         err = of_reserved_mem_region_to_resource(dev->of_node, 0, &res)
-         |                                                                        ^
-         |                                                                        ;
->> drivers/net/ethernet/airoha/airoha_npu.c:465:43: error: use of undeclared identifier 'rmem'
-     465 |         err = airoha_npu_run_firmware(dev, base, rmem);
-         |                                                  ^
-   2 errors generated.
+   In file included from <command-line>:
+   mm/zswap.c: In function 'zswap_store':
+>> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_394' declared with attribute error: min(start + batch_size, nr_pages) signedness error
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/zswap.c:1703:23: note: in expansion of macro 'min'
+    1703 |                 end = min(start + batch_size, nr_pages);
+         |                       ^~~
 
 
-vim +430 drivers/net/ethernet/airoha/airoha_npu.c
+vim +/__compiletime_assert_394 +557 include/linux/compiler_types.h
 
-   403	
-   404	static int airoha_npu_probe(struct platform_device *pdev)
-   405	{
-   406		struct device *dev = &pdev->dev;
-   407		struct airoha_npu *npu;
-   408		struct resource res;
-   409		void __iomem *base;
-   410		int i, irq, err;
-   411	
-   412		base = devm_platform_ioremap_resource(pdev, 0);
-   413		if (IS_ERR(base))
-   414			return PTR_ERR(base);
-   415	
-   416		npu = devm_kzalloc(dev, sizeof(*npu), GFP_KERNEL);
-   417		if (!npu)
-   418			return -ENOMEM;
-   419	
-   420		npu->dev = dev;
-   421		npu->ops.ppe_init = airoha_npu_ppe_init;
-   422		npu->ops.ppe_deinit = airoha_npu_ppe_deinit;
-   423		npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
-   424		npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
-   425	
-   426		npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
-   427		if (IS_ERR(npu->regmap))
-   428			return PTR_ERR(npu->regmap);
-   429	
- > 430		err = of_reserved_mem_region_to_resource(dev->of_node, 0, &res)
-   431		if (err)
-   432			return err;
-   433	
-   434		irq = platform_get_irq(pdev, 0);
-   435		if (irq < 0)
-   436			return irq;
-   437	
-   438		err = devm_request_irq(dev, irq, airoha_npu_mbox_handler,
-   439				       IRQF_SHARED, "airoha-npu-mbox", npu);
-   440		if (err)
-   441			return err;
-   442	
-   443		for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
-   444			struct airoha_npu_core *core = &npu->cores[i];
-   445	
-   446			spin_lock_init(&core->lock);
-   447			core->npu = npu;
-   448	
-   449			irq = platform_get_irq(pdev, i + 1);
-   450			if (irq < 0)
-   451				return irq;
-   452	
-   453			err = devm_request_irq(dev, irq, airoha_npu_wdt_handler,
-   454					       IRQF_SHARED, "airoha-npu-wdt", core);
-   455			if (err)
-   456				return err;
-   457	
-   458			INIT_WORK(&core->wdt_work, airoha_npu_wdt_work);
-   459		}
-   460	
-   461		err = dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
-   462		if (err)
-   463			return err;
-   464	
- > 465		err = airoha_npu_run_firmware(dev, base, rmem);
-   466		if (err)
-   467			return dev_err_probe(dev, err, "failed to run npu firmware\n");
-   468	
-   469		regmap_write(npu->regmap, REG_CR_NPU_MIB(10),
-   470			     res.start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
-   471		regmap_write(npu->regmap, REG_CR_NPU_MIB(11), 0x40000); /* SRAM 256K */
-   472		regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
-   473		regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
-   474		msleep(100);
-   475	
-   476		/* setting booting address */
-   477		for (i = 0; i < NPU_NUM_CORES; i++)
-   478			regmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res.start);
-   479		usleep_range(1000, 2000);
-   480	
-   481		/* enable NPU cores */
-   482		/* do not start core3 since it is used for WiFi offloading */
-   483		regmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xf7);
-   484		regmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);
-   485		msleep(100);
-   486	
-   487		platform_set_drvdata(pdev, npu);
-   488	
-   489		return 0;
-   490	}
-   491	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
 
 -- 
 0-DAY CI Kernel Test Service
