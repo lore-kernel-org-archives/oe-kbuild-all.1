@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E0F2AEE9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 07:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127DF1E2845
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 08:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746085169; cv=none; b=tVZVDrj6iPZVSR511h4YQt/Te064cTIt42eF4fEj3zDI/U4LJmyPNVM+JYQKXPgMb8ZwZiB9E1aE+W3F8b007JvPYzcpLrDL1ccgV25reQlDDSSphkKkmLRCAYrWEhnz/95/gqWQJ+LVmPat4Oc5rvHqpxOVA+TbiJScG0nNW5c=
+	t=1746087710; cv=none; b=gt7fWSXhpJm8Ma4m0IA8OziSYOTueUfhpa3YJ8kb5HoIYDpR1GfABxt/b/wZuMDjxXTcC6XoCjF/FEJl+4bQxLsWuMIDq6PNV1v4pwEEEW5f61TyknwzEUxqF9AGiE0Zlf+/tyHAyqbYUSEfG5FM0YYPd4qe6uSeY9gCCLptNdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746085169; c=relaxed/simple;
-	bh=lux83CcwY6ET+08+loul6u9UpKjmQsIrPfG+/UVqyLw=;
+	s=arc-20240116; t=1746087710; c=relaxed/simple;
+	bh=JrsVqruNLqAV/ELgH8TllIVis2N3L4EgEF29lBaO2s0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dMldFuDspy8PBcMNLP+a6V9CYyyFQA0IeCjn7rIreOtgjCgrRNgo8Cg+CCVX32LB/vLSbRrEjOEV7jY1+nYjOxsJYAdT5/R/iBqGNE/8SWwS8VkSx/Hncv0jExpSfk8VCVLRXQ9yGEzSWnfub1BhmXoIwrwTt5MBR6yQAK3EMuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ie3oANeQ; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=e56GHgNbaVooaj1f6Kw/sKanUTWtWilnbu0SpURgAS07aBYfxxRAhZBN1P61ezlP+QF4upIqzH7v5GgPXRuzne6LXZ/6FRcVMDGOA0p6VbceFN0U3nuJkKYVbPun2MdwVCEFlWqBJqLzTLJjOC6/B5vuHs55mB7AEwFg28pyr1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bxKalsuz; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ie3oANeQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bxKalsuz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746085168; x=1777621168;
+  t=1746087708; x=1777623708;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lux83CcwY6ET+08+loul6u9UpKjmQsIrPfG+/UVqyLw=;
-  b=ie3oANeQCtyTjRxxaH1vcxaAvGxnz4wAd43awqy/A2gkgSPVJ0QswK3F
-   gGxugnGhbiP27bdZUcH9rZ/0Wx0+IPMIxyMEfzC8oQV+/uI7mtFPkgGki
-   NyeEaypWoyVWzYa1dzOESJ54+5gYPUPUOTVP/wjjCj1bVTESgPviaYiVH
-   klksNwfgVR0G2hOAjlEDo07wtlVTHqenu3Wt7rjyGqPMelaz+J2Qyfq/v
-   9zMgLTuwfMv5Q5zkzPD+OMINXjNZE0aXbHNLP4fFUKNoKioe54aaCtI1Q
-   13Q1+C0/wbMaUmnURj5EEvoloFmv9RVjAF8yhTXoT5IIC0HeYYAUw1GOD
+  bh=JrsVqruNLqAV/ELgH8TllIVis2N3L4EgEF29lBaO2s0=;
+  b=bxKalsuztBrm/iJlBJEzU3bNHEdRf6sgocIFULSZXIZ5iqydaS9xsjxV
+   zUQYqaYMwXpgJvM3tsYNIzLjpkJlW51p94LpUoj0o6E5JWajZV5D4k98T
+   ioV4+stmV1FZTQ0j+TTlqzfhcVZFVr1VIhYtxaFWWZaYV++IfP+TBvuYt
+   NCtcMj0EsBYOp/+lTMNFt4qQOfPYsXCAMwMQomMYPtmfAMn3mzvcSl//w
+   aFzyN3u9nGv0cKY+jCmy8dgj0LEtJMZgu8vCqPHHZ+4ip4bYBTlL7D6RV
+   6H0JrmV4d9weus/kwzqNcgkYXt2lTZK4BjxhwUztXGsOj8J78cTDhrrSr
    A==;
-X-CSE-ConnectionGUID: wkrsj2e8SjOg7PczZQND8A==
-X-CSE-MsgGUID: mwVhNWO8QZ25PRiQM3K1yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="57953062"
+X-CSE-ConnectionGUID: u/ZcgWq4QDW2N4Pjhuc3iA==
+X-CSE-MsgGUID: JQNwtDOrRyafdU3tzgG9iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47476824"
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="57953062"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 00:39:27 -0700
-X-CSE-ConnectionGUID: t8d10BKOQJag5NTvVU3nXQ==
-X-CSE-MsgGUID: drLe3sBKRgOdN7XdJNtNhA==
+   d="scan'208";a="47476824"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 01:21:48 -0700
+X-CSE-ConnectionGUID: hCBzJqj9R1+0n+HPsXkreA==
+X-CSE-MsgGUID: M3ehJoPSRzGDlQDeyfmp9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="134849784"
+   d="scan'208";a="139149152"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 May 2025 00:39:25 -0700
+  by orviesa003.jf.intel.com with ESMTP; 01 May 2025 01:21:46 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAOVv-00041h-1T;
-	Thu, 01 May 2025 07:39:23 +0000
-Date: Thu, 1 May 2025 15:38:47 +0800
+	id 1uAPAt-00043N-2m;
+	Thu, 01 May 2025 08:21:43 +0000
+Date: Thu, 1 May 2025 16:21:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:klp-build 26/34] kernel/extable.c:58:22: error:
- 'EXTABLE_SIZE' undeclared
-Message-ID: <202505011539.usT7odhi-lkp@intel.com>
+To: Shivank Garg <shivankg@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 272/272] fs/jfs/jfs_metapage.c:637: warning:
+ Function parameter or struct member 'mapping' not described in
+ 'metapage_migrate_folio'
+Message-ID: <202505011647.L0LGO7Lm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,94 +65,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build
-head:   69a817d602ee843bd52388638c4d2fdce7c20fa7
-commit: b28d1ed99a57c85da1d595604fc812dfb69f9dfa [26/34] x86/alternative: Create symbols for special section entries
-config: arc-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011539.usT7odhi-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011539.usT7odhi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   ea17e4fdc13cae144d90ce8561c2f50a49492037
+commit: ea17e4fdc13cae144d90ce8561c2f50a49492037 [272/272] jfs: implement migrate_folio for jfs_metapage_aops
+config: csky-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011647.L0LGO7Lm-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011647.L0LGO7Lm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505011539.usT7odhi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505011647.L0LGO7Lm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arc/include/asm/ptrace.h:11,
-                    from arch/arc/include/uapi/asm/elf.h:13,
-                    from arch/arc/include/asm/elf.h:11,
-                    from include/linux/elf.h:6,
-                    from kernel/extable.c:6:
-   kernel/extable.c: In function 'search_exception_tables':
->> kernel/extable.c:58:22: error: 'EXTABLE_SIZE' undeclared (first use in this function)
-      58 |         BUILD_BUG_ON(EXTABLE_SIZE != sizeof(struct exception_table_entry));
-         |                      ^~~~~~~~~~~~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   include/linux/compiler_types.h:537:17: note: in expansion of macro 'if'
-     537 |                 if (!(condition))                                       \
-         |                 ^~
-   include/linux/compiler_types.h:545:9: note: in expansion of macro '__compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   kernel/extable.c:58:9: note: in expansion of macro 'BUILD_BUG_ON'
-      58 |         BUILD_BUG_ON(EXTABLE_SIZE != sizeof(struct exception_table_entry));
-         |         ^~~~~~~~~~~~
-   kernel/extable.c:58:22: note: each undeclared identifier is reported only once for each function it appears in
-      58 |         BUILD_BUG_ON(EXTABLE_SIZE != sizeof(struct exception_table_entry));
-         |                      ^~~~~~~~~~~~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   include/linux/compiler_types.h:537:17: note: in expansion of macro 'if'
-     537 |                 if (!(condition))                                       \
-         |                 ^~
-   include/linux/compiler_types.h:545:9: note: in expansion of macro '__compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   kernel/extable.c:58:9: note: in expansion of macro 'BUILD_BUG_ON'
-      58 |         BUILD_BUG_ON(EXTABLE_SIZE != sizeof(struct exception_table_entry));
-         |         ^~~~~~~~~~~~
+>> fs/jfs/jfs_metapage.c:637: warning: Function parameter or struct member 'mapping' not described in 'metapage_migrate_folio'
+>> fs/jfs/jfs_metapage.c:637: warning: Function parameter or struct member 'dst' not described in 'metapage_migrate_folio'
+>> fs/jfs/jfs_metapage.c:637: warning: Function parameter or struct member 'src' not described in 'metapage_migrate_folio'
+>> fs/jfs/jfs_metapage.c:637: warning: Function parameter or struct member 'mode' not described in 'metapage_migrate_folio'
 
 
-vim +/EXTABLE_SIZE +58 kernel/extable.c
+vim +637 fs/jfs/jfs_metapage.c
 
-    52	
-    53	/* Given an address, look for it in the exception tables. */
-    54	const struct exception_table_entry *search_exception_tables(unsigned long addr)
-    55	{
-    56		const struct exception_table_entry *e;
-    57	
-  > 58		BUILD_BUG_ON(EXTABLE_SIZE != sizeof(struct exception_table_entry));
-    59	
-    60		e = search_kernel_exception_table(addr);
-    61		if (!e)
-    62			e = search_module_extables(addr);
-    63		if (!e)
-    64			e = search_bpf_extables(addr);
-    65		return e;
-    66	}
-    67	
+   631	
+   632	/**
+   633	 * metapage_migrate_folio - Migration function for JFS metapages
+   634	 */
+   635	static int metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
+   636					  struct folio *src, enum migrate_mode mode)
+ > 637	{
+   638		int expected_count;
+   639	
+   640		if (!src->private)
+   641			return filemap_migrate_folio(mapping, dst, src, mode);
+   642	
+   643		/* Check whether page does not have extra refs before we do more work */
+   644		expected_count = folio_expected_ref_count(src) + 1;
+   645		if (folio_ref_count(src) != expected_count)
+   646			return -EAGAIN;
+   647		return __metapage_migrate_folio(mapping, dst, src, mode);
+   648	}
+   649	
 
 -- 
 0-DAY CI Kernel Test Service
