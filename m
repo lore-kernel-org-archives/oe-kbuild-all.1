@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0C3322A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 03:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92151C173C;
+	Thu,  1 May 2025 04:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746069817; cv=none; b=KJRVvnymHv8eh5em3pls5kv38b+yKTtkgF9tfkOSNNe8gpGC04o00jAU8IY+qOijQGVtTUQKKHLiYv7JbV7zbD4WUiJXSdXeZGrvyqby5IMymNiVrCubxY4rtVJXB/sAy+NTuKQ5PjRwZ47KAQUmMmkuj2M//8KpLVW+l6MCUKk=
+	t=1746072950; cv=none; b=i3P3LOvUE4UkQXEjAT2GtJeLCEEKjopkBtvariJZIgHIyyglwVlKXNnTizMXCeOPQ6F5XI9iJ3Z6ILYMBIGM+CQlfRV0gLTa+Hc1K1zmRP6MS9asgN7qn+NlpH/8EsJKmjW7k2Ouj1AkyhSuySj4YrsVh4vaRNSl/qCVX1Dur1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746069817; c=relaxed/simple;
-	bh=+19Gu4Iri61NQgs4mYjOXwJD8OBz2QH6Z2pnFSvbIio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f/IlsHxrXXPvgalApx86+wUA2U9aBOoejTEV0W9TKLFIwPDTuXTnxvvZM0pcVGvAZB1GpyPKR9eO3ImjOFSLPFR4Fd33QRt8+36Ol333cOh+yLExovpktBFd1CUPg+/LdmqMb9f7xUBKUUjkdkO3FRpm1ioqXCImEtAopm88Jz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fc2tq5XS; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1746072950; c=relaxed/simple;
+	bh=TjXxlPC2qVXYFnjPf2Z+aYVYmSGz4oBr/o09GypsdUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eNVog1WvesreYbMg2P2JdO4V6I1mEa4vegUCxjuh7us8Nti6z9EoBig9MFavm2ImU6sews3EiiNGPOXADq2FMLSgv8ZaIUmzi54NP0NKpifKsbdNpQYfuMjRisj/AQ2xU9Gww7P7cNadKuaUH23aXBH83jk3eSbzuI8KzhQHHY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+mXb2Zs; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fc2tq5XS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+mXb2Zs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746069815; x=1777605815;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+19Gu4Iri61NQgs4mYjOXwJD8OBz2QH6Z2pnFSvbIio=;
-  b=Fc2tq5XSc7X6HDg/W3sAfkMStwmaMT9JSybwTK++07ruaGulYMWUsFw5
-   zXXJzK7gOGpV0dxEY1+M2NVabwudocXl2fjkz8CnEZXGT6cdQh9hvhhD+
-   WSUES9bkFT5gL3Phb/LMJ5ojTiBvr4i0iDda/NE/nfAzQ0xm9LXT1dXek
-   PHlI0j4363XMp9vhzsKUVk5Np6qZnDYs3MUttq49BoNpVnLDzFnD9WyTq
-   XU47bQtLiBscZ9Bla348GF23f+pAXjAYQYzDVz00GmoDlPrWVyjVtjM/4
-   CoXdKAzG//jgh3ayuH0+QKbqdQk8j/PsTcdyEexFAfquNq8oGqrFTPZXa
-   g==;
-X-CSE-ConnectionGUID: 1QKJTw1pTLqArDcd1JxIiA==
-X-CSE-MsgGUID: OhmZFSf5SmSLAOxqgJaCWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="73136879"
+  t=1746072947; x=1777608947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TjXxlPC2qVXYFnjPf2Z+aYVYmSGz4oBr/o09GypsdUE=;
+  b=U+mXb2ZsToEJyhVvaTWJvnXF7eGhf3HoHM6RD/XOY4YRShPmlD7BThDh
+   a24nsI9JmKgiUo8A02dLS+kZjARDPxlGA31haiKp0MgyxvSPb1Hlzl8uD
+   EdStcqQacTVmdTjKdcEITRkfF2kgWVJ3ypKNtXkoxaJd9kcGlIcGc99mf
+   DFg7tc2cCBXjewq5CQR9b8QjO8TufLIsv2x1AqCN88bZ2U1nPq6W5IJSu
+   HTp+vKowl/Pe/O5UqFSgYiXeW6w90bJAI/bRBqsjJHHXB8KDSfppB6BnN
+   CzFAZ55nP37V+jiBvnRRDQsJsUTGLrKGXWBgfpsfW0k9zkwD0Yw2BWiZT
+   A==;
+X-CSE-ConnectionGUID: SyttwPC+Rz+R4clO1ucodQ==
+X-CSE-MsgGUID: pXPcSZc3SEW6+BP9SohW/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="50407188"
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="73136879"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 20:23:34 -0700
-X-CSE-ConnectionGUID: PQUWvfaJS/ybTMOZlBwt6w==
-X-CSE-MsgGUID: JoGepA1fTjuYCerjhxy0+g==
+   d="scan'208";a="50407188"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 21:15:45 -0700
+X-CSE-ConnectionGUID: m6+G2+YkRr+FSZs6BrAhNw==
+X-CSE-MsgGUID: GWgNW513SDiTD9EXQikxTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="134034716"
+   d="scan'208";a="171533757"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 30 Apr 2025 20:23:31 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 Apr 2025 21:15:44 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAKWG-0003vp-1K;
-	Thu, 01 May 2025 03:23:28 +0000
-Date: Thu, 1 May 2025 11:22:50 +0800
+	id 1uALKn-0003x7-1i;
+	Thu, 01 May 2025 04:15:41 +0000
+Date: Thu, 1 May 2025 12:14:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Daniel Axtens <dja@axtens.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-s390@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] kasan: Avoid sleepable page allocation from
- atomic context
-Message-ID: <202505010957.08s1jPkF-lkp@intel.com>
-References: <573a823565734e1eac3aa128fb9d3506ec918a72.1745940843.git.agordeev@linux.ibm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_pt_all 51/68]
+ drivers/iommu/generic_pt/fmt/../kunit_generic_pt.h:447:20: warning: result
+ of comparison of constant 280375465082880 with expression of type
+ 'pt_vaddr_t' (aka 'unsigned int') is always true
+Message-ID: <202505011237.MVSM07S7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,88 +63,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <573a823565734e1eac3aa128fb9d3506ec918a72.1745940843.git.agordeev@linux.ibm.com>
 
-Hi Alexander,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.15-rc4 next-20250430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Gordeev/kasan-Avoid-sleepable-page-allocation-from-atomic-context/20250430-001020
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/573a823565734e1eac3aa128fb9d3506ec918a72.1745940843.git.agordeev%40linux.ibm.com
-patch subject: [PATCH v3 1/1] kasan: Avoid sleepable page allocation from atomic context
-config: x86_64-buildonly-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250501/202505010957.08s1jPkF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505010957.08s1jPkF-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt_all
+head:   e09ae4f9b47677554bf952d7c55a9e2c6ade90f8
+commit: b7940ba758888328030d3a1338bf11836b963f3f [51/68] iommupt: Add the 32 bit ARMv7s page table format
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250501/202505011237.MVSM07S7-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011237.MVSM07S7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505010957.08s1jPkF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505011237.MVSM07S7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/kasan/shadow.c: In function 'kasan_populate_vmalloc_pte':
-   mm/kasan/shadow.c:313:18: error: implicit declaration of function 'pfn_to_virt'; did you mean 'fix_to_virt'? [-Werror=implicit-function-declaration]
-     313 |         __memset(pfn_to_virt(pfn), KASAN_VMALLOC_INVALID, PAGE_SIZE);
-         |                  ^~~~~~~~~~~
-         |                  fix_to_virt
->> mm/kasan/shadow.c:313:18: warning: passing argument 1 of '__memset' makes pointer from integer without a cast [-Wint-conversion]
-     313 |         __memset(pfn_to_virt(pfn), KASAN_VMALLOC_INVALID, PAGE_SIZE);
-         |                  ^~~~~~~~~~~~~~~~
-         |                  |
-         |                  int
-   In file included from arch/x86/include/asm/string.h:5,
-                    from arch/x86/include/asm/cpuid/api.h:10,
-                    from arch/x86/include/asm/cpuid.h:6,
-                    from arch/x86/include/asm/processor.h:19,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:59,
-                    from include/linux/thread_info.h:60,
-                    from include/linux/spinlock.h:60,
-                    from arch/x86/include/asm/pgtable.h:19,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/kasan.h:37,
-                    from mm/kasan/shadow.c:14:
-   arch/x86/include/asm/string_64.h:23:22: note: expected 'void *' but argument is of type 'int'
-      23 | void *__memset(void *s, int c, size_t n);
-         |                ~~~~~~^
-   cc1: some warnings being treated as errors
+   In file included from drivers/iommu/generic_pt/fmt/iommu_armv7s.c:11:
+   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:46:
+>> drivers/iommu/generic_pt/fmt/../kunit_generic_pt.h:447:20: warning: result of comparison of constant 280375465082880 with expression of type 'pt_vaddr_t' (aka 'unsigned int') is always true [-Wtautological-constant-out-of-range-compare]
+     447 |         if (pgsize_bitmap != 0xff0000000000 ||
+         |             ~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/__memset +313 mm/kasan/shadow.c
+vim +447 drivers/iommu/generic_pt/fmt/../kunit_generic_pt.h
 
-   299	
-   300	static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
-   301					      void *_data)
-   302	{
-   303		struct vmalloc_populate_data *data = _data;
-   304		struct page *page;
-   305		unsigned long pfn;
-   306		pte_t pte;
-   307	
-   308		if (likely(!pte_none(ptep_get(ptep))))
-   309			return 0;
-   310	
-   311		page = data->pages[PFN_DOWN(addr - data->start)];
-   312		pfn = page_to_pfn(page);
- > 313		__memset(pfn_to_virt(pfn), KASAN_VMALLOC_INVALID, PAGE_SIZE);
-   314		pte = pfn_pte(pfn, PAGE_KERNEL);
-   315	
-   316		spin_lock(&init_mm.page_table_lock);
-   317		if (likely(pte_none(ptep_get(ptep))))
-   318			set_pte_at(&init_mm, addr, ptep, pte);
-   319		spin_unlock(&init_mm.page_table_lock);
-   320	
-   321		return 0;
-   322	}
-   323	
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  425  
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  426  static void test_lvl_possible_sizes(struct kunit *test, struct pt_state *pts,
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  427  				    void *arg)
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  428  {
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  429  	unsigned int num_items_lg2 = safe_pt_num_items_lg2(pts);
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  430  	pt_vaddr_t pgsize_bitmap = pt_possible_sizes(pts);
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  431  	unsigned int isz_lg2 = pt_table_item_lg2sz(pts);
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  432  
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  433  	if (!pt_can_have_leaf(pts)) {
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  434  		KUNIT_ASSERT_EQ(test, pgsize_bitmap, 0);
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  435  		return;
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  436  	}
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  437  
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  438  	/* No bits for sizes that would be outside this table */
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  439  	KUNIT_ASSERT_EQ(test, log2_mod(pgsize_bitmap, isz_lg2), 0);
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  440  	KUNIT_ASSERT_EQ(
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  441  		test, fvalog2_div(pgsize_bitmap, num_items_lg2 + isz_lg2), 0);
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  442  
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  443  	/*
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  444  	 * Non contiguous must be supported. AMDv1 has a HW bug where it does
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  445  	 * not support it on one of the levels.
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  446  	 */
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28 @447  	if (pgsize_bitmap != 0xff0000000000 ||
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  448  	    strcmp(__stringify(PTPFX_RAW), "amdv1") != 0)
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  449  		KUNIT_ASSERT_TRUE(test, pgsize_bitmap & log2_to_int(isz_lg2));
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  450  	else
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  451  		KUNIT_ASSERT_NE(test, pgsize_bitmap, 0);
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  452  
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  453  	/* A contiguous entry should not span the whole table */
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  454  	if (num_items_lg2 + isz_lg2 != PT_VADDR_MAX_LG2)
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  455  		KUNIT_ASSERT_FALSE(
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  456  			test,
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  457  			pgsize_bitmap & log2_to_int(num_items_lg2 + isz_lg2));
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  458  }
+4c3d5787e1c95a Jason Gunthorpe 2024-06-28  459  
+
+:::::: The code at line 447 was first introduced by commit
+:::::: 4c3d5787e1c95a17df00e741ab31c913ad08433e iommupt: Add a kunit test for Generic Page Table
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
