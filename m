@@ -1,88 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D3014AD2D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 22:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943E1262FE0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 22:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746137098; cv=none; b=CZpBrbKZqfMEdC1Wg2rsEF6qVMtYJT3/a0f7/DpBjiLGnDo14ZJTK3KSfCPtyRbtWwKryobBa2uJe2PdpuhW/phf1HwZvnhgZ6bzgpvr4scbYufuPptAlgCR9ajBweplWAIIm7dj6nntvWlEVpb9mmROfndu1fwJF07adp0KwNI=
+	t=1746140353; cv=none; b=FFP0uWrcpKiad85XLoNoJDXZ2oD4xEXIUSWYnGNclVDuC9bFL5MEpXR6h9gBnl2po3RRgA/zEAA1nPAg16vTRRC35htxjqDi1nCXceua/aWpcHvQ4ig9gz44WHaK0cl5d7CBn2WunvMNUgz7mpdyuu4LK9sGLFh7bYfMcHFT82Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746137098; c=relaxed/simple;
-	bh=1aMknTIk8cY6dfHF78Gj2aVBsZSfK5H+nkxw2hDPEwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=km8BNlr4TOufOD23O7mBHmR5b+nBbYcsfN8XIubHVOzraslwR6/ypWRm5Df/wZdIBQjg8B7AiZA0CNL7yZtze1ZbxxzXh397/WMjtZmcTZGqzu2PZ7Rp24UJIoUtKGKDXYODUc/VDlARZep8H0fKLh+blSVtqw1niKP91jjF45Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mOkIiCjW; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746140353; c=relaxed/simple;
+	bh=VuqnoELnEvk2Nf7UetaqLNzV2RQ+T4JbbkAsve1OGJk=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=nrB1XRe0YVRKk5+GTHnckUL5t4RRDSPaO/8Ufwpz8dDVx2kD0dbXmEk/NK8APLKVxr53Hi9Okd8A+I6W1FAi+BC+8hlkGdcwRd7gUW9e6HjNrFFlu+yz8FRULeyhPtNzXJRp+Tc9ADgBDpoBBsLBJpT02B/h9UcSQk7YN7SWAF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=svg1gv8T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mOkIiCjW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746137096; x=1777673096;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1aMknTIk8cY6dfHF78Gj2aVBsZSfK5H+nkxw2hDPEwM=;
-  b=mOkIiCjWmv1VU6YpymarA68QH/A9+C/no8/SXiwXGHsgo+F2HLnA4+8t
-   AIGrP728KyiPS3Lw/UKHVTVfExugrlr9pEddkuO98Kr9WBIOnI6ipo+ON
-   rmzhykrr8ztSOP90MAW6zTUwJ+odqWuCjd17Pd6bYfViavR3J//+FBIKP
-   K70o4zdmRqaju3uTlXAbaysT0SfyeDadboIkZ/pV4Tk7p+9Z0i7IwPAD+
-   53lAPwQu+Ddfy/jqr4q71LUz7LEzO31tTVTvr3h0WVPFYzmj51wqz5IrT
-   pDtNBzrdV+9OZiM0XzHfwL4AdShu81+JD1cS5HZNwktygO+lAEUzgIY/K
-   Q==;
-X-CSE-ConnectionGUID: 4tHw/775TAOOA/eOJ7/1sg==
-X-CSE-MsgGUID: T3OR7RtOTu+xbW4l1qCF5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47732995"
-X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="47732995"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 15:04:56 -0700
-X-CSE-ConnectionGUID: ezhgFz0ASfWdcpp49CuNsA==
-X-CSE-MsgGUID: 0u6rz0mjQE+RGhyrK9ETDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="134404688"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 May 2025 15:04:56 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uAc1U-0004Pd-34;
-	Thu, 01 May 2025 22:04:52 +0000
-Date: Fri, 2 May 2025 06:04:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-vfs:work.coredump.socket 5/6] arm-linux-gnueabi-ld:
- fs/coredump.c:870:undefined reference to `__sys_connect_file'
-Message-ID: <202505020613.cM3DxNFk-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="svg1gv8T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7081C4CEED;
+	Thu,  1 May 2025 22:59:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1746140353;
+	bh=VuqnoELnEvk2Nf7UetaqLNzV2RQ+T4JbbkAsve1OGJk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=svg1gv8TyYx+D1i/pyZ1bCUfQxcWz+U7V6lM1fnDFppANr9sENoOQtflNVLrplWpA
+	 jSHQQpiA18XTB5gpnkRXcB6p0rLY9Wo/P+PyVwsn7R0UoaygyBlyB3YmMNZtFMCp32
+	 59U6z2P9phy8PaIvnyD5A+7SM4adssdgNdhYML9s=
+Date: Thu, 1 May 2025 15:59:12 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, Shivank Garg <shivankg@amd.com>,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-unstable 272/272] include/linux/stddef.h:8:14:
+ error: called object is not a function or function pointer
+Message-Id: <20250501155912.fc59c6e36c87c623501fe988@linux-foundation.org>
+In-Reply-To: <aBPtHlqpEsNxAiOV@casper.infradead.org>
+References: <202505020405.YzD9aNCo-lkp@intel.com>
+	<20250501141304.beac3e9d892495eea7a4e9cb@linux-foundation.org>
+	<aBPtHlqpEsNxAiOV@casper.infradead.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git work.coredump.socket
-head:   8413dd9a8cbb52fc022c3749a8db1efd0853cf11
-commit: 0f4f9626b03ce4d39ab09f0aadddc1a6898807f6 [5/6] coredump: support AF_UNIX sockets
-config: arm-s3c6400_defconfig (https://download.01.org/0day-ci/archive/20250502/202505020613.cM3DxNFk-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020613.cM3DxNFk-lkp@intel.com/reproduce)
+On Thu, 1 May 2025 22:52:30 +0100 Matthew Wilcox <willy@infradead.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505020613.cM3DxNFk-lkp@intel.com/
+> On Thu, May 01, 2025 at 02:13:04PM -0700, Andrew Morton wrote:
+> > Should this new JFS migration code be wrapped in #ifdef CONFIG_MIGRATION?
+> 
+> Yes
 
-All errors (new ones prefixed by >>):
+OK, thanks, I'll try this.  Maybe there's a way to reduce the amount of
+ifdeffing.  Warning, contains bonus whitespace tuneups!
 
-   arm-linux-gnueabi-ld: fs/coredump.o: in function `do_coredump':
-   fs/coredump.c:851:(.text+0x1674): undefined reference to `__sys_socket_file'
->> arm-linux-gnueabi-ld: fs/coredump.c:870:(.text+0x1690): undefined reference to `__sys_connect_file'
->> arm-linux-gnueabi-ld: fs/coredump.c:875:(.text+0x16a0): undefined reference to `sock_from_file'
->> arm-linux-gnueabi-ld: fs/coredump.c:875:(.text+0x16a8): undefined reference to `__sys_shutdown_sock'
+--- a/fs/jfs/jfs_metapage.c~jfs-implement-migrate_folio-for-jfs_metapage_aops-fix-2
++++ a/fs/jfs/jfs_metapage.c
+@@ -152,8 +152,10 @@ static inline void dec_io(struct folio *
+ 		handler(folio, anchor->status);
+ }
+ 
+-static int __metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
+-				    struct folio *src, enum migrate_mode mode)
++#ifdef CONFIG_MIGRATION
++static int __metapage_migrate_folio(struct address_space *mapping,
++				    struct folio *dst, struct folio *src,
++				    enum migrate_mode mode)
+ {
+ 	struct meta_anchor *src_anchor = src->private;
+ 	struct metapage *mps[MPS_PER_PAGE] = {0};
+@@ -199,8 +201,10 @@ static int __metapage_migrate_folio(stru
+ 
+ 	return MIGRATEPAGE_SUCCESS;
+ }
++#endif	/* CONFIG_MIGRATION */
+ 
+ #else
++
+ static inline struct metapage *folio_to_mp(struct folio *folio, int offset)
+ {
+ 	return folio->private;
+@@ -224,8 +228,10 @@ static inline void remove_metapage(struc
+ #define inc_io(folio) do {} while(0)
+ #define dec_io(folio, status, handler) handler(folio, status)
+ 
+-static int __metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
+-				    struct folio *src, enum migrate_mode mode)
++#ifdef CONFIG_MIGRATION
++static int __metapage_migrate_folio(struct address_space *mapping,
++				    struct folio *dst, struct folio *src,
++				    enum migrate_mode mode)
+ {
+ 	struct metapage *mp;
+ 	int page_offset;
+@@ -249,6 +255,7 @@ static int __metapage_migrate_folio(stru
+ 
+ 	return MIGRATEPAGE_SUCCESS;
+ }
++#endif	/* CONFIG_MIGRATION */
+ 
+ #endif
+ 
+@@ -629,11 +636,13 @@ static bool metapage_release_folio(struc
+ 	return ret;
+ }
+ 
++#ifdef CONFIG_MIGRATION
+ /*
+  * metapage_migrate_folio - Migration function for JFS metapages
+  */
+-static int metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
+-				  struct folio *src, enum migrate_mode mode)
++static int metapage_migrate_folio(struct address_space *mapping,
++				  struct folio *dst, struct folio *src,
++				  enum migrate_mode mode)
+ {
+ 	int expected_count;
+ 
+@@ -646,6 +655,9 @@ static int metapage_migrate_folio(struct
+ 		return -EAGAIN;
+ 	return __metapage_migrate_folio(mapping, dst, src, mode);
+ }
++#else
++#define metapage_migrate_folio NULL
++#endif	/* CONFIG_MIGRATION */
+ 
+ static void metapage_invalidate_folio(struct folio *folio, size_t offset,
+ 				    size_t length)
+_
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
