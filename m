@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A3821B90B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 23:30:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A8B126BF1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 23:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746142214; cv=none; b=db/4qYRH4WVi5RUHwcg/oBDdiDOOirYWEWSXDWX4DSXfvdk+6Mf/meq3r364VgzSM/L1GTy0TsT1E6cKpJHvd75XWuHqfoVs2iRp1buAUHyILAuZqq7ZvB0YBQUOmcCWcnMCWTbAjeokPP51/sUSDAZT7tb4iLmOx4PmgTMlS/M=
+	t=1746142873; cv=none; b=jUmULzIpF7ww3BKA2VKnnvPQpsQGiI/7hNBja5WOKFW1VGJhUkGQjxx3421kAJ0Vv32XkA37KnNqU2Ua8pJThLXYAoU5UL/875lU2hJUDQV550nIUWzKv4bGD2L/flU8S5EJ7rr/6Qrdxsrc/afx1bOzXTuENaRNeQjMUR1/ndY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746142214; c=relaxed/simple;
-	bh=4UItjmcnotLkZjIuaDTV0eH10lNLs30kjJbvcIzANr4=;
+	s=arc-20240116; t=1746142873; c=relaxed/simple;
+	bh=ojRO9y9QhYghYsOqXoEszSdzwR5Xo9dXbyaQsSTCllo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YzFcOWXSakJ3fCyaq3SXvhmZ3NC1j6z3iPzm1zARAuwPAsoD3ZonekV5ulfWsKSQL2u7ABimjAst0c+tKd3BldjHgpeSm/oF/2xDRJ5QhFV9vXxulkqF1EKS0WuVXEtBZ3kfg7akiKcmAw9tk/pJ3ZuvaMayvImyrOuL5gOoKzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpQ3cZEu; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=TcghmuAhzcJQVgNui6fvMaahbSGunxwVMP0gKUla4lkgzIZE9tt+lmPaRqkpMez5/bt61/18tsH4RL9XhET3HI8pqI3tN3T/HE8g1uczoG2qMpLLQD+jUe6nmCvwsjEw2yU9g0PYvuMm00AikK3wfmrKnubCF1QSZ6eMjCXzeGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q07YB8dd; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpQ3cZEu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q07YB8dd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746142211; x=1777678211;
+  t=1746142872; x=1777678872;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4UItjmcnotLkZjIuaDTV0eH10lNLs30kjJbvcIzANr4=;
-  b=hpQ3cZEuyNwx8kExfP3+G6W3CXv/lHNQWo18x0T2HVgI/eAgymFDoQtj
-   CpnL3OKNEvYu8Rw2q1e0+SA3ERkfRONx9lsnarmvoaloPIErZbONxVHWL
-   ItszgKPxLbUcNMTMyABlfE4qVOWnOzdc9f5LbPNYsngN/KVY6/YBk49QE
-   +KI58DZcamc7aKk3wB34YUhX3Sbfvy054To/eI7dbWpGcnlG1RunuH3MG
-   R1gyZ5MLB0b3oKq/9n4QCKdzkuOlkUyIws/n4CCu3rwOpwvXnk9TRTQYE
-   eAdjp/Nk6D9gTuIbeWcJIoqhDywpERRWVDt5pmQIOrc54UB5PztW+OMQp
-   A==;
-X-CSE-ConnectionGUID: DOgxpJUVQpKdqfbOEDyWHQ==
-X-CSE-MsgGUID: vuxRLxovTxamqf4P5uD0lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="70329524"
+  bh=ojRO9y9QhYghYsOqXoEszSdzwR5Xo9dXbyaQsSTCllo=;
+  b=Q07YB8ddNYF/tnA0Y1pojz++eYL1x0MFvxCWHZWsNRb1bgdlVBYnlBL1
+   sC0RKNEZ8fzebm0egrhX2R+EYxC1NXrSZUlH/iypN7M9mWyFrvyvrWDWR
+   rzPoqI+y7a27ny4H36MvXhZu7kikl7wjTJKSnMCOazurRKRpynFKjaYjf
+   F7kCotmtJ+/PvwyVXAUlya06YUcb8/XBhI4+ZmyhPtJOBd8DwW1/PpJAl
+   Bo/RpB93O1dWFJAMWFoH+8RF2s/DPaqdtpzpZ9Iib+ShbWfWCTQPf8Rwv
+   qcgRIrIeF7wAJCh3gjFCjnOq+K4FI8k8AUpdnLWnTSKknRlWXtz+ZqyvB
+   Q==;
+X-CSE-ConnectionGUID: /lWpuEiwTrSRGNnGgKfxYA==
+X-CSE-MsgGUID: +DDf4vOlT/OL/B2V8FMLbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="70330469"
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="70329524"
+   d="scan'208";a="70330469"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 16:30:10 -0700
-X-CSE-ConnectionGUID: mLYdzqPzQUWbKjAfJuYv8A==
-X-CSE-MsgGUID: CRpYOWkHS7+yOQjzhIqZDg==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 16:41:11 -0700
+X-CSE-ConnectionGUID: TDxJCKq6SRaMbfQxDRcOoA==
+X-CSE-MsgGUID: w0nLMgxEQbCtFj4B9/7ihQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="135034353"
+   d="scan'208";a="135035340"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 May 2025 16:30:08 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 01 May 2025 16:41:09 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAdLy-0004RD-2t;
-	Thu, 01 May 2025 23:30:06 +0000
-Date: Fri, 2 May 2025 07:29:25 +0800
+	id 1uAdWd-0004RZ-2M;
+	Thu, 01 May 2025 23:41:07 +0000
+Date: Fri, 2 May 2025 07:40:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Jian <liujian56@huawei.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2882/2882]
- drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:2327:6: sparse: sparse:
- symbol 'mcp251xfd_tx_obj_write_sync' was not declared. Should it be static?
-Message-ID: <202505020705.McaLXQv7-lkp@intel.com>
+Subject: [robh:for-kernelci 13/21]
+ drivers/net/ethernet/airoha/airoha_npu.c:430:72: error: expected ';' before
+ 'if'
+Message-ID: <202505020739.XjlXU7uG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,37 +63,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   46abe407b020831448331eea487e07c883e95836
-commit: b4eaf3e808dc2abcab55bc72df3b0d15961f33f0 [2882/2882] can: mcp251xfd: fix infinite loop when xmit fails
-config: x86_64-randconfig-123-20250502 (https://download.01.org/0day-ci/archive/20250502/202505020705.McaLXQv7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020705.McaLXQv7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   3474fc53f28d0824c7020ddffc8559e8302f7415
+commit: 187439642c68be0ad8084f0156064c4fa443225c [13/21] net: Use of_reserved_mem_region_to_resource{_byname}() for "memory-region"
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250502/202505020739.XjlXU7uG-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020739.XjlXU7uG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505020705.McaLXQv7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505020739.XjlXU7uG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:2327:6: sparse: sparse: symbol 'mcp251xfd_tx_obj_write_sync' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/mcp251xfd_tx_obj_write_sync +2327 drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c
+   drivers/net/ethernet/airoha/airoha_npu.c: In function 'airoha_npu_probe':
+>> drivers/net/ethernet/airoha/airoha_npu.c:430:72: error: expected ';' before 'if'
+     430 |         err = of_reserved_mem_region_to_resource(dev->of_node, 0, &res)
+         |                                                                        ^
+         |                                                                        ;
+     431 |         if (err)
+         |         ~~                                                              
+>> drivers/net/ethernet/airoha/airoha_npu.c:465:50: error: 'rmem' undeclared (first use in this function)
+     465 |         err = airoha_npu_run_firmware(dev, base, rmem);
+         |                                                  ^~~~
+   drivers/net/ethernet/airoha/airoha_npu.c:465:50: note: each undeclared identifier is reported only once for each function it appears in
 
-  2326	
-> 2327	void mcp251xfd_tx_obj_write_sync(struct work_struct *work)
-  2328	{
-  2329		struct mcp251xfd_priv *priv = container_of(work, struct mcp251xfd_priv,
-  2330				tx_work);
-  2331		struct mcp251xfd_tx_obj *tx_obj = priv->tx_work_obj;
-  2332		struct mcp251xfd_tx_ring *tx_ring = priv->tx;
-  2333		int err;
-  2334	
-  2335		err = spi_sync(priv->spi, &tx_obj->msg);
-  2336		if (err)
-  2337			mcp251xfd_tx_failure_drop(priv, tx_ring, err);
-  2338	}
-  2339	
+
+vim +430 drivers/net/ethernet/airoha/airoha_npu.c
+
+   403	
+   404	static int airoha_npu_probe(struct platform_device *pdev)
+   405	{
+   406		struct device *dev = &pdev->dev;
+   407		struct airoha_npu *npu;
+   408		struct resource res;
+   409		void __iomem *base;
+   410		int i, irq, err;
+   411	
+   412		base = devm_platform_ioremap_resource(pdev, 0);
+   413		if (IS_ERR(base))
+   414			return PTR_ERR(base);
+   415	
+   416		npu = devm_kzalloc(dev, sizeof(*npu), GFP_KERNEL);
+   417		if (!npu)
+   418			return -ENOMEM;
+   419	
+   420		npu->dev = dev;
+   421		npu->ops.ppe_init = airoha_npu_ppe_init;
+   422		npu->ops.ppe_deinit = airoha_npu_ppe_deinit;
+   423		npu->ops.ppe_flush_sram_entries = airoha_npu_ppe_flush_sram_entries;
+   424		npu->ops.ppe_foe_commit_entry = airoha_npu_foe_commit_entry;
+   425	
+   426		npu->regmap = devm_regmap_init_mmio(dev, base, &regmap_config);
+   427		if (IS_ERR(npu->regmap))
+   428			return PTR_ERR(npu->regmap);
+   429	
+ > 430		err = of_reserved_mem_region_to_resource(dev->of_node, 0, &res)
+   431		if (err)
+   432			return err;
+   433	
+   434		irq = platform_get_irq(pdev, 0);
+   435		if (irq < 0)
+   436			return irq;
+   437	
+   438		err = devm_request_irq(dev, irq, airoha_npu_mbox_handler,
+   439				       IRQF_SHARED, "airoha-npu-mbox", npu);
+   440		if (err)
+   441			return err;
+   442	
+   443		for (i = 0; i < ARRAY_SIZE(npu->cores); i++) {
+   444			struct airoha_npu_core *core = &npu->cores[i];
+   445	
+   446			spin_lock_init(&core->lock);
+   447			core->npu = npu;
+   448	
+   449			irq = platform_get_irq(pdev, i + 1);
+   450			if (irq < 0)
+   451				return irq;
+   452	
+   453			err = devm_request_irq(dev, irq, airoha_npu_wdt_handler,
+   454					       IRQF_SHARED, "airoha-npu-wdt", core);
+   455			if (err)
+   456				return err;
+   457	
+   458			INIT_WORK(&core->wdt_work, airoha_npu_wdt_work);
+   459		}
+   460	
+   461		err = dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
+   462		if (err)
+   463			return err;
+   464	
+ > 465		err = airoha_npu_run_firmware(dev, base, rmem);
+   466		if (err)
+   467			return dev_err_probe(dev, err, "failed to run npu firmware\n");
+   468	
+   469		regmap_write(npu->regmap, REG_CR_NPU_MIB(10),
+   470			     res.start + NPU_EN7581_FIRMWARE_RV32_MAX_SIZE);
+   471		regmap_write(npu->regmap, REG_CR_NPU_MIB(11), 0x40000); /* SRAM 256K */
+   472		regmap_write(npu->regmap, REG_CR_NPU_MIB(12), 0);
+   473		regmap_write(npu->regmap, REG_CR_NPU_MIB(21), 1);
+   474		msleep(100);
+   475	
+   476		/* setting booting address */
+   477		for (i = 0; i < NPU_NUM_CORES; i++)
+   478			regmap_write(npu->regmap, REG_CR_BOOT_BASE(i), res.start);
+   479		usleep_range(1000, 2000);
+   480	
+   481		/* enable NPU cores */
+   482		/* do not start core3 since it is used for WiFi offloading */
+   483		regmap_write(npu->regmap, REG_CR_BOOT_CONFIG, 0xf7);
+   484		regmap_write(npu->regmap, REG_CR_BOOT_TRIGGER, 0x1);
+   485		msleep(100);
+   486	
+   487		platform_set_drvdata(pdev, npu);
+   488	
+   489		return 0;
+   490	}
+   491	
 
 -- 
 0-DAY CI Kernel Test Service
