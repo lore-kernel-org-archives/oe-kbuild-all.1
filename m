@@ -1,69 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594831946DF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 00:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFD219F421;
+	Thu,  1 May 2025 00:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746059414; cv=none; b=d6FTBTR3BMXAQjKG3bE+vJlxVIeAUiL/aLPI7cUTSGMt8X3ilpu/Mb31l0897VjDplYaK4zFeKUaVxZPq8kU9SvxD/9pNNB13OHDwkKTiMl6FXQOsBlDQCcxEt68Px08b2qH7EYTMwgMQML/hfwnRg739bmot6fop/CzbwTGKpY=
+	t=1746060765; cv=none; b=VLarwB9w/vj3Pb1B9NoJlAQYfK4Q8wiDDH3ZZs1mgjj92bBtMcn5oIslREU6B5C3ae3Kk0wB27KyTF93hKzad5EM4sES4TLgMIA/19dGN+w7uKVFTIwmY9QOYbxfj/GGLyTw+XEZ+1WxxJ8BAFLPNpdkjwdrymuj3Mb2yKKVFKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746059414; c=relaxed/simple;
-	bh=WqFeAZ/jYBbcn4Lyqysne4MrG0+jMo0kzk9jQZ/ULpw=;
+	s=arc-20240116; t=1746060765; c=relaxed/simple;
+	bh=LDZGBQNcsIA064rbXGgXPhU7sqWZ/3CVEUVEmDe0AWY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eam57Shw9bJXJBK3JzPte60V7VtOQoS7pXIoMQw08GkBnVdYbFKo5XxyXdc7xUAidg82kHuzRqIQ0CeJECHQyaYkez33GSHHf2M1kZEsa/6E1ko5awcYZynkrXhT8Nz2ErYNyvO+sKdcHledeCNKHQDg1TJsk5NREcMxytGO9JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1xWOIcD; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=QuAz5k+o1/vNgNYwYhfWfxQXWgxWKlGXI8YaLtbq8JxSp3blSHfND0rHLj+5EkgWjnosHMiaXMWGHNSEKhCMmNGwZhElliEdzxHQlv/PWJPaIknJs747/y8GO+Di3OJuQN6x2wGLABbQ3cxu6wVQ1k6JkGxU1sCC9Q2OXLA7jig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWOzK+4+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1xWOIcD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWOzK+4+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746059412; x=1777595412;
+  t=1746060763; x=1777596763;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WqFeAZ/jYBbcn4Lyqysne4MrG0+jMo0kzk9jQZ/ULpw=;
-  b=C1xWOIcDd8Gj/hqiIrFCbvOkfvKUr4nN1Gi2ywuoJAqVv9g+dM9YV8J2
-   ZWKGaLvfVfR+nIWFjOfwQgA2v5E4+BOs6ZcuCpXDFsRw4lfzDAz5LN8mk
-   HO/C89tVEdHzfHT36+nkC1fvyMfBq4r3kgJUtuI9QoFWgXjOzSd8YlQIb
-   cDyvUX4qNKKmWvPLpVc/SgLBWU5Y5jiNszrQyRClY+sG1v7k3IcCK705s
-   O0EVOczRHNa2dL6nhSL0IsgdgHSsHFo00Q+0+N/yfXKPRIxkAMi4RIkd+
-   iauqfxyWJwyxWH5zv+vN/jFNtoPYiv3jZU3509ACnxDWBkBcCRWcXtmTO
-   w==;
-X-CSE-ConnectionGUID: JebU75QXQwKac9W4We1LZA==
-X-CSE-MsgGUID: zGG2g1drRAqykv2xQkiWuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="51559248"
+  bh=LDZGBQNcsIA064rbXGgXPhU7sqWZ/3CVEUVEmDe0AWY=;
+  b=NWOzK+4+0EV0TywmcqeK54rO4ZABA54AGBnQZiFiE5BxSywUkrczciYh
+   K/J06zm0ei6oBFaKWny4J5Jd3nUTEKhKzq4kbWsZyeXVUhgUgNciU+D+L
+   ouIgPym9uXsbk0MtBb35tOFJm/kmYDtW0Rnl6167CvmyYHWGCXB4VI80R
+   3WNm4kGZAAweN0tm4x4P4atygPG7QG7fctQQHlg8t7haEjnwKpJKKhCV9
+   ZDt0wfQzr5NxFpTj1m7jKQN85MYWtjyaGS6n7VbPZ3QpPpg9CjZwQyokG
+   ygrqDvJYN4FqYL94Od6uQ4odoiunRO+fOA04eRpQxm6STscb41XDoxhAL
+   g==;
+X-CSE-ConnectionGUID: McV6WHY9QHGmkdJu5lcMUA==
+X-CSE-MsgGUID: /9NmihVBSSKj5UytGfV2Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="59102540"
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="51559248"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 17:29:42 -0700
-X-CSE-ConnectionGUID: T+7mU4vKThmDgukaOnd1JA==
-X-CSE-MsgGUID: UtUhkO6FTu2QiMm8H67ZfA==
+   d="scan'208";a="59102540"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 17:52:42 -0700
+X-CSE-ConnectionGUID: CZ7wJ0HsTry5iIOxqydNWQ==
+X-CSE-MsgGUID: FivrNy4gQVOiBEzlJsy6KQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="134168109"
+   d="scan'208";a="165336468"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Apr 2025 17:29:37 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Apr 2025 17:52:39 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAHny-0003rV-2f;
-	Thu, 01 May 2025 00:29:34 +0000
-Date: Thu, 1 May 2025 08:29:15 +0800
+	id 1uAIAH-0003s5-0L;
+	Thu, 01 May 2025 00:52:37 +0000
+Date: Thu, 1 May 2025 08:51:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	hannes@cmpxchg.org, yosry.ahmed@linux.dev, nphamcs@gmail.com,
-	chengming.zhou@linux.dev, usamaarif642@gmail.com,
-	ryan.roberts@arm.com, 21cnbao@gmail.com,
-	ying.huang@linux.alibaba.com, akpm@linux-foundation.org,
-	linux-crypto@vger.kernel.org, herbert@gondor.apana.org.au,
-	davem@davemloft.net, clabbe@baylibre.com, ardb@kernel.org,
-	ebiggers@google.com, surenb@google.com, kristen.c.accardi@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, wajdi.k.feghali@intel.com,
-	vinodh.gopal@intel.com, kanchana.p.sridhar@intel.com
-Subject: Re: [PATCH v9 02/19] crypto: acomp - Reinstate non-chained
- crypto_acomp_[de]compress().
-Message-ID: <202505010736.dy4ElGuu-lkp@intel.com>
-References: <20250430205305.22844-3-kanchana.p.sridhar@intel.com>
+To: Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Daniel Axtens <dja@axtens.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-s390@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] kasan: Avoid sleepable page allocation from
+ atomic context
+Message-ID: <202505010807.0tj4Krnz-lkp@intel.com>
+References: <573a823565734e1eac3aa128fb9d3506ec918a72.1745940843.git.agordeev@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,50 +69,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250430205305.22844-3-kanchana.p.sridhar@intel.com>
+In-Reply-To: <573a823565734e1eac3aa128fb9d3506ec918a72.1745940843.git.agordeev@linux.ibm.com>
 
-Hi Kanchana,
+Hi Alexander,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 2c01d9f3c61101355afde90dc5c0b39d9a772ef3]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.15-rc4 next-20250430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/crypto-acomp-Remove-request-chaining/20250501-045602
-base:   2c01d9f3c61101355afde90dc5c0b39d9a772ef3
-patch link:    https://lore.kernel.org/r/20250430205305.22844-3-kanchana.p.sridhar%40intel.com
-patch subject: [PATCH v9 02/19] crypto: acomp - Reinstate non-chained crypto_acomp_[de]compress().
-config: arc-randconfig-001-20250501 (https://download.01.org/0day-ci/archive/20250501/202505010736.dy4ElGuu-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505010736.dy4ElGuu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Gordeev/kasan-Avoid-sleepable-page-allocation-from-atomic-context/20250430-001020
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/573a823565734e1eac3aa128fb9d3506ec918a72.1745940843.git.agordeev%40linux.ibm.com
+patch subject: [PATCH v3 1/1] kasan: Avoid sleepable page allocation from atomic context
+config: x86_64-buildonly-randconfig-001-20250501 (https://download.01.org/0day-ci/archive/20250501/202505010807.0tj4Krnz-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505010807.0tj4Krnz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505010736.dy4ElGuu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505010807.0tj4Krnz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> crypto/acompress.c:298:12: warning: 'acomp_do_req_chain' defined but not used [-Wunused-function]
-     298 | static int acomp_do_req_chain(struct acomp_req *req, bool comp)
-         |            ^~~~~~~~~~~~~~~~~~
+>> mm/kasan/shadow.c:313:11: error: call to undeclared function 'pfn_to_virt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     313 |         __memset(pfn_to_virt(pfn), KASAN_VMALLOC_INVALID, PAGE_SIZE);
+         |                  ^
+   mm/kasan/shadow.c:313:11: note: did you mean 'fix_to_virt'?
+   include/asm-generic/fixmap.h:30:38: note: 'fix_to_virt' declared here
+      30 | static __always_inline unsigned long fix_to_virt(const unsigned int idx)
+         |                                      ^
+>> mm/kasan/shadow.c:313:11: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'void *' [-Wint-conversion]
+     313 |         __memset(pfn_to_virt(pfn), KASAN_VMALLOC_INVALID, PAGE_SIZE);
+         |                  ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/string_64.h:23:22: note: passing argument to parameter 's' here
+      23 | void *__memset(void *s, int c, size_t n);
+         |                      ^
+   2 errors generated.
 
 
-vim +/acomp_do_req_chain +298 crypto/acompress.c
+vim +/pfn_to_virt +313 mm/kasan/shadow.c
 
-b67a026003725a5 Herbert Xu         2025-03-09  297  
-1a66016d1faca1e Kanchana P Sridhar 2025-04-30 @298  static int acomp_do_req_chain(struct acomp_req *req, bool comp)
-b67a026003725a5 Herbert Xu         2025-03-09  299  {
-b67a026003725a5 Herbert Xu         2025-03-09  300  	int err;
-b67a026003725a5 Herbert Xu         2025-03-09  301  
-b67a026003725a5 Herbert Xu         2025-03-09  302  	acomp_save_req(req, acomp_reqchain_done);
-b67a026003725a5 Herbert Xu         2025-03-09  303  
-1a66016d1faca1e Kanchana P Sridhar 2025-04-30  304  	err = acomp_do_one_req(req, comp);
-b67a026003725a5 Herbert Xu         2025-03-09  305  	if (err == -EBUSY || err == -EINPROGRESS)
-1a66016d1faca1e Kanchana P Sridhar 2025-04-30  306  		return err;
-b67a026003725a5 Herbert Xu         2025-03-09  307  
-1a66016d1faca1e Kanchana P Sridhar 2025-04-30  308  	return acomp_reqchain_finish(req, err);
-b67a026003725a5 Herbert Xu         2025-03-09  309  }
-b67a026003725a5 Herbert Xu         2025-03-09  310  
+   299	
+   300	static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+   301					      void *_data)
+   302	{
+   303		struct vmalloc_populate_data *data = _data;
+   304		struct page *page;
+   305		unsigned long pfn;
+   306		pte_t pte;
+   307	
+   308		if (likely(!pte_none(ptep_get(ptep))))
+   309			return 0;
+   310	
+   311		page = data->pages[PFN_DOWN(addr - data->start)];
+   312		pfn = page_to_pfn(page);
+ > 313		__memset(pfn_to_virt(pfn), KASAN_VMALLOC_INVALID, PAGE_SIZE);
+   314		pte = pfn_pte(pfn, PAGE_KERNEL);
+   315	
+   316		spin_lock(&init_mm.page_table_lock);
+   317		if (likely(pte_none(ptep_get(ptep))))
+   318			set_pte_at(&init_mm, addr, ptep, pte);
+   319		spin_unlock(&init_mm.page_table_lock);
+   320	
+   321		return 0;
+   322	}
+   323	
 
 -- 
 0-DAY CI Kernel Test Service
