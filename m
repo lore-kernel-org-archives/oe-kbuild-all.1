@@ -1,296 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2323213E6D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 21:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBD41DD0EF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 21:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746135240; cv=none; b=YtVeuIVtoE8RkfemephhZjQjaHliTrZdV7GKP4p0TyHCGP9gSEFuIaHYyZYAJd3Vvt8HyKB7KqAKvqNL27R1viaJLAZZfjGLphAntI25sBGgEhaKxKeeKvJ5+1PjextdrcmexlNgSIIkpkr9i/cpgJ9LAkXRA+6Oypjf1r7Gy1k=
+	t=1746135898; cv=none; b=d6K2J2a+n6WJYtLc0okMa79qDBZFjWcQ3KXyLRaAG6X7mVgR2qr/iPK0T+09lE2CKlQcLoFPDNbGqT8lyQti/VKanus0Svnphg42jrpdKBJEd5anxsvHkoY2aaMjBTQQmujCUbrSgRe3jEwPzJH3c6OxPXDmnST8Rh/gORqgXTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746135240; c=relaxed/simple;
-	bh=MJ41/j8bpvaKo0HV0EhEkS4sZ3w9r/QdKBwub0mVVWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJMfOZh3aR0Hs1gXQx0I+9lozCqx7eNyaXGOs++mmEpGupLDXbWRK61Jya7U9kx2Pr7bJnlQZ9BTfBoQDYQ6YnkJ1b3LIyiIQqYvpbDkQibL18oe9zx09HXUZWN9cuoaMCxsG7V1O/G9/HCqbYFRS+yXr45WFxPH5/+QNSAZ1Go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5ly+rZ0; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1746135898; c=relaxed/simple;
+	bh=yGjshj8wxW0jivMiKqB0gosdGnwo02IqG2xpbGt+hrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MEj+hrceo/2XtNqzMcM1GRHvNrPcG4ZhRDvcLajrTrrFoZHcZ6aVMRz0RG66VAdb0vNc5vIb+m7PkY5pXIRPVrMxkv6MdaKUhqps6z6aOabZ5x8teIR/RQqNUNBJ+fV8GxPgc1ZLd6KBhtAtETAYpZunWVya3ibXOKNx+eL2bt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IPuEJX8F; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5ly+rZ0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPuEJX8F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746135238; x=1777671238;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=MJ41/j8bpvaKo0HV0EhEkS4sZ3w9r/QdKBwub0mVVWk=;
-  b=B5ly+rZ0YTyngXW1M/ysLpmMuGqX3NaDMozyrafNqDQrxb+hyurAfR+m
-   IWRApiCOS0l/pJ/jVnuPl7jTg+Oqb12oyGqGwe8tolka8St/of9B0l6TQ
-   /eNJlxInujdLc9YIiVHZ8hKyMJ5TCZU4/AfiAzTb00+5cXi1tP6NVHLZt
-   rqpTASuxP+QnC6wo8h2jh4O4FbrVJ8NXE/0ZwCqvGsRZxXjbcrzGKDoC2
-   QjgUqTIeX6kiNYp/3S2W4POD8TalADtVg3IkVc1MEJ585h+fTFCM9eQEs
-   NgGE03Km6CBzLf6mfzVdL2SXJF0vbS95X6Wdo+R2UEXSvZAewI9c6Cpi4
-   A==;
-X-CSE-ConnectionGUID: Qraa0IZwT5itOBhZZRJtGg==
-X-CSE-MsgGUID: sma8fEhVRUaWll7jVgijPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47829709"
+  t=1746135896; x=1777671896;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yGjshj8wxW0jivMiKqB0gosdGnwo02IqG2xpbGt+hrs=;
+  b=IPuEJX8Fte7QD5f12PO7v12Uc6TJ4Xc2mjHoMWC5RsX5FBJAMhc2H7wu
+   Y5HfrS6vcZ/iHD6kye3DbkR8F2Mep9zn5NJDtzKwTNMF0ZCZ6XBQzby4i
+   +ixZRLQqNakocowAcpCnqRrgIvrxto5C2KwyCEh6U++txsC3W4DMaRsrj
+   PADNoWhMoum4oEAz13V9ZYvjQBqx7Cj60aKbYxC8zGVFEe+6FrrzR+Oys
+   lxOJutgXdpeqCxztX2ilFYnDi6DM16qvwndTwiNlQ89sORJ+JshA933YR
+   bj6tNdpTC5xKAMj8bzNElADDwedxKYAoJKmSePs25mSWVvDj3kni9Hmz0
+   Q==;
+X-CSE-ConnectionGUID: QDiJHugjS2OcLvQgrK4M5g==
+X-CSE-MsgGUID: RkivWg8qSjWx1Kd8yywk8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47701589"
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="47829709"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 14:33:57 -0700
-X-CSE-ConnectionGUID: F8wQRuLNTAWrT0Ov51Y8Eg==
-X-CSE-MsgGUID: /qhBleJETD2qEdsgvLYhCQ==
+   d="scan'208";a="47701589"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 14:44:55 -0700
+X-CSE-ConnectionGUID: nwMQFfcgSAKbFKDHCojJSA==
+X-CSE-MsgGUID: Zx0zoC+xRjaQSUEOOWnhGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="135462245"
+   d="scan'208";a="139631294"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 May 2025 14:33:52 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 01 May 2025 14:44:54 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAbXS-0004Oz-1u;
-	Thu, 01 May 2025 21:33:50 +0000
-Date: Fri, 2 May 2025 05:33:14 +0800
+	id 1uAbi7-0004PJ-26;
+	Thu, 01 May 2025 21:44:51 +0000
+Date: Fri, 2 May 2025 05:44:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: oushixiong1025@163.com, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
-	Shixiong Ou <oushixiong@kylinos.cn>
-Subject: Re: [PATCH 1/3] dma-buf: add flags to skip map_dma_buf() for some
- drivers
-Message-ID: <202505020434.7EfUIAjh-lkp@intel.com>
-References: <20250430085658.540746-1-oushixiong1025@163.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Sam Protsenko <semen.protsenko@linaro.org>
+Subject: drivers/tty/serial/samsung_tty.c:1391:48: warning: '%d' directive
+ writing between 1 and 3 bytes into a region of size 2
+Message-ID: <202505020532.1swRDgpF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250430085658.540746-1-oushixiong1025@163.com>
 
-Hi,
+Hi Tudor,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus usb/usb-testing usb/usb-next usb/usb-linus xen-tip/linux-next linus/master v6.15-rc4]
-[cannot apply to tegra/for-next drm-xe/drm-xe-next rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes next-20250430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/drm-prime-Support-importing-DMA-BUF-without-sg_table/20250430-170136
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250430085658.540746-1-oushixiong1025%40163.com
-patch subject: [PATCH 1/3] dma-buf: add flags to skip map_dma_buf() for some drivers
-config: arc-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250502/202505020434.7EfUIAjh-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020434.7EfUIAjh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ebd297a2affadb6f6f4d2e5d975c1eda18ac762d
+commit: 6e1e48b6ef2613ff4c28a34f7a57c29a4367ad87 tty: serial: samsung: shrink the clock selection to 8 clocks
+date:   1 year, 3 months ago
+config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250502/202505020532.1swRDgpF-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020532.1swRDgpF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505020434.7EfUIAjh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505020532.1swRDgpF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/dma-buf/dma-buf.c:908: warning: Function parameter or struct member 'skip_map' not described in 'dma_buf_dynamic_attach'
->> drivers/dma-buf/dma-buf.c:996: warning: Function parameter or struct member 'skip_map' not described in 'dma_buf_attach'
+   drivers/tty/serial/samsung_tty.c: In function 's3c24xx_serial_set_termios':
+>> drivers/tty/serial/samsung_tty.c:1391:48: warning: '%d' directive writing between 1 and 3 bytes into a region of size 2 [-Wformat-overflow=]
+    1391 |                 sprintf(clkname, "clk_uart_baud%d", cnt);
+         |                                                ^~
+   In function 's3c24xx_serial_getclk',
+       inlined from 's3c24xx_serial_set_termios' at drivers/tty/serial/samsung_tty.c:1492:9:
+   drivers/tty/serial/samsung_tty.c:1391:34: note: directive argument in the range [0, 254]
+    1391 |                 sprintf(clkname, "clk_uart_baud%d", cnt);
+         |                                  ^~~~~~~~~~~~~~~~~
+   drivers/tty/serial/samsung_tty.c:1391:17: note: 'sprintf' output between 15 and 17 bytes into a destination of size 15
+    1391 |                 sprintf(clkname, "clk_uart_baud%d", cnt);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/samsung_tty.c: In function 's3c24xx_serial_init_port':
+   drivers/tty/serial/samsung_tty.c:1789:49: warning: '%d' directive writing between 1 and 3 bytes into a region of size 2 [-Wformat-overflow=]
+    1789 |                 sprintf(clk_name, "clk_uart_baud%d", clk_num);
+         |                                                 ^~
+   In function 's3c24xx_serial_enable_baudclk',
+       inlined from 's3c24xx_serial_init_port' at drivers/tty/serial/samsung_tty.c:1895:8:
+   drivers/tty/serial/samsung_tty.c:1789:35: note: directive argument in the range [0, 254]
+    1789 |                 sprintf(clk_name, "clk_uart_baud%d", clk_num);
+         |                                   ^~~~~~~~~~~~~~~~~
+   drivers/tty/serial/samsung_tty.c:1789:17: note: 'sprintf' output between 15 and 17 bytes into a destination of size 15
+    1789 |                 sprintf(clk_name, "clk_uart_baud%d", clk_num);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +908 drivers/dma-buf/dma-buf.c
+vim +1391 drivers/tty/serial/samsung_tty.c
 
-84335675f2223c drivers/dma-buf/dma-buf.c Simona Vetter    2021-01-15   817  
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   818  /**
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   819   * DOC: locking convention
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   820   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   821   * In order to avoid deadlock situations between dma-buf exports and importers,
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   822   * all dma-buf API users must follow the common dma-buf locking convention.
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   823   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   824   * Convention for importers
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   825   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   826   * 1. Importers must hold the dma-buf reservation lock when calling these
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   827   *    functions:
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   828   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   829   *     - dma_buf_pin()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   830   *     - dma_buf_unpin()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   831   *     - dma_buf_map_attachment()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   832   *     - dma_buf_unmap_attachment()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   833   *     - dma_buf_vmap()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   834   *     - dma_buf_vunmap()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   835   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   836   * 2. Importers must not hold the dma-buf reservation lock when calling these
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   837   *    functions:
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   838   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   839   *     - dma_buf_attach()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   840   *     - dma_buf_dynamic_attach()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   841   *     - dma_buf_detach()
-e3ecbd21776f1f drivers/dma-buf/dma-buf.c Maíra Canal      2023-02-23   842   *     - dma_buf_export()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   843   *     - dma_buf_fd()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   844   *     - dma_buf_get()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   845   *     - dma_buf_put()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   846   *     - dma_buf_mmap()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   847   *     - dma_buf_begin_cpu_access()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   848   *     - dma_buf_end_cpu_access()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   849   *     - dma_buf_map_attachment_unlocked()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   850   *     - dma_buf_unmap_attachment_unlocked()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   851   *     - dma_buf_vmap_unlocked()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   852   *     - dma_buf_vunmap_unlocked()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   853   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   854   * Convention for exporters
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   855   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   856   * 1. These &dma_buf_ops callbacks are invoked with unlocked dma-buf
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   857   *    reservation and exporter can take the lock:
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   858   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   859   *     - &dma_buf_ops.attach()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   860   *     - &dma_buf_ops.detach()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   861   *     - &dma_buf_ops.release()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   862   *     - &dma_buf_ops.begin_cpu_access()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   863   *     - &dma_buf_ops.end_cpu_access()
-8021fa16b7ec0a drivers/dma-buf/dma-buf.c Dmitry Osipenko  2023-05-30   864   *     - &dma_buf_ops.mmap()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   865   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   866   * 2. These &dma_buf_ops callbacks are invoked with locked dma-buf
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   867   *    reservation and exporter can't take the lock:
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   868   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   869   *     - &dma_buf_ops.pin()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   870   *     - &dma_buf_ops.unpin()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   871   *     - &dma_buf_ops.map_dma_buf()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   872   *     - &dma_buf_ops.unmap_dma_buf()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   873   *     - &dma_buf_ops.vmap()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   874   *     - &dma_buf_ops.vunmap()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   875   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   876   * 3. Exporters must hold the dma-buf reservation lock when calling these
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   877   *    functions:
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   878   *
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   879   *     - dma_buf_move_notify()
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   880   */
-ae2e7f28a170c0 drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   881  
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   882  /**
-85804b70cca68d drivers/dma-buf/dma-buf.c Simona Vetter    2020-12-11   883   * dma_buf_dynamic_attach - Add the device to dma_buf's attachments list
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   884   * @dmabuf:		[in]	buffer to attach device to.
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   885   * @dev:		[in]	device to be attached.
-6f49c2515e2258 drivers/dma-buf/dma-buf.c Randy Dunlap     2020-04-07   886   * @importer_ops:	[in]	importer operations for the attachment
-6f49c2515e2258 drivers/dma-buf/dma-buf.c Randy Dunlap     2020-04-07   887   * @importer_priv:	[in]	importer private pointer for the attachment
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   888   *
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   889   * Returns struct dma_buf_attachment pointer for this attachment. Attachments
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   890   * must be cleaned up by calling dma_buf_detach().
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   891   *
-85804b70cca68d drivers/dma-buf/dma-buf.c Simona Vetter    2020-12-11   892   * Optionally this calls &dma_buf_ops.attach to allow device-specific attach
-85804b70cca68d drivers/dma-buf/dma-buf.c Simona Vetter    2020-12-11   893   * functionality.
-85804b70cca68d drivers/dma-buf/dma-buf.c Simona Vetter    2020-12-11   894   *
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   895   * Returns:
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   896   *
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   897   * A pointer to newly created &dma_buf_attachment on success, or a negative
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   898   * error code wrapped into a pointer on failure.
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   899   *
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   900   * Note that this can fail if the backing storage of @dmabuf is in a place not
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   901   * accessible to @dev, and cannot be moved to a more suitable place. This is
-2904a8c1311f02 drivers/dma-buf/dma-buf.c Simona Vetter    2016-12-09   902   * indicated with the error code -EBUSY.
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   903   */
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   904  struct dma_buf_attachment *
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   905  dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   906  		       const struct dma_buf_attach_ops *importer_ops,
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   907  		       void *importer_priv, bool skip_map)
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  @908  {
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   909  	struct dma_buf_attachment *attach;
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   910  	int ret;
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   911  
-d1aa06a1eaf5f7 drivers/base/dma-buf.c    Laurent Pinchart 2012-01-26   912  	if (WARN_ON(!dmabuf || !dev))
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   913  		return ERR_PTR(-EINVAL);
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   914  
-4981cdb063e3e9 drivers/dma-buf/dma-buf.c Christian König  2020-02-19   915  	if (WARN_ON(importer_ops && !importer_ops->move_notify))
-4981cdb063e3e9 drivers/dma-buf/dma-buf.c Christian König  2020-02-19   916  		return ERR_PTR(-EINVAL);
-4981cdb063e3e9 drivers/dma-buf/dma-buf.c Christian König  2020-02-19   917  
-db7942b6292306 drivers/dma-buf/dma-buf.c Markus Elfring   2017-05-08   918  	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
-34d84ec4881d13 drivers/dma-buf/dma-buf.c Markus Elfring   2017-05-08   919  	if (!attach)
-a9fbc3b73127ef drivers/base/dma-buf.c    Laurent Pinchart 2012-01-26   920  		return ERR_PTR(-ENOMEM);
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   921  
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   922  	attach->dev = dev;
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   923  	attach->dmabuf = dmabuf;
-09606b5446c25b drivers/dma-buf/dma-buf.c Christian König  2018-03-22   924  	if (importer_ops)
-09606b5446c25b drivers/dma-buf/dma-buf.c Christian König  2018-03-22   925  		attach->peer2peer = importer_ops->allow_peer2peer;
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   926  	attach->importer_ops = importer_ops;
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   927  	attach->importer_priv = importer_priv;
-2ed9201bdd9a8e drivers/base/dma-buf.c    Laurent Pinchart 2012-01-26   928  
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   929  	if (dmabuf->ops->attach) {
-a19741e5e5a9f1 drivers/dma-buf/dma-buf.c Christian König  2018-05-28   930  		ret = dmabuf->ops->attach(dmabuf, attach);
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   931  		if (ret)
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   932  			goto err_attach;
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   933  	}
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   934  	dma_resv_lock(dmabuf->resv, NULL);
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   935  	list_add(&attach->node, &dmabuf->attachments);
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   936  	dma_resv_unlock(dmabuf->resv);
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   937  
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   938  	/* When either the importer or the exporter can't handle dynamic
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   939  	 * mappings we cache the mapping here to avoid issues with the
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   940  	 * reservation object lock.
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   941  	 */
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   942  	if (dma_buf_attachment_is_dynamic(attach) !=
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   943  	    dma_buf_is_dynamic(dmabuf)) {
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   944  		dma_resv_lock(attach->dmabuf->resv, NULL);
-809d9c72c2f83e drivers/dma-buf/dma-buf.c Dmitry Osipenko  2022-10-17   945  		if (dma_buf_is_dynamic(attach->dmabuf)) {
-7e008b02557cce drivers/dma-buf/dma-buf.c Christian König  2021-05-17   946  			ret = dmabuf->ops->pin(attach);
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   947  			if (ret)
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   948  				goto err_unlock;
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   949  		}
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   950  
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   951  		if (!skip_map) {
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   952  			struct sg_table *sgt;
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   953  
-84335675f2223c drivers/dma-buf/dma-buf.c Simona Vetter    2021-01-15   954  			sgt = __map_dma_buf(attach, DMA_BIDIRECTIONAL);
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   955  			if (!sgt)
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   956  				sgt = ERR_PTR(-ENOMEM);
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   957  			if (IS_ERR(sgt)) {
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   958  				ret = PTR_ERR(sgt);
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   959  				goto err_unpin;
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   960  			}
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   961  			attach->sgt = sgt;
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   962  			attach->dir = DMA_BIDIRECTIONAL;
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   963  		}
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   964  		dma_resv_unlock(attach->dmabuf->resv);
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   965  	}
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   966  
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   967  	return attach;
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   968  
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   969  err_attach:
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   970  	kfree(attach);
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   971  	return ERR_PTR(ret);
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   972  
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   973  err_unpin:
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   974  	if (dma_buf_is_dynamic(attach->dmabuf))
-7e008b02557cce drivers/dma-buf/dma-buf.c Christian König  2021-05-17   975  		dmabuf->ops->unpin(attach);
-bb42df4662a447 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   976  
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   977  err_unlock:
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   978  	dma_resv_unlock(attach->dmabuf->resv);
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   979  
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   980  	dma_buf_detach(dmabuf, attach);
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   981  	return ERR_PTR(ret);
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   982  }
-cdd30ebb1b9f36 drivers/dma-buf/dma-buf.c Peter Zijlstra   2024-12-02   983  EXPORT_SYMBOL_NS_GPL(dma_buf_dynamic_attach, "DMA_BUF");
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   984  
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   985  /**
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   986   * dma_buf_attach - Wrapper for dma_buf_dynamic_attach
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   987   * @dmabuf:	[in]	buffer to attach device to.
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   988   * @dev:	[in]	device to be attached.
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   989   *
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   990   * Wrapper to call dma_buf_dynamic_attach() for drivers which still use a static
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   991   * mapping.
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   992   */
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03   993  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   994  					  struct device *dev,
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   995  					  bool skip_map)
-15fd552d186cb0 drivers/dma-buf/dma-buf.c Christian König  2018-07-03  @996  {
-8935ae05eee351 drivers/dma-buf/dma-buf.c Shixiong Ou      2025-04-30   997  	return dma_buf_dynamic_attach(dmabuf, dev, NULL, NULL, skip_map);
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26   998  }
-cdd30ebb1b9f36 drivers/dma-buf/dma-buf.c Peter Zijlstra   2024-12-02   999  EXPORT_SYMBOL_NS_GPL(dma_buf_attach, "DMA_BUF");
-d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  1000  
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1372  
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1373  static unsigned int s3c24xx_serial_getclk(struct s3c24xx_uart_port *ourport,
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1374  			unsigned int req_baud, struct clk **best_clk,
+6e1e48b6ef2613 drivers/tty/serial/samsung_tty.c Tudor Ambarus       2024-01-19  1375  			u8 *clk_num)
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1376  {
+97a6cfe8115b04 drivers/tty/serial/samsung_tty.c Krzysztof Kozlowski 2022-03-08  1377  	const struct s3c24xx_uart_info *info = ourport->info;
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1378  	struct clk *clk;
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1379  	unsigned long rate;
+6e1e48b6ef2613 drivers/tty/serial/samsung_tty.c Tudor Ambarus       2024-01-19  1380  	unsigned int baud, quot, best_quot = 0;
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1381  	char clkname[MAX_CLK_NAME_LENGTH];
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1382  	int calc_deviation, deviation = (1 << 30) - 1;
+6e1e48b6ef2613 drivers/tty/serial/samsung_tty.c Tudor Ambarus       2024-01-19  1383  	u8 cnt;
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1384  
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1385  	for (cnt = 0; cnt < info->num_clks; cnt++) {
+7d31676a8d91dd drivers/tty/serial/samsung_tty.c Jonathan Bakker     2020-05-08  1386  		/* Keep selected clock if provided */
+7d31676a8d91dd drivers/tty/serial/samsung_tty.c Jonathan Bakker     2020-05-08  1387  		if (ourport->cfg->clk_sel &&
+7d31676a8d91dd drivers/tty/serial/samsung_tty.c Jonathan Bakker     2020-05-08  1388  			!(ourport->cfg->clk_sel & (1 << cnt)))
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1389  			continue;
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1390  
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24 @1391  		sprintf(clkname, "clk_uart_baud%d", cnt);
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1392  		clk = clk_get(ourport->port.dev, clkname);
+7cd88831feb03c drivers/tty/serial/samsung.c     Kyoungil Kim        2012-05-20  1393  		if (IS_ERR(clk))
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1394  			continue;
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1395  
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1396  		rate = clk_get_rate(clk);
+a9c09546e903f1 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1397  		if (!rate) {
+a9c09546e903f1 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1398  			dev_err(ourport->port.dev,
+a9c09546e903f1 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1399  				"Failed to get clock rate for %s.\n", clkname);
+a9c09546e903f1 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1400  			clk_put(clk);
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1401  			continue;
+a9c09546e903f1 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1402  		}
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1403  
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1404  		if (ourport->info->has_divslot) {
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1405  			unsigned long div = rate / req_baud;
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1406  
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1407  			/* The UDIVSLOT register on the newer UARTs allows us to
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1408  			 * get a divisor adjustment of 1/16th on the baud clock.
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1409  			 *
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1410  			 * We don't keep the UDIVSLOT value (the 16ths we
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1411  			 * calculated by not multiplying the baud by 16) as it
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1412  			 * is easy enough to recalculate.
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1413  			 */
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1414  
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1415  			quot = div / 16;
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1416  			baud = rate / div;
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1417  		} else {
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1418  			quot = (rate + (8 * req_baud)) / (16 * req_baud);
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1419  			baud = rate / (quot * 16);
+090f848da00008 drivers/serial/samsung.c         Ben Dooks           2008-12-12  1420  		}
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1421  		quot--;
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1422  
+f3710f5e9e1a68 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1423  		calc_deviation = abs(req_baud - baud);
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1424  
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1425  		if (calc_deviation < deviation) {
+832e231cff4761 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1426  			/*
+832e231cff4761 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1427  			 * If we find a better clk, release the previous one, if
+832e231cff4761 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1428  			 * any.
+832e231cff4761 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1429  			 */
+832e231cff4761 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1430  			if (!IS_ERR(*best_clk))
+832e231cff4761 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1431  				clk_put(*best_clk);
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1432  			*best_clk = clk;
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1433  			best_quot = quot;
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1434  			*clk_num = cnt;
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1435  			deviation = calc_deviation;
+832e231cff4761 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1436  		} else {
+832e231cff4761 drivers/tty/serial/samsung_tty.c Christophe JAILLET  2023-06-10  1437  			clk_put(clk);
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1438  		}
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1439  	}
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1440  
+5f5a7a5578c588 drivers/tty/serial/samsung.c     Thomas Abraham      2011-10-24  1441  	return best_quot;
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1442  }
+b497549a035c2a drivers/serial/samsung.c         Ben Dooks           2008-07-03  1443  
+
+:::::: The code at line 1391 was first introduced by commit
+:::::: 5f5a7a5578c5885201cf9c85856f023fe8b81765 serial: samsung: switch to clkdev based clock lookup
+
+:::::: TO: Thomas Abraham <thomas.abraham@linaro.org>
+:::::: CC: Kukjin Kim <kgene.kim@samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
