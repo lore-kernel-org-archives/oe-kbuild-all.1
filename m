@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5244D1E5B62
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 11:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEB72116F6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 11:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746184864; cv=none; b=eYy6KR50iue4c9aHP3zTGWLQg2McuOeqUsG5yMpFXIR5aw71vOVdBvM+zIUNShzBw8hJVD+NRtoNbH+D9KFSe2MQayU2xoPtHaEYJovMypAMd/atiRV7CdwGAk6VDwtd9HgklNvneaQzlKJ4hqI7Ti5fXVV5xW0ir9dEh6LkcBw=
+	t=1746186732; cv=none; b=I9MaSAxe6J6LbcjWOTs7Je+HCh6aHiwpq1pZ0cwYnXqr0xB+LOKdP89/M6qw1VFYQnORIgllJ2yY4qInWED8uKCwHTL9KmP1Va/PeZ5qhOgeZ2qWWfs97ecpvwFMxmpZltXVZn1l4QIHLEWffQWMdTdP8/h8tpTy0DbmBF7MhhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746184864; c=relaxed/simple;
-	bh=0gbO60gl4HM//IDkP0PIj+ylQx5Hrljiglw4vqrUB6o=;
+	s=arc-20240116; t=1746186732; c=relaxed/simple;
+	bh=OIYs1nIx3T81ixcs1dWlB8ndsb4D+C2W8UyMHJduptM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dU8MgtQrlpGVcyoYIq3wb9I2DgGPFqWyKeHeekaObCWlof5GmNFdH+Mfa/eFBkiqqTtrA0CNk6JIKwxnagXk5tXkTq4wDjDqfylu/tpZtb+BlJbOUUq3cC768vEP7f/ZasQFf+tFA835YZVnvSBe92E1v6tkkXepvc6NzS8hE4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RVYypcZp; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=sHuzFrVIt9FgMhx+XTCI5tEEzAWWRJoLI3W3ypciOA7IsWb2GHmzXX6/op3vRK1+gyiKoVGM18X3bJe9pZ2My6hQJfwJ//Qt9H1FGTSm+Edv90QybrWTb5QZ3YL2cctU7qYN3aUaCJkwhr7FZEnaAckOIQ8tQNNEjVSlWI86tbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bM/otscE; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RVYypcZp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bM/otscE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746184862; x=1777720862;
+  t=1746186726; x=1777722726;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0gbO60gl4HM//IDkP0PIj+ylQx5Hrljiglw4vqrUB6o=;
-  b=RVYypcZpuPuw2O5P+LDj5cIh9XMqAkbsDBmSRoKknL4V6MG5mDADGSgI
-   j/LMCrZBBAU9x0Bca+3f3JbjO6yFGqub552y8feLGbecQKKrvNL3cUrf1
-   E1/kXH9isrtS4HAjT9TKb0oxWQZkTSwx8GXqbJRsZxtiJmH//AkdohsEj
-   nZoakr5sLFeUKHSvy5dvX6JgNJF3cwbxKX/VG2Exite2NK18GmhA86LzE
-   xUnf/Uo7rLpXBjKsnMqPr7zp0x0CEI89bZi1kCXWs646+CGaYwwLOrfvO
-   S7Bf6SibtTc9uHpbd2ARFKfEf8Mzr5Kw8rnPka8M0yaygNOVuZNdEnMPX
-   Q==;
-X-CSE-ConnectionGUID: O12ceLFYQqea331gizHplw==
-X-CSE-MsgGUID: ACCoYsldShuy1517xyWXxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="51676895"
+  bh=OIYs1nIx3T81ixcs1dWlB8ndsb4D+C2W8UyMHJduptM=;
+  b=bM/otscEOqpePnkN3fC/E62QuuPdEOj1raoP74nzGGiqnDlWIVt2OkSX
+   hb7p7JIMNYiVBKRYkEKgEEnmZIyn2BxA+e4xtE8S+6dCVs+gNQOAeGvsh
+   QqGXgQbyi+rZ3PXIS+dWIS9NLiDNWnsGQNI6ixI+GdNgVi/XtOmhQ7cHP
+   WscAR0YVnlqpe9l81DT0F7S6+at89VQt3j0IJkI6yXZKXdRM+7lCMC9Rh
+   UkFI4My16eHQewCWXdeyfec56a4/ExUy8UF27771kf8c+fzrGG9GfvMZr
+   7dD4LfOawoQ/clDd8DTQJJEHIOIcfWrJLRvOgM0DWJp1UuCXIOJzMGfTE
+   g==;
+X-CSE-ConnectionGUID: nV0oQOwIQKe4eoSE8fmL1g==
+X-CSE-MsgGUID: ZNzD+eT9TxyJIs2iB8d6JQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="46975922"
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="51676895"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 04:20:59 -0700
-X-CSE-ConnectionGUID: wPMQWoO+R7W32ECTD0GiEw==
-X-CSE-MsgGUID: cK+4Nq5jReyeI+CE/d8zCg==
+   d="scan'208";a="46975922"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 04:52:06 -0700
+X-CSE-ConnectionGUID: INaWoYdCRqy9ffQeH/4Rtw==
+X-CSE-MsgGUID: auvluYvOT3WQUgQvaAy4kA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="139427312"
+   d="scan'208";a="134370955"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 May 2025 04:20:58 -0700
+  by orviesa009.jf.intel.com with ESMTP; 02 May 2025 04:52:04 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAoRs-0004ha-0j;
-	Fri, 02 May 2025 11:20:56 +0000
-Date: Fri, 2 May 2025 19:20:23 +0800
+	id 1uAovx-0004iP-1k;
+	Fri, 02 May 2025 11:52:01 +0000
+Date: Fri, 2 May 2025 19:51:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrej Picej <andrej.picej@norik.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>
-Subject: [linux-next:master 4287/7938]
- arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d
- (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-clock-microvolt:0:
- 200000 is not of type 'array'
-Message-ID: <202505021937.efnQPPqx-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 1/1]
+ arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dma-controller0@14001000
+ (mediatek,mt8183-mdp3-rdma): iommus:0: [96, 6] is too long
+Message-ID: <202505021928.tBGXJUPo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,38 +63,801 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3e039dcc9c1320c0d33ddd51c372dcc91d3ea3c7
-commit: 7ed7d1ed852d8f4c4dee7a4d4f7807ad59c7915d [4287/7938] arm64: dts: imx8mm-phyboard-polis-peb-av-10: Set lvds-vod-swing
-config: arm64-randconfig-052-20250428 (https://download.01.org/0day-ci/archive/20250502/202505021937.efnQPPqx-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   db553c1868c91c8d05cb4bf7b099876c0a1d1f49
+commit: a03ab1b3bbbc3d6674d3a7523b2e4364840630a7 [1/1] FROMLIST: dt-bindings: mediatek: Add Mediatek MDP3 dt-bindings
+config: arm64-randconfig-053-20250429 (https://download.01.org/0day-ci/archive/20250502/202505021928.tBGXJUPo-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021937.efnQPPqx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021928.tBGXJUPo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505021937.efnQPPqx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505021928.tBGXJUPo-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-clock-microvolt:0: 200000 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-clock-microvolt: [200000, 600000] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-data-microvolt:0: 200000 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-data-microvolt: [200000, 600000] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint: Unevaluated properties are not allowed ('ti,lvds-vod-swing-clock-microvolt', 'ti,lvds-vod-swing-data-microvolt' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: endpoint: ti,lvds-vod-swing-data-microvolt:0: 200000 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/property-units.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: endpoint: ti,lvds-vod-swing-data-microvolt:1: 600000 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/property-units.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: endpoint: ti,lvds-vod-swing-clock-microvolt:0: 200000 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/property-units.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: endpoint: ti,lvds-vod-swing-clock-microvolt:1: 600000 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/property-units.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [96, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [96, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [120, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [120, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [120, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [120, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: da7219@1a (dlg,da7219): da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: da7219@1a (dlg,da7219): interrupts: [[165, 8], [165, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [122, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [122, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: da7219@1a (dlg,da7219): da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: da7219@1a (dlg,da7219): interrupts: [[165, 8], [165, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [122, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [122, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: da7219@1a (dlg,da7219): da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: da7219@1a (dlg,da7219): interrupts: [[165, 8], [165, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [122, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [122, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [120, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [120, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: da7219@1a (dlg,da7219): da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: da7219@1a (dlg,da7219): interrupts: [[165, 8], [165, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [122, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [122, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [120, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [120, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [120, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [120, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [120, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [120, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [120, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [120, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: da7219@1a (dlg,da7219): da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: da7219@1a (dlg,da7219): interrupts: [[165, 8], [165, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [122, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [122, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [120, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [120, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: da7219@1a (dlg,da7219): da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: da7219@1a (dlg,da7219): interrupts: [[165, 8], [165, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [115, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [115, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [112, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [112, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [112, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [112, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [112, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [112, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [112, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [112, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [112, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [112, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [112, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [112, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [112, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [112, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: dsi@14014000 (mediatek,mt8183-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: pwm@1100e000 (mediatek,mt8183-disp-pwm): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): iommus:0: [91, 6] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: dma-controller0@14001000 (mediatek,mt8183-mdp3-rdma): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: mdp3-rsz0@14003000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: mdp3-rsz1@14004000 (mediatek,mt8183-mdp3-rsz): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): iommus:0: [91, 7] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: dma-controller@14005000 (mediatek,mt8183-mdp3-wrot): 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@17000000: failed to match any schema with compatible: ['mediatek,mt8183-vencsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: thermal-zones: 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
 
 -- 
 0-DAY CI Kernel Test Service
