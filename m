@@ -1,112 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40A215350B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 10:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434C822F75D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 10:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180472; cv=none; b=PHpeHn1sNGxhS4rb8JRPcspoAUHTDmlSKruk2kOFdBI3ZV66nzRAydVPUAHU4aQEvoXp9I5f/7hDhv45Pn2egrAvha4MmauQ2Od0dq7hCSxaxFn4Df6XgB+G4L8ZdAfrZMtBOr2/wD7yqbkQ19D5wKyLUVQd4YJRKlEtufd8TCU=
+	t=1746180544; cv=none; b=C9Vy/54UkdA4r+ktszngYoAcBUuFmQ4r/BGO0fSdhtUyWO1mWWaIf7k3R/VOU1c1kSEytKn6nSdEZuyNxoCz5iffCs66Ad0hCP9lMpvLqllWzvUccmrxwwqFh6Ie/cUYKqihLWcLUACBoG6WkzcAvhUhOgF/Y7RzrTlVbNI29gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746180472; c=relaxed/simple;
-	bh=e8/ynrXSAkfoRLP48zbKeDqIR8w4XEaL0sjJOL1EGrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MZ1q85lJKmXyi1nxBAjKTxL9RYurkq6199t5Z1rD+yNJtfyaczHyJOjad7WTwUtk1bJCQptdJymPz6Zom/8pmHk1I7O5bes1dR2ivSPlVzyusJvDU/ueFv4iaDge+wqoAq0x5l6kEHhGd+lOLXC4yZ1gPUPEW+8NmPtNNwJNzgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UwhZ4Dtz; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746180544; c=relaxed/simple;
+	bh=G/yQbTWKw5+TnbyriGPn4AE4fOGUPbORB3d2ncVsOCg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ue7LDLOuPLplOItDm6f5CRA8ZVz4z1iAqRfNmpApNsdcfBQVveD9ncPLb6GKc3RPsb14fm5qbVYEBmPmy/HU8p05I1Gv5YtT8xmSGOnDcNOKBdpOrwuJvtsTFlsNu7Pm1YhmRPP44ADGjBp4Vdd6leJyVqGCY3dCsJ9ScfmiYsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=ZV+iOyQj; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UwhZ4Dtz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746180470; x=1777716470;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e8/ynrXSAkfoRLP48zbKeDqIR8w4XEaL0sjJOL1EGrc=;
-  b=UwhZ4DtzmeF+z7Ji54hiuzsDRTQGPLSFf2IVnI/YpAmb36ytvA9D+QmG
-   fJrnmpLk0uHiEtO9ewCW1q57Vo+TwzLxhaKZ4RHq+xM7I9Qiycgz/c5vo
-   gLl/t8f5EgEVeVSI/uqA+lrom71tHv2+vX6KlUokBVdCgMgkaxBdPjaEo
-   GRk1MpXsWE74ve0Uyf6wOUioFHJMDGkjCWltVrf1zuisECgJMd6Y/VXNE
-   YEjIg5ktOOfGuRj9Y9TvGSXTYOubt2g3nc1gYQM+2e2t0k7UnJUEz0ega
-   eSW/uDnd8GRYRzFx1EbzNt/KwtIWfvVlGmMl9tp+miG0qTGSUmL1AKFTG
-   w==;
-X-CSE-ConnectionGUID: VAb1eKK0Qdqo5h4DnxZ06g==
-X-CSE-MsgGUID: 7GXTaDnXQBKNlsJ7U07ezw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47119325"
-X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="47119325"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 03:07:50 -0700
-X-CSE-ConnectionGUID: daTlk9jhQiGMA7sg/MUotw==
-X-CSE-MsgGUID: dhWxgGsLT2+k10nN15ebJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="135131130"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 May 2025 03:07:47 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uAnJ2-0004ft-1r;
-	Fri, 02 May 2025 10:07:44 +0000
-Date: Fri, 2 May 2025 18:07:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paresh Bhagat <p-bhagat@ti.com>, nm@ti.com, vigneshr@ti.com,
-	praneeth@ti.com
-Cc: oe-kbuild-all@lists.linux.dev, kristo@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, khasim@ti.com, v-singh1@ti.com,
-	afd@ti.com
-Subject: Re: [PATCH 3/3] arm64: dts: ti: Add support for AM62D2-EVM
-Message-ID: <202505021704.jOlZOXSq-lkp@intel.com>
-References: <20250501072923.1262414-4-p-bhagat@ti.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="ZV+iOyQj"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf3192f3bso16886085e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 02 May 2025 03:09:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1746180540; x=1746785340; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1gpbxUH5zKXlvd7Jg421zxuNqN0FwJbinQ6smtKhC/c=;
+        b=ZV+iOyQjPu9/fsLxdpbutIBgTsyd3Q9AZEALYeQv1v1P5jPH3H04lSlGHF/zHVRIb8
+         3GgqgLRZjPBiXLcRBaUkoyXWAT0xLFplmCjw77QvP/0JIhBfL+/VidYuOH0D9qfzbGLa
+         sjw5ibm4/stvqIMClL+0U0A8S5haNIz0aRtAEzfCl307tAfP+odiSARk2MOdsmTHQFzJ
+         MBmFZUWmOVzIoWhxoviKQtgv2GKIJUVDVxvvr7hvWabGoUSkmFs1yTo8vEOFYB/Qzzsy
+         /0fNKTeQxTfQ/z0DTJbHdwxzrKed1+I/4Z9IZGf4iXSlFVph78++1KuAYWkWt9efQneA
+         9K5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746180540; x=1746785340;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1gpbxUH5zKXlvd7Jg421zxuNqN0FwJbinQ6smtKhC/c=;
+        b=k3Mzo2PEn/7rDLzsKyoMgZW3uJ4NsR1Qo1agQBl8C+a7kpkz8HgMR6Dg0k8Ijv63iq
+         bT3ee5DqPD4Ju7Tr/HSC+roJ0l03E6J5Q1kUG4exMrd+LDPoJbPIMpmQtu+Mvsn0czJ1
+         PAvbOy7WeTe4xilj7ebqVh9esf9ANSTAW28AY/Q5SyYUKV4Zh3ttCObql7XOB4Diu6RS
+         duqrjNwKNcgSWB1NTM37/QEmbhJguCFV2QnZScW9X03O1RV3GOrFAKGyB++v/VQNeZ25
+         mwhfXYdzgnr4COiZTV6SD/HBwP8RRk3yLUVlizW2HgBE49+V5Ct+eBZrZBYl4xyEOOYP
+         lbcQ==
+X-Gm-Message-State: AOJu0YzszU9JaxU5KJvKn0d2sWarUzZb68CaObMXBg6EbU+DmaTSvWqO
+	Cg/aAMbDcMjbGqwELBSBSY+DlNDPcujO9jedNcVce/6Rsbe12OpPsEtkdiF1GrU=
+X-Gm-Gg: ASbGncsUjYcUuCPrbEvVB2yakPZg6a23doEeMEtMcIWhYP8My5xGzzWzDNbMFTkfnk8
+	+4Wy0xQtu8XBNs8/nembOepUHfdmSwaR/RkmZJzhEUhOcuZD7TWMu1dn02XNDGfqE76lLsHpkR9
+	4DlPxTGU/NW19mu+vEs+LbZfhD8lJubkIcoH3Tl/kgzxkw7a7MXzN+3qtkGOzXEvmZEGcta06Nq
+	0W+P90mfIWA4TZHoiHVL0raEfcoOSdN3BRxZcA+7q0le1vuwIAL3Ep9FCIjhy4mnRd5Ta68zhXy
+	zeNWkTAMYDNr58plB30n9mqOpxxL2K8EUlT1hzp8mg==
+X-Google-Smtp-Source: AGHT+IE47vfNWr5eva9bcWEHLRezwNUBG4506xXlFZEBT+W4RLMrhKjqpzQGXO7HfBEF3Nn5qo8n3Q==
+X-Received: by 2002:a05:600c:348b:b0:43c:fcbc:9680 with SMTP id 5b1f17b1804b1-441bbf31f09mr16912665e9.25.1746180540381;
+        Fri, 02 May 2025 03:09:00 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:f280:a08c:3f15:ae3e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b89ee39esm39361045e9.21.2025.05.02.03.08.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 May 2025 03:09:00 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] pinctrl: at91: drop unneeded dependency on OF_GPIO
+Date: Fri,  2 May 2025 12:08:41 +0200
+Message-ID: <20250502100841.113091-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250501072923.1262414-4-p-bhagat@ti.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Paresh,
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-kernel test robot noticed the following build errors:
+This driver does not use any symbols from gpiolib-of.c. There's no
+reason for it to select OF_GPIO directly. This addresses a kismet issue
+reported by the build bot.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.15-rc4 next-20250501]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fixes: 8e86af65f39d ("pinctrl: at91: allow building the module with COMPILE_TEST=y")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505010447.kUlI61vt-lkp@intel.com/
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+ drivers/pinctrl/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paresh-Bhagat/dt-bindings-arm-ti-Add-bindings-for-AM62D2-SoC/20250501-153150
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250501072923.1262414-4-p-bhagat%40ti.com
-patch subject: [PATCH 3/3] arm64: dts: ti: Add support for AM62D2-EVM
-config: arm64-randconfig-053-20250502 (https://download.01.org/0day-ci/archive/20250502/202505021704.jOlZOXSq-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021704.jOlZOXSq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505021704.jOlZOXSq-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> arch/arm64/boot/dts/ti/k3-am62d2-evm.dts:15:10: fatal error: 'k3-timesync-router.h' file not found
-      15 | #include "k3-timesync-router.h"
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +15 arch/arm64/boot/dts/ti/k3-am62d2-evm.dts
-
-    14	
-  > 15	#include "k3-timesync-router.h"
-    16	
-
+diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
+index db84d80b7e7d3..33db9104df178 100644
+--- a/drivers/pinctrl/Kconfig
++++ b/drivers/pinctrl/Kconfig
+@@ -107,7 +107,6 @@ config PINCTRL_AT91
+ 	select PINMUX
+ 	select PINCONF
+ 	select GPIOLIB
+-	select OF_GPIO
+ 	select GPIOLIB_IRQCHIP
+ 	help
+ 	  Say Y here to enable the at91 pinctrl driver
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
