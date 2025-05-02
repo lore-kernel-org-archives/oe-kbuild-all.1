@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78709267395
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 07:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7441E487
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 07:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746169712; cv=none; b=BH22XLQy5fVsoHN2k9imF4nyPcvgTUDY6o668uAUI55yOPuITMwpWyVk/efHJjrd9zInbWx/55QyAdsH1ZU6BJDW+bfh3lk04mzkdsYeFsKjX+BPxyicFAHrIqWyeQhN8gbA77rXMwNtPDKIAEmuaAO17rgYrhL5GzcPIswW8/k=
+	t=1746170259; cv=none; b=L1Cy0Zf/AlXCQrnjC/ZL8TvG0Cg59y4ntt119yv0TrSAZQE9zF5sTrl5Rd4ufFLs+GWiMq/dbaKf15i/+Sp7DhMwBsNkm/hzGXklFdgJMi9IZsRR37JjZjH5QE/Mb63BCRyTYmL0LeuNanEpo8OuQd7aNgD7SQII0nEKcBrQaU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746169712; c=relaxed/simple;
-	bh=9S2WjA6k7mOWQgmcdNgM8oS1sRzr6cHPt3EHGiYEcRk=;
+	s=arc-20240116; t=1746170259; c=relaxed/simple;
+	bh=5IuYNRTVqn6A3XwJMusb2ZkxCjZMpg1KEva9m2Wb8H0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UqozfYwH9r6D0B0NuURAv2yEnwGORePhB0mBniWh43N5tfsKHK0jAhPh2qZVyxSXZWVV4rM/jWSF/p9cvuVUUwCmhTRwngDIbn0iU2Va6N+Ay44nAwGrW3CcffHKrJl3qxIVPm++4lRV80jEgdk2H+gmBTcIjB681rX2K1tdm30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBu+BtZg; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=lZjpnzjOVQQF6djigzHxChSsbi8e+b/oilPnB4VYMSEQNDhZBxm1kkIL5IAP7fTDuH8gbs9xz/qrR3lltRgU2ccIMxBG9F01M6Vm3nchJDaGDJWmHxdxCzJsNt25NeeW7WHo5V045IaYNA6fxr/MM+Y1tuUo2nOuwkI51OTho+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i9QdWmYP; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBu+BtZg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746169711; x=1777705711;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9S2WjA6k7mOWQgmcdNgM8oS1sRzr6cHPt3EHGiYEcRk=;
-  b=IBu+BtZgRgl2asl8nzJVCsquYxG6ea0xL+GPnRSPkzbXOugy0Kx1NDCa
-   gm9EQ5cYLFELhPNXln8lKWgIIqm9al7EbCs1lAWnVocXqAMyQAsN2Se/N
-   PXzTyosRXLJ4RJu6svllFwSUcG9mMNGCGlnALYZG/iIAJhUb2uKwO+ovy
-   FpvGfurnUx/Xyx+Nc1qYZMAmamCGPMFNldk2fcG+jx0XlRUxrwuWCzeWi
-   iknontpTQkLj5+8J3f3w8zyNCx5u/MS0XozerkqCsGiRpmb8HXqLYR/eu
-   H4xQsyFXyYVuvmEu8o7vD2TqWHz6a7Kuc5izkWsK8h6ly72BIvoIk+sw2
-   w==;
-X-CSE-ConnectionGUID: 587CXnHzTHiylTAV/704jw==
-X-CSE-MsgGUID: i0RL2861SYK5JNU8Oyn34w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="58057516"
-X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
-   d="scan'208";a="58057516"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 00:08:27 -0700
-X-CSE-ConnectionGUID: t92nldQLTi+LG6lBzY8TWA==
-X-CSE-MsgGUID: IYwONpQwSaC7LL7p9MFSGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
-   d="scan'208";a="134325699"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 02 May 2025 00:08:26 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uAkVT-0004b5-1G;
-	Fri, 02 May 2025 07:08:23 +0000
-Date: Fri, 2 May 2025 15:07:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert-irq 8/44] htmldocs: Warning:
- Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml references a
- file that doesn't exist:
- Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
-Message-ID: <202505021551.YtefY5bm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i9QdWmYP"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39efc1365e4so702882f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 02 May 2025 00:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746170256; x=1746775056; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JvS4s5a0I05qazclYrgeWfQPlW0PvOT3R1kVjI+PNVQ=;
+        b=i9QdWmYPbCrSohSehjftzees2qNxyFC9vxQtScE3MhgUORhcbrgA2Xyx+175Qmqtxx
+         7w/vxV+bET04ojMcbMXjN32eu2pwel2O3tukO6r69ci4dy3knDnt4UpVt3kQICJknSl2
+         4GonOKZ/R2A3/IgXHMGTXwXttpqapx/rKbiVcHHXhvMeNdbBF5WH1W3T4Q0ONA3t/6kx
+         TikCGQB4MAkUjyMiDIK+EeO0gwSHQDtSC1F1YxAk1KWWOSju7VHbhGSBSRS82lbRe92o
+         I5xz4wRlT29/yZ5NRdHUiHiPERMYHpyj13mRtLFwlA76B76ARuhb0VTwji46T0LfIH+8
+         Lizg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746170256; x=1746775056;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JvS4s5a0I05qazclYrgeWfQPlW0PvOT3R1kVjI+PNVQ=;
+        b=axlk3uRKUHpoGGtby74IZP44GSMYw2hvPtqZamsNNDPlero5qTNjFfo3k19A/TPmJp
+         OvemfB78OUcBQLmfwEl8D4WAVikhBIZeAOsMfbE1pPqZBYt5/hUgOVd8EZByG8EiRhG/
+         aDoicDZNFphcFer28T7Wdte9tvnAvw26+RqWJSVxzlJfTvZ1Q1BeDSE4R0RO0IFL/FnA
+         RbXKmSq28V8CcllmhuJXuw1LinUtxU7jIaceNrFch1+Y57awV/RkLSGWTllqdkb1SVRO
+         nc7lH2v6ykpF2VLjRn3IzK0rMfVk/H9ipUJ17nxMaGkTZ9gbaqZVmHYiuMng7XkDnKeS
+         xxPg==
+X-Forwarded-Encrypted: i=1; AJvYcCWBIsRLAULpKfnRvTZVVZGsgpCLNm1oh16oTe647GerwJIfhB//rVPIuZvysln9dXNqebqUjmVn/0XnJDK2@lists.linux.dev
+X-Gm-Message-State: AOJu0Yygede3N1QE46XzV4fMRnxr1lilR1R5IbcHCoBkU0EAEFEJoM+l
+	IjcISnyYz/CfYBcE+u46gBgoPLrwV45KXIfODEU8CJiCZ+CychyVUoXsF2LeGFo=
+X-Gm-Gg: ASbGncsNKTE9w4mLp5KW0b9ubZc2jZ7fgN5iIlmfmNqie6+hhpWr4mcKseHGi7gh9qY
+	5nVkyqp9cd+/ymqyW82yiwiT5oasjfONog+BKct65j25QnWWJbdFZY7UOLBTGKqM6i3LtpU/aj7
+	FfHkimsU+hW0EgNl27HzM7yb5Y0VaUhxGCR0W3ZTJ9LWYTWxXsQSadtChI87EAwtxzDYIlPy5EK
+	pYnKmB6w4z0Bb2UMX6FF+9VW57ahE+H/lR1fcDe2jcQD9JnQMhYyMWnVH3hea4DjK708AyoX7TG
+	B/IW5+ve+sPeQuBoiF2htSFokKv4HBMKa7A71DZdCgq0nA==
+X-Google-Smtp-Source: AGHT+IGKhpHK4Qj1aa1wgANwFRhY2jMZ8RstY4JdT6Gdp+U8JrH8vl8w4zZ9jTtsw8OGZ1cus3oFiA==
+X-Received: by 2002:a05:6000:2ce:b0:39c:1ef6:4364 with SMTP id ffacd0b85a97d-3a099ad5c8cmr1199165f8f.14.1746170255572;
+        Fri, 02 May 2025 00:17:35 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a099ae0c3dsm1357078f8f.12.2025.05.02.00.17.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 May 2025 00:17:35 -0700 (PDT)
+Date: Fri, 2 May 2025 10:17:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 3/3] fs/smb/server/oplock.c:1510
+ parse_lease_state() warn: possible memory leak of 'lreq'
+Message-ID: <202505020623.KJ87fuu2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,25 +71,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert-irq
-head:   271e22adde83e0cc6fce40f70c5f660bf1a8e2e3
-commit: 357dfc0976c9d5cd147b50d1d44d98ea75e3ff38 [8/44] dt-bindings: interrupt-controller: Convert aspeed,ast2xxx-scu-ic to DT schema
-reproduce: (https://download.01.org/0day-ci/archive/20250502/202505021551.YtefY5bm-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   272d4285dd17049eceb342b5b4f2b4fd346466b5
+commit: 60b7207893a8a06c78441934931a08fdad63f18e [3/3] ksmbd: add bounds check for create lease context
+config: x86_64-randconfig-161-20250501 (https://download.01.org/0day-ci/archive/20250502/202505020623.KJ87fuu2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505021551.YtefY5bm-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505020623.KJ87fuu2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/smb/server/oplock.c:1510 parse_lease_state() warn: possible memory leak of 'lreq'
 
->> Warning: Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml references a file that doesn't exist: Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+vim +/lreq +1510 fs/smb/server/oplock.c
+
+8df4bcdb0a4232 fs/smb/server/oplock.c Namjae Jeon    2024-03-12  1491  struct lease_ctx_info *parse_lease_state(void *open_req)
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1492  {
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1493  	struct create_context *cc;
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1494  	struct smb2_create_req *req = (struct smb2_create_req *)open_req;
+fc6c6a3c324c1b fs/smb/server/oplock.c Namjae Jeon    2023-05-28  1495  	struct lease_ctx_info *lreq;
+fc6c6a3c324c1b fs/smb/server/oplock.c Namjae Jeon    2023-05-28  1496  
+fc6c6a3c324c1b fs/smb/server/oplock.c Namjae Jeon    2023-05-28  1497  	cc = smb2_find_context_vals(req, SMB2_CREATE_REQUEST_LEASE, 4);
+fc6c6a3c324c1b fs/smb/server/oplock.c Namjae Jeon    2023-05-28  1498  	if (IS_ERR_OR_NULL(cc))
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1499  		return NULL;
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1500  
+fc6c6a3c324c1b fs/smb/server/oplock.c Namjae Jeon    2023-05-28  1501  	lreq = kzalloc(sizeof(struct lease_ctx_info), GFP_KERNEL);
+fc6c6a3c324c1b fs/smb/server/oplock.c Namjae Jeon    2023-05-28  1502  	if (!lreq)
+fc6c6a3c324c1b fs/smb/server/oplock.c Namjae Jeon    2023-05-28  1503  		return NULL;
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1504  
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1505  	if (sizeof(struct lease_context_v2) == le32_to_cpu(cc->DataLength)) {
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1506  		struct create_lease_v2 *lc = (struct create_lease_v2 *)cc;
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1507  
+60b7207893a8a0 fs/smb/server/oplock.c Norbert Szetei 2025-03-15  1508  		if (le16_to_cpu(cc->DataOffset) + le32_to_cpu(cc->DataLength) <
+60b7207893a8a0 fs/smb/server/oplock.c Norbert Szetei 2025-03-15  1509  		    sizeof(struct create_lease_v2) - 4)
+60b7207893a8a0 fs/smb/server/oplock.c Norbert Szetei 2025-03-15 @1510  			return NULL;
+
+kfree(lreq);
+
+60b7207893a8a0 fs/smb/server/oplock.c Norbert Szetei 2025-03-15  1511  
+2734b692f7b816 fs/ksmbd/oplock.c      Namjae Jeon    2021-09-09  1512  		memcpy(lreq->lease_key, lc->lcontext.LeaseKey, SMB2_LEASE_KEY_SIZE);
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1513  		lreq->req_state = lc->lcontext.LeaseState;
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1514  		lreq->flags = lc->lcontext.LeaseFlags;
+bc025d49c507b7 fs/smb/server/oplock.c Namjae Jeon    2023-12-31  1515  		lreq->epoch = lc->lcontext.Epoch;
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1516  		lreq->duration = lc->lcontext.LeaseDuration;
+100117279c1da0 fs/smb/server/oplock.c Namjae Jeon    2024-05-01  1517  		if (lreq->flags == SMB2_LEASE_FLAG_PARENT_LEASE_KEY_SET_LE)
+2734b692f7b816 fs/ksmbd/oplock.c      Namjae Jeon    2021-09-09  1518  			memcpy(lreq->parent_lease_key, lc->lcontext.ParentLeaseKey,
+2734b692f7b816 fs/ksmbd/oplock.c      Namjae Jeon    2021-09-09  1519  			       SMB2_LEASE_KEY_SIZE);
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1520  		lreq->version = 2;
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1521  	} else {
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1522  		struct create_lease *lc = (struct create_lease *)cc;
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1523  
+60b7207893a8a0 fs/smb/server/oplock.c Norbert Szetei 2025-03-15  1524  		if (le16_to_cpu(cc->DataOffset) + le32_to_cpu(cc->DataLength) <
+60b7207893a8a0 fs/smb/server/oplock.c Norbert Szetei 2025-03-15  1525  		    sizeof(struct create_lease))
+60b7207893a8a0 fs/smb/server/oplock.c Norbert Szetei 2025-03-15  1526  			return NULL;
+
+Same.
+
+60b7207893a8a0 fs/smb/server/oplock.c Norbert Szetei 2025-03-15  1527  
+2734b692f7b816 fs/ksmbd/oplock.c      Namjae Jeon    2021-09-09  1528  		memcpy(lreq->lease_key, lc->lcontext.LeaseKey, SMB2_LEASE_KEY_SIZE);
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1529  		lreq->req_state = lc->lcontext.LeaseState;
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1530  		lreq->flags = lc->lcontext.LeaseFlags;
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1531  		lreq->duration = lc->lcontext.LeaseDuration;
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1532  		lreq->version = 1;
+ade62d8b429fe4 fs/cifsd/oplock.c      Namjae Jeon    2021-06-07  1533  	}
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1534  	return lreq;
+e2f34481b24db2 fs/cifsd/oplock.c      Namjae Jeon    2021-03-16  1535  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
