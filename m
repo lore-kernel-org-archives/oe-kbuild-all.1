@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0BF25D20C;
-	Fri,  2 May 2025 16:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEBB26772C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 17:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746202714; cv=none; b=pqkL5EW9LHESSWIUPp0HrDXHlXcRbXbGewGdFUSwE/6BAuhPB1sQrij1t2Lc6gL8Gew/bNfCfhnija8pzUpLZWpl3xrGz1dDx9H3dOS1k+fEdNwcEYOVxs+10fm6q/P+8xiHtSX8tQWupBkaLbjHmI33deA/or387LgxNt+hQqk=
+	t=1746205883; cv=none; b=YiUKeE/MfzL3aQaXjO8YFgcGEtRsPlOxatG6U2T9QAHrXm5JiIkLkZylfqInMPNjSXObL2bWNcNasHjISN9Lf/RMxyj1DFB5+iU6EIvYTRzTLR8o6iaHrqiEcAMOGgmUS61nwrQ3KlSK9STB/fpD6nmHXJbd5Ylmc5NviAG16SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746202714; c=relaxed/simple;
-	bh=wKed2HEAAjpuypB5+YOAKBXs7whMew/LNAhyMdJvcFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bfLH58rp7aVnePLop+wo+0D3jd59jToIzzQz7+RyKqpNTmxWi66Jjx6cgIJ7hdVlXQC3y8MdgvbJtVdJ6/qkhEbUVddWT/wO/sud9dxiXMj+wtZx/WFhciyT0Pw7ujjnXzT2O0aY01OX0jNUNUm4IoBemUrXJIrM0Ps2YPCtots=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLh9Xpc7; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1746205883; c=relaxed/simple;
+	bh=+L9LQK2OF0HJlo8+wmaQY3XFhRzCsOycJkXzbMO8Ciw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JI3MJqnpPRX/hbkEqj+vj11ihGtiB32L9RGktdyE9StWNmpFsugeMYCUCdY93Xm+LyNMQKlQ5PyYW5sFIY3J7iMx1WDB2Vg4GwzFU9JlslbWq8U1FaU/R2aDmrGN/zrXhMzGDmdAMmL3LqZFnC+0umVGlLhf82uBTtMhJPwewno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DZA2FENb; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLh9Xpc7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZA2FENb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746202713; x=1777738713;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wKed2HEAAjpuypB5+YOAKBXs7whMew/LNAhyMdJvcFs=;
-  b=XLh9Xpc7+STg9/DOr+MKSsuVpH14/8eSyV2+SEAeAIXZyF7T2Fmn7TFZ
-   CW8LHwmHG6CtaaEbngHX4cvQ8Xa7/0Yq7AJFncLwatBIvCND/Y0HFviQu
-   MjrQu0l0wnnZzv5QwR27AhjJ1Vnv2eXfKYNfGNjjIWSaGKAcmfaaHpF4S
-   mdEIipRj8006x8NC+zPvLi78OMdNXMW1RHBZpT+DYb2d1SxHV96/YnJa9
-   2krWLN+QKxwhlDETcduFz0H0diLeVj4IRfq/im+TV2NxtCLc62ncFnJJX
-   Frvxlw19IsGY4Z2rgnSlXGN/+iC1FFi1eQI7Dhff1cpTmsDeuDLNvfd9E
-   A==;
-X-CSE-ConnectionGUID: 9eAwUi4+SvW+5tSWr6jHEA==
-X-CSE-MsgGUID: WYXEIS+ASBynAZlGygYqfQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="50544617"
-X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="50544617"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 09:18:31 -0700
-X-CSE-ConnectionGUID: zC6GMzWhQXictq70mrtGgw==
-X-CSE-MsgGUID: ZbWOpGvmQ9mwbCEQ7fL82Q==
+  t=1746205882; x=1777741882;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+L9LQK2OF0HJlo8+wmaQY3XFhRzCsOycJkXzbMO8Ciw=;
+  b=DZA2FENbpdahz0nTYC++sW1yh3pxRZ8hpaM1RD5C6ATno2N/4saQRnUH
+   foa1KlXj7yLy/4t5ckuTZYN9i4iL0CpnIkC0QhFAtsezasbzAwl3Ja+W6
+   0OsZ9mvWDy0dYd3D5Co9yPAOzQqDsktYBt2ZeZscwbYkwnIyVk4l7Xq9G
+   2TodeYj2bPtQS4zY379cWe+iFPQrzx++nKnUfNQR+ycYDZh0sHKpNAjFX
+   hMSzW2dcW6yBmL+86SYyAWAPgHP/23Z2PP9ydIOvvpfDw2OI8QcQlaiOE
+   ZLShk1gQM5uI2byI8y5EstKRDlLcj22qgGUcnz+n5VUVBTbcIgHfUwfGw
+   g==;
+X-CSE-ConnectionGUID: +U7BHbSXRqO8TqPQSx6McA==
+X-CSE-MsgGUID: xnkKna7SSB+/MMlkbFizhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="48036730"
+X-IronPort-AV: E=Sophos;i="6.15,257,1739865600"; 
+   d="scan'208";a="48036730"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 10:11:21 -0700
+X-CSE-ConnectionGUID: PmTYEdw2QlG8zt3S9s+1Ew==
+X-CSE-MsgGUID: 9NkHv8IHQ5KFU7szW8rpyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="135660257"
+X-IronPort-AV: E=Sophos;i="6.15,257,1739865600"; 
+   d="scan'208";a="134645726"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 May 2025 09:18:30 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 May 2025 10:11:20 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAt5n-0004t7-0A;
-	Fri, 02 May 2025 16:18:27 +0000
-Date: Sat, 3 May 2025 00:18:17 +0800
+	id 1uAtuv-0004ud-37;
+	Fri, 02 May 2025 17:11:17 +0000
+Date: Sat, 3 May 2025 01:10:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-github:work.coredump.socket 12/14] fs/pidfs.c:597:24:
- error: incomplete definition of type 'const struct coredump_params'
-Message-ID: <202505030032.TDuMOCCn-lkp@intel.com>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC, PATCH 04/12] x86/virt/tdx: Account PAMT memory and print
+ if in /proc/meminfo
+Message-ID: <202505030027.1GN4OM5j-lkp@intel.com>
+References: <20250502130828.4071412-5-kirill.shutemov@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +63,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250502130828.4071412-5-kirill.shutemov@linux.intel.com>
 
-tree:   https://github.com/brauner/linux.git work.coredump.socket
-head:   fed163064146d254b65f674b2072bf51bc26bbfa
-commit: 745300388cabf3ae30ad74c7d35f563adab09d30 [12/14] pidfs, coredump: add PIDFD_INFO_COREDUMP
-config: hexagon-randconfig-002-20250502 (https://download.01.org/0day-ci/archive/20250503/202505030032.TDuMOCCn-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505030032.TDuMOCCn-lkp@intel.com/reproduce)
+Hi Kirill,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvm/next next-20250502]
+[cannot apply to tip/x86/tdx tip/x86/mm kvm/linux-next linus/master v6.15-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kirill-A-Shutemov/x86-virt-tdx-Allocate-page-bitmap-for-Dynamic-PAMT/20250502-211346
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20250502130828.4071412-5-kirill.shutemov%40linux.intel.com
+patch subject: [RFC, PATCH 04/12] x86/virt/tdx: Account PAMT memory and print if in /proc/meminfo
+config: i386-buildonly-randconfig-005-20250502 (https://download.01.org/0day-ci/archive/20250503/202505030027.1GN4OM5j-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505030027.1GN4OM5j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505030032.TDuMOCCn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505030027.1GN4OM5j-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/pidfs.c:597:24: error: incomplete definition of type 'const struct coredump_params'
-     597 |         struct pid *pid = cprm->pid;
-         |                           ~~~~^
-   include/linux/pidfs.h:5:8: note: forward declaration of 'struct coredump_params'
-       5 | struct coredump_params;
-         |        ^
-   fs/pidfs.c:610:42: error: incomplete definition of type 'const struct coredump_params'
-     610 |         coredump_mask = pidfs_coredump_mask(cprm->mm_flags);
-         |                                             ~~~~^
-   include/linux/pidfs.h:5:8: note: forward declaration of 'struct coredump_params'
-       5 | struct coredump_params;
-         |        ^
-   2 errors generated.
+   In file included from arch/x86/include/asm/vga.h:11,
+                    from include/video/vga.h:22,
+                    from drivers/video/fbdev/nvidia/nv_setup.c:50:
+>> arch/x86/include/asm/set_memory.h:93:34: warning: 'struct seq_file' declared inside parameter list will not be visible outside of this definition or declaration
+      93 | void direct_pages_meminfo(struct seq_file *m);
+         |                                  ^~~~~~~~
 
 
-vim +597 fs/pidfs.c
+vim +93 arch/x86/include/asm/set_memory.h
 
-   594	
-   595	void pidfs_coredump(const struct coredump_params *cprm)
-   596	{
- > 597		struct pid *pid = cprm->pid;
-   598		struct pidfs_exit_info *exit_info;
-   599		struct dentry *dentry;
-   600		struct inode *inode;
-   601		__u32 coredump_mask = 0;
-   602	
-   603		dentry = stashed_dentry_get(&pid->stashed);
-   604		if (WARN_ON_ONCE(!dentry))
-   605			return;
-   606	
-   607		inode = d_inode(dentry);
-   608		exit_info = &pidfs_i(inode)->__pei;
-   609		/* Note how we were coredumped. */
-   610		coredump_mask = pidfs_coredump_mask(cprm->mm_flags);
-   611		/* Note that we actually did coredump. */
-   612		coredump_mask |= PIDFD_COREDUMPED;
-   613		/* If coredumping is set to skip we should never end up here. */
-   614		VFS_WARN_ON_ONCE(coredump_mask & PIDFD_COREDUMP_SKIP);
-   615		smp_store_release(&exit_info->coredump_mask, coredump_mask);
-   616		/* Fwiw, this cannot be the last reference. */
-   617		dput(dentry);
-   618	}
-   619	
+    92	
+  > 93	void direct_pages_meminfo(struct seq_file *m);
+    94	
 
 -- 
 0-DAY CI Kernel Test Service
