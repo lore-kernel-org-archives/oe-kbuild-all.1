@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4081DDC07
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 15:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5048259CA8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 15:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746200189; cv=none; b=QU9uRWi+doeSiSTWPzaA88mYlXA2WUxwiPeHp6b/xJePptyprLfuCJGGA+qx/DuTBwuLPi84EvwADS6/OY97TVgKSKz+IyZT+olYuPraV0nUqAmvCz4BWrdXH4Q4VF/gya1HMNR0Bc/e/1f5xIBoFLOr+tbH3kDNV14nvvBgnc0=
+	t=1746201449; cv=none; b=E8pZf8fBz8kHo3+lNAAQFQ6oCibtG4l6quOVRDo6ZCs8TY3DJI7TYV6XN3NJoyQnDnTq1zaZEwpuDJbbJbZJgwIbP02F070OBy8hwvAczVIFU4EMr+6MhZsmvRq9X2bKMNpJmvDWJhPdbUrXslWGblVzi5GiWJ0i6zc8hpqMAhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746200189; c=relaxed/simple;
-	bh=OpAQrB/oue+iEzkT/7L711k9l4b8H/6bGWPqCs/H+ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DNR1edWbE42GESXfr+ZFELdYtFpAchh3nGYaT/Vx924cJYAdTcRk/99/3iPtURGnxyCkHX36XznCbGEVIVgppVMa2V3+KE8no7DNvXIxqPE+bT+05qkQCxzWNV1qQpkI1tJFlpSFf9zsQ4eRozuS++ZEFtmVHrep1ZivUMEOKXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ThOk+f3A; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1746201449; c=relaxed/simple;
+	bh=2/2KJokmM94JGs4JW6LSCfuVWODtsVNYyHMdfTlEJbE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pwscPZYvavgmTFvgZKJxjYZ8rA0IIShrMYsxGjEVs+JuMbkwminRhX5hFcVLBFDrh/6GmJiUXTdW0OLpcBSdYHXB54YWrd9oDZjn1nyFbq0lcOmj4ImjGsGIjBD1TIbRK08FRxHJyXtdAetj87yTOiRhduMC5jS3/mNKSTvG80w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCHSWxKA; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThOk+f3A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCHSWxKA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746200188; x=1777736188;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OpAQrB/oue+iEzkT/7L711k9l4b8H/6bGWPqCs/H+ts=;
-  b=ThOk+f3ApKHqPudWHa3pgadePwYzu4meKTcLmnDrdt55lXbGzXoM2QeQ
-   RF/Sgc1IvP8a9dOJFY++QOinzervDdNezUUIeuBHDZKot+TE8ih8Q0HGZ
-   XnrzOH1LWSLdpPOJIR9ogTEX59Go3LrmIHCZ7bzt9/64U79ZKlhv85YvP
-   TcrSvwhnhIxYit2b4+Ahkx4NY2eN4v1HkDUEb4GA+3l5mYxeF1sGasIdY
-   8Z3XW+n7NTkpQ6hAnEfhWVDdrH8dMTOgXpVNFqth33EsnXLiRchJ4fvW5
-   n3QuOKAZh8VXOAPb+8Jr1mfuCx/d0GkEAw9AGlxalUDmIkAGQ5Fi/XREs
+  t=1746201448; x=1777737448;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2/2KJokmM94JGs4JW6LSCfuVWODtsVNYyHMdfTlEJbE=;
+  b=DCHSWxKAIInL2lQVO2N1BeYpbL4vVc9NiUErpRAxeM1KgGuA6W1f25Fl
+   f3rguYCQZjMLJaeVy8pjcHXPJxdoj903VzQLp0dGOZSK+SRTJG/DhnbFw
+   /C8g0cSE/+y3KWLxM4H/ZoKeHZpPZ1mmpSrJWMrwwES0Z/L28kku9Pgns
+   14LlrN0Il0uW1XbRzrV9vgWne8J4ZjWJjNN6sZJ2MjBGqxt6AZwTmGMDR
+   GCOgyv7TIDaCigyEdewnjrpYSlYqc9h4orcPczm3zlF7RBz8jHD/ungNP
+   MMi4gaGbGcQ9GRnKCnGkJDM55KCCiWI1ZI7fdcfczYWN/S0Gu/5olUsv6
    Q==;
-X-CSE-ConnectionGUID: prvnqLvISbSrVX7/bs+aDQ==
-X-CSE-MsgGUID: YDQk9Hq6Q0KIt1vx9ZrKqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="58508471"
+X-CSE-ConnectionGUID: CQ+xA3o/TR6T+PWpALQ9Qw==
+X-CSE-MsgGUID: T3oloB6JSfyEnCxEXRCAeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="47142753"
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="58508471"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 08:36:27 -0700
-X-CSE-ConnectionGUID: 1Tr+RxKCS8W7df/mIMbyXw==
-X-CSE-MsgGUID: O0M4VKRTRTSDLUzRmY6urA==
+   d="scan'208";a="47142753"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 08:57:26 -0700
+X-CSE-ConnectionGUID: W+PBoCA5QIWrL6b4FUA2+w==
+X-CSE-MsgGUID: Ou4eEftST+G0qx07HRRuDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="139843076"
+   d="scan'208";a="134628306"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 May 2025 08:36:23 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 May 2025 08:57:26 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAsR1-0004px-30;
-	Fri, 02 May 2025 15:36:19 +0000
-Date: Fri, 2 May 2025 23:36:01 +0800
+	id 1uAslP-0004qv-0M;
+	Fri, 02 May 2025 15:57:23 +0000
+Date: Fri, 2 May 2025 23:57:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: oushixiong1025@163.com, Sumit Semwal <sumit.semwal@linaro.org>
+To: Christian Brauner <brauner@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
-	Shixiong Ou <oushixiong@kylinos.cn>
-Subject: Re: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
-Message-ID: <202505022224.FCDQ8TCB-lkp@intel.com>
-References: <20250430085658.540746-2-oushixiong1025@163.com>
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.coredump.socket 12/14] fs/pidfs.c:597:31:
+ error: invalid use of undefined type 'const struct coredump_params'
+Message-ID: <202505022346.pQyGcLS8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,98 +62,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250430085658.540746-2-oushixiong1025@163.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus usb/usb-testing usb/usb-next usb/usb-linus xen-tip/linux-next linus/master v6.15-rc4]
-[cannot apply to tegra/for-next drm-xe/drm-xe-next rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes next-20250501]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/drm-prime-Support-importing-DMA-BUF-without-sg_table/20250430-170136
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250430085658.540746-2-oushixiong1025%40163.com
-patch subject: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
-config: arc-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250502/202505022224.FCDQ8TCB-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505022224.FCDQ8TCB-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git work.coredump.socket
+head:   fed163064146d254b65f674b2072bf51bc26bbfa
+commit: 745300388cabf3ae30ad74c7d35f563adab09d30 [12/14] pidfs, coredump: add PIDFD_INFO_COREDUMP
+config: arc-randconfig-002-20250502 (https://download.01.org/0day-ci/archive/20250502/202505022346.pQyGcLS8-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505022346.pQyGcLS8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505022224.FCDQ8TCB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505022346.pQyGcLS8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_prime.c:925:24: warning: no previous prototype for 'drm_gem_prime_import_dev_skip_map' [-Wmissing-prototypes]
-     925 | struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pidfs.c: In function 'pidfs_coredump':
+>> fs/pidfs.c:597:31: error: invalid use of undefined type 'const struct coredump_params'
+     597 |         struct pid *pid = cprm->pid;
+         |                               ^~
+   fs/pidfs.c:610:49: error: invalid use of undefined type 'const struct coredump_params'
+     610 |         coredump_mask = pidfs_coredump_mask(cprm->mm_flags);
+         |                                                 ^~
 
 
-vim +/drm_gem_prime_import_dev_skip_map +925 drivers/gpu/drm/drm_prime.c
+vim +597 fs/pidfs.c
 
-   913	
-   914	/**
-   915	 * drm_gem_prime_import_dev_skip_map - core implementation of the import callback
-   916	 * @dev: drm_device to import into
-   917	 * @dma_buf: dma-buf object to import
-   918	 * @attach_dev: struct device to dma_buf attach
-   919	 *
-   920	 * This function exports a dma-buf without get it's scatter/gather table.
-   921	 *
-   922	 * Drivers who need to get an scatter/gather table for objects need to call
-   923	 * drm_gem_prime_import_dev() instead.
-   924	 */
- > 925	struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
-   926								 struct dma_buf *dma_buf,
-   927								 struct device *attach_dev)
-   928	{
-   929		struct dma_buf_attachment *attach;
-   930		struct drm_gem_object *obj;
-   931		int ret;
-   932	
-   933		if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
-   934			obj = dma_buf->priv;
-   935			if (obj->dev == dev) {
-   936				/*
-   937				 * Importing dmabuf exported from our own gem increases
-   938				 * refcount on gem itself instead of f_count of dmabuf.
-   939				 */
-   940				drm_gem_object_get(obj);
-   941				return obj;
-   942			}
-   943		}
-   944	
-   945		attach = dma_buf_attach(dma_buf, attach_dev, true);
-   946		if (IS_ERR(attach))
-   947			return ERR_CAST(attach);
-   948	
-   949		get_dma_buf(dma_buf);
-   950	
-   951		obj = dev->driver->gem_prime_import_attachment(dev, attach);
-   952		if (IS_ERR(obj)) {
-   953			ret = PTR_ERR(obj);
-   954			goto fail_detach;
-   955		}
-   956	
-   957		obj->import_attach = attach;
-   958		obj->resv = dma_buf->resv;
-   959	
-   960		return obj;
-   961	
-   962	fail_detach:
-   963		dma_buf_detach(dma_buf, attach);
-   964		dma_buf_put(dma_buf);
-   965	
-   966		return ERR_PTR(ret);
-   967	}
-   968	EXPORT_SYMBOL(drm_gem_prime_import_dev_skip_map);
-   969	
+   594	
+   595	void pidfs_coredump(const struct coredump_params *cprm)
+   596	{
+ > 597		struct pid *pid = cprm->pid;
+   598		struct pidfs_exit_info *exit_info;
+   599		struct dentry *dentry;
+   600		struct inode *inode;
+   601		__u32 coredump_mask = 0;
+   602	
+   603		dentry = stashed_dentry_get(&pid->stashed);
+   604		if (WARN_ON_ONCE(!dentry))
+   605			return;
+   606	
+   607		inode = d_inode(dentry);
+   608		exit_info = &pidfs_i(inode)->__pei;
+   609		/* Note how we were coredumped. */
+   610		coredump_mask = pidfs_coredump_mask(cprm->mm_flags);
+   611		/* Note that we actually did coredump. */
+   612		coredump_mask |= PIDFD_COREDUMPED;
+   613		/* If coredumping is set to skip we should never end up here. */
+   614		VFS_WARN_ON_ONCE(coredump_mask & PIDFD_COREDUMP_SKIP);
+   615		smp_store_release(&exit_info->coredump_mask, coredump_mask);
+   616		/* Fwiw, this cannot be the last reference. */
+   617		dput(dentry);
+   618	}
+   619	
 
 -- 
 0-DAY CI Kernel Test Service
