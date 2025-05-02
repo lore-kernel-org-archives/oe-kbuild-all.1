@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379D5266B7E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 May 2025 23:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE6828E7;
+	Fri,  2 May 2025 00:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746142875; cv=none; b=owSqhqydPAfLMQyRmo1uLzXMDF4Dqt7rrfBivPjYXDvIG8T7fwPhsEXj6n6tSV3HCRbtmJSMRcU1ucTdD45To4C4nVjEqztIRKtypGHO73q1SEkZbFlaYtxUKNSSLZYYIjsT0uRcLvlPxGcQgMNev+NONOpICGltTei2cup3kOM=
+	t=1746144798; cv=none; b=f5R2Gdc7ciWR/QECZ//RuQJCiy0B2CDvbfks+ls/h0KTBUGeCPycWwZhwbI88polnXf6rZi75uRL8bS2CGcnLWoPpKa9yPAC8oGbhm8TdrG1y4dOKPM0G5UcUn2x8OC9mHuXNcdEzdnsivkqyokBRXWXJefYMRBSaWIb5+O13Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746142875; c=relaxed/simple;
-	bh=O1p8exRu3VMRQ2hGBvCPd1h54+d+kCb4Jo0XlGndlr0=;
+	s=arc-20240116; t=1746144798; c=relaxed/simple;
+	bh=oILweB5MWjR4gCqurfHJnLwkzN4AFItWOqmt0+mfcgk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A2JTxA4+WJ2ALcqVlLEfg3w125tSyjJ0/CBtLzczbNf6jUpJAcooL4q5kHQ+sxYFA/OE//UGXqitUjykrIERUbQeHDkZPgr+tTPpCvR29TXQQuLZWqmgbOl2Q7Fhh5x5nGax9PDL57utOiVva9ES+XmnACBiqWCXmmPWf1Ry99o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrzKMznx; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=CCN6OCMsBn3vAyjsGKIBMCjuIsgKh+6UueAYBCkoJcyiwpAnzkCV7t03PNZ9M74oAP70frQ48QCWH+woc7zD3iLgkz9BR2l9Dc5eaGnJECL427Xs0UF5vi5H1QPXOd4NjqjTNZPdF0xhzLylJzHwbs1LgqnSiuyRxcPGQTvr0KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ms/cpwT7; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrzKMznx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ms/cpwT7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746142874; x=1777678874;
+  t=1746144796; x=1777680796;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O1p8exRu3VMRQ2hGBvCPd1h54+d+kCb4Jo0XlGndlr0=;
-  b=YrzKMznxOCbUQSr4X6UhK3SFIpA4gG5xaigg6zKiCoapVgpZlD+qT3G6
-   XKOYbuK0ZEM2GbWwwnSoOi66/IWlyMvDrdGsXtePcvHioqxbEZ9QVmb1s
-   JSziNM4vfCvLtYvoxfhrirwULWmIc9Bh8AidkxpsM0zlf0B05Iuwic2hF
-   iHZSniYygucaQMIDKfrvHkW25uwWAgxZ8yK2cZY4JUICnPQHbV511dLYL
-   z3CaPuuBd4N1OiVB1nxnzmJoBHYYqSiqxPd61HkugS+5v31YgCc4tCufG
-   3T4EE/8el2XFbU3Mlq0k4H0Zx6Fekqk5cwrzzAGIr7Z4JdrMDJIZ6mSlf
-   g==;
-X-CSE-ConnectionGUID: 3IztzZC1SvKzMBv7ImuADg==
-X-CSE-MsgGUID: CstmoIH+QvGKp+JPGd2YWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="70330471"
-X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="70330471"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 16:41:11 -0700
-X-CSE-ConnectionGUID: IalpYmibQ7uRIph/Tsmd1w==
-X-CSE-MsgGUID: 8iVtwPZeQqikCjsdfO/j2w==
+  bh=oILweB5MWjR4gCqurfHJnLwkzN4AFItWOqmt0+mfcgk=;
+  b=ms/cpwT7zDCW+/BtmFHGmzQrFloiLXv27nfMr965t6lXVP56OPtemqQC
+   EXoku1gUtEwHy0Pmfoan7ugkO3iS4IHgdMqViY1BMv/Mz/ABGQ5MszWRT
+   plIpjo6ORgH9U6MlIulwshkbZZdYfkO3mLr3eTaQEpD5091JpsQBVYcMd
+   a+xXYyWSa0LOgRA2PoiC5cv8gvOjQJONuaaOFSDHpDJtOl9U0lGZeAfoa
+   PLKRhlsdPlQa2MTYCqUjeYhzgxuTrVtcu0QUhEVzzDeS/LdLFSkayqG7j
+   vlYUYogZQX2zLYE3D7O41yGYOKcQw0/ZGHcN/INOkdYuxLVbWWPutRwii
+   w==;
+X-CSE-ConnectionGUID: RGdKULikRZqRuyFHn5OIUA==
+X-CSE-MsgGUID: RDR3I3o3TuqXZGbPlTrLGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="58817679"
+X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
+   d="scan'208";a="58817679"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 17:13:13 -0700
+X-CSE-ConnectionGUID: Hi7CC0WETIW+hCkQdKU8Jg==
+X-CSE-MsgGUID: G1dF+kboTja9v5SBM+h+Kg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,254,1739865600"; 
-   d="scan'208";a="135035341"
+X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
+   d="scan'208";a="134829377"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 May 2025 16:41:09 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 01 May 2025 17:13:12 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAdWd-0004Rb-2Q;
-	Thu, 01 May 2025 23:41:07 +0000
-Date: Fri, 2 May 2025 07:40:08 +0800
+	id 1uAe1e-0004SL-0t;
+	Fri, 02 May 2025 00:13:10 +0000
+Date: Fri, 2 May 2025 08:12:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>
-Subject: arch/powerpc/kvm/book3s_xive.c:357:41: sparse: sparse: incorrect
- type in initializer (different base types)
-Message-ID: <202505020704.ohBUEBYk-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.15-rc3 92/110]
+ drivers/platform/arm64/mpam/mpam_resctrl.c:326:10: warning: enumeration
+ value 'QOS_NUM_EVENTS' not handled in switch
+Message-ID: <202505020820.skhaveyd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,79 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ebd297a2affadb6f6f4d2e5d975c1eda18ac762d
-commit: 0305292f17bc1f4fc66a24a8dd1a5e047673c02d powerpc/io: Use generic raw accessors
-date:   9 weeks ago
-config: powerpc64-randconfig-r122-20250501 (https://download.01.org/0day-ci/archive/20250502/202505020704.ohBUEBYk-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250502/202505020704.ohBUEBYk-lkp@intel.com/reproduce)
+Hi James,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.15-rc3
+head:   2cc3eff27207d40f181a59f04660a1e8e9746ff8
+commit: a72f3a3a6232e93a4ff7ac9036df24fc15157fee [92/110] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250502/202505020820.skhaveyd-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020820.skhaveyd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505020704.ohBUEBYk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505020820.skhaveyd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/powerpc/kvm/book3s_xive.c:51:15: sparse: sparse: cast to restricted __be16
->> arch/powerpc/kvm/book3s_xive.c:357:41: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be64 [usertype] qw1 @@     got unsigned long long @@
-   arch/powerpc/kvm/book3s_xive.c:357:41: sparse:     expected restricted __be64 [usertype] qw1
-   arch/powerpc/kvm/book3s_xive.c:357:41: sparse:     got unsigned long long
->> arch/powerpc/kvm/book3s_xive.c:701:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] value @@     got restricted __be64 [usertype] w01 @@
-   arch/powerpc/kvm/book3s_xive.c:701:57: sparse:     expected unsigned long long [usertype] value
-   arch/powerpc/kvm/book3s_xive.c:701:57: sparse:     got restricted __be64 [usertype] w01
->> arch/powerpc/kvm/book3s_xive.c:702:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] xive_cam_word @@
-   arch/powerpc/kvm/book3s_xive.c:702:32: sparse:     expected unsigned int [usertype] value
-   arch/powerpc/kvm/book3s_xive.c:702:32: sparse:     got restricted __be32 [usertype] xive_cam_word
->> arch/powerpc/kvm/book3s_xive.c:774:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] w01 @@     got unsigned long long @@
-   arch/powerpc/kvm/book3s_xive.c:774:49: sparse:     expected restricted __be64 [usertype] w01
-   arch/powerpc/kvm/book3s_xive.c:774:49: sparse:     got unsigned long long
+All warnings (new ones prefixed by >>):
 
-vim +357 arch/powerpc/kvm/book3s_xive.c
+>> drivers/platform/arm64/mpam/mpam_resctrl.c:326:10: warning: enumeration value 'QOS_NUM_EVENTS' not handled in switch [-Wswitch]
+     326 |         switch (evtid) {
+         |                 ^~~~~
+   1 warning generated.
 
-5af50993850a48b Benjamin Herrenschmidt 2017-04-05  335  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  336  static unsigned long xive_vm_h_ipoll(struct kvm_vcpu *vcpu, unsigned long server)
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  337  {
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  338  	struct kvmppc_xive_vcpu *xc = vcpu->arch.xive_vcpu;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  339  	u8 pending = xc->pending;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  340  	u32 hirq;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  341  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  342  	pr_devel("H_IPOLL(server=%ld)\n", server);
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  343  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  344  	xc->stat_vm_h_ipoll++;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  345  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  346  	/* Grab the target VCPU if not the current one */
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  347  	if (xc->server_num != server) {
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  348  		vcpu = kvmppc_xive_find_server(vcpu->kvm, server);
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  349  		if (!vcpu)
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  350  			return H_PARAMETER;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  351  		xc = vcpu->arch.xive_vcpu;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  352  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  353  		/* Scan all priorities */
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  354  		pending = 0xff;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  355  	} else {
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  356  		/* Grab pending interrupt if any */
-b22af9041927075 Alexey Kardashevskiy   2022-05-09 @357  		__be64 qw1 = __raw_readq(xive_tima + TM_QW1_OS);
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  358  		u8 pipr = be64_to_cpu(qw1) & 0xff;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  359  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  360  		if (pipr < 8)
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  361  			pending |= 1 << pipr;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  362  	}
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  363  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  364  	hirq = xive_vm_scan_interrupts(xc, pending, scan_poll);
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  365  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  366  	/* Return interrupt and old CPPR in GPR4 */
-0e85b7df9cb0c65 Jordan Niethe          2023-09-14  367  	kvmppc_set_gpr(vcpu, 4, hirq | (xc->cppr << 24));
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  368  
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  369  	return H_SUCCESS;
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  370  }
-b22af9041927075 Alexey Kardashevskiy   2022-05-09  371  
 
-:::::: The code at line 357 was first introduced by commit
-:::::: b22af9041927075b82bcaf4b6c7a354688198d47 KVM: PPC: Book3s: Remove real mode interrupt controller hcalls handlers
+vim +/QOS_NUM_EVENTS +326 drivers/platform/arm64/mpam/mpam_resctrl.c
 
-:::::: TO: Alexey Kardashevskiy <aik@ozlabs.ru>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+ab494c1ab56754 James Morse 2021-06-25  312  
+ab494c1ab56754 James Morse 2021-06-25  313  void resctrl_arch_mon_ctx_free(struct rdt_resource *r,
+ab494c1ab56754 James Morse 2021-06-25  314  			       enum resctrl_event_id evtid, void *arch_mon_ctx)
+ab494c1ab56754 James Morse 2021-06-25  315  {
+ab494c1ab56754 James Morse 2021-06-25  316  	struct mpam_resctrl_res *res;
+ab494c1ab56754 James Morse 2021-06-25  317  	u32 mon = *(u32 *)arch_mon_ctx;
+ab494c1ab56754 James Morse 2021-06-25  318  
+ab494c1ab56754 James Morse 2021-06-25  319  	if (mon == USE_RMID_IDX)
+ab494c1ab56754 James Morse 2021-06-25  320  		return;
+ab494c1ab56754 James Morse 2021-06-25  321  	kfree(arch_mon_ctx);
+ab494c1ab56754 James Morse 2021-06-25  322  	arch_mon_ctx = NULL;
+ab494c1ab56754 James Morse 2021-06-25  323  
+ab494c1ab56754 James Morse 2021-06-25  324  	res = container_of(r, struct mpam_resctrl_res, resctrl_res);
+ab494c1ab56754 James Morse 2021-06-25  325  
+ab494c1ab56754 James Morse 2021-06-25 @326  	switch (evtid) {
+ab494c1ab56754 James Morse 2021-06-25  327  	case QOS_L3_OCCUP_EVENT_ID:
+ab494c1ab56754 James Morse 2021-06-25  328  		mpam_free_csu_mon(res->class, mon);
+ab494c1ab56754 James Morse 2021-06-25  329  		wake_up(&resctrl_mon_ctx_waiters);
+ab494c1ab56754 James Morse 2021-06-25  330  		return;
+ab494c1ab56754 James Morse 2021-06-25  331  	case QOS_L3_MBM_TOTAL_EVENT_ID:
+ab494c1ab56754 James Morse 2021-06-25  332  	case QOS_L3_MBM_LOCAL_EVENT_ID:
+ab494c1ab56754 James Morse 2021-06-25  333  		return;
+ab494c1ab56754 James Morse 2021-06-25  334  	}
+ab494c1ab56754 James Morse 2021-06-25  335  }
+ab494c1ab56754 James Morse 2021-06-25  336  
+
+:::::: The code at line 326 was first introduced by commit
+:::::: ab494c1ab56754729b57617a5f5f40c64c954521 arm_mpam: resctrl: Allow resctrl to allocate monitors
+
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: James Morse <james.morse@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
