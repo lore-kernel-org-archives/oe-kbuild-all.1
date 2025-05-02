@@ -1,65 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1594A15E90;
-	Fri,  2 May 2025 01:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E1E195
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 02:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746148525; cv=none; b=Pmtl+SqIFBDZWCCuNtsAxy+Cl2CGwgLAqGj/zMrk6Abnmupq6ud3YEBhQbcPmEkxPlXp6Nnb9PTPXmR9xnY3Zi4ZkwnvDyC/zbhC5X6RPMFBEkmrM0363wYR/LS16kX324OQqbYB7ycdzNlHwBJjsDunZRS00gPpLwWkGH7Zaao=
+	t=1746151513; cv=none; b=GptLaz9k6ac1DetW6F8T+YnIF+18M/sLbz4Njs2wK6yB1dY2W0sM1Eo64lc9Et7FZSR+zQPUyGl+8cWh0OFn72sUUtJOHxJFFZyiL01dRUzK0s0eyUDlePu8go2kIceDi2WA8dxHgWD6SouiOqiKozkejcDY/KikHQ6SSSdJnH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746148525; c=relaxed/simple;
-	bh=qThFo2OyaWAGrkhYOPTL+nS7FbwT7IFHPxUakidufl0=;
+	s=arc-20240116; t=1746151513; c=relaxed/simple;
+	bh=/yF8kcn+v95yqfwAfHX+ghDjf2LWtZweUCg4gNHbCxo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LUZ6A6UllFirtHlMuzbAhoABaNG4qsRpa2jCpPeCcBg+m2fR0fXY54HDeH1fZeOxbj2F4hjf7Ki9GijdSSZgAGHUf2xC06wE/Z+1p/rX1TwwNm9nWig/oAb7yIE9QpKvPGq3Qnd6c0BQ4n2XwCcBqkRzBk8JIqLYFaFNcROM/lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmF6rFeK; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z+5AF+oTywaRzATuVLgmAri5Iu6CUwX9rHgIb/k92EFVNSBkmSf5KGBEJOGviOvx3fOSzyikLOm4FO7T/gGwF/Q/bEyaGra0Yy1Zu03RTeXCfRuE/LOvBfMQcd4qa/z4FDYIYxR0Sc3Zr7NeVHSsjNYoKAiJTQxF9JrvEtutNxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DoJPWIYj; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmF6rFeK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DoJPWIYj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746148523; x=1777684523;
+  t=1746151512; x=1777687512;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qThFo2OyaWAGrkhYOPTL+nS7FbwT7IFHPxUakidufl0=;
-  b=NmF6rFeKBY9CNjI0Z0NPwzcVlDkpDafQU7rapl/UbzwXcS7yNjCT9tx0
-   UWySqAaXwo0JE6a/rftV8Pw+u5j0nYXTZ039gWIK3nhJIVdMssIOzV37K
-   3MTdhO7Ozu4kbIDIKS/uPVBpQebi9L4YiP3NcZsWn18HRWZmbTwAA+u87
-   ZI3BWzadVWmYKgi03dLGvj6GR+ol1TGI0sorUzG4xhr8XOhpzUS/AI0kx
-   p9TcrpdwuU/DDcmMShNdpbfIQhtrSj8Eiv1/gevr2gnHcCYWO68S9JRLO
-   feAkS/NAq0EUi051JT9DdkrDRTVSyNy4b9e1NTBzZFp25umYDtDlku5B4
-   w==;
-X-CSE-ConnectionGUID: 57DyjjW/QtaYFY6qnzjhFw==
-X-CSE-MsgGUID: JONZz5OqS1WFdOwwFyZhGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47971665"
+  bh=/yF8kcn+v95yqfwAfHX+ghDjf2LWtZweUCg4gNHbCxo=;
+  b=DoJPWIYjA4PTJGYHbGVt/pd7mAOaKDefCvnzIlove/win7T4SMraV06k
+   gKkfCiXLGnOoy7J2w0Uv/WrMsHxrl7Cu5kSk5EXrToBReVZGpzItCo8/H
+   6MxLWGaH0+aHgx+97n76MGWSoZwB52OWKMXNS4gSiu8sn4sgOhGwbL+P+
+   gXKIBEdb+aoQpppKjb1egvenwG1iLyBGx5aCh53998Ja3TESkdAL6nsYf
+   W7vp9azJ2F5EpJ0arhltRu7tZO//FCketBNDXh+rYuWBQRwl9eKZWFLmo
+   7W9kwny9GWYhDfoS4CMf9uaj3u7r5rpx40kI1ss+42yGNNgNUglbsS8ZM
+   g==;
+X-CSE-ConnectionGUID: vAkPix1TS2u15cbI16jF2Q==
+X-CSE-MsgGUID: P7GCeIW0SPC1OYShkHeudw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47718412"
 X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
-   d="scan'208";a="47971665"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 18:15:22 -0700
-X-CSE-ConnectionGUID: ZfraKh0PRFOMDsr38cEUQw==
-X-CSE-MsgGUID: kBNYggXVSX2+8kIxNTZoNw==
+   d="scan'208";a="47718412"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 19:05:11 -0700
+X-CSE-ConnectionGUID: qdJ8JRw5QySAgt1tBZiViA==
+X-CSE-MsgGUID: L19U8F8/Se6AJA2eBdsjNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
-   d="scan'208";a="134420606"
+   d="scan'208";a="139676218"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 01 May 2025 18:15:20 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 01 May 2025 19:05:07 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAezk-0004U1-2q;
-	Fri, 02 May 2025 01:15:16 +0000
-Date: Fri, 2 May 2025 09:15:12 +0800
+	id 1uAflx-0004Uv-1o;
+	Fri, 02 May 2025 02:05:05 +0000
+Date: Fri, 2 May 2025 10:04:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	thierry.bultel@linatsea.fr
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
-	paul.barker.ct@bp.renesas.com,
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v8 08/11] serial: sh-sci: Add support for RZ/T2H SCI
-Message-ID: <202505020836.WBkjrl7J-lkp@intel.com>
-References: <20250429081956.3804621-9-thierry.bultel.yh@bp.renesas.com>
+To: Paresh Bhagat <p-bhagat@ti.com>, nm@ti.com, vigneshr@ti.com,
+	praneeth@ti.com
+Cc: oe-kbuild-all@lists.linux.dev, kristo@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, khasim@ti.com, v-singh1@ti.com,
+	afd@ti.com
+Subject: Re: [PATCH 3/3] arm64: dts: ti: Add support for AM62D2-EVM
+Message-ID: <202505020921.tGSgIFVU-lkp@intel.com>
+References: <20250501072923.1262414-4-p-bhagat@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,45 +67,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250429081956.3804621-9-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250501072923.1262414-4-p-bhagat@ti.com>
 
-Hi Thierry,
+Hi Paresh,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next]
-[cannot apply to geert-renesas-drivers/renesas-clk tty/tty-linus geert-renesas-devel/next linus/master v6.15-rc4 next-20250501]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.15-rc4 next-20250501]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Bultel/dt-bindings-soc-Add-Renesas-RZ-T2H-R9A09G077-SoC/20250429-172052
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20250429081956.3804621-9-thierry.bultel.yh%40bp.renesas.com
-patch subject: [PATCH v8 08/11] serial: sh-sci: Add support for RZ/T2H SCI
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250502/202505020836.WBkjrl7J-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020836.WBkjrl7J-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paresh-Bhagat/dt-bindings-arm-ti-Add-bindings-for-AM62D2-SoC/20250501-153150
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250501072923.1262414-4-p-bhagat%40ti.com
+patch subject: [PATCH 3/3] arm64: dts: ti: Add support for AM62D2-EVM
+config: arm64-randconfig-003-20250502 (https://download.01.org/0day-ci/archive/20250502/202505020921.tGSgIFVU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505020921.tGSgIFVU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505020836.WBkjrl7J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505020921.tGSgIFVU-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-ERROR: modpost: missing MODULE_LICENSE() in drivers/tty/serial/rsci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/rsci.o
->> ERROR: modpost: "sci_port_enable" [drivers/tty/serial/rsci.ko] undefined!
->> ERROR: modpost: "sci_port_disable" [drivers/tty/serial/rsci.ko] undefined!
->> ERROR: modpost: "sci_release_port" [drivers/tty/serial/rsci.ko] undefined!
->> ERROR: modpost: "sci_shutdown" [drivers/tty/serial/rsci.ko] undefined!
->> ERROR: modpost: "sci_startup" [drivers/tty/serial/rsci.ko] undefined!
->> ERROR: modpost: "sci_verify_port" [drivers/tty/serial/rsci.ko] undefined!
->> ERROR: modpost: "sci_request_port" [drivers/tty/serial/rsci.ko] undefined!
->> ERROR: modpost: "sci_config_port" [drivers/tty/serial/rsci.ko] undefined!
->> ERROR: modpost: "sci_pm" [drivers/tty/serial/rsci.ko] undefined!
+>> arch/arm64/boot/dts/ti/k3-am62d2-evm.dts:15:10: fatal error: k3-timesync-router.h: No such file or directory
+      15 | #include "k3-timesync-router.h"
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +15 arch/arm64/boot/dts/ti/k3-am62d2-evm.dts
+
+    14	
+  > 15	#include "k3-timesync-router.h"
+    16	
 
 -- 
 0-DAY CI Kernel Test Service
