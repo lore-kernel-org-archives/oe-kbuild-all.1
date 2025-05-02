@@ -1,66 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A33252905
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 14:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4081DDC07
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 15:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746195957; cv=none; b=ux/MlLQYMb5a98YEFbTNIWsHc2b+lZGNHl8Y08y7NOomYtrG97abfgiFVOZI6ven9bgVJUEx+dth1kfhME3hmb0BBXzWA3tJkKApVaVGUQ4SuUj8xNuzVPNzJDQ43R4/v1Y7S6GwM7MGol7iYjk+n5eYX6YHw0CdROWXmHQ5rnU=
+	t=1746200189; cv=none; b=QU9uRWi+doeSiSTWPzaA88mYlXA2WUxwiPeHp6b/xJePptyprLfuCJGGA+qx/DuTBwuLPi84EvwADS6/OY97TVgKSKz+IyZT+olYuPraV0nUqAmvCz4BWrdXH4Q4VF/gya1HMNR0Bc/e/1f5xIBoFLOr+tbH3kDNV14nvvBgnc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746195957; c=relaxed/simple;
-	bh=sMDIVEpmzzZsg8Vw0VMY7gk8A5TS0aYI5ic94kJp8rE=;
+	s=arc-20240116; t=1746200189; c=relaxed/simple;
+	bh=OpAQrB/oue+iEzkT/7L711k9l4b8H/6bGWPqCs/H+ts=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TWdt/hpVb3OUqBZ7zkmzY+bDNQSFlJQZUTqN7ecaOVFweA5tmvpeuifzqH4R8UhlDIn3rLWKIzdA3kMdsCS2HjiOXuwELaRg4+wx6B+6RGMp7bzX3m4vGWws9vQKnbCJ0ZnXh41sbrQL44M2GnaZUREwd4hptgRo/fXVvPmiy9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S66s4R3F; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=DNR1edWbE42GESXfr+ZFELdYtFpAchh3nGYaT/Vx924cJYAdTcRk/99/3iPtURGnxyCkHX36XznCbGEVIVgppVMa2V3+KE8no7DNvXIxqPE+bT+05qkQCxzWNV1qQpkI1tJFlpSFf9zsQ4eRozuS++ZEFtmVHrep1ZivUMEOKXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ThOk+f3A; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S66s4R3F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThOk+f3A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746195955; x=1777731955;
+  t=1746200188; x=1777736188;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sMDIVEpmzzZsg8Vw0VMY7gk8A5TS0aYI5ic94kJp8rE=;
-  b=S66s4R3FKZwIDXHilOgY4qYq4ooY87ynSwQMUDUcdDcZ+twVhlByr8wl
-   hAasikzsMWlg2blMNFsB74PXN4eQXEaiDx7fQOQqn7xzKXI/Dq5PzRUb1
-   M/9+9mGNZp/t5vz5XIVGmZmWfjCSiAXQTvUjfyKlYD+EXyFhSX/PpTAuW
-   cbU/In7N0CWxoE6Ywq80Qo3imDHHH8NcgUTm6++eicyl4SfQVCxGATfJ4
-   jKhHcFXTcgXzBRvvz9Sx5MUi/8aSn2MUvpVsVkRWhT2w6Ke16sRLkDZMW
-   1zu4B7WoofQZUku7FfqxbMYimh9dqC4MletN0kX3Jsd4o9Y+7ZNc16KAu
-   A==;
-X-CSE-ConnectionGUID: Dv4UE3dZQ5SX5Hm3lckMSQ==
-X-CSE-MsgGUID: 5uBKvIk6TiGuNMTn5WOANA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="59261845"
+  bh=OpAQrB/oue+iEzkT/7L711k9l4b8H/6bGWPqCs/H+ts=;
+  b=ThOk+f3ApKHqPudWHa3pgadePwYzu4meKTcLmnDrdt55lXbGzXoM2QeQ
+   RF/Sgc1IvP8a9dOJFY++QOinzervDdNezUUIeuBHDZKot+TE8ih8Q0HGZ
+   XnrzOH1LWSLdpPOJIR9ogTEX59Go3LrmIHCZ7bzt9/64U79ZKlhv85YvP
+   TcrSvwhnhIxYit2b4+Ahkx4NY2eN4v1HkDUEb4GA+3l5mYxeF1sGasIdY
+   8Z3XW+n7NTkpQ6hAnEfhWVDdrH8dMTOgXpVNFqth33EsnXLiRchJ4fvW5
+   n3QuOKAZh8VXOAPb+8Jr1mfuCx/d0GkEAw9AGlxalUDmIkAGQ5Fi/XREs
+   Q==;
+X-CSE-ConnectionGUID: prvnqLvISbSrVX7/bs+aDQ==
+X-CSE-MsgGUID: YDQk9Hq6Q0KIt1vx9ZrKqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="58508471"
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="59261845"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 07:25:54 -0700
-X-CSE-ConnectionGUID: nePlqO1UReus5rdz7izWkQ==
-X-CSE-MsgGUID: tXIfgF0SRwGLv7DYdsH0nQ==
+   d="scan'208";a="58508471"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 08:36:27 -0700
+X-CSE-ConnectionGUID: 1Tr+RxKCS8W7df/mIMbyXw==
+X-CSE-MsgGUID: O0M4VKRTRTSDLUzRmY6urA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="139796751"
+   d="scan'208";a="139843076"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 02 May 2025 07:25:49 -0700
+  by orviesa005.jf.intel.com with ESMTP; 02 May 2025 08:36:23 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uArKl-0004nV-0N;
-	Fri, 02 May 2025 14:25:47 +0000
-Date: Fri, 2 May 2025 22:24:51 +0800
+	id 1uAsR1-0004px-30;
+	Fri, 02 May 2025 15:36:19 +0000
+Date: Fri, 2 May 2025 23:36:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
-	tj@kernel.org, christian.koenig@amd.com,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
-	Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [PATCH 3/5] ttm: add initial memcg integration. (v2)
-Message-ID: <202505022223.9sTn2H1l-lkp@intel.com>
-References: <20250502034046.1625896-4-airlied@gmail.com>
+To: oushixiong1025@163.com, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+	Shixiong Ou <oushixiong@kylinos.cn>
+Subject: Re: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
+Message-ID: <202505022224.FCDQ8TCB-lkp@intel.com>
+References: <20250430085658.540746-2-oushixiong1025@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,226 +71,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250502034046.1625896-4-airlied@gmail.com>
+In-Reply-To: <20250430085658.540746-2-oushixiong1025@163.com>
 
-Hi Dave,
+Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on tj-cgroup/for-next]
-[also build test ERROR on akpm-mm/mm-everything linus/master v6.15-rc4]
-[cannot apply to next-20250502]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus usb/usb-testing usb/usb-next usb/usb-linus xen-tip/linux-next linus/master v6.15-rc4]
+[cannot apply to tegra/for-next drm-xe/drm-xe-next rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes next-20250501]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/memcg-add-hooks-for-gpu-memcg-charging-uncharging/20250502-123650
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20250502034046.1625896-4-airlied%40gmail.com
-patch subject: [PATCH 3/5] ttm: add initial memcg integration. (v2)
-config: arc-randconfig-002-20250502 (https://download.01.org/0day-ci/archive/20250502/202505022223.9sTn2H1l-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505022223.9sTn2H1l-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/drm-prime-Support-importing-DMA-BUF-without-sg_table/20250430-170136
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250430085658.540746-2-oushixiong1025%40163.com
+patch subject: [PATCH 2/3] drm/prime: Support importing DMA-BUF without sg_table
+config: arc-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250502/202505022224.FCDQ8TCB-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505022224.FCDQ8TCB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505022223.9sTn2H1l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505022224.FCDQ8TCB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/ttm/tests/ttm_resource_test.c: In function 'ttm_sys_man_free_basic':
->> drivers/gpu/drm/ttm/tests/ttm_resource_test.c:305:39: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     305 |         ttm_resource_alloc(bo, place, &res, NULL);
-         |                                       ^~~~
-         |                                       |
-         |                                       struct ttm_resource **
-   In file included from drivers/gpu/drm/ttm/tests/ttm_resource_test.c:5:
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/ttm/tests/ttm_resource_test.c:305:9: error: too few arguments to function 'ttm_resource_alloc'
-     305 |         ttm_resource_alloc(bo, place, &res, NULL);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c: In function 'ttm_bo_validate_no_placement_signaled':
->> drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:545:45: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     545 |         err = ttm_resource_alloc(bo, place, &bo->resource, NULL);
-         |                                             ^~~~~~~~~~~~~
-         |                                             |
-         |                                             struct ttm_resource **
-   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:8:
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:545:15: error: too few arguments to function 'ttm_resource_alloc'
-     545 |         err = ttm_resource_alloc(bo, place, &bo->resource, NULL);
-         |               ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c: In function 'ttm_bo_validate_no_placement_not_signaled':
-   drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:606:45: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     606 |         err = ttm_resource_alloc(bo, place, &bo->resource, NULL);
-         |                                             ^~~~~~~~~~~~~
-         |                                             |
-         |                                             struct ttm_resource **
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:606:15: error: too few arguments to function 'ttm_resource_alloc'
-     606 |         err = ttm_resource_alloc(bo, place, &bo->resource, NULL);
-         |               ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_unreserve_basic':
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:261:45: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     261 |         err = ttm_resource_alloc(bo, place, &res1, NULL);
-         |                                             ^~~~~
-         |                                             |
-         |                                             struct ttm_resource **
-   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:13:
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:261:15: error: too few arguments to function 'ttm_resource_alloc'
-     261 |         err = ttm_resource_alloc(bo, place, &res1, NULL);
-         |               ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:267:39: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     267 |         ttm_resource_alloc(bo, place, &res2, NULL);
-         |                                       ^~~~~
-         |                                       |
-         |                                       struct ttm_resource **
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:267:9: error: too few arguments to function 'ttm_resource_alloc'
-     267 |         ttm_resource_alloc(bo, place, &res2, NULL);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_unreserve_pinned':
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:303:45: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     303 |         err = ttm_resource_alloc(bo, place, &res1, NULL);
-         |                                             ^~~~~
-         |                                             |
-         |                                             struct ttm_resource **
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:303:15: error: too few arguments to function 'ttm_resource_alloc'
-     303 |         err = ttm_resource_alloc(bo, place, &res1, NULL);
-         |               ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:308:45: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     308 |         err = ttm_resource_alloc(bo, place, &res2, NULL);
-         |                                             ^~~~~
-         |                                             |
-         |                                             struct ttm_resource **
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:308:15: error: too few arguments to function 'ttm_resource_alloc'
-     308 |         err = ttm_resource_alloc(bo, place, &res2, NULL);
-         |               ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_unreserve_bulk':
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:358:46: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     358 |         err = ttm_resource_alloc(bo1, place, &res1, NULL);
-         |                                              ^~~~~
-         |                                              |
-         |                                              struct ttm_resource **
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:358:15: error: too few arguments to function 'ttm_resource_alloc'
-     358 |         err = ttm_resource_alloc(bo1, place, &res1, NULL);
-         |               ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:366:46: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     366 |         err = ttm_resource_alloc(bo2, place, &res2, NULL);
-         |                                              ^~~~~
-         |                                              |
-         |                                              struct ttm_resource **
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:366:15: error: too few arguments to function 'ttm_resource_alloc'
-     366 |         err = ttm_resource_alloc(bo2, place, &res2, NULL);
-         |               ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_put_basic':
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:404:45: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     404 |         err = ttm_resource_alloc(bo, place, &res, NULL);
-         |                                             ^~~~
-         |                                             |
-         |                                             struct ttm_resource **
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:404:15: error: too few arguments to function 'ttm_resource_alloc'
-     404 |         err = ttm_resource_alloc(bo, place, &res, NULL);
-         |               ^~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:448:5: note: declared here
-     448 | int ttm_resource_alloc(struct ttm_buffer_object *bo,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_pin_unpin_resource':
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:521:45: error: passing argument 3 of 'ttm_resource_alloc' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     521 |         err = ttm_resource_alloc(bo, place, &res, NULL);
-         |                                             ^~~~
-         |                                             |
-         |                                             struct ttm_resource **
-   include/drm/ttm/ttm_resource.h:450:50: note: expected 'struct ttm_operation_ctx *' but argument is of type 'struct ttm_resource **'
-     450 |                        struct ttm_operation_ctx *ctx,
+>> drivers/gpu/drm/drm_prime.c:925:24: warning: no previous prototype for 'drm_gem_prime_import_dev_skip_map' [-Wmissing-prototypes]
+     925 | struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ttm_resource_alloc +305 drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+vim +/drm_gem_prime_import_dev_skip_map +925 drivers/gpu/drm/drm_prime.c
 
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  288  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  289  static void ttm_sys_man_free_basic(struct kunit *test)
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  290  {
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  291  	struct ttm_resource_test_priv *priv = test->priv;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  292  	struct ttm_resource_manager *man;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  293  	struct ttm_buffer_object *bo;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  294  	struct ttm_place *place;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  295  	struct ttm_resource *res;
-07430fa5248964 Karolina Stolarek 2024-06-12  296  	u32 mem_type = TTM_PL_SYSTEM;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  297  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  298  	ttm_init_test_mocks(test, priv, mem_type, 0);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  299  	bo = priv->bo;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  300  	place = priv->place;
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  301  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  302  	res = kunit_kzalloc(test, sizeof(*res), GFP_KERNEL);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  303  	KUNIT_ASSERT_NOT_NULL(test, res);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  304  
-2b624a2c18656e Maarten Lankhorst 2024-12-04 @305  	ttm_resource_alloc(bo, place, &res, NULL);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  306  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  307  	man = ttm_manager_type(priv->devs->ttm_dev, mem_type);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  308  	man->func->free(man, res);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  309  
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  310  	KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[bo->priority]));
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  311  	KUNIT_ASSERT_EQ(test, man->usage, 0);
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  312  }
-9afc1e0aa4851e Karolina Stolarek 2023-11-29  313  
+   913	
+   914	/**
+   915	 * drm_gem_prime_import_dev_skip_map - core implementation of the import callback
+   916	 * @dev: drm_device to import into
+   917	 * @dma_buf: dma-buf object to import
+   918	 * @attach_dev: struct device to dma_buf attach
+   919	 *
+   920	 * This function exports a dma-buf without get it's scatter/gather table.
+   921	 *
+   922	 * Drivers who need to get an scatter/gather table for objects need to call
+   923	 * drm_gem_prime_import_dev() instead.
+   924	 */
+ > 925	struct drm_gem_object *drm_gem_prime_import_dev_skip_map(struct drm_device *dev,
+   926								 struct dma_buf *dma_buf,
+   927								 struct device *attach_dev)
+   928	{
+   929		struct dma_buf_attachment *attach;
+   930		struct drm_gem_object *obj;
+   931		int ret;
+   932	
+   933		if (dma_buf->ops == &drm_gem_prime_dmabuf_ops) {
+   934			obj = dma_buf->priv;
+   935			if (obj->dev == dev) {
+   936				/*
+   937				 * Importing dmabuf exported from our own gem increases
+   938				 * refcount on gem itself instead of f_count of dmabuf.
+   939				 */
+   940				drm_gem_object_get(obj);
+   941				return obj;
+   942			}
+   943		}
+   944	
+   945		attach = dma_buf_attach(dma_buf, attach_dev, true);
+   946		if (IS_ERR(attach))
+   947			return ERR_CAST(attach);
+   948	
+   949		get_dma_buf(dma_buf);
+   950	
+   951		obj = dev->driver->gem_prime_import_attachment(dev, attach);
+   952		if (IS_ERR(obj)) {
+   953			ret = PTR_ERR(obj);
+   954			goto fail_detach;
+   955		}
+   956	
+   957		obj->import_attach = attach;
+   958		obj->resv = dma_buf->resv;
+   959	
+   960		return obj;
+   961	
+   962	fail_detach:
+   963		dma_buf_detach(dma_buf, attach);
+   964		dma_buf_put(dma_buf);
+   965	
+   966		return ERR_PTR(ret);
+   967	}
+   968	EXPORT_SYMBOL(drm_gem_prime_import_dev_skip_map);
+   969	
 
 -- 
 0-DAY CI Kernel Test Service
