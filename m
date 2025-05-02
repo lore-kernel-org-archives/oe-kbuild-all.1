@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC80779D2
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 17:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E70942A87
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 18:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746208348; cv=none; b=eR+/10JUF3agFzX9JgAIrsvIYlBh0ev7590Iin770CcBdzoGiBJDh/km8amGtGcsww9z1Go38X8So0k5fl6e6oZRk5pZjirHVvvR/TjoYAMs8+5VaiZtyXCnDX5JjEstbHa5aQK4c3/LMPK62jFupFLhPZlgdRp8UOKnAZ9jL3I=
+	t=1746209071; cv=none; b=eIRsASfgGoMn+NIb+Qt3mRzL6ThxVCMIXYF4dN4MON04TRFawDwD3XAmo5P5WUbMLMgpqCt+RPuhsle1/VnwDW9VKFYYV/U9SIDvXq19mB7JfyubNC4jnaweGkpLSyy4UXwYtXDu6KZaigcTEAKjLDhdIiqtwEDju54Vr9vN9oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746208348; c=relaxed/simple;
-	bh=CHs3tX3XeAwL4F1e2sf6Hh3AuLdB/42qLxvDde6M/9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R1sA1/IVZiJqD941BT4OU6bX8ztdClTDOAHwZnC0gK992YWK6nZ/IARq5ywJDh39jKZxttEirj5YF0JhnNVYQyGCDXK5EP3ZDsOmk+Io2P+JHfpTBS7Wu3tI1yDNhwF9F9ol/NEoE8e6pLmghj4mMGNJR5Fsr2G//SMEYiozfdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbyEl0mv; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1746209071; c=relaxed/simple;
+	bh=KyJCE0HvYmuq35R22GskaZxKD+ZEOpBfXmjerpO71Mo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mRmzGpexHBDScjg8p6q1Ynu5OcpCXsMdxPI07u3W4w0U2+P2QSMgCzjiOubb6xSCgveY2sK82ToBHe3HyMIxjhXoCYjyes84a0sEYUB284ApSygYgoAiNTHKnZPVripqLL02ajowVTQvWjVnZvSz08t/aHc4oACvUHc2zqOXJcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FH8SvCoS; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbyEl0mv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FH8SvCoS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746208346; x=1777744346;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CHs3tX3XeAwL4F1e2sf6Hh3AuLdB/42qLxvDde6M/9A=;
-  b=lbyEl0mvVo4tSauX1ioeNEqDMRgscNGZ48fOCDWaOFzHsDrcfOqMwcSA
-   y5+hu30rVRO91d3OXUa9viAsKcXQIFCk0V8EDrROt3eksuPvJapWBMHre
-   rF1dBysa6pnkfOx4C56Rl91fwyRLar9YJj4GKm+dq5V+zzDcOsalJokQE
-   3FobOKYnZhciC05MX7ujQPIEpTjJLcmt+Y8eg01Jr3X4Ix9kVoah2DTW0
-   hOO71g0EJ8AcROsXPYlTr2jAzT8QPshEcWOZOcZj2wuKUTQJzhGH41PvX
-   GBKLQX5pkqypcfF73Ih8SIBy/icuKdESUwF/wcIZGLXJh2NuglAUYyu6+
-   Q==;
-X-CSE-ConnectionGUID: gl4mKZVGTxivjuapcWEICw==
-X-CSE-MsgGUID: H4QYSy+gQ1uDMcKGNiqUPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="47782785"
+  t=1746209069; x=1777745069;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KyJCE0HvYmuq35R22GskaZxKD+ZEOpBfXmjerpO71Mo=;
+  b=FH8SvCoSlyle6ULuNuJuarWv04vDqA0q5p8hNpBNPcT59FXhJDwideVU
+   UEkZMtKCw64VGhu7i1wsCMhKrXou78ikc61AMOUB+BO2xNs9JZwe3ABXI
+   FahjS2ffKhfQvfVE7Br+PDB1r3IzbCvWuP6li5YmxFRWPSosxwGF/kYBm
+   e8cAaS3qzhQUevibbDvB9S8AAl1J3Hs7MZELjyeuEcLB1rznPihe+MZa2
+   E4QErQbWSdnZBFCToQDRFyXkpI9oYnksnH+tSwF38fYMaFJSb48XaOgpS
+   xp2gBdsigPW9c5fuSZZjvGbpXFhHK07ih+Jzo44+U/2Ty5gpPuBdpFHNv
+   g==;
+X-CSE-ConnectionGUID: moCQEsDJTky1wufgqbv8IQ==
+X-CSE-MsgGUID: seC6UoE5R1KZpzSq58y/kA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="47908295"
 X-IronPort-AV: E=Sophos;i="6.15,257,1739865600"; 
-   d="scan'208";a="47782785"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 10:52:25 -0700
-X-CSE-ConnectionGUID: Fgk8waMQTgSG6FEpLyu/nw==
-X-CSE-MsgGUID: XDDFIMGOQ6mVCvQNi8uTow==
+   d="scan'208";a="47908295"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 11:04:28 -0700
+X-CSE-ConnectionGUID: b8h1UIEOSxilT6qRYInVQA==
+X-CSE-MsgGUID: f9KaeD0sRlqB0uMN/+LBUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,257,1739865600"; 
-   d="scan'208";a="138712800"
+   d="scan'208";a="135198675"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 02 May 2025 10:52:24 -0700
+  by orviesa007.jf.intel.com with ESMTP; 02 May 2025 11:04:26 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAuYf-0004vx-2n;
-	Fri, 02 May 2025 17:52:21 +0000
-Date: Sat, 3 May 2025 01:52:01 +0800
+	id 1uAukI-0004w9-2C;
+	Fri, 02 May 2025 18:04:22 +0000
+Date: Sat, 3 May 2025 02:04:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robert Lin <robelin@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 1/3] clocksource/drivers/timer-tegra186: add
- WDIOC_GETTIMELEFT support
-Message-ID: <202505022356.kttNgKzZ-lkp@intel.com>
-References: <20250502043727.396896-2-robelin@nvidia.com>
+To: Ryan Wanner <Ryan.Wanner@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: [linux-next:master 5929/7938]
+ arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/sram@e0000800:
+ failed to match any schema with compatible: ['microchip,sama7d65-securam',
+ 'atmel,sama5d2-securam', 'mmio-sram']
+Message-ID: <202505030208.NOP0HEse-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,98 +64,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250502043727.396896-2-robelin@nvidia.com>
 
-Hi Robert,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/timers/core]
-[also build test ERROR on linus/master v6.15-rc4]
-[cannot apply to daniel-lezcano/clockevents/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Lin/clocksource-drivers-timer-tegra186-add-WDIOC_GETTIMELEFT-support/20250502-123914
-base:   tip/timers/core
-patch link:    https://lore.kernel.org/r/20250502043727.396896-2-robelin%40nvidia.com
-patch subject: [PATCH v7 1/3] clocksource/drivers/timer-tegra186: add WDIOC_GETTIMELEFT support
-config: arm-randconfig-002-20250502 (https://download.01.org/0day-ci/archive/20250502/202505022356.kttNgKzZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505022356.kttNgKzZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3e039dcc9c1320c0d33ddd51c372dcc91d3ea3c7
+commit: a92e84f96dc68f5380a8ce8399ad316dd4417f28 [5929/7938] ARM: dts: microchip: sama7d65: Add SRAM and DRAM components support
+config: arm-randconfig-053-20250429 (https://download.01.org/0day-ci/archive/20250503/202505030208.NOP0HEse-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505030208.NOP0HEse-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505022356.kttNgKzZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505030208.NOP0HEse-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: drivers/clocksource/timer-tegra186.o: in function `tegra186_wdt_get_timeleft':
->> drivers/clocksource/timer-tegra186.c:282: undefined reference to `__aeabi_uldivmod'
->> arm-linux-gnueabi-ld: drivers/clocksource/timer-tegra186.c:290: undefined reference to `__aeabi_uldivmod'
-
-
-vim +282 drivers/clocksource/timer-tegra186.c
-
-   241	
-   242	static unsigned int tegra186_wdt_get_timeleft(struct watchdog_device *wdd)
-   243	{
-   244		struct tegra186_wdt *wdt = to_tegra186_wdt(wdd);
-   245		u32 expiration, val;
-   246		u64 timeleft;
-   247	
-   248		if (!watchdog_active(&wdt->base)) {
-   249			/* return zero if the watchdog timer is not activated. */
-   250			return 0;
-   251		}
-   252	
-   253		/*
-   254		 * Reset occurs on the fifth expiration of the
-   255		 * watchdog timer and so when the watchdog timer is configured,
-   256		 * the actual value programmed into the counter is 1/5 of the
-   257		 * timeout value. Once the counter reaches 0, expiration count
-   258		 * will be increased by 1 and the down counter restarts.
-   259		 * Hence to get the time left before system reset we must
-   260		 * combine 2 parts:
-   261		 * 1. value of the current down counter
-   262		 * 2. (number of counter expirations remaining) * (timeout/5)
-   263		 */
-   264	
-   265		/* Get the current number of counter expirations. Should be a
-   266		 * value between 0 and 4
-   267		 */
-   268		val = readl_relaxed(wdt->regs + WDTSR);
-   269		expiration = FIELD_GET(WDTSR_CURRENT_EXPIRATION_COUNT, val);
-   270		if (WARN_ON(expiration > 4))
-   271			return 0;
-   272	
-   273		/* Get the current counter value in microsecond. */
-   274		val = readl_relaxed(wdt->tmr->regs + TMRSR);
-   275		timeleft = FIELD_GET(TMRSR_PCV, val);
-   276	
-   277		/*
-   278		 * Calculate the time remaining by adding the time for the
-   279		 * counter value to the time of the counter expirations that
-   280		 * remain.
-   281		 */
- > 282		timeleft += (((u64)wdt->base.timeout * USEC_PER_SEC) / 5) * (4 - expiration);
-   283	
-   284		/*
-   285		 * Convert the current counter value to seconds,
-   286		 * rounding up to the nearest second. Cast u64 to
-   287		 * u32 under the assumption that no overflow happens
-   288		 * when coverting to seconds.
-   289		 */
- > 290		timeleft = (timeleft + USEC_PER_SEC / 2) / USEC_PER_SEC;
-   291	
-   292		if (WARN_ON(timeleft > U32_MAX))
-   293			return U32_MAX;
-   294	
-   295		return lower_32_bits(timeleft);
-   296	}
-   297	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/sram@e0000800: failed to match any schema with compatible: ['microchip,sama7d65-securam', 'atmel,sama5d2-securam', 'mmio-sram']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/security-module@e0004000: failed to match any schema with compatible: ['microchip,sama7d65-secumod', 'atmel,sama5d2-secumod', 'syscon']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/security-module@e0004000: failed to match any schema with compatible: ['microchip,sama7d65-secumod', 'atmel,sama5d2-secumod', 'syscon']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: sfr@e0008000 (microchip,sama7d65-sfrbu): compatible:1: 'syscon' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: sfr@e0008000 (microchip,sama7d65-sfrbu): compatible: ['microchip,sama7d65-sfrbu', 'atmel,sama5d2-sfrbu', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: watchdog@e001d000 (microchip,sama7d65-wdt): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-wdt', 'microchip,sama7g5-wdt'] is too long
+--
+   	'microchip,sama7d65-usart' is not one of ['atmel,at91rm9200-usart', 'atmel,at91sam9260-usart']
+   	'atmel,at91rm9200-dbgu' was expected
+   	'atmel,at91sam9260-dbgu' was expected
+   	'microchip,sama7d65-usart' is not one of ['microchip,sam9x60-usart', 'microchip,sam9x7-usart']
+   	'microchip,sam9x60-dbgu' was expected
+   	'microchip,sam9x7-dbgu' was expected
+   	'atmel,at91rm9200-usart' was expected
+   	'microchip,sam9x60-usart' was expected
+   	from schema $id: http://devicetree.org/schemas/serial/atmel,at91-usart.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/flexcom@e2024000/serial@200: failed to match any schema with compatible: ['microchip,sama7d65-usart', 'atmel,at91sam9260-usart']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7d65-uddrc', 'microchip,sama7g5-uddrc']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/uddrc@e3800000: failed to match any schema with compatible: ['microchip,sama7d65-uddrc', 'microchip,sama7g5-uddrc']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible: ['microchip,sama7d65-ddr3phy', 'microchip,sama7g5-ddr3phy'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): compatible:1: 'syscon' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: ddr3phy@e3804000 (microchip,sama7d65-ddr3phy): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
