@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D2BDF5C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 02:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F6918024;
+	Fri,  2 May 2025 02:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746152774; cv=none; b=lDQYEwHCkMczx5zAhy76iP0AQ3n2Isttc1QB9jluXiW4+t4qAV52S01DBnsVwCPF+9wgD0Oq7UN2MPnME1Vp9FhNfzMxVXCEhjYIOUVftade4T3uHAxdmh74VujqZtaWhytREzUvuW5oHFzZrE6bUWEkD7fwenxo4bVfhrnGDIU=
+	t=1746154034; cv=none; b=dAHnzJRJyV/VrMG1beXGmd5BVcOLknh7zYEhePxslCE6PleFslF0ReH8N/JzSNobfVi1upIOOt8U/EcRC0ixstyVwGDZiOQY7yzHhJxTCAmlwtVa+kN+1/l1NK0tRbNQ4xQ25M+D+KPkhfCCV12gquMgtWqH+/GHcfDcZYPDPDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746152774; c=relaxed/simple;
-	bh=RECspk6f8dNsSHGlCHvWsQByPy/HIR7IEmrw7ykTM1A=;
+	s=arc-20240116; t=1746154034; c=relaxed/simple;
+	bh=ZcrEOSeShKonEhORLGziksZdgqn06Ovdo46FOTtiIT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AbBOnSqxY8M+gCbnkgoSw3zHDd2smpzdWkWfKPnEC36JhqJtnsjyI/QQgGV5n9a6mWnL9pyg46FbMcEYmIgWbLEBEqPLI5M1l1FWsjvdT0kTankCfJWMj9AGDzPzWrJ9JO5Oh+PRLBQuvPwB3Mi+QQedU7cqk89seobNeiqf0SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KzBWdAMo; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=t5xMcZzBHWpi5W9ZMgrZMBp9AYXc9FvasV0n2gzzMsgGCl8Wh5xGoMZ3tm1dsXom4a5t44h1kGZyiXTvqExKoguWdmNlACWLeb97rw+47ewG3MkcfSxYOaACtZ3gi1m1AWjpjSwiHfl8ZoruGZIKYF7VjQg9OW/u08pldXJTLpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LO6JcfOh; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KzBWdAMo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LO6JcfOh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746152772; x=1777688772;
+  t=1746154033; x=1777690033;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RECspk6f8dNsSHGlCHvWsQByPy/HIR7IEmrw7ykTM1A=;
-  b=KzBWdAMo3Dk9PhtjZXq1i8eu/aRNnjinpwZ3mtvE9l0sZVIa3htJO3m3
-   14fQpB3GIIxzrZZCHDi9ixX56pzID1O1SPCM7sH8jc1ofvpOR/dqPOrfJ
-   xWAEoHAhrxj6WuseiWr+JJCBuHOrCfq1b4MOjH1hau7WEsNGEOV9Tn3LW
-   EQoA2OpDyBa/74xJERVX63gNkT0ZWzTZY8mETsYrc15kSLHhexu2ZKrOl
-   fivmUgQXUjRpb1hWhUgprfos74RgBIEfrftAw3IgMR+O/WxCoSsThHFXf
-   kCCLrRtORAlNeGGQywEqpagyKH6d6lMGxkzATQRuIVQ+zjAA5RWly9aLP
+  bh=ZcrEOSeShKonEhORLGziksZdgqn06Ovdo46FOTtiIT0=;
+  b=LO6JcfOh4kglD524B4ucdIMcIDpPUqyffJ7sfsp28j1wJNVxMNiZvJ+f
+   YrPX6yBfnWZ4j+VqdO/6HfmwE5trBYMctw7VioXEMl1vRyBOtgYXJnO/L
+   5bcR7eQxSNW6/r8wptE09756q9bFOx1KX07SPj7qdiOU+z0N5baOrAMCt
+   Ch/10dWY50CKkZHrtrltuYZ+cw0R1yvWHLs9FbXPWFQxrHWVHGyyGhNAC
+   YtyXXcWEqs1PivcgaYkRGmsYwBmgvx6bUskUal/tsP1u3eq+9fWgeu4qO
+   XTxZ6+GHMSUcHj4IrC76uaf6RQZjhlEKZFZM3l1I3lUsdX0+bv9SJT7p3
    g==;
-X-CSE-ConnectionGUID: mugQOQtbQlGVgd7L1LTtQQ==
-X-CSE-MsgGUID: lTKTkrJ+TPibyLC/LVxKZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="47845852"
+X-CSE-ConnectionGUID: w+wLtiZYTmqpvYjlGFgc9w==
+X-CSE-MsgGUID: 1HfgPhJPT96W0yJMCRt7Eg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="50491180"
 X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
-   d="scan'208";a="47845852"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 19:26:11 -0700
-X-CSE-ConnectionGUID: QW0L90R4RCyrllIBXOtWnA==
-X-CSE-MsgGUID: gNn8EtgCSPyywh/DVhULBQ==
+   d="scan'208";a="50491180"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2025 19:47:12 -0700
+X-CSE-ConnectionGUID: hjegM+moQu+QzBqPylGS5w==
+X-CSE-MsgGUID: MHrlycdsQA2qSm4IPmmAkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
-   d="scan'208";a="171778148"
+   d="scan'208";a="165592299"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 May 2025 19:26:10 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 01 May 2025 19:47:11 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAg6J-0004VB-22;
-	Fri, 02 May 2025 02:26:07 +0000
-Date: Fri, 2 May 2025 10:25:33 +0800
+	id 1uAgQf-0004Vf-0M;
+	Fri, 02 May 2025 02:47:09 +0000
+Date: Fri, 2 May 2025 10:46:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2882/2882]
- drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c:32:19: sparse:
- sparse: symbol 'g_netdev' was not declared. Should it be static?
-Message-ID: <202505021040.redoLH7C-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.15-rc3 95/110]
+ drivers/platform/arm64/mpam/mpam_resctrl.c:851:3: warning: variable 'dom' is
+ uninitialized when used here
+Message-ID: <202505021036.gkL450hb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +63,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   46abe407b020831448331eea487e07c883e95836
-commit: 8cee206b5558245197158bd20895f95cc28d8468 [2882/2882] Ethernet: Linkdata: Supports Linkdata ethernet Controllers
-config: x86_64-randconfig-123-20250502 (https://download.01.org/0day-ci/archive/20250502/202505021040.redoLH7C-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021040.redoLH7C-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.15-rc3
+head:   2cc3eff27207d40f181a59f04660a1e8e9746ff8
+commit: 5da9bac0425744000799212790168eaf91203c23 [95/110] arm_mpam: resctrl: Call resctrl_exit() in the event of errors
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250502/202505021036.gkL450hb-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021036.gkL450hb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505021040.redoLH7C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505021036.gkL450hb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c:32:19: sparse: sparse: symbol 'g_netdev' was not declared. Should it be static?
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c:262:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void const *reg @@
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c:262:22: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c:262:22: sparse:     got void const *reg
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c:267:23: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *reg @@
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c:267:23: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c:267:23: sparse:     got void *reg
+All warnings (new ones prefixed by >>):
 
-vim +/g_netdev +32 drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_main.c
+   drivers/platform/arm64/mpam/mpam_resctrl.c:339:10: warning: enumeration value 'QOS_NUM_EVENTS' not handled in switch [-Wswitch]
+     339 |         switch (evtid) {
+         |                 ^~~~~
+>> drivers/platform/arm64/mpam/mpam_resctrl.c:851:3: warning: variable 'dom' is uninitialized when used here [-Wuninitialized]
+     851 |                 dom->mbm_local_evt_cfg = 0;
+         |                 ^~~
+   drivers/platform/arm64/mpam/mpam_resctrl.c:845:30: note: initialize the variable 'dom' to silence this warning
+     845 |         struct mpam_resctrl_dom *dom;
+         |                                     ^
+         |                                      = NULL
+   drivers/platform/arm64/mpam/mpam_resctrl.c:864:3: warning: variable 'dom' is uninitialized when used here [-Wuninitialized]
+     864 |                 dom->mbm_local_evt_cfg = 0;
+         |                 ^~~
+   drivers/platform/arm64/mpam/mpam_resctrl.c:861:30: note: initialize the variable 'dom' to silence this warning
+     861 |         struct mpam_resctrl_dom *dom;
+         |                                     ^
+         |                                      = NULL
+   3 warnings generated.
 
-    30	
-    31	static struct workqueue_struct *sxevf_wq;
-  > 32	struct net_device *g_netdev;
-    33	
+
+vim +/dom +851 drivers/platform/arm64/mpam/mpam_resctrl.c
+
+   842	
+   843	void resctrl_arch_mon_event_config_write(void *info)
+   844	{
+   845		struct mpam_resctrl_dom *dom;
+   846		struct resctrl_mon_config_info *mon_info = info;
+   847	
+   848		WARN_ON_ONCE(mon_info->mon_config & ~MPAM_RESTRL_EVT_CONFIG_VALID);
+   849	
+   850		if (!mpam_is_enabled()) {
+ > 851			dom->mbm_local_evt_cfg = 0;
+   852			return;
+   853		}
+   854	
+   855		dom = container_of(mon_info->d, struct mpam_resctrl_dom, resctrl_mon_dom);
+   856		dom->mbm_local_evt_cfg = mon_info->mon_config & MPAM_RESTRL_EVT_CONFIG_VALID;
+   857	}
+   858	
 
 -- 
 0-DAY CI Kernel Test Service
