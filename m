@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E102B78F43;
-	Sat,  3 May 2025 05:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869321D618A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 May 2025 09:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746251711; cv=none; b=OC25hsxlkfL+c0Fy+1fQzK8xE18DXzAB60HEVWKxS27thXVN8WsB3W3T1Lml4rN44r3tuC7AMtxrLH9I6KxcO1UZ4us+EPytAUuCieNeZkJgSVqlynqlK9JWTUJpqiP3iU2DLjf8AOJ+Qv/Rnfjjik86tlGLf7QhY5U1HkcZTeE=
+	t=1746263336; cv=none; b=F+tOsHuR9VV10X/fvovKl5KE+3+lOVrxH5ZkBXXO5ypD200XQ8hL67V+3OuolXlLncWg5Hc9CQoOdxyN2sKYOyGsbpT8egw1ND2tb4lgm5wa/+yfgef9cDGj6A5oZeCZTWznWB8HrMEcsdiBMJYmB4Qq14e4E0ez3Aa6AeXuXrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746251711; c=relaxed/simple;
-	bh=tSZgN38GyZ/t3oOtfszD05d8YL3guqdlHqC0NDAIMVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RWe1yQWnJ8JgdcbeEII48c/VzbewVO80Q920kGzDI3GAFO5/95RR1sbcX5hnvAHigpMfv9N7d+31gi+xFt3YHR3ere5H6vhimLe6khxbi40lCe9stQqjuE0gpbc7UKfE/jazxsV+K5JRPC38c/qdcM6H7tDOGQg6KMAFnXi7bRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ALJjU6oD; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1746263336; c=relaxed/simple;
+	bh=7DXKKLxqc9pxgZV4iNYTNG7B8b3bBjtSHb8Lyl7QTFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V3EqUmA8wky+NafZVU3u5xxAnpGPpC12vZYp24eDGH/UPhiZVR7jhXiTOyZEdWVFZ3LJa0gmh8F9mTFAyIWM9e8YmzC4TJUlEUGDLwtrkYLyJE1Qv+8ZBUcGZdKMsRoY2zAEJTHEmbXVuMypNFbVws1px3PBfFMMVdJ66sKYPAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uw8KCeRJ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ALJjU6oD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uw8KCeRJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746251710; x=1777787710;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tSZgN38GyZ/t3oOtfszD05d8YL3guqdlHqC0NDAIMVw=;
-  b=ALJjU6oD6X64sm5GUGjAL3dZbpjJfkuEBmKZnYFcIyojDiHxWot6jita
-   Jhhpy5qJWOwtH7iwy9aRfWTVhXQsR5hCQ4MIAf2wUrNPvMHWLz9PJQTpz
-   PjlYJtZ2rp7a1x0wdp2Snzw1NJwmCKWKfyPFLfHV7Oqs/l1LRVGJYTP3x
-   gjhpKriJF7sloAqt0x8vrPwY194XxMbvce/hd5t9ZFyoKN8B/4uFv1oGR
-   EVNfbd0OGCiCxW1V3fx9yEcgOT/xy1PYZkCJ3GIxAK4gyQLIQKY0qyJl8
-   8MJde0a5N/tjgFTjjeU4d+ReqsPsBIEN59GNak3E8JZ7SrAUerHxhsS3G
-   g==;
-X-CSE-ConnectionGUID: 3DhvX4YjSTuZvFA3WA6wUw==
-X-CSE-MsgGUID: 55rKbi2VSxC0jULdw2Uf4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="70438296"
+  t=1746263335; x=1777799335;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7DXKKLxqc9pxgZV4iNYTNG7B8b3bBjtSHb8Lyl7QTFU=;
+  b=Uw8KCeRJUUyU/qC7/qVL/Bm2KL8UdsD+Yw6kB5SP7Q0jQiE+jyy8ZtrH
+   jlJs3mPezkA6NVqQ/ckrirP5EHbtBmJKZOXpbCImLNjpXPAQWLBFbwnBs
+   0qmohhBEKMEH2uOXG8dGIx0BRpsy09PncowfUjWaa8ZZ6EpweDgyAF3pZ
+   5StS71sXViI1uhcQnaY3c12F85iZKaiqBJJkVVmakyeWL3GjUa3XgaPRl
+   YO1ey/1wfdyd/GiQPxTEWgSbJMLjyhZB8FcdXmRWCOtKCHELnXCSB37ZV
+   F9Tr4Zpx9v3dD/BZagcfEOGJ+nRoVEZNozGLpMhVS95MgTrnE24R1qlzp
+   A==;
+X-CSE-ConnectionGUID: tRwJiciGQi6t0FbbHk7YkQ==
+X-CSE-MsgGUID: Zpxh+wLlQAy4/R7T/7iN+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="35554532"
 X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
-   d="scan'208";a="70438296"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 22:55:10 -0700
-X-CSE-ConnectionGUID: n/mMcwarR2SZ4r5/MN4qvg==
-X-CSE-MsgGUID: r2tKxmIVS4edHOFYga10Xg==
+   d="scan'208";a="35554532"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2025 02:08:54 -0700
+X-CSE-ConnectionGUID: hSku64yzSPOYPPLfRkiXlg==
+X-CSE-MsgGUID: kvScOu7pQV2GontxOajcrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
-   d="scan'208";a="139974074"
+   d="scan'208";a="134793274"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 May 2025 22:55:05 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 03 May 2025 02:08:52 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uB5q2-0005DV-2i;
-	Sat, 03 May 2025 05:55:02 +0000
-Date: Sat, 3 May 2025 13:54:09 +0800
+	id 1uB8ra-0005HB-06;
+	Sat, 03 May 2025 09:08:50 +0000
+Date: Sat, 3 May 2025 17:08:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paresh Bhagat <p-bhagat@ti.com>, nm@ti.com, vigneshr@ti.com,
-	praneeth@ti.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kristo@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, khasim@ti.com, v-singh1@ti.com,
-	afd@ti.com
-Subject: Re: [PATCH v2 3/3] arm64: dts: ti: Add support for AM62D2-EVM
-Message-ID: <202505031327.h8w4ttsK-lkp@intel.com>
-References: <20250502153915.734932-4-p-bhagat@ti.com>
+To: Samuel Holland <samuel.holland@sifive.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Jesse Taube <mr.bossman075@gmail.com>
+Subject: ld.lld: error: Function Import: link error: linking module flags
+ 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at
+ 1083866), and 'i32 1' from vmlinux.a(net-traces.o at 1275566)
+Message-ID: <202505031656.UrRdPiGI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,39 +64,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250502153915.734932-4-p-bhagat@ti.com>
 
-Hi Paresh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.15-rc4 next-20250502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paresh-Bhagat/dt-bindings-arm-ti-Add-bindings-for-AM62D2-SoC/20250502-234223
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250502153915.734932-4-p-bhagat%40ti.com
-patch subject: [PATCH v2 3/3] arm64: dts: ti: Add support for AM62D2-EVM
-config: arm64-randconfig-003-20250503 (https://download.01.org/0day-ci/archive/20250503/202505031327.h8w4ttsK-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   95d3481af6dc90fd7175a7643fd108cdcb808ce5
+commit: 2c0391b29b27f315c1b4c29ffde66f50b29fab99 riscv: Allow NOMMU kernels to access all of RAM
+date:   5 weeks ago
+config: riscv-randconfig-r053-20250503 (https://download.01.org/0day-ci/archive/20250503/202505031656.UrRdPiGI-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505031327.h8w4ttsK-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505031656.UrRdPiGI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505031327.h8w4ttsK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505031656.UrRdPiGI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> Error: arch/arm64/boot/dts/ti/k3-am62d2-evm.dts:409.1-13 Label or path wkup_r5fss0 not found
->> Error: arch/arm64/boot/dts/ti/k3-am62d2-evm.dts:413.1-19 Label or path wkup_r5fss0_core0 not found
->> Error: arch/arm64/boot/dts/ti/k3-am62d2-evm.dts:419.1-12 Label or path mcu_r5fss0 not found
->> Error: arch/arm64/boot/dts/ti/k3-am62d2-evm.dts:423.1-18 Label or path mcu_r5fss0_core0 not found
->> Error: arch/arm64/boot/dts/ti/k3-am62d2-evm.dts:429.1-7 Label or path c7x_0 not found
-   FATAL ERROR: Syntax error parsing input tree
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(memcontrol.o at 1100606)
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(net-traces.o at 1275566)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(trace.o at 1093826)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(dir.o at 1110086)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(skbuff.o at 1273406)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(syscall.o at 1095206)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(xprtsock.o at 1284926)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(slub.o at 1100306)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(tcp.o at 1279226)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(ring_buffer.o at 1093766)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(filter.o at 1274486)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(ip6_output.o at 1282346)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(af_packet.o at 1284686)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(page_alloc.o at 1100066)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(namei.o at 1101746)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(vmscan.o at 1098926)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(auth_gss.o at 1286246)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(svcsock.o at 1285346)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(xdr.o at 1285706)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(svcauth_gss.o at 1286366)
+   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
 
 -- 
 0-DAY CI Kernel Test Service
