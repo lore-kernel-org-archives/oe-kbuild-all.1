@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBBD14A09E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 May 2025 02:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FEA16F0FE
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 May 2025 03:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746238259; cv=none; b=l4iKiV8mDGac16l3DkY/P6nXRbMPVhiJLiFgf5soA8FVq0gvm+8MA84v0PicZNZ/XyWBorWXW6DaXtOjhNJMPIaBgs5gP62fwTEiZ9JuMCbBys9lHvCDgrdLIEoVhJ+XX5yxC4VLl3zyK195tacU9s6+4tnm/qJZHU01qOZUIso=
+	t=1746244386; cv=none; b=boWvuMzEQQNoiRcMaWnkWht6JVZjaYxxK3w0fkeV6Z8NC9bS9L0MZwZaetd82g1kQq9FC8k+h3osg0dSpYc8SRAE46rgEXAqfWnTHi+XcJh4PkfCCkesDMBeeaEOoiW9BoFuJsLkXxsn0rtqDx/CrKg2R4qd9ndZCQ4TN9Qyagc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746238259; c=relaxed/simple;
-	bh=suGJnGTvTVJcrRwlDbdnRQ8llVaUDsm44ybcEgCTxmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F87COraf6GRaKojDlTCcuDoeGD2+EfSTaxdNWO36iiLsPGm1w01kNYiY/Cw4uPSz2HAOuy/dzbDJBOlw2VxnIGoy8U2cJ/d6z4uXZ4aI4ejGqzmQ9zvuunhvXMxvBaBJ92JRGTdGYTFbZI6D/M6YyV0ybk1LKHzBgpg8Re7YHRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccX9RUzt; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1746244386; c=relaxed/simple;
+	bh=q2RR8OVcAZJle3hyo8Vnz8ALNHNRu1R3N2HGfJLS1yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EKg/PDLZ6En6KIUllY2CxuP8wYGy7cpLAymQjXs4CwVQgx/5LCm+DqzA6JQzaZ7y/nhkbcbEoSfc3rzXRDAQoF+pV6UfcrP+9kKnvfrmam6i4VrJMfni4FaVlQce7XpePuH2+BE1ecQBdeNl4P51WQsmr2Wqc8qOo2v1F/MuUPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BJAoAOft; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccX9RUzt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJAoAOft"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746238258; x=1777774258;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=suGJnGTvTVJcrRwlDbdnRQ8llVaUDsm44ybcEgCTxmE=;
-  b=ccX9RUztFTnSYB+QUhVl0SwPS0/XNqR5Sn3F0jji7M7o2gRh5Z1yiqpA
-   SEdpUJ2UM9QobtHEXSzsVDCrP97b8EI0aR44yVwwl0UdwO5LRB6AsDGNu
-   K1glGcyS6tRzsj9ySB9UbiGOMiAP2Rkp1k8w4i9ZlORN8PaonU8f0gtNJ
-   Ici47+/VVYopN2Sv47l9T3OLpU7o3p+6E9kBiX+QS0cTvr9pBGEjzYxRz
-   +g/WdBeFQtn7bvn6B+ROWspuAEbglPkgmZrKLQWVeP1RFU5I90AgrYQTi
-   yRK1bNw+9cp4+ox4q5dKLfSHGO1xXscYP2IThj+letxVblznjZeXG637p
-   Q==;
-X-CSE-ConnectionGUID: lAclVrN+Tl+upSkzFaTVUQ==
-X-CSE-MsgGUID: 2QQN9FG0QsyLUCzKAykc7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="48069429"
+  t=1746244385; x=1777780385;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=q2RR8OVcAZJle3hyo8Vnz8ALNHNRu1R3N2HGfJLS1yU=;
+  b=BJAoAOftbqU15NCgTYgTGOSAqzdm0vGADfuG6SBJMBTaetgZlLiUanfR
+   s9KanuT+2acId6OHeoTEEpwTbuHzReL7nNEWPK8bVz6NHCn4MAbZXYIKD
+   Igv82BgufaCoJ2qIkllOpJDvOid/GNXC0b9NP6Zqo8CEDEtNnmnriD8GA
+   lpBR3rUsGJjweaVfrPfgouXdhk/rQdp9n7EjDnVo4uKysndy6x0vkXOH7
+   efBLqg5qOhSr/XXwUcNDA6G6hmJ0Ge9aJknNaidE2JMRtjZe1pXHLkopx
+   v70LVY2RpHfOz+JKaiy4HKfen8Q9bK8lX3lbUcEPrqNX0hUqUISGI4JUJ
+   A==;
+X-CSE-ConnectionGUID: qSp7C1++TJKQVHYJc+addA==
+X-CSE-MsgGUID: GI4MvanYS/eIMppxt8u/mA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="48070166"
 X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
-   d="scan'208";a="48069429"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 19:10:56 -0700
-X-CSE-ConnectionGUID: hmB4nToNTA6onfnAFvsS2w==
-X-CSE-MsgGUID: an6spcJaTHymrNjFkKKbng==
+   d="scan'208";a="48070166"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 20:53:05 -0700
+X-CSE-ConnectionGUID: HohjOS1XSW2dY4du3rUCiQ==
+X-CSE-MsgGUID: LrrspF3XRE+vHRGtBqdsKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
-   d="scan'208";a="135105192"
+   d="scan'208";a="139783391"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 May 2025 19:10:50 -0700
+  by orviesa004.jf.intel.com with ESMTP; 02 May 2025 20:53:02 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uB2L1-0005A1-20;
-	Sat, 03 May 2025 02:10:47 +0000
-Date: Sat, 3 May 2025 10:09:51 +0800
+	id 1uB3vw-0005BN-1K;
+	Sat, 03 May 2025 03:53:00 +0000
+Date: Sat, 3 May 2025 11:52:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
-	tj@kernel.org, christian.koenig@amd.com,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
-	Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: Re: [PATCH 3/5] ttm: add initial memcg integration. (v2)
-Message-ID: <202505030927.6cZ0SdOU-lkp@intel.com>
-References: <20250502034046.1625896-4-airlied@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/msiof-fifo 23/24]
+ sound/soc/renesas/rcar/msiof.c:137:23: error: implicit declaration of
+ function 'FIELD_PREP'
+Message-ID: <202505031149.KgbAFgWJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,116 +62,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250502034046.1625896-4-airlied@gmail.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tj-cgroup/for-next]
-[also build test ERROR on akpm-mm/mm-everything linus/master v6.15-rc4]
-[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip next-20250502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/memcg-add-hooks-for-gpu-memcg-charging-uncharging/20250502-123650
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20250502034046.1625896-4-airlied%40gmail.com
-patch subject: [PATCH 3/5] ttm: add initial memcg integration. (v2)
-config: s390-randconfig-001-20250503 (https://download.01.org/0day-ci/archive/20250503/202505030927.6cZ0SdOU-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505030927.6cZ0SdOU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/msiof-fifo
+head:   7b93d38b35516004a8e0863475297a7b47e7eec1
+commit: d8dfe7cdd8980e08b9fae51ff9fcddac20eca22b [23/24] ASoC: renesas: msiof: Convert to <linux/spi/sh_msiof.h>
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250503/202505031149.KgbAFgWJ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505031149.KgbAFgWJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505030927.6cZ0SdOU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505031149.KgbAFgWJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/gpu/drm/ttm/ttm_resource.o: in function `ttm_resource_free':
->> drivers/gpu/drm/ttm/ttm_resource.c:443: undefined reference to `mem_cgroup_uncharge_gpu'
-   s390-linux-ld: drivers/gpu/drm/ttm/ttm_resource.o: in function `ttm_resource_alloc':
-   drivers/gpu/drm/ttm/ttm_resource.c:408: undefined reference to `mem_cgroup_uncharge_gpu'
->> s390-linux-ld: drivers/gpu/drm/ttm/ttm_resource.c:400: undefined reference to `mem_cgroup_charge_gpu'
+   sound/soc/renesas/rcar/msiof.c: In function 'msiof_hw_start':
+>> sound/soc/renesas/rcar/msiof.c:137:23: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     137 |                       FIELD_PREP(SIMDR1_SYNCMD, SIMDR1_SYNCMD_LR) |
+         |                       ^~~~~~~~~~
 
 
-vim +443 drivers/gpu/drm/ttm/ttm_resource.c
+vim +/FIELD_PREP +137 sound/soc/renesas/rcar/msiof.c
 
-   374	
-   375	int ttm_resource_alloc(struct ttm_buffer_object *bo,
-   376			       const struct ttm_place *place,
-   377			       struct ttm_operation_ctx *ctx,
-   378			       struct ttm_resource **res_ptr,
-   379			       struct dmem_cgroup_pool_state **ret_limit_pool)
-   380	{
-   381		struct ttm_resource_manager *man =
-   382			ttm_manager_type(bo->bdev, place->mem_type);
-   383		struct dmem_cgroup_pool_state *pool = NULL;
-   384		struct mem_cgroup *memcg = NULL;
-   385		int ret;
-   386	
-   387		if (man->cg) {
-   388			ret = dmem_cgroup_try_charge(man->cg, bo->base.size, &pool, ret_limit_pool);
-   389			if (ret)
-   390				return ret;
-   391		}
-   392	
-   393		if ((place->mem_type == TTM_PL_SYSTEM || place->mem_type == TTM_PL_TT) &&
-   394		    ctx->account_op && bo->memcg) {
-   395			memcg = bo->memcg;
-   396			gfp_t gfp_flags = GFP_USER;
-   397			if (ctx->gfp_retry_mayfail)
-   398				gfp_flags |= __GFP_RETRY_MAYFAIL;
-   399	
- > 400			if (!mem_cgroup_charge_gpu(memcg, bo->base.size >> PAGE_SHIFT, gfp_flags))
-   401				return -ENOMEM;
-   402		}
-   403		ret = man->func->alloc(man, bo, place, res_ptr);
-   404		if (ret) {
-   405			if (pool)
-   406				dmem_cgroup_uncharge(pool, bo->base.size);
-   407			if (memcg)
-   408				mem_cgroup_uncharge_gpu(memcg, bo->base.size >> PAGE_SHIFT);
-   409			return ret;
-   410		}
-   411	
-   412		(*res_ptr)->memcg = memcg;
-   413		(*res_ptr)->css = pool;
-   414	
-   415		spin_lock(&bo->bdev->lru_lock);
-   416		ttm_resource_add_bulk_move(*res_ptr, bo);
-   417		spin_unlock(&bo->bdev->lru_lock);
-   418		return 0;
-   419	}
-   420	EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_resource_alloc);
-   421	
-   422	void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res)
-   423	{
-   424		struct ttm_resource_manager *man;
-   425		struct dmem_cgroup_pool_state *pool;
-   426		struct mem_cgroup *memcg;
-   427	
-   428		if (!*res)
-   429			return;
-   430	
-   431		spin_lock(&bo->bdev->lru_lock);
-   432		ttm_resource_del_bulk_move(*res, bo);
-   433		spin_unlock(&bo->bdev->lru_lock);
-   434	
-   435		pool = (*res)->css;
-   436		memcg = (*res)->memcg;
-   437		man = ttm_manager_type(bo->bdev, (*res)->mem_type);
-   438		man->func->free(man, *res);
-   439		*res = NULL;
-   440		if (man->cg)
-   441			dmem_cgroup_uncharge(pool, bo->base.size);
-   442		if (memcg)
- > 443			mem_cgroup_uncharge_gpu(memcg, bo->base.size >> PAGE_SHIFT);
-   444	}
-   445	EXPORT_SYMBOL(ttm_resource_free);
-   446	
+   107	
+   108	static int msiof_hw_start(struct snd_soc_component *component,
+   109				  struct snd_pcm_substream *substream, int cmd)
+   110	{
+   111		struct msiof_priv *priv = snd_soc_component_get_drvdata(component);
+   112		struct snd_pcm_runtime *runtime = substream->runtime;
+   113		int is_play = msiof_is_play(substream);
+   114		int width = snd_pcm_format_width(runtime->format);
+   115		u32 val;
+   116	
+   117		/*
+   118		 * see
+   119		 *	[NOTE] on top of this driver
+   120		 */
+   121		/*
+   122		 * see
+   123		 *	Datasheet 109.3.6 [Transmit and Receive Procedures]
+   124		 *
+   125		 *	TX: Fig 109.14	- Fig 109.23
+   126		 *	RX: Fig 109.15
+   127		 */
+   128	
+   129		/* reset errors */
+   130		priv->err_syc[substream->stream] =
+   131		priv->err_ovf[substream->stream] =
+   132		priv->err_udf[substream->stream] = 0;
+   133	
+   134		/* SITMDRx */
+   135		if (is_play) {
+   136			val = SITMDR1_PCON |
+ > 137			      FIELD_PREP(SIMDR1_SYNCMD, SIMDR1_SYNCMD_LR) |
+   138			      SIMDR1_SYNCAC | SIMDR1_XXSTP;
+   139			if (msiof_flag_has(priv, MSIOF_FLAGS_NEED_DELAY))
+   140				val |= FIELD_PREP(SIMDR1_DTDL, 1);
+   141	
+   142			msiof_write(priv, SITMDR1, val);
+   143	
+   144			val = FIELD_PREP(SIMDR2_BITLEN1, width - 1);
+   145			msiof_write(priv, SITMDR2, val | FIELD_PREP(SIMDR2_GRP, 1));
+   146			msiof_write(priv, SITMDR3, val);
+   147	
+   148		}
+   149		/* SIRMDRx */
+   150		else {
+   151			val = FIELD_PREP(SIMDR1_SYNCMD, SIMDR1_SYNCMD_LR) |
+   152			      SIMDR1_SYNCAC;
+   153			if (msiof_flag_has(priv, MSIOF_FLAGS_NEED_DELAY))
+   154				val |= FIELD_PREP(SIMDR1_DTDL, 1);
+   155	
+   156			msiof_write(priv, SIRMDR1, val);
+   157	
+   158			val = FIELD_PREP(SIMDR2_BITLEN1, width - 1);
+   159			msiof_write(priv, SIRMDR2, val | FIELD_PREP(SIMDR2_GRP, 1));
+   160			msiof_write(priv, SIRMDR3, val);
+   161		}
+   162	
+   163		/* SIIER */
+   164		if (is_play)
+   165			val = SIIER_TDREQE | SIIER_TDMAE | SISTR_ERR_TX;
+   166		else
+   167			val = SIIER_RDREQE | SIIER_RDMAE | SISTR_ERR_RX;
+   168		msiof_update(priv, SIIER, val, val);
+   169	
+   170		/* SICTR */
+   171		if (is_play)
+   172			val = SICTR_TXE | SICTR_TEDG;
+   173		else
+   174			val = SICTR_RXE | SICTR_REDG;
+   175		msiof_update_and_wait(priv, SICTR, val, val, val);
+   176	
+   177		msiof_status_clear(priv);
+   178	
+   179		/* Start DMAC */
+   180		snd_dmaengine_pcm_trigger(substream, cmd);
+   181	
+   182		return 0;
+   183	}
+   184	
 
 -- 
 0-DAY CI Kernel Test Service
