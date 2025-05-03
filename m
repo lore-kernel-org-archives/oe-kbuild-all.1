@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869321D618A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 May 2025 09:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE4F42A8F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 May 2025 09:29:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746263336; cv=none; b=F+tOsHuR9VV10X/fvovKl5KE+3+lOVrxH5ZkBXXO5ypD200XQ8hL67V+3OuolXlLncWg5Hc9CQoOdxyN2sKYOyGsbpT8egw1ND2tb4lgm5wa/+yfgef9cDGj6A5oZeCZTWznWB8HrMEcsdiBMJYmB4Qq14e4E0ez3Aa6AeXuXrA=
+	t=1746264544; cv=none; b=fuM4duwk2tHUSAVi1cS9YIVU8sA1NhGR9t9D31IvTGqDx28nMrmce7lZ5BOCcE3oe4HB7cJdjecEJ3PJaf0bhMDYshUcRgr+LHmrv85nWHlduTiGflWwE54/Kiy3E1aDnNDeUcex+BECx0vD8ViXa0xS/Ral1Eeivj+WoP8FsVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746263336; c=relaxed/simple;
-	bh=7DXKKLxqc9pxgZV4iNYTNG7B8b3bBjtSHb8Lyl7QTFU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V3EqUmA8wky+NafZVU3u5xxAnpGPpC12vZYp24eDGH/UPhiZVR7jhXiTOyZEdWVFZ3LJa0gmh8F9mTFAyIWM9e8YmzC4TJUlEUGDLwtrkYLyJE1Qv+8ZBUcGZdKMsRoY2zAEJTHEmbXVuMypNFbVws1px3PBfFMMVdJ66sKYPAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uw8KCeRJ; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1746264544; c=relaxed/simple;
+	bh=iwQ9QFkGgELfOBcR+lSOqWIdIblcnh575E3UsWeAH/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eSWbc+kCZyd4GgljgonV19NBIefJpwXuZL7CsR6ZV3/HFw9BZQZKkKjleJYnhTQX7nNa6mez0ffnmJ6ali0qejVKWGrNCRKgdqoRatXJNQLrjJFWoYSdUr0LLyCwn+wYzz7yxb4ipH71Wlf00FazlzyXUefDHBeUZXH40PHJFkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixmSmgVt; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uw8KCeRJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixmSmgVt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746263335; x=1777799335;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7DXKKLxqc9pxgZV4iNYTNG7B8b3bBjtSHb8Lyl7QTFU=;
-  b=Uw8KCeRJUUyU/qC7/qVL/Bm2KL8UdsD+Yw6kB5SP7Q0jQiE+jyy8ZtrH
-   jlJs3mPezkA6NVqQ/ckrirP5EHbtBmJKZOXpbCImLNjpXPAQWLBFbwnBs
-   0qmohhBEKMEH2uOXG8dGIx0BRpsy09PncowfUjWaa8ZZ6EpweDgyAF3pZ
-   5StS71sXViI1uhcQnaY3c12F85iZKaiqBJJkVVmakyeWL3GjUa3XgaPRl
-   YO1ey/1wfdyd/GiQPxTEWgSbJMLjyhZB8FcdXmRWCOtKCHELnXCSB37ZV
-   F9Tr4Zpx9v3dD/BZagcfEOGJ+nRoVEZNozGLpMhVS95MgTrnE24R1qlzp
-   A==;
-X-CSE-ConnectionGUID: tRwJiciGQi6t0FbbHk7YkQ==
-X-CSE-MsgGUID: Zpxh+wLlQAy4/R7T/7iN+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="35554532"
+  t=1746264542; x=1777800542;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iwQ9QFkGgELfOBcR+lSOqWIdIblcnh575E3UsWeAH/o=;
+  b=ixmSmgVtHMkrHiynKm9+EHzv4BOsE50Beo/Ln8ytteuv3TEjLIAYefci
+   r044BOGmIFMpiBtIfWbwfzJdEGsYPN9MPagyfp+n2+09xBo224XvF8d1w
+   7lygNvQLllorR1DLSj0LtNwxJpPPD1po6ljdoP0Jq41jh01LPlYCvZdzq
+   Za1ZWNg/jeUXR6BYbeRciWDIvydYKE9wI9AHxeSdl+OD2aIaluSr/ETaR
+   pR4VuC0nfirZzsxPoz6tOWBWTcZ5OL0wrHK3V3gB3HaKtwImHPY52jeBR
+   YdbArIrwhnfCVZq4ZTuq0TcvSjhVwO6MP7c/uXkuG9S/1pLgEhEZ8vrMi
+   Q==;
+X-CSE-ConnectionGUID: BNZYwCsySA+iJ0S0hDn8XA==
+X-CSE-MsgGUID: A/5TziuCRBCCqkjoHNdUAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="58145395"
 X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
-   d="scan'208";a="35554532"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2025 02:08:54 -0700
-X-CSE-ConnectionGUID: hSku64yzSPOYPPLfRkiXlg==
-X-CSE-MsgGUID: kvScOu7pQV2GontxOajcrw==
+   d="scan'208";a="58145395"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2025 02:29:01 -0700
+X-CSE-ConnectionGUID: pwyyTDNPSfa/YHM2QVSIGA==
+X-CSE-MsgGUID: kteVOkToTT6TSAwW8c1pKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
-   d="scan'208";a="134793274"
+   d="scan'208";a="165743790"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 May 2025 02:08:52 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 May 2025 02:29:00 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uB8ra-0005HB-06;
-	Sat, 03 May 2025 09:08:50 +0000
-Date: Sat, 3 May 2025 17:08:24 +0800
+	id 1uB9B3-0005Hd-2t;
+	Sat, 03 May 2025 09:28:57 +0000
+Date: Sat, 3 May 2025 17:28:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Jesse Taube <mr.bossman075@gmail.com>
-Subject: ld.lld: error: Function Import: link error: linking module flags
- 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at
- 1083866), and 'i32 1' from vmlinux.a(net-traces.o at 1275566)
-Message-ID: <202505031656.UrRdPiGI-lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 01/23] drm/sched: Add some scheduling quality unit tests
+Message-ID: <202505031601.l3Lhvxjc-lkp@intel.com>
+References: <20250502123256.50540-2-tvrtko.ursulin@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,43 +62,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250502123256.50540-2-tvrtko.ursulin@igalia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   95d3481af6dc90fd7175a7643fd108cdcb808ce5
-commit: 2c0391b29b27f315c1b4c29ffde66f50b29fab99 riscv: Allow NOMMU kernels to access all of RAM
-date:   5 weeks ago
-config: riscv-randconfig-r053-20250503 (https://download.01.org/0day-ci/archive/20250503/202505031656.UrRdPiGI-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505031656.UrRdPiGI-lkp@intel.com/reproduce)
+Hi Tvrtko,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on next-20250502]
+[cannot apply to tj-cgroup/for-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.15-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-sched-Add-some-scheduling-quality-unit-tests/20250502-203539
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250502123256.50540-2-tvrtko.ursulin%40igalia.com
+patch subject: [RFC 01/23] drm/sched: Add some scheduling quality unit tests
+config: csky-randconfig-002-20250503 (https://download.01.org/0day-ci/archive/20250503/202505031601.l3Lhvxjc-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505031601.l3Lhvxjc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505031656.UrRdPiGI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505031601.l3Lhvxjc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(memcontrol.o at 1100606)
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(net-traces.o at 1275566)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(trace.o at 1093826)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(dir.o at 1110086)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(skbuff.o at 1273406)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(syscall.o at 1095206)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(xprtsock.o at 1284926)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(slub.o at 1100306)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(tcp.o at 1279226)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(ring_buffer.o at 1093766)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(filter.o at 1274486)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(ip6_output.o at 1282346)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(af_packet.o at 1284686)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(page_alloc.o at 1100066)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(namei.o at 1101746)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(vmscan.o at 1098926)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(auth_gss.o at 1286246)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(svcsock.o at 1285346)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(xdr.o at 1285706)
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1083866), and 'i32 1' from vmlinux.a(svcauth_gss.o at 1286366)
-   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+>> ERROR: modpost: "__divdi3" [drivers/gpu/drm/scheduler/tests/drm-sched-tests.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
