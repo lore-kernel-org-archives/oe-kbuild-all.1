@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53877270562
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 May 2025 23:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744F3101EE;
+	Sat,  3 May 2025 02:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746230321; cv=none; b=QZGPRipp/Xvz+uu6Rur2FwNH1tKhJRI8ocunFrIbjmH+zFhOe+d9GdyRq6oC7FpeWfzzaf4aovhS3V4XCekpmWgpez6th86UhmI/gbDHOYjyfCLy7c1xDseRDf30RXbmBN1CE7XGnSsaL05FGgUyWYIWPbYb9wuAS0agoAVQAoo=
+	t=1746238254; cv=none; b=S6j3Q/7emyOg2fnBKMUfxhmGVR0rpV7rN24qRLJzBIFdofhdt3BQCz9kdoWkSXPHQ/opv5/8YkzqnKu8X28GFqNcyZKTSh7hxI264V+cU4e7K1CdG7055g3sVlTcdYOGjmocVed7OV8V5ZyQFLf4C3z7T49RCEdDLMuZ6R7rdiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746230321; c=relaxed/simple;
-	bh=4b0yRqo0rAxHy0l8qp/09UIiMn63xiGV7yOhM0W+d1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=HTIgbcWdPtBkYQQ+n4NyCWATBpLecxfvzOaYSOpPpaseaYd5567nh2ScwK4vCUAK13v//BUSzrzRMZlcoMIru6i+CK1DFPfk5oYyUnP1zPdjtrd4HU/TTTwdpEHt8gAFf9B2YICu6SixywNtVHWfS5mTZfqpzEst/4fJNeZM3ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmkFkQp9; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1746238254; c=relaxed/simple;
+	bh=rb8M6icJ1O0t+JJpDjVxWKwSngtPcPtHu/v2cgq4WV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9dqvEilEGx6/Ec4ZCwtIIyUdn1GkItJw8kDisu8bV9SUdirbYafGhKDFOQ9y1R2lA3N6e7qksRWhmdzRzYbv8uEUmGfJDj8TyvNNwcWsYxgbr2Z9wIk0J2ZxhYk8xNJbX9Qk9QUUbX4Q2cCmsLzU43ctbvC4b+fTydNB1gzF5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mG5D0msi; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmkFkQp9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mG5D0msi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746230321; x=1777766321;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=4b0yRqo0rAxHy0l8qp/09UIiMn63xiGV7yOhM0W+d1w=;
-  b=NmkFkQp90BXiDdnZA6qi5nxPeDRqtksPGOLO8B4r6MVEiatR8QEkfABC
-   y4FaLa9QgRSIpuc1T7fik45oTWSEGMaKqyZl6xO2kxoswEHkOzXUoCKaE
-   ijQlmU0lXWxp+kX9ij8P4/wavMBD/A7FHl6Fi8st+xw3EZMdfY35pohG1
-   w90dtYjDfXs/0N/zjCed58E5zUgOC2jywFraUAtNpMYO5pvgDc1No7FS0
-   Y29HraNSA6sxLyneFGDf4Nmkjsq3ScqPHzjhzsYEEbr7Q8jU7jJijqPiB
-   /xp11+J/6f0yi72VqiMADAGyo/jxXhAkcsUg5RlQW9ur1UcDEbxM3NVy/
+  t=1746238252; x=1777774252;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rb8M6icJ1O0t+JJpDjVxWKwSngtPcPtHu/v2cgq4WV4=;
+  b=mG5D0msicbmxoA1mdqlD22+cA1IcC6HQ57uf/OAZfX3dKlNs0vkys52T
+   qmqYzPDMygd0/iupJUVh02qn4W/HyWclo7c+ACUomDx+yNMt0roNy+rHy
+   SQxdG/0QBGj2oJPzdBHPg7YAnPaonGSSjDzds/IlaJUijaB052wKPGBpE
+   3GJZuwzJcNodRqxkaHXGOuE4cvGMhd5l8ow9YLfsGFo3ahnpS/0qNn0Kb
+   0GM1D356+vsXyx1ZysdzeyuUFe6+bCAYGqfLb/JbzGCOHbSBkQ+VtsKRK
+   00z2ZkwjMaRrlEkBA4hC9pAEw/1moEPr2gYozydhL2G9UVKkUB/2kHN3M
    Q==;
-X-CSE-ConnectionGUID: GIxRvAFEQIuT2itVIvtN3A==
-X-CSE-MsgGUID: EFzjHNZpRnC1GN6yPE/68g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="51735283"
-X-IronPort-AV: E=Sophos;i="6.15,257,1739865600"; 
-   d="scan'208";a="51735283"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 16:58:40 -0700
-X-CSE-ConnectionGUID: veRvFMVKTIaFkxw2pvuf/Q==
-X-CSE-MsgGUID: BxHNF8kuSQ+hn9L3/B6fMA==
+X-CSE-ConnectionGUID: jxjSBMVZRcmqbJnH3ZPPzA==
+X-CSE-MsgGUID: +6pdXIHLTDqbB0UjmlpoZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="73317260"
+X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
+   d="scan'208";a="73317260"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 19:10:52 -0700
+X-CSE-ConnectionGUID: Aca4/farR+6vpc13FIFjtQ==
+X-CSE-MsgGUID: UCTrg10+Ss+W/OaadgRI5A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,257,1739865600"; 
-   d="scan'208";a="139914655"
+X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
+   d="scan'208";a="139581500"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 02 May 2025 16:58:39 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 02 May 2025 19:10:49 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uB0H6-00055h-1Z;
-	Fri, 02 May 2025 23:58:36 +0000
-Date: Sat, 3 May 2025 07:58:20 +0800
+	id 1uB2L1-0005A3-24;
+	Sat, 03 May 2025 02:10:47 +0000
+Date: Sat, 3 May 2025 10:09:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] usb: typec: tcpm/tcpci_maxim: Fix bounds check in
- process_rx()
-Message-ID: <aBVcHOF7oTPvk0XZ@92092d2942b5>
+To: Daisuke Matsuda <dskmtsd@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, leon@kernel.org, jgg@ziepe.ca,
+	zyjzyj2000@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Daisuke Matsuda <dskmtsd@gmail.com>
+Subject: Re: [PATCH for-next v1 1/2] RDMA/rxe: Implement synchronous prefetch
+ for ODP MRs
+Message-ID: <202505030925.esKbABQW-lkp@intel.com>
+References: <20250502032216.2312-2-dskmtsd@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +66,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250502-b4-new-fix-pd-rx-count-v1-1-e5711ed09b3d@google.com>
+In-Reply-To: <20250502032216.2312-2-dskmtsd@gmail.com>
 
-Hi,
+Hi Daisuke,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on rdma/for-next]
+[also build test ERROR on next-20250502]
+[cannot apply to linus/master v6.15-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Daisuke-Matsuda/RDMA-rxe-Implement-synchronous-prefetch-for-ODP-MRs/20250502-112436
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/20250502032216.2312-2-dskmtsd%40gmail.com
+patch subject: [PATCH for-next v1 1/2] RDMA/rxe: Implement synchronous prefetch for ODP MRs
+config: x86_64-buildonly-randconfig-005-20250503 (https://download.01.org/0day-ci/archive/20250503/202505030925.esKbABQW-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505030925.esKbABQW-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] usb: typec: tcpm/tcpci_maxim: Fix bounds check in process_rx()
-Link: https://lore.kernel.org/stable/20250502-b4-new-fix-pd-rx-count-v1-1-e5711ed09b3d%40google.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505030925.esKbABQW-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/infiniband/sw/rxe/rxe_srq.c:8:
+   In file included from drivers/infiniband/sw/rxe/rxe.h:30:
+>> drivers/infiniband/sw/rxe/rxe_loc.h:231:5: warning: no previous prototype for function 'rxe_ib_advise_mr' [-Wmissing-prototypes]
+     231 | int rxe_ib_advise_mr(struct ib_pd *pd, enum ib_uverbs_advise_mr_advice advice,
+         |     ^
+   drivers/infiniband/sw/rxe/rxe_loc.h:231:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     231 | int rxe_ib_advise_mr(struct ib_pd *pd, enum ib_uverbs_advise_mr_advice advice,
+         | ^
+         | static 
+   1 warning generated.
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_hw_counters.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_net.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_verbs.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_queue.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_srq.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_pool.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_resp.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_qp.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_recv.o
+--
+>> ld.lld: error: duplicate symbol: rxe_ib_advise_mr
+   >>> defined in drivers/infiniband/sw/rxe/rxe.o
+   >>> defined in drivers/infiniband/sw/rxe/rxe_req.o
+..
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
