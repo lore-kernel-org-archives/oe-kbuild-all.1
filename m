@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FF81F5842
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 13:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E8B13AA53
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 13:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746450149; cv=none; b=bgyjoQpTIgx8fymEgawTWnGfeh0DRgDEO0KTNanwP84imU3faU55CRpApsH2HZHmz9VgnICH/mV31i9eDFH9LOoqUzyc2nz26eO9rl8/nZLGeCLpPb3/not/QcPf1F9lNaiF6i9I1LSfv/0UdSF/wg7QIEgevSVE1QowXcJy9MQ=
+	t=1746452696; cv=none; b=a/BGrePYcRJdD1G7t7AK2mPjc4g55IUb2K9RwkGOBCmYdzlxmABpChwLg3JvKtePDKkCdCXEjPxNijf66XbI32yYPS2Z4ro372gjHOyXQmQ0fikVk7vgebfsdQQ4tUFwHCfrI5rWC8Tokh6Odtjd7kuuJ14NCssbyobwQfWujCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746450149; c=relaxed/simple;
-	bh=sXzxrUr2B4L+xATWcdAVGonE9o2NOsDgQ4IGjatkTkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e+fzkp0h9vgzGW8OkcctCgNC7GB+5slkoYjjFTD0YQqZ1S5zs4mMOhL/v6/WjyWpgg2ZdFf9uwCC0njY8laUpju3wRnK7Do+MELDz2sVSVpJL1enjzGZRbDKWFNGkPNECNlyAY3ATkiHRKgdYKHSy7vYLFwBk8O5pOxNMMGpPFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c8P/axpO; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1746452696; c=relaxed/simple;
+	bh=tvXmTrMlbV/uyUl//wrOaAloL94MOBt9zGN5gBgIYs4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RzKcCAQBJD5G49HhI/oP8VdtN1GdIMvF0QOH1QDCZDvX/02oWxRcTMgUpvZhGXTE+ErpVIyq+5rY4b7Htu2VQSGht3rXuR8GJu1Y/UJKM373zNYYQPtS9UkO/2efciExXw8pbF45DU5PCf/c5ix07eLkzAd6se2p3Dhb1TxIwYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kNVEbGD5; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c8P/axpO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kNVEbGD5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746450145; x=1777986145;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sXzxrUr2B4L+xATWcdAVGonE9o2NOsDgQ4IGjatkTkQ=;
-  b=c8P/axpOX42Qf1GTVqbExyttbSTkyggGILtW0/w0Ptqddi1WV8kGjjNT
-   Xcpl9gN6y0msVlzP53ujASLSO4rvoTkoE6XGPdNWK6f/eA0UOyXv9nE0P
-   gQE183es+mnkVSWlvVdWxtadqzbbYtN3UaJo5M96tqIm9Qii0xq4/L0UN
-   pfp8Bcu5XVOX1bt9GmhzvGGgfkeFeAWxXCRvlgnDCv0lK1Awg3gMKLYQR
-   u1o4GXhElGIv5lmxmy19iA+iZPO/WmQ1PQwF0HaWNF0FMOGin9b1U3IC8
-   7N0dRiO9+E241jsEdayYxO9M9b7FpbYXMLKFPkBPuvbwFqSU57QdprioM
-   w==;
-X-CSE-ConnectionGUID: JxOQcCpIQWe0NM+INz7gEg==
-X-CSE-MsgGUID: n1Ot7EeOTgihaEdM05IpSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="48193912"
+  t=1746452695; x=1777988695;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tvXmTrMlbV/uyUl//wrOaAloL94MOBt9zGN5gBgIYs4=;
+  b=kNVEbGD5BjjsucqCzKqRRNfzykPLdKwLhrfeL5GPaeLXiuMursm1nZJP
+   4vl2o5WhHbRv7tQ55uYNXCQBM/w1LJxeP4T4p10SGSwmDMP7wJ98cFeB7
+   nhGRwhpnKhp5ApwdEdcuwTvOHJALlFV2GL3wmIip8M7EZr8e38SWo4E1z
+   Cd5SwzVojnrDZ/gQu9umuwPR4tClnQY+QrsGsvikhmp/UundohO8BmrAv
+   Jw5F2H14P6RCB6imTpUe87n8BdeWyKqsZrGVVlkbajfSfitz5MudYDZw8
+   +XROr5GBUhxKuuDEcT31LxA5HPt/l2UzmYus+sywPHn1fhpP9vfdhWECg
+   g==;
+X-CSE-ConnectionGUID: uesDXbntRBW5lb/wJVJxdw==
+X-CSE-MsgGUID: lH2IMM+CT4aHePPEdzJTdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="59452991"
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="48193912"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:02:25 -0700
-X-CSE-ConnectionGUID: FbRnatwMTO2eQR+mUjpt2Q==
-X-CSE-MsgGUID: SWvHPJNmRWWQ6iwxwH7oxQ==
+   d="scan'208";a="59452991"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:44:55 -0700
+X-CSE-ConnectionGUID: VF7NT8weTueZ2L9N2tgJAg==
+X-CSE-MsgGUID: PKzhnYjiSreTpmlerRUWgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="139265374"
+   d="scan'208";a="140246991"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 May 2025 06:02:24 -0700
+  by orviesa004.jf.intel.com with ESMTP; 05 May 2025 06:44:49 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uBvSf-0005j5-39;
-	Mon, 05 May 2025 13:02:21 +0000
-Date: Mon, 5 May 2025 21:01:50 +0800
+	id 1uBw7h-0005lZ-22;
+	Mon, 05 May 2025 13:44:45 +0000
+Date: Mon, 5 May 2025 21:43:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1365/1365]
- drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
- functions is not needed.
-Message-ID: <202505052008.Vj0WP8gn-lkp@intel.com>
+To: Viken Dadhaniya <quic_vdadhani@quicinc.com>, andi.shyti@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org, broonie@kernel.or,
+	andersson@kernel.org, konradybcio@kernel.org,
+	johan+linaro@kernel.org, dianders@chromium.org, agross@kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_msavaliy@quicinc.com,
+	quic_anupkulk@quicinc.com,
+	Viken Dadhaniya <quic_vdadhani@quicinc.com>
+Subject: Re: [PATCH v4 2/5] soc: qcom: geni-se: Add support to load QUP SE
+ Firmware via Linux subsystem
+Message-ID: <202505052109.5N8caeeW-lkp@intel.com>
+References: <20250503111029.3583807-3-quic_vdadhani@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +72,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250503111029.3583807-3-quic_vdadhani@quicinc.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   a48a35466505c8a52da57596944bd0b4485e825f
-commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [1365/1365] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
-config: x86_64-randconfig-102-20250103 (https://download.01.org/0day-ci/archive/20250505/202505052008.Vj0WP8gn-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Viken,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on tty/tty-testing tty/tty-next tty/tty-linus broonie-spi/for-next linus/master v6.15-rc5 next-20250505]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Viken-Dadhaniya/dt-bindings-qcom-se-common-Add-QUP-Peripheral-specific-properties-for-I2C-SPI-and-SERIAL-bus/20250503-191235
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20250503111029.3583807-3-quic_vdadhani%40quicinc.com
+patch subject: [PATCH v4 2/5] soc: qcom: geni-se: Add support to load QUP SE Firmware via Linux subsystem
+config: sparc64-randconfig-002-20250505 (https://download.01.org/0day-ci/archive/20250505/202505052109.5N8caeeW-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505052109.5N8caeeW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505052008.Vj0WP8gn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505052109.5N8caeeW-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
+All errors (new ones prefixed by >>):
 
-vim +614 drivers/acpi/cppc_acpi.c
+   In file included from drivers/tty/serial/qcom_geni_serial.c:18:
+   include/linux/soc/qcom/geni-se.h: In function 'geni_se_read_proto':
+>> include/linux/soc/qcom/geni-se.h:351:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     351 |         return FIELD_GET(FW_REV_PROTOCOL_MSK, val);
+         |                ^~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/soc/qcom/qcom-geni-se.c:21:
+   include/linux/soc/qcom/geni-se.h: In function 'geni_se_read_proto':
+>> include/linux/soc/qcom/geni-se.h:351:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     351 |         return FIELD_GET(FW_REV_PROTOCOL_MSK, val);
+         |                ^~~~~~~~~
+   drivers/soc/qcom/qcom-geni-se.c: In function 'geni_write_fw_revision':
+>> drivers/soc/qcom/qcom-geni-se.c:1042:21: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+    1042 |         reg_value = FIELD_PREP(FW_REV_PROTOCOL_MSK, serial_protocol);
+         |                     ^~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   576	
-   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
-   578	{
-   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
-   580		int parsed_core_num = 0;
-   581		int i, ret;
-   582	
-   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
-   584		if (!cpc_pptr)
-   585			return -ENOMEM;
-   586		for_each_possible_cpu(i) {
-   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
-   588			if (!cpc_pptr[i]) {
-   589				ret = -ENOMEM;
-   590				goto out;
-   591			}
-   592		}
-   593	
-   594		/*
-   595		 * We can not use acpi_get_devices() to walk the processor devices
-   596		 * because some processor device is not present.
-   597		 */
-   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
-   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
-   600					  cpc_pptr, (void **)&parsed_core_num);
-   601		if (ret)
-   602			goto out;
-   603		if (parsed_core_num != num_possible_cpus()) {
-   604			ret = -EINVAL;
-   605			goto out;
-   606		}
-   607	
-   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
-   609	
-   610	out:
-   611		for_each_possible_cpu(i) {
-   612			cpc_ptr = cpc_pptr[i];
-   613			if (cpc_ptr)
- > 614				kfree(cpc_ptr);
-   615		}
-   616		kfree(cpc_pptr);
-   617	
-   618		return ret;
-   619	}
-   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
-   621	
+
+vim +/FIELD_GET +351 include/linux/soc/qcom/geni-se.h
+
+   338	
+   339	/**
+   340	 * geni_se_read_proto() - Read the protocol configured for a serial engine
+   341	 * @se:		Pointer to the concerned serial engine.
+   342	 *
+   343	 * Return: Protocol value as configured in the serial engine.
+   344	 */
+   345	static inline u32 geni_se_read_proto(struct geni_se *se)
+   346	{
+   347		u32 val;
+   348	
+   349		val = readl_relaxed(se->base + SE_GENI_FW_REVISION_RO);
+   350	
+ > 351		return FIELD_GET(FW_REV_PROTOCOL_MSK, val);
+   352	}
+   353	
 
 -- 
 0-DAY CI Kernel Test Service
