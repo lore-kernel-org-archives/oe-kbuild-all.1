@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B6517A314
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 08:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A2A1F3D20;
+	Mon,  5 May 2025 09:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746434223; cv=none; b=NlmZnr2YoaDVePJ45fJoPimVXiMy9e0uKFXZf4cjrUYICi51CIxBsbqALxJian/5iZYZ4WAC693xsOtrntb8VEK9srOFoTyU/4UFiJ1IjGKDSPvWG9EY9EL2ErpD4GX4X3K0WUlqssIfHfDGR5HR27fTo+Eu9/4eoX2uv988NNo=
+	t=1746438549; cv=none; b=SHSM6bpG9hsmDNcxCK3VHNgShVy3rAZcZXTCEHfdTSHHrNKYqCLoaq+C+iKA8ejVXDm0Bb14gyBD11rVV66qK7syHiEfQDqUUO6SlfYwBABEkMrPHKzenTOK86jPK9+I9mLmUm45yKgZlIrrzBvMxsMeIlFBtVslYfM5/5O/VJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746434223; c=relaxed/simple;
-	bh=On67f+Oe4EWbXHf6wa7DuuERKOqE3xyv9ffQwtiJ4Mo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GJLVNoVT5iM0rMFQXxACNj6UxzRwDTpJP/1EjuapkQo8ZrZNR6OPJfo7qyqQjHIUdcOZQkbXG2FdK9jhGaYjchl4O9reHPb9GLB6dGgRoceOdiF2hx3V104OyAijSPbZlnFo6T1n3A9Np1nXK88vfuKRHxq1q04HxUjM4gDVJIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gYrlgBLV; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1746438549; c=relaxed/simple;
+	bh=20U5Vqcd31KT5n6e9P0Gpgbwk4Vk4y8DzFmo1LZnmW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PqKES2Pj5UDqy5zt/f2B2Bc16s0WliIad6Uf0/lCQLYhX6Pu7k3URvuZzrK3VB9w8U325X056RURX+wWP3/IMBmRAWUFxJpS4HoJ5ROfJq251sQVzLKRyw8rS8R9iMp1bWI5JDR4302dCRpXOWvDLqbw0IlwQQDDhQzlNXxW6M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LNBdcLH5; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYrlgBLV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNBdcLH5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746434221; x=1777970221;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=On67f+Oe4EWbXHf6wa7DuuERKOqE3xyv9ffQwtiJ4Mo=;
-  b=gYrlgBLVouJKIXk48I3ikjcBsZ2iXnR5OKDxFjS9GHXbOgJkmlyKzH+r
-   T4p5I5r5D3O9od8T9y9vuPkdJ6E1MaGt79ieQSkG1tsvhNQTGfUlOUOrx
-   CaN1FN7fqRlkxcouAWNl8SWbSGLmtLb1oMrWQp+I+mbYtE4s40q7TwjcZ
-   1ttbEaJWJUUtxGn9X8bWP7+HpNbgB8DAzdc5wF4NRbG/RCG/ZHe50+0bs
-   jrc5RyFVWRNLAj3+KICsFA8dtvTGNnNc7R7hRcE/67nG2PpSQxShv9PDH
-   pb2yx+wYTE82rZUgYUmrrPVKbXPb2sDZJydluTM0YKlUloHUN3UUiZ38z
+  t=1746438547; x=1777974547;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=20U5Vqcd31KT5n6e9P0Gpgbwk4Vk4y8DzFmo1LZnmW8=;
+  b=LNBdcLH5fVBRaCT8veonxiU3S+l9s5fg0oOazZj4mNb42f9R1AiI4np/
+   NmE1m7mHjfFLCZKsVYPz2RzVx5kD/q3hwKMcWFMBAt56Avk8Xev6GlJTm
+   BC5GwGMGZ1KUh4JQwEa8aT0wd5JWgpdchGXKbpFyqt0A7AVdqbGKBks4C
+   9j2u2KRzh7B/y+Z9Hz0FBaqjpB3FMfKfJPU1Dq88zgULlxEPkvjyychVe
+   qVXBFz6SWIvWbB5z7cKpzziv6NqH2BdIwaqA6/9l2PX3f1lT0CJJ4zYPY
+   cfk9OzoMqAeYMygEIYbkgoVHAWpONU8fe23JeocDe5nQAG49pYNiV4xVw
    w==;
-X-CSE-ConnectionGUID: TrUF+S8iQqqm3andknQNvQ==
-X-CSE-MsgGUID: ORMukXTORxGVav3iwykdbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="47928435"
+X-CSE-ConnectionGUID: oUZqTtJTSUiOcqMgjJhwvQ==
+X-CSE-MsgGUID: IJ2cXOPARki7mY3WxKGhEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="58699644"
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="47928435"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 01:36:58 -0700
-X-CSE-ConnectionGUID: ld/WxysKStGKgYPJhlWrAA==
-X-CSE-MsgGUID: burjrElkSMudkxU0HAOl9g==
+   d="scan'208";a="58699644"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 02:49:06 -0700
+X-CSE-ConnectionGUID: dTpOWSRlQKmUwaQ+8X7jXw==
+X-CSE-MsgGUID: 4NWx5T6SQv616YArODmx4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="135141919"
+   d="scan'208";a="135717043"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 05 May 2025 01:36:57 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 May 2025 02:49:05 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uBrJn-0005e1-21;
-	Mon, 05 May 2025 08:36:55 +0000
-Date: Mon, 5 May 2025 16:36:16 +0800
+	id 1uBsRa-0005f8-2P;
+	Mon, 05 May 2025 09:49:02 +0000
+Date: Mon, 5 May 2025 17:48:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 4/4] stackleak: Support Clang stack depth tracking
-Message-ID: <202505051411.vxkvCvJF-lkp@intel.com>
-References: <20250502190129.246328-4-kees@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/stats_pointer 1/1]
+ arch/riscv/kvm/../../../virt/kvm/binary_stats.c:56: warning: Function
+ parameter or struct member 'ext' not described in 'kvm_stats_read'
+Message-ID: <202505051701.mjetMlOh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,40 +62,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250502190129.246328-4-kees@kernel.org>
 
-Hi Kees,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on soc/for-next linus/master v6.15-rc4]
-[cannot apply to kees/for-next/hardening tip/x86/core next-20250502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/stackleak-Rename-CONFIG_GCC_PLUGIN_STACKLEAK-to-CONFIG_STACKLEAK/20250503-030310
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20250502190129.246328-4-kees%40kernel.org
-patch subject: [PATCH RFC 4/4] stackleak: Support Clang stack depth tracking
-config: loongarch-randconfig-002-20250503 (https://download.01.org/0day-ci/archive/20250505/202505051411.vxkvCvJF-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505051411.vxkvCvJF-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/stats_pointer
+head:   b9a199c65702bb4d0d6bc77c88198df60cdd940f
+commit: b9a199c65702bb4d0d6bc77c88198df60cdd940f [1/1] KVM: x86: PoC for shoving a subset of stats into a pointer
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20250505/202505051701.mjetMlOh-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505051701.mjetMlOh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505051411.vxkvCvJF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505051701.mjetMlOh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: section mismatch in reference: constant_clockevent_init+0x3a8 (section: .text) -> get_loops_per_jiffy (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: xbc_exit+0x18 (section: .text.unlikely) -> _xbc_exit (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: plat_smp_setup+0x14 (section: .text.unlikely) -> loongson_smp_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: early_memremap_ro+0x3c (section: .text.unlikely) -> early_ioremap (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: early_memremap_prot+0x3c (section: .text.unlikely) -> early_ioremap (section: .init.text)
+>> arch/riscv/kvm/../../../virt/kvm/binary_stats.c:56: warning: Function parameter or struct member 'ext' not described in 'kvm_stats_read'
+>> arch/riscv/kvm/../../../virt/kvm/binary_stats.c:56: warning: Function parameter or struct member 'size_ext' not described in 'kvm_stats_read'
+
+
+vim +56 arch/riscv/kvm/../../../virt/kvm/binary_stats.c
+
+cb082bfab59a22 Jing Zhang          2021-06-18  12  
+cb082bfab59a22 Jing Zhang          2021-06-18  13  /**
+cb082bfab59a22 Jing Zhang          2021-06-18  14   * kvm_stats_read() - Common function to read from the binary statistics
+cb082bfab59a22 Jing Zhang          2021-06-18  15   * file descriptor.
+cb082bfab59a22 Jing Zhang          2021-06-18  16   *
+cb082bfab59a22 Jing Zhang          2021-06-18  17   * @id: identification string of the stats
+cb082bfab59a22 Jing Zhang          2021-06-18  18   * @header: stats header for a vm or a vcpu
+cb082bfab59a22 Jing Zhang          2021-06-18  19   * @desc: start address of an array of stats descriptors for a vm or a vcpu
+cb082bfab59a22 Jing Zhang          2021-06-18  20   * @stats: start address of stats data block for a vm or a vcpu
+cb082bfab59a22 Jing Zhang          2021-06-18  21   * @size_stats: the size of stats data block pointed by @stats
+cb082bfab59a22 Jing Zhang          2021-06-18  22   * @user_buffer: start address of userspace buffer
+cb082bfab59a22 Jing Zhang          2021-06-18  23   * @size: requested read size from userspace
+cb082bfab59a22 Jing Zhang          2021-06-18  24   * @offset: the start position from which the content will be read for the
+cb082bfab59a22 Jing Zhang          2021-06-18  25   *          corresponding vm or vcp file descriptor
+cb082bfab59a22 Jing Zhang          2021-06-18  26   *
+cb082bfab59a22 Jing Zhang          2021-06-18  27   * The file content of a vm/vcpu file descriptor is now defined as below:
+cb082bfab59a22 Jing Zhang          2021-06-18  28   * +-------------+
+cb082bfab59a22 Jing Zhang          2021-06-18  29   * |   Header    |
+cb082bfab59a22 Jing Zhang          2021-06-18  30   * +-------------+
+cb082bfab59a22 Jing Zhang          2021-06-18  31   * |  id string  |
+cb082bfab59a22 Jing Zhang          2021-06-18  32   * +-------------+
+cb082bfab59a22 Jing Zhang          2021-06-18  33   * | Descriptors |
+cb082bfab59a22 Jing Zhang          2021-06-18  34   * +-------------+
+cb082bfab59a22 Jing Zhang          2021-06-18  35   * | Stats Data  |
+cb082bfab59a22 Jing Zhang          2021-06-18  36   * +-------------+
+cb082bfab59a22 Jing Zhang          2021-06-18  37   * Although this function allows userspace to read any amount of data (as long
+cb082bfab59a22 Jing Zhang          2021-06-18  38   * as in the limit) from any position, the typical usage would follow below
+cb082bfab59a22 Jing Zhang          2021-06-18  39   * steps:
+cb082bfab59a22 Jing Zhang          2021-06-18  40   * 1. Read header from offset 0. Get the offset of descriptors and stats data
+cb082bfab59a22 Jing Zhang          2021-06-18  41   *    and some other necessary information. This is a one-time work for the
+cb082bfab59a22 Jing Zhang          2021-06-18  42   *    lifecycle of the corresponding vm/vcpu stats fd.
+cb082bfab59a22 Jing Zhang          2021-06-18  43   * 2. Read id string from its offset. This is a one-time work for the lifecycle
+cb082bfab59a22 Jing Zhang          2021-06-18  44   *    of the corresponding vm/vcpu stats fd.
+cb082bfab59a22 Jing Zhang          2021-06-18  45   * 3. Read descriptors from its offset and discover all the stats by parsing
+cb082bfab59a22 Jing Zhang          2021-06-18  46   *    descriptors. This is a one-time work for the lifecycle of the
+cb082bfab59a22 Jing Zhang          2021-06-18  47   *    corresponding vm/vcpu stats fd.
+cb082bfab59a22 Jing Zhang          2021-06-18  48   * 4. Periodically read stats data from its offset using pread.
+cb082bfab59a22 Jing Zhang          2021-06-18  49   *
+cb082bfab59a22 Jing Zhang          2021-06-18  50   * Return: the number of bytes that has been successfully read
+cb082bfab59a22 Jing Zhang          2021-06-18  51   */
+cb082bfab59a22 Jing Zhang          2021-06-18  52  ssize_t kvm_stats_read(char *id, const struct kvm_stats_header *header,
+cb082bfab59a22 Jing Zhang          2021-06-18  53  		       const struct _kvm_stats_desc *desc,
+b9a199c65702bb Sean Christopherson 2025-04-30  54  		       void *stats, size_t size_stats, void *ext, size_t size_ext,
+cb082bfab59a22 Jing Zhang          2021-06-18  55  		       char __user *user_buffer, size_t size, loff_t *offset)
+cb082bfab59a22 Jing Zhang          2021-06-18 @56  {
+
+:::::: The code at line 56 was first introduced by commit
+:::::: cb082bfab59a224a49ae803fed52cd03e8d6b5e0 KVM: stats: Add fd-based API to read binary stats data
+
+:::::: TO: Jing Zhang <jingzhangos@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
