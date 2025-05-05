@@ -1,68 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F869139E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 05:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B05154BF0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 05:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746421585; cv=none; b=TT8DfIrnuY2uyuIAiqKaenJO4JXXHd1SkO5GyYsUt8ngSubCt4CBHQiPkVBImT80iXqDdbcDhhzpkk5hy5rPoPGCFa/yKC269MEG0ax0iNcfkmXj3u+l2uUv7oSa2OHTlvDrn3lI+3nQAzlIKBMu912nK2q/3KbhtK1H8vWSb2Y=
+	t=1746423456; cv=none; b=I+zj6scjZEHXAxc1In1Kk1p5dKPfgA99FppioVbxdAeiM3k5pDXz5sx9nu5TXWthzE+FZdbsa4p965V1Y6P44lrGPrHOWnpiPBFd79eia3lgirQOIIG7H4+oRVP2wESmiQa9Kyhsai/d9lltmCW4i4ZY3+RtCuGlFf9SghuigUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746421585; c=relaxed/simple;
-	bh=KpE9wjXlGQWl4XdN1XdPw8AuQidvNZejWAaHnQ1kP4E=;
+	s=arc-20240116; t=1746423456; c=relaxed/simple;
+	bh=Al4K5e1+agXGNWYOJPi3g9w45mWzI7ikU+sRe9IiBmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LgCbuInN0CQxMl4+IivMen+rTNTAutxQRQptwDQz1LgUAWVT87oxLTxoZ2GPuYFoM1tAtiHHFhvWRsMfFdL/i8giGiAoflNsaygBWUmCd1nDsXKqotWXLa8z/Dlx4vDScGib/TYCI1G+YyFC5DsSaIzVhKGPOYNQjygJbIAA5f0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LRcw6R/Y; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=szT1JZIPhB32DOcMWD2OObqJIeciZL1++jPlkaFkkHsQk/pMGsWFveLBfw6UP7iYS4whY6fdVSdHUdPoojhTlzg5EL/VJWvJpiMahp9kmvphaHxyQz30lRZNSQxmKPdl3G2xpPnrRd6Ob5Uyg+5YxPrb/k6T5pL/p01ld7ioiOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kkmxk/VM; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LRcw6R/Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkmxk/VM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746421582; x=1777957582;
+  t=1746423455; x=1777959455;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KpE9wjXlGQWl4XdN1XdPw8AuQidvNZejWAaHnQ1kP4E=;
-  b=LRcw6R/YvA5CoPm7b4b/2wdTU1Gi1fctaUurZLcEEKls6487oqW9Ss/M
-   UQcOPfieLyHjaAVZE1voqb8X16Hc3NDGFBNkG9YuXXHOe4G56oWCnEZmg
-   0LyY5H3EAxKD8d505ivLKNwvXFySlu2A2iS2+0+hkBt2Yrd6M9ACVMRU8
-   1VBVAHLtZeA05O8oISCTr3gLJi+5gaXGlN1u8SSyvFwG9gRqAd6G6bKCt
-   0UPUkzXY9hEuV5ZV1sp7lGY05Yu4OmAcEwG50hOpUjLUnST7UbvEVKVxd
-   GpVa3ehXIPxq8vkHz3OGWSE5Mk1DF/yKly3c4HXHszGTumj8lA8y7tGLo
-   g==;
-X-CSE-ConnectionGUID: ei6HrblkT9GEiUGYodFqLQ==
-X-CSE-MsgGUID: 5xbO+UqYR9irwKz5RAnwMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="50667770"
+  bh=Al4K5e1+agXGNWYOJPi3g9w45mWzI7ikU+sRe9IiBmI=;
+  b=kkmxk/VMHJtpf38dk4pJNxQ/I+2XHK5GRLCt4gIR5mzFK1PLzYgaG/i3
+   gI9Iug+E2jlr3hVeB7/d/aNYJPdMRaEzyn/GhAN4c/tU10q5cQEkFTH3b
+   6ktklJL7FQc8hQw7gV6xByHXCQIKdlgzL9GQOs4QElG9n2zLS0gHNJxZ3
+   DCZNowinm6Xlolf8USuvA9voHOBR4GkdKdoi2swn/vpu42ERo4RiBXAWo
+   ep8C2aPfZKt7HyybmilQ/5QhVS3bksLpvs55iUTqOPsyDC5BewVQezxJu
+   IVq6QM9rDW2UDfcUhfegbnMa+3VCq6GIGF+ZZIIm40YYCh+Sa2ZiVuSCe
+   Q==;
+X-CSE-ConnectionGUID: wEFyWBCaSgmogZgM/OHQ+g==
+X-CSE-MsgGUID: pULlxZLJTRav/rC6L9+5Yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="65421742"
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="50667770"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2025 22:06:21 -0700
-X-CSE-ConnectionGUID: NFbsm+nURZuK2hYFbJXcNw==
-X-CSE-MsgGUID: cexH5n/4TGyvFPvJrkVySQ==
+   d="scan'208";a="65421742"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2025 22:37:34 -0700
+X-CSE-ConnectionGUID: M37Hi0EtQcqLAmvDhbW58Q==
+X-CSE-MsgGUID: 0mJ2wQ00TH+IUvpkpQ58eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="135655373"
+   d="scan'208";a="140306062"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 May 2025 22:06:19 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 04 May 2025 22:37:30 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uBo1v-0005ar-2S;
-	Mon, 05 May 2025 05:06:15 +0000
-Date: Mon, 5 May 2025 13:05:47 +0800
+	id 1uBoW7-0005bd-2S;
+	Mon, 05 May 2025 05:37:27 +0000
+Date: Mon, 5 May 2025 13:36:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <danielt@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 05/12] tracing: kdb: Use tracer_tracing_on/off() instead
- of setting per CPU disabled
-Message-ID: <202505051213.exaXF8qp-lkp@intel.com>
-References: <20250502205348.643055437@goodmis.org>
+To: Magnus Lindholm <linmag7@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-alpha@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, richard.henderson@linaro.org,
+	mattst88@gmail.com, arnd@arndb.de, paulmck@kernel.org,
+	glaubitz@physik.fu-berlin.de, macro@redhat.com, mcree@orcon.net.nz,
+	ink@unseen.parts, Magnus Lindholm <linmag7@gmail.com>
+Subject: Re: [PATCH v2] alpha: machine check handler for tsunami
+Message-ID: <202505051339.kc4bhqlt-lkp@intel.com>
+References: <20250423194958.30715-1-linmag7@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,93 +66,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250502205348.643055437@goodmis.org>
+In-Reply-To: <20250423194958.30715-1-linmag7@gmail.com>
 
-Hi Steven,
+Hi Magnus,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on linus/master v6.15-rc4 next-20250502]
+[auto build test ERROR on mattst88-alpha/for-linus]
+[also build test ERROR on linus/master v6.15-rc4 next-20250502]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-mmiotrace-Remove-reference-to-unused-per-CPU-data-pointer/20250503-050317
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250502205348.643055437%40goodmis.org
-patch subject: [PATCH 05/12] tracing: kdb: Use tracer_tracing_on/off() instead of setting per CPU disabled
-config: arc-randconfig-002-20250503 (https://download.01.org/0day-ci/archive/20250505/202505051213.exaXF8qp-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505051213.exaXF8qp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Magnus-Lindholm/alpha-machine-check-handler-for-tsunami/20250424-035141
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mattst88/alpha.git for-linus
+patch link:    https://lore.kernel.org/r/20250423194958.30715-1-linmag7%40gmail.com
+patch subject: [PATCH v2] alpha: machine check handler for tsunami
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20250505/202505051339.kc4bhqlt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505051339.kc4bhqlt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505051213.exaXF8qp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505051339.kc4bhqlt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/trace/trace_kdb.c: In function 'kdb_ftdump':
->> kernel/trace/trace_kdb.c:101:13: warning: unused variable 'cpu' [-Wunused-variable]
-     101 |         int cpu;
-         |             ^~~
-
-
-vim +/cpu +101 kernel/trace/trace_kdb.c
-
-955b61e5979847 Jason Wessel     2010-08-05   91  
-955b61e5979847 Jason Wessel     2010-08-05   92  /*
-955b61e5979847 Jason Wessel     2010-08-05   93   * kdb_ftdump - Dump the ftrace log buffer
-955b61e5979847 Jason Wessel     2010-08-05   94   */
-955b61e5979847 Jason Wessel     2010-08-05   95  static int kdb_ftdump(int argc, const char **argv)
-955b61e5979847 Jason Wessel     2010-08-05   96  {
-dbfe67334a1767 Douglas Anderson 2019-03-19   97  	int skip_entries = 0;
-19063c776fe745 Jason Wessel     2010-08-05   98  	long cpu_file;
-0c10cc2435115c Yuran Pereira    2024-10-28   99  	int err;
-03197fc02b3566 Douglas Anderson 2019-03-19  100  	int cnt;
-03197fc02b3566 Douglas Anderson 2019-03-19 @101  	int cpu;
-955b61e5979847 Jason Wessel     2010-08-05  102  
-19063c776fe745 Jason Wessel     2010-08-05  103  	if (argc > 2)
-955b61e5979847 Jason Wessel     2010-08-05  104  		return KDB_ARGCOUNT;
-955b61e5979847 Jason Wessel     2010-08-05  105  
-0c10cc2435115c Yuran Pereira    2024-10-28  106  	if (argc && kstrtoint(argv[1], 0, &skip_entries))
-0c10cc2435115c Yuran Pereira    2024-10-28  107  		return KDB_BADINT;
-955b61e5979847 Jason Wessel     2010-08-05  108  
-19063c776fe745 Jason Wessel     2010-08-05  109  	if (argc == 2) {
-0c10cc2435115c Yuran Pereira    2024-10-28  110  		err = kstrtol(argv[2], 0, &cpu_file);
-0c10cc2435115c Yuran Pereira    2024-10-28  111  		if (err || cpu_file >= NR_CPUS || cpu_file < 0 ||
-19063c776fe745 Jason Wessel     2010-08-05  112  		    !cpu_online(cpu_file))
-19063c776fe745 Jason Wessel     2010-08-05  113  			return KDB_BADINT;
-19063c776fe745 Jason Wessel     2010-08-05  114  	} else {
-ae3b5093ad6004 Steven Rostedt   2013-01-23  115  		cpu_file = RING_BUFFER_ALL_CPUS;
-19063c776fe745 Jason Wessel     2010-08-05  116  	}
-19063c776fe745 Jason Wessel     2010-08-05  117  
-955b61e5979847 Jason Wessel     2010-08-05  118  	kdb_trap_printk++;
-03197fc02b3566 Douglas Anderson 2019-03-19  119  
-03197fc02b3566 Douglas Anderson 2019-03-19  120  	trace_init_global_iter(&iter);
-03197fc02b3566 Douglas Anderson 2019-03-19  121  	iter.buffer_iter = buffer_iter;
-03197fc02b3566 Douglas Anderson 2019-03-19  122  
-6a4611f6bb763d Steven Rostedt   2025-05-02  123  	tracer_tracing_off(iter.tr);
-03197fc02b3566 Douglas Anderson 2019-03-19  124  
-03197fc02b3566 Douglas Anderson 2019-03-19  125  	/* A negative skip_entries means skip all but the last entries */
-03197fc02b3566 Douglas Anderson 2019-03-19  126  	if (skip_entries < 0) {
-03197fc02b3566 Douglas Anderson 2019-03-19  127  		if (cpu_file == RING_BUFFER_ALL_CPUS)
-03197fc02b3566 Douglas Anderson 2019-03-19  128  			cnt = trace_total_entries(NULL);
-03197fc02b3566 Douglas Anderson 2019-03-19  129  		else
-03197fc02b3566 Douglas Anderson 2019-03-19  130  			cnt = trace_total_entries_cpu(NULL, cpu_file);
-03197fc02b3566 Douglas Anderson 2019-03-19  131  		skip_entries = max(cnt + skip_entries, 0);
-03197fc02b3566 Douglas Anderson 2019-03-19  132  	}
-03197fc02b3566 Douglas Anderson 2019-03-19  133  
-dbfe67334a1767 Douglas Anderson 2019-03-19  134  	ftrace_dump_buf(skip_entries, cpu_file);
-03197fc02b3566 Douglas Anderson 2019-03-19  135  
-6a4611f6bb763d Steven Rostedt   2025-05-02  136  	tracer_tracing_on(iter.tr);
-03197fc02b3566 Douglas Anderson 2019-03-19  137  
-955b61e5979847 Jason Wessel     2010-08-05  138  	kdb_trap_printk--;
-955b61e5979847 Jason Wessel     2010-08-05  139  
-955b61e5979847 Jason Wessel     2010-08-05  140  	return 0;
-955b61e5979847 Jason Wessel     2010-08-05  141  }
-955b61e5979847 Jason Wessel     2010-08-05  142  
+>> alpha-linux-ld: arch/alpha/kernel/sys_eiger.o:(.init.data+0x118): undefined reference to `tsunami_machine_check'
+   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o: in function `clipper_init_pci':
+>> (.init.text+0x394): undefined reference to `tsunami_register_error_handlers'
+>> alpha-linux-ld: (.init.text+0x3a0): undefined reference to `tsunami_register_error_handlers'
+>> alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x118): undefined reference to `tsunami_machine_check'
+   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x298): undefined reference to `tsunami_machine_check'
+   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x418): undefined reference to `tsunami_machine_check'
+   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x598): undefined reference to `tsunami_machine_check'
+   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x718): undefined reference to `tsunami_machine_check'
 
 -- 
 0-DAY CI Kernel Test Service
