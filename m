@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B05154BF0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 05:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27774C98
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 07:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746423456; cv=none; b=I+zj6scjZEHXAxc1In1Kk1p5dKPfgA99FppioVbxdAeiM3k5pDXz5sx9nu5TXWthzE+FZdbsa4p965V1Y6P44lrGPrHOWnpiPBFd79eia3lgirQOIIG7H4+oRVP2wESmiQa9Kyhsai/d9lltmCW4i4ZY3+RtCuGlFf9SghuigUU=
+	t=1746429594; cv=none; b=bLDpoM9AuCgyRBCmTFk5QGzjLtfNgUN/0WDBoIwERT2fysWp8D9KNjWPnGwwPJ5agg+hjQy7YSChCSauojvIZUD3KHGYux656qxnQ6O5bKNztVe3AtwRvithoiwuLj5h04FaRPJyLEPu+vdsFTZyWZqZq/MXI3ZufFeIhsMmYbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746423456; c=relaxed/simple;
-	bh=Al4K5e1+agXGNWYOJPi3g9w45mWzI7ikU+sRe9IiBmI=;
+	s=arc-20240116; t=1746429594; c=relaxed/simple;
+	bh=GCVcV9cmXnhnwDKYMrvd8V8TZ/YtoG0CcBg/cQyXd9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szT1JZIPhB32DOcMWD2OObqJIeciZL1++jPlkaFkkHsQk/pMGsWFveLBfw6UP7iYS4whY6fdVSdHUdPoojhTlzg5EL/VJWvJpiMahp9kmvphaHxyQz30lRZNSQxmKPdl3G2xpPnrRd6Ob5Uyg+5YxPrb/k6T5pL/p01ld7ioiOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kkmxk/VM; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q13DBcJkBhDp1lzz9DXv65cDI6iiQP2Ue7eKajjbFGTIwp38ALXwIacM6mqSLi5MR/UUTR8L32Ub9PFp7V7YmaKq/UMEXv9Q0tmSm2AECwCFgzQJUAP8R075AkOBC7MILBVz1jA2nq2lDVf8yiIOlDUkqbIllS/d2supbK3P0Oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ifkYghT6; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkmxk/VM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ifkYghT6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746423455; x=1777959455;
+  t=1746429590; x=1777965590;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Al4K5e1+agXGNWYOJPi3g9w45mWzI7ikU+sRe9IiBmI=;
-  b=kkmxk/VMHJtpf38dk4pJNxQ/I+2XHK5GRLCt4gIR5mzFK1PLzYgaG/i3
-   gI9Iug+E2jlr3hVeB7/d/aNYJPdMRaEzyn/GhAN4c/tU10q5cQEkFTH3b
-   6ktklJL7FQc8hQw7gV6xByHXCQIKdlgzL9GQOs4QElG9n2zLS0gHNJxZ3
-   DCZNowinm6Xlolf8USuvA9voHOBR4GkdKdoi2swn/vpu42ERo4RiBXAWo
-   ep8C2aPfZKt7HyybmilQ/5QhVS3bksLpvs55iUTqOPsyDC5BewVQezxJu
-   IVq6QM9rDW2UDfcUhfegbnMa+3VCq6GIGF+ZZIIm40YYCh+Sa2ZiVuSCe
-   Q==;
-X-CSE-ConnectionGUID: wEFyWBCaSgmogZgM/OHQ+g==
-X-CSE-MsgGUID: pULlxZLJTRav/rC6L9+5Yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="65421742"
+  bh=GCVcV9cmXnhnwDKYMrvd8V8TZ/YtoG0CcBg/cQyXd9Y=;
+  b=ifkYghT60/hhmPiqSqsqSY1GQ1GBcqBHuPeijVajBrDagRRz6PtRITc6
+   YsDwwJiG3T41pLN0iUJkeoLJutQYE/hIrEuT7Na5W8Ueed9VFDUSoBele
+   GN4je9G1kmRBC9CBF+49MUm74GRCXgJfOZhvT6l2+YMwKjJDsG5EIDSh7
+   gcXiPQSqGv8sYYuwr9iUn6yFDf2jKW3PT06yWAdspkOF3XSN+RAhI6p8t
+   YlWouDWqgJCiFi5ciJufb0iDDIe37a+DiVQjtNYWy4bwPwzePCD2ypDDr
+   j7LfAvk4fvaiyLy+8HcI62tjXpUGSOGQNRwvi+31J//U4eTRNcK7MGURz
+   A==;
+X-CSE-ConnectionGUID: F7GatflAQKOddvE2OimdDg==
+X-CSE-MsgGUID: tDIijDhTQyusDKJl69Gy6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="48161237"
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="65421742"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2025 22:37:34 -0700
-X-CSE-ConnectionGUID: M37Hi0EtQcqLAmvDhbW58Q==
-X-CSE-MsgGUID: 0mJ2wQ00TH+IUvpkpQ58eg==
+   d="scan'208";a="48161237"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 00:19:50 -0700
+X-CSE-ConnectionGUID: 7zEKmKkYS8KpOTVJn+V6Qg==
+X-CSE-MsgGUID: L7lH3OlWS5Kg5hEahriibg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="140306062"
+   d="scan'208";a="140164637"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 04 May 2025 22:37:30 -0700
+  by orviesa004.jf.intel.com with ESMTP; 05 May 2025 00:19:48 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uBoW7-0005bd-2S;
-	Mon, 05 May 2025 05:37:27 +0000
-Date: Mon, 5 May 2025 13:36:28 +0800
+	id 1uBq77-0005cj-2l;
+	Mon, 05 May 2025 07:19:45 +0000
+Date: Mon, 5 May 2025 15:19:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Magnus Lindholm <linmag7@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-alpha@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, richard.henderson@linaro.org,
-	mattst88@gmail.com, arnd@arndb.de, paulmck@kernel.org,
-	glaubitz@physik.fu-berlin.de, macro@redhat.com, mcree@orcon.net.nz,
-	ink@unseen.parts, Magnus Lindholm <linmag7@gmail.com>
-Subject: Re: [PATCH v2] alpha: machine check handler for tsunami
-Message-ID: <202505051339.kc4bhqlt-lkp@intel.com>
-References: <20250423194958.30715-1-linmag7@gmail.com>
+To: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Waiman Long <longman@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Gabriele Monaco <gmonaco@redhat.com>
+Subject: Re: [PATCH v3 3/3] timers: Exclude isolated cpus from timer migation
+Message-ID: <202505051319.949TVTy3-lkp@intel.com>
+References: <20250428125417.102741-8-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,42 +65,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250423194958.30715-1-linmag7@gmail.com>
+In-Reply-To: <20250428125417.102741-8-gmonaco@redhat.com>
 
-Hi Magnus,
+Hi Gabriele,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on mattst88-alpha/for-linus]
-[also build test ERROR on linus/master v6.15-rc4 next-20250502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on b4432656b36e5cc1d50a1f2dc15357543add530e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Magnus-Lindholm/alpha-machine-check-handler-for-tsunami/20250424-035141
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mattst88/alpha.git for-linus
-patch link:    https://lore.kernel.org/r/20250423194958.30715-1-linmag7%40gmail.com
-patch subject: [PATCH v2] alpha: machine check handler for tsunami
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20250505/202505051339.kc4bhqlt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505051339.kc4bhqlt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gabriele-Monaco/timers-Rename-tmigr-online-bit-to-available/20250428-221704
+base:   b4432656b36e5cc1d50a1f2dc15357543add530e
+patch link:    https://lore.kernel.org/r/20250428125417.102741-8-gmonaco%40redhat.com
+patch subject: [PATCH v3 3/3] timers: Exclude isolated cpus from timer migation
+config: x86_64-randconfig-074-20250503 (https://download.01.org/0day-ci/archive/20250505/202505051319.949TVTy3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505051319.949TVTy3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505051339.kc4bhqlt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505051319.949TVTy3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> alpha-linux-ld: arch/alpha/kernel/sys_eiger.o:(.init.data+0x118): undefined reference to `tsunami_machine_check'
-   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o: in function `clipper_init_pci':
->> (.init.text+0x394): undefined reference to `tsunami_register_error_handlers'
->> alpha-linux-ld: (.init.text+0x3a0): undefined reference to `tsunami_register_error_handlers'
->> alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x118): undefined reference to `tsunami_machine_check'
-   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x298): undefined reference to `tsunami_machine_check'
-   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x418): undefined reference to `tsunami_machine_check'
-   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x598): undefined reference to `tsunami_machine_check'
-   alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x718): undefined reference to `tsunami_machine_check'
+>> kernel/time/timer.c:2171: warning: Function parameter or struct member 'cpu' not described in 'timer_base_remote_is_idle'
+
+
+vim +2171 kernel/time/timer.c
+
+  2164	
+  2165	/**
+  2166	 * timer_base_remote_is_idle() - Return whether timer base is set idle for cpu
+  2167	 *
+  2168	 * Returns value of local timer base is_idle value for remote cpu.
+  2169	 */
+  2170	bool timer_base_remote_is_idle(unsigned int cpu)
+> 2171	{
+  2172		return per_cpu(timer_bases[BASE_LOCAL].is_idle, cpu);
+  2173	}
+  2174	
 
 -- 
 0-DAY CI Kernel Test Service
