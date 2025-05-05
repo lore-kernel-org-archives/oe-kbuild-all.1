@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0D44437A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 03:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4487914831F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 May 2025 03:32:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746415966; cv=none; b=k1BvVLFgCGbKQPnTM/4aBmCjCO4xY3tn7KSdvZ56L7scyKLutCjDlt0JQ4tDS6CV0CQ49Viird5PwzgS6qGi53xeFcst1hB66Gh193HkK/S6nzJ4UIc/3+ECFb0EJgtkUhMVzHcBvLNgKKT7x1GHTXK24gPRlHqNpRnVC3THaZc=
+	t=1746415971; cv=none; b=b5mbQh5ioYGN9qP3brZ6gMvMO3odexyovZnX1yCYNFM9ekm7mQHrcGpFHWNtOiN+ka9W35rtXh6H/oCOcXKLvH3Jjcr8y2CvwX+am7oC3U2zsuIT9BrUqPZ5WEk201LusMxwcwh6mowrHHuTFCY2u4dGu+5FYBsrsoUO/AQ0jRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746415966; c=relaxed/simple;
-	bh=djqiVtzUHnV4wa8Gth7KDopA+mrk1ZEcpQDToOaguBA=;
+	s=arc-20240116; t=1746415971; c=relaxed/simple;
+	bh=MyFMXSZ1rL+hOUfuGH7kMtbMwdV+FP/psQxs4EFWm1k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EtWRjh/0DDAxuVGtML9GnAdX+wAi0tBve8JNgMW4y82yG59I5qkg8tW4kwBVNghhKFuXyiwLId/5JmeKuz6kBhT5bsEK9Znh6BhwsQGm6TdZ31jfPQNJTWzvTEoLGJf3vh29V0gI6p1g4hemBATB4jnm6m5RiY6bPef4EnFcGVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4gVw/Gg; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=F7aZDxE1Nru83XgvTv4gaBUjzcK6mZCf6p4cOfuDbOrWBVfLmFxfSFLEpg8QeCiRQlim/yxY4OEmySiYHhg441WuPSILnx5E5ClNpDckw1mZrMSZlsXOaE1bcmAsrHXxKeO7/Lgm8LM7EpBPgicpDfGv15xmz0fPLT+ekGY54MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KR9v1+ah; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4gVw/Gg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KR9v1+ah"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746415964; x=1777951964;
+  t=1746415965; x=1777951965;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=djqiVtzUHnV4wa8Gth7KDopA+mrk1ZEcpQDToOaguBA=;
-  b=g4gVw/Ggh8nFPwqiaPiHfnrgXeej2lQ91DQCkBfZPxp/UAUU47+tO4eL
-   9ba2jwXqSo+0Z7cnmzeq1EKdF+aDlrNSiXYEM8ej5I6Qc3blJmBeUZq5z
-   wwG643eVtM+bRrlYCekA8VL1cy/4f4wMyBvRdfKJcPX8fxqixMjS4d6kF
-   ZvPgXIiJ8PQ52rGxvt+KJOv6hbZHIwG70cmHxSO8llAxGZmeC1i5rQtNs
-   0269X63pl/OE5BaIfQAS6FsdeO4g9cRsuFELwk24ldYx5KrUGexaUXcRj
-   prH3+JPdmD5wx5QgXuHKDy5HC4YmPVsyGTiFTTVPCVzxp4LLHu7KhUKCY
-   A==;
-X-CSE-ConnectionGUID: rDYInVNiSQmhjfiHWBbw+A==
-X-CSE-MsgGUID: RLFY26VZS9ivoVl3PccrdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="59402898"
+  bh=MyFMXSZ1rL+hOUfuGH7kMtbMwdV+FP/psQxs4EFWm1k=;
+  b=KR9v1+ahRiIuthzyHFsPBPBtEKvzguTkFa7ZdcQeEejQTMtco3i2JWxG
+   fPgnEzGr90YOdqsk3u9QTYedUcgzNjU9cwgUSDlj7ZtdOiNFKpbngYsc6
+   TIpptssJj/OY4S9QCol66WLIJp47+WDDD4WyRH/z/TpjpXR4Y1SXxNJiW
+   /DNZsi+pCyllz2jNkDAuD9kveZEO0MavbyeiG/H1Ssh+hnoA9y+32tQUI
+   ucTwwupljDy1f19IeJADFUwbYwM22XW3IV8swAca81Lc1wD1EosshMJrz
+   GIc8TX+3BVluQMVLv7YgKl8APy1n8Z9UI6j82q0L4N+QvCklCP0fQJkwJ
+   Q==;
+X-CSE-ConnectionGUID: xh6C7M2FSd2KsXmZgnxPBg==
+X-CSE-MsgGUID: D+j8z1hmSAGnp13jOiJQeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="73407570"
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="59402898"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2025 20:32:44 -0700
-X-CSE-ConnectionGUID: zcjEGqBEQ+6pa2kOKwp3lQ==
-X-CSE-MsgGUID: LThovuvOSFiIm2rha/Vy1Q==
+   d="scan'208";a="73407570"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2025 20:32:43 -0700
+X-CSE-ConnectionGUID: HdVu5kYfRqqIDbuwo6ClZQ==
+X-CSE-MsgGUID: WBNLzXHSQraoNO8t8l8aYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="135099495"
+   d="scan'208";a="136078778"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 May 2025 20:32:41 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 04 May 2025 20:32:41 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uBmZL-0005QE-1e;
+	id 1uBmZL-0005QB-1Y;
 	Mon, 05 May 2025 03:32:39 +0000
-Date: Mon, 5 May 2025 11:31:57 +0800
+Date: Mon, 5 May 2025 11:31:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 6047/7938]
- arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: nand@400e0000
- (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match
- '^nand-controller(@.*)?'
-Message-ID: <202505040721.KPahmdtB-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 3117/8235]
+ arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000
+ (mediatek,mt8188-mdp3-rdma): clocks: [[36, 24], [34, 185], [34, 190], [36,
+ 4], [36, 41], [36, 42], [36, 7], [38, 41], [38, 42], [36, 8]] is too long
+Message-ID: <202505040919.JU2xN45j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,246 +65,1427 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3e039dcc9c1320c0d33ddd51c372dcc91d3ea3c7
-commit: 78693ff68c8c8aa8b8553351e8548386cccdd0c6 [6047/7938] dt-bindings: mtd: convert vf610-nfc to yaml format
-config: arm-randconfig-051-20250430 (https://download.01.org/0day-ci/archive/20250504/202505040721.KPahmdtB-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+head:   37ff6e9a2ce321b7932d3987701757fb4d87b0e6
+commit: f0935480253ede5405045a4e733f4476343cbb91 [3117/8235] arm64: dts: mediatek: mt8188: Add all Multimedia Data Path 3 nodes
+config: arm64-randconfig-052-20250428 (https://download.01.org/0day-ci/archive/20250504/202505040919.JU2xN45j-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250504/202505040721.KPahmdtB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250504/202505040919.JU2xN45j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505040721.KPahmdtB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505040919.JU2xN45j-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
->> arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: nand@400e0000 (fsl,vf610-nfc): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
-   arch/arm/boot/dts/nxp/vf/vf500-colibri-eval-v3.dtb: panel (edt,et057090dhu): 'power-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[36, 24], [34, 185], [34, 190], [36, 4], [36, 41], [36, 42], [36, 7], [38, 41], [38, 42], [36, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[92, 13, 1], [92, 14, 1], [92, 16, 1], [92, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[36, 24], [34, 185], [34, 190], [36, 4], [36, 41], [36, 42], [36, 7], [38, 41], [38, 42], [36, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[93, 128], [93, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[54, 15], [54, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[38, 10], [34, 186], [34, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[38, 10], [34, 186], [34, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[103, 164], [103, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[38, 12], [34, 186], [34, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[38, 12], [34, 186], [34, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[93, 192], [93, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[38, 20], [38, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[38, 24], [38, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: nand@400e0000 (fsl,vf610-nfc): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-bk4.dtb: /spi/gpio@0: failed to match any schema with compatible: ['pisosr-gpio']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (graph_child_address): /soc/syscon@1c01d000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[121, 13, 1], [121, 14, 1], [121, 16, 1], [121, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[122, 128], [122, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[67, 15], [67, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[132, 164], [132, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[122, 192], [122, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 20], [51, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 24], [51, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: nand@400e0000 (fsl,vf610-nfc): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-colibri-eval-v3.dtb: panel (edt,et057090dhu): 'power-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (graph_child_address): /soc/syscon@1c01d000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[120, 13, 1], [120, 14, 1], [120, 16, 1], [120, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[121, 128], [121, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[67, 15], [67, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[131, 164], [131, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[121, 192], [121, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 20], [51, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 24], [51, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-colibri.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (graph_child_address): /soc/syscon@1c01d000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[120, 13, 1], [120, 14, 1], [120, 16, 1], [120, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[121, 128], [121, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[67, 15], [67, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[131, 164], [131, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[121, 192], [121, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 20], [51, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 24], [51, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-cosmic.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (graph_child_address): /soc/syscon@1c01d000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[121, 13, 1], [121, 14, 1], [121, 16, 1], [121, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[49, 24], [46, 185], [46, 190], [49, 4], [49, 41], [49, 42], [49, 7], [51, 41], [51, 42], [49, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[122, 128], [122, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[67, 15], [67, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 10], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[132, 164], [132, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[51, 12], [46, 186], [46, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[122, 192], [122, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 20], [51, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[51, 24], [51, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610m4-cosmic.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: amplifier@4f (ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[119, 13, 1], [119, 14, 1], [119, 16, 1], [119, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[120, 128], [120, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[66, 15], [66, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[130, 164], [130, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[120, 192], [120, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 20], [50, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 24], [50, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: /soc/bus@40000000/spi@4002c000/at26df081a@0: failed to match any schema with compatible: ['atmel,at26df081a']
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: nand@400e0000 (fsl,vf610-nfc): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-twr.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: amplifier@4f (ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[118, 13, 1], [118, 14, 1], [118, 16, 1], [118, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[119, 128], [119, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[66, 15], [66, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[129, 164], [129, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[119, 192], [119, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 20], [50, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 24], [50, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-cfu1.dtb: sfp (sff,sff): 'los-gpio', 'tx-disable-gpio' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/sff,sfp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: amplifier@4f (ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[118, 13, 1], [118, 14, 1], [118, 16, 1], [118, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[119, 128], [119, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[66, 15], [66, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[129, 164], [129, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[119, 192], [119, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 20], [50, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 24], [50, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): i2c0grp-gpio: {'fsl,pins': [[144, 0, 0, 0, 12738, 148, 0, 0, 0, 12738]], 'phandle': 19} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-b.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: amplifier@4f (ti,tas2563): reg:0:0: 79 is greater than the maximum of 63
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[119, 13, 1], [119, 14, 1], [119, 16, 1], [119, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[48, 24], [45, 185], [45, 190], [48, 4], [48, 41], [48, 42], [48, 7], [50, 41], [50, 42], [48, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[120, 128], [120, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[66, 15], [66, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 10], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[130, 164], [130, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[50, 12], [45, 186], [45, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[120, 192], [120, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 20], [50, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[50, 24], [50, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: iomuxc@40048000 (fsl,vf610-iomuxc): i2c0grp-gpio: {'fsl,pins': [[144, 0, 0, 0, 12738, 148, 0, 0, 0, 12738]], 'phandle': 25} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: sx1503@20 (semtech,sx1503q): $nodename:0: 'sx1503@20' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/semtech,sx1501q.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-dev-rev-c.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[40, 24], [37, 185], [37, 190], [40, 4], [40, 41], [40, 42], [40, 7], [42, 41], [42, 42], [40, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[128, 13, 1], [128, 14, 1], [128, 16, 1], [128, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[40, 24], [37, 185], [37, 190], [40, 4], [40, 41], [40, 42], [40, 7], [42, 41], [42, 42], [40, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[129, 128], [129, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[58, 15], [58, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 10], [37, 186], [37, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 10], [37, 186], [37, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[139, 164], [139, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 12], [37, 186], [37, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 12], [37, 186], [37, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[129, 192], [129, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[42, 20], [42, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[42, 24], [42, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 --
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40000000/i2c@40067000/adc@4a: failed to match any schema with compatible: ['adi,adt7411']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: io-expander@20 (semtech,sx1503q): $nodename:0: 'io-expander@20' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/semtech,sx1501q.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: /soc/bus@40080000/i2c@400e6000/adc@4a: failed to match any schema with compatible: ['adi,adt7411']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: i2c-mux@70 (nxp,pca9548): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: i2c-mux@71 (nxp,pca9548): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-scu4-aib.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
---
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-spb4.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
---
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-dtu.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
---
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40000000/interrupt-controller@40001800: failed to match any schema with compatible: ['fsl,vf610-mscm-ir']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40000000/pit@40037000: failed to match any schema with compatible: ['fsl,vf610-pit']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40000000/timing-controller@4003d000: failed to match any schema with compatible: ['fsl,vf610-tcon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40000000/iomuxc@40048000: failed to match any schema with compatible: ['fsl,vf610-iomuxc']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40000000/dcu@40058000: failed to match any schema with compatible: ['fsl,vf610-dcu']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40000000/ccm@4006b000: failed to match any schema with compatible: ['fsl,vf610-ccm']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40000000/src@4006e000: failed to match any schema with compatible: ['fsl,vf610-src', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: /soc/bus@40080000/ocotp@400a5000: failed to match any schema with compatible: ['fsl,vf610-ocotp', 'syscon']
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: ftm@400b8000 (fsl,ftm-timer): reg: [[1074495488, 4096], [1074499584, 4096]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,ftm-timer.yaml#
->> arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: nand@400e0000 (fsl,vf610-nfc): $nodename:0: 'nand@400e0000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/fsl,vf610-nfc.yaml#
-   arch/arm/boot/dts/nxp/vf/vf610-zii-ssmb-spu3.dtb: pmu@40089000 (arm,cortex-a5-pmu): 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 24], [39, 185], [39, 190], [42, 4], [42, 41], [42, 42], [42, 7], [44, 41], [44, 42], [42, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): mboxes: [[130, 13, 1], [130, 14, 1], [130, 16, 1], [130, 21, 1]] is too short
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): clocks: [[42, 24], [39, 185], [39, 190], [42, 4], [42, 41], [42, 42], [42, 7], [44, 41], [44, 42], [42, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): iommus: [[131, 128], [131, 131]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14001000 (mediatek,mt8188-mdp3-rdma): power-domains: [[60, 15], [60, 20]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14002000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14004000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14005000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14006000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14007000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14008000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14009000 (mediatek,mt8188-mdp3-ovl): 'iommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,ovl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@1400b000 (mediatek,mt8188-mdp3-tcc): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tcc.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@1400c000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[44, 10], [39, 186], [39, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): clocks: [[44, 10], [39, 186], [39, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14f09000 (mediatek,mt8188-mdp3-rdma): iommus: [[141, 164], [141, 166]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[44, 12], [39, 186], [39, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): clocks: [[44, 12], [39, 186], [39, 191]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-mdp3-rdma', 'mediatek,mt8195-mdp3-rdma'] is too long
+   	'mediatek,mt8188-vdo1-rdma' was expected
+   	'mediatek,mt8195-vdo1-rdma' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: dma-controller@14f0a000 (mediatek,mt8188-mdp3-rdma): iommus: [[131, 192], [131, 194]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f0c000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f0d000 (mediatek,mt8188-mdp3-fg): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f0f000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f10000 (mediatek,mt8188-mdp3-hdr): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f12000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f13000 (mediatek,mt8188-mdp3-aal): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,aal.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): clocks: [[44, 20], [44, 21]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f15000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): clocks: [[44, 24], [44, 25]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f16000 (mediatek,mt8188-mdp3-rsz): 'mediatek,gce-events' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f18000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f19000 (mediatek,mt8188-mdp3-tdshp): 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f1d000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
