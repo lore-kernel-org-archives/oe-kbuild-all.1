@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63274283CBF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 16:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9819286429
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 16:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746549641; cv=none; b=ZkjSvWb9JVvU2PqpbFHEOrQ4OFgiWTqfEDOU3z07EgJNTYDxArMlRaoKMS27oGAxxFL2w7+FPu+PwjuzNJmAlnEaGQ7NU2dAPQKdJNxXnOYoyYqt1ha1zSsogP1UdH1mOgMEX/Z/1L+hbPjUdZtj20VEfyAoYGmFpF8TtutICEw=
+	t=1746550246; cv=none; b=mzxyvJOeu8eSvc9pK0zxvBqWR+tc3gAHzITOhUVE+2JMV2drk03K2qwAfEu4fBf8unrfTQRkDPvERSP4TI0A63pFN4tUXN2coacOC2IYiAzE+74JBraZz6zezts69bP7tSDS7jR/9TAX1AVkaSZo5Lrdw9lJ+LsAY5zI2LMYPqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746549641; c=relaxed/simple;
-	bh=vGIbwHVbDiarOFjBXbroBffEBhHyl/Irn/WEB5Q42K8=;
+	s=arc-20240116; t=1746550246; c=relaxed/simple;
+	bh=nAScuGI2MOkYQpCCW4c13go9CLsIayABoiMOvK1QThg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r6IZ8Wd0SQZ/lutTPYJN8ekHYYWjLSx7lpM5vRqc1cC0oR4OmgNVusFw7JTckQxADZUw5Ncy9lKqng7eYyzU7CUUuAITyny9q559j5MCiDH/PJoyHIQb/GXOY8aTaQp6A1OB/rikbl+Ce3FSfc/9yBRoySzyS6AkvjX8HqgBvCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxpQccto; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=u4PT3TiD9kVK3fya3XaW/P1i0B9WhLActQvArAN7hePGRvrUqrf+6zPdVbh/AbrYwTPBOzU4YCgLcus5QCaZ+MwaYblK6SdCWsSfx0txaLvNeY7hXdKNxfCTWxBjwVQ0glkUekqV48Xu9TnyM951YXddq/2LO8eXiydu1EQjTwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aX0UB1fA; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxpQccto"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aX0UB1fA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746549639; x=1778085639;
+  t=1746550244; x=1778086244;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vGIbwHVbDiarOFjBXbroBffEBhHyl/Irn/WEB5Q42K8=;
-  b=PxpQcctor8KzBckwWBew9XWSEvjFbdWI47FWxboF8jB/Fj0MVAOEkRdQ
-   tydz6JCYUNiVsnmWQIo/b3OxlAEu+7855gvhSrfjXKRt94IFoyT16usZN
-   pgFpo44SYdWb65zzy7rBfPQiJmskqq/XmoLSD0Cimc6AJ9ANpeLjTCc6w
-   tlB/0vXiIzIUALgtbJreTb25PRq40d/8+jrQTioYqsl4f31vmKKajjoWo
-   XX1w1fPOZpEhM8+0aZopJ5z15MYAjGgAJHUxL26nOlA6VeTlodNoVYvMO
-   qSvlwV9liPZCijQyyToio4YLAZmKo8g+s7hOls/AvV850V6F/YSeFKy5s
-   w==;
-X-CSE-ConnectionGUID: WZXNxqvSSRuWajSI2AcURg==
-X-CSE-MsgGUID: jx4lq7yBS7ix6KHELm9M0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="59593862"
+  bh=nAScuGI2MOkYQpCCW4c13go9CLsIayABoiMOvK1QThg=;
+  b=aX0UB1fAf9D+tk/aHHfbCu4udQDPpr7VcHOeyUyqbjM5AS0szjymYT8O
+   YhbX/0APoUwwHth6qggp9WfuM4LHzxdBjcIh4mFaz4WqRCV7m1eZE8oOK
+   5dSw0Fka/LCUeTXilD5HLFCYkqnmm7GVqqIYyceQ8sLg+jp6re768cedR
+   B86Gk67PBeDtYkt08vcdwaW1Z/SC8uIAOjHUTbWq8DPIH1sX3GNIM3UcX
+   Svj8xRXeUuD5d6XJy7NT9MxsBpsIHHNRqAENmLG4mEAKzgiX4edSwszhk
+   ngywFNCkWe8b6qU72Bqb+FYf+uocjNp6HUEk380+Q3yokUhNrkMhoDZdw
+   Q==;
+X-CSE-ConnectionGUID: PrPkno+bSea7XoHzMfqWKA==
+X-CSE-MsgGUID: tbt+74s5TTWztbpk4DHGdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="70739090"
 X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="59593862"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 09:40:38 -0700
-X-CSE-ConnectionGUID: 0H91PmIWQ0ChcqqOI4l0ww==
-X-CSE-MsgGUID: huwg74cbSQuJ1QgVyIZVGw==
+   d="scan'208";a="70739090"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 09:50:43 -0700
+X-CSE-ConnectionGUID: y4DorEpCTPiDpxQONaga5Q==
+X-CSE-MsgGUID: J+6PjdaJQ+OEeb395Ml/6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="135672354"
+   d="scan'208";a="136638475"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 May 2025 09:40:37 -0700
+  by orviesa008.jf.intel.com with ESMTP; 06 May 2025 09:50:41 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCLLP-0006hZ-2H;
-	Tue, 06 May 2025 16:40:35 +0000
-Date: Wed, 7 May 2025 00:39:46 +0800
+	id 1uCLV9-0006i5-0q;
+	Tue, 06 May 2025 16:50:39 +0000
+Date: Wed, 7 May 2025 00:50:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, libai <libai12@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2200/2200] drivers/vhost/vdpa.c:589:23: error:
- implicit declaration of function 'iommufd_ctx_from_fd'; did you mean
- 'iommufd_ctx_from_file'?
-Message-ID: <202505070025.y1C68ZCV-lkp@intel.com>
+Subject: [android-common:android-mainline 2/2] kismet: WARNING: unmet direct
+ dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by
+ GKI_HIDDEN_DMA_CONFIGS
+Message-ID: <202505070053.d8I3RmMU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +63,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   9af1041f05d76435457d805d2d60c2aea1dc71f2
-commit: 6a58b8be556fb7de52ae0272a994a1c73fffc903 [2200/2200] vhost/vdpa: Add support to bind and attach iommufd
-config: x86_64-buildonly-randconfig-006-20250506 (https://download.01.org/0day-ci/archive/20250507/202505070025.y1C68ZCV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505070025.y1C68ZCV-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   e20c2e5ba70ac5fd2f1157f57a8ee53e07b671b5
+commit: 194fc9ea8a50fa11e9b03bf04449614fc79be59a [2/2] ANDROID: GKI: enable hidden configs for DMA
+config: i386-kismet-CONFIG_ASYNC_TX_ENABLE_CHANNEL_SWITCH-CONFIG_GKI_HIDDEN_DMA_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250507/202505070053.d8I3RmMU-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505070053.d8I3RmMU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505070025.y1C68ZCV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505070053.d8I3RmMU-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   drivers/vhost/vdpa.c: In function 'vhost_vdpa_bind_iommufd':
->> drivers/vhost/vdpa.c:589:23: error: implicit declaration of function 'iommufd_ctx_from_fd'; did you mean 'iommufd_ctx_from_file'? [-Werror=implicit-function-declaration]
-     589 |         iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
-         |                       ^~~~~~~~~~~~~~~~~~~
-         |                       iommufd_ctx_from_file
->> drivers/vhost/vdpa.c:589:21: warning: assignment to 'struct iommufd_ctx *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     589 |         iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
-         |                     ^
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
-   Depends on [n]: NET [=y] && POSIX_TIMERS [=n]
-   Selected by [y]:
-   - SXE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
-   - SXE_VF [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
-
-
-vim +589 drivers/vhost/vdpa.c
-
-   576	
-   577	static long vhost_vdpa_bind_iommufd(struct vhost_vdpa *v, int __user *argp)
-   578	{
-   579		struct vhost_vdpa_bind_iommufd bind;
-   580		struct iommufd_ctx *iommufd_ctx;
-   581		struct iommufd_device *idev;
-   582		struct device *dma_dev = vdpa_get_dma_dev(v->vdpa);
-   583		struct iommu_group *iommu_group = iommu_group_get(dma_dev);
-   584		int ret = 0;
-   585	
-   586		if (copy_from_user(&bind, argp, sizeof(bind)))
-   587			return -EFAULT;
-   588	
- > 589		iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
-   590		if (IS_ERR(iommufd_ctx))
-   591			return PTR_ERR(iommufd_ctx);
-   592	
-   593		if (v->domain) {
-   594			iommu_detach_device(v->domain, dma_dev);
-   595			iommu_domain_free(v->domain);
-   596			v->domain = NULL;
-   597		}
-   598	
-   599		/**
-   600		 * Default iommu domain is created when vdpa device driver probes.
-   601		 * Unuse default domain first to avoid failure when claiming dma owner.
-   602		 */
-   603		if (dma_dev->bus && dma_dev->bus->dma_cleanup)
-   604			dma_dev->bus->dma_cleanup(dma_dev);
-   605		ret = iommu_group_claim_dma_owner(iommu_group, iommufd_ctx);
-   606		if (ret)
-   607			goto dma_configure;
-   608	
-   609		idev = iommufd_device_bind(iommufd_ctx, dma_dev, &bind.out_devid);
-   610		if (IS_ERR(idev)) {
-   611			ret = PTR_ERR(idev);
-   612			goto release_owner;
-   613		}
-   614		v->iommufd_dev = idev;
-   615	
-   616		if (copy_to_user(argp, &bind, sizeof(bind))) {
-   617			ret = -EFAULT;
-   618			goto unbind;
-   619		}
-   620	
-   621		goto out;
-   622	
-   623	unbind:
-   624		iommufd_device_unbind(v->iommufd_dev);
-   625		v->iommufd_dev = NULL;
-   626	release_owner:
-   627		iommu_group_release_dma_owner(iommu_group);
-   628	dma_configure:
-   629		if (dma_dev->bus && dma_dev->bus->dma_configure)
-   630			dma_dev->bus->dma_configure(dma_dev);
-   631	out:
-   632		iommufd_ctx_put(iommufd_ctx);
-   633		return ret;
-   634	}
-   635	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by GKI_HIDDEN_DMA_CONFIGS
+   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
+     Depends on [n]: DMADEVICES [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_DMA_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
