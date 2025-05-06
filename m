@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C664D2BF96A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 03:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E445329A3FE
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 03:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746503177; cv=none; b=NhvNxkFcMI4X7xYa1URww+1Co0nEOzl0+0VganIvZODzR0tNLTU3x5I9R/kesxcTZHZCpH2mimcVikUc6wj2KSlF7Pl7b/hpHIlP5dicVSxYuTkYE6ysZ+3strLCGjVXWvAFJ3Cqld90zZLpLolNSD9R5Cyd46vDsJF2ynwV3P0=
+	t=1746503779; cv=none; b=NynW8cpGp2VKe31RTYkewPNiprYky5LfWsPkEA4qvQDZQmdo1RV0laVMIIHaM/P5ULiCG/5tQrwAK+AChW+hsaj9QszKSozQaQKKuj2uK0VPk2z3j5wACue2inj/yjEBFf54fPT+Ig2dL3bwAon2qxMt0CXHr0adHgeHDT5rBBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746503177; c=relaxed/simple;
-	bh=XuyEvtabrQHeacM5h8Ro24OVnOobSLfXYem6+l42yK0=;
+	s=arc-20240116; t=1746503779; c=relaxed/simple;
+	bh=Vn7N+ZtKM25rc6mNXDKOfAes1UYhYWi/0qtbk7bDqEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dQ+yqo/hy2d9xy+fg9Y1r2v/Q5/WQuazVog8xaNmIaqZ87uukFirvEbRsYgUkZfKd79Qqm+K62YdWw6r/Y/EquVe/eihvekclNXHLv4YMH8UPyvKKIe+rBkF2gkJZFObxyDNX0paZ9UR/cXzX6jUUjs2MZJk22SF1dWnAxHmPHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVVdXETI; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=BgnPvvKpYuoIAZdSN+AuyXNieAsDki2DTCkS8jsXLPeWQvQwfxKSYDNIPEI08zipGyriozAsuB/AjVkz6LwQ3zgJTJT2CZnqW5GYsCuxhpUYpPMaSs1gwFJ0NG+Pg50BXSZ2Hz5MR0haltmHPiD89hrQo4naCJKdE8GNnokZJDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aI8DwYmB; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVVdXETI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aI8DwYmB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746503176; x=1778039176;
+  t=1746503777; x=1778039777;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XuyEvtabrQHeacM5h8Ro24OVnOobSLfXYem6+l42yK0=;
-  b=LVVdXETIcbfv4JR9SrgJRsMUEQEmvhCR1qhJ8TIgnIOqEvn6Ep0IOw2y
-   d1nyaDHaqFLrG9YJDi9O56BC8sybEVqjCh/p+SdM8a2xVeqem9iYxteUO
-   IxNhJQf+YD5Pk9QQxChBy3svLNZhtIVRy/oXuNAQsL/kZf7O7ynHFQFFd
-   MbTrnvAAr2PqEpeV1gSar7S+ojxBRCsTxgEBIImePKJMnCNK08aWS4r5q
-   jtqEftWHhVCdkoZ6DYOLlrJatKKpaxehjTspWeQj3JrPznSZVkretmZ16
-   otM3iPwD3vuM6m7XkpS3c0bOY/IK/SQMZZ10u7wZPCs1mTraVcewfvlDX
+  bh=Vn7N+ZtKM25rc6mNXDKOfAes1UYhYWi/0qtbk7bDqEM=;
+  b=aI8DwYmBKZy9K4Qq0IkCHSIse2IOEVksFKLqcH2dJsCfnJi8PS4brIDn
+   JSmWUPr9onmETSa2/C93v5QlC98/tT32oXnZSI5tisb3AFqW6zsfNYK0F
+   MVRs2UpVobSpvP4/GWoZEeTIIT08zotdLIEC+FK8x13Qx77qbGTYs7fWY
+   rlTjtcHSFFg+VvSKXit+LEcu5iY508490DJFs5kbe9dNZIRvRvyAU4I9b
+   YiNKqq8xP4R3LVSrt6u5lqfDws8c+uF2Q+5xKfNg8zZd3AkD+zyYcmvGr
+   eK7ZTJPKrOuFPlizTOtY6EyfgWgkh/HPh+y4iZT0o87EYMQvwc6QnV0k8
    A==;
-X-CSE-ConnectionGUID: q0Gmx+j4QWCeMmzYKsp06A==
-X-CSE-MsgGUID: B7qtidJRR9yhBZA70xYzxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="47253498"
+X-CSE-ConnectionGUID: gUPNlBitQgiFUkdGFB72Bg==
+X-CSE-MsgGUID: zE+sSZe5SC+H1fqwBb9vXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48288352"
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="47253498"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 20:46:15 -0700
-X-CSE-ConnectionGUID: Gn5o94QgSsqLJVPe2R1nUQ==
-X-CSE-MsgGUID: gOJbbA07SIqtSB35Syj3dA==
+   d="scan'208";a="48288352"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 20:56:17 -0700
+X-CSE-ConnectionGUID: l+Diq6GFTs21g0vnQH8aRA==
+X-CSE-MsgGUID: 11RLN0WWSX68GfEQTKfU6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="136438935"
+   d="scan'208";a="140665591"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 May 2025 20:46:14 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 May 2025 20:56:15 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uC9G0-0006ED-0a;
-	Tue, 06 May 2025 03:46:12 +0000
-Date: Tue, 6 May 2025 11:45:42 +0800
+	id 1uC9Ph-0006Eb-0b;
+	Tue, 06 May 2025 03:56:13 +0000
+Date: Tue, 6 May 2025 11:56:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android-mainline 2/2] kismet: WARNING: unmet direct
- dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by
- GKI_HIDDEN_DMA_CONFIGS
-Message-ID: <202505061141.V6PsxvvS-lkp@intel.com>
+ dependencies detected for INTERCONNECT_QCOM when selected by
+ GKI_HIDDEN_QCOM_CONFIGS
+Message-ID: <202505061108.Z2WCE0pQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,21 +65,21 @@ Content-Disposition: inline
 
 tree:   https://android.googlesource.com/kernel/common android-mainline
 head:   e20c2e5ba70ac5fd2f1157f57a8ee53e07b671b5
-commit: 194fc9ea8a50fa11e9b03bf04449614fc79be59a [2/2] ANDROID: GKI: enable hidden configs for DMA
-config: i386-kismet-CONFIG_ASYNC_TX_ENABLE_CHANNEL_SWITCH-CONFIG_GKI_HIDDEN_DMA_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250506/202505061141.V6PsxvvS-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250506/202505061141.V6PsxvvS-lkp@intel.com/reproduce)
+commit: 39f48f66f74cdfa79f254376442a07663ab58335 [2/2] ANDROID: GKI: Add GKI_HIDDEN_MCP251XFD_CONFIGS
+config: arm64-kismet-CONFIG_INTERCONNECT_QCOM-CONFIG_GKI_HIDDEN_QCOM_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250506/202505061108.Z2WCE0pQ-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250506/202505061108.Z2WCE0pQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505061141.V6PsxvvS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505061108.Z2WCE0pQ-lkp@intel.com/
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by GKI_HIDDEN_DMA_CONFIGS
-   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
-     Depends on [n]: DMADEVICES [=n]
+>> kismet: WARNING: unmet direct dependencies detected for INTERCONNECT_QCOM when selected by GKI_HIDDEN_QCOM_CONFIGS
+   WARNING: unmet direct dependencies detected for INTERCONNECT_QCOM
+     Depends on [n]: INTERCONNECT [=n] && ARCH_QCOM [=y]
      Selected by [y]:
-     - GKI_HIDDEN_DMA_CONFIGS [=y]
+     - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
