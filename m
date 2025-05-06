@@ -1,230 +1,107 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD481A316A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 19:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F032C1F463C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 19:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746558646; cv=none; b=iOIXy7A6HPveKnCMPuMqSL94UfKTPz4jhi49hVVBeuC2k30yusbF0zitjzoCnEtZ4H5pn1OaukhBmluaF50F+AQtgZvJIoWKdDa7t1aCLz5ScdCtRWliN6rXmoQ+vZZnGq/GoSSECxQfxKTJ0LvOv5SS9tCCWV+gqUsHqFpJWRY=
+	t=1746559684; cv=none; b=SFOLWZobdkiomRNcZOMOrmQtjrC2QBulyk6Otd/ifRxvvzsfv3wIc854/ff7+ZZsvqwPZOsjbPIMcno9U/lp/KDtzvCSWOCtgudBP+vgzkxzYkgKHCrh+Au7Sbpppvrf0fSCywnvwA/VQr4i0FOSwQ/TaKzXOq3OGrVRzvUixC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746558646; c=relaxed/simple;
-	bh=inUFxvNR6eEm0KTB8hsK4GiFsStwDXopUw8a0m+SPJg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BUOYHClKJaeTrAkRgtskI6kSVW9hk6hh93MKfxXMzYR4hOvBs8FpoR1gCBFI3bhIlrFPjlPtHLYRXnNJ4L3FGQmtRQE8iptYOxTadQQ+h8arQEFQAiwCjun2gL+7Iyc2S+A2nqFaItlB165eBWEbFD6dt/hpnKKN1Cb1ScbVlLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=00YUfhbk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FgsnKxMK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=00YUfhbk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FgsnKxMK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1746559684; c=relaxed/simple;
+	bh=TobIseWBnxiSM5C+0xSkLE5ypaYPmHuHhKWYRxNlVig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cjSIqsOoVmsS/yf46XXgSwoKgiZEbZb7xVsc3tdEJ+EVQEOq2gyILjHrX4fY3poUq7WLy/egvO0mnqlLswVMIWioKtwHrLGLDWVuosxTuxA/KBGEnU8V6XpdJ0r8rbv7LKGXGKpS7derL/nRez5KnXKKDSS20ic+GI+qnP3OnC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyyp37Rp; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="00YUfhbk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FgsnKxMK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="00YUfhbk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FgsnKxMK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7216A211C9;
-	Tue,  6 May 2025 19:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746558642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e2yoe17/X8WdBHAxqQVl2NYwIsvDdu0JonWJHAFvSHc=;
-	b=00YUfhbkHc2Vu8Tk2eev+RM11MzTlYzkyrmZd8pCd2Ascz7fyDyeOQ3cA69OxUkejrJ05p
-	dLulYU7YFnze/mn9JpHUAdFBZg6zbbLkGKlIBBUqHcFHxeeJD/7KG8bO+pQqAXH5ToKCwl
-	5TbYqwQSi4+3FLLmz6QDYnixhd/seVQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746558642;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e2yoe17/X8WdBHAxqQVl2NYwIsvDdu0JonWJHAFvSHc=;
-	b=FgsnKxMK4gs9nN+PErk02S/fBe4KrtLLsPs7CWIz4LX8XpqbT7sFJSNsUskXfdy2saxS/o
-	QwjoPgvPWnfTz/Bg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=00YUfhbk;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FgsnKxMK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746558642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e2yoe17/X8WdBHAxqQVl2NYwIsvDdu0JonWJHAFvSHc=;
-	b=00YUfhbkHc2Vu8Tk2eev+RM11MzTlYzkyrmZd8pCd2Ascz7fyDyeOQ3cA69OxUkejrJ05p
-	dLulYU7YFnze/mn9JpHUAdFBZg6zbbLkGKlIBBUqHcFHxeeJD/7KG8bO+pQqAXH5ToKCwl
-	5TbYqwQSi4+3FLLmz6QDYnixhd/seVQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746558642;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e2yoe17/X8WdBHAxqQVl2NYwIsvDdu0JonWJHAFvSHc=;
-	b=FgsnKxMK4gs9nN+PErk02S/fBe4KrtLLsPs7CWIz4LX8XpqbT7sFJSNsUskXfdy2saxS/o
-	QwjoPgvPWnfTz/Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F48313687;
-	Tue,  6 May 2025 19:10:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X7saCrJeGmgbHQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 06 May 2025 19:10:42 +0000
-Date: Tue, 06 May 2025 21:10:41 +0200
-Message-ID: <87y0v9v9la.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ezra Khuzadi <ekhuzadi@uci.edu>
-Cc: kernel test robot <lkp@intel.com>,
-	sound-dev@vger.kernel.org,
-	stable@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	alsa-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	"perex@perex.cz" <perex@perex.cz>
-Subject: Re: sound/pci/hda: add quirk for HP Spectre x360 15-eb0xxx
-In-Reply-To: <CAPXr0uw7Dj9ckM_pLDkUaAH3vid9BmePrACOYZv-N549AUEHfw@mail.gmail.com>
-References: <CAPXr0uxh0c_2b2-zJF=N8T6DfccfyvOQRX0X0VO24dS7YsxzzQ@mail.gmail.com>
-	<aBHgOsqA4qfe7LbN@c757f733ca9e>
-	<CAPXr0uxJg0kMu_N7Gxb14kVdhkFGXO_KbK5RxfAcY9dEA8vrEA@mail.gmail.com>
-	<CAPXr0uw7Dj9ckM_pLDkUaAH3vid9BmePrACOYZv-N549AUEHfw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyyp37Rp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746559682; x=1778095682;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TobIseWBnxiSM5C+0xSkLE5ypaYPmHuHhKWYRxNlVig=;
+  b=iyyp37RpGLiJNCRPf6jNKjhY70U/RXCSky4665BCNVOMSwug0Zudm/MG
+   k4iFNyhxlncqiomv3qI6a/+I+ZY2Pc0DVBU8HrpMFjh+x09s4DUdDfU/l
+   1uOFIpFaJ9LvT5eBKBcOK7tYdUF9PVFsl8dIY/5nx5kswKFp8PhNpbHwy
+   MPNoFYyhEfX0dQheXMLWO0g0lDzRk1ItaQci86mymrEYbLuRZgMRlfJyQ
+   KB6ntlXJMx9978+Ia31Ez4uY7/bFhsZQHVEOtCWvdJsFY/LmOhMAb8I3f
+   7UA3FT9+LXkAo+ttOi/IvtP3eA87qHdfPTgG91xKqjHROQMcN3S37nn5W
+   g==;
+X-CSE-ConnectionGUID: ++lJ63PkShiFtZVAT3ENCQ==
+X-CSE-MsgGUID: 393sCbU8Reem8ybiDucyAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58453730"
+X-IronPort-AV: E=Sophos;i="6.15,267,1739865600"; 
+   d="scan'208";a="58453730"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 12:28:02 -0700
+X-CSE-ConnectionGUID: fGkToJPyQB2k7kQ1uJROvQ==
+X-CSE-MsgGUID: AKG/QEGAQvC2YtyPqNwdwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,267,1739865600"; 
+   d="scan'208";a="136226129"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 06 May 2025 12:28:00 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCNxO-0006or-13;
+	Tue, 06 May 2025 19:27:58 +0000
+Date: Wed, 7 May 2025 03:27:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 4/9] mfd: Add Apple Silicon System Management
+ Controller
+Message-ID: <202505070320.78PBAHSn-lkp@intel.com>
+References: <20250503-smc-6-15-v4-4-500b9b6546fc@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 7216A211C9
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	REDIRECTOR_URL(0.00)[urldefense.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250503-smc-6-15-v4-4-500b9b6546fc@svenpeter.dev>
 
-On Tue, 06 May 2025 12:11:26 +0200,
-Ezra Khuzadi wrote:
-> 
-> 
-> Hi Takashi, Jaroslav, all maintainers,
-> 
-> Could you please review it or let me know if any changes are needed? This is
-> my first kernel patch as a student, and I’d appreciate any feedback.
+Hi Sven,
 
-I guess you submitted to a wrong address.  The proper mailing list is
-linux-sound@vger.kernel.org.  Please try to resubmit.
-And, make sure that your mailer doesn't break tabs and whitespaces.
-You can test sending to yourself and verify that the submitted patch
-is properly applicable beforehand.
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on 8b7e6734e2231a549a23943678ee3452bd19a1fe]
 
-thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Sven-Peter-via-B4-Relay/dt-bindings-gpio-Add-Apple-Mac-SMC-GPIO-block/20250503-181349
+base:   8b7e6734e2231a549a23943678ee3452bd19a1fe
+patch link:    https://lore.kernel.org/r/20250503-smc-6-15-v4-4-500b9b6546fc%40svenpeter.dev
+patch subject: [PATCH v4 4/9] mfd: Add Apple Silicon System Management Controller
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250507/202505070320.78PBAHSn-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505070320.78PBAHSn-lkp@intel.com/reproduce)
 
-Takashi
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505070320.78PBAHSn-lkp@intel.com/
 
-> 
-> Thanks,
-> Ezra Khuzadi
-> 
-> On Wed, Apr 30, 2025 at 1:43 AM Ezra Khuzadi <ekhuzadi@uci.edu> wrote:
-> 
->     sound/pci/hda/patch_realtek.c: add quirk for HP Spectre x360 15-eb0xxx
->    
->     Add subsystem ID 0x86e5 for HP Spectre x360 15-eb0xxx so that
->     ALC285_FIXUP_HP_SPECTRE_X360_EB1 (GPIO amp-enable, mic-mute LED and
->     pinconfigs) is applied.
->    
->     Tested on HP Spectre x360 15-eb0043dx (Vendor 0x10ec0285, Subsys
->     0x103c86e5)
->     with legacy HDA driver and hda-verb toggles:
->    
->       $ cat /proc/asound/card0/codec#0 \
->           | sed -n -e '1,5p;/Vendor Id:/p;/Subsystem Id:/p'
->       Codec: Realtek ALC285
->       Vendor Id: 0x10ec0285
->       Subsystem Id: 0x103c86e5
->    
->       $ dmesg | grep -i realtek
->       [    5.828728] snd_hda_codec_realtek ehdaudio0D0: ALC285: picked fixup
->             for PCI SSID 103c:86e5
->    
->     Signed-off-by: Ezra Khuzadi <ekhuzadi@uci.edu>
->     Cc: stable@vger.kernel.org
->    
->     ---
->      sound/pci/hda/patch_realtek.c | 1 +
->      1 file changed, 1 insertion(+)
->    
->     diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
->     index 877137cb09ac..82ad105e7fa9 100644
->     --- a/sound/pci/hda/patch_realtek.c
->     +++ b/sound/pci/hda/patch_realtek.c
->     @@ -10563,6 +10563,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =
->     {
->        SND_PCI_QUIRK(0x103c, 0x86c7, "HP Envy AiO 32",
->     ALC274_FIXUP_HP_ENVY_GPIO),
->     +  SND_PCI_QUIRK(0x103c, 0x86e5, "HP Spectre x360 15-eb0xxx",
->     ALC285_FIXUP_HP_SPECTRE_X360_EB1),
->        SND_PCI_QUIRK(0x103c, 0x86e7, "HP Spectre x360 15-eb0xxx",
->     ALC285_FIXUP_HP_SPECTRE_X360_EB1),
->        SND_PCI_QUIRK(0x103c, 0x86e8, "HP Spectre x360 15-eb0xxx",
->     ALC285_FIXUP_HP_SPECTRE_X360_EB1),
->        SND_PCI_QUIRK(0x103c, 0x86f9, "HP Spectre x360 13-aw0xxx",
->     ALC285_FIXUP_HP_SPECTRE_X360_MUTE_LED),
->    
->     On Wed, Apr 30, 2025 at 1:33 AM kernel test robot <lkp@intel.com> wrote:
->     >
->     > Hi,
->     >
->     > Thanks for your patch.
->     >
->     > FYI: kernel test robot notices the stable kernel rule is not satisfied.
->     >
->     > The check is based on 
->     https://urldefense.com/v3/__https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html*option-1__;Iw!!CzAuKJ42GuquVTTmVmPViYEvSg!PiCmDJsbkP48HY6ady0rbC21rGusuY-IjJ61JqQnp99GdHsbc5uEQDwV-Q9TeKK7R4THFV7fXQ$
->     >
->     > Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to
->     have the patch automatically included in the stable tree.
->     > Subject: sound/pci/hda: add quirk for HP Spectre x360 15-eb0xxx
->     > Link: 
->     https://urldefense.com/v3/__https://lore.kernel.org/stable/CAPXr0uxh0c_2b2-zJF*3DN8T6DfccfyvOQRX0X0VO24dS7YsxzzQ*40mail.gmail.com__;JSU!!CzAuKJ42GuquVTTmVmPViYEvSg!PiCmDJsbkP48HY6ady0rbC21rGusuY-IjJ61JqQnp99GdHsbc5uEQDwV-Q9TeKK7R4SyRLIbeQ$
->     >
->     > --
->     > 0-DAY CI Kernel Test Service
->     > 
->     https://urldefense.com/v3/__https://github.com/intel/lkp-tests/wiki__;!!CzAuKJ42GuquVTTmVmPViYEvSg!PiCmDJsbkP48HY6ady0rbC21rGusuY-IjJ61JqQnp99GdHsbc5uEQDwV-Q9TeKK7R4QdTQyPmg$
->     >
->     >
->     >
-> 
+All errors (new ones prefixed by >>):
+
+   s390-linux-ld: drivers/mfd/macsmc.o: in function `apple_smc_cmd_locked':
+>> macsmc.c:(.text+0x480): undefined reference to `apple_rtkit_send_message'
+   s390-linux-ld: drivers/mfd/macsmc.o: in function `apple_smc_write_atomic':
+   macsmc.c:(.text+0x14ae): undefined reference to `apple_rtkit_send_message'
+>> s390-linux-ld: macsmc.c:(.text+0x1544): undefined reference to `apple_rtkit_poll'
+   s390-linux-ld: drivers/mfd/macsmc.o: in function `apple_smc_platform_remove':
+>> macsmc.c:(.text+0x2c52): undefined reference to `apple_rtkit_is_running'
+>> s390-linux-ld: macsmc.c:(.text+0x2c96): undefined reference to `apple_rtkit_quiesce'
+   s390-linux-ld: drivers/mfd/macsmc.o: in function `apple_smc_platform_probe':
+>> macsmc.c:(.text+0x2edc): undefined reference to `devm_apple_rtkit_init'
+>> s390-linux-ld: macsmc.c:(.text+0x2f5c): undefined reference to `apple_rtkit_wake'
+>> s390-linux-ld: macsmc.c:(.text+0x2fc6): undefined reference to `apple_rtkit_start_ep'
+>> s390-linux-ld: macsmc.c:(.text+0x30d8): undefined reference to `apple_rtkit_send_message'
+>> s390-linux-ld: macsmc.c:(.text+0x35b8): undefined reference to `apple_rtkit_is_running'
+   s390-linux-ld: macsmc.c:(.text+0x35fe): undefined reference to `apple_rtkit_quiesce'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
