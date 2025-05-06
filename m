@@ -1,107 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F032C1F463C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 19:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D1572618
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 19:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746559684; cv=none; b=SFOLWZobdkiomRNcZOMOrmQtjrC2QBulyk6Otd/ifRxvvzsfv3wIc854/ff7+ZZsvqwPZOsjbPIMcno9U/lp/KDtzvCSWOCtgudBP+vgzkxzYkgKHCrh+Au7Sbpppvrf0fSCywnvwA/VQr4i0FOSwQ/TaKzXOq3OGrVRzvUixC8=
+	t=1746560776; cv=none; b=t+LR0hs8V+rCh3FOT0sxJLH5X6//keF/TH1wxlw6jCQMDLNitGuDDysAL3ewS28Xck2+J0t6aOChzdASPpvrMT3PrffPBwYJ/qZdBg9dhNqi4wwsrX/QeuXMXHKr9aF+pHPHAx99Ej3uNy7z7mBonGpdhjbsJARQX0XbFjermYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746559684; c=relaxed/simple;
-	bh=TobIseWBnxiSM5C+0xSkLE5ypaYPmHuHhKWYRxNlVig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cjSIqsOoVmsS/yf46XXgSwoKgiZEbZb7xVsc3tdEJ+EVQEOq2gyILjHrX4fY3poUq7WLy/egvO0mnqlLswVMIWioKtwHrLGLDWVuosxTuxA/KBGEnU8V6XpdJ0r8rbv7LKGXGKpS7derL/nRez5KnXKKDSS20ic+GI+qnP3OnC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyyp37Rp; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746560776; c=relaxed/simple;
+	bh=EfrCHtKQ2RkR4JNDWg2D6SqkrXrN0NxL1Y1ls1PhtwE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kC4sxsLlCzV1q2uzL5wfFllu8SsSZgqT+0lP159D7BDe7mDLuJ3mwpd+EE1Sb1tOmned4Z9tdyJFK62aZFfWWmionu2KeJoAvxiN8bNVTC8AR/P5XSK+JjRSq9L6rd8+KpoHY5uglK6zSdAnx2ppzKCBTMo71K7DLvPjqL3itoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SnmqXkPH; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyyp37Rp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746559682; x=1778095682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TobIseWBnxiSM5C+0xSkLE5ypaYPmHuHhKWYRxNlVig=;
-  b=iyyp37RpGLiJNCRPf6jNKjhY70U/RXCSky4665BCNVOMSwug0Zudm/MG
-   k4iFNyhxlncqiomv3qI6a/+I+ZY2Pc0DVBU8HrpMFjh+x09s4DUdDfU/l
-   1uOFIpFaJ9LvT5eBKBcOK7tYdUF9PVFsl8dIY/5nx5kswKFp8PhNpbHwy
-   MPNoFYyhEfX0dQheXMLWO0g0lDzRk1ItaQci86mymrEYbLuRZgMRlfJyQ
-   KB6ntlXJMx9978+Ia31Ez4uY7/bFhsZQHVEOtCWvdJsFY/LmOhMAb8I3f
-   7UA3FT9+LXkAo+ttOi/IvtP3eA87qHdfPTgG91xKqjHROQMcN3S37nn5W
-   g==;
-X-CSE-ConnectionGUID: ++lJ63PkShiFtZVAT3ENCQ==
-X-CSE-MsgGUID: 393sCbU8Reem8ybiDucyAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58453730"
-X-IronPort-AV: E=Sophos;i="6.15,267,1739865600"; 
-   d="scan'208";a="58453730"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 12:28:02 -0700
-X-CSE-ConnectionGUID: fGkToJPyQB2k7kQ1uJROvQ==
-X-CSE-MsgGUID: AKG/QEGAQvC2YtyPqNwdwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,267,1739865600"; 
-   d="scan'208";a="136226129"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 May 2025 12:28:00 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCNxO-0006or-13;
-	Tue, 06 May 2025 19:27:58 +0000
-Date: Wed, 7 May 2025 03:27:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 4/9] mfd: Add Apple Silicon System Management
- Controller
-Message-ID: <202505070320.78PBAHSn-lkp@intel.com>
-References: <20250503-smc-6-15-v4-4-500b9b6546fc@svenpeter.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SnmqXkPH"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5e5c7d6b96fso11489771a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 06 May 2025 12:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746560773; x=1747165573; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6A3LKXcKbQRzOmieF/B3aokjKJXQ0R9uCqIUYyekQaA=;
+        b=SnmqXkPHFrrLlWUaPTwpUGNtWiLFuk7sGzL/BCbvjbyeTZpBJEPCswg5ekySJEuT+Z
+         FkeEkToNpcN6tyNaeEzJ7/rG64wfm21gcvdM7W0GeVFF5WY8nrECepLa1cZ8MU4JPpnp
+         GwG1WUMOE8aVJjZzv3TQIB7WAKPZdMqiWHdm2z2Ed4BkPHT6BNMgBsiSwkzV/xFyGFc8
+         nz9ST7SRKGKMISueFiNCRMwu6me1Fu93KE+BK0ZlNzBjzGl1TDuw16h7VEwiwj11E4jX
+         byownWsdx4fGu5d95OzEZKqOQyEuMWUzNr10cDOc6K7494JrA8s8Qik0krejVKbd72zu
+         cOCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746560773; x=1747165573;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6A3LKXcKbQRzOmieF/B3aokjKJXQ0R9uCqIUYyekQaA=;
+        b=Etx/Ze6aVwLpUaepAbhxkWTuxhRpiJrasznMyHYdaXp3yISBXtf8CMTjcGP8Z4pG8L
+         d/4jdS1Jk+83pz8E0TjTXy/GuRd2Ji5Bo5O0CBr00e1dGjG8aWj7k19dD+uS+b177WUL
+         jSFaH09CFPRBTsw4m2ohpWoiYWk/xfaDBUoMBiAs7oZ97prbx+DkC/4fr6vhrNS2kDt2
+         ktJNTJNwtIxWFWWFEqWze8RECjggE0wuCO/CWULUxbFgSMD8GZweoESgx2SkMDg8dMrR
+         K2oBr1vOxZyxt9JLSJyeVQ8NY4HfHFhpziJZgdxXP3qvw8XaCRpLt5MQW2lL1tn7+mnR
+         lA1A==
+X-Forwarded-Encrypted: i=1; AJvYcCWKzgdWle8qSQs2qx1c/QrsDvNhxlP6aOIBnyj/glck+GJ//sIf/Xs6xzBbBHMqNfEQC64nRSwhsqeUXEsD@lists.linux.dev
+X-Gm-Message-State: AOJu0YxaTBP04nckg5KuwwM1XgAfAzpqlYLcV1KEqo5xBR5Oe+I8YZK1
+	aSlesO86ZZ8wfrtTG3LCFpw5gZ2beUPePomli8a9qh6Eh/ROCNsUzdBnSsTRU7I9yVw6fjICRkT
+	GjrEm0YPwu7aOmDrCdnCJ6pfULoY=
+X-Gm-Gg: ASbGncugQQ3qMQ4gixxsKBhjxplLP+kr/rYIEO+isztq3GMUAEw2b76BhUTi9o6jTHJ
+	dlLigtguaaMUMVM8m7zEVKo/psiVVF9bK3GHbuOe3rN+cvY5rTHumQNKR77sjeuDLBkfH1SgE2d
+	uJx6jnthTuh1iT+EZysNFlP4A=
+X-Google-Smtp-Source: AGHT+IH+DCQfnj+qWC+qZV6cPXJm9upBQAEspihuVpc5dbc1zorkI9URLgKeaple2qN2bMjFVkNmBm+gQ9ZSeVWAhlI=
+X-Received: by 2002:a17:906:ba90:b0:acb:ba01:4a4 with SMTP id
+ a640c23a62f3a-ad1e8b91708mr81253666b.3.1746560772980; Tue, 06 May 2025
+ 12:46:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250503-smc-6-15-v4-4-500b9b6546fc@svenpeter.dev>
+References: <20250423194958.30715-1-linmag7@gmail.com> <202505051339.kc4bhqlt-lkp@intel.com>
+In-Reply-To: <202505051339.kc4bhqlt-lkp@intel.com>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Tue, 6 May 2025 21:46:02 +0200
+X-Gm-Features: ATxdqUFA64GmO5svmNDpACVB3gWIvGC2bl8EQg4prGGJLCyBoJH_JupI6HfaaOU
+Message-ID: <CA+=Fv5SBcjqE=Xdjb8_YQrs1K3f4-vnY0PQ2KNg-Zetw01f_zw@mail.gmail.com>
+Subject: Re: [PATCH v2] alpha: machine check handler for tsunami
+To: kernel test robot <lkp@intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, richard.henderson@linaro.org, 
+	mattst88@gmail.com, arnd@arndb.de, paulmck@kernel.org, 
+	glaubitz@physik.fu-berlin.de, macro@redhat.com, mcree@orcon.net.nz, 
+	ink@unseen.parts
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sven,
+Hi,
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 8b7e6734e2231a549a23943678ee3452bd19a1fe]
+Sorry , my bad, thanks for the feedback. I'll fix this and send it out
+as a v3 for this patch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sven-Peter-via-B4-Relay/dt-bindings-gpio-Add-Apple-Mac-SMC-GPIO-block/20250503-181349
-base:   8b7e6734e2231a549a23943678ee3452bd19a1fe
-patch link:    https://lore.kernel.org/r/20250503-smc-6-15-v4-4-500b9b6546fc%40svenpeter.dev
-patch subject: [PATCH v4 4/9] mfd: Add Apple Silicon System Management Controller
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250507/202505070320.78PBAHSn-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505070320.78PBAHSn-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505070320.78PBAHSn-lkp@intel.com/
+Regards
 
-All errors (new ones prefixed by >>):
+Magnus
 
-   s390-linux-ld: drivers/mfd/macsmc.o: in function `apple_smc_cmd_locked':
->> macsmc.c:(.text+0x480): undefined reference to `apple_rtkit_send_message'
-   s390-linux-ld: drivers/mfd/macsmc.o: in function `apple_smc_write_atomic':
-   macsmc.c:(.text+0x14ae): undefined reference to `apple_rtkit_send_message'
->> s390-linux-ld: macsmc.c:(.text+0x1544): undefined reference to `apple_rtkit_poll'
-   s390-linux-ld: drivers/mfd/macsmc.o: in function `apple_smc_platform_remove':
->> macsmc.c:(.text+0x2c52): undefined reference to `apple_rtkit_is_running'
->> s390-linux-ld: macsmc.c:(.text+0x2c96): undefined reference to `apple_rtkit_quiesce'
-   s390-linux-ld: drivers/mfd/macsmc.o: in function `apple_smc_platform_probe':
->> macsmc.c:(.text+0x2edc): undefined reference to `devm_apple_rtkit_init'
->> s390-linux-ld: macsmc.c:(.text+0x2f5c): undefined reference to `apple_rtkit_wake'
->> s390-linux-ld: macsmc.c:(.text+0x2fc6): undefined reference to `apple_rtkit_start_ep'
->> s390-linux-ld: macsmc.c:(.text+0x30d8): undefined reference to `apple_rtkit_send_message'
->> s390-linux-ld: macsmc.c:(.text+0x35b8): undefined reference to `apple_rtkit_is_running'
-   s390-linux-ld: macsmc.c:(.text+0x35fe): undefined reference to `apple_rtkit_quiesce'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Mon, May 5, 2025 at 7:37=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Magnus,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on mattst88-alpha/for-linus]
+> [also build test ERROR on linus/master v6.15-rc4 next-20250502]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Magnus-Lindholm/al=
+pha-machine-check-handler-for-tsunami/20250424-035141
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mattst88/alpha.gi=
+t for-linus
+> patch link:    https://lore.kernel.org/r/20250423194958.30715-1-linmag7%4=
+0gmail.com
+> patch subject: [PATCH v2] alpha: machine check handler for tsunami
+> config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/202505=
+05/202505051339.kc4bhqlt-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250505/202505051339.kc4bhqlt-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505051339.kc4bhqlt-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> alpha-linux-ld: arch/alpha/kernel/sys_eiger.o:(.init.data+0x118): unde=
+fined reference to `tsunami_machine_check'
+>    alpha-linux-ld: arch/alpha/kernel/sys_dp264.o: in function `clipper_in=
+it_pci':
+> >> (.init.text+0x394): undefined reference to `tsunami_register_error_han=
+dlers'
+> >> alpha-linux-ld: (.init.text+0x3a0): undefined reference to `tsunami_re=
+gister_error_handlers'
+> >> alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x118): unde=
+fined reference to `tsunami_machine_check'
+>    alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x298): unde=
+fined reference to `tsunami_machine_check'
+>    alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x418): unde=
+fined reference to `tsunami_machine_check'
+>    alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x598): unde=
+fined reference to `tsunami_machine_check'
+>    alpha-linux-ld: arch/alpha/kernel/sys_dp264.o:(.init.data+0x718): unde=
+fined reference to `tsunami_machine_check'
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
