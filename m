@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA8828AB0A;
-	Tue,  6 May 2025 04:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA6127AC30
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 04:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746504392; cv=none; b=SOASXqoQugQDtXcFHMMktAoTaG1P+PDkSCCnM4Lt84vFmj2My9vFBp0y05owmYXc/gb0HqNrOagWwbeqa5Z4U+5ViNzgapYgGU4e9D44Zzum+Zt9z9mvv3M8dxdjr6MlrNQPZYJ9LN6xH70mrdqbFJ1N+s28JoRBOeD5pZMxJUk=
+	t=1746504453; cv=none; b=K3jaTVIilF8MYEdNQXETdVu+9WXCfv9xyKL/bsbaN9z3kdRdnXlHRpwaxFyhRm4j7YdQ+RqUR9tbez8h39egg4wO/w/VNjW0URJuu6ze3CMIohWA2BrS12yGQ9cL684E6YP87zmtzC5PrijRDCXCkkOam8B/TvqEfHGARu1G6l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746504392; c=relaxed/simple;
-	bh=5bSdKrca0B+MqKH2cCE5XiY+9NnwJXX3thCEdAlNIdQ=;
+	s=arc-20240116; t=1746504453; c=relaxed/simple;
+	bh=XMH1sf/jQ7NhxwT03gZssmLPL9FfAGmAKafJvU5dz8E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZM/V/G2hMGPrU0bXAhmlcReBGWSvhwMdss7QANyijN2yLwuc4ASBbVCXcP7tW7PX/dkZddEUleW5Rof5GCxnmeUbMmBFuR3q7q88XIu3Wl2HLYUVDFmsZ8Hqhq2CPykDGqeNYt3BJdiqOE8nvHhPJVvUAPltuh2fLCjfWM6Blj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAIxDj1Y; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=HxBbgneGpm7wmFMCPrbU/6MHInH8qkFITGMaSXZKhm6Ppb1YM/kakWX9cTly/IM0FLGa8ZbTlo2Z7tfmxhZUYQ8Kcfayo8wAGYpnU654E5JIoT4uQUH0V2Mlkar39rhTzqH0c8MJMZnS+NOZ7VwHJmzU9OGDloxXSSnFO5/Sv0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiyjaarC; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAIxDj1Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiyjaarC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746504391; x=1778040391;
+  t=1746504451; x=1778040451;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5bSdKrca0B+MqKH2cCE5XiY+9NnwJXX3thCEdAlNIdQ=;
-  b=AAIxDj1YWpX+oTkT14VAlConURRQAWzA59TRD7o0XyP+jjRasqXRQylL
-   oZIFXRaiwiz1hpRKeSwZX0kCnWu/Gki2xaoigwpo17cLP2ZQo1+GgAlQy
-   30sEYBBFi0iVa9YgeUz+5s7TUxDBPlhDlHIsSoDU0YCq+8msRsJNBkmhh
-   EKhhkAF307uNk6SBDwKztl+GZyuLlc3QMlVx3cLlwt6aDB8Ho1eb0LOwZ
-   EIGeBa67+L99YZHpjH2lODwPa6fD1OcQvhZFSsjg8WirXz8LojC6Zo5pi
-   KSV1oNT9SoTl/o2qKXbj+XT7wtEXMSjS63m3b+GmhXBoeCzrDQRqMCGGo
-   A==;
-X-CSE-ConnectionGUID: c26IAkNXRlqxPCXf9+Lu3Q==
-X-CSE-MsgGUID: y1LvkxLeTniP2H+pmSbFIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48023076"
+  bh=XMH1sf/jQ7NhxwT03gZssmLPL9FfAGmAKafJvU5dz8E=;
+  b=ZiyjaarCfkUlsGRTa+4RnbnFpU3zAMUxGw1HN6/7VXHyrP5WlfsOkUlI
+   E3CJhsmtW50gMG6j0DHAGP5oM1Asrkocnm9FHfARNwpt/dG15iR0202md
+   FuTMrucdjfSYngrYWxgMurJYDaWuYB3FEI95ja/zkoWNW9w1QdknyV2+2
+   3ogiprNYAD6UcUbRPlLhS7lkzxSn5H8eMmQhmLFkUBfC+uVYmRJiZhx3C
+   QKv6Uu2LSsB6mGZinqrMHWtcGOdznd0wD/Dge6HK5M8uULl+K4DZ4krGc
+   jN+n/9dq9geRNu7Ybbe/cT6CtMD4K7//A2KacRD1Elpc1aN4xv9Eu4PXP
+   g==;
+X-CSE-ConnectionGUID: eNtoYRgaRAucFJKiAQ7l4g==
+X-CSE-MsgGUID: OIEhqRCYRQaN/hLg9HaE0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48289910"
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="48023076"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 21:06:30 -0700
-X-CSE-ConnectionGUID: 7cvG7Ba/Rg+xmRjtXGhGcg==
-X-CSE-MsgGUID: JNAeArKSSgGVJNMsuspAZw==
+   d="scan'208";a="48289910"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 21:07:31 -0700
+X-CSE-ConnectionGUID: YEjB97ylRiCG5FKuLm5BqQ==
+X-CSE-MsgGUID: SkIHUOKHR9+DhRa7GZS22A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="135186188"
+   d="scan'208";a="140611156"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 May 2025 21:06:29 -0700
+  by orviesa005.jf.intel.com with ESMTP; 05 May 2025 21:07:29 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uC9ZZ-0006F7-2u;
-	Tue, 06 May 2025 04:06:25 +0000
-Date: Tue, 6 May 2025 12:06:25 +0800
+	id 1uC9aY-0006FB-2w;
+	Tue, 06 May 2025 04:07:26 +0000
+Date: Tue, 6 May 2025 12:06:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kevin Tian <kevin.tian@intel.com>
-Subject: [sean-jc:sink 54/177] drivers/vhost/vdpa.c:219:32: error: no member
- named 'token' in 'struct irq_bypass_producer'
-Message-ID: <202505061105.pA1KZRCK-lkp@intel.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: arch/arm/include/asm/stacktrace.h:48:21: error: implicit declaration
+ of function 'in_entry_text'
+Message-ID: <202505061113.kBQwKkqd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +64,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux sink
-head:   b64923e38c20d35f52d3e78fe87993306d912851
-commit: 55503e04dc3db68bfba5486acee4a8baa0ef8765 [54/177] irqbypass: Take ownership of producer/consumer token tracking
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250506/202505061105.pA1KZRCK-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061105.pA1KZRCK-lkp@intel.com/reproduce)
+Hi Jinjie,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   95d3481af6dc90fd7175a7643fd108cdcb808ce5
+commit: 2335c9cb831faba1a4efcc612886073b6f175fe4 ARM: 9407/1: Add support for STACKLEAK gcc plugin
+date:   10 months ago
+config: arm-randconfig-r071-20250506 (https://download.01.org/0day-ci/archive/20250506/202505061113.kBQwKkqd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061113.kBQwKkqd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505061105.pA1KZRCK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505061113.kBQwKkqd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/vhost/vdpa.c:219:32: error: no member named 'token' in 'struct irq_bypass_producer'
-     219 |                          qid, vq->call_ctx.producer.token, ret);
-         |                               ~~~~~~~~~~~~~~~~~~~~~ ^
-   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                          ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   1 error generated.
+   In file included from include/linux/stackleak.h:16,
+                    from kernel/stackleak.c:13:
+   arch/arm/include/asm/stacktrace.h: In function 'arm_get_current_stackframe':
+>> arch/arm/include/asm/stacktrace.h:48:21: error: implicit declaration of function 'in_entry_text' [-Werror=implicit-function-declaration]
+      frame->ex_frame = in_entry_text(frame->pc);
+                        ^~~~~~~~~~~~~
+   In file included from include/linux/interrupt.h:21,
+                    from include/linux/trace_recursion.h:5,
+                    from include/linux/ftrace.h:10,
+                    from include/linux/kprobes.h:28,
+                    from kernel/stackleak.c:14:
+   arch/arm/include/asm/sections.h: At top level:
+>> arch/arm/include/asm/sections.h:14:20: error: conflicting types for 'in_entry_text'
+    static inline bool in_entry_text(unsigned long addr)
+                       ^~~~~~~~~~~~~
+   In file included from include/linux/stackleak.h:16,
+                    from kernel/stackleak.c:13:
+   arch/arm/include/asm/stacktrace.h:48:21: note: previous implicit declaration of 'in_entry_text' was here
+      frame->ex_frame = in_entry_text(frame->pc);
+                        ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +219 drivers/vhost/vdpa.c
+vim +/in_entry_text +48 arch/arm/include/asm/stacktrace.h
 
-776f395004d829 Zhu Lingshan        2020-06-05  197  
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  198  static void vhost_vdpa_setup_vq_irq(struct vhost_vdpa *v, u16 qid)
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  199  {
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  200  	struct vhost_virtqueue *vq = &v->vqs[qid];
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  201  	const struct vdpa_config_ops *ops = v->vdpa->config;
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  202  	struct vdpa_device *vdpa = v->vdpa;
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  203  	int ret, irq;
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  204  
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  205  	if (!ops->get_vq_irq)
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  206  		return;
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  207  
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  208  	irq = ops->get_vq_irq(vdpa, qid);
-cce0ab2b2a3907 Zhu Lingshan        2022-02-22  209  	if (irq < 0)
-cce0ab2b2a3907 Zhu Lingshan        2022-02-22  210  		return;
-cce0ab2b2a3907 Zhu Lingshan        2022-02-22  211  
-cce0ab2b2a3907 Zhu Lingshan        2022-02-22  212  	if (!vq->call_ctx.ctx)
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  213  		return;
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  214  
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  215  	vq->call_ctx.producer.irq = irq;
-55503e04dc3db6 Sean Christopherson 2025-04-04  216  	ret = irq_bypass_register_producer(&vq->call_ctx.producer, vq->call_ctx.ctx);
-e01afe36df1a9e Zhu Lingshan        2020-10-23  217  	if (unlikely(ret))
-e01afe36df1a9e Zhu Lingshan        2020-10-23  218  		dev_info(&v->dev, "vq %u, irq bypass producer (token %p) registration fails, ret =  %d\n",
-e01afe36df1a9e Zhu Lingshan        2020-10-23 @219  			 qid, vq->call_ctx.producer.token, ret);
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  220  }
-2cf1ba9a4d15cb Zhu Lingshan        2020-07-31  221  
+2335c9cb831fab Jinjie Ruan      2024-06-27  35  
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  36  static __always_inline
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  37  void arm_get_current_stackframe(struct pt_regs *regs, struct stackframe *frame)
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  38  {
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  39  		frame->fp = frame_pointer(regs);
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  40  		frame->sp = regs->ARM_sp;
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  41  		frame->lr = regs->ARM_lr;
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  42  		frame->pc = regs->ARM_pc;
+fed240d9c97438 Masami Hiramatsu 2021-10-21  43  #ifdef CONFIG_KRETPROBES
+fed240d9c97438 Masami Hiramatsu 2021-10-21  44  		frame->kr_cur = NULL;
+fed240d9c97438 Masami Hiramatsu 2021-10-21  45  		frame->tsk = current;
+fed240d9c97438 Masami Hiramatsu 2021-10-21  46  #endif
+752ec621ef5c30 Li Huafei        2022-08-26  47  #ifdef CONFIG_UNWINDER_FRAME_POINTER
+752ec621ef5c30 Li Huafei        2022-08-26 @48  		frame->ex_frame = in_entry_text(frame->pc);
+752ec621ef5c30 Li Huafei        2022-08-26  49  #endif
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  50  }
+9865f1d46a68a5 Nikolay Borisov  2014-06-03  51  
 
-:::::: The code at line 219 was first introduced by commit
-:::::: e01afe36df1a9e42cacdb9c5b99512ec69a6f14b vdpa: handle irq bypass register failure case
+:::::: The code at line 48 was first introduced by commit
+:::::: 752ec621ef5c30777958cc5eb5f1cf394f7733f4 ARM: 9234/1: stacktrace: Avoid duplicate saving of exception PC value
 
-:::::: TO: Zhu Lingshan <lingshan.zhu@intel.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+:::::: TO: Li Huafei <lihuafei1@huawei.com>
+:::::: CC: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
