@@ -1,91 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C48288C23
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 03:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEE4307938
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 03:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746501076; cv=fail; b=cRZYCHG6UYflNfPR5v/MEwzKcERaHOUWYZg6vJfl+xayyVUMcF0+2UP3cVYYbcFh2/91uMbxO+ZiwMOy5m+DvR3hgSIDB42xnFtgGRUfAwOlqts843VwlTcnNuTKj/2MxnGsrIN1vEtbpiiweWCnhS+1NmgbVFnBkfntnkXCccE=
+	t=1746502492; cv=fail; b=MGM1VWCWbEC5nSr1FhRqBqK0RcIWYYJlvs9KGzAqG12JV7B+AlQpcH3f21fZVqMrTzNW0nUKgQXwGC3leQAfgGvLdi8MQkKN35TE6pS5DKjWTIY6uEozclo3PIWRoW8dsZxosFo6gxZevGrseIL8xdp4AGBEWpvzusQKIQ+3Igo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746501076; c=relaxed/simple;
-	bh=blSyBtILWeG9Lp3+woeB1gbGxLpSuqTWghLf9OSs0O4=;
+	s=arc-20240116; t=1746502492; c=relaxed/simple;
+	bh=4JdCXual+ktddROF6pxaYoDX0PKmY2t7FjRXVoNUyP8=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=M6PE1F0e+JdUEs/V7+NtZQC39vHZC94XMpFRSzhZR4yxIYUpAHUK9rvCgQcj1zmjyoS9CBvI/mbKvaYR73tSm08DO9hFXwG4oPpak6LdDeDvZXqNLrP/v1joFn7GH6n7sJV/23X2NZTewAyBfMS9OcZ+UNe9LBqBlVAXchT44kw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/sp1kEp; arc=fail smtp.client-ip=192.198.163.18
+	 Content-Disposition:MIME-Version; b=I/ZT5eRRbqSUKAiG05CkhVlbgyhhgkkN83herX3a1YCia3ET2gptcybqmAAAccTTYfQSF8P58UOrCoBFo8ViI/3cQkYvLoBcLTbYwHB0GuFGfMpHZ+sxvsyvIb4y4BE60y5PCGBKmrSgC+CB/xfrPRyYTlvigQe4bslGhc9I0rI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g57DvnCA; arc=fail smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/sp1kEp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g57DvnCA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746501075; x=1778037075;
+  t=1746502490; x=1778038490;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=blSyBtILWeG9Lp3+woeB1gbGxLpSuqTWghLf9OSs0O4=;
-  b=N/sp1kEpQOjvvIB8PErGgZ+pE57Kutl0gT/Yt5ByxeBDU1zgAtjCPVfG
-   OoH5G48Y83YGagL3U44ZsrTC0LQChfTcmI6xJe/khX4kCCIrdzqYdYEF1
-   MnZpgpy2B+I79RKOKIqoTjgYGPJi/oDiI6bhS1U2gyeIKLQrqtUU/Nl6N
-   ZhFEWytyhF4prgomJbuIUDx+UQBM9q/lomfBFXsHqXvQv56u7kCyLjgyY
-   f4g8YOJK6ubIr7V/bJw4iEe8qVtOjDNpgmdmFQn8uqvk84H1FE7gSp0IN
-   rHCY4LM+gfJCXo5aDOszAwy+1f+/0o+gclB20Uf3+3f7IZAu+CLkZKGGz
-   Q==;
-X-CSE-ConnectionGUID: 2FDGyt70ShO75KKNKsO9EQ==
-X-CSE-MsgGUID: 8PEsTKjBTjSa3Jjm0mS/1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="47401751"
+  bh=4JdCXual+ktddROF6pxaYoDX0PKmY2t7FjRXVoNUyP8=;
+  b=g57DvnCAlfwYwSvkvgkUru11FZOdGzUevxplZXOGem5jGFs+siUmuHbq
+   cBxazULxoDEZX59eLKDF2kxT6OdYL5hV0undawuWcSHjfDxwuylVY92U0
+   YREt6ROvjaj60BHKK/oEhZmBGi5ZlNjq7z4MnkqWgrs1Kj4CrJO8cDcQI
+   24U5mxPIMGUhF7FmB0aC+MTsi0aE4OC4wEL1I7fyW5Q+DiF/LFVbG90gB
+   D8JXMDVBVn71MxwctPO48BtlgROxiwA/+b6fBokR22NHWTiSLR3f7/rkL
+   Aruw9PeoNwwwPqQkM4HI/X7xw51a2K0jeNpvm6y9NWWs6vzxB+w+vtKR4
+   A==;
+X-CSE-ConnectionGUID: JIsH/ikPQEqau66NIPEr4Q==
+X-CSE-MsgGUID: N/3/gxU2QtGOSultWxY6Mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="51963387"
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="47401751"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 20:11:02 -0700
-X-CSE-ConnectionGUID: f4vxrMvEQNinKkOaBm1kYg==
-X-CSE-MsgGUID: ei9UAA4JTXuXsG92N87Lrw==
+   d="scan'208";a="51963387"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 20:34:48 -0700
+X-CSE-ConnectionGUID: lveOtD2ySRiWibTPFkzsUQ==
+X-CSE-MsgGUID: ZgFk7yP2TAaFu31Dvtvo2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="166382751"
+   d="scan'208";a="140604554"
 Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 20:11:03 -0700
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 20:34:48 -0700
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 5 May 2025 20:11:01 -0700
+ 15.2.1544.14; Mon, 5 May 2025 20:34:47 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Mon, 5 May 2025 20:11:01 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.2.1544.14 via Frontend Transport; Mon, 5 May 2025 20:34:47 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 5 May 2025 20:11:01 -0700
+ 15.1.2507.44; Mon, 5 May 2025 20:34:47 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MBlmXvvJYeVAWDpAIEzwn8Gm09PPoU8CAdSZ61n3sLAR73Kwi5BaNbwHcQi1Czu7hVkMUUSX9fXu/pwe+x2XgDcMN+WIbLypXMskmj1ivpNIW9ZeO54ilzUZ8apuULi1DtE12poKscpScsOmu8gcENhG/jojJAt0g0nNJO3joRFHyxKOMRu8WJ2cVoD/tJ+gJUZn2xHsdWVOjaKUTho5CdpaxayWi7lA7TzjrYl/00WPjPI+FbZu11LZtJr6/J/2RySR69Ajfo81a47tyo8LXcU088mNHhCI16lra/i3a691+ezflb+uJT2KWQsm6PBTGLp5EldGibd5t2H09MMx7g==
+ b=YNy1cbh8+NLclTqXUqlLIZfvi0S6nFtDor61Ykcq2Iq6kQdRSVuFngKWrxoo0fgZAenZI4nwFQUcCSOfoeQkSHBgkOSWTNa/t5G0iuGBe8Wx5JaPc9LKD7eKKs0YOyhBX12Ry4uHCoXcz5FdVSyDgr8HVhxQvemrBxAQrtdrSnIOIa407duHWHQGO9nzln7h6u/LnKCbivTWSRNT4tAtNsnl4NkYtbloTBpYuFzNEAXnk3KtzrfDOHbNMnLrw9qYS+kyNasLUUr0gv1Y2joYRJRJRDvVo5XUrIVRx2u78ffZafygKuiYxOcTAXGjkwHYiYu7puX9ZcsKuVR3rK/ddg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cmAW62tP/ZSui+3EKz4BZ2fzBLEwHMPrEeOjdM+L5M0=;
- b=CvbeCdUYZTZa2gvJXfIl03HmxEd1IFYxFJVt7LU/2rKZYbdV8BlEWP63EIlLBhkhp1sWdTmm1vwUfirQlr8ruIIMrSuwtsl6tKTrxhAlzTRrzHlk996bAWd9UcNGdvgiVdnBepUJcNj/EDeSyyPhgRjwHMqTSB4OXtMJs281FnKDNVeRPbDxsQjkACe/fMnJmYX2Aieuq4m19EQ73+noIHiZ0avebO7QjiJxEANh/tP4kXLBs4n0FZWdbk5vB+rc/bEPvyW6UBQsnCfQV3E2H92LQhCAjiWxVGdWgcmBAl7AEsPzn6kEme9Vc/5C1kqS2QQjYP9BjINKrHgRSGTmBg==
+ bh=mvkA0l6YDFmXJQDPnReDOrijDNwNdtDxv75aWyxVFy8=;
+ b=fzjSYr/K0YKYKeSwAisWIDU349iANVdztR1bcmrYLnySsf/y/Z5HLk4wVPRFcPnMDl8c5HIKkfJv1jKdKUp/a3z7QED5u65XyorceFjx4W9L6DkNEDevHobOzD9hM0gZGGcKCD2FqY3lMu05kiQAhL31o9j3XDrJQR984DAgWQ/vx1WIJKivR+H1rX4m7E2XwqS5wkLbJnhO+m3so+5DyM4l4Y074esCBv0d2EGH9NE783d+VgrpU2vja9AxITWoWZ51vwD4+8UN/tnGaYlYbCNjGmOIaer1f9Yqr4yoLBe+NuuAvDKqIdVHt8HCeojBp9FDrnxxB+wYwJGGC/x1Ow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
- by DM3PPF777B3455C.namprd11.prod.outlook.com (2603:10b6:f:fc00::f2f) with
+ by CY8PR11MB7244.namprd11.prod.outlook.com (2603:10b6:930:97::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.22; Tue, 6 May
- 2025 03:10:47 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Tue, 6 May
+ 2025 03:34:40 +0000
 Received: from PH0PR11MB5674.namprd11.prod.outlook.com
  ([fe80::77d3:dfb2:3bd:e02a]) by PH0PR11MB5674.namprd11.prod.outlook.com
  ([fe80::77d3:dfb2:3bd:e02a%6]) with mapi id 15.20.8699.012; Tue, 6 May 2025
- 03:10:47 +0000
-Date: Tue, 6 May 2025 11:10:39 +0800
+ 03:34:40 +0000
+Date: Tue, 6 May 2025 11:34:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Herbert
- Xu" <herbert@gondor.apana.org.au>, Conor Dooley <conor.dooley@microchip.com>
-Subject: arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: sham@0 (ti,omap4-sham):
- 'ti,hwmods' is a required property
-Message-ID: <aBl9r4JSGPocGsLt@rli9-mobl>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000
+ (mediatek,mt8188-gce): 'clock-names' is a required property
+Message-ID: <aBmDSNx3EB/PJSaU@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0152.apcprd04.prod.outlook.com (2603:1096:4::14)
+X-ClientProxiedBy: SG2PR04CA0160.apcprd04.prod.outlook.com (2603:1096:4::22)
  To PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -95,182 +94,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5674:EE_|DM3PPF777B3455C:EE_
-X-MS-Office365-Filtering-Correlation-Id: aee6d84f-98ed-472a-acb7-08dd8c4b98d8
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5674:EE_|CY8PR11MB7244:EE_
+X-MS-Office365-Filtering-Correlation-Id: 087de1c2-18f7-4183-208f-08dd8c4eeec7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|13003099007|220923002;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KhILIhphA1Q3YcsQJNBx21wB+xfI0js8Nvuq7rJpcrmT6QT4AJNESAbMJPqZ?=
- =?us-ascii?Q?0aosqafP8aAxGdYorB0D9wyEoudO2dwWbOLD7vwHlqdNBQaeq8KMzkicNoXN?=
- =?us-ascii?Q?Y3lomi4JM/wp4l6guGWyYu2F/lSi3QlGDf9yai8FnUk/kE1U88mSpNuNaZ7U?=
- =?us-ascii?Q?Ao74HHugz9sloPo2AxaXHTEMMAarvlqIie9MprFOceDN4mUezWmfCP4APuiH?=
- =?us-ascii?Q?t6j2AiiTyrytzXkwbrYbMquLOx4PG1T5FzHjmn+hh8B4yz05NC5K85Lhex5L?=
- =?us-ascii?Q?t/erk58Y6u7uFoAkRMwrLnAUNEMlAvSUH6noNNxR690jWk1kBluIoHw14IkO?=
- =?us-ascii?Q?jw8sRGVJV27yazFiAaBPjA2H3g2RzjvFhyQ84c/I2JFTGBdS0NVEQULX9Ex0?=
- =?us-ascii?Q?b42HClhNjqrcw5F1OXXDzo9cojl6iDWuw/A4C31gzd3Yqun6VYzsOpYnEzh5?=
- =?us-ascii?Q?yCqUHBNVVFd3J7YEUDykCSGqy4bGDjWGvxd3BUPX29rAHA5WdKsE+Mgi2HDy?=
- =?us-ascii?Q?3fM71i488rxJFpYaTRMAQkPHvhWjMK1TXw4XbD7oX5cJ5kKE7Izxe9P6BJqm?=
- =?us-ascii?Q?hx9oEJSStiigJK0simiJsCPcXxIS75D51MpLCTtSK+7vCtrpNj9/v3IMcU5n?=
- =?us-ascii?Q?kTmskN36NLey/tEzhMUGNVVGKbxDIOR38J7Va7ZPP2qNtJYJdACdcj3vQmSe?=
- =?us-ascii?Q?6sHbn2IHWli/cHMApHan1RGi+7VYx2MGAFb2Xk1swvUzqlVIqRgToHYzOeyU?=
- =?us-ascii?Q?QCmcdXVyouTzOtWWLs/7d93QuoYSSHLxV2yqWKWY6nWBA9MW/4nZU6siPFYC?=
- =?us-ascii?Q?jQnHnByhdbG9F3Kj1QImDKH72rRwCI6q2jdXcmv8cYWwdb027o5/H9jlxFvm?=
- =?us-ascii?Q?vsHuB6PRI179QvLojVXSo3P/59m6e60bkSYAtH6vt66+1OMz0ENiqrQMtrdf?=
- =?us-ascii?Q?O/zckbhG9a6Ajqto72ZeMNWWAiSmiJ84KubMZ+MykOwlTuxHDw+5PyX/4L9H?=
- =?us-ascii?Q?94KA4PkEEh16eHkznJC2W48M8nK7EHV38tFx+ZODIUPDOHENpiO3q/9+M4j+?=
- =?us-ascii?Q?y+vn+q1aKD2R5Nxy7FEnLlZ6ERxvEPQ+CRF1iuGVvK6feHEMLMOs+PLGM9hL?=
- =?us-ascii?Q?xOS3KZiWDU/sV0RFgptU8fc/3m7f0cabkwBbkdJwJ7k4EC+uGEmiGZIjvEg5?=
- =?us-ascii?Q?ooSiGA7FEnERy7T71q5j/L47bktCrJTcaBFU/n8L1hod6zV3/8w55amhxf2d?=
- =?us-ascii?Q?9KYOzTXT62bhfRKbdknHY5TSavLpZihiTYAeOw4/oPKou8Owuxhdp+pFT3b9?=
- =?us-ascii?Q?qtz+7fLeEIthdhF1WjKMq1OsDEQKaU6tnBx0I7UkIVPjzNfWuAQNEEAh/7nU?=
- =?us-ascii?Q?1MOviHBxKWINW8qfVmoxWATTK2QZ2gQ+cYl9Ih9nKpEiqkqt43BcolJ05Lqb?=
- =?us-ascii?Q?BkkqwBXgY+A=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mJVh6aLTAO30u46f43fMrcIQHFq09+BXJxqUuLEvXuoP7LM6t5iKxKrQdW5K?=
+ =?us-ascii?Q?gaNghBK+ueRgArN/AwMdeVN9GsaxmMQhpSJ4PHG/ORvDc5CgMfwgF7tXg1Kn?=
+ =?us-ascii?Q?CzXN9Dcm2NOUNKOD6DoR6fz3Q1coJe9uyU36M7+UnipjjUhQH19pMVkC9+Rm?=
+ =?us-ascii?Q?cIBXkcArPyw3GCFAxFxnJS9y4tGomX9K5/EqG2AA2DCu/Sp3Wem6dPzsYNvP?=
+ =?us-ascii?Q?tNQ+UIeet4eSlPCNbyCAlCMjae3LmlF/dj6f3c4GrRJXD6c3mlXCioFIAuog?=
+ =?us-ascii?Q?VhT2qgEBgzKB/x2NfrxwFWPqNrXdyzUaluKhwf1Z/NP/YnByuiVUnRsEepXn?=
+ =?us-ascii?Q?CdPWKY19q2ze7fAnWPCphDzZx/12uUviQdfSr9jGDJDOgIWZhhKbNutyW4uA?=
+ =?us-ascii?Q?yMOebPaCmtQ98YAQESUqcTPeFyvWmHausr8SCKiosNM0qo3j5jZpnZkqQGeW?=
+ =?us-ascii?Q?PEBQEdro8l1lHmhhaFk9OI0yv1OFfbbFvPQ6hGYOhmwqjLNFaoPGQn18aNaJ?=
+ =?us-ascii?Q?CHbxXBNI5mEu0o1+LHrQPFTUUx1U8RBlOrNHlB/H+yzZnDF9SDQ4U5CuxuIw?=
+ =?us-ascii?Q?hSqQT73bW2VGfApgnC4ew0rNsVcmIaMIGzdX7yXfZ/Am6PsY0c1OHatqG7gU?=
+ =?us-ascii?Q?VAd3ivFfKx9B5IBCcaLGeDTPNuiQEB/sQO7hw4Hqh3T4XuH6bHL3rnO5l2jw?=
+ =?us-ascii?Q?XRk7yMiI4aNXFskZK3GClKiBYnV2kwX4RlsOd3iQ1sHU693vgpsOa/Rp7yfC?=
+ =?us-ascii?Q?3ZW6BLNZI6gTM8optSYYhTzaVlgAH3MNGrWlRI+Bxf/n0R/cfWMwDIbRqGtW?=
+ =?us-ascii?Q?XwJzU36LibLC9A3yl0dvmrqjGbbCQu0oHnUBeTcbcqB2/55wASyL6dkKo2xV?=
+ =?us-ascii?Q?HRKHKUPQjAR+Ap1yKPp9/JD+VhUWuku7A9TsJzGBKGNGtj5IeRptzitlGDI4?=
+ =?us-ascii?Q?4vAMxiYGg1ABpLHSH0LHG/g+ZarV6h5c+mtA7TfifMBA35XQJLI+u5Q6373S?=
+ =?us-ascii?Q?0bm+zinGQvXSz8HNqVhk/MBS4Qcph4FBOrXUUufqmjDFaWmz8JRVLC5K/hsI?=
+ =?us-ascii?Q?kefyRIeFo+6oFr23iJ4gQptTiWYBT5O/GAVymfKszoudDbtGQs9o459Lh5Gz?=
+ =?us-ascii?Q?y/JQRTBQt1z2uAzfaDOsr4I4wWvmcDJ9mm12uvVilkmBNxG5dcPJ9UsKlE6t?=
+ =?us-ascii?Q?GpvrliY/kGX0b/xZGJYAbrRNRDloKiBfldYDqnMeLQhlHc49DB88iWRGId9D?=
+ =?us-ascii?Q?5cuy7LUmZDbj6CZJ9et5pPnVtRa2xCvz55qqewEy7leVD/ocBiZYA7/NvS3K?=
+ =?us-ascii?Q?zXPpvzE9Akg4DHdlPhXNEjlW0RxMy+A7ACEkujcbnaaFzm/Vt13AGcUCXSWS?=
+ =?us-ascii?Q?9X8PdJaZj52kqeX8YWI9DEzIvIdwy9+pRmkOX1ELzQC/e5MnhYWNdCGe8MdN?=
+ =?us-ascii?Q?keMplNAJD0I=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5674.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(13003099007)(220923002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XZgI+oPkD79RkeuE2bOO63U0BRpe08nmtEC9rFrZLorCpZgK0Q3ACeIIXr5W?=
- =?us-ascii?Q?J9+UAzAYthooXCLa4tGsHFZz2la11kwNj04Jd77pZFnqNH2q6r9vmA4Yyewn?=
- =?us-ascii?Q?Nc3+gMLLdTY3YtNDXSEPBULjkh64F7WMYm7jO5qhhc8lp/nF5yuUa6a3Kdeo?=
- =?us-ascii?Q?+f7Buv/O4ltnbRKcugs3eetbBJ/P5LQB6llvqVtCmyGO0K7Fc5wqnQQXcNlZ?=
- =?us-ascii?Q?ncc21sGuIT87BX39gKC45LjGVhP//HXpRKy80eXjwQVfD6O5wMcgdrQwIHSh?=
- =?us-ascii?Q?LpmXfYtLNx7WTB6xHLEE2W9kE6xi/rEcIDx+Q0gOb05ZQOostAVwwTwMenst?=
- =?us-ascii?Q?np2N1oPYsRrPDjjW9mW5p2ycn07+lezimVDi5I+mgjmPt//elW5Bz4amqPrK?=
- =?us-ascii?Q?Vbeqx8m5xriKXTdrb5z1Z+Ay2Gnnt9TllbvALFEkU5hclBlk5YpnjQqqv9gY?=
- =?us-ascii?Q?uli9EfTM/7ryd6MiVGfOuE4R2lM0hO5xCyTCXriLmTi9abdDBMP7ryPrW+PD?=
- =?us-ascii?Q?bbOxqMzP3N2h0tIB+8506xy2+iieS9btOKeuOhqge0ISdtfhTJWTOJ/hvkdT?=
- =?us-ascii?Q?8l16LGJe0X1ouXSrMvoje2jYMU5sO72sREarbRi6kb3RQYzXRWLAonXsYdab?=
- =?us-ascii?Q?cJb6yeMO3fEetQY6ZKmkCsfoj5wOh7LOzn6eiCupwOpTMMA6MKp2czbAbPsk?=
- =?us-ascii?Q?L5YK4PqANs4wQUNB3PgKaKKJOB04qDqatOws0t0V0k6fsyQyV6Pcfnncm9aw?=
- =?us-ascii?Q?x8R6Kw3VIeuV1dzrktG96m80CheoVBz0n34OdaFhZ5fZ1Hu84UUBLWrNn8p7?=
- =?us-ascii?Q?dEYDBh/NoaKiOkWPvRiT6aK/YaSeMKmJ3dmRveqF/GsA86W6P7tL3iqErVua?=
- =?us-ascii?Q?i33u9ph2M3vnO0ZGtMkwkwlAxAnf6/RF4qcvCIFutfvoRwfpJV5eD7gL8DOs?=
- =?us-ascii?Q?rCMArTv6Ip9oxkjbfbX6RbzCMeDXxdg2nRV0oyce+JE3j+YSoCnJ8RYsywWg?=
- =?us-ascii?Q?Y8sDoBQPWAF3xH1iPQUqFheArnyD+5YrQHco3PJjrV4nG22Quiz1/ad2hXU9?=
- =?us-ascii?Q?tIl4bdE5LeJF6Yfs5aIyUHXTrWXiX4A9Z36HBkfls8oXb6I3QDWPpdlJ5DaS?=
- =?us-ascii?Q?p6lhQlFxJnzqWrOKdMYyIRmrDuxlkTSCcwz/LUb1hZPGc7veU7P5VDKArRBs?=
- =?us-ascii?Q?KEXSWDcekaskvcDK8Gz3Wn2yO1d+7RQxw/AwWopmpt/zN0FXKwj6zL+r1EAi?=
- =?us-ascii?Q?Fect/PVrZ2d0wkqLKt7IUUUeDvXexl8k2CInP9nv7EiWfCidp6ZckhcKQdCI?=
- =?us-ascii?Q?FKVDViB72rujOnTApL5uOmdPnw0mRqHw/ewcXVQEUi/Z46BGcXUE6/KEii3c?=
- =?us-ascii?Q?nVxxHPBQ1/VYg8/H/PfmcLARjw4uFL2jusDwibu/hPorOr9GJugbJNoKdxrH?=
- =?us-ascii?Q?T8lMtqtI9YXbLOeser1uwgtwKO/I40AQIthz7OqsFAHcCuRJqFxkEJvzuBUs?=
- =?us-ascii?Q?hZdY377gHbGPQgw/wjuYhmLH28WinSfFCOiLl+SG2v+nlYdAi0FmMHI6P43x?=
- =?us-ascii?Q?EcDIokFNqF8KrZn9dsM0VyGRM5q6GZDHUKIRPoALzfwopwip9pH8WAyF+ogh?=
- =?us-ascii?Q?Lw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: aee6d84f-98ed-472a-acb7-08dd8c4b98d8
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?x5FwgyylU8ESBJQUecu3sVaVul6g9lXFT5QW0bvl+VAcVcOgci0rLyMPLv+/?=
+ =?us-ascii?Q?BlXbDzgYhLDHC3fKl1WBW7K5mdjNnpOj5G5vThXkE90QNQR+d1B1xgpBbBs2?=
+ =?us-ascii?Q?ILZwyMzmpd9WohdeThwN6t3EI6zde6vwqnbMrFVvwSSUW4L7jTGrrFXAiUXk?=
+ =?us-ascii?Q?h7tewfdOsputQfJHUYxlRTfr/vkdmY7ZZoA31+7ow2aCAMoL5Pbdk+xhbHMQ?=
+ =?us-ascii?Q?uJzSCFTnTqSFpe60SOrSM51cgl4GNC2dhZb2b67VDMVZAIYL6/l/QsV6pp6m?=
+ =?us-ascii?Q?UBVDYAlMSkb4mKsWWOXZSfpjRo5hmvaoDEZTyfWY/0mIdRw4CfkCxDPMAcLL?=
+ =?us-ascii?Q?2tGPCZsPE19GR1HH16cvRIJ3b24TzvBgADUFFHR3fVKk2SWKHgW9VQsb9vW5?=
+ =?us-ascii?Q?xFYwTZziCbGuWSDxMZvNCoubeT4heg7smeBnHXmBaXIvFtOu4LoehSSK06Iv?=
+ =?us-ascii?Q?kIqBISRlr9XffGH4Rs5LY2MytZxwdFXbE1jlKomCYtsyFcy706vopUePNTa9?=
+ =?us-ascii?Q?8LJLohviAiYe4FFMavCnFjDp9LIry+J4ggDHVmh+5+jBHfr8pYjxsVnE7zgI?=
+ =?us-ascii?Q?BiquBYaJ876x1yR3TuauYnHHXA+OWHwyahK+3/aWcnN+FG5Bt1OzXhYJcLYU?=
+ =?us-ascii?Q?ap7S96Wr+utHNPleZkjyeElASEypVeGlg+kmh2itoo0ICG1aoRe/cJE+L+uv?=
+ =?us-ascii?Q?oUtCO7l9wxqdahqNSjqVYyMpiCmX++8WI7bqNR+zWQUdq/AuNlNIyyq6l+WO?=
+ =?us-ascii?Q?7WsQ781UQiDLa2T7mCihm8Wg4y2BoIPMC/VOdDFb3wbTYyslHY6C6enRghJN?=
+ =?us-ascii?Q?ileEaqy8HsZAQaI5WW7H7PP8+9XLxUagNgjkrZs2Wo/5HUccajGJnOAMJJea?=
+ =?us-ascii?Q?VX6kuQjk8XrYbUSWhajNW1002mptYwhGe2e+GEGCcPf6XmNZML9SGoHiImQj?=
+ =?us-ascii?Q?ZHamRiblNZow96ZohJEOTjxHNUpbuiTXNC5US3eN7/ryv9DJ8TUCMSaFYkbH?=
+ =?us-ascii?Q?VgLxyFvHpW2pN4Z3GDBi20s6vagvjTdZoTChIMMnJqJTLb40ZJK0NJmWzS7v?=
+ =?us-ascii?Q?4oaDfYhdMlBkRd5n97aAHKxeekR2sbew+8wP9QgVlyW7xXa5MSd6jH7jNh/5?=
+ =?us-ascii?Q?R9yWWpaifya6BJ+iN83VbwxDSiBmyzQpVtHamDmWPR7ngzVkajCehLkCAfbi?=
+ =?us-ascii?Q?5EyOfIe2lyPepadyGGG/bXoSD9XWoGXlk8OGHJzGJa3oNfL2jwWW6kgap87E?=
+ =?us-ascii?Q?2Vm2+f/k0AvrXL57zoX+/SJi6crecz/Plqvol5SocnlWBmLaoNK0QWsvIyO/?=
+ =?us-ascii?Q?sOEcqXNPlsFW+V5lti3U/d0EpSR2xknKJ+3Lub1mTBI5Yl4ifwIepbnwyoE9?=
+ =?us-ascii?Q?TjoGcWQyjf4V6hf0B46bmI7i+ZV4jj59EGjV7Xy/vN/l2K8C64v50kxGfjCY?=
+ =?us-ascii?Q?0OeYbcX4/8BybmMhguc6fFU8i6PLaFKm51Z7WZfDPjnF+EwDnODVnK1NOwR/?=
+ =?us-ascii?Q?PwJHVgannzYUqBPvEEpnGaNVdQVkFQYyV3jOSn+6TC3vFwDHFgTBStUYv2xY?=
+ =?us-ascii?Q?S47uanw+Snpyk7/5vi9jV43sreHv7EuJ8Lo+bEKScTRDTTt1boAaLO+WZvJs?=
+ =?us-ascii?Q?5A=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 087de1c2-18f7-4183-208f-08dd8c4eeec7
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5674.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 03:10:47.4031
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 03:34:40.1237
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v7XMjl2KNevFqdATDAXUokp+td8RsI2IvvJcJm+xbZPOY9kbaD87BiBlL+3Qq/8J4AFZ2mGu0JtdKjrgoRQmYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF777B3455C
+X-MS-Exchange-CrossTenant-UserPrincipalName: IbWF8ylmmNX8FR7Uy+svyAyDLcmKdAJ11P1G8D8IvU8HN8d1DYB+s52Px8Rm+Q+LeDsEDe8gPAU9wIeE6prWRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7244
 X-OriginatorOrg: intel.com
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b6ea1680d0ac0e45157a819c41b46565f4616186
-commit: a00dce05ba31fbea58ca64158e0601cdc99d8929 dt-bindings: crypto: ti,omap-sham: Convert to dtschema
-date:   1 year, 1 month ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: arm-randconfig-053-20250429 (https://download.01.org/0day-ci/archive/20250501/202505011344.6XVlNviI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+head:   01f95500a162fca88cefab9ed64ceded5afabc12
+commit: 45682a4fffdd9abd6e2df9c5c534d22f2eda94f9 arm64: dts: mediatek: mt8188: Add Global Command Engine mailboxes
+date:   10 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 10 months ago
+config: arm64-randconfig-2051-20250429 (https://download.01.org/0day-ci/archive/20250506/202505061054.AL5OvX40-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011344.6XVlNviI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061054.AL5OvX40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505011344.6XVlNviI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505061054.AL5OvX40-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
->> arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: sham@0 (ti,omap4-sham): 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,omap5430-bandgap']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap5-dss']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap5-dispc']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@2000/encoder@0: failed to match any schema with compatible: ['ti,omap5-rfbi']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@9000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@40000/encoder@0: failed to match any schema with compatible: ['ti,omap5-hdmi']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
-   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/regulator-abb-mm: failed to match any schema with compatible: ['ti,abb-v2']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+   	'mediatek,mt7623-mmsys' was expected
+   	'mediatek,mt8195-vdosys0' was expected
 --
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
->> arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: sham@0 (ti,omap4-sham): 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,omap5430-bandgap']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap5-dss']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap5-dispc']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@2000/encoder@0: failed to match any schema with compatible: ['ti,omap5-rfbi']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@9000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@40000/encoder@0: failed to match any schema with compatible: ['ti,omap5-hdmi']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
-   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/regulator-abb-mm: failed to match any schema with compatible: ['ti,abb-v2']
---
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
->> arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: sham@0 (ti,omap4-sham): 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,omap5430-bandgap']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap5-dss']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap5-dispc']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@2000/encoder@0: failed to match any schema with compatible: ['ti,omap5-rfbi']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@9000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@40000/encoder@0: failed to match any schema with compatible: ['ti,omap5-hdmi']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
-   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/regulator-abb-mm: failed to match any schema with compatible: ['ti,abb-v2']
---
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
->> arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: sham@0 (ti,omap4-sham): 'ti,hwmods' is a required property
-   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,omap5430-bandgap']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap5-dss']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap5-dispc']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@2000/encoder@0: failed to match any schema with compatible: ['ti,omap5-rfbi']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@9000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@40000/encoder@0: failed to match any schema with compatible: ['ti,omap5-hdmi']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
-   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/regulator-abb-mm: failed to match any schema with compatible: ['ti,abb-v2']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+   	'mediatek,mt7623-mmsys' was expected
+   	'mediatek,mt8195-vdosys0' was expected
 
 -- 
 0-DAY CI Kernel Test Service
