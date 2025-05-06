@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D3C372
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 07:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F581BC099;
+	Tue,  6 May 2025 08:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746518150; cv=none; b=SbwX8IQ2AzYEDzAIZHTDchlHrzl5VAE/mES/DfAp+zX3podnkpzoRae+LMN7HrBBUqsIMBDnG7C0LactxL9izw/y6u6m0C+rogXxCO/hIkQRkmI/u7YBrYYvBOzNE+RPUBUh6YEPWdV2ZH5QalL5SL8hL8w6RkaRrawRhhg2uPQ=
+	t=1746518754; cv=none; b=QPAvxjkcOr8c0tJq0Lwje7QjCKHce3npLN7C60xbVVqVNdKoGa19t00NahR4rO2aCWeZL+RMd7HV0KLvJoqhUtR7fBKUrWLIkWPC6IJ11K/Fy93YC9NYAdamXtlAuc2cm9zNRGAtYZDGUf/754RqQIWfQUE7tLgnw53piUx88QU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746518150; c=relaxed/simple;
-	bh=Ytfd7F6lk2yMdhQ47Jw6+c84Ko2VPYhFemvZZUsvrN8=;
+	s=arc-20240116; t=1746518754; c=relaxed/simple;
+	bh=uO7fc6V3D2/gI0yn6ReNgKH+8/Wuv56u0BGHjLXJPeo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dSTn2bzrFKQQZb5nG3x2Nq8LHbk9P+05ah9pfn+wPsP7F4acR0JMTfwyrtyMcB/3HKZwpclEtYNHXpq7OaLpFNF6EABL9rYuHpMzKsNBGP78+mCXawvWmUoEwA4yKOAM2ATT+i3ypnn5prrQ0n9nN9e5NExcnJoNCkFPyuuaIzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XjTJI19P; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=hJ+9aJkT9mVVoNz9KOOBQeoqQHN1zGj5AzTiZofH/F1CRRBkgAsb6PbE9vjOkc4hES1M7RNR/p+iZoE5yase0fQr1nU/AcIbI1MTDruhfyHSiL9cSDxPQR91V/PRTRrCTeVDt4mF76yi30YNMfoIv4hnn7mkf3TPQVCFTo3ZKuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ar8PTbt7; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XjTJI19P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ar8PTbt7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746518149; x=1778054149;
+  t=1746518751; x=1778054751;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ytfd7F6lk2yMdhQ47Jw6+c84Ko2VPYhFemvZZUsvrN8=;
-  b=XjTJI19PCLBbYpNrZCYz9JLxaFWCnNB23DtrbZ4169n5+WIjFEAvB81D
-   z0m301stLoqBB757BMvKgfoY+LYiGqabUQnoBzNbq+6RUONyXxB2e7Wsb
-   tbhq2N7VYvTS2c9i36lkSeGogkZ22KMV98JFpR9akIsR7CGlIXMLGouxq
-   2+/fQEhXAzzdvzUeyjhUQpR2LeIZKw75vaMXoh1fOAXI4iHFOm2DTWEb3
-   Ao/sxiPClGDE0yYztodh6Z7MGALyFMNTLKN1pggJ3M6Wyt1nM8aS4NLiQ
-   8TBrTfo++Yx3DF8Ui77ciSJE2FnuDcbfx8COgCC6jxajEnVrHrmXP5SqP
+  bh=uO7fc6V3D2/gI0yn6ReNgKH+8/Wuv56u0BGHjLXJPeo=;
+  b=ar8PTbt7gjcwCIEMrDAlWOL3pEso3zPdobEPSEpLPAhMAgNu4zRe/hdL
+   nQOdhthVlfKQnPRLc2KPMESZ0vJdd0nEU5tEP5kFBuEe9JnAqY9PpPfF1
+   mHKazQbQCNtidnIGBDpDeoUsEtwuZFo/7YNNpvIZNVxx3DjVHhvPSuMLu
+   IYlmjtPttlimzak4Vlr8hWjqGr0kli2eojjUYzX1YS8UiMkgKR+GEa9OH
+   pCgPadpM8+Z3HZvQWFLkSc6GUvUfJWkVXlXecYJlYO+9EwVkQoEPWK4/4
+   XqhOocs5DGq+S3KbjeVViFxfI1fV9kXJWeE3dEwyH2/Y1p9kii7QBqzWB
    Q==;
-X-CSE-ConnectionGUID: awELXnxOR2WV74wGIV4dSg==
-X-CSE-MsgGUID: SQqx8GwWQ3uQgzjWv4s3iA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="51987775"
+X-CSE-ConnectionGUID: NHrWNzL+TSuP9O1bMuXA9w==
+X-CSE-MsgGUID: Tkaxm0HLSv6A7lgnti63EA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48077570"
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="51987775"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 00:55:48 -0700
-X-CSE-ConnectionGUID: in+ibJlcRX6Fal+Aj3Im3A==
-X-CSE-MsgGUID: 9xIcWnQoRfWqmb9Zvc4y5Q==
+   d="scan'208";a="48077570"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 01:05:50 -0700
+X-CSE-ConnectionGUID: JCRwmQQsQ9ObY7qM4ihNyQ==
+X-CSE-MsgGUID: KQtkHFplSj6a35dt+urp2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="139579993"
+   d="scan'208";a="136029801"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 06 May 2025 00:55:47 -0700
+  by orviesa007.jf.intel.com with ESMTP; 06 May 2025 01:05:49 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCD9U-0006Nd-35;
-	Tue, 06 May 2025 07:55:44 +0000
-Date: Tue, 6 May 2025 15:55:29 +0800
+	id 1uCDJB-0006O7-2p;
+	Tue, 06 May 2025 08:05:45 +0000
+Date: Tue, 6 May 2025 16:05:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 2/2] kismet: WARNING: unmet direct
- dependencies detected for CAN_RX_OFFLOAD when selected by
- GKI_HIDDEN_MCP251XFD_CONFIGS
-Message-ID: <202505061558.0ZFKnBvp-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [rafael-pm:bleeding-edge 91/93] drivers/pinctrl/pinctrl-amd.c:987:2:
+ error: must use 'struct' tag to refer to type 'pinctrl_dev'
+Message-ID: <202505061622.qVVdwLYk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,28 +65,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   e20c2e5ba70ac5fd2f1157f57a8ee53e07b671b5
-commit: 39f48f66f74cdfa79f254376442a07663ab58335 [2/2] ANDROID: GKI: Add GKI_HIDDEN_MCP251XFD_CONFIGS
-config: i386-kismet-CONFIG_CAN_RX_OFFLOAD-CONFIG_GKI_HIDDEN_MCP251XFD_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250506/202505061558.0ZFKnBvp-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250506/202505061558.0ZFKnBvp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   c6039ca5edc14d1f0b34aa83a37fb7a379d8de46
+commit: a2c2d5006579832e53851808f05d1bcf866215ca [91/93] pinctrl: amd: Fix hibernation support with CONFIG_SUSPEND unset
+config: x86_64-buildonly-randconfig-001-20250506 (https://download.01.org/0day-ci/archive/20250506/202505061622.qVVdwLYk-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061622.qVVdwLYk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505061558.0ZFKnBvp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505061622.qVVdwLYk-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD when selected by GKI_HIDDEN_MCP251XFD_CONFIGS
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_DRM_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-     Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+All errors (new ones prefixed by >>):
+
+>> drivers/pinctrl/pinctrl-amd.c:987:2: error: must use 'struct' tag to refer to type 'pinctrl_dev'
+     987 |         pinctrl_dev = dev_get_drvdata(dev);
+         |         ^
+         |         struct 
+>> drivers/pinctrl/pinctrl-amd.c:987:14: error: expected identifier or '('
+     987 |         pinctrl_dev = dev_get_drvdata(dev);
+         |                     ^
+   2 errors generated.
+
+
+vim +987 drivers/pinctrl/pinctrl-amd.c
+
+79d2c8bede2c93 Daniel Drake        2017-09-11  984  
+f31f33dbb3bab5 Maciej S. Szmigiero 2025-01-06  985  static int amd_gpio_suspend(struct device *dev)
+f31f33dbb3bab5 Maciej S. Szmigiero 2025-01-06  986  {
+179db1909c5c4b Mario Limonciello   2025-04-07 @987  	pinctrl_dev = dev_get_drvdata(dev);
+f31f33dbb3bab5 Maciej S. Szmigiero 2025-01-06  988  	return amd_gpio_suspend_hibernate_common(dev, true);
+f31f33dbb3bab5 Maciej S. Szmigiero 2025-01-06  989  }
+f31f33dbb3bab5 Maciej S. Szmigiero 2025-01-06  990  
+
+:::::: The code at line 987 was first introduced by commit
+:::::: 179db1909c5c4b5300cce626507b0f843f7d2cc2 pinctrl: amd: Add an LPS0 check() callback
+
+:::::: TO: Mario Limonciello <mario.limonciello@amd.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
