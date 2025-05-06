@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7B925B69F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 15:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9799B284B20;
+	Tue,  6 May 2025 16:26:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746546332; cv=none; b=iZhUp7tmEkIg0zrg2wUS6vduek64b/UblUNGnLfPif+KydNkvNOUDHPtfLFLAicndW3M7fJB6Ep9vXNGD+plZCVA7VD2tXtIvFFNeVv9eI3ybiQvrSS+HdlKzPDK45PFEAg9vL+wYTAfoLMTl7CwCXF9LQmTdG47+Z8IW2d556E=
+	t=1746548818; cv=none; b=TKlF50BuJsANaUlWW6QsmRQXKnnddfu38NjcJY4sOiXp19KsJkG3FRGcFB7AASyF+t+YGpeHoBgJKpwuur9WicmuCJxFqpTQwmVzXKu+41dUYd2RkHdrC/J75ZJoTMm5T3Ae7CXUHCNPv1Ft0BhpTvqOW4MLAeBAR7ptHSWEolk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746546332; c=relaxed/simple;
-	bh=D+TGnK3CcQfv1Urw5McTlaTBfXXitkm2VxE1Xtayn+o=;
+	s=arc-20240116; t=1746548818; c=relaxed/simple;
+	bh=J0HTwTcQYD6klLby0aigAvGQ4vEho727QoS71VGdmeE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uTRlMa+Ein2+2HGGX1UcOy8c//OXkGBwX29uSgWT55NWwtMOX93MNv0BhHHvnWy0UsrazLwNn4cQAfk2NNmPluN84uxm5BSypwxN4+rtJRwExhgX6GROzLIemgfy6ajKBH+CcOY5BLXcihBKXpgmR/J0QNlTVPPUIqB7pwhwXjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+Sg/4KU; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Vbb+R/BxAM13sPqO6t3NlrfhU9LixBe3wqhYSvBUQeqtV6UTDXbWZKLDB2vrhceyCfoxEqtuEQ3QiiNwEkqXBz617RJGoIDaMpJFUe9/SbAn+miqM0GoQ+HFK2WDae38OtNXniG+3DRbanU7P0kMunQNymkIFIaubbRR796ZavE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RE/01ie+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+Sg/4KU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RE/01ie+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746546330; x=1778082330;
+  t=1746548816; x=1778084816;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D+TGnK3CcQfv1Urw5McTlaTBfXXitkm2VxE1Xtayn+o=;
-  b=Z+Sg/4KUYT0SnrOW1NjlDMzZB+ByyV6uRTReugVy411HEQLgAkI+4v24
-   vhCc880zgBJHNbgaK2FI9UTdpTDi6/bQvAVIf59XHOu03Hhk/Ks8qdqD3
-   LhgoAgmzkm+nk7Al+FFTBPVSrGB0VRoxMTfSzt1PBsUK9K+IqBTz/JofK
-   +FH4WNlW7Dt/1PGophTTEB5fFsuR+NgbjsQxAEL3LXNTc7Wo3+9uUUMAv
-   IRVVM9li8JoJgDd+uvl/aKxCARrOixtDGQD/gxslw1CGpISf615Xif9m6
-   VnKRU+tvzw08kg5u9ULJx9npechBLMsOr2nNU0VVmPHoGogbI2He4uDs+
-   w==;
-X-CSE-ConnectionGUID: 6CroKZUPTSKraQydiBrihQ==
-X-CSE-MsgGUID: lCjAGy6mQ92hAuP/JJ+UWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58887042"
+  bh=J0HTwTcQYD6klLby0aigAvGQ4vEho727QoS71VGdmeE=;
+  b=RE/01ie+iLjf9PYkb7BXUSAkW36tH/o53dhz+CBnXP8gsrZzAMgrM4To
+   mq0fEWle/3DoBIOquB3fJRoQrZVqZc6EXDP/P94pltPDoEPekPBjJjhkC
+   R1GMZLChMf1frq9sae1ESawgtrbsOi6DP1Utf332Lk9jl2DF3CklKlJ+U
+   ezcimE6d1ox1FndgaTuTzkLFDlJKKTUZGmiFIcvEo92zr9/nDjoleX2jQ
+   s0jtgB++oQFRSLgyvP5nPFjdX2RSIXDkMPuBsz09ktR3do0DAdw4D60XL
+   b/a5FczzztQILZ4Xtu2Wxvii7A8luq2jGTDt/YcNl0ztDEeVjSIjQ0TaG
+   Q==;
+X-CSE-ConnectionGUID: H580fg+DTcuRIKC1ggrLNg==
+X-CSE-MsgGUID: gePnNJ2CTF+btgELdj1Q+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="59592094"
 X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="58887042"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 08:45:29 -0700
-X-CSE-ConnectionGUID: gjEM08RGQ5KnfWpQ7GiX8g==
-X-CSE-MsgGUID: FpbbvoqFRcuuY+w7PRd9bA==
+   d="scan'208";a="59592094"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 09:26:35 -0700
+X-CSE-ConnectionGUID: DOs0lt6DQH+OKKxlaBp80A==
+X-CSE-MsgGUID: M1xRnNGSTxK6git6bucIqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="136659759"
+   d="scan'208";a="135666891"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 06 May 2025 08:45:29 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 May 2025 09:26:34 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCKU2-0006f9-1B;
-	Tue, 06 May 2025 15:45:26 +0000
-Date: Tue, 6 May 2025 23:45:04 +0800
+	id 1uCL7o-0006hB-0F;
+	Tue, 06 May 2025 16:26:32 +0000
+Date: Wed, 7 May 2025 00:25:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhong Jinghua <zhongjinghua@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2888/2888] include/linux/minmax.h:20:35:
- warning: comparison of distinct pointer types lacks a cast
-Message-ID: <202505062356.u2rMcCQF-lkp@intel.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-crypto@vger.kernel.org
+Subject: [herbert-cryptodev-2.6:master 50/70]
+ arch/um/include/asm/fpu/api.h:14:15: error: unknown type name 'bool'
+Message-ID: <202505070045.vWc04ygs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,78 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi SeongJae,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   f5912cbd669a2722f81f0f054fb8aec1525da8ee
-commit: 83b931be40b2829e20f38356509d8706ea6b6238 [2888/2888] mm/damon/core-test: test damon_set_regions
-config: x86_64-buildonly-randconfig-006-20250506 (https://download.01.org/0day-ci/archive/20250506/202505062356.u2rMcCQF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505062356.u2rMcCQF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+head:   9b9d4ef0cf750c514735bfd77745387b95cbddda
+commit: 5b90a779bc547939421bfeb333e470658ba94fb6 [50/70] crypto: lib/sha256 - Add helpers for block-based shash
+config: um-randconfig-001-20250506 (https://download.01.org/0day-ci/archive/20250507/202505070045.vWc04ygs-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505070045.vWc04ygs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505062356.u2rMcCQF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505070045.vWc04ygs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:14,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:6,
-                    from include/linux/mutex.h:14,
-                    from include/linux/damon.h:11,
-                    from mm/damon/core.c:10:
-   mm/damon/core-test.h: In function 'damon_test_set_regions':
->> include/linux/minmax.h:20:35: warning: comparison of distinct pointer types lacks a cast
-      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                                   ^~
-   include/kunit/test.h:748:16: note: in expansion of macro '__typecheck'
-     748 |         ((void)__typecheck(__left, __right));                                  \
-         |                ^~~~~~~~~~~
-   include/kunit/test.h:772:9: note: in expansion of macro 'KUNIT_BASE_BINARY_ASSERTION'
-     772 |         KUNIT_BASE_BINARY_ASSERTION(test,                                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:861:9: note: in expansion of macro 'KUNIT_BASE_EQ_MSG_ASSERTION'
-     861 |         KUNIT_BASE_EQ_MSG_ASSERTION(test,                                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:871:9: note: in expansion of macro 'KUNIT_BINARY_EQ_MSG_ASSERTION'
-     871 |         KUNIT_BINARY_EQ_MSG_ASSERTION(test,                                    \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1234:9: note: in expansion of macro 'KUNIT_BINARY_EQ_ASSERTION'
-    1234 |         KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/core-test.h:284:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
-     284 |         KUNIT_EXPECT_EQ(test, damon_nr_regions(t), 3);
-         |         ^~~~~~~~~~~~~~~
+   In file included from lib/crypto/sha256.c:14:
+   In file included from include/crypto/internal/sha2.h:6:
+   In file included from include/crypto/internal/simd.h:9:
+   In file included from arch/x86/include/asm/simd.h:5:
+>> arch/um/include/asm/fpu/api.h:14:15: error: unknown type name 'bool'
+      14 | static inline bool irq_fpu_usable(void)
+         |               ^
+>> arch/um/include/asm/fpu/api.h:16:9: error: use of undeclared identifier 'true'
+      16 |         return true;
+         |                ^
+   2 errors generated.
 
 
-vim +20 include/linux/minmax.h
+vim +/bool +14 arch/um/include/asm/fpu/api.h
 
-cffb222bc2e032 Rikard Falkeborn 2021-06-07   6  
-b296a6d53339a7 Andy Shevchenko  2020-10-15   7  /*
-b296a6d53339a7 Andy Shevchenko  2020-10-15   8   * min()/max()/clamp() macros must accomplish three things:
-b296a6d53339a7 Andy Shevchenko  2020-10-15   9   *
-b296a6d53339a7 Andy Shevchenko  2020-10-15  10   * - avoid multiple evaluations of the arguments (so side-effects like
-b296a6d53339a7 Andy Shevchenko  2020-10-15  11   *   "x++" happen only once) when non-constant.
-b296a6d53339a7 Andy Shevchenko  2020-10-15  12   * - perform strict type-checking (to generate warnings instead of
-b296a6d53339a7 Andy Shevchenko  2020-10-15  13   *   nasty runtime surprises). See the "unnecessary" pointer comparison
-b296a6d53339a7 Andy Shevchenko  2020-10-15  14   *   in __typecheck().
-b296a6d53339a7 Andy Shevchenko  2020-10-15  15   * - retain result as a constant expressions when called with only
-b296a6d53339a7 Andy Shevchenko  2020-10-15  16   *   constant expressions (to avoid tripping VLA warnings in stack
-b296a6d53339a7 Andy Shevchenko  2020-10-15  17   *   allocation usage).
-b296a6d53339a7 Andy Shevchenko  2020-10-15  18   */
-b296a6d53339a7 Andy Shevchenko  2020-10-15  19  #define __typecheck(x, y) \
-b296a6d53339a7 Andy Shevchenko  2020-10-15 @20  	(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-b296a6d53339a7 Andy Shevchenko  2020-10-15  21  
+c0ecca6604b80e Anton Ivanov 2021-03-12  13  
+c0ecca6604b80e Anton Ivanov 2021-03-12 @14  static inline bool irq_fpu_usable(void)
+c0ecca6604b80e Anton Ivanov 2021-03-12  15  {
+c0ecca6604b80e Anton Ivanov 2021-03-12 @16  	return true;
+c0ecca6604b80e Anton Ivanov 2021-03-12  17  }
+c0ecca6604b80e Anton Ivanov 2021-03-12  18  
 
-:::::: The code at line 20 was first introduced by commit
-:::::: b296a6d53339a79082c1d2c1761e948e8b3def69 kernel.h: split out min()/max() et al. helpers
+:::::: The code at line 14 was first introduced by commit
+:::::: c0ecca6604b80e438b032578634c6e133c7028f6 um: enable the use of optimized xor routines in UML
 
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+:::::: CC: Richard Weinberger <richard@nod.at>
 
 -- 
 0-DAY CI Kernel Test Service
