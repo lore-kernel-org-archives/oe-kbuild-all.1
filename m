@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D540224A05A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 08:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB857264A95
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 09:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746520990; cv=none; b=GvFe5j0U5sahYjsYOhlYK1dNDradGO84YEd4k6xwrRVjfwusBCOxTvvfRqPPpjr2nH7V/NTH876jhs0bganjpHmZRn9E02uIUGBYB4ynbrHLzZvjpl7H8undfOQoV3ac8yrCoD5IvrDgbaVgEQnwitCKp+a7RjDVoAauGc8qSqM=
+	t=1746522200; cv=none; b=uphCvh22FtdijhaRSR8n6lVnNJ7/+TRWp1WMRlVJ+fRoDKNGVL14MKlfZe3C9Nu9pJAQpE1oTkKMqjhhYRnml/GhhtsqLWeflDTR6GMVSlMHp594Fwv6D5oUI6phs18Th0C7ineuLQcq1lUBl2nyNPuk8t5DXGSJEpEZXATqDSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746520990; c=relaxed/simple;
-	bh=xK5Mwa8VKkXveGqO5g/jTv48kd3QUenJ9ZvglMEtSxo=;
+	s=arc-20240116; t=1746522200; c=relaxed/simple;
+	bh=NRWmZEE/AELcdj6BPrA28WaiKsRiUvXmkdcV1Ry4SlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g0gBeRxEJYOXf1GEdaPxVGNgxt9GBlZsf69ATsGfHFdiFtj8i20fyhZFoURnPWPUgau0KViK2kV1h0oWh4cA2tChD3Bsz7PDJALRf5rfWx/LTsCHR8trmscZGpmev/+nmDxvFHYKIZEtorEW9+SmZfLva5fev0NtUQVMZ3Lhk6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NQ32Uytt; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=VwtNp0fHo4IiyT6foOf25ug/zc/pRObncB+nMW5fSnevF05P7P9/9JhnZZ84v4CjPB0F8CsTVwQ7/0Fuu0I6dM0eTQm1t7nRDRJptrQ8VfiDnyezASACAZpCh1J5vMNcyQV8DkaWUoRmUW24b1RJV7P2R7CFbjFme5dv+ps0Qio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DP2yyE9O; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NQ32Uytt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DP2yyE9O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746520988; x=1778056988;
+  t=1746522198; x=1778058198;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xK5Mwa8VKkXveGqO5g/jTv48kd3QUenJ9ZvglMEtSxo=;
-  b=NQ32UyttPhv6ndyWVABxBoi9d4YFzhlvPtzV+eSSUPgXNoKwBBpk5dYD
-   Z0qJ3ANyNhxD3OAImV7rGOZiuqqI9U3u+gY6xLsLXn/jOZNeBv2ghJmdY
-   l93b1sUIMAqo9j35rmzyyn815/QWngKp9W+0opTkXmGnO/PHdpVdBg//A
-   zaj327YM3J+DBvd3Mcw7R+GcHLzerSikNjI96ntBD3XXtFdwJhB7Oz09x
-   dHHvXqJ5SmsUQ/feBy7IKST7+zwrWJMNGYJ54XYralidTiHqKJwaJNKkp
-   TwaELdpTWWrTS5RvLyjqjSKvGsL2fou8GcKI+KDCP8bCMVHizrw30CmNT
-   A==;
-X-CSE-ConnectionGUID: ycO4h9wvSFO0bsU1X+wHdw==
-X-CSE-MsgGUID: IAUNn+yWQFm7k2b8iwqwZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48322350"
-X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="48322350"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 01:43:00 -0700
-X-CSE-ConnectionGUID: 7OjlXjY8Rz+HIXSLIZq31Q==
-X-CSE-MsgGUID: pxB5LSM1RuSkpIqgqjhMHQ==
+  bh=NRWmZEE/AELcdj6BPrA28WaiKsRiUvXmkdcV1Ry4SlI=;
+  b=DP2yyE9Oi+2mu9zyB+eokk63aeF2upxnqr3Evx55aU2RHob2IhNCzyAF
+   ItPWQ5Hn+QIlK7kJ/c5Rych8jII+CziAJWuhTmaMbj2kvedPgpiUm1QXm
+   +NFXiki//D8lkajHsYRQVToYVj1UwrGsLiXgXHp/rWL999f+8fAJbb8ve
+   RdZ//FcmbPoobIGz1isLa3F49ZDtqKXwCe+Cd6u5pjDj9gp7JbtqfNjeD
+   GvsyOu8LLvWnnDn72sbfJL6LZnfV+a60Pj96VuQGfD3hU9ssnDiuUE20e
+   YGFtBr9w2n3/w11/xGfGBxSGoDK9AoKkwuArx9Pqp+n3rxOUuOStUZ7+Q
+   w==;
+X-CSE-ConnectionGUID: 9xeIHzOpQN6UVqWN5hFryg==
+X-CSE-MsgGUID: 74DS2ycES0GhW6d7J+S22g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="47282089"
+X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
+   d="scan'208";a="47282089"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 02:03:01 -0700
+X-CSE-ConnectionGUID: AY0eVW6QQbKcAHfMDlW9XA==
+X-CSE-MsgGUID: 2vEbi40ET4+ybuOnIeBnYw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="136492710"
+X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
+   d="scan'208";a="135524649"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 06 May 2025 01:42:57 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 06 May 2025 02:02:59 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCDt9-0006PR-29;
-	Tue, 06 May 2025 08:42:55 +0000
-Date: Tue, 6 May 2025 16:41:59 +0800
+	id 1uCECX-0006Q7-13;
+	Tue, 06 May 2025 09:02:57 +0000
+Date: Tue, 6 May 2025 17:02:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian Brauner <brauner@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Christian Brauner <christianvanbrauner@gmail.com>
 Subject: [brauner-github:work.coredump.socket 11/18] fs/coredump.c:891:24:
- warning: 'return' with a value, in function returning void
-Message-ID: <202505061614.LuEO6WMz-lkp@intel.com>
+ error: 'return' with a value, in function returning void
+Message-ID: <202505061709.kAeSdgFT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,19 +66,19 @@ Content-Disposition: inline
 tree:   https://github.com/brauner/linux.git work.coredump.socket
 head:   d8527ff7eedddbd9827f61df7c80d9870cdc1241
 commit: 1197c3157a4f679945feb70835b5db5b1baaef3f [11/18] coredump: add coredump socket
-config: sh-randconfig-001-20250506 (https://download.01.org/0day-ci/archive/20250506/202505061614.LuEO6WMz-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061614.LuEO6WMz-lkp@intel.com/reproduce)
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250506/202505061709.kAeSdgFT-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061709.kAeSdgFT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505061614.LuEO6WMz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505061709.kAeSdgFT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    fs/coredump.c: In function 'do_coredump':
->> fs/coredump.c:891:24: warning: 'return' with a value, in function returning void [-Wreturn-type]
+>> fs/coredump.c:891:24: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
      891 |                 return -EINVAL;
          |                        ^
    fs/coredump.c:640:6: note: declared here
