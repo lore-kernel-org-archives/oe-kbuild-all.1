@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBD672633;
-	Tue,  6 May 2025 07:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70CD223DC3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 07:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746515560; cv=none; b=L9kB4OUyxf75duQouoLkrHzeN70Fu3cQsA/6sCs7Q9IUxIVEcGOJf8nj4X4apP0o5J2Rrw3MLSzmfdK8gc3MJPjU0W6XAcjn25Y86QolWSNPL30Oi8kEDCOa/DBflFIF727D4l7Lg716GFQLwH0rxo0JEbzxdMsYIFdL4G5tl7s=
+	t=1746516347; cv=none; b=MfrqnalainudgVPxbkjtV8euro9zM30499yydbocLTEtC2wRyY9CGyd2yJ86Ttatp4MlVCwc2/d3XLbY+P4owoa12WFmgxOMygpaDqJqI85iFIXrIWACO67skSBJMpID3pHkGocFBgifMeIBpX3HbwMkpLBQgqyD+OndKK5tDtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746515560; c=relaxed/simple;
-	bh=hVy5eIBHLWuh00Ha0Bb53IF5Ims8UciisLsh+Vq1MTA=;
+	s=arc-20240116; t=1746516347; c=relaxed/simple;
+	bh=IQ2g0vfjS7LsZoWEsSyywdKste1NDyx+b2TdQtbkkbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kTkAyLNybVSAdPxiv08I/UvKKhMQctVqIZKwu3dWVQx5HIshVVPYXWamckHxM5Z+/GgvCe/Zv5KqK8XN6fHwmcIb+o+hGRGnmz4lNExaSPEhBb0FeXFy1l3tKV0euFEJttpw7IUkMzSPjcHolLXnFLA8rf04TpdI7seB+SRWwlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VkAhbqN2; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=AhA3JNtOyinaOOtrTffKZb8UsGxTscvcOQC8pLs5pV1Hnh1eBulM9q0AvVZir9yl+hRhHFTzePF4L2NPjuxrdCJOUhrZtSRiEAlFB2gOHaeWQHQsmf8mKMJE7x4kIjTd3PaPcTt9QgI6jr8w6U9pf5YCv/WJqe3mKvUVxPBM/2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yp+acril; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VkAhbqN2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yp+acril"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746515558; x=1778051558;
+  t=1746516346; x=1778052346;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hVy5eIBHLWuh00Ha0Bb53IF5Ims8UciisLsh+Vq1MTA=;
-  b=VkAhbqN2vpYJOA3pwOYWoOBEJcP/G4kWssMhBJK2PEtYki02efONVyAw
-   zkrk1PT6FE1nrkNAQ4bUNO+pY3rdQOx/08njxvouChEyIun3bVNBIe/uI
-   xt3pj/msN6Whwv4AJ/ZqJ4/sjyaRG8bWSu3BROsBougamqxU0f0pfBk/Q
-   fYjEU98jpl5SaBiyxsHkb623V7OXQW1LPWiiug6ZWvWg74mIWn783SmYZ
-   PGweI+oP4fBxlq7IfI8RJz4ceNYKOzr9h56bzafBLJlUc/npx3hr9diOy
-   ldErmTYv7lT3lLgkRZvvrDMeGLIeFYS2RfiIY9z/6ahChHKPm9rur9G2Q
-   Q==;
-X-CSE-ConnectionGUID: e38wlb8kTWeqStuP5CCApQ==
-X-CSE-MsgGUID: BI4F1PY7RWOmNUff7QUB4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="73563563"
+  bh=IQ2g0vfjS7LsZoWEsSyywdKste1NDyx+b2TdQtbkkbI=;
+  b=Yp+acrilCv6VKK7nTXJy3qdHiORZs4l7Oc9j+aKD8SPKGd4VtfOVvBas
+   4L9m7XLg4T/Y6gw/iaDfUKFw6OOWBDB4r9bcWtnOsvWyYrfqgJuhH3QdZ
+   scv6KbYo0qeZdjImdFWfbF+zfYemLGTVmwlcwvIesMEnAm1DZnT07g7/z
+   u7KgE0CEEI6sDjNcchas7W7PiXJFA9/DmF+w1l8QPIludQaKecQsMaGeZ
+   s9+zyo8AnUKSmaG8+2p917hIYO+SoPncI6OfXEd870RJav5RxN79KEScm
+   +KS65tbPHgFSOVZB0avh/dJ4Rkd/WATydgPXxHauKncu7HtFE1iAjvkAP
+   g==;
+X-CSE-ConnectionGUID: jhUzvLV+SvC350cq8nfO8Q==
+X-CSE-MsgGUID: vwdGTh65TNewNnTjuw5DTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48299154"
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="73563563"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 00:12:37 -0700
-X-CSE-ConnectionGUID: krH245DTTDSZsBGy85GPHQ==
-X-CSE-MsgGUID: FiUBLqPsSZugijoasJBfmQ==
+   d="scan'208";a="48299154"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 00:25:45 -0700
+X-CSE-ConnectionGUID: wX6htsutTjaL97/A+YS/7g==
+X-CSE-MsgGUID: TeqHJ+RxQmKZxQoFwNMbuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="158769218"
+   d="scan'208";a="136048567"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 May 2025 00:12:36 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 06 May 2025 00:25:44 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCCTh-0006LB-26;
-	Tue, 06 May 2025 07:12:33 +0000
-Date: Tue, 6 May 2025 15:12:25 +0800
+	id 1uCCgQ-0006M6-02;
+	Tue, 06 May 2025 07:25:42 +0000
+Date: Tue, 6 May 2025 15:24:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-github:work.coredump.socket 11/18] fs/coredump.c:891:3:
- warning: void function 'do_coredump' should not return a value
-Message-ID: <202505061537.sRLQaVw9-lkp@intel.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org
+Subject: [herbert-cryptodev-2.6:master 12/70] crypto/chacha20poly1305.c:155:
+ undefined reference to `poly1305_init'
+Message-ID: <202505061528.81rDmpF9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,366 +62,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/brauner/linux.git work.coredump.socket
-head:   d8527ff7eedddbd9827f61df7c80d9870cdc1241
-commit: 1197c3157a4f679945feb70835b5db5b1baaef3f [11/18] coredump: add coredump socket
-config: hexagon-randconfig-002-20250506 (https://download.01.org/0day-ci/archive/20250506/202505061537.sRLQaVw9-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061537.sRLQaVw9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+head:   43d9d3e84ee1bc1ca98a964e0963bab39de36a44
+commit: 10a6d72ea355b730aa9702da0fd36aef0898a80e [12/70] crypto: lib/poly1305 - Use block-only interface
+config: x86_64-randconfig-004-20250506 (https://download.01.org/0day-ci/archive/20250506/202505061528.81rDmpF9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061528.81rDmpF9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505061537.sRLQaVw9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505061528.81rDmpF9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the herbert-cryptodev-2.6/master HEAD 43d9d3e84ee1bc1ca98a964e0963bab39de36a44 builds fine.
+      It only hurts bisectability.
 
->> fs/coredump.c:891:3: warning: void function 'do_coredump' should not return a value [-Wreturn-mismatch]
-     891 |                 return -EINVAL;
-         |                 ^      ~~~~~~~
-   1 warning generated.
+All errors (new ones prefixed by >>):
+
+   ld: crypto/chacha20poly1305.o: in function `poly_hash':
+>> crypto/chacha20poly1305.c:155: undefined reference to `poly1305_init'
+>> ld: crypto/chacha20poly1305.c:162: undefined reference to `poly1305_update'
+   ld: crypto/chacha20poly1305.c:168: undefined reference to `poly1305_update'
+   ld: crypto/chacha20poly1305.c:176: undefined reference to `poly1305_update'
+   ld: crypto/chacha20poly1305.c:182: undefined reference to `poly1305_update'
+   ld: crypto/chacha20poly1305.c:186: undefined reference to `poly1305_update'
+>> ld: crypto/chacha20poly1305.c:188: undefined reference to `poly1305_final'
 
 
-vim +/do_coredump +891 fs/coredump.c
+vim +155 crypto/chacha20poly1305.c
 
-   639	
-   640	void do_coredump(const kernel_siginfo_t *siginfo)
-   641	{
-   642		struct core_state core_state;
-   643		struct core_name cn;
-   644		struct mm_struct *mm = current->mm;
-   645		struct linux_binfmt * binfmt;
-   646		const struct cred *old_cred;
-   647		struct cred *cred;
-   648		int retval = 0;
-   649		size_t *argv = NULL;
-   650		int argc = 0;
-   651		/* require nonrelative corefile path and be extra careful */
-   652		bool need_suid_safe = false;
-   653		bool core_dumped = false;
-   654		static atomic_t core_dump_count = ATOMIC_INIT(0);
-   655		struct coredump_params cprm = {
-   656			.siginfo = siginfo,
-   657			.limit = rlimit(RLIMIT_CORE),
-   658			/*
-   659			 * We must use the same mm->flags while dumping core to avoid
-   660			 * inconsistency of bit flags, since this flag is not protected
-   661			 * by any locks.
-   662			 */
-   663			.mm_flags = mm->flags,
-   664			.vma_meta = NULL,
-   665			.cpu = raw_smp_processor_id(),
-   666		};
-   667	
-   668		audit_core_dumps(siginfo->si_signo);
-   669	
-   670		binfmt = mm->binfmt;
-   671		if (!binfmt || !binfmt->core_dump)
-   672			goto fail;
-   673		if (!__get_dumpable(cprm.mm_flags))
-   674			goto fail;
-   675	
-   676		cred = prepare_creds();
-   677		if (!cred)
-   678			goto fail;
-   679		/*
-   680		 * We cannot trust fsuid as being the "true" uid of the process
-   681		 * nor do we know its entire history. We only know it was tainted
-   682		 * so we dump it as root in mode 2, and only into a controlled
-   683		 * environment (pipe handler or fully qualified path).
-   684		 */
-   685		if (__get_dumpable(cprm.mm_flags) == SUID_DUMP_ROOT) {
-   686			/* Setuid core dump mode */
-   687			cred->fsuid = GLOBAL_ROOT_UID;	/* Dump root private */
-   688			need_suid_safe = true;
-   689		}
-   690	
-   691		retval = coredump_wait(siginfo->si_signo, &core_state);
-   692		if (retval < 0)
-   693			goto fail_creds;
-   694	
-   695		old_cred = override_creds(cred);
-   696	
-   697		retval = format_corename(&cn, &cprm, &argv, &argc);
-   698		if (retval < 0) {
-   699			coredump_report_failure("format_corename failed, aborting core");
-   700			goto fail_unlock;
-   701		}
-   702	
-   703		switch (cn.core_type) {
-   704		case COREDUMP_FILE: {
-   705			struct mnt_idmap *idmap;
-   706			struct inode *inode;
-   707			int open_flags = O_CREAT | O_WRONLY | O_NOFOLLOW |
-   708					 O_LARGEFILE | O_EXCL;
-   709	
-   710			if (cprm.limit < binfmt->min_coredump)
-   711				goto fail_unlock;
-   712	
-   713			if (need_suid_safe && cn.corename[0] != '/') {
-   714				coredump_report_failure(
-   715					"this process can only dump core to a fully qualified path, skipping core dump");
-   716				goto fail_unlock;
-   717			}
-   718	
-   719			/*
-   720			 * Unlink the file if it exists unless this is a SUID
-   721			 * binary - in that case, we're running around with root
-   722			 * privs and don't want to unlink another user's coredump.
-   723			 */
-   724			if (!need_suid_safe) {
-   725				/*
-   726				 * If it doesn't exist, that's fine. If there's some
-   727				 * other problem, we'll catch it at the filp_open().
-   728				 */
-   729				do_unlinkat(AT_FDCWD, getname_kernel(cn.corename));
-   730			}
-   731	
-   732			/*
-   733			 * There is a race between unlinking and creating the
-   734			 * file, but if that causes an EEXIST here, that's
-   735			 * fine - another process raced with us while creating
-   736			 * the corefile, and the other process won. To userspace,
-   737			 * what matters is that at least one of the two processes
-   738			 * writes its coredump successfully, not which one.
-   739			 */
-   740			if (need_suid_safe) {
-   741				/*
-   742				 * Using user namespaces, normal user tasks can change
-   743				 * their current->fs->root to point to arbitrary
-   744				 * directories. Since the intention of the "only dump
-   745				 * with a fully qualified path" rule is to control where
-   746				 * coredumps may be placed using root privileges,
-   747				 * current->fs->root must not be used. Instead, use the
-   748				 * root directory of init_task.
-   749				 */
-   750				struct path root;
-   751	
-   752				task_lock(&init_task);
-   753				get_fs_root(init_task.fs, &root);
-   754				task_unlock(&init_task);
-   755				cprm.file = file_open_root(&root, cn.corename,
-   756							   open_flags, 0600);
-   757				path_put(&root);
-   758			} else {
-   759				cprm.file = filp_open(cn.corename, open_flags, 0600);
-   760			}
-   761			if (IS_ERR(cprm.file))
-   762				goto fail_unlock;
-   763	
-   764			inode = file_inode(cprm.file);
-   765			if (inode->i_nlink > 1)
-   766				goto close_fail;
-   767			if (d_unhashed(cprm.file->f_path.dentry))
-   768				goto close_fail;
-   769			/*
-   770			 * AK: actually i see no reason to not allow this for named
-   771			 * pipes etc, but keep the previous behaviour for now.
-   772			 */
-   773			if (!S_ISREG(inode->i_mode))
-   774				goto close_fail;
-   775			/*
-   776			 * Don't dump core if the filesystem changed owner or mode
-   777			 * of the file during file creation. This is an issue when
-   778			 * a process dumps core while its cwd is e.g. on a vfat
-   779			 * filesystem.
-   780			 */
-   781			idmap = file_mnt_idmap(cprm.file);
-   782			if (!vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, inode),
-   783					    current_fsuid())) {
-   784				coredump_report_failure("Core dump to %s aborted: "
-   785					"cannot preserve file owner", cn.corename);
-   786				goto close_fail;
-   787			}
-   788			if ((inode->i_mode & 0677) != 0600) {
-   789				coredump_report_failure("Core dump to %s aborted: "
-   790					"cannot preserve file permissions", cn.corename);
-   791				goto close_fail;
-   792			}
-   793			if (!(cprm.file->f_mode & FMODE_CAN_WRITE))
-   794				goto close_fail;
-   795			if (do_truncate(idmap, cprm.file->f_path.dentry,
-   796					0, 0, cprm.file))
-   797				goto close_fail;
-   798			break;
-   799		}
-   800		case COREDUMP_PIPE: {
-   801			int argi;
-   802			int dump_count;
-   803			char **helper_argv;
-   804			struct subprocess_info *sub_info;
-   805	
-   806			if (cprm.limit == 1) {
-   807				/* See umh_coredump_setup() which sets RLIMIT_CORE = 1.
-   808				 *
-   809				 * Normally core limits are irrelevant to pipes, since
-   810				 * we're not writing to the file system, but we use
-   811				 * cprm.limit of 1 here as a special value, this is a
-   812				 * consistent way to catch recursive crashes.
-   813				 * We can still crash if the core_pattern binary sets
-   814				 * RLIM_CORE = !1, but it runs as root, and can do
-   815				 * lots of stupid things.
-   816				 *
-   817				 * Note that we use task_tgid_vnr here to grab the pid
-   818				 * of the process group leader.  That way we get the
-   819				 * right pid if a thread in a multi-threaded
-   820				 * core_pattern process dies.
-   821				 */
-   822				coredump_report_failure("RLIMIT_CORE is set to 1, aborting core");
-   823				goto fail_unlock;
-   824			}
-   825			cprm.limit = RLIM_INFINITY;
-   826	
-   827			dump_count = atomic_inc_return(&core_dump_count);
-   828			if (core_pipe_limit && (core_pipe_limit < dump_count)) {
-   829				coredump_report_failure("over core_pipe_limit, skipping core dump");
-   830				goto fail_dropcount;
-   831			}
-   832	
-   833			helper_argv = kmalloc_array(argc + 1, sizeof(*helper_argv),
-   834						    GFP_KERNEL);
-   835			if (!helper_argv) {
-   836				coredump_report_failure("%s failed to allocate memory", __func__);
-   837				goto fail_dropcount;
-   838			}
-   839			for (argi = 0; argi < argc; argi++)
-   840				helper_argv[argi] = cn.corename + argv[argi];
-   841			helper_argv[argi] = NULL;
-   842	
-   843			retval = -ENOMEM;
-   844			sub_info = call_usermodehelper_setup(helper_argv[0],
-   845							helper_argv, NULL, GFP_KERNEL,
-   846							umh_coredump_setup, NULL, &cprm);
-   847			if (sub_info)
-   848				retval = call_usermodehelper_exec(sub_info,
-   849								  UMH_WAIT_EXEC);
-   850	
-   851			kfree(helper_argv);
-   852			if (retval) {
-   853				coredump_report_failure("|%s pipe failed", cn.corename);
-   854				goto close_fail;
-   855			}
-   856			break;
-   857		}
-   858		case COREDUMP_SOCK: {
-   859	#ifdef CONFIG_UNIX
-   860			struct file *file __free(fput) = NULL;
-   861			struct socket *socket;
-   862	
-   863			/*
-   864			 * It is possible that the userspace process which is
-   865			 * supposed to handle the coredump and is listening on
-   866			 * the AF_UNIX socket coredumps. Userspace should just
-   867			 * mark itself non dumpable.
-   868			 */
-   869	
-   870			retval = sock_create_kern(&init_net, AF_UNIX, SOCK_STREAM, 0, &socket);
-   871			if (retval < 0)
-   872				goto close_fail;
-   873	
-   874			file = sock_alloc_file(socket, 0, NULL);
-   875			if (IS_ERR(file)) {
-   876				sock_release(socket);
-   877				retval = PTR_ERR(file);
-   878				goto close_fail;
-   879			}
-   880	
-   881			retval = kernel_connect(socket,
-   882						(struct sockaddr *)(&coredump_unix_socket),
-   883						COREDUMP_UNIX_SOCKET_ADDR_SIZE, 0);
-   884			if (retval)
-   885				goto close_fail;
-   886	
-   887			cprm.limit = RLIM_INFINITY;
-   888			cprm.file = no_free_ptr(file);
-   889	#else
-   890			coredump_report_failure("Coredump socket support %s disabled", cn.corename);
- > 891			return -EINVAL;
-   892	#endif
-   893			break;
-   894		}
-   895		default:
-   896			WARN_ON_ONCE(true);
-   897			retval = -EINVAL;
-   898			goto close_fail;
-   899		}
-   900	
-   901		/* get us an unshared descriptor table; almost always a no-op */
-   902		/* The cell spufs coredump code reads the file descriptor tables */
-   903		retval = unshare_files();
-   904		if (retval)
-   905			goto close_fail;
-   906		if (!dump_interrupted()) {
-   907			/*
-   908			 * umh disabled with CONFIG_STATIC_USERMODEHELPER_PATH="" would
-   909			 * have this set to NULL.
-   910			 */
-   911			if (!cprm.file) {
-   912				coredump_report_failure("Core dump to |%s disabled", cn.corename);
-   913				goto close_fail;
-   914			}
-   915			if (!dump_vma_snapshot(&cprm))
-   916				goto close_fail;
-   917	
-   918			file_start_write(cprm.file);
-   919			core_dumped = binfmt->core_dump(&cprm);
-   920			/*
-   921			 * Ensures that file size is big enough to contain the current
-   922			 * file postion. This prevents gdb from complaining about
-   923			 * a truncated file if the last "write" to the file was
-   924			 * dump_skip.
-   925			 */
-   926			if (cprm.to_skip) {
-   927				cprm.to_skip--;
-   928				dump_emit(&cprm, "", 1);
-   929			}
-   930			file_end_write(cprm.file);
-   931			free_vma_snapshot(&cprm);
-   932		}
-   933	
-   934		/*
-   935		 * When core_pipe_limit is set we wait for the coredump server
-   936		 * or usermodehelper to finish before exiting so it can e.g.,
-   937		 * inspect /proc/<pid>.
-   938		 */
-   939		if (core_pipe_limit) {
-   940			switch (cn.core_type) {
-   941			case COREDUMP_PIPE:
-   942				wait_for_dump_helpers(cprm.file);
-   943				break;
-   944			case COREDUMP_SOCK: {
-   945				char buf[1];
-   946				/*
-   947				 * We use a simple read to wait for the coredump
-   948				 * processing to finish. Either the socket is
-   949				 * closed or we get sent unexpected data. In
-   950				 * both cases, we're done.
-   951				 */
-   952				__kernel_read(cprm.file, buf, 1, NULL);
-   953				break;
-   954			}
-   955			default:
-   956				break;
-   957			}
-   958		}
-   959	
-   960	close_fail:
-   961		if (cprm.file)
-   962			filp_close(cprm.file, NULL);
-   963	fail_dropcount:
-   964		if (cn.core_type == COREDUMP_PIPE)
-   965			atomic_dec(&core_dump_count);
-   966	fail_unlock:
-   967		kfree(argv);
-   968		kfree(cn.corename);
-   969		coredump_finish(core_dumped);
-   970		revert_creds(old_cred);
-   971	fail_creds:
-   972		put_cred(cred);
-   973	fail:
-   974		return;
-   975	}
-   976	
+71ebc4d1b27d34 Martin Willi 2015-06-01  129  
+a298765e28adae Herbert Xu   2025-04-28  130  static int poly_hash(struct aead_request *req)
+71ebc4d1b27d34 Martin Willi 2015-06-01  131  {
+71ebc4d1b27d34 Martin Willi 2015-06-01  132  	struct chachapoly_req_ctx *rctx = aead_request_ctx(req);
+a298765e28adae Herbert Xu   2025-04-28  133  	const void *zp = page_address(ZERO_PAGE(0));
+a298765e28adae Herbert Xu   2025-04-28  134  	struct scatterlist *sg = req->src;
+a298765e28adae Herbert Xu   2025-04-28  135  	struct poly1305_desc_ctx desc;
+a298765e28adae Herbert Xu   2025-04-28  136  	struct scatter_walk walk;
+a298765e28adae Herbert Xu   2025-04-28  137  	struct {
+a298765e28adae Herbert Xu   2025-04-28  138  		union {
+a298765e28adae Herbert Xu   2025-04-28  139  			struct {
+a298765e28adae Herbert Xu   2025-04-28  140  				__le64 assoclen;
+a298765e28adae Herbert Xu   2025-04-28  141  				__le64 cryptlen;
+a298765e28adae Herbert Xu   2025-04-28  142  			};
+a298765e28adae Herbert Xu   2025-04-28  143  			u8 u8[16];
+a298765e28adae Herbert Xu   2025-04-28  144  		};
+a298765e28adae Herbert Xu   2025-04-28  145  	} tail;
+76cadf2244518d Eric Biggers 2019-06-02  146  	unsigned int padlen;
+a298765e28adae Herbert Xu   2025-04-28  147  	unsigned int total;
+71ebc4d1b27d34 Martin Willi 2015-06-01  148  
+a298765e28adae Herbert Xu   2025-04-28  149  	if (sg != req->dst)
+a298765e28adae Herbert Xu   2025-04-28  150  		memcpy_sglist(req->dst, sg, req->assoclen);
+71ebc4d1b27d34 Martin Willi 2015-06-01  151  
+71ebc4d1b27d34 Martin Willi 2015-06-01  152  	if (rctx->cryptlen == req->cryptlen) /* encrypting */
+a298765e28adae Herbert Xu   2025-04-28  153  		sg = req->dst;
+747909223397e1 Herbert Xu   2015-07-16  154  
+a298765e28adae Herbert Xu   2025-04-28 @155  	poly1305_init(&desc, rctx->key);
+a298765e28adae Herbert Xu   2025-04-28  156  	scatterwalk_start(&walk, sg);
+71ebc4d1b27d34 Martin Willi 2015-06-01  157  
+a298765e28adae Herbert Xu   2025-04-28  158  	total = rctx->assoclen;
+a298765e28adae Herbert Xu   2025-04-28  159  	while (total) {
+a298765e28adae Herbert Xu   2025-04-28  160  		unsigned int n = scatterwalk_next(&walk, total);
+71ebc4d1b27d34 Martin Willi 2015-06-01  161  
+a298765e28adae Herbert Xu   2025-04-28 @162  		poly1305_update(&desc, walk.addr, n);
+a298765e28adae Herbert Xu   2025-04-28  163  		scatterwalk_done_src(&walk, n);
+a298765e28adae Herbert Xu   2025-04-28  164  		total -= n;
+71ebc4d1b27d34 Martin Willi 2015-06-01  165  	}
+71ebc4d1b27d34 Martin Willi 2015-06-01  166  
+76cadf2244518d Eric Biggers 2019-06-02  167  	padlen = -rctx->assoclen % POLY1305_BLOCK_SIZE;
+a298765e28adae Herbert Xu   2025-04-28  168  	poly1305_update(&desc, zp, padlen);
+71ebc4d1b27d34 Martin Willi 2015-06-01  169  
+a298765e28adae Herbert Xu   2025-04-28  170  	scatterwalk_skip(&walk, req->assoclen - rctx->assoclen);
+71ebc4d1b27d34 Martin Willi 2015-06-01  171  
+a298765e28adae Herbert Xu   2025-04-28  172  	total = rctx->cryptlen;
+a298765e28adae Herbert Xu   2025-04-28  173  	while (total) {
+a298765e28adae Herbert Xu   2025-04-28  174  		unsigned int n = scatterwalk_next(&walk, total);
+71ebc4d1b27d34 Martin Willi 2015-06-01  175  
+a298765e28adae Herbert Xu   2025-04-28  176  		poly1305_update(&desc, walk.addr, n);
+a298765e28adae Herbert Xu   2025-04-28  177  		scatterwalk_done_src(&walk, n);
+a298765e28adae Herbert Xu   2025-04-28  178  		total -= n;
+71ebc4d1b27d34 Martin Willi 2015-06-01  179  	}
+71ebc4d1b27d34 Martin Willi 2015-06-01  180  
+a298765e28adae Herbert Xu   2025-04-28  181  	padlen = -rctx->cryptlen % POLY1305_BLOCK_SIZE;
+a298765e28adae Herbert Xu   2025-04-28  182  	poly1305_update(&desc, zp, padlen);
+71ebc4d1b27d34 Martin Willi 2015-06-01  183  
+a298765e28adae Herbert Xu   2025-04-28  184  	tail.assoclen = cpu_to_le64(rctx->assoclen);
+a298765e28adae Herbert Xu   2025-04-28  185  	tail.cryptlen = cpu_to_le64(rctx->cryptlen);
+a298765e28adae Herbert Xu   2025-04-28  186  	poly1305_update(&desc, tail.u8, sizeof(tail));
+a298765e28adae Herbert Xu   2025-04-28  187  	memzero_explicit(&tail, sizeof(tail));
+a298765e28adae Herbert Xu   2025-04-28 @188  	poly1305_final(&desc, rctx->tag);
+71ebc4d1b27d34 Martin Willi 2015-06-01  189  
+a298765e28adae Herbert Xu   2025-04-28  190  	if (rctx->cryptlen != req->cryptlen)
+a298765e28adae Herbert Xu   2025-04-28  191  		return chacha_decrypt(req);
+71ebc4d1b27d34 Martin Willi 2015-06-01  192  
+a298765e28adae Herbert Xu   2025-04-28  193  	memcpy_to_scatterwalk(&walk, rctx->tag, sizeof(rctx->tag));
+a298765e28adae Herbert Xu   2025-04-28  194  	return 0;
+71ebc4d1b27d34 Martin Willi 2015-06-01  195  }
+71ebc4d1b27d34 Martin Willi 2015-06-01  196  
+
+:::::: The code at line 155 was first introduced by commit
+:::::: a298765e28adaea199f722142c10dae7e24dedf8 crypto: chacha20poly1305 - Use lib/crypto poly1305
+
+:::::: TO: Herbert Xu <herbert@gondor.apana.org.au>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
