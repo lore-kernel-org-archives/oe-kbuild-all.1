@@ -1,58 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70CD223DC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 07:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50943D994
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 07:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746516347; cv=none; b=MfrqnalainudgVPxbkjtV8euro9zM30499yydbocLTEtC2wRyY9CGyd2yJ86Ttatp4MlVCwc2/d3XLbY+P4owoa12WFmgxOMygpaDqJqI85iFIXrIWACO67skSBJMpID3pHkGocFBgifMeIBpX3HbwMkpLBQgqyD+OndKK5tDtc=
+	t=1746516575; cv=none; b=q06BBDVu6VlQlXmzPHiVOIEPWf6evEKDfArqrUyW8EarhfNf064Qth7z7Koj7Pz2EfI4n/bAQ0hJeQwcKhiZ/55orpg43N7aQ1rh7WSHOUwe4TSWn19h1v85gGzD1ixONMmtdWmHxhNP1UKvikjp8QQtK5PE+UnmKqiN7KRp0No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746516347; c=relaxed/simple;
-	bh=IQ2g0vfjS7LsZoWEsSyywdKste1NDyx+b2TdQtbkkbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AhA3JNtOyinaOOtrTffKZb8UsGxTscvcOQC8pLs5pV1Hnh1eBulM9q0AvVZir9yl+hRhHFTzePF4L2NPjuxrdCJOUhrZtSRiEAlFB2gOHaeWQHQsmf8mKMJE7x4kIjTd3PaPcTt9QgI6jr8w6U9pf5YCv/WJqe3mKvUVxPBM/2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yp+acril; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746516575; c=relaxed/simple;
+	bh=hpftcSQU6FGDHjHNmoGwyCRlc1IEHICer4LHf9Rkwt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U/Rg3ahU3Y/y459cLqnxywMEgEh1rDah0akIGitzTLDoSHj+iZd8Jj8r/A5+Y7LotKH4dFoouqyz3NuQYkkSmShp//u0wtwHLlb7r9ktWqlrtycDPEUTohmF0EMbld45yQLrJsw6QGwrCTNr7JMwgKOYc9OOhmMu1C1LnEqasnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hFaTlkjm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sMW0zZP5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hFaTlkjm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sMW0zZP5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yp+acril"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746516346; x=1778052346;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IQ2g0vfjS7LsZoWEsSyywdKste1NDyx+b2TdQtbkkbI=;
-  b=Yp+acrilCv6VKK7nTXJy3qdHiORZs4l7Oc9j+aKD8SPKGd4VtfOVvBas
-   4L9m7XLg4T/Y6gw/iaDfUKFw6OOWBDB4r9bcWtnOsvWyYrfqgJuhH3QdZ
-   scv6KbYo0qeZdjImdFWfbF+zfYemLGTVmwlcwvIesMEnAm1DZnT07g7/z
-   u7KgE0CEEI6sDjNcchas7W7PiXJFA9/DmF+w1l8QPIludQaKecQsMaGeZ
-   s9+zyo8AnUKSmaG8+2p917hIYO+SoPncI6OfXEd870RJav5RxN79KEScm
-   +KS65tbPHgFSOVZB0avh/dJ4Rkd/WATydgPXxHauKncu7HtFE1iAjvkAP
-   g==;
-X-CSE-ConnectionGUID: jhUzvLV+SvC350cq8nfO8Q==
-X-CSE-MsgGUID: vwdGTh65TNewNnTjuw5DTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48299154"
-X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="48299154"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 00:25:45 -0700
-X-CSE-ConnectionGUID: wX6htsutTjaL97/A+YS/7g==
-X-CSE-MsgGUID: TeqHJ+RxQmKZxQoFwNMbuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="136048567"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 May 2025 00:25:44 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCCgQ-0006M6-02;
-	Tue, 06 May 2025 07:25:42 +0000
-Date: Tue, 6 May 2025 15:24:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org
-Subject: [herbert-cryptodev-2.6:master 12/70] crypto/chacha20poly1305.c:155:
- undefined reference to `poly1305_init'
-Message-ID: <202505061528.81rDmpF9-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hFaTlkjm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sMW0zZP5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hFaTlkjm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sMW0zZP5"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0FB39211BF;
+	Tue,  6 May 2025 07:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1746516566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YWoJIjGVoamhc8sC5DhI99Gtot5xrOK5X2qP7LJujw4=;
+	b=hFaTlkjmpBdlvm2/aFPU4jD8RcBsy8P66vrKSotouBAwqphosYZsdAl42SwSXL2tTVMmW/
+	3InZJXVCUF8n3buJceW3+PhKid3UpU5UrfJtwJ8dzNRz6KFAQxqZvBDzsy3oZzDHbpxwt/
+	7MuD5kroaiXPkM/Wt8MpoOk0QodyiHA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1746516566;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YWoJIjGVoamhc8sC5DhI99Gtot5xrOK5X2qP7LJujw4=;
+	b=sMW0zZP5ZamwGzCWa5ml5lbfNwbx4uOcCjUQfzWnPAJYlpQQiRg8QsOz4K188IadAezZGl
+	5/SrOSbpDk7RzHBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1746516566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YWoJIjGVoamhc8sC5DhI99Gtot5xrOK5X2qP7LJujw4=;
+	b=hFaTlkjmpBdlvm2/aFPU4jD8RcBsy8P66vrKSotouBAwqphosYZsdAl42SwSXL2tTVMmW/
+	3InZJXVCUF8n3buJceW3+PhKid3UpU5UrfJtwJ8dzNRz6KFAQxqZvBDzsy3oZzDHbpxwt/
+	7MuD5kroaiXPkM/Wt8MpoOk0QodyiHA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1746516566;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YWoJIjGVoamhc8sC5DhI99Gtot5xrOK5X2qP7LJujw4=;
+	b=sMW0zZP5ZamwGzCWa5ml5lbfNwbx4uOcCjUQfzWnPAJYlpQQiRg8QsOz4K188IadAezZGl
+	5/SrOSbpDk7RzHBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A53EB137CF;
+	Tue,  6 May 2025 07:29:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ExUaJVW6GWjGSAAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Tue, 06 May 2025 07:29:25 +0000
+Date: Tue, 6 May 2025 09:29:08 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: kernel test robot <lkp@intel.com>
+Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
+ set_high_memory+0x8c (section: .text.unlikely) -> zone_movable_pfn (section:
+ .init.data)
+Message-ID: <aBm6RKy_AO5iISh1@localhost.localdomain>
+References: <202505060901.Qcs06UoB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,111 +89,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202505060901.Qcs06UoB-lkp@intel.com>
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-head:   43d9d3e84ee1bc1ca98a964e0963bab39de36a44
-commit: 10a6d72ea355b730aa9702da0fd36aef0898a80e [12/70] crypto: lib/poly1305 - Use block-only interface
-config: x86_64-randconfig-004-20250506 (https://download.01.org/0day-ci/archive/20250506/202505061528.81rDmpF9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061528.81rDmpF9-lkp@intel.com/reproduce)
+On Tue, May 06, 2025 at 09:42:54AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   01f95500a162fca88cefab9ed64ceded5afabc12
+> commit: e120d1bc12da5c1bb871c346f741296610fd6fcb arch, mm: set high_memory in free_area_init()
+> date:   7 weeks ago
+> config: arm-randconfig-r062-20250506 (https://download.01.org/0day-ci/archive/20250506/202505060901.Qcs06UoB-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505060901.Qcs06UoB-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505060901.Qcs06UoB-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> WARNING: modpost: vmlinux: section mismatch in reference: set_high_memory+0x8c (section: .text.unlikely) -> zone_movable_pfn (section: .init.data)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505061528.81rDmpF9-lkp@intel.com/
+Perhaps?
 
-Note: the herbert-cryptodev-2.6/master HEAD 43d9d3e84ee1bc1ca98a964e0963bab39de36a44 builds fine.
-      It only hurts bisectability.
+ diff --git a/mm/mm_init.c b/mm/mm_init.c
+ index 80a5370ac6ab..5efec0399e18 100644
+ --- a/mm/mm_init.c
+ +++ b/mm/mm_init.c
+ @@ -1785,7 +1785,7 @@ static bool arch_has_descending_max_zone_pfns(void)
+  	return IS_ENABLED(CONFIG_ARC) && !IS_ENABLED(CONFIG_ARC_HAS_PAE40);
+  }
+ 
+ -static void set_high_memory(void)
+ +static void __init set_high_memory(void)
+  {
+  	phys_addr_t highmem = memblock_end_of_DRAM();
 
-All errors (new ones prefixed by >>):
-
-   ld: crypto/chacha20poly1305.o: in function `poly_hash':
->> crypto/chacha20poly1305.c:155: undefined reference to `poly1305_init'
->> ld: crypto/chacha20poly1305.c:162: undefined reference to `poly1305_update'
-   ld: crypto/chacha20poly1305.c:168: undefined reference to `poly1305_update'
-   ld: crypto/chacha20poly1305.c:176: undefined reference to `poly1305_update'
-   ld: crypto/chacha20poly1305.c:182: undefined reference to `poly1305_update'
-   ld: crypto/chacha20poly1305.c:186: undefined reference to `poly1305_update'
->> ld: crypto/chacha20poly1305.c:188: undefined reference to `poly1305_final'
-
-
-vim +155 crypto/chacha20poly1305.c
-
-71ebc4d1b27d34 Martin Willi 2015-06-01  129  
-a298765e28adae Herbert Xu   2025-04-28  130  static int poly_hash(struct aead_request *req)
-71ebc4d1b27d34 Martin Willi 2015-06-01  131  {
-71ebc4d1b27d34 Martin Willi 2015-06-01  132  	struct chachapoly_req_ctx *rctx = aead_request_ctx(req);
-a298765e28adae Herbert Xu   2025-04-28  133  	const void *zp = page_address(ZERO_PAGE(0));
-a298765e28adae Herbert Xu   2025-04-28  134  	struct scatterlist *sg = req->src;
-a298765e28adae Herbert Xu   2025-04-28  135  	struct poly1305_desc_ctx desc;
-a298765e28adae Herbert Xu   2025-04-28  136  	struct scatter_walk walk;
-a298765e28adae Herbert Xu   2025-04-28  137  	struct {
-a298765e28adae Herbert Xu   2025-04-28  138  		union {
-a298765e28adae Herbert Xu   2025-04-28  139  			struct {
-a298765e28adae Herbert Xu   2025-04-28  140  				__le64 assoclen;
-a298765e28adae Herbert Xu   2025-04-28  141  				__le64 cryptlen;
-a298765e28adae Herbert Xu   2025-04-28  142  			};
-a298765e28adae Herbert Xu   2025-04-28  143  			u8 u8[16];
-a298765e28adae Herbert Xu   2025-04-28  144  		};
-a298765e28adae Herbert Xu   2025-04-28  145  	} tail;
-76cadf2244518d Eric Biggers 2019-06-02  146  	unsigned int padlen;
-a298765e28adae Herbert Xu   2025-04-28  147  	unsigned int total;
-71ebc4d1b27d34 Martin Willi 2015-06-01  148  
-a298765e28adae Herbert Xu   2025-04-28  149  	if (sg != req->dst)
-a298765e28adae Herbert Xu   2025-04-28  150  		memcpy_sglist(req->dst, sg, req->assoclen);
-71ebc4d1b27d34 Martin Willi 2015-06-01  151  
-71ebc4d1b27d34 Martin Willi 2015-06-01  152  	if (rctx->cryptlen == req->cryptlen) /* encrypting */
-a298765e28adae Herbert Xu   2025-04-28  153  		sg = req->dst;
-747909223397e1 Herbert Xu   2015-07-16  154  
-a298765e28adae Herbert Xu   2025-04-28 @155  	poly1305_init(&desc, rctx->key);
-a298765e28adae Herbert Xu   2025-04-28  156  	scatterwalk_start(&walk, sg);
-71ebc4d1b27d34 Martin Willi 2015-06-01  157  
-a298765e28adae Herbert Xu   2025-04-28  158  	total = rctx->assoclen;
-a298765e28adae Herbert Xu   2025-04-28  159  	while (total) {
-a298765e28adae Herbert Xu   2025-04-28  160  		unsigned int n = scatterwalk_next(&walk, total);
-71ebc4d1b27d34 Martin Willi 2015-06-01  161  
-a298765e28adae Herbert Xu   2025-04-28 @162  		poly1305_update(&desc, walk.addr, n);
-a298765e28adae Herbert Xu   2025-04-28  163  		scatterwalk_done_src(&walk, n);
-a298765e28adae Herbert Xu   2025-04-28  164  		total -= n;
-71ebc4d1b27d34 Martin Willi 2015-06-01  165  	}
-71ebc4d1b27d34 Martin Willi 2015-06-01  166  
-76cadf2244518d Eric Biggers 2019-06-02  167  	padlen = -rctx->assoclen % POLY1305_BLOCK_SIZE;
-a298765e28adae Herbert Xu   2025-04-28  168  	poly1305_update(&desc, zp, padlen);
-71ebc4d1b27d34 Martin Willi 2015-06-01  169  
-a298765e28adae Herbert Xu   2025-04-28  170  	scatterwalk_skip(&walk, req->assoclen - rctx->assoclen);
-71ebc4d1b27d34 Martin Willi 2015-06-01  171  
-a298765e28adae Herbert Xu   2025-04-28  172  	total = rctx->cryptlen;
-a298765e28adae Herbert Xu   2025-04-28  173  	while (total) {
-a298765e28adae Herbert Xu   2025-04-28  174  		unsigned int n = scatterwalk_next(&walk, total);
-71ebc4d1b27d34 Martin Willi 2015-06-01  175  
-a298765e28adae Herbert Xu   2025-04-28  176  		poly1305_update(&desc, walk.addr, n);
-a298765e28adae Herbert Xu   2025-04-28  177  		scatterwalk_done_src(&walk, n);
-a298765e28adae Herbert Xu   2025-04-28  178  		total -= n;
-71ebc4d1b27d34 Martin Willi 2015-06-01  179  	}
-71ebc4d1b27d34 Martin Willi 2015-06-01  180  
-a298765e28adae Herbert Xu   2025-04-28  181  	padlen = -rctx->cryptlen % POLY1305_BLOCK_SIZE;
-a298765e28adae Herbert Xu   2025-04-28  182  	poly1305_update(&desc, zp, padlen);
-71ebc4d1b27d34 Martin Willi 2015-06-01  183  
-a298765e28adae Herbert Xu   2025-04-28  184  	tail.assoclen = cpu_to_le64(rctx->assoclen);
-a298765e28adae Herbert Xu   2025-04-28  185  	tail.cryptlen = cpu_to_le64(rctx->cryptlen);
-a298765e28adae Herbert Xu   2025-04-28  186  	poly1305_update(&desc, tail.u8, sizeof(tail));
-a298765e28adae Herbert Xu   2025-04-28  187  	memzero_explicit(&tail, sizeof(tail));
-a298765e28adae Herbert Xu   2025-04-28 @188  	poly1305_final(&desc, rctx->tag);
-71ebc4d1b27d34 Martin Willi 2015-06-01  189  
-a298765e28adae Herbert Xu   2025-04-28  190  	if (rctx->cryptlen != req->cryptlen)
-a298765e28adae Herbert Xu   2025-04-28  191  		return chacha_decrypt(req);
-71ebc4d1b27d34 Martin Willi 2015-06-01  192  
-a298765e28adae Herbert Xu   2025-04-28  193  	memcpy_to_scatterwalk(&walk, rctx->tag, sizeof(rctx->tag));
-a298765e28adae Herbert Xu   2025-04-28  194  	return 0;
-71ebc4d1b27d34 Martin Willi 2015-06-01  195  }
-71ebc4d1b27d34 Martin Willi 2015-06-01  196  
-
-:::::: The code at line 155 was first introduced by commit
-:::::: a298765e28adaea199f722142c10dae7e24dedf8 crypto: chacha20poly1305 - Use lib/crypto poly1305
-
-:::::: TO: Herbert Xu <herbert@gondor.apana.org.au>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Oscar Salvador
+SUSE Labs
