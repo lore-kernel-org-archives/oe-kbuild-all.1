@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA6127AC30
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 04:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2C2192D8F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 05:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746504453; cv=none; b=K3jaTVIilF8MYEdNQXETdVu+9WXCfv9xyKL/bsbaN9z3kdRdnXlHRpwaxFyhRm4j7YdQ+RqUR9tbez8h39egg4wO/w/VNjW0URJuu6ze3CMIohWA2BrS12yGQ9cL684E6YP87zmtzC5PrijRDCXCkkOam8B/TvqEfHGARu1G6l4=
+	t=1746508730; cv=none; b=Xd17N1MkggnfN6dRb5+ueDNJDKvHYv6zbYOWaPVZlq4XqHHqfkUT28ewChCLgiQCAH4LZuZg8C9EnY2ZBT3O52DjrqJsfkLNLBygIJje3riNRKtFkORqci8kz7EUMG5CwQFI6bePhe9n3fLq7vowJyUVKekOq6kIyCnDzPss/vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746504453; c=relaxed/simple;
-	bh=XMH1sf/jQ7NhxwT03gZssmLPL9FfAGmAKafJvU5dz8E=;
+	s=arc-20240116; t=1746508730; c=relaxed/simple;
+	bh=zWI65MzQjnJ6usI4mMXLuLZKjalbltYonzQ64VLaev0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HxBbgneGpm7wmFMCPrbU/6MHInH8qkFITGMaSXZKhm6Ppb1YM/kakWX9cTly/IM0FLGa8ZbTlo2Z7tfmxhZUYQ8Kcfayo8wAGYpnU654E5JIoT4uQUH0V2Mlkar39rhTzqH0c8MJMZnS+NOZ7VwHJmzU9OGDloxXSSnFO5/Sv0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiyjaarC; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=MUcZB7cD1pYw15WSFhWkwKzUJ2NNwIJnmYZJ5+VatjY72FDIuVm39YsRn9AIylo1pvS2H3eRVbXnduCh0rrUiibzZQUSAfdeEWnoCBOyacdIaFkg/Ht5BD2qIGBcWqyrmS0xX71XWL8cF1qT/05XYOIw8y2cGCviRhFIJsj1mbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ia71Dv4E; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiyjaarC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ia71Dv4E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746504451; x=1778040451;
+  t=1746508728; x=1778044728;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XMH1sf/jQ7NhxwT03gZssmLPL9FfAGmAKafJvU5dz8E=;
-  b=ZiyjaarCfkUlsGRTa+4RnbnFpU3zAMUxGw1HN6/7VXHyrP5WlfsOkUlI
-   E3CJhsmtW50gMG6j0DHAGP5oM1Asrkocnm9FHfARNwpt/dG15iR0202md
-   FuTMrucdjfSYngrYWxgMurJYDaWuYB3FEI95ja/zkoWNW9w1QdknyV2+2
-   3ogiprNYAD6UcUbRPlLhS7lkzxSn5H8eMmQhmLFkUBfC+uVYmRJiZhx3C
-   QKv6Uu2LSsB6mGZinqrMHWtcGOdznd0wD/Dge6HK5M8uULl+K4DZ4krGc
-   jN+n/9dq9geRNu7Ybbe/cT6CtMD4K7//A2KacRD1Elpc1aN4xv9Eu4PXP
-   g==;
-X-CSE-ConnectionGUID: eNtoYRgaRAucFJKiAQ7l4g==
-X-CSE-MsgGUID: OIEhqRCYRQaN/hLg9HaE0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48289910"
+  bh=zWI65MzQjnJ6usI4mMXLuLZKjalbltYonzQ64VLaev0=;
+  b=Ia71Dv4EB1/aEPQOJ4MQfPg/Jn6KRIcE4F5Fq7OJNR6PTb9YB57/Vly+
+   J5aEkDaaMvJ2r06fWOuXS7iWTh9tCbe/NlHchuL6fOeB/CqTVuZUKsb1z
+   cp8+v+VOorj5ikQHspCkae5XM6hJWbFjiE7ZR/zMjTWN5qciPW91V0vJG
+   6UIBM91SO5TS84CsEmMuGYYHk48HNd3D1kxwQ64Rleo2nQroVlj7D+wO0
+   e+APcg3Z+d9yVUNJA5fq0Il5z6XdGf6hzCD+Sf5r2xTpg36g0Wo0AyJg7
+   K/35AeeN9ERvnAhQcVNszeLFbPUzhoJC4gj5FIqnRYenxp2oEtHKanCyF
+   w==;
+X-CSE-ConnectionGUID: SMMgNPzCRwy7eyLOAx3/FQ==
+X-CSE-MsgGUID: Ls7jFZ0NQwivSqXD7wWzPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="59144915"
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="48289910"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 21:07:31 -0700
-X-CSE-ConnectionGUID: YEjB97ylRiCG5FKuLm5BqQ==
-X-CSE-MsgGUID: SkIHUOKHR9+DhRa7GZS22A==
+   d="scan'208";a="59144915"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 22:18:47 -0700
+X-CSE-ConnectionGUID: rX/IjSBKRIur36RIPUodhQ==
+X-CSE-MsgGUID: qLhi52NcTYKdjhzRnQAbxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
-   d="scan'208";a="140611156"
+   d="scan'208";a="135460040"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 May 2025 21:07:29 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 05 May 2025 22:18:46 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uC9aY-0006FB-2w;
-	Tue, 06 May 2025 04:07:26 +0000
-Date: Tue, 6 May 2025 12:06:26 +0800
+	id 1uCAhY-0006Ft-2U;
+	Tue, 06 May 2025 05:18:44 +0000
+Date: Tue, 6 May 2025 13:18:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: arch/arm/include/asm/stacktrace.h:48:21: error: implicit declaration
- of function 'in_entry_text'
-Message-ID: <202505061113.kBQwKkqd-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 2/2] kismet: WARNING: unmet direct
+ dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by
+ GKI_HIDDEN_QCOM_CONFIGS
+Message-ID: <202505061318.MGiJX55B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,73 +63,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jinjie,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   95d3481af6dc90fd7175a7643fd108cdcb808ce5
-commit: 2335c9cb831faba1a4efcc612886073b6f175fe4 ARM: 9407/1: Add support for STACKLEAK gcc plugin
-date:   10 months ago
-config: arm-randconfig-r071-20250506 (https://download.01.org/0day-ci/archive/20250506/202505061113.kBQwKkqd-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061113.kBQwKkqd-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   e20c2e5ba70ac5fd2f1157f57a8ee53e07b671b5
+commit: 0c8ec66904ac0a02c5ca7d0498308d90356f81c7 [2/2] ANDROID: Switch CONFIG_QCOM_PDC CONFIG_QCOM_SCM and CONFIG_ARM_SMMU to be loaded as modules
+config: arm64-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_GKI_HIDDEN_QCOM_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250506/202505061318.MGiJX55B-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250506/202505061318.MGiJX55B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505061113.kBQwKkqd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505061318.MGiJX55B-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/stackleak.h:16,
-                    from kernel/stackleak.c:13:
-   arch/arm/include/asm/stacktrace.h: In function 'arm_get_current_stackframe':
->> arch/arm/include/asm/stacktrace.h:48:21: error: implicit declaration of function 'in_entry_text' [-Werror=implicit-function-declaration]
-      frame->ex_frame = in_entry_text(frame->pc);
-                        ^~~~~~~~~~~~~
-   In file included from include/linux/interrupt.h:21,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from include/linux/kprobes.h:28,
-                    from kernel/stackleak.c:14:
-   arch/arm/include/asm/sections.h: At top level:
->> arch/arm/include/asm/sections.h:14:20: error: conflicting types for 'in_entry_text'
-    static inline bool in_entry_text(unsigned long addr)
-                       ^~~~~~~~~~~~~
-   In file included from include/linux/stackleak.h:16,
-                    from kernel/stackleak.c:13:
-   arch/arm/include/asm/stacktrace.h:48:21: note: previous implicit declaration of 'in_entry_text' was here
-      frame->ex_frame = in_entry_text(frame->pc);
-                        ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/in_entry_text +48 arch/arm/include/asm/stacktrace.h
-
-2335c9cb831fab Jinjie Ruan      2024-06-27  35  
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  36  static __always_inline
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  37  void arm_get_current_stackframe(struct pt_regs *regs, struct stackframe *frame)
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  38  {
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  39  		frame->fp = frame_pointer(regs);
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  40  		frame->sp = regs->ARM_sp;
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  41  		frame->lr = regs->ARM_lr;
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  42  		frame->pc = regs->ARM_pc;
-fed240d9c97438 Masami Hiramatsu 2021-10-21  43  #ifdef CONFIG_KRETPROBES
-fed240d9c97438 Masami Hiramatsu 2021-10-21  44  		frame->kr_cur = NULL;
-fed240d9c97438 Masami Hiramatsu 2021-10-21  45  		frame->tsk = current;
-fed240d9c97438 Masami Hiramatsu 2021-10-21  46  #endif
-752ec621ef5c30 Li Huafei        2022-08-26  47  #ifdef CONFIG_UNWINDER_FRAME_POINTER
-752ec621ef5c30 Li Huafei        2022-08-26 @48  		frame->ex_frame = in_entry_text(frame->pc);
-752ec621ef5c30 Li Huafei        2022-08-26  49  #endif
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  50  }
-9865f1d46a68a5 Nikolay Borisov  2014-06-03  51  
-
-:::::: The code at line 48 was first introduced by commit
-:::::: 752ec621ef5c30777958cc5eb5f1cf394f7733f4 ARM: 9234/1: stacktrace: Avoid duplicate saving of exception PC value
-
-:::::: TO: Li Huafei <lihuafei1@huawei.com>
-:::::: CC: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by GKI_HIDDEN_QCOM_CONFIGS
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+     Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y] && !GENERIC_ATOMIC64 [=n])
+     Selected by [y]:
+     - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
