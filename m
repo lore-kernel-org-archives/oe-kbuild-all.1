@@ -1,44 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370E04B1E64;
-	Tue,  6 May 2025 08:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D540224A05A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 08:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746520703; cv=none; b=LK4eX/maofnzM08fWOHhpf7PhpMnuyaP6pEYbLN4EIPNNX/YWr0NLtWVuT8rElYfeASi2MX6udVDxkd9ZqAjc2fnkYJviaq4/NXZBpOTVMv/xYy1bYTmWvcb1QMRbFKML617yyZi9m0GSQ4MweWkUzpdXWRpdY+b+CAlcHrv76I=
+	t=1746520990; cv=none; b=GvFe5j0U5sahYjsYOhlYK1dNDradGO84YEd4k6xwrRVjfwusBCOxTvvfRqPPpjr2nH7V/NTH876jhs0bganjpHmZRn9E02uIUGBYB4ynbrHLzZvjpl7H8undfOQoV3ac8yrCoD5IvrDgbaVgEQnwitCKp+a7RjDVoAauGc8qSqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746520703; c=relaxed/simple;
-	bh=HCBVYf2JMJWR3GoHejTM7OGYZaXCmQYccfV/iaPHr1k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pFQq5ujFeS3DVzkj8d5KR8/+X7RMvqV8s4jGWdBsymU92uttrwNie/CU7zUrxN54FRZISiqgMVksFYzFEnxNMwRLvr8ARK3ldSoYbnD8I/Fk0xAZnaAuknlkRCR2jnS/HIJpOfy37mXqoDuavyZssV7nfMetd9KYgjqZKL6N/uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oiGPFrRQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746520990; c=relaxed/simple;
+	bh=xK5Mwa8VKkXveGqO5g/jTv48kd3QUenJ9ZvglMEtSxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g0gBeRxEJYOXf1GEdaPxVGNgxt9GBlZsf69ATsGfHFdiFtj8i20fyhZFoURnPWPUgau0KViK2kV1h0oWh4cA2tChD3Bsz7PDJALRf5rfWx/LTsCHR8trmscZGpmev/+nmDxvFHYKIZEtorEW9+SmZfLva5fev0NtUQVMZ3Lhk6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NQ32Uytt; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oiGPFrRQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F0C6C4CEE4;
-	Tue,  6 May 2025 08:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746520702;
-	bh=HCBVYf2JMJWR3GoHejTM7OGYZaXCmQYccfV/iaPHr1k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oiGPFrRQDHJXvCLQr4uYQNho+SZ+sUk9+jDsnXfAnjQaV7BAArJpXZi5l+xILIGdV
-	 WszqdUWNxudwsRinCGRQHdD3TaiW7t/lU6Iz+q6dBruuWyjDbN1tJdv+nWx+ot1hCN
-	 U0IjowaKQWBvJZha6wBTTlGqWC2PZZ2Jh2VAbZ5iWIupIpt5JWvAWH5dXR4AzuWuAa
-	 Gk61C+7e0NEk4RT3jw71qkYeFRMiECd45B1jBsZKTp2tFp5OiD4b4nurHd1KAHHsWj
-	 VTTHnapjMomhthZV0a6xnJS/rhz2pLLVrZ9i4G6phXRAJV+xLnL1BzUG/5EA33I/wK
-	 cGWyhu8ZC6R7Q==
-Date: Tue, 6 May 2025 11:38:16 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Oscar Salvador <osalvador@suse.de>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
- set_high_memory+0x8c (section: .text.unlikely) -> zone_movable_pfn (section:
- .init.data)
-Message-ID: <aBnKeD-KxlPoAJWM@kernel.org>
-References: <202505060901.Qcs06UoB-lkp@intel.com>
- <aBm6RKy_AO5iISh1@localhost.localdomain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NQ32Uytt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746520988; x=1778056988;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xK5Mwa8VKkXveGqO5g/jTv48kd3QUenJ9ZvglMEtSxo=;
+  b=NQ32UyttPhv6ndyWVABxBoi9d4YFzhlvPtzV+eSSUPgXNoKwBBpk5dYD
+   Z0qJ3ANyNhxD3OAImV7rGOZiuqqI9U3u+gY6xLsLXn/jOZNeBv2ghJmdY
+   l93b1sUIMAqo9j35rmzyyn815/QWngKp9W+0opTkXmGnO/PHdpVdBg//A
+   zaj327YM3J+DBvd3Mcw7R+GcHLzerSikNjI96ntBD3XXtFdwJhB7Oz09x
+   dHHvXqJ5SmsUQ/feBy7IKST7+zwrWJMNGYJ54XYralidTiHqKJwaJNKkp
+   TwaELdpTWWrTS5RvLyjqjSKvGsL2fou8GcKI+KDCP8bCMVHizrw30CmNT
+   A==;
+X-CSE-ConnectionGUID: ycO4h9wvSFO0bsU1X+wHdw==
+X-CSE-MsgGUID: IAUNn+yWQFm7k2b8iwqwZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48322350"
+X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
+   d="scan'208";a="48322350"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 01:43:00 -0700
+X-CSE-ConnectionGUID: 7OjlXjY8Rz+HIXSLIZq31Q==
+X-CSE-MsgGUID: pxB5LSM1RuSkpIqgqjhMHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
+   d="scan'208";a="136492710"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 06 May 2025 01:42:57 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCDt9-0006PR-29;
+	Tue, 06 May 2025 08:42:55 +0000
+Date: Tue, 6 May 2025 16:41:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.coredump.socket 11/18] fs/coredump.c:891:24:
+ warning: 'return' with a value, in function returning void
+Message-ID: <202505061614.LuEO6WMz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,51 +62,371 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aBm6RKy_AO5iISh1@localhost.localdomain>
 
-On Tue, May 06, 2025 at 09:29:08AM +0200, Oscar Salvador wrote:
-> On Tue, May 06, 2025 at 09:42:54AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   01f95500a162fca88cefab9ed64ceded5afabc12
-> > commit: e120d1bc12da5c1bb871c346f741296610fd6fcb arch, mm: set high_memory in free_area_init()
-> > date:   7 weeks ago
-> > config: arm-randconfig-r062-20250506 (https://download.01.org/0day-ci/archive/20250506/202505060901.Qcs06UoB-lkp@intel.com/config)
-> > compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505060901.Qcs06UoB-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202505060901.Qcs06UoB-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> > 
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: set_high_memory+0x8c (section: .text.unlikely) -> zone_movable_pfn (section: .init.data)
-> 
-> Perhaps?
+tree:   https://github.com/brauner/linux.git work.coredump.socket
+head:   d8527ff7eedddbd9827f61df7c80d9870cdc1241
+commit: 1197c3157a4f679945feb70835b5db5b1baaef3f [11/18] coredump: add coredump socket
+config: sh-randconfig-001-20250506 (https://download.01.org/0day-ci/archive/20250506/202505061614.LuEO6WMz-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061614.LuEO6WMz-lkp@intel.com/reproduce)
 
-Looks right, thanks for a quick fix!
-Care sending a formal patch?
- 
->  diff --git a/mm/mm_init.c b/mm/mm_init.c
->  index 80a5370ac6ab..5efec0399e18 100644
->  --- a/mm/mm_init.c
->  +++ b/mm/mm_init.c
->  @@ -1785,7 +1785,7 @@ static bool arch_has_descending_max_zone_pfns(void)
->   	return IS_ENABLED(CONFIG_ARC) && !IS_ENABLED(CONFIG_ARC_HAS_PAE40);
->   }
->  
->  -static void set_high_memory(void)
->  +static void __init set_high_memory(void)
->   {
->   	phys_addr_t highmem = memblock_end_of_DRAM();
-> 
-> 
-> -- 
-> Oscar Salvador
-> SUSE Labs
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505061614.LuEO6WMz-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   fs/coredump.c: In function 'do_coredump':
+>> fs/coredump.c:891:24: warning: 'return' with a value, in function returning void [-Wreturn-type]
+     891 |                 return -EINVAL;
+         |                        ^
+   fs/coredump.c:640:6: note: declared here
+     640 | void do_coredump(const kernel_siginfo_t *siginfo)
+         |      ^~~~~~~~~~~
+
+
+vim +/return +891 fs/coredump.c
+
+   639	
+   640	void do_coredump(const kernel_siginfo_t *siginfo)
+   641	{
+   642		struct core_state core_state;
+   643		struct core_name cn;
+   644		struct mm_struct *mm = current->mm;
+   645		struct linux_binfmt * binfmt;
+   646		const struct cred *old_cred;
+   647		struct cred *cred;
+   648		int retval = 0;
+   649		size_t *argv = NULL;
+   650		int argc = 0;
+   651		/* require nonrelative corefile path and be extra careful */
+   652		bool need_suid_safe = false;
+   653		bool core_dumped = false;
+   654		static atomic_t core_dump_count = ATOMIC_INIT(0);
+   655		struct coredump_params cprm = {
+   656			.siginfo = siginfo,
+   657			.limit = rlimit(RLIMIT_CORE),
+   658			/*
+   659			 * We must use the same mm->flags while dumping core to avoid
+   660			 * inconsistency of bit flags, since this flag is not protected
+   661			 * by any locks.
+   662			 */
+   663			.mm_flags = mm->flags,
+   664			.vma_meta = NULL,
+   665			.cpu = raw_smp_processor_id(),
+   666		};
+   667	
+   668		audit_core_dumps(siginfo->si_signo);
+   669	
+   670		binfmt = mm->binfmt;
+   671		if (!binfmt || !binfmt->core_dump)
+   672			goto fail;
+   673		if (!__get_dumpable(cprm.mm_flags))
+   674			goto fail;
+   675	
+   676		cred = prepare_creds();
+   677		if (!cred)
+   678			goto fail;
+   679		/*
+   680		 * We cannot trust fsuid as being the "true" uid of the process
+   681		 * nor do we know its entire history. We only know it was tainted
+   682		 * so we dump it as root in mode 2, and only into a controlled
+   683		 * environment (pipe handler or fully qualified path).
+   684		 */
+   685		if (__get_dumpable(cprm.mm_flags) == SUID_DUMP_ROOT) {
+   686			/* Setuid core dump mode */
+   687			cred->fsuid = GLOBAL_ROOT_UID;	/* Dump root private */
+   688			need_suid_safe = true;
+   689		}
+   690	
+   691		retval = coredump_wait(siginfo->si_signo, &core_state);
+   692		if (retval < 0)
+   693			goto fail_creds;
+   694	
+   695		old_cred = override_creds(cred);
+   696	
+   697		retval = format_corename(&cn, &cprm, &argv, &argc);
+   698		if (retval < 0) {
+   699			coredump_report_failure("format_corename failed, aborting core");
+   700			goto fail_unlock;
+   701		}
+   702	
+   703		switch (cn.core_type) {
+   704		case COREDUMP_FILE: {
+   705			struct mnt_idmap *idmap;
+   706			struct inode *inode;
+   707			int open_flags = O_CREAT | O_WRONLY | O_NOFOLLOW |
+   708					 O_LARGEFILE | O_EXCL;
+   709	
+   710			if (cprm.limit < binfmt->min_coredump)
+   711				goto fail_unlock;
+   712	
+   713			if (need_suid_safe && cn.corename[0] != '/') {
+   714				coredump_report_failure(
+   715					"this process can only dump core to a fully qualified path, skipping core dump");
+   716				goto fail_unlock;
+   717			}
+   718	
+   719			/*
+   720			 * Unlink the file if it exists unless this is a SUID
+   721			 * binary - in that case, we're running around with root
+   722			 * privs and don't want to unlink another user's coredump.
+   723			 */
+   724			if (!need_suid_safe) {
+   725				/*
+   726				 * If it doesn't exist, that's fine. If there's some
+   727				 * other problem, we'll catch it at the filp_open().
+   728				 */
+   729				do_unlinkat(AT_FDCWD, getname_kernel(cn.corename));
+   730			}
+   731	
+   732			/*
+   733			 * There is a race between unlinking and creating the
+   734			 * file, but if that causes an EEXIST here, that's
+   735			 * fine - another process raced with us while creating
+   736			 * the corefile, and the other process won. To userspace,
+   737			 * what matters is that at least one of the two processes
+   738			 * writes its coredump successfully, not which one.
+   739			 */
+   740			if (need_suid_safe) {
+   741				/*
+   742				 * Using user namespaces, normal user tasks can change
+   743				 * their current->fs->root to point to arbitrary
+   744				 * directories. Since the intention of the "only dump
+   745				 * with a fully qualified path" rule is to control where
+   746				 * coredumps may be placed using root privileges,
+   747				 * current->fs->root must not be used. Instead, use the
+   748				 * root directory of init_task.
+   749				 */
+   750				struct path root;
+   751	
+   752				task_lock(&init_task);
+   753				get_fs_root(init_task.fs, &root);
+   754				task_unlock(&init_task);
+   755				cprm.file = file_open_root(&root, cn.corename,
+   756							   open_flags, 0600);
+   757				path_put(&root);
+   758			} else {
+   759				cprm.file = filp_open(cn.corename, open_flags, 0600);
+   760			}
+   761			if (IS_ERR(cprm.file))
+   762				goto fail_unlock;
+   763	
+   764			inode = file_inode(cprm.file);
+   765			if (inode->i_nlink > 1)
+   766				goto close_fail;
+   767			if (d_unhashed(cprm.file->f_path.dentry))
+   768				goto close_fail;
+   769			/*
+   770			 * AK: actually i see no reason to not allow this for named
+   771			 * pipes etc, but keep the previous behaviour for now.
+   772			 */
+   773			if (!S_ISREG(inode->i_mode))
+   774				goto close_fail;
+   775			/*
+   776			 * Don't dump core if the filesystem changed owner or mode
+   777			 * of the file during file creation. This is an issue when
+   778			 * a process dumps core while its cwd is e.g. on a vfat
+   779			 * filesystem.
+   780			 */
+   781			idmap = file_mnt_idmap(cprm.file);
+   782			if (!vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, inode),
+   783					    current_fsuid())) {
+   784				coredump_report_failure("Core dump to %s aborted: "
+   785					"cannot preserve file owner", cn.corename);
+   786				goto close_fail;
+   787			}
+   788			if ((inode->i_mode & 0677) != 0600) {
+   789				coredump_report_failure("Core dump to %s aborted: "
+   790					"cannot preserve file permissions", cn.corename);
+   791				goto close_fail;
+   792			}
+   793			if (!(cprm.file->f_mode & FMODE_CAN_WRITE))
+   794				goto close_fail;
+   795			if (do_truncate(idmap, cprm.file->f_path.dentry,
+   796					0, 0, cprm.file))
+   797				goto close_fail;
+   798			break;
+   799		}
+   800		case COREDUMP_PIPE: {
+   801			int argi;
+   802			int dump_count;
+   803			char **helper_argv;
+   804			struct subprocess_info *sub_info;
+   805	
+   806			if (cprm.limit == 1) {
+   807				/* See umh_coredump_setup() which sets RLIMIT_CORE = 1.
+   808				 *
+   809				 * Normally core limits are irrelevant to pipes, since
+   810				 * we're not writing to the file system, but we use
+   811				 * cprm.limit of 1 here as a special value, this is a
+   812				 * consistent way to catch recursive crashes.
+   813				 * We can still crash if the core_pattern binary sets
+   814				 * RLIM_CORE = !1, but it runs as root, and can do
+   815				 * lots of stupid things.
+   816				 *
+   817				 * Note that we use task_tgid_vnr here to grab the pid
+   818				 * of the process group leader.  That way we get the
+   819				 * right pid if a thread in a multi-threaded
+   820				 * core_pattern process dies.
+   821				 */
+   822				coredump_report_failure("RLIMIT_CORE is set to 1, aborting core");
+   823				goto fail_unlock;
+   824			}
+   825			cprm.limit = RLIM_INFINITY;
+   826	
+   827			dump_count = atomic_inc_return(&core_dump_count);
+   828			if (core_pipe_limit && (core_pipe_limit < dump_count)) {
+   829				coredump_report_failure("over core_pipe_limit, skipping core dump");
+   830				goto fail_dropcount;
+   831			}
+   832	
+   833			helper_argv = kmalloc_array(argc + 1, sizeof(*helper_argv),
+   834						    GFP_KERNEL);
+   835			if (!helper_argv) {
+   836				coredump_report_failure("%s failed to allocate memory", __func__);
+   837				goto fail_dropcount;
+   838			}
+   839			for (argi = 0; argi < argc; argi++)
+   840				helper_argv[argi] = cn.corename + argv[argi];
+   841			helper_argv[argi] = NULL;
+   842	
+   843			retval = -ENOMEM;
+   844			sub_info = call_usermodehelper_setup(helper_argv[0],
+   845							helper_argv, NULL, GFP_KERNEL,
+   846							umh_coredump_setup, NULL, &cprm);
+   847			if (sub_info)
+   848				retval = call_usermodehelper_exec(sub_info,
+   849								  UMH_WAIT_EXEC);
+   850	
+   851			kfree(helper_argv);
+   852			if (retval) {
+   853				coredump_report_failure("|%s pipe failed", cn.corename);
+   854				goto close_fail;
+   855			}
+   856			break;
+   857		}
+   858		case COREDUMP_SOCK: {
+   859	#ifdef CONFIG_UNIX
+   860			struct file *file __free(fput) = NULL;
+   861			struct socket *socket;
+   862	
+   863			/*
+   864			 * It is possible that the userspace process which is
+   865			 * supposed to handle the coredump and is listening on
+   866			 * the AF_UNIX socket coredumps. Userspace should just
+   867			 * mark itself non dumpable.
+   868			 */
+   869	
+   870			retval = sock_create_kern(&init_net, AF_UNIX, SOCK_STREAM, 0, &socket);
+   871			if (retval < 0)
+   872				goto close_fail;
+   873	
+   874			file = sock_alloc_file(socket, 0, NULL);
+   875			if (IS_ERR(file)) {
+   876				sock_release(socket);
+   877				retval = PTR_ERR(file);
+   878				goto close_fail;
+   879			}
+   880	
+   881			retval = kernel_connect(socket,
+   882						(struct sockaddr *)(&coredump_unix_socket),
+   883						COREDUMP_UNIX_SOCKET_ADDR_SIZE, 0);
+   884			if (retval)
+   885				goto close_fail;
+   886	
+   887			cprm.limit = RLIM_INFINITY;
+   888			cprm.file = no_free_ptr(file);
+   889	#else
+   890			coredump_report_failure("Coredump socket support %s disabled", cn.corename);
+ > 891			return -EINVAL;
+   892	#endif
+   893			break;
+   894		}
+   895		default:
+   896			WARN_ON_ONCE(true);
+   897			retval = -EINVAL;
+   898			goto close_fail;
+   899		}
+   900	
+   901		/* get us an unshared descriptor table; almost always a no-op */
+   902		/* The cell spufs coredump code reads the file descriptor tables */
+   903		retval = unshare_files();
+   904		if (retval)
+   905			goto close_fail;
+   906		if (!dump_interrupted()) {
+   907			/*
+   908			 * umh disabled with CONFIG_STATIC_USERMODEHELPER_PATH="" would
+   909			 * have this set to NULL.
+   910			 */
+   911			if (!cprm.file) {
+   912				coredump_report_failure("Core dump to |%s disabled", cn.corename);
+   913				goto close_fail;
+   914			}
+   915			if (!dump_vma_snapshot(&cprm))
+   916				goto close_fail;
+   917	
+   918			file_start_write(cprm.file);
+   919			core_dumped = binfmt->core_dump(&cprm);
+   920			/*
+   921			 * Ensures that file size is big enough to contain the current
+   922			 * file postion. This prevents gdb from complaining about
+   923			 * a truncated file if the last "write" to the file was
+   924			 * dump_skip.
+   925			 */
+   926			if (cprm.to_skip) {
+   927				cprm.to_skip--;
+   928				dump_emit(&cprm, "", 1);
+   929			}
+   930			file_end_write(cprm.file);
+   931			free_vma_snapshot(&cprm);
+   932		}
+   933	
+   934		/*
+   935		 * When core_pipe_limit is set we wait for the coredump server
+   936		 * or usermodehelper to finish before exiting so it can e.g.,
+   937		 * inspect /proc/<pid>.
+   938		 */
+   939		if (core_pipe_limit) {
+   940			switch (cn.core_type) {
+   941			case COREDUMP_PIPE:
+   942				wait_for_dump_helpers(cprm.file);
+   943				break;
+   944			case COREDUMP_SOCK: {
+   945				char buf[1];
+   946				/*
+   947				 * We use a simple read to wait for the coredump
+   948				 * processing to finish. Either the socket is
+   949				 * closed or we get sent unexpected data. In
+   950				 * both cases, we're done.
+   951				 */
+   952				__kernel_read(cprm.file, buf, 1, NULL);
+   953				break;
+   954			}
+   955			default:
+   956				break;
+   957			}
+   958		}
+   959	
+   960	close_fail:
+   961		if (cprm.file)
+   962			filp_close(cprm.file, NULL);
+   963	fail_dropcount:
+   964		if (cn.core_type == COREDUMP_PIPE)
+   965			atomic_dec(&core_dump_count);
+   966	fail_unlock:
+   967		kfree(argv);
+   968		kfree(cn.corename);
+   969		coredump_finish(core_dumped);
+   970		revert_creds(old_cred);
+   971	fail_creds:
+   972		put_cred(cred);
+   973	fail:
+   974		return;
+   975	}
+   976	
 
 -- 
-Sincerely yours,
-Mike.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
