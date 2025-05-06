@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F1F27FB31
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 12:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2754027FB1C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 May 2025 12:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746533430; cv=none; b=IpLCehhO9Xeyq8/uiDQMDUtwPCByLTh0OcxSYw9WIng9wFyGtF+/lBWU/Pdj8hYhvOgqShBNJVfDyGhELiyQddcHBT7tZLPhD7ZqbmpuFqb66Sy8wZJ9qHRECWA3cMvM+Ib3zKPiPGIL7xNBF1vWZM7o9vx+j5sU5kZjwaxUrhU=
+	t=1746534103; cv=none; b=ruRaZKPPXOPISvjIH89mhKUenEZbabKTsFtUCE5nzAXnGd9ldLxxcMm3TC7HQMC4AkBwbJMaDAqayVYQasETSsrOvhvUT4d4OGjJOs4vr+QUe0bG3W3nDMdpe+d6GN8XzaDFI/G9F7WcvQJetKOT/CaMaFhwUh83Iqh+vHB/xKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746533430; c=relaxed/simple;
-	bh=o9mbiliR+fdCyJQ7Ntcd/9m9LfwGScok90AEEn5DaWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kE6pAmND2kVRAcQdfuFry8ggqKWd8mjoOu0khT7JL5h2m2NFp2kPxe4MJcVXYuiIcOls8UN9QeQ0moyGYyU/H/x7JGZtXZ461h8MA3L8tkGLdhgIRQ16pD7w5kzlBAMdUTY/p0pzUQVQ8wp79dn2W6n3QoJYk8OhoEZzC1QICSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aS2wQWqH; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1746534103; c=relaxed/simple;
+	bh=cRnp8PBOLGdjDAU9DbMmArRITpyJTs0gmqJEuG1SgJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBQdZT3ZUHQ74l4XG08Avs51z+01UYoJG1qdJSLUpsFB6ZRqCPDGsWW6IiJLF9lz4Ts9zKhvVz8huCeEEdkuiKpvnkLVNwsbzYgLiQfWlmeQ0w+TdbeBcY7C5k9VyFrDL6x8rB3xHg4SSvSt/wkqLD+xlP5aThb9FQ5B1tqFqNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jN77n7aY; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aS2wQWqH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jN77n7aY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746533428; x=1778069428;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o9mbiliR+fdCyJQ7Ntcd/9m9LfwGScok90AEEn5DaWE=;
-  b=aS2wQWqHCB9AsDG8Y8mK9LsCQGRusXnJubZ0XGFtNKrC0dYXlXJltN5C
-   csC8efgkIeT6qFJRzbIJRlgmDqg6FXFBr67i5RKo8kudksrD0+2WfiZ+t
-   nWirNMru127MS614JXCGkD/kT6nZMKdnfzSZHcG2DgMEUUf9sw+PwYE1r
-   lCZyNKbwf7jKXn5nOKOxsuGl2pt6CO1xNjwFuvhPeUphiob3+Nxd+i7gQ
-   wFfEo0LJxf1XjDMXrFBOnAN9FKKWP/ICmKktq5c3kadcqY1w4wkAbCV/d
-   XuEX80ODE5A15OSN+RLiSyhnizn5Xlx4Mx63vAfsmmMayZnX5c8jIKWCd
+  t=1746534100; x=1778070100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cRnp8PBOLGdjDAU9DbMmArRITpyJTs0gmqJEuG1SgJY=;
+  b=jN77n7aYaEzDt4j/YzgVxQfOs8xwj4WfGtFyQSCqPHe0wP1J75WGoZF0
+   sn62zMq+h/BW/h2K9LYrdxNwf/ndtRuIDoTY+XCvnwVUBDZt6nyQ85c1M
+   tRU/8tvaVXDX64yNemfJN56tJdleHBYnS1C0uLH0+vufcc+sEJDAxQUFD
+   RiTUrUy7nbPX0IPR2a6EBVZaJcf5bAloWbM3PAv0zA0IXY30Nzr6Hxlwb
+   isNTjcezG3lyx32H2gCwFAU84Xd9W2X9j0EyUwHXKUUEYc2IsKTuKMbfr
+   bnUe7VPE3JRFRC6I62v8oT9+MkEO72dh3BVC7o9CTWzwTeavfmQ6P2RCM
    Q==;
-X-CSE-ConnectionGUID: vXGGCqFpRnilU38lrzvdxw==
-X-CSE-MsgGUID: ZRQ36BcbSeuPs+V9cyIZ7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="47455339"
+X-CSE-ConnectionGUID: sVjPncnDSGKcFP6/lur3Vg==
+X-CSE-MsgGUID: AnFyD1MKQh6NDWGPO2w15A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="35819423"
 X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="47455339"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 05:10:27 -0700
-X-CSE-ConnectionGUID: 193ijaujSya8ioEPGx4sMg==
-X-CSE-MsgGUID: 11YY19TOR9W5MbC3B1E4dQ==
+   d="scan'208";a="35819423"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 05:21:39 -0700
+X-CSE-ConnectionGUID: 8MNmLvvETbeWvuRX0IMOBw==
+X-CSE-MsgGUID: EFowLbLmS7azKEjtPzzO+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="136098146"
-Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 May 2025 05:10:26 -0700
-Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
+   d="scan'208";a="135508096"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 06 May 2025 05:21:37 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCH7v-00003G-1E;
-	Tue, 06 May 2025 12:10:23 +0000
-Date: Tue, 6 May 2025 20:10:21 +0800
+	id 1uCHIl-0006Y5-18;
+	Tue, 06 May 2025 12:21:35 +0000
+Date: Tue, 6 May 2025 20:20:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Kees Cook <kees@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 1/1]
- arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb:
- pinctrl@3500000 (qcom,sc7180-pinctrl): 'cam_sensor_front_active',
- 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active',
- 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1...
-Message-ID: <202505062032.4qrj3yKy-lkp@intel.com>
+Subject: Re: [PATCH RFC 4/4] stackleak: Support Clang stack depth tracking
+Message-ID: <202505061846.12FMyRjj-lkp@intel.com>
+References: <20250502190129.246328-4-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,152 +62,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250502190129.246328-4-kees@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   30abd607a3ae1471331390c09e0379cac9b65ebf
-commit: 068cbf3c8211ea8f048b5009bc8ece7b0592bcbd [1/1] CHROMIUM: arm64: dts: qcom: Restore camera bits on quackingstick/wormdingler
-config: arm64-randconfig-2051-20250505 (https://download.01.org/0day-ci/archive/20250506/202505062032.4qrj3yKy-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505062032.4qrj3yKy-lkp@intel.com/reproduce)
+Hi Kees,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on soc/for-next linus/master v6.15-rc5]
+[cannot apply to kees/for-next/hardening tip/x86/core next-20250505]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/stackleak-Rename-CONFIG_GCC_PLUGIN_STACKLEAK-to-CONFIG_STACKLEAK/20250503-030310
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20250502190129.246328-4-kees%40kernel.org
+patch subject: [PATCH RFC 4/4] stackleak: Support Clang stack depth tracking
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250506/202505061846.12FMyRjj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061846.12FMyRjj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505062032.4qrj3yKy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505061846.12FMyRjj-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: soc@0 (simple-bus): qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: soc@0 (simple-bus): qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: soc@0 (simple-bus): qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: /soc@0/geniqup@8c0000/spi@880000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: bluetooth (qcom,wcn3991-bt): 'qcom,local-bd-address-broken' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: pinctrl@3500000 (qcom,sc7180-pinctrl): 'cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' do not match any of the regexes: '-state$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): '#address-cells', '#size-cells', 'dp-phy@88ea200', 'ranges', 'usb3-phy@88e9200' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:1: 'ref' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:2: 'com_aux' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:3: 'usb3_pipe' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): reg: [[0, 143560704, 0, 396], [0, 143556608, 0, 60], [0, 143564800, 0, 396]] is too long
---
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: soc@0 (simple-bus): qcom,bps: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: soc@0 (simple-bus): cam_smmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: soc@0 (simple-bus): qcom,ipe0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: /soc@0/geniqup@8c0000/spi@880000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: bluetooth (qcom,wcn3991-bt): 'qcom,local-bd-address-broken' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: pinctrl@3500000 (qcom,sc7180-pinctrl): 'cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' do not match any of the regexes: '-state$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): '#address-cells', '#size-cells', 'dp-phy@88ea200', 'ranges', 'usb3-phy@88e9200' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:1: 'ref' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:2: 'com_aux' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:3: 'usb3_pipe' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick-r0-lte.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): reg: [[0, 143560704, 0, 396], [0, 143556608, 0, 60], [0, 143564800, 0, 396]] is too long
---
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: soc@0 (simple-bus): qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: soc@0 (simple-bus): qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: soc@0 (simple-bus): qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/geniqup@8c0000/spi@880000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: bluetooth (qcom,wcn3991-bt): 'qcom,local-bd-address-broken' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: pinctrl@3500000 (qcom,sc7180-pinctrl): 'cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' do not match any of the regexes: '-state$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): '#address-cells', '#size-cells', 'dp-phy@88ea200', 'ranges', 'usb3-phy@88e9200' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:1: 'ref' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:2: 'com_aux' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:3: 'usb3_pipe' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): reg: [[0, 143560704, 0, 396], [0, 143556608, 0, 60], [0, 143564800, 0, 396]] is too long
---
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: soc@0 (simple-bus): qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: soc@0 (simple-bus): qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: soc@0 (simple-bus): cam_smmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/geniqup@8c0000/spi@880000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: bluetooth (qcom,wcn3991-bt): 'qcom,local-bd-address-broken' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: pinctrl@3500000 (qcom,sc7180-pinctrl): 'cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' do not match any of the regexes: '-state$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): '#address-cells', '#size-cells', 'dp-phy@88ea200', 'ranges', 'usb3-phy@88e9200' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:1: 'ref' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:2: 'com_aux' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:3: 'usb3_pipe' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): reg: [[0, 143560704, 0, 396], [0, 143556608, 0, 60], [0, 143564800, 0, 396]] is too long
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: soc@0 (simple-bus): qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: soc@0 (simple-bus): qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: soc@0 (simple-bus): qcom,cam-req-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: /soc@0/geniqup@8c0000/spi@880000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: bluetooth (qcom,wcn3991-bt): 'qcom,local-bd-address-broken' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: pinctrl@3500000 (qcom,sc7180-pinctrl): 'cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' do not match any of the regexes: '-state$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): '#address-cells', '#size-cells', 'dp-phy@88ea200', 'ranges', 'usb3-phy@88e9200' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:1: 'ref' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:2: 'com_aux' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:3: 'usb3_pipe' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-inx-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): reg: [[0, 143560704, 0, 396], [0, 143556608, 0, 60], [0, 143564800, 0, 396]] is too long
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: soc@0 (simple-bus): qcom,cam-res-mgr: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: soc@0 (simple-bus): qcom,sync: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: soc@0 (simple-bus): qcom,cam-icp: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: /soc@0/geniqup@8c0000/spi@880000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: bluetooth (qcom,wcn3991-bt): 'qcom,local-bd-address-broken' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: pinctrl@3500000 (qcom,sc7180-pinctrl): 'cam_sensor_front_active', 'cam_sensor_front_suspend', 'cam_sensor_mclk0_active', 'cam_sensor_mclk0_suspend', 'cam_sensor_mclk1_active', 'cam_sensor_mclk1_suspend', 'cam_sensor_rear_active', 'cam_sensor_rear_suspend', 'cam_sensor_standby0_active', 'cam_sensor_standby0_suspend', 'cam_sensor_standby1_active', 'cam_sensor_standby1_suspend', 'cci0_active', 'cci0_suspend', 'cci1_active', 'cci1_suspend' do not match any of the regexes: '-state$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7180-pinctrl.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): '#address-cells', '#size-cells', 'dp-phy@88ea200', 'ranges', 'usb3-phy@88e9200' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:1: 'ref' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:2: 'com_aux' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): clock-names:3: 'usb3_pipe' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler-rev1-boe-rt5682s.dtb: phy-wrapper@88e9000 (qcom,sc7180-qmp-usb3-dp-phy): reg: [[0, 143560704, 0, 396], [0, 143556608, 0, 60], [0, 143564800, 0, 396]] is too long
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   drivers/nvme/host/pci.c: In function 'nvme_init':
+>> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_678' declared with attribute error: BUILD_BUG_ON failed: nvme_pci_npages_prp() > NVME_MAX_NR_ALLOCATIONS
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/nvme/host/pci.c:3804:9: note: in expansion of macro 'BUILD_BUG_ON'
+    3804 |         BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_ALLOCATIONS);
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_678 +557 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
 
 -- 
 0-DAY CI Kernel Test Service
