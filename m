@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B111F8EFA;
-	Wed,  7 May 2025 10:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CAD20D519
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746612072; cv=none; b=Nzll5N6xJrUoDFY0pTsuBBhovFgOs16CwCvZ/EP6uhQ0nfRy6pxFAjjGoZnPqR9lj2hC3imT8X+eukRkQiqLF9US5qUdr9HOOcOUSMcbFqFkfaOGGZn5AFOazdNkoAGkzg9m4ffevgTGWweImcOAnf2bcFNmzbPhjV6NJl02emc=
+	t=1746612248; cv=none; b=oGF9e2xiPzGZnEBfRYc3p0Hv8oGA6Jc4oXy2cdAQJyCu+3WizwDECcdbcjxa2+fnzYQyRmeJYjB8ARDxAuw8bpUWHYL1/TFjwqC4w75z4AH0H5vT0S/U/z7WlXrlGe0TLB32aK5G6ubkCMPIVgPVVl4PNSxJrDjcVlCqRJR7DeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746612072; c=relaxed/simple;
-	bh=zs1SYKT6lv/EHt5palXhPJ9VMYIN0/AXuAq54Q0W+4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LoT/jzLyacyL5Q1PbJ9EdfltDchzMIbkFpxNrVyE1f1Buu4nvGs2i1kBbjcAFDWoBMMhJ1yLM9PsKA3sUJTlqdABn8JClOHION5laJ2djil+54wzh/CLQKENexF+rQKzfgrTqlc8yAqls23hqAv/jOBdQ0LMpZd45wOqllqViWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RsyTmuvq; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1746612248; c=relaxed/simple;
+	bh=JorNS6ufGfA7z5IkRfawD60JtFI62oJZ7bVd67MtyWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MC/bF+BmnnSf4bDt3CnFodjVwLh+0fLIjcLgbwX1j1V+PWK+7sq5ocxJ/KMSSOotuNm58uNQnhgFwEXiqkNuxmkfORQue6i9jYSKvQ9CP0Dx44zVZ5MfLKsGzGBvbNrJ47c0fi+w4GErbcLjyi7KaVK0qFsO8ByVGiNpiliMvr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBtXBzam; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RsyTmuvq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBtXBzam"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746612069; x=1778148069;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zs1SYKT6lv/EHt5palXhPJ9VMYIN0/AXuAq54Q0W+4Q=;
-  b=RsyTmuvqLnYykY740RpidH4V/2iXnp/IAshZBuJMLPFJcftE1FriUw2E
-   wlMaSpW0IUIO0JbSnqSA+TkqvI/TXoyLkikZJtoxyjksiy3LQq05deVIE
-   Wtpf7fq9Kls720vx5a7E1RAzVrGzGEx7QjUelIMzNVFOwJ7wAD+eYbo+G
-   DqoGDsEKHTgwflM8wX10mA5B2ywX81T2WjArr4N9b0JemMOilBXkDgV4E
-   7wyHlSkJYHGSNy3wkLBsZDi5exFmwzUGPW6/pw4W8eE4c9bDuHIe+EoRz
-   XiYd5jTKDEJkLb5latazyHH32ciXxTt9cbZwZ8YCJIudilCoSe2ywFKw8
-   w==;
-X-CSE-ConnectionGUID: W0LJ5GioQ+iX6xvvtl/hlg==
-X-CSE-MsgGUID: wmQUtpmsSXOjlohktbHSXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58527552"
+  t=1746612247; x=1778148247;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JorNS6ufGfA7z5IkRfawD60JtFI62oJZ7bVd67MtyWY=;
+  b=VBtXBzamq9WpiF8tBmtHJ0jsiJihdd/MeI5eUUx+esT/0bRU5tWNKoYT
+   0eTLKDZ/mVLSB98NQjVY8TuCKt21kfHXCDiP15jzT3sCKk6So6ZJFl4d/
+   /x7usz0M/VLydhFNrRhtR6YgZlm2aejDu49dZDeE1Cq5G8TT7dbGufWD9
+   BVIqPRwiXsIywRc883LEyoEiKCtL/GSBwOyF/3Lo3n0xSBpPWTmTibqUe
+   avEmM4lQA2x2+ws6OkAJyLOrDYD70IB759ChhFBWC61VBRSl5RxtXUfJx
+   7c2Fk/Ez5CIOaBNViefhrddFjME2Yj35mE0wP3vctH2NerV6krgWqcrU6
+   Q==;
+X-CSE-ConnectionGUID: p9u5gTtQQ7GXzT+8P8rHwA==
+X-CSE-MsgGUID: auhcFYYOQqaQYlwc/HHxAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="52147981"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="58527552"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:01:08 -0700
-X-CSE-ConnectionGUID: JSsk2riqRCqSl8SPZprJdg==
-X-CSE-MsgGUID: 0jgR7Dl5Q8u7mmmb2p9Msg==
+   d="scan'208";a="52147981"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:04:06 -0700
+X-CSE-ConnectionGUID: uWI9YdynQa6sLR3VjmvxOg==
+X-CSE-MsgGUID: RYC5NrOFQR+mW5qGfVYGLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="159199341"
+   d="scan'208";a="136841523"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 03:01:04 -0700
+  by orviesa008.jf.intel.com with ESMTP; 07 May 2025 03:04:05 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCbaH-0007YL-32;
-	Wed, 07 May 2025 10:01:01 +0000
-Date: Wed, 7 May 2025 18:00:15 +0800
+	id 1uCbdC-0007Yz-1x;
+	Wed, 07 May 2025 10:04:02 +0000
+Date: Wed, 7 May 2025 18:03:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Chan <towinchenmi@gmail.com>, Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>
-Cc: oe-kbuild-all@lists.linux.dev, Marc Zyngier <maz@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nick Chan <towinchenmi@gmail.com>
-Subject: Re: [PATCH RESEND v6 03/21] drivers/perf: apple_m1: Support
- per-implementation event tables
-Message-ID: <202505071747.2b2WEajY-lkp@intel.com>
-References: <20250429-apple-cpmu-v6-3-ed21815f0c3f@gmail.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-nvme:nvme-fpin.v3 13/20] include/linux/nvme-keyring.h:61:8:
+ warning: no previous prototype for 'nvme_dhchap_psk_len'
+Message-ID: <202505071738.K7VshDWz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,161 +61,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250429-apple-cpmu-v6-3-ed21815f0c3f@gmail.com>
 
-Hi Nick,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0af2f6be1b4281385b618cb86ad946eded089ac8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Chan/dt-bindings-arm-pmu-Add-Apple-A7-A11-SoC-CPU-PMU-compatibles/20250429-114920
-base:   0af2f6be1b4281385b618cb86ad946eded089ac8
-patch link:    https://lore.kernel.org/r/20250429-apple-cpmu-v6-3-ed21815f0c3f%40gmail.com
-patch subject: [PATCH RESEND v6 03/21] drivers/perf: apple_m1: Support per-implementation event tables
-config: arm64-randconfig-004-20250501 (https://download.01.org/0day-ci/archive/20250507/202505071747.2b2WEajY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071747.2b2WEajY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git nvme-fpin.v3
+head:   931611be0f664cca44e6df3a27f302d0a27a96b9
+commit: c15b65f0fa820eb76beeeaed71d861d29b5d7af2 [13/20] nvme-auth: restrict the list of valid algorithms to the provided key lengths
+config: i386-randconfig-003-20250501 (https://download.01.org/0day-ci/archive/20250507/202505071738.K7VshDWz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071738.K7VshDWz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071747.2b2WEajY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071738.K7VshDWz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   include/linux/bits.h:34:2: note: (near initialization for 'm1_pmu_event_affinity[248]')
-      34 |  (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |  ^
-   drivers/perf/apple_m1_cpu_pmu.c:27:23: note: in expansion of macro 'GENMASK'
-      27 | #define ONLY_2_TO_7   GENMASK(7, 2)
-         |                       ^~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:163:35: note: in expansion of macro 'ONLY_2_TO_7'
-     163 |  [M1_PMU_PERFCTR_UNKNOWN_f8]    = ONLY_2_TO_7,
-         |                                   ^~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:28:22: warning: initialized field overwritten [-Woverride-init]
-      28 | #define ONLY_2_4_6   (BIT(2) | BIT(4) | BIT(6))
-         |                      ^
-   drivers/perf/apple_m1_cpu_pmu.c:164:35: note: in expansion of macro 'ONLY_2_4_6'
-     164 |  [M1_PMU_PERFCTR_UNKNOWN_fd]    = ONLY_2_4_6,
-         |                                   ^~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:28:22: note: (near initialization for 'm1_pmu_event_affinity[253]')
-      28 | #define ONLY_2_4_6   (BIT(2) | BIT(4) | BIT(6))
-         |                      ^
-   drivers/perf/apple_m1_cpu_pmu.c:164:35: note: in expansion of macro 'ONLY_2_4_6'
-     164 |  [M1_PMU_PERFCTR_UNKNOWN_fd]    = ONLY_2_4_6,
-         |                                   ^~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:169:32: warning: initialized field overwritten [-Woverride-init]
-     169 |  [PERF_COUNT_HW_CPU_CYCLES]  = M1_PMU_PERFCTR_CORE_ACTIVE_CYCLE,
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:169:32: note: (near initialization for 'm1_pmu_perf_map[0]')
-   drivers/perf/apple_m1_cpu_pmu.c:170:34: warning: initialized field overwritten [-Woverride-init]
-     170 |  [PERF_COUNT_HW_INSTRUCTIONS]  = M1_PMU_PERFCTR_INST_ALL,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:170:34: note: (near initialization for 'm1_pmu_perf_map[1]')
-   drivers/perf/apple_m1_cpu_pmu.c:171:40: warning: initialized field overwritten [-Woverride-init]
-     171 |  [PERF_COUNT_HW_BRANCH_INSTRUCTIONS] = M1_PMU_PERFCTR_INST_BRANCH,
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:171:40: note: (near initialization for 'm1_pmu_perf_map[4]')
-   drivers/perf/apple_m1_cpu_pmu.c:172:35: warning: initialized field overwritten [-Woverride-init]
-     172 |  [PERF_COUNT_HW_BRANCH_MISSES]  = M1_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:172:35: note: (near initialization for 'm1_pmu_perf_map[5]')
-   drivers/perf/apple_m1_cpu_pmu.c:176:40: warning: initialized field overwritten [-Woverride-init]
-     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:180:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
-     180 |  M1_PMUV3_EVENT_MAP(INST_RETIRED, INST_ALL),
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:176:40: note: (near initialization for 'm1_pmu_pmceid_map[8]')
-     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:180:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
-     180 |  M1_PMUV3_EVENT_MAP(INST_RETIRED, INST_ALL),
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:176:40: warning: initialized field overwritten [-Woverride-init]
-     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:181:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
-     181 |  M1_PMUV3_EVENT_MAP(CPU_CYCLES,  CORE_ACTIVE_CYCLE),
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:176:40: note: (near initialization for 'm1_pmu_pmceid_map[17]')
-     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:181:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
-     181 |  M1_PMUV3_EVENT_MAP(CPU_CYCLES,  CORE_ACTIVE_CYCLE),
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:176:40: warning: initialized field overwritten [-Woverride-init]
-     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:182:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
-     182 |  M1_PMUV3_EVENT_MAP(BR_RETIRED,  INST_BRANCH),
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:176:40: note: (near initialization for 'm1_pmu_pmceid_map[33]')
-     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:182:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
-     182 |  M1_PMUV3_EVENT_MAP(BR_RETIRED,  INST_BRANCH),
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:176:40: warning: initialized field overwritten [-Woverride-init]
-     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:183:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
-     183 |  M1_PMUV3_EVENT_MAP(BR_MIS_PRED_RETIRED, BRANCH_MISPRED_NONSPEC),
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:176:40: note: (near initialization for 'm1_pmu_pmceid_map[34]')
-     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:183:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
-     183 |  M1_PMUV3_EVENT_MAP(BR_MIS_PRED_RETIRED, BRANCH_MISPRED_NONSPEC),
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c: In function 'm1_pmu_enable_event':
-   drivers/perf/apple_m1_cpu_pmu.c:422:5: warning: variable 'evt' set but not used [-Wunused-but-set-variable]
-     422 |  u8 evt;
-         |     ^~~
-   drivers/perf/apple_m1_cpu_pmu.c:421:13: warning: variable 'kernel' set but not used [-Wunused-but-set-variable]
-     421 |  bool user, kernel;
-         |             ^~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:421:7: warning: variable 'user' set but not used [-Wunused-but-set-variable]
-     421 |  bool user, kernel;
-         |       ^~~~
-   In file included from include/linux/bits.h:22,
-                    from include/linux/bitops.h:6,
-                    from include/linux/of.h:15,
-                    from drivers/perf/apple_m1_cpu_pmu.c:13:
-   drivers/perf/apple_m1_cpu_pmu.c: At top level:
->> include/linux/build_bug.h:16:44: warning: anonymous struct declared inside parameter list will not be visible outside of this definition or declaration
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                            ^~~~~~
-   include/linux/bits.h:24:35: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-      24 | #define GENMASK_INPUT_CHECK(h, l) BUILD_BUG_ON_ZERO(const_true((l) > (h)))
-         |                                   ^~~~~~~~~~~~~~~~~
-   include/linux/bits.h:34:3: note: in expansion of macro 'GENMASK_INPUT_CHECK'
-      34 |  (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |   ^~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:24:27: note: in expansion of macro 'GENMASK'
-      24 | #define M1_PMU_CFG_EVENT  GENMASK(7, 0)
-         |                           ^~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:496:32: note: in expansion of macro 'M1_PMU_CFG_EVENT'
-     496 |     const u16 event_affinities[M1_PMU_CFG_EVENT])
-         |                                ^~~~~~~~~~~~~~~~
+   In file included from drivers/nvme/target/configfs.c:19:
+   include/linux/nvme-keyring.h:54:1: error: expected identifier or '(' before '{' token
+      54 | {
+         | ^
+   include/linux/nvme-keyring.h:57:4: warning: no previous prototype for 'nvme_dhchap_psk_hash' [-Wmissing-prototypes]
+      57 | u8 nvme_dhchap_psk_hash(struct key *key)
+         |    ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/nvme-keyring.h:61:8: warning: no previous prototype for 'nvme_dhchap_psk_len' [-Wmissing-prototypes]
+      61 | size_t nvme_dhchap_psk_len(struct key *key)
+         |        ^~~~~~~~~~~~~~~~~~~
+   include/linux/nvme-keyring.h:52:27: warning: 'nvme_dhchap_psk_lookup' declared 'static' but never defined [-Wunused-function]
+      52 | static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
 
 
-vim +16 include/linux/build_bug.h
+vim +/nvme_dhchap_psk_len +61 include/linux/nvme-keyring.h
 
-bc6245e5efd70c Ian Abbott       2017-07-10   6  
-bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
-bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
-bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
-bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
-bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
-8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
-bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
-bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
-bc6245e5efd70c Ian Abbott       2017-07-10  15   */
-8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
-527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
+    21	
+    22	struct key *nvme_dhchap_psk_refresh(struct key *keyring,
+    23			const u8 *data, size_t data_len);
+    24	struct key *nvme_dhchap_psk_lookup(struct key *keyring, const char *identity);
+    25	u8 nvme_dhchap_psk_hash(struct key *key);
+    26	size_t nvme_dhchap_psk_len(struct key *key);
+    27	#else
+    28	static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
+    29			u8 *data, size_t data_len, const char *digest)
+    30	{
+    31		return ERR_PTR(-ENOTSUPP);
+    32	}
+    33	static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
+    34			const char *hostnqn, const char *subnqn)
+    35	{
+    36		return 0;
+    37	}
+    38	static inline key_serial_t nvme_keyring_id(void)
+    39	{
+    40		return 0;
+    41	}
+    42	static inline struct key *nvme_tls_key_lookup(key_serial_t key_id)
+    43	{
+    44		return ERR_PTR(-ENOTSUPP);
+    45	}
+    46	static inline struct key *nvme_dhchap_psk_refresh(struct key *keyring,
+    47			const char *hostnqn, const char *subnqn,
+    48			u8 *data, size_t data_len)
+    49	{
+    50		return ERR_PTR(-ENOTSUPP);
+    51	}
+    52	static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
+    53			const char *hostnqn, const char *subnqn, u8 hmac);
+    54	{
+    55		return ERR_PTR(-ENOTSUPP);
+    56	}
+    57	u8 nvme_dhchap_psk_hash(struct key *key)
+    58	{
+    59		return 0;
+    60	}
+  > 61	size_t nvme_dhchap_psk_len(struct key *key)
 
 -- 
 0-DAY CI Kernel Test Service
