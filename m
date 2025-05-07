@@ -1,70 +1,69 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529DB21770A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 11:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C691A256B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 11:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746616305; cv=none; b=h0vnVuAVusQ+6eQV8FYoGXXVzWv3vsHXI0fkI8zAU4wS0e8rOu7iTI6aBciz8Bhc10cOYN7eL2C21LeyKeFV+U5Ws6ohEpAovkiK1auZ7a3tz2Pqy88DZoOeWozQ0fPhQ5jBujsCzvkdDdCdI++Gf9byurjrG2xulDewjp5RJw0=
+	t=1746617099; cv=none; b=NswEYnSmMBkEXehQGOgLskBTpOHTCLczItzhbyBHpj997bBvRYL+1zMx5+JyRZGtld/OXc44o+s78h4bcrgGqFOquwtU0BMplW7CQr1GMzdMP2/hy01MJtcT2qeA7wUBbP06LrZxQ27CnSgKeX9CK8DpkXlpuu42kO0nlg0rVM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746616305; c=relaxed/simple;
-	bh=O7T7lURmPzlyhlz2lQ5rfia6zH9kBYDQv5+Igz+urG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TvkFqyMSJHhrEk2GPBtROSh5jD1Icr4fHHwUh6nWHpTXQpgk9fPhGQSNZEho05HH/2OX4HJ8BXF0pXRhIZH5FnUL91XrYfjuI24WUTAIuSxexMTioQWp6jfLuPc0RiybmCS9sBt0rLDTqdWBZPOBHG8pw4z2w94PrRLmgq802uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zyDMhj1a; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1746617099; c=relaxed/simple;
+	bh=eZJybZdxwASakpoaQMGcFN08228iOOZpqRIN+H3A/QE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BcqJMsh8rMphz0R2IgtLOr22jZzMsv2y534BuEvUVV4kGVS3KbWEoi8yl5d9QrTAMknySK6MawNVfI50C+PlLSQFXyDQaGwKz6IfRQ7y1N5OjCsVnCVXB/OgEr6ZTsdsKGjcwpPFyWysr1DvKlqz+rv9pR6nPfDr+owK/WS8cds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXL6p2/S; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zyDMhj1a"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a0b6773f8dso351199f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 May 2025 04:11:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746616301; x=1747221101; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ixwft/rRHcnE7vrEwrCxcGZPZGqd0iNXvgYvekcku+k=;
-        b=zyDMhj1aJdUz41enXg9uHTn/DUaqeohBFZRsQQZ4dM2TlBM1Jfoln2+Pzb2LVKRFOf
-         j5gJu///Q92VRpEIuldUnxzFj+5XyH7iOng7aC4+7HTpQpunjbHVriUxCY+n3Jd5p6ew
-         m3TNHCPfgATbDMAj0NF1CBVMe3zt4CFGaKDGhLGI9lis9zBJM/1hn/UXL7irXL5dALf9
-         HVDawqu6ARHYSZX39x6pBdKsVvJAgT77B9N0J1kiJXjSo91diwUn/mJM9wSaD2TAlm+h
-         fz2XsFbjhlc6bnyBQS/fE+1y9MQrXOEFQPQ4E9fleZptz2kZVV8fXC/JRviKw5ElY5df
-         8uOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746616301; x=1747221101;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ixwft/rRHcnE7vrEwrCxcGZPZGqd0iNXvgYvekcku+k=;
-        b=gkF/UwBlsW3TxzNAz3MkzMRyKoIhVowNEewCX+gfzVfOtA91gPEjBC5Sw2XV8dIWq9
-         hEgCjnq1EzwjWkun9txiEv5I4Vff8uDYhs7a1pN9qjyGAQxHFdXzA6Tl0aaHz9GhrK4f
-         cMO6GXmF8eD6/igYPTRW0Usyi9hD5v8KCry6k4PG8Q7lXe1xEwbB1nI+6KgESxfCbJRT
-         8gV2oiHuvUtPtS1uWOwKiUvCS7FD5sDubKBsn+IoFDGpf1lhpkAxTjX3x0f7q4PJT67P
-         Qom72bC44HQEOfTxSaw7QkFgJwybMGp0RSNY3mmjY2I6IkbZ7yobw073rtBPoTmxWRP8
-         mD5A==
-X-Forwarded-Encrypted: i=1; AJvYcCX/nczvEaRa+474uePj6BJRRYCCJD7EW0KirRl/mHpCeqh24hjODO1dEGLy/UngNElffqAzrZbq4n1jeORp@lists.linux.dev
-X-Gm-Message-State: AOJu0YxjY6SHImMFgNXzlON6W3mFRZBj2/VndX32WbysvLnp/wKPChTp
-	AG0bTZELMrCrEsBL/xLoxNJYyWiJER/LOdUb7iJtVAQwQMM2JgCY2OQbO1GD2O4=
-X-Gm-Gg: ASbGnctD/In766lNgFIE243Z7ogNDxDosmv6gPLzCbXQNkWtWz0VHO1CuVWIPmXPbby
-	H18QZfEw0iYoxi/zpMLNr/olGC/rAmh5WWit/+4LB0joXhgubLN8NA4M33dBUTouM8/AdwfsznW
-	zbC/YN63tORRay+S4fe6h6W5qPh4UN9onfFJzhaMWw8oEdcBIvGiyQwpvtIy6Rzo5Z78iJXXYN6
-	HNtWlTQi2ymXpT7rYIdyDRLXMaIpaOS8ZJPxbcZ7bmWnTASSryTnTDxYk0LXhO4nEyluFbQpnWK
-	p+ChBuiQgMpnKD9pLrA9Ox21Pd8YRFMjJP97id5j0Bq91A==
-X-Google-Smtp-Source: AGHT+IHdeEC4ULtNZiSQLIW/WZraK7DAmPtaYRcs3Y6BdK2zeWsY8QWGYwu/gFJBVlqAslMuVCnFBA==
-X-Received: by 2002:a05:6000:1445:b0:39c:1257:cd3f with SMTP id ffacd0b85a97d-3a0b4a105abmr2600950f8f.57.1746616301552;
-        Wed, 07 May 2025 04:11:41 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a0b350f604sm3137441f8f.21.2025.05.07.04.11.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 04:11:41 -0700 (PDT)
-Date: Wed, 7 May 2025 14:11:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Shivank Garg <shivankg@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 7893/8235] fs/jfs/jfs_metapage.c:245
- __metapage_migrate_folio() error: we previously assumed 'mp' could be null
- (see line 235)
-Message-ID: <202505071850.XaOkcCkX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXL6p2/S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746617097; x=1778153097;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eZJybZdxwASakpoaQMGcFN08228iOOZpqRIN+H3A/QE=;
+  b=QXL6p2/SFTjPxj1w4Ttsi8hcTkysccm4FLXWynDDhYgP3gX/My0xJYVR
+   0ryovs20bg/7YnlSHmbjUWF3JsPX2QtWudTQDg3DpVtVTg6txUxitbhmW
+   FaYvfCdfi8UqGpfkyXWOMM7RD3PzEfBmVJFamVHEed3WAVvhkfqG9s2lo
+   cCt4LbI+IhM7L/hsXan+Cc6SuQFTX+eflNUbzhXdEpY4o+6jGYpLHBycj
+   yaQZ5+RLolzGCufY8Nwcq5UZO7/hg59hm9bk7WQ22IQOUAnrEVqDoenQ/
+   TnvTW3xXfrWJeOY4oOMOMhTGgvmC9HwS0cX7RkShdYkwekObtacaGGNxW
+   Q==;
+X-CSE-ConnectionGUID: jQJNmVXEQc2TgJnK0s9YKQ==
+X-CSE-MsgGUID: 7iIRIoPURH2W9vep22twpg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48241806"
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="48241806"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 04:24:57 -0700
+X-CSE-ConnectionGUID: pqp/Io6KTYeFgb6dTJ5ubw==
+X-CSE-MsgGUID: QXROB2ZTRBKievyOhHhh1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="166861156"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 07 May 2025 04:24:54 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCctP-0007fZ-0v;
+	Wed, 07 May 2025 11:24:51 +0000
+Date: Wed, 7 May 2025 19:24:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mao Jinlong <quic_jinlmao@quicinc.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 4/5] coresight: Add remote etm support
+Message-ID: <202505071921.rDzEb2CH-lkp@intel.com>
+References: <20250424115854.2328190-5-quic_jinlmao@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,57 +72,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250424115854.2328190-5-quic_jinlmao@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   08710e696081d58163c8078e0e096be6d35c5fad
-commit: 39ed4d1a0e03ce3ac2145ee7ef0714c78bae9c61 [7893/8235] jfs: implement migrate_folio for jfs_metapage_aops
-config: i386-randconfig-141-20250502 (https://download.01.org/0day-ci/archive/20250507/202505071850.XaOkcCkX-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+Hi Mao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.15-rc5]
+[cannot apply to next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mao-Jinlong/dt-bindings-arm-Add-CoreSight-QMI-component-description/20250424-200202
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250424115854.2328190-5-quic_jinlmao%40quicinc.com
+patch subject: [PATCH v5 4/5] coresight: Add remote etm support
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250507/202505071921.rDzEb2CH-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071921.rDzEb2CH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505071850.XaOkcCkX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071921.rDzEb2CH-lkp@intel.com/
 
-smatch warnings:
-fs/jfs/jfs_metapage.c:245 __metapage_migrate_folio() error: we previously assumed 'mp' could be null (see line 235)
+All errors (new ones prefixed by >>):
 
-vim +/mp +245 fs/jfs/jfs_metapage.c
+>> drivers/hwtracing/coresight/coresight-remote-etm.c:161:27: error: initialization of 'int (*)(struct coresight_device *, struct perf_event *, enum cs_mode,  struct coresight_path *)' from incompatible pointer type 'int (*)(struct coresight_device *, struct perf_event *, enum cs_mode,  struct coresight_trace_id_map *)' [-Wincompatible-pointer-types]
+     161 |         .enable         = remote_etm_enable,
+         |                           ^~~~~~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-remote-etm.c:161:27: note: (near initialization for 'remote_etm_source_ops.enable')
 
-39ed4d1a0e03ce Shivank Garg  2025-04-30  227  static int __metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
-39ed4d1a0e03ce Shivank Garg  2025-04-30  228  				    struct folio *src, enum migrate_mode mode)
-39ed4d1a0e03ce Shivank Garg  2025-04-30  229  {
-39ed4d1a0e03ce Shivank Garg  2025-04-30  230  	struct metapage *mp;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  231  	int page_offset;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  232  	int rc;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  233  
-39ed4d1a0e03ce Shivank Garg  2025-04-30  234  	mp = folio_to_mp(src, 0);
-39ed4d1a0e03ce Shivank Garg  2025-04-30 @235  	if (mp && metapage_locked(mp))
-                                                    ^^
-If mp is NULL
 
-39ed4d1a0e03ce Shivank Garg  2025-04-30  236  		return -EAGAIN;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  237  
-39ed4d1a0e03ce Shivank Garg  2025-04-30  238  	rc = filemap_migrate_folio(mapping, dst, src, mode);
-39ed4d1a0e03ce Shivank Garg  2025-04-30  239  	if (rc != MIGRATEPAGE_SUCCESS)
-39ed4d1a0e03ce Shivank Garg  2025-04-30  240  		return rc;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  241  
-39ed4d1a0e03ce Shivank Garg  2025-04-30  242  	if (unlikely(insert_metapage(dst, mp)))
-39ed4d1a0e03ce Shivank Garg  2025-04-30  243  		return -EAGAIN;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  244  
-39ed4d1a0e03ce Shivank Garg  2025-04-30 @245  	page_offset = mp->data - folio_address(src);
-                                                              ^^
-Then this will crash.
+vim +161 drivers/hwtracing/coresight/coresight-remote-etm.c
 
-39ed4d1a0e03ce Shivank Garg  2025-04-30  246  	mp->data = folio_address(dst) + page_offset;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  247  	mp->folio = dst;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  248  	remove_metapage(src, mp);
-39ed4d1a0e03ce Shivank Garg  2025-04-30  249  
-39ed4d1a0e03ce Shivank Garg  2025-04-30  250  	return MIGRATEPAGE_SUCCESS;
-39ed4d1a0e03ce Shivank Garg  2025-04-30  251  }
+   159	
+   160	static const struct coresight_ops_source remote_etm_source_ops = {
+ > 161		.enable		= remote_etm_enable,
+   162		.disable	= remote_etm_disable,
+   163	};
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
