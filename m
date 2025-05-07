@@ -1,72 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145701FECCD;
-	Wed,  7 May 2025 06:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3902B3209
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 06:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746598031; cv=none; b=uk4Mxcervpx1DvG9/W7gCFpnlBilSGuEYSV0p44XQ2I9QLFT0Qfs8UFx5Er7tiDVO6Nw6pNzhYot9dzmQeabtpDY4tJU0SdJLeDMuCKvaF9ayhg2/dQom4hegerVl/uh5VCf2K7ol2DJtRCnnYXKq5HwGs0zu4BH10MLttdiYxE=
+	t=1746598032; cv=none; b=Iqh2SyuXA4IsZd8q3hpieYZkqzRIWAviwDdCrO8hI9dSQSMWrhnuNnGxWUdbxIih16x0M52GSOFh4K5QNQnrbDZtUNiSykheqJ6As+iVdQXcXz0BEUW/rONhGaDdf0+T7AGxhQsP1rVX4FecRraEVIMNmvUHI3F7IS5RqQTMGA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746598031; c=relaxed/simple;
-	bh=XJ3GmIEe0qHJJespiwekgd+syCW0uno2XczVjcXdZcw=;
+	s=arc-20240116; t=1746598032; c=relaxed/simple;
+	bh=gIBFpUcdpTEqET201boe5OeaEhR1cNbJ+GzsTMz0LeE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CUVmEILYXpONIIIC2s3oWM+x3zW5cLAI5Xo2orA3Ymrua5L+J0NC/US+lzLTVvAT6BP3z0e8WuLFcRg0foaxDq/rKo+RFuAbz6L7q184RNasD6k75kcbdpbjrVJ32qqTOCYb0I1J8lKcO/euU5qA90P5xdG8yHETW25q2J+JJa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T1D5zzFC; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=n8v8e5o01HxWzmlCtk+u5u5b9jWYcpbeZeS0fvlz7lK4ni3lzRZw8Yh/R4HkLgI1Sm9TtUWwOvst7rYUJ6V4caE6YGf++B76zctBBhrX1iqWa9VX1BOe/sRfr6QYviv+DnWvo2bbyNZjDHubCdJmWzHWt5YUH3hKHf7zsdIVTNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CL2b5FsX; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T1D5zzFC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CL2b5FsX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746598030; x=1778134030;
+  t=1746598031; x=1778134031;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XJ3GmIEe0qHJJespiwekgd+syCW0uno2XczVjcXdZcw=;
-  b=T1D5zzFCKLvFCtXOPrn/9m0EknzHjo1v8ZBJ8LIsw7pEEQ+DI0Py6DWs
-   UqNQLwvC3clHR3n+v+SPUbTqnct58a7Y1h2UHAGc4SjGlSC5HXD9CCjjE
-   1xrvWGBhSaaViDu1XE0vDLq7ZUD3BvTO0lwaCDXg7y+Zb60AQ4HZDo/Rg
-   hUOmr5g5EVZGoI8yoIGXMpKbG/epno8rywKzUcPw7MbYrcI/9Jrd5XE5X
-   b3HQ42ZaUJwvPM743EUOSP+bxxovTybDRKh9NTLtXAJW6QmXHuHvbFaTc
-   ShBwmPPeqHlJ0bq1oV06BdQmNdAxNbT+4HEWXGpkeOuZ3cJQwHNKCAYyt
-   Q==;
-X-CSE-ConnectionGUID: iB7HGyUwSWynHa6Ir/aDJg==
-X-CSE-MsgGUID: aWmI0sRpSL6usYocpPFv7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48316398"
+  bh=gIBFpUcdpTEqET201boe5OeaEhR1cNbJ+GzsTMz0LeE=;
+  b=CL2b5FsX5kQQm8ma9CDWfyTocuN85Vk1j+1ykwWNaHhACvWBqphqf5uT
+   fWqmeO+kR2HcdVUnEbNcdTadx1o110RDZgd3iQldGjvoi26M/6DmTT6cC
+   Zbt9gI+jBBwFAS5Up/KZnhj9kVXyffTQ+llTN5JPs/zPLu/syc2qOoyjX
+   SBn1IiM5mV6SGMmLVNSIXScNCY/r9sOtg45exoFksjQ55IEtJRr7zMrWC
+   IZfir//7hhEJVsQoPzR1/5o2HqF5o6cMRkiMftJWwGyg9YzLgjjjwAh4p
+   d4QCiQ+vjojLUEsnGe+IdXdbp51BgYthTFUkUioQbgROYP6QjgWg+/ePW
+   A==;
+X-CSE-ConnectionGUID: k3C9nqSnQGC9TSjZHgUuGQ==
+X-CSE-MsgGUID: tw7HPbi6Qv+vlLtdcLAS8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48452756"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="48316398"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 23:07:09 -0700
-X-CSE-ConnectionGUID: mYUWIYhbR5efS8YdeLTv+A==
-X-CSE-MsgGUID: 8L47qrO8S56HbJmO3Re3Bw==
+   d="scan'208";a="48452756"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 23:07:07 -0700
+X-CSE-ConnectionGUID: 3COYIDj7RFWGpAPNHlNk4Q==
+X-CSE-MsgGUID: bnvAyUhlSGW0RCQMAk2f0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="136370562"
+   d="scan'208";a="136252149"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 May 2025 23:07:06 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 06 May 2025 23:07:05 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCXvr-00079S-0D;
-	Wed, 07 May 2025 06:07:03 +0000
-Date: Wed, 7 May 2025 14:06:20 +0800
+	id 1uCXvq-00079N-3B;
+	Wed, 07 May 2025 06:07:02 +0000
+Date: Wed, 7 May 2025 14:06:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Junhui Liu <junhui.liu@pigmoral.tech>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Yuntao Dai <d1581209858@live.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, sophgo@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v3 3/3] mailbox: sophgo: add mailbox driver for CV18XX
- series SoC
-Message-ID: <202505071325.uHimwt0g-lkp@intel.com>
-References: <20250428-cv18xx-mbox-v3-3-ed18dfd836d1@pigmoral.tech>
+To: Rory Little <rory@candelatech.com>, nbd@nbd.name, lorenzo@kernel.org,
+	ryder.lee@mediatek.com
+Cc: oe-kbuild-all@lists.linux.dev, shayne.chen@mediatek.com,
+	sean.wang@mediatek.com, linux-wireless@vger.kernel.org
+Subject: Re: [PATCH mt76 v2 1/4] wifi: mt76: mt7996: Add per-radio phy
+ debugfs directories.
+Message-ID: <202505071352.R4Bb2GN1-lkp@intel.com>
+References: <20250430232225.3943242-2-rory@candelatech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,107 +65,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250428-cv18xx-mbox-v3-3-ed18dfd836d1@pigmoral.tech>
+In-Reply-To: <20250430232225.3943242-2-rory@candelatech.com>
 
-Hi Junhui,
+Hi Rory,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on b4432656b36e5cc1d50a1f2dc15357543add530e]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.15-rc5 next-20250506]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Junhui-Liu/dt-bindings-mailbox-add-Sophgo-CV18XX-series-SoC/20250428-221604
-base:   b4432656b36e5cc1d50a1f2dc15357543add530e
-patch link:    https://lore.kernel.org/r/20250428-cv18xx-mbox-v3-3-ed18dfd836d1%40pigmoral.tech
-patch subject: [PATCH v3 3/3] mailbox: sophgo: add mailbox driver for CV18XX series SoC
-config: m68k-randconfig-r121-20250429 (https://download.01.org/0day-ci/archive/20250507/202505071325.uHimwt0g-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071325.uHimwt0g-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rory-Little/wifi-mt76-mt7996-Add-per-radio-phy-debugfs-directories/20250501-072345
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20250430232225.3943242-2-rory%40candelatech.com
+patch subject: [PATCH mt76 v2 1/4] wifi: mt76: mt7996: Add per-radio phy debugfs directories.
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250507/202505071352.R4Bb2GN1-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071352.R4Bb2GN1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071325.uHimwt0g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071352.R4Bb2GN1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mailbox/cv1800-mailbox.c:64:50: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/mailbox/cv1800-mailbox.c:89:33: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/mailbox/cv1800-mailbox.c:88:42: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long [noderef] [usertype] __iomem * @@     got unsigned long long [usertype] * @@
-   drivers/mailbox/cv1800-mailbox.c:88:42: sparse:     expected unsigned long long [noderef] [usertype] __iomem *
-   drivers/mailbox/cv1800-mailbox.c:88:42: sparse:     got unsigned long long [usertype] *
-   drivers/mailbox/cv1800-mailbox.c:109:21: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/mailbox/cv1800-mailbox.c:109:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *dst @@     got unsigned long long [usertype] * @@
-   drivers/mailbox/cv1800-mailbox.c:109:21: sparse:     expected void volatile [noderef] __iomem *dst
-   drivers/mailbox/cv1800-mailbox.c:109:21: sparse:     got unsigned long long [usertype] *
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +64 drivers/mailbox/cv1800-mailbox.c
+   drivers/net/wireless/mediatek/mt76/mt7996/debugfs.c: In function 'mt7996_init_debugfs':
+>> drivers/net/wireless/mediatek/mt76/mt7996/debugfs.c:851:52: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+     851 |         snprintf(fname, sizeof(fname), "radio_phy%d", phy->mt76->band_idx);
+         |                                                    ^
+   In function 'mt7996_init_radio_phy_debugfs',
+       inlined from 'mt7996_init_debugfs' at drivers/net/wireless/mediatek/mt76/mt7996/debugfs.c:900:9:
+   drivers/net/wireless/mediatek/mt76/mt7996/debugfs.c:851:9: note: 'snprintf' output between 11 and 13 bytes into a destination of size 12
+     851 |         snprintf(fname, sizeof(fname), "radio_phy%d", phy->mt76->band_idx);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    54	
-    55	static irqreturn_t cv1800_mbox_isr(int irq, void *dev_id)
-    56	{
-    57		struct cv1800_mbox *mbox = (struct cv1800_mbox *)dev_id;
-    58		size_t i;
-    59		int ret = IRQ_NONE;
-    60	
-    61		for (i = 0; i < MAILBOX_MAX_CHAN; i++) {
-    62			if (mbox->content[i] && mbox->chans[i].cl) {
-    63				mbox_chan_received_data(&mbox->chans[i],
-  > 64							(void *)mbox->content[i]);
-    65				mbox->content[i] = NULL;
-    66				ret = IRQ_HANDLED;
-    67			}
-    68		}
-    69	
-    70		return ret;
-    71	}
-    72	
-    73	static irqreturn_t cv1800_mbox_irq(int irq, void *dev_id)
-    74	{
-    75		struct cv1800_mbox *mbox = (struct cv1800_mbox *)dev_id;
-    76		u8 set, valid;
-    77		size_t i;
-    78		int ret = IRQ_NONE;
-    79	
-    80		set = readb(mbox->mbox_base + MBOX_SET_INT_REG(RECV_CPU));
-    81	
-    82		if (!set)
-    83			return ret;
-    84	
-    85		for (i = 0; i < MAILBOX_MAX_CHAN; i++) {
-    86			valid = set & BIT(i);
-    87			if (valid) {
-  > 88				mbox->content[i] =
-    89					MBOX_CONTEXT_BASE_INDEX(mbox->mbox_base, i);
-    90				writeb(valid,
-    91				       mbox->mbox_base + MBOX_SET_CLR_REG(RECV_CPU));
-    92				writeb(~valid, mbox->mbox_base + MBOX_EN_REG(RECV_CPU));
-    93				ret = IRQ_WAKE_THREAD;
-    94			}
-    95		}
-    96	
-    97		return ret;
-    98	}
-    99	
-   100	static int cv1800_mbox_send_data(struct mbox_chan *chan, void *data)
-   101	{
-   102		struct cv1800_mbox_chan_priv *priv =
-   103			(struct cv1800_mbox_chan_priv *)chan->con_priv;
-   104		struct cv1800_mbox *mbox = dev_get_drvdata(chan->mbox->dev);
-   105		int idx = priv->idx;
-   106		int cpu = priv->cpu;
-   107		u8 en, valid;
-   108	
- > 109		memcpy_toio(MBOX_CONTEXT_BASE_INDEX(mbox->mbox_base, idx),
-   110			    data, 8);
-   111	
-   112		valid = BIT(idx);
-   113		writeb(valid, mbox->mbox_base + MBOX_SET_CLR_REG(cpu));
-   114		en = readb(mbox->mbox_base + MBOX_EN_REG(cpu));
-   115		writeb(en | valid, mbox->mbox_base + MBOX_EN_REG(cpu));
-   116		writeb(valid, mbox->mbox_base + MBOX_SET_REG);
-   117	
-   118		return 0;
-   119	}
-   120	
+
+vim +/snprintf +851 drivers/net/wireless/mediatek/mt76/mt7996/debugfs.c
+
+   841	
+   842	DEFINE_DEBUGFS_ATTRIBUTE(fops_rf_regval, mt7996_rf_regval_get,
+   843				 mt7996_rf_regval_set, "0x%08llx\n");
+   844	
+   845	static int
+   846	mt7996_init_radio_phy_debugfs(struct mt7996_phy *phy)
+   847	{
+   848		struct dentry *dir;
+   849		char fname[12];
+   850	
+ > 851		snprintf(fname, sizeof(fname), "radio_phy%d", phy->mt76->band_idx);
+   852		dir = debugfs_create_dir(fname, phy->dev->debugfs_dir);
+   853	
+   854		if (IS_ERR_OR_NULL(dir))
+   855			return -ENOMEM;
+   856	
+   857		phy->debugfs_dir = dir;
+   858	
+   859		return 0;
+   860	}
+   861	
 
 -- 
 0-DAY CI Kernel Test Service
