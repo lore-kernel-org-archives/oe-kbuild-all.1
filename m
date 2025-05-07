@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F4A205AB9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCD6205AB9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746614964; cv=none; b=CWKLUxPCPNMc11W2meYEQdB4FLEwfzoK7cf2pB1poWUFg/oObuLWhjLwK3wbUByqzdD/TafRlx/ZsQ/rxaSw+Gaexcdj0C4qf8fDvd8HwsJXmZXMug6QKCpJ/4sm0RAeEb+fi8ox+yRQ2kzukPnaaerzE9X+cHJuKQgAtAyWCtE=
+	t=1746614966; cv=none; b=lj0wEx/dICTwMEU+LfWiKd6u3gEhuBgKqpLaDoKSIwWl4tSqKvPcBIYr5V8m1kTNAVMppx5SqDWwknGuQdOHxiH6EwQhldAIq/MLKWq5mJZCq5fUOoBxpr5wOGj8Fdu6LE2ZAptd94b8AlXhknlan4n1ydkJJ2pHlaRBumY5wGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746614964; c=relaxed/simple;
-	bh=U3z+v8ZvdKejNQeQND39yhVq6/gHRWuUiWl+DFcoipE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tCxXIGvhJX6FUH8caUf0I6jQJXkXVUksAQgZU9EJRgsTcpV25TYb5+ihsGqlqTAkq78wH3Q0R0fqDZXa8kDCkTJGmyZ3f3NBa07uocasN7iJa9yxp9+0fbIX3Tct79o6V33EnKKdA45zi0RS5IZ7MB7ygYxeu3xk9zUtOf86lmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAfT5AVR; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1746614966; c=relaxed/simple;
+	bh=EaQLm/18zqp2g3Ts6r0JH+BLe1TiNJ5zMltPned8co8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E17LcS1Pol0VyX31ENiMCajU9w8p2VyxqQbF9wg+P8vPZhYFEAeLcnisu0VhAjx7FM9Gks/ppjyE8DbKGuzCcXNKpMCUPNzWECS2oxPmLLtCbDmDCgyKBbJ3lhDkbgidSADCLK6tn5VpQ1Aqi6qzMIsC2y0LD73M9NvbUrZ0YZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fb5N9R7K; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAfT5AVR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fb5N9R7K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746614962; x=1778150962;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U3z+v8ZvdKejNQeQND39yhVq6/gHRWuUiWl+DFcoipE=;
-  b=NAfT5AVRy5puSzm3DzmQ5wrgTES/Eg21wT3qGKA6HJZHvjkk8iF5O0eQ
-   iKQgCLD2bcC1/gyQGxuVbZsKz7NJBbrYEqTi5lHyPvIDn0gBGeaOYqKw+
-   ZBVUX7rxsxI3zXJWUFQe7Yup1rII5MEPdeA7mzKRGWDVF5S51BPdZnU2w
-   N8zpTed/gVYuMWvftmAOozS+QTj65K+l0Nlo8Ut4UAhiJ5am9lbFmxV+v
-   RIomoq9pqehVAf+t9NhopuwcnODHsdRwr+7n3xlZNq9rd3o4GID20EySd
-   A56gCFacIQT7+w+By8/JUl4PeZEJIMKOXsOdTStPPxaWkAC9xEn8i5VPN
-   Q==;
-X-CSE-ConnectionGUID: pi3qiEwLS6CQPSGTITLqbg==
-X-CSE-MsgGUID: tOO/kEHrTyyejKGME1ohTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="65867035"
+  t=1746614965; x=1778150965;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EaQLm/18zqp2g3Ts6r0JH+BLe1TiNJ5zMltPned8co8=;
+  b=Fb5N9R7KPcDYOL1wnX6hSR51yfgbuYQfRxLFWnaZfK2ENjcGhR8hQAUZ
+   NV1skcc81/eWtNteke9g1MnxTsbKoBCUETOA3uSMk3oAsZFGQZPaJIs70
+   jKdXd9U3fjVNNxAgx6B0pyIhl8IkO3u/t2od4YQdjMi3n6ADfxpWUGuq2
+   vd0cIqJZV0ANw07OvHPMTKtfkMDccWH+87mhJhX4hCS9GJZVQ2pI2D7xL
+   E7ikJdxhA72ju1C2YAPHKqtQX6i626YFa/DBkblNy+QQ8UIoRo4SCYYRd
+   G7JuOTo5353+TXp2gfmhYO/YlhqQuhoaOW8LJVgKD9zdgGjr29Jq+bwZr
+   A==;
+X-CSE-ConnectionGUID: JKFYWPpRSRq4/GU4Ti0x+w==
+X-CSE-MsgGUID: d9XiSF4iT627/CIagZnF3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="59689742"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="65867035"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:49:22 -0700
-X-CSE-ConnectionGUID: FH9zjW0nTFG5oRs7McNc4A==
-X-CSE-MsgGUID: E5W6mXhkS5uQJS6il3NuPQ==
+   d="scan'208";a="59689742"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:49:24 -0700
+X-CSE-ConnectionGUID: oQ3XKjOGR0Snh74Td8oS/w==
+X-CSE-MsgGUID: QMNFj8zyTc2FS47nqQuxuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="135823131"
+   d="scan'208";a="141043207"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 03:49:21 -0700
+  by orviesa005.jf.intel.com with ESMTP; 07 May 2025 03:49:22 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCcL0-0007dP-0j;
+	id 1uCcL0-0007dN-0d;
 	Wed, 07 May 2025 10:49:18 +0000
-Date: Wed, 7 May 2025 18:48:51 +0800
+Date: Wed, 7 May 2025 18:48:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-nvme:nvme-fpin.v3 14/20] ld: drivers/nvme/host/fabrics.c:1108:
- undefined reference to `nvme_dhchap_psk_len'
-Message-ID: <202505071846.I76Xsaj9-lkp@intel.com>
+To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hannes Reinecke <hare@suse.de>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
+Subject: Re: [PATCH v5 09/14] nvmet-fcloop: allocate/free fcloop_lsreq
+ directly
+Message-ID: <202505071848.zYLh3Kvb-lkp@intel.com>
+References: <20250423-nvmet-fcloop-v5-9-3d7f968728a5@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +67,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250423-nvmet-fcloop-v5-9-3d7f968728a5@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git nvme-fpin.v3
-head:   931611be0f664cca44e6df3a27f302d0a27a96b9
-commit: 4686444a31c17e6dee095277ba4bfa255afd67ee [14/20] nvme-auth: restrict DH-HMAC-CHAP controller key length
-config: i386-randconfig-013-20250502 (https://download.01.org/0day-ci/archive/20250507/202505071846.I76Xsaj9-lkp@intel.com/config)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3d7aa0c7b4e96cd460826d932e44710cdeb3378b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvmet-fcloop-track-ref-counts-for-nports/20250423-212643
+base:   3d7aa0c7b4e96cd460826d932e44710cdeb3378b
+patch link:    https://lore.kernel.org/r/20250423-nvmet-fcloop-v5-9-3d7f968728a5%40kernel.org
+patch subject: [PATCH v5 09/14] nvmet-fcloop: allocate/free fcloop_lsreq directly
+config: x86_64-randconfig-r131-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071848.zYLh3Kvb-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071846.I76Xsaj9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071848.zYLh3Kvb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071846.I76Xsaj9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071848.zYLh3Kvb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/fcloop.c:297:19: sparse: sparse: symbol 'lsreq_cache' was not declared. Should it be static?
 
-   ld: fs/xfs/xfs_zone_gc.o: in function `xfs_zoned_need_gc':
-   fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divmoddi4'
-   ld: fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divdi3'
-   ld: drivers/nvme/host/fabrics.o: in function `nvmf_parse_options':
-   drivers/nvme/host/fabrics.c:1100: undefined reference to `nvme_auth_extract_key'
->> ld: drivers/nvme/host/fabrics.c:1108: undefined reference to `nvme_dhchap_psk_len'
-   ld: drivers/nvme/host/fabrics.c:1122: undefined reference to `nvme_auth_extract_key'
-   ld: drivers/nvme/host/fabrics.c:1130: undefined reference to `nvme_dhchap_psk_len'
+vim +/lsreq_cache +297 drivers/nvme/target/fcloop.c
+
+   295	
+   296	/* SLAB cache for fcloop_lsreq structures */
+ > 297	struct kmem_cache *lsreq_cache;
+   298	
 
 -- 
 0-DAY CI Kernel Test Service
