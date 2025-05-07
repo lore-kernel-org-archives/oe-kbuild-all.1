@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E308528A70D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 15:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D79228AAFD
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 15:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746631630; cv=none; b=UlUebSniEojjGGIZ1RnsUrfRV3rA1aINrw00WLdBUEV+QeTMliKrUsVhog2HHxmQeL483JW4lgfIVboTJYoosjfz7BcxcAc1FDn1l4Ch4eCdHqbaycfux1yuVFavABlsXOTbyF46r/oHeyRNe2xkraZbS06ZpPUqdop2USw/Z5k=
+	t=1746632234; cv=none; b=IerCjRQqboLbcrN+gir1h8hi9X0V4ihWXx5L3RtvroDQlwk9kZTo9ZODXm6j43X5k13wUoV/ndWxwDsdH3uxr8HWDR815K9ZOvNsiByy1V4Q2H6N2HJ3vGHxcUDcDb1qksS4ge8IRfixJnFuULpsBaLuxmBAxFz1mvQi0vcNWZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746631630; c=relaxed/simple;
-	bh=pr6U4DB9jiON3sUjXoATNi1nkLageJAtddtaXpznqBA=;
+	s=arc-20240116; t=1746632234; c=relaxed/simple;
+	bh=nmWeR6nB6UTMWygh4MqhYWaG7Kx6uzivElRD2BLIAz4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gKZ2SmP862/6nVwdMMultMO1stGiQlpBPtV2a9k8jWCF7BErUTEHKIkxoR23AamjndDDKQGrzLjzT7gpnXoeEUNrQYMQQbYmt7l6z9sD55WPQTt0WBlU8PCyEZLGnRSSnCGK6SI6dpsQcVmwppaljECSVWq8XiKuFbvlvhC56PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJseF0cF; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=hlceejuptJ1Yx1izwkniAGL7feXq+PMYC7GmJubGAzK0CXeplKncMAPfmLUaw7fsona/et3FxtJ2xqrkPPh94bcG8yncQjl2g1tgjh23ZL0rYNC/oqR4EflCg2+jPW8CL5kp6MuwNATcvsLvFRMLHYlyspuWZbzRoS8AZ9m2M0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejl9z8v0; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJseF0cF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejl9z8v0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746631626; x=1778167626;
+  t=1746632233; x=1778168233;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pr6U4DB9jiON3sUjXoATNi1nkLageJAtddtaXpznqBA=;
-  b=XJseF0cFN+FCy8hR6LgPRmMnNofabdwXtBKnmpqfHdypmHpdXzYnAXli
-   0aAn8+mMrgjBy/kHBslqGs0jwx707ZPKjxdOgkyKtsvWAslTTttxRmm3A
-   L4L+t2KTMLAwqTmv8Lj6SNp3ZDbdVF0z2P3932zaY+BpPVOkCpGCywQfv
-   3/tMoYDqCvRDMnZXVozwbnZcUR9hE2wn4PM/96LQ57P6U/9yLsczlyKgC
-   YSNt94ECUtoNCiQ/nyf6cGM2pf6Ppb/Dr16qYaFw9PBGxfWqifr2lq3iF
-   lAOiE1sKlgeFMmDUlvrIgaHbBb+gUBn6IHhndJRQ1FEnL4fxV7282mFRH
-   A==;
-X-CSE-ConnectionGUID: 74stYTE6TU+POUkTsqwHQQ==
-X-CSE-MsgGUID: 6R89wMIfRr6DqUdvJdTvUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59028999"
+  bh=nmWeR6nB6UTMWygh4MqhYWaG7Kx6uzivElRD2BLIAz4=;
+  b=ejl9z8v0YRwbzoowkwfyRCV4ATcrMkzd1+Pbs+sYUVvLlGjE2WV1i7z5
+   Vw8IRAonlKatjv98n2Y/4W/PxSoGzC3U1IaREcV9G/oWgxS6rWctgOiRM
+   sA53NfP0ovwOxmiTE2deYoMQhqUk3elWTMWzqp3OX0z5UmMAhDRnO5RQO
+   eQbLzCNoLiu4mOSOGBY8hS5gX7JVZaRCnS9TeLJS8avsfKmgSQ8MCqjmX
+   iIkdrPcK0NPilm8/S3GkrnfaO3E2cWJJ0Tawpu9UMv9JPTdHWmnDQTkbY
+   Rf31BekZORth0pt7foVbBHBp9MUOFsIfvcMOXkQTaEqFg/LVU/T9aysEI
+   g==;
+X-CSE-ConnectionGUID: k8Ss0zWgSZaBUIIVz0b7ug==
+X-CSE-MsgGUID: AeNq9mBJQ3yWSaNrCtbLJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48510172"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="59028999"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 08:27:05 -0700
-X-CSE-ConnectionGUID: TKhdiiBvTkaHCcmqhblROQ==
-X-CSE-MsgGUID: Q8UlBTvmTtmUxPVGChuNCA==
+   d="scan'208";a="48510172"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 08:37:05 -0700
+X-CSE-ConnectionGUID: EuiDGuNkS8+5ltVYUGdkpQ==
+X-CSE-MsgGUID: NmpyA1sIQdypZKUan6zINA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="166914975"
+   d="scan'208";a="173182595"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 07 May 2025 08:27:02 -0700
+  by orviesa001.jf.intel.com with ESMTP; 07 May 2025 08:37:04 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCgfk-00084x-2i;
-	Wed, 07 May 2025 15:27:00 +0000
-Date: Wed, 7 May 2025 23:26:01 +0800
+	id 1uCgpS-00085t-1U;
+	Wed, 07 May 2025 15:37:02 +0000
+Date: Wed, 7 May 2025 23:36:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Cc: oe-kbuild-all@lists.linux.dev, Abel Vesa <abel.vesa@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 7777/9308]
- arch/arm64/boot/dts/freescale/imx8mm-beacon-kit.dtb:
- clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required
- property
-Message-ID: <202505072349.c10qxUzl-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 4136/5419] fs/bcachefs/super.c:2145:52: sparse:
+ sparse: invalid assignment: &=
+Message-ID: <202505072348.ayv0VtF7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,798 +64,75 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   08710e696081d58163c8078e0e096be6d35c5fad
-commit: 2ba124053687c933031a6dc5b2e16ceaca250934 [7777/9308] dt-bindings: clock: imx8m-anatop: add oscillators and PLLs
-config: arm64-randconfig-051-20250506 (https://download.01.org/0day-ci/archive/20250507/202505072349.c10qxUzl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505072349.c10qxUzl-lkp@intel.com/reproduce)
+commit: 4ca0496d63c1fe9420aa4d54f6f62e71e535ab2d [4136/5419] bcachefs: BCH_MEMBER_RESIZE_ON_MOUNT
+config: microblaze-randconfig-r111-20250417 (https://download.01.org/0day-ci/archive/20250507/202505072348.ayv0VtF7-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505072348.ayv0VtF7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505072349.c10qxUzl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505072348.ayv0VtF7-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8mm-beacon-kit.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-beacon-kit.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-ddr4-evk.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-ddr4-evk.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-emcon-avari.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-emtop-baseboard.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-emtop-baseboard.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-evk.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-evk.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-evkb.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-evkb.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-ctouch2.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-ctouch2.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-iot-gateway.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-iot-gateway.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-innocomm-wb15-evk.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-innocomm-wb15-evk.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-kontron-bl.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-kontron-bl.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-kontron-bl-osm-s.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-kontron-bl-osm-s.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-mx8menlo.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-nitrogen-r2.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-nitrogen-r2.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phg.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-rdk.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-rdk.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-prt8mm.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx.dts:48.9-58.5: Warning (graph_child_address): /connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-var-som-symphony.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-var-som-symphony.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw71xx-0x.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw71xx-0x.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw75xx-0x.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw75xx-0x.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dts:361.14-467.4: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/i2c@30a20000/gsc@20: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7902.dts:311.14-418.4: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/i2c@30a20000/gsc@20: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7902.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7902.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7903.dts:277.14-364.4: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/i2c@30a20000/gsc@20: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7903.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7903.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7904.dts:330.14-411.4: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/i2c@30a20000/gsc@20: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7904.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7904.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dahlia.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dahlia.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dev.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-dev.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-mallow.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-mallow.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-yavia.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-yavia.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dahlia.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dahlia.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dev.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-dev.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-mallow.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-mallow.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-yavia.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-yavia.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-beacon-kit.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-beacon-kit.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-bsh-smm-s2.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-bsh-smm-s2.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-bsh-smm-s2pro.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-bsh-smm-s2pro.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:794.26-806.7: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/spba-bus@30800000/spi@30820000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-dimonoff-gateway-evk.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-dimonoff-gateway-evk.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-evk.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-evk.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-ddr3l-evk.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-ddr3l-evk.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-ddr4-evk.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-ddr4-evk.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-rve-gateway.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-rve-gateway.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-tqma8mqnl-mba8mx.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-tqma8mqnl-mba8mx.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-var-som-symphony.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-var-som-symphony.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mn-venice-gw7902.dts:309.14-416.4: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/i2c@30a20000/gsc@20: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mn.dtsi:1128.11-1138.7: Warning (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mn-venice-gw7902.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-venice-gw7902.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-adpismarc.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-adpismarc.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-proton2s.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-proton2s.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-drc02.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-drc02.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-picoitx.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-picoitx.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-iota2-lumpy.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-iota2-lumpy.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-bl-osm-s.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-bl-osm-s.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-nitrogen-smarc-universal-board.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-nitrogen-smarc-universal-board.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw82xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw82xx-2x.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-ivy.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-ivy.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-ivy.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-ivy.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-evk.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-evk.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-hummingboard-pulse.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-hummingboard-pulse.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-kontron-pitx-imx8m.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-kontron-pitx-imx8m.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-devkit.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r3.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r3.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r4.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-librem5-r4.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-nitrogen.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-nitrogen.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-phanbell.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-phanbell.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-pico-pi.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-pico-pi.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-thor96.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-thor96.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-eval-01.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-eval-01.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phycore-no-eth.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phycore-no-eth.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phycore-no-spiflash.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phycore-no-spiflash.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phycore-rpmsg.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phycore-rpmsg.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-lvds-tm070jvhg33.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-lvds-tm070jvhg33.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mn-tqma8mqnl-mba8mx-lvds-tm070jvhg33.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-tqma8mqnl-mba8mx-lvds-tm070jvhg33.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mn-tqma8mqnl-mba8mx-usbotg.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mn-tqma8mqnl-mba8mx-usbotg.dtb: clock-controller@30360000 (fsl,imx8mn-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios-lvds.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios-lvds.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-dl.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-dl.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-pcie-ep.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-pcie-ep.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx-lvds-tm070jvhg33.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx-lvds-tm070jvhg33.dtb: clock-controller@30360000 (fsl,imx8mq-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
-   arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx-lvds-tm070jvhg33.dtb: dsi@30a00000 (fsl,imx8mq-nwl-dsi): ports:port@1:endpoint: Unevaluated properties are not allowed ('data-lanes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/nwl-dsi.yaml#
-   arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx-lvds-tm070jvhg33.dtb: dsi@30a00000 (fsl,imx8mq-nwl-dsi): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/nwl-dsi.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-kontron-dl.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-kontron-dl.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-imx219.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-imx219.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rpidsi.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rpidsi.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rs232-rts.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rs232-rts.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rs422.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rs422.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rs485.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rs485.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-imx219.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-imx219.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-rpidsi.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-rpidsi.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-rs232-rts.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-rs232-rts.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-rs422.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-rs422.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-rs485.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw73xx-0x-rs485.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: clock-controller@30360000 (fsl,imx8mp-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs232.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs232.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-cts-rts.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-cts-rts.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs485.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-phygate-tauri-l-rs232-rs485.dtb: clock-controller@30360000 (fsl,imx8mm-anatop): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fsl,imx8m-anatop.yaml#
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/super.c: note: in included file:
+   fs/bcachefs/bcachefs.h:1015:9: sparse: sparse: array of flexible structures
+>> fs/bcachefs/super.c:2145:52: sparse: sparse: invalid assignment: &=
+   fs/bcachefs/super.c:2145:52: sparse:    left side has type restricted __le64
+   fs/bcachefs/super.c:2145:52: sparse:    right side has type unsigned long long
+   fs/bcachefs/super.c:2192:9: sparse: sparse: context imbalance in 'bdev_get_fs' - wrong count at exit
+   fs/bcachefs/super.c:2204:13: sparse: sparse: context imbalance in 'bch2_fs_bdev_mark_dead' - unexpected unlock
+   fs/bcachefs/super.c:2247:13: sparse: sparse: context imbalance in 'bch2_fs_bdev_sync' - unexpected unlock
+
+vim +2145 fs/bcachefs/super.c
+
+  2118	
+  2119	int bch2_fs_resize_on_mount(struct bch_fs *c)
+  2120	{
+  2121		down_write(&c->state_lock);
+  2122	
+  2123		for_each_online_member(c, ca) {
+  2124			u64 old_nbuckets = ca->mi.nbuckets;
+  2125			u64 new_nbuckets = div64_u64(get_capacity(ca->disk_sb.bdev->bd_disk),
+  2126						 ca->mi.bucket_size);
+  2127	
+  2128			if (ca->mi.resize_on_mount &&
+  2129			    new_nbuckets > ca->mi.nbuckets) {
+  2130				bch_info(ca, "resizing to size %llu", new_nbuckets * ca->mi.bucket_size);
+  2131				int ret = bch2_dev_buckets_resize(c, ca, new_nbuckets);
+  2132				bch_err_fn(ca, ret);
+  2133				if (ret) {
+  2134					percpu_ref_put(&ca->io_ref[READ]);
+  2135					up_write(&c->state_lock);
+  2136					return ret;
+  2137				}
+  2138	
+  2139				mutex_lock(&c->sb_lock);
+  2140				struct bch_member *m =
+  2141					bch2_members_v2_get_mut(c->disk_sb.sb, ca->dev_idx);
+  2142				m->nbuckets = cpu_to_le64(new_nbuckets);
+  2143				SET_BCH_MEMBER_RESIZE_ON_MOUNT(m, false);
+  2144	
+> 2145				c->disk_sb.sb->features[0] &= ~BIT_ULL(BCH_FEATURE_small_image);
+  2146				bch2_write_super(c);
+  2147				mutex_unlock(&c->sb_lock);
+  2148	
+  2149				if (ca->mi.freespace_initialized) {
+  2150					ret = __bch2_dev_resize_alloc(ca, old_nbuckets, new_nbuckets);
+  2151					if (ret) {
+  2152						percpu_ref_put(&ca->io_ref[READ]);
+  2153						up_write(&c->state_lock);
+  2154						return ret;
+  2155					}
+  2156				}
+  2157			}
+  2158		}
+  2159	
+  2160		bch2_recalc_capacity(c);
+  2161		up_write(&c->state_lock);
+  2162		return 0;
+  2163	}
+  2164	
 
 -- 
 0-DAY CI Kernel Test Service
