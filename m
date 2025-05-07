@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABB0221FAC;
-	Wed,  7 May 2025 07:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4982222BF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 07:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746604741; cv=none; b=JE7Hl9hkec0zBLc76e3G9hPvNGle2HQyvRacqwsoxHhPtRIvP62EfJYyj9/URupKhGYeN0I0s5K9keGaBu74iAPS3dv6y2USlT1ITaxjFIZZdDj8sWO3dVBSlcOWQSaNgF2C4qnhlm0uWpvahq8ui+VrD8RZkZi8IPlfhwnU3E0=
+	t=1746604742; cv=none; b=qbh8yJ7GVSvxmC2u8UE7KsvsRZvDz4anGCjgm+8LaCYAUpbWIwxX7pihq0BeObSVDk8WKVr0agnRspxrKTD4pQyp8HDDHwQG0JebWQcM0kL/5Zz3ZLFBzXycqDD46nWtJLbuY2mHzqSH5+HUsQblJWd53Yf0shuHEUHbrIZxSt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746604741; c=relaxed/simple;
-	bh=fLHCh/gSuXYbU1aAft/Unq8sl8yvQ7IS32/uXEPUDik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UM0hxpKDRSVqP3Uqsdpp97S7Lr844CqgwM2wSHh8fq8/nfJgEqLnFs+8MiajZe7JoWC84univr6lPGx7ziR3YghZWqQbYCQtz4XMhS2y9i0IoSiikhjqmwfrArK9y0DYQqy8TFrdSy6IEe89h6l++1UBQyy0N8vglvNHgjxxF54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FcVRxlId; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1746604742; c=relaxed/simple;
+	bh=KiAP0fpdRAzph4ae08BrYIhA1Ufv4PoORN4nJ4nDpPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=To5tAk50yRejzCXoTrTsyXfETooMNeSNQRbIGytJvZ1ni9boVTMCDFcanma2QqSdA0mlNSR8yTIYmHChWv5xt2jf22Q38imtHRvbYYCxHlPusr3MBI1jy2BhR7dx8TPN3d8kWnVDoP7B5x4k8eQgqdfH2FxG9EiaerKGVPtVp10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVjQqJt8; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FcVRxlId"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVjQqJt8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1746604740; x=1778140740;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fLHCh/gSuXYbU1aAft/Unq8sl8yvQ7IS32/uXEPUDik=;
-  b=FcVRxlId3kv9AS8IocCimoleNoUgFnjgyj/ddFPdKtX2Ayjw9FyuCnKX
-   ypAAQWDsxSv4DANEiqts26bNE+H4dtv/OJiFH5YNe1tiveJFvi5t1bccX
-   5EhPMwVmkPwU7tLuB9JSb2miVje+m8etOGzo/W2Roxx9C6gDNPp4toHNx
-   mtMQUy05MUuKNyKMLvwz4OSLck1XZC3itfV17RwPTAaY+rsbXL47J0aFw
-   K5R++YxowyXjy2kbWBrlQDpIeH1aRNcEBjh6tH8p352LoQNJsRo5JK8Zu
-   DgaOTjSnN8Pz2cAEUKtxxjTjycBknUL8tJnHIfi0KfKO39SQK+Dop1vLk
-   g==;
-X-CSE-ConnectionGUID: v1bcI65JSwWbdHu624KJIw==
-X-CSE-MsgGUID: 9LEdz8FPTJ+RZPr5nnXF3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="51969511"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KiAP0fpdRAzph4ae08BrYIhA1Ufv4PoORN4nJ4nDpPI=;
+  b=lVjQqJt8NDJrjR/Ecx9jhzGeAts5hQDOlCYo/ei5sQ1oWd990nXiLOBK
+   Peo993LThgX8XlUM6wxECEUB63ONLTak2eB/C8X0kjAu7oI04VM6gSaiK
+   oi92ejzTIe1SE5O1fl0ESu13SsfMnLDvbrQY0PrXMLbM0Elc2Vyp0I1HG
+   3DpM8I0ls1ReHixTidNZmw8TwXL9IZu2pXej612mik7QOW6vEozcmKCN3
+   xTK8WaiGMatCN2rzYqjnyNzfCipfhFj9CW+I5mB0aSrmcdX41FgzVvbcL
+   Hf10mh7N9srzU4Fvna6rvzJ+LCK4kfYkGtHAfr5/fLfy4+B7gcEJapk9u
+   A==;
+X-CSE-ConnectionGUID: L4c2iomETt6gyvCapjMHew==
+X-CSE-MsgGUID: YJnifyb1QeWi90LRUkY+0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="65727563"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="51969511"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:58:59 -0700
-X-CSE-ConnectionGUID: ga+p13QHS5el7YdWSvKUrg==
-X-CSE-MsgGUID: qBpMRESJSWalcyo/GjjFrA==
+   d="scan'208";a="65727563"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:58:58 -0700
+X-CSE-ConnectionGUID: slMs+amORRG4YEw/CnQygg==
+X-CSE-MsgGUID: G7Hs7kkzSoG9pNSrhf85dQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="159175156"
+   d="scan'208";a="140619526"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 00:58:58 -0700
+  by orviesa003.jf.intel.com with ESMTP; 07 May 2025 00:58:57 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCZg6-0007Mv-1x;
+	id 1uCZg6-0007N5-2H;
 	Wed, 07 May 2025 07:58:54 +0000
-Date: Wed, 7 May 2025 15:58:38 +0800
+Date: Wed, 7 May 2025 15:58:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rujra Bhatt <braker.noob.kernel@gmail.com>, dpenkler@gmail.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, braker.noob.kernel@gmail.com
-Subject: Re: [FIRST-PATCH] staging : gpib : agilent_82350b : agilent_82350b.c
- : fixes checks on the file
-Message-ID: <202505071554.BLzezIJT-lkp@intel.com>
-References: <Z_-nR5Vt2A5kvbro@brak3rDesk>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hare-nvme:nvme-fpin.v3 8/20] drivers/nvme/host/fabrics.c:1097:
+ undefined reference to `nvme_auth_extract_key'
+Message-ID: <202505071519.GMM95c6O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,98 +61,463 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z_-nR5Vt2A5kvbro@brak3rDesk>
 
-Hi Rujra,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-[also build test ERROR on staging/staging-next staging/staging-linus linus/master v6.15-rc5 next-20250506]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rujra-Bhatt/staging-gpib-agilent_82350b-agilent_82350b-c-fixes-checks-on-the-file/20250416-205032
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/Z_-nR5Vt2A5kvbro%40brak3rDesk
-patch subject: [FIRST-PATCH] staging : gpib : agilent_82350b : agilent_82350b.c : fixes checks on the file
-config: x86_64-randconfig-002-20250424 (https://download.01.org/0day-ci/archive/20250507/202505071554.BLzezIJT-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git nvme-fpin.v3
+head:   931611be0f664cca44e6df3a27f302d0a27a96b9
+commit: 5c54e39b531425b03dc05751e6e12f5edab23d42 [8/20] nvme: parse dhchap keys during option parsing
+config: i386-randconfig-013-20250502 (https://download.01.org/0day-ci/archive/20250507/202505071519.GMM95c6O-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071554.BLzezIJT-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071519.GMM95c6O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071554.BLzezIJT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071519.GMM95c6O-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/percpu.h:5,
-                    from include/linux/radix-tree.h:16,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16,
-                    from drivers/staging/gpib/include/gpib_types.h:18,
-                    from drivers/staging/gpib/include/gpibP.h:12,
-                    from drivers/staging/gpib/agilent_82350b/agilent_82350b.h:7,
-                    from drivers/staging/gpib/agilent_82350b/agilent_82350b.c:11:
-   drivers/staging/gpib/agilent_82350b/agilent_82350b.c: In function 'agilent_82350b_allocate_private':
->> drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:53: error: expected '{' before '*' token
-     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
-         |                                                     ^
-   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
-     227 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
-    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:31: note: in expansion of macro 'kzalloc'
-     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
-         |                               ^~~~~~~
->> drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:53: error: expected '{' before '*' token
-     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
-         |                                                     ^
-   include/linux/alloc_tag.h:231:24: note: in definition of macro 'alloc_hooks_tag'
-     231 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
-    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:31: note: in expansion of macro 'kzalloc'
-     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
-         |                               ^~~~~~~
->> drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:53: error: expected '{' before '*' token
-     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
-         |                                                     ^
-   include/linux/alloc_tag.h:234:24: note: in definition of macro 'alloc_hooks_tag'
-     234 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
-    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:31: note: in expansion of macro 'kzalloc'
-     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
-         |                               ^~~~~~~
-   drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:29: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
-         |                             ^
+   ld: fs/xfs/xfs_zone_gc.o: in function `xfs_zoned_need_gc':
+   fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divmoddi4'
+   ld: fs/xfs/xfs_zone_gc.c:186: undefined reference to `__divdi3'
+   ld: drivers/nvme/host/fabrics.o: in function `nvmf_parse_options':
+>> drivers/nvme/host/fabrics.c:1097: undefined reference to `nvme_auth_extract_key'
+>> ld: drivers/nvme/host/fabrics.c:1112: undefined reference to `nvme_auth_extract_key'
 
 
-vim +482 drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+vim +1097 drivers/nvme/host/fabrics.c
 
-   479	
-   480	static int agilent_82350b_allocate_private(struct gpib_board *board)
-   481	{
- > 482		board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
-   483		if (!board->private_data)
-   484			return -ENOMEM;
-   485		return 0;
-   486	}
-   487	
+   715	
+   716	static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+   717			const char *buf)
+   718	{
+   719		substring_t args[MAX_OPT_ARGS];
+   720		char *options, *o, *p;
+   721		char *host_secret = NULL, *ctrl_secret = NULL;
+   722		int token, ret = 0;
+   723		size_t nqnlen  = 0;
+   724		int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
+   725		uuid_t hostid;
+   726		char hostnqn[NVMF_NQN_SIZE];
+   727		struct key *key;
+   728	
+   729		/* Set defaults */
+   730		opts->queue_size = NVMF_DEF_QUEUE_SIZE;
+   731		opts->nr_io_queues = num_online_cpus();
+   732		opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
+   733		opts->kato = 0;
+   734		opts->duplicate_connect = false;
+   735		opts->fast_io_fail_tmo = NVMF_DEF_FAIL_FAST_TMO;
+   736		opts->hdr_digest = false;
+   737		opts->data_digest = false;
+   738		opts->tos = -1; /* < 0 == use transport default */
+   739		opts->tls = false;
+   740		opts->tls_key = NULL;
+   741		opts->keyring = NULL;
+   742		opts->concat = false;
+   743		opts->dhchap_key = NULL;
+   744		opts->dhchap_ctrl_key = NULL;
+   745	
+   746		options = o = kstrdup(buf, GFP_KERNEL);
+   747		if (!options)
+   748			return -ENOMEM;
+   749	
+   750		/* use default host if not given by user space */
+   751		uuid_copy(&hostid, &nvmf_default_host->id);
+   752		strscpy(hostnqn, nvmf_default_host->nqn, NVMF_NQN_SIZE);
+   753	
+   754		while ((p = strsep(&o, ",\n")) != NULL) {
+   755			if (!*p)
+   756				continue;
+   757	
+   758			token = match_token(p, opt_tokens, args);
+   759			opts->mask |= token;
+   760			switch (token) {
+   761			case NVMF_OPT_TRANSPORT:
+   762				p = match_strdup(args);
+   763				if (!p) {
+   764					ret = -ENOMEM;
+   765					goto out;
+   766				}
+   767				kfree(opts->transport);
+   768				opts->transport = p;
+   769				break;
+   770			case NVMF_OPT_NQN:
+   771				p = match_strdup(args);
+   772				if (!p) {
+   773					ret = -ENOMEM;
+   774					goto out;
+   775				}
+   776				kfree(opts->subsysnqn);
+   777				opts->subsysnqn = p;
+   778				nqnlen = strlen(opts->subsysnqn);
+   779				if (nqnlen >= NVMF_NQN_SIZE) {
+   780					pr_err("%s needs to be < %d bytes\n",
+   781						opts->subsysnqn, NVMF_NQN_SIZE);
+   782					ret = -EINVAL;
+   783					goto out;
+   784				}
+   785				opts->discovery_nqn =
+   786					!(strcmp(opts->subsysnqn,
+   787						 NVME_DISC_SUBSYS_NAME));
+   788				break;
+   789			case NVMF_OPT_TRADDR:
+   790				p = match_strdup(args);
+   791				if (!p) {
+   792					ret = -ENOMEM;
+   793					goto out;
+   794				}
+   795				kfree(opts->traddr);
+   796				opts->traddr = p;
+   797				break;
+   798			case NVMF_OPT_TRSVCID:
+   799				p = match_strdup(args);
+   800				if (!p) {
+   801					ret = -ENOMEM;
+   802					goto out;
+   803				}
+   804				kfree(opts->trsvcid);
+   805				opts->trsvcid = p;
+   806				break;
+   807			case NVMF_OPT_QUEUE_SIZE:
+   808				if (match_int(args, &token)) {
+   809					ret = -EINVAL;
+   810					goto out;
+   811				}
+   812				if (token < NVMF_MIN_QUEUE_SIZE ||
+   813				    token > NVMF_MAX_QUEUE_SIZE) {
+   814					pr_err("Invalid queue_size %d\n", token);
+   815					ret = -EINVAL;
+   816					goto out;
+   817				}
+   818				opts->queue_size = token;
+   819				break;
+   820			case NVMF_OPT_NR_IO_QUEUES:
+   821				if (match_int(args, &token)) {
+   822					ret = -EINVAL;
+   823					goto out;
+   824				}
+   825				if (token <= 0) {
+   826					pr_err("Invalid number of IOQs %d\n", token);
+   827					ret = -EINVAL;
+   828					goto out;
+   829				}
+   830				if (opts->discovery_nqn) {
+   831					pr_debug("Ignoring nr_io_queues value for discovery controller\n");
+   832					break;
+   833				}
+   834	
+   835				opts->nr_io_queues = min_t(unsigned int,
+   836						num_online_cpus(), token);
+   837				break;
+   838			case NVMF_OPT_KATO:
+   839				if (match_int(args, &token)) {
+   840					ret = -EINVAL;
+   841					goto out;
+   842				}
+   843	
+   844				if (token < 0) {
+   845					pr_err("Invalid keep_alive_tmo %d\n", token);
+   846					ret = -EINVAL;
+   847					goto out;
+   848				} else if (token == 0 && !opts->discovery_nqn) {
+   849					/* Allowed for debug */
+   850					pr_warn("keep_alive_tmo 0 won't execute keep alives!!!\n");
+   851				}
+   852				opts->kato = token;
+   853				break;
+   854			case NVMF_OPT_CTRL_LOSS_TMO:
+   855				if (match_int(args, &token)) {
+   856					ret = -EINVAL;
+   857					goto out;
+   858				}
+   859	
+   860				if (token < 0)
+   861					pr_warn("ctrl_loss_tmo < 0 will reconnect forever\n");
+   862				ctrl_loss_tmo = token;
+   863				break;
+   864			case NVMF_OPT_FAIL_FAST_TMO:
+   865				if (match_int(args, &token)) {
+   866					ret = -EINVAL;
+   867					goto out;
+   868				}
+   869	
+   870				if (token >= 0)
+   871					pr_warn("I/O fail on reconnect controller after %d sec\n",
+   872						token);
+   873				else
+   874					token = -1;
+   875	
+   876				opts->fast_io_fail_tmo = token;
+   877				break;
+   878			case NVMF_OPT_HOSTNQN:
+   879				if (opts->host) {
+   880					pr_err("hostnqn already user-assigned: %s\n",
+   881					       opts->host->nqn);
+   882					ret = -EADDRINUSE;
+   883					goto out;
+   884				}
+   885				p = match_strdup(args);
+   886				if (!p) {
+   887					ret = -ENOMEM;
+   888					goto out;
+   889				}
+   890				nqnlen = strlen(p);
+   891				if (nqnlen >= NVMF_NQN_SIZE) {
+   892					pr_err("%s needs to be < %d bytes\n",
+   893						p, NVMF_NQN_SIZE);
+   894					kfree(p);
+   895					ret = -EINVAL;
+   896					goto out;
+   897				}
+   898				strscpy(hostnqn, p, NVMF_NQN_SIZE);
+   899				kfree(p);
+   900				break;
+   901			case NVMF_OPT_RECONNECT_DELAY:
+   902				if (match_int(args, &token)) {
+   903					ret = -EINVAL;
+   904					goto out;
+   905				}
+   906				if (token <= 0) {
+   907					pr_err("Invalid reconnect_delay %d\n", token);
+   908					ret = -EINVAL;
+   909					goto out;
+   910				}
+   911				opts->reconnect_delay = token;
+   912				break;
+   913			case NVMF_OPT_HOST_TRADDR:
+   914				p = match_strdup(args);
+   915				if (!p) {
+   916					ret = -ENOMEM;
+   917					goto out;
+   918				}
+   919				kfree(opts->host_traddr);
+   920				opts->host_traddr = p;
+   921				break;
+   922			case NVMF_OPT_HOST_IFACE:
+   923				p = match_strdup(args);
+   924				if (!p) {
+   925					ret = -ENOMEM;
+   926					goto out;
+   927				}
+   928				kfree(opts->host_iface);
+   929				opts->host_iface = p;
+   930				break;
+   931			case NVMF_OPT_HOST_ID:
+   932				p = match_strdup(args);
+   933				if (!p) {
+   934					ret = -ENOMEM;
+   935					goto out;
+   936				}
+   937				ret = uuid_parse(p, &hostid);
+   938				if (ret) {
+   939					pr_err("Invalid hostid %s\n", p);
+   940					ret = -EINVAL;
+   941					kfree(p);
+   942					goto out;
+   943				}
+   944				kfree(p);
+   945				break;
+   946			case NVMF_OPT_DUP_CONNECT:
+   947				opts->duplicate_connect = true;
+   948				break;
+   949			case NVMF_OPT_DISABLE_SQFLOW:
+   950				opts->disable_sqflow = true;
+   951				break;
+   952			case NVMF_OPT_HDR_DIGEST:
+   953				opts->hdr_digest = true;
+   954				break;
+   955			case NVMF_OPT_DATA_DIGEST:
+   956				opts->data_digest = true;
+   957				break;
+   958			case NVMF_OPT_NR_WRITE_QUEUES:
+   959				if (match_int(args, &token)) {
+   960					ret = -EINVAL;
+   961					goto out;
+   962				}
+   963				if (token <= 0) {
+   964					pr_err("Invalid nr_write_queues %d\n", token);
+   965					ret = -EINVAL;
+   966					goto out;
+   967				}
+   968				opts->nr_write_queues = token;
+   969				break;
+   970			case NVMF_OPT_NR_POLL_QUEUES:
+   971				if (match_int(args, &token)) {
+   972					ret = -EINVAL;
+   973					goto out;
+   974				}
+   975				if (token <= 0) {
+   976					pr_err("Invalid nr_poll_queues %d\n", token);
+   977					ret = -EINVAL;
+   978					goto out;
+   979				}
+   980				opts->nr_poll_queues = token;
+   981				break;
+   982			case NVMF_OPT_TOS:
+   983				if (match_int(args, &token)) {
+   984					ret = -EINVAL;
+   985					goto out;
+   986				}
+   987				if (token < 0) {
+   988					pr_err("Invalid type of service %d\n", token);
+   989					ret = -EINVAL;
+   990					goto out;
+   991				}
+   992				if (token > 255) {
+   993					pr_warn("Clamping type of service to 255\n");
+   994					token = 255;
+   995				}
+   996				opts->tos = token;
+   997				break;
+   998			case NVMF_OPT_KEYRING:
+   999				if (match_int(args, &key_id) || key_id <= 0) {
+  1000					ret = -EINVAL;
+  1001					goto out;
+  1002				}
+  1003				key = nvmf_parse_key(key_id);
+  1004				if (IS_ERR(key)) {
+  1005					ret = PTR_ERR(key);
+  1006					goto out;
+  1007				}
+  1008				key_put(opts->keyring);
+  1009				opts->keyring = key;
+  1010				break;
+  1011			case NVMF_OPT_TLS_KEY:
+  1012				if (match_int(args, &key_id) || key_id <= 0) {
+  1013					ret = -EINVAL;
+  1014					goto out;
+  1015				}
+  1016				key = nvmf_parse_key(key_id);
+  1017				if (IS_ERR(key)) {
+  1018					ret = PTR_ERR(key);
+  1019					goto out;
+  1020				}
+  1021				key_put(opts->tls_key);
+  1022				opts->tls_key = key;
+  1023				break;
+  1024			case NVMF_OPT_DISCOVERY:
+  1025				opts->discovery_nqn = true;
+  1026				break;
+  1027			case NVMF_OPT_DHCHAP_SECRET:
+  1028				p = match_strdup(args);
+  1029				if (!p) {
+  1030					ret = -ENOMEM;
+  1031					goto out;
+  1032				}
+  1033				kfree(host_secret);
+  1034				host_secret = p;
+  1035				break;
+  1036			case NVMF_OPT_DHCHAP_CTRL_SECRET:
+  1037				p = match_strdup(args);
+  1038				if (!p) {
+  1039					ret = -ENOMEM;
+  1040					goto out;
+  1041				}
+  1042				kfree(ctrl_secret);
+  1043				ctrl_secret = p;
+  1044				break;
+  1045			case NVMF_OPT_TLS:
+  1046				if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
+  1047					pr_err("TLS is not supported\n");
+  1048					ret = -EINVAL;
+  1049					goto out;
+  1050				}
+  1051				opts->tls = true;
+  1052				break;
+  1053			case NVMF_OPT_CONCAT:
+  1054				if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
+  1055					pr_err("TLS is not supported\n");
+  1056					ret = -EINVAL;
+  1057					goto out;
+  1058				}
+  1059				opts->concat = true;
+  1060				break;
+  1061			default:
+  1062				pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+  1063					p);
+  1064				ret = -EINVAL;
+  1065				goto out;
+  1066			}
+  1067		}
+  1068	
+  1069		if (opts->discovery_nqn) {
+  1070			opts->nr_io_queues = 0;
+  1071			opts->nr_write_queues = 0;
+  1072			opts->nr_poll_queues = 0;
+  1073			opts->duplicate_connect = true;
+  1074		} else {
+  1075			if (!opts->kato)
+  1076				opts->kato = NVME_DEFAULT_KATO;
+  1077		}
+  1078		if (ctrl_loss_tmo < 0) {
+  1079			opts->max_reconnects = -1;
+  1080		} else {
+  1081			opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
+  1082							opts->reconnect_delay);
+  1083			if (ctrl_loss_tmo < opts->fast_io_fail_tmo)
+  1084				pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n",
+  1085					opts->fast_io_fail_tmo, ctrl_loss_tmo);
+  1086		}
+  1087	
+  1088		opts->host = nvmf_host_add(hostnqn, &hostid);
+  1089		if (IS_ERR(opts->host)) {
+  1090			ret = PTR_ERR(opts->host);
+  1091			opts->host = NULL;
+  1092			goto out;
+  1093		}
+  1094	
+  1095		if (host_secret) {
+  1096			pr_debug("lookup host identity '%s'\n", host_secret);
+> 1097			key = nvme_auth_extract_key(opts->keyring, host_secret,
+  1098						    strlen(host_secret));
+  1099			if (IS_ERR(key)) {
+  1100				ret = PTR_ERR(key);
+  1101				goto out;
+  1102			}
+  1103			pr_debug("using dhchap key %08x\n", key_serial(key));
+  1104			opts->dhchap_key = key;
+  1105		}
+  1106		if (ctrl_secret) {
+  1107			if (!opts->dhchap_key) {
+  1108				ret = -EINVAL;
+  1109				goto out;
+  1110			}
+  1111			pr_debug("lookup ctrl identity '%s'\n", ctrl_secret);
+> 1112			key = nvme_auth_extract_key(opts->keyring, ctrl_secret,
+  1113						    strlen(ctrl_secret));
+  1114			if (IS_ERR(key)) {
+  1115				ret = PTR_ERR(key);
+  1116				goto out;
+  1117			}
+  1118			pr_debug("using dhchap ctrl key %08x\n", key_serial(key));
+  1119			opts->dhchap_ctrl_key = key;
+  1120		}
+  1121	
+  1122		if (opts->concat) {
+  1123			if (opts->tls) {
+  1124				pr_err("Secure concatenation over TLS is not supported\n");
+  1125				ret = -EINVAL;
+  1126				goto out;
+  1127			}
+  1128			if (opts->tls_key) {
+  1129				pr_err("Cannot specify a TLS key for secure concatenation\n");
+  1130				ret = -EINVAL;
+  1131				goto out;
+  1132			}
+  1133			if (!opts->dhchap_key) {
+  1134				pr_err("Need to enable DH-CHAP for secure concatenation\n");
+  1135				ret = -EINVAL;
+  1136				goto out;
+  1137			}
+  1138		}
+  1139	
+  1140	out:
+  1141		kfree(ctrl_secret);
+  1142		kfree(host_secret);
+  1143		kfree(options);
+  1144		return ret;
+  1145	}
+  1146	
 
 -- 
 0-DAY CI Kernel Test Service
