@@ -1,66 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E0E1B808
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30BD31DBB3A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746614180; cv=none; b=th9vUpUcu3YBs9jeHyfw5WfhxPcrCmGBVeHKc/RfHwWUfXpqbBBrxSz3GqsHZlUv1aQTjNco0AGWd42fYX3BUZAmkjbRoiJhPIwnSTbi2gyeHDZUd4UTejEBOkuNqfZ0VVvH/WozlitUU5vgpJTMOsXRsT3BKfiTSD+nZ2nlOkY=
+	t=1746614927; cv=none; b=kKKUA9SGE9MgnJWcv80pdb2ortFeyqHnYTRsn8Sw333RBXBB2byLV4TqRJ8gDZlK1l+63JH9yib9Qf7mcKO+cLi6X9UW9BHia57aYQ3+H+5FKftz4wObMedr9q/DjI507TnkhpBXnGckluNvL6u3BeI/BezECad+lbk0IkJndlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746614180; c=relaxed/simple;
-	bh=+5rZG+/VNvfdN+SHsJYoUKfRt7JTdAwPzAikCSXr6rI=;
+	s=arc-20240116; t=1746614927; c=relaxed/simple;
+	bh=kDSfzrC9CgbawHfYdLK7zQMe5S9Q4ouJvRrweeVGo/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V9sZU0VfixUqcmnKWg+xFTzHfwVyzTgW4MsDfcJpBT4odNwfRXjcwZSLtTyTC5Loyu1VSVXbKcXa+oKCWn3pEgDq7OAkpcB1JVkaMYCP/1mmO2Wb5kazsYkK+i64AN28u0feTt+FQcDBhTwoV3NIzZqU8i6B3oRZmCVxCQIKfJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJllGRhy; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJllGRhy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746614179; x=1778150179;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+5rZG+/VNvfdN+SHsJYoUKfRt7JTdAwPzAikCSXr6rI=;
-  b=RJllGRhy34UOz17Bqno7agYp5fmLKBAak3MSg+YjlZaiuQLD3dkheKc9
-   USDUPTJD8XY3VQ/kYvdKT0IRf/NjY8Hev8jhrli8dnPC2TQWx86DfQSEf
-   /K3rFiHB3g9KWtarPSKu+KymVlqVabgwLUoieyIoADBDOZKQOvl+IDRWE
-   nDeoyYEMDG2vLrw+Q5OfeZaSmzyPh4yNF70B+YQh8QkZBFa6H/age7e1b
-   sBaNNQXW4MeBthSDi97R/NqGgb6vh+mYlU2sop9Jutk9SZP3TUTqrqk3P
-   T8qgtKPqUOR+utMnsXOrxP4YgYrfHrtBe0eMdOkwy2q/nMcZjYRmJ8HMc
-   A==;
-X-CSE-ConnectionGUID: xV/4Z6UvTEGhbj5tM52DfQ==
-X-CSE-MsgGUID: dW1+jczSSniI+1n7At/pOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58965681"
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="58965681"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:36:18 -0700
-X-CSE-ConnectionGUID: S2v7VjctTiub4ml4VA950Q==
-X-CSE-MsgGUID: RPf2npvlQL6qW5gqzv/DGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="135630664"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 May 2025 03:36:15 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCc8L-0007c5-16;
-	Wed, 07 May 2025 10:36:13 +0000
-Date: Wed, 7 May 2025 18:35:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gustavo Silva <gustavograzs@gmail.com>,
-	Alex Lanzano <lanzano.alex@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Gustavo Silva <gustavograzs@gmail.com>
-Subject: Re: [PATCH 1/3] iio: imu: bmi270: add channel for step counter
-Message-ID: <202505071850.e6YE0Jm9-lkp@intel.com>
-References: <20250424-bmi270-events-v1-1-a6c722673e5f@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XYyS00Kqi69TJDZB35I0Uf32gt58XfmoZ/va6g4a3cpOWufTGXXKosOU6KdaZfV7nPLJWaZ718kmH4WGTBgnShmmf87ouR0toiAUbm27xHy0zlX4SrgffhjRTwb7YUnDD0RgoMMlSaNjWXfZ2XCon9BQ79U4UGY2J+nSB4gccy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B54B339;
+	Wed,  7 May 2025 03:48:35 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 891F43F5A1;
+	Wed,  7 May 2025 03:48:44 -0700 (PDT)
+Date: Wed, 7 May 2025 11:48:41 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andi Shyti <andi.shyti@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [linux-next:master 2949/6092]
+ drivers/i2c/busses/i2c-xgene-slimpro.c:153:38: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <20250507-psychedelic-amethyst-weasel-af850b@sudeepholla>
+References: <202505071823.iW8ueroY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,128 +36,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424-bmi270-events-v1-1-a6c722673e5f@gmail.com>
+In-Reply-To: <202505071823.iW8ueroY-lkp@intel.com>
 
-Hi Gustavo,
+On Wed, May 07, 2025 at 06:14:48PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   08710e696081d58163c8078e0e096be6d35c5fad
+> commit: 1dde04276b4d711acdf80515dde7a166efefb1cb [2949/6092] i2c: xgene-slimpro: Simplify PCC shared memory region handling
+> config: arm64-randconfig-r133-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071823.iW8ueroY-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 9.5.0
+> reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071823.iW8ueroY-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505071823.iW8ueroY-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b475195fecc79a1a6e7fb0846aaaab0a1a4cb2e6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gustavo-Silva/iio-imu-bmi270-add-channel-for-step-counter/20250425-081720
-base:   b475195fecc79a1a6e7fb0846aaaab0a1a4cb2e6
-patch link:    https://lore.kernel.org/r/20250424-bmi270-events-v1-1-a6c722673e5f%40gmail.com
-patch subject: [PATCH 1/3] iio: imu: bmi270: add channel for step counter
-config: csky-randconfig-r071-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071850.e6YE0Jm9-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071850.e6YE0Jm9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071850.e6YE0Jm9-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   In function 'bmi270_update_feature_reg',
-       inlined from 'bmi270_enable_steps' at drivers/iio/imu/bmi270/bmi270_core.c:361:8,
-       inlined from 'bmi270_write_raw' at drivers/iio/imu/bmi270/bmi270_core.c:707:10:
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_399' declared with attribute error: BUILD_BUG failed
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   arch/csky/include/asm/cmpxchg.h:151:17: note: in expansion of macro 'BUILD_BUG'
-     151 |                 BUILD_BUG();                                    \
-         |                 ^~~~~~~~~
-   arch/csky/include/asm/cmpxchg.h:157:10: note: in expansion of macro '__cmpxchg'
-     157 |         (__cmpxchg((ptr), (o), (n), sizeof(*(ptr))))
-         |          ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/bitops.h:367:19: note: in expansion of macro 'try_cmpxchg'
-     367 |         } while (!try_cmpxchg(ptr, &old__, new__));             \
-         |                   ^~~~~~~~~~~
-   drivers/iio/imu/bmi270/bmi270_core.c:348:9: note: in expansion of macro 'set_mask_bits'
-     348 |         set_mask_bits(&reg_val, mask, val);
-         |         ^~~~~~~~~~~~~
-   In function 'bmi270_update_feature_reg',
-       inlined from 'bmi270_write_raw' at drivers/iio/imu/bmi270/bmi270_core.c:715:10:
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_399' declared with attribute error: BUILD_BUG failed
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   arch/csky/include/asm/cmpxchg.h:151:17: note: in expansion of macro 'BUILD_BUG'
-     151 |                 BUILD_BUG();                                    \
-         |                 ^~~~~~~~~
-   arch/csky/include/asm/cmpxchg.h:157:10: note: in expansion of macro '__cmpxchg'
-     157 |         (__cmpxchg((ptr), (o), (n), sizeof(*(ptr))))
-         |          ^~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
-      55 | #define raw_cmpxchg arch_cmpxchg
-         |                     ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
-     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
-    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/bitops.h:367:19: note: in expansion of macro 'try_cmpxchg'
-     367 |         } while (!try_cmpxchg(ptr, &old__, new__));             \
-         |                   ^~~~~~~~~~~
-   drivers/iio/imu/bmi270/bmi270_core.c:348:9: note: in expansion of macro 'set_mask_bits'
-     348 |         set_mask_bits(&reg_val, mask, val);
-         |         ^~~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_399 +557 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+I did see these before and after my changes. Though the warning itself
+changes a bit with my changes, it existed before. So I didn't want to
+mix up the warning fixes with this. I can take a look at them later when
+I get sometime.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Sudeep
