@@ -1,43 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E55222F759;
-	Wed,  7 May 2025 22:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB21B72616
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 22:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746656332; cv=none; b=iFWVPV1bIIPqmcF808KsqRK7TNLP3VieRdTOt9l+gWXpPWzU/yHOfpxF1xWWHjWgkElcYqwjzBWwjrpwOe9qqnKxE1tA5ZqdR/1JRrljCkWFLTS+KKWdVQwDIKjRUYhPXl93/Ukg/wN2/kVkVGp5UXui0ZuoGV/EQMA7jin9pJw=
+	t=1746658233; cv=none; b=W4APB2ZEeWEXBziS+e+VZ7Hu0oXFMcyvpYbmsN65iVWy7WJ3dfkBIOBIpel9u2Ma2Z0+mIperqnGzgR3ri3Fr0NaR6ckw0I7u2RHV7gNK3lg3NOjZnZH2uMX1z8Qy52sF6Us+ZzDCnMfhDJU0MRdB3aczWDKuoJ23PW7tTQZKSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746656332; c=relaxed/simple;
-	bh=EEgrVpV+dxmZpKE2aC2GH0LMPotoCq/ED7mZZZVPrOw=;
+	s=arc-20240116; t=1746658233; c=relaxed/simple;
+	bh=HbnTRcGDguTJcjdl27sUoG7yg/EIj+Ic0JSwYhwH4GQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGXKbEFi5KGePAD9siyYhme7jeJpdkN4/LIgSvGMwZqX3fZ2txDokFYBbqQbMCaKyk75vyMI0TUiff1G/A/rMv/ht0ywKd7rEUi4jMlcahdr9GmBRt7Cn0v4wtO3F7tmo2dqENcXLgECOTf5Z9AwOjHuMydGSswfqRMBgUjRnLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HW9i1+ZW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ThA9UPOJIFDsqGtXVxp7JZI26vukJG1S/VxwSX/2mLfeZ/cFGysRITkGtq++5SPjgL/8Z3Et+/BRkraxBSonyZXN+y5FFEwmZWmBl4ENTkkgn60n2aYfbBq3c1VSh+7f/ko9zDsVFnaAQryM8BJAraMRC8jZIkv/LAlNir9YeLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2UicU4B; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HW9i1+ZW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7031BC4CEE2;
-	Wed,  7 May 2025 22:18:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746656331;
-	bh=EEgrVpV+dxmZpKE2aC2GH0LMPotoCq/ED7mZZZVPrOw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HW9i1+ZWzoLd/e9bujf1qVWc4oLPzoIis/DMPHIjPG4Lg+v2TPdqTr9QUjrfy3xA6
-	 LilZNWBQntwYzZV1RPplD4NAwhlcoCFs+Z+bFj5U2bi1PwPgblDNphdOhRJdm5EtCy
-	 Cw60wLu8RYdoLYzMoGZIdU47QksD3fVhi9bqZ5jHQixh3LYtQq3gLI1W1cHdys5QKK
-	 9/F0GzkplXSU36PJNe3pXjxhJpGny5aOaj3aWnq27QG91pMqJZyUjkOlEmYjHZkCGT
-	 LSn3niecaNRjbjhwe/MAUWzR4BKj4fKUqm3qDUbCOTt/mpAWdNOuY4BZKZNd1gjo6T
-	 nGhlayET1r+dg==
-Date: Wed, 7 May 2025 15:18:46 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>,
-	linux-crypto@vger.kernel.org, linux-mips@vger.kernel.org,
-	=?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [linux-next:master 6141/9308]
- arch/mips/lib/crypto/chacha-core.S:264:118: error: unknown instruction, did
- you mean: rol, rotr?
-Message-ID: <20250507221846.GA526360@sol>
-References: <202505080409.EujEBwA0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2UicU4B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746658232; x=1778194232;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HbnTRcGDguTJcjdl27sUoG7yg/EIj+Ic0JSwYhwH4GQ=;
+  b=m2UicU4BEGTwATDp1KciIPdFRtTM1ZrFEk6SoU+zuJPzJvrAJ47BzAiS
+   MAZRGRaT3SrRY4WUU1f6m+QtHG5bTwioFTWHPOHJ0SGXW501EoC3yo1Kp
+   7iy6OcYVE81kpy7UooYDZa3bizo/x9ELq6ymNed0d68SkRVJAorthz4Yv
+   pFpTTOR5gpWH0O3wSiCrplP7vNupiWgaVc3YxjbOqQ1EI5M6Bofzz53OI
+   BTOpwHeD6OBVDJzuJ9zbZUZrDbn5lI8USNttyzh+7wS0XyynF79rfQBcs
+   dMDlXt8Hkxr3rdY0Or3DwcAcm4IxZflL4V8odYh9ygGxy8DNV2HOHz0gO
+   g==;
+X-CSE-ConnectionGUID: 7osfYM4jSXKihnGja/LgOA==
+X-CSE-MsgGUID: no3aDrxbSt6S2sLhWle1bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48286722"
+X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; 
+   d="scan'208";a="48286722"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 15:50:31 -0700
+X-CSE-ConnectionGUID: tjSTxzmcRs+u22cpdFlg1g==
+X-CSE-MsgGUID: bEjWDmubTu2agF+yhMtAEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; 
+   d="scan'208";a="140867901"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 07 May 2025 15:50:28 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCnas-00097H-0K;
+	Wed, 07 May 2025 22:50:26 +0000
+Date: Thu, 8 May 2025 06:49:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sagi Maimon <maimon.sagi@gmail.com>, jonathan.lemon@gmail.com,
+	vadim.fedorenko@linux.dev, richardcochran@gmail.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, Sagi Maimon <maimon.sagi@gmail.com>
+Subject: Re: [PATCH v1] ptp: ocp: Limit SMA/signal/freq counts in show/store
+ functions
+Message-ID: <202505080859.Ke4zJAh1-lkp@intel.com>
+References: <20250506080647.116702-1-maimon.sagi@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,53 +67,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202505080409.EujEBwA0-lkp@intel.com>
+In-Reply-To: <20250506080647.116702-1-maimon.sagi@gmail.com>
 
-[+Cc linux-crypto, linux-mips, and the authors of the mips chacha-core.S]
+Hi Sagi,
 
-On Thu, May 08, 2025 at 04:36:30AM +0800, kernel test robot wrote:
-> Hi Eric,
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   08710e696081d58163c8078e0e096be6d35c5fad
-> commit: 939a54ac073808db15ed411d563dfadb3ef12798 [6141/9308] crypto: mips - move library functions to arch/mips/lib/crypto/
-> config: mips-randconfig-r111-20250501 (https://download.01.org/0day-ci/archive/20250508/202505080409.EujEBwA0-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-> reproduce: (https://download.01.org/0day-ci/archive/20250508/202505080409.EujEBwA0-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505080409.EujEBwA0-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> arch/mips/lib/crypto/chacha-core.S:264:118: error: unknown instruction, did you mean: rol, rotr?
->     addu $t0, $t4; addu $t1, $t5; addu $t2, $t6; addu $t3, $t7; xor $s5, $t0; xor $s4, $t1; xor $s3, $t2; xor $s2, $t3; rotl $s5, 16; rotl $s4, 16; rotl $s3, 16; rotl $s2, 16;;
+kernel test robot noticed the following build warnings:
 
-This build error actually occurs before my commit too, and even on current
-mainline.  I don't know why it's just getting reported now.  It occurs only with
-clang, which is why I didn't notice it before (I did the mips build with gcc).
-Anyway, I don't really speak MIPS, but it looks like what's going on is the CPU
-only has a right rotate instruction, and binutils translates left rotates into
-right rotates, but clang doesn't.
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-'mips-linux-gnu-gcc -c -march=mips32r2' successfully compiles the following:
+url:    https://github.com/intel-lab-lkp/linux/commits/Sagi-Maimon/ptp-ocp-Limit-SMA-signal-freq-counts-in-show-store-functions/20250506-161305
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250506080647.116702-1-maimon.sagi%40gmail.com
+patch subject: [PATCH v1] ptp: ocp: Limit SMA/signal/freq counts in show/store functions
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505080859.Ke4zJAh1-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505080859.Ke4zJAh1-lkp@intel.com/reproduce)
 
-    rotl $a0, 5
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505080859.Ke4zJAh1-lkp@intel.com/
 
-... and with 'mips-linux-gnu-objdump' it comes back as:
+All warnings (new ones prefixed by >>):
 
-    ror	a0,a0,0x1b
+   drivers/ptp/ptp_ocp.c: In function 'ptp_ocp_summary_show':
+>> drivers/ptp/ptp_ocp.c:4052:28: warning: '%d' directive writing between 1 and 11 bytes into a region of size 5 [-Wformat-overflow=]
+    4052 |         sprintf(label, "GEN%d", nr + 1);
+         |                            ^~
+   In function '_signal_summary_show',
+       inlined from 'ptp_ocp_summary_show' at drivers/ptp/ptp_ocp.c:4215:4:
+   drivers/ptp/ptp_ocp.c:4052:24: note: directive argument in the range [-2147483639, 2147483647]
+    4052 |         sprintf(label, "GEN%d", nr + 1);
+         |                        ^~~~~~~
+   drivers/ptp/ptp_ocp.c:4052:9: note: 'sprintf' output between 5 and 15 bytes into a destination of size 8
+    4052 |         sprintf(label, "GEN%d", nr + 1);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ptp/ptp_ocp.c: In function 'ptp_ocp_summary_show':
+   drivers/ptp/ptp_ocp.c:4077:29: warning: '%d' directive writing between 1 and 11 bytes into a region of size 4 [-Wformat-overflow=]
+    4077 |         sprintf(label, "FREQ%d", nr + 1);
+         |                             ^~
+   In function '_frequency_summary_show',
+       inlined from 'ptp_ocp_summary_show' at drivers/ptp/ptp_ocp.c:4219:4:
+   drivers/ptp/ptp_ocp.c:4077:24: note: directive argument in the range [-2147483640, 2147483647]
+    4077 |         sprintf(label, "FREQ%d", nr + 1);
+         |                        ^~~~~~~~
+   drivers/ptp/ptp_ocp.c:4077:9: note: 'sprintf' output between 6 and 16 bytes into a destination of size 8
+    4077 |         sprintf(label, "FREQ%d", nr + 1);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-But 'clang -c -target mips-linux-gnu -march=mips32r2' errors out:
 
-    test.S:1:1: error: unknown instruction, did you mean: rol, rotr?
-    rotl $a0, 5
+vim +4052 drivers/ptp/ptp_ocp.c
 
-I don't know if 'rotl' is "supposed" to work or not.  But either way, we could
-make the assembly code use right rotates only.
+f67bf662d2cffa2 Jonathan Lemon 2021-09-14  4041  
+b325af3cfab970e Jonathan Lemon 2022-03-10  4042  static void
+b325af3cfab970e Jonathan Lemon 2022-03-10  4043  _signal_summary_show(struct seq_file *s, struct ptp_ocp *bp, int nr)
+b325af3cfab970e Jonathan Lemon 2022-03-10  4044  {
+b325af3cfab970e Jonathan Lemon 2022-03-10  4045  	struct signal_reg __iomem *reg = bp->signal_out[nr]->mem;
+b325af3cfab970e Jonathan Lemon 2022-03-10  4046  	struct ptp_ocp_signal *signal = &bp->signal[nr];
+b325af3cfab970e Jonathan Lemon 2022-03-10  4047  	char label[8];
+b325af3cfab970e Jonathan Lemon 2022-03-10  4048  	bool on;
+b325af3cfab970e Jonathan Lemon 2022-03-10  4049  	u32 val;
+b325af3cfab970e Jonathan Lemon 2022-03-10  4050  
+b325af3cfab970e Jonathan Lemon 2022-03-10  4051  	on = signal->running;
+05fc65f3f5e45e8 Jonathan Lemon 2022-03-15 @4052  	sprintf(label, "GEN%d", nr + 1);
+b325af3cfab970e Jonathan Lemon 2022-03-10  4053  	seq_printf(s, "%7s: %s, period:%llu duty:%d%% phase:%llu pol:%d",
+b325af3cfab970e Jonathan Lemon 2022-03-10  4054  		   label, on ? " ON" : "OFF",
+b325af3cfab970e Jonathan Lemon 2022-03-10  4055  		   signal->period, signal->duty, signal->phase,
+b325af3cfab970e Jonathan Lemon 2022-03-10  4056  		   signal->polarity);
+b325af3cfab970e Jonathan Lemon 2022-03-10  4057  
+b325af3cfab970e Jonathan Lemon 2022-03-10  4058  	val = ioread32(&reg->enable);
+b325af3cfab970e Jonathan Lemon 2022-03-10  4059  	seq_printf(s, " [%x", val);
+b325af3cfab970e Jonathan Lemon 2022-03-10  4060  	val = ioread32(&reg->status);
+b325af3cfab970e Jonathan Lemon 2022-03-10  4061  	seq_printf(s, " %x]", val);
+b325af3cfab970e Jonathan Lemon 2022-03-10  4062  
+b325af3cfab970e Jonathan Lemon 2022-03-10  4063  	seq_printf(s, " start:%llu\n", signal->start);
+b325af3cfab970e Jonathan Lemon 2022-03-10  4064  }
+b325af3cfab970e Jonathan Lemon 2022-03-10  4065  
 
-- Eric
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
