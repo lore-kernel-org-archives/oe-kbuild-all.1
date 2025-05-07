@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271B12010F6
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 07:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB4A2101B3;
+	Wed,  7 May 2025 07:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746601655; cv=none; b=gXH82HHBvc+uFzFyIxhKp/Gtmk2SecLHszLXX1YWQIvTpiBWGX/amRukAorQohz3IGpYJooni/dyXjBJ5LuSNDg8L27Mu+DisFQgGKWBSQQeub4DeHaoBpijD5Hl+WP1UKB9sqwL0sYfvSGruoLcF4Cr7tB/g5lkS6mxcQ2L6g8=
+	t=1746601656; cv=none; b=YiOUIBRVRsYOunLuUpCF6q68UL6O2Q7KyaVUjQBVEEK3jAZr5d0vzFIl/4xANPcvmroAYiUXO3sKTx00Z284YlGS+M6K9UzjzTchPJvryrYO9s2CsJE/d+PcYN6bqXavQ0/BCAV3PjVbmlRBcyqThrzPUKxeX/0fN2AF8Ihq8xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746601655; c=relaxed/simple;
-	bh=fQezpvUGLkWKBNbBNeYyLVZSZpuY4nRgoW5DgJTHY0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JGwlam+ghE0LH2by6RTTnBBJfSql8cdhnDUmZ0r6QtBifk5jodWdSMUxVqfayzpMsabDALW/rWFqZrYvv/epEJQLt6RLmYQKBL7gHChyNh15+K8Yq6d2lYLIr9JjM8Bix+kkGWOAZj0ne/3e+r1mJgV4acKPvp8Iw3RpJc5S8i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+K9vEYy; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1746601656; c=relaxed/simple;
+	bh=o5itVuxw0UhbTIyGHzro5ngKlGtHa5jq9Nfar9D+vaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EhovOREsDwrQ6xl7El8uNKBj3SB4RGqvNm9FXm/Vhc0o1N4gI++SSr01U3Yui91t/8wq2vGwGxoxWNRNu9Ogi1ox72rx2zeTi0w/f7f7TNqjTEVBJK8MQ8pFO28zV9+cLHd/lumYvtP56NWwl9Ko6xpZ4cR8zAWCmc1Dwp5pcd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Md161QFO; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+K9vEYy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Md161QFO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1746601654; x=1778137654;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fQezpvUGLkWKBNbBNeYyLVZSZpuY4nRgoW5DgJTHY0w=;
-  b=Z+K9vEYyCkyE1bSnXO4f8D6RvXEZ4Su1yJv8QuNiNj1fJQQzwtPpMEuh
-   1zx+2STz2F+ZqhJZd7hrZVj/FRApaY62l8DGm42DyDrLWDCtFa/figMc9
-   1j/49ghb89pPwo0zgYTnThpAsev3qKp5Hh01lAqJU545wbYVEguWg1fXq
-   mB8XSiKRfVD7kHleJCfc3QxCvzHZncdaCia/eY7R3Gi7TxQE679G0O6ha
-   DPfnR4n9jdjpjLealQbME+6vH6Jm0dSK1FEwlnBUY13AQTxTxotvNWqi/
-   C7sgCKplVlmMiZeV1CYzEV0BfNLU8B4QaVw0b8NCj/YzN5Xw5z1spmJyJ
-   g==;
-X-CSE-ConnectionGUID: 1VETlezPQ8KaXXjvyobQNA==
-X-CSE-MsgGUID: Nj3gUGDITnaj30OjN7THpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="73702372"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o5itVuxw0UhbTIyGHzro5ngKlGtHa5jq9Nfar9D+vaM=;
+  b=Md161QFOtGLbLncCwx0iy2ASxNZvKfsqbyBUjR/g2Ids2c+wewog46+t
+   0XkEk/+6SZiaAIQSeghi/bP3BgcJJ8pPcN3wxO/13oL1xjG7faMTHcI+q
+   m5pGw3mclRf69dNM9lTlf4xNpBnesoZRwwL31DSX5iRa53gTlcyc/mDRy
+   ZbyjDLIxFBFcEMyqg4QwJrsdj+E54M2mus1M/FaDHu9apyysE3xd6eTWY
+   RWRs5lzOF9TJ4qPbdDpGVDYNCaG4FijLhfA9igx7iU4btmbxJ4S7ClnLn
+   iOmiy1mSLGeDKnHdadLOB0QvPlO979w3Ku59IZIYilpvHE/i3ZetymdQf
+   Q==;
+X-CSE-ConnectionGUID: yubW6kCPSDWmXSxgBy294g==
+X-CSE-MsgGUID: G0o9SUxpSkqUo0EeCNNAaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="52127890"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="73702372"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:07:32 -0700
-X-CSE-ConnectionGUID: /8ghFqIQT1KTcNe5fdvvrg==
-X-CSE-MsgGUID: WeIaWtp/TXemY5QkgJsiYg==
+   d="scan'208";a="52127890"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:07:32 -0700
+X-CSE-ConnectionGUID: CqFD7g59TpymEgcY9J5YPQ==
+X-CSE-MsgGUID: Bur6u0cLQWiouXmdCjLRRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="135767234"
+   d="scan'208";a="135865531"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 00:07:31 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 May 2025 00:07:31 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCYsK-0007GN-2P;
+	id 1uCYsK-0007GB-21;
 	Wed, 07 May 2025 07:07:28 +0000
-Date: Wed, 7 May 2025 15:07:18 +0800
+Date: Wed, 7 May 2025 15:07:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/stats_pointer 1/1]
- arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:479:25: error: 'struct
- kvm_vcpu_stat' has no member named 'extended'
-Message-ID: <202505071448.T9e5NHn0-lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] drm/xe: fix devcoredump chunk alignmnent calculation
+Message-ID: <202505071439.ugStPmtl-lkp@intel.com>
+References: <20250429073407.3505712-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,116 +62,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250429073407.3505712-1-arnd@kernel.org>
 
-tree:   https://github.com/sean-jc/linux x86/stats_pointer
-head:   b9a199c65702bb4d0d6bc77c88198df60cdd940f
-commit: b9a199c65702bb4d0d6bc77c88198df60cdd940f [1/1] KVM: x86: PoC for shoving a subset of stats into a pointer
-config: loongarch-randconfig-002-20250501 (https://download.01.org/0day-ci/archive/20250507/202505071448.T9e5NHn0-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071448.T9e5NHn0-lkp@intel.com/reproduce)
+Hi Arnd,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-xe/drm-xe-next]
+[cannot apply to linus/master v6.15-rc5 next-20250506]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/drm-xe-fix-devcoredump-chunk-alignmnent-calculation/20250429-153441
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250429073407.3505712-1-arnd%40kernel.org
+patch subject: [PATCH] drm/xe: fix devcoredump chunk alignmnent calculation
+config: i386-randconfig-013-20250506 (https://download.01.org/0day-ci/archive/20250507/202505071439.ugStPmtl-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071439.ugStPmtl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071448.T9e5NHn0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071439.ugStPmtl-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_vcpu_destroy':
->> arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:479:25: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-     479 |         vfree(vcpu->stat.extended);
+>> drivers/gpu/drm/xe/xe_devcoredump.c:205:6: error: variable 'chunk_offset' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+     205 |         if (offset >= ss->read.chunk_position + XE_DEVCOREDUMP_CHUNK_MAX ||
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     206 |             offset < ss->read.chunk_position) {
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_devcoredump.c:218:35: note: uninitialized use occurs here
+     218 |         memcpy(buffer, ss->read.buffer + chunk_offset, byte_copied);
+         |                                          ^~~~~~~~~~~~
+   include/linux/fortify-string.h:690:50: note: expanded from macro 'memcpy'
+     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                                                  ^
+   include/linux/fortify-string.h:645:23: note: expanded from macro '__fortify_memcpy_chk'
+     645 |         __underlying_##op(p, q, __copy_size);                           \
+         |                              ^
+   drivers/gpu/drm/xe/xe_devcoredump.c:205:2: note: remove the 'if' if its condition is always true
+     205 |         if (offset >= ss->read.chunk_position + XE_DEVCOREDUMP_CHUNK_MAX ||
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     206 |             offset < ss->read.chunk_position) {
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_devcoredump.c:180:18: note: initialize the variable 'chunk_offset' to silence this warning
+     180 |         u32 chunk_offset;
          |                         ^
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c: In function 'update_halt_poll_stats':
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:3611:56: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    3611 |         struct kvm_vcpu_stat_extended *ext = vcpu->stat.extended;
-         |                                                        ^
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_vcpu_halt':
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:3657:56: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    3657 |         struct kvm_vcpu_stat_extended *ext = vcpu->stat.extended;
-         |                                                        ^
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_vm_ioctl_create_vcpu':
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4113:19: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    4113 |         vcpu->stat.extended = vzalloc(sizeof(*vcpu->stat.extended));
-         |                   ^
-   In file included from include/linux/percpu.h:5,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/kvm_host.h:7,
-                    from arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:15:
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4113:57: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    4113 |         vcpu->stat.extended = vzalloc(sizeof(*vcpu->stat.extended));
-         |                                                         ^
-   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
-     227 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/vmalloc.h:141:33: note: in expansion of macro 'alloc_hooks'
-     141 | #define vzalloc(...)            alloc_hooks(vzalloc_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4113:31: note: in expansion of macro 'vzalloc'
-    4113 |         vcpu->stat.extended = vzalloc(sizeof(*vcpu->stat.extended));
-         |                               ^~~~~~~
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4113:57: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    4113 |         vcpu->stat.extended = vzalloc(sizeof(*vcpu->stat.extended));
-         |                                                         ^
-   include/linux/alloc_tag.h:231:24: note: in definition of macro 'alloc_hooks_tag'
-     231 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/vmalloc.h:141:33: note: in expansion of macro 'alloc_hooks'
-     141 | #define vzalloc(...)            alloc_hooks(vzalloc_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4113:31: note: in expansion of macro 'vzalloc'
-    4113 |         vcpu->stat.extended = vzalloc(sizeof(*vcpu->stat.extended));
-         |                               ^~~~~~~
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4113:57: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    4113 |         vcpu->stat.extended = vzalloc(sizeof(*vcpu->stat.extended));
-         |                                                         ^
-   include/linux/alloc_tag.h:234:24: note: in definition of macro 'alloc_hooks_tag'
-     234 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/vmalloc.h:141:33: note: in expansion of macro 'alloc_hooks'
-     141 | #define vzalloc(...)            alloc_hooks(vzalloc_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4113:31: note: in expansion of macro 'vzalloc'
-    4113 |         vcpu->stat.extended = vzalloc(sizeof(*vcpu->stat.extended));
-         |                               ^~~~~~~
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4114:24: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    4114 |         if (!vcpu->stat.extended) {
-         |                        ^
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4123:33: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    4123 |                 vfree(vcpu->stat.extended);
-         |                                 ^
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_vcpu_stats_read':
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4219:61: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    4219 |                               sizeof(vcpu->stat), vcpu->stat.extended,
-         |                                                             ^
-   arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4220:49: error: 'struct kvm_vcpu_stat' has no member named 'extended'
-    4220 |                               sizeof(*vcpu->stat.extended), user_buffer,
-         |                                                 ^
->> arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4222:1: warning: control reaches end of non-void function [-Wreturn-type]
-    4222 | }
-         | ^
+         |                          = 0
+   1 error generated.
 
 
-vim +479 arch/loongarch/kvm/../../../virt/kvm/kvm_main.c
+vim +205 drivers/gpu/drm/xe/xe_devcoredump.c
 
-   465	
-   466	static void kvm_vcpu_destroy(struct kvm_vcpu *vcpu)
-   467	{
-   468		kvm_arch_vcpu_destroy(vcpu);
-   469		kvm_dirty_ring_free(&vcpu->dirty_ring);
-   470	
-   471		/*
-   472		 * No need for rcu_read_lock as VCPU_RUN is the only place that changes
-   473		 * the vcpu->pid pointer, and at destruction time all file descriptors
-   474		 * are already gone.
-   475		 */
-   476		put_pid(vcpu->pid);
-   477	
-   478		free_page((unsigned long)vcpu->run);
- > 479		vfree(vcpu->stat.extended);
-   480		kmem_cache_free(kvm_vcpu_cache, vcpu);
-   481	}
-   482	
+c4a2e5f865b723 Matthew Brost 2025-04-23  173  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  174  static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
+4f04d07c0a94b0 Matthew Brost 2024-08-01  175  				   size_t count, void *data, size_t datalen)
+4f04d07c0a94b0 Matthew Brost 2024-08-01  176  {
+4f04d07c0a94b0 Matthew Brost 2024-08-01  177  	struct xe_devcoredump *coredump = data;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  178  	struct xe_devcoredump_snapshot *ss;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  179  	ssize_t byte_copied;
+15ba154d0115c8 Arnd Bergmann 2025-04-29  180  	u32 chunk_offset;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  181  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  182  	if (!coredump)
+4f04d07c0a94b0 Matthew Brost 2024-08-01  183  		return -ENODEV;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  184  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  185  	ss = &coredump->snapshot;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  186  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  187  	/* Ensure delayed work is captured before continuing */
+4f04d07c0a94b0 Matthew Brost 2024-08-01  188  	flush_work(&ss->work);
+4f04d07c0a94b0 Matthew Brost 2024-08-01  189  
+c4a2e5f865b723 Matthew Brost 2025-04-23  190  	if (ss->read.size > XE_DEVCOREDUMP_CHUNK_MAX)
+c4a2e5f865b723 Matthew Brost 2025-04-23  191  		xe_pm_runtime_get(gt_to_xe(ss->gt));
+c4a2e5f865b723 Matthew Brost 2025-04-23  192  
+906c4b306e9340 John Harrison 2024-11-28  193  	mutex_lock(&coredump->lock);
+906c4b306e9340 John Harrison 2024-11-28  194  
+906c4b306e9340 John Harrison 2024-11-28  195  	if (!ss->read.buffer) {
+906c4b306e9340 John Harrison 2024-11-28  196  		mutex_unlock(&coredump->lock);
+4f04d07c0a94b0 Matthew Brost 2024-08-01  197  		return -ENODEV;
+906c4b306e9340 John Harrison 2024-11-28  198  	}
+4f04d07c0a94b0 Matthew Brost 2024-08-01  199  
+906c4b306e9340 John Harrison 2024-11-28  200  	if (offset >= ss->read.size) {
+906c4b306e9340 John Harrison 2024-11-28  201  		mutex_unlock(&coredump->lock);
+4f04d07c0a94b0 Matthew Brost 2024-08-01  202  		return 0;
+906c4b306e9340 John Harrison 2024-11-28  203  	}
+4f04d07c0a94b0 Matthew Brost 2024-08-01  204  
+c4a2e5f865b723 Matthew Brost 2025-04-23 @205  	if (offset >= ss->read.chunk_position + XE_DEVCOREDUMP_CHUNK_MAX ||
+c4a2e5f865b723 Matthew Brost 2025-04-23  206  	    offset < ss->read.chunk_position) {
+15ba154d0115c8 Arnd Bergmann 2025-04-29  207  		ss->read.chunk_position = div_u64_rem(offset,
+15ba154d0115c8 Arnd Bergmann 2025-04-29  208  			XE_DEVCOREDUMP_CHUNK_MAX, &chunk_offset)
+15ba154d0115c8 Arnd Bergmann 2025-04-29  209  			* XE_DEVCOREDUMP_CHUNK_MAX;
+c4a2e5f865b723 Matthew Brost 2025-04-23  210  
+c4a2e5f865b723 Matthew Brost 2025-04-23  211  		__xe_devcoredump_read(ss->read.buffer,
+c4a2e5f865b723 Matthew Brost 2025-04-23  212  				      XE_DEVCOREDUMP_CHUNK_MAX,
+c4a2e5f865b723 Matthew Brost 2025-04-23  213  				      ss->read.chunk_position, coredump);
+c4a2e5f865b723 Matthew Brost 2025-04-23  214  	}
+c4a2e5f865b723 Matthew Brost 2025-04-23  215  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  216  	byte_copied = count < ss->read.size - offset ? count :
+4f04d07c0a94b0 Matthew Brost 2024-08-01  217  		ss->read.size - offset;
+15ba154d0115c8 Arnd Bergmann 2025-04-29  218  	memcpy(buffer, ss->read.buffer + chunk_offset, byte_copied);
+4f04d07c0a94b0 Matthew Brost 2024-08-01  219  
+906c4b306e9340 John Harrison 2024-11-28  220  	mutex_unlock(&coredump->lock);
+906c4b306e9340 John Harrison 2024-11-28  221  
+c4a2e5f865b723 Matthew Brost 2025-04-23  222  	if (ss->read.size > XE_DEVCOREDUMP_CHUNK_MAX)
+c4a2e5f865b723 Matthew Brost 2025-04-23  223  		xe_pm_runtime_put(gt_to_xe(ss->gt));
+c4a2e5f865b723 Matthew Brost 2025-04-23  224  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  225  	return byte_copied;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  226  }
+4f04d07c0a94b0 Matthew Brost 2024-08-01  227  
 
 -- 
 0-DAY CI Kernel Test Service
