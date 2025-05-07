@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42592289E18;
-	Wed,  7 May 2025 14:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F071289829
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 14:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746629818; cv=none; b=lGmf+Go/VrGBDnLvpws/f6CnlIaqHrPdKruJi82zyczTZnFvENvmM8ETDhb6asjlG1jRWA3xcMy2QXU+5DXDHp+ynoD5l2RT/RN7h917AJ97ibWSRej7CdqfX4v1mnmNoJIj78cfqK+rNpSQr6LGlS0Y2MCDNn6mnAyoyK6UIf8=
+	t=1746629820; cv=none; b=EdzJMHsxMu3bwORGKUfi1C+HuBSr5ggFAsTAHTMjCR11vcnutjXf30OmjTAUI3Jc4WKvmMMoxzXjyoetredDYeAhEcqimptILRnlBYV2puFoaUGXST5l8ZprMycME61k7nBi6Cg+M3u8VObGwm1vBw540mKI3/Cf74CPIsO5Juk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746629818; c=relaxed/simple;
-	bh=PWbZF95+4g2ZvrVrtvSS5psq9buLlwHmUVn07mPNOTY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FOGXhy0Xy1hWl0vAKuc9MWIopfRzwxUG3r26Hf0fuiW4TIE4Hep2WT9BC+EbZr0zeJX+3/Jt4fyisVByBtA27gsfRBOSBZpZLPQHcqvWftSvF65oVYbmnydVE1s+EGtgs4A6mVI9fepdrbRv26+HILMqA7xVpaakFzH5TIhDYC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H1pSNzKd; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1746629820; c=relaxed/simple;
+	bh=WrKtMk7r8CLocBvM/rsB9O6GkSfjalL3PeoH64xthU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m1vjKjOmJ8t0663A7lBS2lzNyAhhCDeQc6rsCNyFDMf4Lm+aFIQD3UkIR9GyxvOyF+5OpTkDV0AM3qGcqKB9d0K207vphRjzXWm5N3TrHr8o7YDxQG6jQQJBmSS8vWrG2/kbM81sc62eCGTbTEK0E8JG3WO94vdlSLtlFlm6TME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XGuxN7RT; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H1pSNzKd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XGuxN7RT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1746629816; x=1778165816;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PWbZF95+4g2ZvrVrtvSS5psq9buLlwHmUVn07mPNOTY=;
-  b=H1pSNzKdYXbTnTpUnY7laXsSouXHdRWsfxt6/u5qBVcEf5HDechvz/3n
-   L8g3eWyvYsGL6+pj9TC+OZCf8fzzUlRvmwY/lJGy+rcpFzpZOeHj3NgkA
-   3BBQhzrEN8Se+wYmBDpJfnEHA8e42dGbTt1mXJ5pFrLYwePsEFG/6yJXj
-   6e4Dtb5sI3qSnAu5q5JlQGInodSp12zOEwfqU6QCzQU5yAMPswnP2Sbeu
-   gfJ94TNrk9YJUuaG3S1uLNuIcIaQ1nYtaeX0qkmeBMd52pKDz0KDFE8ep
-   hQnqSQEcuqRu7/NAjzu6ym8K3aELvff0Z1yC5V0qpsJ9no3ASrIXgo5WY
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WrKtMk7r8CLocBvM/rsB9O6GkSfjalL3PeoH64xthU8=;
+  b=XGuxN7RTESBy2Tk2EeBBr4o+0AANMn+uBq+1Z13qywhtxarrmZyT5ouO
+   kgEptDmjFo74v8S95sOpGJIU9kCi7WTFf4eCBzVEm0EklOye6M+nVr3TN
+   pCiChpQqApx9vi6YBNwsSKukS/l20vvVBqWn7NQMb4t07Zob0gtrn/PnG
+   bO9MvNeejxUNo6kLpGb2ZozfbVJH2BJbvLAubxKZSL+GbSNl5QX+CgH0b
+   TpiEARnSdhv+1u3kOMNorSH1ygSdcdXjMODl2CJ9GVfdfDvX97zI34xID
+   u9LvAQQxtzp7zFxzpuTYO3mQ5cd4DbnJ85eFJqZWUwJ5Zz5CHBwD88tjT
    A==;
-X-CSE-ConnectionGUID: jwanPCaLRDSPS5hzw9Cs2A==
-X-CSE-MsgGUID: eKYSNoFESkStmf1NQiB/Zw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48381719"
+X-CSE-ConnectionGUID: 0w4x64tUTluyeIaAHG4qQw==
+X-CSE-MsgGUID: 22eUMLxfR/m7Micq3J4tbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59024510"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="48381719"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 07:56:55 -0700
-X-CSE-ConnectionGUID: kENyeeXcQ+e37YI9x7MWOQ==
-X-CSE-MsgGUID: XcBNM6D/S2uX3h7QJ2EpyQ==
+   d="scan'208";a="59024510"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 07:56:55 -0700
+X-CSE-ConnectionGUID: F+TyNd6bTIW0Oy6b555EWQ==
+X-CSE-MsgGUID: cu3L5br2RjObbkNNW9OUpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="141101662"
+   d="scan'208";a="136499426"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 May 2025 07:56:54 -0700
+  by orviesa007.jf.intel.com with ESMTP; 07 May 2025 07:56:55 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCgCa-00081d-0i;
+	id 1uCgCa-00081f-0u;
 	Wed, 07 May 2025 14:56:52 +0000
-Date: Wed, 7 May 2025 22:56:36 +0800
+Date: Wed, 7 May 2025 22:56:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Swapnil Sapkal <swapnil.sapkal@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] amd-pstate-ut: Reset amd-pstate driver mode after
- running selftests
-Message-ID: <202505072226.g2QclhaR-lkp@intel.com>
-References: <20250430064206.7402-1-swapnil.sapkal@amd.com>
+To: Himanshu Chauhan <hchauhan@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_raid6_rvv_v3 47/58]
+ arch/riscv/include/asm/io.h:34:10: warning: cast to pointer from integer of
+ different size
+Message-ID: <202505072221.k2wP1btL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,75 +62,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250430064206.7402-1-swapnil.sapkal@amd.com>
 
-Hi Swapnil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.15-rc5 next-20250507]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Swapnil-Sapkal/amd-pstate-ut-Reset-amd-pstate-driver-mode-after-running-selftests/20250430-144443
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250430064206.7402-1-swapnil.sapkal%40amd.com
-patch subject: [PATCH] amd-pstate-ut: Reset amd-pstate driver mode after running selftests
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250507/202505072226.g2QclhaR-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505072226.g2QclhaR-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_raid6_rvv_v3
+head:   5c5a7e6795406fdac17fd52dfc4ac3c5b0f6e25f
+commit: d22f5622b15255c03fb4e2075f6780dd5d6746e0 [47/58] riscv: Define ioremap_cache for RISC-V
+config: riscv-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250507/202505072221.k2wP1btL-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505072221.k2wP1btL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505072226.g2QclhaR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505072221.k2wP1btL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/cpufreq/amd-pstate-ut.c:262:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     262 |         if (ret)
-         |             ^~~
-   drivers/cpufreq/amd-pstate-ut.c:246:9: note: initialize the variable 'ret' to silence this warning
-     246 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+   In file included from include/linux/io.h:12,
+                    from kernel/iomem.c:4:
+   kernel/iomem.c: In function 'arch_memremap_wb':
+   arch/riscv/include/asm/io.h:34:26: error: implicit declaration of function 'ioremap_prot'; did you mean 'ioremap_wt'? [-Wimplicit-function-declaration]
+      34 |         ((__force void *)ioremap_prot((addr), (size), PAGE_KERNEL))
+         |                          ^~~~~~~~~~~~
+   kernel/iomem.c:13:32: note: in expansion of macro 'ioremap_cache'
+      13 |         return (__force void *)ioremap_cache(offset, size);
+         |                                ^~~~~~~~~~~~~
+>> arch/riscv/include/asm/io.h:34:10: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+      34 |         ((__force void *)ioremap_prot((addr), (size), PAGE_KERNEL))
+         |          ^
+   kernel/iomem.c:13:32: note: in expansion of macro 'ioremap_cache'
+      13 |         return (__force void *)ioremap_cache(offset, size);
+         |                                ^~~~~~~~~~~~~
 
 
-vim +/ret +262 drivers/cpufreq/amd-pstate-ut.c
+vim +34 arch/riscv/include/asm/io.h
 
-   241	
-   242	static int amd_pstate_ut_check_driver(u32 index)
-   243	{
-   244		enum amd_pstate_mode mode1, mode2 = AMD_PSTATE_DISABLE;
-   245		enum amd_pstate_mode orig_mode = amd_pstate_get_status();
-   246		int ret;
-   247	
-   248		for (mode1 = AMD_PSTATE_DISABLE; mode1 < AMD_PSTATE_MAX; mode1++) {
-   249			int ret = amd_pstate_set_mode(mode1);
-   250			if (ret)
-   251				return ret;
-   252			for (mode2 = AMD_PSTATE_DISABLE; mode2 < AMD_PSTATE_MAX; mode2++) {
-   253				if (mode1 == mode2)
-   254					continue;
-   255				ret = amd_pstate_set_mode(mode2);
-   256				if (ret)
-   257					goto out;
-   258			}
-   259		}
-   260	
-   261	out:
- > 262		if (ret)
-   263			pr_warn("%s: failed to update status for %s->%s: %d\n", __func__,
-   264				amd_pstate_get_mode_string(mode1),
-   265				amd_pstate_get_mode_string(mode2), ret);
-   266	
-   267		amd_pstate_set_mode(orig_mode);
-   268		return ret;
-   269	}
-   270	
+    32	
+    33	#define ioremap_cache(addr, size)					\
+  > 34		((__force void *)ioremap_prot((addr), (size), PAGE_KERNEL))
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
