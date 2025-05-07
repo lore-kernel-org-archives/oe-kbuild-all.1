@@ -1,66 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B163122258F;
-	Wed,  7 May 2025 07:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C51F221720;
+	Wed,  7 May 2025 07:45:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746603905; cv=none; b=pjx8csrKZz3pMMxg4NDhdWDfGYjHBv6N0Er/Gh0wU8plWNO431SLQwBf7IM0E7/DQL2ehL5z2Ml/AQLWK2D6asqYqmhjv0v3MnSOsUcMcA3Iz6zO+zWi+3xsb+M3a5VG8svTqLDhyTPgwcn8OHGfFKAcokcS5PbJs/+5n8nLVRA=
+	t=1746603906; cv=none; b=XUHVrrgYa3KNL9kjgYNeVdP8a+ao4qxtviCb3PwYb7F3TQ9qKIotIF/XPRrROIgfO/BB7cVtMksyBzgIm4XXEyOFeU/RpnlsZDEpKhPklYaTaea/4GVuFGNTe8/R5CKyj+WiBQTygQc5bNmr8xzLasURSouQ5E6YhHguvwhD+Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746603905; c=relaxed/simple;
-	bh=QXHYEKAW9/CqJfMG4iKzrn7ClrN8rdtrlRVJuX/TCQQ=;
+	s=arc-20240116; t=1746603906; c=relaxed/simple;
+	bh=i3iNoejldEwfu1pudT27J8wiNZ81ZODfSVYRzrrKNjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dUYS3aTv7TLz8IkpeZD7r0Ee1+nMZ8kyrUopyz0vT3r+udPOSJC4YAdnY32b2KVDEFJMhKXSSyScKN09z9P+VabiWmUx3shajkD555yZQe83uF3nFubbAj87iqzBwTdl2T64soQsnOCvxUn3J88b/7YwRf2wT0rX3PZve/P0i2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WIemcZ4F; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ya0bmp1HDzp3v6bCuc1zoyWiegVVI+wrxGx2fnFtcKVSxM57Nc/nhEzZ8zEDlBl1aKU1U/tjHJr0VF+CmgZCBtFvqtbtSVj/YPOv64MdHWW6FRp84XvPdtY324oq2oJ/wd2v420RR04FONYF6jZrgwy0Pn5AJv45g9EHXTPKmQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CkUSnFZT; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WIemcZ4F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CkUSnFZT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1746603904; x=1778139904;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QXHYEKAW9/CqJfMG4iKzrn7ClrN8rdtrlRVJuX/TCQQ=;
-  b=WIemcZ4FlFAMg0G3RqGAJ1AnGABa47U75szy9UDzjcwvOzGGCrF6e6U7
-   kRcIr4JKsJ6f5miloi4psyPBv+73TSrlibA0xPnt5kMoIgNoiunrpTro2
-   kjVX/TN8MX4IPUHMbR9Ho6de4vt1GZ+9M3v5G4H6p2IH2uVhsQyR96Rt5
-   rWWUZ0sCJZn0B2+QJcnvB/w6PeRURVlzKwgZpa43zsTAgZD6XOoHG5x7F
-   Vn6SDhDporW5d6w2Pzlip4fZ9goDVdshyiGMVGY4a1Euvd39D0h/avGx2
-   0fncoLMk9pwUElwvXrYuTT3EvOHTS1CJsM3HKUss2RB0VeMbwYkS6j4wX
-   g==;
-X-CSE-ConnectionGUID: NwOEvRJwQvyGIPmJ06wrXg==
-X-CSE-MsgGUID: EnE7cOLjS4GKGtACTjE7qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="52133192"
+  bh=i3iNoejldEwfu1pudT27J8wiNZ81ZODfSVYRzrrKNjg=;
+  b=CkUSnFZT/DaADNKaxvT6YQHqPi/RDLubMlwbG/tuq3TltxlEIbFpE3d8
+   VboZF8dBunoF8KLto5/nSgPyWSssQn5fFauAUBvsavUgpFzMwycB3CJop
+   qhcOV/r25fDlzEM9cD5nqbr0s2Z8G63/tWcUWn/Do5Bc1JZwVspZAE5tP
+   7GxBWWDKHWSyGlMwTDJ0qlKegnv0dPGUTZn2FW9IpNdGNTLc2wG1+Owv0
+   b/Theq1wgsV/VUoP3FxCrmT5tCmfZeD2YEzGLgvV6gykBpZMz/cLK5Btt
+   yS4iYhuywAzBvS6bNnFzPyy3rGMA3I0pNz+7QPY1b08n6XuBdCi0UjkLG
+   A==;
+X-CSE-ConnectionGUID: KswyX90cSwCTNfF6Cw5pXg==
+X-CSE-MsgGUID: ts7/TFiqQDm7Cxe5VsIJhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="52133200"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="52133192"
+   d="scan'208";a="52133200"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:45:03 -0700
-X-CSE-ConnectionGUID: E1qZMY2HTZGgYsJVYG+Cvw==
-X-CSE-MsgGUID: gTAUAlcERN+/lUFCdLWGCw==
+X-CSE-ConnectionGUID: wbFxOg/ZReaIggV/UXRZwg==
+X-CSE-MsgGUID: FGKt83fsS+24ZPRJt8PinQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="135875090"
+   d="scan'208";a="135875088"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 07 May 2025 00:44:52 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCZSU-0007LT-05;
-	Wed, 07 May 2025 07:44:50 +0000
-Date: Wed, 7 May 2025 15:44:01 +0800
+	id 1uCZST-0007LP-3C;
+	Wed, 07 May 2025 07:44:49 +0000
+Date: Wed, 7 May 2025 15:44:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yixun Lan <dlan@gentoo.org>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Elder <elder@riscstar.com>,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Yixun Lan <dlan@gentoo.org>
-Subject: Re: [PATCH v2 2/2] mmc: sdhci-of-k1: add support for SpacemiT K1 SoC
-Message-ID: <202505071416.Rll3WhPR-lkp@intel.com>
-References: <20250501-20-k1-sdhci-v2-2-3e7005fae29b@gentoo.org>
+To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
+	rafael@kernel.org, len.brown@intel.com, pavel@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH] PM: hibernate: Explicitly set PM_SUSPEND_MAX at
+ hibernate entry
+Message-ID: <202505071516.juQNugSC-lkp@intel.com>
+References: <20250501215838.2501827-1-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,58 +65,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250501-20-k1-sdhci-v2-2-3e7005fae29b@gentoo.org>
+In-Reply-To: <20250501215838.2501827-1-superm1@kernel.org>
 
-Hi Yixun,
+Hi Mario,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 0af2f6be1b4281385b618cb86ad946eded089ac8]
+[auto build test ERROR on amd-pstate/linux-next]
+[also build test ERROR on amd-pstate/bleeding-edge linus/master v6.15-rc5 next-20250506]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yixun-Lan/dt-bindings-mmc-spacemit-sdhci-add-support-for-K1-SoC/20250501-165846
-base:   0af2f6be1b4281385b618cb86ad946eded089ac8
-patch link:    https://lore.kernel.org/r/20250501-20-k1-sdhci-v2-2-3e7005fae29b%40gentoo.org
-patch subject: [PATCH v2 2/2] mmc: sdhci-of-k1: add support for SpacemiT K1 SoC
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250507/202505071416.Rll3WhPR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071416.Rll3WhPR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PM-hibernate-Explicitly-set-PM_SUSPEND_MAX-at-hibernate-entry/20250502-060011
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20250501215838.2501827-1-superm1%40kernel.org
+patch subject: [PATCH] PM: hibernate: Explicitly set PM_SUSPEND_MAX at hibernate entry
+config: x86_64-randconfig-071-20250502 (https://download.01.org/0day-ci/archive/20250507/202505071516.juQNugSC-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071516.juQNugSC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071416.Rll3WhPR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071516.juQNugSC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mmc/host/sdhci-of-k1.c: In function 'spacemit_sdhci_reset':
->> drivers/mmc/host/sdhci-of-k1.c:88:33: warning: variable 'pdev' set but not used [-Wunused-but-set-variable]
-      88 |         struct platform_device *pdev;
-         |                                 ^~~~
+>> kernel/power/hibernate.c:775:26: error: expression is not assignable
+     775 |         pm_suspend_target_state = PM_SUSPEND_MAX;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~ ^
+   kernel/power/hibernate.c:856:26: error: expression is not assignable
+     856 |         pm_suspend_target_state = PM_SUSPEND_ON;
+         |         ~~~~~~~~~~~~~~~~~~~~~~~ ^
+   2 errors generated.
 
 
-vim +/pdev +88 drivers/mmc/host/sdhci-of-k1.c
+vim +775 kernel/power/hibernate.c
 
-    85	
-    86	static void spacemit_sdhci_reset(struct sdhci_host *host, u8 mask)
-    87	{
-  > 88		struct platform_device *pdev;
-    89	
-    90		pdev = to_platform_device(mmc_dev(host->mmc));
-    91		sdhci_reset(host, mask);
-    92	
-    93		if (mask != SDHCI_RESET_ALL)
-    94			return;
-    95	
-    96		spacemit_sdhci_setbits(host, PHY_FUNC_EN | PHY_PLL_LOCK, SDHC_PHY_CTRL_REG);
-    97	
-    98		spacemit_sdhci_clrsetbits(host, PHY_DRIVE_SEL,
-    99					  RX_BIAS_CTRL | FIELD_PREP(PHY_DRIVE_SEL, 4),
-   100					  SDHC_PHY_PADCFG_REG);
-   101	
-   102		if (!(host->mmc->caps2 & MMC_CAP2_NO_MMC))
-   103			spacemit_sdhci_setbits(host, MMC_CARD_MODE, SDHC_MMC_CTRL_REG);
-   104	}
-   105	
+   741	
+   742	/**
+   743	 * hibernate - Carry out system hibernation, including saving the image.
+   744	 */
+   745	int hibernate(void)
+   746	{
+   747		bool snapshot_test = false;
+   748		unsigned int sleep_flags;
+   749		int error;
+   750	
+   751		if (!hibernation_available()) {
+   752			pm_pr_dbg("Hibernation not available.\n");
+   753			return -EPERM;
+   754		}
+   755	
+   756		/*
+   757		 * Query for the compression algorithm support if compression is enabled.
+   758		 */
+   759		if (!nocompress) {
+   760			strscpy(hib_comp_algo, hibernate_compressor, sizeof(hib_comp_algo));
+   761			if (!crypto_has_acomp(hib_comp_algo, 0, CRYPTO_ALG_ASYNC)) {
+   762				pr_err("%s compression is not available\n", hib_comp_algo);
+   763				return -EOPNOTSUPP;
+   764			}
+   765		}
+   766	
+   767		sleep_flags = lock_system_sleep();
+   768		/* The snapshot device should not be opened while we're running */
+   769		if (!hibernate_acquire()) {
+   770			error = -EBUSY;
+   771			goto Unlock;
+   772		}
+   773	
+   774		pr_info("hibernation entry\n");
+ > 775		pm_suspend_target_state = PM_SUSPEND_MAX;
+   776		pm_prepare_console();
+   777		error = pm_notifier_call_chain_robust(PM_HIBERNATION_PREPARE, PM_POST_HIBERNATION);
+   778		if (error)
+   779			goto Restore;
+   780	
+   781		ksys_sync_helper();
+   782	
+   783		error = freeze_processes();
+   784		if (error)
+   785			goto Exit;
+   786	
+   787		lock_device_hotplug();
+   788		/* Allocate memory management structures */
+   789		error = create_basic_memory_bitmaps();
+   790		if (error)
+   791			goto Thaw;
+   792	
+   793		error = hibernation_snapshot(hibernation_mode == HIBERNATION_PLATFORM);
+   794		if (error || freezer_test_done)
+   795			goto Free_bitmaps;
+   796	
+   797		if (in_suspend) {
+   798			unsigned int flags = 0;
+   799	
+   800			if (hibernation_mode == HIBERNATION_PLATFORM)
+   801				flags |= SF_PLATFORM_MODE;
+   802			if (nocompress) {
+   803				flags |= SF_NOCOMPRESS_MODE;
+   804			} else {
+   805			        flags |= SF_CRC32_MODE;
+   806	
+   807				/*
+   808				 * By default, LZO compression is enabled. Use SF_COMPRESSION_ALG_LZ4
+   809				 * to override this behaviour and use LZ4.
+   810				 *
+   811				 * Refer kernel/power/power.h for more details
+   812				 */
+   813	
+   814				if (!strcmp(hib_comp_algo, COMPRESSION_ALGO_LZ4))
+   815					flags |= SF_COMPRESSION_ALG_LZ4;
+   816				else
+   817					flags |= SF_COMPRESSION_ALG_LZO;
+   818			}
+   819	
+   820			pm_pr_dbg("Writing hibernation image.\n");
+   821			error = swsusp_write(flags);
+   822			swsusp_free();
+   823			if (!error) {
+   824				if (hibernation_mode == HIBERNATION_TEST_RESUME)
+   825					snapshot_test = true;
+   826				else
+   827					power_down();
+   828			}
+   829			in_suspend = 0;
+   830			pm_restore_gfp_mask();
+   831		} else {
+   832			pm_pr_dbg("Hibernation image restored successfully.\n");
+   833		}
+   834	
+   835	 Free_bitmaps:
+   836		free_basic_memory_bitmaps();
+   837	 Thaw:
+   838		unlock_device_hotplug();
+   839		if (snapshot_test) {
+   840			pm_pr_dbg("Checking hibernation image\n");
+   841			error = swsusp_check(false);
+   842			if (!error)
+   843				error = load_image_and_restore();
+   844		}
+   845		thaw_processes();
+   846	
+   847		/* Don't bother checking whether freezer_test_done is true */
+   848		freezer_test_done = false;
+   849	 Exit:
+   850		pm_notifier_call_chain(PM_POST_HIBERNATION);
+   851	 Restore:
+   852		pm_restore_console();
+   853		hibernate_release();
+   854	 Unlock:
+   855		unlock_system_sleep(sleep_flags);
+   856		pm_suspend_target_state = PM_SUSPEND_ON;
+   857		pr_info("hibernation exit\n");
+   858	
+   859		return error;
+   860	}
+   861	
 
 -- 
 0-DAY CI Kernel Test Service
