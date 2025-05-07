@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A535620F09A;
-	Wed,  7 May 2025 08:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D99212B3E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 08:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746607138; cv=none; b=iMzLAlJEoVzxDDi/1Q3X8PoHq+hhX53aRxUXOa/l4GDMqNjQdId4neWm9ADLkrpsTKzuntgW30syPuAbAeXdI+xvMQfyj1OePYS/qL6FKQcIw3JXqVm+JPdw2y2kMOCcFK+AJdcinQLOzFBSa8mNtzPclvwLfBw2ShbXB4imW74=
+	t=1746607139; cv=none; b=IYQLV9O8l896AR8Oi3rGU3AJ+4M/63wJng9H3OpNWjOW2k1P2YbXKof/DB/R4v91Fp6ZN4X2U31IwTfFJpSfBaTe7dFcE7G0qrOWDebwDjkIMEvyInaj6yK4FpBRLfHwzXcMsyOTgttI9ERJRwBj7JJvtW53FbWRWNJpcL6wzZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746607138; c=relaxed/simple;
-	bh=Snd0wkSnZnhVXjWzUJSbm+GuJ/pgit7McFGo4WJceXo=;
+	s=arc-20240116; t=1746607139; c=relaxed/simple;
+	bh=E9FzwPi84qnnhsvEa2TJ+XfNXzjkhO3Svjir2bf4cXc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pIQ11SpIxkPOmrJlpGy/SWe7DniUDrjskui/RXK656FpzXCpDmdLjQKgqfKslju1pPl+CUOErF3tR/82rco7/wxRNFQKgvGmYlOYkASB5yJb7TS6RjmOfyD+lTzFe3U9aioSy2guE1HsRR/8gn9+kUryn2j36+KUdEITCDK3ND0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApJGjHeY; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=V98CsLnof7gm7J6tQuajYh6BzU9lM8QdFIbJY53cU0i06u+hUNSs2p2Z2/c2vJELTqJhf3ka9inYflQlWGIgU3XkUdDxAHmOFQsoSN7q5dcjwbV2LLTk/URkQul+NXNCR5uYHKAB6fOM3YJqgwbzP4P5Obm3wYWldhwGauZ73ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f5daVdpM; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApJGjHeY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f5daVdpM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746607136; x=1778143136;
+  t=1746607138; x=1778143138;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Snd0wkSnZnhVXjWzUJSbm+GuJ/pgit7McFGo4WJceXo=;
-  b=ApJGjHeYfW3zXM6ndeYhqcRQGDvliTXYAw8LM1QjOxnfAmmbvEdToCSt
-   JBNGQjGrWhhp32Nj0MVelvPID9j30Ed0n625qkTHEQlIIpNyl6aBNQtVT
-   icX3qJLFtr0Wg1Z2AcxkqjaXJu1ZFifTpv/P32N6SuT71VqAci6z2VAPW
-   r7B9fxuacVKMGz/R/F/VUpTL+1Ajv78d0BaMJsE4ZKzTIlDUqDzB0taa6
-   /oVpUnDPrPvVeAkqdeDG4X9S11XT3IPcUiM8730tTlurX+c07G6gTDWWg
-   rXfWvE7hxhI5JIsb3NIXl2xY8XCPZEMGq/f/+HHkMgyTDxLYPN70AiZFB
-   g==;
-X-CSE-ConnectionGUID: 8aqDKkm4SW2XHJcTgKIKtA==
-X-CSE-MsgGUID: 02DLg2EkQPyjIJX3PGA1jQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48335016"
+  bh=E9FzwPi84qnnhsvEa2TJ+XfNXzjkhO3Svjir2bf4cXc=;
+  b=f5daVdpMlh+g126sjoZhmTUvf/757Bm3ykwJx907/KrX+JN8QRIgO40n
+   36ySxv5EPnOOq5hF8YP6Vk4u1J7LGG5gPSLeZPeeo5XuMJ7tUQSWyGvw4
+   OJ2K6HcaQlGb4GqXvr+udlqBS9l0arTAgXuRH1qDFa8UjdH6/5SEWBWX/
+   0YlmgD3gWgT1fMi+WKf8cMEp8MrfUVTgPG/oN+Fa1M3WpJCWiEjvACCAd
+   1plQVKRgh0aJmbtOQwqe5B+WNrLQwmLu/aDhZ5uM4sN7XtrqnFVJSSulh
+   vWMT2pW7NSBsDqSUCe2264yvTEvMTpINs1CE76tWcUqmcpZqWGfLtaao+
+   Q==;
+X-CSE-ConnectionGUID: KKdcHGV6Q+qDvLB+8dM1pg==
+X-CSE-MsgGUID: StCt40fXQOiVMN2XBQp1EA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48195737"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="48335016"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:38:55 -0700
-X-CSE-ConnectionGUID: koY5pgF3RoW5D+Psn0n7Jw==
-X-CSE-MsgGUID: WmNkc8cwQUGr7JGL7Td2Bg==
+   d="scan'208";a="48195737"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:38:56 -0700
+X-CSE-ConnectionGUID: oY4b7ML7TMKWm8i9HCFuYQ==
+X-CSE-MsgGUID: WwyP+6QkTLmYvYRlp6b7xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="141007273"
+   d="scan'208";a="136410616"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 May 2025 01:38:54 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 07 May 2025 01:38:53 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCaIl-0007QR-19;
+	id 1uCaIl-0007QV-1H;
 	Wed, 07 May 2025 08:38:51 +0000
-Date: Wed, 7 May 2025 16:37:54 +0800
+Date: Wed, 7 May 2025 16:37:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:irq/core 31/47] kernel/irq/manage.c:2651:3: error:
- cannot jump from this goto statement to its label
-Message-ID: <202505071620.Cn0x5EZu-lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexander Usyskin <alexander.usyskin@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: drivers/misc/mei/vsc-tp.c:327:28: sparse: sparse: incorrect type in
+ argument 1 (different base types)
+Message-ID: <202505071634.kZ0I7Va6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,151 +64,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/core
-head:   b8203edb7846253466282425b6009c20a4c85eb8
-commit: 936031eb6f97c198231aa2de74c052c5c06b3177 [31/47] genirq/manage: Convert to lock guards
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20250507/202505071620.Cn0x5EZu-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071620.Cn0x5EZu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0d8d44db295ccad20052d6301ef49ff01fb8ae2d
+commit: f88c0c72ffb014e5eba676ee337c4eb3b1d6a119 mei: vsc: Use struct vsc_tp_packet as vsc-tp tx_buf and rx_buf type
+date:   3 weeks ago
+config: x86_64-randconfig-121-20250428 (https://download.01.org/0day-ci/archive/20250507/202505071634.kZ0I7Va6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071634.kZ0I7Va6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071620.Cn0x5EZu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071634.kZ0I7Va6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/misc/mei/vsc-tp.c:327:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 [usertype] *dst @@     got unsigned int [usertype] * @@
+   drivers/misc/mei/vsc-tp.c:327:28: sparse:     expected restricted __be32 [usertype] *dst
+   drivers/misc/mei/vsc-tp.c:327:28: sparse:     got unsigned int [usertype] *
+>> drivers/misc/mei/vsc-tp.c:343:42: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 const [usertype] *src @@     got unsigned int [usertype] * @@
+   drivers/misc/mei/vsc-tp.c:343:42: sparse:     expected restricted __be32 const [usertype] *src
+   drivers/misc/mei/vsc-tp.c:343:42: sparse:     got unsigned int [usertype] *
 
->> kernel/irq/manage.c:2651:3: error: cannot jump from this goto statement to its label
-    2651 |                 goto err_irq_setup;
-         |                 ^
-   kernel/irq/manage.c:2653:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    2653 |         guard(raw_spinlock_irqsave)(&desc->lock);
-         |         ^
-   include/linux/cleanup.h:319:15: note: expanded from macro 'guard'
-     319 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:96:1: note: expanded from here
-      96 | __UNIQUE_ID_guard270
-         | ^
-   kernel/irq/manage.c:2647:3: error: cannot jump from this goto statement to its label
-    2647 |                 goto err_out;
-         |                 ^
-   kernel/irq/manage.c:2653:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    2653 |         guard(raw_spinlock_irqsave)(&desc->lock);
-         |         ^
-   include/linux/cleanup.h:319:15: note: expanded from macro 'guard'
-     319 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:96:1: note: expanded from here
-      96 | __UNIQUE_ID_guard270
-         | ^
-   2 errors generated.
+vim +327 drivers/misc/mei/vsc-tp.c
 
-
-vim +2651 kernel/irq/manage.c
-
-1b7047edfcfb257 Marc Zyngier    2015-03-18  2591  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2592  /**
-4b078c3f1a26487 Julien Thierry  2019-01-31  2593   * request_percpu_nmi - allocate a percpu interrupt line for NMI delivery
-4b078c3f1a26487 Julien Thierry  2019-01-31  2594   * @irq:	Interrupt line to allocate
-4b078c3f1a26487 Julien Thierry  2019-01-31  2595   * @handler:	Function to be called when the IRQ occurs.
-4b078c3f1a26487 Julien Thierry  2019-01-31  2596   * @name:	An ascii name for the claiming device
-4b078c3f1a26487 Julien Thierry  2019-01-31  2597   * @dev_id:	A percpu cookie passed back to the handler function
-4b078c3f1a26487 Julien Thierry  2019-01-31  2598   *
-4b078c3f1a26487 Julien Thierry  2019-01-31  2599   * This call allocates interrupt resources for a per CPU NMI. Per CPU NMIs
-a51866946c0aa0b Julien Thierry  2019-02-13  2600   * have to be setup on each CPU by calling prepare_percpu_nmi() before
-a51866946c0aa0b Julien Thierry  2019-02-13  2601   * being enabled on the same CPU by using enable_percpu_nmi().
-4b078c3f1a26487 Julien Thierry  2019-01-31  2602   *
-38caf05690922d5 Thomas Gleixner 2025-03-13  2603   * @dev_id must be globally unique. It is a per-cpu variable, and the
-38caf05690922d5 Thomas Gleixner 2025-03-13  2604   * handler gets called with the interrupted CPU's instance of that
-38caf05690922d5 Thomas Gleixner 2025-03-13  2605   * variable.
-4b078c3f1a26487 Julien Thierry  2019-01-31  2606   *
-4b078c3f1a26487 Julien Thierry  2019-01-31  2607   * Interrupt lines requested for NMI delivering should have auto enabling
-4b078c3f1a26487 Julien Thierry  2019-01-31  2608   * setting disabled.
-4b078c3f1a26487 Julien Thierry  2019-01-31  2609   *
-4b078c3f1a26487 Julien Thierry  2019-01-31  2610   * If the interrupt line cannot be used to deliver NMIs, function
-4b078c3f1a26487 Julien Thierry  2019-01-31  2611   * will fail returning a negative value.
-4b078c3f1a26487 Julien Thierry  2019-01-31  2612   */
-4b078c3f1a26487 Julien Thierry  2019-01-31  2613  int request_percpu_nmi(unsigned int irq, irq_handler_t handler,
-4b078c3f1a26487 Julien Thierry  2019-01-31  2614  		       const char *name, void __percpu *dev_id)
-4b078c3f1a26487 Julien Thierry  2019-01-31  2615  {
-4b078c3f1a26487 Julien Thierry  2019-01-31  2616  	struct irqaction *action;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2617  	struct irq_desc *desc;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2618  	int retval;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2619  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2620  	if (!handler)
-4b078c3f1a26487 Julien Thierry  2019-01-31  2621  		return -EINVAL;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2622  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2623  	desc = irq_to_desc(irq);
-4b078c3f1a26487 Julien Thierry  2019-01-31  2624  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2625  	if (!desc || !irq_settings_can_request(desc) ||
-4b078c3f1a26487 Julien Thierry  2019-01-31  2626  	    !irq_settings_is_per_cpu_devid(desc) ||
-4b078c3f1a26487 Julien Thierry  2019-01-31  2627  	    irq_settings_can_autoenable(desc) ||
-4b078c3f1a26487 Julien Thierry  2019-01-31  2628  	    !irq_supports_nmi(desc))
-4b078c3f1a26487 Julien Thierry  2019-01-31  2629  		return -EINVAL;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2630  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2631  	/* The line cannot already be NMI */
-6678ae1918ff554 Jinjie Ruan     2024-04-23  2632  	if (irq_is_nmi(desc))
-4b078c3f1a26487 Julien Thierry  2019-01-31  2633  		return -EINVAL;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2634  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2635  	action = kzalloc(sizeof(struct irqaction), GFP_KERNEL);
-4b078c3f1a26487 Julien Thierry  2019-01-31  2636  	if (!action)
-4b078c3f1a26487 Julien Thierry  2019-01-31  2637  		return -ENOMEM;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2638  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2639  	action->handler = handler;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2640  	action->flags = IRQF_PERCPU | IRQF_NO_SUSPEND | IRQF_NO_THREAD
-4b078c3f1a26487 Julien Thierry  2019-01-31  2641  		| IRQF_NOBALANCING;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2642  	action->name = name;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2643  	action->percpu_dev_id = dev_id;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2644  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2645  	retval = irq_chip_pm_get(&desc->irq_data);
-4b078c3f1a26487 Julien Thierry  2019-01-31  2646  	if (retval < 0)
-4b078c3f1a26487 Julien Thierry  2019-01-31  2647  		goto err_out;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2648  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2649  	retval = __setup_irq(irq, desc, action);
-4b078c3f1a26487 Julien Thierry  2019-01-31  2650  	if (retval)
-4b078c3f1a26487 Julien Thierry  2019-01-31 @2651  		goto err_irq_setup;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2652  
-936031eb6f97c19 Thomas Gleixner 2025-03-13  2653  	guard(raw_spinlock_irqsave)(&desc->lock);
-4b078c3f1a26487 Julien Thierry  2019-01-31  2654  	desc->istate |= IRQS_NMI;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2655  	return 0;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2656  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2657  err_irq_setup:
-4b078c3f1a26487 Julien Thierry  2019-01-31  2658  	irq_chip_pm_put(&desc->irq_data);
-4b078c3f1a26487 Julien Thierry  2019-01-31  2659  err_out:
-4b078c3f1a26487 Julien Thierry  2019-01-31  2660  	kfree(action);
-4b078c3f1a26487 Julien Thierry  2019-01-31  2661  
-4b078c3f1a26487 Julien Thierry  2019-01-31  2662  	return retval;
-4b078c3f1a26487 Julien Thierry  2019-01-31  2663  }
-4b078c3f1a26487 Julien Thierry  2019-01-31  2664  
-
-:::::: The code at line 2651 was first introduced by commit
-:::::: 4b078c3f1a26487c39363089ba0d5c6b09f2a89f genirq: Provide NMI management for percpu_devid interrupts
-
-:::::: TO: Julien Thierry <julien.thierry@arm.com>
-:::::: CC: Marc Zyngier <marc.zyngier@arm.com>
+   307	
+   308	/**
+   309	 * vsc_tp_rom_xfer - transfer data to rom code
+   310	 * @tp: vsc_tp device handle
+   311	 * @obuf: the data buffer to be sent to the device
+   312	 * @ibuf: the buffer to receive data from the device
+   313	 * @len: the length of tx buffer and rx buffer
+   314	 * Return: 0 in case of success, negative value in case of error
+   315	 */
+   316	int vsc_tp_rom_xfer(struct vsc_tp *tp, const void *obuf, void *ibuf, size_t len)
+   317	{
+   318		size_t words = len / sizeof(__be32);
+   319		int ret;
+   320	
+   321		if (len % sizeof(__be32) || len > VSC_TP_MAX_MSG_SIZE)
+   322			return -EINVAL;
+   323	
+   324		guard(mutex)(&tp->mutex);
+   325	
+   326		/* rom xfer is big endian */
+ > 327		cpu_to_be32_array((u32 *)tp->tx_buf, obuf, words);
+   328	
+   329		ret = read_poll_timeout(gpiod_get_value_cansleep, ret,
+   330					!ret, VSC_TP_ROM_XFER_POLL_DELAY_US,
+   331					VSC_TP_ROM_XFER_POLL_TIMEOUT_US, false,
+   332					tp->wakeuphost);
+   333		if (ret) {
+   334			dev_err(&tp->spi->dev, "wait rom failed ret: %d\n", ret);
+   335			return ret;
+   336		}
+   337	
+   338		ret = vsc_tp_dev_xfer(tp, tp->tx_buf, ibuf ? tp->rx_buf : NULL, len);
+   339		if (ret)
+   340			return ret;
+   341	
+   342		if (ibuf)
+ > 343			be32_to_cpu_array(ibuf, (u32 *)tp->rx_buf, words);
+   344	
+   345		return ret;
+   346	}
+   347	
 
 -- 
 0-DAY CI Kernel Test Service
