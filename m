@@ -1,173 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196D9289343;
-	Wed,  7 May 2025 14:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5107A28001E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 14:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746627698; cv=none; b=GIooaKGELCFGwxog7X1SGQp8q+pUdgB7C7C58sjsodoEzKLwAHPUmysYezB2YpPV65hOWSns9wRN1fsfMlwh3YCELPLkw7n0V3cjjEE6+k1EZNLI1DZmV4baVY+YedJwTVmtmq4wyD/wGy7oO1tNlD3s0K9PKTY7eAVnYM5dZsc=
+	t=1746628519; cv=none; b=arZy0XSf0Rj3TNFE3HhTFaqcTmMm2Ii9s1yMVBfuEDEGe2nsaCMhzimDb5UtfalRf1yStyIzdl6vk0LAZSaxL7i8wVyIuiHgKZNd1jux9UXlQbBhvHbBZDQDvMDrRX0k8LY76vd11QxeA+NnGZqSdjebu1rvTQUix5KUpF1UIV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746627698; c=relaxed/simple;
-	bh=v4FHW95knpoPgfTn8qFy3KRPAdBKHihEAb23o6fcRus=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j+QsyEUm6ebuUDOn0uLyszhNG1ygoK6iQBLeeRWXTKb72nzNndJeqg/4JkRan1ErQ8w6clzphOArx0i1XLiKfT9tZxQ8NgqrSvtYtLAoCSen6w+7M7g+kjFO5beqnY6WwZFVZDAUxriQvUj+DNFRmjO7BNVNUtHFAd6+qTxJV+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFoU37Ue; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746628519; c=relaxed/simple;
+	bh=nEZ/X/CSa6CpJDBkA277TD/Y7XJmH0AfsOiAQ8MtW+A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V/sfUKafFlxuEtP+7EVROjFLaBPPaFkhGqGIFLRdRlfAkLRG9IzAVP3LIbolK/BZkZ6qH9vIi1jOS3jY8/FImjulVmB+Y/k7O2rLnTsblDfETs7uUgftKregfwGATXMx8wqxvEWK57FndlUkTcvbEKkc8PDnKFvpdXGuHaQbfGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=rXUEyQZw; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFoU37Ue"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746627696; x=1778163696;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v4FHW95knpoPgfTn8qFy3KRPAdBKHihEAb23o6fcRus=;
-  b=gFoU37UeqQ6A3UfW9fEOpZdCBUkqAZ+YVXtCwtSRw1waa8IMOKOq+OCu
-   Rzl6V4ohoIGgSq5bJ3RtAPGNMBWc4Ikt5YDXoQglghx8F4TrDfSdn64Zu
-   lx1Dt1ZNdrmt0+qjPmC05XJThf1pBZtMjPioiovDEJgCxqBUwJE0nxP+1
-   tzOPz41wJeIG/Grb/ly6jVUEVB5pMpxgOoSXj/FEqyDYwzObynKaLeR2X
-   DUOnv3AKpiDysc32yHBuDplh4nMLQDleEIYV01BvskvfwgrHixPMdbfbc
-   GRHZZbX7t6zHde8bWYK79ha26dPyUJhcWqSJG778wYdmi2ZH2mipJka00
-   A==;
-X-CSE-ConnectionGUID: kATuYlXNR2OW7EFiYmv8Yw==
-X-CSE-MsgGUID: YsLDxIuuRV+MHJrtOBf55A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="52015517"
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="52015517"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 07:21:34 -0700
-X-CSE-ConnectionGUID: KUNYtWllSKCM/CoMqsdSqQ==
-X-CSE-MsgGUID: k3UCgP34QPKHX5G6DoVPAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="140724252"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 May 2025 07:21:33 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCfeM-0007xt-1j;
-	Wed, 07 May 2025 14:21:30 +0000
-Date: Wed, 7 May 2025 22:20:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [linux-next:master 3417/9308]
- drivers/pinctrl/nomadik/pinctrl-abx500.c:780:8: error: call to undeclared
- function 'pinconf_generic_parse_dt_config'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202505072245.OgSXI1hh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="rXUEyQZw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1746628509; x=1747233309; i=wahrenst@gmx.net;
+	bh=Ut6H0hDVHeAmPZH3h31kBg4T5UPa/h5BzSiJ1oq/iGo=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=rXUEyQZwXOAJnYHbD3SY9uBkl2/+qlpXK8TJOF/kH/rYdyv7KEV4KKQ2k8+KSRDB
+	 G5B5CvWjwLzyIn2/3eTseH9yYoDUA3Mf4J2tf2njvASc2mjBXc1EdHmJKqumQVPJJ
+	 AAqQOpaMP3nRHEkL2Vxf5vguz/9JS+QHc80eNwcBGZHnIyK+CVNdMwjA2uiSA6/MT
+	 nRk1RWehnVFo0gfB5AcJ5+nEtaFci4p6JkMBzFxkDnTuByWhCFzAHrwCk/6XQRJmi
+	 +0GWic9I4R2RKn7i8eW6/JD7/xILsatdcQBnH4GIVBjTcgOFGDwusi+pndXxlIDlT
+	 l5K3WdZMU0Wcx1As6A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.101] ([91.41.216.208]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MNswE-1uNc6H0OrY-00Oqtt; Wed, 07
+ May 2025 16:35:09 +0200
+Message-ID: <c9c2f4cb-614e-496a-852b-ca8af034c2c1@gmx.net>
+Date: Wed, 7 May 2025 16:35:04 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 2/5] net: vertexcom: mse102x: Add warning about
+ IRQ trigger type
+To: kernel test robot <lkp@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250505142427.9601-3-wahrenst@gmx.net>
+ <202505071827.nbdcs1rW-lkp@intel.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+Autocrypt: addr=wahrenst@gmx.net; keydata=
+ xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
+ IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
+ NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
+ JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
+ TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
+ f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
+ V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
+ aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
+In-Reply-To: <202505071827.nbdcs1rW-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:HM+jVi0Q2F+6Nvpk2DtOxtn3Uwzm6lnAPq3bASXL6d2VB8Xg5fq
+ gVRdsT6+VY/qdEHHnZo7XeOwgH5IcMiwoXZJflsw3l12VVCYC4Pdr5AWKrpks0YoAoZbPkH
+ MF0AXj0/swToxOGX2XPw+zhrfPi1TW66uAhotICX62Ispg+yMlq+Gu1LbO9aMNozkBRGNgm
+ nUhoOa3W+xBm1y20rWPlg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:GxDhRsOPVo8=;9aw5O2splymu8Yz1Jeu+1+BUt4Q
+ 5uA3kph8JF43HnZ/J8tF/Qo7xXgu+8jqcGZXPXY2KSQ30TPZjBmwbbszpd2GRwwOHBa3MVgSS
+ urkBUXLTGhgGV92Xnpm8v+uNwaZFj/xTpUDwPW1Ej0WFe58RYeijAvgmK36PkvZxRJV3XvpcB
+ nA32/eSUWtACAlDTdpdQxUiSZ/Ed87qFdUS0S/rDaU6wC/6cXgr6OeNnlm/22kJ4At2vlQlx/
+ 42uFllMs3bkg3Za+9oV7J0Zkhxgu2zodFMH1BnIZ6uBv59IReQssN9mAu9M5XZAzn4RL0i+ve
+ yUWNHDNOqkX9bSAONeG5+g8I9o/WzwrCBvmfEYFFPFNjD4NrpV4praCsSFz+/pOUiRkK4lLII
+ 1oY+YSma/SvWeK85ht00pKHcFWDu02REHBcEIgu26jNBfN2qNsRuVpNWArXZqUS7Y81LImfPl
+ Cm/wdbx3xppPSMVPtd9sfEMtpAQnc4w9EGLAPO9eQNk2O5HCFFaOqN4TI0s9F/Z9ON3Ef7duF
+ KOuXJmq/xMO5loaFTCNduYijrTY1beLKwiI5hJzzDUg5FQMmP1PUA7LMK2nVTHUeOpFxVwRJ1
+ vB6RLFhx3HnnXfGIAwX0Bz4LKLuqoWA4HdvxRCZvfFF6KYpNipQKgUKMmWSs0W4dajbpysydY
+ f+ZO6QeIqJFrd64ueEf3XhJ5LSV4MVnQTU+XClOhgdqF9p8zBpoAiu8FfzbFiwcYgN/6BtGUJ
+ b/Y27np3BTIt2OY/3ubQoh3N/8AHMYQONeBTx9TLLaQNFnS+LBTlTWkXFmbgFZRUxd6F6ggp3
+ Vlo+p9sFpJdxUTygK11yTBmqnIkJfetQB3VtCPuBLsuCBD1YXOteZFkoX+gbwutjpTAToxG56
+ ndrCbjNFux8F9l4iz037LQb0/bxcc+Yjxc0XCzH/zIyFYNjbAb04kys3NXLe6vb3JWBhbrfG8
+ t/hF7ELncciXBb8j5895xSFVRhZ38c4ZzUP3QPLV4r1Zi6MLVX27cgkHcVDvwBTifZNqYWduD
+ dKmWlmhG+HFPzJoT0pIMIsLipu8gMMFV5uTTGMIlkP7XHPCgUICJ0nRcq0HCZVhcC22VSvi7F
+ ks82ZsPz0XiyxSQdztSGvC1mpBYjraCHh9XXSji+OGW+RBNDCCOFnGO+bOiQJQvuONyegsopV
+ poX0dQtMx09fKdUBjZ3NWQf2L1WhMqjdFJlc52G3aw6nm3u5W5tv/lbkc9jflFOQDVFKfJJtH
+ FmKw6LRsy/T2a+F89f7/Z0UeDnntrSGkUs79tSot4AZs6d5RWAMYuofhEXpVAL3XVvckP72mV
+ FmkgcEwFxL2SHLRikbl3SSnHHZ797HgdEMYME2IiQ+tVlWV+VXTmbWkmHvftQySCRnRf3smEl
+ 7jpLKeVeMYsMAPQEhAbCNd+XrDLMJpS6nc7s9ydpGcq42+JzW0l9yK9u5L17uGqQvDcJpgw97
+ +mI2CaLLC0oKTDPi7ftVF2u0k5V5otPmE6gko7M71LLy572+QkaAOC/H5SIsRb5DmOIczW26V
+ ogHb2h26bgfR9fyw/Ex+q88/Nbuzm4eQFniC817vUSE+IZW3xob4dmGMfFbnlrYtLEFPjDY+6
+ XAxWesGroi/aac5LN0jKHXlS3qqWs8DU5SfEQd0YIrjYzuDLplrgfTAxWFCyQ2KTAHHQCa7nF
+ G+ISJCLLB/9gkX2Ug/w4eaVp9E21gp8hfsptFnAkAeYE4bE5UD7Sb47vNEUjYI2vWYLcSj3Od
+ Y74p6ptAv9KI9Jvr2CCTzWUdM669J3kqTFRhWuHYO8IdKpmamCmVmEp0cMGHPpwMaaF8mscw5
+ o0dPEhsWOJJn7IbwGzr3SkMWCk8gNU7/XLT+tyx+hD9qGPRlxd/8ySNWTZuMK9wkWfrDDawol
+ IrS1e3nb+TnY3zEE6aK8nYMM3JacXIbDwLB4MKwkPltHQTQCMcpegY4g1OLWB/tRQeAHNPI8i
+ AFGmLm2i56s5LMVu6JtrFr4aPH+gtJXoF36LvjdP6uwF1/h30LWHT2hMGlNoAzygn7s6DmP02
+ tOMI+82ltCcNoRSvy6RX4N2bNGhXTp4IyYs82XbK7F/UrpmRW1UOFrtfNbpkuUd4Ttu0xwFBO
+ XooKwgxsBNer8uv+aHqRgAoVALN64v7aUZNQ98uiHis/sakSicP+Vrv8zxqIRqS7dLaTesaSc
+ Hcjo1c/4I6+9zVlru5/jSYFh5b3v35ak8A+Qmku3Hn5L8xa9ruu0GlvI44Ck6tyeLEfvtYm28
+ ldLObKDfduvzcVLzZqxB7TyhGr2OWeDP7kZeEDVUda61Ir4MBnpuSvMoTmgJH9kTU6RXDwZdv
+ oi2m+yM/owe+kXKawfSXhT/ftbdAjsvUkCfioRPESj6X+is4EZhW/cAHGyyli/nZYSerVDlM2
+ u8M59+G/Jmf88QsVyupe7PT8z3owP+L0bpOIrwNAe4JfxnFe88deYMXHGIOzoZnP+DxzM2yRV
+ XEVc/IAJMo2J0VYYqSoxY/eaOe/Jp9CUwwS2vucsBbO01dBFQP8a5V6JXDUbv//oaJZnSrlzp
+ AmZu65wP9nU8i3yuN5U8enx5O8aPtQXlEraetlGhTSnFSS1/7323H/oe8TObMLGF2eavZbvuZ
+ w3QBJUvNKqtZeBBVYV24gAzt5tO+FMf1Fn3UiEeZxm/hb4uLTLTlt21eEaPEymGKGV0a6SgbZ
+ H0NTIiFC+WB8QhL1XeIYTsM4hfwnxTlLRcOYnIqBtc7UreghlHIkHDVUYp8bXuIN1CG83J135
+ f4IoJILLD1HI99K3qtfyAKpUW28Q2+ipTIFnEdgws6jDAebjS+yuUrLeRkGXwMNzAhzmQeD1O
+ Zy8/MxnTpqa5z995OJTGQyk+95SxAn9DfP9ZTg9zmOF6w+bGTBsLImAmKbUSSZOmZ+HNHew60
+ nIZ1t4BRy3WWQYH4ly6+07NxYHKeh7eNdegZL8DUm3VSAfjg/FECBSii5nwwXHctwKVj5AwAG
+ Glj8ToGZ47EmgNnZkJ25tZ+J4nN7HxcJ0GelhiMoUEJkDJaRuPug/RfCQfQxPKgmhrHNy+ZUr
+ db/ZX6Ak0N9TAmiqZ0R10+2QDw29Z86eJmSgdE61K2B88VBIXknKnEb00Fz2eJMn9ucIPxy9j
+ 06CITSYkfy2aCWI8bW6Wrr3jXHQuQOIGA/1PJSkP1/ac+jS/qLDPM7anY6+QDz6dJgnWWqB9g
+ 6JtmM901eMbAUuCAXEPEmrruX
 
-Hi Bartosz,
+Am 07.05.25 um 12:25 schrieb kernel test robot:
+> Hi Stefan,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on net-next/main]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Wahren/dt-=
+bindings-vertexcom-mse102x-Fix-IRQ-type-in-example/20250505-222628
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20250505142427.9601-3-wahrenst%=
+40gmx.net
+> patch subject: [PATCH net-next 2/5] net: vertexcom: mse102x: Add warning=
+ about IRQ trigger type
+> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250=
+507/202505071827.nbdcs1rW-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arch=
+ive/20250507/202505071827.nbdcs1rW-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
+sion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505071827.nbdcs1rW-lk=
+p@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     drivers/net/ethernet/vertexcom/mse102x.c: In function 'mse102x_net_o=
+pen':
+>>> drivers/net/ethernet/vertexcom/mse102x.c:525:37: error: implicit decla=
+ration of function 'irq_get_irq_data'; did you mean 'irq_set_irq_wake'? [-=
+Wimplicit-function-declaration]
+>       525 |         struct irq_data *irq_data =3D irq_get_irq_data(ndev-=
+>irq);
+>           |                                     ^~~~~~~~~~~~~~~~
+>           |                                     irq_set_irq_wake
+>
+this issue has already been reported by Jakub. I will add the missing=20
+include in the next round. Sorry about that.
 
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   08710e696081d58163c8078e0e096be6d35c5fad
-commit: 720abc5c58d8a4be614dece755342f428e386244 [3417/9308] pinctrl: abx500: enable building modules with COMPILE_TEST=y
-config: hexagon-randconfig-001-20250417 (https://download.01.org/0day-ci/archive/20250507/202505072245.OgSXI1hh-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505072245.OgSXI1hh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505072245.OgSXI1hh-lkp@intel.com/
-
-Note: the linux-next/master HEAD 08710e696081d58163c8078e0e096be6d35c5fad builds fine.
-      It may have been fixed somewhere.
-
-All errors (new ones prefixed by >>):
-
->> drivers/pinctrl/nomadik/pinctrl-abx500.c:780:8: error: call to undeclared function 'pinconf_generic_parse_dt_config'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     780 |         ret = pinconf_generic_parse_dt_config(np, pctldev, &configs, &nconfigs);
-         |               ^
-   drivers/pinctrl/nomadik/pinctrl-abx500.c:780:8: note: did you mean 'pinconf_generic_dump_config'?
-   drivers/pinctrl/nomadik/../pinconf.h:117:6: note: 'pinconf_generic_dump_config' declared here
-     117 | void pinconf_generic_dump_config(struct pinctrl_dev *pctldev,
-         |      ^
-   1 error generated.
-
-
-vim +/pinconf_generic_parse_dt_config +780 drivers/pinctrl/nomadik/pinctrl-abx500.c
-
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  746  
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  747  static int abx500_dt_subnode_to_map(struct pinctrl_dev *pctldev,
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  748  		struct device_node *np,
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  749  		struct pinctrl_map **map,
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  750  		unsigned *reserved_maps,
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  751  		unsigned *num_maps)
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  752  {
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  753  	int ret;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  754  	const char *function = NULL;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  755  	unsigned long *configs;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  756  	unsigned int nconfigs = 0;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  757  	struct property *prop;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  758  
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  759  	ret = of_property_read_string(np, "function", &function);
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  760  	if (ret >= 0) {
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  761  		const char *group;
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  762  
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  763  		ret = of_property_count_strings(np, "groups");
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  764  		if (ret < 0)
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  765  			goto exit;
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  766  
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  767  		ret = pinctrl_utils_reserve_map(pctldev, map, reserved_maps,
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  768  						num_maps, ret);
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  769  		if (ret < 0)
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  770  			goto exit;
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  771  
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  772  		of_property_for_each_string(np, "groups", prop, group) {
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  773  			ret = abx500_dt_add_map_mux(map, reserved_maps,
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  774  					num_maps, group, function);
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  775  			if (ret < 0)
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  776  				goto exit;
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  777  		}
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  778  	}
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  779  
-dd4d01f7bad886c drivers/pinctrl/nomadik/pinctrl-abx500.c Soren Brinkmann 2015-01-09 @780  	ret = pinconf_generic_parse_dt_config(np, pctldev, &configs, &nconfigs);
-eea11b0baa63ed8 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  781  	if (nconfigs) {
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  782  		const char *gpio_name;
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  783  		const char *pin;
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  784  
-0564f7d946efc29 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  785  		ret = of_property_count_strings(np, "pins");
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  786  		if (ret < 0)
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  787  			goto exit;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  788  
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  789  		ret = pinctrl_utils_reserve_map(pctldev, map,
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  790  						reserved_maps,
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  791  						num_maps, ret);
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  792  		if (ret < 0)
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  793  			goto exit;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  794  
-0564f7d946efc29 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  795  		of_property_for_each_string(np, "pins", prop, pin) {
-51d39936acba666 drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  796  			gpio_name = abx500_find_pin_name(pctldev, pin);
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  797  
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  798  			ret = abx500_dt_add_map_configs(map, reserved_maps,
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  799  					num_maps, gpio_name, configs, 1);
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  800  			if (ret < 0)
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  801  				goto exit;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  802  		}
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  803  	}
-259145feff723cd drivers/pinctrl/nomadik/pinctrl-abx500.c Linus Walleij   2014-09-30  804  
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  805  exit:
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  806  	return ret;
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  807  }
-64a45c986349a00 drivers/pinctrl/pinctrl-abx500.c         Patrice Chotard 2013-06-20  808  
-
-:::::: The code at line 780 was first introduced by commit
-:::::: dd4d01f7bad886c22687224bc7070b87de8deb51 pinctrl: pinconf-generic: Allow driver to specify DT params
-
-:::::: TO: Soren Brinkmann <soren.brinkmann@xilinx.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards
