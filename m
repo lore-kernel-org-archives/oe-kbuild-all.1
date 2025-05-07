@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A574414;
-	Wed,  7 May 2025 07:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F981C84D7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 07:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746603107; cv=none; b=mCwDHX3CYoOObLM0/HDFrJhY/aCiMtIq6bhLBkpZWvuuCiLQN35ofGMww3rUjgiT8O3MDMB7BsbXhpXq/m6wIrq1zJv7kggirWOPUgkKlf454lS3RrSqayxYxRV5V2zT7cuj50Zn18UMphPcn7h9M98z1HbKzTPDMWDbqhzhDjE=
+	t=1746603110; cv=none; b=qQyLJBgIJNZJKtBu2ihuz3/fWzAG5SEMsUpXLhQZLow1yoTxWLiz9Im7y6NNzkbatwwCnqMUhaAOYjC8xlfP73PyhKoK7mKv5ZnLWgC2sgbWTkClSGoxC7prUb6alDUZgwHxn37WFkcxOxE+JSE1cofytzqXbV1S291+QeKqEDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746603107; c=relaxed/simple;
-	bh=FFuzi7T3c0I8IGg4qrObk2JgKXXJTMHod23upkgrbKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fUCDkcTokaCKll64n/mAOF2WERAlMoCi4fXhZCF/OO/v7tXd4p4clUcND+gdqmNcBMhYxRhMKBwD1AEeAOPBvJGclvyeSyYc+bajCWTw+2GKhRIDWWscakO0gLKUkJnojG3ZwEX7GDjjDpZ22vCJbAKG9ua+NvHKc9fvEiD4lf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZWJvvXp; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1746603110; c=relaxed/simple;
+	bh=J8vV48whjFWoJfoLKNP11HaSqljdUTAPOGpdU7CDSwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HpncJDDa+aud6FxYL7TNNtKZZQSFYR9bwOr73OjkvzvrxilR18DD8FYkTgoOqa1rRkkl5AIxwOq6fX0GCe6sfq8o53Gks+aRIAoBdeRJfA12JpgySpo7MYfelZNuxGGUGWDzAVEbEoL3G3XVo2/EqVXh+X2ebEGqapwlYJ7S6kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bS7PVV/g; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZWJvvXp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bS7PVV/g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746603105; x=1778139105;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FFuzi7T3c0I8IGg4qrObk2JgKXXJTMHod23upkgrbKo=;
-  b=nZWJvvXpthnc35AV1xLJtRow2gfEc/LspRl3BSMI+Q29jKC8oxs9ZYVC
-   wZEn3q0S805HNr5k1kjS4YU5+Nv5Woq5z/4cun2exo6o3jiA3QuxbHZ6t
-   KVzTHSn/MHeOobqMCn68G7NzoCzf+u7/QqwjEx6N9GiZNKkJWeHUXy3TC
-   h7ec0gPukJGphpj3TOvACqg8prUVaIB/zKMcwb7lrdKZYtMf8zcalFpLR
-   JfNJxLscc/6az5yxqHUHVeqk0aH2coZhmU0f7vIY1OJQcNnYLyyug8vkY
-   /TSa3g1k9nP1F+qvYFc8vAQndJdR64cE0pcZ/HX8yKyWOcBu/zlOVUL6I
-   A==;
-X-CSE-ConnectionGUID: GfWJj0fpSZyMJLPSgy6OYw==
-X-CSE-MsgGUID: bQV5D4NdRZ+c4NiMWwvwDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="35944815"
+  t=1746603108; x=1778139108;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J8vV48whjFWoJfoLKNP11HaSqljdUTAPOGpdU7CDSwA=;
+  b=bS7PVV/glSO45THKoJX7GTteruZ4OqZSdE9o5xkyCE+GJll7OdEaRKAo
+   MRz7NYIW4d4RUeeUgDzJOFMf3QgkA4tTc1AsRq3KDv6oZEophDNuDltpi
+   0OqaHc/f3tr1G5dtDd8Q2a+7L2fb/foGMvBpFQD5mxysGEwurBy8ZdKve
+   rtsWHNT2RjgyY3xGwVhv4BozylPqzGEeF1tkBSCawhbYNtyI46K+TAtVR
+   Poa8RpTQ2oB+p5ZCm71AGPtUP2QJEZNd13W2303Gj3vyrR3B7oKVTjVVE
+   hwj6APPnWO7W75bp6UI+RVddjhmt2CPybTZ7jAoeu2S9RvustXKCce2To
+   Q==;
+X-CSE-ConnectionGUID: 460c3TB9Qc29HZLbNLO3uQ==
+X-CSE-MsgGUID: 4/WxJNRiQl6gMfS8R1zwwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="47413847"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="35944815"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:31:42 -0700
-X-CSE-ConnectionGUID: dbd0VANxQyOjRZ4oDvVYSg==
-X-CSE-MsgGUID: G8XAI6teS/ygnJbWvNGS1Q==
+   d="scan'208";a="47413847"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:31:43 -0700
+X-CSE-ConnectionGUID: RZKoYAW6S7ujDcZSfSTVYg==
+X-CSE-MsgGUID: N0vZmk0ySu6yU0VhwUgSwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="173064112"
+   d="scan'208";a="140830302"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 May 2025 00:31:40 -0700
+  by orviesa004.jf.intel.com with ESMTP; 07 May 2025 00:31:41 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCZFi-0007JZ-1W;
+	id 1uCZFi-0007JT-1F;
 	Wed, 07 May 2025 07:31:38 +0000
-Date: Wed, 7 May 2025 15:31:13 +0800
+Date: Wed, 7 May 2025 15:31:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xi Ruoyao <xry111@xry111.site>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [linux-next:master 3551/8679]
- arch/riscv/kernel/compat_signal.c:220:28: error: use of undeclared
- identifier 'compat__vdso_rt_sigreturn_offset'
-Message-ID: <202505071542.jdBqsSPB-lkp@intel.com>
+To: Rand Deeb <rand.sec96@gmail.com>, Finn Thain <fthain@linux-m68k.org>,
+	Michael Schmitz <schmitzmic@gmail.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, deeb.rand@confident.ru,
+	lvc-project@linuxtesting.org, voskresenski.stanislav@confident.ru,
+	Rand Deeb <rand.sec96@gmail.com>
+Subject: Re: [PATCH] scsi: NCR5380: Prevent potential out-of-bounds read in
+ spi_print_msg()
+Message-ID: <202505071504.SVF8vs1h-lkp@intel.com>
+References: <20250430115926.6335-1-rand.sec96@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,79 +69,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250430115926.6335-1-rand.sec96@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0a00723f4c2d0b273edd0737f236f103164a08eb
-commit: 89079520cef65d6da1e864eab4464effe5396e23 [3551/8679] RISC-V: vDSO: Wire up getrandom() vDSO implementation
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20250507/202505071542.jdBqsSPB-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071542.jdBqsSPB-lkp@intel.com/reproduce)
+Hi Rand,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jejb-scsi/for-next]
+[also build test ERROR on mkp-scsi/for-next linus/master v6.15-rc5 next-20250506]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rand-Deeb/scsi-NCR5380-Prevent-potential-out-of-bounds-read-in-spi_print_msg/20250430-200221
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20250430115926.6335-1-rand.sec96%40gmail.com
+patch subject: [PATCH] scsi: NCR5380: Prevent potential out-of-bounds read in spi_print_msg()
+config: alpha-randconfig-r072-20250501 (https://download.01.org/0day-ci/archive/20250507/202505071504.SVF8vs1h-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071504.SVF8vs1h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071542.jdBqsSPB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071504.SVF8vs1h-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/riscv/kernel/compat_signal.c:220:28: error: use of undeclared identifier 'compat__vdso_rt_sigreturn_offset'
-     220 |         regs->ra = (unsigned long)COMPAT_VDSO_SYMBOL(
-         |                                   ^
-   arch/riscv/include/asm/vdso.h:29:42: note: expanded from macro 'COMPAT_VDSO_SYMBOL'
-      29 |         (void __user *)((unsigned long)(base) + compat__vdso_##name##_offset)
-         |                                                 ^
-   <scratch space>:315:1: note: expanded from here
-     315 | compat__vdso_rt_sigreturn_offset
-         | ^
-   1 error generated.
+   In file included from drivers/scsi/g_NCR5380.c:691:
+   drivers/scsi/NCR5380.c: In function 'NCR5380_reselect':
+>> drivers/scsi/NCR5380.c:2107:51: error: 'len' undeclared (first use in this function); did you mean 'lun'?
+    2107 |                 if (msg[0] == EXTENDED_MESSAGE && len >= 3) {
+         |                                                   ^~~
+         |                                                   lun
+   drivers/scsi/NCR5380.c:2107:51: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/compat__vdso_rt_sigreturn_offset +220 arch/riscv/kernel/compat_signal.c
+vim +2107 drivers/scsi/NCR5380.c
 
-7383ee05314be58 Guo Ren 2022-04-05  198  
-7383ee05314be58 Guo Ren 2022-04-05  199  int compat_setup_rt_frame(struct ksignal *ksig, sigset_t *set,
-7383ee05314be58 Guo Ren 2022-04-05  200  	struct pt_regs *regs)
-7383ee05314be58 Guo Ren 2022-04-05  201  {
-7383ee05314be58 Guo Ren 2022-04-05  202  	struct compat_rt_sigframe __user *frame;
-7383ee05314be58 Guo Ren 2022-04-05  203  	long err = 0;
-7383ee05314be58 Guo Ren 2022-04-05  204  
-7383ee05314be58 Guo Ren 2022-04-05  205  	frame = compat_get_sigframe(ksig, regs, sizeof(*frame));
-7383ee05314be58 Guo Ren 2022-04-05  206  	if (!access_ok(frame, sizeof(*frame)))
-7383ee05314be58 Guo Ren 2022-04-05  207  		return -EFAULT;
-7383ee05314be58 Guo Ren 2022-04-05  208  
-7383ee05314be58 Guo Ren 2022-04-05  209  	err |= copy_siginfo_to_user32(&frame->info, &ksig->info);
-7383ee05314be58 Guo Ren 2022-04-05  210  
-7383ee05314be58 Guo Ren 2022-04-05  211  	/* Create the ucontext. */
-7383ee05314be58 Guo Ren 2022-04-05  212  	err |= __put_user(0, &frame->uc.uc_flags);
-7383ee05314be58 Guo Ren 2022-04-05  213  	err |= __put_user(NULL, &frame->uc.uc_link);
-7383ee05314be58 Guo Ren 2022-04-05  214  	err |= __compat_save_altstack(&frame->uc.uc_stack, regs->sp);
-7383ee05314be58 Guo Ren 2022-04-05  215  	err |= compat_setup_sigcontext(frame, regs);
-7383ee05314be58 Guo Ren 2022-04-05  216  	err |= __copy_to_user(&frame->uc.uc_sigmask, set, sizeof(*set));
-7383ee05314be58 Guo Ren 2022-04-05  217  	if (err)
-7383ee05314be58 Guo Ren 2022-04-05  218  		return -EFAULT;
-7383ee05314be58 Guo Ren 2022-04-05  219  
-7383ee05314be58 Guo Ren 2022-04-05 @220  	regs->ra = (unsigned long)COMPAT_VDSO_SYMBOL(
-7383ee05314be58 Guo Ren 2022-04-05  221  			current->mm->context.vdso, rt_sigreturn);
-7383ee05314be58 Guo Ren 2022-04-05  222  
-7383ee05314be58 Guo Ren 2022-04-05  223  	/*
-7383ee05314be58 Guo Ren 2022-04-05  224  	 * Set up registers for signal handler.
-7383ee05314be58 Guo Ren 2022-04-05  225  	 * Registers that we don't modify keep the value they had from
-7383ee05314be58 Guo Ren 2022-04-05  226  	 * user-space at the time we took the signal.
-7383ee05314be58 Guo Ren 2022-04-05  227  	 * We always pass siginfo and mcontext, regardless of SA_SIGINFO,
-7383ee05314be58 Guo Ren 2022-04-05  228  	 * since some things rely on this (e.g. glibc's debug/segfault.c).
-7383ee05314be58 Guo Ren 2022-04-05  229  	 */
-7383ee05314be58 Guo Ren 2022-04-05  230  	regs->epc = (unsigned long)ksig->ka.sa.sa_handler;
-7383ee05314be58 Guo Ren 2022-04-05  231  	regs->sp = (unsigned long)frame;
-7383ee05314be58 Guo Ren 2022-04-05  232  	regs->a0 = ksig->sig;                     /* a0: signal number */
-7383ee05314be58 Guo Ren 2022-04-05  233  	regs->a1 = (unsigned long)(&frame->info); /* a1: siginfo pointer */
-7383ee05314be58 Guo Ren 2022-04-05  234  	regs->a2 = (unsigned long)(&frame->uc);   /* a2: ucontext pointer */
-7383ee05314be58 Guo Ren 2022-04-05  235  
-
-:::::: The code at line 220 was first introduced by commit
-:::::: 7383ee05314be58f8f9f018ee0ac53bef3808aea riscv: compat: signal: Add rt_frame implementation
-
-:::::: TO: Guo Ren <guoren@linux.alibaba.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+  2099	
+  2100		if (!(msg[0] & 0x80)) {
+  2101			shost_printk(KERN_ERR, instance, "expecting IDENTIFY message, got ");
+  2102	
+  2103			/*
+  2104			 * Defensive check before calling spi_print_msg():
+  2105			 * Avoid buffer overrun if msg claims extended length.
+  2106			 */
+> 2107			if (msg[0] == EXTENDED_MESSAGE && len >= 3) {
+  2108				int expected_len = 2 + msg[1];
+  2109	
+  2110				if (expected_len == 2)
+  2111					expected_len += 256;
+  2112	
+  2113				if (len >= expected_len)
+  2114					spi_print_msg(msg);
+  2115				else
+  2116					pr_warn("spi_print_msg: skipping malformed extended message (len=%d, expected=%d)\n",
+  2117						len, expected_len);
+  2118			} else {
+  2119				spi_print_msg(msg);
+  2120			}
+  2121	
+  2122			printk("\n");
+  2123			do_abort(instance, 0);
+  2124			return;
+  2125		}
+  2126		lun = msg[0] & 0x07;
+  2127	
+  2128		/*
+  2129		 * We need to add code for SCSI-II to track which devices have
+  2130		 * I_T_L_Q nexuses established, and which have simple I_T_L
+  2131		 * nexuses so we can chose to do additional data transfer.
+  2132		 */
+  2133	
+  2134		/*
+  2135		 * Find the command corresponding to the I_T_L or I_T_L_Q  nexus we
+  2136		 * just reestablished, and remove it from the disconnected queue.
+  2137		 */
+  2138	
+  2139		tmp = NULL;
+  2140		list_for_each_entry(ncmd, &hostdata->disconnected, list) {
+  2141			struct scsi_cmnd *cmd = NCR5380_to_scmd(ncmd);
+  2142	
+  2143			if (target_mask == (1 << scmd_id(cmd)) &&
+  2144			    lun == (u8)cmd->device->lun) {
+  2145				list_del(&ncmd->list);
+  2146				tmp = cmd;
+  2147				break;
+  2148			}
+  2149		}
+  2150	
+  2151		if (tmp) {
+  2152			dsprintk(NDEBUG_RESELECTION | NDEBUG_QUEUES, instance,
+  2153			         "reselect: removed %p from disconnected queue\n", tmp);
+  2154		} else {
+  2155			int target = ffs(target_mask) - 1;
+  2156	
+  2157			shost_printk(KERN_ERR, instance, "target bitmask 0x%02x lun %d not in disconnected queue.\n",
+  2158			             target_mask, lun);
+  2159			/*
+  2160			 * Since we have an established nexus that we can't do anything
+  2161			 * with, we must abort it.
+  2162			 */
+  2163			if (do_abort(instance, 0) == 0)
+  2164				hostdata->busy[target] &= ~(1 << lun);
+  2165			return;
+  2166		}
+  2167	
 
 -- 
 0-DAY CI Kernel Test Service
