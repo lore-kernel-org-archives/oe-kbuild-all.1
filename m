@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7649D1DF271
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 08:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2EF148832;
+	Wed,  7 May 2025 09:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746607809; cv=none; b=cJgQa9Fo1MSjKs/eBvs0dkULW3XhlrxbkOWvz5cSSEeCjGRTtPmkrZoXnosK3H3jFgJ3xg2Z52iQWUCPd7OLZv6saNA2RAGRr0DsbK3nTKHxE7HM6BZHaa/IhyzhbXSSdljj+tnw4HlwSOx4/9LTr5nHGdAb0zj6g+KePIPGC3g=
+	t=1746608484; cv=none; b=SIihKiNK9wNOlA0Tg3j+AWfI4l8/RPXvQyEtMA+s4r+534uDLoPQyanvIYg+yDUhSDMlVxGHcmaRPYuLCByYS8Ne9uF2K1waK6O3lSNe1dIir+SLAUSBVMnKcky4ThMAxjREyCtfc1TXyc0Zy2kkPRsHWF68nKTjJhtivKkwsH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746607809; c=relaxed/simple;
-	bh=WyjDwGk/tmGPJ3Kk7SZcBrBofn8Wz6HHKg8I/2ykdos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mjSF8HX2HPnOl0viqevuGifcdmZ8AAwujRujvu+blTTNJumnc0YyHp3BzN41fDylltDlR8iU2c7tV2uQCiyecCzykZjs188tx1xagYoFqAUOs0AHPzt6HAg52vgkXG2fkiJmNel8EUFJG19gM7wXIL5lc8i+kJaulmbxjTPCLIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCHvUAnH; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1746608484; c=relaxed/simple;
+	bh=cB1ssunMZ2hnfS0Tfp2M5BYgWLLpSS38QwQRDoJmO3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=l63BzZT+EPjR29N/4A1HX9MffSmOwpKlPIr9xzzSwHbRx69fyJNC1mbYQ3qGSS3P2y2ZP/+kO8PDJ57dZoZ+XnteM+2SkGEIUJG6dMKJWOhWs+a+H04eEvCg6pm5cY6gkFHU9ebistu85NF7r2JCd/AZ9d3+VEzyYMFL/Fh16LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AWwH1HXa; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCHvUAnH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AWwH1HXa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746607807; x=1778143807;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WyjDwGk/tmGPJ3Kk7SZcBrBofn8Wz6HHKg8I/2ykdos=;
-  b=DCHvUAnH8137nWHU2lNXiB/GyaTF/FbifeyxLhKtvlZAiWD5FLc1yRyq
-   BROj13WAUKdEhsKM7YZ6bJRa7Mo+DTMCQv5luZI2uk7DiqJzjkc3pPezr
-   v6OEVwUzoz9pjF360etnnZWy+Y59XFzrCadIIdsPDMcVMpvSgb/4qTHUt
-   wmR4baWB4ekxJSCj6fB2VLYCH9JzIuWY6cJCzPqEypEOdaA9HeOtC4Ttz
-   jV8RwakcTRZenzfnqzJrFGdjAhHvGa0HL5GixhGWEq6Xd0Kbd6md2jT4R
-   2xbXAgDRXW94YIXZ3MscKqq06MNLk40KcvfF4UnHVIx8nlgdDnDt1GAZY
+  t=1746608482; x=1778144482;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cB1ssunMZ2hnfS0Tfp2M5BYgWLLpSS38QwQRDoJmO3I=;
+  b=AWwH1HXaHWlp5mv0xMefCp8vdRiYj8UZgMLJ4qg/zus6Oq/OlPbTouxc
+   VxTF5l0ilH4djU2SRFIfMRp1tHhHB+XRQjTvYfnECQ9Hh1Bj+m2C3jZuD
+   JiAQlEz2HymrChOPI8XFG1WJ1OBR6yISjJBNaT1FULE7shufIKUzIC4Qc
+   9ko2vsfiOfufFxOAJhODez104QhCorc5Yw8Sfp7QWe1Bv9vMJH+t5NTb0
+   EJr7zdqcVj4QZYPZ2Ilj82rQ7dgr65iFJmxpkGX6XkRSrMGI/ZEttsWSz
+   atuj6duEPDLxz7Uaj+zQgWAoeazE0vKtouQ7kbcXNaVYAVkHyJhjGcdch
    g==;
-X-CSE-ConnectionGUID: YL88SFMTT8yEFPt88ZEwGg==
-X-CSE-MsgGUID: KN5MDuzNTDCs28/Dd94oQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="35953234"
+X-CSE-ConnectionGUID: R5b0THQlQLCpRD8CPonzyg==
+X-CSE-MsgGUID: /RbIRhBAQCi472VgrB2+gQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="73716008"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="35953234"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:50:07 -0700
-X-CSE-ConnectionGUID: tl978WqFRQGjPiYm0wzaiA==
-X-CSE-MsgGUID: br/W5vKlSaGTs70TKB57lw==
+   d="scan'208";a="73716008"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 02:01:22 -0700
+X-CSE-ConnectionGUID: oolfkHEQQBSOTa3kJD4hTQ==
+X-CSE-MsgGUID: C7JJUk5AStaZPWiev+WPgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="166938098"
+   d="scan'208";a="135797172"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 May 2025 01:50:06 -0700
+  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 02:01:21 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCaTb-0007RZ-25;
-	Wed, 07 May 2025 08:50:03 +0000
-Date: Wed, 7 May 2025 16:49:52 +0800
+	id 1uCaeT-0007SL-1r;
+	Wed, 07 May 2025 09:01:17 +0000
+Date: Wed, 7 May 2025 17:01:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vikram Sharma <quic_vikramsa@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC/WIP v2 2/9] media: qcom: camss: add generic vfe
- handling in vfe gen3
-Message-ID: <202505071629.t2ZIiCIF-lkp@intel.com>
-References: <20250427070135.884623-3-quic_vikramsa@quicinc.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:nfs-client-leak 2/8] fs/nfs/pnfs.c:565:30: error: no member
+ named 'pls_tracker' in 'struct pnfs_layout_segment'
+Message-ID: <202505071627.0GqP7WYb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,36 +61,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250427070135.884623-3-quic_vikramsa@quicinc.com>
 
-Hi Vikram,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20250424]
-[cannot apply to robh/for-next linus/master v6.15-rc3 v6.15-rc2 v6.15-rc1 v6.15-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vikram-Sharma/media-qcom-camss-add-generic-csid-handling-in-csid-gen3/20250427-150648
-base:   next-20250424
-patch link:    https://lore.kernel.org/r/20250427070135.884623-3-quic_vikramsa%40quicinc.com
-patch subject: [PATCH RFC/WIP v2 2/9] media: qcom: camss: add generic vfe handling in vfe gen3
-config: loongarch-randconfig-002-20250427 (https://download.01.org/0day-ci/archive/20250507/202505071629.t2ZIiCIF-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071629.t2ZIiCIF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git nfs-client-leak
+head:   6af305fb6b4bb0b9b5330286b4c66daf076b1145
+commit: e805e02639509963455233d10a03edf7cbd38ee9 [2/8] nfs: add refcount tracking to pnfs_layout_segment
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20250507/202505071627.0GqP7WYb-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071627.0GqP7WYb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071629.t2ZIiCIF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071627.0GqP7WYb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> make[8]: *** No rule to make target 'drivers/media/platform/qcom/camss/camss-vfe-gen2.o', needed by 'drivers/media/platform/qcom/camss/built-in.a'.
-   make[8]: Target 'drivers/media/platform/qcom/camss/' not remade because of errors.
+>> fs/nfs/pnfs.c:565:30: error: no member named 'pls_tracker' in 'struct pnfs_layout_segment'
+     565 |         ref_tracker_dir_init(&lseg->pls_tracker, 128, "pnfs_layout_segment");
+         |                               ~~~~  ^
+   fs/nfs/pnfs.c:573:31: error: no member named 'pls_tracker' in 'struct pnfs_layout_segment'
+     573 |                 ref_tracker_dir_exit(&lseg->pls_tracker);
+         |                                       ~~~~  ^
+   fs/nfs/pnfs.c:2599:30: error: no member named 'pls_tracker' in 'struct pnfs_layout_segment'
+    2599 |         ref_tracker_dir_exit(&lseg->pls_tracker);
+         |                               ~~~~  ^
+   3 errors generated.
+
+
+vim +565 fs/nfs/pnfs.c
+
+   551	
+   552	static void
+   553	pnfs_init_lseg(struct pnfs_layout_hdr *lo, struct pnfs_layout_segment *lseg,
+   554			const struct pnfs_layout_range *range,
+   555			const nfs4_stateid *stateid)
+   556	{
+   557		INIT_LIST_HEAD(&lseg->pls_list);
+   558		INIT_LIST_HEAD(&lseg->pls_lc_list);
+   559		INIT_LIST_HEAD(&lseg->pls_commits);
+   560		refcount_set(&lseg->pls_refcount, 1);
+   561		set_bit(NFS_LSEG_VALID, &lseg->pls_flags);
+   562		lseg->pls_layout = lo;
+   563		lseg->pls_range = *range;
+   564		lseg->pls_seq = be32_to_cpu(stateid->seqid);
+ > 565		ref_tracker_dir_init(&lseg->pls_tracker, 128, "pnfs_layout_segment");
+   566	}
+   567	
 
 -- 
 0-DAY CI Kernel Test Service
