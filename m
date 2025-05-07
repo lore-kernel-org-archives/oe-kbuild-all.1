@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9221E279916
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 12:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D871E49F;
+	Wed,  7 May 2025 12:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746621055; cv=none; b=bNWFF+mfAvjunGBkOCtYUVFp27YKTWzLP45Uo9bQS5pl52tr+1nawcPBM8EBrxGm1ctYkhGWLNgtayghKO/CD002yzLM95J1GYOFZQBZ91iTRTKb2S6Cqgd7DLJalQWtKQPoAIuIKPxUMxrdcjhZQNZfOeysjksgm/jrhzqm5QM=
+	t=1746621112; cv=none; b=aj5w1W04jCzz80FpAqHQfoO+i8NfAFSiNihT7MO6ExCnxUrDCOX7n6cjl7lMk9segEc+kcykmCFkQORR8uAkVh3b7Pq1T5AvClFUhzyRllh4JszERfegfcJ+2mswN92LQmnt9bEEfg+ZI6twCacF/moPHkaCbYi5vTqI65hniMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746621055; c=relaxed/simple;
-	bh=mWlndLyalZYUD1rA6pPQ3NKdXvmubakqHNhUnfLWQDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pMuhrSjy6JUAcOWxM8w8DgXmR7lMiPMdA4Zf70mxJYUbIASE6mDU4SjJToEVHSv6mTRxI2YRh75TlVHSL8r567IkYQda3XjSoOV2CNLA7akeD43ywHRXO52+4neTdyy0QGWWtbufv7VCiQHt7Mi8RQZJ3f9ysNU6KXK+UbjwWyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1ke6CXT; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1746621112; c=relaxed/simple;
+	bh=NLFE9SxnKNFG5kSGb0TPjmIn1UVE2kGaqTs9/g3cdl0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=As4BHm5j8Y8kywcFyM9LImLLdUsW+RfsWYKTXI6bQ8exNt2iXd8EMRX/aRwpVG7B2xsl1B5kOM5ElPqs7l8wkd614XGu8tgtLg4G8rPcII205OzCQXAgQnzELac5+CC/+yS0PDJAbFn6MmEwQxMCAN336uA9sljFrWjPTChNeqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrnlrBV5; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1ke6CXT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrnlrBV5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746621054; x=1778157054;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mWlndLyalZYUD1rA6pPQ3NKdXvmubakqHNhUnfLWQDM=;
-  b=B1ke6CXTUTymKIm1aN8Sz3JVsUSpecFq1S3Kh3x9aJRhkIUXmHaEFMC9
-   3tVdrPmRunZIhwQ2UUyLwZVE2k/GgQgwxqTRl++ljkqtYJytEynQAya4A
-   DqA2Uwg5AfdmEjbeVITyNGfUGL2Y077xZNhGcf9Kz0XD8En6UlWGO1Hj1
-   I85s+GcjEc+XifebhUUMKiA9V1kpuqskUtEZFiS9Gw2J2eJux3bVvbSJo
-   Z0U7lb7Ifu6kKIb+WtOIKy9x2e/lZPSxsPaFIJ6zbtyROw/W88bkHpSm6
-   bqbsEkMQV7dxZ4fS0EAgkN7vQIWXGD4gSvlsbkemlecvzD0REk+0QRb9d
-   w==;
-X-CSE-ConnectionGUID: 3uAftOTYTyiJk/+DrJU7Ng==
-X-CSE-MsgGUID: ae24xHdWSlipnALVsjvBsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48362531"
+  t=1746621111; x=1778157111;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NLFE9SxnKNFG5kSGb0TPjmIn1UVE2kGaqTs9/g3cdl0=;
+  b=BrnlrBV5bi9RJkcTZKSZsIYnbMGVPjF8zT5SNZVomogTETmIxeVPVRt9
+   CNjqJSYOyWZgaKDS3k+2WFAFWuweDc4okmLCmBjYZkSrj//eEXLloodTc
+   z/4jBZgYLoZ4gCVgNww/kblEt2e9C5k/xmSjubdbzdu4xGP1eBG0W2GLd
+   4bRyGlx2oPcLZwCG5juvzxavkRmx/wJCCKjvA/qNPtppEssk2OARmuusB
+   LYO7CVZ+n/HDwr9eznGaToL8aqDSlbbOYwmEtDG0JpfEz6oQru72/kF1s
+   n7DkXGwbpvWLSRluGtxXcrGLs8YFZQ9TlbCDGSrhAeCg10W3VUbOQRvmC
+   Q==;
+X-CSE-ConnectionGUID: l8TnQ+lbSgqk1Ljkyw1uug==
+X-CSE-MsgGUID: 0xMxLEf2RW69JmxAe+x3hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59336701"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="48362531"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 05:30:53 -0700
-X-CSE-ConnectionGUID: eNeijQCxQUiEpDzDZT5kjg==
-X-CSE-MsgGUID: E5LZ4jChTrO3fnbLXvhCAA==
+   d="scan'208";a="59336701"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 05:31:51 -0700
+X-CSE-ConnectionGUID: k48YR6sYRsWpOqm0c6C8tw==
+X-CSE-MsgGUID: 9eVR+E8VSbqK/QHnQT7Ntg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="159241073"
+   d="scan'208";a="136341180"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 05:30:50 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 07 May 2025 05:31:50 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCdvD-0007mY-1m;
-	Wed, 07 May 2025 12:30:47 +0000
+	id 1uCdwB-0007mf-26;
+	Wed, 07 May 2025 12:31:47 +0000
 Date: Wed, 7 May 2025 20:30:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: chenchangcheng <ccc194101@163.com>, laurent.pinchart@ideasonboard.com,
-	ribalda@chromium.org
-Cc: oe-kbuild-all@lists.linux.dev, hdegoede@redhat.com, mchehab@kernel.org,
-	linux-kernel@vger.kernel.org,
-	chenchangcheng <chenchangcheng@kylinos.cn>
-Subject: Re: [PATCH v7] media: uvcvideo: Fix bandwidth issue
-Message-ID: <202505072016.LlOxF8BG-lkp@intel.com>
-References: <20250416031838.254061-1-ccc194101@163.com>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
+Subject: [mptcp:export 1/33] .b4-config: warning: ignored by one of the
+ .gitignore files
+Message-ID: <202505072040.0lD59gJw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,153 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250416031838.254061-1-ccc194101@163.com>
 
-Hi chenchangcheng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8ffd015db85fea3e15a77027fda6c02ced4d2444]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/chenchangcheng/media-uvcvideo-Fix-bandwidth-issue/20250416-140638
-base:   8ffd015db85fea3e15a77027fda6c02ced4d2444
-patch link:    https://lore.kernel.org/r/20250416031838.254061-1-ccc194101%40163.com
-patch subject: [PATCH v7] media: uvcvideo: Fix bandwidth issue
-config: i386-randconfig-012-20250424 (https://download.01.org/0day-ci/archive/20250507/202505072016.LlOxF8BG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505072016.LlOxF8BG-lkp@intel.com/reproduce)
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export
+head:   dc5a194295bd73e042f36afd454ae4febd90c04e
+commit: eac743734bd56bf262f6615541d01cdf190945ac [1/33] DO-NOT-MERGE: git markup: net
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20250507/202505072040.0lD59gJw-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505072040.0lD59gJw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505072016.LlOxF8BG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505072040.0lD59gJw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/media/usb/uvc/uvc_video.c: In function 'uvc_fixup_video_ctrl':
->> drivers/media/usb/uvc/uvc_video.c:268:17: error: implicit declaration of function 'dev_warn_ratelimit'; did you mean 'dev_warn_ratelimited'? [-Werror=implicit-function-declaration]
-     268 |                 dev_warn_ratelimit(&stream->intf->dev,
-         |                 ^~~~~~~~~~~~~~~~~~
-         |                 dev_warn_ratelimited
-   cc1: some warnings being treated as errors
-
-
-vim +268 drivers/media/usb/uvc/uvc_video.c
-
-   162	
-   163	static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
-   164		struct uvc_streaming_control *ctrl)
-   165	{
-   166		const struct uvc_format *format = NULL;
-   167		const struct uvc_frame *frame = NULL;
-   168		unsigned int i;
-   169	
-   170		/*
-   171		 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-   172		 * contains bFormatIndex (instead of being the second byte of bmHint).
-   173		 * The first byte is always zero. The third byte is always 1.
-   174		 *
-   175		 * The UVC 1.5 class specification defines the first five bits in the
-   176		 * bmHint bitfield. The remaining bits are reserved and should be zero.
-   177		 * Therefore a valid bmHint will be less than 32.
-   178		 *
-   179		 * Latest Elgato Cam Link 4K firmware as of 2021-03-23 needs this fix.
-   180		 * MCU: 20.02.19, FPGA: 67
-   181		 */
-   182		if (usb_match_one_id(stream->dev->intf, &elgato_cam_link_4k) &&
-   183		    ctrl->bmHint > 255) {
-   184			u8 corrected_format_index = ctrl->bmHint >> 8;
-   185	
-   186			uvc_dbg(stream->dev, VIDEO,
-   187				"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: %u} to {bmHint: 0x%04x, bFormatIndex: %u}\n",
-   188				ctrl->bmHint, ctrl->bFormatIndex,
-   189				1, corrected_format_index);
-   190			ctrl->bmHint = 1;
-   191			ctrl->bFormatIndex = corrected_format_index;
-   192		}
-   193	
-   194		for (i = 0; i < stream->nformats; ++i) {
-   195			if (stream->formats[i].index == ctrl->bFormatIndex) {
-   196				format = &stream->formats[i];
-   197				break;
-   198			}
-   199		}
-   200	
-   201		if (format == NULL)
-   202			return;
-   203	
-   204		for (i = 0; i < format->nframes; ++i) {
-   205			if (format->frames[i].bFrameIndex == ctrl->bFrameIndex) {
-   206				frame = &format->frames[i];
-   207				break;
-   208			}
-   209		}
-   210	
-   211		if (frame == NULL)
-   212			return;
-   213	
-   214		if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) ||
-   215		     (ctrl->dwMaxVideoFrameSize == 0 &&
-   216		      stream->dev->uvc_version < 0x0110))
-   217			ctrl->dwMaxVideoFrameSize =
-   218				frame->dwMaxVideoFrameBufferSize;
-   219	
-   220		/*
-   221		 * The "TOSHIBA Web Camera - 5M" Chicony device (04f2:b50b) seems to
-   222		 * compute the bandwidth on 16 bits and erroneously sign-extend it to
-   223		 * 32 bits, resulting in a huge bandwidth value. Detect and fix that
-   224		 * condition by setting the 16 MSBs to 0 when they're all equal to 1.
-   225		 */
-   226		if ((ctrl->dwMaxPayloadTransferSize & 0xffff0000) == 0xffff0000)
-   227			ctrl->dwMaxPayloadTransferSize &= ~0xffff0000;
-   228	
-   229		if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
-   230		    stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH &&
-   231		    stream->intf->num_altsetting > 1) {
-   232			u32 interval;
-   233			u32 bandwidth;
-   234	
-   235			interval = (ctrl->dwFrameInterval > 100000)
-   236				 ? ctrl->dwFrameInterval
-   237				 : frame->dwFrameInterval[0];
-   238	
-   239			/*
-   240			 * Compute a bandwidth estimation by multiplying the frame
-   241			 * size by the number of video frames per second, divide the
-   242			 * result by the number of USB frames (or micro-frames for
-   243			 * high- and super-speed devices) per second and add the UVC
-   244			 * header size (assumed to be 12 bytes long).
-   245			 */
-   246			bandwidth = frame->wWidth * frame->wHeight / 8 * format->bpp;
-   247			bandwidth *= 10000000 / interval + 1;
-   248			bandwidth /= 1000;
-   249			if (stream->dev->udev->speed >= USB_SPEED_HIGH)
-   250				bandwidth /= 8;
-   251			bandwidth += 12;
-   252	
-   253			/*
-   254			 * The bandwidth estimate is too low for many cameras. Don't use
-   255			 * maximum packet sizes lower than 1024 bytes to try and work
-   256			 * around the problem. According to measurements done on two
-   257			 * different camera models, the value is high enough to get most
-   258			 * resolutions working while not preventing two simultaneous
-   259			 * VGA streams at 15 fps.
-   260			 */
-   261			bandwidth = max_t(u32, bandwidth, 1024);
-   262	
-   263			ctrl->dwMaxPayloadTransferSize = bandwidth;
-   264		}
-   265	
-   266		if (stream->intf->num_altsetting > 1 &&
-   267		    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
- > 268			dev_warn_ratelimit(&stream->intf->dev,
-   269					   "the max payload transmission size (%d) exceededs the size of the ep max packet (%d). Using the max size.\n",
-   270					   ctrl->dwMaxPayloadTransferSize,
-   271					   stream->maxpsize);
-   272			ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
-   273		}
-   274	}
-   275	
+>> .b4-config: warning: ignored by one of the .gitignore files
+   .git_markup: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
