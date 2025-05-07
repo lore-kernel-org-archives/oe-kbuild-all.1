@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E983E1F4CB0;
-	Wed,  7 May 2025 09:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10601C6FF5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746611024; cv=none; b=kVGgh70za0OBpI2dNUHf59AmTJhDbmOv59a6BRm1Fo2RtIM2d5sDLDWmGIEE5Sp8tOwc0MnTYEeWn7G8OpKVu1Du5Q8uh4+/GbC6IwvZZC0IzaC+w/OLQ4k8v7pL+JOO7wbe02rxksvX5h8QW6NZUB2+2lIKtNudWZyi3apSuoY=
+	t=1746612069; cv=none; b=Q/nEK4uHz62ZcHDg0b/cyLZ44QA5cZXrQR5HHWxVUbdgl2+tgoiNETzR87+2dhdMqmMRFlshc39yGjykeOigxXOVGnVzOS1ccYP2h8vRVD1HoYu2zSNoLhNesobtp81XnnkwHeop7NdKgR0RZnMu+H1O++20/Dj142hnD5JVAmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746611024; c=relaxed/simple;
-	bh=mpxBgNCy/F0aUxpvHnQEKoImq/8iziKL8AsnxKz7uX8=;
+	s=arc-20240116; t=1746612069; c=relaxed/simple;
+	bh=XNaXTwTfMsUq2KDPD+ZwoJCi2ZuhmlkB49Q8UqLYPRw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DZkFk5Z7W4i7p2QQKyZ2GArYAbpBQEqCUqK9tOlfbbKUPxd1zwzAHc1ZAvCiKw50id2F8faBIZAoyC6E1ND7uH6h8CbH1JISkKDaUDtDhCopwFQxHTJIDq4mKayjzj6ZCWjVAcRbIwh8Ce0Sp4CN/+jjgMFVHBgpEmd1r9L1lW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NzhQKWGY; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=oi4ueO+JcPumfNzqmd/naSi6zEJSZKA2ktzFzIoxbcHACGYSH1VBwsxxei6eoxPCUvDiqJ49z662KiNMSBx1gvRDCRDnWuPjmoqDb5ATjlWfygazhv5N9AT4I+mgFaUvJPV50FhS6OlxCga+zzEz/1imhume4y/0zQNQdM/M3GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CeFXCcUY; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzhQKWGY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CeFXCcUY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746611023; x=1778147023;
+  t=1746612066; x=1778148066;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mpxBgNCy/F0aUxpvHnQEKoImq/8iziKL8AsnxKz7uX8=;
-  b=NzhQKWGYnhK78r+5nK78orauO0NXKfEi2W13tmBbMfwmAKFQSwxpyOo8
-   9l4Z+Feoa2R94e0C4370OB8mn09T2iaBc2hJXwZRQdgZfhg2UeZ0UujfY
-   8uD7GlfJ/BQWV4UkMRtrnOjC9avUW9E+oqhzB3MLe2+weaaXOzWT+LfYF
-   Uy2VYc2uzCt36/c+dUtkcdlrb5iK01b8VfFDio9Mz3CVue/3uSdbKYqMu
-   mTKddKAGCpuBgCVpyDG1uZ9z5M3yJ2I/5cJFNUG248OgluS4ra4r24Ob5
-   ujMWcDGad1O6331ErMI70qC5VwHK3CDAVp2L1b6/mvAFUdK3eXREeUDhc
-   A==;
-X-CSE-ConnectionGUID: H4q/yljxQwCfPcirQhP40w==
-X-CSE-MsgGUID: i1fCxh44Q5CbfcI8SizIEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="59727560"
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="59727560"
+  bh=XNaXTwTfMsUq2KDPD+ZwoJCi2ZuhmlkB49Q8UqLYPRw=;
+  b=CeFXCcUY1Omg8pOV82h1OlH5jE9LiFYXkk+3qtRKHxrnNTsAsmpM3CAf
+   eFLAtu4HHPHS0E73UO56JZWifLbibGEiuslUoVfFW1vGhgelesPSQpFQ/
+   TwjekMKxfy6FWJ8DdATpO+STdJDS3AJ2QF0n/ex7yaPGlPSvO0dkunWKr
+   A+wNP9UtDvomL3txxVd8KZ+NfA464QpB5q9VzrlxzlbTLOVrn1Ri6wOyz
+   pwMrdPmnnAy4rta4eewxoF0cUUL/4KkjyEQtXqzAyy+5wuN3GQWBTYm/m
+   AbEAwwVTPFp4jKAELyNfKLV3jyyT+Rq6Ol4g+Dme9NlGvaq16gJ1NZo6C
+   g==;
+X-CSE-ConnectionGUID: WepsOsF+T36R7ZyJSTMxeQ==
+X-CSE-MsgGUID: ZLPvdjTHT62UZ2jF9QhpUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58527543"
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="58527543"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 02:43:43 -0700
-X-CSE-ConnectionGUID: 8NmRYL2gQ72+WAitRIXung==
-X-CSE-MsgGUID: uiaS/QSNSx2EHQrnV6fHIg==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:01:05 -0700
+X-CSE-ConnectionGUID: W50DtydrQPe6s8bvBrU2Ig==
+X-CSE-MsgGUID: 6r28UfSLSf67FsKyQ2YXkw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="159194789"
-Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 02:43:42 -0700
-Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="159199340"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 03:01:04 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCbJS-00009K-2m;
-	Wed, 07 May 2025 09:43:38 +0000
-Date: Wed, 7 May 2025 17:42:57 +0800
+	id 1uCbaI-0007YV-04;
+	Wed, 07 May 2025 10:01:02 +0000
+Date: Wed, 7 May 2025 18:00:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [peterz-queue:locking/futex 3/23] kernel/futex/waitwake.c:343:
- warning: expecting prototype for futex_wait_queue(). Prototype was for
- futex_do_wait() instead
-Message-ID: <202505071708.iowmDlNC-lkp@intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 7222/9308] drivers/scsi/qedf/qedf_main.c:702:9:
+ error: positional initialization of field in 'struct' declared with
+ 'designated_init' attribute
+Message-ID: <202505071735.vZqsL4b5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,61 +63,162 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/futex
-head:   9140f57c1c1391a0343a08daea9cd53f56e51154
-commit: 93f1b6d79a73b520b6875cf3babf4a09acc4eef0 [3/23] futex: Move futex_queue() into futex_wait_setup()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250507/202505071708.iowmDlNC-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071708.iowmDlNC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   08710e696081d58163c8078e0e096be6d35c5fad
+commit: c2ea09b193d274bd321895920d6f8e728c29cff6 [7222/9308] randstruct: gcc-plugin: Remove bogus void member
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250507/202505071735.vZqsL4b5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071735.vZqsL4b5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071708.iowmDlNC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071735.vZqsL4b5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/futex/waitwake.c:343: warning: expecting prototype for futex_wait_queue(). Prototype was for futex_do_wait() instead
->> kernel/futex/waitwake.c:585: warning: Function parameter or struct member 'task' not described in 'futex_wait_setup'
+   drivers/scsi/qedf/qedf_main.c:702:9: warning: braces around scalar initializer
+     702 |         {
+         |         ^
+   drivers/scsi/qedf/qedf_main.c:702:9: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:703:17: error: field name not in record or union initializer
+     703 |                 .link_update = qedf_link_update,
+         |                 ^
+   drivers/scsi/qedf/qedf_main.c:703:17: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:703:32: error: initialization of 'u32 (*)(void *)' {aka 'unsigned int (*)(void *)'} from incompatible pointer type 'void (*)(void *, struct qed_link_output *)' [-Werror=incompatible-pointer-types]
+     703 |                 .link_update = qedf_link_update,
+         |                                ^~~~~~~~~~~~~~~~
+   drivers/scsi/qedf/qedf_main.c:703:32: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:704:17: error: field name not in record or union initializer
+     704 |                 .bw_update = qedf_bw_update,
+         |                 ^
+   drivers/scsi/qedf/qedf_main.c:704:17: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:704:30: warning: excess elements in scalar initializer
+     704 |                 .bw_update = qedf_bw_update,
+         |                              ^~~~~~~~~~~~~~
+   drivers/scsi/qedf/qedf_main.c:704:30: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:705:17: error: field name not in record or union initializer
+     705 |                 .schedule_recovery_handler = qedf_schedule_recovery_handler,
+         |                 ^
+   drivers/scsi/qedf/qedf_main.c:705:17: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:705:46: warning: excess elements in scalar initializer
+     705 |                 .schedule_recovery_handler = qedf_schedule_recovery_handler,
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qedf/qedf_main.c:705:46: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:706:17: error: field name not in record or union initializer
+     706 |                 .dcbx_aen = qedf_dcbx_handler,
+         |                 ^
+   drivers/scsi/qedf/qedf_main.c:706:17: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:706:29: warning: excess elements in scalar initializer
+     706 |                 .dcbx_aen = qedf_dcbx_handler,
+         |                             ^~~~~~~~~~~~~~~~~
+   drivers/scsi/qedf/qedf_main.c:706:29: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:707:17: error: field name not in record or union initializer
+     707 |                 .get_generic_tlv_data = qedf_get_generic_tlv_data,
+         |                 ^
+   drivers/scsi/qedf/qedf_main.c:707:17: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:707:41: warning: excess elements in scalar initializer
+     707 |                 .get_generic_tlv_data = qedf_get_generic_tlv_data,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qedf/qedf_main.c:707:41: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:708:17: error: field name not in record or union initializer
+     708 |                 .get_protocol_tlv_data = qedf_get_protocol_tlv_data,
+         |                 ^
+   drivers/scsi/qedf/qedf_main.c:708:17: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:708:42: warning: excess elements in scalar initializer
+     708 |                 .get_protocol_tlv_data = qedf_get_protocol_tlv_data,
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qedf/qedf_main.c:708:42: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:709:17: error: field name not in record or union initializer
+     709 |                 .schedule_hw_err_handler = qedf_schedule_hw_err_handler,
+         |                 ^
+   drivers/scsi/qedf/qedf_main.c:709:17: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+   drivers/scsi/qedf/qedf_main.c:709:44: warning: excess elements in scalar initializer
+     709 |                 .schedule_hw_err_handler = qedf_schedule_hw_err_handler,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qedf/qedf_main.c:709:44: note: (near initialization for 'qedf_cb_ops.get_login_failures')
+>> drivers/scsi/qedf/qedf_main.c:702:9: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+     702 |         {
+         |         ^
+   drivers/scsi/qedf/qedf_main.c:702:9: note: (near initialization for 'qedf_cb_ops')
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/qlogic/qede/qede_main.c:206:9: warning: braces around scalar initializer
+     206 |         {
+         |         ^
+   drivers/net/ethernet/qlogic/qede/qede_main.c:206:9: note: (near initialization for 'qede_ll_ops.force_mac')
+>> drivers/net/ethernet/qlogic/qede/qede_main.c:210:17: error: field name not in record or union initializer
+     210 |                 .link_update = qede_link_update,
+         |                 ^
+   drivers/net/ethernet/qlogic/qede/qede_main.c:210:17: note: (near initialization for 'qede_ll_ops.force_mac')
+>> drivers/net/ethernet/qlogic/qede/qede_main.c:210:32: error: initialization of 'void (*)(void *, u8 *, bool)' {aka 'void (*)(void *, unsigned char *, _Bool)'} from incompatible pointer type 'void (*)(void *, struct qed_link_output *)' [-Werror=incompatible-pointer-types]
+     210 |                 .link_update = qede_link_update,
+         |                                ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/qlogic/qede/qede_main.c:210:32: note: (near initialization for 'qede_ll_ops.force_mac')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:211:17: error: field name not in record or union initializer
+     211 |                 .schedule_recovery_handler = qede_schedule_recovery_handler,
+         |                 ^
+   drivers/net/ethernet/qlogic/qede/qede_main.c:211:17: note: (near initialization for 'qede_ll_ops.force_mac')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:211:46: warning: excess elements in scalar initializer
+     211 |                 .schedule_recovery_handler = qede_schedule_recovery_handler,
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/qlogic/qede/qede_main.c:211:46: note: (near initialization for 'qede_ll_ops.force_mac')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:212:17: error: field name not in record or union initializer
+     212 |                 .schedule_hw_err_handler = qede_schedule_hw_err_handler,
+         |                 ^
+   drivers/net/ethernet/qlogic/qede/qede_main.c:212:17: note: (near initialization for 'qede_ll_ops.force_mac')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:212:44: warning: excess elements in scalar initializer
+     212 |                 .schedule_hw_err_handler = qede_schedule_hw_err_handler,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/qlogic/qede/qede_main.c:212:44: note: (near initialization for 'qede_ll_ops.force_mac')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:213:17: error: field name not in record or union initializer
+     213 |                 .get_generic_tlv_data = qede_get_generic_tlv_data,
+         |                 ^
+   drivers/net/ethernet/qlogic/qede/qede_main.c:213:17: note: (near initialization for 'qede_ll_ops.force_mac')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:213:41: warning: excess elements in scalar initializer
+     213 |                 .get_generic_tlv_data = qede_get_generic_tlv_data,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/qlogic/qede/qede_main.c:213:41: note: (near initialization for 'qede_ll_ops.force_mac')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:214:17: error: field name not in record or union initializer
+     214 |                 .get_protocol_tlv_data = qede_get_eth_tlv_data,
+         |                 ^
+   drivers/net/ethernet/qlogic/qede/qede_main.c:214:17: note: (near initialization for 'qede_ll_ops.force_mac')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:214:42: warning: excess elements in scalar initializer
+     214 |                 .get_protocol_tlv_data = qede_get_eth_tlv_data,
+         |                                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/qlogic/qede/qede_main.c:214:42: note: (near initialization for 'qede_ll_ops.force_mac')
+>> drivers/net/ethernet/qlogic/qede/qede_main.c:206:9: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+     206 |         {
+         |         ^
+   drivers/net/ethernet/qlogic/qede/qede_main.c:206:9: note: (near initialization for 'qede_ll_ops')
+   drivers/net/ethernet/qlogic/qede/qede_main.c:216:22: warning: initialized field overwritten [-Woverride-init]
+     216 |         .force_mac = qede_force_mac,
+         |                      ^~~~~~~~~~~~~~
+   drivers/net/ethernet/qlogic/qede/qede_main.c:216:22: note: (near initialization for 'qede_ll_ops.force_mac')
+   cc1: some warnings being treated as errors
 
 
-vim +343 kernel/futex/waitwake.c
+vim +702 drivers/scsi/qedf/qedf_main.c
 
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  335  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  336  /**
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  337   * futex_wait_queue() - futex_queue() and wait for wakeup, timeout, or signal
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  338   * @hb:		the futex hash bucket, must be locked by the caller
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  339   * @q:		the futex_q to queue up on
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  340   * @timeout:	the prepared hrtimer_sleeper, or null for no timeout
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  341   */
-93f1b6d79a73b5 Peter Zijlstra 2025-04-16  342  void futex_do_wait(struct futex_q *q, struct hrtimer_sleeper *timeout)
-a046f1a0d3e320 Peter Zijlstra 2021-09-23 @343  {
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  344  	/* Arm the timer */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  345  	if (timeout)
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  346  		hrtimer_sleeper_start_expires(timeout, HRTIMER_MODE_ABS);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  347  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  348  	/*
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  349  	 * If we have been removed from the hash list, then another task
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  350  	 * has tried to wake us, and we can skip the call to schedule().
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  351  	 */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  352  	if (likely(!plist_node_empty(&q->list))) {
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  353  		/*
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  354  		 * If the timer has already expired, current will already be
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  355  		 * flagged for rescheduling. Only call schedule if there
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  356  		 * is no timeout, or if it has yet to expire.
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  357  		 */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  358  		if (!timeout || timeout->task)
-f5d39b02080914 Peter Zijlstra 2022-08-22  359  			schedule();
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  360  	}
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  361  	__set_current_state(TASK_RUNNING);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  362  }
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  363  
+61d8658b4a435ea Dupuis, Chad   2017-02-15  700  
+61d8658b4a435ea Dupuis, Chad   2017-02-15  701  static struct qed_fcoe_cb_ops qedf_cb_ops = {
+61d8658b4a435ea Dupuis, Chad   2017-02-15 @702  	{
+61d8658b4a435ea Dupuis, Chad   2017-02-15  703  		.link_update = qedf_link_update,
+6e7c8eea929e547 Saurav Kashyap 2020-04-16  704  		.bw_update = qedf_bw_update,
+f6b172f21999cf5 Chad Dupuis    2020-04-16  705  		.schedule_recovery_handler = qedf_schedule_recovery_handler,
+61d8658b4a435ea Dupuis, Chad   2017-02-15  706  		.dcbx_aen = qedf_dcbx_handler,
+8673daf4f55bf3b Chad Dupuis    2018-05-22  707  		.get_generic_tlv_data = qedf_get_generic_tlv_data,
+642a0b37e669465 Chad Dupuis    2018-05-22  708  		.get_protocol_tlv_data = qedf_get_protocol_tlv_data,
+55e049910e08caf Saurav Kashyap 2020-09-07  709  		.schedule_hw_err_handler = qedf_schedule_hw_err_handler,
+61d8658b4a435ea Dupuis, Chad   2017-02-15  710  	}
+61d8658b4a435ea Dupuis, Chad   2017-02-15  711  };
+61d8658b4a435ea Dupuis, Chad   2017-02-15  712  
 
-:::::: The code at line 343 was first introduced by commit
-:::::: a046f1a0d3e320cfee6bdac336416a537f49e7c6 futex: Split out wait/wake
+:::::: The code at line 702 was first introduced by commit
+:::::: 61d8658b4a435eac729966cc94cdda077a8df5cd scsi: qedf: Add QLogic FastLinQ offload FCoE driver framework.
 
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+:::::: TO: Dupuis, Chad <chad.dupuis@cavium.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
