@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EC82820A3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 13:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F0B288C15;
+	Wed,  7 May 2025 13:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746623323; cv=none; b=uDc219BZE7mov3qNjBa7PDSbLce7Rqfdw5Y5O4W5PPOtYDmIrZzO/qgnieotYe9QOsDN3kFpzhHkfMtI25LPb+6ugFR1ZkFsWUidPVMblWKlKYXDcCD2ju4HJa05qCb8uhHqVR9jNBczSor/6dJcmEWv7Vc/7tEcmod5XgX8qCE=
+	t=1746623324; cv=none; b=syfDu0Ad51wgkUhfw+nspggBZQqAkUT54fSFSH68+0r9ML+FfPiX3quI2jJvk6UMgnr3pTK5bYwBVepjDkPhCNjk4iKo8BaVlYfp2i9NkXBpekg9AlBqEly3yrxglGhfRUnrEnAvoUgLlun4e/aFiiFo9gygrzkEOLffck2wsrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746623323; c=relaxed/simple;
-	bh=31m/08ig0VfNkrMk4343Qa54/eWB+4Dem9Dww8wH3CU=;
+	s=arc-20240116; t=1746623324; c=relaxed/simple;
+	bh=BWlsrVWi9tqUB9AsRruvwMCXBBv42ZvEG/xOgb6pQ5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YhJxywugH28S6dA59B7vJUTMg2fV/mppLR8NXypT1iGstqWxT6+yf5u+2W/SQz/ezokePApUbD8/h0eLTkTbbCuiwDVlAni0PdjTEFp9mb5ac8qyFLVI/BPbvguKNloCSKOnoPmk4Hhd5pQEkWtDppV6D2wHrdTp3SI4fc+aLgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arVYJNtq; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ifY411/3mttOIU47phvp/StHzcMByNHzayOWsELZV/PoO6E7llYNnvwA+eRfxVpyKcCZj4CUJao3z77g0ox4G/kj9F3qkvzMKeF8+0Wu4jy1xs2zPu1V+y+yymP+90TzI2Icm4wEv01dMckcZRMYV4WLnWAbm9GlgAoL1Eoo1P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wrf2cE3z; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arVYJNtq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wrf2cE3z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746623319; x=1778159319;
+  t=1746623321; x=1778159321;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=31m/08ig0VfNkrMk4343Qa54/eWB+4Dem9Dww8wH3CU=;
-  b=arVYJNtqi6zeG6aX1ljtxCTP64+K48tCCVo855ugHDx+6mdsiBLb4ZbB
-   VfKA8rZTZ8ENNddm3AIStPLKoXSjFE3lJHCcSLw3uEMuQRVkrKv0xKU6s
-   fS1F2zgiVozJPn5O4kUf+wQGgDnMSWkMtMBYkoVcz6V+OIFGnoRqUS+uI
-   vLSPJqRFqEbjdGD6/vJBP9hZw9h+AbWXty0UR9GYnDNyG9nilHkrg4h+Q
-   mbr3oGwCVVxWToZjooEXM9eQySbRc+zePW1dswHP1ar2hWuScgcJfonMm
-   8GPRSUSGjxwMvazrlOxncTlCyz6Cup4/nUDdUZnlzhVlI6Tq4cjhupCup
-   g==;
-X-CSE-ConnectionGUID: hgYaOOZnSY+jwNeBc2rjvg==
-X-CSE-MsgGUID: Q2Mo68tDT7+hI3VSy7mt7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48464749"
+  bh=BWlsrVWi9tqUB9AsRruvwMCXBBv42ZvEG/xOgb6pQ5U=;
+  b=Wrf2cE3z6e1VdLWSgGvY/0NzSRhZSrICISDEeDJqicjcJNPKF4TNn1Gg
+   aDQigYGbNL2X5CE3kY4gLG2ZdAKgsZyeBhEn9seV8UPZmO5jTEkuv6aYL
+   JvjZOa2PxREOBRwrK8/yrKwYitvRz6lrstkCLLCR5n7a4hPYFbkM1XS15
+   LZS77UZ0qtRVT3qDEJD5PHtoRylXV28mXvTtCfn7D+V+iErTwIKikqp/g
+   6SjVnNN8TPzBnN9jXljXEEZkZO/Upg+7SYGwsssCzw95P2vqhiAEROkqF
+   zrQMb2ZK1zti034SvzYMOQKnJ+n422w+aOn2GTh/GCCvgfSb5FfO4YRBJ
+   A==;
+X-CSE-ConnectionGUID: Ux3LWUosTI+VA0q8tol5YQ==
+X-CSE-MsgGUID: 0WRM74jSQtGZJilh/oEMvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="70857358"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="48464749"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 06:08:38 -0700
-X-CSE-ConnectionGUID: HltUxPkLRcWZCdm3fng9Yg==
-X-CSE-MsgGUID: CMZrrmWdQwa00LnQwmKLqw==
+   d="scan'208";a="70857358"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 06:08:40 -0700
+X-CSE-ConnectionGUID: 6L2c996mTs2qEYraSTNyIg==
+X-CSE-MsgGUID: kf3L4qhkRUKV4eIqF4KmSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="140907169"
+   d="scan'208";a="140701672"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 May 2025 06:08:37 -0700
+  by orviesa003.jf.intel.com with ESMTP; 07 May 2025 06:08:37 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCeVn-0007qC-09;
-	Wed, 07 May 2025 13:08:35 +0000
-Date: Wed, 7 May 2025 21:08:14 +0800
+	id 1uCeVm-0007q4-2V;
+	Wed, 07 May 2025 13:08:34 +0000
+Date: Wed, 7 May 2025 21:08:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 6/7] memory: renesas-rpc-if: Add RZ/G3E xSPI support
-Message-ID: <202505072013.1EqwjtaR-lkp@intel.com>
-References: <20250424090000.136804-7-biju.das.jz@bp.renesas.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	himal.prasad.ghimiray@intel.com, apopple@nvidia.com,
+	airlied@gmail.com, Simona Vetter <simona.vetter@ffwll.ch>,
+	felix.kuehling@amd.com,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH 1/3] drm/gpusvm, drm/pagemap: Move migration
+ functionality to drm_pagemap
+Message-ID: <202505072016.4HmSIZT8-lkp@intel.com>
+References: <20250417105113.48831-2-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +73,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424090000.136804-7-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250417105113.48831-2-thomas.hellstrom@linux.intel.com>
 
-Hi Biju,
+Hi Thomas,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on krzk-mem-ctrl/for-next]
-[cannot apply to robh/for-next broonie-spi/for-next krzk-dt/for-next linus/master v6.15-rc5 next-20250507]
+[auto build test WARNING on next-20250417]
+[cannot apply to drm-xe/drm-xe-next drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes v6.15-rc2 v6.15-rc1 v6.14 v6.15-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-memory-Document-RZ-G3E-support/20250424-210301
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
-patch link:    https://lore.kernel.org/r/20250424090000.136804-7-biju.das.jz%40bp.renesas.com
-patch subject: [PATCH v5 6/7] memory: renesas-rpc-if: Add RZ/G3E xSPI support
-config: alpha-randconfig-r132-20250426 (https://download.01.org/0day-ci/archive/20250507/202505072013.1EqwjtaR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250507/202505072013.1EqwjtaR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-gpusvm-drm-pagemap-Move-migration-functionality-to-drm_pagemap/20250417-193413
+base:   next-20250417
+patch link:    https://lore.kernel.org/r/20250417105113.48831-2-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH 1/3] drm/gpusvm, drm/pagemap: Move migration functionality to drm_pagemap
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250507/202505072016.4HmSIZT8-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505072016.4HmSIZT8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505072013.1EqwjtaR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505072016.4HmSIZT8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/memory/renesas-rpc-if.c:1066:19: sparse: sparse: symbol 'rpcif_impl' was not declared. Should it be static?
->> drivers/memory/renesas-rpc-if.c:1075:19: sparse: sparse: symbol 'xspi_impl' was not declared. Should it be static?
-   drivers/memory/renesas-rpc-if.c: note: in included file (through arch/alpha/include/asm/core_cia.h, arch/alpha/include/asm/io.h, include/linux/io.h):
-   arch/alpha/include/asm/io_trivial.h:64:16: sparse: sparse: undefined identifier '__kernel_ldbu'
-   arch/alpha/include/asm/io_trivial.h:70:16: sparse: sparse: undefined identifier '__kernel_ldwu'
-   arch/alpha/include/asm/io_trivial.h:76:9: sparse: sparse: undefined identifier '__kernel_stb'
-   arch/alpha/include/asm/io_trivial.h:82:9: sparse: sparse: undefined identifier '__kernel_stw'
+All warnings (new ones prefixed by >>):
 
-vim +/rpcif_impl +1066 drivers/memory/renesas-rpc-if.c
+>> drivers/gpu/drm/drm_pagemap.c:653:7: warning: variable 'dev' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     653 |                 if (!page)
+         |                     ^~~~~
+   drivers/gpu/drm/drm_pagemap.c:683:34: note: uninitialized use occurs here
+     683 |         drm_pagemap_migrate_unmap_pages(dev, dma_addr, npages,
+         |                                         ^~~
+   drivers/gpu/drm/drm_pagemap.c:653:3: note: remove the 'if' if its condition is always false
+     653 |                 if (!page)
+         |                 ^~~~~~~~~~
+     654 |                         goto err_finalize;
+         |                         ~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_pagemap.c:602:20: note: initialize the variable 'dev' to silence this warning
+     602 |         struct device *dev;
+         |                           ^
+         |                            = NULL
+   1 warning generated.
 
-  1065	
-> 1066	struct rpcif_impl rpcif_impl = {
-  1067		.hw_init = rpcif_hw_init_impl,
-  1068		.prepare = rpcif_prepare_impl,
-  1069		.manual_xfer = rpcif_manual_xfer_impl,
-  1070		.dirmap_read = rpcif_dirmap_read_impl,
-  1071		.status_reg = RPCIF_CMNSR,
-  1072		.status_mask = RPCIF_CMNSR_TEND,
-  1073	};
-  1074	
-> 1075	struct rpcif_impl xspi_impl = {
-  1076		.hw_init = xspi_hw_init_impl,
-  1077		.prepare = xspi_prepare_impl,
-  1078		.manual_xfer = xspi_manual_xfer_impl,
-  1079		.dirmap_read = xspi_dirmap_read_impl,
-  1080		.status_reg = XSPI_INTS,
-  1081		.status_mask = XSPI_INTS_CMDCMP,
-  1082	};
-  1083	
+
+vim +653 drivers/gpu/drm/drm_pagemap.c
+
+   571	
+   572	/**
+   573	 * __drm_pagemap_migrate_to_ram() - Migrate a virtual range to RAM (internal)
+   574	 * @vas: Pointer to the VM area structure
+   575	 * @device_private_page_owner: Device private pages owner
+   576	 * @page: Pointer to the page for fault handling (can be NULL)
+   577	 * @fault_addr: Fault address
+   578	 * @size: Size of migration
+   579	 *
+   580	 * This internal function performs the migration of the specified GPU SVM range
+   581	 * to RAM. It sets up the migration, populates + dma maps RAM PFNs, and
+   582	 * invokes the driver-specific operations for migration to RAM.
+   583	 *
+   584	 * Returns:
+   585	 * 0 on success, negative error code on failure.
+   586	 */
+   587	static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
+   588						void *device_private_page_owner,
+   589						struct page *page,
+   590						unsigned long fault_addr,
+   591						unsigned long size)
+   592	{
+   593		struct migrate_vma migrate = {
+   594			.vma		= vas,
+   595			.pgmap_owner	= device_private_page_owner,
+   596			.flags		= MIGRATE_VMA_SELECT_DEVICE_PRIVATE |
+   597			MIGRATE_VMA_SELECT_DEVICE_COHERENT,
+   598			.fault_page	= page,
+   599		};
+   600		struct drm_pagemap_zdd *zdd;
+   601		const struct drm_pagemap_devmem_ops *ops;
+   602		struct device *dev;
+   603		unsigned long npages, mpages = 0;
+   604		struct page **pages;
+   605		dma_addr_t *dma_addr;
+   606		unsigned long start, end;
+   607		void *buf;
+   608		int i, err = 0;
+   609	
+   610		start = ALIGN_DOWN(fault_addr, size);
+   611		end = ALIGN(fault_addr + 1, size);
+   612	
+   613		/* Corner where VMA area struct has been partially unmapped */
+   614		if (start < vas->vm_start)
+   615			start = vas->vm_start;
+   616		if (end > vas->vm_end)
+   617			end = vas->vm_end;
+   618	
+   619		migrate.start = start;
+   620		migrate.end = end;
+   621		npages = npages_in_range(start, end);
+   622	
+   623		buf = kvcalloc(npages, 2 * sizeof(*migrate.src) + sizeof(*dma_addr) +
+   624			       sizeof(*pages), GFP_KERNEL);
+   625		if (!buf) {
+   626			err = -ENOMEM;
+   627			goto err_out;
+   628		}
+   629		dma_addr = buf + (2 * sizeof(*migrate.src) * npages);
+   630		pages = buf + (2 * sizeof(*migrate.src) + sizeof(*dma_addr)) * npages;
+   631	
+   632		migrate.vma = vas;
+   633		migrate.src = buf;
+   634		migrate.dst = migrate.src + npages;
+   635	
+   636		err = migrate_vma_setup(&migrate);
+   637		if (err)
+   638			goto err_free;
+   639	
+   640		/* Raced with another CPU fault, nothing to do */
+   641		if (!migrate.cpages)
+   642			goto err_free;
+   643	
+   644		if (!page) {
+   645			for (i = 0; i < npages; ++i) {
+   646				if (!(migrate.src[i] & MIGRATE_PFN_MIGRATE))
+   647					continue;
+   648	
+   649				page = migrate_pfn_to_page(migrate.src[i]);
+   650				break;
+   651			}
+   652	
+ > 653			if (!page)
+   654				goto err_finalize;
+   655		}
+   656		zdd = page->zone_device_data;
+   657		ops = zdd->devmem_allocation->ops;
+   658		dev = zdd->devmem_allocation->dev;
+   659	
+   660		err = drm_pagemap_migrate_populate_ram_pfn(vas, page, npages, &mpages,
+   661							   migrate.src, migrate.dst,
+   662							   start);
+   663		if (err)
+   664			goto err_finalize;
+   665	
+   666		err = drm_pagemap_migrate_map_pages(dev, dma_addr, migrate.dst, npages,
+   667						    DMA_FROM_DEVICE);
+   668		if (err)
+   669			goto err_finalize;
+   670	
+   671		for (i = 0; i < npages; ++i)
+   672			pages[i] = migrate_pfn_to_page(migrate.src[i]);
+   673	
+   674		err = ops->copy_to_ram(pages, dma_addr, npages);
+   675		if (err)
+   676			goto err_finalize;
+   677	
+   678	err_finalize:
+   679		if (err)
+   680			drm_pagemap_migration_unlock_put_pages(npages, migrate.dst);
+   681		migrate_vma_pages(&migrate);
+   682		migrate_vma_finalize(&migrate);
+   683		drm_pagemap_migrate_unmap_pages(dev, dma_addr, npages,
+   684						DMA_FROM_DEVICE);
+   685	err_free:
+   686		kvfree(buf);
+   687	err_out:
+   688	
+   689		return err;
+   690	}
+   691	
 
 -- 
 0-DAY CI Kernel Test Service
