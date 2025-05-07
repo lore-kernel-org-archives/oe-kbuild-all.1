@@ -1,59 +1,78 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D6B24635E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 09:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92182472A2;
+	Wed,  7 May 2025 09:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746609356; cv=none; b=BBiegN5Y2UnxxuLBoIU2h+tUH5JE6qxhIgsXgPTBGZNq327W2BWlfGqsBZom7Ea/2RFWqLtg2WKHG1JZ63CR+pJcS5s2HnCFPFmIOSZ6C+lEwJZ2qYtj+4u7fRtiUqEbc/b12gnACglEqrLP7ypcpY0bJJZXFdpQ7yqp1R4uUYE=
+	t=1746609358; cv=none; b=YdxeWNDvNC06IYGAikK3lRkDGP8f8HhFDr/YY/OahCBVzrCs/s7E4De2F5Z578zs0s/A38iIx8kVBSum85dmHU2sy/Q0t9M3wisVO1lyXWBhCG78+Izt5iCJRc4Rz7p0vhnBmi0A4wlWYUyA//sJnX/6xoUAiF4QhsVUazmGgVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746609356; c=relaxed/simple;
-	bh=TrYgKPzBrViWz8kE6APjKzCr6pn4oQZCtzDkQIZl5H0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e/VmrdAcwe6yfSiORc0ImzD8VEEKjNCOnE93CgXF9qvii/orxLHip4PaAM/V1quatw2axjEPRR8HyQpXxIoFU85SKfp5JfblOtFy9H6WoSFACxpuu3yi+7RrNwB/namZSd7XlFKnCAu05m7NGTxCc/NIbV5Lkc+uJb5ArTfPT6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VAK6BpW2; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1746609358; c=relaxed/simple;
+	bh=bOOav56FZimzUhF24N2AXUX+5EB9KykWAEnTyUrSAiQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pdFCCw1uPvevfHHqwDLPo/u0y1jj2Zmk9cm7X9WZuy8L6FseBZEZQwBRQh0berybD3/cUMu/MlgL5PQghjOVZS9S493KtqUcWx8K9QxCmJMPiX3mTYoWcupSxSwYlC4HMGwz7zaW45BETETq0LWqXtJ6jt3Yz+ZYk5hPJk/ZgCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eC38VwAx; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VAK6BpW2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eC38VwAx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746609355; x=1778145355;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TrYgKPzBrViWz8kE6APjKzCr6pn4oQZCtzDkQIZl5H0=;
-  b=VAK6BpW2ElnmC335fwHU0lCE/xIskUk7uoHq3S6p0ihKyfrV8PLsh4yY
-   69FaxK35C5Em/28zX0Jv38cFDcVZOd630J/hfUtzBoaZZYnZEMsOOAlsn
-   FSLZv92hxPiGZuqZRjR778zxgYHrrb72M33DNYaPaHEpr14R8h2C7uFh+
-   eiC3BKVdYNuGAJPnH5kdPeubM3NHw7C2KA90n8PQApwifTL9kCtakWFc9
-   aoUv+BOpOl/gifZfKXNaXaUHfw6KDO6KDFY2gEl4TsPG6rMhxq5SPBc/b
-   v5MwC90Kq2GVxiczpa/byNGFMi1OF6+Rfojhfd6MMsmHXSJMzQBz+K39L
-   A==;
-X-CSE-ConnectionGUID: +hvNYuzdSfuMevpfrXPQWg==
-X-CSE-MsgGUID: JA4lKlZvREGqEnA5M9SYwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="47426877"
+  t=1746609357; x=1778145357;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bOOav56FZimzUhF24N2AXUX+5EB9KykWAEnTyUrSAiQ=;
+  b=eC38VwAxbTRbBNSTzjfPVL+IU709Kda8Zh1y8CYHFTYVCuMcCvZAtisJ
+   AA2gX1zs4WnIaH0IfO2kC8WsxpNaMhKTtacWZZK46Vv++hQtB49ciFk7n
+   zAT4OEzkziQsQXkKcZuqmsMaTWOyqkzB75BjJWBoR6D5IAdpEwMjyVF9P
+   NXNyv4CqksNXPSKdZ5yO/ZASk5S/oAn1BAYHMTF5e0exChyK7f3X0wkxn
+   0KLpRf6BcPWRpRyPdCYRFWuf5CQqzDUPgLkS1n1S2RqoNzkzhXfTgugnA
+   5v4wczplPhQ13cNeRWVb6yIzFrwVHEeLtpus5ouvOXnhHF1pn20uBu0DC
+   w==;
+X-CSE-ConnectionGUID: 2T6NJj0dSqKvAIjzP/n42g==
+X-CSE-MsgGUID: 5yt274xCTiGZrtSGPUqQ5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="47426888"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="47426877"
+   d="scan'208";a="47426888"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 02:15:52 -0700
-X-CSE-ConnectionGUID: Jmyu8IZ2S/qpWT/lEQvj7A==
-X-CSE-MsgGUID: PXjkTUHATpq2/RWdWP9QxQ==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 02:15:56 -0700
+X-CSE-ConnectionGUID: iTH8TkjZQm2HDsMx/ybclw==
+X-CSE-MsgGUID: sO8jQgj7R8+sMnKf1/+BBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="140739203"
+   d="scan'208";a="140739232"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 07 May 2025 02:15:51 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCasX-0007U3-0N;
+	id 1uCasX-0007U1-0K;
 	Wed, 07 May 2025 09:15:49 +0000
-Date: Wed, 7 May 2025 17:15:46 +0800
+Date: Wed, 7 May 2025 17:15:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bigeasy-staging:futex_local_v12 14/21]
- include/linux/rcupdate.h:555:36: error: dereferencing pointer to incomplete
- type 'struct futex_private_hash'
-Message-ID: <202505071703.082qq5RF-lkp@intel.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>,
+	Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Oleksij Rempel <o.rempel@pengutronix.de>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v9 3/7] power: reset: Introduce PSCR Recording Framework
+ for Non-Volatile Storage
+Message-ID: <202505071649.g96zqzTU-lkp@intel.com>
+References: <20250422085717.2605520-4-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,102 +81,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250422085717.2605520-4-o.rempel@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git futex_local_v12
-head:   81ec9cc1b38f44c4364df62c7b8985c90a983904
-commit: 0753221e1dc684b7178a80ed444f9d1b9e79515e [14/21] futex: Allow to resize the private local hash
-config: sparc64-randconfig-r051-20250428 (https://download.01.org/0day-ci/archive/20250507/202505071703.082qq5RF-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071703.082qq5RF-lkp@intel.com/reproduce)
+Hi Oleksij,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sre-power-supply/for-next]
+[also build test WARNING on broonie-regulator/for-next chrome-platform/for-next chrome-platform/for-firmware-next linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/power-Extend-power_on_reason-h-for-upcoming-PSCRR-framework/20250422-170711
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20250422085717.2605520-4-o.rempel%40pengutronix.de
+patch subject: [PATCH v9 3/7] power: reset: Introduce PSCR Recording Framework for Non-Volatile Storage
+config: hexagon-randconfig-r113-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071649.g96zqzTU-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071649.g96zqzTU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071703.082qq5RF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071649.g96zqzTU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/power/reset/pscrr.c:81:3: sparse: sparse: symbol 'g_pscrr' was not declared. Should it be static?
 
-   In file included from ./arch/sparc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:390,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bits.h:22,
-                    from include/linux/gfp_types.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:16,
-                    from kernel/fork.c:16:
-   include/linux/futex.h: In function 'futex_mm_init':
->> include/linux/rcupdate.h:555:36: error: dereferencing pointer to incomplete type 'struct futex_private_hash'
-    #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
-                                       ^~~~
-   include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
-     *(volatile typeof(x) *)&(x) = (val);    \
-                                    ^~~
-   arch/sparc/include/asm/barrier_64.h:45:2: note: in expansion of macro 'WRITE_ONCE'
-     WRITE_ONCE(*p, v);      \
-     ^~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-                                                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:596:3: note: in expansion of macro 'smp_store_release'
-      smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
-      ^~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:596:25: note: in expansion of macro 'RCU_INITIALIZER'
-      smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
-                            ^~~~~~~~~~~~~~~
-   include/linux/futex.h:88:2: note: in expansion of macro 'rcu_assign_pointer'
-     rcu_assign_pointer(mm->futex_phash, NULL);
-     ^~~~~~~~~~~~~~~~~~
-   kernel/fork.c: In function '__do_sys_clone3':
-   kernel/fork.c:3159:2: warning: #warning clone3() entry point is missing, please fix [-Wcpp]
-    #warning clone3() entry point is missing, please fix
-     ^~~~~~~
---
-   In file included from ./arch/sparc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:390,
-                    from arch/sparc/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from kernel/exit.c:8:
-   include/linux/futex.h: In function 'futex_mm_init':
->> include/linux/rcupdate.h:555:36: error: dereferencing pointer to incomplete type 'struct futex_private_hash'
-    #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
-                                       ^~~~
-   include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
-     *(volatile typeof(x) *)&(x) = (val);    \
-                                    ^~~
-   arch/sparc/include/asm/barrier_64.h:45:2: note: in expansion of macro 'WRITE_ONCE'
-     WRITE_ONCE(*p, v);      \
-     ^~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-    #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-                                                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:596:3: note: in expansion of macro 'smp_store_release'
-      smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
-      ^~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:596:25: note: in expansion of macro 'RCU_INITIALIZER'
-      smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
-                            ^~~~~~~~~~~~~~~
-   include/linux/futex.h:88:2: note: in expansion of macro 'rcu_assign_pointer'
-     rcu_assign_pointer(mm->futex_phash, NULL);
-     ^~~~~~~~~~~~~~~~~~
+vim +/g_pscrr +81 drivers/power/reset/pscrr.c
 
-
-vim +555 include/linux/rcupdate.h
-
-ca5ecddfa8fcbd Paul E. McKenney 2010-04-28  550  
-462225ae47d717 Paul E. McKenney 2013-11-11  551  /**
-462225ae47d717 Paul E. McKenney 2013-11-11  552   * RCU_INITIALIZER() - statically initialize an RCU-protected global variable
-462225ae47d717 Paul E. McKenney 2013-11-11  553   * @v: The value to statically initialize with.
-462225ae47d717 Paul E. McKenney 2013-11-11  554   */
-462225ae47d717 Paul E. McKenney 2013-11-11 @555  #define RCU_INITIALIZER(v) (typeof(*(v)) __force __rcu *)(v)
-462225ae47d717 Paul E. McKenney 2013-11-11  556  
-
-:::::: The code at line 555 was first introduced by commit
-:::::: 462225ae47d7175f886281d8a91708550cd5178c rcu: Add an RCU_INITIALIZER for global RCU-protected pointers
-
-:::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+    74	
+    75	struct pscrr_core {
+    76		struct mutex lock;
+    77		struct pscrr_backend *backend;
+    78		/* Kobject for sysfs */
+    79		struct kobject *kobj;
+    80		struct notifier_block reboot_nb;
+  > 81	} g_pscrr = {
+    82		.lock = __MUTEX_INITIALIZER(g_pscrr.lock),
+    83	};
+    84	
 
 -- 
 0-DAY CI Kernel Test Service
