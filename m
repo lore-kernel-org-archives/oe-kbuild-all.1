@@ -1,43 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850BEBA38;
-	Wed,  7 May 2025 02:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F2AFBF6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 04:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746584814; cv=none; b=LgovH1RMiIsSWu7cscWDieXRQnyT/RXTbxpWM0H1cQYRHe8ftd/M+skUfEu5kR7W3OFfUAsuSneb/HxzRHqxDYav+FMvuiSJm8BHGJodR2xgve7K6Rm3EO+raNQzgVgkzlFsEo9A5EDiBYFPPJlw8W+kC6m40PMMjdCOQLbeCmo=
+	t=1746591893; cv=none; b=n+yBlXtJDnUQS59QkYYW1uYd1YSIu2doZZH0EFcN7k8mukQx/Iq6vjtLixg0pnzEWz5FliAMAq8g3n+GHB8HyMIUtsg+4VroRv3UIYh33rrpysSNjEkwoAgdwKxmAWlaGLQV4TTqsV5ueqjAL+GPIcYbxPmb/MJk8DI2bmggMow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746584814; c=relaxed/simple;
-	bh=9O0zUCr+PtnPFBrs+m4E7esrzXv5EOi0g1Cj9zzAH88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tr2b0FSYk6mgoMMWnt9YFAMUtOZCkQxP/amZ7+fqhA2FJ5SLGnkAZPV6ARWBhaeS2GZ9cKW0a++7fGwtdNrx9OhIcpFRON36X0nUOcDYy1DDlVHg9uvOJNxELUbyZszuTfStfAvzPckszHrL6Qy2l6pPSdZR+0jiFHDzWxPgGsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DYkV+pvf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746591893; c=relaxed/simple;
+	bh=4RzgA7yY3Y68W/6Q7qpQeOeQxRW7Kqs5VEbBYrYK1nw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KKc9C7nPWInP1pWytZJo232RVmfieKzcvnj6auDIA/AR8q4k9SgcmiMvUPHZ6RG1c+ZzuyGpwLnSThlfPeM95q3QDUHufuepg7rBGoHOnkJFsW1/N/oggpORsDbBjDv4IC92E+1bVGfFCRImiUL2Xko9nqS47k5DTsf7xAY9gw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cHASDUQs; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYkV+pvf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 755FEC4CEE4;
-	Wed,  7 May 2025 02:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746584814;
-	bh=9O0zUCr+PtnPFBrs+m4E7esrzXv5EOi0g1Cj9zzAH88=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DYkV+pvfBrXXXMs9PFqvY/3WeNwU2T5foeWcI9XbWMDJk6PGjUjaghUfitNCwgLvV
-	 tps8SfMwbBktPjrwozZF6vwvRjpG14DxAM7f3IkjmWr6v29P4kkmZ/FQGtlWfvW3Z/
-	 5b9eomhd/zpWh22u3gT3NGODYMSaPr8JD5A9GynyNO8udh1ecw2c6BmCrlFWiaK/vm
-	 P4dn4VSBbulJvDjfnaux/V79FaIMtPIpIAikM0FNQCnin/GbTgWrudBEreIJibBEFQ
-	 Mng3MuLhgpEvHB1n2WCVmHK/xNUcg87dfysi2IiiNs/3gMw+A3Ctz2LxPptmWQOfst
-	 zLAYJfhmT5faw==
-Date: Tue, 6 May 2025 19:26:49 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>, arnd@arndb.de
-Subject: Re: error: arch/x86/include/asm/mshyperv.h:108:2: ran out of
- registers during register allocation in function
- 'hyperv_flush_guest_mapping'
-Message-ID: <20250507022649.GA1984217@ax162>
-References: <202505070733.osOoFQSe-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cHASDUQs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746591892; x=1778127892;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4RzgA7yY3Y68W/6Q7qpQeOeQxRW7Kqs5VEbBYrYK1nw=;
+  b=cHASDUQsI+4W2t2RWike5CxFu+dgxjCtUg9PRAYsBvurKtnIffuLblfn
+   nH0FLF50h13xNESGXBFtrEZIFMm8/QCeyhndLNR0FgIPBtv4cFneZAnkU
+   DEshqZ2F56vvQi1vdWf+NaPxXASxKpGiuNINwRrH+lgOolgk2wBOPqhT3
+   jUOnfDRhbshi+tf7p/nU4ZgIUG2NQs4XKuCuVakKIpqXApODt6UpmHaQa
+   2Y1vXa1+hpBsokePm4XlPlurAehhV737+p0YOP55w+pLsWMte4FYdP6HM
+   i2EBB1qVoEIqkq5H7BcCrvhy177WzCyNaE3eGsTQEoayEjhVfhfqSLNN1
+   A==;
+X-CSE-ConnectionGUID: smRHv2uSTgaXRnTwaDLbrw==
+X-CSE-MsgGUID: LkU+WvxTSkCVvL5KLThoiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48172495"
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="48172495"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 21:24:51 -0700
+X-CSE-ConnectionGUID: WEJ0j6H5RMOrmOPUwWugkQ==
+X-CSE-MsgGUID: Hm2MeDl0TAaPD9DpIj/amQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="135831902"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 06 May 2025 21:24:50 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCWKt-00072b-2f;
+	Wed, 07 May 2025 04:24:47 +0000
+Date: Wed, 7 May 2025 12:24:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 2/2] kismet: WARNING: unmet direct
+ dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by
+ GKI_HIDDEN_DMA_CONFIGS
+Message-ID: <202505071212.qprm7MR5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,52 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202505070733.osOoFQSe-lkp@intel.com>
 
-+ Arnd
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   3d5bad71a79830f131d55d077053e1e8993f2f6d
+commit: 194fc9ea8a50fa11e9b03bf04449614fc79be59a [2/2] ANDROID: GKI: enable hidden configs for DMA
+config: i386-kismet-CONFIG_ASYNC_TX_ENABLE_CHANNEL_SWITCH-CONFIG_GKI_HIDDEN_DMA_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250507/202505071212.qprm7MR5-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071212.qprm7MR5-lkp@intel.com/reproduce)
 
-On Wed, May 07, 2025 at 07:43:06AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0d8d44db295ccad20052d6301ef49ff01fb8ae2d
-> commit: cacd22ce69585a91c386243cd662ada962431e63 kbuild: make all file references relative to source root
-> date:   6 weeks ago
-> config: i386-buildonly-randconfig-006-20250506 (https://download.01.org/0day-ci/archive/20250507/202505070733.osOoFQSe-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505070733.osOoFQSe-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505070733.osOoFQSe-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> error: arch/x86/include/asm/mshyperv.h:108:2: ran out of registers during register allocation in function 'hyperv_flush_guest_mapping'
-> >> error: arch/x86/include/asm/mshyperv.h:108:2: ran out of registers during register allocation in function 'hyperv_flush_guest_mapping_range'
->    2 errors generated.
-> --
-> >> error: arch/x86/include/asm/mshyperv.h:108:2: ran out of registers during register allocation in function 'hv_get_partition_id'
->    1 error generated.
-> --
-> >> error: arch/x86/include/asm/mshyperv.h:108:2: ran out of registers during register allocation in function 'hv_unmap_ioapic_interrupt'
-> >> error: arch/x86/include/asm/mshyperv.h:108:2: ran out of registers during register allocation in function 'hv_map_ioapic_interrupt'
->    2 errors generated.
-> --
-> >> error: arch/x86/include/asm/mshyperv.h:108:2: ran out of registers during register allocation in function 'hyperv_flush_tlb_multi'
->    1 error generated.
-> --
-> >> error: arch/x86/include/asm/mshyperv.h:108:2: ran out of registers during register allocation in function 'hv_post_message'
->    1 error generated.
-> --
-> >> error: arch/x86/include/asm/mshyperv.h:108:2: ran out of registers during register allocation in function 'hv_query_ext_cap'
->    1 error generated.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071212.qprm7MR5-lkp@intel.com/
 
-This configuration has CONFIG_MATOM=y, which does not really work well
-with clang for this reason and some others that have come up in the
-past. Given it is likely that nobody will care enough to fix this on the
-LLVM side (since it is 32-bit), we should probably just block using
-MATOM with CC_IS_CLANG, which Arnd and I had talked about at the last
-ClangBuiltLinux meeting.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by GKI_HIDDEN_DMA_CONFIGS
+   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
+     Depends on [n]: DMADEVICES [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_DMA_CONFIGS [=y]
 
-Cheers,
-Nathan
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
