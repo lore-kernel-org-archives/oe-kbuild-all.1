@@ -1,71 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815592153D2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E0E1B808
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746613598; cv=none; b=SQm2e3olcHP9lgzYQjo9gdt9wP0kpMXYrHLlpUKA530Z7/gjq8J6UdCvD0IuhKjUEZR+m9NyLiRGwVhRoX92DPwAunyCKwf2/XLefq02jdSJq/LxfbycBVy6lWg2n4/Bt4hjnR/AswJGmUqmg7g4DPiIqSDBDYpGUjTXLJ8+JuU=
+	t=1746614180; cv=none; b=th9vUpUcu3YBs9jeHyfw5WfhxPcrCmGBVeHKc/RfHwWUfXpqbBBrxSz3GqsHZlUv1aQTjNco0AGWd42fYX3BUZAmkjbRoiJhPIwnSTbi2gyeHDZUd4UTejEBOkuNqfZ0VVvH/WozlitUU5vgpJTMOsXRsT3BKfiTSD+nZ2nlOkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746613598; c=relaxed/simple;
-	bh=VMDAaRv49Pn2CU3Twm7LhYZwvYteakniDBT4Tl3skVQ=;
+	s=arc-20240116; t=1746614180; c=relaxed/simple;
+	bh=+5rZG+/VNvfdN+SHsJYoUKfRt7JTdAwPzAikCSXr6rI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZO+H2uy2uV/LWe92EQhKcokrNERayN4nkmi2ES2b8eglF4ymyP/1l7eT0Tku3yYUloxslyKiXMXLKqt+M/g9kzrpQ5a3gnSBkoT3kYLK5/Mcf78UX/h615E4VKuafcipS3f0tAktsgzdt41Lw3+v4onabKgrY9k32lvg0ItwYM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXyaNU4Q; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9sZU0VfixUqcmnKWg+xFTzHfwVyzTgW4MsDfcJpBT4odNwfRXjcwZSLtTyTC5Loyu1VSVXbKcXa+oKCWn3pEgDq7OAkpcB1JVkaMYCP/1mmO2Wb5kazsYkK+i64AN28u0feTt+FQcDBhTwoV3NIzZqU8i6B3oRZmCVxCQIKfJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJllGRhy; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXyaNU4Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJllGRhy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746613596; x=1778149596;
+  t=1746614179; x=1778150179;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VMDAaRv49Pn2CU3Twm7LhYZwvYteakniDBT4Tl3skVQ=;
-  b=lXyaNU4QeetnQqinNtXpl3bHwnZCI+hnmyEhmw4DKwLaxYZkSG2lDnh7
-   MRiSXjgPnNgRiyg2OwAJH/ZWQO0qKKRpRy9QPT5wlHa72b7x9uqAkKq/K
-   doc/MdT4N4jKVnGdU/okRw5CSm6BcNf4A8mDIB+HAgt5DU7z56yFzhhAw
-   zW+A6QyuWQtkASSHW7DPsOdsIuUVrF01fnuuLLFHnXSSTRvfYiu9Jtktv
-   u5LgwJuXTtywArmoOXcc4Cp/rbcelksEs0cMc2XMHU7k99D9LDm+H/+wB
-   j+FGHxbq8l/dTyqlRcRE0x2mKAZDH548b1uQQn7aTMU+eodTKP+jeVrkC
-   Q==;
-X-CSE-ConnectionGUID: GGINNEbZQZ2yUQdCVvQzCg==
-X-CSE-MsgGUID: YKvYuz4sSRyTMKUfLuAoHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48484157"
+  bh=+5rZG+/VNvfdN+SHsJYoUKfRt7JTdAwPzAikCSXr6rI=;
+  b=RJllGRhy34UOz17Bqno7agYp5fmLKBAak3MSg+YjlZaiuQLD3dkheKc9
+   USDUPTJD8XY3VQ/kYvdKT0IRf/NjY8Hev8jhrli8dnPC2TQWx86DfQSEf
+   /K3rFiHB3g9KWtarPSKu+KymVlqVabgwLUoieyIoADBDOZKQOvl+IDRWE
+   nDeoyYEMDG2vLrw+Q5OfeZaSmzyPh4yNF70B+YQh8QkZBFa6H/age7e1b
+   sBaNNQXW4MeBthSDi97R/NqGgb6vh+mYlU2sop9Jutk9SZP3TUTqrqk3P
+   T8qgtKPqUOR+utMnsXOrxP4YgYrfHrtBe0eMdOkwy2q/nMcZjYRmJ8HMc
+   A==;
+X-CSE-ConnectionGUID: xV/4Z6UvTEGhbj5tM52DfQ==
+X-CSE-MsgGUID: dW1+jczSSniI+1n7At/pOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58965681"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="48484157"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:26:16 -0700
-X-CSE-ConnectionGUID: /VK66a+1TXKIlUWEgTMI3w==
-X-CSE-MsgGUID: JaCHj4UKRg6O+yu8ewa7WA==
+   d="scan'208";a="58965681"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:36:18 -0700
+X-CSE-ConnectionGUID: S2v7VjctTiub4ml4VA950Q==
+X-CSE-MsgGUID: RPf2npvlQL6qW5gqzv/DGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="135819761"
+   d="scan'208";a="135630664"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 03:26:13 -0700
+  by orviesa009.jf.intel.com with ESMTP; 07 May 2025 03:36:15 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCbyc-0007av-1f;
-	Wed, 07 May 2025 10:26:10 +0000
-Date: Wed, 7 May 2025 18:25:32 +0800
+	id 1uCc8L-0007c5-16;
+	Wed, 07 May 2025 10:36:13 +0000
+Date: Wed, 7 May 2025 18:35:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Dhaval Giani (AMD)" <dhaval@gianis.ca>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dhaval Giani <dhaval.giani@amd.com>,
-	Gautham Shenoy <gautham.shenoy@amd.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Dhaval Giani (AMD)" <dhaval@gianis.ca>
-Subject: Re: [PATCH 2/3] sched/fair: Add a test to test that a task selected
- to run has positive lag
-Message-ID: <202505071826.dQRr4AyC-lkp@intel.com>
-References: <20250422-b4-eevdf-tests-v1-post-v1-2-35d158254c72@gianis.ca>
+To: Gustavo Silva <gustavograzs@gmail.com>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Gustavo Silva <gustavograzs@gmail.com>
+Subject: Re: [PATCH 1/3] iio: imu: bmi270: add channel for step counter
+Message-ID: <202505071850.e6YE0Jm9-lkp@intel.com>
+References: <20250424-bmi270-events-v1-1-a6c722673e5f@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,40 +69,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422-b4-eevdf-tests-v1-post-v1-2-35d158254c72@gianis.ca>
+In-Reply-To: <20250424-bmi270-events-v1-1-a6c722673e5f@gmail.com>
 
-Hi Dhaval,
+Hi Gustavo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on c70fc32f44431bb30f9025ce753ba8be25acbba3]
+[auto build test ERROR on b475195fecc79a1a6e7fb0846aaaab0a1a4cb2e6]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dhaval-Giani-AMD/sched-fair-Introduce-a-new-debugfs-directory-for-EEVDF-tests/20250423-082221
-base:   c70fc32f44431bb30f9025ce753ba8be25acbba3
-patch link:    https://lore.kernel.org/r/20250422-b4-eevdf-tests-v1-post-v1-2-35d158254c72%40gianis.ca
-patch subject: [PATCH 2/3] sched/fair: Add a test to test that a task selected to run has positive lag
-config: mips-randconfig-r121-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071826.dQRr4AyC-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071826.dQRr4AyC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gustavo-Silva/iio-imu-bmi270-add-channel-for-step-counter/20250425-081720
+base:   b475195fecc79a1a6e7fb0846aaaab0a1a4cb2e6
+patch link:    https://lore.kernel.org/r/20250424-bmi270-events-v1-1-a6c722673e5f%40gmail.com
+patch subject: [PATCH 1/3] iio: imu: bmi270: add channel for step counter
+config: csky-randconfig-r071-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071850.e6YE0Jm9-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071850.e6YE0Jm9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071826.dQRr4AyC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071850.e6YE0Jm9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/eevdf-tests.c:24:6: sparse: sparse: symbol 'eevdf_positive_lag_test' was not declared. Should it be static?
->> kernel/sched/eevdf-tests.c:25:4: sparse: sparse: symbol 'eevdf_positive_lag_count' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/eevdf_positive_lag_test +24 kernel/sched/eevdf-tests.c
+   In file included from <command-line>:
+   In function 'bmi270_update_feature_reg',
+       inlined from 'bmi270_enable_steps' at drivers/iio/imu/bmi270/bmi270_core.c:361:8,
+       inlined from 'bmi270_write_raw' at drivers/iio/imu/bmi270/bmi270_core.c:707:10:
+>> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_399' declared with attribute error: BUILD_BUG failed
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^~~~~~~~~~~~~~~~
+   arch/csky/include/asm/cmpxchg.h:151:17: note: in expansion of macro 'BUILD_BUG'
+     151 |                 BUILD_BUG();                                    \
+         |                 ^~~~~~~~~
+   arch/csky/include/asm/cmpxchg.h:157:10: note: in expansion of macro '__cmpxchg'
+     157 |         (__cmpxchg((ptr), (o), (n), sizeof(*(ptr))))
+         |          ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:367:19: note: in expansion of macro 'try_cmpxchg'
+     367 |         } while (!try_cmpxchg(ptr, &old__, new__));             \
+         |                   ^~~~~~~~~~~
+   drivers/iio/imu/bmi270/bmi270_core.c:348:9: note: in expansion of macro 'set_mask_bits'
+     348 |         set_mask_bits(&reg_val, mask, val);
+         |         ^~~~~~~~~~~~~
+   In function 'bmi270_update_feature_reg',
+       inlined from 'bmi270_write_raw' at drivers/iio/imu/bmi270/bmi270_core.c:715:10:
+>> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_399' declared with attribute error: BUILD_BUG failed
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^~~~~~~~~~~~~~~~
+   arch/csky/include/asm/cmpxchg.h:151:17: note: in expansion of macro 'BUILD_BUG'
+     151 |                 BUILD_BUG();                                    \
+         |                 ^~~~~~~~~
+   arch/csky/include/asm/cmpxchg.h:157:10: note: in expansion of macro '__cmpxchg'
+     157 |         (__cmpxchg((ptr), (o), (n), sizeof(*(ptr))))
+         |          ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+      55 | #define raw_cmpxchg arch_cmpxchg
+         |                     ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:192:16: note: in expansion of macro 'raw_cmpxchg'
+     192 |         ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4880:9: note: in expansion of macro 'raw_try_cmpxchg'
+    4880 |         raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:367:19: note: in expansion of macro 'try_cmpxchg'
+     367 |         } while (!try_cmpxchg(ptr, &old__, new__));             \
+         |                   ^~~~~~~~~~~
+   drivers/iio/imu/bmi270/bmi270_core.c:348:9: note: in expansion of macro 'set_mask_bits'
+     348 |         set_mask_bits(&reg_val, mask, val);
+         |         ^~~~~~~~~~~~~
 
-    20	
-    21	/*
-    22	 * Test parameters
-    23	 */
-  > 24	bool eevdf_positive_lag_test;
-  > 25	u8 eevdf_positive_lag_count = 10;
-    26	
+
+vim +/__compiletime_assert_399 +557 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
 
 -- 
 0-DAY CI Kernel Test Service
