@@ -1,71 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E82201266
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 10:01:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B111F8EFA;
+	Wed,  7 May 2025 10:01:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746612072; cv=none; b=aRh7COTRdPp4hVJwv/gaa6jAFSmGWAZyH/4WMx0hxsFwFVoeczmoc0ZkAV4+vUBjfTbqkG/6lvxbnVmXUwWq/lm0exyTNC/TZ+u1Dn4sKoKQ/9WpKZTDxAzhi+Y8YAPbtX8b55EbNdMhJqqASsOq/M7GG4SM2A4dLRbokd7RXcI=
+	t=1746612072; cv=none; b=Nzll5N6xJrUoDFY0pTsuBBhovFgOs16CwCvZ/EP6uhQ0nfRy6pxFAjjGoZnPqR9lj2hC3imT8X+eukRkQiqLF9US5qUdr9HOOcOUSMcbFqFkfaOGGZn5AFOazdNkoAGkzg9m4ffevgTGWweImcOAnf2bcFNmzbPhjV6NJl02emc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746612072; c=relaxed/simple;
-	bh=GMl2/nllLTvuFU2hTjd7xVW+BOWo5nIf+NLQjpJAYv0=;
+	bh=zs1SYKT6lv/EHt5palXhPJ9VMYIN0/AXuAq54Q0W+4Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OF/TUvACTPGSRgJmuuMvGmVjPYQR6FLYdHFg5oqfvhOlWp+C+6QBGmuZ2ShaeGTHb3xonhRTbJCG75o9x4aAqQcD4WGymz2PXvLK6AbDYpdQH0kYhpKE+gpaX7zMwDbC/U5C3J0Lri0kxpCuOsIZ57soC0XczM+iMOi34Uzb1SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwcLj89V; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=LoT/jzLyacyL5Q1PbJ9EdfltDchzMIbkFpxNrVyE1f1Buu4nvGs2i1kBbjcAFDWoBMMhJ1yLM9PsKA3sUJTlqdABn8JClOHION5laJ2djil+54wzh/CLQKENexF+rQKzfgrTqlc8yAqls23hqAv/jOBdQ0LMpZd45wOqllqViWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RsyTmuvq; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwcLj89V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RsyTmuvq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746612071; x=1778148071;
+  t=1746612069; x=1778148069;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GMl2/nllLTvuFU2hTjd7xVW+BOWo5nIf+NLQjpJAYv0=;
-  b=cwcLj89VGaMTlT3mplvxMj0XbRrt8F03UaOPNv46VrUYRBzgdyftRMM2
-   ps+Tu3buFypokf/ylvqssXKnOol+fjRD3sOQfxJKXyHzJoFr2UH8SpxMX
-   dC1COFcEtOSSmynfP5BmhKxTbz6+t+Xk03nWWpIn6PPgWNYP6tLL4G9LP
-   ouh70/nOf7zbBomy3Xq2SUq6k63mTwfgO+03gtH+R9GlKDJd5/ISAdv0O
-   vrgohrmOD39r43+XpINM7WMMLLqJaVzf0wQxqgq7b4kSyOXrsSN2wcZDJ
-   GqqhS7jx/05jBKqmxi4lGo8kHXIV45Zs1j3ykh7KII9mTWHPvwlF21GI1
+  bh=zs1SYKT6lv/EHt5palXhPJ9VMYIN0/AXuAq54Q0W+4Q=;
+  b=RsyTmuvqLnYykY740RpidH4V/2iXnp/IAshZBuJMLPFJcftE1FriUw2E
+   wlMaSpW0IUIO0JbSnqSA+TkqvI/TXoyLkikZJtoxyjksiy3LQq05deVIE
+   Wtpf7fq9Kls720vx5a7E1RAzVrGzGEx7QjUelIMzNVFOwJ7wAD+eYbo+G
+   DqoGDsEKHTgwflM8wX10mA5B2ywX81T2WjArr4N9b0JemMOilBXkDgV4E
+   7wyHlSkJYHGSNy3wkLBsZDi5exFmwzUGPW6/pw4W8eE4c9bDuHIe+EoRz
+   XiYd5jTKDEJkLb5latazyHH32ciXxTt9cbZwZ8YCJIudilCoSe2ywFKw8
    w==;
-X-CSE-ConnectionGUID: S6Spjg8dTNaYuVCbsQnfkg==
-X-CSE-MsgGUID: jVT48by2RxWmb26drkm05g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58527564"
+X-CSE-ConnectionGUID: W0LJ5GioQ+iX6xvvtl/hlg==
+X-CSE-MsgGUID: wmQUtpmsSXOjlohktbHSXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58527552"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="58527564"
+   d="scan'208";a="58527552"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:01:10 -0700
-X-CSE-ConnectionGUID: QXf8ZYXiSlSxK6s2i3mBtw==
-X-CSE-MsgGUID: vUnijq95T02E8uoSlp/6Vw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:01:08 -0700
+X-CSE-ConnectionGUID: JSsk2riqRCqSl8SPZprJdg==
+X-CSE-MsgGUID: 0jgR7Dl5Q8u7mmmb2p9Msg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="159199367"
+   d="scan'208";a="159199341"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 03:01:04 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCbaH-0007YN-37;
+	id 1uCbaH-0007YL-32;
 	Wed, 07 May 2025 10:01:01 +0000
-Date: Wed, 7 May 2025 18:00:14 +0800
+Date: Wed, 7 May 2025 18:00:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: shiju.jose@huawei.com, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bp@alien8.de, rafael@kernel.org,
-	tony.luck@intel.com, lenb@kernel.org, leo.duran@amd.com,
-	Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	jonathan.cameron@huawei.com, linux-mm@kvack.org,
-	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com,
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-	duenwen@google.com, gthelen@google.com,
-	wschwartz@amperecomputing.com, dferguson@amperecomputing.com,
-	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
-	tanxiaofei@huawei.com
-Subject: Re: [PATCH v4 2/3] ACPI:RAS2: Add ACPI RAS2 driver
-Message-ID: <202505071717.QhRmXFUq-lkp@intel.com>
-References: <20250423163511.1412-3-shiju.jose@huawei.com>
+To: Nick Chan <towinchenmi@gmail.com>, Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>
+Cc: oe-kbuild-all@lists.linux.dev, Marc Zyngier <maz@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nick Chan <towinchenmi@gmail.com>
+Subject: Re: [PATCH RESEND v6 03/21] drivers/perf: apple_m1: Support
+ per-implementation event tables
+Message-ID: <202505071747.2b2WEajY-lkp@intel.com>
+References: <20250429-apple-cpmu-v6-3-ed21815f0c3f@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,140 +74,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250423163511.1412-3-shiju.jose@huawei.com>
+In-Reply-To: <20250429-apple-cpmu-v6-3-ed21815f0c3f@gmail.com>
 
-Hi,
+Hi Nick,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on linus/master v6.15-rc5]
-[cannot apply to rafael-pm/bleeding-edge next-20250506]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 0af2f6be1b4281385b618cb86ad946eded089ac8]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/ACPI-ACPI-6-5-RAS2-Rename-RAS2-table-structure-and-field-names/20250424-003740
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250423163511.1412-3-shiju.jose%40huawei.com
-patch subject: [PATCH v4 2/3] ACPI:RAS2: Add ACPI RAS2 driver
-config: riscv-randconfig-r112-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071717.QhRmXFUq-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071717.QhRmXFUq-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Chan/dt-bindings-arm-pmu-Add-Apple-A7-A11-SoC-CPU-PMU-compatibles/20250429-114920
+base:   0af2f6be1b4281385b618cb86ad946eded089ac8
+patch link:    https://lore.kernel.org/r/20250429-apple-cpmu-v6-3-ed21815f0c3f%40gmail.com
+patch subject: [PATCH RESEND v6 03/21] drivers/perf: apple_m1: Support per-implementation event tables
+config: arm64-randconfig-004-20250501 (https://download.01.org/0day-ci/archive/20250507/202505071747.2b2WEajY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071747.2b2WEajY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071717.QhRmXFUq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071747.2b2WEajY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/acpi/ras2.c:143:61: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct acpi_ras2_shmem *gen_comm_base @@     got struct acpi_ras2_shmem [noderef] __iomem *comm_addr @@
-   drivers/acpi/ras2.c:143:61: sparse:     expected struct acpi_ras2_shmem *gen_comm_base
-   drivers/acpi/ras2.c:143:61: sparse:     got struct acpi_ras2_shmem [noderef] __iomem *comm_addr
->> drivers/acpi/ras2.c:193:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned short * @@
-   drivers/acpi/ras2.c:193:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/ras2.c:193:9: sparse:     got unsigned short *
-   drivers/acpi/ras2.c:196:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned short * @@
-   drivers/acpi/ras2.c:196:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/ras2.c:196:9: sparse:     got unsigned short *
+All warnings (new ones prefixed by >>):
 
-vim +143 drivers/acpi/ras2.c
+   include/linux/bits.h:34:2: note: (near initialization for 'm1_pmu_event_affinity[248]')
+      34 |  (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |  ^
+   drivers/perf/apple_m1_cpu_pmu.c:27:23: note: in expansion of macro 'GENMASK'
+      27 | #define ONLY_2_TO_7   GENMASK(7, 2)
+         |                       ^~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:163:35: note: in expansion of macro 'ONLY_2_TO_7'
+     163 |  [M1_PMU_PERFCTR_UNKNOWN_f8]    = ONLY_2_TO_7,
+         |                                   ^~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:28:22: warning: initialized field overwritten [-Woverride-init]
+      28 | #define ONLY_2_4_6   (BIT(2) | BIT(4) | BIT(6))
+         |                      ^
+   drivers/perf/apple_m1_cpu_pmu.c:164:35: note: in expansion of macro 'ONLY_2_4_6'
+     164 |  [M1_PMU_PERFCTR_UNKNOWN_fd]    = ONLY_2_4_6,
+         |                                   ^~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:28:22: note: (near initialization for 'm1_pmu_event_affinity[253]')
+      28 | #define ONLY_2_4_6   (BIT(2) | BIT(4) | BIT(6))
+         |                      ^
+   drivers/perf/apple_m1_cpu_pmu.c:164:35: note: in expansion of macro 'ONLY_2_4_6'
+     164 |  [M1_PMU_PERFCTR_UNKNOWN_fd]    = ONLY_2_4_6,
+         |                                   ^~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:169:32: warning: initialized field overwritten [-Woverride-init]
+     169 |  [PERF_COUNT_HW_CPU_CYCLES]  = M1_PMU_PERFCTR_CORE_ACTIVE_CYCLE,
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:169:32: note: (near initialization for 'm1_pmu_perf_map[0]')
+   drivers/perf/apple_m1_cpu_pmu.c:170:34: warning: initialized field overwritten [-Woverride-init]
+     170 |  [PERF_COUNT_HW_INSTRUCTIONS]  = M1_PMU_PERFCTR_INST_ALL,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:170:34: note: (near initialization for 'm1_pmu_perf_map[1]')
+   drivers/perf/apple_m1_cpu_pmu.c:171:40: warning: initialized field overwritten [-Woverride-init]
+     171 |  [PERF_COUNT_HW_BRANCH_INSTRUCTIONS] = M1_PMU_PERFCTR_INST_BRANCH,
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:171:40: note: (near initialization for 'm1_pmu_perf_map[4]')
+   drivers/perf/apple_m1_cpu_pmu.c:172:35: warning: initialized field overwritten [-Woverride-init]
+     172 |  [PERF_COUNT_HW_BRANCH_MISSES]  = M1_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:172:35: note: (near initialization for 'm1_pmu_perf_map[5]')
+   drivers/perf/apple_m1_cpu_pmu.c:176:40: warning: initialized field overwritten [-Woverride-init]
+     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:180:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
+     180 |  M1_PMUV3_EVENT_MAP(INST_RETIRED, INST_ALL),
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:176:40: note: (near initialization for 'm1_pmu_pmceid_map[8]')
+     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:180:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
+     180 |  M1_PMUV3_EVENT_MAP(INST_RETIRED, INST_ALL),
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:176:40: warning: initialized field overwritten [-Woverride-init]
+     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:181:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
+     181 |  M1_PMUV3_EVENT_MAP(CPU_CYCLES,  CORE_ACTIVE_CYCLE),
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:176:40: note: (near initialization for 'm1_pmu_pmceid_map[17]')
+     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:181:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
+     181 |  M1_PMUV3_EVENT_MAP(CPU_CYCLES,  CORE_ACTIVE_CYCLE),
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:176:40: warning: initialized field overwritten [-Woverride-init]
+     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:182:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
+     182 |  M1_PMUV3_EVENT_MAP(BR_RETIRED,  INST_BRANCH),
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:176:40: note: (near initialization for 'm1_pmu_pmceid_map[33]')
+     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:182:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
+     182 |  M1_PMUV3_EVENT_MAP(BR_RETIRED,  INST_BRANCH),
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:176:40: warning: initialized field overwritten [-Woverride-init]
+     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:183:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
+     183 |  M1_PMUV3_EVENT_MAP(BR_MIS_PRED_RETIRED, BRANCH_MISPRED_NONSPEC),
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:176:40: note: (near initialization for 'm1_pmu_pmceid_map[34]')
+     176 |  [ARMV8_PMUV3_PERFCTR_##pmuv3_event] = M1_PMU_PERFCTR_##m1_event
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:183:2: note: in expansion of macro 'M1_PMUV3_EVENT_MAP'
+     183 |  M1_PMUV3_EVENT_MAP(BR_MIS_PRED_RETIRED, BRANCH_MISPRED_NONSPEC),
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c: In function 'm1_pmu_enable_event':
+   drivers/perf/apple_m1_cpu_pmu.c:422:5: warning: variable 'evt' set but not used [-Wunused-but-set-variable]
+     422 |  u8 evt;
+         |     ^~~
+   drivers/perf/apple_m1_cpu_pmu.c:421:13: warning: variable 'kernel' set but not used [-Wunused-but-set-variable]
+     421 |  bool user, kernel;
+         |             ^~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:421:7: warning: variable 'user' set but not used [-Wunused-but-set-variable]
+     421 |  bool user, kernel;
+         |       ^~~~
+   In file included from include/linux/bits.h:22,
+                    from include/linux/bitops.h:6,
+                    from include/linux/of.h:15,
+                    from drivers/perf/apple_m1_cpu_pmu.c:13:
+   drivers/perf/apple_m1_cpu_pmu.c: At top level:
+>> include/linux/build_bug.h:16:44: warning: anonymous struct declared inside parameter list will not be visible outside of this definition or declaration
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                            ^~~~~~
+   include/linux/bits.h:24:35: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+      24 | #define GENMASK_INPUT_CHECK(h, l) BUILD_BUG_ON_ZERO(const_true((l) > (h)))
+         |                                   ^~~~~~~~~~~~~~~~~
+   include/linux/bits.h:34:3: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+      34 |  (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |   ^~~~~~~~~~~~~~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:24:27: note: in expansion of macro 'GENMASK'
+      24 | #define M1_PMU_CFG_EVENT  GENMASK(7, 0)
+         |                           ^~~~~~~
+   drivers/perf/apple_m1_cpu_pmu.c:496:32: note: in expansion of macro 'M1_PMU_CFG_EVENT'
+     496 |     const u16 event_affinities[M1_PMU_CFG_EVENT])
+         |                                ^~~~~~~~~~~~~~~~
 
-   132	
-   133	/**
-   134	 * ras2_send_pcc_cmd() - Send RAS2 command via PCC channel
-   135	 * @ras2_ctx:	pointer to the RAS2 context structure
-   136	 * @cmd:	command to send
-   137	 *
-   138	 * Returns: 0 on success, an error otherwise
-   139	 */
-   140	int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd)
-   141	{
-   142		struct ras2_pcc_subspace *pcc_subspace = ras2_ctx->pcc_subspace;
- > 143		struct acpi_ras2_shmem *gen_comm_base = pcc_subspace->comm_addr;
-   144		struct mbox_chan *pcc_channel;
-   145		unsigned int time_delta;
-   146		int rc;
-   147	
-   148		rc = ras2_check_pcc_chan(pcc_subspace);
-   149		if (rc < 0)
-   150			return rc;
-   151	
-   152		pcc_channel = pcc_subspace->pcc_chan->mchan;
-   153	
-   154		/*
-   155		 * Handle the Minimum Request Turnaround Time(MRTT).
-   156		 * "The minimum amount of time that OSPM must wait after the completion
-   157		 * of a command before issuing the next command, in microseconds."
-   158		 */
-   159		if (pcc_subspace->pcc_mrtt) {
-   160			time_delta = ktime_us_delta(ktime_get(),
-   161						    pcc_subspace->last_cmd_cmpl_time);
-   162			if (pcc_subspace->pcc_mrtt > time_delta)
-   163				udelay(pcc_subspace->pcc_mrtt - time_delta);
-   164		}
-   165	
-   166		/*
-   167		 * Handle the non-zero Maximum Periodic Access Rate(MPAR).
-   168		 * "The maximum number of periodic requests that the subspace channel can
-   169		 * support, reported in commands per minute. 0 indicates no limitation."
-   170		 *
-   171		 * This parameter should be ideally zero or large enough so that it can
-   172		 * handle maximum number of requests that all the cores in the system can
-   173		 * collectively generate. If it is not, we will follow the spec and just
-   174		 * not send the request to the platform after hitting the MPAR limit in
-   175		 * any 60s window.
-   176		 */
-   177		if (pcc_subspace->pcc_mpar) {
-   178			if (pcc_subspace->mpar_count == 0) {
-   179				time_delta = ktime_ms_delta(ktime_get(),
-   180							    pcc_subspace->last_mpar_reset);
-   181				if (time_delta < 60 * MSEC_PER_SEC) {
-   182					dev_dbg(ras2_ctx->dev,
-   183						"PCC cmd not sent due to MPAR limit");
-   184					return -EIO;
-   185				}
-   186				pcc_subspace->last_mpar_reset = ktime_get();
-   187				pcc_subspace->mpar_count = pcc_subspace->pcc_mpar;
-   188			}
-   189			pcc_subspace->mpar_count--;
-   190		}
-   191	
-   192		/* Write to the shared comm region */
- > 193		writew_relaxed(cmd, &gen_comm_base->command);
-   194	
-   195		/* Flip CMD COMPLETE bit */
-   196		writew_relaxed(0, &gen_comm_base->status);
-   197	
-   198		/* Ring doorbell */
-   199		rc = mbox_send_message(pcc_channel, &cmd);
-   200		if (rc < 0) {
-   201			dev_warn(ras2_ctx->dev,
-   202				 "Err sending PCC mbox message. cmd:%d, rc:%d\n", cmd, rc);
-   203			return rc;
-   204		}
-   205	
-   206		/*
-   207		 * If Minimum Request Turnaround Time is non-zero, we need
-   208		 * to record the completion time of both READ and WRITE
-   209		 * command for proper handling of MRTT, so we need to check
-   210		 * for pcc_mrtt in addition to CMD_READ.
-   211		 */
-   212		if (cmd == PCC_CMD_EXEC_RAS2 || pcc_subspace->pcc_mrtt) {
-   213			rc = ras2_check_pcc_chan(pcc_subspace);
-   214			if (pcc_subspace->pcc_mrtt)
-   215				pcc_subspace->last_cmd_cmpl_time = ktime_get();
-   216		}
-   217	
-   218		if (pcc_channel->mbox->txdone_irq)
-   219			mbox_chan_txdone(pcc_channel, rc);
-   220		else
-   221			mbox_client_txdone(pcc_channel, rc);
-   222	
-   223		return rc >= 0 ? 0 : rc;
-   224	}
-   225	EXPORT_SYMBOL_GPL(ras2_send_pcc_cmd);
-   226	
+
+vim +16 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10   6  
+bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
+bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
+bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
+bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
+bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
+8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
+bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
+bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
+bc6245e5efd70c Ian Abbott       2017-07-10  15   */
+8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
+527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
 
 -- 
 0-DAY CI Kernel Test Service
