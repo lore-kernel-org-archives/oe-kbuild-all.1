@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B390221DB4
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 07:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABB0221FAC;
+	Wed,  7 May 2025 07:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746604740; cv=none; b=oBzg9a2KnemqofOQ3uvAFLT13Zu+PC5zOMyNejiajm+Xu9tz+46ywPFtmhXj7BRRwiM2ZGxQh/44MYytsCT+LqJneAvXCH7aV9t096s4L0XbkHoiuHo+VLdW9drQEBrU3XFqYJWSjoe0F/3GLCC7KVC1htWL+CNcII+ziiFEaag=
+	t=1746604741; cv=none; b=JE7Hl9hkec0zBLc76e3G9hPvNGle2HQyvRacqwsoxHhPtRIvP62EfJYyj9/URupKhGYeN0I0s5K9keGaBu74iAPS3dv6y2USlT1ITaxjFIZZdDj8sWO3dVBSlcOWQSaNgF2C4qnhlm0uWpvahq8ui+VrD8RZkZi8IPlfhwnU3E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746604740; c=relaxed/simple;
-	bh=GFTmPbTqMikgo5v/AloWY7RXIxfzIDqPK7izTppTy20=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qdVQny1T9/bmj0HGvZd+k4KHvdaZ+RaPceY5mEjluikGl39VLMzX5SmM0B1LjPYcX4Yo/+IHaSx6zjVd8jLaRnjPrfu31O2gh/LDsD300NWN+3uzPqCsKpruxx0FJI20Sc6peinpBYZTGeOhISeIjgA0rmJrpTuwUwGhD3LgOrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PXr+l+I9; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1746604741; c=relaxed/simple;
+	bh=fLHCh/gSuXYbU1aAft/Unq8sl8yvQ7IS32/uXEPUDik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UM0hxpKDRSVqP3Uqsdpp97S7Lr844CqgwM2wSHh8fq8/nfJgEqLnFs+8MiajZe7JoWC84univr6lPGx7ziR3YghZWqQbYCQtz4XMhS2y9i0IoSiikhjqmwfrArK9y0DYQqy8TFrdSy6IEe89h6l++1UBQyy0N8vglvNHgjxxF54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FcVRxlId; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PXr+l+I9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FcVRxlId"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746604738; x=1778140738;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GFTmPbTqMikgo5v/AloWY7RXIxfzIDqPK7izTppTy20=;
-  b=PXr+l+I9Ss8bPB6cIx4QvaIkLLaCBfiz6v59uZ7VQLQl41jHJD/HSQQi
-   WgxMk2R9AhkiseKRk97c0IWQinLJboxXyLo+KKNXUcdNBWSpR77jbBPAT
-   lOY9y9RzJDuFmQB7N0jn6/idQFrvkQJDnHoMaWI2j+dLnz/Qmm8LinsBG
-   1In6LdACbHFyhfgjQ1135PSkEBgEOKX1IbYolePBqGOL9zQQT92N0sqSR
-   rjraDBfSdM/4wscohs8h6dWSZ0Zv+IJeu2luQqucOnp2qGFzJJNaZ0E/C
-   dhvVE8uQmiEoh1QuRuz6pVtY3WIQHFZnne7c4RU5HVXjEnRC9sO/xH5+U
-   w==;
-X-CSE-ConnectionGUID: dswKsm+nSQueYPdsnNXwoA==
-X-CSE-MsgGUID: 3jcTi8akS6619C3f3+5udA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="65727561"
+  t=1746604740; x=1778140740;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fLHCh/gSuXYbU1aAft/Unq8sl8yvQ7IS32/uXEPUDik=;
+  b=FcVRxlId3kv9AS8IocCimoleNoUgFnjgyj/ddFPdKtX2Ayjw9FyuCnKX
+   ypAAQWDsxSv4DANEiqts26bNE+H4dtv/OJiFH5YNe1tiveJFvi5t1bccX
+   5EhPMwVmkPwU7tLuB9JSb2miVje+m8etOGzo/W2Roxx9C6gDNPp4toHNx
+   mtMQUy05MUuKNyKMLvwz4OSLck1XZC3itfV17RwPTAaY+rsbXL47J0aFw
+   K5R++YxowyXjy2kbWBrlQDpIeH1aRNcEBjh6tH8p352LoQNJsRo5JK8Zu
+   DgaOTjSnN8Pz2cAEUKtxxjTjycBknUL8tJnHIfi0KfKO39SQK+Dop1vLk
+   g==;
+X-CSE-ConnectionGUID: v1bcI65JSwWbdHu624KJIw==
+X-CSE-MsgGUID: 9LEdz8FPTJ+RZPr5nnXF3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="51969511"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="65727561"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:58:57 -0700
-X-CSE-ConnectionGUID: 0clyParNR0yP2tIa6Yy/yA==
-X-CSE-MsgGUID: omILuKEDSS6Ogy24tgPPZg==
+   d="scan'208";a="51969511"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:58:59 -0700
+X-CSE-ConnectionGUID: ga+p13QHS5el7YdWSvKUrg==
+X-CSE-MsgGUID: qBpMRESJSWalcyo/GjjFrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="140619522"
+   d="scan'208";a="159175156"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 May 2025 00:58:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 00:58:58 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCZg6-0007N7-2M;
+	id 1uCZg6-0007Mv-1x;
 	Wed, 07 May 2025 07:58:54 +0000
-Date: Wed, 7 May 2025 15:58:21 +0800
+Date: Wed, 7 May 2025 15:58:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:b4/syscon-phandle-args-iommu 4/4]
- drivers/iommu/mtk_iommu_v1.c:512:28: warning: variable 'data' set but not
- used
-Message-ID: <202505071512.GpxYXmXf-lkp@intel.com>
+To: Rujra Bhatt <braker.noob.kernel@gmail.com>, dpenkler@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, braker.noob.kernel@gmail.com
+Subject: Re: [FIRST-PATCH] staging : gpib : agilent_82350b : agilent_82350b.c
+ : fixes checks on the file
+Message-ID: <202505071554.BLzezIJT-lkp@intel.com>
+References: <Z_-nR5Vt2A5kvbro@brak3rDesk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +65,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Z_-nR5Vt2A5kvbro@brak3rDesk>
 
-tree:   https://github.com/krzk/linux b4/syscon-phandle-args-iommu
-head:   2ffacca9e16ae5a4cf942a7bd5756c2d9903a45e
-commit: 2ffacca9e16ae5a4cf942a7bd5756c2d9903a45e [4/4] iommu: mtk_iommu_v1: Simplify by dropping local 'mtk_mapping' variable
-config: arm64-randconfig-002-20250502 (https://download.01.org/0day-ci/archive/20250507/202505071512.GpxYXmXf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071512.GpxYXmXf-lkp@intel.com/reproduce)
+Hi Rujra,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus linus/master v6.15-rc5 next-20250506]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rujra-Bhatt/staging-gpib-agilent_82350b-agilent_82350b-c-fixes-checks-on-the-file/20250416-205032
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/Z_-nR5Vt2A5kvbro%40brak3rDesk
+patch subject: [FIRST-PATCH] staging : gpib : agilent_82350b : agilent_82350b.c : fixes checks on the file
+config: x86_64-randconfig-002-20250424 (https://download.01.org/0day-ci/archive/20250507/202505071554.BLzezIJT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071554.BLzezIJT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071512.GpxYXmXf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071554.BLzezIJT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   cc1: note: -Wvla-larger-than=0 is meaningless
-   drivers/iommu/mtk_iommu_v1.c: In function 'mtk_iommu_v1_probe_finalize':
->> drivers/iommu/mtk_iommu_v1.c:512:28: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-     struct mtk_iommu_v1_data *data;
-                               ^~~~
+   In file included from include/linux/percpu.h:5,
+                    from include/linux/radix-tree.h:16,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from drivers/staging/gpib/include/gpib_types.h:18,
+                    from drivers/staging/gpib/include/gpibP.h:12,
+                    from drivers/staging/gpib/agilent_82350b/agilent_82350b.h:7,
+                    from drivers/staging/gpib/agilent_82350b/agilent_82350b.c:11:
+   drivers/staging/gpib/agilent_82350b/agilent_82350b.c: In function 'agilent_82350b_allocate_private':
+>> drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:53: error: expected '{' before '*' token
+     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+         |                                                     ^
+   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
+     227 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
+    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:31: note: in expansion of macro 'kzalloc'
+     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+         |                               ^~~~~~~
+>> drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:53: error: expected '{' before '*' token
+     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+         |                                                     ^
+   include/linux/alloc_tag.h:231:24: note: in definition of macro 'alloc_hooks_tag'
+     231 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
+    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:31: note: in expansion of macro 'kzalloc'
+     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+         |                               ^~~~~~~
+>> drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:53: error: expected '{' before '*' token
+     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+         |                                                     ^
+   include/linux/alloc_tag.h:234:24: note: in definition of macro 'alloc_hooks_tag'
+     234 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
+    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:31: note: in expansion of macro 'kzalloc'
+     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+         |                               ^~~~~~~
+   drivers/staging/gpib/agilent_82350b/agilent_82350b.c:482:29: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     482 |         board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+         |                             ^
 
 
-vim +/data +512 drivers/iommu/mtk_iommu_v1.c
+vim +482 drivers/staging/gpib/agilent_82350b/agilent_82350b.c
 
-57dbf81f50c82a Joerg Roedel        2020-04-29  509  
-ad9b10e533f6fb Yong Wu             2022-05-03  510  static void mtk_iommu_v1_probe_finalize(struct device *dev)
-57dbf81f50c82a Joerg Roedel        2020-04-29  511  {
-ad9b10e533f6fb Yong Wu             2022-05-03 @512  	struct mtk_iommu_v1_data *data;
-57dbf81f50c82a Joerg Roedel        2020-04-29  513  	int err;
-f3e827d73ed454 Yong Wu             2018-01-26  514  
-3524b5592cad63 Joerg Roedel        2020-03-26  515  	data        = dev_iommu_priv_get(dev);
-f3e827d73ed454 Yong Wu             2018-01-26  516  
-2ffacca9e16ae5 Krzysztof Kozlowski 2025-05-01  517  	err = arm_iommu_attach_device(dev, data->mapping);
-57dbf81f50c82a Joerg Roedel        2020-04-29  518  	if (err)
-57dbf81f50c82a Joerg Roedel        2020-04-29  519  		dev_err(dev, "Can't create IOMMU mapping - DMA-OPS will not work\n");
-b17336c55d8928 Honghui Zhang       2016-06-08  520  }
-b17336c55d8928 Honghui Zhang       2016-06-08  521  
-
-:::::: The code at line 512 was first introduced by commit
-:::::: ad9b10e533f6fb3fa74afdc2341774b1305c176f iommu/mediatek-v1: Just rename mtk_iommu to mtk_iommu_v1
-
-:::::: TO: Yong Wu <yong.wu@mediatek.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+   479	
+   480	static int agilent_82350b_allocate_private(struct gpib_board *board)
+   481	{
+ > 482		board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+   483		if (!board->private_data)
+   484			return -ENOMEM;
+   485		return 0;
+   486	}
+   487	
 
 -- 
 0-DAY CI Kernel Test Service
