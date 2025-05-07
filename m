@@ -1,77 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF74212FBE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 07:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A03A218EA1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 07:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746601659; cv=none; b=rSRjsC0ZDwGQyUp7OwDOGAfGOSQHFQujoHoaZdyFefo37FlVvibf+0RvV3lYjqldmWNoNs+k144LASz2eZ21EAOEsmgY6D7H7yCtKtWTcOfkpwpvJ2S5oAl84JgLPT2H2XXFjrNi5N66Bfayhjqx8FnD+kf8fnLY+leKwQ2C7s8=
+	t=1746602016; cv=none; b=HKzx/X3YXPTr1Af0vy8cnOMVk+/xHmBYCZMRhBbFvwm1gc/tZ1UnXILMQl5h9HEiRY/FxydBKStk9k4hC0mzTRsZnlaMSeG3nMnr/1zclauDcjCSlpj3jcw3LPUZIYSNSsufaUxDIFOuGab0dYluNXJOjIULC82oFCJtW3SfzHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746601659; c=relaxed/simple;
-	bh=4g1meUY7nXGsLmA3ICMv283OhsmrHmNHTC3hWxkVC9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bwKgML+nzqYAorZAinQe6dfKOM5F05nanDkNvCxVXquRbgs+tGhMv89ewG8Rxuo1PQ9R2hXeHkdbTn2HEaAIB2p8xAJNJ3x1Nsg+3zpU1tkPJKgtCEoSUg9RyASQGRcD6srTN6e5WNGVQ1qj/DQz5q2RPg3+Teq99ylPBIWfvCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmlOy1s8; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1746602016; c=relaxed/simple;
+	bh=aFp3xn8vD5GRnmEeIdFnixJ5V2+j6rNa20IC+Xjzolg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C7LIQ0TuU67BoFYMzDztAFMhIDPJSzoGmzjFG1Q1Ke77asE7a18hq/TaXGAfi78IezE7KEPwG3/FNHED47+F855clYdt+H54GFMOAPvtnsyruNPj5aSdfXC9W/+ja2oKiT3eSAzdP4pRsSAzrIvj2ZItLziE1vaxKzfl21zJkA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JDphxJKy; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmlOy1s8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDphxJKy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746601658; x=1778137658;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4g1meUY7nXGsLmA3ICMv283OhsmrHmNHTC3hWxkVC9U=;
-  b=nmlOy1s87hyw4VmAmRUSCh+IdTw3/DuYbTBDmBxAULC+aVgA7rg4sMYD
-   +mN/r50Hpw+43b063UQATs6tc7gN7ltlPuE27SPVlVUIqCluCSX0Enpzf
-   G6HOax9Bbgxsicdyj+pjY5gDL2tggE9+GkTVbz5xDzqkgBZRz1q5lguzd
-   qlOepO19K1Ke9GHluMiYfrM9+2XUcUoSRfW71wyZIYUkarpcB4xGT98k9
-   xoe2r+2qTdOrDN5vZSdmem8mk+jtnKh3VcCQvkJyKm+dC9rDu5dR9VMVT
-   GJF1u/WNS4Mwez4bjZ3t3Ab2PdQpbxZ7WtpHSKuawFprlLsLFvitGkZ56
+  t=1746602014; x=1778138014;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aFp3xn8vD5GRnmEeIdFnixJ5V2+j6rNa20IC+Xjzolg=;
+  b=JDphxJKyuQ8Jak148R8kT0bPeh/eHRfMFFNSwMWcn4SLOwZ1ZBzMgRCR
+   ZpVDoFrx988CRV/1/0n1r7+ABdmmaJ0Iam2gtL4fclsbvLuRyonDAwUIX
+   KUTXK1t9F/54EgdTjR5s0El0aaQn16F7+eIkuL1U3OCPqF/nQjkmVKAlR
+   Dbu8Dj1Sje4uNkaR+HF3qH1Rs+sK4Uha1Tey0d0ULmjdftKSwNiquqdMo
+   cUuO4TelSjjJVnnaR/ZQuf69pZNEIsz3DzxPlntTgsXFQWx1+lUgej6ea
+   fJ97JEkIZlD7SuGHmWKwx2wtMssRqbWUOqUCOnNM7vppcGlbzDgvvkW5S
    w==;
-X-CSE-ConnectionGUID: HbEjRw9eR/23nDV5OlDzNw==
-X-CSE-MsgGUID: eORwvTKPTWebo1NQ5UaulQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="73702378"
+X-CSE-ConnectionGUID: fRhOjwOISbK/3u4vjgfrYA==
+X-CSE-MsgGUID: MlOUOiOxQEisopWvu2hlXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="47562640"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="73702378"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:07:37 -0700
-X-CSE-ConnectionGUID: zCSCCDRrTdSJsRd7DdL1/Q==
-X-CSE-MsgGUID: fYVDb9S2SfyCD34yU9tWOA==
+   d="scan'208";a="47562640"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:13:33 -0700
+X-CSE-ConnectionGUID: ZqkOuNl4SWCp5z7n8AtZNw==
+X-CSE-MsgGUID: jzDSEschQRC+GinjOqBpOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="135767280"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 00:07:31 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="140983396"
+Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
+  by orviesa005.jf.intel.com with ESMTP; 07 May 2025 00:13:32 -0700
+Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCYsK-0007GF-2A;
-	Wed, 07 May 2025 07:07:28 +0000
-Date: Wed, 7 May 2025 15:07:16 +0800
+	id 1uCYyA-00008U-0B;
+	Wed, 07 May 2025 07:13:30 +0000
+Date: Wed, 7 May 2025 15:12:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	andriy.shevchenko@intel.com,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: Re: [PATCH v7 08/11] gpio: max7360: Add MAX7360 gpio support
-Message-ID: <202505071411.RPLesOGz-lkp@intel.com>
-References: <20250428-mdb-max7360-support-v7-8-4e0608d0a7ff@bootlin.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 1/1]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: ec@0
+ (google,cros-ec-spi): typec:connector@0:ports: 'port@0' is a required
+ property
+Message-ID: <202505071552.XagMzj6E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,37 +63,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250428-mdb-max7360-support-v7-8-4e0608d0a7ff@bootlin.com>
 
-Hi Mathieu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on b4432656b36e5cc1d50a1f2dc15357543add530e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-mfd-gpio-Add-MAX7360/20250428-221705
-base:   b4432656b36e5cc1d50a1f2dc15357543add530e
-patch link:    https://lore.kernel.org/r/20250428-mdb-max7360-support-v7-8-4e0608d0a7ff%40bootlin.com
-patch subject: [PATCH v7 08/11] gpio: max7360: Add MAX7360 gpio support
-config: alpha-randconfig-r111-20250429 (https://download.01.org/0day-ci/archive/20250507/202505071411.RPLesOGz-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071411.RPLesOGz-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   30abd607a3ae1471331390c09e0379cac9b65ebf
+commit: 2e12082bfc7fdf294a0bc13422c30fe845a98066 [1/1] CHROMIUM: arm64: dts: mt8186: Add voltorb board for mt8186
+config: arm64-randconfig-2051-20250505 (https://download.01.org/0day-ci/archive/20250507/202505071552.XagMzj6E-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071552.XagMzj6E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071411.RPLesOGz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071552.XagMzj6E-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-max7360.c:30:31: sparse: sparse: symbol 'max7360_gpio_port_plat' was not declared. Should it be static?
->> drivers/gpio/gpio-max7360.c:31:31: sparse: sparse: symbol 'max7360_gpio_col_plat' was not declared. Should it be static?
-
-vim +/max7360_gpio_port_plat +30 drivers/gpio/gpio-max7360.c
-
-    29	
-  > 30	struct max7360_gpio_plat_data max7360_gpio_port_plat = { .function = MAX7360_GPIO_PORT };
-  > 31	struct max7360_gpio_plat_data max7360_gpio_col_plat = { .function = MAX7360_GPIO_COL };
-    32	
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: rt5682s@1a (realtek,rt5682s): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: rt5682s@1a (realtek,rt5682s): 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: rt5682s@1a (realtek,rt5682s): 'LDO1-IN-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: /soc/spi@1100a000/spi@0: failed to match any schema with compatible: ['mediatek,spi-mt65xx-test']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: /soc/lvts@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: /soc/svs@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-svs']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: ec@0 (google,cros-ec-spi): typec:connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: ec@0 (google,cros-ec-spi): typec:connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: typec (google,cros-ec-typec): connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: typec (google,cros-ec-typec): connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: connector@0 (usb-c-connector): ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: connector@1 (usb-c-connector): ports: 'port@0' is a required property
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: usb@11280000 (mediatek,mt8186-xhci): #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: usb@11280000 (mediatek,mt8186-xhci): #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: efuse@11cb0000 (mediatek,mt8186-efuse): Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: gpu@13040000 (mediatek,mt8186-mali): 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: gpu@13040000 (mediatek,mt8186-mali): sram-supply: False schema does not allow [[130]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: dpi@1400a000 (mediatek,mt8186-dpi): Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: dpi@1400a000 (mediatek,mt8186-dpi): pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: dpi@1400a000 (mediatek,mt8186-dpi): pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: clock-controller@15020000 (mediatek,mt8186-imgsys1): 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mt8186-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dtb: vcodec_dec@16000000 (mediatek,mt8186-vcodec-dec): 'vcodec_core@16025000' does not match any of the regexes: '^video-codec@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
