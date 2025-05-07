@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3289F189B8C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 11:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCC52153EF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 11:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746617158; cv=none; b=hnPPMUl7HGyAxsgu0y3iEMbTNZZkaWb1XNQevoBQHQu8wFrmO3OdAC5xwjdPTg02ul0rfQmIi6iMHDOz9mYMjTrmQEv2o5HwwW/X8LZlC7k0BJgL0yDjhuaHUq8WZb45/CebmbTF0RwgAwoTj6BlHCoNHSDVvoX+XuqPxroaCCY=
+	t=1746617767; cv=none; b=XIJ2vm/eV0JvI0xbkGySHihzNIfBjp0SV4DX32HpmogTcdpq+CVkZfZeKo9AenPjc0y0EcII4KLlL/9zxV2hA5kuEUS4keggWCeap2gFHe5TDqDdUZ+JRPwXBbBpL3OZ8O9nTE3Xndb7zpuWQcc+dDGV1Q7XgY4bMXCjJFNatL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746617158; c=relaxed/simple;
-	bh=6bhJVcSF9kcFypmW+aJf6lf8sojkiKtNt1VwIA0Dmc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qihaoqs8VbRN3tua6Zi/y7eXUKiO+Co+0uDBMRnyezr4qdlg4OC68wlubAGOFUrQMN8ovjmm2u9LOdF3q8SJjubBlFpPYrWw3WjFnT6VwUv2RRTzSlJplFliqkVa4YF3ZzXWY3RA2Hk4EyPiVomsQVbeseK1IVKP99DtG0b4+Hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Chi4+pzh; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1746617767; c=relaxed/simple;
+	bh=49oBLtVDl/a7eoaCQ18JFPDgN5OMlYWx4iq2ZQubEEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=noyjuJ4vza6770v1d1sf0hdLsifYkK8p6a2VfB2bZ3AXkio7dnubHN7Q0vxBiv0WJdxOroUthPx01rRP1VvfsW9CPbvAdY59J+Sf+XF4x7jhj4ibCasqSH0YNbQ+fjCSYoZ45MFODd6cBRTPYh75EI66hDCt70mbKefzEOdFsaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GYjOdDWz; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Chi4+pzh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GYjOdDWz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746617157; x=1778153157;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6bhJVcSF9kcFypmW+aJf6lf8sojkiKtNt1VwIA0Dmc4=;
-  b=Chi4+pzhv1NQ1jKGXnjUetsGScMeqO8N9jvZkPtPa6aZS+hSu99aH5Eu
-   ke5qFX/ITxENe7lDXHtC89I6aCQo2iITXxXLJtZzDn22bGJVqzhQ44BNv
-   0T68PHFBPX/adtW427gQrFWEb0RQfWB1BSfcVOyRl9VzBDHGlxa+sXMM8
-   mwzRrd/yqyUMh+T/4rteitYiR8VEADZy5sYdndlIH83NmmoooT7ow/5nD
-   skQnvS4QQwmmPD7yTrmGj6KTFsN9vMdPtxyK7eCicCqVMlysMV/Z9nE8I
-   WN0wOE8/tAhh6BawWathKpvo7JN4kqGCGEq9X/9eCYeF6EXxneySJhv6k
-   Q==;
-X-CSE-ConnectionGUID: YqjhmZI9SxqhiuJjXEWLkw==
-X-CSE-MsgGUID: NWZK2kppQQiIAD7As9XFmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="47440617"
+  t=1746617765; x=1778153765;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=49oBLtVDl/a7eoaCQ18JFPDgN5OMlYWx4iq2ZQubEEg=;
+  b=GYjOdDWzIgvh1DGuJxthSi505J9I0/p7vCc8nFjq0vTnLeJUnphbySJo
+   vg+kg/qjfh/ltgnn7n68EpjV8DZY8hb+8u2JhlPdXiEqP/wMI82NxJPbR
+   3LxMLGsUijoDjwxX3jDZNRN5jQ0MYJQ88duz+pfwmQEJsk/NNt9O0J06P
+   e4/3E1ZaFvpW83vJs3qqw/tKCqYxLn2LNi2AjKfR5+5fvQblyAzvwJRQ0
+   VF0w4RNDq3eu87cHCpWilo+Ecl8BsIikvDFZaIXtSKAYFxLCZC/uJM1t4
+   FtPZpOsW4/KWdueZMuLn5FU35IhvWPRYdYxLADcN3P24vRyC+9Kbrn8Pq
+   w==;
+X-CSE-ConnectionGUID: oHe+Vb8hR/q7OuPFgrB7sQ==
+X-CSE-MsgGUID: b9QIlsRYSK+nqWXJzKHNxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48243592"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="47440617"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 04:25:56 -0700
-X-CSE-ConnectionGUID: eHQtRS7ATPy7eaNAJLoA+g==
-X-CSE-MsgGUID: +fUq7ZfCQaOePLZGcr6bXQ==
+   d="scan'208";a="48243592"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 04:36:05 -0700
+X-CSE-ConnectionGUID: X5e6XJ8GRXaTzAwMUqYDWQ==
+X-CSE-MsgGUID: u7fHLKZYQ6a9CF74WHQAUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="136943642"
+   d="scan'208";a="135841842"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 May 2025 04:25:55 -0700
+  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 04:36:03 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCcuP-0007fh-1m;
-	Wed, 07 May 2025 11:25:53 +0000
-Date: Wed, 7 May 2025 19:25:00 +0800
+	id 1uCd4C-0007gv-0f;
+	Wed, 07 May 2025 11:36:00 +0000
+Date: Wed, 7 May 2025 19:35:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-nvme:nvme-fpin.v3 17/20]
- ./usr/include/scsi/fc/fc_els.h:1196:39: error: 'u8' undeclared
-Message-ID: <202505071928.csc98bSK-lkp@intel.com>
+To: Chiang Brian <chiang.brian@inventec.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, Chiang Brian <chiang.brian@inventec.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+Message-ID: <202505071941.RISL4lFW-lkp@intel.com>
+References: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,30 +67,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git nvme-fpin.v3
-head:   931611be0f664cca44e6df3a27f302d0a27a96b9
-commit: 172ed06baf9415900b3460917f4163ee63cf712c [17/20] fc_els: use 'union fc_tlv_desc'
-config: x86_64-buildonly-randconfig-002-20250429 (https://download.01.org/0day-ci/archive/20250507/202505071928.csc98bSK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071928.csc98bSK-lkp@intel.com/reproduce)
+Hi Chiang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chiang-Brian/dt-bindings-trivial-Add-tps53685-support/20250424-222559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250424132538.2004510-2-chiang.brian%40inventec.corp-partner.google.com
+patch subject: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+config: riscv-randconfig-r112-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071941.RISL4lFW-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071941.RISL4lFW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071928.csc98bSK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071941.RISL4lFW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/pmbus/tps53679.c:133:57: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char *id @@     got int device_id @@
+   drivers/hwmon/pmbus/tps53679.c:133:57: sparse:     expected char *id
+   drivers/hwmon/pmbus/tps53679.c:133:57: sparse:     got int device_id
+>> drivers/hwmon/pmbus/tps53679.c:165:45: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected int device_id @@     got char * @@
+   drivers/hwmon/pmbus/tps53679.c:165:45: sparse:     expected int device_id
+   drivers/hwmon/pmbus/tps53679.c:165:45: sparse:     got char *
+>> drivers/hwmon/pmbus/tps53679.c:133:57: sparse: sparse: non size-preserving integer to pointer cast
+>> drivers/hwmon/pmbus/tps53679.c:165:45: sparse: sparse: non size-preserving pointer to integer cast
 
-   In file included from <command-line>:
-   ./usr/include/scsi/fc/fc_els.h: In function 'fc_tlv_next_desc':
->> ./usr/include/scsi/fc/fc_els.h:1196:39: error: 'u8' undeclared (first use in this function)
-    1196 |         return (union fc_tlv_desc *)((u8 *)desc + FC_TLV_DESC_SZ_FROM_LENGTH(desc));
-         |                                       ^~
-   ./usr/include/scsi/fc/fc_els.h:1196:39: note: each undeclared identifier is reported only once for each function it appears in
->> ./usr/include/scsi/fc/fc_els.h:1196:43: error: expected expression before ')' token
-    1196 |         return (union fc_tlv_desc *)((u8 *)desc + FC_TLV_DESC_SZ_FROM_LENGTH(desc));
-         |                                           ^
+vim +133 drivers/hwmon/pmbus/tps53679.c
+
+53030bcc87e4a4 Guenter Roeck 2020-01-20  120  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  121  /*
+53030bcc87e4a4 Guenter Roeck 2020-01-20  122   * Common identification function for chips with multi-phase support.
+53030bcc87e4a4 Guenter Roeck 2020-01-20  123   * Since those chips have special configuration registers, we want to have
+53030bcc87e4a4 Guenter Roeck 2020-01-20  124   * some level of reassurance that we are really talking with the chip
+53030bcc87e4a4 Guenter Roeck 2020-01-20  125   * being probed. Check PMBus revision and chip ID.
+53030bcc87e4a4 Guenter Roeck 2020-01-20  126   */
+53030bcc87e4a4 Guenter Roeck 2020-01-20  127  static int tps53679_identify_multiphase(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  128  					struct pmbus_driver_info *info,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  129  					int pmbus_rev, int device_id)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  130  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  131  	int ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  132  
+53030bcc87e4a4 Guenter Roeck 2020-01-20 @133  	ret = tps53679_identify_chip(client, pmbus_rev, device_id);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  134  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  135  		return ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  136  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  137  	ret = tps53679_identify_mode(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  138  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  139  		return ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  140  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  141  	return tps53679_identify_phases(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  142  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  143  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  144  static int tps53679_identify(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  145  			     struct pmbus_driver_info *info)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  146  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  147  	return tps53679_identify_mode(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  148  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  149  
+a49c0dafb304b8 Chiang Brian  2025-04-24  150  static int tps53685_identify(struct i2c_client *client,
+a49c0dafb304b8 Chiang Brian  2025-04-24  151  				 struct pmbus_driver_info *info)
+a49c0dafb304b8 Chiang Brian  2025-04-24  152  {
+a49c0dafb304b8 Chiang Brian  2025-04-24  153  	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
+a49c0dafb304b8 Chiang Brian  2025-04-24  154  			 PMBUS_HAVE_STATUS_INPUT;
+a49c0dafb304b8 Chiang Brian  2025-04-24  155  	info->format[PSC_VOLTAGE_OUT] = linear;
+a49c0dafb304b8 Chiang Brian  2025-04-24  156  	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
+a49c0dafb304b8 Chiang Brian  2025-04-24  157  					   TPS53685_DEVICE_ID);
+a49c0dafb304b8 Chiang Brian  2025-04-24  158  }
+a49c0dafb304b8 Chiang Brian  2025-04-24  159  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  160  static int tps53681_identify(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  161  			     struct pmbus_driver_info *info)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  162  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  163  	return tps53679_identify_multiphase(client, info,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  164  					    TPS53681_PMBUS_REVISION,
+53030bcc87e4a4 Guenter Roeck 2020-01-20 @165  					    TPS53681_DEVICE_ID);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  166  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  167  
 
 -- 
 0-DAY CI Kernel Test Service
