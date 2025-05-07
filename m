@@ -1,139 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D79228AAFD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 15:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974DE28AAEC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 15:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746632234; cv=none; b=IerCjRQqboLbcrN+gir1h8hi9X0V4ihWXx5L3RtvroDQlwk9kZTo9ZODXm6j43X5k13wUoV/ndWxwDsdH3uxr8HWDR815K9ZOvNsiByy1V4Q2H6N2HJ3vGHxcUDcDb1qksS4ge8IRfixJnFuULpsBaLuxmBAxFz1mvQi0vcNWZI=
+	t=1746632353; cv=none; b=cabSJTZnPzakucTHt3qWo2QB20QzE25MYnm4801Jjj6XlnHNpzaft8VZEgS2teha9oVavDOuom56dE4Y3jTWirDQw1p6hX+uDmvOIF2lsIjvt5uJnbUdovgXnTN0TzMAEs1RxZo0msKLji9gAa4NYoE6oAAqiKaeIOFzDHp2mks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746632234; c=relaxed/simple;
-	bh=nmWeR6nB6UTMWygh4MqhYWaG7Kx6uzivElRD2BLIAz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hlceejuptJ1Yx1izwkniAGL7feXq+PMYC7GmJubGAzK0CXeplKncMAPfmLUaw7fsona/et3FxtJ2xqrkPPh94bcG8yncQjl2g1tgjh23ZL0rYNC/oqR4EflCg2+jPW8CL5kp6MuwNATcvsLvFRMLHYlyspuWZbzRoS8AZ9m2M0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejl9z8v0; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746632353; c=relaxed/simple;
+	bh=DE15O3alvMb0eifNrXlvhXfeB78p4PzWbvy+7QY8GN4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a24xGNCy/LDZfuaTH18T2QPP5kbDI0NNxUHsqQbmYnnxnibu/D9u+pqTlPfukzrb0tNX1q6Rq2/57K24HQQisTtKbutUteZrLDCghycKwGX/J7nW2/PLsoaHthzs2105n8WHONmNuXNKDNSWlcXTQcRtcJLr3pJkAOmyc2MZP+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dtQWnOau; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejl9z8v0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746632233; x=1778168233;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nmWeR6nB6UTMWygh4MqhYWaG7Kx6uzivElRD2BLIAz4=;
-  b=ejl9z8v0YRwbzoowkwfyRCV4ATcrMkzd1+Pbs+sYUVvLlGjE2WV1i7z5
-   Vw8IRAonlKatjv98n2Y/4W/PxSoGzC3U1IaREcV9G/oWgxS6rWctgOiRM
-   sA53NfP0ovwOxmiTE2deYoMQhqUk3elWTMWzqp3OX0z5UmMAhDRnO5RQO
-   eQbLzCNoLiu4mOSOGBY8hS5gX7JVZaRCnS9TeLJS8avsfKmgSQ8MCqjmX
-   iIkdrPcK0NPilm8/S3GkrnfaO3E2cWJJ0Tawpu9UMv9JPTdHWmnDQTkbY
-   Rf31BekZORth0pt7foVbBHBp9MUOFsIfvcMOXkQTaEqFg/LVU/T9aysEI
-   g==;
-X-CSE-ConnectionGUID: k8Ss0zWgSZaBUIIVz0b7ug==
-X-CSE-MsgGUID: AeNq9mBJQ3yWSaNrCtbLJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48510172"
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="48510172"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 08:37:05 -0700
-X-CSE-ConnectionGUID: EuiDGuNkS8+5ltVYUGdkpQ==
-X-CSE-MsgGUID: NmpyA1sIQdypZKUan6zINA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="173182595"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 May 2025 08:37:04 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCgpS-00085t-1U;
-	Wed, 07 May 2025 15:37:02 +0000
-Date: Wed, 7 May 2025 23:36:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 4136/5419] fs/bcachefs/super.c:2145:52: sparse:
- sparse: invalid assignment: &=
-Message-ID: <202505072348.ayv0VtF7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dtQWnOau"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30f30200b51so72297721fa.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 May 2025 08:39:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746632349; x=1747237149; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+1kdy2Z1F/GzQcWzO+CXpY+tVajh37/iNgKKaLXmnJo=;
+        b=dtQWnOauB9EhYqbu4CFwLbW3MtVtCK0shQcKerTZj6oeybbUChGTsezfxaSY88UiWy
+         ZHbqaBXWIwl5b+u0cDvD8ID0CUDr028uqgbBrH8FfDohOj+fV+OKA9SsU3R57hKtShTw
+         QqRXK/NzfoMBJeH2TnwSkdV/1SH1y8nwsjrWVGkPPl35LthRLKZGldwVfuKZBGZKiiQS
+         dZBJOHVUA6G9vyrz+JIhcf+Mg3HLpucGV1BzeXuh9dMpReZNH1c8sifQUJ50byYSkmFq
+         4nxyTDBYKAU9/ZfHdqTPVDY9r4hOeh7bvY18oGKL2cKsv7pZtktyDpyBLjIqTbzaCIPR
+         GDJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746632349; x=1747237149;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+1kdy2Z1F/GzQcWzO+CXpY+tVajh37/iNgKKaLXmnJo=;
+        b=UuMnH42Eeu0G3nB7WmW58E9hUCQikRL7e4JucuF1hZMGLPAprwyDhhWX9Sp8eGy7s+
+         tl9OSNMdQ7NBhe2+JvAoRoQTG/11uK5iE4DI4EvHmy0wEkNdvYfYpr4DsGSey9KQI7+4
+         xAvDO/99N9z7KOfRjkGX4yCE7an1ShsOo0tIfxDZFKHMDhWmscH8x773Db6rO4EXZm7a
+         lWsLmz/qUqSM1ujElOtgZiAfdEnPwsuIM17YtqcYVxAsPRm9XbKgHXxALcvAYRN/ryGs
+         yPwDi4Xo3idib/Sexvhc3sSs68PD62SyQTLmtdHOXUdyKKlyrTL97IXNbQr3JR4PRvyD
+         KuqQ==
+X-Gm-Message-State: AOJu0Yy6D5It18cSHxIq93pW8IzrXp2pAMGa4JOfI6MP5hnVvhDxGw2A
+	Cy7xqG+TQJ7wjJYtf3i5B+3Vle11Eif6OPMr6j4F3/QqeqTdAavrfW8DMCrR8RpLK13m/uLo0oe
+	3KgJ+oq2fbWojJTzpaSnBSIgml9w=
+X-Gm-Gg: ASbGncuLYB7BGcLLKyWWnY4Iw6rH74VVUqswZJFVPdCWEnPAVHFRU2u+eZivuj0nHpG
+	kaXa0krYNbRGnHIVkFq9d4g+kcXQ2lOLwrs7ciPm9v3pdz9UrVzBzKN7jR+SWZgq/9qhKkqXBXX
+	aH66bi+czQCnPd/PfcJWhLkr274H03ZJbpFwfxn8/DbUy+lrYosZJ0sS0=
+X-Google-Smtp-Source: AGHT+IG6EkCfAhIVVwTaHUJ7pjv5njYRdNHcx1Ze0bBuB0PTorch/aQpS/448HufWgV9/eeqKWk0AT8UwWBvxDqOFrU=
+X-Received: by 2002:a05:651c:19a8:b0:30d:e104:9ad1 with SMTP id
+ 38308e7fff4ca-326ad36d991mr13728641fa.38.1746632348308; Wed, 07 May 2025
+ 08:39:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202505071347.5qXsnO7G-lkp@intel.com>
+In-Reply-To: <202505071347.5qXsnO7G-lkp@intel.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Wed, 7 May 2025 11:38:31 -0400
+X-Gm-Features: ATxdqUESX7-N-uhSL1bmdA-nnhdQfpoppCeSiWHs9Ru6NAQcnjfkywY_VFIPK7g
+Message-ID: <CAJ-ks9kM5KNoXcPEc_CwNZQhBg_5d5q_551q1GBBYbcd+KvwEw@mail.gmail.com>
+Subject: Re: [tj-wq:tmp2 1/2] error[E0308]: mismatched types
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Tejun Heo <tj@kernel.org>, 
+	Benno Lossin <benno.lossin@proton.me>, Alice Ryhl <aliceryhl@google.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   08710e696081d58163c8078e0e096be6d35c5fad
-commit: 4ca0496d63c1fe9420aa4d54f6f62e71e535ab2d [4136/5419] bcachefs: BCH_MEMBER_RESIZE_ON_MOUNT
-config: microblaze-randconfig-r111-20250417 (https://download.01.org/0day-ci/archive/20250507/202505072348.ayv0VtF7-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250507/202505072348.ayv0VtF7-lkp@intel.com/reproduce)
+On Wed, May 7, 2025 at 2:07=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git tmp2
+> head:   2762750ac5c6395dfa69b2cf1e3208fe6ae45cd5
+> commit: 345e029b561e03c4647b3d5b6603f40745a2ac92 [1/2] rust: workqueue: r=
+emove HasWork::OFFSET
+> config: riscv-randconfig-r072-20250428 (https://download.01.org/0day-ci/a=
+rchive/20250507/202505071347.5qXsnO7G-lkp@intel.com/config)
+> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f=
+819f46284f2a79790038e1f6649172789734ae8)
+> rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250507/202505071347.5qXsnO7G-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505071347.5qXsnO7G-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    ***
+>    *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang =
+>=3D 19.1
+>    *** may not work due to a bug (https://github.com/rust-lang/rust-bindg=
+en/pull/2824),
+>    *** unless patched (like Debian's).
+>    ***   Your bindgen version:  0.65.1
+>    ***   Your libclang version: 21.0.0
+>    ***
+>    ***
+>    *** Please see Documentation/rust/quick-start.rst for details
+>    *** on how to set up the Rust support.
+>    ***
+> >> error[E0308]: mismatched types
+>    --> rust/kernel/lib.rs:204:9
+>    |
+>    204 |           ptr.sub(offset) as *const $type
+>    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ types differ in mutability
+>    |
+>    ::: rust/kernel/workqueue.rs:495:18
+>    |
+>    495 |               ) -> *mut Self {
+>    |                    --------- expected `*mut ClosureWork<T>` because =
+of return type
+>    ...
+>    505 | / impl_has_work! {
+>    506 | |     impl{T} HasWork<Self> for ClosureWork<T> { self.work }
+>    507 | | }
+>    | |_- in this macro invocation
+>    |
+>    =3D note: expected raw pointer `*mut ClosureWork<T>`
+>    found raw pointer `*const ClosureWork<T>`
+>    =3D note: this error originates in the macro `$crate::container_of` wh=
+ich comes from the expansion of the macro `impl_has_work` (in Nightly build=
+s, run with -Z macro-backtrace for more info)
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505072348.ayv0VtF7-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/super.c: note: in included file:
-   fs/bcachefs/bcachefs.h:1015:9: sparse: sparse: array of flexible structures
->> fs/bcachefs/super.c:2145:52: sparse: sparse: invalid assignment: &=
-   fs/bcachefs/super.c:2145:52: sparse:    left side has type restricted __le64
-   fs/bcachefs/super.c:2145:52: sparse:    right side has type unsigned long long
-   fs/bcachefs/super.c:2192:9: sparse: sparse: context imbalance in 'bdev_get_fs' - wrong count at exit
-   fs/bcachefs/super.c:2204:13: sparse: sparse: context imbalance in 'bch2_fs_bdev_mark_dead' - unexpected unlock
-   fs/bcachefs/super.c:2247:13: sparse: sparse: context imbalance in 'bch2_fs_bdev_sync' - unexpected unlock
-
-vim +2145 fs/bcachefs/super.c
-
-  2118	
-  2119	int bch2_fs_resize_on_mount(struct bch_fs *c)
-  2120	{
-  2121		down_write(&c->state_lock);
-  2122	
-  2123		for_each_online_member(c, ca) {
-  2124			u64 old_nbuckets = ca->mi.nbuckets;
-  2125			u64 new_nbuckets = div64_u64(get_capacity(ca->disk_sb.bdev->bd_disk),
-  2126						 ca->mi.bucket_size);
-  2127	
-  2128			if (ca->mi.resize_on_mount &&
-  2129			    new_nbuckets > ca->mi.nbuckets) {
-  2130				bch_info(ca, "resizing to size %llu", new_nbuckets * ca->mi.bucket_size);
-  2131				int ret = bch2_dev_buckets_resize(c, ca, new_nbuckets);
-  2132				bch_err_fn(ca, ret);
-  2133				if (ret) {
-  2134					percpu_ref_put(&ca->io_ref[READ]);
-  2135					up_write(&c->state_lock);
-  2136					return ret;
-  2137				}
-  2138	
-  2139				mutex_lock(&c->sb_lock);
-  2140				struct bch_member *m =
-  2141					bch2_members_v2_get_mut(c->disk_sb.sb, ca->dev_idx);
-  2142				m->nbuckets = cpu_to_le64(new_nbuckets);
-  2143				SET_BCH_MEMBER_RESIZE_ON_MOUNT(m, false);
-  2144	
-> 2145				c->disk_sb.sb->features[0] &= ~BIT_ULL(BCH_FEATURE_small_image);
-  2146				bch2_write_super(c);
-  2147				mutex_unlock(&c->sb_lock);
-  2148	
-  2149				if (ca->mi.freespace_initialized) {
-  2150					ret = __bch2_dev_resize_alloc(ca, old_nbuckets, new_nbuckets);
-  2151					if (ret) {
-  2152						percpu_ref_put(&ca->io_ref[READ]);
-  2153						up_write(&c->state_lock);
-  2154						return ret;
-  2155					}
-  2156				}
-  2157			}
-  2158		}
-  2159	
-  2160		bch2_recalc_capacity(c);
-  2161		up_write(&c->state_lock);
-  2162		return 0;
-  2163	}
-  2164	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This is caused by the absence of the prerequisite patch, as discussed
+in https://lore.kernel.org/all/CAJ-ks9k2FEfL4SWw3ThhhozAeHB=3DUe9-_1pxb9XVP=
+RR2E1Z+SQ@mail.gmail.com/.
