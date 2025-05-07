@@ -1,70 +1,60 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1435118C31
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 08:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7649D1DF271
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 May 2025 08:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746607724; cv=none; b=bXYEZSPZ4drMRqnsM+dKsAjVmyTJRnYpFk4Yc0ZRqEJJFqsEF7TeFkK9PGtsKSOEMJFmwe9lYsFaRw2GlzMabwMeANHbI+RkIEQc4rswMqf36KNcQFkP0rFiAaSJm5INVX5oLC5TDZbwphrZp/mIyxK7h+vaa1U2NJBxFV3Fxpg=
+	t=1746607809; cv=none; b=cJgQa9Fo1MSjKs/eBvs0dkULW3XhlrxbkOWvz5cSSEeCjGRTtPmkrZoXnosK3H3jFgJ3xg2Z52iQWUCPd7OLZv6saNA2RAGRr0DsbK3nTKHxE7HM6BZHaa/IhyzhbXSSdljj+tnw4HlwSOx4/9LTr5nHGdAb0zj6g+KePIPGC3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746607724; c=relaxed/simple;
-	bh=+m39lKudG+KGHE5Tv48AFdqtKrSwFayTBXAteG/h9Pw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sk4A7dZxJO4oEZ+K+P90tRwR85j48M7WU0WXu0IbSCjqQe2HQaIL0m+VM48pezwixYqwB0/2kaRTMkv1427EWrQ/CnD+wLlAJp26jd+E4BwucFbb5jVIkd7YGg3Ze6qYkPGnc0Rvn41GLhCSWicBg2x5L9B3V+Rac22wtoVoHfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wlwmJNTR; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1746607809; c=relaxed/simple;
+	bh=WyjDwGk/tmGPJ3Kk7SZcBrBofn8Wz6HHKg8I/2ykdos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mjSF8HX2HPnOl0viqevuGifcdmZ8AAwujRujvu+blTTNJumnc0YyHp3BzN41fDylltDlR8iU2c7tV2uQCiyecCzykZjs188tx1xagYoFqAUOs0AHPzt6HAg52vgkXG2fkiJmNel8EUFJG19gM7wXIL5lc8i+kJaulmbxjTPCLIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCHvUAnH; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wlwmJNTR"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39ee623fe64so6834953f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 May 2025 01:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746607720; x=1747212520; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nBgnfkY9z9qCJQNftFtdClxcaD8FcIkvWFqLD7kPHvk=;
-        b=wlwmJNTR6Ryk/UaOClWTqdtawMfJNk9FNgxy52VJrO9KVTkqSxiN9F7IhUIm3il8++
-         2q3TIPbbIg8z51U6yZes+dbJr/jpeCJZUoAv/wulKhaFOwJnBolN94Bt5edWZmoMqoXg
-         oXsTwYjFdqEVp2LyBW4Yo22Xs5YfIGEqBNUGV2aSq1CY1/A4T3m168H125Enus6zqkGP
-         /4xSubwHudqGpOCqQenE+UTMRiy5OD6ppKJLvmerEXmI24b9U20C6k0tjVlt8YeJ9FXw
-         sc77JdPdKNmaJQYCCpBlMWNGbu0aK2nXQm7HXods034hI+gbQ+GUvXBTIiSkLXNmMgBY
-         hCHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746607720; x=1747212520;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nBgnfkY9z9qCJQNftFtdClxcaD8FcIkvWFqLD7kPHvk=;
-        b=kkETsFRm5GO8TuZJTpqqZ727HGOdDGRpW/sLQO6xdlp9khBmvHoj1tn4V886WcYdCc
-         BgVaVj5r7VUQjA36eruAf+F6m6ViLVAXwK1XDZyc7mUOYgPVmLBxupqnEvV25YMM41xg
-         ps9D66jgcCSNdJylbYjsZE/8LxbaYJ7oR6MjR7VrukKzYVvgAxzi9s5h3rBKJzXjuYOD
-         +dguufEb+9xMz4109Y0f6d5bcvWfJoD6sEMC4ZYQwTxFwjlI6VIcBO9BjlkfFANbG1f7
-         qm2iLY1G//kwUBjCbJR30BpNsrRMW1rlVm+WKUwHgo2Dvf7K5H+FaPrPxW+v/H4dp4qH
-         m57Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUJB96GGj/tbxIHo0QyOdw+gcmUHv9lK3ABAwakBxrsvBzGvKVSOIEdzuWFuFrDEjnZHuJFQx3GfiRnqp0u@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFdmhr3uCTLsT44CAwFT3VZy/KZPhb+BCcHXeyOZ+WSNIwFx7n
-	TNKr0A/f9LluK4w24h/piexRzothZiyVdKf8/EQ6cm8fpMDSfzUu0RIxjRCY+Us=
-X-Gm-Gg: ASbGncuP9eO2f6afL1NhBUAaegC7AyKNBkvtMvIkTh0BHZ+hN/lDSZiVUOBjG0MwVja
-	EIPFUbf4SmzpfNXgm3pJbNKLzyxGrxMRl5hRLod6M+qATY+lDZng0/iEkStQ5v28Y+OrMbvPuoj
-	k6QLZuh8pAfiURuLBxRmsjFU3lwwZheK2Wy67qp9RGew8Kcmf5YI6Bxf2YdPj9oppsKlx/lIkhx
-	ArfD4mTSrsPzJ2SUcUikrU62rw+ccfRvMozGaUPwEhF0eIrFF8vWMfp6RAHmECk1GQkKQVirz4S
-	GZp9e1TYtAVxQHhjSV3v5Up05cS33AoF/E3STcL3DdhttA==
-X-Google-Smtp-Source: AGHT+IFc9lSBdsufNfXKTp+Kae37aTXL3sbAZSowdRrOxLEzSzHizlOJpowoJI0s4OulKge+kuv2ew==
-X-Received: by 2002:a05:6000:4205:b0:39c:268b:8b66 with SMTP id ffacd0b85a97d-3a0b4a148ddmr1727972f8f.43.1746607720264;
-        Wed, 07 May 2025 01:48:40 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a0b6d0e1ebsm554932f8f.80.2025.05.07.01.48.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 01:48:39 -0700 (PDT)
-Date: Wed, 7 May 2025 11:48:36 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	Sunil Khatri <sunil.khatri@amd.com>
-Subject: [linux-next:master 1785/8679]
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:6992 gfx_v11_ip_dump() warn: if
- statement not indented
-Message-ID: <202505071619.7sHTLpNg-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCHvUAnH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746607807; x=1778143807;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WyjDwGk/tmGPJ3Kk7SZcBrBofn8Wz6HHKg8I/2ykdos=;
+  b=DCHvUAnH8137nWHU2lNXiB/GyaTF/FbifeyxLhKtvlZAiWD5FLc1yRyq
+   BROj13WAUKdEhsKM7YZ6bJRa7Mo+DTMCQv5luZI2uk7DiqJzjkc3pPezr
+   v6OEVwUzoz9pjF360etnnZWy+Y59XFzrCadIIdsPDMcVMpvSgb/4qTHUt
+   wmR4baWB4ekxJSCj6fB2VLYCH9JzIuWY6cJCzPqEypEOdaA9HeOtC4Ttz
+   jV8RwakcTRZenzfnqzJrFGdjAhHvGa0HL5GixhGWEq6Xd0Kbd6md2jT4R
+   2xbXAgDRXW94YIXZ3MscKqq06MNLk40KcvfF4UnHVIx8nlgdDnDt1GAZY
+   g==;
+X-CSE-ConnectionGUID: YL88SFMTT8yEFPt88ZEwGg==
+X-CSE-MsgGUID: KN5MDuzNTDCs28/Dd94oQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="35953234"
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="35953234"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:50:07 -0700
+X-CSE-ConnectionGUID: tl978WqFRQGjPiYm0wzaiA==
+X-CSE-MsgGUID: br/W5vKlSaGTs70TKB57lw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="166938098"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 07 May 2025 01:50:06 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCaTb-0007RZ-25;
+	Wed, 07 May 2025 08:50:03 +0000
+Date: Wed, 7 May 2025 16:49:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC/WIP v2 2/9] media: qcom: camss: add generic vfe
+ handling in vfe gen3
+Message-ID: <202505071629.t2ZIiCIF-lkp@intel.com>
+References: <20250427070135.884623-3-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,69 +63,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250427070135.884623-3-quic_vikramsa@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0a00723f4c2d0b273edd0737f236f103164a08eb
-commit: eb15a5d1aef59d1ec3aafe9d9f13953deb9977b6 [1785/8679] drm/amdgpu/gfx11: dump full CP packet header FIFOs
-config: x86_64-randconfig-161-20250410 (https://download.01.org/0day-ci/archive/20250507/202505071619.7sHTLpNg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+Hi Vikram,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20250424]
+[cannot apply to robh/for-next linus/master v6.15-rc3 v6.15-rc2 v6.15-rc1 v6.15-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vikram-Sharma/media-qcom-camss-add-generic-csid-handling-in-csid-gen3/20250427-150648
+base:   next-20250424
+patch link:    https://lore.kernel.org/r/20250427070135.884623-3-quic_vikramsa%40quicinc.com
+patch subject: [PATCH RFC/WIP v2 2/9] media: qcom: camss: add generic vfe handling in vfe gen3
+config: loongarch-randconfig-002-20250427 (https://download.01.org/0day-ci/archive/20250507/202505071629.t2ZIiCIF-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071629.t2ZIiCIF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505071619.7sHTLpNg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071629.t2ZIiCIF-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:6992 gfx_v11_ip_dump() warn: if statement not indented
+All errors (new ones prefixed by >>):
 
-vim +6992 drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-
-fa73462dc04826 Sunil Khatri 2024-09-24  6965  static void gfx_v11_ip_dump(struct amdgpu_ip_block *ip_block)
-b5812822d9c982 Sunil Khatri 2024-05-15  6966  {
-fa73462dc04826 Sunil Khatri 2024-09-24  6967  	struct amdgpu_device *adev = ip_block->adev;
-368c33ac8ab984 Sunil Khatri 2024-05-22  6968  	uint32_t i, j, k, reg, index = 0;
-b5812822d9c982 Sunil Khatri 2024-05-15  6969  	uint32_t reg_count = ARRAY_SIZE(gc_reg_list_11_0);
-b5812822d9c982 Sunil Khatri 2024-05-15  6970  
-b5812822d9c982 Sunil Khatri 2024-05-15  6971  	if (!adev->gfx.ip_dump_core)
-b5812822d9c982 Sunil Khatri 2024-05-15  6972  		return;
-b5812822d9c982 Sunil Khatri 2024-05-15  6973  
-b5812822d9c982 Sunil Khatri 2024-05-15  6974  	amdgpu_gfx_off_ctrl(adev, false);
-b5812822d9c982 Sunil Khatri 2024-05-15  6975  	for (i = 0; i < reg_count; i++)
-b5812822d9c982 Sunil Khatri 2024-05-15  6976  		adev->gfx.ip_dump_core[i] = RREG32(SOC15_REG_ENTRY_OFFSET(gc_reg_list_11_0[i]));
-b5812822d9c982 Sunil Khatri 2024-05-15  6977  	amdgpu_gfx_off_ctrl(adev, true);
-368c33ac8ab984 Sunil Khatri 2024-05-22  6978  
-368c33ac8ab984 Sunil Khatri 2024-05-22  6979  	/* dump compute queue registers for all instances */
-33837d62a4cb5e Sunil Khatri 2024-05-31  6980  	if (!adev->gfx.ip_dump_compute_queues)
-368c33ac8ab984 Sunil Khatri 2024-05-22  6981  		return;
-368c33ac8ab984 Sunil Khatri 2024-05-22  6982  
-368c33ac8ab984 Sunil Khatri 2024-05-22  6983  	reg_count = ARRAY_SIZE(gc_cp_reg_list_11);
-368c33ac8ab984 Sunil Khatri 2024-05-22  6984  	amdgpu_gfx_off_ctrl(adev, false);
-368c33ac8ab984 Sunil Khatri 2024-05-22  6985  	mutex_lock(&adev->srbm_mutex);
-368c33ac8ab984 Sunil Khatri 2024-05-22  6986  	for (i = 0; i < adev->gfx.mec.num_mec; i++) {
-368c33ac8ab984 Sunil Khatri 2024-05-22  6987  		for (j = 0; j < adev->gfx.mec.num_pipe_per_mec; j++) {
-368c33ac8ab984 Sunil Khatri 2024-05-22  6988  			for (k = 0; k < adev->gfx.mec.num_queue_per_pipe; k++) {
-368c33ac8ab984 Sunil Khatri 2024-05-22  6989  				/* ME0 is for GFX so start from 1 for CP */
-a85cc86cce4183 Sunil Khatri 2024-07-09  6990  				soc21_grbm_select(adev, adev->gfx.me.num_me + i, j, k, 0);
-368c33ac8ab984 Sunil Khatri 2024-05-22  6991  				for (reg = 0; reg < reg_count; reg++) {
-eb15a5d1aef59d Alex Deucher 2025-03-20 @6992  					if (i && gc_cp_reg_list_11[reg].reg_offset == regCP_MEC_ME1_HEADER_DUMP)
-eb15a5d1aef59d Alex Deucher 2025-03-20  6993  					adev->gfx.ip_dump_compute_queues[index + reg] =
-eb15a5d1aef59d Alex Deucher 2025-03-20  6994  						RREG32(SOC15_REG_OFFSET(GC, 0, regCP_MEC_ME2_HEADER_DUMP));
-
-It should be indented another tab.
-
-eb15a5d1aef59d Alex Deucher 2025-03-20  6995  					else
-33837d62a4cb5e Sunil Khatri 2024-05-31  6996  						adev->gfx.ip_dump_compute_queues[index + reg] =
-368c33ac8ab984 Sunil Khatri 2024-05-22  6997  							RREG32(SOC15_REG_ENTRY_OFFSET(
-368c33ac8ab984 Sunil Khatri 2024-05-22  6998  								       gc_cp_reg_list_11[reg]));
-368c33ac8ab984 Sunil Khatri 2024-05-22  6999  				}
-368c33ac8ab984 Sunil Khatri 2024-05-22  7000  				index += reg_count;
-368c33ac8ab984 Sunil Khatri 2024-05-22  7001  			}
-368c33ac8ab984 Sunil Khatri 2024-05-22  7002  		}
-368c33ac8ab984 Sunil Khatri 2024-05-22  7003  	}
-368c33ac8ab984 Sunil Khatri 2024-05-22  7004  	soc21_grbm_select(adev, 0, 0, 0, 0);
+>> make[8]: *** No rule to make target 'drivers/media/platform/qcom/camss/camss-vfe-gen2.o', needed by 'drivers/media/platform/qcom/camss/built-in.a'.
+   make[8]: Target 'drivers/media/platform/qcom/camss/' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
