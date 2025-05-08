@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC40722154A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 13:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C01122A4C2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 13:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746710043; cv=none; b=EZ9W16SOKnjEqTI6ZW0LhBdeuGE2S9DomRkYGTiHcR+u3dcBEEOhA/s4FFg12/C/tFLhXIZ0voaVbzLEqeaKSN2w5AQgeFDBWdFX9y/ovD7LNFMyS0rjFs3k5YXYkoh/MPSZe4BntFp940iw8waBbujUJ5X9KTlLnAK6OCs8zxI=
+	t=1746710047; cv=none; b=JDUumGFQZ093bNGlQnFWdIMqFgRfmPOestU39UskpMxNly1OpfYfEO2DgmGQ3snBWRQ2/utyK7eFoAEsRfNFVsewZ558afR8I9tZ6Gj0w6WKP56Q9UR0Q110BLVgh8DHeFAjrRgqZdRWiTy7VShRaM9PedNki3xlk81zOVrZwG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746710043; c=relaxed/simple;
-	bh=8OWqAWUw+QFBgrFfH/c6QPCratSv0f/BKiuKiprqk8I=;
+	s=arc-20240116; t=1746710047; c=relaxed/simple;
+	bh=xiaCSrnVpauzwq25XP26viwbA1JOX5VnGU7T/cTkiXs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RtyBUzFbo+C22j5hfkXdvjBP+KA5XwNSVCy73j/geKkuBpk7Ld+SGloIPufoGJhoktM9i65T+QkekngFp6CfaZGyCmxLsVjWTZ3xWg3cyyyPBtIrjV6yDVmWIT47LQZAw7NBhXP8htLON0S6TQ323UfAMo3AiDH0lV9tKxM5wuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/aqJWgi; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=a0bW7RwEK97hR+yQ4RigGgKnOWOs0jmtc0p/hZL7K25bP1lEQ1nYwntfuAcDOJfZd84NlNFnwIiLmGl8K3T7j3FakejK6AB8r4BbclBIDg6YpNl6B0dSwvf43nZd2ThpuDtByxS85uVhOzB6/rlr29l1vlr+TGDSLqd5Cla1EA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCYRvbFt; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/aqJWgi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCYRvbFt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746710042; x=1778246042;
+  t=1746710046; x=1778246046;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8OWqAWUw+QFBgrFfH/c6QPCratSv0f/BKiuKiprqk8I=;
-  b=W/aqJWgiAaGOmriVzPYLgJYqopr/aS4wv2HX6+Ihkrs2hbNKIPC3/PRZ
-   RcE/AFWK7sktF50cm4H1eA1v0JBgAPn7sbNhgpUeUHoPO3//eO9zSLJRb
-   T0UOXQt6YbOEYijHHqgMlgdK/scjbK/Mk69ZulfCDxbuepwVbx3DBC3Px
-   XWV9irwD2eKJ1vdr/fErgVpH4EBeuoytCB/1IdA1qlQsVd+QZL0Vtxn2P
-   rEsztLGKlunwvta4XH0zUHu3S5GX1Epkd3qnkPlwOMk9t/s+nuPkGLlxo
-   TtDHpQgAlKkaLLp2dgnYdtR2V9QYqgTnyPj1zMQBmYX5qrb90L5VbluA3
+  bh=xiaCSrnVpauzwq25XP26viwbA1JOX5VnGU7T/cTkiXs=;
+  b=PCYRvbFtVso9ckZF5cjglLO9N6IpvknNSZAQ9XRy5qyH/vaXAqEd25lG
+   8BcXm0ZN+O+hPRXhhtS8cCkhaiokObObzf8wClfkfG2gCJ9p2sZPW4WSd
+   KX7u/C25sJSc1W+LMiAgNZeErXZd2KHrpKgbdcT3KbdgI1AoDNudWm6sc
+   xngZTpnM3vX3ZgtJhGaTBhb4tzZjjdXuky7EzNGphQqqNSwjmwhh1Vl6d
+   S9yy2e8jd2/zfJVbhMYREaK612fwqyKmnlixj1PV6R+Fde6EQkNPy8TZp
+   TU5R6YhprG8hqvzj5K+Qz8SPR6PFCw/AZARhHNg8cIYhjJ8u/XuUxYB0M
    A==;
-X-CSE-ConnectionGUID: sJIE7yxOSlSb9AtgpJw7tg==
-X-CSE-MsgGUID: uSuV8thCSHqoSAEYpYYTFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="73869828"
+X-CSE-ConnectionGUID: C6KCZIEsQEy5lHpGxbGPGA==
+X-CSE-MsgGUID: F5rAlVjlSIStbNSjZUAn1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48199141"
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="73869828"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 06:14:01 -0700
-X-CSE-ConnectionGUID: eY7t0qt6Q+Gv3ZnZyQiKZg==
-X-CSE-MsgGUID: y1X2bjPrShSmexpRCX1EPg==
+   d="scan'208";a="48199141"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 06:14:02 -0700
+X-CSE-ConnectionGUID: R2j9IbHdT265qKYIcs5yFA==
+X-CSE-MsgGUID: 4nW73/7rTee54r8swJtFGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="167367524"
+   d="scan'208";a="136303282"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 08 May 2025 06:14:00 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 08 May 2025 06:14:00 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uD14Y-000Az5-0f;
+	id 1uD14Y-000Az7-0l;
 	Thu, 08 May 2025 13:13:58 +0000
 Date: Thu, 8 May 2025 21:13:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Alistair Popple <apopple@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/1] include/trace/stages/init.h:2:23:
- warning: 'str__mmc__trace_system_name' defined but not used
-Message-ID: <202505082100.goxtcANO-lkp@intel.com>
+Subject: [jfern:nova/alistair-nova-rpc-with-nouveau-boot 1/5]
+ drivers/gpu/drm/nouveau/nouveau_drm.c:916:7: warning: no previous prototype
+ for 'nouveau_drm_nova_probe'
+Message-ID: <202505082138.KmJNaG8z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,238 +63,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sarthak,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   646380b087a5203408877933afdaa2b480c2bc57
-commit: 631a2db5a3c7ece81f0b931a50ca57c4f8e5e952 [1/1] ANDROID: vendor_hooks: Define new hooks in _mmc_suspend/resume
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505082100.goxtcANO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505082100.goxtcANO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/alistair-nova-rpc-with-nouveau-boot
+head:   920c47c8d7e8ea73072446347e5d0de44a0fa713
+commit: 29c36cd419b242b829b9fe4d175a77d84ab94b8e [1/5] HACK: Use Nouveau for GSP initialisation
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250508/202505082138.KmJNaG8z-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505082138.KmJNaG8z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505082100.goxtcANO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505082138.KmJNaG8z-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/net.h:32,
-                    from drivers/android/vendor_hooks.c:37:
-   include/trace/stages/init.h:2:23: warning: 'str__net__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mm.h:71,
-                    from drivers/android/vendor_hooks.c:36:
-   include/trace/stages/init.h:2:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/iommu.h:46,
-                    from drivers/android/vendor_hooks.c:35:
-   include/trace/stages/init.h:2:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sys.h:16,
-                    from drivers/android/vendor_hooks.c:34:
-   include/trace/stages/init.h:2:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cgroup.h:44,
-                    from drivers/android/vendor_hooks.c:33:
-   include/trace/stages/init.h:2:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mmc.h:25,
-                    from drivers/android/vendor_hooks.c:32:
->> include/trace/stages/init.h:2:23: warning: 'str__mmc__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ufshcd.h:71,
-                    from drivers/android/vendor_hooks.c:31:
-   include/trace/stages/init.h:2:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ftrace_dump.h:36,
-                    from drivers/android/vendor_hooks.c:30:
-   include/trace/stages/init.h:2:23: warning: 'str__ftrace_dump__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/preemptirq.h:31,
-                    from drivers/android/vendor_hooks.c:29:
-   include/trace/stages/init.h:2:23: warning: 'str__preemptirq__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpufreq.h:48,
-                    from drivers/android/vendor_hooks.c:28:
-   include/trace/stages/init.h:2:23: warning: 'str__cpufreq__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/epoch.h:22,
-                    from drivers/android/vendor_hooks.c:27:
-   include/trace/stages/init.h:2:23: warning: 'str__epoch__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:916:7: warning: no previous prototype for 'nouveau_drm_nova_probe' [-Wmissing-prototypes]
+     916 | void *nouveau_drm_nova_probe(struct pci_dev *pdev)
+         |       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nouveau_drm.c: In function 'nouveau_drm_nova_probe':
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:918:13: warning: unused variable 'ret' [-Wunused-variable]
+     918 |         int ret = nouveau_drm_probe(pdev, NULL);
+         |             ^~~
+   drivers/gpu/drm/nouveau/nouveau_drm.c: At top level:
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:938:17: warning: no previous prototype for 'nouveau_drm_nova_get_cmdq' [-Wmissing-prototypes]
+     938 | struct gsp_cmdq nouveau_drm_nova_get_cmdq(void *drvdata)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:985:6: warning: no previous prototype for 'nouveau_drm_nova_remove' [-Wmissing-prototypes]
+     985 | void nouveau_drm_nova_remove(struct pci_dev *pdev, void *drvdata, u32 seq)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/str__mmc__trace_system_name +2 include/trace/stages/init.h
+vim +/nouveau_drm_nova_probe +916 drivers/gpu/drm/nouveau/nouveau_drm.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   915	
+ > 916	void *nouveau_drm_nova_probe(struct pci_dev *pdev)
+   917	{
+ > 918		int ret = nouveau_drm_probe(pdev, NULL);
+   919	
+   920		return dev_get_drvdata(&pdev->dev);
+   921	}
+   922	EXPORT_SYMBOL(nouveau_drm_nova_probe);
+   923	
+   924	struct gsp_cmdq {
+   925		void *falcon;
+   926		void *shm_ptr;
+   927		void *ptr;
+   928		u32 size;
+   929		u32 cnt;
+   930		u32 seq;
+   931		u32 *wptr;
+   932		u32 *rptr;
+   933		void *msgq_ptr;
+   934		u32 *msgq_wptr;
+   935		u32 *msgq_rptr;
+   936	};
+   937	
+ > 938	struct gsp_cmdq nouveau_drm_nova_get_cmdq(void *drvdata)
+   939	{
+   940		struct nouveau_drm *drm = drvdata;
+   941		struct nvkm_subdev *subdev = nvkm_device_subdev(drm->nvkm, NVKM_SUBDEV_GSP, 0);
+   942		struct nvkm_gsp *gsp = nvkm_gsp(subdev);
+   943		struct gsp_cmdq cmdq;
+   944	
+   945		cmdq.falcon = gsp->falcon.owner->device->pri + gsp->falcon.addr + 0xc00;
+   946		cmdq.shm_ptr = gsp->shm.mem.data;
+   947		cmdq.ptr = gsp->shm.cmdq.ptr;
+   948		cmdq.size = gsp->shm.cmdq.size;
+   949		cmdq.cnt = gsp->cmdq.cnt;
+   950		cmdq.seq = gsp->cmdq.seq;
+   951		cmdq.wptr = gsp->cmdq.wptr;
+   952		cmdq.rptr = gsp->cmdq.rptr;
+   953		cmdq.msgq_ptr = gsp->shm.msgq.ptr;
+   954		cmdq.msgq_wptr = gsp->msgq.wptr;
+   955		cmdq.msgq_rptr = gsp->msgq.rptr;
+   956	
+   957		return cmdq;
+   958	}
+   959	EXPORT_SYMBOL(nouveau_drm_nova_get_cmdq);
+   960	
+   961	void
+   962	nouveau_drm_device_remove(struct nouveau_drm *drm)
+   963	{
+   964		struct nvkm_device *device = drm->nvkm;
+   965	
+   966		// drm_dev_unplug(drm->dev);
+   967	
+   968		// nouveau_drm_device_fini(drm);
+   969		nouveau_drm_device_del(drm);
+   970		nvkm_device_del(&device);
+   971	}
+   972	
+   973	static void
+   974	nouveau_drm_remove(struct pci_dev *pdev)
+   975	{
+   976		struct nouveau_drm *drm = pci_get_drvdata(pdev);
+   977	
+   978		/* revert our workaround */
+   979		if (drm->old_pm_cap)
+   980			pdev->pm_cap = drm->old_pm_cap;
+   981		nouveau_drm_device_remove(drm);
+   982		pci_disable_device(pdev);
+   983	}
+   984	
+ > 985	void nouveau_drm_nova_remove(struct pci_dev *pdev, void *drvdata, u32 seq)
+   986	{
+   987		void *old_drvdata = dev_get_drvdata(&pdev->dev);
+   988		struct nouveau_drm *drm = drvdata;
+   989		struct nvkm_subdev *subdev;
+   990		struct nvkm_gsp *gsp;
+   991	
+   992		if (!drvdata)
+   993			return;
+   994	
+   995		dev_set_drvdata(&pdev->dev, drvdata);
+   996		subdev = nvkm_device_subdev(drm->nvkm, NVKM_SUBDEV_GSP, 0);
+   997		gsp = nvkm_gsp(subdev);
+   998		gsp->cmdq.seq = seq;
+   999		nouveau_drm_remove(pdev);
+  1000		dev_set_drvdata(&pdev->dev, old_drvdata);
+  1001	}
+  1002	EXPORT_SYMBOL(nouveau_drm_nova_remove);
+  1003	
 
 -- 
 0-DAY CI Kernel Test Service
