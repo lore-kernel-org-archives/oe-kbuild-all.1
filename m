@@ -1,99 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045F6215772
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 23:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B5822129F;
+	Thu,  8 May 2025 23:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746747182; cv=none; b=nuhLp7Tww20ug9/2mI32+ffDcGFvA41FvdeS4X+5ESbN1Yp3zEk4sfHbY3FeA8fLQ4gfxjJtFKtXAl2YgvqJvkSC2d3MzLtEi4Kb4qi/f/RPTSi5+G60/hLYtUaKDipHpDCh2uaROsm0uCGruPkuYPAVHJI1BapX1FRo0VNYLdY=
+	t=1746747624; cv=none; b=jhWBFUM9zIU6JT78O2eJVvJFwwwFg2PhVuszA1MTf60gfR+52Nv+SBSsorO/FaPfctMM/bMEIfXdXFu4dYXaZQHwIF1JbTEa2OSbawWiVrPJCQ0cMWh69Bktn1RVA3OXS3OVGgdVhTV1Sosjyvg6Bd1iMNzT1PKG2Q8e/M0SSyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746747182; c=relaxed/simple;
-	bh=GzJvRtz4jLGr5nTLzmcy2/qzUET3sUEdh2hLRvg2iFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ip/Ho4xvhkJjpX5YgXNDYSgYRg1ItK1+W7w3Hcm6eTVgyQkiyss+ujRMSP73uC+/3M7xI82mCozfhPcPooNhrLnwSPB1cBfSSpr4rsFchPOQd7gwnUzVt+904XYvF+DPjBUaXDkAaLl5UQBhiZrVkCvqhNneyv2iEhQyD8lfEEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ejm+85QY; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746747624; c=relaxed/simple;
+	bh=UUWwBn0rncdSTvqDy6og+SIyhjFFbURwK0mnp5D1754=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LBpgGYJYqBPYIZYxC0Gba9oep1J5hIhMAv41/DGQcuswrywTEPg9aN8h+F0TIgpYcxGXRiAud5UpNYuXuUxp/vDyNOeOPJ+Wn8jIvIB7zzluBsIvrPBWmVqnl3ZeMtIB6RJyrEpS1gyM0XLQCTVQ9egjUSmqxuVm5dlmqsyNgL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GshmrQna; arc=none smtp.client-ip=209.85.218.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ejm+85QY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746747180; x=1778283180;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GzJvRtz4jLGr5nTLzmcy2/qzUET3sUEdh2hLRvg2iFs=;
-  b=Ejm+85QYIkSCPjTuI7swu317/uODjVqy9ZICZ/GFjeG1rCKxIGuwewGK
-   v4S/dFzI0s4nVZKR0Ppup6nAeFjJJRNYlaU4lpaG0adhvb3DVNl4bGf7N
-   BbpwSSI1899UFzatVnG1d2pgTWzPc708LH/vIqKsy2TFbtTmhaCf2cuUt
-   F+5fWnDd0/Uvil16dLLNB/SDlaWtO2Uf7wZoIHqqGiNKivNEebtiC9B7d
-   YES52pKVkTNozJ9dZm1KDWsHzZKaX4laWQMdWUQ63D/IQ5d843n5QC5W3
-   GEbKfX2paGt0vRAr4RVXcmM6K/A33H3lRCQkTHGiCPoEQA2ZfFkIGj7cy
-   Q==;
-X-CSE-ConnectionGUID: DLfgCq0/SBauqL689UDMqA==
-X-CSE-MsgGUID: D/M7D3/JQt6Purcnxa1X3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52372248"
-X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="52372248"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 16:32:59 -0700
-X-CSE-ConnectionGUID: lDV3WYdnTZiBKOBBrpp90w==
-X-CSE-MsgGUID: vliJDrJ8QdeWNAxn21YeXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="136453368"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 May 2025 16:32:57 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uDAjX-000BT5-2b;
-	Thu, 08 May 2025 23:32:55 +0000
-Date: Fri, 9 May 2025 07:32:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [linux-next:master 8282/9729]
- arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: mipi@21dc000 (fsl,imx6-mipi-csi2):
- 'port' does not match any of the regexes: '^port@[1-4]$', 'pinctrl-[0-9]+'
-Message-ID: <202505090738.CNCKpuyW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GshmrQna"
+Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-ace333d5f7bso259090766b.3;
+        Thu, 08 May 2025 16:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746747621; x=1747352421; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4XCAHAZpzbjMjFqk38iU3CCdfAml8ce6xfHMngiKe84=;
+        b=GshmrQna2SeM+fv70jzymKpO7DG7GJmOhHZjF1WGSeg6MOHIzXII3kNFD/cZFNY/YE
+         ESWnih9KX5I/D3LG1SE57P2qh7IZNcW/i4g4zOucaYlhzxVMiKpoNR15e2B3DmTFJo3w
+         DS32K4IC7QnCNdfwq0KAIRxsWCorr+Wfq6D6levVdIWWjZAe/xyrlNvYbR9nnhVM/0h2
+         qg8GjcNynw8Ywei1OdygfNsf1McfGtLrAO7iGaZIjFua9cyrLSll32XlsMQo9ddQmy1m
+         jNgN/LVLKPOqS8gatl6icly55f1AVDNNLwUgXFqGuUs88oe1B9oy44oH+ksPeeIKGmtO
+         njjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746747621; x=1747352421;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4XCAHAZpzbjMjFqk38iU3CCdfAml8ce6xfHMngiKe84=;
+        b=vVkgbz1jMSWwsM1ZCvSyQpySUIJoN/QCdkXoVFwUa6PWN17Ju7dUJjN+cI83rq4sYx
+         u5sVyVWP29Cfz7HdKG22w7IFVh4x1dwvgkLkb+8uIkcDYGpk64RpRGvB96An4P/GKEsp
+         ECBXYg7LO0de1AJjeRMVUgKym4SqwuFh3uhB0lBNaSSqDQZUAmkWDZsbELtoOBQeHnCH
+         i5z0E5ilSvhSiPZRc0sCWVAahnlzHEEtBa3bFv9LXosQod62f5zwtZwWx/hPSNM5afQk
+         kG2FAAqNYz0rduc5kJe85AyBCOOyo9Ft7Sn3ro+Tu+WJ2G9vSEq5mgqfoppbEdvGe4WG
+         ibQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJxU5N+2NemdfOur2pKME8Em9d2ETABxnFt197DZe9DdoDMX8O14K3+Pc8TufylMaAQH3EeYuo0uEZuGAEJg==@lists.linux.dev, AJvYcCXhm8EMkwT4e//bkDqTR0e8sYeSfym54R9c1kJYCGAFCAlWIAaIAYvj+BFetAb3amcZBRVn@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWbzaSpDU99jRZuAIrpftyJZiz5t7OeJA/8ro8XSGJGxEuRFX7
+	w1etWtVkKokd5/+zJohzV/w1PSTxs4BqzYjN7upy6z+jKcuE/mgbFH1wu3KfxPaDynIvAklEfS1
+	29U+47iaCA2XaerTg3UUSyZ+prGY=
+X-Gm-Gg: ASbGncvo24WTVwvt747UwcUKYrAaIEeiURi+/05PtJFmwpbrZflSTapvdElLXiPOZ8B
+	8pcuq6DdDdES8unki6jURvdVJVDhej5e/YF6wsGBDdrv5RvBSka/CgAfkItt1lhpwfxIV8NTsnX
+	M94deHupU2+ncYMOlD4lF9zNQFaUsEtCO6OuoYCrGQmxtunBdSwnX0nKnKiO8fYBPiAzU=
+X-Google-Smtp-Source: AGHT+IHApQ5OFCfaQS1mUn74daoOJX19yzwZ3sgdO7xX9LpbyPb3Jm1cvNGKxG3HLWErcANGLvfkwfd4xsmogUZmAeU=
+X-Received: by 2002:a17:907:8b8b:b0:ace:6fa7:5ed3 with SMTP id
+ a640c23a62f3a-ad218ea5b8emr158033066b.4.1746747621004; Thu, 08 May 2025
+ 16:40:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <000000000000adb08b061413919e@google.com> <681c597f.050a0220.a19a9.00bd.GAE@google.com>
+In-Reply-To: <681c597f.050a0220.a19a9.00bd.GAE@google.com>
+From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date: Fri, 9 May 2025 01:39:44 +0200
+X-Gm-Features: AX0GCFuVY9CBMsQxhMgZpZ1X-fEBQ2fptYrxdbELCJogxYT5Wfp2wwF916mNEpY
+Message-ID: <CAP01T7525zDpL8nhsLLULCK1Qzw8wVCmHuCX_81Z_HaQAs-q4g@mail.gmail.com>
+Subject: Re: [syzbot] [bpf?] possible deadlock in trie_delete_elem
+To: syzbot <syzbot+9d95beb2a3c260622518@syzkaller.appspotmail.com>
+Cc: andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, 
+	daniel@iogearbox.net, eddyz87@gmail.com, elic@nvidia.com, haoluo@google.com, 
+	hdanton@sina.com, jasowang@redhat.com, john.fastabend@gmail.com, 
+	jolsa@kernel.org, kafai@fb.com, kpsingh@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	lkp@intel.com, llvm@lists.linux.dev, martin.lau@linux.dev, 
+	mathieu.desnoyers@efficios.com, mhiramat@kernel.org, 
+	michal.kukowski@infogain.com, michal.switala@infogain.com, mst@redhat.com, 
+	netdev@vger.kernel.org, norbert.kaminski@igglobal.com, 
+	norbert.kaminski@infogain.com, norkam41@gmail.com, 
+	oe-kbuild-all@lists.linux.dev, parav@nvidia.com, rostedt@goodmis.org, 
+	sdf@fomichev.me, sdf@google.com, song@kernel.org, songliubraving@fb.com, 
+	syzkaller-bugs@googlegroups.com, wojciech.gladysz@infogain.com, yhs@fb.com, 
+	yonghong.song@linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f48887a98b78880b7711aca311fbbbcaad6c4e3b
-commit: 48dbb76cef65fabaa3ac97461eda90495e954ecd [8282/9729] dt-bindings: media: convert imx.txt to yaml format
-config: arm-randconfig-051-20250507 (https://download.01.org/0day-ci/archive/20250509/202505090738.CNCKpuyW-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090738.CNCKpuyW-lkp@intel.com/reproduce)
+#syz fix: bpf: Convert lpm_trie.c to rqspinlock
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505090738.CNCKpuyW-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: pcf8523@68 (nxp,pcf8523): $nodename:0: 'pcf8523@68' does not match '^rtc(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf8523.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/bus@2100000/i2c@21a0000/tc358743@f: failed to match any schema with compatible: ['toshiba,tc358743']
->> arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: mipi@21dc000 (fsl,imx6-mipi-csi2): 'port' does not match any of the regexes: '^port@[1-4]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/fsl,imx6-mipi-csi2.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/bus@2100000/vdoa@21e4000: failed to match any schema with compatible: ['fsl,imx6q-vdoa']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/ipu@2400000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/ipu@2800000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /display-subsystem: failed to match any schema with compatible: ['fsl,imx-display-subsystem']
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Thu, 8 May 2025 at 09:21, syzbot
+<syzbot+9d95beb2a3c260622518@syzkaller.appspotmail.com> wrote:
+>
+> syzbot suspects this issue was fixed by commit:
+>
+> commit 47979314c0fe245ed54306e2f91b3f819c7c0f9f
+> Author: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> Date:   Sun Mar 16 04:05:37 2025 +0000
+>
+>     bpf: Convert lpm_trie.c to rqspinlock
+>
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=140598f4580000
+> start commit:   c2933b2befe2 Merge tag 'net-6.14-rc1' of git://git.kernel...
+> git tree:       net-next
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=d033b14aeef39158
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9d95beb2a3c260622518
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=108e1724580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=177035f8580000
+>
+> If the result looks correct, please mark the issue as fixed by replying with:
+>
+> #syz fix: bpf: Convert lpm_trie.c to rqspinlock
+>
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>
