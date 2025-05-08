@@ -1,87 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243EA1519BF;
-	Thu,  8 May 2025 00:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEFB101C8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 01:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746664499; cv=none; b=KyEO9WpParNXJnAeBr6ysHEp5e+VM6NoiQym+bcHsyqOxxsVjOONEBJz9qe/JDurciDiEhoV9BYiJ7/dfMUEtO2WNr/3087dAwXraZ8f9Gdq2+1T1x4Xb7+Hsb+ifVssP7jS0CaEOTWJmULXMn3il1zzRPj+g4jmwiu8z5PNDwI=
+	t=1746666329; cv=none; b=bKOj72pLZDaQ9o0kyaHC7h4KUYjmrQw90lQXV8Cjpjbk4rBbBdzzqw7Z14xLPhYwtwueWCi1irDDEw2LVIvLsgMsBCWrxcy4dpd7xPBURWDvYugu3eFzSCZyoCrRPiYfTDSqFOHqqtld3MTphFBuNbASf3moYxC73xBqW+JLUrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746664499; c=relaxed/simple;
-	bh=JlSoo1vEYf4Hg8zkm14YryrN6OYMiqeNqRlyThVNjP8=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=QJ8qkyxyCuYeTRpXjpBFeaj5JEwnmRBhIybpZe9E+lM3TYCkPSTNX03jdsuFRqO5GV/e1igEDaann/X4O1JEJxvShnSsf8X4kkOmBw2MIOFMclIQSk4FfyokldKFqGK45tvi4pqoLfmV1utv/xnTzQ4/U0f21d6m569Qym4QjRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=mjyHxqXB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746666329; c=relaxed/simple;
+	bh=+OBmtRyqGrqdk0BfHILE2cvp1hVJ9ArGFKGPg8MWcBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dbphjP0iSZvI574qpT44hQomXef/fucSN7HxXZVSfwu4KruG+e1tPs64z6l2W1vzImhfBnwkmap/MXIvJFEw4nO2s+l/wNX94TIPac80vdOFUA6oYe/gdfyGcEipSv1BPJn1ns5VCiXOn89n910P6tSgks/RMom1k5mAvoDA6tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ETwDlxue; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="mjyHxqXB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E1CC4CEE2;
-	Thu,  8 May 2025 00:34:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1746664498;
-	bh=JlSoo1vEYf4Hg8zkm14YryrN6OYMiqeNqRlyThVNjP8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mjyHxqXBTuL/C33GIeEKXv9J+4fm0TfyMtimPLBVg2RohCxzJRquEGeDJY9Lp1zVc
-	 nwMQBzXTIgs7z9wUQtt8X7WUIjDWQYSCwqLLkVSbCbrqFuuWd8JQp8BUp4JAQq3TBd
-	 cP1m3iJd7zDuCwy1LtJ+Ku9wkEiPvj0qgvucCFDc=
-Date: Wed, 7 May 2025 17:34:57 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Shivank Garg <shivankg@amd.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 7893/8235] fs/jfs/jfs_metapage.c:245
- __metapage_migrate_folio() error: we previously assumed 'mp' could be null
- (see line 235)
-Message-Id: <20250507173457.d2c6eb2b92a10fbd4185cf1f@linux-foundation.org>
-In-Reply-To: <21037c25-b85c-48fa-bdac-27cb3be2ccdb@amd.com>
-References: <202505071850.XaOkcCkX-lkp@intel.com>
-	<21037c25-b85c-48fa-bdac-27cb3be2ccdb@amd.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ETwDlxue"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746666328; x=1778202328;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+OBmtRyqGrqdk0BfHILE2cvp1hVJ9ArGFKGPg8MWcBM=;
+  b=ETwDlxueXAAg/9jlOiuDRlZSio00cajnuOWozBWkTe6dLr7Y/TptyMVA
+   mr7Hhk4GdsG08S/YSosqeKJgObnMrtYOEZyN5GJVaOP5840YUO2bQ6pU9
+   nHKLGAF+MjjgOXJ+pRGlex8xqHwO5KuebszoP1x43PyTwSSB3VHLL/G8D
+   AKCEjN7dwtYhyW17l8swBkqTZNO/KTy81beIFgP1rh8ntZDG5L43T+4Sd
+   XjGv5Fe6N/cc+TMaYSn1vBPesgOFcZat+uW57aTjj3nzgsJ/O/Tzehgka
+   yrL4oQSzqHnU22juKQ0gIlpNjvVo65c4k43kkzW+bVjeJeIyqq2nKaqdR
+   w==;
+X-CSE-ConnectionGUID: qRBbaDbiT6SleCMmPpUfZA==
+X-CSE-MsgGUID: ztMlrB+kRb+jsaf7S6J9Aw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="47531539"
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="47531539"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 18:05:09 -0700
+X-CSE-ConnectionGUID: 6XLezF0qT7SmHGl47JC0Og==
+X-CSE-MsgGUID: /kIa41esQfadnkmHvOY+uQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; 
+   d="scan'208";a="141003950"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 07 May 2025 18:04:44 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCpgo-0009Af-0K;
+	Thu, 08 May 2025 01:04:42 +0000
+Date: Thu, 8 May 2025 09:04:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zhengchao Shao <shaozhengchao@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2208/2208] include/trace/stages/init.h:2:23:
+ warning: 'str__bonding__trace_system_name' defined but not used
+Message-ID: <202505080910.94UlZrA0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 7 May 2025 17:19:52 +0530 Shivank Garg <shivankg@amd.com> wrote:
+Hi Wei,
 
-> This is a false positive.
-> 
-> In metapage_migrate_folio(), it checks if (!src->private) and only calls
-> __metapage_migrate_folio() if src->private is non-NULL
-> 
-> static int metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
-> 				  struct folio *src, enum migrate_mode mode)
-> {
-> ...
-> 	if (!src->private)
-> 		return filemap_migrate_folio(mapping, dst, src, mode);
-> ...
-> ...
-> 	return __metapage_migrate_folio(mapping, dst, src, mode);
-> }
-> 
-> Then __metapage_migrate_folio() calls mp = folio_to_mp(src, 0), which returns src->private.
-> Which should not be NULL as previously checked.
-> 
-> I think we can skip the mp != NULL check from 
-> > 39ed4d1a0e03ce Shivank Garg  2025-04-30 @235  	if (mp && metapage_locked(mp))
-> It seem redundant here.
+FYI, the error/warning still remains.
 
-Yes.  Right now the code simply looks wrong:
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   66448995cc552d846c7442188f69e833f4a86676
+commit: 69ddcb21328bd29cfd2f64710bdac158f4c90bf6 [2208/2208] drivers: hooks: add bonding driver vendor hooks
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505080910.94UlZrA0-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505080910.94UlZrA0-lkp@intel.com/reproduce)
 
-	mp = folio_to_mp(src, 0);
-	if (mp && metapage_locked(mp))
-		return -EAGAIN;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505080910.94UlZrA0-lkp@intel.com/
 
-	...
+All warnings (new ones prefixed by >>):
 
-	page_offset = mp->data - folio_address(src);
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bonding.h:27,
+                    from drivers/hooks/vendor_hooks.c:11:
+>> include/trace/stages/init.h:2:23: warning: 'str__bonding__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
-any reader of this will be worried.  A code comment (at least) would
-save them concern and time.  Reworking the code to eliminate doubt
-would be better.
 
+vim +/str__bonding__trace_system_name +2 include/trace/stages/init.h
+
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
