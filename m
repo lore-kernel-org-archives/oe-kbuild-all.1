@@ -1,80 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555ED7260E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 02:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8B54B1E5E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 03:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746671835; cv=none; b=iRXAejoEgXmYsIXXG4TEFco9oWtbGZf6LeRda36k74MykrV+msZR9RzRnnqiIKkOlooEvJNdXXxTRCc3UAapdFTPp2gYl5r5pZIBOC754zl1wrRQrRrT9t6eVW0Fxp3Zhhd8FX+CQVf7PyNOpYfTRiBD+19ixHDjKRnqSBaaXIA=
+	t=1746673701; cv=none; b=aEmarkm6ZeSuxx03mnOKICu0TdZ/AFNCReJtYIOB84ea3ElL7V7HVcaIpZ5vkv7RIrW4bfXW74CGsuUjEDuqzAKBPozdHD+NDYsrUJEIR/2VZi3mBHjk6VKiCDJ4LnID7sMqNcaRvWeWfff83PSUGdg5CAA2zt91F0ozkGAKLns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746671835; c=relaxed/simple;
-	bh=lbcruhGKAWZRzOTb1H0zOgqukDxfRer4cbf00zWqjV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iK3L7lgSWvbYDOSYBEWUO3UvC1ULbDTa73xPnK/Zv6xWdKem1NNahwgxGhTXZs+XWYx5cZvSihDbUF6O88ax1Ww7H3UW/soxmG5xG8gFFpmQ/MjN+4oXnjpm5gPpe9Ug2KaDpeWTfE+YNmKXLqYNaB4/SG4bwe1Y/aQfh3vEuTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAwWNS7s; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1746673701; c=relaxed/simple;
+	bh=yML5g/MS9ClmkpXANu7PskC40tiAUW9Hf7znLkoiYKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a2FSlBlM7GUOW8NzptxQ8y5SYOFv7UD7gIDWaQmiuP2fkYPdQa+nkHIpJDacYH3uvWZIayM2O3kTd0sKxX4ZrWCWpNRdrnDq3y73T8PS/2PwrjgrbILFJmSNVcelvtNtNsmIIll425TWpueUwCcslG42B/z5HvDl0qVHLvwzqfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M8djX3Ne; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAwWNS7s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M8djX3Ne"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746671833; x=1778207833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lbcruhGKAWZRzOTb1H0zOgqukDxfRer4cbf00zWqjV0=;
-  b=LAwWNS7sIUaNQ7Rgko+Lmn7IPxbOgNCzUD8BvavfY/zLkKsZh/vT87jl
-   Ui4MRXvZSi4Vf1i4pw3RfbBBw5Cextq1ZMCBvYw8pt+TeoFiaokh86VlX
-   IP4E3XJ5krHnbTujTaziypAkxl96tfi1qB0wxnsxaqJZXrBtf9lkfBFSQ
-   OMOKh9bEqIna5rvFWLERzo6tMOmkr3rw4IuhTx5O8vfe3UOJUXP3KkDbY
-   aUJniCIE4BgB7TcjmMrx2COF0Jf78KRRq9a1zpCNUtkN0pFdQM96l4O3B
-   tUJxYTVQfoNAFy2RZ+pXM3dpKEGig6Whb9RnyojI67b4QzH5hylILSk6m
+  t=1746673699; x=1778209699;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yML5g/MS9ClmkpXANu7PskC40tiAUW9Hf7znLkoiYKY=;
+  b=M8djX3NejT7QRsNEst9gl7eYVACXHK9PVUBSkX8c8vcLp17eB42Vv4s8
+   JafGsfZ6RSx/82rwt2CPhqnI4fmuWmZhvT36VgXTO6jL1W4aBuN8mnOcj
+   v5DW9ZMXLABEDszh8aRZVSe9FFhNFmo1maRgxk87NuihoVYbGSJqKISOn
+   2O4UGoKHKTtbJ7Ben2XdZwFFZO5LAStVCguEyTForpa8EnQHVYfW8SsYT
+   PhwJDfvN8ARukpb1KC7/UbQ5UwG6wNeDg537fmLLVG6FmzziA5JgeZh7E
+   ewePSkTsy6c3aH96GGX07e7+Bj56rRLCQ/vNJZumCyikri8cLooROdn7u
    Q==;
-X-CSE-ConnectionGUID: i/c6Lb4MQuCXI5K2ppkaOw==
-X-CSE-MsgGUID: 6LKSpN1jQme4cHNMPIPhTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59095156"
+X-CSE-ConnectionGUID: YkhhVS3LSYKWbuU+7IaH5Q==
+X-CSE-MsgGUID: eWSGH/OsTIqmNkxDoASl3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="36065904"
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="59095156"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 19:37:12 -0700
-X-CSE-ConnectionGUID: I+QNqCn1Sf+Wre8qqSyiGA==
-X-CSE-MsgGUID: L40G57OYRHOWr/ji854nug==
+   d="scan'208";a="36065904"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 20:08:17 -0700
+X-CSE-ConnectionGUID: 3QuXDR0USdC09K5jk4ewEA==
+X-CSE-MsgGUID: Q1kS3p+SSnufKHsSlmbNyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="136084715"
+   d="scan'208";a="141110929"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 19:37:06 -0700
+  by orviesa004.jf.intel.com with ESMTP; 07 May 2025 20:08:16 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCr8C-0009Sh-08;
-	Thu, 08 May 2025 02:37:04 +0000
-Date: Thu, 8 May 2025 10:36:59 +0800
+	id 1uCrcM-0009dC-0D;
+	Thu, 08 May 2025 03:08:14 +0000
+Date: Thu, 8 May 2025 11:07:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>,
-	vger.kernel.org@web.codeaurora.org
-Cc: oe-kbuild-all@lists.linux.dev, Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Jakub Sitnicki <jakub@cloudflare.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH bpf-next v4 2/2] bpf: Move the BPF net tracepoint
- definitions to net directory
-Message-ID: <202505081003.T2Tv4puD-lkp@intel.com>
-References: <20250506025131.136929-2-jiayuan.chen@linux.dev>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:klp-build 35/38] weak.c:30:12: error: redefinition of
+ 'cmd_klp'
+Message-ID: <202505081013.lfCq9z0R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,88 +61,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250506025131.136929-2-jiayuan.chen@linux.dev>
 
-Hi Jiayuan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiayuan-Chen/bpf-Move-the-BPF-net-tracepoint-definitions-to-net-directory/20250506-150437
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250506025131.136929-2-jiayuan.chen%40linux.dev
-patch subject: [RESEND PATCH bpf-next v4 2/2] bpf: Move the BPF net tracepoint definitions to net directory
-config: arc-defconfig (https://download.01.org/0day-ci/archive/20250508/202505081003.T2Tv4puD-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081003.T2Tv4puD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build
+head:   c7cf40de61ae56a6194b17089d0920c690f27a5d
+commit: 1584ec1b1a2df9307ce52e215aa044ac6a5c9f64 [35/38] objtool, livepatch: Livepatch module generation
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20250508/202505081013.lfCq9z0R-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081013.lfCq9z0R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505081003.T2Tv4puD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081013.lfCq9z0R-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arc-linux-ld: net/core/dev.o: in function `netif_receive_generic_xdp':
->> dev.c:(.text+0xb3b4): undefined reference to `__tracepoint_xdp_exception'
->> arc-linux-ld: dev.c:(.text+0xb3b4): undefined reference to `__tracepoint_xdp_exception'
->> arc-linux-ld: dev.c:(.text+0xb3e8): undefined reference to `__traceiter_xdp_exception'
->> arc-linux-ld: dev.c:(.text+0xb3e8): undefined reference to `__traceiter_xdp_exception'
-   arc-linux-ld: net/core/dev.o: in function `generic_xdp_tx':
-   dev.c:(.text+0xb488): undefined reference to `__tracepoint_xdp_exception'
-   arc-linux-ld: dev.c:(.text+0xb488): undefined reference to `__tracepoint_xdp_exception'
-   arc-linux-ld: dev.c:(.text+0xb4c4): undefined reference to `__tracepoint_xdp_exception'
-   arc-linux-ld: dev.c:(.text+0xb4c4): undefined reference to `__tracepoint_xdp_exception'
-   arc-linux-ld: dev.c:(.text+0xb594): undefined reference to `__traceiter_xdp_exception'
-   arc-linux-ld: dev.c:(.text+0xb594): undefined reference to `__traceiter_xdp_exception'
-   arc-linux-ld: net/core/filter.o: in function `__do_trace_xdp_redirect_err':
->> filter.c:(.text+0x6f88): undefined reference to `__traceiter_xdp_redirect_err'
->> arc-linux-ld: filter.c:(.text+0x6f88): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: net/core/filter.o: in function `xdp_do_redirect_frame':
->> filter.c:(.text+0xc45e): undefined reference to `__tracepoint_xdp_redirect_err'
->> arc-linux-ld: filter.c:(.text+0xc45e): undefined reference to `__tracepoint_xdp_redirect_err'
->> arc-linux-ld: filter.c:(.text+0xc490): undefined reference to `__tracepoint_xdp_redirect'
->> arc-linux-ld: filter.c:(.text+0xc490): undefined reference to `__tracepoint_xdp_redirect'
->> arc-linux-ld: filter.c:(.text+0xc500): undefined reference to `__traceiter_xdp_redirect'
->> arc-linux-ld: filter.c:(.text+0xc500): undefined reference to `__traceiter_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xc55a): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xc55a): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xc594): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xc594): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: net/core/filter.o: in function `xdp_do_redirect':
-   filter.c:(.text+0xc682): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xc682): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xc6ba): undefined reference to `__tracepoint_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xc6ba): undefined reference to `__tracepoint_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xc734): undefined reference to `__traceiter_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xc734): undefined reference to `__traceiter_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xc7d6): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xc7d6): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xc810): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xc810): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: net/core/filter.o: in function `xdp_do_generic_redirect':
-   filter.c:(.text+0xd326): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xd326): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xd3a4): undefined reference to `__tracepoint_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xd3a4): undefined reference to `__tracepoint_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xd3ea): undefined reference to `__tracepoint_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xd3ea): undefined reference to `__tracepoint_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xd454): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xd454): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xd4b2): undefined reference to `__traceiter_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xd4b2): undefined reference to `__traceiter_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xd4ec): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xd4ec): undefined reference to `__tracepoint_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xd532): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xd532): undefined reference to `__traceiter_xdp_redirect_err'
-   arc-linux-ld: filter.c:(.text+0xd594): undefined reference to `__traceiter_xdp_redirect'
-   arc-linux-ld: filter.c:(.text+0xd594): undefined reference to `__traceiter_xdp_redirect'
-   arc-linux-ld: net/core/xdp.o: in function `xdp_rxq_info_reg_mem_model':
->> xdp.c:(.text+0x58e): undefined reference to `__tracepoint_mem_connect'
->> arc-linux-ld: xdp.c:(.text+0x58e): undefined reference to `__tracepoint_mem_connect'
->> arc-linux-ld: xdp.c:(.text+0x5d2): undefined reference to `__traceiter_mem_connect'
->> arc-linux-ld: xdp.c:(.text+0x5d2): undefined reference to `__traceiter_mem_connect'
+>> weak.c:30:12: error: redefinition of 'cmd_klp'
+      30 | int __weak cmd_klp(int argc, const char **argv)
+         |            ^~~~~~~
+   In file included from weak.c:12:
+   tools/objtool/include/objtool/builtin.h:55:12: note: previous definition of 'cmd_klp' with type 'int(int,  const char **)'
+      55 | static int cmd_klp(int argc, const char **argv)
+         |            ^~~~~~~
+>> tools/objtool/include/objtool/builtin.h:55:12: warning: 'cmd_klp' defined but not used [-Wunused-function]
+   In file included from arch/powerpc/special.c:5:
+>> tools/objtool/include/objtool/builtin.h:55:12: warning: 'cmd_klp' defined but not used [-Wunused-function]
+      55 | static int cmd_klp(int argc, const char **argv)
+         |            ^~~~~~~
+   make[5]: *** [tools/build/Makefile.build:86: tools/objtool/weak.o] Error 1
+   In file included from tools/objtool/include/objtool/warn.h:15,
+                    from arch/powerpc/decode.c:8:
+>> tools/objtool/include/objtool/builtin.h:55:12: warning: 'cmd_klp' defined but not used [-Wunused-function]
+      55 | static int cmd_klp(int argc, const char **argv)
+         |            ^~~~~~~
+   In file included from special.c:15:
+>> tools/objtool/include/objtool/builtin.h:55:12: warning: 'cmd_klp' defined but not used [-Wunused-function]
+      55 | static int cmd_klp(int argc, const char **argv)
+         |            ^~~~~~~
+   In file included from builtin-check.c:14:
+>> tools/objtool/include/objtool/builtin.h:55:12: warning: 'cmd_klp' defined but not used [-Wunused-function]
+      55 | static int cmd_klp(int argc, const char **argv)
+         |            ^~~~~~~
+   In file included from elf.c:22:
+>> tools/objtool/include/objtool/builtin.h:55:12: warning: 'cmd_klp' defined but not used [-Wunused-function]
+      55 | static int cmd_klp(int argc, const char **argv)
+         |            ^~~~~~~
+   In file included from check.c:12:
+>> tools/objtool/include/objtool/builtin.h:55:12: warning: 'cmd_klp' defined but not used [-Wunused-function]
+      55 | static int cmd_klp(int argc, const char **argv)
+         |            ^~~~~~~
+   In function 'is_first_func_insn',
+       inlined from 'add_jump_destinations' at check.c:1675:7:
+   check.c:1528:17: warning: 'dest_insn' may be used uninitialized [-Wmaybe-uninitialized]
+    1528 |         if (insn->offset == func->offset)
+         |             ~~~~^~~~~~~~
+   check.c: In function 'add_jump_destinations':
+   check.c:1554:37: note: 'dest_insn' was declared here
+    1554 |                 struct instruction *dest_insn;
+         |                                     ^~~~~~~~~
+   make[5]: Target '__build' not remade because of errors.
+   make[4]: *** [Makefile:81: tools/objtool/objtool-in.o] Error 2
+   make[4]: Target 'all' not remade because of errors.
+   make[3]: *** [Makefile:72: objtool] Error 2
+   make[2]: *** [Makefile:1454: tools/objtool] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
