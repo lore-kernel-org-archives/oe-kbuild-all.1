@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A2021D581
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 23:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B4122F3B1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 23:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746745741; cv=none; b=TuihREE6s66Y2OSnrjuQXSHrHPpFeTZW/dM2VcnQtDaAkXckLIKyldrBGAxt93A4LYztvMFHN6fSVnCv/7XSQQyz2/N4ohjnh1k9pVdoiblKD4cJYTRdbDSSvY2fbeOpxrAd1m7xGSxbvR9nm2p5NwFCsHZnsyUcl8bDHVCKIqA=
+	t=1746746583; cv=none; b=Ot0hhPVObV+ecckWK2BorWG1eWWhkoGff7QgNGRpTdJn33EcKajTukq9repZ3UCXdVSAiBNLpYuIbEhU2vWc8HndcFl/YI3KvBaZCOYBue1mzJIKxmo3+Vi0A9o4X8GU5Nr2+8bcltz0WSv1t0oycAFiiShMDAByEXaZOhc4Ffc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746745741; c=relaxed/simple;
-	bh=MRoRgKaaK80dFd9BoaLdxqNIvrjsg6AYGVm60FPhPVE=;
+	s=arc-20240116; t=1746746583; c=relaxed/simple;
+	bh=FONvhT1jAfHPxkn8m504XAWgTKv+f5ZT1tzDmrZh2U8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iD/cT2xB+ZGA/sWNRE1la3crtkoqWcSzV66yj9VSWZegnrwm6nWTVf9pGprGz8VzEsLr31FU1ptZFfHcjCErOLJCjbP/B9oYHtfD1cwOB6VyN4aCV+F4rROjLXe4A5UoozrbgaDMJMWb564ahQN4h4pbFi8jBShLwhFsQdQRUA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRClHWyG; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mit3Rp85Ixl+HAEOoiucKsZ/2Hna+t+4nZffPt0LjZxSuAMpbjIqyQY1uQSKwvUzAlF9MnmIt7zH3eGqD1Nfycf+cAtLoxrRxBuwH8REAZ3eV6+6u/cMjuW0SCzKMrJ2flncnlwQ17dRoVKfjtAjxq6PqbdsA6DdGaXlmTAWBEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZAJ38mWU; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRClHWyG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZAJ38mWU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746745739; x=1778281739;
+  t=1746746582; x=1778282582;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MRoRgKaaK80dFd9BoaLdxqNIvrjsg6AYGVm60FPhPVE=;
-  b=FRClHWyGvrkI1YqJQGG87DB6r2P+iiHwEc49Xlz6ZUi7Svkhd1cpBEt1
-   ytl6Ub5ohwsyLtmPS8FnCItc9j4EdGvBW925LrXYMlQBiQsQV5dh6DgIe
-   Vy0OLn9rZ98rLxEFSidxUsg+Jz5sLo4M04uAePQ/z9DKHF0vUPYnKHBqK
-   tXNAYHqMarbhQo33dVcTzM2r3QyOQ6G/TfwtFLteMH7D+WLk0UBXT0+g7
-   0/aZLI6bLFmI+hyGPYOhy0LgInEcEig0EmkOcn8NTYRh7ybU83FTagaGs
-   EwgP+opj3VFZ5McN7y5dp52uy/n8DDuIkfmIsMr8zQq43v+xXCaheDiAi
-   g==;
-X-CSE-ConnectionGUID: 8QiHlWVFR8C823Zd07+9Aw==
-X-CSE-MsgGUID: kmzKxg/lRReR5X/kEcbOiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48715290"
+  bh=FONvhT1jAfHPxkn8m504XAWgTKv+f5ZT1tzDmrZh2U8=;
+  b=ZAJ38mWUHHCfl5TQoVbLir0w0qwnb1p6wJSAzegCibKum5Jzn8wNBfDk
+   fNVVNxBQLIKp7JVS6g9r9Z7OQrjf0nyKP7O8/AWJo31K2QIQ4nXBVIDPd
+   EhKy+uSmx9IPkhQOb3MZ5vEdxJZ9vN7FOKrihUB+4II7bHkFXx6CYcuRg
+   3A55SIpq/bfZJy5h/LLGUEdX3ObJAPB9C7toKoWZ/tYaa8aL63ThWGfHW
+   gac60RyTXYD6yBwOHMa0MlH87cF2sMdN5u27XOmi3/pyo8Y7hRQZd1VyO
+   VefCMNn+TBBTVg7S2rRbZ2GZQ280uMjMZdw/B4PC08sY9fQ1Sw8ef+wHf
+   A==;
+X-CSE-ConnectionGUID: TzXSykMRQc2ybhv0sWl5hA==
+X-CSE-MsgGUID: ZoaFVpWWSyq4zhPO5Qq41g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="36184677"
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="48715290"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 16:08:58 -0700
-X-CSE-ConnectionGUID: czhanyFAQ8uyoJH+hvnbMg==
-X-CSE-MsgGUID: 0QpvmaggSyiuouyNUcFvTg==
+   d="scan'208";a="36184677"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 16:22:59 -0700
+X-CSE-ConnectionGUID: CmASKxS3Rz6bGPgRz2dXFQ==
+X-CSE-MsgGUID: +dg5XxO/SNubZMX0JB+v4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="136449879"
+   d="scan'208";a="136400983"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 May 2025 16:08:56 -0700
+  by orviesa006.jf.intel.com with ESMTP; 08 May 2025 16:22:57 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDAMI-000BSN-0e;
-	Thu, 08 May 2025 23:08:54 +0000
-Date: Fri, 9 May 2025 07:08:45 +0800
+	id 1uDAZr-000BSh-0B;
+	Thu, 08 May 2025 23:22:55 +0000
+Date: Fri, 9 May 2025 07:21:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Neil Brown <neilb@suse.de>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 1/3] nfsd: call svc_fill_write_vector from nfsd_vfs_write
-Message-ID: <202505090631.R8lqfckA-lkp@intel.com>
-References: <20250507115617.3995150-2-hch@lst.de>
+To: Dawei Li <dawei.li@linux.dev>, andersson@kernel.org,
+	mathieu.poirier@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dawei.li@linux.dev,
+	set_pte_at@outlook.com
+Subject: Re: [PATCH 3/3] rpmsg: ctrl: Introduce RPMSG_CREATE_EPT_FD_IOCTL uAPI
+Message-ID: <202505090716.iB4qQAf2-lkp@intel.com>
+References: <20250507141712.4276-4-dawei.li@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,125 +65,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507115617.3995150-2-hch@lst.de>
+In-Reply-To: <20250507141712.4276-4-dawei.li@linux.dev>
 
-Hi Christoph,
+Hi Dawei,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on trondmy-nfs/linux-next linus/master v6.15-rc5]
-[cannot apply to next-20250508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 92a09c47464d040866cf2b4cd052bc60555185fb]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/nfsd-use-rq_bvec-instead-of-rq_vec-in-nfsd_vfs_write/20250507-205615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250507115617.3995150-2-hch%40lst.de
-patch subject: [PATCH 1/3] nfsd: call svc_fill_write_vector from nfsd_vfs_write
-config: x86_64-randconfig-121-20250508 (https://download.01.org/0day-ci/archive/20250509/202505090631.R8lqfckA-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090631.R8lqfckA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dawei-Li/rpmsg-char-Reuse-eptdev-logic-for-anon-device/20250507-223209
+base:   92a09c47464d040866cf2b4cd052bc60555185fb
+patch link:    https://lore.kernel.org/r/20250507141712.4276-4-dawei.li%40linux.dev
+patch subject: [PATCH 3/3] rpmsg: ctrl: Introduce RPMSG_CREATE_EPT_FD_IOCTL uAPI
+config: i386-randconfig-011-20250508 (https://download.01.org/0day-ci/archive/20250509/202505090716.iB4qQAf2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090716.iB4qQAf2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505090631.R8lqfckA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505090716.iB4qQAf2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/nfsd/vfs.c:1167:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __be32 @@     got int @@
-   fs/nfsd/vfs.c:1167:24: sparse:     expected restricted __be32
-   fs/nfsd/vfs.c:1167:24: sparse:     got int
+All warnings (new ones prefixed by >>):
 
-vim +1167 fs/nfsd/vfs.c
+   In file included from drivers/rpmsg/rpmsg_ctrl.c:28:
+   drivers/rpmsg/rpmsg_char.h:54:1: error: expected identifier or '(' before '{' token
+      54 | {
+         | ^
+>> drivers/rpmsg/rpmsg_char.h:52:19: warning: 'rpmsg_eptdev_create' used but never defined
+      52 | static inline int rpmsg_eptdev_create(struct rpmsg_device *rpdev, struct device *parent,
+         |                   ^~~~~~~~~~~~~~~~~~~
 
-  1142	
-  1143	__be32
-  1144	nfsd_vfs_write(struct svc_rqst *rqstp, struct svc_fh *fhp, struct nfsd_file *nf,
-  1145			loff_t offset, struct xdr_buf *payload, unsigned long *cnt,
-  1146			int stable, __be32 *verf)
-  1147	{
-  1148		struct nfsd_net		*nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
-  1149		struct file		*file = nf->nf_file;
-  1150		struct super_block	*sb = file_inode(file)->i_sb;
-  1151		struct svc_export	*exp;
-  1152		struct iov_iter		iter;
-  1153		errseq_t		since;
-  1154		__be32			nfserr;
-  1155		int			host_err;
-  1156		loff_t			pos = offset;
-  1157		unsigned long		exp_op_flags = 0;
-  1158		unsigned int		pflags = current->flags;
-  1159		rwf_t			flags = 0;
-  1160		bool			restore_flags = false;
-  1161		unsigned int		nvecs;
-  1162	
-  1163		trace_nfsd_write_opened(rqstp, fhp, offset, *cnt);
-  1164	
-  1165		nvecs = svc_fill_write_vector(rqstp, payload);
-  1166		if (WARN_ON_ONCE(nvecs > ARRAY_SIZE(rqstp->rq_vec)))
-> 1167			return -EIO;
-  1168	
-  1169		if (sb->s_export_op)
-  1170			exp_op_flags = sb->s_export_op->flags;
-  1171	
-  1172		if (test_bit(RQ_LOCAL, &rqstp->rq_flags) &&
-  1173		    !(exp_op_flags & EXPORT_OP_REMOTE_FS)) {
-  1174			/*
-  1175			 * We want throttling in balance_dirty_pages()
-  1176			 * and shrink_inactive_list() to only consider
-  1177			 * the backingdev we are writing to, so that nfs to
-  1178			 * localhost doesn't cause nfsd to lock up due to all
-  1179			 * the client's dirty pages or its congested queue.
-  1180			 */
-  1181			current->flags |= PF_LOCAL_THROTTLE;
-  1182			restore_flags = true;
-  1183		}
-  1184	
-  1185		exp = fhp->fh_export;
-  1186	
-  1187		if (!EX_ISSYNC(exp))
-  1188			stable = NFS_UNSTABLE;
-  1189	
-  1190		if (stable && !fhp->fh_use_wgather)
-  1191			flags |= RWF_SYNC;
-  1192	
-  1193		iov_iter_kvec(&iter, ITER_SOURCE, rqstp->rq_vec, nvecs, *cnt);
-  1194		since = READ_ONCE(file->f_wb_err);
-  1195		if (verf)
-  1196			nfsd_copy_write_verifier(verf, nn);
-  1197		host_err = vfs_iter_write(file, &iter, &pos, flags);
-  1198		if (host_err < 0) {
-  1199			commit_reset_write_verifier(nn, rqstp, host_err);
-  1200			goto out_nfserr;
-  1201		}
-  1202		*cnt = host_err;
-  1203		nfsd_stats_io_write_add(nn, exp, *cnt);
-  1204		fsnotify_modify(file);
-  1205		host_err = filemap_check_wb_err(file->f_mapping, since);
-  1206		if (host_err < 0)
-  1207			goto out_nfserr;
-  1208	
-  1209		if (stable && fhp->fh_use_wgather) {
-  1210			host_err = wait_for_concurrent_writes(file);
-  1211			if (host_err < 0)
-  1212				commit_reset_write_verifier(nn, rqstp, host_err);
-  1213		}
-  1214	
-  1215	out_nfserr:
-  1216		if (host_err >= 0) {
-  1217			trace_nfsd_write_io_done(rqstp, fhp, offset, *cnt);
-  1218			nfserr = nfs_ok;
-  1219		} else {
-  1220			trace_nfsd_write_err(rqstp, fhp, offset, host_err);
-  1221			nfserr = nfserrno(host_err);
-  1222		}
-  1223		if (restore_flags)
-  1224			current_restore_flags(pflags, PF_LOCAL_THROTTLE);
-  1225		return nfserr;
-  1226	}
-  1227	
+
+vim +/rpmsg_eptdev_create +52 drivers/rpmsg/rpmsg_char.h
+
+69265bc12b6567 Arnaud Pouliquen 2022-01-24  51  
+73c9f094eaac8b Dawei Li         2025-05-07 @52  static inline int rpmsg_eptdev_create(struct rpmsg_device *rpdev, struct device *parent,
+73c9f094eaac8b Dawei Li         2025-05-07  53  				      struct rpmsg_channel_info chinfo, int *pfd);
+73c9f094eaac8b Dawei Li         2025-05-07 @54  {
+73c9f094eaac8b Dawei Li         2025-05-07  55  	return -ENXIO;
+73c9f094eaac8b Dawei Li         2025-05-07  56  }
+73c9f094eaac8b Dawei Li         2025-05-07  57  
 
 -- 
 0-DAY CI Kernel Test Service
