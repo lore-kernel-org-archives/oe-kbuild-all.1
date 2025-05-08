@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783942641F9;
-	Thu,  8 May 2025 09:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1B32CA9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 10:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746697366; cv=none; b=b2FJ15FbVL32fdSLvFHh0pJ9J+QVMQhBNRzydJFjyS4CYRiS7lTRMdRef1z7ZT7oJp4tR/dRwhYDzJFSdGDIyi+tYWY1ml83u11hQKxqHUplrN48hIPKr1/xCP5M6r9UnIm+a+kHlb9SmEt+RVzWUr59rgSvaiYDSSwklAIxmQ4=
+	t=1746698627; cv=none; b=OUpEWUyM2rVCF1xqTxRsyXR/Waq5KTVUiTQDikKENPHcW3QNEnMNaDKAOjrl450m4+xLU2kfaAHVe79KgTi44WCvB5dHgIyYwckFKhpIUVo6kZRyShlvAkGzLVaoNiMYqRIzGdMz+HubbbjBeDSdYlToOyhukxIIiv5Z6FAJK9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746697366; c=relaxed/simple;
-	bh=H7pF8pup0KLFwqbZMxrCJyXkzmhQcxeYeiaFzud/wsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p56596FaUOl68FttI2l6Sif8aL+gqvswGOQR23ZnD8+5zo+Sj+aoIhJ1ubFfD+nGYZYANFQhLfO5as40BCGBkNQ2Lem1VRR0uvOdXcLMXXNJ82zO6BsVoxXWcwrvuE6x7W9mThSw8SfpPy62my5MbcqqmoP3Jma9hYYOaRonCkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M14sG9Fd; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1746698627; c=relaxed/simple;
+	bh=7/PDXRQJ37rSlk+UXbAUB9lM0cgEGM8Z95iMfqquTGA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dVwR1p2wKTdh3qwx4I0csODpKLPgCwOC4pEJ6xChwp5UlfPatnXwAKRQaR0sKi9nrZHIMZqKthHF27fmsa2bCjbtqbsiVC5IK54fLPXHbvau8RFzq14fL7k6szolD1upCvmJRhYtJMWv4XGLr49PJHSSR72QszzyGItXh3cw6lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j86O+Idw; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M14sG9Fd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j86O+Idw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746697364; x=1778233364;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H7pF8pup0KLFwqbZMxrCJyXkzmhQcxeYeiaFzud/wsY=;
-  b=M14sG9FdsxZ6vCPgiv3uetPkTDHnuherVHWP++w3sbHiyT7usItuzu6L
-   0V7wZHPJabqrHUHojbTBv3uVFcOxKQu+WCGhXbEEl7Yk0/a3QvQGxEfNR
-   cCi5VYjvPDUAok0S7+fWLFO6vE864tUrRr40+q4tcKTxTEOdRUss6BylM
-   T/rc7QuyAdGgydsy42k/nFfeDFKpoXme8YX1sDIe84mXbMtstT7JAAHv9
-   8teLFwkNsGjFC7SKd8peVnKms4CPX3d2BPJOJwibwnLnBNlIGolWilNjA
-   BMRQJMRJUvtYIBivxVw9QfR1r183a8dU0BU+oxIorM6Wc/i2VI+/GLAut
+  t=1746698625; x=1778234625;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7/PDXRQJ37rSlk+UXbAUB9lM0cgEGM8Z95iMfqquTGA=;
+  b=j86O+Idwlmek8HXdB2aAnWuquqGKSLlS5peRWLo5Y81Cfi7oaKKZBfIO
+   K9+yJ1giFt7WUs+y3spr5Z23hRYpksYaNVd3sQlX6/cWnRSFb2tcQKu4O
+   I6GCEjbsxxIhMoPaQC9m9TdF/PPjmCcatJeEQE+SpDuUXyqjuyzs7LsPy
+   OJSyzHYj1jcpasrbxjAcbpQYp70Sv+DWkR4I39bmV54o4AKpmaNG6Bnze
+   iukMgNYSPoYDI5vEPKYKvDXEMF158c9ihYP8l/mT/qEbYIlZtfOYpA3w6
+   L6GmzOEa52J8eT/tCzNWs3LN+Zyu0Jw+OJeNdDYZ23L08MRdGUSat7vK6
    A==;
-X-CSE-ConnectionGUID: f4pgH7BNQlCYjr1CPSVUYw==
-X-CSE-MsgGUID: zaA4A7SVS82jFXdxleUqJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59100305"
+X-CSE-ConnectionGUID: sXlUBFnQTk+e5YOlOez1Pw==
+X-CSE-MsgGUID: zSIHPgfUSvmd0AC77PyEcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48340488"
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="59100305"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 02:42:44 -0700
-X-CSE-ConnectionGUID: qXwDo7gpTReLzfRYELq/+A==
-X-CSE-MsgGUID: vZ2h6x+xS4KgOX5/yH/MVQ==
+   d="scan'208";a="48340488"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 03:03:45 -0700
+X-CSE-ConnectionGUID: p2tP8ImqSeWbbelfq+jlRw==
+X-CSE-MsgGUID: 3lfKfArIRSexJXFPb+F4gg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="140278515"
+   d="scan'208";a="141020119"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 May 2025 02:42:41 -0700
+  by orviesa003.jf.intel.com with ESMTP; 08 May 2025 03:03:43 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCxm3-000Apr-0g;
-	Thu, 08 May 2025 09:42:39 +0000
-Date: Thu, 8 May 2025 17:42:18 +0800
+	id 1uCy6O-000Aqp-3B;
+	Thu, 08 May 2025 10:03:40 +0000
+Date: Thu, 8 May 2025 18:03:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>,
-	Trond Myklebust <trondmy@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anna Schumaker <anna@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>, linux-nfs@vger.kernel.org,
-	kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
-	keyrings@vger.kernel.org
-Subject: Re: [PATCH 2/2] nfs: create a kernel keyring
-Message-ID: <202505081720.vtCPwAc0-lkp@intel.com>
-References: <20250507080944.3947782-3-hch@lst.de>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:work.mount 21/24] fs/namespace.c:2783: warning: Function
+ parameter or struct member 'pinned' not described in 'do_lock_mount'
+Message-ID: <202505081831.05K4QvQQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,138 +61,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507080944.3947782-3-hch@lst.de>
 
-Hi Christoph,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on linus/master v6.15-rc5 next-20250507]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/nfs-create-a-kernel-keyring/20250507-171041
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250507080944.3947782-3-hch%40lst.de
-patch subject: [PATCH 2/2] nfs: create a kernel keyring
-config: hexagon-defconfig (https://download.01.org/0day-ci/archive/20250508/202505081720.vtCPwAc0-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081720.vtCPwAc0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.mount
+head:   b504486c4efe75e1ac70e0df3f193aa1b33de664
+commit: 9f0549cbf6fffe7894735b4fe33691ab5f6d008b [21/24] [experimental] get rid of ->m_count
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250508/202505081831.05K4QvQQ-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081831.05K4QvQQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505081720.vtCPwAc0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081831.05K4QvQQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/nfs/inode.c:2584:17: error: call to undeclared function 'keyring_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2584 |                 nfs_keyring = keyring_alloc(".nfs",
-         |                               ^
->> fs/nfs/inode.c:2587:11: error: use of undeclared identifier 'KEY_POS_ALL'
-    2587 |                                      (KEY_POS_ALL & ~KEY_POS_SETATTR) |
-         |                                       ^
->> fs/nfs/inode.c:2587:26: error: use of undeclared identifier 'KEY_POS_SETATTR'
-    2587 |                                      (KEY_POS_ALL & ~KEY_POS_SETATTR) |
-         |                                                      ^
->> fs/nfs/inode.c:2588:11: error: use of undeclared identifier 'KEY_USR_ALL'
-    2588 |                                      (KEY_USR_ALL & ~KEY_USR_SETATTR),
-         |                                       ^
->> fs/nfs/inode.c:2588:26: error: use of undeclared identifier 'KEY_USR_SETATTR'
-    2588 |                                      (KEY_USR_ALL & ~KEY_USR_SETATTR),
-         |                                                      ^
->> fs/nfs/inode.c:2589:10: error: use of undeclared identifier 'KEY_ALLOC_NOT_IN_QUOTA'
-    2589 |                                      KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
-         |                                      ^
-   6 errors generated.
+>> fs/namespace.c:2783: warning: Function parameter or struct member 'pinned' not described in 'do_lock_mount'
 
 
-vim +/keyring_alloc +2584 fs/nfs/inode.c
+vim +2783 fs/namespace.c
 
-  2575	
-  2576	/*
-  2577	 * Initialize NFS
-  2578	 */
-  2579	static int __init init_nfs_fs(void)
-  2580	{
-  2581		int err;
-  2582	
-  2583		if (IS_ENABLED(CONFIG_NFS_V4)) {
-> 2584			nfs_keyring = keyring_alloc(".nfs",
-  2585					     GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
-  2586					     current_cred(),
-> 2587					     (KEY_POS_ALL & ~KEY_POS_SETATTR) |
-> 2588					     (KEY_USR_ALL & ~KEY_USR_SETATTR),
-> 2589					     KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
-  2590			if (IS_ERR(nfs_keyring))
-  2591				return PTR_ERR(nfs_keyring);
-  2592		}
-  2593	
-  2594		err = nfs_sysfs_init();
-  2595		if (err < 0)
-  2596			goto out10;
-  2597	
-  2598		err = register_pernet_subsys(&nfs_net_ops);
-  2599		if (err < 0)
-  2600			goto out9;
-  2601	
-  2602		err = nfsiod_start();
-  2603		if (err)
-  2604			goto out7;
-  2605	
-  2606		err = nfs_fs_proc_init();
-  2607		if (err)
-  2608			goto out6;
-  2609	
-  2610		err = nfs_init_nfspagecache();
-  2611		if (err)
-  2612			goto out5;
-  2613	
-  2614		err = nfs_init_inodecache();
-  2615		if (err)
-  2616			goto out4;
-  2617	
-  2618		err = nfs_init_readpagecache();
-  2619		if (err)
-  2620			goto out3;
-  2621	
-  2622		err = nfs_init_writepagecache();
-  2623		if (err)
-  2624			goto out2;
-  2625	
-  2626		err = nfs_init_directcache();
-  2627		if (err)
-  2628			goto out1;
-  2629	
-  2630		err = register_nfs_fs();
-  2631		if (err)
-  2632			goto out0;
-  2633	
-  2634		return 0;
-  2635	out0:
-  2636		nfs_destroy_directcache();
-  2637	out1:
-  2638		nfs_destroy_writepagecache();
-  2639	out2:
-  2640		nfs_destroy_readpagecache();
-  2641	out3:
-  2642		nfs_destroy_inodecache();
-  2643	out4:
-  2644		nfs_destroy_nfspagecache();
-  2645	out5:
-  2646		nfs_fs_proc_exit();
-  2647	out6:
-  2648		nfsiod_stop();
-  2649	out7:
-  2650		unregister_pernet_subsys(&nfs_net_ops);
-  2651	out9:
-  2652		nfs_sysfs_exit();
-  2653	out10:
-  2654		return err;
-  2655	}
-  2656	
+b90fa9ae8f51f0 Ram Pai           2005-11-07  2747  
+6ac392815628f3 Christian Brauner 2023-05-03  2748  /**
+6ac392815628f3 Christian Brauner 2023-05-03  2749   * do_lock_mount - lock mount and mountpoint
+6ac392815628f3 Christian Brauner 2023-05-03  2750   * @path:    target path
+6ac392815628f3 Christian Brauner 2023-05-03  2751   * @beneath: whether the intention is to mount beneath @path
+6ac392815628f3 Christian Brauner 2023-05-03  2752   *
+6ac392815628f3 Christian Brauner 2023-05-03  2753   * Follow the mount stack on @path until the top mount @mnt is found. If
+6ac392815628f3 Christian Brauner 2023-05-03  2754   * the initial @path->{mnt,dentry} is a mountpoint lookup the first
+6ac392815628f3 Christian Brauner 2023-05-03  2755   * mount stacked on top of it. Then simply follow @{mnt,mnt->mnt_root}
+6ac392815628f3 Christian Brauner 2023-05-03  2756   * until nothing is stacked on top of it anymore.
+6ac392815628f3 Christian Brauner 2023-05-03  2757   *
+6ac392815628f3 Christian Brauner 2023-05-03  2758   * Acquire the inode_lock() on the top mount's ->mnt_root to protect
+6ac392815628f3 Christian Brauner 2023-05-03  2759   * against concurrent removal of the new mountpoint from another mount
+6ac392815628f3 Christian Brauner 2023-05-03  2760   * namespace.
+6ac392815628f3 Christian Brauner 2023-05-03  2761   *
+6ac392815628f3 Christian Brauner 2023-05-03  2762   * If @beneath is requested, acquire inode_lock() on @mnt's mountpoint
+6ac392815628f3 Christian Brauner 2023-05-03  2763   * @mp on @mnt->mnt_parent must be acquired. This protects against a
+6ac392815628f3 Christian Brauner 2023-05-03  2764   * concurrent unlink of @mp->mnt_dentry from another mount namespace
+6ac392815628f3 Christian Brauner 2023-05-03  2765   * where @mnt doesn't have a child mount mounted @mp. A concurrent
+6ac392815628f3 Christian Brauner 2023-05-03  2766   * removal of @mnt->mnt_root doesn't matter as nothing will be mounted
+6ac392815628f3 Christian Brauner 2023-05-03  2767   * on top of it for @beneath.
+6ac392815628f3 Christian Brauner 2023-05-03  2768   *
+6ac392815628f3 Christian Brauner 2023-05-03  2769   * In addition, @beneath needs to make sure that @mnt hasn't been
+6ac392815628f3 Christian Brauner 2023-05-03  2770   * unmounted or moved from its current mountpoint in between dropping
+6ac392815628f3 Christian Brauner 2023-05-03  2771   * @mount_lock and acquiring @namespace_sem. For the !@beneath case @mnt
+6ac392815628f3 Christian Brauner 2023-05-03  2772   * being unmounted would be detected later by e.g., calling
+6ac392815628f3 Christian Brauner 2023-05-03  2773   * check_mnt(mnt) in the function it's called from. For the @beneath
+6ac392815628f3 Christian Brauner 2023-05-03  2774   * case however, it's useful to detect it directly in do_lock_mount().
+6ac392815628f3 Christian Brauner 2023-05-03  2775   * If @mnt hasn't been unmounted then @mnt->mnt_mountpoint still points
+6ac392815628f3 Christian Brauner 2023-05-03  2776   * to @mnt->mnt_mp->m_dentry. But if @mnt has been unmounted it will
+6ac392815628f3 Christian Brauner 2023-05-03  2777   * point to @mnt->mnt_root and @mnt->mnt_mp will be NULL.
+6ac392815628f3 Christian Brauner 2023-05-03  2778   *
+6ac392815628f3 Christian Brauner 2023-05-03  2779   * Return: Either the target mountpoint on the top mount or the top
+6ac392815628f3 Christian Brauner 2023-05-03  2780   *         mount's mountpoint.
+6ac392815628f3 Christian Brauner 2023-05-03  2781   */
+9f0549cbf6fffe Al Viro           2025-04-25  2782  static int do_lock_mount(struct path *path, struct pinned_mountpoint *pinned, bool beneath)
+b12cea9198fa99 Al Viro           2011-03-18 @2783  {
+6ac392815628f3 Christian Brauner 2023-05-03  2784  	struct vfsmount *mnt = path->mnt;
+64f44b27ae9184 Christian Brauner 2023-05-03  2785  	struct dentry *dentry;
+0d039eac6e5950 Al Viro           2025-04-23  2786  	struct path under = {};
+9f0549cbf6fffe Al Viro           2025-04-25  2787  	int err = -ENOENT;
+64f44b27ae9184 Christian Brauner 2023-05-03  2788  
+64f44b27ae9184 Christian Brauner 2023-05-03  2789  	for (;;) {
+0d039eac6e5950 Al Viro           2025-04-23  2790  		struct mount *m = real_mount(mnt);
+6ac392815628f3 Christian Brauner 2023-05-03  2791  
+6ac392815628f3 Christian Brauner 2023-05-03  2792  		if (beneath) {
+0d039eac6e5950 Al Viro           2025-04-23  2793  			path_put(&under);
+6ac392815628f3 Christian Brauner 2023-05-03  2794  			read_seqlock_excl(&mount_lock);
+0d039eac6e5950 Al Viro           2025-04-23  2795  			under.mnt = mntget(&m->mnt_parent->mnt);
+0d039eac6e5950 Al Viro           2025-04-23  2796  			under.dentry = dget(m->mnt_mountpoint);
+6ac392815628f3 Christian Brauner 2023-05-03  2797  			read_sequnlock_excl(&mount_lock);
+0d039eac6e5950 Al Viro           2025-04-23  2798  			dentry = under.dentry;
+6ac392815628f3 Christian Brauner 2023-05-03  2799  		} else {
+64f44b27ae9184 Christian Brauner 2023-05-03  2800  			dentry = path->dentry;
+6ac392815628f3 Christian Brauner 2023-05-03  2801  		}
+6ac392815628f3 Christian Brauner 2023-05-03  2802  
+5955102c9984fa Al Viro           2016-01-22  2803  		inode_lock(dentry->d_inode);
+97216be09efd41 Al Viro           2013-03-16  2804  		namespace_lock();
+64f44b27ae9184 Christian Brauner 2023-05-03  2805  
+0d039eac6e5950 Al Viro           2025-04-23  2806  		if (unlikely(cant_mount(dentry) || !is_mounted(mnt)))
+0d039eac6e5950 Al Viro           2025-04-23  2807  			break;		// not to be mounted on
+0d039eac6e5950 Al Viro           2025-04-23  2808  
+0d039eac6e5950 Al Viro           2025-04-23  2809  		if (beneath && unlikely(m->mnt_mountpoint != dentry ||
+0d039eac6e5950 Al Viro           2025-04-23  2810  				        &m->mnt_parent->mnt != under.mnt)) {
+6ac392815628f3 Christian Brauner 2023-05-03  2811  			namespace_unlock();
+6ac392815628f3 Christian Brauner 2023-05-03  2812  			inode_unlock(dentry->d_inode);
+0d039eac6e5950 Al Viro           2025-04-23  2813  			continue;	// got moved
+6ac392815628f3 Christian Brauner 2023-05-03  2814  		}
+6ac392815628f3 Christian Brauner 2023-05-03  2815  
+b12cea9198fa99 Al Viro           2011-03-18  2816  		mnt = lookup_mnt(path);
+0d039eac6e5950 Al Viro           2025-04-23  2817  		if (unlikely(mnt)) {
+64f44b27ae9184 Christian Brauner 2023-05-03  2818  			namespace_unlock();
+64f44b27ae9184 Christian Brauner 2023-05-03  2819  			inode_unlock(dentry->d_inode);
+64f44b27ae9184 Christian Brauner 2023-05-03  2820  			path_put(path);
+64f44b27ae9184 Christian Brauner 2023-05-03  2821  			path->mnt = mnt;
+64f44b27ae9184 Christian Brauner 2023-05-03  2822  			path->dentry = dget(mnt->mnt_root);
+0d039eac6e5950 Al Viro           2025-04-23  2823  			continue;	// got overmounted
+64f44b27ae9184 Christian Brauner 2023-05-03  2824  		}
+9f0549cbf6fffe Al Viro           2025-04-25  2825  		err = get_mountpoint(dentry, pinned);
+9f0549cbf6fffe Al Viro           2025-04-25  2826  		if (err)
+0d039eac6e5950 Al Viro           2025-04-23  2827  			break;
+0d039eac6e5950 Al Viro           2025-04-23  2828  		if (beneath) {
+0d039eac6e5950 Al Viro           2025-04-23  2829  			/*
+0d039eac6e5950 Al Viro           2025-04-23  2830  			 * @under duplicates the references that will stay
+0d039eac6e5950 Al Viro           2025-04-23  2831  			 * at least until namespace_unlock(), so the path_put()
+0d039eac6e5950 Al Viro           2025-04-23  2832  			 * below is safe (and OK to do under namespace_lock -
+0d039eac6e5950 Al Viro           2025-04-23  2833  			 * we are not dropping the final references here).
+0d039eac6e5950 Al Viro           2025-04-23  2834  			 */
+0d039eac6e5950 Al Viro           2025-04-23  2835  			path_put(&under);
+0d039eac6e5950 Al Viro           2025-04-23  2836  		}
+9f0549cbf6fffe Al Viro           2025-04-25  2837  		return 0;
+0d039eac6e5950 Al Viro           2025-04-23  2838  	}
+97216be09efd41 Al Viro           2013-03-16  2839  	namespace_unlock();
+5955102c9984fa Al Viro           2016-01-22  2840  	inode_unlock(dentry->d_inode);
+6ac392815628f3 Christian Brauner 2023-05-03  2841  	if (beneath)
+0d039eac6e5950 Al Viro           2025-04-23  2842  		path_put(&under);
+9f0549cbf6fffe Al Viro           2025-04-25  2843  	return err;
+84d17192d2afd5 Al Viro           2013-03-15  2844  }
+b12cea9198fa99 Al Viro           2011-03-18  2845  
+
+:::::: The code at line 2783 was first introduced by commit
+:::::: b12cea9198fa99ffd3de1776c323bc7464d26b44 change the locking order for namespace_sem
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
