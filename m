@@ -1,67 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F14815748F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 08:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ABA221F06;
+	Thu,  8 May 2025 08:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746691719; cv=none; b=FlZ/uO51OmJ4st4/jnZs+LcplHDN+orxXAEj+wx0uPumQ2i5KLT5zd8tTkEMIhwB3VwAYkQhqttMHFuZpJ8ecp6xFn7QP62hvH4RF2NUjIylEjHy4dmNQvS3e8kynQ2kthZspN2ucplUwAwHLPz0Ew9kDVFQZhu4e6fDatz4yaY=
+	t=1746691719; cv=none; b=s2sUIpOJcUA4L2kEFUT8al6MAQ9JmyK4oUpvzxgZj854di1YiuZhpxaBAWbyT/NBfdkJIi0MhRDZw8Tl0dgIy6DMva40h8uk7QYYneAZwY5rcPxVJkETVBasW6WEJsIqbQnvEEYNuAMIqifnBvwRdHTP/U9EPuFbWzLERQIHvwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746691719; c=relaxed/simple;
-	bh=jYdN33+CJ/NGBhRXvU2A5aABgKMcpgRwc9o3lmxpjCk=;
+	bh=9VeFsQN1AkRdLpG34SjQt68RYpYDAPfiWncjBdqi8ag=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u7xmnZF8lAegRRpMtErlFge61AuqcCBZX9QSAuiMwUpQCGPEshjyyoGpySIR/bXwtl+0V83BSRgqW2DRNsDJE4GOGdPeX9P1DOIVOiQUnHu6jq+oT40tgyDtf4yUk349in/AXng/J9VP0vlVtfqPWOikTgosy9OCPFteMmFh/04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MurQgMPM; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=dZSces/5/vPzqV3pCIYe20FDo9t2DWPou1g71h4Kbs4BtUovjeLCfFQ8xmkv3Vlc4UyXQH2zVPhVDnev2lH/gcQzAxDJvWt47XGJsBEZna9MTUq+XF/67F7OfMwmpLJdEhpj9xo6rl3DNcwrfwgGPx3W7wn7bNWp6qf8FkQ6ZUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qe5jC+VU; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MurQgMPM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qe5jC+VU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746691717; x=1778227717;
+  t=1746691718; x=1778227718;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jYdN33+CJ/NGBhRXvU2A5aABgKMcpgRwc9o3lmxpjCk=;
-  b=MurQgMPM+nPguPnVXulki9gt1df10uKCo2hwTSHs04LT3C0v2sT8bRRG
-   D/4Pf++JEF7vgNR+LVSQm41hwvt+L4ADEruvyp0WJL3O76lT5FgPwVAec
-   sAucgwNnkns106EieOAe2NSJt1OWj9qIkgtnQ1J18eRT8hXqf79aImYSX
-   CJALWc2mpt6/kb5J/O5rBRXRq6lXYzo8+A3mvTZPgyfeJZJDCY6Z2JSUq
-   vk66T22PlF40uIxpsVm9cr6ItnSKbIcvGZLm7/shL/wzq4PcrmFfxctUx
-   NanhM2HO2GwDrJSoGqt9VSJzCm7H7CBXpSzZjQjM5mx8yk8XryjixFubb
-   w==;
-X-CSE-ConnectionGUID: ZCOhSA1MQbm3aVwf4dUPQw==
-X-CSE-MsgGUID: V3fD9ZvzR32mV4urasjejw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="47718458"
+  bh=9VeFsQN1AkRdLpG34SjQt68RYpYDAPfiWncjBdqi8ag=;
+  b=Qe5jC+VU6kRb2y05DxRVyaQ0F1VoODkOlGSWlD7673WwdbsHxCJrA4/R
+   TjsJAjlbI6jO/HfAv9OmzOtAjk2LBA/KqMFLLiiKlQVd9nF40YjucW4qK
+   S0PRihWqVC3KM/O4RYjuYcDmsrok42FxQCid/P6E+uqGt0IVnWKdVMURS
+   tBogdt+NnGuSwuP6l4i04cEwowz8JpznO++0/6TQWttr6+kwU7syds3AZ
+   7m677rR+eipmYkap2lTaGl5xZzQMcvbj8Enm6xP9vfC6RP60cGxkgFnHh
+   5UWVlbPBdQC/I42yhHirPxSFvCMqzNX93gzkR66IHb9bB3PFKbTMFs57+
+   Q==;
+X-CSE-ConnectionGUID: JpPA20XISt+GdOBzEdGwtg==
+X-CSE-MsgGUID: 7dzNgLIjQueWS/sUqryjDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="58662592"
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="47718458"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 01:08:36 -0700
-X-CSE-ConnectionGUID: i36FOlqRRMSFknar2JOmnw==
-X-CSE-MsgGUID: prix0mQBSAG+iF7lVc6ohQ==
+   d="scan'208";a="58662592"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 01:08:37 -0700
+X-CSE-ConnectionGUID: AFuGBNaOQQytHInhNl7AOA==
+X-CSE-MsgGUID: s2jHfI+NSrmHpoRmsHykdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="136713973"
+   d="scan'208";a="137210046"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 May 2025 01:08:34 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 08 May 2025 01:08:34 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCwIx-000Am9-2e;
+	id 1uCwIx-000Am7-2a;
 	Thu, 08 May 2025 08:08:31 +0000
-Date: Thu, 8 May 2025 16:07:54 +0800
+Date: Thu, 8 May 2025 16:07:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Gow <davidgow@google.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Subject: Re: [PATCH v2] printk: ringbuffer: Add KUnit test
-Message-ID: <202505081550.KMstgTUQ-lkp@intel.com>
-References: <20250506-printk-ringbuffer-test-v2-1-152200569eb1@linutronix.de>
+To: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>,
+	Trond Myklebust <trondmy@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Anna Schumaker <anna@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>, linux-nfs@vger.kernel.org,
+	kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
+	keyrings@vger.kernel.org
+Subject: Re: [PATCH 1/2] NFS: support the kernel keyring for TLS
+Message-ID: <202505081535.3PS62D63-lkp@intel.com>
+References: <20250507080944.3947782-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,31 +68,192 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250506-printk-ringbuffer-test-v2-1-152200569eb1@linutronix.de>
+In-Reply-To: <20250507080944.3947782-2-hch@lst.de>
 
-Hi Thomas,
+Hi Christoph,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 0af2f6be1b4281385b618cb86ad946eded089ac8]
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/printk-ringbuffer-Add-KUnit-test/20250506-200133
-base:   0af2f6be1b4281385b618cb86ad946eded089ac8
-patch link:    https://lore.kernel.org/r/20250506-printk-ringbuffer-test-v2-1-152200569eb1%40linutronix.de
-patch subject: [PATCH v2] printk: ringbuffer: Add KUnit test
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505081550.KMstgTUQ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081550.KMstgTUQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/nfs-create-a-kernel-keyring/20250507-171041
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20250507080944.3947782-2-hch%40lst.de
+patch subject: [PATCH 1/2] NFS: support the kernel keyring for TLS
+config: hexagon-defconfig (https://download.01.org/0day-ci/archive/20250508/202505081535.3PS62D63-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081535.3PS62D63-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505081550.KMstgTUQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081535.3PS62D63-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
->> ERROR: modpost: "prb_init" [kernel/printk/printk_ringbuffer_kunit_test.ko] undefined!
+>> fs/nfs/fs_context.c:567:37: error: incomplete definition of type 'struct key'
+     567 |         if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
+         |                                         ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:45:37: note: expanded from macro 'bitop'
+      45 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+         |                                            ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+>> fs/nfs/fs_context.c:567:37: error: incomplete definition of type 'struct key'
+     567 |         if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
+         |                                         ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:46:16: note: expanded from macro 'bitop'
+      46 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
+         |                       ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+>> fs/nfs/fs_context.c:567:37: error: incomplete definition of type 'struct key'
+     567 |         if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
+         |                                         ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:47:50: note: expanded from macro 'bitop'
+      47 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
+         |                                                         ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+>> fs/nfs/fs_context.c:567:15: error: use of undeclared identifier 'KEY_FLAG_REVOKED'
+     567 |         if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
+         |                      ^
+>> fs/nfs/fs_context.c:567:37: error: incomplete definition of type 'struct key'
+     567 |         if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
+         |                                         ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:48:17: note: expanded from macro 'bitop'
+      48 |          const##op(nr, addr) : op(nr, addr))
+         |                        ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+>> fs/nfs/fs_context.c:567:37: error: incomplete definition of type 'struct key'
+     567 |         if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
+         |                                         ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:48:32: note: expanded from macro 'bitop'
+      48 |          const##op(nr, addr) : op(nr, addr))
+         |                                       ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+>> fs/nfs/fs_context.c:567:15: error: use of undeclared identifier 'KEY_FLAG_REVOKED'
+     567 |         if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
+         |                      ^
+>> fs/nfs/fs_context.c:567:15: error: use of undeclared identifier 'KEY_FLAG_REVOKED'
+   fs/nfs/fs_context.c:568:41: error: incomplete definition of type 'struct key'
+     568 |             test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
+         |                                             ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:45:37: note: expanded from macro 'bitop'
+      45 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+         |                                            ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+   fs/nfs/fs_context.c:568:41: error: incomplete definition of type 'struct key'
+     568 |             test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
+         |                                             ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:46:16: note: expanded from macro 'bitop'
+      46 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
+         |                       ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+   fs/nfs/fs_context.c:568:41: error: incomplete definition of type 'struct key'
+     568 |             test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
+         |                                             ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:47:50: note: expanded from macro 'bitop'
+      47 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
+         |                                                         ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+>> fs/nfs/fs_context.c:568:15: error: use of undeclared identifier 'KEY_FLAG_INVALIDATED'
+     568 |             test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
+         |                      ^
+   fs/nfs/fs_context.c:568:41: error: incomplete definition of type 'struct key'
+     568 |             test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
+         |                                             ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:48:17: note: expanded from macro 'bitop'
+      48 |          const##op(nr, addr) : op(nr, addr))
+         |                        ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+   fs/nfs/fs_context.c:568:41: error: incomplete definition of type 'struct key'
+     568 |             test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
+         |                                             ~~~^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+         |                                                              ^~~~
+   include/linux/bitops.h:48:32: note: expanded from macro 'bitop'
+      48 |          const##op(nr, addr) : op(nr, addr))
+         |                                       ^~~~
+   include/linux/key.h:33:8: note: forward declaration of 'struct key'
+      33 | struct key;
+         |        ^
+>> fs/nfs/fs_context.c:568:15: error: use of undeclared identifier 'KEY_FLAG_INVALIDATED'
+     568 |             test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
+         |                      ^
+>> fs/nfs/fs_context.c:568:15: error: use of undeclared identifier 'KEY_FLAG_INVALIDATED'
+   16 errors generated.
+
+
+vim +567 fs/nfs/fs_context.c
+
+   557	
+   558	static int nfs_tls_key_verify(key_serial_t key_id)
+   559	{
+   560		struct key *key = key_lookup(key_id);
+   561		int error = 0;
+   562	
+   563		if (IS_ERR(key)) {
+   564			pr_err("key id %08x not found\n", key_id);
+   565			return PTR_ERR(key);
+   566		}
+ > 567		if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
+ > 568		    test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
+   569			pr_err("key id %08x revoked\n", key_id);
+   570			error = -EKEYREVOKED;
+   571		}
+   572	
+   573		key_put(key);
+   574		return error;
+   575	}
+   576	
 
 -- 
 0-DAY CI Kernel Test Service
