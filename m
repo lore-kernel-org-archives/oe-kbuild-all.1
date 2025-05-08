@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEABE1A2390
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 22:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B8B223DDC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 22:04:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746741894; cv=none; b=CWgFHahvFx8kn3T2ySZzsb2W71/WhXoG9k7Enhoy5uxNc4OV+Qc7fqkrV0Q8g9DfZmJA1OhdzDy7sAr5wXymkgNMbDH99AU5V30L+2R8B58vCxetjygb4Xsq45/Soq955rxndoSfh05bTCOW1He07FVUmaxpjd/NcdDmLNnaJsA=
+	t=1746741896; cv=none; b=jLqfOy4T6kvS2YoPy11DZwFT3XtqsK1Jwbez+Fjr3Gzw7yQwSpaKdUGi3ZupxU4odNpYD/6zrgQMjkd/pWW/9dYndVYjvjjpDvCCKrJeLe3gvmr7WfL2IxUQa4JETVwCQ4Ic3vdYQnmqWpE38nXhxhJ6UuwvsmFggj6G5vaHu6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746741894; c=relaxed/simple;
-	bh=hn8wZ675qgkzV7Ye31mKLeSCHbv3AKPZm/m6DSzvAZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hW1eWkb/kHGVODc6e35Jf71ToV8lbDgtGgDryTvDMOMZR0bsbRy98qZWY2i3ipjkifvbBSfHviuVRZz9F0z9PRl09tQleS0Hw6It7Q6Ri/+hv2Il9Qv41a0/oe/AXJk8xYPVnZbdSzB9TdDrfq869D4YRG1HVt+9aKlJAzCDZFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2DSx2zQ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1746741896; c=relaxed/simple;
+	bh=XjtnjASa69WQ90Hr5y/AckuLd7qGDFC8LU/lRWRfkdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CJ4FLZ35amJEWe/ksMFonanTHoaqSDM02rZGlnHAvsqSSuovmObaPwWysjJkwy1rzRbhCbqt5OBUH8WtsTSonhPuwE+C1YEUYyreEv6Gs26DqLeP+nNb7kSmDdp2zznvq1pXApHuXcCC8zXMOsT2hYT1TorVfTjneNn+khVFAQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AohcogE1; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2DSx2zQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AohcogE1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746741893; x=1778277893;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hn8wZ675qgkzV7Ye31mKLeSCHbv3AKPZm/m6DSzvAZQ=;
-  b=B2DSx2zQarlsUb+TrWWC79fYd7UyUuiMFgx55z40l6aArVc6oUyNt6Vc
-   NuEFDeN+F+w+0Pi2QXYGXTdfvgeN7O3CwIb3y2OZEsb+iq50z210LhewQ
-   CdzG90q0Otida6PlJw8NlxmcaCCsIUctRvbStFVwFxLBJwBpx8qUs8LXF
-   qQGKhFYFLjvd4iS2qdBycTxCx5wQP2ryVayc9uNq291VG6s+O5LOXB5Ln
-   niC0o2dmNYevE/8F4xtRAh4qhjbf/+vTBrSx17i/Uwot2fb+17/w/AO7g
-   7zoopDdPlwVvt28isZX6HkQEdBhZ4yDcMg6MeAjnfo9Ftt73pNkqk/9R0
-   g==;
-X-CSE-ConnectionGUID: OJmb/NRDT9WFCzDvO1WXdA==
-X-CSE-MsgGUID: ilqDcmluTtSFierD81vHBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="58765322"
+  t=1746741895; x=1778277895;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XjtnjASa69WQ90Hr5y/AckuLd7qGDFC8LU/lRWRfkdg=;
+  b=AohcogE1dtpRBJrDMejcZFEms+cMZQehT8g9gLBLtnrPjECrUFQMwCT2
+   5N1JtgyL4R/RVWIQkA8H4cICJMzYC9E0rFXQcp3pvuTRVRSNkZAdjDYEv
+   l5MiZ/VM0Fxc8Q7HP576J3l8EsoW2sqbMJySjP/41HiKa7Zyn4RdC8QOo
+   UV3ZA61c115WD7QcHSvA9Zk4NAgxPjlg9gUty40Rhy1DXOX1mypZxTB/q
+   4TIJf4fgDp6ZntPY/zoHMCsusTLBenQzVjvyO1n/CORWu0XD+rve5+X/5
+   314MPOeRyU0WMf6X+1sdBZoKNXLRWPOqzr3AclZ0Wt/sPf4di+5XA+Ecm
+   A==;
+X-CSE-ConnectionGUID: QKcu2qY6QRSwnfTM9kXcOA==
+X-CSE-MsgGUID: ZrpGB/ywRtm2jbySpStSkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="58765321"
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="58765322"
+   d="scan'208";a="58765321"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 15:04:52 -0700
-X-CSE-ConnectionGUID: 6bjfNsRaS0uB13kdk8gHBg==
-X-CSE-MsgGUID: A0d901TWQW6wpbil0R0ffA==
+X-CSE-ConnectionGUID: FpGHDxu7SQKK1bZAx/b+rg==
+X-CSE-MsgGUID: bQTut7XUTlOL0Pa6v8j88A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="173599792"
+   d="scan'208";a="173599793"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 08 May 2025 15:04:51 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uD9MG-000BPx-3B;
-	Thu, 08 May 2025 22:04:48 +0000
-Date: Fri, 9 May 2025 06:03:51 +0800
+	id 1uD9MH-000BPz-00;
+	Thu, 08 May 2025 22:04:49 +0000
+Date: Fri, 9 May 2025 06:03:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/6] crypto: ahash - Handle partial blocks in API
-Message-ID: <202505090505.7uAKB19V-lkp@intel.com>
-References: <26a6ba5a71b8848c6e79757a596ecc3838bf320e.1746448291.git.herbert@gondor.apana.org.au>
+Subject: [android-common:android15-6.6-desktop 4/4]
+ arch/x86/include/asm/paravirt.h:873:47: warning: declaration of 'struct
+ mm_struct' will not be visible outside of this function
+Message-ID: <202505090520.Ylk4FrUI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,79 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <26a6ba5a71b8848c6e79757a596ecc3838bf320e.1746448291.git.herbert@gondor.apana.org.au>
 
-Hi Herbert,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on next-20250508]
-[cannot apply to herbert-crypto-2.6/master linus/master v6.15-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-ahash-Handle-partial-blocks-in-API/20250505-203411
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/26a6ba5a71b8848c6e79757a596ecc3838bf320e.1746448291.git.herbert%40gondor.apana.org.au
-patch subject: [PATCH 2/6] crypto: ahash - Handle partial blocks in API
-config: nios2-randconfig-r073-20250509 (https://download.01.org/0day-ci/archive/20250509/202505090505.7uAKB19V-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.3.0
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   3d787fbb81fafa82ef096a45908185c6c4ab2ebc
+commit: 7acb4f6bcac9871c147dc6652266b3ec4235d0a8 [4/4] ANDROID: x86/paravirt: Add pv_mmio_ops
+config: x86_64-buildonly-randconfig-003-20250509 (https://download.01.org/0day-ci/archive/20250509/202505090520.Ylk4FrUI-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090520.Ylk4FrUI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505090505.7uAKB19V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505090520.Ylk4FrUI-lkp@intel.com/
 
-smatch warnings:
-crypto/ahash.c:370 ahash_do_req_chain() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +370 crypto/ahash.c
+   In file included from mm/early_ioremap.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/x86/include/asm/io.h:45:
+>> arch/x86/include/asm/paravirt.h:873:47: warning: declaration of 'struct mm_struct' will not be visible outside of this function [-Wvisibility]
+     873 | static inline void paravirt_enter_mmap(struct mm_struct *mm)
+         |                                               ^
+   arch/x86/include/asm/paravirt.h:879:51: warning: declaration of 'struct mm_struct' will not be visible outside of this function [-Wvisibility]
+     879 | static inline void paravirt_arch_exit_mmap(struct mm_struct *mm)
+         |                                                   ^
+   In file included from mm/early_ioremap.c:14:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:8:
+   In file included from include/linux/page_size_compat.h:33:
+   In file included from include/linux/mman.h:8:
+   In file included from include/linux/mm.h:2257:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   6 warnings generated.
 
-   338	
-   339	static int ahash_do_req_chain(struct ahash_request *req,
-   340				      int (*const *op)(struct ahash_request *req))
-   341	{
-   342		struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
-   343		int err;
-   344	
-   345		if (crypto_ahash_req_virt(tfm) || !ahash_request_isvirt(req))
-   346			return (*op)(req);
-   347	
-   348		if (crypto_ahash_statesize(tfm) > HASH_MAX_STATESIZE)
-   349			return -ENOSYS;
-   350	
-   351		{
-   352			u8 state[HASH_MAX_STATESIZE];
-   353	
-   354			if (op == &crypto_ahash_alg(tfm)->digest) {
-   355				ahash_request_set_tfm(req, crypto_ahash_fb(tfm));
-   356				err = crypto_ahash_digest(req);
-   357				goto out_no_state;
-   358			}
-   359	
-   360			err = crypto_ahash_export(req, state);
-   361			ahash_request_set_tfm(req, crypto_ahash_fb(tfm));
-   362			err = err ?: crypto_ahash_import(req, state);
-   363	
-   364			if (op == &crypto_ahash_alg(tfm)->finup) {
-   365				err = err ?: crypto_ahash_finup(req);
-   366				goto out_no_state;
-   367			}
-   368	
-   369			err = err ?: crypto_ahash_update(req);
- > 370				     crypto_ahash_export(req, state);
-   371	
-   372			ahash_request_set_tfm(req, tfm);
-   373			return err ?: crypto_ahash_import(req, state);
-   374	
-   375	out_no_state:
-   376			ahash_request_set_tfm(req, tfm);
-   377			return err;
-   378		}
-   379	}
-   380	
+
+vim +873 arch/x86/include/asm/paravirt.h
+
+fdc0269e8958a1 Juergen Gross 2018-08-28  870  
+a1ea1c032b8f8c Dave Hansen   2014-11-18  871  #ifndef __ASSEMBLY__
+fdc0269e8958a1 Juergen Gross 2018-08-28  872  #ifndef CONFIG_PARAVIRT_XXL
+c9ae1b10d95610 Juergen Gross 2023-02-07 @873  static inline void paravirt_enter_mmap(struct mm_struct *mm)
+a1ea1c032b8f8c Dave Hansen   2014-11-18  874  {
+a1ea1c032b8f8c Dave Hansen   2014-11-18  875  }
+fdc0269e8958a1 Juergen Gross 2018-08-28  876  #endif
+a1ea1c032b8f8c Dave Hansen   2014-11-18  877  
+
+:::::: The code at line 873 was first introduced by commit
+:::::: c9ae1b10d9561012a222e05f0d3ab4e93d301f06 x86/paravirt: Merge activate_mm() and dup_mmap() callbacks
+
+:::::: TO: Juergen Gross <jgross@suse.com>
+:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
 
 -- 
 0-DAY CI Kernel Test Service
