@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87E7B665
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 11:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2076D1DED57
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 11:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746704336; cv=none; b=tXbHB3MsUEGPdEib6oZLvdKIv5cSpcrpvGDY3PQvNJpWk1HFHSyhwmo9vfLJXwHU334b2aWkdCbnwPMztI5HUFZ+3SwXVD1LlTx+iZ7Rr7ydoFARnffvSQwVz+t734XqOSOJAO+5iL8/xwEoHE2mr5Injuv28emhIiiNOj+Snx0=
+	t=1746704398; cv=none; b=LZQA7VhKmVThemObycW2Xw+IB77K3IhTHm3VdmfZ2ixBApRNucLxKtMU6w2INmeVxovju1ScaQkBnst3hDwxndgfO4KXk5MXuJC+DLHCpsw4oDJacbEdSzFHIbB6+9b3u4I16JEdRAJ6dagEW8tFa7YInJobtBkKNcDwGtKrmhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746704336; c=relaxed/simple;
-	bh=meKm2Jkz3IZIGWzzQGRwe56l7V411uQ1R0XVNh9zd6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IrJhumVOYY64FpoeCrnR2cFoDZx4hRcXIfk3DPT5XKGLvhNHs1Rkc1wzMvueBl8dP4+hskT5PkK+E2JQPT2Xq/GEzSKWiGQFdMeKLfHCAWcpIbKGtzdluP7e/wjrf1gEDeE8jAUhB2bzom/6er8WlXKUFmOzqtPUCGQ6Tyz1JPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ShmY6xT6; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1746704398; c=relaxed/simple;
+	bh=CNe87gFhLNwrymYwLSElRcC8katQ5WYY7ivrdeApVVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BqHKsCX1azjNU/W/hF2XAwSwttmMpC3Gqb8USI5YMacBPmmdtpkt/TJAeYniC3ba7oP8c8dXSRZ441Ks7F7LJuu3LJEdd1AriU0QN0YoMMdQg0AgHIYfPSjp1WJ/2nMSzturzzHKjV/ycoIqSBxJTnMM5fCZJA48PseeRcxnuQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9w/oVXd; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ShmY6xT6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9w/oVXd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746704334; x=1778240334;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=meKm2Jkz3IZIGWzzQGRwe56l7V411uQ1R0XVNh9zd6s=;
-  b=ShmY6xT6qkMA/Uj/WLhEJ2syccF0SPZi4xmFHBoLGmoQUlyr+quWbsed
-   /087loj8kfsNxGGM46FpqpsXZY2sT/Pjqf1kHoSuugxKsc7xfZeoMgqts
-   SuTuye1UBaAtpKVi6EA1VObH+2DIGzdU5UpaowF/GP4w/hdGcc3DnmirI
-   7b1UmBa92yVylbPCloQJVnl3kV91x2F6zSrc6KdEP+vJfc81OPi9cge6h
-   x3nZizIYFDIcFqzkVJp41ji5ytECu1d24CNhLEMjN/uJm1oDF2BeU0Nw/
-   9q4PKOmQftBy6WeEF3OA1T7FKDQV7c2+6XL2E0p0gqeejoJ0uWYByk3jw
-   Q==;
-X-CSE-ConnectionGUID: +N9bOtoHQxm7JGdXXSwKnw==
-X-CSE-MsgGUID: DRWxek3EStqd5tSRr8ESYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="51141432"
+  t=1746704396; x=1778240396;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CNe87gFhLNwrymYwLSElRcC8katQ5WYY7ivrdeApVVk=;
+  b=Y9w/oVXdcRkZnZWEbJHazNVeypcgAaoGVPicjbXXXKMyFVH1Vyf6cgIj
+   uMj8YoNNfMQP3BvVeW3c9tpgXe8Ly2bJJoMtGS50GFrOLqgXfgakMp0Dj
+   iPJeXd4Cxo3skVyv+6et7uc8JhEa3w8RNzltz7yTOcuz4shoGX2frwv4y
+   JzLLh88i9PMj+3V8KccAWhorw+Pn/nCZ88/jxGA21gtEmPKy5+6ROq9Yd
+   qfIquMTrT+AQL1a9WruNbme+x9ZKGVlxYDwMZsKBKMSRDKJHp2tq0AeHS
+   DNmHZCAe6foLKJ6IsibeapPLFRaJijnUNvsJCkb0FuHqfiZwFGGdPtZ3y
+   w==;
+X-CSE-ConnectionGUID: zDilajkfRvuNSaib0WlNEA==
+X-CSE-MsgGUID: TYpSIam7TMqalXgjqO7Ifw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59142940"
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="51141432"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 04:38:53 -0700
-X-CSE-ConnectionGUID: LCOAveefT1igu9CYl9CP6g==
-X-CSE-MsgGUID: frwLqHmgRJ2xLaWXZfsCZQ==
+   d="scan'208";a="59142940"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 04:39:55 -0700
+X-CSE-ConnectionGUID: It5zwSqeREiDQNvJt0zqvA==
+X-CSE-MsgGUID: /sqej5r5SViqOQ3M6BanJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="167339821"
+   d="scan'208";a="136199726"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 08 May 2025 04:38:52 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 08 May 2025 04:39:52 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCzaT-000AvD-34;
-	Thu, 08 May 2025 11:38:49 +0000
-Date: Thu, 8 May 2025 19:38:49 +0800
+	id 1uCzbS-000AvH-06;
+	Thu, 08 May 2025 11:39:50 +0000
+Date: Thu, 8 May 2025 19:38:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/1] include/trace/stages/init.h:2:23:
- warning: 'str__user__trace_system_name' defined but not used
-Message-ID: <202505081921.cqpWYNWJ-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Hugh Dickins <hughd@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Yosry Ahmed <yosry.ahmed@linux.dev>, Nhat Pham <nphamcs@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	linux-nilfs@vger.kernel.org
+Subject: Re: [PATCH 5/7] mm: stop passing a writeback_control structure to
+ swap_writeout
+Message-ID: <202505081941.kyY28sRZ-lkp@intel.com>
+References: <20250508054938.15894-6-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,143 +73,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250508054938.15894-6-hch@lst.de>
 
-Hi heshuai1,
+Hi Christoph,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   646380b087a5203408877933afdaa2b480c2bc57
-commit: 4b87d7254bc8a9d31fcdd3e134c4651639144c9b [1/1] ANDROID: user: Add vendor hook to user for GKI purpose
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505081921.cqpWYNWJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081921.cqpWYNWJ-lkp@intel.com/reproduce)
+[auto build test ERROR on next-20250507]
+[cannot apply to akpm-mm/mm-everything konis-nilfs2/upstream linus/master v6.15-rc5 v6.15-rc4 v6.15-rc3 v6.15-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/mm-stop-passing-a-writeback_control-structure-to-shmem_writeout/20250508-144804
+base:   next-20250507
+patch link:    https://lore.kernel.org/r/20250508054938.15894-6-hch%40lst.de
+patch subject: [PATCH 5/7] mm: stop passing a writeback_control structure to swap_writeout
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250508/202505081941.kyY28sRZ-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081941.kyY28sRZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505081921.cqpWYNWJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081941.kyY28sRZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/user.h:21,
-                    from drivers/android/vendor_hooks.c:61:
->> include/trace/stages/init.h:2:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/typec.h:59,
-                    from drivers/android/vendor_hooks.c:60:
-   include/trace/stages/init.h:2:23: warning: 'str__typec__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/audio_usboffload.h:25,
-                    from drivers/android/vendor_hooks.c:59:
-   include/trace/stages/init.h:2:23: warning: 'str__audio_usboffload__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/thermal.h:28,
-                    from drivers/android/vendor_hooks.c:58:
-   include/trace/stages/init.h:2:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:35,
-                    from drivers/android/vendor_hooks.c:57:
-   include/trace/stages/init.h:2:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:26,
-                    from drivers/android/vendor_hooks.c:56:
-   include/trace/stages/init.h:2:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
+   mm/vmscan.c: In function 'writeout':
+>> mm/vmscan.c:670:44: error: passing argument 2 of 'swap_writeout' from incompatible pointer type [-Wincompatible-pointer-types]
+     670 |                 res = swap_writeout(folio, plug);
+         |                                            ^~~~
+         |                                            |
+         |                                            struct swap_iocb **
+   In file included from mm/vmscan.c:69:
+   mm/swap.h:146:76: note: expected 'struct writeback_control *' but argument is of type 'struct swap_iocb **'
+     146 | static inline int swap_writeout(struct folio *f, struct writeback_control *wbc)
+         |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+--
+   mm/shmem.c: In function 'shmem_writeout':
+>> mm/shmem.c:1644:45: error: passing argument 2 of 'swap_writeout' from incompatible pointer type [-Wincompatible-pointer-types]
+    1644 |                 return swap_writeout(folio, plug);
+         |                                             ^~~~
+         |                                             |
+         |                                             struct swap_iocb **
+   In file included from mm/shmem.c:44:
+   mm/swap.h:146:76: note: expected 'struct writeback_control *' but argument is of type 'struct swap_iocb **'
+     146 | static inline int swap_writeout(struct folio *f, struct writeback_control *wbc)
+         |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
 
 
-vim +/str__user__trace_system_name +2 include/trace/stages/init.h
+vim +/swap_writeout +670 mm/vmscan.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   654	
+   655	static pageout_t writeout(struct folio *folio, struct address_space *mapping,
+   656			struct swap_iocb **plug, struct list_head *folio_list)
+   657	{
+   658		int res;
+   659	
+   660		folio_set_reclaim(folio);
+   661	
+   662		/*
+   663		 * The large shmem folio can be split if CONFIG_THP_SWAP is not enabled
+   664		 * or we failed to allocate contiguous swap entries, in which case
+   665		 * the split out folios get added back to folio_list.
+   666		 */
+   667		if (shmem_mapping(mapping))
+   668			res = shmem_writeout(folio, plug, folio_list);
+   669		else
+ > 670			res = swap_writeout(folio, plug);
+   671	
+   672		if (res < 0)
+   673			handle_write_error(mapping, folio, res);
+   674		if (res == AOP_WRITEPAGE_ACTIVATE) {
+   675			folio_clear_reclaim(folio);
+   676			return PAGE_ACTIVATE;
+   677		}
+   678	
+   679		/* synchronous write? */
+   680		if (!folio_test_writeback(folio))
+   681			folio_clear_reclaim(folio);
+   682	
+   683		trace_mm_vmscan_write_folio(folio);
+   684		node_stat_add_folio(folio, NR_VMSCAN_WRITE);
+   685		return PAGE_SUCCESS;
+   686	}
+   687	
 
 -- 
 0-DAY CI Kernel Test Service
