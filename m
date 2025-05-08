@@ -1,151 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E84517A2F0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 06:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC5321CFF7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 07:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746687272; cv=none; b=Q1tEKhyolTEBQ90L+6m8D09ao3FeJ/6qZfFQ1miXoaSrYFEdfm35yINMSRKJA1yiDHUgMf7X9eUXIAXU54n6OHZPj7ReubgHwrGo+z4GjhFapCe7kpBQP+dNIUCq6c85nLZ6iM4Vu/h8leuz60uV8j3njPg1flSQQHjOawdTHwU=
+	t=1746688385; cv=none; b=f4LS5gRbHTGuSLy/OdyC0V+27dUNlV9qqr2OnCrxkPC8qHuLLcd7P30Hc8e8wkGZZ5VQN4EJdkAOuL6lcG0Dx6cBbNEht/vUQdxRWUYzi8h7J4y1zE7HJ9YQDlRO/MhfkySvAOFGdNm8zvWYPQ5ZWSGhp50h9Fof/7hfPmC9Hxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746687272; c=relaxed/simple;
-	bh=eRZIKtysuS6oTcrjeE85a1+Xwq0Zc6EtWiLFsCUxq20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qDjecmCmr/WH9mEGasg71pS8Nx1yvnun0InMNQwXVQ2WqlC8KEovoIg9bKsXBgy/nKMntPHHYRgp2TLWPUeVRK/EeAqPl9lla/RusyvyFQQswslt7D5Q2K6BxRZqlvLSjZSW/GTc+5MvoD1hYp0g5j5HETA/pGxKqTQd19KUW9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccndsvSv; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccndsvSv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746687272; x=1778223272;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eRZIKtysuS6oTcrjeE85a1+Xwq0Zc6EtWiLFsCUxq20=;
-  b=ccndsvSvvu9PSlOKL16573hY9QpfCgyfX8tFjDCqItOn0loAw416PosA
-   8doaatKMyoV9UmIlk7USWmeB5ZeyRNHe3TQrFZQBjk/CKCUlcAapmK50U
-   G5lpwmLOLGFWtGFQNfn3Yh6hlPXtEr34sfm7t6s/H2eYkE2lPTPyPqC4W
-   dJHVsvw9tdD9lK/p4CiwnH9rZo+CgI4Jn5l30DxqU1sQZS7vw2MBf0kR1
-   Oyiv6MW/GzIu9OO22X/dIPX1tAiKSw5DaOSe+wfFGIcIbUqUn4bxX3l0x
-   YDzfLRT0GJnXzkzkzq/Folzs0SPOUNuN8IzsvrmteIPck6UrjTmOp1vO+
-   A==;
-X-CSE-ConnectionGUID: 0+BXsyVvRc6NShPw9M0MlQ==
-X-CSE-MsgGUID: j871wgf0SKWNfK4frwa/0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59441403"
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="59441403"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 23:54:31 -0700
-X-CSE-ConnectionGUID: zjAAhvi/SFCAlbDqxA/ZUQ==
-X-CSE-MsgGUID: 9XKYUGeJRBOc703HN88BZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="137130582"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 07 May 2025 23:54:28 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCv9G-000Aip-0g;
-	Thu, 08 May 2025 06:54:26 +0000
-Date: Thu, 8 May 2025 14:54:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yang Li via B4 Relay <devnull+yang.li.amlogic.com@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Yang Li <yang.li@amlogic.com>
-Subject: Re: [PATCH] Bluetooth: fix socket matching ambiguity between BIS and
- CIS
-Message-ID: <202505081427.1Y3wyo7v-lkp@intel.com>
-References: <20250507-iso-v1-1-6f60d243e037@amlogic.com>
+	s=arc-20240116; t=1746688385; c=relaxed/simple;
+	bh=wzd2oN78a5f/c5RFfKUvSeNBcAm+s56MJoEcP0uJOJ8=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=qxuQpx5wwURqk3C8tX7ERahiltXxbztb5BphzOThZS7R16F95srw+uBNdu6Iro+J51qtl7YIPbt7US6K9WbUL4jxLP8/dvCUKMkD/eJ6cjGtEqNJJIThGf5P0xbQabN/h89sRx9NkAHtPnuu0Q8tlveIezudsN+tILYw9dA05ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-85e310ba2f9so58523639f.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 08 May 2025 00:13:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746688383; x=1747293183;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aG8nEEjrmEeVt+FMIpArijkqqoSXM+l5mTr89aXDaco=;
+        b=uXvqe+R76KimA6S3zVRUZ/ADVbfYPTFo1rQxMu4nHI0ku03549VdL7yjwb0cxja8+i
+         LaZrSPf6wreFND6lJc2SO+7qKsSYpJIY9B8BXMkRP4oGW6aR7us/ijmw2I/uOy9vVC8K
+         rqReZR8Uj0Qkz7i04GwK+uh+LueCTaCQvCTAtAaJ6/oazxmn9LIBTZpIBV0MOq+8LHuz
+         7sjk8jDMabPC4TxiKBL9qfL1OlRECNJkil7NornyL1QtL7tWwQsCAOAljaj/ssHfJ2bg
+         pJWpxZzgRXZU0WzMG2u+Ql6sUlUCJn54ztgSd5e9OhgF1XFO/j961UtXVIVt34qzY7h7
+         /Qew==
+X-Forwarded-Encrypted: i=1; AJvYcCUnXY9Sb/99h6nk+Xa7UpKXpYcYjcnBArJLZfUjT4qfYb/T1GKvxwQKSrNo/6uk6tZH5K69dSszGBlJq+7A@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0sn/Dw4QfvGaFJiP82TZYQbyYmS+RFdJNtUBPok6AzXAMDbIF
+	lB/FwJmjLiEWU8ovJQpamHipKZc1wuvTSJI0HP2fC6awrf3Pr5QmbWvulvOSlT4s9VI745RS1u/
+	WaZPpmhIvlC1X0cmgmqvJl12KEIkUhHG8pmxHCV+0HPBC943QVmGvd6U=
+X-Google-Smtp-Source: AGHT+IGwtuBYqtqyXs7WRh4r9OmvUUEzOExCVcEqx0h1T1Y13Uv2G2YCBtq+f/KGXA4sXFhBQN7tN/Kda77poO16j+d/OJj+D8XX
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250507-iso-v1-1-6f60d243e037@amlogic.com>
+X-Received: by 2002:a05:6e02:1a67:b0:3d9:36a8:3da0 with SMTP id
+ e9e14a558f8ab-3da7854d64emr31349925ab.2.1746688383016; Thu, 08 May 2025
+ 00:13:03 -0700 (PDT)
+Date: Thu, 08 May 2025 00:13:03 -0700
+In-Reply-To: <000000000000adb08b061413919e@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <681c597f.050a0220.a19a9.00bd.GAE@google.com>
+Subject: Re: [syzbot] [bpf?] possible deadlock in trie_delete_elem
+From: syzbot <syzbot+9d95beb2a3c260622518@syzkaller.appspotmail.com>
+To: andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, 
+	daniel@iogearbox.net, eddyz87@gmail.com, elic@nvidia.com, haoluo@google.com, 
+	hdanton@sina.com, jasowang@redhat.com, john.fastabend@gmail.com, 
+	jolsa@kernel.org, kafai@fb.com, kpsingh@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	lkp@intel.com, llvm@lists.linux.dev, martin.lau@linux.dev, 
+	mathieu.desnoyers@efficios.com, memxor@gmail.com, mhiramat@kernel.org, 
+	michal.kukowski@infogain.com, michal.switala@infogain.com, mst@redhat.com, 
+	netdev@vger.kernel.org, norbert.kaminski@igglobal.com, 
+	norbert.kaminski@infogain.com, norkam41@gmail.com, 
+	oe-kbuild-all@lists.linux.dev, parav@nvidia.com, rostedt@goodmis.org, 
+	sdf@fomichev.me, sdf@google.com, song@kernel.org, songliubraving@fb.com, 
+	syzkaller-bugs@googlegroups.com, wojciech.gladysz@infogain.com, yhs@fb.com, 
+	yonghong.song@linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Yang,
+syzbot suspects this issue was fixed by commit:
 
-kernel test robot noticed the following build errors:
+commit 47979314c0fe245ed54306e2f91b3f819c7c0f9f
+Author: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Sun Mar 16 04:05:37 2025 +0000
 
-[auto build test ERROR on f3daca9b490154fbb0459848cc2ed61e8367bddc]
+    bpf: Convert lpm_trie.c to rqspinlock
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li-via-B4-Relay/Bluetooth-fix-socket-matching-ambiguity-between-BIS-and-CIS/20250507-153347
-base:   f3daca9b490154fbb0459848cc2ed61e8367bddc
-patch link:    https://lore.kernel.org/r/20250507-iso-v1-1-6f60d243e037%40amlogic.com
-patch subject: [PATCH] Bluetooth: fix socket matching ambiguity between BIS and CIS
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505081427.1Y3wyo7v-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081427.1Y3wyo7v-lkp@intel.com/reproduce)
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=140598f4580000
+start commit:   c2933b2befe2 Merge tag 'net-6.14-rc1' of git://git.kernel...
+git tree:       net-next
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d033b14aeef39158
+dashboard link: https://syzkaller.appspot.com/bug?extid=9d95beb2a3c260622518
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=108e1724580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=177035f8580000
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505081427.1Y3wyo7v-lkp@intel.com/
+If the result looks correct, please mark the issue as fixed by replying with:
 
-All errors (new ones prefixed by >>):
+#syz fix: bpf: Convert lpm_trie.c to rqspinlock
 
-   net/bluetooth/hci_event.c: In function 'hci_le_per_adv_report_evt':
->> net/bluetooth/hci_event.c:6469:60: error: 'ISO_LINK' undeclared (first use in this function); did you mean 'SCO_LINK'?
-    6469 |         mask |= hci_proto_connect_ind(hdev, &pa_sync->dst, ISO_LINK, &flags);
-         |                                                            ^~~~~~~~
-         |                                                            SCO_LINK
-   net/bluetooth/hci_event.c:6469:60: note: each undeclared identifier is reported only once for each function it appears in
-   net/bluetooth/hci_event.c: In function 'hci_le_big_info_adv_report_evt':
-   net/bluetooth/hci_event.c:7055:60: error: 'ISO_LINK' undeclared (first use in this function); did you mean 'SCO_LINK'?
-    7055 |         mask |= hci_proto_connect_ind(hdev, &pa_sync->dst, ISO_LINK, &flags);
-         |                                                            ^~~~~~~~
-         |                                                            SCO_LINK
-
-
-vim +6469 net/bluetooth/hci_event.c
-
-  6449	
-  6450	static void hci_le_per_adv_report_evt(struct hci_dev *hdev, void *data,
-  6451					      struct sk_buff *skb)
-  6452	{
-  6453		struct hci_ev_le_per_adv_report *ev = data;
-  6454		int mask = hdev->link_mode;
-  6455		__u8 flags = 0;
-  6456		struct hci_conn *pa_sync;
-  6457	
-  6458		bt_dev_dbg(hdev, "sync_handle 0x%4.4x", le16_to_cpu(ev->sync_handle));
-  6459	
-  6460		hci_dev_lock(hdev);
-  6461	
-  6462		pa_sync = hci_conn_hash_lookup_pa_sync_handle
-  6463				(hdev,
-  6464				le16_to_cpu(ev->sync_handle));
-  6465	
-  6466		if (!pa_sync)
-  6467			goto unlock;
-  6468	
-> 6469		mask |= hci_proto_connect_ind(hdev, &pa_sync->dst, ISO_LINK, &flags);
-  6470		if (!(mask & HCI_LM_ACCEPT))
-  6471			goto unlock;
-  6472	
-  6473		if (!(flags & HCI_PROTO_DEFER))
-  6474			goto unlock;
-  6475	
-  6476		if (ev->data_status == LE_PA_DATA_COMPLETE &&
-  6477		    !test_and_set_bit(HCI_CONN_PA_SYNC, &pa_sync->flags)) {
-  6478			/* Notify iso layer */
-  6479			hci_connect_cfm(pa_sync, 0);
-  6480	
-  6481			/* Notify MGMT layer */
-  6482			mgmt_device_connected(hdev, pa_sync, NULL, 0);
-  6483		}
-  6484	
-  6485	unlock:
-  6486		hci_dev_unlock(hdev);
-  6487	}
-  6488	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
