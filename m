@@ -1,177 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA352281526;
-	Thu,  8 May 2025 17:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9DC27E1D0;
+	Thu,  8 May 2025 18:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746726871; cv=none; b=S67gFJgOYw4YrktCin22miPEOnF45XwBt/0m2Kxd0DciJE9W7B7IVA6VZF5vk0u9L16N16xQ5hSpyxs8Z2DjJQ0RqwgTt5osSBnmjnuogvVqSks3mU9HhBc+cRQdV4+GNTA6h+ZH+P83EXhO2pORVeJI7Hn5v4lGl76qd1VYi6k=
+	t=1746727230; cv=none; b=Ndg01qai3F1/g5YcFtmrYZkxVqbpKN/jqi3zzJhedDCmnsL6958rsrhsTUKAC0Py1Ii4MdYFYbLrt3pxP8lkj25vmvF1sbFcDs4VBorhM2deYUqEXAscKD1IlpNy4tCe9tToNIvu9yaybubn2SC1UZDsK1qKeosv8gGZ8uejGBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746726871; c=relaxed/simple;
-	bh=H7ph+7KSkF1AvfD3kGvYdcGc9HaK1kvASqnb63Hl4zc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bXCvJpnfytPHg96j7vwSzaOxf5X6ivZ/UsJ/vwEQG7o6iiHA8Wgr3eesDHePiaoL0L9Q/+I41lf3AUOJP7/rsJeiag78LWxS/E2s2rkGKMnrgVIn/VVomjYiQxxf8WyKC5mHjwEaCWAWxPL/Dt463ATzmbpI8zxcT6Lp+n/nSFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2PcXyoy; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746727230; c=relaxed/simple;
+	bh=2OWGWC+dP0dKojtoPDjkn+UmT2pXXCdVjZjDutcVEEc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HIavvwSvS1nEilAerVCHd6v9yS6r0muzP+iUz6XZgpVw4UDWJAIaD4miRr8pA1zGkcQO17DbF/YQGTE9XZib402iCFW/EqNTWQBo5iGA0yKSZgxZjvuOAgOiqVd41QMn+kxFl/vPiVad4nlFLP/7ow5wft3ObS9FSwKoM8iLWrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KaGZuEY8; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2PcXyoy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746726870; x=1778262870;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H7ph+7KSkF1AvfD3kGvYdcGc9HaK1kvASqnb63Hl4zc=;
-  b=X2PcXyoyPABsOiqVJd7gQ36B+RPoPl1kwv5fIn+AFW6W4yukNaZ4NVVw
-   LY1VDKnzQdCxScK6CAzValstKLYKg5nYSK1skKBkf2Xn7ZvMio7Z4z+mt
-   D64/702FypmBObtrowsI0J5TcglhhwZPNU3Mr9dbiqLsE4ds0PqYl95Tp
-   1Jll02hMnb+W4dXMx5dOXaklLhoNOkPhurq1wsWBcLApGM76iUZlcILvn
-   K3GP5gkdXhCcBPHqzs+1K/LkGQknsebFSLUxlDD1kbAdiSrQTMiI+4Znp
-   ua6+IeTT/zChC/AP5wQ31ztnuZvKXsu0D+vfhnL+TDZLirX3U64oFxmUe
-   g==;
-X-CSE-ConnectionGUID: IUWz704qQXWV81e2xt63bg==
-X-CSE-MsgGUID: HiW2MRRARsCTe8alDgtGTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48397273"
-X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="48397273"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 10:54:29 -0700
-X-CSE-ConnectionGUID: sXZdAZ6JS5q3u+eHVgAj1Q==
-X-CSE-MsgGUID: lZZU7vkxSDqA/tCGJOtAoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="159668358"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 May 2025 10:54:27 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uD5Rx-000BEN-27;
-	Thu, 08 May 2025 17:54:25 +0000
-Date: Fri, 9 May 2025 01:54:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rong Zhang <ulin0208@gmail.com>,
-	almaz.alexandrovich@paragon-software.com
-Cc: oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Rong Zhang <ulin0208@gmail.com>
-Subject: Re: [PATCH 2/2] ntfs3: correctly create symlink for relative path
-Message-ID: <202505090114.Ejj1rsY0-lkp@intel.com>
-References: <20250507073534.11693-1-ulin0208@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KaGZuEY8"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cf680d351so13847115e9.0;
+        Thu, 08 May 2025 11:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746727227; x=1747332027; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s8OzbUVZza1sG9/bcAYaixiPxApsdaZfuysNbzaB9K0=;
+        b=KaGZuEY8KWVXxfh5P5Fvzl7mE4sIf3FmF7vv1dgxEQrAsZ/DoBDDXToLem/fxRgoJ2
+         71hV2Txwtbe2t6n8CXf506NJUQPz0oc10AXeeRyPTLF9IZrffEx24HdFKA7rk84WS7DC
+         mKsW/atdIDYWMXx5VjQdbm0SRc+UGyVYYZFe5u/nesNTP2KUV5O6sd5Usqo5YghEFH+x
+         xW1Cs46Dtj4Az8IT7a5j0ppVN1kPCkII1sfhKeu9SBN3Ppy6ZHrv5Jkq99UTGbOrYGPB
+         QNujfRU3wbnm8vW+3MlThjK5we3/9bKTN8hw/fC5/4P68i+Gfs0x61BkG7cKbiduMzW2
+         zf9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746727227; x=1747332027;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s8OzbUVZza1sG9/bcAYaixiPxApsdaZfuysNbzaB9K0=;
+        b=HZvkygEZvvrBBYv2DSxZFKfkgLC2fjBO+Z9Dlq6Er7U4e+7R1kdyy5omjz8Sy/RTob
+         PESaqElSdtwto+3VvIlNPv4hdgXc52ImuGKhHrDD96+iDyc22H74vc23dMX7sAaPddIB
+         oHFJRzq7JvV8vWoqMV0hwSymYKiWJ5jyqTfLnOHSfGXw5Qf9Gzaa2dA2CNckuuJBep4A
+         CsFbcBTp2t+YfUyF9U5HLfyhq5zjuB3sMNNEUxY8YEmgOukngAf0UaZzDPbfc+OXqScj
+         c9Ol2o4KVNSeJlz1jDYevYp7oPRAVecuJyMDDGHk8/2fXV7txoeJqBDG66pP97k7wNmz
+         hteQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIGM8AzZ4W7UMJ+CJAstDS/oQDnLL1IB3W1FWxRRC4ss00V8G2RsHFa4DB5PpSL5XOokwe@lists.linux.dev, AJvYcCXkxkgy9KeZ26jBhdosniGawHSiRHyi6win0U44l+4ZpOx+eVBhDswkiTC/PgLEnQ4swq81/GXa5G6zMc78rw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxA7v+ejmcyr48mkY61gG/2VnDBANGZ5+ho4z1eywwTXs5fOgea
+	1kT4kp0syf78yy0bSgHTCa6u1kLcKe15CQPclnc/oEsk/Hx8QwpL1SYFvIj8gg23nGmjaZaGKHF
+	vt6wexkXMncaGtCIc/gknluR5XEg=
+X-Gm-Gg: ASbGncsNtaiHAicihprjPoru7X7QSJPLzSsl/k4vgw2QHK0SclXSoApHczt89coealV
+	Jk4cJihipRyqedEUoGCc+dNKxzICAO/Abyo8VZ1z5zyx138Obtupem7V7xLqp+UZZTcLMEBGi0P
+	itj+ZrdsHjh8najhNmP3AW4Zpz40TcLAJOCg/QKQ==
+X-Google-Smtp-Source: AGHT+IEutKBReXc/JF0L32VsIMrtixijgJVzJAL0lR8pjAQZNt/yCBZuqbqZ6pmFsmAhXU/Aot3H54T+8SiQBmMlyjU=
+X-Received: by 2002:a05:6000:144f:b0:39c:30f7:b6ad with SMTP id
+ ffacd0b85a97d-3a1f6c984a1mr218850f8f.18.1746727226602; Thu, 08 May 2025
+ 11:00:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250507073534.11693-1-ulin0208@gmail.com>
+References: <000000000000adb08b061413919e@google.com> <681c597f.050a0220.a19a9.00bd.GAE@google.com>
+In-Reply-To: <681c597f.050a0220.a19a9.00bd.GAE@google.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Thu, 8 May 2025 11:00:15 -0700
+X-Gm-Features: ATxdqUG6Mkg4Ho6RZmO8HnmSlk8KmcFHKHxysJft20HZr0IOkm_SdwFkRH0L4Ws
+Message-ID: <CAADnVQ+cu2yt8v=8KE32Kymw_c-KLFUmbxZMxxjqBksafyNHiA@mail.gmail.com>
+Subject: Re: [syzbot] [bpf?] possible deadlock in trie_delete_elem
+To: syzbot <syzbot+9d95beb2a3c260622518@syzkaller.appspotmail.com>
+Cc: Andrii Nakryiko <andrii@kernel.org>, Alexei Starovoitov <ast@kernel.org>, bpf <bpf@vger.kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Eduard <eddyz87@gmail.com>, elic@nvidia.com, 
+	Hao Luo <haoluo@google.com>, Hillf Danton <hdanton@sina.com>, Jason Wang <jasowang@redhat.com>, 
+	John Fastabend <john.fastabend@gmail.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Martin KaFai Lau <kafai@fb.com>, KP Singh <kpsingh@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, kbuild test robot <lkp@intel.com>, 
+	clang-built-linux <llvm@lists.linux.dev>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, michal.kukowski@infogain.com, 
+	Michal Switala <michal.switala@infogain.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Network Development <netdev@vger.kernel.org>, norbert.kaminski@igglobal.com, 
+	norbert.kaminski@infogain.com, norkam41@gmail.com, 
+	oe-kbuild-all@lists.linux.dev, parav@nvidia.com, 
+	Steven Rostedt <rostedt@goodmis.org>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Stanislav Fomichev <sdf@google.com>, Song Liu <song@kernel.org>, Song Liu <songliubraving@fb.com>, 
+	syzkaller-bugs <syzkaller-bugs@googlegroups.com>, 
+	=?UTF-8?Q?Wojciech_G=C5=82adysz?= <wojciech.gladysz@infogain.com>, 
+	Yonghong Song <yhs@fb.com>, Yonghong Song <yonghong.song@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rong,
+On Thu, May 8, 2025 at 12:13=E2=80=AFAM syzbot
+<syzbot+9d95beb2a3c260622518@syzkaller.appspotmail.com> wrote:
+>
+> syzbot suspects this issue was fixed by commit:
+>
+> commit 47979314c0fe245ed54306e2f91b3f819c7c0f9f
+> Author: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> Date:   Sun Mar 16 04:05:37 2025 +0000
+>
+>     bpf: Convert lpm_trie.c to rqspinlock
+>
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D140598f458=
+0000
+> start commit:   c2933b2befe2 Merge tag 'net-6.14-rc1' of git://git.kernel=
+...
+> git tree:       net-next
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=3Dd033b14aeef39=
+158
+> dashboard link: https://syzkaller.appspot.com/bug?extid=3D9d95beb2a3c2606=
+22518
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D108e1724580=
+000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D177035f858000=
+0
+>
+> If the result looks correct, please mark the issue as fixed by replying w=
+ith:
 
-kernel test robot noticed the following build warnings:
+yes.
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.15-rc5 next-20250508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Zhang/ntfs3-correctly-create-symlink-for-relative-path/20250507-153624
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250507073534.11693-1-ulin0208%40gmail.com
-patch subject: [PATCH 2/2] ntfs3: correctly create symlink for relative path
-config: i386-randconfig-r133-20250508 (https://download.01.org/0day-ci/archive/20250509/202505090114.Ejj1rsY0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090114.Ejj1rsY0-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505090114.Ejj1rsY0-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> fs/ntfs3/inode.c:1124:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] Flags @@     got int @@
-   fs/ntfs3/inode.c:1124:19: sparse:     expected restricted __le32 [usertype] Flags
-   fs/ntfs3/inode.c:1124:19: sparse:     got int
-
-vim +1124 fs/ntfs3/inode.c
-
-  1068	
-  1069	static struct REPARSE_DATA_BUFFER *
-  1070	ntfs_create_reparse_buffer(struct ntfs_sb_info *sbi, const char *symname,
-  1071				   u32 size, u16 *nsize)
-  1072	{
-  1073		int i, err;
-  1074		struct REPARSE_DATA_BUFFER *rp;
-  1075		__le16 *rp_name;
-  1076		typeof(rp->SymbolicLinkReparseBuffer) *rs;
-  1077		bool is_absolute;
-  1078	
-  1079		is_absolute = (strlen(symname) > 1 && symname[1] == ':');
-  1080	
-  1081		rp = kzalloc(ntfs_reparse_bytes(2 * size + 2, is_absolute), GFP_NOFS);
-  1082		if (!rp)
-  1083			return ERR_PTR(-ENOMEM);
-  1084	
-  1085		rs = &rp->SymbolicLinkReparseBuffer;
-  1086		rp_name = rs->PathBuffer;
-  1087	
-  1088		/* Convert link name to UTF-16. */
-  1089		err = ntfs_nls_to_utf16(sbi, symname, size,
-  1090					(struct cpu_str *)(rp_name - 1), 2 * size,
-  1091					UTF16_LITTLE_ENDIAN);
-  1092		if (err < 0)
-  1093			goto out;
-  1094	
-  1095		/* err = the length of unicode name of symlink. */
-  1096		*nsize = ntfs_reparse_bytes(err, is_absolute);
-  1097	
-  1098		if (*nsize > sbi->reparse.max_size) {
-  1099			err = -EFBIG;
-  1100			goto out;
-  1101		}
-  1102	
-  1103		/* Translate Linux '/' into Windows '\'. */
-  1104		for (i = 0; i < err; i++) {
-  1105			if (rp_name[i] == cpu_to_le16('/'))
-  1106				rp_name[i] = cpu_to_le16('\\');
-  1107		}
-  1108	
-  1109		rp->ReparseTag = IO_REPARSE_TAG_SYMLINK;
-  1110		rp->ReparseDataLength =
-  1111			cpu_to_le16(*nsize - offsetof(struct REPARSE_DATA_BUFFER,
-  1112						      SymbolicLinkReparseBuffer));
-  1113	
-  1114		/* PrintName + SubstituteName. */
-  1115		rs->SubstituteNameOffset = cpu_to_le16(sizeof(short) * err);
-  1116		rs->SubstituteNameLength = cpu_to_le16(sizeof(short) * err + (is_absolute ? 8 : 0));
-  1117		rs->PrintNameLength = rs->SubstituteNameOffset;
-  1118	
-  1119		/*
-  1120		 * TODO: Use relative path if possible to allow Windows to
-  1121		 * parse this path.
-  1122		 * 0-absolute path 1- relative path (SYMLINK_FLAG_RELATIVE).
-  1123		 */
-> 1124		rs->Flags = is_absolute ? 0 : SYMLINK_FLAG_RELATIVE;
-  1125	
-  1126		memmove(rp_name + err + (is_absolute ? 4 : 0), rp_name, sizeof(short) * err);
-  1127	
-  1128		if (is_absolute) {
-  1129			/* Decorate SubstituteName. */
-  1130			rp_name += err;
-  1131			rp_name[0] = cpu_to_le16('\\');
-  1132			rp_name[1] = cpu_to_le16('?');
-  1133			rp_name[2] = cpu_to_le16('?');
-  1134			rp_name[3] = cpu_to_le16('\\');
-  1135		}
-  1136	
-  1137		return rp;
-  1138	out:
-  1139		kfree(rp);
-  1140		return ERR_PTR(err);
-  1141	}
-  1142	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+#syz fix: bpf: Convert lpm_trie.c to rqspinlock
