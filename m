@@ -1,58 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEFB101C8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 01:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555ED7260E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 02:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746666329; cv=none; b=bKOj72pLZDaQ9o0kyaHC7h4KUYjmrQw90lQXV8Cjpjbk4rBbBdzzqw7Z14xLPhYwtwueWCi1irDDEw2LVIvLsgMsBCWrxcy4dpd7xPBURWDvYugu3eFzSCZyoCrRPiYfTDSqFOHqqtld3MTphFBuNbASf3moYxC73xBqW+JLUrs=
+	t=1746671835; cv=none; b=iRXAejoEgXmYsIXXG4TEFco9oWtbGZf6LeRda36k74MykrV+msZR9RzRnnqiIKkOlooEvJNdXXxTRCc3UAapdFTPp2gYl5r5pZIBOC754zl1wrRQrRrT9t6eVW0Fxp3Zhhd8FX+CQVf7PyNOpYfTRiBD+19ixHDjKRnqSBaaXIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746666329; c=relaxed/simple;
-	bh=+OBmtRyqGrqdk0BfHILE2cvp1hVJ9ArGFKGPg8MWcBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dbphjP0iSZvI574qpT44hQomXef/fucSN7HxXZVSfwu4KruG+e1tPs64z6l2W1vzImhfBnwkmap/MXIvJFEw4nO2s+l/wNX94TIPac80vdOFUA6oYe/gdfyGcEipSv1BPJn1ns5VCiXOn89n910P6tSgks/RMom1k5mAvoDA6tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ETwDlxue; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1746671835; c=relaxed/simple;
+	bh=lbcruhGKAWZRzOTb1H0zOgqukDxfRer4cbf00zWqjV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iK3L7lgSWvbYDOSYBEWUO3UvC1ULbDTa73xPnK/Zv6xWdKem1NNahwgxGhTXZs+XWYx5cZvSihDbUF6O88ax1Ww7H3UW/soxmG5xG8gFFpmQ/MjN+4oXnjpm5gPpe9Ug2KaDpeWTfE+YNmKXLqYNaB4/SG4bwe1Y/aQfh3vEuTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAwWNS7s; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ETwDlxue"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAwWNS7s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746666328; x=1778202328;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+OBmtRyqGrqdk0BfHILE2cvp1hVJ9ArGFKGPg8MWcBM=;
-  b=ETwDlxueXAAg/9jlOiuDRlZSio00cajnuOWozBWkTe6dLr7Y/TptyMVA
-   mr7Hhk4GdsG08S/YSosqeKJgObnMrtYOEZyN5GJVaOP5840YUO2bQ6pU9
-   nHKLGAF+MjjgOXJ+pRGlex8xqHwO5KuebszoP1x43PyTwSSB3VHLL/G8D
-   AKCEjN7dwtYhyW17l8swBkqTZNO/KTy81beIFgP1rh8ntZDG5L43T+4Sd
-   XjGv5Fe6N/cc+TMaYSn1vBPesgOFcZat+uW57aTjj3nzgsJ/O/Tzehgka
-   yrL4oQSzqHnU22juKQ0gIlpNjvVo65c4k43kkzW+bVjeJeIyqq2nKaqdR
-   w==;
-X-CSE-ConnectionGUID: qRBbaDbiT6SleCMmPpUfZA==
-X-CSE-MsgGUID: ztMlrB+kRb+jsaf7S6J9Aw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="47531539"
+  t=1746671833; x=1778207833;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lbcruhGKAWZRzOTb1H0zOgqukDxfRer4cbf00zWqjV0=;
+  b=LAwWNS7sIUaNQ7Rgko+Lmn7IPxbOgNCzUD8BvavfY/zLkKsZh/vT87jl
+   Ui4MRXvZSi4Vf1i4pw3RfbBBw5Cextq1ZMCBvYw8pt+TeoFiaokh86VlX
+   IP4E3XJ5krHnbTujTaziypAkxl96tfi1qB0wxnsxaqJZXrBtf9lkfBFSQ
+   OMOKh9bEqIna5rvFWLERzo6tMOmkr3rw4IuhTx5O8vfe3UOJUXP3KkDbY
+   aUJniCIE4BgB7TcjmMrx2COF0Jf78KRRq9a1zpCNUtkN0pFdQM96l4O3B
+   tUJxYTVQfoNAFy2RZ+pXM3dpKEGig6Whb9RnyojI67b4QzH5hylILSk6m
+   Q==;
+X-CSE-ConnectionGUID: i/c6Lb4MQuCXI5K2ppkaOw==
+X-CSE-MsgGUID: 6LKSpN1jQme4cHNMPIPhTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59095156"
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="47531539"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 18:05:09 -0700
-X-CSE-ConnectionGUID: 6XLezF0qT7SmHGl47JC0Og==
-X-CSE-MsgGUID: /kIa41esQfadnkmHvOY+uQ==
+   d="scan'208";a="59095156"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 19:37:12 -0700
+X-CSE-ConnectionGUID: I+QNqCn1Sf+Wre8qqSyiGA==
+X-CSE-MsgGUID: L40G57OYRHOWr/ji854nug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; 
-   d="scan'208";a="141003950"
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="136084715"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 May 2025 18:04:44 -0700
+  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 19:37:06 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCpgo-0009Af-0K;
-	Thu, 08 May 2025 01:04:42 +0000
-Date: Thu, 8 May 2025 09:04:26 +0800
+	id 1uCr8C-0009Sh-08;
+	Thu, 08 May 2025 02:37:04 +0000
+Date: Thu, 8 May 2025 10:36:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhengchao Shao <shaozhengchao@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2208/2208] include/trace/stages/init.h:2:23:
- warning: 'str__bonding__trace_system_name' defined but not used
-Message-ID: <202505080910.94UlZrA0-lkp@intel.com>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	vger.kernel.org@web.codeaurora.org
+Cc: oe-kbuild-all@lists.linux.dev, Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Jakub Sitnicki <jakub@cloudflare.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH bpf-next v4 2/2] bpf: Move the BPF net tracepoint
+ definitions to net directory
+Message-ID: <202505081003.T2Tv4puD-lkp@intel.com>
+References: <20250506025131.136929-2-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,57 +83,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250506025131.136929-2-jiayuan.chen@linux.dev>
 
-Hi Wei,
+Hi Jiayuan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   66448995cc552d846c7442188f69e833f4a86676
-commit: 69ddcb21328bd29cfd2f64710bdac158f4c90bf6 [2208/2208] drivers: hooks: add bonding driver vendor hooks
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505080910.94UlZrA0-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505080910.94UlZrA0-lkp@intel.com/reproduce)
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiayuan-Chen/bpf-Move-the-BPF-net-tracepoint-definitions-to-net-directory/20250506-150437
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250506025131.136929-2-jiayuan.chen%40linux.dev
+patch subject: [RESEND PATCH bpf-next v4 2/2] bpf: Move the BPF net tracepoint definitions to net directory
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20250508/202505081003.T2Tv4puD-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081003.T2Tv4puD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505080910.94UlZrA0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081003.T2Tv4puD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bonding.h:27,
-                    from drivers/hooks/vendor_hooks.c:11:
->> include/trace/stages/init.h:2:23: warning: 'str__bonding__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/str__bonding__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   arc-linux-ld: net/core/dev.o: in function `netif_receive_generic_xdp':
+>> dev.c:(.text+0xb3b4): undefined reference to `__tracepoint_xdp_exception'
+>> arc-linux-ld: dev.c:(.text+0xb3b4): undefined reference to `__tracepoint_xdp_exception'
+>> arc-linux-ld: dev.c:(.text+0xb3e8): undefined reference to `__traceiter_xdp_exception'
+>> arc-linux-ld: dev.c:(.text+0xb3e8): undefined reference to `__traceiter_xdp_exception'
+   arc-linux-ld: net/core/dev.o: in function `generic_xdp_tx':
+   dev.c:(.text+0xb488): undefined reference to `__tracepoint_xdp_exception'
+   arc-linux-ld: dev.c:(.text+0xb488): undefined reference to `__tracepoint_xdp_exception'
+   arc-linux-ld: dev.c:(.text+0xb4c4): undefined reference to `__tracepoint_xdp_exception'
+   arc-linux-ld: dev.c:(.text+0xb4c4): undefined reference to `__tracepoint_xdp_exception'
+   arc-linux-ld: dev.c:(.text+0xb594): undefined reference to `__traceiter_xdp_exception'
+   arc-linux-ld: dev.c:(.text+0xb594): undefined reference to `__traceiter_xdp_exception'
+   arc-linux-ld: net/core/filter.o: in function `__do_trace_xdp_redirect_err':
+>> filter.c:(.text+0x6f88): undefined reference to `__traceiter_xdp_redirect_err'
+>> arc-linux-ld: filter.c:(.text+0x6f88): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: net/core/filter.o: in function `xdp_do_redirect_frame':
+>> filter.c:(.text+0xc45e): undefined reference to `__tracepoint_xdp_redirect_err'
+>> arc-linux-ld: filter.c:(.text+0xc45e): undefined reference to `__tracepoint_xdp_redirect_err'
+>> arc-linux-ld: filter.c:(.text+0xc490): undefined reference to `__tracepoint_xdp_redirect'
+>> arc-linux-ld: filter.c:(.text+0xc490): undefined reference to `__tracepoint_xdp_redirect'
+>> arc-linux-ld: filter.c:(.text+0xc500): undefined reference to `__traceiter_xdp_redirect'
+>> arc-linux-ld: filter.c:(.text+0xc500): undefined reference to `__traceiter_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xc55a): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xc55a): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xc594): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xc594): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: net/core/filter.o: in function `xdp_do_redirect':
+   filter.c:(.text+0xc682): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xc682): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xc6ba): undefined reference to `__tracepoint_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xc6ba): undefined reference to `__tracepoint_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xc734): undefined reference to `__traceiter_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xc734): undefined reference to `__traceiter_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xc7d6): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xc7d6): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xc810): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xc810): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: net/core/filter.o: in function `xdp_do_generic_redirect':
+   filter.c:(.text+0xd326): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xd326): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xd3a4): undefined reference to `__tracepoint_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xd3a4): undefined reference to `__tracepoint_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xd3ea): undefined reference to `__tracepoint_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xd3ea): undefined reference to `__tracepoint_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xd454): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xd454): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xd4b2): undefined reference to `__traceiter_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xd4b2): undefined reference to `__traceiter_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xd4ec): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xd4ec): undefined reference to `__tracepoint_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xd532): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xd532): undefined reference to `__traceiter_xdp_redirect_err'
+   arc-linux-ld: filter.c:(.text+0xd594): undefined reference to `__traceiter_xdp_redirect'
+   arc-linux-ld: filter.c:(.text+0xd594): undefined reference to `__traceiter_xdp_redirect'
+   arc-linux-ld: net/core/xdp.o: in function `xdp_rxq_info_reg_mem_model':
+>> xdp.c:(.text+0x58e): undefined reference to `__tracepoint_mem_connect'
+>> arc-linux-ld: xdp.c:(.text+0x58e): undefined reference to `__tracepoint_mem_connect'
+>> arc-linux-ld: xdp.c:(.text+0x5d2): undefined reference to `__traceiter_mem_connect'
+>> arc-linux-ld: xdp.c:(.text+0x5d2): undefined reference to `__traceiter_mem_connect'
 
 -- 
 0-DAY CI Kernel Test Service
