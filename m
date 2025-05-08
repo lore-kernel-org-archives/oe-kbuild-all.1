@@ -1,87 +1,162 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC5321CFF7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 07:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D7D22128A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 07:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746688385; cv=none; b=f4LS5gRbHTGuSLy/OdyC0V+27dUNlV9qqr2OnCrxkPC8qHuLLcd7P30Hc8e8wkGZZ5VQN4EJdkAOuL6lcG0Dx6cBbNEht/vUQdxRWUYzi8h7J4y1zE7HJ9YQDlRO/MhfkySvAOFGdNm8zvWYPQ5ZWSGhp50h9Fof/7hfPmC9Hxg=
+	t=1746690277; cv=none; b=PXVyY+tT3YnDov4sNZY4JqC4aw5SmLywuF8XX0MF5Fpjolo/W+Lkazi9x8E/tOVGwEAEXpmHf8Aac/ue4YXoBM3lk61ZAq8qb1XC0ElpmO7vPAaFvox2VfdzjDvwMwfR0G9XpT244udg9VSYCtxskVf5WwAuZmIkI1trmG5scIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746688385; c=relaxed/simple;
-	bh=wzd2oN78a5f/c5RFfKUvSeNBcAm+s56MJoEcP0uJOJ8=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=qxuQpx5wwURqk3C8tX7ERahiltXxbztb5BphzOThZS7R16F95srw+uBNdu6Iro+J51qtl7YIPbt7US6K9WbUL4jxLP8/dvCUKMkD/eJ6cjGtEqNJJIThGf5P0xbQabN/h89sRx9NkAHtPnuu0Q8tlveIezudsN+tILYw9dA05ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-85e310ba2f9so58523639f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 08 May 2025 00:13:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746688383; x=1747293183;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aG8nEEjrmEeVt+FMIpArijkqqoSXM+l5mTr89aXDaco=;
-        b=uXvqe+R76KimA6S3zVRUZ/ADVbfYPTFo1rQxMu4nHI0ku03549VdL7yjwb0cxja8+i
-         LaZrSPf6wreFND6lJc2SO+7qKsSYpJIY9B8BXMkRP4oGW6aR7us/ijmw2I/uOy9vVC8K
-         rqReZR8Uj0Qkz7i04GwK+uh+LueCTaCQvCTAtAaJ6/oazxmn9LIBTZpIBV0MOq+8LHuz
-         7sjk8jDMabPC4TxiKBL9qfL1OlRECNJkil7NornyL1QtL7tWwQsCAOAljaj/ssHfJ2bg
-         pJWpxZzgRXZU0WzMG2u+Ql6sUlUCJn54ztgSd5e9OhgF1XFO/j961UtXVIVt34qzY7h7
-         /Qew==
-X-Forwarded-Encrypted: i=1; AJvYcCUnXY9Sb/99h6nk+Xa7UpKXpYcYjcnBArJLZfUjT4qfYb/T1GKvxwQKSrNo/6uk6tZH5K69dSszGBlJq+7A@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0sn/Dw4QfvGaFJiP82TZYQbyYmS+RFdJNtUBPok6AzXAMDbIF
-	lB/FwJmjLiEWU8ovJQpamHipKZc1wuvTSJI0HP2fC6awrf3Pr5QmbWvulvOSlT4s9VI745RS1u/
-	WaZPpmhIvlC1X0cmgmqvJl12KEIkUhHG8pmxHCV+0HPBC943QVmGvd6U=
-X-Google-Smtp-Source: AGHT+IGwtuBYqtqyXs7WRh4r9OmvUUEzOExCVcEqx0h1T1Y13Uv2G2YCBtq+f/KGXA4sXFhBQN7tN/Kda77poO16j+d/OJj+D8XX
+	s=arc-20240116; t=1746690277; c=relaxed/simple;
+	bh=Z2kloeD65mtLb61P58nCIQmYcl4gXp2DjEyRHPS0Yzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MICTtlxFw2HkCGzE6fg948jnxtD3YIUefcrbgopbeCEGcSflRQHvPWnwYDi6V+37P+HEVsKH8754UybWStw+xYHzN5VOW17j+Ycx91lL7vrdQoGSRKKhIS8mXM3jQo2GQ8pxlF19wbZC/HUbvf5HZQEVA3h34Igh4WbQZnmEi5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEI/E+wI; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEI/E+wI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746690275; x=1778226275;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z2kloeD65mtLb61P58nCIQmYcl4gXp2DjEyRHPS0Yzk=;
+  b=EEI/E+wIHFEXPedmIooMjXlsUZxEAfmR3kP7RgFixPDxmjZNSPAjKUZr
+   rykS/XdpaFOo10uvb4veCErUeH6zmbB8VcowEl05GOtVmPSMmSKaAz66G
+   o4nqMswrXsgzqDUtCvE7sToZKam64NI7ADQin/7GQCmAapdlsxiwDg3qf
+   PAwUU5ESZjUwMqRVxZ6mZZEVYZ34MZSzmKnKDwqppWAQyn/1Cs48mXSmU
+   3zLyH/Mf80Owe8bfbDBJOqsw9gJ8rk7+YNWWegcOT8R9rOiOty2s1f9Jh
+   NG17NmbokDS7aaqFUX5AnLDpvdOIds7GxPYedGlEovpA4DT1Inw/OXgkm
+   A==;
+X-CSE-ConnectionGUID: 6mfJsn6jRlao8I3j0NsVCg==
+X-CSE-MsgGUID: fsO9/0hrSBKbTSUJ6WcCGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59120946"
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="59120946"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 00:44:34 -0700
+X-CSE-ConnectionGUID: umm/huDVQGGhkGviOtpLZw==
+X-CSE-MsgGUID: 3lx3D90BQ1iG8OnuR8tu6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="173410747"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 08 May 2025 00:44:32 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCvvi-000Al9-0i;
+	Thu, 08 May 2025 07:44:30 +0000
+Date: Thu, 8 May 2025 15:44:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Dhaval Giani (AMD)" <dhaval@gianis.ca>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dhaval Giani <dhaval.giani@amd.com>,
+	Gautham Shenoy <gautham.shenoy@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Dhaval Giani (AMD)" <dhaval@gianis.ca>
+Subject: Re: [PATCH 3/3] sched/fair: Test that the average lag across the
+ system is zero
+Message-ID: <202505081552.vqYbpmQi-lkp@intel.com>
+References: <20250422-b4-eevdf-tests-v1-post-v1-3-5b174f040f55@gianis.ca>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1a67:b0:3d9:36a8:3da0 with SMTP id
- e9e14a558f8ab-3da7854d64emr31349925ab.2.1746688383016; Thu, 08 May 2025
- 00:13:03 -0700 (PDT)
-Date: Thu, 08 May 2025 00:13:03 -0700
-In-Reply-To: <000000000000adb08b061413919e@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <681c597f.050a0220.a19a9.00bd.GAE@google.com>
-Subject: Re: [syzbot] [bpf?] possible deadlock in trie_delete_elem
-From: syzbot <syzbot+9d95beb2a3c260622518@syzkaller.appspotmail.com>
-To: andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, 
-	daniel@iogearbox.net, eddyz87@gmail.com, elic@nvidia.com, haoluo@google.com, 
-	hdanton@sina.com, jasowang@redhat.com, john.fastabend@gmail.com, 
-	jolsa@kernel.org, kafai@fb.com, kpsingh@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	lkp@intel.com, llvm@lists.linux.dev, martin.lau@linux.dev, 
-	mathieu.desnoyers@efficios.com, memxor@gmail.com, mhiramat@kernel.org, 
-	michal.kukowski@infogain.com, michal.switala@infogain.com, mst@redhat.com, 
-	netdev@vger.kernel.org, norbert.kaminski@igglobal.com, 
-	norbert.kaminski@infogain.com, norkam41@gmail.com, 
-	oe-kbuild-all@lists.linux.dev, parav@nvidia.com, rostedt@goodmis.org, 
-	sdf@fomichev.me, sdf@google.com, song@kernel.org, songliubraving@fb.com, 
-	syzkaller-bugs@googlegroups.com, wojciech.gladysz@infogain.com, yhs@fb.com, 
-	yonghong.song@linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250422-b4-eevdf-tests-v1-post-v1-3-5b174f040f55@gianis.ca>
 
-syzbot suspects this issue was fixed by commit:
+Hi Dhaval,
 
-commit 47979314c0fe245ed54306e2f91b3f819c7c0f9f
-Author: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date:   Sun Mar 16 04:05:37 2025 +0000
+kernel test robot noticed the following build errors:
 
-    bpf: Convert lpm_trie.c to rqspinlock
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=140598f4580000
-start commit:   c2933b2befe2 Merge tag 'net-6.14-rc1' of git://git.kernel...
-git tree:       net-next
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d033b14aeef39158
-dashboard link: https://syzkaller.appspot.com/bug?extid=9d95beb2a3c260622518
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=108e1724580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=177035f8580000
+url:    https://github.com/intel-lab-lkp/linux/commits/Dhaval-Giani-AMD/sched-fair-Add-a-test-to-test-that-a-task-selected-to-run-has-positive-lag/20250423-081648
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20250422-b4-eevdf-tests-v1-post-v1-3-5b174f040f55%40gianis.ca
+patch subject: [PATCH 3/3] sched/fair: Test that the average lag across the system is zero
+config: i386-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250508/202505081552.vqYbpmQi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081552.vqYbpmQi-lkp@intel.com/reproduce)
 
-If the result looks correct, please mark the issue as fixed by replying with:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081552.vqYbpmQi-lkp@intel.com/
 
-#syz fix: bpf: Convert lpm_trie.c to rqspinlock
+All errors (new ones prefixed by >>):
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+   ld: kernel/sched/eevdf-tests.o: in function `test_eevdf_cfs_rq_zero_lag':
+>> kernel/sched/eevdf-tests.c:150: undefined reference to `__udivdi3'
+
+
+vim +150 kernel/sched/eevdf-tests.c
+
+    98	
+    99	/*
+   100	 * we do, what we need to do
+   101	 */
+   102	#define __node_2_se(node) \
+   103		rb_entry((node), struct sched_entity, run_node)
+   104	
+   105	static bool test_eevdf_cfs_rq_zero_lag(struct cfs_rq *cfs, struct list_head *tg_se)
+   106	{
+   107		u64 cfs_avg_vruntime;
+   108		u64 calculated_avg_vruntime;
+   109	
+   110		u64 total_vruntime = 0;
+   111		u64 nr_tasks = 0;
+   112	
+   113		struct sched_entity *se;
+   114		struct rb_node *node;
+   115		struct rb_root *root;
+   116	
+   117		cfs_avg_vruntime = avg_vruntime(cfs);
+   118	
+   119		/*
+   120		 * Walk through the rb tree -> look at the se->vruntime value and add it
+   121		 */
+   122	
+   123		total_vruntime = 0;
+   124		nr_tasks = 0;
+   125	
+   126		root = &cfs->tasks_timeline.rb_root;
+   127	
+   128		for (node = rb_first(root); node; node = rb_next(node)) {
+   129			se = __node_2_se(node);
+   130			WARN_ON_ONCE(__builtin_add_overflow(total_vruntime,
+   131						se->vruntime, &total_vruntime));
+   132			/*
+   133			 * if it is a task group, add to a list to look at later
+   134			 */
+   135			if (!entity_is_task(se))
+   136				list_add_tail(&se->tg_entry, tg_se);
+   137			nr_tasks++;
+   138		}
+   139	
+   140		if (cfs->curr) {
+   141			WARN_ON_ONCE(__builtin_add_overflow(total_vruntime,
+   142						cfs->curr->vruntime, &total_vruntime));
+   143			nr_tasks++;
+   144		}
+   145	
+   146		/* If there are no tasks, there is no lag :-) */
+   147		if (!nr_tasks)
+   148			return true;
+   149	
+ > 150		calculated_avg_vruntime = total_vruntime / nr_tasks;
+   151	
+   152		return (calculated_avg_vruntime == cfs_avg_vruntime);
+   153	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
