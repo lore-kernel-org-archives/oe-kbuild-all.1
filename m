@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF001224FD;
-	Thu,  8 May 2025 22:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C422147F8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 23:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746744477; cv=none; b=CPqpQlg3bkny35uP780Syp/7G4erxQSiR0r5w+a1oHGTEwHygxPCyopFt09AcoIwm0gKdrDGFnHIoAObkat7lV+EuBd+MTwVYP3f8o1WjFD2h1HlZtreVJxJDANXRHCAoBuukLn4eaHfpZobz0w/JW3U36i9ltgEesnT4RWtrWk=
+	t=1746745740; cv=none; b=qHT+TtfAcvwSfLrtDf1gV/IM2BZuZjVyQAA0LPLh35V2kRP1t6MPAqENESAClVZE7JYZXLafjbIxqcSikibbA01FrY7WQvb/5S0YpPzhJFPHHT0qiqYc0e4toB2QXkcVv0whoySNNP0NrfIFzya+wXP07p9JVAmWxJTWKj1Y9ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746744477; c=relaxed/simple;
-	bh=K9RKEqzFTtllR796q7SanQZnve1DXiKY0QZo4VMInBg=;
+	s=arc-20240116; t=1746745740; c=relaxed/simple;
+	bh=x5D/nUqUTepORm08wkOUaenuC4Ib+uppGU/woUVnfBo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fO1LRRO344higUk8tTElE5drtjWvTVRtInVGfpbgjOYbY9TIz2kKfSt/iLqdxvwid3vtqSN1+qJWa+BxQG/R9hvKnLPQRwQH+60V10+LUGv3geUnioajd+/TaZMB7fn6IfSgpLN9A7TThaqPfEurF1W8BBjsiznRHItGxYxQ1gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5eh6MRv; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=dIcaIna3ps7sCAb0ytQEpOkjX7lE3WFkjzcTiuW+6CRYrQJAe+rGJuPgcuCiA3H1UEJjGjPh7TPrN1mI/M0RlRa1tkXvxQp5Rawf8GA+u8j4pKrj/p9lANoHJe9IBYF/9aELoK3QCFeGU1GdY8ifiHgdUyVQdgsldYnGJvSczbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BQUrNSpb; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5eh6MRv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQUrNSpb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746744476; x=1778280476;
+  t=1746745738; x=1778281738;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K9RKEqzFTtllR796q7SanQZnve1DXiKY0QZo4VMInBg=;
-  b=C5eh6MRvxogiunpO6qq/rsp+g3WDDZTXtOYDHN/OPPp9uR/8Ghfz0m8h
-   +gZwMxwexXFcD3hJYumuP4kDXgE3BmYjUN7zUTRuessQn1Zoaff1ld8uB
-   aR6O3Atg4gh9+doXj8N6l58c6voYFQGbdWGnX/iEO/3Fa6ph+VncVp29V
-   rSXMDjRyrkqKaXcZQfIHn1z1W6xRUSwX8QgEpBbuRk4bvLO03HnQqs9Ix
-   kgu473dNCNcLBJ61ag8Tk+1kaNAI8XLtVa032rmEAokha3lRa1dCickHJ
-   xQAWmHhc8ASNFHK+OIhErUjWNmXdDhAbBzbloB/0RyIdatbge/EEeCZE2
-   w==;
-X-CSE-ConnectionGUID: FWm5KfDHSresxywCvrO47g==
-X-CSE-MsgGUID: KYIvLIehSbi6swWNfLvg1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52207025"
+  bh=x5D/nUqUTepORm08wkOUaenuC4Ib+uppGU/woUVnfBo=;
+  b=BQUrNSpb/Klqgt/aAYaUF0N3NmV+dPTnqzBK01Q9UOhiVyerYzjb5TyN
+   DjU5fczNDzK2QbS8C9lZ5n38tch9DmGEJjnIXGadoKT4vEdsEI2ayY4b0
+   beFEi5mK4FLDNn/vezidWWZyFal42UG47/nU8WQBDLsjahfeo1UiqwemW
+   CRX9m+prCEUx6m/3t56ubjvrQdYhV7V7IvKrMR5BMAkV/iwBQM0RjNST7
+   VceoKqNS8v8VBh5EGGIcNtOeMUJOnoxw8h+AOgq6go8xtcdyLJxgQXNoT
+   x6aTWgpi+hhhV6FB2Xc5j+yLwz4ABkQ7BW22bBA+rl7jKpyminRXdGQCY
+   g==;
+X-CSE-ConnectionGUID: TYsq92I1SxmGIANEhFPqzQ==
+X-CSE-MsgGUID: 3lW0LEtZRk6MEWkhaTpr8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="59956354"
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="52207025"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 15:47:56 -0700
-X-CSE-ConnectionGUID: nZE5L5ggSOWMPSkOGJ8RKw==
-X-CSE-MsgGUID: Kw2y1zmOSdqhDbd7FCUvXg==
+   d="scan'208";a="59956354"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 16:08:58 -0700
+X-CSE-ConnectionGUID: JAuo5nf+QdqLLRKf9odO1g==
+X-CSE-MsgGUID: cmy9LFhQQau7jI9Uuffrew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="141345648"
+   d="scan'208";a="136951428"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 May 2025 15:47:54 -0700
+  by orviesa007.jf.intel.com with ESMTP; 08 May 2025 16:08:57 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDA1w-000BRJ-1i;
-	Thu, 08 May 2025 22:47:52 +0000
-Date: Fri, 9 May 2025 06:47:26 +0800
+	id 1uDAMI-000BSP-0h;
+	Thu, 08 May 2025 23:08:54 +0000
+Date: Fri, 9 May 2025 07:08:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 6484/9729] error[E0432]: unresolved import
- `crate::clk`
-Message-ID: <202505090616.2BrTjCYF-lkp@intel.com>
+To: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [linux-next:master 8164/9729] ERROR: modpost: "__udivdi3"
+ [drivers/media/i2c/ov02c10.ko] undefined!
+Message-ID: <202505090758.quGY0NdZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,35 +67,20 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   f48887a98b78880b7711aca311fbbbcaad6c4e3b
-commit: 4eb3c0cfd2b267d208286ba435f90535fdb08b9f [6484/9729] rust: opp: Add initial abstractions for OPP framework
-config: x86_64-buildonly-randconfig-003-20250509 (https://download.01.org/0day-ci/archive/20250509/202505090616.2BrTjCYF-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090616.2BrTjCYF-lkp@intel.com/reproduce)
+commit: 44f89010dae0eff6aabb9c14fb4b1001542498b4 [8164/9729] media: i2c: Add Omnivision OV02C10 sensor driver
+config: parisc-randconfig-001-20250509 (https://download.01.org/0day-ci/archive/20250509/202505090758.quGY0NdZ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090758.quGY0NdZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505090616.2BrTjCYF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505090758.quGY0NdZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   ***
-   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
-   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
-   *** unless patched (like Debian's).
-   ***   Your bindgen version:  0.65.1
-   ***   Your libclang version: 20.1.2
-   ***
-   ***
-   *** Please see Documentation/rust/quick-start.rst for details
-   *** on how to set up the Rust support.
-   ***
->> error[E0432]: unresolved import `crate::clk`
-   --> rust/kernel/opp.rs:12:5
-   |
-   12 |     clk::Hertz,
-   |     ^^^ could not find `clk` in the crate root
+>> ERROR: modpost: "__udivdi3" [drivers/media/i2c/ov02c10.ko] undefined!
+>> ERROR: modpost: "__divdi3" [drivers/media/i2c/ov02c10.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
