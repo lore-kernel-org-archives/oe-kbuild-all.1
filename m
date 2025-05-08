@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9829A2798F8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 15:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BDA279901
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 15:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746718338; cv=none; b=WEwTzxr22Lh5IEiKZs9xlcVYgfOfujIfFzfUJnDGX74rOFzglD4I/1VJC0cXMVAwUxcTv9AyrxwJKYKuWMfc/TSL8W1gXH+Da9xp8Dc26hxFV7raTXp5k01UeqxQc/Dko39wF2UTgjsNG5vwtWJnLgUA4rQO70kJu/WcZjcnRSg=
+	t=1746719001; cv=none; b=E0jp+fhnNJQ7sgsf7jY/h3Tk7rWj6zsCQ/6ZwvHS8GFgwl/HZn1sg7cGGhSfQc0EoYVnt4HzjMFoiYN2inLZZe/GORXXeV55zmCtKqCBu/kaSh2RfhOHJ7Y/dU1CVcI+HVnki8NPREZkNp1Z9qYeU/2c9IA1JAhZatXpLw08I74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746718338; c=relaxed/simple;
-	bh=dgmSjve+T9YUy/HyNcRbUo7hV9b+rP5PTdK6QsEJJOE=;
+	s=arc-20240116; t=1746719001; c=relaxed/simple;
+	bh=7s/lCc95cwjSyVrILrpuwT3kDvb8Ll0Dx+xVCXz6qoE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mn63aZM+uXxwOIMR4GklHSetdk89nFRySPSLoQzP39sZenaSK2llmDcEsHt+h1IfQBFCgkqAlvHkGWoGsfvcHeTOh2+Cz6PMfjTSCC1ouvuJwenNpxzWx2o6tbsze3LiuBFoOL1sU4mRUnBJUbW78fQgOIKttG0RnADw0ixGBpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eaiOa7eJ; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=eEElqcWVre/36g6BZdhiplTP/25kE8kWZMsjX4wV/v8orvRa0oRTccOhrjthmDJSIyhzRYaNkC+y7DRuVviUfayAVL3W13TgGahcYlO48Lstgd/LfGiRZTqsDsfkJj0goGfiSKNXdU94cSk3YdmVT/ZKh2x5fqRPjUiIyjrMsUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lAS+hsSb; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eaiOa7eJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lAS+hsSb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746718337; x=1778254337;
+  t=1746719000; x=1778255000;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dgmSjve+T9YUy/HyNcRbUo7hV9b+rP5PTdK6QsEJJOE=;
-  b=eaiOa7eJEtKusqwSDrK3nVKIhmLefX8z8mYmOTNi/0xXB7rtAShFXRsz
-   9dkW7uxVaG/arKy2iEDzLQ0zaby2f3BBGm1dMH3MLUaQvnC6z4XauzvGI
-   4U2MueoLdYwCnzBYUKkxN00DFkf3URQ2c4kDOzcNgizYCX7oxiCLpoQnq
-   nhgFIyUBlK+SxIFn8TAzuBoUBYm34ki9Fcqpzp68AP1WkyAUHgQgaYCtp
-   Cacpa2ylX8aA8JmyeAlYi1clStPb8xW053yoPQnNUC0vGq8JQY8GC8x3d
-   Xu+aZ1yHV/ufyOxQajP9BQYfhH1xzEFhkLhhNWI2iCuWbToHuWiTsuxoR
+  bh=7s/lCc95cwjSyVrILrpuwT3kDvb8Ll0Dx+xVCXz6qoE=;
+  b=lAS+hsSb4r+0wbG5MtyDgvp3vglT6eIk+whlqFbe66fyqiWeprByOA/2
+   zg8tZltej1Vzs/v/fpL8c9IPkh7Jhxl1Zv0RvnYGsOHBRPOFsCgyV79YJ
+   agHMx4Uy6j5CMzIdw/IQZzllZlo74079h48idi6Jq7GeaxuEMoyXK3wh1
+   HnX/qyr37Kr/VOv8q+huO++4/4i7zZlyzKn8scrqy/ZkR5PlAYb+lg/wz
+   Tqh9iXoS8DW3FhDUN2xvqhFNzSxLdyeFW+xtThhmqx231Du6bifkqgpNp
+   bsx7YJMeoC1nmNII2Yks/7SxpdMKNkLs0VPnTCopYo8nQo0uvnd1jPkDt
    Q==;
-X-CSE-ConnectionGUID: ZrCQmEpkQ5aeuJ9EPSUa5Q==
-X-CSE-MsgGUID: R95V4a46SAy+wydWq3gf+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="58721701"
+X-CSE-ConnectionGUID: od9Hb/N4QiaNbkdngHyhAQ==
+X-CSE-MsgGUID: pRGQDx+ETKyzdOsA7nkK4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48675960"
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="58721701"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 08:32:15 -0700
-X-CSE-ConnectionGUID: ugbvnUR4RFOUypKdPfydFw==
-X-CSE-MsgGUID: +bYKlCpiSVWfXGPn1NPVhA==
+   d="scan'208";a="48675960"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 08:43:17 -0700
+X-CSE-ConnectionGUID: aCRjluoISEKIYweJGTQg9A==
+X-CSE-MsgGUID: alOZR5A+Sjua+lG2Oud9qA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="137257443"
+   d="scan'208";a="136262749"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 May 2025 08:32:14 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 08 May 2025 08:43:14 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uD3EI-000B6F-2q;
-	Thu, 08 May 2025 15:32:10 +0000
-Date: Thu, 8 May 2025 23:32:00 +0800
+	id 1uD3Oy-000B7F-2C;
+	Thu, 08 May 2025 15:43:12 +0000
+Date: Thu, 8 May 2025 23:42:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: cem@kernel.org, linux-xfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] XFS: Fix comment on xfs_trans_ail_update_bulk()
-Message-ID: <202505082325.eX1iuPLZ-lkp@intel.com>
-References: <20250507095239.477105-3-cem@kernel.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: timer: Convert marvell,armada-370-timer to
+ DT schema
+Message-ID: <202505082358.dnIeqrs0-lkp@intel.com>
+References: <20250506022301.2588282-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,125 +69,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507095239.477105-3-cem@kernel.org>
+In-Reply-To: <20250506022301.2588282-1-robh@kernel.org>
 
-Hi,
+Hi Rob,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on xfs-linux/for-next]
-[also build test ERROR on linus/master v6.15-rc5 next-20250508]
+[auto build test WARNING on tip/timers/core]
+[also build test WARNING on linus/master v6.15-rc5 next-20250508]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/cem-kernel-org/Fix-comment-on-xfs_ail_delete/20250507-175334
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20250507095239.477105-3-cem%40kernel.org
-patch subject: [PATCH 2/2] XFS: Fix comment on xfs_trans_ail_update_bulk()
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250508/202505082325.eX1iuPLZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505082325.eX1iuPLZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-timer-Convert-marvell-armada-370-timer-to-DT-schema/20250506-144131
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20250506022301.2588282-1-robh%40kernel.org
+patch subject: [PATCH] dt-bindings: timer: Convert marvell,armada-370-timer to DT schema
+reproduce: (https://download.01.org/0day-ci/archive/20250508/202505082358.dnIeqrs0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505082325.eX1iuPLZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505082358.dnIeqrs0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/xfs/xfs_trans_ail.c: In function 'xfs_trans_ail_update_bulk':
->> fs/xfs/xfs_trans_ail.c:822:27: error: 'check' undeclared (first use in this function)
-     822 |                         * check if we really need to move the item */
-         |                           ^~~~~
-   fs/xfs/xfs_trans_ail.c:822:27: note: each undeclared identifier is reported only once for each function it appears in
->> fs/xfs/xfs_trans_ail.c:822:32: error: expected ';' before 'if'
-     822 |                         * check if we really need to move the item */
-         |                                ^~~
-         |                                ;
-
-
-vim +/check +822 fs/xfs/xfs_trans_ail.c
-
-   778	
-   779	/*
-   780	 * xfs_trans_ail_update_bulk - bulk AIL insertion operation.
-   781	 *
-   782	 * @xfs_trans_ail_update_bulk takes an array of log items that all need to be
-   783	 * positioned at the same LSN in the AIL. If an item is not in the AIL, it will
-   784	 * be added. Otherwise, it will be repositioned by removing it and re-adding
-   785	 * it to the AIL.
-   786	 *
-   787	 * If we move the first item in the AIL, update the log tail to match the new
-   788	 * minimum LSN in the AIL.
-   789	 *
-   790	 * This function should be called with the AIL lock held.
-   791	 *
-   792	 * To optimise the insert operation, we add all items to a temporary list, then
-   793	 * splice this list into the correct position in the AIL.
-   794	 *
-   795	 * Items that are already in the AIL are first deleted from their current location
-   796	 * before being added to the temporary list.
-   797	 *
-   798	 * This avoids needing to do an insert operation on every item.
-   799	 *
-   800	 * The AIL lock is dropped by xfs_ail_update_finish() before returning to
-   801	 * the caller.
-   802	 */
-   803	void
-   804	xfs_trans_ail_update_bulk(
-   805		struct xfs_ail		*ailp,
-   806		struct xfs_ail_cursor	*cur,
-   807		struct xfs_log_item	**log_items,
-   808		int			nr_items,
-   809		xfs_lsn_t		lsn) __releases(ailp->ail_lock)
-   810	{
-   811		struct xfs_log_item	*mlip;
-   812		xfs_lsn_t		tail_lsn = 0;
-   813		int			i;
-   814		LIST_HEAD(tmp);
-   815	
-   816		ASSERT(nr_items > 0);		/* Not required, but true. */
-   817		mlip = xfs_ail_min(ailp);
-   818	
-   819		for (i = 0; i < nr_items; i++) {
-   820			struct xfs_log_item *lip = log_items[i];
-   821			if (test_and_set_bit(XFS_LI_IN_AIL, &lip->li_flags)) {
- > 822				* check if we really need to move the item */
-   823				if (XFS_LSN_CMP(lsn, lip->li_lsn) <= 0)
-   824					continue;
-   825	
-   826				trace_xfs_ail_move(lip, lip->li_lsn, lsn);
-   827				if (mlip == lip && !tail_lsn)
-   828					tail_lsn = lip->li_lsn;
-   829	
-   830				xfs_ail_delete(ailp, lip);
-   831			} else {
-   832				trace_xfs_ail_insert(lip, 0, lsn);
-   833			}
-   834			lip->li_lsn = lsn;
-   835			list_add_tail(&lip->li_ail, &tmp);
-   836		}
-   837	
-   838		if (!list_empty(&tmp))
-   839			xfs_ail_splice(ailp, cur, &tmp, lsn);
-   840	
-   841		/*
-   842		 * If this is the first insert, wake up the push daemon so it can
-   843		 * actively scan for items to push. We also need to do a log tail
-   844		 * LSN update to ensure that it is correctly tracked by the log, so
-   845		 * set the tail_lsn to NULLCOMMITLSN so that xfs_ail_update_finish()
-   846		 * will see that the tail lsn has changed and will update the tail
-   847		 * appropriately.
-   848		 */
-   849		if (!mlip) {
-   850			wake_up_process(ailp->ail_task);
-   851			tail_lsn = NULLCOMMITLSN;
-   852		}
-   853	
-   854		xfs_ail_update_finish(ailp, tail_lsn);
-   855	}
-   856	
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+>> Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
+   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
+   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
+   make[1]: *** [Makefile:1801: htmldocs] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'htmldocs' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
