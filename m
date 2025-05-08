@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F0122ACEE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 13:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6805A1B4223
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 13:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746710826; cv=none; b=XN/on3x5FeewUd3KQjSHBpuhG2dAvR4n7XL5eF+iQt0O7Oz3fp267+rHdB0oGbHQSzbu/7ob7HnrtoV43q5LYkjQW3wb7XwmvCnF2DLKyayNBb8BZYjQgdW2dCC6Zzm3HQvgFnltg2gmANsul3g3VN0Ie1TZ7Z56Th5DFB7oigs=
+	t=1746712093; cv=none; b=fzkk1TVRYhjuNGbbVxHjoX4H4UiI0gKiSQkkPFl/38qUAhNIBDIczwB0Y4wzND3hGlHpuNV1S/3fhn3eF2qnR9VpppJ8ha8eIyyezd3VwHK9NemuButybRr6A0FmWq3aO6j6uP7jWnYGCrHQjTdTpSlw5mvNulqs+VzoTTvC7sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746710826; c=relaxed/simple;
-	bh=D6Da8xHdnluvwpHVpZn3DSIuOqzeWnOu7ERlbSMv9HA=;
+	s=arc-20240116; t=1746712093; c=relaxed/simple;
+	bh=5sQLg0yw79YY5uG2rWcvrLj4PN8H6cmyNSmMifbR/gA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4tC5eAwZT9CdXtscPn4dl69Zxwz+CKzzDm/EapBPA9/TMzGECpNn/m0kZIalZNTa/DgChXMGLgQrtbpJ8hQteEDWOiC4qMv3NWjrcheqZMylWkhtHlqIfltw0eVJIV5kaEwkHMm9b8hVlF45twXt+c/U5rw/8rmvS88Y9UNGOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T16MpJ1m; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q4ZEE84UhTPcZF4g2eSfYlMwp5FWRb35gWxXCA92FCURwqyN6iLezdnQDU7mUMN+anU29t6KHR1w1kqqGKGET96oWGxva/vdM2e3zPFAChu/I3jLbVwrkd/vnYGxMY56pV8cpwd4HtLfR2l0D8CbktH0utRNkRKKw6pZBnw7kEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlvZxYGd; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T16MpJ1m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlvZxYGd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746710824; x=1778246824;
+  t=1746712091; x=1778248091;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=D6Da8xHdnluvwpHVpZn3DSIuOqzeWnOu7ERlbSMv9HA=;
-  b=T16MpJ1mI7wPvJxyW4MuzDbkDOaTcgmejVIJs93jGwL1nTLu+gT6H+F1
-   rOasmtnKUm83y7LfiMA+LBSo54GY6DE7mL0ZEjJLp9EqLYRBd1lOI23M4
-   rCJBqprMqUI+jqlkaKdDTjvXt8bBuaSP5duAXR6e5XkrjO/gMaBqLtMXk
-   d8PWtArDbCQih3MRvsyyLcDKTSFz4ry1MRy04dzL0AzIediwECO0Jv2LQ
-   rx23If6AZsFTn9HCkM+BKmr47+jE9thKfk0iar3D/GOe6ll/1AF83vmuK
-   WuE1nVzvCvHIISuMu0mSlqI/fFGFGKjmST3dvv15F/XL2LhQ0te5w5oC9
-   Q==;
-X-CSE-ConnectionGUID: KL5AXeGOQiiFra3idaL0Rw==
-X-CSE-MsgGUID: iPg+nSvhSXKV+lx0a2SnXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48201549"
+  bh=5sQLg0yw79YY5uG2rWcvrLj4PN8H6cmyNSmMifbR/gA=;
+  b=QlvZxYGdhENMr1ZQqD0dJVNAfylleRrutwii5nAbV/sQIlqiOEt+NE22
+   fAQb34IEVfmElU7wBgh/f3lGoMHtfcQdPfRwHS/MrLPaRIPdLmwc+rFhc
+   i8lA6z0yKyW3FFUqJttNemyfgHNMtUhaC+ySdhnf/ubfy+fq4itT93/FF
+   Y4DXPtY7+RroOVMFzK+pZnvoARjmkSnXUo6Z0JsrDr129buiPQvt22qtp
+   FCCSXH7EJuIP30fXjom3JZj5hrU+dQfVKrhMqsGgqbgYGqYYmUKG0k/xn
+   cfuJpoO+Lh+iDOARv8Es8uPtbQ6+oglPfzFYrMoZUHrpoMPmL7yMCZFCX
+   w==;
+X-CSE-ConnectionGUID: 6WIEJktmSVCv01IJxz/rtA==
+X-CSE-MsgGUID: ODBnTkJjQbWgjpH81fkiDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="58702439"
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="48201549"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 06:27:04 -0700
-X-CSE-ConnectionGUID: zlF4lWxXT6ybGwDkh0Jg2g==
-X-CSE-MsgGUID: 39YJMuXwRM6ZJ7/m13RM+Q==
+   d="scan'208";a="58702439"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 06:48:08 -0700
+X-CSE-ConnectionGUID: uhrGmN0+RDu42gDKlFRNEw==
+X-CSE-MsgGUID: ZVLU34/OR1mg5YBc+aGZ+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="136304522"
+   d="scan'208";a="137229264"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 May 2025 06:27:01 -0700
+  by orviesa008.jf.intel.com with ESMTP; 08 May 2025 06:48:05 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uD1H9-000Azn-1o;
-	Thu, 08 May 2025 13:26:59 +0000
-Date: Thu, 8 May 2025 21:26:18 +0800
+	id 1uD1bU-000B0p-36;
+	Thu, 08 May 2025 13:48:00 +0000
+Date: Thu, 8 May 2025 21:47:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yangtao Li <frank.li@vivo.com>, slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hfs: export dbg_flags in debugfs
-Message-ID: <202505082102.YBG1Di7L-lkp@intel.com>
-References: <20250507145550.425303-1-frank.li@vivo.com>
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 3/3] arm64/boot: Disallow BSS exports to startup code
+Message-ID: <202505082115.dGm5jsxN-lkp@intel.com>
+References: <20250508114328.2460610-8-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,81 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507145550.425303-1-frank.li@vivo.com>
+In-Reply-To: <20250508114328.2460610-8-ardb+git@google.com>
 
-Hi Yangtao,
+Hi Ard,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.15-rc5 next-20250508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 363cd2b81cfdf706bbfc9ec78db000c9b1ecc552]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yangtao-Li/hfs-export-dbg_flags-in-debugfs/20250507-224016
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250507145550.425303-1-frank.li%40vivo.com
-patch subject: [PATCH] hfs: export dbg_flags in debugfs
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20250508/202505082102.YBG1Di7L-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505082102.YBG1Di7L-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/arm64-boot-Move-init_pgdir-and-init_idmap_pgdir-into-__pi_-namespace/20250508-194513
+base:   363cd2b81cfdf706bbfc9ec78db000c9b1ecc552
+patch link:    https://lore.kernel.org/r/20250508114328.2460610-8-ardb%2Bgit%40google.com
+patch subject: [PATCH v2 3/3] arm64/boot: Disallow BSS exports to startup code
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250508/202505082115.dGm5jsxN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505082115.dGm5jsxN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505082102.YBG1Di7L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505082115.dGm5jsxN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/hfs/bnode.c: In function 'hfs_bnode_dump':
->> fs/hfs/bnode.c:176:29: warning: variable 'tmp' set but not used [-Wunused-but-set-variable]
-     176 |                         int tmp;
-         |                             ^~~
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
-
-
-vim +/tmp +176 fs/hfs/bnode.c
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  147  
-^1da177e4c3f415 Linus Torvalds 2005-04-16  148  void hfs_bnode_dump(struct hfs_bnode *node)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  149  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  150  	struct hfs_bnode_desc desc;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  151  	__be32 cnid;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  152  	int i, off, key_off;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  153  
-c2b3e1f76e5c902 Joe Perches    2013-04-30  154  	hfs_dbg(BNODE_MOD, "bnode: %d\n", node->this);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  155  	hfs_bnode_read(node, &desc, 0, sizeof(desc));
-c2b3e1f76e5c902 Joe Perches    2013-04-30  156  	hfs_dbg(BNODE_MOD, "%d, %d, %d, %d, %d\n",
-^1da177e4c3f415 Linus Torvalds 2005-04-16  157  		be32_to_cpu(desc.next), be32_to_cpu(desc.prev),
-^1da177e4c3f415 Linus Torvalds 2005-04-16  158  		desc.type, desc.height, be16_to_cpu(desc.num_recs));
-^1da177e4c3f415 Linus Torvalds 2005-04-16  159  
-^1da177e4c3f415 Linus Torvalds 2005-04-16  160  	off = node->tree->node_size - 2;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  161  	for (i = be16_to_cpu(desc.num_recs); i >= 0; off -= 2, i--) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  162  		key_off = hfs_bnode_read_u16(node, off);
-c2b3e1f76e5c902 Joe Perches    2013-04-30  163  		hfs_dbg_cont(BNODE_MOD, " %d", key_off);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  164  		if (i && node->type == HFS_NODE_INDEX) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  165  			int tmp;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  166  
-^1da177e4c3f415 Linus Torvalds 2005-04-16  167  			if (node->tree->attributes & HFS_TREE_VARIDXKEYS)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  168  				tmp = (hfs_bnode_read_u8(node, key_off) | 1) + 1;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  169  			else
-^1da177e4c3f415 Linus Torvalds 2005-04-16  170  				tmp = node->tree->max_key_len + 1;
-c2b3e1f76e5c902 Joe Perches    2013-04-30  171  			hfs_dbg_cont(BNODE_MOD, " (%d,%d",
-c2b3e1f76e5c902 Joe Perches    2013-04-30  172  				     tmp, hfs_bnode_read_u8(node, key_off));
-^1da177e4c3f415 Linus Torvalds 2005-04-16  173  			hfs_bnode_read(node, &cnid, key_off + tmp, 4);
-c2b3e1f76e5c902 Joe Perches    2013-04-30  174  			hfs_dbg_cont(BNODE_MOD, ",%d)", be32_to_cpu(cnid));
-^1da177e4c3f415 Linus Torvalds 2005-04-16  175  		} else if (i && node->type == HFS_NODE_LEAF) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16 @176  			int tmp;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  177  
-^1da177e4c3f415 Linus Torvalds 2005-04-16  178  			tmp = hfs_bnode_read_u8(node, key_off);
-c2b3e1f76e5c902 Joe Perches    2013-04-30  179  			hfs_dbg_cont(BNODE_MOD, " (%d)", tmp);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  180  		}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  181  	}
-c2b3e1f76e5c902 Joe Perches    2013-04-30  182  	hfs_dbg_cont(BNODE_MOD, "\n");
-^1da177e4c3f415 Linus Torvalds 2005-04-16  183  }
-^1da177e4c3f415 Linus Torvalds 2005-04-16  184  
+>> aarch64-linux-ld:./arch/arm64/kernel/vmlinux.lds:163: undefined symbol `memstart_offset_seed' referenced in expression
 
 -- 
 0-DAY CI Kernel Test Service
