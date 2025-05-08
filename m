@@ -1,59 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C01122A4C2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 13:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F0122ACEE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 13:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746710047; cv=none; b=JDUumGFQZ093bNGlQnFWdIMqFgRfmPOestU39UskpMxNly1OpfYfEO2DgmGQ3snBWRQ2/utyK7eFoAEsRfNFVsewZ558afR8I9tZ6Gj0w6WKP56Q9UR0Q110BLVgh8DHeFAjrRgqZdRWiTy7VShRaM9PedNki3xlk81zOVrZwG8=
+	t=1746710826; cv=none; b=XN/on3x5FeewUd3KQjSHBpuhG2dAvR4n7XL5eF+iQt0O7Oz3fp267+rHdB0oGbHQSzbu/7ob7HnrtoV43q5LYkjQW3wb7XwmvCnF2DLKyayNBb8BZYjQgdW2dCC6Zzm3HQvgFnltg2gmANsul3g3VN0Ie1TZ7Z56Th5DFB7oigs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746710047; c=relaxed/simple;
-	bh=xiaCSrnVpauzwq25XP26viwbA1JOX5VnGU7T/cTkiXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a0bW7RwEK97hR+yQ4RigGgKnOWOs0jmtc0p/hZL7K25bP1lEQ1nYwntfuAcDOJfZd84NlNFnwIiLmGl8K3T7j3FakejK6AB8r4BbclBIDg6YpNl6B0dSwvf43nZd2ThpuDtByxS85uVhOzB6/rlr29l1vlr+TGDSLqd5Cla1EA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCYRvbFt; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1746710826; c=relaxed/simple;
+	bh=D6Da8xHdnluvwpHVpZn3DSIuOqzeWnOu7ERlbSMv9HA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4tC5eAwZT9CdXtscPn4dl69Zxwz+CKzzDm/EapBPA9/TMzGECpNn/m0kZIalZNTa/DgChXMGLgQrtbpJ8hQteEDWOiC4qMv3NWjrcheqZMylWkhtHlqIfltw0eVJIV5kaEwkHMm9b8hVlF45twXt+c/U5rw/8rmvS88Y9UNGOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T16MpJ1m; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCYRvbFt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T16MpJ1m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746710046; x=1778246046;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xiaCSrnVpauzwq25XP26viwbA1JOX5VnGU7T/cTkiXs=;
-  b=PCYRvbFtVso9ckZF5cjglLO9N6IpvknNSZAQ9XRy5qyH/vaXAqEd25lG
-   8BcXm0ZN+O+hPRXhhtS8cCkhaiokObObzf8wClfkfG2gCJ9p2sZPW4WSd
-   KX7u/C25sJSc1W+LMiAgNZeErXZd2KHrpKgbdcT3KbdgI1AoDNudWm6sc
-   xngZTpnM3vX3ZgtJhGaTBhb4tzZjjdXuky7EzNGphQqqNSwjmwhh1Vl6d
-   S9yy2e8jd2/zfJVbhMYREaK612fwqyKmnlixj1PV6R+Fde6EQkNPy8TZp
-   TU5R6YhprG8hqvzj5K+Qz8SPR6PFCw/AZARhHNg8cIYhjJ8u/XuUxYB0M
-   A==;
-X-CSE-ConnectionGUID: C6KCZIEsQEy5lHpGxbGPGA==
-X-CSE-MsgGUID: F5rAlVjlSIStbNSjZUAn1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48199141"
+  t=1746710824; x=1778246824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D6Da8xHdnluvwpHVpZn3DSIuOqzeWnOu7ERlbSMv9HA=;
+  b=T16MpJ1mI7wPvJxyW4MuzDbkDOaTcgmejVIJs93jGwL1nTLu+gT6H+F1
+   rOasmtnKUm83y7LfiMA+LBSo54GY6DE7mL0ZEjJLp9EqLYRBd1lOI23M4
+   rCJBqprMqUI+jqlkaKdDTjvXt8bBuaSP5duAXR6e5XkrjO/gMaBqLtMXk
+   d8PWtArDbCQih3MRvsyyLcDKTSFz4ry1MRy04dzL0AzIediwECO0Jv2LQ
+   rx23If6AZsFTn9HCkM+BKmr47+jE9thKfk0iar3D/GOe6ll/1AF83vmuK
+   WuE1nVzvCvHIISuMu0mSlqI/fFGFGKjmST3dvv15F/XL2LhQ0te5w5oC9
+   Q==;
+X-CSE-ConnectionGUID: KL5AXeGOQiiFra3idaL0Rw==
+X-CSE-MsgGUID: iPg+nSvhSXKV+lx0a2SnXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48201549"
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="48199141"
+   d="scan'208";a="48201549"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 06:14:02 -0700
-X-CSE-ConnectionGUID: R2j9IbHdT265qKYIcs5yFA==
-X-CSE-MsgGUID: 4nW73/7rTee54r8swJtFGw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 06:27:04 -0700
+X-CSE-ConnectionGUID: zlF4lWxXT6ybGwDkh0Jg2g==
+X-CSE-MsgGUID: 39YJMuXwRM6ZJ7/m13RM+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="136303282"
+   d="scan'208";a="136304522"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 May 2025 06:14:00 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 08 May 2025 06:27:01 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uD14Y-000Az7-0l;
-	Thu, 08 May 2025 13:13:58 +0000
-Date: Thu, 8 May 2025 21:13:56 +0800
+	id 1uD1H9-000Azn-1o;
+	Thu, 08 May 2025 13:26:59 +0000
+Date: Thu, 8 May 2025 21:26:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova/alistair-nova-rpc-with-nouveau-boot 1/5]
- drivers/gpu/drm/nouveau/nouveau_drm.c:916:7: warning: no previous prototype
- for 'nouveau_drm_nova_probe'
-Message-ID: <202505082138.KmJNaG8z-lkp@intel.com>
+To: Yangtao Li <frank.li@vivo.com>, slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hfs: export dbg_flags in debugfs
+Message-ID: <202505082102.YBG1Di7L-lkp@intel.com>
+References: <20250507145550.425303-1-frank.li@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,128 +64,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250507145550.425303-1-frank.li@vivo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/alistair-nova-rpc-with-nouveau-boot
-head:   920c47c8d7e8ea73072446347e5d0de44a0fa713
-commit: 29c36cd419b242b829b9fe4d175a77d84ab94b8e [1/5] HACK: Use Nouveau for GSP initialisation
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250508/202505082138.KmJNaG8z-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505082138.KmJNaG8z-lkp@intel.com/reproduce)
+Hi Yangtao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.15-rc5 next-20250508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yangtao-Li/hfs-export-dbg_flags-in-debugfs/20250507-224016
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250507145550.425303-1-frank.li%40vivo.com
+patch subject: [PATCH] hfs: export dbg_flags in debugfs
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20250508/202505082102.YBG1Di7L-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505082102.YBG1Di7L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505082138.KmJNaG8z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505082102.YBG1Di7L-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nouveau_drm.c:916:7: warning: no previous prototype for 'nouveau_drm_nova_probe' [-Wmissing-prototypes]
-     916 | void *nouveau_drm_nova_probe(struct pci_dev *pdev)
-         |       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nouveau_drm.c: In function 'nouveau_drm_nova_probe':
->> drivers/gpu/drm/nouveau/nouveau_drm.c:918:13: warning: unused variable 'ret' [-Wunused-variable]
-     918 |         int ret = nouveau_drm_probe(pdev, NULL);
-         |             ^~~
-   drivers/gpu/drm/nouveau/nouveau_drm.c: At top level:
->> drivers/gpu/drm/nouveau/nouveau_drm.c:938:17: warning: no previous prototype for 'nouveau_drm_nova_get_cmdq' [-Wmissing-prototypes]
-     938 | struct gsp_cmdq nouveau_drm_nova_get_cmdq(void *drvdata)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/nouveau/nouveau_drm.c:985:6: warning: no previous prototype for 'nouveau_drm_nova_remove' [-Wmissing-prototypes]
-     985 | void nouveau_drm_nova_remove(struct pci_dev *pdev, void *drvdata, u32 seq)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfs/bnode.c: In function 'hfs_bnode_dump':
+>> fs/hfs/bnode.c:176:29: warning: variable 'tmp' set but not used [-Wunused-but-set-variable]
+     176 |                         int tmp;
+         |                             ^~~
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
 
 
-vim +/nouveau_drm_nova_probe +916 drivers/gpu/drm/nouveau/nouveau_drm.c
+vim +/tmp +176 fs/hfs/bnode.c
 
-   915	
- > 916	void *nouveau_drm_nova_probe(struct pci_dev *pdev)
-   917	{
- > 918		int ret = nouveau_drm_probe(pdev, NULL);
-   919	
-   920		return dev_get_drvdata(&pdev->dev);
-   921	}
-   922	EXPORT_SYMBOL(nouveau_drm_nova_probe);
-   923	
-   924	struct gsp_cmdq {
-   925		void *falcon;
-   926		void *shm_ptr;
-   927		void *ptr;
-   928		u32 size;
-   929		u32 cnt;
-   930		u32 seq;
-   931		u32 *wptr;
-   932		u32 *rptr;
-   933		void *msgq_ptr;
-   934		u32 *msgq_wptr;
-   935		u32 *msgq_rptr;
-   936	};
-   937	
- > 938	struct gsp_cmdq nouveau_drm_nova_get_cmdq(void *drvdata)
-   939	{
-   940		struct nouveau_drm *drm = drvdata;
-   941		struct nvkm_subdev *subdev = nvkm_device_subdev(drm->nvkm, NVKM_SUBDEV_GSP, 0);
-   942		struct nvkm_gsp *gsp = nvkm_gsp(subdev);
-   943		struct gsp_cmdq cmdq;
-   944	
-   945		cmdq.falcon = gsp->falcon.owner->device->pri + gsp->falcon.addr + 0xc00;
-   946		cmdq.shm_ptr = gsp->shm.mem.data;
-   947		cmdq.ptr = gsp->shm.cmdq.ptr;
-   948		cmdq.size = gsp->shm.cmdq.size;
-   949		cmdq.cnt = gsp->cmdq.cnt;
-   950		cmdq.seq = gsp->cmdq.seq;
-   951		cmdq.wptr = gsp->cmdq.wptr;
-   952		cmdq.rptr = gsp->cmdq.rptr;
-   953		cmdq.msgq_ptr = gsp->shm.msgq.ptr;
-   954		cmdq.msgq_wptr = gsp->msgq.wptr;
-   955		cmdq.msgq_rptr = gsp->msgq.rptr;
-   956	
-   957		return cmdq;
-   958	}
-   959	EXPORT_SYMBOL(nouveau_drm_nova_get_cmdq);
-   960	
-   961	void
-   962	nouveau_drm_device_remove(struct nouveau_drm *drm)
-   963	{
-   964		struct nvkm_device *device = drm->nvkm;
-   965	
-   966		// drm_dev_unplug(drm->dev);
-   967	
-   968		// nouveau_drm_device_fini(drm);
-   969		nouveau_drm_device_del(drm);
-   970		nvkm_device_del(&device);
-   971	}
-   972	
-   973	static void
-   974	nouveau_drm_remove(struct pci_dev *pdev)
-   975	{
-   976		struct nouveau_drm *drm = pci_get_drvdata(pdev);
-   977	
-   978		/* revert our workaround */
-   979		if (drm->old_pm_cap)
-   980			pdev->pm_cap = drm->old_pm_cap;
-   981		nouveau_drm_device_remove(drm);
-   982		pci_disable_device(pdev);
-   983	}
-   984	
- > 985	void nouveau_drm_nova_remove(struct pci_dev *pdev, void *drvdata, u32 seq)
-   986	{
-   987		void *old_drvdata = dev_get_drvdata(&pdev->dev);
-   988		struct nouveau_drm *drm = drvdata;
-   989		struct nvkm_subdev *subdev;
-   990		struct nvkm_gsp *gsp;
-   991	
-   992		if (!drvdata)
-   993			return;
-   994	
-   995		dev_set_drvdata(&pdev->dev, drvdata);
-   996		subdev = nvkm_device_subdev(drm->nvkm, NVKM_SUBDEV_GSP, 0);
-   997		gsp = nvkm_gsp(subdev);
-   998		gsp->cmdq.seq = seq;
-   999		nouveau_drm_remove(pdev);
-  1000		dev_set_drvdata(&pdev->dev, old_drvdata);
-  1001	}
-  1002	EXPORT_SYMBOL(nouveau_drm_nova_remove);
-  1003	
+^1da177e4c3f415 Linus Torvalds 2005-04-16  147  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  148  void hfs_bnode_dump(struct hfs_bnode *node)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  149  {
+^1da177e4c3f415 Linus Torvalds 2005-04-16  150  	struct hfs_bnode_desc desc;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  151  	__be32 cnid;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  152  	int i, off, key_off;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  153  
+c2b3e1f76e5c902 Joe Perches    2013-04-30  154  	hfs_dbg(BNODE_MOD, "bnode: %d\n", node->this);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  155  	hfs_bnode_read(node, &desc, 0, sizeof(desc));
+c2b3e1f76e5c902 Joe Perches    2013-04-30  156  	hfs_dbg(BNODE_MOD, "%d, %d, %d, %d, %d\n",
+^1da177e4c3f415 Linus Torvalds 2005-04-16  157  		be32_to_cpu(desc.next), be32_to_cpu(desc.prev),
+^1da177e4c3f415 Linus Torvalds 2005-04-16  158  		desc.type, desc.height, be16_to_cpu(desc.num_recs));
+^1da177e4c3f415 Linus Torvalds 2005-04-16  159  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  160  	off = node->tree->node_size - 2;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  161  	for (i = be16_to_cpu(desc.num_recs); i >= 0; off -= 2, i--) {
+^1da177e4c3f415 Linus Torvalds 2005-04-16  162  		key_off = hfs_bnode_read_u16(node, off);
+c2b3e1f76e5c902 Joe Perches    2013-04-30  163  		hfs_dbg_cont(BNODE_MOD, " %d", key_off);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  164  		if (i && node->type == HFS_NODE_INDEX) {
+^1da177e4c3f415 Linus Torvalds 2005-04-16  165  			int tmp;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  166  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  167  			if (node->tree->attributes & HFS_TREE_VARIDXKEYS)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  168  				tmp = (hfs_bnode_read_u8(node, key_off) | 1) + 1;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  169  			else
+^1da177e4c3f415 Linus Torvalds 2005-04-16  170  				tmp = node->tree->max_key_len + 1;
+c2b3e1f76e5c902 Joe Perches    2013-04-30  171  			hfs_dbg_cont(BNODE_MOD, " (%d,%d",
+c2b3e1f76e5c902 Joe Perches    2013-04-30  172  				     tmp, hfs_bnode_read_u8(node, key_off));
+^1da177e4c3f415 Linus Torvalds 2005-04-16  173  			hfs_bnode_read(node, &cnid, key_off + tmp, 4);
+c2b3e1f76e5c902 Joe Perches    2013-04-30  174  			hfs_dbg_cont(BNODE_MOD, ",%d)", be32_to_cpu(cnid));
+^1da177e4c3f415 Linus Torvalds 2005-04-16  175  		} else if (i && node->type == HFS_NODE_LEAF) {
+^1da177e4c3f415 Linus Torvalds 2005-04-16 @176  			int tmp;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  177  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  178  			tmp = hfs_bnode_read_u8(node, key_off);
+c2b3e1f76e5c902 Joe Perches    2013-04-30  179  			hfs_dbg_cont(BNODE_MOD, " (%d)", tmp);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  180  		}
+^1da177e4c3f415 Linus Torvalds 2005-04-16  181  	}
+c2b3e1f76e5c902 Joe Perches    2013-04-30  182  	hfs_dbg_cont(BNODE_MOD, "\n");
+^1da177e4c3f415 Linus Torvalds 2005-04-16  183  }
+^1da177e4c3f415 Linus Torvalds 2005-04-16  184  
 
 -- 
 0-DAY CI Kernel Test Service
