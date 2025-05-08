@@ -1,63 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A06A2147F7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 05:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB5A215778
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 05:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746681724; cv=none; b=fA+i04/gGSKvsGAqtATOuOQs2xEu3f/iEIB+Isj/+UkmcJQ/sCZdE+xL2qYe+Y4hW0WXdeastEux9FBB+l9tl6eOXvPVVeXJ1kwnWDzKEUVadMQaQTil37pqnWtFCXjg21VXp3cFZQv54Yb7yi2Tc5aT0OBKa8VqYkpks1cOk4g=
+	t=1746682740; cv=none; b=aJlM4cG7pvjvc/ISoHAC5IqkPdHP6HUwhTm7wIEzFBapF/ZclINdJBRhcFqvhnCbcZpiqOOkCJ5Gk2j9WfVMDTqaK0ZfGLqQfIwX80vhL5pDIZiK+A5UtawSAl+dQWVGkEJ5GiI9CFDTqDHqGeVSNylyHOLl9kpP6kStFDkIvZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746681724; c=relaxed/simple;
-	bh=GYHCcKnoVGOC9yiljx2FPenfP0V4MKbLFXlfaRDswXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lcJzknrIVFQEiGt+XJ4OibDkNb5yjVKtDBeYI4xTByujvDawsAKYErgIfEw3aPYP4FjWiIZIiViL2dgBqb/pRntRTrDsgxJ6E5tpFAIVR1jSmmLfUtwlNnzdJJEqEp9CN5DWPh6Cxwv3BfRUb+Kiw95dyn7J1RFXcooY+VFYDlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5URJAoR; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746682740; c=relaxed/simple;
+	bh=WPfaW0cQFoc0vUNbrk3nFmHIyx6KGVJyt8mp7eMc1eQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gZcIBkT1vUA/xWIHkVV+jHAxfELvG608IzROQ34ZcAWh1q15V225J9KRLSVw7xiKmri73IrsHeffHjQkL/kPnLhbDbsW92zwP6F/ZPgcIwFGt3/q8vphfKRPg/Iy6o6Y52dqKzR0ZXydiVVDZAntFprB3BDGMypJ/aLIk+1TtVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OHHqtlDT; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5URJAoR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746681723; x=1778217723;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GYHCcKnoVGOC9yiljx2FPenfP0V4MKbLFXlfaRDswXg=;
-  b=H5URJAoRyiKRd2s/uN5SKQlCN5wEPKgVIdpHoB/PVrcGkl+t9kv98tuH
-   psgkDz3sQvicVNKXW7TtWckK6nUP+2AbClGayEus9ugCkRmqZu5xcZghZ
-   vqI4s/TVv/RamSIto+aU/PKWJLA5zf3BmqmduV1Aua+umKcu1HdBTJ6mv
-   V4x+qhjLiUxWJ3GcvcO/iPRk+XN+PrB4TnyUKlOeLaTD3a25kDb1UhQtB
-   yroH6BlLi54HBCjg0RNobXfDH4JvPXH6t+VgjZ3+lzB0k86rShHGhFwjK
-   gpn3xg4Gz9ijNt0yiAdrioXoPPU3+AHhDK+XI8u+2tNwzgalcmchTmciS
-   A==;
-X-CSE-ConnectionGUID: RM70AVUFQWmXLmt0Q34oxQ==
-X-CSE-MsgGUID: +KxBfiYlQzibs2V6LJXZXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="36073344"
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="36073344"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 22:22:03 -0700
-X-CSE-ConnectionGUID: bqWMBwG+TLy9hwK6Yqjf4g==
-X-CSE-MsgGUID: n7T6trgYQaq3xZWBR0NvLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="173390880"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 May 2025 22:22:01 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCthn-000AKF-0h;
-	Thu, 08 May 2025 05:21:59 +0000
-Date: Thu, 8 May 2025 13:21:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zelong Dong <zelong.dong@amlogic.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kelvin Zhang <kelvin.zhang@amlogic.com>
-Subject: [linux-next:master 7940/9308]
- arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb:
- reset-controller@2000 (amlogic,a4-reset): compatible:0: 'amlogic,a4-reset'
- is not one of ['amlogic,meson8b-reset', 'amlogic,meson-gxbb-reset',
- 'amlogic,meson-axg-reset', 'amlogic,meson-a1-reset', 'a...
-Message-ID: <202505081345.tUOimWEw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OHHqtlDT"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-39c1ef4ae3aso474131f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 May 2025 22:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746682737; x=1747287537; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U3k4PEhU6worlCKck2U3ds/0NKF9gmmTtGy9MuzRu6o=;
+        b=OHHqtlDTC9h7cUaGgkgCWPndNvjxxYE4HigLYynWTxANO9YHQS+FCeC3KhHjZ186/i
+         9UJVgvBlsqlKaHIF267vohAo3tsw/iQVFqU0EzmvQ+OtU9YUdH86jp5+KeaD+SYdaJE+
+         iasPP/wQLl8o2F6P12k0NZCSd3vLdYTccRvN1/iNjPDfodNArTJWqozBS54PuggEftVA
+         Bcmh21L5bG5XsIS3OgKcv/3sUpm5uh7+lN3TbITgdFbOu3IAAMYvixzatLkYE42auKyX
+         hTCQ0jZHSR/nKq1yuot4Z8XXxhBJIF9lwFkaDeWlj2+j60UiaU21qBmEZeVHsACf1Or/
+         VDjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746682737; x=1747287537;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U3k4PEhU6worlCKck2U3ds/0NKF9gmmTtGy9MuzRu6o=;
+        b=nDWU8iDDRPBT3X5NQP0cl8V+oaZ12mzoRadOoIaw3XUgG2+5PCOYhp3EY7qjGbSl7L
+         DyaFTcCT/MTmyGOcWcI6tim/0joun+8d3prMQ9ST9WZ5q84im3cLLMprg71pf5GbLOlc
+         qcD+xH/iszKrMMIQ+GwC9NNdqHEDx8nz2meEzVXqFMfJ2VBl1DtBnDGqGPuHWZQo1CLC
+         xy2OhlE+O3m/cpuQsHmr7HxvA5U1lwL541hbHredo/NST5Cu/sZyuQc3mPkoVqtseOCM
+         yc9kW6/6v4i3aiJvBLC0UAiPUcUYpQi7mirQkJgX4B4382m8KEa4GPpqwb1T+dmi293E
+         eALg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOXYTIf6Ef+5tOQMbWPVyYJeL33sPmCzsBt9V6jI8NZxTSvfFEcmbxQrHvziNuJSKsDia1PpijHGuzmT23@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNyjRPNZz1fhXzGGiYhoEZ5w50+NUb3Enbcx5l1wakNSFdoyvn
+	+ITx5phSARlpVM4FDWusw3aYvDDejlZ5lpQNG6n0B6o1JCjmo3BY3TJXVGsiQoc=
+X-Gm-Gg: ASbGnctQANmqDyD64d3qVGLRJ7qYIg2QamUbxmONCKNs5RcU7jcGlZ6FEFddYo/DgeG
+	aOFfSEXGCiWMQBQiQs2qgXsB7r4WUgBmsKH/VTsJzjlCRqEw0NbFZFP1p4HbD2uafR7X7rlhY+W
+	JwwP/Y5s7IzN7ZuNktQjHdZZZgfyupho1RxgFDSZ4HgYWmvVtwukLGVk7NL4sfLyotq+6eYWQ6X
+	kUUQQVJqiyu7KNpKs+BG9Y5HR4FDXFndqDRPVdjSDBcScyslT8ame9i0WQKLLN4H9Lnd7WUcu1j
+	+awa7SVRYz2iXnJBdiic3+9AtWESI6yO9Qot4cgW6uQ1TA==
+X-Google-Smtp-Source: AGHT+IF7VpQhE++cMJ/0vycInQosYNQwdOLJveREj7gdb3HDRxdShvggZtkV4ZOpk2gw61u1hDiO5Q==
+X-Received: by 2002:a05:6000:2dc4:b0:39f:ec:d4d with SMTP id ffacd0b85a97d-3a0b990e465mr1470004f8f.12.1746682737319;
+        Wed, 07 May 2025 22:38:57 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a099b0ff8esm19098105f8f.79.2025.05.07.22.38.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 22:38:56 -0700 (PDT)
+Date: Thu, 8 May 2025 08:38:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Shivank Garg <shivankg@amd.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 7893/8235] fs/jfs/jfs_metapage.c:245
+ __metapage_migrate_folio() error: we previously assumed 'mp' could be null
+ (see line 235)
+Message-ID: <aBxDbdW9KNe3mBAB@stanley.mountain>
+References: <202505071850.XaOkcCkX-lkp@intel.com>
+ <21037c25-b85c-48fa-bdac-27cb3be2ccdb@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,27 +76,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <21037c25-b85c-48fa-bdac-27cb3be2ccdb@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   08710e696081d58163c8078e0e096be6d35c5fad
-commit: 946b51882b84f0cbec2acd203467866a7378abac [7940/9308] arm64: dts: amlogic: Add A4 Reset Controller
-config: arm64-randconfig-051-20250506 (https://download.01.org/0day-ci/archive/20250508/202505081345.tUOimWEw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081345.tUOimWEw-lkp@intel.com/reproduce)
+On Wed, May 07, 2025 at 05:19:52PM +0530, Shivank Garg wrote:
+> 
+> Hi Dan,
+> 
+> This is a false positive.
+> 
+> In metapage_migrate_folio(), it checks if (!src->private) and only calls
+> __metapage_migrate_folio() if src->private is non-NULL
+> 
+> static int metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
+> 				  struct folio *src, enum migrate_mode mode)
+> {
+> ...
+> 	if (!src->private)
+> 		return filemap_migrate_folio(mapping, dst, src, mode);
+> ...
+> ...
+> 	return __metapage_migrate_folio(mapping, dst, src, mode);
+> }
+> 
+> Then __metapage_migrate_folio() calls mp = folio_to_mp(src, 0), which returns src->private.
+> Which should not be NULL as previously checked.
+> 
+> I think we can skip the mp != NULL check from 
+> > 39ed4d1a0e03ce Shivank Garg  2025-04-30 @235  	if (mp && metapage_locked(mp))
+> It seem redundant here.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505081345.tUOimWEw-lkp@intel.com/
+Yep.  Just delete the unnecessary NULL check.
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: reset-controller@2000 (amlogic,a4-reset): compatible:0: 'amlogic,a4-reset' is not one of ['amlogic,meson8b-reset', 'amlogic,meson-gxbb-reset', 'amlogic,meson-axg-reset', 'amlogic,meson-a1-reset', 'amlogic,meson-s4-reset', 'amlogic,c3-reset', 'amlogic,t7-reset']
-   	from schema $id: http://devicetree.org/schemas/reset/amlogic,meson-reset.yaml#
->> arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: reset-controller@2000 (amlogic,a4-reset): compatible: ['amlogic,a4-reset', 'amlogic,meson-s4-reset'] is too long
-   	from schema $id: http://devicetree.org/schemas/reset/amlogic,meson-reset.yaml#
->> arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: /soc/bus@fe000000/reset-controller@2000: failed to match any schema with compatible: ['amlogic,a4-reset', 'amlogic,meson-s4-reset']
+I only consider these a false positive if the NULL check is
+required but it doesn't lead to a crash.  For example, there could be
+another condition which is equivalent to checking for NULL.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	if (p)
+		p->foo = 100;
+	...
+	if (!p_valid(p))
+		return;
+
+	p->foo = 99;
+
+In this code, if you have the cross function database then Smatch
+doesn't print a warning because the NULL check is not required.  But
+the cross function database is way too slow to use in the kbuild-bot.
+
+regards,
+dan carpenter
