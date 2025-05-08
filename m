@@ -1,269 +1,116 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E872C22371B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 08:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BCD262FC5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 08:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746693351; cv=none; b=uIN3oDh+6djPND6IY0I3zhEXCkBHwnUvizk4rRrSO1luIVyGtcLsjUBkh21Tl78EHxZ81uCSykfSubpUbZlbwFxUe3dm2DOPCKZIJorX94Tcs3FSITXcXWYNAC4SjqzZbDPbYt2K01CHBdB3pWaqL9KMGYjChA9RwsytN8q9fzk=
+	t=1746693582; cv=none; b=IFLlbhOJWPE+ROPrJrU9k1HqkIkp4WcDvXOlfMcQwMTIK4DzYpLcbdHvnPYcL9AGz8ok6Tri1BKehJ7rlfZ6GWlb23ZD1uLOabuZt2+7+2HDxsAZ7jtE2fiA+n6OOE6djWT6Pd2OToMWnm0m/5IFdPR4Cp3KOo9l9vWD5V6RgbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746693351; c=relaxed/simple;
-	bh=Uh1NArOYUAC3TlqO+VPf/FI5Pvemo476r7ffqTqb5pw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=U2uGC0b/rspvLkh4EYB9P4hHh6Fkaq93ZuyD09iJenzS3U5T5QAHTtvu2G4oIkEebESqIqpS8e7IfgLJKRWSyTOdx48jt6Gm/Bco9ogc9j/G11tFte9mx+wDt+TfRunKqGN9mjDQ+sLThlYSk9qAHtGH5/htO8gXPzcHpK6Ib5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=utgPVrDR; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1746693582; c=relaxed/simple;
+	bh=J1quForL1AyV+mxiU/+Tx5j7sIP7VxLUjzVH0JaG5GA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MeejwEoU00GlEecbDv7ABmXG4hKbcwEgVyASj1h9BTjp1gWOn6Abew60JnBOd2ovTdExG6/qaBSMbRNArNgfNvB/GXjS7CADH1j1aqyQ/3x8IO381wv2+6U7R59d3OKyII0v+RZ6QyIXVEMlHWrg+zG7bihXyLYT9/tIZIZn76U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSrrnWQS; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="utgPVrDR"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-43efa869b0aso4540185e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 08 May 2025 01:35:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746693348; x=1747298148; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y39kGSmrbFFJXQ9cglJvPZRgr0LsdhME9Unh1ejxyj0=;
-        b=utgPVrDR9QzK+Qppf75VAkjz0PWBHzBjRTHmB5Rp3qV/aYy6zSGd9CGzWpGl/1XGmp
-         UbT7vO31M2yjRk01J4XhbtHnBmL1O6BHrHza0ZdVu8x0qc76pGFaJlcgQWNCD7SBcQda
-         VxjGnjieSnC2+GpYxImLhK34fnfY8NPs6Jo//vYmgawn9FhQc+Y6d/d3Y1/bGZT25g1J
-         +GfD/LPnzSTa7+TisKgqkkEyf74vc9lu1xpvrp+upIUY2DxjgbdvEsSjvQ6uuF90Iybp
-         h4dT7HIpF5Do07OF1xz03FREjcKFlBolcKnU7cJuu1XwtZ7H+mPT1wtI/PUonDN8V+dC
-         XJQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746693348; x=1747298148;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y39kGSmrbFFJXQ9cglJvPZRgr0LsdhME9Unh1ejxyj0=;
-        b=BaI0uCcBgwl3ZANYru3h3hJ1t2SLfUoMcr63vPLAoYZ8oh7eDuf60qmDoTYLzc4NVV
-         t8QgsZGy+aLI658wF+lklyPuNDcs5Nw7/VP4TSCy1/+9xPtL1Xq7YBErnGAaDNJFtcTF
-         fsxRK2PS5//B1nAm7SuzLpZn4ekNTXdpoA3XPkEnljTppLTcqU9b3YuepnjgWHTwOS8w
-         nTe0GkSPHd78Sh/KzQHgG/pUovG5S1b9j48ZbSLl1uxg8l3mL+6tirSLiRZ6cDcDGR+G
-         lif3YYpdYFr4tMwKsNy3llzSNehqoYFpFN4GpltneaUTRaCBTWvAAmgyHIDUQTAAEUDL
-         RpRA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVF7wwzSLunRXPZFcyccF0X5k1HHzExtoqsPktR2jPO8bthIBHYw5Z7Uc0gWPEhN01GKtcEooMBvoOIpdD@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhnUBVvwwGJL5Yyph32me1V8HI1pFQ8o9Dw5ZOkd7KMVx6gdou
-	GWmr5K5BVdBauphB8SN6MvVMkdJmy/LyXrqTdukUmE5FldbqP3jletaN5w/7v4MArpZl4xoukcA
-	A2iJAwFqCt4wjjw==
-X-Google-Smtp-Source: AGHT+IHzNP7lTCzCxxkMhTarqSxvPayOcSb979nRWV5zQLcu44NC9oFhQVYlK37EbJfT3y9zfOdO/eu7s3jPHH8=
-X-Received: from wmsp33.prod.google.com ([2002:a05:600c:1da1:b0:441:b607:4ec0])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:4020:b0:39c:266c:12a5 with SMTP id ffacd0b85a97d-3a0ba09c701mr1767344f8f.13.1746693348329;
- Thu, 08 May 2025 01:35:48 -0700 (PDT)
-Date: Thu,  8 May 2025 08:35:40 +0000
-In-Reply-To: <202505072116.eSYC8igT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSrrnWQS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746693581; x=1778229581;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J1quForL1AyV+mxiU/+Tx5j7sIP7VxLUjzVH0JaG5GA=;
+  b=QSrrnWQSGrInAW3NtGyF6D76MKdc0eXAq4tOuM58MXVCvbwoCkpfnJ0a
+   5kfdA8KquZc3JaNNFI9R++53yTniJcyDq/ZqwZ7U64GvKZwuGUsT6NBJd
+   7hB7iHRnVvcVexRpp0Qcf80eYww/IHQ5Br+fAwqQyFL6uMNigH9OYqTKT
+   yjpHWJvUER6ULDPYGOnuM9wYTFrzfSjJmteEls8zVcoSgh7sURquB/rJQ
+   eI3jS+ULYRKC6M5tpYPwwqnWst1rAr0jekBA7ZLhfAU+Y7uwDnhuZXdTX
+   8zmHo4lconP/2+SrLI1ojztv0do8+Ldjkgr4Cp8jmqjTZQ0uEAIq73IKL
+   w==;
+X-CSE-ConnectionGUID: /W0/SdnfRdCLP2JvoV2ALg==
+X-CSE-MsgGUID: 1x49n/p0QcykNfkV57W3AA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="52273880"
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="52273880"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 01:39:40 -0700
+X-CSE-ConnectionGUID: oQrkPq5kQgifWHGyg4j/xQ==
+X-CSE-MsgGUID: Pw0GmgEXRM65MOnUpmGxqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="135925309"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 08 May 2025 01:39:36 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCwn0-000AnH-04;
+	Thu, 08 May 2025 08:39:34 +0000
+Date: Thu, 8 May 2025 16:39:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Schultz <d.schultz@phytec.de>, nm@ti.com, vigneshr@ti.com,
+	kristo@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	robertcnelson@gmail.com, francesco.dolcini@toradex.com
+Cc: oe-kbuild-all@lists.linux.dev, upstream@lists.phytec.de,
+	w.egorov@phytec.de, Daniel Schultz <d.schultz@phytec.de>
+Subject: Re: [PATCH 4/4] arm64: dts: ti: k3-am62a7-*: Specify Temperature
+ Grade
+Message-ID: <202505081648.oRdmP2QV-lkp@intel.com>
+References: <20250507050847.912756-4-d.schultz@phytec.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202505072116.eSYC8igT-lkp@intel.com>
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6334; i=aliceryhl@google.com;
- h=from:subject; bh=Uh1NArOYUAC3TlqO+VPf/FI5Pvemo476r7ffqTqb5pw=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBoHGxQA1pQnh6YV2mpEhk1Er0ppFu+B/v1k0t2K
- zavlZ5cmmOJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaBxsUAAKCRAEWL7uWMY5
- Rid3EACQuxDA3bntKDj7yEG1zaFLSEBIEDVusxzcJeLV303vBCCUpk8sm/Wx+hLE+6/K91zbBHb
- LIJkBJRl/zKFvDwY8uSWe4hdJGheh/lUDnlf983GxsSnCE8NW3R0w29kgM16lOIKHegihPJVrkv
- drkgI7NaVZJFsiG7hxCQOJ9PUH026HXFRT4GEyi0URUeKuYBAwn1u1r5XukD0J82iUY2xeWcNLz
- xsyZk1vktzGvVpagBdDcMt9kFKcb8lpMq235Eq0lzYFY1SdoGcEsZr+BlSFXMEWHYX1PGXjEaMu
- jTq0e/vjMbLmzcWlr20hcZHqCjlN7QrLCmwRWgfIjwAgadEevD7NIjGF3xb9v4igg0yB5E6WLDW
- pnYFlky88120QCVMx15jpNWws5rZQ2tlCp41wFxY5hFMxukEZIsAXiVcNCDJ9Lon/GI4FXxsB6T
- TVUgK5R/UiV4PjazFyQY38zjn9IdXzVxvBEgZD33zpDUFBq5kPVCpL180BmiAscfsXNnwzTDDH3
- ZJrIUnmGzSgDqCYeVqBl1x9bFHqaEX/jkyAl3tbSJowbbYpmi5mOyT8vSGmzZ1KQMMoBKR2bP7r
- 4hSoJHpS7pbxqzyX6Has3PNQ4oqaFgKohEyy3FIU8AJdQgta6ndXuQpxHIEU7N1sP+BSwT214LR CJbQbZy3Gg1RfFg==
-X-Mailer: git-send-email 2.49.0.987.g0cc8ee98dc-goog
-Message-ID: <20250508083540.3832900-1-aliceryhl@google.com>
-Subject: [PATCH] mm: rust: make CONFIG_MMU ifdefs more narrow
-From: Alice Ryhl <aliceryhl@google.com>
-To: lkp@intel.com, akpm@linux-foundation.org
-Cc: a.hindborg@kernel.org, aliceryhl@google.com, boqun.feng@gmail.com, 
-	gary@garyguo.net, linux-mm@kvack.org, rust-for-linux@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250507050847.912756-4-d.schultz@phytec.de>
 
-Currently the entire kernel::mm module is ifdef'd out when CONFIG_MMU=n.
-However, there are some downstream users of the module in
-rust/kernel/task.rs and rust/kernel/miscdevice.rs. Thus, update the cfgs
-so that only MmWithUserAsync is removed with CONFIG_MMU=n.
+Hi Daniel,
 
-The code is moved into a new file, since the #[cfg()] annotation
-otherwise has to be duplicated several times.
+kernel test robot noticed the following build errors:
 
-Closes: https://lore.kernel.org/all/202505071753.kldNHYVQ-lkp@intel.com/
-Closes: https://lore.kernel.org/all/202505072116.eSYC8igT-lkp@intel.com/
-Fixes: 3ca414d725d6 ("mm: rust: add abstraction for struct mm_struct")
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
- rust/kernel/mm.rs             | 56 +++--------------------------
- rust/kernel/mm/mmput_async.rs | 68 +++++++++++++++++++++++++++++++++++
- 2 files changed, 72 insertions(+), 52 deletions(-)
- create mode 100644 rust/kernel/mm/mmput_async.rs
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/rust/kernel/mm.rs b/rust/kernel/mm.rs
-index 615907a0f3b4..43f525c0d16c 100644
---- a/rust/kernel/mm.rs
-+++ b/rust/kernel/mm.rs
-@@ -10,7 +10,6 @@
- //! control what happens when userspace reads or writes to that region of memory.
- //!
- //! C header: [`include/linux/mm.h`](srctree/include/linux/mm.h)
--#![cfg(CONFIG_MMU)]
- 
- use crate::{
-     bindings,
-@@ -21,6 +20,10 @@
- pub mod virt;
- use virt::VmaRef;
- 
-+#[cfg(CONFIG_MMU)]
-+pub use mmput_async::MmWithUserAsync;
-+mod mmput_async;
-+
- /// A wrapper for the kernel's `struct mm_struct`.
- ///
- /// This represents the address space of a userspace process, so each process has one `Mm`
-@@ -111,50 +114,6 @@ fn deref(&self) -> &Mm {
-     }
- }
- 
--/// A wrapper for the kernel's `struct mm_struct`.
--///
--/// This type is identical to `MmWithUser` except that it uses `mmput_async` when dropping a
--/// refcount. This means that the destructor of `ARef<MmWithUserAsync>` is safe to call in atomic
--/// context.
--///
--/// # Invariants
--///
--/// Values of this type are always refcounted using `mmget`. The value of `mm_users` is non-zero.
--#[repr(transparent)]
--pub struct MmWithUserAsync {
--    mm: MmWithUser,
--}
--
--// SAFETY: It is safe to call `mmput_async` on another thread than where `mmget` was called.
--unsafe impl Send for MmWithUserAsync {}
--// SAFETY: All methods on `MmWithUserAsync` can be called in parallel from several threads.
--unsafe impl Sync for MmWithUserAsync {}
--
--// SAFETY: By the type invariants, this type is always refcounted.
--unsafe impl AlwaysRefCounted for MmWithUserAsync {
--    #[inline]
--    fn inc_ref(&self) {
--        // SAFETY: The pointer is valid since self is a reference.
--        unsafe { bindings::mmget(self.as_raw()) };
--    }
--
--    #[inline]
--    unsafe fn dec_ref(obj: NonNull<Self>) {
--        // SAFETY: The caller is giving up their refcount.
--        unsafe { bindings::mmput_async(obj.cast().as_ptr()) };
--    }
--}
--
--// Make all `MmWithUser` methods available on `MmWithUserAsync`.
--impl Deref for MmWithUserAsync {
--    type Target = MmWithUser;
--
--    #[inline]
--    fn deref(&self) -> &MmWithUser {
--        &self.mm
--    }
--}
--
- // These methods are safe to call even if `mm_users` is zero.
- impl Mm {
-     /// Returns a raw pointer to the inner `mm_struct`.
-@@ -206,13 +165,6 @@ pub unsafe fn from_raw<'a>(ptr: *const bindings::mm_struct) -> &'a MmWithUser {
-         unsafe { &*ptr.cast() }
-     }
- 
--    /// Use `mmput_async` when dropping this refcount.
--    #[inline]
--    pub fn into_mmput_async(me: ARef<MmWithUser>) -> ARef<MmWithUserAsync> {
--        // SAFETY: The layouts and invariants are compatible.
--        unsafe { ARef::from_raw(ARef::into_raw(me).cast()) }
--    }
--
-     /// Attempt to access a vma using the vma read lock.
-     ///
-     /// This is an optimistic trylock operation, so it may fail if there is contention. In that
-diff --git a/rust/kernel/mm/mmput_async.rs b/rust/kernel/mm/mmput_async.rs
-new file mode 100644
-index 000000000000..9289e05f7a67
---- /dev/null
-+++ b/rust/kernel/mm/mmput_async.rs
-@@ -0,0 +1,68 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+// Copyright (C) 2024 Google LLC.
-+
-+//! Version of `MmWithUser` using `mmput_async`.
-+//!
-+//! This is a separate file from `mm.rs` due to the dependency on `CONFIG_MMU=y`.
-+#![cfg(CONFIG_MMU)]
-+
-+use crate::{
-+    bindings,
-+    mm::MmWithUser,
-+    types::{ARef, AlwaysRefCounted},
-+};
-+use core::{ops::Deref, ptr::NonNull};
-+
-+/// A wrapper for the kernel's `struct mm_struct`.
-+///
-+/// This type is identical to `MmWithUser` except that it uses `mmput_async` when dropping a
-+/// refcount. This means that the destructor of `ARef<MmWithUserAsync>` is safe to call in atomic
-+/// context.
-+///
-+/// # Invariants
-+///
-+/// Values of this type are always refcounted using `mmget`. The value of `mm_users` is non-zero.
-+#[repr(transparent)]
-+pub struct MmWithUserAsync {
-+    mm: MmWithUser,
-+}
-+
-+// SAFETY: It is safe to call `mmput_async` on another thread than where `mmget` was called.
-+unsafe impl Send for MmWithUserAsync {}
-+// SAFETY: All methods on `MmWithUserAsync` can be called in parallel from several threads.
-+unsafe impl Sync for MmWithUserAsync {}
-+
-+// SAFETY: By the type invariants, this type is always refcounted.
-+unsafe impl AlwaysRefCounted for MmWithUserAsync {
-+    #[inline]
-+    fn inc_ref(&self) {
-+        // SAFETY: The pointer is valid since self is a reference.
-+        unsafe { bindings::mmget(self.as_raw()) };
-+    }
-+
-+    #[inline]
-+    unsafe fn dec_ref(obj: NonNull<Self>) {
-+        // SAFETY: The caller is giving up their refcount.
-+        unsafe { bindings::mmput_async(obj.cast().as_ptr()) };
-+    }
-+}
-+
-+// Make all `MmWithUser` methods available on `MmWithUserAsync`.
-+impl Deref for MmWithUserAsync {
-+    type Target = MmWithUser;
-+
-+    #[inline]
-+    fn deref(&self) -> &MmWithUser {
-+        &self.mm
-+    }
-+}
-+
-+impl MmWithUser {
-+    /// Use `mmput_async` when dropping this refcount.
-+    #[inline]
-+    pub fn into_mmput_async(me: ARef<MmWithUser>) -> ARef<MmWithUserAsync> {
-+        // SAFETY: The layouts and invariants are compatible.
-+        unsafe { ARef::from_raw(ARef::into_raw(me).cast()) }
-+    }
-+}
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Schultz/arm64-dts-ti-k3-am625-Specify-Temperature-Grade/20250507-131122
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250507050847.912756-4-d.schultz%40phytec.de
+patch subject: [PATCH 4/4] arm64: dts: ti: k3-am62a7-*: Specify Temperature Grade
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250508/202505081648.oRdmP2QV-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081648.oRdmP2QV-lkp@intel.com/reproduce)
 
-base-commit: 03be7043bbae0380e3e314cde042e4bb5c63b48c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081648.oRdmP2QV-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> arch/arm64/boot/dts/ti/k3-am62a7-sk.dts:14:10: fatal error: k3-am62a-thermal-automative.dtsi: No such file or directory
+      14 | #include "k3-am62a-thermal-automative.dtsi"
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +14 arch/arm64/boot/dts/ti/k3-am62a7-sk.dts
+
+     9	
+    10	#include <dt-bindings/leds/common.h>
+    11	#include <dt-bindings/gpio/gpio.h>
+    12	#include <dt-bindings/net/ti-dp83867.h>
+    13	#include "k3-am62a7.dtsi"
+  > 14	#include "k3-am62a-thermal-automative.dtsi"
+    15	
+
 -- 
-2.49.0.987.g0cc8ee98dc-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
