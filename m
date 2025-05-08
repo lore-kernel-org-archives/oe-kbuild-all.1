@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B5A4B1E7A;
-	Thu,  8 May 2025 19:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085DF25290D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 19:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746731438; cv=none; b=otocjy64W3nVq5l8fSHQdJiEZsFJSOstdKimi7E8+/jUADwyxdKTYOGTFq6t6ioPOlnlHlbDA6qZz5zY6Zcz8Piap4/i+KRP3AL63Ow/d1ql32mpS7oFysquNpYgFwcps341VLB+ssuumU1XAGVSIDtnYN4WQjPwP38uAXcrG9c=
+	t=1746732040; cv=none; b=eiES1h3n3/SWsCqJ5CMIF0jHy5zs6VdKzDStjM8qQhFXRNlx5+HOiu7XJUAbzUPZsOxmldg2SWCmt74ppXvhO6BaQ4aRCOCQsciwNu33HYIf76FXDfu0NyO28SzrgjVelRUyZcJTbsSsAHyICBlyCtFBjz2ue2VXGCJsmXgpuJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746731438; c=relaxed/simple;
-	bh=7AEmC9hhuo5/Nlx2W6TIzjPJiVMXVXpxOTCu5qQi46c=;
+	s=arc-20240116; t=1746732040; c=relaxed/simple;
+	bh=ppObmI6Ouy6XivuQNPyxoT3lbbBuvdpN9Kg4AXoEmbk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rx5UJVnGlkBYB0VzSU/zPuih0L7+PYoAznTvJhy1VXXRVKUfb3yRPtUGJae+zwWjv2U0ScoodJW+7lSfJGZvzhpVX0Mj6vlA9KVoUpAW/y5A7Sf3aiiMSIL7Ay+GUm9LqBazEY7th9vc0FSQbkfdppgaxof+yiiKS32IJR3EMQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1y0beyG; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=PMgySoSguCEZ6rViSQ5kwZEKyrmTGu6PDHR3J1uw7pVPY/o5ZRDpB8eophODIqdQ5Z3igjzfiHcLsjBnwVO7CtLi3DBq5rhnY5wJ9ioc8xDJqZGmeHX1rdGLTnwYFBrZCCCBGmA5sLV0lioq8lFRKF2LyQ2XE6Ho0sL28Xto/pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0l2DQgn; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1y0beyG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0l2DQgn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746731437; x=1778267437;
+  t=1746732038; x=1778268038;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7AEmC9hhuo5/Nlx2W6TIzjPJiVMXVXpxOTCu5qQi46c=;
-  b=C1y0beyGOdV7XVoo5nG5dW+i3UWmaUrIUCT2mpngWhzWQvKa9NqcvDIs
-   1mHdI544eS19XmZYIbrkCqJ/HDXjT5ise5dg1pcOiB/N5NM9E0b69UpbQ
-   k2LcOP6zr6+jpAQv31eNJ8jrjky+JBBIGl3d+etwVz6yHkD5HMoMad0qc
-   cmm75grd00bEGfV6mOdte3XL9sJjYE47BMQUCAcf76JGt0RtR2yKkDZVb
-   FmZo7rdU63+xt5QNAjXSe4/3JWlSdknp2cAtmBq8fxYVBJemlJFBivUzo
-   ywIgZH8bkDN2zrtPGCCx5IJHMFVo2R2yMZ46prhzNii6b510nOw2TtwFQ
-   Q==;
-X-CSE-ConnectionGUID: VO1q4uNFRHqvrYmV5LBNaw==
-X-CSE-MsgGUID: x/iC9e19QeuxUyW3XG+pQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48443527"
+  bh=ppObmI6Ouy6XivuQNPyxoT3lbbBuvdpN9Kg4AXoEmbk=;
+  b=d0l2DQgnEZjKTTd33Q927cWhGcP/x4cpU09/DMYDR8LdKdyjKrLlSzl0
+   iGa0xGN1CwPw9rrrHlreKOIiiSqWIMpsxq8O48hQh+6fQ8yS00+J8H7+H
+   Uizbp6/TzxWQRvCnU7p93pVuTfb4/W1d5gHAVyZ+gq8aqo0NqJT8w8Ttc
+   F/pz2fZ4CmZpMCA/KA866A9IS5R+CS3lXJFIOmbgbxuzaiek2T9o6r0xx
+   E505JpCf+CgFZsv/wqJdYIssmj4RURkl+ckWNZtBd+YRYf10hlaOzt74q
+   nAm5/GXDmEv/DA5W+BUJiSNMh0jw/9unaLv9DRFoGcHFUd48V7wrfRZSX
+   g==;
+X-CSE-ConnectionGUID: Re6lXbfFTMyNNiVJsdhBEQ==
+X-CSE-MsgGUID: UWyOhYo3T+y8PTPfOgSBlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48408691"
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="48443527"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 12:10:37 -0700
-X-CSE-ConnectionGUID: JhfjSvC3TvuVmcJtuTvmeg==
-X-CSE-MsgGUID: i7lGk/jMQyaqeDyJoBt4bg==
+   d="scan'208";a="48408691"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 12:20:38 -0700
+X-CSE-ConnectionGUID: 5c1sRVbNSzqpOx/QCfCSvg==
+X-CSE-MsgGUID: exq4pEEXRZ2aZ7CoClax6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="136330501"
+   d="scan'208";a="136877818"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 May 2025 12:10:35 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 08 May 2025 12:20:36 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uD6dd-000BIJ-0l;
-	Thu, 08 May 2025 19:10:33 +0000
-Date: Fri, 9 May 2025 03:10:02 +0800
+	id 1uD6nK-000BId-0M;
+	Thu, 08 May 2025 19:20:34 +0000
+Date: Fri, 9 May 2025 03:20:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/common 3/9] fs/f2fs/f2fs.h:2100:50: error: passing
- 'const struct folio *' to parameter of type 'struct folio *' discards
- qualifiers
-Message-ID: <202505090256.TMKDR2XH-lkp@intel.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:pr/netkit-xdp 6/11] drivers/net/netkit.c:218:39: error:
+ 'struct netdev_rx_queue' has no member named 'pool'
+Message-ID: <202505090304.PmYQL9l0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,44 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
-head:   2860d2a634860b83a27a71e5db3c2c416a59008a
-commit: a14b19bd94199c525031bdc63821ab086f4c70bf [3/9] f2fs: introduce is_{meta,node}_folio
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250509/202505090256.TMKDR2XH-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090256.TMKDR2XH-lkp@intel.com/reproduce)
+Hi Daniel,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/cilium/linux.git pr/netkit-xdp
+head:   4ee9f15d4c2af8705389b81757f1cd597156304d
+commit: 65332eb9360ea7f0f0bcea9de6c4b2ec7a8ca936 [6/11] netkit: implement ndos
+config: alpha-randconfig-r071-20250509 (https://download.01.org/0day-ci/archive/20250509/202505090304.PmYQL9l0-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090304.PmYQL9l0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505090256.TMKDR2XH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505090304.PmYQL9l0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/f2fs/dir.c:13:
->> fs/f2fs/f2fs.h:2100:50: error: passing 'const struct folio *' to parameter of type 'struct folio *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    2100 |         return folio->mapping == META_MAPPING(F2FS_F_SB(folio));
-         |                                                         ^~~~~
-   fs/f2fs/f2fs.h:2023:60: note: passing argument to parameter 'folio' here
-    2023 | static inline struct f2fs_sb_info *F2FS_F_SB(struct folio *folio)
-         |                                                            ^
-   fs/f2fs/f2fs.h:2105:50: error: passing 'const struct folio *' to parameter of type 'struct folio *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    2105 |         return folio->mapping == NODE_MAPPING(F2FS_F_SB(folio));
-         |                                                         ^~~~~
-   fs/f2fs/f2fs.h:2023:60: note: passing argument to parameter 'folio' here
-    2023 | static inline struct f2fs_sb_info *F2FS_F_SB(struct folio *folio)
-         |                                                            ^
-   2 errors generated.
+   drivers/net/netkit.c: In function 'netkit_xsk_get_pool_from_qid':
+>> drivers/net/netkit.c:218:39: error: 'struct netdev_rx_queue' has no member named 'pool'
+      return nk->lower->dev->_rx[queue_id].pool;
+                                          ^
+>> drivers/net/netkit.c:220:39: error: 'struct netdev_queue' has no member named 'pool'
+      return nk->lower->dev->_tx[queue_id].pool;
+                                          ^
+   drivers/net/netkit.c: In function 'netkit_xsk_reg_pool_at_qid':
+   drivers/net/netkit.c:245:32: error: 'struct netdev_rx_queue' has no member named 'pool'
+      nk->lower->dev->_rx[queue_id].pool = pool;
+                                   ^
+   drivers/net/netkit.c:247:32: error: 'struct netdev_queue' has no member named 'pool'
+      nk->lower->dev->_tx[queue_id].pool = pool;
+                                   ^
+   drivers/net/netkit.c: In function 'netkit_xsk_clear_pool_at_qid':
+   drivers/net/netkit.c:261:32: error: 'struct netdev_rx_queue' has no member named 'pool'
+      nk->lower->dev->_rx[queue_id].pool = NULL;
+                                   ^
+   drivers/net/netkit.c:263:32: error: 'struct netdev_queue' has no member named 'pool'
+      nk->lower->dev->_tx[queue_id].pool = NULL;
+                                   ^
 
 
-vim +2100 fs/f2fs/f2fs.h
+vim +218 drivers/net/netkit.c
 
-  2097	
-  2098	static inline bool is_meta_folio(const struct folio *folio)
-  2099	{
-> 2100		return folio->mapping == META_MAPPING(F2FS_F_SB(folio));
-  2101	}
-  2102	
+   207	
+   208	static struct xsk_buff_pool *
+   209	netkit_xsk_get_pool_from_qid(struct net_device *dev, u16 queue_id)
+   210	{
+   211		struct netkit *nk = netkit_priv(dev);
+   212	
+   213		if (!nk->lower || nk->primary)
+   214			return NULL;
+   215		if (!netkit_queue_valid(dev, queue_id))
+   216			return NULL;
+   217		if (queue_id < nk->lower->dev->real_num_rx_queues)
+ > 218			return nk->lower->dev->_rx[queue_id].pool;
+   219		if (queue_id < nk->lower->dev->real_num_tx_queues)
+ > 220			return nk->lower->dev->_tx[queue_id].pool;
+   221		return NULL;
+   222	}
+   223	
 
 -- 
 0-DAY CI Kernel Test Service
