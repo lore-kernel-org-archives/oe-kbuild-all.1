@@ -1,95 +1,168 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E84262D0B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 08:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF434224FD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 09:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746693622; cv=none; b=pRHjmcLwQJgEkJWIEvnOj10frNRUgPCX8ERqyQy/1rsDtfWKQDKlHVUHr6ezyFjcKsmtb2zycSaAHwrLd9NUe628bGnCDuSV2VvnWrAFgcJBHUWPgykRj74xuuCoySwJwiK/BroKRJC8KztxLa4FR97yC2kDUlEup6X/8h1W6A8=
+	t=1746694848; cv=none; b=EA/kU1JyM8qhhg2UQpwRA4I5Wcn3PcY3D/iYqyUEDir4AMFRoaOdwqzj49kX0Ky5HK1u4pa5/77WK6xIiIhfTuvw8hzW3Rv5W4nn61s5a/Lk+6nY35VH2aHHDS8jSJjWuuNa6fhvz6wqTYNLbfDAaFS1hzE61xji22GVlTaUB2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746693622; c=relaxed/simple;
-	bh=iD/1mdeio03UjcUlvp2SdLornXqNzXJEWD880XRH+O0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E/tqs617G4wCgAp+tln/umO0Q5DCuU5r7zzAK4nI0vbEcmV38FkFcAjiwdLSPa1LlH8jQ74Z6bqGoWOd//HcUvuIahvQ9YHe1BYEZMnGycdp8Qg337p47vvxCKqLsnGcV9UI5hGiIV4kQKpuL55eIFjdPJ7VhrbKXU6n3afMK7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WDtYE8/v; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1746694848; c=relaxed/simple;
+	bh=ROSi/Orgbexv11jRgsW2OyCxC3aIhDhDNPIcDThao00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArDB9MebR+7SfwMUK6dDWdA4CuS2g4R7j9wb0Mxl7HanYQHfXkBVc5uYTdEpAhv5n1UeoR0XT31bueMM+9PtC+mIYz9YyacbArHQea0SrUJyhM0TsTvH8ixF/bjgvEWWTc6+Gb/o+2FLk1KB8n4tfAmEwYHhTKcevs/C+FI/j7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDFg46TJ; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WDtYE8/v"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39ee651e419so349871f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 08 May 2025 01:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746693617; x=1747298417; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OohA5Q8AnAMNGpiiDuSIocfhmzw1bw1/ZN+QvKo3p8U=;
-        b=WDtYE8/vE6PiB7YiHTeE1CMTsjjkgbaEPEwWXx9DC89pgU/D112p7CbGqDlwwxy2iJ
-         eFhdbWwrb5IF+c8ucu3zxe58meUgN4DDoMYR/DHD4MHtGrANew+/uYVZq08g5q5VVSFK
-         NhfmJbYVvdg7yqjqqYTxgHzh6TnGyKVQpAZphq6HBFbFVe++oiJZXRh2hAYqLBR3XsQT
-         Bha337aboTD7yYbsMFrfP4vIuPYIoPXvX1eJ0PE/3FoyUVlyW1FSfoOxZrfeA4bU2yku
-         ZVQOcj4hQHSUu2gOKDKpnHLu8gk2A7ljfDFhPpNYqSRTvH3P9B0SxiSKE3P7PlK2VVrL
-         xN+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746693617; x=1747298417;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OohA5Q8AnAMNGpiiDuSIocfhmzw1bw1/ZN+QvKo3p8U=;
-        b=BuHlz5pbficS0Y/aYR0fCoV+pBvSMQn10pboI7eXqfgfU1x7nkeMKj49WozMcQHAon
-         0ZE1nR+4Y1Ek/qltJMaYRSMY/+Q5vBz6vSD7g3PNwkNb6B7nMmMtF/HgHX/zgTlop1zf
-         QG5j0kZOFT6wiDgtob8Mv+I7NTTaMJyZkW8jop/D853u2gwIMCBqo0uaomfwHGgibgyn
-         oI9n/1gzS1xn1Q+GArBvkZnSoKZm1pFov86dJyE6M57R/v3/G2gbiGBBx9lrTcqYWTH8
-         jZIrMYEk4jh7ZkrCxDzYnLJf+w5cywcPXAzz+i8dsYJ2W71QHTIwcRwKetZlOeijEwWM
-         xq1A==
-X-Gm-Message-State: AOJu0YwO75cY1FOTtRnZsPS71wQSPHP2U/mqBtUYAxs/VQnEsGKQW6Vd
-	dnlnT+tW2WCSrccyyBPgLtfDPVOstEqwDAKh94y+YjHO9CW1xfkhUdZNuhSXl9HmpbuMtYkMGGk
-	VHLi7HaZeFEdar4cfH0NH5v6H3kLowR62Ar5d
-X-Gm-Gg: ASbGnctWFhobT6Npoch+zGYHjrc0q42NANEzWkw7B9AvzDxYdVMQqpDIJrh4gJaZ0VC
-	xg/nVb09grRruKQPAIp6bidwM3ZYWp9QhpABcF9txqkfpXkkfo7KjpepwknB9m++MEP1JWjh6pM
-	VHTMgSkQKYeheUEiiCAxLJ3i67o/g+jcNIDWi+tyBb7O3v+7teLmN5
-X-Google-Smtp-Source: AGHT+IF7JZRhsf2tu+5oyyyE6ipP/MmJDUkeTamdsSsC2bNX6ZZIXNkI6EKo8Hxai+vt039sBJnW2KVDSA0r9zk6L6E=
-X-Received: by 2002:a05:6000:dc7:b0:3a0:b4f1:8bcb with SMTP id
- ffacd0b85a97d-3a0b4f18cf3mr3530418f8f.30.1746693617526; Thu, 08 May 2025
- 01:40:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDFg46TJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746694845; x=1778230845;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ROSi/Orgbexv11jRgsW2OyCxC3aIhDhDNPIcDThao00=;
+  b=fDFg46TJ8pCHlpQUuAVymCLoE4TQ5iFCpZyz9yRcwx6fNKFOVcNEnvKJ
+   FHUFzr6Y+6Bf7CgLKuobUMCtOPFvBHM2iMaAuZos2F0xEWRjHEDAG5ao9
+   4huP6cT9Zqaqo4K2jNZORrkscBqoVyaKEEfbHACN483rxB6mq6ypxyNbM
+   UXJlrloYnzKId5ILOrnf7T3WoLDfbYAtJUqnqamGVucUgT9xyIUe5KG3A
+   gwL5u5NfXZNYxOqyCkLKtAXwLPwKVsU3j1B8cGfcdyuTtB+pczOWcF412
+   Bdd2y5RSI6ef6d4DjCIethDhOQMdn0jG+Y5m5Y0DNexOz2xKdNtmHypKl
+   A==;
+X-CSE-ConnectionGUID: VS+1eFtDRmOH9SNFyDSCqQ==
+X-CSE-MsgGUID: sJzD8Yt+TjCIBzsvcHz8/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48550098"
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="48550098"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 02:00:44 -0700
+X-CSE-ConnectionGUID: 8ne1VkpKSKGUTK3JlySqFw==
+X-CSE-MsgGUID: 1IfokcpxT6e6H6SFHsVAmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="136160406"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 08 May 2025 02:00:39 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCx7L-000AoB-3B;
+	Thu, 08 May 2025 09:00:35 +0000
+Date: Thu, 8 May 2025 17:00:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stefan Wahren <wahrenst@gmx.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, Stefan Wahren <wahrenst@gmx.net>
+Subject: Re: [PATCH net-next 2/5] net: vertexcom: mse102x: Add warning about
+ IRQ trigger type
+Message-ID: <202505081612.wbRgFMC7-lkp@intel.com>
+References: <20250505142427.9601-3-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202505071753.kldNHYVQ-lkp@intel.com>
-In-Reply-To: <202505071753.kldNHYVQ-lkp@intel.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 8 May 2025 10:40:05 +0200
-X-Gm-Features: ATxdqUGSusmuNWP1YmEm-gHR8F6R0lvKA1Codshvk2zWa-S1-EMYvl6xnMJuIqQ
-Message-ID: <CAH5fLgh2=vGj47bm-FUO8CCQX_2dpyTfF1OJmOxZOoPQQ+fPXg@mail.gmail.com>
-Subject: Re: [linux-next:master 4752/5832] error[E0433]: failed to resolve:
- could not find `mm` in the crate root
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andreas Hindborg <a.hindborg@kernel.org>, Gary Guo <gary@garyguo.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250505142427.9601-3-wahrenst@gmx.net>
 
-On Wed, May 7, 2025 at 11:29=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
-> >> error[E0433]: failed to resolve: could not find `mm` in the crate root
->    --> rust/kernel/miscdevice.rs:17:5
->    |
->    17 |     mm::virt::VmaNew,
->    |     ^^ could not find `mm` in the crate root
->    |
->    note: found an item that was configured out
->    --> rust/kernel/lib.rs:64:9
->    |
->    64 | pub mod mm;
->    |         ^^
+Hi Stefan,
 
-This is because I ifdef'd out too much of the kernel::mm module with
-CONFIG_MMU=3Dn.
+kernel test robot noticed the following build warnings:
 
-Please see this patch for a fix:
-https://lore.kernel.org/all/20250508083540.3832900-1-aliceryhl@google.com/
+[auto build test WARNING on net-next/main]
 
-Alice
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Wahren/dt-bindings-vertexcom-mse102x-Fix-IRQ-type-in-example/20250505-222628
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250505142427.9601-3-wahrenst%40gmx.net
+patch subject: [PATCH net-next 2/5] net: vertexcom: mse102x: Add warning about IRQ trigger type
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505081612.wbRgFMC7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081612.wbRgFMC7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081612.wbRgFMC7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/vertexcom/mse102x.c: In function 'mse102x_net_open':
+   drivers/net/ethernet/vertexcom/mse102x.c:525:37: error: implicit declaration of function 'irq_get_irq_data'; did you mean 'irq_set_irq_wake'? [-Werror=implicit-function-declaration]
+     525 |         struct irq_data *irq_data = irq_get_irq_data(ndev->irq);
+         |                                     ^~~~~~~~~~~~~~~~
+         |                                     irq_set_irq_wake
+>> drivers/net/ethernet/vertexcom/mse102x.c:525:37: warning: initialization of 'struct irq_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/net/ethernet/vertexcom/mse102x.c:535:17: error: implicit declaration of function 'irqd_get_trigger_type'; did you mean 'led_get_trigger_data'? [-Werror=implicit-function-declaration]
+     535 |         switch (irqd_get_trigger_type(irq_data)) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+         |                 led_get_trigger_data
+   drivers/net/ethernet/vertexcom/mse102x.c:536:14: error: 'IRQ_TYPE_LEVEL_HIGH' undeclared (first use in this function)
+     536 |         case IRQ_TYPE_LEVEL_HIGH:
+         |              ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/vertexcom/mse102x.c:536:14: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/ethernet/vertexcom/mse102x.c:537:14: error: 'IRQ_TYPE_LEVEL_LOW' undeclared (first use in this function)
+     537 |         case IRQ_TYPE_LEVEL_LOW:
+         |              ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +525 drivers/net/ethernet/vertexcom/mse102x.c
+
+   522	
+   523	static int mse102x_net_open(struct net_device *ndev)
+   524	{
+ > 525		struct irq_data *irq_data = irq_get_irq_data(ndev->irq);
+   526		struct mse102x_net *mse = netdev_priv(ndev);
+   527		struct mse102x_net_spi *mses = to_mse102x_spi(mse);
+   528		int ret;
+   529	
+   530		if (!irq_data) {
+   531			netdev_err(ndev, "Invalid IRQ: %d\n", ndev->irq);
+   532			return -EINVAL;
+   533		}
+   534	
+   535		switch (irqd_get_trigger_type(irq_data)) {
+   536		case IRQ_TYPE_LEVEL_HIGH:
+   537		case IRQ_TYPE_LEVEL_LOW:
+   538			break;
+   539		default:
+   540			netdev_warn_once(ndev, "Only IRQ type level recommended, please update your firmware.\n");
+   541			break;
+   542		}
+   543	
+   544		ret = request_threaded_irq(ndev->irq, NULL, mse102x_irq, IRQF_ONESHOT,
+   545					   ndev->name, mse);
+   546		if (ret < 0) {
+   547			netdev_err(ndev, "Failed to get irq: %d\n", ret);
+   548			return ret;
+   549		}
+   550	
+   551		netif_dbg(mse, ifup, ndev, "opening\n");
+   552	
+   553		netif_start_queue(ndev);
+   554	
+   555		netif_carrier_on(ndev);
+   556	
+   557		/* The SPI interrupt can stuck in case of pending packet(s).
+   558		 * So poll for possible packet(s) to re-arm the interrupt.
+   559		 */
+   560		mutex_lock(&mses->lock);
+   561		mse102x_rx_pkt_spi(mse);
+   562		mutex_unlock(&mses->lock);
+   563	
+   564		netif_dbg(mse, ifup, ndev, "network device up\n");
+   565	
+   566		return 0;
+   567	}
+   568	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
