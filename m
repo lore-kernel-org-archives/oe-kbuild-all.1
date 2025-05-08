@@ -1,66 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74214221DA7;
-	Thu,  8 May 2025 07:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F14815748F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 08:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746690279; cv=none; b=qg1EFKON9aLZ4ZL/oQiw2JqPK8Od15/g/7A1bwMHP3VAF7idZDO6nngka9BmmKxR8CEO6oKrgNyn6dxrNVL8w+aFfb2Iew/DTYM2y6Q17ATUk1mHpw3Vgb4X1/dzHK1ti1dsxWpmf8qFU8+nUKEXLViVCkkqUrOrEKxxAuUQVPg=
+	t=1746691719; cv=none; b=FlZ/uO51OmJ4st4/jnZs+LcplHDN+orxXAEj+wx0uPumQ2i5KLT5zd8tTkEMIhwB3VwAYkQhqttMHFuZpJ8ecp6xFn7QP62hvH4RF2NUjIylEjHy4dmNQvS3e8kynQ2kthZspN2ucplUwAwHLPz0Ew9kDVFQZhu4e6fDatz4yaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746690279; c=relaxed/simple;
-	bh=biB3S/OHcTSuSenX2kZE0QSCZGXojUgcvvFDQiSjYOY=;
+	s=arc-20240116; t=1746691719; c=relaxed/simple;
+	bh=jYdN33+CJ/NGBhRXvU2A5aABgKMcpgRwc9o3lmxpjCk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gDcRHa75ioOdzx0l4zCP+zi3vnBSXiGyPaUituQCeZHw/aBmPSnZDBN3lWZuG+9rxJZPfq0I7T1miNiK5M29KNMjMXLwb8Aov8OrMUqJ756C4Ku5sIFMsD3K7dmYI7gNJ46jfdrUKDcFhDDAEBDMP2HQT5GyWoUQ9QEH2jMdUCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xt1PfWH2; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=u7xmnZF8lAegRRpMtErlFge61AuqcCBZX9QSAuiMwUpQCGPEshjyyoGpySIR/bXwtl+0V83BSRgqW2DRNsDJE4GOGdPeX9P1DOIVOiQUnHu6jq+oT40tgyDtf4yUk349in/AXng/J9VP0vlVtfqPWOikTgosy9OCPFteMmFh/04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MurQgMPM; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xt1PfWH2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MurQgMPM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746690277; x=1778226277;
+  t=1746691717; x=1778227717;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=biB3S/OHcTSuSenX2kZE0QSCZGXojUgcvvFDQiSjYOY=;
-  b=Xt1PfWH2JXvlhGpYV02sXyr2GqQuC8nJLbOYonOD8SsabC0qefnM0X6S
-   JoDlw7vpJo9d9jFbzeb50T2FkwVo77/5TvUOwT3nn04A9Aod05hN5/SEJ
-   jdoZAJ70FxcSJ5x4fOwAxt+U3WN10JWaCqDl9gT/ahVQbrq9nlPKBuAM4
-   +ixi7UoISpbyP4vHlZU1Nd8BzLYizzXe08Oec4f/HLmdTQaY0tCNSKE3P
-   O12Jydw4J9FwlFrfJY3KO4yWGpXClotGk23YJRtxooPRqUqN8Dlyj8rU0
-   OENm6fXQ5XgrCqHdOWTECy8ObeZmBPZAClCJvySUG6Glm4J+v8W/pr5m5
-   g==;
-X-CSE-ConnectionGUID: 39gqG42SRliBGB2eO+9qGg==
-X-CSE-MsgGUID: mR27u3hVRl6BGOcTy6XuZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59120954"
+  bh=jYdN33+CJ/NGBhRXvU2A5aABgKMcpgRwc9o3lmxpjCk=;
+  b=MurQgMPM+nPguPnVXulki9gt1df10uKCo2hwTSHs04LT3C0v2sT8bRRG
+   D/4Pf++JEF7vgNR+LVSQm41hwvt+L4ADEruvyp0WJL3O76lT5FgPwVAec
+   sAucgwNnkns106EieOAe2NSJt1OWj9qIkgtnQ1J18eRT8hXqf79aImYSX
+   CJALWc2mpt6/kb5J/O5rBRXRq6lXYzo8+A3mvTZPgyfeJZJDCY6Z2JSUq
+   vk66T22PlF40uIxpsVm9cr6ItnSKbIcvGZLm7/shL/wzq4PcrmFfxctUx
+   NanhM2HO2GwDrJSoGqt9VSJzCm7H7CBXpSzZjQjM5mx8yk8XryjixFubb
+   w==;
+X-CSE-ConnectionGUID: ZCOhSA1MQbm3aVwf4dUPQw==
+X-CSE-MsgGUID: V3fD9ZvzR32mV4urasjejw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="47718458"
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="59120954"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 00:44:35 -0700
-X-CSE-ConnectionGUID: ZDMYDDvmSJuzHLF7tcvRvg==
-X-CSE-MsgGUID: chBRilHeSpOM8G0Bx873Ew==
+   d="scan'208";a="47718458"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 01:08:36 -0700
+X-CSE-ConnectionGUID: i36FOlqRRMSFknar2JOmnw==
+X-CSE-MsgGUID: prix0mQBSAG+iF7lVc6ohQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="141109304"
+   d="scan'208";a="136713973"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 May 2025 00:44:32 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 08 May 2025 01:08:34 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCvvi-000AlB-0n;
-	Thu, 08 May 2025 07:44:30 +0000
-Date: Thu, 8 May 2025 15:44:10 +0800
+	id 1uCwIx-000Am9-2e;
+	Thu, 08 May 2025 08:08:31 +0000
+Date: Thu, 8 May 2025 16:07:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH 6/7] cxl/region: Introduce CLASS(cxl_decoder_detach...)
- consolidate multiple paths
-Message-ID: <202505081548.9HldF62Y-lkp@intel.com>
-References: <20250507072145.3614298-7-dan.j.williams@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Gow <davidgow@google.com>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Subject: Re: [PATCH v2] printk: ringbuffer: Add KUnit test
+Message-ID: <202505081550.KMstgTUQ-lkp@intel.com>
+References: <20250506-printk-ringbuffer-test-v2-1-152200569eb1@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,158 +70,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507072145.3614298-7-dan.j.williams@intel.com>
+In-Reply-To: <20250506-printk-ringbuffer-test-v2-1-152200569eb1@linutronix.de>
 
-Hi Dan,
+Hi Thomas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on b4432656b36e5cc1d50a1f2dc15357543add530e]
+[auto build test ERROR on 0af2f6be1b4281385b618cb86ad946eded089ac8]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/cleanup-Introduce-DEFINE_ACQUIRE-a-CLASS-for-conditional-locking/20250507-152728
-base:   b4432656b36e5cc1d50a1f2dc15357543add530e
-patch link:    https://lore.kernel.org/r/20250507072145.3614298-7-dan.j.williams%40intel.com
-patch subject: [PATCH 6/7] cxl/region: Introduce CLASS(cxl_decoder_detach...) consolidate multiple paths
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505081548.9HldF62Y-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081548.9HldF62Y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/printk-ringbuffer-Add-KUnit-test/20250506-200133
+base:   0af2f6be1b4281385b618cb86ad946eded089ac8
+patch link:    https://lore.kernel.org/r/20250506-printk-ringbuffer-test-v2-1-152200569eb1%40linutronix.de
+patch subject: [PATCH v2] printk: ringbuffer: Add KUnit test
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250508/202505081550.KMstgTUQ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081550.KMstgTUQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505081548.9HldF62Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505081550.KMstgTUQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/cxl/core/port.c:9:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/cxl/core/port.c:9:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/cxl/core/port.c:9:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/cxl/core/port.c:17:
->> drivers/cxl/core/core.h:64:1: warning: non-void function does not return a value [-Wreturn-type]
-      64 | }
-         | ^
-   13 warnings generated.
-
-
-vim +64 drivers/cxl/core/core.h
-
-79ed8367834ee8 Dan Williams     2025-05-07  28  
-79ed8367834ee8 Dan Williams     2025-05-07  29  struct cxl_region *cxl_decoder_detach(struct cxl_region *cxlr,
-79ed8367834ee8 Dan Williams     2025-05-07  30  				      struct cxl_endpoint_decoder *cxled,
-79ed8367834ee8 Dan Williams     2025-05-07  31  				      int pos, enum cxl_detach_mode mode);
-79ed8367834ee8 Dan Williams     2025-05-07  32  
-779dd20cfb56c5 Ben Widawsky     2021-06-08  33  #define CXL_REGION_ATTR(x) (&dev_attr_##x.attr)
-8d48817df6ac20 Dan Williams     2021-06-15  34  #define CXL_REGION_TYPE(x) (&cxl_region_type)
-779dd20cfb56c5 Ben Widawsky     2021-06-08  35  #define SET_CXL_REGION_ATTR(x) (&dev_attr_##x.attr),
-04ad63f086d1a9 Dan Williams     2022-01-11  36  #define CXL_PMEM_REGION_TYPE(x) (&cxl_pmem_region_type)
-09d09e04d2fcf8 Dan Williams     2023-02-10  37  #define CXL_DAX_REGION_TYPE(x) (&cxl_dax_region_type)
-8d48817df6ac20 Dan Williams     2021-06-15  38  int cxl_region_init(void);
-8d48817df6ac20 Dan Williams     2021-06-15  39  void cxl_region_exit(void);
-f0832a58639691 Alison Schofield 2023-04-18  40  int cxl_get_poison_by_endpoint(struct cxl_port *port);
-b98d042698a325 Alison Schofield 2024-04-30  41  struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa);
-9aa5f6235e16ac Alison Schofield 2024-07-02  42  u64 cxl_dpa_to_hpa(struct cxl_region *cxlr, const struct cxl_memdev *cxlmd,
-86954ff5032d9d Alison Schofield 2024-04-30  43  		   u64 dpa);
-b98d042698a325 Alison Schofield 2024-04-30  44  
-779dd20cfb56c5 Ben Widawsky     2021-06-08  45  #else
-9aa5f6235e16ac Alison Schofield 2024-07-02  46  static inline u64 cxl_dpa_to_hpa(struct cxl_region *cxlr,
-9aa5f6235e16ac Alison Schofield 2024-07-02  47  				 const struct cxl_memdev *cxlmd, u64 dpa)
-86954ff5032d9d Alison Schofield 2024-04-30  48  {
-86954ff5032d9d Alison Schofield 2024-04-30  49  	return ULLONG_MAX;
-86954ff5032d9d Alison Schofield 2024-04-30  50  }
-b98d042698a325 Alison Schofield 2024-04-30  51  static inline
-b98d042698a325 Alison Schofield 2024-04-30  52  struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
-b98d042698a325 Alison Schofield 2024-04-30  53  {
-b98d042698a325 Alison Schofield 2024-04-30  54  	return NULL;
-b98d042698a325 Alison Schofield 2024-04-30  55  }
-f0832a58639691 Alison Schofield 2023-04-18  56  static inline int cxl_get_poison_by_endpoint(struct cxl_port *port)
-f0832a58639691 Alison Schofield 2023-04-18  57  {
-f0832a58639691 Alison Schofield 2023-04-18  58  	return 0;
-f0832a58639691 Alison Schofield 2023-04-18  59  }
-79ed8367834ee8 Dan Williams     2025-05-07  60  static inline struct cxl_region *
-79ed8367834ee8 Dan Williams     2025-05-07  61  cxl_decoder_detach(struct cxl_region *cxlr, struct cxl_endpoint_decoder *cxled,
-79ed8367834ee8 Dan Williams     2025-05-07  62  		   int pos, enum cxl_detach_mode mode)
-b9686e8c8e39d4 Dan Williams     2022-06-04  63  {
-b9686e8c8e39d4 Dan Williams     2022-06-04 @64  }
-8d48817df6ac20 Dan Williams     2021-06-15  65  static inline int cxl_region_init(void)
-8d48817df6ac20 Dan Williams     2021-06-15  66  {
-8d48817df6ac20 Dan Williams     2021-06-15  67  	return 0;
-8d48817df6ac20 Dan Williams     2021-06-15  68  }
-8d48817df6ac20 Dan Williams     2021-06-15  69  static inline void cxl_region_exit(void)
-8d48817df6ac20 Dan Williams     2021-06-15  70  {
-8d48817df6ac20 Dan Williams     2021-06-15  71  }
-779dd20cfb56c5 Ben Widawsky     2021-06-08  72  #define CXL_REGION_ATTR(x) NULL
-8d48817df6ac20 Dan Williams     2021-06-15  73  #define CXL_REGION_TYPE(x) NULL
-779dd20cfb56c5 Ben Widawsky     2021-06-08  74  #define SET_CXL_REGION_ATTR(x)
-04ad63f086d1a9 Dan Williams     2022-01-11  75  #define CXL_PMEM_REGION_TYPE(x) NULL
-09d09e04d2fcf8 Dan Williams     2023-02-10  76  #define CXL_DAX_REGION_TYPE(x) NULL
-779dd20cfb56c5 Ben Widawsky     2021-06-08  77  #endif
-779dd20cfb56c5 Ben Widawsky     2021-06-08  78  
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
+>> ERROR: modpost: "prb_init" [kernel/printk/printk_ringbuffer_kunit_test.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
