@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B4122F3B1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 23:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045F6215772
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 May 2025 23:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746746583; cv=none; b=Ot0hhPVObV+ecckWK2BorWG1eWWhkoGff7QgNGRpTdJn33EcKajTukq9repZ3UCXdVSAiBNLpYuIbEhU2vWc8HndcFl/YI3KvBaZCOYBue1mzJIKxmo3+Vi0A9o4X8GU5Nr2+8bcltz0WSv1t0oycAFiiShMDAByEXaZOhc4Ffc=
+	t=1746747182; cv=none; b=nuhLp7Tww20ug9/2mI32+ffDcGFvA41FvdeS4X+5ESbN1Yp3zEk4sfHbY3FeA8fLQ4gfxjJtFKtXAl2YgvqJvkSC2d3MzLtEi4Kb4qi/f/RPTSi5+G60/hLYtUaKDipHpDCh2uaROsm0uCGruPkuYPAVHJI1BapX1FRo0VNYLdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746746583; c=relaxed/simple;
-	bh=FONvhT1jAfHPxkn8m504XAWgTKv+f5ZT1tzDmrZh2U8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mit3Rp85Ixl+HAEOoiucKsZ/2Hna+t+4nZffPt0LjZxSuAMpbjIqyQY1uQSKwvUzAlF9MnmIt7zH3eGqD1Nfycf+cAtLoxrRxBuwH8REAZ3eV6+6u/cMjuW0SCzKMrJ2flncnlwQ17dRoVKfjtAjxq6PqbdsA6DdGaXlmTAWBEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZAJ38mWU; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1746747182; c=relaxed/simple;
+	bh=GzJvRtz4jLGr5nTLzmcy2/qzUET3sUEdh2hLRvg2iFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ip/Ho4xvhkJjpX5YgXNDYSgYRg1ItK1+W7w3Hcm6eTVgyQkiyss+ujRMSP73uC+/3M7xI82mCozfhPcPooNhrLnwSPB1cBfSSpr4rsFchPOQd7gwnUzVt+904XYvF+DPjBUaXDkAaLl5UQBhiZrVkCvqhNneyv2iEhQyD8lfEEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ejm+85QY; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZAJ38mWU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ejm+85QY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746746582; x=1778282582;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FONvhT1jAfHPxkn8m504XAWgTKv+f5ZT1tzDmrZh2U8=;
-  b=ZAJ38mWUHHCfl5TQoVbLir0w0qwnb1p6wJSAzegCibKum5Jzn8wNBfDk
-   fNVVNxBQLIKp7JVS6g9r9Z7OQrjf0nyKP7O8/AWJo31K2QIQ4nXBVIDPd
-   EhKy+uSmx9IPkhQOb3MZ5vEdxJZ9vN7FOKrihUB+4II7bHkFXx6CYcuRg
-   3A55SIpq/bfZJy5h/LLGUEdX3ObJAPB9C7toKoWZ/tYaa8aL63ThWGfHW
-   gac60RyTXYD6yBwOHMa0MlH87cF2sMdN5u27XOmi3/pyo8Y7hRQZd1VyO
-   VefCMNn+TBBTVg7S2rRbZ2GZQ280uMjMZdw/B4PC08sY9fQ1Sw8ef+wHf
-   A==;
-X-CSE-ConnectionGUID: TzXSykMRQc2ybhv0sWl5hA==
-X-CSE-MsgGUID: ZoaFVpWWSyq4zhPO5Qq41g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="36184677"
+  t=1746747180; x=1778283180;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GzJvRtz4jLGr5nTLzmcy2/qzUET3sUEdh2hLRvg2iFs=;
+  b=Ejm+85QYIkSCPjTuI7swu317/uODjVqy9ZICZ/GFjeG1rCKxIGuwewGK
+   v4S/dFzI0s4nVZKR0Ppup6nAeFjJJRNYlaU4lpaG0adhvb3DVNl4bGf7N
+   BbpwSSI1899UFzatVnG1d2pgTWzPc708LH/vIqKsy2TFbtTmhaCf2cuUt
+   F+5fWnDd0/Uvil16dLLNB/SDlaWtO2Uf7wZoIHqqGiNKivNEebtiC9B7d
+   YES52pKVkTNozJ9dZm1KDWsHzZKaX4laWQMdWUQ63D/IQ5d843n5QC5W3
+   GEbKfX2paGt0vRAr4RVXcmM6K/A33H3lRCQkTHGiCPoEQA2ZfFkIGj7cy
+   Q==;
+X-CSE-ConnectionGUID: DLfgCq0/SBauqL689UDMqA==
+X-CSE-MsgGUID: D/M7D3/JQt6Purcnxa1X3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52372248"
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="36184677"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 16:22:59 -0700
-X-CSE-ConnectionGUID: CmASKxS3Rz6bGPgRz2dXFQ==
-X-CSE-MsgGUID: +dg5XxO/SNubZMX0JB+v4g==
+   d="scan'208";a="52372248"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 16:32:59 -0700
+X-CSE-ConnectionGUID: lDV3WYdnTZiBKOBBrpp90w==
+X-CSE-MsgGUID: vliJDrJ8QdeWNAxn21YeXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="136400983"
+   d="scan'208";a="136453368"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 May 2025 16:22:57 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 08 May 2025 16:32:57 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDAZr-000BSh-0B;
-	Thu, 08 May 2025 23:22:55 +0000
-Date: Fri, 9 May 2025 07:21:59 +0800
+	id 1uDAjX-000BT5-2b;
+	Thu, 08 May 2025 23:32:55 +0000
+Date: Fri, 9 May 2025 07:32:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dawei Li <dawei.li@linux.dev>, andersson@kernel.org,
-	mathieu.poirier@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dawei.li@linux.dev,
-	set_pte_at@outlook.com
-Subject: Re: [PATCH 3/3] rpmsg: ctrl: Introduce RPMSG_CREATE_EPT_FD_IOCTL uAPI
-Message-ID: <202505090716.iB4qQAf2-lkp@intel.com>
-References: <20250507141712.4276-4-dawei.li@linux.dev>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [linux-next:master 8282/9729]
+ arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: mipi@21dc000 (fsl,imx6-mipi-csi2):
+ 'port' does not match any of the regexes: '^port@[1-4]$', 'pinctrl-[0-9]+'
+Message-ID: <202505090738.CNCKpuyW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,47 +64,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507141712.4276-4-dawei.li@linux.dev>
 
-Hi Dawei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 92a09c47464d040866cf2b4cd052bc60555185fb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dawei-Li/rpmsg-char-Reuse-eptdev-logic-for-anon-device/20250507-223209
-base:   92a09c47464d040866cf2b4cd052bc60555185fb
-patch link:    https://lore.kernel.org/r/20250507141712.4276-4-dawei.li%40linux.dev
-patch subject: [PATCH 3/3] rpmsg: ctrl: Introduce RPMSG_CREATE_EPT_FD_IOCTL uAPI
-config: i386-randconfig-011-20250508 (https://download.01.org/0day-ci/archive/20250509/202505090716.iB4qQAf2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090716.iB4qQAf2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f48887a98b78880b7711aca311fbbbcaad6c4e3b
+commit: 48dbb76cef65fabaa3ac97461eda90495e954ecd [8282/9729] dt-bindings: media: convert imx.txt to yaml format
+config: arm-randconfig-051-20250507 (https://download.01.org/0day-ci/archive/20250509/202505090738.CNCKpuyW-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090738.CNCKpuyW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505090716.iB4qQAf2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505090738.CNCKpuyW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/rpmsg/rpmsg_ctrl.c:28:
-   drivers/rpmsg/rpmsg_char.h:54:1: error: expected identifier or '(' before '{' token
-      54 | {
-         | ^
->> drivers/rpmsg/rpmsg_char.h:52:19: warning: 'rpmsg_eptdev_create' used but never defined
-      52 | static inline int rpmsg_eptdev_create(struct rpmsg_device *rpdev, struct device *parent,
-         |                   ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/rpmsg_eptdev_create +52 drivers/rpmsg/rpmsg_char.h
-
-69265bc12b6567 Arnaud Pouliquen 2022-01-24  51  
-73c9f094eaac8b Dawei Li         2025-05-07 @52  static inline int rpmsg_eptdev_create(struct rpmsg_device *rpdev, struct device *parent,
-73c9f094eaac8b Dawei Li         2025-05-07  53  				      struct rpmsg_channel_info chinfo, int *pfd);
-73c9f094eaac8b Dawei Li         2025-05-07 @54  {
-73c9f094eaac8b Dawei Li         2025-05-07  55  	return -ENXIO;
-73c9f094eaac8b Dawei Li         2025-05-07  56  }
-73c9f094eaac8b Dawei Li         2025-05-07  57  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: pcf8523@68 (nxp,pcf8523): $nodename:0: 'pcf8523@68' does not match '^rtc(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf8523.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/bus@2100000/i2c@21a0000/tc358743@f: failed to match any schema with compatible: ['toshiba,tc358743']
+>> arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: mipi@21dc000 (fsl,imx6-mipi-csi2): 'port' does not match any of the regexes: '^port@[1-4]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/fsl,imx6-mipi-csi2.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/bus@2100000/vdoa@21e4000: failed to match any schema with compatible: ['fsl,imx6q-vdoa']
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/ipu@2400000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/ipu@2800000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
+   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /display-subsystem: failed to match any schema with compatible: ['fsl,imx-display-subsystem']
 
 -- 
 0-DAY CI Kernel Test Service
