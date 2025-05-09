@@ -1,58 +1,81 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0972749D3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 10:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69D228DF5C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 10:22:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746786123; cv=none; b=cBAn8bnZ+DIBFm+foYvjeOs7FfHqdFkJcEZRckKdpb9jPfGD+EMmgZXds6QHwvpheY7hLoAuN7Pq+Wt61Q8Jvu7A8FAO1bFhyemZOk5xwQljGnwgKUZ7mNMNEnDCbHM08tEEI3l4z+BoTU3/3XS0APr2wVcZdJpGpSTebno9Tgo=
+	t=1746786124; cv=none; b=pRj62JkkiYdZH9iRz+kLbUMRKSbMPIcmO+v8wlGKGwTygHjCcBw6UZpf0iIem+IR4JJZxXwEFoULCmytwYFDQDwfOt9FM93JaQNQ0oTqgNWUAKBA9fKWHImq80FgEkid7LBAKeAXAwRj/5y52wPCwwGSyqX/o12FhEvp2xvyVE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746786123; c=relaxed/simple;
-	bh=RQEUA6kgNlpmBS/vosDF1TaHTx6M70cki15q9bKO2zo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tS7bzzErpBJhyNXqn4lRD/+vyqKJ6r0cqV+YugCgzjk2/ZqY4HpwER3YZZ9L5T4A/ZaaT6VEo1mKuqhkAMPHYXLO5O+A3Pxp8uJjU4gKeZ4DQGoW9EoW8k/RGW5X2PDzNry+x12/T0463VM1bOiCWxPZFvMbuI3daUyXtad9rjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVa7qzV3; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1746786124; c=relaxed/simple;
+	bh=u0FdmcLCzWAN0OgJO+9XszGN9E14Xi6UpgFN0H7wVRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=poyepx22o2/8HG1pG5J8kB9WPSRUyVPV7hOwRsjEVFqSpvq4j2kmDMFHn5+rwr6hle8GBC/5CweRLcGjVXFUC+lWUjxgA7kLRbowFg+NmeY8+bXvF1yo5ce095Kkg8hpD3zSmZn0oxKlulHxV+wK78QU98/aL/jU1Y7xKjs4I7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I96lmddL; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVa7qzV3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I96lmddL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746786118; x=1778322118;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RQEUA6kgNlpmBS/vosDF1TaHTx6M70cki15q9bKO2zo=;
-  b=kVa7qzV3wIbOaIEumKj4c7+lX/J4538giZ539fRuRDpnVwcAjk+WQTAd
-   mHz0hi6izQlQiUDAFsRWJm2lN/MXHaaEs8ykf9u33QDkMTTA2OcGDfcI3
-   hsBqZ/DK6+hDYiqgNL00CzZcWUaClGCXvXQdGExhbOIjbJvqoRQRaobWq
-   W1GliEsX5MdVwagBTI09sbGv3ayusw6qk0BcP7H0VQv3sbIfxzwyi00Sr
-   mlNxoamPwOA6L1dQ1qgrjtNxN39pFbMr7DmKyh2sunj4RuxS07egR/vIi
-   RamI7+uaJz1lN7OJSq8W0UvidIXGZgh3HOGQxFvQGT1GkhnjubEhVu1vA
-   w==;
-X-CSE-ConnectionGUID: Nqye0jIZQZ+dGkxaRHJnGA==
-X-CSE-MsgGUID: vMY5EYzqQoO14L4auIIrAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48725835"
+  t=1746786122; x=1778322122;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u0FdmcLCzWAN0OgJO+9XszGN9E14Xi6UpgFN0H7wVRU=;
+  b=I96lmddLHHjTigIrp+UAUM87AaysE2GUZkC1om/ToCvNZpOWO26/cdjn
+   rVJQ+44zFGERSoV7C9Eke0c9RAEH5t7YBQr9fA6ZUQzMM/MOd1xNdbo6i
+   /rubwT3iIfcrZW/jgwtdziYVrb7tIS49YT6TTGwSx6k0j+LplaoXpVm4+
+   EikLbxoXflSjc6Rw8urLB9rNcT5w1rxi7pfTweZgbxRCiN5ZbK+hSI4Na
+   fHo4L2IXafbCqKHGZZZAkX0i2hUQok7Cd8j1XibsxKOn+o+HkmxMZhFxf
+   t2x0iH/il/EVpZovXN19G95l8XNF6BcLOsdAklLYbjIWJAHHxiat1+TdG
+   Q==;
+X-CSE-ConnectionGUID: JbSgFe4FS2Sf7S6Q72kUtg==
+X-CSE-MsgGUID: zSF0J2uMRnG7kF01j1VIvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48725840"
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="48725835"
+   d="scan'208";a="48725840"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 03:21:58 -0700
-X-CSE-ConnectionGUID: sDYLl4KgRh2sHsYHUWj69Q==
-X-CSE-MsgGUID: ChhwpsODRzSschq6+tCQFQ==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 03:22:02 -0700
+X-CSE-ConnectionGUID: DwlI8GfKRSeoSrKIj+e3mw==
+X-CSE-MsgGUID: LEpLa6rRSGu1qx1TTsl+hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="140631461"
+   d="scan'208";a="140631455"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 09 May 2025 03:21:57 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDKra-000Bvr-2g;
+	id 1uDKra-000Bvn-2Y;
 	Fri, 09 May 2025 10:21:54 +0000
-Date: Fri, 9 May 2025 18:21:12 +0800
+Date: Fri, 9 May 2025 18:21:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: zouxiaoh <xiaohong.zou@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, ranjan-dutta <ranjan.dutta@intel.com>
-Subject: [intel-lts:6.12/linux 4/4] include/asm-generic/div64.h:222:35:
- warning: comparison of distinct pointer types lacks a cast
-Message-ID: <202505091859.RgCrvBsC-lkp@intel.com>
+To: Pop Ioan Daniel <pop.ioan-daniel@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+	Dragos Bogdan <dragos.bogdan@analog.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Tobias Sperling <tobias.sperling@softing.com>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/4] iio: backend: update
+ iio_backend_oversampling_ratio_set
+Message-ID: <202505091838.a9sKlbJN-lkp@intel.com>
+References: <20250508123107.3797042-2-pop.ioan-daniel@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,87 +84,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250508123107.3797042-2-pop.ioan-daniel@analog.com>
 
-Hi zouxiaoh,
+Hi Pop,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.12/linux
-head:   a9d3931257c927df409a753fabaad47d34915467
-commit: ab102e852e0ceccbb73cb592162734206651897a [4/4] media: i2c: update lt6911uxe for upstream and bug fix
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250509/202505091859.RgCrvBsC-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091859.RgCrvBsC-lkp@intel.com/reproduce)
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.15-rc5 next-20250508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pop-Ioan-Daniel/iio-backend-update-iio_backend_oversampling_ratio_set/20250508-203339
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250508123107.3797042-2-pop.ioan-daniel%40analog.com
+patch subject: [PATCH v2 1/4] iio: backend: update iio_backend_oversampling_ratio_set
+config: nios2-randconfig-001-20250509 (https://download.01.org/0day-ci/archive/20250509/202505091838.a9sKlbJN-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091838.a9sKlbJN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505091859.RgCrvBsC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505091838.a9sKlbJN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from ./arch/sh/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/kernel.h:27,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/media/i2c/lt6911uxe.c:4:
-   drivers/media/i2c/lt6911uxe.c: In function 'get_pixel_rate':
->> include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                                   ^~
-   drivers/media/i2c/lt6911uxe.c:117:9: note: in expansion of macro 'do_div'
-     117 |         do_div(pixel_rate, lt6911uxe->cur_mode.lanes);
-         |         ^~~~~~
-   drivers/media/i2c/lt6911uxe.c: In function 'lt6911uxe_init_state':
-   drivers/media/i2c/lt6911uxe.c:392:27: warning: unused variable 'lt6911uxe' [-Wunused-variable]
-     392 |         struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-         |                           ^~~~~~~~~
+   drivers/iio/adc/ad4851.c: In function 'ad4851_set_oversampling_ratio':
+>> drivers/iio/adc/ad4851.c:324:60: warning: passing argument 2 of 'iio_backend_oversampling_ratio_set' makes integer from pointer without a cast [-Wint-conversion]
+     324 |         ret = iio_backend_oversampling_ratio_set(st->back, chan, osr);
+         |                                                            ^~~~
+         |                                                            |
+         |                                                            const struct iio_chan_spec *
+   In file included from drivers/iio/adc/ad4851.c:26:
+   include/linux/iio/backend.h:212:53: note: expected 'unsigned int' but argument is of type 'const struct iio_chan_spec *'
+     212 |                                        unsigned int chan,
+         |                                        ~~~~~~~~~~~~~^~~~
 
 
-vim +222 include/asm-generic/div64.h
+vim +/iio_backend_oversampling_ratio_set +324 drivers/iio/adc/ad4851.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
-^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
-461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
-461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
-461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  234  	} else if (likely(((n) >> 32) == 0)) {		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  238  		__rem = __div64_32(&(n), __base);	\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
-^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
-
-:::::: The code at line 222 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   295	
+   296	static int ad4851_set_oversampling_ratio(struct iio_dev *indio_dev,
+   297						 const struct iio_chan_spec *chan,
+   298						 unsigned int osr)
+   299	{
+   300		struct ad4851_state *st = iio_priv(indio_dev);
+   301		int val, ret;
+   302	
+   303		guard(mutex)(&st->lock);
+   304	
+   305		if (osr == 1) {
+   306			ret = regmap_clear_bits(st->regmap, AD4851_REG_OVERSAMPLE,
+   307						AD4851_OS_EN_MSK);
+   308			if (ret)
+   309				return ret;
+   310		} else {
+   311			val = ad4851_osr_to_regval(osr);
+   312			if (val < 0)
+   313				return -EINVAL;
+   314	
+   315			ret = regmap_update_bits(st->regmap, AD4851_REG_OVERSAMPLE,
+   316						 AD4851_OS_EN_MSK |
+   317						 AD4851_OS_RATIO_MSK,
+   318						 FIELD_PREP(AD4851_OS_EN_MSK, 1) |
+   319						 FIELD_PREP(AD4851_OS_RATIO_MSK, val));
+   320			if (ret)
+   321				return ret;
+   322		}
+   323	
+ > 324		ret = iio_backend_oversampling_ratio_set(st->back, chan, osr);
+   325		if (ret)
+   326			return ret;
+   327	
+   328		switch (st->info->resolution) {
+   329		case 20:
+   330			switch (osr) {
+   331			case 0:
+   332				return -EINVAL;
+   333			case 1:
+   334				val = 20;
+   335				break;
+   336			default:
+   337				val = 24;
+   338				break;
+   339			}
+   340			break;
+   341		case 16:
+   342			val = 16;
+   343			break;
+   344		default:
+   345			return -EINVAL;
+   346		}
+   347	
+   348		ret = iio_backend_data_size_set(st->back, val);
+   349		if (ret)
+   350			return ret;
+   351	
+   352		if (osr == 1 || st->info->resolution == 16) {
+   353			ret = regmap_clear_bits(st->regmap, AD4851_REG_PACKET,
+   354						AD4851_PACKET_FORMAT_MASK);
+   355			if (ret)
+   356				return ret;
+   357	
+   358			st->resolution_boost_enabled = false;
+   359		} else {
+   360			ret = regmap_update_bits(st->regmap, AD4851_REG_PACKET,
+   361						 AD4851_PACKET_FORMAT_MASK,
+   362						 FIELD_PREP(AD4851_PACKET_FORMAT_MASK, 1));
+   363			if (ret)
+   364				return ret;
+   365	
+   366			st->resolution_boost_enabled = true;
+   367		}
+   368	
+   369		if (st->osr != osr) {
+   370			ret = ad4851_scale_fill(indio_dev);
+   371			if (ret)
+   372				return ret;
+   373	
+   374			st->osr = osr;
+   375		}
+   376	
+   377		return 0;
+   378	}
+   379	
 
 -- 
 0-DAY CI Kernel Test Service
