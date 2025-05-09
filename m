@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FEC25D1FC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 21:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD60C2620EE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 22:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746827828; cv=none; b=uJHYZTecWprJggHKnb9QOnjsePWXE8gV1un4aQBFfdqrmn1IRLnGOQO8S+h1barGY4f4Vxwh7gZ0luWdw332DPU728sc0PfsmF+pnlQoDORFqa6KlviT32ntMZS8XxSLVAl65Hz7ZuRpzoE71AkzBP13izz2wV5DZ+B+JSlEdHU=
+	t=1746828429; cv=none; b=V4ZZyF/kx/LOcblh2ej9TqI4AzVh7I4xvrDRlT9yZjawN+YHBT1MNGlX0wwmxgk2RwrgDI8g7oe/7JTrPKMa5uFMNZmQHfa9rkvel8WhCPGhx1o+RrfCSGbB5G3Yq3wOUtkj5Z4GZ3Vx0QY6wMAo5SrG7OPyGic2SdkWF7ihb0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746827828; c=relaxed/simple;
-	bh=Dqr3cA/Y0UDTawo2SjEOBvAiC71pua89oTUvG8HuZ2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sPeJFJRYXEpqHg4P//fxvH9oB5EnNSjktmFw881hzMBIrPsX63sYqCCBD2qrhT0xM6XVYXNqLfWyF8TSSoNDHcniRoOBPSpiPmE/OhzjXaHdQnXOtMgZq2hGb9mVIbgxqd3vmLl3jprH04LSMFMK+2odEL6ywoWQSPEoEMGyBn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dl4sVdvx; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1746828429; c=relaxed/simple;
+	bh=qzolQ9zAXlix8Uv4YMfcm3JAjVfSoZCJhSBzEM48lDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JhWShD1WmZQySwUQmE55I3E4T2jpVh0LCVAqRzOv6AMl4vxQXyNlGHHrz24owBXjLSmhVI7f9tNjHgQqlp5y+4vRuhwjVXMhwz43pT5GRYSuyBQpUE3TNaVktyd8N3R/iWBO5QJ4g+T9+BYAXL00BeVDprjLX1cGJ9vIMu7aQ1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HT5LieFJ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dl4sVdvx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HT5LieFJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746827826; x=1778363826;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Dqr3cA/Y0UDTawo2SjEOBvAiC71pua89oTUvG8HuZ2g=;
-  b=dl4sVdvx386C6SIMOEzkrfv1uzWCsWIfg2Nbe0kQn3kCOZ0qn6eLG+Cq
-   /TWQ90nbYLiMmeRDw/wKfIJSHi6VqHel70lvozLXvy4Q/RiOSb8yCyrWm
-   4gRVFV2r3XtOJWSR3fw2+ngNKVaquCmTAwUtPednFs7UQJ1z4jJGO7wre
-   IgMWdb2X/aGFWSCCMOF85Ws3coXkp2HtFKLm9gUuHUV3cGkSA5OwbJuFY
-   dbVA92WvUhXJnby16cf80YPF9XVFc+nSqze5Ljldc6Y8DsRTgaazxiA/K
-   m+BUtI9x5U4S9RWdAUnNKugTmmKf93umU0+/4vS9ZTu4/H6XLPaOT48pz
+  t=1746828425; x=1778364425;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qzolQ9zAXlix8Uv4YMfcm3JAjVfSoZCJhSBzEM48lDI=;
+  b=HT5LieFJllkbYqumvbtYaySEUfjYPRzar7XFWaM59FSzOT2OiRaDlgwd
+   Bg3Q7U3qvRPkFiyRT2Ln6CbVx/r0w59DA8bGdrR/vb22TeRrQCdj4d0uX
+   OCWK1vDmojZMtNmdVff2zUPYbnAxUbunBiOPfAVKz5yi7pYIk0hyVKfjv
+   Sm95LWnY/Ezn3IsBju2UTuAw7UezNKwAuFcUsID0wl6fxcfTdOA6FwKyB
+   UC31AOfbY+npZZkd/KizNLB0tYUvjFfILmeL6rAB+SpD7RiQ33/wJZNLq
+   qYzjpibEG5c9cFhK1v1Ki+DuXKq8ZanDXGhonvY1WaSAe+hNClxd04VcY
    g==;
-X-CSE-ConnectionGUID: ilH4Ml0NRkSykt4OGam1ZQ==
-X-CSE-MsgGUID: j4IJ0ursR3qUDPalXNWB3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="60015489"
+X-CSE-ConnectionGUID: fV8lzIqhQeyxBCN5P450FA==
+X-CSE-MsgGUID: 4mD1kjXjTfSi5DjcccYUsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="59667270"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="60015489"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 14:57:05 -0700
-X-CSE-ConnectionGUID: P5Cy0sxYTByiQjmc/4wXgQ==
-X-CSE-MsgGUID: Hutvr3TTR1G7ihjTjv0NAw==
+   d="scan'208";a="59667270"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 15:07:05 -0700
+X-CSE-ConnectionGUID: FEOYnr/RQQeBO3ypicW14Q==
+X-CSE-MsgGUID: NxVB0DElS+KMK/v+55P5sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="137723051"
+   d="scan'208";a="137683755"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 May 2025 14:57:02 -0700
+  by orviesa008.jf.intel.com with ESMTP; 09 May 2025 15:07:03 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDViG-000CWT-14;
-	Fri, 09 May 2025 21:57:00 +0000
-Date: Sat, 10 May 2025 05:56:19 +0800
+	id 1uDVrx-000CWx-0U;
+	Fri, 09 May 2025 22:07:01 +0000
+Date: Sat, 10 May 2025 06:06:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:Juergen 4/7]
- arch/x86/include/asm/paravirt.h:182:2: error: invalid operands to binary
- expression ('struct paravirt_callee_save' and 'void *')
-Message-ID: <202505100516.9fRxqFcZ-lkp@intel.com>
+To: Vadym Tytan <titanv3585@gmail.com>,
+	Roderick Colenbrander <roderick.colenbrander@sony.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Vadym Tytan <titanv3585@gmail.com>
+Subject: Re: [PATCH] HID: playstation: DS4: Add BT poll interval adjustment
+Message-ID: <202505100535.vKH3zHW6-lkp@intel.com>
+References: <20250508214305.836406-1-titanv3585@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,150 +66,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250508214305.836406-1-titanv3585@gmail.com>
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git Juergen
-head:   0c14b6cca96e7b20677eff2b98447836d36dc8d5
-commit: 3a95572e70e9e1d562968e6075f8748cff1f1bbf [4/7] Juergen
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250510/202505100516.9fRxqFcZ-lkp@intel.com/config)
+Hi Vadym,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.15-rc5 next-20250509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadym-Tytan/HID-playstation-DS4-Add-BT-poll-interval-adjustment/20250509-054413
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20250508214305.836406-1-titanv3585%40gmail.com
+patch subject: [PATCH] HID: playstation: DS4: Add BT poll interval adjustment
+config: x86_64-randconfig-122-20250509 (https://download.01.org/0day-ci/archive/20250510/202505100535.vKH3zHW6-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100516.9fRxqFcZ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100535.vKH3zHW6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505100516.9fRxqFcZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505100535.vKH3zHW6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/hid-playstation.c:1773:25: sparse: sparse: symbol 'dev_attr_dualshock4_bt_poll_interval' was not declared. Should it be static?
 
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:59:
-   In file included from include/linux/irqflags.h:18:
-   In file included from arch/x86/include/asm/irqflags.h:102:
->> arch/x86/include/asm/paravirt.h:182:2: error: invalid operands to binary expression ('struct paravirt_callee_save' and 'void *')
-     182 |         PVOP_TEST_NULL(cpu.read_msr);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:366:45: note: expanded from macro 'PVOP_TEST_NULL'
-     366 | #define PVOP_TEST_NULL(op)      BUG_ON(pv_ops.op == NULL)
-         |                                 ~~~~~~~~~~~~~~~~~^~~~~~~~
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                    ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:59:
-   In file included from include/linux/irqflags.h:18:
-   In file included from arch/x86/include/asm/irqflags.h:102:
-   arch/x86/include/asm/paravirt.h:196:2: error: invalid operands to binary expression ('struct paravirt_callee_save' and 'void *')
-     196 |         PVOP_TEST_NULL(cpu.write_msr);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:366:45: note: expanded from macro 'PVOP_TEST_NULL'
-     366 | #define PVOP_TEST_NULL(op)      BUG_ON(pv_ops.op == NULL)
-         |                                 ~~~~~~~~~~~~~~~~~^~~~~~~~
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                    ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:59:
-   In file included from include/linux/irqflags.h:18:
-   In file included from arch/x86/include/asm/irqflags.h:102:
-   arch/x86/include/asm/paravirt.h:213:2: error: invalid operands to binary expression ('struct paravirt_callee_save' and 'void *')
-     213 |         PVOP_TEST_NULL(cpu.read_msr_safe);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:366:45: note: expanded from macro 'PVOP_TEST_NULL'
-     366 | #define PVOP_TEST_NULL(op)      BUG_ON(pv_ops.op == NULL)
-         |                                 ~~~~~~~~~~~~~~~~~^~~~~~~~
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                    ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:59:
-   In file included from include/linux/irqflags.h:18:
-   In file included from arch/x86/include/asm/irqflags.h:102:
-   arch/x86/include/asm/paravirt.h:232:2: error: invalid operands to binary expression ('struct paravirt_callee_save' and 'void *')
-     232 |         PVOP_TEST_NULL(cpu.write_msr_safe);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:366:45: note: expanded from macro 'PVOP_TEST_NULL'
-     366 | #define PVOP_TEST_NULL(op)      BUG_ON(pv_ops.op == NULL)
-         |                                 ~~~~~~~~~~~~~~~~~^~~~~~~~
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                    ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:34:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:34:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+vim +/dev_attr_dualshock4_bt_poll_interval +1773 drivers/hid/hid-playstation.c
 
-
-vim +182 arch/x86/include/asm/paravirt.h
-
-   177	
-   178	static __always_inline u64 paravirt_read_msr(u32 msr)
-   179	{
-   180		EAX_EDX_DECLARE_ARGS(val, low, high);
-   181	
- > 182		PVOP_TEST_NULL(cpu.read_msr);
-   183		asm volatile("1: "ALTERNATIVE_2(PARAVIRT_CALL,
-   184						"rdmsr", ALT_NOT_XEN,
-   185						ALT_CALL_INSTR, ALT_XENPV_CALL)
-   186			     "2:\n"
-   187			     _ASM_EXTABLE_TYPE(1b, 2b, EX_TYPE_RDMSR)
-   188			     : EAX_EDX_RET(val, low, high), ASM_CALL_CONSTRAINT
-   189			     : paravirt_ptr(cpu.read_msr), "c" (msr));
-   190	
-   191		return EAX_EDX_VAL(val, low, high);
-   192	}
-   193	
+  1772	
+> 1773	struct device_attribute dev_attr_dualshock4_bt_poll_interval = {
+  1774		.attr	= { .name = "bt_poll_interval", .mode = 0644 },
+  1775		.show	= dualshock4_show_poll_interval,
+  1776		.store	= dualshock4_store_poll_interval,
+  1777	};
+  1778	
 
 -- 
 0-DAY CI Kernel Test Service
