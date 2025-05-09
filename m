@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4B228030F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 09:27:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9E127F4F5;
+	Fri,  9 May 2025 09:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746782874; cv=none; b=gH+cTOc/6xOM+TgdI0gSRamFrDaDuywdC3WF4Urr3LGFGPlSBFF8DP77j/XOwSa2fIYpiHtBQB8fr4YfhAbFzOetZ5zo0tZljMsZ2JKcXeJkjhRWy1EUMdzPAdf0iq7IPaKiKcrgAyG1lUoRwnyvi5ycLWCfISoXobUisDVcq/g=
+	t=1746783159; cv=none; b=kE8/YlX2WvftwwA1DwrjyDOr/6nDyLgsOeesnOwcA1jzpUSF7yGSdQPRbsrXJRTZ2fCU1QrurUZKXakEJJhJRHcpNSXBFu2xDbi7iNreLjS/fc+nOtiANuRlZSHHhBUQF7hKuVgZTfADvhftJ8RpvF40OyQyY4LEPBdQp0o9Rzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746782874; c=relaxed/simple;
-	bh=1J8MT/W/0uZNPCfPqtdak0LydosPKFFHLJG8zEaKAHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCvVacB2A7rE9Zx9vRPZc9YdFCtUAVzwAQ7SXqMI7CLxPs31dX5ty4Jq2uU7p3vcNhQTslr+KVZZ5VxCXozNrodgO1xE6gcgzUz7C2/g+ZVINE5ZRhNvqXXi+eL34KuXLhqU0ZctghyN6I5oF9OTch40M23rgVib62FDpdV218o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jtCHjnrK; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1746783159; c=relaxed/simple;
+	bh=to0QosEpmvybTJC1yRuEMhfxmYNuDdgWm2IfnbeRBfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eoCDrETK2FOXiBwQP8eyXnY93LW/obQ4l//cKgejBCR4loO/Qaba+mmxYqpD/rYh4M9/oPzHg0jZ2qBAv90FeLhoJcRv+L3DkIuCMZNUw1fc1MIET6X/x9E7+vpPngdRm7el7rgOPo2FzuM6QhsUJ7RNlPYI5ziP7fT3kbJREfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDJuBhNk; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtCHjnrK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDJuBhNk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746782873; x=1778318873;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1J8MT/W/0uZNPCfPqtdak0LydosPKFFHLJG8zEaKAHY=;
-  b=jtCHjnrKD0dFZO2F4WJBdyK7T0g2VVxmTKDPPzENuPnr1Tf7Uie78LYA
-   uVBN9TA53Wn8LANZ7H6RXIoVTGbaOYqF8fSA3Wr4wDazDwdHDqiswixGz
-   vlq5T2pTg800cRGBOcilc5pIMViEVd+b0AaEBDsWtuzwxsTGPQge5Q36+
-   jF2QUh47xZxZ1kTNgtn25nOVZmAge1j1MPFUAXF24TenUbNGV93Ji5VHm
-   4Psh57ewczsDdZ8JiCtNQhOG8EmUDimqu2MIklXrC3WeFhpThzGJRE8oG
-   UKZ46h/WtCjCQ+g74VBE5jAJRXU3nH9MXpnbpbOiY/0O+buMsnjCzfj32
-   g==;
-X-CSE-ConnectionGUID: O/s+oRLuS+qmfkE7WU97bA==
-X-CSE-MsgGUID: H7IFN3ETTiS1O9uoZJplJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48760109"
+  t=1746783158; x=1778319158;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=to0QosEpmvybTJC1yRuEMhfxmYNuDdgWm2IfnbeRBfE=;
+  b=WDJuBhNkdAD+XGqgrPC74d67cRSy5oG0J5tVOx7AZxu6ce64JYyiAqPE
+   rijNU+IQymXNIKRpAhGyVIIBwNFNQV/FnBSRsUSm7RkZgK/Q5uF1HInWy
+   JoJG3BdA1jRXbnyxxPehNRFADDPWnw2/7dJqf42ELgey2EbJ4bKKd3Y7r
+   oykiHwfG5NpL5LiT16Re/i+OpAOvksbpdo/ik1+TRd7b45kIIuzdufY2c
+   K4eEr5YBrxclPnsNR8YyNWC8dkv6s8j6TjzF9YxtLMHaDtSK9z/J1XOBN
+   muv48wbosw94FXIYjWVEWrSYVVBdCpXhs7E/qepm7UVozTHSXGxMMWEAq
+   w==;
+X-CSE-ConnectionGUID: JSANPgfvQJiK+IX1vCX9qA==
+X-CSE-MsgGUID: kIqBTn85TrOS6GwdSBl4jw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48760833"
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="48760109"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 02:27:52 -0700
-X-CSE-ConnectionGUID: Zc/9gTJfSf+UO74vrpbDSA==
-X-CSE-MsgGUID: Y4IogcLHSRu65rTzJ2cz9g==
+   d="scan'208";a="48760833"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 02:32:33 -0700
+X-CSE-ConnectionGUID: qYhfYHRTRX68KnPrmQpElQ==
+X-CSE-MsgGUID: Z+LC82ZOSt+ptAI2k7+Piw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="136450591"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 May 2025 02:27:51 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="141779040"
+Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
+  by fmviesa004.fm.intel.com with ESMTP; 09 May 2025 02:32:31 -0700
+Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDK1E-000Brb-0m;
-	Fri, 09 May 2025 09:27:48 +0000
-Date: Fri, 9 May 2025 17:27:22 +0800
+	id 1uDK5k-0000VK-2u;
+	Fri, 09 May 2025 09:32:28 +0000
+Date: Fri, 9 May 2025 17:32:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shaun Brady <brady.1345@gmail.com>, netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ppwaskie@kernel.org, fw@strlen.de
-Subject: Re: [PATCH v2] netfilter: nf_tables: Implement jump limit for
- nft_table_validate
-Message-ID: <202505091702.01RMXhZx-lkp@intel.com>
-References: <20250506024900.1568391-1-brady.1345@gmail.com>
+To: "Yo-Jung (Leo) Lin" <leo.lin@canonical.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [linux-next:master 8072/9729] drivers/i2c/busses/i2c-i801.c:1180:49:
+ error: no member named 'mux_pdev' in 'struct i801_priv'
+Message-ID: <202505091734.6Y3SNpzo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +63,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250506024900.1568391-1-brady.1345@gmail.com>
 
-Hi Shaun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on netfilter-nf/main]
-[also build test ERROR on linus/master v6.15-rc5 next-20250508]
-[cannot apply to nf-next/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shaun-Brady/netfilter-nf_tables-Implement-jump-limit-for-nft_table_validate/20250506-150258
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20250506024900.1568391-1-brady.1345%40gmail.com
-patch subject: [PATCH v2] netfilter: nf_tables: Implement jump limit for nft_table_validate
-config: arm-randconfig-001-20250509 (https://download.01.org/0day-ci/archive/20250509/202505091702.01RMXhZx-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091702.01RMXhZx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f48887a98b78880b7711aca311fbbbcaad6c4e3b
+commit: 27f4a0d6938a5cd3c30701f12c7454048800dbba [8072/9729] i2c: i801: don't instantiate spd5118 under SPD Write Disable
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250509/202505091734.6Y3SNpzo-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091734.6Y3SNpzo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505091702.01RMXhZx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505091734.6Y3SNpzo-lkp@intel.com/
+
+Note: the linux-next/master HEAD f48887a98b78880b7711aca311fbbbcaad6c4e3b builds fine.
+      It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
-   net/netfilter/nf_tables_api.c: In function 'nft_chain_validate':
->> net/netfilter/nf_tables_api.c:4022:29: error: 'struct netns_nf' has no member named 'nf_max_table_jumps_netns'
-       jump_check = ctx->net->nf.nf_max_table_jumps_netns;
-                                ^
+>> drivers/i2c/busses/i2c-i801.c:1180:49: error: no member named 'mux_pdev' in 'struct i801_priv'
+    1180 |         if (!IS_ENABLED(CONFIG_I2C_I801_MUX) || !priv->mux_pdev) {
+         |                                                  ~~~~  ^
+   1 error generated.
 
 
-vim +4022 net/netfilter/nf_tables_api.c
+vim +1180 drivers/i2c/busses/i2c-i801.c
 
-  4003	
-  4004	/** nft_chain_validate - loop detection and hook validation
-  4005	 *
-  4006	 * @ctx: context containing call depth and base chain
-  4007	 * @chain: chain to validate
-  4008	 *
-  4009	 * Walk through the rules of the given chain and chase all jumps/gotos
-  4010	 * and set lookups until either the jump limit is hit or all reachable
-  4011	 * chains have been validated.
-  4012	 */
-  4013	int nft_chain_validate(const struct nft_ctx *ctx, const struct nft_chain *chain)
-  4014	{
-  4015		struct nft_expr *expr, *last;
-  4016		struct nft_rule *rule;
-  4017		int err;
-  4018		u32 jump_check = nf_max_table_jumps_netns;
-  4019	
-  4020		if (IS_ENABLED(CONFIG_SYSCTL)) {
-  4021			if (!net_eq(ctx->net, &init_net))
-> 4022				jump_check = ctx->net->nf.nf_max_table_jumps_netns;
-  4023		}
-  4024	
-  4025		if (ctx->level == NFT_JUMP_STACK_SIZE ||
-  4026		    (!net_eq(ctx->net, &init_net) &&
-  4027		    ctx->total_jump_count >= jump_check))
-  4028			return -EMLINK;
-  4029	
-  4030		list_for_each_entry(rule, &chain->rules, list) {
-  4031			if (fatal_signal_pending(current))
-  4032				return -EINTR;
-  4033	
-  4034			if (!nft_is_active_next(ctx->net, rule))
-  4035				continue;
-  4036	
-  4037			nft_rule_for_each_expr(expr, last, rule) {
-  4038				if (!expr->ops->validate)
-  4039					continue;
-  4040	
-  4041				/* This may call nft_chain_validate() recursively,
-  4042				 * callers that do so must increment ctx->level.
-  4043				 */
-  4044				err = expr->ops->validate(ctx, expr);
-  4045				if (err < 0)
-  4046					return err;
-  4047			}
-  4048		}
-  4049	
-  4050		return 0;
-  4051	}
-  4052	EXPORT_SYMBOL_GPL(nft_chain_validate);
-  4053	
+  1159	
+  1160	/* Register optional targets */
+  1161	static void i801_probe_optional_targets(struct i801_priv *priv)
+  1162	{
+  1163		/* Only register targets on main SMBus channel */
+  1164		if (priv->features & FEATURE_IDF)
+  1165			return;
+  1166	
+  1167		if (apanel_addr) {
+  1168			struct i2c_board_info info = {
+  1169				.addr = apanel_addr,
+  1170				.type = "fujitsu_apanel",
+  1171			};
+  1172	
+  1173			i2c_new_client_device(&priv->adapter, &info);
+  1174		}
+  1175	
+  1176		if (dmi_name_in_vendors("FUJITSU"))
+  1177			dmi_walk(dmi_check_onboard_devices, &priv->adapter);
+  1178	
+  1179		/* Instantiate SPD EEPROMs unless the SMBus is multiplexed */
+> 1180		if (!IS_ENABLED(CONFIG_I2C_I801_MUX) || !priv->mux_pdev) {
+  1181			if (priv->original_hstcfg & SMBHSTCFG_SPD_WD)
+  1182				i2c_register_spd_write_disable(&priv->adapter);
+  1183			else
+  1184				i2c_register_spd_write_enable(&priv->adapter);
+  1185		}
+  1186	}
+  1187	#else
+  1188	static void __init input_apanel_init(void) {}
+  1189	static void i801_probe_optional_targets(struct i801_priv *priv) {}
+  1190	#endif	/* CONFIG_X86 && CONFIG_DMI */
+  1191	
 
 -- 
 0-DAY CI Kernel Test Service
