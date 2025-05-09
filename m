@@ -1,215 +1,134 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010058.outbound.protection.outlook.com [52.101.228.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1350274FD6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 08:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746781062; cv=fail; b=k0dLh0JDK0xBCnlpSJVpGSdad/4aefULpifSVGsmx/ty4B3ReJesUJ7P0QKXhbugO3AL6mWfcX+h7ik3/8fAR/F/zEXl3pS112JB/HvjLgTazkmSAMjhEKA64yV5KdWDfRZEwhS/oSzq019/NE6bQ+p9URZgjeIHB4JLIvwpmVs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746781062; c=relaxed/simple;
-	bh=AOYJiKT5fbKbTty5qxhinAQijCci7boD1EE9bkPOwLU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=HOUzec8JNbwXjoDs0QshMs5pCkAJcYrPN0N7uunHlDNYdF11/86q354Bn/AnKbccJqZlmemSE4M2i8XZI1muI5HjwXXaiPpC0scbVpUkhoAXocIbKi5/WlqBimR8eV/vqWbRyBYcUSZQvkVqwmXbfr1UuHtd1/04/3zmIe2qojs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=f/BVICso; arc=fail smtp.client-ip=52.101.228.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA80714F98
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 09:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746782024; cv=none; b=RfEQIP4lZIobgo7uef4tg2a4Z7cgJ6ofIBCq+i2xlHJq6/oXiBb9iCCeawUx6ifK2VHAxjaqkZ8DuxEBHXwtZkpROLF9uD7E6UEQyyRIAIJHr7843BR8yAXoasCVjB1MkPLVfQ5tT5cC2ZPUCI8xsT87+4OcQ68QOSsGIP63lcg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746782024; c=relaxed/simple;
+	bh=RSC0Sgyw8HT/RCfrByLtIWId5ZOUmzu8FkI+S3Ou5IU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jdDzqFCWdKHFvDonU2Yw0wGXU8DnvJJDucQazj6bypXQy0HeC2BSNL9jxEDjKJGcfMOND0O0jIQ66DZQrHc1JkgxZJneJpGRMGKFHFsoiDqf+5dxgF6uYLkUEkON4zTyyKvEZXCG+wE12jQM/60k4RreQHeNf5XVKF+ncs2Zf8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YkpSoHMc; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="f/BVICso"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=E9YL+aAcLSRNn49NMewHvb3FI3FTDdyDohAAYXboBu6Ufk1BThRP/H5DXgUwZdgSiMgANfXdNQqD6Rwv1jsjm7UsHQnuX0S1QVpL7HzqFGYH/uywr3YZV+gkkuicZX45ZCRChg52t8fpRBdo1rU9klmUDj62hU/b5lVM8PkDzqZKs/rHMt9xGOLhA5mX+BadRpsyRF71rX0iC3M56W3S5pDL1i1mT/Lb86/UjGU0ozpvHMaf5T/xY7Cr62A3wrTuYkXVsBgdP+MhHIHCkmms7TULEtukwn7KrrpKPiCOpiTl2lc9tc9oa0MU5/iK3jSoHUDKehdULFzoHLridJVhgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BRVc0MeVUw+JEXo7aCVFwsT4UKCAf1w05Na4gV7BdUc=;
- b=SKaruJtjBiSeZts7Pu+xEFQpIEKsAiLFmncjKFhRdAEYviEApaRqOxEE/nzFVtm/AAWACVKJPKgkYTQ4Q3Z6Msd/AizzqMojrGTOmkdPR60CY7lGdsh30Azx0r4Ysv54YJgZUpIATN+stFMHxB1aHWRqttWPxzVqmc6dCRudcVjC+Kfk9PH6PzhO7u8Ra65ClASei2x0CoKF8c942/c0O34GMLJ16+loOSwFxW2nLNEKKkDwQ59q9bAZqNfJq/w/aJRoG8jfl46hUyyMKsJF+2+GqIgbmJRHPCROer15aXP0z0NedoLMoB0ZPAEclWGnJcY8mvwE5jKYhNQ8P0Jy3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BRVc0MeVUw+JEXo7aCVFwsT4UKCAf1w05Na4gV7BdUc=;
- b=f/BVICsowQq9pCyhovPpmc7Df4aPLJf/V6V/CjD9SC7TeA/bdAnjyUHEEWVUfOulSOqhB/3W8OVgP0AMK19940icGXvKIIAgHdPFQfpukwbk5/19za5API11DA2FJaRyqt3+VAlQxdy446RYj/l6i2wkGbMg6fPiZiHqHW1FrrU=
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
- by TYYPR01MB12676.jpnprd01.prod.outlook.com (2603:1096:405:15f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.23; Fri, 9 May
- 2025 08:57:35 +0000
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479%4]) with mapi id 15.20.8722.020; Fri, 9 May 2025
- 08:57:32 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: kernel test robot <lkp@intel.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Prabhakar Mahadev
- Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
-Thread-Topic: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
-Thread-Index: AQHbwEdkfEmibOiFYEqFDXg0xw3l6bPJ/CIAgAADDdA=
-Date: Fri, 9 May 2025 08:57:32 +0000
-Message-ID:
- <TYCPR01MB113323FCFB291EFA56EBA09E0868AA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-References: <20250508183109.137721-2-biju.das.jz@bp.renesas.com>
- <202505091649.PuAhqb0T-lkp@intel.com>
-In-Reply-To: <202505091649.PuAhqb0T-lkp@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYYPR01MB12676:EE_
-x-ms-office365-filtering-correlation-id: 8f7d9e4e-aa2f-4f49-5266-08dd8ed788e5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|7053199007|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?Asqg1koSzmQW2MfDn1to8YFzikx53RaIt5QWLXzL18PU3iugU4fyBpaKpVQv?=
- =?us-ascii?Q?Y9HRAL2zzo0NclralL3eFWpinHlqQk8cWHNTj/tnUpZlCdYPI2sM8ExJZllQ?=
- =?us-ascii?Q?+ZYOTfHyTdYQP6gfAI9i3mG56sw+bzitLc7tgCRbRiuTosJ6DmIfOUU1Unmy?=
- =?us-ascii?Q?L27G2zVjZif6FLaSPePfcI0kN/FZen3d/m9G2jrNnhyLnRBUAZNhSP5bsRvr?=
- =?us-ascii?Q?YdVGkB20HJSWUmjECVhlNNGPrltxB5Ek/ipK17ChdmoWymwhhgpWmEaTrAQo?=
- =?us-ascii?Q?zWQt2pnmIedS8ygH6KhYNnSUZJKIg1bvQtkTzlu5HahMoxO1faOPhyT0SAqs?=
- =?us-ascii?Q?IK78tY6iczCIKdVJl14rx9JxJ8Z4Aq2hnTmB0dJg09NLjCtI+czOGaNzrKpv?=
- =?us-ascii?Q?TuzTc+OvmwTYtBn4IrKyAQRZlwfTHMMCckQwBJwyqWIB6o3kA8h121Gch1O/?=
- =?us-ascii?Q?MjrRWcGtXVkyVzHmsoUp3HSPbxQG/Rw/EDivH+8XqSZWy7TKEPiUt9ASkFzp?=
- =?us-ascii?Q?V3uq0rmC7BdIVVp10izgBCBNyY/dDQ5OjcyPRbG777c0kd8TXPfFeyrvLXPv?=
- =?us-ascii?Q?XHZ/H9eVaVu90Fx/0fH1meeXGIegaN/mmBYt2/mHOefdOMhUhiJKAtZocPDr?=
- =?us-ascii?Q?zuI7Kw4U9jhIKzLj8pQSR/6RTn6I6gvPYWs/9FQZ/9V475i3hIub/OfHtRL1?=
- =?us-ascii?Q?4F50zlU1ABOPxKlk2Oxj8CCH7ASV1Tn+93xshanjsa9HtbDbr73csP1cIzBi?=
- =?us-ascii?Q?n18maUqBn5xQmooFDCec7WNtjCNF1boGbDuIrZdoSMPQkUkYP2UIPWclQhqK?=
- =?us-ascii?Q?UoFzEjrhoWXOYTj2RgpBNhFbmLehphFv7swvLe/STNnNQZWK80B2aJFS1LID?=
- =?us-ascii?Q?x5/36CD3Sp7fWuecYdG9O2xKObkyyC13qVuRnn3RdePEADa8HGh+WTR9vODf?=
- =?us-ascii?Q?TpUFRcmujXidHUP20LgdhNo70DGicudhRmRB1liQl04vkV8HnV5L42Cq4Avo?=
- =?us-ascii?Q?wDbKohNJSbH5D34rh71SjcIANZrLgYkPJuKbcvMHgYcKrQGxQ2/HFIPJXs8Z?=
- =?us-ascii?Q?1ZWZVbig/tC6JP7ZBeWPUjaNxhluTcHooUY2oy1/LsPL4xwfWygCE1/lYJHL?=
- =?us-ascii?Q?KpVTw0tlAZh1xF/XTOaRQUxMPlgSrGz/KECnEkO/sOHkzodwQSFkN84YKy/J?=
- =?us-ascii?Q?CxmJ73JjICxwlFt1tww5CfE0CEUuAo8owmhkBQ3XY7UXHHwNlbut42XSniSJ?=
- =?us-ascii?Q?fn0bEZpbkkY4+xoLq3GyM6UDUiZCb2Z5dd8iAAENAQlpKUVKdK9J3Z6DJMMt?=
- =?us-ascii?Q?d+7+hpMQrPVItWOQhAIytH0dmKroeHzMXse2K5bOHBDnhEX0lp5yfERFIDas?=
- =?us-ascii?Q?Bs2bLFkbTUfYaIrgBxoNsx9kikdlVJcTgxVvSIZE1iHsSsxdWTrApxIfw8eW?=
- =?us-ascii?Q?Lf1NHP3N8hI=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(7053199007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?jpd+WDohM2QBD+kDldXvJoOuSKZg/7Ro246ShIXY92UHwtufYDR+QAywmKO7?=
- =?us-ascii?Q?6jGvFOkNRuFrC8z81wvw3wqRIRBI9DDAU1nmnRbNCBo97HCf8Kd1ZLvhh4Gr?=
- =?us-ascii?Q?xFGdsKRyQ0hy8JIY3EzMnTEl50aqovRjkzjkAwTzo3K4/1iKNWuTY3zz5apR?=
- =?us-ascii?Q?4hz9SxbL1htppZY8zjiR9Kv2BMtGgyMMf9nMx462T7MYMlrLosQIvyFdADpa?=
- =?us-ascii?Q?PlWanTR5tZ3EsCX2wqFV/zjkuPVjd7o1d5UV3j5Tbb7kJ1cD6jE2XXi/Bxqj?=
- =?us-ascii?Q?qe6l5Pb/xHKM0v1AbtQdv/vohMfn+d8dwNHBlDxxlCxwuJQjS1noxd9TLtf9?=
- =?us-ascii?Q?0ZatTDzSFQ5hzUt6S9mLKpA7Ze0bx17B2kDP7KM0324lMjH8gxZHYkqXD5lH?=
- =?us-ascii?Q?CftNpKwZKtpa4MiQb/UynVFrA2gk7HxcMCu89jbVseEyuWP8U17HpxmkegY+?=
- =?us-ascii?Q?lmVrWHkxODEe/AJKRgb46AcTX/Zj3kUC/5shxR+4bnoauRDR5yJnBIzAI4EJ?=
- =?us-ascii?Q?8eD3hk3S0IT98Q3dBe9zH7tcqC+x4YUs47w0Q8ARooF8fk4JlI+APUzeru/W?=
- =?us-ascii?Q?8fvwt8NrITcaLuVO0QjuE1OuAFAz8NTcAEYVYBr94UEXiS71f7BhUX8Qs2ne?=
- =?us-ascii?Q?eJs7V9STBc1cbHNUOHlOvBW+vaoEzY5qkC0ElK4WZc1JGbKqsJO4wz3enV3F?=
- =?us-ascii?Q?FKPfNeI1m7uTRgZnS+n0xfG2VPyN4UqXesA14KO6rMSG5texV9Jt2XsbWIn3?=
- =?us-ascii?Q?0TTkMrSn+s1ax0HWq6szr6il96fTpHYWUz71Zuiuz6Vp3BEz5eG94ZMx6TS3?=
- =?us-ascii?Q?BNZbqxsVxfs3NIbLJ0Gm+2rIb80VFpNBwn1nNOJkBhTDnnjxYQRLa30JYgAu?=
- =?us-ascii?Q?fU2IeyNirG2iHpzycJuZ86GAW+K6vQ9IAvEdUHj/9R+x8yuEZG4Iv0VajXhB?=
- =?us-ascii?Q?HEsG+KYl8bYzMTHI+b2z2ZWWZ/SZi13SwGiOGh6CcJe2L9/T+OtXn5KvO9Gi?=
- =?us-ascii?Q?GtAliVqM6EbGqNhYqnMLCqhQwNnL0BbaPi4wgVtvKOmVKXAvDVpGq3ZUZ7GU?=
- =?us-ascii?Q?phHYj2cJuUaN6zZUJx+nGJfTQHs4pn2izIiGSdKE3Npfsjg9W1Orb3mCtBip?=
- =?us-ascii?Q?LRSes85zHr52gzmqmb2Rjo6DEAGNNz11dfeRHDzBdoEmm/IH+bqdIZxzHipg?=
- =?us-ascii?Q?EAJHmNKgZRqQh+4Ta/Ly0Hir8CeQ2KD+WmaKIZDk0MBUoUsPnXUMWt/ZXpzp?=
- =?us-ascii?Q?JRPM13yiuVJ23Ft3aBcM891+86Z1NdVun7vCXGdie3PqrAny8unldyTQDdcb?=
- =?us-ascii?Q?DJvxNtCvi0e/X33JD/7FfyZp5fwnurQtYX87Obwa5/CSFBCLezuEYRVsyEAF?=
- =?us-ascii?Q?Ao+pMOfEKHtpjA9or68t/YaT0BlmfE2zy+eRrXHusVV5yBQ5ld6B3MoM1iV9?=
- =?us-ascii?Q?GnVR5GJbjUo1IYQn4P6hm7qilIhyVpX5xrJudSbORShP0HLA8UhOCkzBo3ZP?=
- =?us-ascii?Q?07FwdnoIzVyBXwIz/tNgcipxdO2v0EJ8RCU/bnz/lRdmeL0NGwPLn5KflzND?=
- =?us-ascii?Q?mp9H5REyjp4AVo6+meKmo0R762ymzQaREWPA5E8maW1smEwWigtdk8d0ojyz?=
- =?us-ascii?Q?mQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YkpSoHMc"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a1f5d2d91eso528575f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 May 2025 02:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746782021; x=1747386821; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5ipHg38+rk32+E6lqZLQugC6GWcXHbQnwtyP7WMR9wk=;
+        b=YkpSoHMcDqFfxmgh2WIm8eKVYBX8xde8EdQbX4VKbNFf0EjnD5sEwXhBP5JuqJPf8k
+         VSk3S2v7zdNYHYjfZAHuwVUSjmMCpEME26khYbPhuRozdz1XTeObibpWfir9oOCGPNsu
+         TtxVPD+z/aj/Sl6u7JTILxnZsynuJNTtFbYdNPgQhSKfbBKUektKOf3GZ8ZHDM3+ZpD8
+         uDHV317wHqahnh4aSel0ldw+yhT8/jDOQ9WpucGZzMrKnKKoWdDPzxAaqlFIRz804U9c
+         afb1HfLRCKLamoVSA+3gh/yQbrSQePXXgaL8DijIkZVZT+TZHvQ2YuoPIW4Tx5Orc8ph
+         w49Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746782021; x=1747386821;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ipHg38+rk32+E6lqZLQugC6GWcXHbQnwtyP7WMR9wk=;
+        b=NWm6+BKtKnzgDiCb5etoFQeNqEn9gf1IAqqiPnFAia4CSQ3Uag2kySE7U+1AKfUSIj
+         EVBNVtqFes4srp6WPMfaZL3QM/RhJIgasFXanVv35K/+/dxdZD0kYxh3uOPSmvphNBMR
+         PW5qBZaLH1PwsbtrMtKHGDJIMaFTtkfhEmf3gQBTrq7TiZWXBiHpNXAcdeJUVqStQ3Dx
+         dmY8Dj9R6p0X7Ksgm8bwe6TeMufhkWm2l6caqkDsi8+xe+u1t/uKdPGsqoQb1h6OLbcE
+         qgIGVxMQAFGrnMfqJ7/J06gzhPOpug6Gp1OYOlHlnrEWhuW4C9UpVtpqK8LtEkTCCT9G
+         oSrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUo87zCZuWOXKSrWsq4V+N0Edck9wBR1mFFVA92J1kwIIYTS+oWDNFwLjKp++WpRxOz6xY21UqDIa1kTBzB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7hlZjF/ubkFbP0IrhEUlQtUe6vELFwiZuowLXqvMY7wT1MYn4
+	mbViD6T1goCWjewAt/3nxkAnUA/7DlRm16ApH21svqQi1LGzvRdWyrvBdMNyPnM=
+X-Gm-Gg: ASbGncvoro8/yK3xyu59a7aqqub6zk5Ck7AYtj7i/o2fNBuhxEGI/K1XvpO9ZGNABAT
+	HcDS9DNcAqrti96Ak5jgODRABlM46MmRzDz/PIoIEEj7FCLHS4jdhKI4QviEXOPPiLJXNBUZ7Zt
+	socvYN5zYYekEK4OclvHOty2Kwjk8EFhbZY1jnLQ4hxX80Zz8yuW+eWwIcgauPtCrBSa0ShtGEF
+	TzO78ugm/FVYfWPQ56u7DtwcTBpHOMyQUc9bbPzJG7thjqrMw1jVuiiRenx0ZplwDpYmqjCSZi2
+	QnryTGrU1YbKydI/SO5V6DOUxFH6JyBcNeJaF4NTWbyRCQ==
+X-Google-Smtp-Source: AGHT+IEmqGQ0WFYRqxg6Zi5BhZ8msqNSALFUkIH4riLC21Mc+W5RHQBxiyuvRG/VuegHsphKn00xZQ==
+X-Received: by 2002:a05:6000:18ae:b0:3a1:fac3:158c with SMTP id ffacd0b85a97d-3a1fac31619mr664746f8f.59.1746782020857;
+        Fri, 09 May 2025 02:13:40 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a1f5a4c7b2sm2642318f8f.93.2025.05.09.02.13.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 May 2025 02:13:40 -0700 (PDT)
+Date: Fri, 9 May 2025 12:13:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dillon Varone <dillon.varone@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Alvin Lee <alvin.lee2@amd.com>,
+	Zaeem Mohamed <zaeem.mohamed@amd.com>
+Subject: [agd5f:drm-next 379/514]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:336
+ dc_stream_program_cursor_attributes() error: we previously assumed 'stream'
+ could be null (see line 334)
+Message-ID: <202505091637.9zSZ2WDD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f7d9e4e-aa2f-4f49-5266-08dd8ed788e5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2025 08:57:32.2107
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: J3zKi6OM4565ceKhBuDQmbpVHLk5s7QrzXj7Eha+Okl2Abgw+NkiytLAAAh8L5GGM3gT//09owZcu2ibkikjPodgQoWAQHfhX7ot73FE17s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12676
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi kernel test robot,
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   afc6053d4c4b0a6be500b9e643aa17221e93a57b
+commit: 19e743f0fb730e4dac43e37bb71d1ebdb622b3cf [379/514] drm/amd/display: Refactor SubVP cursor limiting logic
+config: x86_64-randconfig-161-20250430 (https://download.01.org/0day-ci/archive/20250509/202505091637.9zSZ2WDD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-> -----Original Message-----
-> From: kernel test robot <lkp@intel.com>
-> Sent: 09 May 2025 09:43
-> To: Biju Das <biju.das.jz@bp.renesas.com>; Geert Uytterhoeven <geert+rene=
-sas@glider.be>; Magnus Damm
-> <magnus.damm@gmail.com>; Rob Herring <robh@kernel.org>; Krzysztof Kozlows=
-ki <krzk@kernel.org>; Conor
-> Dooley <conor+dt@kernel.org>
-> Cc: oe-kbuild-all@lists.linux.dev; Biju Das <biju.das.jz@bp.renesas.com>;=
- linux-renesas-
-> soc@vger.kernel.org; devicetree@vger.kernel.org; Prabhakar Mahadev Lad <p=
-rabhakar.mahadev-
-> lad.rj@bp.renesas.com>
-> Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
->=20
-> Hi Biju,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on geert-renesas-devel/next] [also build test ERRO=
-R on linus/master v6.15-rc5
-> next-20250508] [If your patch is applied to the wrong git tree, kindly dr=
-op us a note.
-> And when submitting patch, we suggest to use '--base' as documented in ht=
-tps://git-scm.com/docs/git-
-> format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/arm64-dts=
--renesas-r9a09g047-Add-XSPI-
-> node/20250509-023503
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dev=
-el.git next
-> patch link:    https://lore.kernel.org/r/20250508183109.137721-2-biju.das=
-.jz%40bp.renesas.com
-> patch subject: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
-> config: arm64-randconfig-001-20250509 (https://download.01.org/0day-
-> ci/archive/20250509/202505091649.PuAhqb0T-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 7.5.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-
-> ci/archive/20250509/202505091649.PuAhqb0T-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of the same
-> patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> | https://lore.kernel.org/oe-kbuild-all/202505091649.PuAhqb0T-lkp@intel.
-> | com/
->=20
-> All errors (new ones prefixed by >>):
->=20
-> >> Error: arch/arm64/boot/dts/renesas/r9a09g047.dtsi:293.14-15 syntax
-> >> error
->    FATAL ERROR: Unable to parse input tree
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505091637.9zSZ2WDD-lkp@intel.com/
 
-This patch has dependency on [1]
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:336 dc_stream_program_cursor_attributes() error: we previously assumed 'stream' could be null (see line 334)
 
-[1] https://lore.kernel.org/all/CAMuHMdWhTirA+WYxNxHwAgaH6RDfWbhKaji22T_hhi=
-JYUkFjKw@mail.gmail.com/
+vim +/stream +336 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c
 
-Cheers,
-Biju
+f63f86b5affcc2a Harry Wentland      2024-03-15  327  bool dc_stream_program_cursor_attributes(
+f63f86b5affcc2a Harry Wentland      2024-03-15  328  	struct dc_stream_state *stream,
+f63f86b5affcc2a Harry Wentland      2024-03-15  329  	const struct dc_cursor_attributes *attributes)
+f63f86b5affcc2a Harry Wentland      2024-03-15  330  {
+f63f86b5affcc2a Harry Wentland      2024-03-15  331  	struct dc  *dc;
+f63f86b5affcc2a Harry Wentland      2024-03-15  332  	bool reset_idle_optimizations = false;
+f63f86b5affcc2a Harry Wentland      2024-03-15  333  
+f63f86b5affcc2a Harry Wentland      2024-03-15 @334  	dc = stream ? stream->ctx->dc : NULL;
+                                                             ^^^^^^^^
+If stream is NULL
+
+f63f86b5affcc2a Harry Wentland      2024-03-15  335  
+f63f86b5affcc2a Harry Wentland      2024-03-15 @336  	if (dc_stream_set_cursor_attributes(stream, attributes)) {
+                                                                                            ^^^^^^
+Then this will crash.
+
+8457bddc266c754 Charlene Liu        2024-01-11  337  		dc_z10_restore(dc);
+4d55b0dd1cdd853 Bhawanpreet Lakha   2020-05-21  338  		/* disable idle optimizations while updating cursor */
+4d55b0dd1cdd853 Bhawanpreet Lakha   2020-05-21  339  		if (dc->idle_optimizations_allowed) {
+4b675aad9695070 Joshua Aberback     2020-08-31  340  			dc_allow_idle_optimizations(dc, false);
+4d55b0dd1cdd853 Bhawanpreet Lakha   2020-05-21  341  			reset_idle_optimizations = true;
+4d55b0dd1cdd853 Bhawanpreet Lakha   2020-05-21  342  		}
+4d55b0dd1cdd853 Bhawanpreet Lakha   2020-05-21  343  
+66eba12a5482b79 Harry Wentland      2024-03-15  344  		program_cursor_attributes(dc, stream);
+4fd771ea441ed98 Roy Chan            2021-07-19  345  
+4fd771ea441ed98 Roy Chan            2021-07-19  346  		/* re-enable idle optimizations if necessary */
+27f03bc680ef7e0 Nicholas Kazlauskas 2024-02-21  347  		if (reset_idle_optimizations && !dc->debug.disable_dmub_reallow_idle)
+4fd771ea441ed98 Roy Chan            2021-07-19  348  			dc_allow_idle_optimizations(dc, true);
+4fd771ea441ed98 Roy Chan            2021-07-19  349  
+4fd771ea441ed98 Roy Chan            2021-07-19  350  		return true;
+4fd771ea441ed98 Roy Chan            2021-07-19  351  	}
+4fd771ea441ed98 Roy Chan            2021-07-19  352  
+f63f86b5affcc2a Harry Wentland      2024-03-15  353  	return false;
+f63f86b5affcc2a Harry Wentland      2024-03-15  354  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
