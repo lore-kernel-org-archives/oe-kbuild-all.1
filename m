@@ -1,80 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40EF28FFD7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 11:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738E628FAB0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 11:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746791173; cv=none; b=JV/pusjSo2aodJMDCY0ygiJoVX+Rt1ivU4Q/kirmQ79RIPuN8GNE8RxdtXE0rlIc07DBHqhwZEaU7kP2W9jrIHQr8kLYJdx49cOg1GxgChND6ETm0CyyxP+xNg212b8eCYF6vB+rkdP3ONrJsJQf3mdWkUIzN0P4EWekurCyjlU=
+	t=1746791835; cv=none; b=LJISCwH3ymVzmzJtGlwENyqGL0HxsNXo3P0ZeMdL70G/ocDquCiWHLX+iQ6Na8r/oowMbsEqxPZz7yiRT+qExfwLXC16X2OhyZmrMlphEYqf8VYTFmRlgojh8h9oIf3jvjRsY8O11vQ2t2U0AdlkHBzzZsvuzFC+baaOJDVX6H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746791173; c=relaxed/simple;
-	bh=SQkxBRiOnv36QIXTxodgUMy2H7LsOL+7k7SNq2aq4AA=;
+	s=arc-20240116; t=1746791835; c=relaxed/simple;
+	bh=nneM42ftNf3W9eCqj0oF7myaBx5QhI8te/vlDu4AEA4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3QxvE3phjxX/dDrxolhaPQf9yM/KCR7vLh5/6EtHK6b7tdmgC+HLYOtPFftvZIzlbp1MVhC2xmssvyVATsM1/N1Z4pCoHPt2N6ZdEggQwZOFPu+6OC9y100XevQDqbKTBeufo+ZQ+GdfThiVpG3Bg0nleOm4z23xfaq9gNWxEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0pp0+mq; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xz4f38j4T1mp7fcztWxdkG5aB1xSrUm/caFnU9b8wk0oL4w4vqyfdPpreNXAj7r3jn5cLu7vac7qPIwsgg/gSriCiAcYX5WhgjzuTqd9nm0bdPEPFod1q1saU71dkzH1aFgl5D4suoydiogzUFLtGhMrrD2mR/8UeFcp2U/HpYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ncH4M4RJ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0pp0+mq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncH4M4RJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746791172; x=1778327172;
+  t=1746791834; x=1778327834;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SQkxBRiOnv36QIXTxodgUMy2H7LsOL+7k7SNq2aq4AA=;
-  b=B0pp0+mqumq49Z72cQmahfiBvCMkxhK/hNo6FF/3O8VEPfcMnrrrTmHL
-   bl+V4dVE6mJGHSDY4sFFs3WA2kBMxuyJ87pdkYbvXQ4iLUxckehCah/e8
-   2kHXhiRkgGvSiwmdeG57buTCZkDUumhCWMhxcNsvI1PSOElVST6i3JuVo
-   kiIup89OxRF9SnvJXlJUlnpz+S3Uwrs4EGXHuxJ4lKJSA4iupI9Mfh8F5
-   z0yLBKdPnibk73IjwS4YZ2FY8v2f6q7Ef/SI3ShTb+tgv61hlxzHdMfZr
-   LxZe4cgSprkexNehBqz+B5DIqyG3kG7Ve59mtrdC86DYDEKRANQBWAT/t
-   g==;
-X-CSE-ConnectionGUID: z3VnD4gBR962noPNCMnsbg==
-X-CSE-MsgGUID: rmFzUTgiSTGE9EtDavA0uQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48774455"
+  bh=nneM42ftNf3W9eCqj0oF7myaBx5QhI8te/vlDu4AEA4=;
+  b=ncH4M4RJ2KX5bS0Jw7Mvz/0rYputq8fnqr1MMYddGee3KvNBiXct4w6y
+   lvHGUw7GjHhE5apLG/fCqoCA3mISw5p6z4SnUNQC/K8LIdOkgqDKRUEm0
+   sx4j7zUrKLYpGl/zLXhgPa0X9rYwd7Jgz93KEN4XnCCp94DEnFc7AXuJV
+   08nRcESKUBSZ+Y6MDsfA+TCnqfUVQbcQ1Wlp9BCVU3F/80W74E12YaVu+
+   tWU3k60eN0BmbcyAYFDINiliVABVurc7IcRdWBhkynOHowdGFq2mWMztn
+   pnGQ166ZUryXpEhRIv5kq+Bl+SRSeO44etnZzIWeei392vNSz3KouU4FH
+   A==;
+X-CSE-ConnectionGUID: T5B+WrS6QiulB3aA0vTufQ==
+X-CSE-MsgGUID: ZbsJreSwRmKwS46wnuQaAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48776046"
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="48774455"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 04:46:12 -0700
-X-CSE-ConnectionGUID: tSopib0KRZm1vWrW42CKjw==
-X-CSE-MsgGUID: hEhG9rRhT3+uXvkH80Z+bw==
+   d="scan'208";a="48776046"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 04:57:13 -0700
+X-CSE-ConnectionGUID: CvWz7RQGRRSOCk4M2XPC7g==
+X-CSE-MsgGUID: uozSwc/uRNikMEe1RoxKqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="141816422"
+   d="scan'208";a="140655720"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 May 2025 04:46:07 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 09 May 2025 04:57:07 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDMB2-000C1r-1U;
-	Fri, 09 May 2025 11:46:04 +0000
-Date: Fri, 9 May 2025 19:45:31 +0800
+	id 1uDMLh-000C2N-1E;
+	Fri, 09 May 2025 11:57:05 +0000
+Date: Fri, 9 May 2025 19:56:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pop Ioan Daniel <pop.ioan-daniel@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
-	Dragos Bogdan <dragos.bogdan@analog.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Tobias Sperling <tobias.sperling@softing.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 4/4] iio: adc: ad7405: add ad7405 driver
-Message-ID: <202505091958.k0P7xNyC-lkp@intel.com>
-References: <20250508123107.3797042-5-pop.ioan-daniel@analog.com>
+To: Jeremy Linton <jeremy.linton@arm.com>,
+	linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org,
+	acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, thiago.bauermann@linaro.org,
+	broonie@kernel.org, yury.khrustalev@arm.com,
+	kristina.martsenko@arm.com, liaochang1@huawei.com,
+	catalin.marinas@arm.com, will@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Jeremy Linton <jeremy.linton@arm.com>
+Subject: Re: [PATCH v3 4/7] arm64: probes: Add GCS support to bl/blr/ret
+Message-ID: <202505091926.PBPRfjKb-lkp@intel.com>
+References: <20250504233203.616587-5-jeremy.linton@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,41 +73,168 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250508123107.3797042-5-pop.ioan-daniel@analog.com>
+In-Reply-To: <20250504233203.616587-5-jeremy.linton@arm.com>
 
-Hi Pop,
+Hi Jeremy,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.15-rc5 next-20250508]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools linus/master v6.15-rc5 next-20250508]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pop-Ioan-Daniel/iio-backend-update-iio_backend_oversampling_ratio_set/20250508-203339
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250508123107.3797042-5-pop.ioan-daniel%40analog.com
-patch subject: [PATCH v2 4/4] iio: adc: ad7405: add ad7405 driver
-config: m68k-randconfig-r123-20250509 (https://download.01.org/0day-ci/archive/20250509/202505091958.k0P7xNyC-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250509/202505091958.k0P7xNyC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Linton/arm64-gcs-task_gcs_el0_enable-should-use-passed-task/20250505-122838
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20250504233203.616587-5-jeremy.linton%40arm.com
+patch subject: [PATCH v3 4/7] arm64: probes: Add GCS support to bl/blr/ret
+config: arm64-randconfig-001-20250509 (https://download.01.org/0day-ci/archive/20250509/202505091926.PBPRfjKb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091926.PBPRfjKb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505091958.k0P7xNyC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505091926.PBPRfjKb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/ad7405.c:19:20: sparse: sparse: symbol 'ad7405_dec_rates' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/ad7405_dec_rates +19 drivers/iio/adc/ad7405.c
+   arch/arm64/kernel/probes/simulate-insn.c: In function 'update_lr':
+>> arch/arm64/kernel/probes/simulate-insn.c:58:3: error: implicit declaration of function 'push_user_gcs'; did you mean 'task_user_tls'? [-Werror=implicit-function-declaration]
+      push_user_gcs(addr + 4,  &err);
+      ^~~~~~~~~~~~~
+      task_user_tls
+   arch/arm64/kernel/probes/simulate-insn.c: In function 'simulate_ret':
+>> arch/arm64/kernel/probes/simulate-insn.c:162:14: error: implicit declaration of function 'pop_user_gcs'; did you mean 'pin_user_pages'? [-Werror=implicit-function-declaration]
+      ret_addr = pop_user_gcs(&err);
+                 ^~~~~~~~~~~~
+                 pin_user_pages
+   cc1: some warnings being treated as errors
 
-    18	
-  > 19	const unsigned int ad7405_dec_rates[] = {
-    20		4096, 2048, 1024, 512, 256, 128, 64, 32,
-    21	};
-    22	
+
+vim +58 arch/arm64/kernel/probes/simulate-insn.c
+
+    52	
+    53	static inline void update_lr(struct pt_regs *regs, long addr)
+    54	{
+    55		int err = 0;
+    56	
+    57		if (user_mode(regs) && task_gcs_el0_enabled(current)) {
+  > 58			push_user_gcs(addr + 4,	 &err);
+    59			if (err) {
+    60				force_sig(SIGSEGV);
+    61				return;
+    62			}
+    63		}
+    64		procedure_link_pointer_set(regs, addr + 4);
+    65	}
+    66	
+    67	static bool __kprobes check_cbz(u32 opcode, struct pt_regs *regs)
+    68	{
+    69		int xn = opcode & 0x1f;
+    70	
+    71		return (opcode & (1 << 31)) ?
+    72		    (get_x_reg(regs, xn) == 0) : (get_w_reg(regs, xn) == 0);
+    73	}
+    74	
+    75	static bool __kprobes check_cbnz(u32 opcode, struct pt_regs *regs)
+    76	{
+    77		int xn = opcode & 0x1f;
+    78	
+    79		return (opcode & (1 << 31)) ?
+    80		    (get_x_reg(regs, xn) != 0) : (get_w_reg(regs, xn) != 0);
+    81	}
+    82	
+    83	static bool __kprobes check_tbz(u32 opcode, struct pt_regs *regs)
+    84	{
+    85		int xn = opcode & 0x1f;
+    86		int bit_pos = ((opcode & (1 << 31)) >> 26) | ((opcode >> 19) & 0x1f);
+    87	
+    88		return ((get_x_reg(regs, xn) >> bit_pos) & 0x1) == 0;
+    89	}
+    90	
+    91	static bool __kprobes check_tbnz(u32 opcode, struct pt_regs *regs)
+    92	{
+    93		int xn = opcode & 0x1f;
+    94		int bit_pos = ((opcode & (1 << 31)) >> 26) | ((opcode >> 19) & 0x1f);
+    95	
+    96		return ((get_x_reg(regs, xn) >> bit_pos) & 0x1) != 0;
+    97	}
+    98	
+    99	/*
+   100	 * instruction simulation functions
+   101	 */
+   102	void __kprobes
+   103	simulate_adr_adrp(u32 opcode, long addr, struct pt_regs *regs)
+   104	{
+   105		long imm, xn, val;
+   106	
+   107		xn = opcode & 0x1f;
+   108		imm = ((opcode >> 3) & 0x1ffffc) | ((opcode >> 29) & 0x3);
+   109		imm = sign_extend64(imm, 20);
+   110		if (opcode & 0x80000000)
+   111			val = (imm<<12) + (addr & 0xfffffffffffff000);
+   112		else
+   113			val = imm + addr;
+   114	
+   115		set_x_reg(regs, xn, val);
+   116	
+   117		instruction_pointer_set(regs, instruction_pointer(regs) + 4);
+   118	}
+   119	
+   120	void __kprobes
+   121	simulate_b_bl(u32 opcode, long addr, struct pt_regs *regs)
+   122	{
+   123		int disp = bbl_displacement(opcode);
+   124	
+   125		if (opcode & (1 << 31))
+   126			update_lr(regs, addr);
+   127	
+   128		instruction_pointer_set(regs, addr + disp);
+   129	}
+   130	
+   131	void __kprobes
+   132	simulate_b_cond(u32 opcode, long addr, struct pt_regs *regs)
+   133	{
+   134		int disp = 4;
+   135	
+   136		if (aarch32_opcode_cond_checks[opcode & 0xf](regs->pstate & 0xffffffff))
+   137			disp = bcond_displacement(opcode);
+   138	
+   139		instruction_pointer_set(regs, addr + disp);
+   140	}
+   141	
+   142	void __kprobes
+   143	simulate_br_blr(u32 opcode, long addr, struct pt_regs *regs)
+   144	{
+   145		int xn = (opcode >> 5) & 0x1f;
+   146	
+   147		/* update pc first in case we're doing a "blr lr" */
+   148		instruction_pointer_set(regs, get_x_reg(regs, xn));
+   149	
+   150		if (((opcode >> 21) & 0x3) == 1)
+   151			update_lr(regs, addr);
+   152	}
+   153	
+   154	void __kprobes
+   155	simulate_ret(u32 opcode, long addr, struct pt_regs *regs)
+   156	{
+   157		u64 ret_addr;
+   158		int err = 0;
+   159		unsigned long lr = procedure_link_pointer(regs);
+   160	
+   161		if (user_mode(regs) && task_gcs_el0_enabled(current)) {
+ > 162			ret_addr = pop_user_gcs(&err);
+   163			if (err || ret_addr != lr) {
+   164				force_sig(SIGSEGV);
+   165				return;
+   166			}
+   167		}
+   168	
+   169		instruction_pointer_set(regs, lr);
+   170	}
+   171	
 
 -- 
 0-DAY CI Kernel Test Service
