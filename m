@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E54522155F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 22:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EE6265CAA;
+	Fri,  9 May 2025 23:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746831553; cv=none; b=VabOJsSK550LhEWE66iLeF2t8G4sJLsFTaSXOb3igUANSV1WW/R/9u4U1Zj0b1NUMu2aB2Adt/tFd9VVbo+e/2AlJI2ZbZUGYCplzaLV7Zv79UR8XP5rHGF4d+pmM69vueiYF0A1bcK4491ZVb4k7d7UDWZO1xgwhhkqnK5uAq0=
+	t=1746833413; cv=none; b=MWzQxj7vata1j9TazZnhX6jZtvqY4LJweOXV/8U06NErQNXMAw9HkHJY7WXl3bvQgcuAChKGMc1+F+7ld/hRpyWIlhY6r/7M2tJeh9yZfS69DFzodftzfPrqVb138yT6dDaSyazaDyXW6j2s8NzPpRn0wdUnaikoeCgA7eo0mnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746831553; c=relaxed/simple;
-	bh=6bTn5T9aJ1dG/QcSe0PfmEmuTX2zmPTsXHFZ/Ckvu4s=;
+	s=arc-20240116; t=1746833413; c=relaxed/simple;
+	bh=HAAhDRJhhuhYZc2dJoetKYoEMANGid4zmwZMuOvZkd4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ug0mjhd3ievp/K0iegWFjobSBieMIGB5UEmWuf/oS23lQ+SF4Rp8SgAZjRfIp45IwDrrudpXU+/vrYZfTQG4vph9mNnO81EqDPjXvJM8YgRMoDPWZNGO1bkOqkxqvzkmkYIW0NQNAJVjMLnlS1NDIAvzsokvQzcXmgV0oZEWuDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BCG8HuXP; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=X05PvNaMdJDrrNnqZo1iq9YQwUZFIqcKYN0R1Qxg2Fi5GqeQ/3yOMj1NSGg/s2d3HTTNJ2vCKkboSnyPP4mNXkE3f4nc0oxE2PHasEaMDxbbLi9ezmTjAZVRFxqK2i7dgfVDjRyEISGsbmdfIteJJOsu61nd+lLophi0p4snxoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCynyLdd; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCG8HuXP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCynyLdd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746831550; x=1778367550;
+  t=1746833411; x=1778369411;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6bTn5T9aJ1dG/QcSe0PfmEmuTX2zmPTsXHFZ/Ckvu4s=;
-  b=BCG8HuXPXOeqx7pfOSOLJuwHs2CnMEHGjUB53Gu2soToC8HAOL/2ZGfu
-   LN3A51m0Mhk1LSZqbBHmMZFTSE8hEIKdQFREU4t+wk9HfSYIPgTLbH70a
-   GNGH4j64FagedBSCW44wygQe8XjKAG149B0PK6/V4NMgLmqlAZen72oKM
-   rcbQ57Rzb2wtFQX1ZVi66kMwpPqwudUC2qtaT7BYME906Ey10qdbC/5WB
-   pktI5S500SyhJjgsdpKZwO/FrzSV5XQMDmhMYNpZN7yVg+2PvNP7PsNoc
-   aeC/S7SzrMOSG0pJ+2YeOJw/4oWejRIrcohp4Jg+auAzhBLO83MWJmgLo
-   g==;
-X-CSE-ConnectionGUID: N0FcyXU7TXqTci31TRGMxA==
-X-CSE-MsgGUID: c+PWmiybQ9Oj1pvAhyYXyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="60078281"
+  bh=HAAhDRJhhuhYZc2dJoetKYoEMANGid4zmwZMuOvZkd4=;
+  b=GCynyLddvz/cweDLDEloPZFrM+glG38gW8GL8xlrZ5iYYq90YUyrSVgR
+   z5tHBYAsQkNUj9b77WN2YelTIDchJ4E+w6RrK7Og44thQv56a72LNn2ua
+   p6vgKA2YjE14qpxaA4kARHwd22xvTwENTFnn9YDHV1+wVwwuEs5Qhx3dw
+   +UYOk59BcOtIQebdMzbXrMOgFa4w6w/PLJPzk2lU77UuxTFSreXUa+sCI
+   eC6vZnUduIczmNHzulP2oBT4qgLPl3HJVlozcea3FxlOb9kIzZNtxc0hB
+   MO+0P16txOufKKSCMuLRH8geUTJoI88d7Ak5TcSC6CFiHFhkIyH2zVorp
+   w==;
+X-CSE-ConnectionGUID: ICsNHE/QRya4D+9B7xGChQ==
+X-CSE-MsgGUID: cFC6IdzIQ2eoqF+NwYKD6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48756023"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="60078281"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 15:59:10 -0700
-X-CSE-ConnectionGUID: r6YHvPDuShS0AB1W6ENsDw==
-X-CSE-MsgGUID: 2JJVb3O3TP6jueuAMyjwGQ==
+   d="scan'208";a="48756023"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 16:30:10 -0700
+X-CSE-ConnectionGUID: yGY3qarmRP+J0629uPTCJw==
+X-CSE-MsgGUID: zip9U9pCTeCFY20WajzSfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="137693712"
+   d="scan'208";a="141530313"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 May 2025 15:59:07 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 May 2025 16:30:09 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDWgK-000CYR-3B;
-	Fri, 09 May 2025 22:59:04 +0000
-Date: Sat, 10 May 2025 06:58:21 +0800
+	id 1uDXAN-000CZH-0U;
+	Fri, 09 May 2025 23:30:07 +0000
+Date: Sat, 10 May 2025 07:29:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Ijano <andrew.ijano@gmail.com>, jic23@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrew.lopes@alumni.usp.br,
-	gustavobastos@usp.br, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org, jstephan@baylibre.com, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] iio: accel: sca3000: replace usages of internal read
- data helpers by spi helpers
-Message-ID: <202505100631.nlBOlbYm-lkp@intel.com>
-References: <20250509013931.47524-1-andrew.lopes@alumni.usp.br>
+To: Kurt Borja <kuurtb@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 1/5] platform/x86: firmware_attributes_class: Add
+ device initialization methods
+Message-ID: <202505100723.ZomnEYhR-lkp@intel.com>
+References: <20250509-fw-attrs-api-v1-1-258afed65bfa@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,105 +63,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250509013931.47524-1-andrew.lopes@alumni.usp.br>
+In-Reply-To: <20250509-fw-attrs-api-v1-1-258afed65bfa@gmail.com>
 
-Hi Andrew,
+Hi Kurt,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.15-rc5 next-20250509]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 3c415b1df95c06ae4f9bdb166541ab366b862cc2]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Ijano/iio-accel-sca3000-replace-usages-of-internal-read-data-helpers-by-spi-helpers/20250509-094127
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250509013931.47524-1-andrew.lopes%40alumni.usp.br
-patch subject: [PATCH v3] iio: accel: sca3000: replace usages of internal read data helpers by spi helpers
-config: i386-randconfig-r123-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100631.nlBOlbYm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100631.nlBOlbYm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kurt-Borja/platform-x86-firmware_attributes_class-Add-device-initialization-methods/20250509-155504
+base:   3c415b1df95c06ae4f9bdb166541ab366b862cc2
+patch link:    https://lore.kernel.org/r/20250509-fw-attrs-api-v1-1-258afed65bfa%40gmail.com
+patch subject: [PATCH RFC 1/5] platform/x86: firmware_attributes_class: Add device initialization methods
+config: x86_64-buildonly-randconfig-006-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100723.ZomnEYhR-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100723.ZomnEYhR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505100631.nlBOlbYm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505100723.ZomnEYhR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/accel/sca3000.c:745:46: sparse: sparse: cast to restricted __be16
-   drivers/iio/accel/sca3000.c:756:33: sparse: sparse: cast to restricted __be16
+All errors (new ones prefixed by >>):
 
-vim +745 drivers/iio/accel/sca3000.c
+>> drivers/platform/x86/firmware_attributes_class.c:88:58: error: call to undeclared function 'MKDEV'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      88 |         dev = device_create(&firmware_attributes_class, parent, MKDEV(0, 0),
+         |                                                                 ^
+   1 error generated.
 
-   720	
-   721	static int sca3000_read_raw(struct iio_dev *indio_dev,
-   722				    struct iio_chan_spec const *chan,
-   723				    int *val,
-   724				    int *val2,
-   725				    long mask)
-   726	{
-   727		struct sca3000_state *st = iio_priv(indio_dev);
-   728		int ret;
-   729		u8 address;
-   730	
-   731		switch (mask) {
-   732		case IIO_CHAN_INFO_RAW:
-   733			mutex_lock(&st->lock);
-   734			if (chan->type == IIO_ACCEL) {
-   735				if (st->mo_det_use_count) {
-   736					mutex_unlock(&st->lock);
-   737					return -EBUSY;
-   738				}
-   739				address = sca3000_addresses[chan->address][0];
-   740				ret = spi_w8r16(st->us, SCA3000_READ_REG(address));
-   741				if (ret < 0) {
-   742					mutex_unlock(&st->lock);
-   743					return ret;
-   744				}
- > 745				*val = sign_extend32(be16_to_cpu((__be16) ret) >>
-   746						     chan->scan_type.shift,
-   747						     chan->scan_type.realbits - 1);
-   748			} else {
-   749				/* get the temperature when available */
-   750				ret = spi_w8r16(st->us,
-   751							SCA3000_READ_REG(SCA3000_REG_TEMP_MSB_ADDR));
-   752				if (ret < 0) {
-   753					mutex_unlock(&st->lock);
-   754					return ret;
-   755				}
-   756				*val = (be16_to_cpu((__be16) ret) >>
-   757					chan->scan_type.shift) &
-   758					GENMASK(chan->scan_type.realbits - 1, 0);
-   759			}
-   760			mutex_unlock(&st->lock);
-   761			return IIO_VAL_INT;
-   762		case IIO_CHAN_INFO_SCALE:
-   763			*val = 0;
-   764			if (chan->type == IIO_ACCEL)
-   765				*val2 = st->info->scale;
-   766			else /* temperature */
-   767				*val2 = 555556;
-   768			return IIO_VAL_INT_PLUS_MICRO;
-   769		case IIO_CHAN_INFO_OFFSET:
-   770			*val = -214;
-   771			*val2 = 600000;
-   772			return IIO_VAL_INT_PLUS_MICRO;
-   773		case IIO_CHAN_INFO_SAMP_FREQ:
-   774			mutex_lock(&st->lock);
-   775			ret = sca3000_read_raw_samp_freq(st, val);
-   776			mutex_unlock(&st->lock);
-   777			return ret ? ret : IIO_VAL_INT;
-   778		case IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY:
-   779			mutex_lock(&st->lock);
-   780			ret = sca3000_read_3db_freq(st, val);
-   781			mutex_unlock(&st->lock);
-   782			return ret;
-   783		default:
-   784			return -EINVAL;
-   785		}
-   786	}
-   787	
+
+vim +/MKDEV +88 drivers/platform/x86/firmware_attributes_class.c
+
+    58	
+    59	/**
+    60	 * fwat_device_register - Create and register a firmware-attributes class
+    61	 *			  device
+    62	 * @parent: Parent device
+    63	 * @name: Name of the class device
+    64	 * @data: Drvdata of the class device
+    65	 * @groups: Sysfs groups for the custom `fwat_attrs_ktype` kobj_type
+    66	 *
+    67	 * NOTE: @groups are attached to the .attrs_kobj of the new fwat_device which
+    68	 * has a custom ktype, which makes use of `struct fwat_attribute` to embed
+    69	 * attributes.
+    70	 *
+    71	 * Return: pointer to the new fwat_device on success, ERR_PTR on failure
+    72	 */
+    73	struct fwat_device *
+    74	fwat_device_register(struct device *parent, const char *name, void *data,
+    75			     const struct attribute_group **groups)
+    76	{
+    77		struct fwat_device *fadev;
+    78		struct device *dev;
+    79		int ret;
+    80	
+    81		if (!parent || !name)
+    82			return ERR_PTR(-EINVAL);
+    83	
+    84		fadev = kzalloc(sizeof(*fadev), GFP_KERNEL);
+    85		if (!fadev)
+    86			return ERR_PTR(-ENOMEM);
+    87	
+  > 88		dev = device_create(&firmware_attributes_class, parent, MKDEV(0, 0),
+    89				    data, "%s", name);
+    90		if (IS_ERR(dev)) {
+    91			kfree(fadev);
+    92			return ERR_CAST(dev);
+    93		}
+    94	
+    95		ret = kobject_init_and_add(&fadev->attrs_kobj, &fwat_attrs_ktype, &dev->kobj,
+    96					   "attributes");
+    97		if (ret)
+    98			goto out_kobj_put;
+    99	
+   100		if (groups) {
+   101			ret = sysfs_create_groups(&fadev->attrs_kobj, groups);
+   102			if (ret)
+   103				goto out_kobj_unregister;
+   104		}
+   105	
+   106		fadev->dev = dev;
+   107		fadev->groups = groups;
+   108	
+   109		kobject_uevent(&fadev->attrs_kobj, KOBJ_ADD);
+   110	
+   111		return fadev;
+   112	
+   113	out_kobj_unregister:
+   114		kobject_del(&fadev->attrs_kobj);
+   115	
+   116	out_kobj_put:
+   117		kobject_put(&fadev->attrs_kobj);
+   118		device_unregister(dev);
+   119	
+   120		return ERR_PTR(ret);
+   121	}
+   122	EXPORT_SYMBOL_GPL(fwat_device_register);
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
