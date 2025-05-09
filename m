@@ -1,121 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2FE1C2324;
-	Fri,  9 May 2025 07:06:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B412B272E44
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 07:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746774374; cv=none; b=pU/zBp+lCBZ/0NNc64o8ooZRQu+xAw7w1b+uNOJEmsPuP3NOHQXQ2t+BzuW6rJuGR7hg/K+cdX4N9KuhrQDjbYZBTRjqVmp7lmgE7eJDglqdZNnE1E2x+LauZ/Ib5ASJxdqDXwFnHP8uS+94rObJEu4GAW3MGPOP1N3y+fuceME=
+	t=1746776984; cv=none; b=VqK4AGp41RrZSX3+73IJj4qlD88zfzGLHBUCpJ427sxgY98DetrJ9AyCBF4TEGV5Xo5jdfdRpd4bJpnEtl0ESDU4ePYamRfS1gx7Ro6kFkL2d9GPie2MpC7xgsKwbOhyknTSUIXg4FpXIm2XyIkBXdZt/kfQEUMBqeaOHm6u1TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746774374; c=relaxed/simple;
-	bh=oku0r/Ayq+YtBcuqgLmPUgKTINLSv48UB3ues+qQLaE=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=EJfeEwDfVJ2NvRNEhPvBnWWhmn/WOzQl3rbp5cOFOnbw9WyDEfEYm6kNOL9+z2hwkPUGZdfPL2Mj3kyu4XReH9+ToOitrN9rBjHC2JfRAMNB8FJU3NabaK0Ggo6905UB9QRaQX65RWkBD15rzUgrVFZTI2eyzkR5WVExuXn5VT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzsfT0tl; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1746776984; c=relaxed/simple;
+	bh=T5OXpibthlj3gCQnpi2z3fDSm8kUvqL7EqE0JHK+xJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bKCx2Aais9ZzA13nYlJ91SuvXHxmof93j+kFOpJUlp+xxstU74/yQ3TxDSnPj778xWKCdC7yxPDcRJV6CJ+TejzVXBe6yr3YdHa4DdpakWdRpeU+MJAHc341koM2LJK3FjA4WPKNGR/H3d1YQm+9T5MMM1dx/8RR7P/7dzQDSvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kW8vJFRY; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzsfT0tl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kW8vJFRY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746774372; x=1778310372;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=oku0r/Ayq+YtBcuqgLmPUgKTINLSv48UB3ues+qQLaE=;
-  b=UzsfT0tlP/yyqbQmTfw+bjoNpkAcmXPLLn6jgMkhAjmxCnO/b/zzx+5l
-   D+2fyBJqWjZw5zPyg6SRy018b/6p25hUOACtXWhmy80yaBusvJoKZ9WOl
-   lVQZ6ZVok29KhT7p6RYI3uPIicPbCN+L9e0JXORU8jhR/CuNvQKQ/dlOn
-   8CEk/mAbt92i1DPmloy8cyZ+soR7Kzu8cSU+rxYRNHxTZdZBuAxrGxEdH
-   dQv5oPfAJCvXPIS8vHSvsyIkmehJkAHCq/c+bT+8uS2NdNZ3x2LupSikh
-   pPBq3qTutsHR+0XHYQgmRAPDdSINa3RlNoGTJlPe9XgWS+1wItnlw+czn
+  t=1746776983; x=1778312983;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T5OXpibthlj3gCQnpi2z3fDSm8kUvqL7EqE0JHK+xJ8=;
+  b=kW8vJFRYAy7GSHpn+xy3EOJ0YJc79npir95wCa983ZW6cQktV/ME4v7O
+   T89i0Yy9sQT7sKnZoI/716Pm58BnBT31KjcAsSxiw6sHYuPYuDRRELjs6
+   rr+XH2jQrdOvgFnuR4SQeaRHNbqkRSxWZJ4DZDOaZ1TgjwTMuR6GrULKn
+   uFRPnISCQD2wk7FaKVMQMhAgERI5ZidCxIqMAT2Ap3yzVN/UbHxZ1L8fP
+   QjVbi+PCJIRx38YuAzq313oiCleHFnZT8Tue09bncaBLXQvfA36ExD5+p
+   Gay6gbIJmvfAmtY/H9IPfXMhIA68YX2ymhXJHwbLEnunnogT9mF3zjuPo
    Q==;
-X-CSE-ConnectionGUID: KIkA/IdOSbyHP7AlUVqgVw==
-X-CSE-MsgGUID: Vi8G9YBsTLuLp8UVqh4ABg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="65996126"
+X-CSE-ConnectionGUID: GXOn5eFRRZKt/8j3ncSfFQ==
+X-CSE-MsgGUID: 7bxspu8xQ+CrMkGoWa0lIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48749067"
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="65996126"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 00:06:11 -0700
-X-CSE-ConnectionGUID: ZOlALN0/Q56SGDAcaUaw2w==
-X-CSE-MsgGUID: fsARGzI1TQKg7upLIE8XVg==
+   d="scan'208";a="48749067"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 00:49:42 -0700
+X-CSE-ConnectionGUID: AiNlDxybT5akQo4zfyQXeQ==
+X-CSE-MsgGUID: Yj7l19kHT1ybQXJ/3mOFwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="136456946"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.123])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 00:06:08 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 9 May 2025 10:06:04 +0300 (EEST)
-To: kernel test robot <lkp@intel.com>
-cc: "Luke D. Jones" <luke@ljones.dev>, llvm@lists.linux.dev, 
-    oe-kbuild-all@lists.linux.dev, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    Hans de Goede <hdegoede@redhat.com>, 
-    Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [pdx86-platform-drivers-x86:review-ilpo-next 74/89]
- drivers/platform/x86/asus-wmi.c:5028:35: error: variable has incomplete type
- 'struct acpi_s2idle_dev_ops'
-In-Reply-To: <202505090418.DaeaXe4i-lkp@intel.com>
-Message-ID: <83e5ee5d-de9d-51c5-457e-803b0b7a57cd@linux.intel.com>
-References: <202505090418.DaeaXe4i-lkp@intel.com>
+   d="scan'208";a="136246099"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 09 May 2025 00:49:40 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uDIUE-000Bm1-1A;
+	Fri, 09 May 2025 07:49:38 +0000
+Date: Fri, 9 May 2025 15:49:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 0/1] mm/oom_kill.c:318:14: sparse: sparse:
+ symbol 'bpf_oom_evaluate_task' was not declared. Should it be static?
+Message-ID: <202505091533.hztHmiLK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 9 May 2025, kernel test robot wrote:
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   de277dab626c9ece4c9cf99ec9c56f23b298a042
+commit: 9cffac2e6f2df386d7cf4c2cf90d5fe2c1d6b793 [0/1] bytedance: mm, oom: Introduce bpf_oom_evaluate_task
+config: x86_64-randconfig-123-20250509 (https://download.01.org/0day-ci/archive/20250509/202505091533.hztHmiLK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091533.hztHmiLK-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
-> head:   83579675331059689e2869bf752ca9e17fadbd82
-> commit: feea7bd6b02d43a794e3f065650d89cf8d8e8e59 [74/89] platform/x86: asus-wmi: Refactor Ally suspend/resume
-> config: x86_64-buildonly-randconfig-004-20250509 (https://download.01.org/0day-ci/archive/20250509/202505090418.DaeaXe4i-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090418.DaeaXe4i-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505090418.DaeaXe4i-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/platform/x86/asus-wmi.c:5028:35: error: variable has incomplete type 'struct acpi_s2idle_dev_ops'
->     5028 | static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops = {
->          |                                   ^
->    drivers/platform/x86/asus-wmi.c:5028:15: note: forward declaration of 'struct acpi_s2idle_dev_ops'
->     5028 | static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops = {
->          |               ^
-> >> drivers/platform/x86/asus-wmi.c:5063:8: error: call to undeclared function 'acpi_register_lps0_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     5063 |         ret = acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops);
->          |               ^
-> >> drivers/platform/x86/asus-wmi.c:5099:2: error: call to undeclared function 'acpi_unregister_lps0_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     5099 |         acpi_unregister_lps0_dev(&asus_ally_s2idle_dev_ops);
->          |         ^
->    3 errors generated.
-> 
-> 
-> vim +5028 drivers/platform/x86/asus-wmi.c
-> 
->   5026	
->   5027	/* Use only for Ally devices due to the wake_on_ac */
-> > 5028	static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops = {
->   5029		.restore = asus_ally_s2idle_restore,
->   5030	};
->   5031	
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505091533.hztHmiLK-lkp@intel.com/
 
-> > 5063		ret = acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops);
+sparse warnings: (new ones prefixed by >>)
+>> mm/oom_kill.c:318:14: sparse: sparse: symbol 'bpf_oom_evaluate_task' was not declared. Should it be static?
+   mm/oom_kill.c: note: in included file (through include/linux/rculist.h, include/linux/sched/signal.h, include/linux/oom.h):
+   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in 'find_lock_task_mm' - wrong count at exit
+   mm/oom_kill.c:225:28: sparse: sparse: context imbalance in 'oom_badness' - unexpected unlock
+   mm/oom_kill.c:435:9: sparse: sparse: context imbalance in 'dump_task' - unexpected unlock
+   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in '__oom_kill_process' - unexpected unlock
+   mm/oom_kill.c:1243:20: sparse: sparse: context imbalance in '__se_sys_process_mrelease' - unexpected unlock
 
-> > 5099		acpi_unregister_lps0_dev(&asus_ally_s2idle_dev_ops);
+vim +/bpf_oom_evaluate_task +318 mm/oom_kill.c
 
-Hi Luke,
-
-It seems CONFIG_SUSPEND is not defined in this config leading to the 
-failure. Can you please look at this as I was slight unsure what way the 
-fix should go although it looked like some ifdeffery is necessary and 
-probably wrapping those register/unregister functions.
+   317	
+ > 318	noinline int bpf_oom_evaluate_task(struct task_struct *task, struct oom_control *oc)
+   319	{
+   320		return NO_BPF_POLICY;
+   321	}
+   322	ALLOW_ERROR_INJECTION(bpf_oom_evaluate_task, ERRNO);
+   323	
 
 -- 
- i.
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
