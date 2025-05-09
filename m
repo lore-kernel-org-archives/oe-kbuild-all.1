@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EB224466B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 19:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7343625DAFC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 19:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746817913; cv=none; b=ly+dMFJyBB1+Tl6JxREJ3WZ5meuF3vNBtYnB2jwiB+qQlwTql8dG/BkqUnWVNDpHeM36BAo+ZKhNdqmlaR8v9mf9hM7tXyj4A8cZt/S9sTCucZrLewE6OW5hPp2CIuCLpoaoMoVMGCwcPlLdBtj06bpKUSB0aBsFMW46Yvxe1zw=
+	t=1746819112; cv=none; b=Gjf0tDZbm2oMCNhTG0rz6n4nHdmfxpLUsD0unmX1T9ySTo988D2qc2q0lmLTuBydNgl3pKjwF6pGkAgb29M4kVE0whKZ88EsJ8qfrolI1GC/h8vrUHrXWsKQX5uetjLD7VAURPqPotl9cd3QOW0O5R4RKEGZiOGsVzCSeqS0lT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746817913; c=relaxed/simple;
-	bh=LiM82RC5VzqZIXYZK6AJ9EgWOvBAUSujh5mMx5KMKhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DzNP0+tgNarynhUUTM5gmlmmTXT41kmxgIzZOO5Nts9jeHkdWkXKcdFvGEvS2VXgBF6QRNu7T3Iisty/grA2BGAXf8FPebrOG9If0EhMtKdXNp/aR6qRyuWh30F6rVO65nc82dG6Or07J1iN00D690+0bcD8Hp6Z41P8/yg0Lzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNocD2z9; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1746819112; c=relaxed/simple;
+	bh=54S6IKNphFQK+gOjP11cWZTWi6EU3Es6q0sG50eCeJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ntor4pEZR2DPx/E4y3SSqarWdT1og3KB4JWifizgsx9DNFOjtHGpAfIehSZ5y6jDL6wd4CZ32q6Ns2RKx/k0oPhpnUuR5olyp7zukK9yrXNO8wSTtxTDjSJzWWxrSHoY67g9XXuJLmYqoSklvnCTtp9uMzO+v6evxMO86UIXjaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PA9KhOO/; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNocD2z9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PA9KhOO/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746817911; x=1778353911;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LiM82RC5VzqZIXYZK6AJ9EgWOvBAUSujh5mMx5KMKhw=;
-  b=KNocD2z9kQOjXeDN4Lk2B7UwZTXfpQ+fPM1ei85RwYqto6ALDMmF0z0h
-   kxoxJOLn88kefOjvww0wFRKTk4baXOZ+2GMhjkf883IImIa1mN4MMZF3m
-   FqSoKpf1vqlFP7mhovlMAeg2dovD5jyo7HF4Tm3jbUwolg2nDE927N+aC
-   djAFSVQoUzwmhBK8MwDWDpWbChXw5k0dVyCVxDUvwT6VD7eokjmufQ4Aw
-   LIrxbgKrDrMWYARPf/HPo1T7+hZwCgpedA0Q7nnhIXTIn4SOnCn7aBEb1
-   iq3R2C+priXbZhhAr9WxU1kDOV2TLenf3Jzr8dg3Qcrn+zEu6CdPHCXkO
-   g==;
-X-CSE-ConnectionGUID: mo0NUr1wSKuROO6syhke1g==
-X-CSE-MsgGUID: 6FYwYKo5SaSi94h2LqWmvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48663562"
+  t=1746819110; x=1778355110;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=54S6IKNphFQK+gOjP11cWZTWi6EU3Es6q0sG50eCeJQ=;
+  b=PA9KhOO/IZEljodQJck6/WDSsIUtev7PU7FXB5Bf8xjmk4PsllDNGr98
+   6/+m2xukLRv87C1XIKkaBedsETQE55vGsPLFTVP4DzQhRXk6+XtM+F7QO
+   iQUX2NW4ezeSMh2wuRFW/iDlI0THPVhf0rwocZojhjefnNbGxVIYwk/NO
+   /OIaYpPYyGpjYLLZpH2A3wnxDT74c/FhBY/fAhqqpbUfCEkNqcdYQvr2m
+   UaJvnmGrtvo9regtCtA6d7nNmkpDdTcT/gUzaXcaxJRrwS4GT+FB2zu1s
+   rEsRez3BDu+gktlpDq4TIkwYhSSCPCrrVybyK3mpv+3kVFbfTivXaF6aO
+   Q==;
+X-CSE-ConnectionGUID: E+plfqnpSpOqPu3JyMZ6Gw==
+X-CSE-MsgGUID: Z33D2XC5TNCHrwihjgS1GA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="47777524"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="48663562"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 12:11:50 -0700
-X-CSE-ConnectionGUID: 485UEADqSAScjNa/Kz2FDg==
-X-CSE-MsgGUID: 4+/8bSBKQV6Asvtd6HtjkQ==
+   d="scan'208";a="47777524"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 12:31:49 -0700
+X-CSE-ConnectionGUID: TmhK6pi2QTevHFATLa5vdQ==
+X-CSE-MsgGUID: /H/iUvozQ7OxevrDohEbSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="136656603"
+   d="scan'208";a="136584939"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 May 2025 12:11:47 -0700
+  by orviesa010.jf.intel.com with ESMTP; 09 May 2025 12:31:49 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDT8K-000COV-2P;
-	Fri, 09 May 2025 19:11:44 +0000
-Date: Sat, 10 May 2025 03:10:50 +0800
+	id 1uDTRi-000CP5-0r;
+	Fri, 09 May 2025 19:31:46 +0000
+Date: Sat, 10 May 2025 03:31:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Lechner <dlechner@baylibre.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	"Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH 1/7] cleanup: Introduce DEFINE_ACQUIRE() a CLASS() for
- conditional locking
-Message-ID: <202505100206.85k3mymM-lkp@intel.com>
-References: <20250507072145.3614298-2-dan.j.williams@intel.com>
+To: Yao Zi <ziyao@disroot.org>
+Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>
+Subject: [linux-next:master 9351/10031] drivers/clk/rockchip/clk.c:625:33:
+ sparse: sparse: Using plain integer as NULL pointer
+Message-ID: <202505100302.YVtB1zhF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,213 +61,205 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250507072145.3614298-2-dan.j.williams@intel.com>
 
-Hi Dan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b4432656b36e5cc1d50a1f2dc15357543add530e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/cleanup-Introduce-DEFINE_ACQUIRE-a-CLASS-for-conditional-locking/20250507-152728
-base:   b4432656b36e5cc1d50a1f2dc15357543add530e
-patch link:    https://lore.kernel.org/r/20250507072145.3614298-2-dan.j.williams%40intel.com
-patch subject: [PATCH 1/7] cleanup: Introduce DEFINE_ACQUIRE() a CLASS() for conditional locking
-config: arm-randconfig-001-20250509 (https://download.01.org/0day-ci/archive/20250510/202505100206.85k3mymM-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100206.85k3mymM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ed61cb3d78d585209ec775933078e268544fe9a4
+commit: 621ba4d9f6db560a7406fd732af1b495ff5aa103 [9351/10031] clk: rockchip: Support MMC clocks in GRF region
+config: arm-randconfig-r133-20250509 (https://download.01.org/0day-ci/archive/20250510/202505100302.YVtB1zhF-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250510/202505100302.YVtB1zhF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505100206.85k3mymM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505100302.YVtB1zhF-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/rockchip/clk.c:625:33: sparse: sparse: Using plain integer as NULL pointer
 
-   In file included from include/linux/irqflags.h:17,
-                    from arch/arm/include/asm/bitops.h:28,
-                    from include/linux/bitops.h:68,
-                    from arch/arm/boot/compressed/../../../../lib/lz4/lz4defs.h:40,
-                    from arch/arm/boot/compressed/../../../../lib/lz4/lz4_decompress.c:36,
-                    from arch/arm/boot/compressed/../../../../lib/decompress_unlz4.c:10,
-                    from arch/arm/boot/compressed/decompress.c:60:
-   include/linux/mutex.h: In function 'class_mutex_intr_acquire_destructor':
->> include/linux/cleanup.h:476:13: error: implicit declaration of function 'IS_ERR_OR_NULL' [-Werror=implicit-function-declaration]
-           if (!IS_ERR_OR_NULL(_T)) _unlock(&_T->_locktype), ({    \
-                ^~~~~~~~~~~~~~
-   include/linux/cleanup.h:246:18: note: in definition of macro 'DEFINE_CLASS'
-    { _type _T = *p; _exit; }      \
-                     ^~~~~
-   include/linux/mutex.h:216:1: note: in expansion of macro 'DEFINE_ACQUIRE'
-    DEFINE_ACQUIRE(mutex_intr_acquire, mutex, mutex_unlock,
-    ^~~~~~~~~~~~~~
-   include/linux/mutex.h: In function 'class_mutex_intr_acquire_constructor':
->> include/linux/cleanup.h:481:24: error: implicit declaration of function 'ERR_PTR'; did you mean 'PERCPU_PTR'? [-Werror=implicit-function-declaration]
-             lock_result = ERR_PTR(ret);             \
-                           ^~~~~~~
-   include/linux/cleanup.h:248:13: note: in definition of macro 'DEFINE_CLASS'
-    { _type t = _init; return t; }
-                ^~~~~
-   include/linux/mutex.h:216:1: note: in expansion of macro 'DEFINE_ACQUIRE'
-    DEFINE_ACQUIRE(mutex_intr_acquire, mutex, mutex_unlock,
-    ^~~~~~~~~~~~~~
->> include/linux/cleanup.h:481:22: warning: assignment to 'struct mutex_acquire *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-             lock_result = ERR_PTR(ret);             \
-                         ^
-   include/linux/cleanup.h:248:13: note: in definition of macro 'DEFINE_CLASS'
-    { _type t = _init; return t; }
-                ^~~~~
-   include/linux/mutex.h:216:1: note: in expansion of macro 'DEFINE_ACQUIRE'
-    DEFINE_ACQUIRE(mutex_intr_acquire, mutex, mutex_unlock,
-    ^~~~~~~~~~~~~~
-   include/linux/mutex.h: In function 'class_mutex_try_acquire_constructor':
->> include/linux/cleanup.h:481:22: warning: assignment to 'struct mutex_acquire *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-             lock_result = ERR_PTR(ret);             \
-                         ^
-   include/linux/cleanup.h:248:13: note: in definition of macro 'DEFINE_CLASS'
-    { _type t = _init; return t; }
-                ^~~~~
-   include/linux/mutex.h:226:1: note: in expansion of macro 'DEFINE_ACQUIRE'
-    DEFINE_ACQUIRE(mutex_try_acquire, mutex, mutex_unlock,
-    ^~~~~~~~~~~~~~
-   In file included from include/linux/rwsem.h:17,
-                    from include/linux/mm_types.h:13,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from arch/arm/boot/compressed/../../../../lib/lz4/lz4_decompress.c:38,
-                    from arch/arm/boot/compressed/../../../../lib/decompress_unlz4.c:10,
-                    from arch/arm/boot/compressed/decompress.c:60:
-   include/linux/err.h: At top level:
->> include/linux/err.h:39:35: error: conflicting types for 'ERR_PTR'
-    static inline void * __must_check ERR_PTR(long error)
-                                      ^~~~~~~
-   In file included from include/linux/irqflags.h:17,
-                    from arch/arm/include/asm/bitops.h:28,
-                    from include/linux/bitops.h:68,
-                    from arch/arm/boot/compressed/../../../../lib/lz4/lz4defs.h:40,
-                    from arch/arm/boot/compressed/../../../../lib/lz4/lz4_decompress.c:36,
-                    from arch/arm/boot/compressed/../../../../lib/decompress_unlz4.c:10,
-                    from arch/arm/boot/compressed/decompress.c:60:
-   include/linux/cleanup.h:481:24: note: previous implicit declaration of 'ERR_PTR' was here
-             lock_result = ERR_PTR(ret);             \
-                           ^~~~~~~
-   include/linux/cleanup.h:248:13: note: in definition of macro 'DEFINE_CLASS'
-    { _type t = _init; return t; }
-                ^~~~~
-   include/linux/mutex.h:216:1: note: in expansion of macro 'DEFINE_ACQUIRE'
-    DEFINE_ACQUIRE(mutex_intr_acquire, mutex, mutex_unlock,
-    ^~~~~~~~~~~~~~
-   In file included from include/linux/rwsem.h:17,
-                    from include/linux/mm_types.h:13,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from arch/arm/boot/compressed/../../../../lib/lz4/lz4_decompress.c:38,
-                    from arch/arm/boot/compressed/../../../../lib/decompress_unlz4.c:10,
-                    from arch/arm/boot/compressed/decompress.c:60:
->> include/linux/err.h:82:33: error: conflicting types for 'IS_ERR_OR_NULL'
-    static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
-                                    ^~~~~~~~~~~~~~
-   In file included from include/linux/irqflags.h:17,
-                    from arch/arm/include/asm/bitops.h:28,
-                    from include/linux/bitops.h:68,
-                    from arch/arm/boot/compressed/../../../../lib/lz4/lz4defs.h:40,
-                    from arch/arm/boot/compressed/../../../../lib/lz4/lz4_decompress.c:36,
-                    from arch/arm/boot/compressed/../../../../lib/decompress_unlz4.c:10,
-                    from arch/arm/boot/compressed/decompress.c:60:
-   include/linux/cleanup.h:476:13: note: previous implicit declaration of 'IS_ERR_OR_NULL' was here
-           if (!IS_ERR_OR_NULL(_T)) _unlock(&_T->_locktype), ({    \
-                ^~~~~~~~~~~~~~
-   include/linux/cleanup.h:246:18: note: in definition of macro 'DEFINE_CLASS'
-    { _type _T = *p; _exit; }      \
-                     ^~~~~
-   include/linux/mutex.h:216:1: note: in expansion of macro 'DEFINE_ACQUIRE'
-    DEFINE_ACQUIRE(mutex_intr_acquire, mutex, mutex_unlock,
-    ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +625 drivers/clk/rockchip/clk.c
 
-
-vim +/IS_ERR_OR_NULL +476 include/linux/cleanup.h
-
-   416	
-   417	#define DEFINE_LOCK_GUARD_1_COND(_name, _ext, _condlock)		\
-   418		__DEFINE_CLASS_IS_CONDITIONAL(_name##_ext, true);		\
-   419		EXTEND_CLASS(_name, _ext,					\
-   420			     ({ class_##_name##_t _t = { .lock = l }, *_T = &_t;\
-   421			        if (_T->lock && !(_condlock)) _T->lock = NULL;	\
-   422				_t; }),						\
-   423			     typeof_member(class_##_name##_t, lock) l)		\
-   424		static inline void * class_##_name##_ext##_lock_ptr(class_##_name##_t *_T) \
-   425		{ return class_##_name##_lock_ptr(_T); }
-   426	
-   427	/*
-   428	 * DEFINE_ACQUIRE(acquire_class_name, lock_type, unlock, cond_lock):
-   429	 *	Define a CLASS() that instantiates and acquires a conditional lock
-   430	 *	within an existing scope. In contrast to DEFINE_GUARD[_COND](), which
-   431	 *	hides the variable tracking the lock scope, CLASS(@acquire_class_name,
-   432	 *	@lock) instantiates @lock as either an ERR_PTR() or a cookie that drops
-   433	 *	the lock when it goes out of scope. An "_acquire" suffix is appended to
-   434	 *	@lock_type to provide type-safety against mixing explicit and implicit
-   435	 *	(scope-based) cleanup.
-   436	 *
-   437	 * Ex.
-   438	 *
-   439	 * DEFINE_ACQUIRE(mutex_intr_acquire, mutex, mutex_unlock,
-   440	 *                mutex_lock_interruptible)
-   441	 *
-   442	 *	int interruptible_operation(...)
-   443	 *	{
-   444	 *		...
-   445	 *		CLASS(mutex_intr_acquire, lock)(&obj->lock);
-   446	 *	     if (IS_ERR(lock))
-   447	 *			return PTR_ERR(lock);
-   448	 *		...
-   449	 *	} <= obj->lock dropped here.
-   450	 *
-   451	 * Attempts to perform:
-   452	 *
-   453	 * mutex_unlock(&obj->lock);
-   454	 *
-   455	 * ...fail because obj->lock is a 'struct mutex_acquire' not 'struct mutex'
-   456	 * instance.
-   457	 *
-   458	 * Also, attempts to use the CLASS() conditionally require the ambiguous
-   459	 * scope to be clarified (compiler enforced):
-   460	 *
-   461	 *	if (...)
-   462	 *		CLASS(mutex_intr_acquire, lock)(&obj->lock); // <-- "error: expected expression"
-   463	 *		if (IS_ERR(lock))
-   464	 *			return PTR_ERR(lock);
-   465	 *
-   466	 * vs:
-   467	 *
-   468	 *	if (...) {
-   469	 *		CLASS(mutex_intr_acquire, lock)(&obj->lock);
-   470	 *		if (IS_ERR(lock))
-   471	 *			return PTR_ERR(lock);
-   472	 *	} // <-- lock released here
-   473	 */
-   474	#define DEFINE_ACQUIRE(_name, _locktype, _unlock, _cond_lock)                \
-   475		DEFINE_CLASS(_name, struct _locktype##_acquire *,                    \
- > 476			     if (!IS_ERR_OR_NULL(_T)) _unlock(&_T->_locktype), ({    \
-   477				     struct _locktype##_acquire *lock_result;        \
-   478				     int ret = _cond_lock(&to_lock->_locktype);      \
-   479	                                                                             \
-   480				     if (ret)                                        \
- > 481					     lock_result = ERR_PTR(ret);             \
-   482				     else                                            \
-   483					     lock_result =                           \
-   484						     (struct _locktype##_acquire     \
-   485							      *)&to_lock->_locktype; \
-   486				     lock_result;                                    \
-   487			     }),                                                     \
-   488			     struct _locktype##_acquire *to_lock)
-   489	
+   496	
+   497	void rockchip_clk_register_branches(struct rockchip_clk_provider *ctx,
+   498					    struct rockchip_clk_branch *list,
+   499					    unsigned int nr_clk)
+   500	{
+   501		struct regmap *grf = ctx->grf;
+   502		struct rockchip_aux_grf *agrf;
+   503		struct clk *clk;
+   504		unsigned int idx;
+   505		unsigned long flags;
+   506	
+   507		for (idx = 0; idx < nr_clk; idx++, list++) {
+   508			flags = list->flags;
+   509			clk = NULL;
+   510	
+   511			/* for GRF-dependent branches, choose the right grf first */
+   512			if ((list->branch_type == branch_muxgrf ||
+   513			     list->branch_type == branch_grf_gate ||
+   514			     list->branch_type == branch_grf_mmc) &&
+   515			    list->grf_type != grf_type_sys) {
+   516				hash_for_each_possible(ctx->aux_grf_table, agrf, node, list->grf_type) {
+   517					if (agrf->type == list->grf_type) {
+   518						grf = agrf->grf;
+   519						break;
+   520					}
+   521				}
+   522			}
+   523	
+   524			/* catch simple muxes */
+   525			switch (list->branch_type) {
+   526			case branch_mux:
+   527				if (list->mux_table)
+   528					clk = clk_register_mux_table(NULL, list->name,
+   529						list->parent_names, list->num_parents,
+   530						flags,
+   531						ctx->reg_base + list->muxdiv_offset,
+   532						list->mux_shift, list->mux_width,
+   533						list->mux_flags, list->mux_table,
+   534						&ctx->lock);
+   535				else
+   536					clk = clk_register_mux(NULL, list->name,
+   537						list->parent_names, list->num_parents,
+   538						flags,
+   539						ctx->reg_base + list->muxdiv_offset,
+   540						list->mux_shift, list->mux_width,
+   541						list->mux_flags, &ctx->lock);
+   542				break;
+   543			case branch_muxgrf:
+   544				clk = rockchip_clk_register_muxgrf(list->name,
+   545					list->parent_names, list->num_parents,
+   546					flags, grf, list->muxdiv_offset,
+   547					list->mux_shift, list->mux_width,
+   548					list->mux_flags);
+   549				break;
+   550			case branch_divider:
+   551				if (list->div_table)
+   552					clk = clk_register_divider_table(NULL,
+   553						list->name, list->parent_names[0],
+   554						flags,
+   555						ctx->reg_base + list->muxdiv_offset,
+   556						list->div_shift, list->div_width,
+   557						list->div_flags, list->div_table,
+   558						&ctx->lock);
+   559				else
+   560					clk = clk_register_divider(NULL, list->name,
+   561						list->parent_names[0], flags,
+   562						ctx->reg_base + list->muxdiv_offset,
+   563						list->div_shift, list->div_width,
+   564						list->div_flags, &ctx->lock);
+   565				break;
+   566			case branch_fraction_divider:
+   567				clk = rockchip_clk_register_frac_branch(ctx, list->name,
+   568					list->parent_names, list->num_parents,
+   569					ctx->reg_base, list->muxdiv_offset,
+   570					list->div_flags,
+   571					list->gate_offset, list->gate_shift,
+   572					list->gate_flags, flags, list->child,
+   573					&ctx->lock);
+   574				break;
+   575			case branch_half_divider:
+   576				clk = rockchip_clk_register_halfdiv(list->name,
+   577					list->parent_names, list->num_parents,
+   578					ctx->reg_base, list->muxdiv_offset,
+   579					list->mux_shift, list->mux_width,
+   580					list->mux_flags, list->div_shift,
+   581					list->div_width, list->div_flags,
+   582					list->gate_offset, list->gate_shift,
+   583					list->gate_flags, flags, &ctx->lock);
+   584				break;
+   585			case branch_gate:
+   586				flags |= CLK_SET_RATE_PARENT;
+   587	
+   588				clk = clk_register_gate(NULL, list->name,
+   589					list->parent_names[0], flags,
+   590					ctx->reg_base + list->gate_offset,
+   591					list->gate_shift, list->gate_flags, &ctx->lock);
+   592				break;
+   593			case branch_grf_gate:
+   594				flags |= CLK_SET_RATE_PARENT;
+   595				clk = rockchip_clk_register_gate_grf(list->name,
+   596					list->parent_names[0], flags, grf,
+   597					list->gate_offset, list->gate_shift,
+   598					list->gate_flags);
+   599				break;
+   600			case branch_composite:
+   601				clk = rockchip_clk_register_branch(list->name,
+   602					list->parent_names, list->num_parents,
+   603					ctx->reg_base, list->muxdiv_offset,
+   604					list->mux_shift,
+   605					list->mux_width, list->mux_flags,
+   606					list->mux_table, list->div_offset,
+   607					list->div_shift, list->div_width,
+   608					list->div_flags, list->div_table,
+   609					list->gate_offset, list->gate_shift,
+   610					list->gate_flags, flags, &ctx->lock);
+   611				break;
+   612			case branch_mmc:
+   613				clk = rockchip_clk_register_mmc(
+   614					list->name,
+   615					list->parent_names, list->num_parents,
+   616					ctx->reg_base + list->muxdiv_offset,
+   617					NULL, 0,
+   618					list->div_shift
+   619				);
+   620				break;
+   621			case branch_grf_mmc:
+   622				clk = rockchip_clk_register_mmc(
+   623					list->name,
+   624					list->parent_names, list->num_parents,
+ > 625					0,
+   626					grf, list->muxdiv_offset,
+   627					list->div_shift
+   628				);
+   629				break;
+   630			case branch_inverter:
+   631				clk = rockchip_clk_register_inverter(
+   632					list->name, list->parent_names,
+   633					list->num_parents,
+   634					ctx->reg_base + list->muxdiv_offset,
+   635					list->div_shift, list->div_flags, &ctx->lock);
+   636				break;
+   637			case branch_factor:
+   638				clk = rockchip_clk_register_factor_branch(
+   639					list->name, list->parent_names,
+   640					list->num_parents, ctx->reg_base,
+   641					list->div_shift, list->div_width,
+   642					list->gate_offset, list->gate_shift,
+   643					list->gate_flags, flags, &ctx->lock);
+   644				break;
+   645			case branch_ddrclk:
+   646				clk = rockchip_clk_register_ddrclk(
+   647					list->name, list->flags,
+   648					list->parent_names, list->num_parents,
+   649					list->muxdiv_offset, list->mux_shift,
+   650					list->mux_width, list->div_shift,
+   651					list->div_width, list->div_flags,
+   652					ctx->reg_base, &ctx->lock);
+   653				break;
+   654			case branch_linked_gate:
+   655				/* must be registered late, fall-through for error message */
+   656				break;
+   657			}
+   658	
+   659			/* none of the cases above matched */
+   660			if (!clk) {
+   661				pr_err("%s: unknown clock type %d\n",
+   662				       __func__, list->branch_type);
+   663				continue;
+   664			}
+   665	
+   666			if (IS_ERR(clk)) {
+   667				pr_err("%s: failed to register clock %s: %ld\n",
+   668				       __func__, list->name, PTR_ERR(clk));
+   669				continue;
+   670			}
+   671	
+   672			rockchip_clk_set_lookup(ctx, clk, list->id);
+   673		}
+   674	}
+   675	EXPORT_SYMBOL_GPL(rockchip_clk_register_branches);
+   676	
 
 -- 
 0-DAY CI Kernel Test Service
