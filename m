@@ -1,64 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9252367B1
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 16:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5391318DF8D;
+	Fri,  9 May 2025 16:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746806974; cv=none; b=H/wu5ixhaGI5zUJaOmyhIv1N76y1CQi9qJup62uQP7GehxmmZKhtCQC6nTr1MkfQVwIK4ySkNIlgvaSI5GjNuw6roDbXogvxaBqwa1rzfmES17d/Wz7W9f34hKLPl8e5JpQNH0GS8FXM4I74ih2s9sL18/M1jcbS1KH0SCN+ynE=
+	t=1746807078; cv=none; b=eO0k0q0EN+imxHuxVwUz89VyCx2+e1oBQQF5TJuDdFP/nGKKhQJoDlJJqz25IodmskiiyAkIkmtMP4BXw3WIuwNW5IwfrusY3tt+VcT+2UVNdqHGRpDN8BBkjgez/jH3OFZKxqkjFVpwXN4h9bs8Bdy42OON3j7e5dMUeAGv//8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746806974; c=relaxed/simple;
-	bh=XyHuZb+2c9rFfzdBWVKs85hmlHEpI8WlKCKeS6Exhag=;
+	s=arc-20240116; t=1746807078; c=relaxed/simple;
+	bh=DkVPEwXq5LEd8phpizlGw24qYJuQeTZBQGQZxBGSslk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LceRyn8ci+sBd91nK0cSWv3xPAGyKwd5aaAFXJretaEjoYe5of0E7eoQV2CYSKdj7FLIYZYWC690JMS8uUhVPbU/uO1V8ABL86qO2zZGg+xrz19U1gse5XFHfluhRa3D2Htp6eYbLpu08+FuWI8EQ2zfDV6neL1eRmyWkwM4dwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EJ2IZ8YG; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cS3Y3D0Su6+wiohQQUQ9DtZp/V0oZUWR7FzgwyBVq31yqog5vrKkbxH9nthbZPPLei5+Vu7pK5kgb8hiTPgdXR6spoprKKaViiz45oBSVpbF1k9AirirvVaLWi0uPBGmdvKWrmJQ0RWIzMg13DeYLrzytMPVDsCgsyCLjjJF+ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=IYbqFhNL; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EJ2IZ8YG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746806973; x=1778342973;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XyHuZb+2c9rFfzdBWVKs85hmlHEpI8WlKCKeS6Exhag=;
-  b=EJ2IZ8YGzGPwxLRKkM3MFTdwrf9k3XTperSGky5l3GxjGLxJ7z8j+XXv
-   CtQxNHNM0KFWfsvMKXgt6mIxZEqK8EMKdrvBuWAtpu/p2aRIXnVZIdK9I
-   +1ZPcA4ico3q1nIPBVpIURsYTo+ZTNvAx9LAMxfu24vRqLYqksfzGsE7m
-   6Z8Nx9OVucqhnnzrDJXFWCGVZd+GcEARdjpy7BJ0YfKf8B1CjvVQLn0Hw
-   1psjimBbP/S66jlqJI/640HQTBooVVdkpSGcIIuo0iPToUW57UKzGgbxK
-   jU3hjLXoL0fGfkuQEHVZo5dPAcF1/Fea5FFi4tYYMkzJmSOlhSY6PFtQw
-   w==;
-X-CSE-ConnectionGUID: GKzWr3IdTmuNoUT8WzoCYQ==
-X-CSE-MsgGUID: u6EbbVEQR0efRayffDJr3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48511353"
-X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="48511353"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 09:09:32 -0700
-X-CSE-ConnectionGUID: KRmn/rxES5m2F/ire068VA==
-X-CSE-MsgGUID: cseGCHO+QbaUiry0XjwDnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="136352515"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 May 2025 09:09:30 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uDQHw-000CEZ-04;
-	Fri, 09 May 2025 16:09:28 +0000
-Date: Sat, 10 May 2025 00:09:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Mathis Foerst <mathis.foerst@mt.com>
-Subject: Re: [PATCH 03/13] media: mt9m114: Use aptina-PLL helper to get PLL
- values
-Message-ID: <202505092306.PFANn3Fo-lkp@intel.com>
-References: <20250504101336.18748-4-hdegoede@redhat.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="IYbqFhNL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Ru3Psh63tMF04aB59rcC/KiAWCC4Jih9Q0TM6aAwHQk=; b=IYbqFhNLlzZpJDoUGW4j7XFGr3
+	xYI3V6qewxfbX3/u4MmjmUmyzOJJSVza1ks8Ztd1EeYhHHY/F6VTl+OeM0ZfzY4TQN8+fZsa+fdYc
+	IdXqdg3EEuoYURxD0jFITqcwTre1FwdnVq1GOochNthnq1eZbby8Jv+zhXxuCNIV/3wi/HNkyRvs2
+	dJKaQCa/cKaZVqvS70ZzABIDsYJjVhDEpEFm/g2ocf++zV5KyNbefaygRDTr9Y/XNkqKtmikaQZ3H
+	vA60S64LSDCvXYqjCIRVzZ1xpW8IgDX9gVF2MlxdPVH/xUv+v/0KejMQULYLXZsJ+eEwt9skN+6T1
+	fGMjvmmg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uDQJc-0000000ClvS-3a4Y;
+	Fri, 09 May 2025 16:11:13 +0000
+Date: Fri, 9 May 2025 17:11:12 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [viro-vfs:untested.securityfs 6/8]
+ security/integrity/ima/ima_fs.c:524:27: error: 'ima_policy' undeclared; did
+ you mean 'vma_policy'?
+Message-ID: <20250509161112.GW2023217@ZenIV>
+References: <202505092310.0UXOhVZP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,102 +46,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250504101336.18748-4-hdegoede@redhat.com>
+In-Reply-To: <202505092310.0UXOhVZP-lkp@intel.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi Hans,
+On Fri, May 09, 2025 at 11:47:36PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git untested.securityfs
+> head:   b0b8e25f92ec20e266859de5f823b4e39b8e2f9d
+> commit: 08433f2507554980bc891d8b17c1968c81cb144b [6/8] ima_fs: don't bother with removal of files in directory we'll be removing
+> config: i386-buildonly-randconfig-006-20250509 (https://download.01.org/0day-ci/archive/20250509/202505092310.0UXOhVZP-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505092310.0UXOhVZP-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505092310.0UXOhVZP-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    security/integrity/ima/ima_fs.c: In function 'ima_release_policy':
+> >> security/integrity/ima/ima_fs.c:524:27: error: 'ima_policy' undeclared (first use in this function); did you mean 'vma_policy'?
+>      524 |         securityfs_remove(ima_policy);
+>          |                           ^~~~~~~~~~
+>          |                           vma_policy
+>    security/integrity/ima/ima_fs.c:524:27: note: each undeclared identifier is reported only once for each function it appears in
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on sailus-media-tree/master]
-[also build test ERROR on linuxtv-media-pending/master linus/master media-tree/master v6.15-rc5 next-20250509]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-aptina-pll-Debug-log-p1-min-and-max-values/20250505-114824
-base:   git://linuxtv.org/sailus/media_tree.git master
-patch link:    https://lore.kernel.org/r/20250504101336.18748-4-hdegoede%40redhat.com
-patch subject: [PATCH 03/13] media: mt9m114: Use aptina-PLL helper to get PLL values
-config: i386-randconfig-005-20250509 (https://download.01.org/0day-ci/archive/20250509/202505092306.PFANn3Fo-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505092306.PFANn3Fo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505092306.PFANn3Fo-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/gpu/drm/xe/xe_migrate.o: in function `pte_update_cmd_size':
-   drivers/gpu/drm/xe/xe_migrate.c:1561: undefined reference to `__udivdi3'
-   ld: drivers/media/i2c/mt9m114.o: in function `mt9m114_clk_init':
->> drivers/media/i2c/mt9m114.c:2268: undefined reference to `aptina_pll_calculate'
-
-
-vim +2268 drivers/media/i2c/mt9m114.c
-
-  2233	
-  2234	/* -----------------------------------------------------------------------------
-  2235	 * Probe & Remove
-  2236	 */
-  2237	
-  2238	static int mt9m114_clk_init(struct mt9m114 *sensor)
-  2239	{
-  2240		unsigned int link_freq;
-  2241		/*
-  2242		 * TODO these limits have been copied from mt9p031.c, with out_clock_max
-  2243		 * increased from 360000000 to 400000000 to get the same PLL settings as
-  2244		 * in the static register lists for 24 MHz and 19.2 MHz ext clock freq.
-  2245		 * These should be verified / adjusted by someone with access to
-  2246		 * the full MT9M114 datasheet.
-  2247		 */
-  2248		static const struct aptina_pll_limits limits = {
-  2249			.ext_clock_min = 6000000,
-  2250			.ext_clock_max = 27000000,
-  2251			.int_clock_min = 2000000,
-  2252			.int_clock_max = 13500000,
-  2253			.out_clock_min = 180000000,
-  2254			.out_clock_max = 400000000,
-  2255			.pix_clock_max = 96000000,
-  2256			.n_min = 1,
-  2257			.n_max = 64,
-  2258			.m_min = 16,
-  2259			.m_max = 255,
-  2260			.p1_min = 1,
-  2261			.p1_max = 128,
-  2262		};
-  2263		int ret;
-  2264	
-  2265		sensor->pll.ext_clock = sensor->clk_freq;
-  2266		sensor->pll.pix_clock = MT9M114_DEF_PIXCLOCK;
-  2267	
-> 2268		ret = aptina_pll_calculate(&sensor->client->dev, &limits, &sensor->pll);
-  2269		if (ret)
-  2270			return ret;
-  2271	
-  2272		/*
-  2273		 * Calculate the pixel rate and link frequency. The CSI-2 bus is clocked
-  2274		 * for 16-bit per pixel, transmitted in DDR over a single lane. For
-  2275		 * parallel mode, the sensor ouputs one pixel in two PIXCLK cycles.
-  2276		 */
-  2277		sensor->pixrate = sensor->clk_freq * sensor->pll.m
-  2278				/ (sensor->pll.n * sensor->pll.p1);
-  2279	
-  2280		link_freq = sensor->bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
-  2281			  ? sensor->pixrate * 8 : sensor->pixrate * 2;
-  2282	
-  2283		if (sensor->bus_cfg.nr_of_link_frequencies != 1 ||
-  2284		    sensor->bus_cfg.link_frequencies[0] != link_freq) {
-  2285			dev_err(&sensor->client->dev, "Unsupported DT link-frequencies\n");
-  2286			return -EINVAL;
-  2287		}
-  2288	
-  2289		return 0;
-  2290	}
-  2291	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Yeah, that line also needs to be removed - it's handled by
+securityfs_remove(ima_dir); a few lines later.
