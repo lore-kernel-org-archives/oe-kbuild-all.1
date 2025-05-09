@@ -1,58 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89088239090
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 17:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5883423AE7C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 18:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746811962; cv=none; b=hM0ifS4CCcQOxIjBxGG+1YPOBfFJpoAzlUIRtNiMYqbtffoCQUzDToyMimaylS+TheQgW/ohyvcKtddL8xl8Y/XHBw/pwdBxHRmrx7Q4GDqpO6iXox5h0I8gKPcJzinBDOUOVuVEkxVTL6Nk0tE+1aBv0wCHdriprqJdxw5WhUI=
+	t=1746813832; cv=none; b=jWJUfZexo1AasIPCp+Oui33bXXjys2o6dFkZn13PBYsqUlMuctxUoJsUKT5KYRPGs4uGpLMOEEznTdLOj9CUvJWZEOs4aYJHvPYqf/UAUokIVjEqV0yykzrRre1H74TaiXKdS952ja0AMmL79j9ASkJZisGoXm9uzHuHFXgMKu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746811962; c=relaxed/simple;
-	bh=WjwlWWjm1bsIqujLBuGDl837ofHqjMJxaTku5ey7XYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pMZCxQwzRYq8e429EBVK/pxTZQcv06w+XScBjaONtydT5BXqDb+HuZzNzfe8D+5Ra/DPA2taslij3I74UU5SbI14hBIU0OHBIY1Nmya95zLdkBueolDbqaHkqQgNjWHQRvI84E4hG+IoO1ee5bFUwE3oakjOfNPj1gnaz/E/0uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hLyPwi0o; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1746813832; c=relaxed/simple;
+	bh=TMIiQS5YfSgbaasKX3QzBCK1/RYA4e4rftcFiPeXxS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a0kkzrjyNLOakzC2XpDeH1LGmGadGG+Fo0o1eJrC2El44jyKASMs3NTX6zkXGZGSiD8yxajKpsqjw0q9YshZysI8bczFZYrCA3WKb136fOUHDWyf457tk/EHkGqe6gVl4+AsBVOP9QJ71/p846k9tKl6AZ6NMN0/vtiJWe1lqqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CRwRilSD; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hLyPwi0o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CRwRilSD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746811960; x=1778347960;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WjwlWWjm1bsIqujLBuGDl837ofHqjMJxaTku5ey7XYw=;
-  b=hLyPwi0o+8gzm65XSKpRFRW6OyVCFkUPKR7tvGf3FkCrtkXHzKkaq0nl
-   n0P2GDjH/ityeNfa0/Csm9sWL7Ec+RM03kUboAe+Hpc4dggQ42snP2JUL
-   Fd9G5PCxR/GBvsOpT/UkDPy0VIWGHwUTa+BHE//GLCqXn1pkMKA/iiIC7
-   bilfZN7IInSrjTOYcA1bMG/hsXPAyIa9mhncuYsy3QJ7YJpGhhjD4Wsn9
-   43ddLBTX/lpa7kDFrSr2FvC7YloyUliawAAUrU1PIz6mmkQYJyHM3lzeB
-   uS99/GztIuW6ig0+83MyqaPZXl4AtS5qpz4C0N3gqNpnV1ocmkYEPgBrX
-   Q==;
-X-CSE-ConnectionGUID: 5Aou2HseQgmXRA3S+2UC8w==
-X-CSE-MsgGUID: OM90oMxFT9OwKVHMKTqZjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="66059007"
+  t=1746813830; x=1778349830;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TMIiQS5YfSgbaasKX3QzBCK1/RYA4e4rftcFiPeXxS8=;
+  b=CRwRilSDwM6EvLv3d66YeXGcQaJbsuD4dGaLDYwkPDIKE22pPqA+SVGF
+   mIdhEMc6DINlZABECe4tD8jamLlc8S2RfdOJ4YRioduIXqW918LSCbUZX
+   /wchVlxjKNA/yOdxWN3ooSV6tOpSmHdOlWDQXXPuRYaQG3NVyseKuA9NC
+   dFx6wEi0PKqcz16t5nULoMSYF7FVNNaAkIkCnkKdfRiO71EaHvFsaGOUq
+   sRCGEnaxTX5LIJzgFK8B7r7RecVkVS9ZHrLQLsFmRyGbusQ3XTOx9MIo3
+   IHLNGGZRCHKvtU0L5TOoIXmp7DwkKxBvwz1Jlhyr1NpReSlTVxze0n9cS
+   g==;
+X-CSE-ConnectionGUID: mrHDAFb4ShWq3jWwM52gZQ==
+X-CSE-MsgGUID: 0BLkgwnwT0qA+m0Vjakbyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48349966"
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="66059007"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 10:32:39 -0700
-X-CSE-ConnectionGUID: PYa0Q7I/QTKAKLq6ZeXmDA==
-X-CSE-MsgGUID: Prf4A+jQSHSrLUI2khfzkA==
+   d="scan'208";a="48349966"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 11:03:49 -0700
+X-CSE-ConnectionGUID: Wdk17spXQvK54qmPmDD3Cw==
+X-CSE-MsgGUID: 97+KdvmWSkqS2ddY1D4QhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="137190953"
+   d="scan'208";a="141802458"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 May 2025 10:32:37 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 May 2025 11:03:40 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDRaN-000CIt-1M;
-	Fri, 09 May 2025 17:32:35 +0000
-Date: Sat, 10 May 2025 01:31:51 +0800
+	id 1uDS4Q-000CL5-0U;
+	Fri, 09 May 2025 18:03:38 +0000
+Date: Sat, 10 May 2025 02:03:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
+To: Pop Ioan Daniel <pop.ioan-daniel@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+	Dragos Bogdan <dragos.bogdan@analog.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Tobias Sperling <tobias.sperling@softing.com>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Alisa-Dariana Roman <alisadariana@gmail.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova/dave-test 6/12] Diff in
- drivers/gpu/nova-core/driver_dave.rs at line 1:
-Message-ID: <202505100154.rUoj97il-lkp@intel.com>
+Subject: Re: [PATCH v2 1/4] iio: backend: update
+ iio_backend_oversampling_ratio_set
+Message-ID: <202505100131.FZe7C8ot-lkp@intel.com>
+References: <20250508123107.3797042-2-pop.ioan-daniel@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,491 +84,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250508123107.3797042-2-pop.ioan-daniel@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/dave-test
-head:   51179bd57494a767d7d6f446ebaa0b0ec740369e
-commit: 32b8fcca1fa87bf60a01046fd72734feefe74d28 [6/12] Migrate Daves code to upstream kernel (150 errors)
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250510/202505100154.rUoj97il-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100154.rUoj97il-lkp@intel.com/reproduce)
+Hi Pop,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.15-rc5 next-20250509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pop-Ioan-Daniel/iio-backend-update-iio_backend_oversampling_ratio_set/20250508-203339
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250508123107.3797042-2-pop.ioan-daniel%40analog.com
+patch subject: [PATCH v2 1/4] iio: backend: update iio_backend_oversampling_ratio_set
+config: i386-randconfig-061-20250509 (https://download.01.org/0day-ci/archive/20250510/202505100131.FZe7C8ot-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100131.FZe7C8ot-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505100154.rUoj97il-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505100131.FZe7C8ot-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/ad4851.c:324:60: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int chan @@     got struct iio_chan_spec const *chan @@
+   drivers/iio/adc/ad4851.c:324:60: sparse:     expected unsigned int chan
+   drivers/iio/adc/ad4851.c:324:60: sparse:     got struct iio_chan_spec const *chan
 
-                            let _ = vfn.reset(inth.leaf, inth.mask);
-                            res = match inth.handler.handle_vfn() {
-   -                            Err(_) => { let _ = vfn.rearm(); return irq::Return::None; }
-   -                            Ok(x) => { x }
-   +                            Err(_) => {
-   +                                let _ = vfn.rearm();
-   +                                return irq::Return::None;
-   +                            }
-   +                            Ok(x) => x,
-                            };
-                            if res != 0 {
-                                handled = true;
-   Diff in drivers/gpu/nova-core/vfn.rs at line 88:
-                            }
-                        }
-                    }
-   -            },
-   -            None => { let _ = vfn.rearm(); return irq::Return::None; }
-   +            }
-   +            None => {
-   +                let _ = vfn.rearm();
-   +                return irq::Return::None;
-   +            }
-            }
-    
-            let _ = vfn.rearm();
-   Diff in drivers/gpu/nova-core/vfn.rs at line 98:
-    }
-    
-    impl Vfn {
-   -
-        pub(crate) fn user_info() -> (u32, u32) {
-            (VFN_BASE + VFN_USER_OFFSET, VFN_USER_SIZE)
-        }
-   Diff in drivers/gpu/nova-core/vfn.rs at line 105:
-    
-        pub(crate) fn new(bar: Arc<Devres<Bar0>>) -> Result<Arc<Self>> {
-   +        let vfn = UniqueArc::pin_init(
-   +            pin_init!(Self {
-   +                bar,
-   +                addr: VFN_BASE,
-   +                inner <- new_mutex!(VfnInner { irq: None }),
-   +                handlers <- new_mutex!(KVec::<Option<Inth>>::new()),
-   +            }),
-   +            GFP_KERNEL,
-   +        )?;
-    
-   -        let vfn = UniqueArc::pin_init(pin_init!(Self {
-   -            bar,
-   -            addr: VFN_BASE,
-   -            inner <- new_mutex!(VfnInner { irq: None }),
-   -            handlers <- new_mutex!(KVec::<Option<Inth>>::new()),
-   -        }), GFP_KERNEL)?;
-   -
-            Ok(vfn.into())
-        }
-    
-   Diff in drivers/gpu/nova-core/vfn.rs at line 150:
-            let mut handlers = self.handlers.lock();
-            for inth_opt in handlers.iter_mut() {
-                match inth_opt {
-   -                Some (inth) => {
-   +                Some(inth) => {
-                        if Arc::ptr_eq(&inth.handler, &handler) {
-                            *inth_opt = None;
-                            break;
-   Diff in drivers/gpu/nova-core/vfn.rs at line 157:
-                        }
-   -                },
-   +                }
-                    None => {}
-                }
-            }
-   Diff in drivers/gpu/nova-core/vfn.rs at line 180:
-            Ok((intr / 32, (1 << (intr % 32))))
-        }
-    
-   -    pub(crate) fn intr_allow(&self, intr: u32) -> Result <()> {
-   +    pub(crate) fn intr_allow(&self, intr: u32) -> Result<()> {
-            let (leaf, mask) = self.xlat(intr)?;
-    
-            self.reset(leaf, mask)?;
-   Diff in drivers/gpu/nova-core/vfn.rs at line 188:
-            Ok(())
-        }
-    
-   -    pub(crate) fn intr_block(&self, intr: u32) -> Result <()> {
-   +    pub(crate) fn intr_block(&self, intr: u32) -> Result<()> {
-            let (leaf, mask) = self.xlat(intr)?;
-    
-            self.block(leaf, mask)?;
-   Diff in drivers/gpu/nova-core/vfn.rs at line 197:
-    
-        fn pending(&self) -> Result<Option<[u32; VFN_NUM_MASKS]>> {
-            let intr_top = self.rd32(0x1600)?;
-   -        let mut stat : [u32; 8] = Default::default();
-   +        let mut stat: [u32; 8] = Default::default();
-            let mut pending: bool = false;
-            for leaf in 0..VFN_NUM_MASKS {
-                if intr_top & (1 << (leaf / 2)) != 0 {
->> Diff in drivers/gpu/nova-core/driver_dave.rs at line 1:
-    // SPDX-License-Identifier: GPL-2.0
-    
-   -use kernel::{
-   -    bindings, c_str,
-   -    device_id::IdArray,
-   -    pci,
-   -    prelude::*,
-   -    sync::Arc,
-   -    auxiliary_bus,
-   -};
-   +use kernel::{auxiliary_bus, bindings, c_str, device_id::IdArray, pci, prelude::*, sync::Arc};
-    
-   -use crate::{gpu_dave::Gpu};
-   +use crate::gpu_dave::Gpu;
-    use crate::mmu::mmu::DMA_BITS;
-    
-    pub(crate) struct NovaCoreDriver(Arc<NovaCoreData>);
-   Diff in drivers/gpu/nova-core/driver_dave.rs at line 66:
-            pdev.enable_msi();
-    
-            kernel::dma::dma_set_mask_and_coherent(pdev.as_dev(), (1_u64 << DMA_BITS) - 1);
-   -        let bar = Arc::new(pdev.iomap_region_sized::<BAR0_SIZE>(0, c_str!("nova"))?, GFP_KERNEL)?;
-   +        let bar = Arc::new(
-   +            pdev.iomap_region_sized::<BAR0_SIZE>(0, c_str!("nova"))?,
-   +            GFP_KERNEL,
-   +        )?;
-            let p = pdev.clone();
-    
-            let gpu = Gpu::new(&p, bar)?;
-   Diff in drivers/gpu/nova-core/driver_dave.rs at line 73:
-    
-   -        let data = Arc::pin_init(try_pin_init!(NovaCoreData {
-   -            gpu <- gpu,
-   -            auxdev <- auxiliary_bus::RawDevice::new(pdev.as_dev(),
-   -                                                    Some(nova_core_aux_release),
-   -                                                    c_str!("device"),
-   -                                                    0,
-   -                                                    c_str!("NovaCore")),
-   -            pdev: p,
-   -        }), GFP_KERNEL)?;
-   +        let data = Arc::pin_init(
-   +            try_pin_init!(NovaCoreData {
-   +                gpu <- gpu,
-   +                auxdev <- auxiliary_bus::RawDevice::new(pdev.as_dev(),
-   +                                                        Some(nova_core_aux_release),
-   +                                                        c_str!("device"),
-   +                                                        0,
-   +                                                        c_str!("NovaCore")),
-   +                pdev: p,
-   +            }),
-   +            GFP_KERNEL,
-   +        )?;
-    
-            Ok(KBox::new(Self(data), GFP_KERNEL)?.into())
-        }
-   Diff in drivers/gpu/nova-core/driver_dave.rs at line 86:
-    
-   -    fn sriov_configure(
-   -        pdev: &mut pci::Device,
-   -        num_vfs: i32) -> Result<i32> {
-   +    fn sriov_configure(pdev: &mut pci::Device, num_vfs: i32) -> Result<i32> {
-            if num_vfs > 0 {
-                return pdev.enable_sriov(num_vfs);
-            } else {
->> Diff in drivers/gpu/nova-core/dma_dave.rs at line 1:
-    #![allow(unused)]
-    
-   -use kernel::dma::CoherentAllocation;
-   -use kernel::scatterlist::{*, DmaDataDirection::*};
-   -use kernel::device;
-   -use kernel::prelude::*;
-   -use kernel::page::{PageSlice, Page, PAGE_SIZE, PAGE_SHIFT};
-    use core::alloc::Layout;
-    use core::ptr;
-   +use kernel::device;
-   +use kernel::dma::CoherentAllocation;
-   +use kernel::page::{Page, PageSlice, PAGE_SHIFT, PAGE_SIZE};
-   +use kernel::prelude::*;
-   +use kernel::scatterlist::{DmaDataDirection::*, *};
-    
-   -pub (crate) struct DmaObject {
-   +pub(crate) struct DmaObject {
-        pub dma: CoherentAllocation<u8>,
-        pub len: usize,
-        pub name: &'static str,
-   Diff in drivers/gpu/nova-core/dma_dave.rs at line 15:
-    }
-    
-    impl DmaObject {
-   -     pub(crate) fn new_from_data(dev: &device::Device,
-   -				 data: &[u8], name: &'static str) -> Result<DmaObject> {
-   -         let len = core::alloc::Layout::from_size_align(data.len(), PAGE_SIZE)?.pad_to_align().size();
-   +    pub(crate) fn new_from_data(
-   +        dev: &device::Device,
-   +        data: &[u8],
-   +        name: &'static str,
-   +    ) -> Result<DmaObject> {
-   +        let len = core::alloc::Layout::from_size_align(data.len(), PAGE_SIZE)?
-   +            .pad_to_align()
-   +            .size();
-    
-   -         let mut dma: CoherentAllocation<u8> = CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
-   +        let mut dma: CoherentAllocation<u8> =
-   +            CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
-    
-   -	 pr_info!("vma: {} {:#x} {:#x}", name, dma.dma_handle(), data.len());
-   -	 unsafe {
-   -	     ptr::copy_nonoverlapping(data.as_ptr(),
-   -				      dma.start_ptr_mut(),
-   -				      data.len());
-   -	 }
-   +        pr_info!("vma: {} {:#x} {:#x}", name, dma.dma_handle(), data.len());
-   +        unsafe {
-   +            ptr::copy_nonoverlapping(data.as_ptr(), dma.start_ptr_mut(), data.len());
-   +        }
-    
-   -	Ok(Self { dma, len, name })
-   -     }
-   +        Ok(Self { dma, len, name })
-   +    }
-    
-   -     pub(crate) fn new_cleared(dev: &device::Device,
-   -			       len: usize, name: &'static str) -> Result<DmaObject> {
-   -         let len = core::alloc::Layout::from_size_align(len, PAGE_SIZE)?.pad_to_align().size();
-   -         let dma: CoherentAllocation<u8> = CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
-   -	 Ok(Self { dma, len, name })
-   -     }
-   +    pub(crate) fn new_cleared(
-   +        dev: &device::Device,
-   +        len: usize,
-   +        name: &'static str,
-   +    ) -> Result<DmaObject> {
-   +        let len = core::alloc::Layout::from_size_align(len, PAGE_SIZE)?
-   +            .pad_to_align()
-   +            .size();
-   +        let dma: CoherentAllocation<u8> =
-   +            CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
-   +        Ok(Self { dma, len, name })
-   +    }
-    
-        pub(crate) fn wr32(&mut self, value: u32, offset: usize) -> Result<()> {
-   -	let bytes = value.to_le_bytes();
-   +        let bytes = value.to_le_bytes();
-    
-   -	unsafe {
-   -	    let ptr = self.dma.start_ptr_mut().byte_offset(offset as isize);
-   -	    ptr::copy_nonoverlapping(bytes.as_ptr(),
-   -				     ptr,
-   -				     4);
-   -	}
-   -	Ok(())
-   +        unsafe {
-   +            let ptr = self.dma.start_ptr_mut().byte_offset(offset as isize);
-   +            ptr::copy_nonoverlapping(bytes.as_ptr(), ptr, 4);
-   +        }
-   +        Ok(())
-        }
-    
-        pub(crate) fn wr64(&mut self, value: u64, offset: usize) -> Result<()> {
-   Diff in drivers/gpu/nova-core/dma_dave.rs at line 54:
-   -	let bytes = value.to_le_bytes();
-   +        let bytes = value.to_le_bytes();
-    
-   -	unsafe {
-   -	    let ptr = self.dma.start_ptr_mut().byte_offset(offset as isize);
---
-    /// Initialise a graphics context on a client
-   -pub unsafe extern "C" fn nova_core_chan_init_gr(auxdev: *mut bindings::auxiliary_device,
-   -                                                client: *mut bindings::nova_core_gsp_client,
-   -                                                vmm_ptr: *mut bindings::nova_core_vmm,
-   -                                                chan_ptr: *mut bindings::nova_core_chan) -> i32 {
-   +pub unsafe extern "C" fn nova_core_chan_init_gr(
-   +    auxdev: *mut bindings::auxiliary_device,
-   +    client: *mut bindings::nova_core_gsp_client,
-   +    vmm_ptr: *mut bindings::nova_core_vmm,
-   +    chan_ptr: *mut bindings::nova_core_chan,
-   +) -> i32 {
-        let core_driver = unsafe { container_of!(auxdev, NovaCoreData, auxdev) };
-        let gpu = unsafe { &(*core_driver).gpu };
-        let vmm: ArcBorrow<'_, GpuDeviceVmm> = unsafe { Arc::borrow((*vmm_ptr).arc) };
-   Diff in drivers/gpu/nova-core/core_api.rs at line 811:
-   -    let chan_arc: ArcBorrow<'_, Channel>=  unsafe { Arc::borrow((*chan_ptr).arc) };
-   +    let chan_arc: ArcBorrow<'_, Channel> = unsafe { Arc::borrow((*chan_ptr).arc) };
-        let dev: ArcBorrow<'_, GpuDevice> = unsafe { Arc::borrow((*client).gsp_device) };
-    
-        let chan: Arc<Channel> = Arc::<Channel>::from(chan_arc);
-   Diff in drivers/gpu/nova-core/core_api.rs at line 816:
-        let vmm_arc: Arc<GpuDeviceVmm> = Arc::<GpuDeviceVmm>::from(vmm);
-    
-        let gr_ctx_arc = match gpu.gr_ctx(&dev_arc, &chan, vmm_arc) {
-   -        Err(x) => { return x.to_errno(); },
-   -        Ok(gr) => gr
-   +        Err(x) => {
-   +            return x.to_errno();
-   +        }
-   +        Ok(gr) => gr,
-        };
-    
-   -    unsafe { (*chan_ptr).gr_ctx_arc = gr_ctx_arc.into_foreign() as *mut core::ffi::c_void; }
-   +    unsafe {
-   +        (*chan_ptr).gr_ctx_arc = gr_ctx_arc.into_foreign() as *mut core::ffi::c_void;
-   +    }
-        0
-    }
-    
-   Diff in drivers/gpu/nova-core/devinit_dave.rs at line 1:
-   -use kernel::prelude::*;
-   -use kernel::devres::Devres;
-   -use kernel::delay::sleep;
-   -use core::time::Duration;
-   +use crate::chipsets_after;
-    use crate::driver_dave::Bar0;
-   -use crate::gpu_dave::GpuBase;
-    use crate::gpu_dave::Chipset;
-   -use crate::chipsets_after;
-   +use crate::gpu_dave::GpuBase;
-   +use core::time::Duration;
-   +use kernel::delay::sleep;
-   +use kernel::devres::Devres;
-   +use kernel::prelude::*;
-    
-    pub(crate) fn wait(bar: &Devres<Bar0>) -> Result<()> {
-        let bar = bar.try_access().ok_or(ENXIO)?;
-   Diff in drivers/gpu/nova-core/devinit_dave.rs at line 12:
-        let mut timeout = 50 + 2000;
-    
-        loop {
-   -        if bar.try_readl(0x118128)? & 0x1 != 0 &&
-   -           (bar.try_readl(0x118234)? & 0xff) == 0xff {
-   +        if bar.try_readl(0x118128)? & 0x1 != 0 && (bar.try_readl(0x118234)? & 0xff) == 0xff {
-                return Ok(());
-            }
-    
-   Diff in drivers/gpu/nova-core/devinit_dave.rs at line 27:
-        Err(ETIME)
-    }
-    
-   -fn ga100_devinit_check_display_disable(bar: &Devres<Bar0>) -> Result<bool>
-   -{
-   +fn ga100_devinit_check_display_disable(bar: &Devres<Bar0>) -> Result<bool> {
-        let bar = bar.try_access().ok_or(ENXIO)?;
-        let reg = bar.try_readl(0x820c04)?;
-    
-   Diff in drivers/gpu/nova-core/devinit_dave.rs at line 35:
-        Ok(reg & 0x1 != 0)
-    }
-    
-   -fn tu102_devinit_check_display_disable(bar: &Devres<Bar0>) -> Result<bool>
-   -{
-   +fn tu102_devinit_check_display_disable(bar: &Devres<Bar0>) -> Result<bool> {
-        let bar = bar.try_access().ok_or(ENXIO)?;
-        let reg = bar.try_readl(0x021c04)?;
-    
-   Diff in drivers/gpu/nova-core/devinit_dave.rs at line 69:
-        }
-    }
-    
-   -pub(crate) fn vga_workspace_addr(gpu_base: &GpuBase, fb_size: u64, display_disabled: bool) -> Result<u64> {
-   +pub(crate) fn vga_workspace_addr(
-   +    gpu_base: &GpuBase,
-   +    fb_size: u64,
-   +    display_disabled: bool,
-   +) -> Result<u64> {
-        let bar = gpu_base.bar.try_access().ok_or(ENXIO)?;
-        let base = fb_size - 0x100000;
-        let mut addr: u64 = 0;
->> Diff in drivers/gpu/nova-core/dma_dave.rs at line 1:
-    #![allow(unused)]
-    
-   -use kernel::dma::CoherentAllocation;
-   -use kernel::scatterlist::{*, DmaDataDirection::*};
-   -use kernel::device;
-   -use kernel::prelude::*;
-   -use kernel::page::{PageSlice, Page, PAGE_SIZE, PAGE_SHIFT};
-    use core::alloc::Layout;
-    use core::ptr;
-   +use kernel::device;
-   +use kernel::dma::CoherentAllocation;
-   +use kernel::page::{Page, PageSlice, PAGE_SHIFT, PAGE_SIZE};
-   +use kernel::prelude::*;
-   +use kernel::scatterlist::{DmaDataDirection::*, *};
-    
-   -pub (crate) struct DmaObject {
-   +pub(crate) struct DmaObject {
-        pub dma: CoherentAllocation<u8>,
-        pub len: usize,
-        pub name: &'static str,
-   Diff in drivers/gpu/nova-core/dma_dave.rs at line 15:
-    }
-    
-    impl DmaObject {
-   -     pub(crate) fn new_from_data(dev: &device::Device,
-   -				 data: &[u8], name: &'static str) -> Result<DmaObject> {
-   -         let len = core::alloc::Layout::from_size_align(data.len(), PAGE_SIZE)?.pad_to_align().size();
-   +    pub(crate) fn new_from_data(
-   +        dev: &device::Device,
-   +        data: &[u8],
-   +        name: &'static str,
-   +    ) -> Result<DmaObject> {
-   +        let len = core::alloc::Layout::from_size_align(data.len(), PAGE_SIZE)?
-   +            .pad_to_align()
-   +            .size();
-    
-   -         let mut dma: CoherentAllocation<u8> = CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
-   +        let mut dma: CoherentAllocation<u8> =
-   +            CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
-    
-   -	 pr_info!("vma: {} {:#x} {:#x}", name, dma.dma_handle(), data.len());
-   -	 unsafe {
-   -	     ptr::copy_nonoverlapping(data.as_ptr(),
-   -				      dma.start_ptr_mut(),
-   -				      data.len());
-   -	 }
-   +        pr_info!("vma: {} {:#x} {:#x}", name, dma.dma_handle(), data.len());
-   +        unsafe {
-   +            ptr::copy_nonoverlapping(data.as_ptr(), dma.start_ptr_mut(), data.len());
-   +        }
-    
-   -	Ok(Self { dma, len, name })
-   -     }
-   +        Ok(Self { dma, len, name })
-   +    }
-    
-   -     pub(crate) fn new_cleared(dev: &device::Device,
-   -			       len: usize, name: &'static str) -> Result<DmaObject> {
-   -         let len = core::alloc::Layout::from_size_align(len, PAGE_SIZE)?.pad_to_align().size();
-   -         let dma: CoherentAllocation<u8> = CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
-   -	 Ok(Self { dma, len, name })
-   -     }
-   +    pub(crate) fn new_cleared(
-   +        dev: &device::Device,
-   +        len: usize,
-   +        name: &'static str,
-   +    ) -> Result<DmaObject> {
-   +        let len = core::alloc::Layout::from_size_align(len, PAGE_SIZE)?
-   +            .pad_to_align()
-   +            .size();
-   +        let dma: CoherentAllocation<u8> =
-   +            CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
-   +        Ok(Self { dma, len, name })
-   +    }
-    
-        pub(crate) fn wr32(&mut self, value: u32, offset: usize) -> Result<()> {
-   -	let bytes = value.to_le_bytes();
-   +        let bytes = value.to_le_bytes();
-    
-   -	unsafe {
-   -	    let ptr = self.dma.start_ptr_mut().byte_offset(offset as isize);
-   -	    ptr::copy_nonoverlapping(bytes.as_ptr(),
-   -				     ptr,
-   -				     4);
-   -	}
-   -	Ok(())
-   +        unsafe {
-   +            let ptr = self.dma.start_ptr_mut().byte_offset(offset as isize);
-   +            ptr::copy_nonoverlapping(bytes.as_ptr(), ptr, 4);
-   +        }
-   +        Ok(())
-        }
-    
-        pub(crate) fn wr64(&mut self, value: u64, offset: usize) -> Result<()> {
-   Diff in drivers/gpu/nova-core/dma_dave.rs at line 54:
-   -	let bytes = value.to_le_bytes();
-   +        let bytes = value.to_le_bytes();
-    
-   -	unsafe {
-   -	    let ptr = self.dma.start_ptr_mut().byte_offset(offset as isize);
-..
+vim +324 drivers/iio/adc/ad4851.c
+
+   295	
+   296	static int ad4851_set_oversampling_ratio(struct iio_dev *indio_dev,
+   297						 const struct iio_chan_spec *chan,
+   298						 unsigned int osr)
+   299	{
+   300		struct ad4851_state *st = iio_priv(indio_dev);
+   301		int val, ret;
+   302	
+   303		guard(mutex)(&st->lock);
+   304	
+   305		if (osr == 1) {
+   306			ret = regmap_clear_bits(st->regmap, AD4851_REG_OVERSAMPLE,
+   307						AD4851_OS_EN_MSK);
+   308			if (ret)
+   309				return ret;
+   310		} else {
+   311			val = ad4851_osr_to_regval(osr);
+   312			if (val < 0)
+   313				return -EINVAL;
+   314	
+   315			ret = regmap_update_bits(st->regmap, AD4851_REG_OVERSAMPLE,
+   316						 AD4851_OS_EN_MSK |
+   317						 AD4851_OS_RATIO_MSK,
+   318						 FIELD_PREP(AD4851_OS_EN_MSK, 1) |
+   319						 FIELD_PREP(AD4851_OS_RATIO_MSK, val));
+   320			if (ret)
+   321				return ret;
+   322		}
+   323	
+ > 324		ret = iio_backend_oversampling_ratio_set(st->back, chan, osr);
+   325		if (ret)
+   326			return ret;
+   327	
+   328		switch (st->info->resolution) {
+   329		case 20:
+   330			switch (osr) {
+   331			case 0:
+   332				return -EINVAL;
+   333			case 1:
+   334				val = 20;
+   335				break;
+   336			default:
+   337				val = 24;
+   338				break;
+   339			}
+   340			break;
+   341		case 16:
+   342			val = 16;
+   343			break;
+   344		default:
+   345			return -EINVAL;
+   346		}
+   347	
+   348		ret = iio_backend_data_size_set(st->back, val);
+   349		if (ret)
+   350			return ret;
+   351	
+   352		if (osr == 1 || st->info->resolution == 16) {
+   353			ret = regmap_clear_bits(st->regmap, AD4851_REG_PACKET,
+   354						AD4851_PACKET_FORMAT_MASK);
+   355			if (ret)
+   356				return ret;
+   357	
+   358			st->resolution_boost_enabled = false;
+   359		} else {
+   360			ret = regmap_update_bits(st->regmap, AD4851_REG_PACKET,
+   361						 AD4851_PACKET_FORMAT_MASK,
+   362						 FIELD_PREP(AD4851_PACKET_FORMAT_MASK, 1));
+   363			if (ret)
+   364				return ret;
+   365	
+   366			st->resolution_boost_enabled = true;
+   367		}
+   368	
+   369		if (st->osr != osr) {
+   370			ret = ad4851_scale_fill(indio_dev);
+   371			if (ret)
+   372				return ret;
+   373	
+   374			st->osr = osr;
+   375		}
+   376	
+   377		return 0;
+   378	}
+   379	
 
 -- 
 0-DAY CI Kernel Test Service
