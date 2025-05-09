@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5F425F79A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 22:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E54522155F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 22:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746830349; cv=none; b=mfh+2jjzqX5OdXQPsIDR7AkGVYNUJ0qDLmpNxC+MTc8GAtb5+aYJPoCHMhOz1rzZ1JnltPeaFu+ye7p23QOfpPaMtCpsOrOC3cUAvnIfOh+n4++zW6xpv6ueZFshYnbTHT2wTYMNcCLJtPueuLC+uYmM53g1C8YLfb7yEx0qLBI=
+	t=1746831553; cv=none; b=VabOJsSK550LhEWE66iLeF2t8G4sJLsFTaSXOb3igUANSV1WW/R/9u4U1Zj0b1NUMu2aB2Adt/tFd9VVbo+e/2AlJI2ZbZUGYCplzaLV7Zv79UR8XP5rHGF4d+pmM69vueiYF0A1bcK4491ZVb4k7d7UDWZO1xgwhhkqnK5uAq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746830349; c=relaxed/simple;
-	bh=SN4zdohWl+f2WVfWjJXdW5/SDruKtX9HWxzDAnL2lHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hf2f+CTwkxUe33fDHVpdBMrhx6qmXgIq2G76jjttbsWaUN+UoJZ9aPfsckL9zVHRNqm0BC21El2yehsCHs3ynHTA1uQVEEavv+VpE48XktJuCLuG/lThmAJIoOHqd7Ov2yq3LpRuxsRcg5ctQVuO2DtXwpaJzFnOs+Usyn3GCfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VE1ne1AS; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1746831553; c=relaxed/simple;
+	bh=6bTn5T9aJ1dG/QcSe0PfmEmuTX2zmPTsXHFZ/Ckvu4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ug0mjhd3ievp/K0iegWFjobSBieMIGB5UEmWuf/oS23lQ+SF4Rp8SgAZjRfIp45IwDrrudpXU+/vrYZfTQG4vph9mNnO81EqDPjXvJM8YgRMoDPWZNGO1bkOqkxqvzkmkYIW0NQNAJVjMLnlS1NDIAvzsokvQzcXmgV0oZEWuDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BCG8HuXP; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VE1ne1AS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCG8HuXP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746830347; x=1778366347;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SN4zdohWl+f2WVfWjJXdW5/SDruKtX9HWxzDAnL2lHc=;
-  b=VE1ne1AS/bd3YeFOHqF4dQ0GI6rF6r9fzemhFQ1N+b2ZpGVPXXWtR9Ht
-   qneSUOMThoMNbFNB9H0uUSJqniREeq/ZXPl8hHpEe0Hq5Wp7nMpxTDnZZ
-   zlC0O934aa9Qf/xN3bBkAXf+441y34p6w3VSB/LuSzAUY5ropqMXk5AFZ
-   0VsqC6RdQr0g2ilWwOXCPmPWFQBFJlnOm2MofZZwETIJ3OfNuXJlsW7ed
-   mWzU1boKrz187x22MRXSonfNLbicjBYltm6GFIUqwvhFoPQGjU2FcQT69
-   AWRK8Q8eCkhhnEIdMKjSOxsb3PLqoAempavjcW6wtsf0shoVbUh6RtjsY
-   A==;
-X-CSE-ConnectionGUID: e1xVUTWtQR+DWi2ypqN2bQ==
-X-CSE-MsgGUID: n0YS3VPaS1WOOR1stnTXzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="51332037"
+  t=1746831550; x=1778367550;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6bTn5T9aJ1dG/QcSe0PfmEmuTX2zmPTsXHFZ/Ckvu4s=;
+  b=BCG8HuXPXOeqx7pfOSOLJuwHs2CnMEHGjUB53Gu2soToC8HAOL/2ZGfu
+   LN3A51m0Mhk1LSZqbBHmMZFTSE8hEIKdQFREU4t+wk9HfSYIPgTLbH70a
+   GNGH4j64FagedBSCW44wygQe8XjKAG149B0PK6/V4NMgLmqlAZen72oKM
+   rcbQ57Rzb2wtFQX1ZVi66kMwpPqwudUC2qtaT7BYME906Ey10qdbC/5WB
+   pktI5S500SyhJjgsdpKZwO/FrzSV5XQMDmhMYNpZN7yVg+2PvNP7PsNoc
+   aeC/S7SzrMOSG0pJ+2YeOJw/4oWejRIrcohp4Jg+auAzhBLO83MWJmgLo
+   g==;
+X-CSE-ConnectionGUID: N0FcyXU7TXqTci31TRGMxA==
+X-CSE-MsgGUID: c+PWmiybQ9Oj1pvAhyYXyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="60078281"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="51332037"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 15:39:07 -0700
-X-CSE-ConnectionGUID: p69aYkqWQsi+XYT0Mcir4g==
-X-CSE-MsgGUID: sRA58C+hTESNeKWtNX2U5w==
+   d="scan'208";a="60078281"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 15:59:10 -0700
+X-CSE-ConnectionGUID: r6YHvPDuShS0AB1W6ENsDw==
+X-CSE-MsgGUID: 2JJVb3O3TP6jueuAMyjwGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="173918463"
+   d="scan'208";a="137693712"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 May 2025 15:39:05 -0700
+  by orviesa008.jf.intel.com with ESMTP; 09 May 2025 15:59:07 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDWMx-000CXv-1d;
-	Fri, 09 May 2025 22:39:03 +0000
-Date: Sat, 10 May 2025 06:38:04 +0800
+	id 1uDWgK-000CYR-3B;
+	Fri, 09 May 2025 22:59:04 +0000
+Date: Sat, 10 May 2025 06:58:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lpieralisi:dev/gicv5-v4 26/27]
- include/linux/compiler_types.h:557:38: error: call to
- '__compiletime_assert_674' declared with attribute error: BUILD_BUG_ON
- failed: 1
-Message-ID: <202505100636.9S4swc9b-lkp@intel.com>
+To: Andrew Ijano <andrew.ijano@gmail.com>, jic23@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrew.lopes@alumni.usp.br,
+	gustavobastos@usp.br, dlechner@baylibre.com, nuno.sa@analog.com,
+	andy@kernel.org, jstephan@baylibre.com, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] iio: accel: sca3000: replace usages of internal read
+ data helpers by spi helpers
+Message-ID: <202505100631.nlBOlbYm-lkp@intel.com>
+References: <20250509013931.47524-1-andrew.lopes@alumni.usp.br>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +66,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250509013931.47524-1-andrew.lopes@alumni.usp.br>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git dev/gicv5-v4
-head:   5731383379ee882b2a7f7c82f36939a9f4e52fda
-commit: 28491e22c921e270365748a18c6197eb103764c5 [26/27] arm64: Kconfig: Enable GICv5
-config: arm64-randconfig-001-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100636.9S4swc9b-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100636.9S4swc9b-lkp@intel.com/reproduce)
+Hi Andrew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.15-rc5 next-20250509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Ijano/iio-accel-sca3000-replace-usages-of-internal-read-data-helpers-by-spi-helpers/20250509-094127
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250509013931.47524-1-andrew.lopes%40alumni.usp.br
+patch subject: [PATCH v3] iio: accel: sca3000: replace usages of internal read data helpers by spi helpers
+config: i386-randconfig-r123-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100631.nlBOlbYm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100631.nlBOlbYm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505100636.9S4swc9b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505100631.nlBOlbYm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/accel/sca3000.c:745:46: sparse: sparse: cast to restricted __be16
+   drivers/iio/accel/sca3000.c:756:33: sparse: sparse: cast to restricted __be16
 
-   In file included from <command-line>:0:0:
-   drivers/irqchip/irq-gic-v5.c: In function 'gicv5_irq_domain_translate.isra.10':
->> include/linux/compiler_types.h:557:38: error: call to '__compiletime_assert_674' declared with attribute error: BUILD_BUG_ON failed: 1
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:538:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:557:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-     ^~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-gic-v5.c:579:3: note: in expansion of macro 'BUILD_BUG_ON'
-      BUILD_BUG_ON(1);
-      ^~~~~~~~~~~~
+vim +745 drivers/iio/accel/sca3000.c
 
-
-vim +/__compiletime_assert_674 +557 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
-
-:::::: The code at line 557 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   720	
+   721	static int sca3000_read_raw(struct iio_dev *indio_dev,
+   722				    struct iio_chan_spec const *chan,
+   723				    int *val,
+   724				    int *val2,
+   725				    long mask)
+   726	{
+   727		struct sca3000_state *st = iio_priv(indio_dev);
+   728		int ret;
+   729		u8 address;
+   730	
+   731		switch (mask) {
+   732		case IIO_CHAN_INFO_RAW:
+   733			mutex_lock(&st->lock);
+   734			if (chan->type == IIO_ACCEL) {
+   735				if (st->mo_det_use_count) {
+   736					mutex_unlock(&st->lock);
+   737					return -EBUSY;
+   738				}
+   739				address = sca3000_addresses[chan->address][0];
+   740				ret = spi_w8r16(st->us, SCA3000_READ_REG(address));
+   741				if (ret < 0) {
+   742					mutex_unlock(&st->lock);
+   743					return ret;
+   744				}
+ > 745				*val = sign_extend32(be16_to_cpu((__be16) ret) >>
+   746						     chan->scan_type.shift,
+   747						     chan->scan_type.realbits - 1);
+   748			} else {
+   749				/* get the temperature when available */
+   750				ret = spi_w8r16(st->us,
+   751							SCA3000_READ_REG(SCA3000_REG_TEMP_MSB_ADDR));
+   752				if (ret < 0) {
+   753					mutex_unlock(&st->lock);
+   754					return ret;
+   755				}
+   756				*val = (be16_to_cpu((__be16) ret) >>
+   757					chan->scan_type.shift) &
+   758					GENMASK(chan->scan_type.realbits - 1, 0);
+   759			}
+   760			mutex_unlock(&st->lock);
+   761			return IIO_VAL_INT;
+   762		case IIO_CHAN_INFO_SCALE:
+   763			*val = 0;
+   764			if (chan->type == IIO_ACCEL)
+   765				*val2 = st->info->scale;
+   766			else /* temperature */
+   767				*val2 = 555556;
+   768			return IIO_VAL_INT_PLUS_MICRO;
+   769		case IIO_CHAN_INFO_OFFSET:
+   770			*val = -214;
+   771			*val2 = 600000;
+   772			return IIO_VAL_INT_PLUS_MICRO;
+   773		case IIO_CHAN_INFO_SAMP_FREQ:
+   774			mutex_lock(&st->lock);
+   775			ret = sca3000_read_raw_samp_freq(st, val);
+   776			mutex_unlock(&st->lock);
+   777			return ret ? ret : IIO_VAL_INT;
+   778		case IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY:
+   779			mutex_lock(&st->lock);
+   780			ret = sca3000_read_3db_freq(st, val);
+   781			mutex_unlock(&st->lock);
+   782			return ret;
+   783		default:
+   784			return -EINVAL;
+   785		}
+   786	}
+   787	
 
 -- 
 0-DAY CI Kernel Test Service
