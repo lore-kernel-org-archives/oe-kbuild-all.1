@@ -1,119 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010058.outbound.protection.outlook.com [52.101.228.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90816274653;
-	Fri,  9 May 2025 08:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746780893; cv=none; b=HizoGc0bTWsqf5fGtS9ZR82BxRPWYrrY/wiV9J5HpHnm/kYF5I+v+nG9np4IR2jvYHxTXsQI0Ic41JMqRfyZ2EMOO+98ntUDvyg02CR15woExmY2+zyH3ZMClX+Ly85abH9J85pmD2WA+4H1Su/fbQiqKLU4cBrFlL58G/d7zsA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746780893; c=relaxed/simple;
-	bh=oepDtHzajxH/jtKxGYRJsypIYPhpsvGjOf7cGD1TEyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MMe5Rh+l5hfq4bSx3fsrAACODLM97NBNV/XTu/9dPhlNmPGEK2lX6FL2yxA7zlyP4WYP1yXnEoJ7X0g1MCG+I33CmIMyVEuppg3Oo+JalI+J7PEX2oestZtP7N77DRDiZfuNZAQjGD8B3Kvp93jVByQ2sSGF5i08BopF5WHeobg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UlaLZQaP; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1350274FD6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 08:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746781062; cv=fail; b=k0dLh0JDK0xBCnlpSJVpGSdad/4aefULpifSVGsmx/ty4B3ReJesUJ7P0QKXhbugO3AL6mWfcX+h7ik3/8fAR/F/zEXl3pS112JB/HvjLgTazkmSAMjhEKA64yV5KdWDfRZEwhS/oSzq019/NE6bQ+p9URZgjeIHB4JLIvwpmVs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746781062; c=relaxed/simple;
+	bh=AOYJiKT5fbKbTty5qxhinAQijCci7boD1EE9bkPOwLU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=HOUzec8JNbwXjoDs0QshMs5pCkAJcYrPN0N7uunHlDNYdF11/86q354Bn/AnKbccJqZlmemSE4M2i8XZI1muI5HjwXXaiPpC0scbVpUkhoAXocIbKi5/WlqBimR8eV/vqWbRyBYcUSZQvkVqwmXbfr1UuHtd1/04/3zmIe2qojs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=f/BVICso; arc=fail smtp.client-ip=52.101.228.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UlaLZQaP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746780891; x=1778316891;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oepDtHzajxH/jtKxGYRJsypIYPhpsvGjOf7cGD1TEyY=;
-  b=UlaLZQaPEzjCCf5oDflvv7Tmf+1z0z/6nrXh38fRLw1G6znhs4WkvPbQ
-   H7eheFrB8qQFZdqmaL2YQ3kTOVqRs7LqmJ9aLFImWwzItzS66Rlp0s8zN
-   Vc5//JPwUajVzm79N62PKqPP/nEHRDfSJfpLh+p4Hre0ShYcuOTOabIts
-   bdO9/H9nwJuyuhNpaMD1EMlsv0i5HIiZMoSxRWCF3uOyA0Y2rD3LsgvJH
-   ZjAJXdu1aW3Fr5ES3HlCz2iI2SYXIk2MrApxVQwViSZE29KQcJAQ8TAPw
-   PATgvOFT0ZM3jVCX1pvkcinNjkWYiH1T8Bn8Wmob1NEQXGfFsJTxkWWNV
-   Q==;
-X-CSE-ConnectionGUID: TeSr6QnZTcSld6Y3ey/LUQ==
-X-CSE-MsgGUID: 4HcEqaLdSVqG5X9uyuIHhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="47708660"
-X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="47708660"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 01:54:50 -0700
-X-CSE-ConnectionGUID: xLlKLPs9S2yw7cHFFTC1/g==
-X-CSE-MsgGUID: 5gtTs8nWQpqsgidedIDJrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="141334172"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 May 2025 01:54:49 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uDJVF-000BqR-2n;
-	Fri, 09 May 2025 08:54:45 +0000
-Date: Fri, 9 May 2025 16:54:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: [linux-nvme:nvme-6.16 11/14] drivers/nvme/target/core.c:1018:10:
- warning: variable 'ret' is uninitialized when used here
-Message-ID: <202505091619.QFU1fxsd-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="f/BVICso"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E9YL+aAcLSRNn49NMewHvb3FI3FTDdyDohAAYXboBu6Ufk1BThRP/H5DXgUwZdgSiMgANfXdNQqD6Rwv1jsjm7UsHQnuX0S1QVpL7HzqFGYH/uywr3YZV+gkkuicZX45ZCRChg52t8fpRBdo1rU9klmUDj62hU/b5lVM8PkDzqZKs/rHMt9xGOLhA5mX+BadRpsyRF71rX0iC3M56W3S5pDL1i1mT/Lb86/UjGU0ozpvHMaf5T/xY7Cr62A3wrTuYkXVsBgdP+MhHIHCkmms7TULEtukwn7KrrpKPiCOpiTl2lc9tc9oa0MU5/iK3jSoHUDKehdULFzoHLridJVhgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BRVc0MeVUw+JEXo7aCVFwsT4UKCAf1w05Na4gV7BdUc=;
+ b=SKaruJtjBiSeZts7Pu+xEFQpIEKsAiLFmncjKFhRdAEYviEApaRqOxEE/nzFVtm/AAWACVKJPKgkYTQ4Q3Z6Msd/AizzqMojrGTOmkdPR60CY7lGdsh30Azx0r4Ysv54YJgZUpIATN+stFMHxB1aHWRqttWPxzVqmc6dCRudcVjC+Kfk9PH6PzhO7u8Ra65ClASei2x0CoKF8c942/c0O34GMLJ16+loOSwFxW2nLNEKKkDwQ59q9bAZqNfJq/w/aJRoG8jfl46hUyyMKsJF+2+GqIgbmJRHPCROer15aXP0z0NedoLMoB0ZPAEclWGnJcY8mvwE5jKYhNQ8P0Jy3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BRVc0MeVUw+JEXo7aCVFwsT4UKCAf1w05Na4gV7BdUc=;
+ b=f/BVICsowQq9pCyhovPpmc7Df4aPLJf/V6V/CjD9SC7TeA/bdAnjyUHEEWVUfOulSOqhB/3W8OVgP0AMK19940icGXvKIIAgHdPFQfpukwbk5/19za5API11DA2FJaRyqt3+VAlQxdy446RYj/l6i2wkGbMg6fPiZiHqHW1FrrU=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by TYYPR01MB12676.jpnprd01.prod.outlook.com (2603:1096:405:15f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.23; Fri, 9 May
+ 2025 08:57:35 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479%4]) with mapi id 15.20.8722.020; Fri, 9 May 2025
+ 08:57:32 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: kernel test robot <lkp@intel.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Prabhakar Mahadev
+ Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
+Thread-Topic: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
+Thread-Index: AQHbwEdkfEmibOiFYEqFDXg0xw3l6bPJ/CIAgAADDdA=
+Date: Fri, 9 May 2025 08:57:32 +0000
+Message-ID:
+ <TYCPR01MB113323FCFB291EFA56EBA09E0868AA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20250508183109.137721-2-biju.das.jz@bp.renesas.com>
+ <202505091649.PuAhqb0T-lkp@intel.com>
+In-Reply-To: <202505091649.PuAhqb0T-lkp@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYYPR01MB12676:EE_
+x-ms-office365-filtering-correlation-id: 8f7d9e4e-aa2f-4f49-5266-08dd8ed788e5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|7053199007|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?Asqg1koSzmQW2MfDn1to8YFzikx53RaIt5QWLXzL18PU3iugU4fyBpaKpVQv?=
+ =?us-ascii?Q?Y9HRAL2zzo0NclralL3eFWpinHlqQk8cWHNTj/tnUpZlCdYPI2sM8ExJZllQ?=
+ =?us-ascii?Q?+ZYOTfHyTdYQP6gfAI9i3mG56sw+bzitLc7tgCRbRiuTosJ6DmIfOUU1Unmy?=
+ =?us-ascii?Q?L27G2zVjZif6FLaSPePfcI0kN/FZen3d/m9G2jrNnhyLnRBUAZNhSP5bsRvr?=
+ =?us-ascii?Q?YdVGkB20HJSWUmjECVhlNNGPrltxB5Ek/ipK17ChdmoWymwhhgpWmEaTrAQo?=
+ =?us-ascii?Q?zWQt2pnmIedS8ygH6KhYNnSUZJKIg1bvQtkTzlu5HahMoxO1faOPhyT0SAqs?=
+ =?us-ascii?Q?IK78tY6iczCIKdVJl14rx9JxJ8Z4Aq2hnTmB0dJg09NLjCtI+czOGaNzrKpv?=
+ =?us-ascii?Q?TuzTc+OvmwTYtBn4IrKyAQRZlwfTHMMCckQwBJwyqWIB6o3kA8h121Gch1O/?=
+ =?us-ascii?Q?MjrRWcGtXVkyVzHmsoUp3HSPbxQG/Rw/EDivH+8XqSZWy7TKEPiUt9ASkFzp?=
+ =?us-ascii?Q?V3uq0rmC7BdIVVp10izgBCBNyY/dDQ5OjcyPRbG777c0kd8TXPfFeyrvLXPv?=
+ =?us-ascii?Q?XHZ/H9eVaVu90Fx/0fH1meeXGIegaN/mmBYt2/mHOefdOMhUhiJKAtZocPDr?=
+ =?us-ascii?Q?zuI7Kw4U9jhIKzLj8pQSR/6RTn6I6gvPYWs/9FQZ/9V475i3hIub/OfHtRL1?=
+ =?us-ascii?Q?4F50zlU1ABOPxKlk2Oxj8CCH7ASV1Tn+93xshanjsa9HtbDbr73csP1cIzBi?=
+ =?us-ascii?Q?n18maUqBn5xQmooFDCec7WNtjCNF1boGbDuIrZdoSMPQkUkYP2UIPWclQhqK?=
+ =?us-ascii?Q?UoFzEjrhoWXOYTj2RgpBNhFbmLehphFv7swvLe/STNnNQZWK80B2aJFS1LID?=
+ =?us-ascii?Q?x5/36CD3Sp7fWuecYdG9O2xKObkyyC13qVuRnn3RdePEADa8HGh+WTR9vODf?=
+ =?us-ascii?Q?TpUFRcmujXidHUP20LgdhNo70DGicudhRmRB1liQl04vkV8HnV5L42Cq4Avo?=
+ =?us-ascii?Q?wDbKohNJSbH5D34rh71SjcIANZrLgYkPJuKbcvMHgYcKrQGxQ2/HFIPJXs8Z?=
+ =?us-ascii?Q?1ZWZVbig/tC6JP7ZBeWPUjaNxhluTcHooUY2oy1/LsPL4xwfWygCE1/lYJHL?=
+ =?us-ascii?Q?KpVTw0tlAZh1xF/XTOaRQUxMPlgSrGz/KECnEkO/sOHkzodwQSFkN84YKy/J?=
+ =?us-ascii?Q?CxmJ73JjICxwlFt1tww5CfE0CEUuAo8owmhkBQ3XY7UXHHwNlbut42XSniSJ?=
+ =?us-ascii?Q?fn0bEZpbkkY4+xoLq3GyM6UDUiZCb2Z5dd8iAAENAQlpKUVKdK9J3Z6DJMMt?=
+ =?us-ascii?Q?d+7+hpMQrPVItWOQhAIytH0dmKroeHzMXse2K5bOHBDnhEX0lp5yfERFIDas?=
+ =?us-ascii?Q?Bs2bLFkbTUfYaIrgBxoNsx9kikdlVJcTgxVvSIZE1iHsSsxdWTrApxIfw8eW?=
+ =?us-ascii?Q?Lf1NHP3N8hI=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?jpd+WDohM2QBD+kDldXvJoOuSKZg/7Ro246ShIXY92UHwtufYDR+QAywmKO7?=
+ =?us-ascii?Q?6jGvFOkNRuFrC8z81wvw3wqRIRBI9DDAU1nmnRbNCBo97HCf8Kd1ZLvhh4Gr?=
+ =?us-ascii?Q?xFGdsKRyQ0hy8JIY3EzMnTEl50aqovRjkzjkAwTzo3K4/1iKNWuTY3zz5apR?=
+ =?us-ascii?Q?4hz9SxbL1htppZY8zjiR9Kv2BMtGgyMMf9nMx462T7MYMlrLosQIvyFdADpa?=
+ =?us-ascii?Q?PlWanTR5tZ3EsCX2wqFV/zjkuPVjd7o1d5UV3j5Tbb7kJ1cD6jE2XXi/Bxqj?=
+ =?us-ascii?Q?qe6l5Pb/xHKM0v1AbtQdv/vohMfn+d8dwNHBlDxxlCxwuJQjS1noxd9TLtf9?=
+ =?us-ascii?Q?0ZatTDzSFQ5hzUt6S9mLKpA7Ze0bx17B2kDP7KM0324lMjH8gxZHYkqXD5lH?=
+ =?us-ascii?Q?CftNpKwZKtpa4MiQb/UynVFrA2gk7HxcMCu89jbVseEyuWP8U17HpxmkegY+?=
+ =?us-ascii?Q?lmVrWHkxODEe/AJKRgb46AcTX/Zj3kUC/5shxR+4bnoauRDR5yJnBIzAI4EJ?=
+ =?us-ascii?Q?8eD3hk3S0IT98Q3dBe9zH7tcqC+x4YUs47w0Q8ARooF8fk4JlI+APUzeru/W?=
+ =?us-ascii?Q?8fvwt8NrITcaLuVO0QjuE1OuAFAz8NTcAEYVYBr94UEXiS71f7BhUX8Qs2ne?=
+ =?us-ascii?Q?eJs7V9STBc1cbHNUOHlOvBW+vaoEzY5qkC0ElK4WZc1JGbKqsJO4wz3enV3F?=
+ =?us-ascii?Q?FKPfNeI1m7uTRgZnS+n0xfG2VPyN4UqXesA14KO6rMSG5texV9Jt2XsbWIn3?=
+ =?us-ascii?Q?0TTkMrSn+s1ax0HWq6szr6il96fTpHYWUz71Zuiuz6Vp3BEz5eG94ZMx6TS3?=
+ =?us-ascii?Q?BNZbqxsVxfs3NIbLJ0Gm+2rIb80VFpNBwn1nNOJkBhTDnnjxYQRLa30JYgAu?=
+ =?us-ascii?Q?fU2IeyNirG2iHpzycJuZ86GAW+K6vQ9IAvEdUHj/9R+x8yuEZG4Iv0VajXhB?=
+ =?us-ascii?Q?HEsG+KYl8bYzMTHI+b2z2ZWWZ/SZi13SwGiOGh6CcJe2L9/T+OtXn5KvO9Gi?=
+ =?us-ascii?Q?GtAliVqM6EbGqNhYqnMLCqhQwNnL0BbaPi4wgVtvKOmVKXAvDVpGq3ZUZ7GU?=
+ =?us-ascii?Q?phHYj2cJuUaN6zZUJx+nGJfTQHs4pn2izIiGSdKE3Npfsjg9W1Orb3mCtBip?=
+ =?us-ascii?Q?LRSes85zHr52gzmqmb2Rjo6DEAGNNz11dfeRHDzBdoEmm/IH+bqdIZxzHipg?=
+ =?us-ascii?Q?EAJHmNKgZRqQh+4Ta/Ly0Hir8CeQ2KD+WmaKIZDk0MBUoUsPnXUMWt/ZXpzp?=
+ =?us-ascii?Q?JRPM13yiuVJ23Ft3aBcM891+86Z1NdVun7vCXGdie3PqrAny8unldyTQDdcb?=
+ =?us-ascii?Q?DJvxNtCvi0e/X33JD/7FfyZp5fwnurQtYX87Obwa5/CSFBCLezuEYRVsyEAF?=
+ =?us-ascii?Q?Ao+pMOfEKHtpjA9or68t/YaT0BlmfE2zy+eRrXHusVV5yBQ5ld6B3MoM1iV9?=
+ =?us-ascii?Q?GnVR5GJbjUo1IYQn4P6hm7qilIhyVpX5xrJudSbORShP0HLA8UhOCkzBo3ZP?=
+ =?us-ascii?Q?07FwdnoIzVyBXwIz/tNgcipxdO2v0EJ8RCU/bnz/lRdmeL0NGwPLn5KflzND?=
+ =?us-ascii?Q?mp9H5REyjp4AVo6+meKmo0R762ymzQaREWPA5E8maW1smEwWigtdk8d0ojyz?=
+ =?us-ascii?Q?mQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f7d9e4e-aa2f-4f49-5266-08dd8ed788e5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2025 08:57:32.2107
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J3zKi6OM4565ceKhBuDQmbpVHLk5s7QrzXj7Eha+Okl2Abgw+NkiytLAAAh8L5GGM3gT//09owZcu2ibkikjPodgQoWAQHfhX7ot73FE17s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12676
 
-tree:   git://git.infradead.org/nvme.git nvme-6.16
-head:   a0136c6ac4a9aba90a47b9c691bc299a113b5259
-commit: 206372d7c565174e6b8289dac03077b23b8369c9 [11/14] nvmet: support completion queue sharing
-config: s390-randconfig-002-20250509 (https://download.01.org/0day-ci/archive/20250509/202505091619.QFU1fxsd-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091619.QFU1fxsd-lkp@intel.com/reproduce)
+Hi kernel test robot,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505091619.QFU1fxsd-lkp@intel.com/
+> -----Original Message-----
+> From: kernel test robot <lkp@intel.com>
+> Sent: 09 May 2025 09:43
+> To: Biju Das <biju.das.jz@bp.renesas.com>; Geert Uytterhoeven <geert+rene=
+sas@glider.be>; Magnus Damm
+> <magnus.damm@gmail.com>; Rob Herring <robh@kernel.org>; Krzysztof Kozlows=
+ki <krzk@kernel.org>; Conor
+> Dooley <conor+dt@kernel.org>
+> Cc: oe-kbuild-all@lists.linux.dev; Biju Das <biju.das.jz@bp.renesas.com>;=
+ linux-renesas-
+> soc@vger.kernel.org; devicetree@vger.kernel.org; Prabhakar Mahadev Lad <p=
+rabhakar.mahadev-
+> lad.rj@bp.renesas.com>
+> Subject: Re: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
+>=20
+> Hi Biju,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on geert-renesas-devel/next] [also build test ERRO=
+R on linus/master v6.15-rc5
+> next-20250508] [If your patch is applied to the wrong git tree, kindly dr=
+op us a note.
+> And when submitting patch, we suggest to use '--base' as documented in ht=
+tps://git-scm.com/docs/git-
+> format-patch#_base_tree_information]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/arm64-dts=
+-renesas-r9a09g047-Add-XSPI-
+> node/20250509-023503
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dev=
+el.git next
+> patch link:    https://lore.kernel.org/r/20250508183109.137721-2-biju.das=
+.jz%40bp.renesas.com
+> patch subject: [PATCH 1/2] arm64: dts: renesas: r9a09g047: Add XSPI node
+> config: arm64-randconfig-001-20250509 (https://download.01.org/0day-
+> ci/archive/20250509/202505091649.PuAhqb0T-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 7.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-
+> ci/archive/20250509/202505091649.PuAhqb0T-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of the same
+> patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:
+> | https://lore.kernel.org/oe-kbuild-all/202505091649.PuAhqb0T-lkp@intel.
+> | com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> >> Error: arch/arm64/boot/dts/renesas/r9a09g047.dtsi:293.14-15 syntax
+> >> error
+>    FATAL ERROR: Unable to parse input tree
 
-All warnings (new ones prefixed by >>):
+This patch has dependency on [1]
 
->> drivers/nvme/target/core.c:1018:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-    1018 |                 return ret;
-         |                        ^~~
-   drivers/nvme/target/core.c:1015:9: note: initialize the variable 'ret' to silence this warning
-    1015 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+[1] https://lore.kernel.org/all/CAMuHMdWhTirA+WYxNxHwAgaH6RDfWbhKaji22T_hhi=
+JYUkFjKw@mail.gmail.com/
 
-
-vim +/ret +1018 drivers/nvme/target/core.c
-
-  1012	
-  1013	int nvmet_sq_init(struct nvmet_sq *sq, struct nvmet_cq *cq)
-  1014	{
-  1015		int ret;
-  1016	
-  1017		if (!nvmet_cq_get(cq))
-> 1018			return ret;
-  1019	
-  1020		ret = percpu_ref_init(&sq->ref, nvmet_sq_free, 0, GFP_KERNEL);
-  1021		if (ret) {
-  1022			pr_err("percpu_ref init failed!\n");
-  1023			nvmet_cq_put(cq);
-  1024			return ret;
-  1025		}
-  1026		init_completion(&sq->free_done);
-  1027		init_completion(&sq->confirm_done);
-  1028		nvmet_auth_sq_init(sq);
-  1029		sq->cq = cq;
-  1030	
-  1031		return 0;
-  1032	}
-  1033	EXPORT_SYMBOL_GPL(nvmet_sq_init);
-  1034	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Biju
