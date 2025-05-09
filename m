@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAC723184E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 12:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C8B3B2A0;
+	Fri,  9 May 2025 13:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746795019; cv=none; b=f9mtvm9wkHjIAKUyMA0TsMkxhhPCfqmzv2zsYI5c+J3JIyGJx17queRMEG5Lm3KmTj7mUYPwq07qxP9pHGlnBxkpjBMOjUK+7eMOPxsg3+vgnPWMBYWtCzEWIe8Jz58TDW4HD0oeUnkyCoThIb4XccS7DBcF+Z07AaqK3Gr3dfg=
+	t=1746796880; cv=none; b=PvHgRxN+DRftlhKSC8M9zG0Llinnn1RhSDMjtQjLvaEnNddKCwgGFxWJ8STTYvCpgZrxOcF+afd7ISNBPdovvEDZn61aSClGYRXkV2q79+/9S30cIULzuSa4B1dnUKysBMVOlU8wTFxw8h7oC/5kVFSwRaEB7L7HpxS9TwCrvVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746795019; c=relaxed/simple;
-	bh=fnDyeYcUpoqrbSOCi2sjTmd6cIjqVA+Zh5TB8SQPjQI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kNPXLFJycth9AMQWoug2/TTbJFLH9iWNoMCBqueuZK647CkEghr++T2N3F5E6f9I3AQFv5/FOU6L0vNAhtZrBg5AOFEtIAymefpHUcoEwkdHSVJWjDSusFuNe1f/v+r1tFF+E4d/NRHygUGmHo3N9votH9JlV9sxUMQAm83B2XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKPz6Mj1; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1746796880; c=relaxed/simple;
+	bh=ySoUqgUBXXcdexz9NmsUsooZJR/o8E4vDlWHSW7lY14=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Y+ExcjeBYCiJ0a0E+nQrWfIwRi9/IX7HdMm9ENHeT69g957olePsVckJY5Eb7TOuUqm3wbs5e5+2miUNG+vk2AtnW+U18GYldRaJWSpFFxDDNr+He0ULuKT8sKzG/NrmaqfHQx0pZjwdii8nFY+VpJE1My8wDfeLKeyqNM4Zu2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D9nEesH/; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKPz6Mj1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D9nEesH/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746795017; x=1778331017;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fnDyeYcUpoqrbSOCi2sjTmd6cIjqVA+Zh5TB8SQPjQI=;
-  b=XKPz6Mj1fjIPZ79M+EZzMTZLpyY/EM34tbmcjTRjLaRHLSB1SpjNf+yI
-   MbRUbix1IwUci25QhU5DnTk6E2sp2YoSed2hG6ym/oqoP6YVHfO4K6YBC
-   7Y+XUa9jsW/822EyxkkSIajMTI2YdTq4LcELzj6Bp7aC9cn+/8uVVE1bS
-   u8YZSidvj3LSFYcyvqoMu2Hgrq3uJcC8wzHrRjU7Lur/2oQYFb2zpG7t+
-   KzJnjtY2JV7FT5s27XclcUgUPysVYUOE9eM2TnXYVIURwUyVqevd19lFo
-   83z/953RBBe4w1DmNIdhhX3kceo8UIB21MHlOF+6wsuhFXE3i0LPkB4CF
-   w==;
-X-CSE-ConnectionGUID: qpmiEeq+Sp2qQw0GjXy90A==
-X-CSE-MsgGUID: RaQfoepAQViY8clJxMUN0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52273400"
+  t=1746796879; x=1778332879;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ySoUqgUBXXcdexz9NmsUsooZJR/o8E4vDlWHSW7lY14=;
+  b=D9nEesH/hMhTs1UM+rnR58k0ajb68BOMo4e3u6f6MBn8tljuJm/leeyQ
+   qeSM5moi1zT/vvOv/TV1IVnLkIsRlC0R52G7i4WWxi+LIPvQkRJsUAq9S
+   AfcgdhZP3/uu++HiKnajq1JI0PjykZf+/fmKpZmufVQ9cxFnqZJFnrbZY
+   +mIdFxtIMDm7zVc4NPRs8d+E5A36v9PCWheFPtgbDq8rc0mLHj1kvKNM2
+   cSaAEYDq45cNUQsx/kQgM94Or1wWPw5eoMHdrRk8LYBqnFvhGsU//jq7Q
+   ytN0+3O6OUUayF2kjsJBEBRljdGjw5YjPz8V9kvWRnrVwnjxRSnnMvwQB
+   A==;
+X-CSE-ConnectionGUID: BOjbCC3oRvSmQR7uSA1JKg==
+X-CSE-MsgGUID: EBGjMiPvQx+Fu6qoRIYiRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="59967586"
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="52273400"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 05:50:16 -0700
-X-CSE-ConnectionGUID: MvJmEGOHRk+FrunGlOFqxg==
-X-CSE-MsgGUID: knNqLrorTzWFiC1IS8AnwA==
+   d="scan'208";a="59967586"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 06:21:17 -0700
+X-CSE-ConnectionGUID: m53ss1peTJyLY8Z+rRBiSA==
+X-CSE-MsgGUID: HK/OJG+LT72v6h1pkZfBmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="136631082"
+   d="scan'208";a="137546146"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 May 2025 05:50:13 -0700
+  by orviesa008.jf.intel.com with ESMTP; 09 May 2025 06:21:16 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDNB4-000C5f-2p;
-	Fri, 09 May 2025 12:50:10 +0000
-Date: Fri, 9 May 2025 20:49:34 +0800
+	id 1uDNf7-000C6l-0j;
+	Fri, 09 May 2025 13:21:13 +0000
+Date: Fri, 9 May 2025 21:21:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
-	bhelgaas@google.com, manivannan.sadhasivam@linaro.org,
-	ilpo.jarvinen@linux.intel.com, kw@linux.com
-Cc: oe-kbuild-all@lists.linux.dev, cassel@kernel.org, robh@kernel.org,
-	jingoohan1@gmail.com, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
-Subject: Re: [PATCH v11 4/6] PCI: dwc: Use common PCI host bridge APIs for
- finding the capabilities
-Message-ID: <202505092036.Sw8SstSY-lkp@intel.com>
-References: <20250505163420.198012-5-18255117159@163.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-new 337/348] mm/page_isolation.c:18:20: warning:
+ function 'get_pageblock_isolate' is not needed and will not be emitted
+Message-ID: <202505092126.yRGhLhg1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,48 +63,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250505163420.198012-5-18255117159@163.com>
 
-Hi Hans,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ca91b9500108d4cf083a635c2e11c884d5dd20ea]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Introduce-generic-bus-config-read-helper-function/20250506-004221
-base:   ca91b9500108d4cf083a635c2e11c884d5dd20ea
-patch link:    https://lore.kernel.org/r/20250505163420.198012-5-18255117159%40163.com
-patch subject: [PATCH v11 4/6] PCI: dwc: Use common PCI host bridge APIs for finding the capabilities
-config: parisc-randconfig-r063-20250509 (https://download.01.org/0day-ci/archive/20250509/202505092036.Sw8SstSY-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505092036.Sw8SstSY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   9fe9c5a30f2f2d799c0e2df192df6622969b23b7
+commit: ca2f45163b701e1632c452022b2aadeb52841ec6 [337/348] mm/page_isolation: remove migratetype parameter from more functions
+config: i386-buildonly-randconfig-004-20250509 (https://download.01.org/0day-ci/archive/20250509/202505092126.yRGhLhg1-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505092126.yRGhLhg1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505092036.Sw8SstSY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505092126.yRGhLhg1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In function 'dw_pcie_read_cfg',
-       inlined from 'dw_pcie_find_capability' at drivers/pci/controller/dwc/pcie-designware.c:219:9:
->> drivers/pci/controller/dwc/pcie-designware.c:212:14: warning: write of 32-bit data outside the bound of destination object, data truncated into 8-bit [-Wextra]
-     212 |         *val = dw_pcie_read_dbi(pci, where, size);
-         |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/page_isolation.c:18:20: warning: function 'get_pageblock_isolate' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+      18 | static inline bool get_pageblock_isolate(struct page *page)
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   mm/page_isolation.c:28:20: warning: unused function 'set_pageblock_isolate' [-Wunused-function]
+      28 | static inline void set_pageblock_isolate(struct page *page)
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +212 drivers/pci/controller/dwc/pcie-designware.c
+vim +/get_pageblock_isolate +18 mm/page_isolation.c
 
-   207	
-   208	static int dw_pcie_read_cfg(void *priv, int where, int size, u32 *val)
-   209	{
-   210		struct dw_pcie *pci = priv;
-   211	
- > 212		*val = dw_pcie_read_dbi(pci, where, size);
-   213	
-   214		return PCIBIOS_SUCCESSFUL;
-   215	}
-   216	
+0f0848e5118a4c Joonsoo Kim 2016-01-14  17  
+075a73e5db9ad9 Zi Yan      2025-05-08 @18  static inline bool get_pageblock_isolate(struct page *page)
+075a73e5db9ad9 Zi Yan      2025-05-08  19  {
+075a73e5db9ad9 Zi Yan      2025-05-08  20  	return get_pfnblock_flags_mask(page, page_to_pfn(page),
+075a73e5db9ad9 Zi Yan      2025-05-08  21  			PB_migrate_isolate_bit);
+075a73e5db9ad9 Zi Yan      2025-05-08  22  }
+075a73e5db9ad9 Zi Yan      2025-05-08  23  static inline void clear_pageblock_isolate(struct page *page)
+075a73e5db9ad9 Zi Yan      2025-05-08  24  {
+075a73e5db9ad9 Zi Yan      2025-05-08  25  	set_pfnblock_flags_mask(page, 0, page_to_pfn(page),
+075a73e5db9ad9 Zi Yan      2025-05-08  26  			PB_migrate_isolate_bit);
+075a73e5db9ad9 Zi Yan      2025-05-08  27  }
+075a73e5db9ad9 Zi Yan      2025-05-08  28  static inline void set_pageblock_isolate(struct page *page)
+075a73e5db9ad9 Zi Yan      2025-05-08  29  {
+075a73e5db9ad9 Zi Yan      2025-05-08  30  	set_pfnblock_flags_mask(page, PB_migrate_isolate_bit,
+075a73e5db9ad9 Zi Yan      2025-05-08  31  			page_to_pfn(page),
+075a73e5db9ad9 Zi Yan      2025-05-08  32  			PB_migrate_isolate_bit);
+075a73e5db9ad9 Zi Yan      2025-05-08  33  }
+075a73e5db9ad9 Zi Yan      2025-05-08  34  
+
+:::::: The code at line 18 was first introduced by commit
+:::::: 075a73e5db9ad940e38c8bca786b7d9ab0d36a37 mm-page_isolation-make-page-isolation-a-standalone-bit-fix
+
+:::::: TO: Zi Yan <ziy@nvidia.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
