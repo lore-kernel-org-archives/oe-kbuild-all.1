@@ -1,66 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF652900A1;
-	Fri,  9 May 2025 12:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAC723184E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 12:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746793756; cv=none; b=joRrcijoqmTBlAPTmHZxPaKXdcAO3h95uz0jWzgvc1RBm63OmM8RZbQMFGdsoQ4nCe9/Yys3A3nmDwhCHw+zD1KNd0kegx72zqz7oJTMZTIqsbjSgQSM5J38VDigcT0zxf9VedWn8vI/CxbBhnCvEyKSYQ0vtjRAG1K+WI2j1Z0=
+	t=1746795019; cv=none; b=f9mtvm9wkHjIAKUyMA0TsMkxhhPCfqmzv2zsYI5c+J3JIyGJx17queRMEG5Lm3KmTj7mUYPwq07qxP9pHGlnBxkpjBMOjUK+7eMOPxsg3+vgnPWMBYWtCzEWIe8Jz58TDW4HD0oeUnkyCoThIb4XccS7DBcF+Z07AaqK3Gr3dfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746793756; c=relaxed/simple;
-	bh=PzYfM4U0oRLonPlgfQq8pnsotxVOcUZeYx58AFSn078=;
+	s=arc-20240116; t=1746795019; c=relaxed/simple;
+	bh=fnDyeYcUpoqrbSOCi2sjTmd6cIjqVA+Zh5TB8SQPjQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PrjLiezcWOW0xvPwMe2UEmFNTheS92sKc+WCbKmt9dg4aWIHRuhR3S44auLIPkD8HjC6K1aHU8IPuai3BcXiXhhI4dyP7O79u1bl4PbH7uFx/4Slpf1AyTuVfL2k++fx75FR0Y6swSA98dJNcF969obBhTOrJrkH7eGPHJwSggc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EuBvdW/d; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=kNPXLFJycth9AMQWoug2/TTbJFLH9iWNoMCBqueuZK647CkEghr++T2N3F5E6f9I3AQFv5/FOU6L0vNAhtZrBg5AOFEtIAymefpHUcoEwkdHSVJWjDSusFuNe1f/v+r1tFF+E4d/NRHygUGmHo3N9votH9JlV9sxUMQAm83B2XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKPz6Mj1; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EuBvdW/d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKPz6Mj1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746793754; x=1778329754;
+  t=1746795017; x=1778331017;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PzYfM4U0oRLonPlgfQq8pnsotxVOcUZeYx58AFSn078=;
-  b=EuBvdW/dAc20W9ccB6mbJgWUJ2jEnNcQNzcLIDbvmpi3EJzW4dkL8I0A
-   8RFFJqdXh2Vvd2+yaJA7Tao7w4No5FjjGo8BfEbg4Z8QtCTqbhBxTArIT
-   JNtl73MVfXkqHVvKjM2BSkrA9QvdOI0RyjdnXf9VR3EYm41JvCLNoO0K/
-   dtOYRRESZeeIM5SPbEwovT36WVrNQd7nauWMdQJmXcJYcXwd+js1bGcfq
-   CejDbZL0deHBmTLQKUEJ6419WUhNVH9L/3oQb/uYaET0FoiVfohDHfi+D
-   42G4a5EEaMPAqWAbX6VqJEemneOI1Ggn6/6ttGHIbOqISPgzqNUIxm2tt
-   g==;
-X-CSE-ConnectionGUID: w/6bHW07SgiPZOJMqniNyA==
-X-CSE-MsgGUID: pK7ctQK4Qq6+usU/8FQjFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="59963903"
+  bh=fnDyeYcUpoqrbSOCi2sjTmd6cIjqVA+Zh5TB8SQPjQI=;
+  b=XKPz6Mj1fjIPZ79M+EZzMTZLpyY/EM34tbmcjTRjLaRHLSB1SpjNf+yI
+   MbRUbix1IwUci25QhU5DnTk6E2sp2YoSed2hG6ym/oqoP6YVHfO4K6YBC
+   7Y+XUa9jsW/822EyxkkSIajMTI2YdTq4LcELzj6Bp7aC9cn+/8uVVE1bS
+   u8YZSidvj3LSFYcyvqoMu2Hgrq3uJcC8wzHrRjU7Lur/2oQYFb2zpG7t+
+   KzJnjtY2JV7FT5s27XclcUgUPysVYUOE9eM2TnXYVIURwUyVqevd19lFo
+   83z/953RBBe4w1DmNIdhhX3kceo8UIB21MHlOF+6wsuhFXE3i0LPkB4CF
+   w==;
+X-CSE-ConnectionGUID: qpmiEeq+Sp2qQw0GjXy90A==
+X-CSE-MsgGUID: RaQfoepAQViY8clJxMUN0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52273400"
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="59963903"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 05:29:13 -0700
-X-CSE-ConnectionGUID: AEAKygE/R5OtNhb1QY27qw==
-X-CSE-MsgGUID: xc5/UoSQQ/Wj9mtgwrwTYg==
+   d="scan'208";a="52273400"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 05:50:16 -0700
+X-CSE-ConnectionGUID: MvJmEGOHRk+FrunGlOFqxg==
+X-CSE-MsgGUID: knNqLrorTzWFiC1IS8AnwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="137101795"
+   d="scan'208";a="136631082"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 May 2025 05:29:11 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 May 2025 05:50:13 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDMqi-000C4B-29;
-	Fri, 09 May 2025 12:29:08 +0000
-Date: Fri, 9 May 2025 20:28:12 +0800
+	id 1uDNB4-000C5f-2p;
+	Fri, 09 May 2025 12:50:10 +0000
+Date: Fri, 9 May 2025 20:49:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aman Kumar Pandey <aman.kumarpandey@nxp.com>,
-	linux-kernel@vger.kernel.org, linux-i3c@lists.infradead.org,
-	alexandre.belloni@bootlin.com, krzk+dt@kernel.org, robh@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	vikash.bansal@nxp.com, priyanka.jain@nxp.com,
-	shashank.rebbapragada@nxp.com, Frank.Li@nxp.com,
-	Aman Kumar Pandey <aman.kumarpandey@nxp.com>
-Subject: Re: [PATCH v2 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub
- device
-Message-ID: <202505092036.D5saUso4-lkp@intel.com>
-References: <20250508045711.2810207-2-aman.kumarpandey@nxp.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	bhelgaas@google.com, manivannan.sadhasivam@linaro.org,
+	ilpo.jarvinen@linux.intel.com, kw@linux.com
+Cc: oe-kbuild-all@lists.linux.dev, cassel@kernel.org, robh@kernel.org,
+	jingoohan1@gmail.com, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
+Subject: Re: [PATCH v11 4/6] PCI: dwc: Use common PCI host bridge APIs for
+ finding the capabilities
+Message-ID: <202505092036.Sw8SstSY-lkp@intel.com>
+References: <20250505163420.198012-5-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,120 +67,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250508045711.2810207-2-aman.kumarpandey@nxp.com>
+In-Reply-To: <20250505163420.198012-5-18255117159@163.com>
 
-Hi Aman,
+Hi Hans,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.15-rc5 next-20250508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ca91b9500108d4cf083a635c2e11c884d5dd20ea]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Kumar-Pandey/drivers-i3c-Add-driver-for-NXP-P3H2x4x-i3c-hub-device/20250508-125929
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250508045711.2810207-2-aman.kumarpandey%40nxp.com
-patch subject: [PATCH v2 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub device
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250509/202505092036.D5saUso4-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505092036.D5saUso4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Introduce-generic-bus-config-read-helper-function/20250506-004221
+base:   ca91b9500108d4cf083a635c2e11c884d5dd20ea
+patch link:    https://lore.kernel.org/r/20250505163420.198012-5-18255117159%40163.com
+patch subject: [PATCH v11 4/6] PCI: dwc: Use common PCI host bridge APIs for finding the capabilities
+config: parisc-randconfig-r063-20250509 (https://download.01.org/0day-ci/archive/20250509/202505092036.Sw8SstSY-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505092036.Sw8SstSY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505092036.D5saUso4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505092036.Sw8SstSY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/i3c/hub/p3h2840_i3c_hub_common.c:125:12: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     125 |                 value |= P3H2x4x_TP0145_PULLUP_CONF(p3h2x4x_pullup_dt_to_reg
-         |                          ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:93:3: note: expanded from macro 'P3H2x4x_TP0145_PULLUP_CONF'
-      93 |                 FIELD_PREP(P3H2x4x_TP0145_PULLUP_CONF_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:131:12: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     131 |                 value |= P3H2x4x_TP2367_PULLUP_CONF(p3h2x4x_pullup_dt_to_reg
-         |                          ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:96:3: note: expanded from macro 'P3H2x4x_TP2367_PULLUP_CONF'
-      96 |                 FIELD_PREP(P3H2x4x_TP2367_PULLUP_CONF_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:168:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     168 |                 val = P3H2x4x_CP0_VCCIO_LDO_VOLTAGE(p3h2x4x_ldo_dt_to_reg
-         |                       ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:68:3: note: expanded from macro 'P3H2x4x_CP0_VCCIO_LDO_VOLTAGE'
-      68 |                 FIELD_PREP(P3H2x4x_CP0_VCCIO_LDO_VOLTAGE_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:178:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     178 |                 val = P3H2x4x_CP1_VCCIO_LDO_VOLTAGE(p3h2x4x_ldo_dt_to_reg
-         |                       ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:71:3: note: expanded from macro 'P3H2x4x_CP1_VCCIO_LDO_VOLTAGE'
-      71 |                 FIELD_PREP(P3H2x4x_CP1_VCCIO_LDO_VOLTAGE_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:188:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     188 |                 val = P3H2x4x_TP0145_VCCIO_LDO_VOLTAGE(p3h2x4x_ldo_dt_to_reg
-         |                       ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:74:3: note: expanded from macro 'P3H2x4x_TP0145_VCCIO_LDO_VOLTAGE'
-      74 |                 FIELD_PREP(P3H2x4x_TP0145_VCCIO_LDO_VOLTAGE_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:198:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     198 |                 val = P3H2x4x_TP2367_VCCIO_LDO_VOLTAGE(p3h2x4x_ldo_dt_to_reg
-         |                       ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:77:3: note: expanded from macro 'P3H2x4x_TP2367_VCCIO_LDO_VOLTAGE'
-      77 |                 FIELD_PREP(P3H2x4x_TP2367_VCCIO_LDO_VOLTAGE_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:246:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     246 |                 val = P3H2x4x_CP0_IO_STRENGTH(p3h2x4x_io_strength_dt_to_reg
-         |                       ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:59:3: note: expanded from macro 'P3H2x4x_CP0_IO_STRENGTH'
-      59 |                 FIELD_PREP(P3H2x4x_CP0_IO_STRENGTH_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:252:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     252 |                 val = P3H2x4x_CP1_IO_STRENGTH(p3h2x4x_io_strength_dt_to_reg
-         |                       ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:62:3: note: expanded from macro 'P3H2x4x_CP1_IO_STRENGTH'
-      62 |                 FIELD_PREP(P3H2x4x_CP1_IO_STRENGTH_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:258:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     258 |                 val = P3H2x4x_TP0145_IO_STRENGTH(p3h2x4x_io_strength_dt_to_reg
-         |                       ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:53:3: note: expanded from macro 'P3H2x4x_TP0145_IO_STRENGTH'
-      53 |                 FIELD_PREP(P3H2x4x_TP0145_IO_STRENGTH_MASK, x)
-         |                 ^
-   drivers/i3c/hub/p3h2840_i3c_hub_common.c:264:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     264 |                 val = P3H2x4x_TP2367_IO_STRENGTH(p3h2x4x_io_strength_dt_to_reg
-         |                       ^
-   drivers/i3c/hub/p3h2840_i3c_hub.h:56:3: note: expanded from macro 'P3H2x4x_TP2367_IO_STRENGTH'
-      56 |                 FIELD_PREP(P3H2x4x_TP2367_IO_STRENGTH_MASK, x)
-         |                 ^
-   10 errors generated.
+   In function 'dw_pcie_read_cfg',
+       inlined from 'dw_pcie_find_capability' at drivers/pci/controller/dwc/pcie-designware.c:219:9:
+>> drivers/pci/controller/dwc/pcie-designware.c:212:14: warning: write of 32-bit data outside the bound of destination object, data truncated into 8-bit [-Wextra]
+     212 |         *val = dw_pcie_read_dbi(pci, where, size);
+         |         ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/FIELD_PREP +125 drivers/i3c/hub/p3h2840_i3c_hub_common.c
+vim +212 drivers/pci/controller/dwc/pcie-designware.c
 
-   117	
-   118	static int p3h2x4x_configure_pullup(struct device *dev)
-   119	{
-   120		struct p3h2x4x *priv = dev_get_drvdata(dev);
-   121		u8 mask = 0, value = 0;
-   122	
-   123		if (priv->settings.tp0145_pullup != P3H2x4x_TP_PULLUP_NOT_SET) {
-   124			mask |= P3H2x4x_TP0145_PULLUP_CONF_MASK;
- > 125			value |= P3H2x4x_TP0145_PULLUP_CONF(p3h2x4x_pullup_dt_to_reg
-   126							    (priv->settings.tp0145_pullup));
-   127		}
-   128	
-   129		if (priv->settings.tp2367_pullup != P3H2x4x_TP_PULLUP_NOT_SET) {
-   130			mask |= P3H2x4x_TP2367_PULLUP_CONF_MASK;
-   131			value |= P3H2x4x_TP2367_PULLUP_CONF(p3h2x4x_pullup_dt_to_reg
-   132							    (priv->settings.tp2367_pullup));
-   133		}
-   134	
-   135		return regmap_update_bits(priv->regmap, P3H2x4x_LDO_AND_PULLUP_CONF,
-   136					  mask, value);
-   137	}
-   138	
+   207	
+   208	static int dw_pcie_read_cfg(void *priv, int where, int size, u32 *val)
+   209	{
+   210		struct dw_pcie *pci = priv;
+   211	
+ > 212		*val = dw_pcie_read_dbi(pci, where, size);
+   213	
+   214		return PCIBIOS_SUCCESSFUL;
+   215	}
+   216	
 
 -- 
 0-DAY CI Kernel Test Service
