@@ -1,61 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28821EB39
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 14:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FE629550F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 14:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746799494; cv=none; b=aBbkjn3SybpYDTuEarilVuB91XJqHJynx08t7qMPFF4jqAt483SMdwaSvdWF39xkic2IRhBm5YBBEmoAvu1l1YcGoFTm4eksXHniD2mGMIbHPUl1Q/9lqCiqhhiwJdjL1bx5DVyXycsjNNrPMgwvGQ5n6vuhu589VqlftPEv4gI=
+	t=1746800010; cv=none; b=M0m8PRjn+tS0rkH8FapOsYtaipM7dDXxXhA2qUVExfUelO7jv46cG3BObE5ndXfJ00TaszGhwiuHm5xIH6UvTLHV5pPLLTc1D6JZskXHR3mQaBkLfz601YamjYuCRg/qUCRol2VLAQAKRlQqtwbiL68q9k0K2WVkI694fKMruZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746799494; c=relaxed/simple;
-	bh=vgZZ0cBokw9wBZvDIVBrkMp/yvPHNsYliJTfhRSfCzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=skMB42vbUsmJpw/yUKaU4fYpXZ8oIQ3cG/JsnaQH4Milwy1t0MsKhH+Bw3/CDCvll6CGQhvP1uEhxSo8k0+/BoOLvtn8fdfhDMH5tZzf2iGb0jz6RGd6Jxga4591Fu8XANL2iGg2EmPmUiGqKKu+vGanjzuKaCXIktjjM77V0iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/l7M2+Z; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1746800010; c=relaxed/simple;
+	bh=w1jQYPE2Doi+HHs3NZANXjINKX3NsvtO8bwrPT1Ogwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iof5POOZm8SPNQIpwOf7wii5RjmM//lS7tJp1qARIOvs17vjAo3RBAU4D9KAg2wp7wnouswcbVCcUyI8QWyXr8EobRI2YUcIHij7SC2bxWkMjZRbts/B5FuWLpAF9mnjukMwTabZLJJNwXJrWXXMecY4C+F8e93w8USZN6annx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IaxgZiqX; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/l7M2+Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IaxgZiqX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746799492; x=1778335492;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vgZZ0cBokw9wBZvDIVBrkMp/yvPHNsYliJTfhRSfCzY=;
-  b=W/l7M2+Z19CPQNZSUxII5sTM56JVR5OsjCBU1vOTjpLvCcKYre349Lwd
-   jQNK5loZVvj377WoRXK3Sb3FgLnN8DNGLckLWy51oSfFGiyW81gM7SPQY
-   kQ3EXnyU1aTIpgFv+orNk1MH2UAqHl3MU4Vgsh1GU4YCBtIg8eYfbaLKw
-   KN89akXdsNMSyxs079oVglNnRoPK3i3mio0fUVNQjMY84E1Wd1fZ4q1ei
-   Vqqp5p5XJf/w+bzhgH82SRWBiuhFcUMOE+ExChcJS+8URiZMkucPwADtw
-   YfuGnynmJjCYicw7lprhqfPq3JwfOPIc2vDokPbxKXxB0LadfRBbRJWui
-   g==;
-X-CSE-ConnectionGUID: LtnaiKKlQLadE8zo6Eh6fg==
-X-CSE-MsgGUID: qytD2tuiShytLbtHAp1deA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="59972342"
+  t=1746800009; x=1778336009;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w1jQYPE2Doi+HHs3NZANXjINKX3NsvtO8bwrPT1Ogwo=;
+  b=IaxgZiqXtczP6oa1xAMwFafTDs9ceLBgDpkyC8Lc80oe0flODb+kZojm
+   6PrsVFHhwKJ7tKW3nxv4gJagXZSvEQSffDHhNZVGfsqAH+faLKiwpyrWx
+   nOWMdllsQL8v1bchT09LN1lGaesL5PqFa1Qcv+FXmjcMu2s6Hf5W0aFiN
+   XBlAsIt+GxObaLu+ndqZOSGawWknprUMY6e0Gm+3KMqkui5MbQXX/9Xds
+   i4v5pqXP3M4FOm3RDDMRf9i7TYkmhJrkJKGzCkP9W1nyL3loWq01KDj+M
+   BEH+5jm5PuyYnzurzEmN9YpvXRjWAixSjfE0IFi6I6K9oiCPftt0pSPbM
+   w==;
+X-CSE-ConnectionGUID: pdRvBDWqSAy8n19/gBgSSw==
+X-CSE-MsgGUID: VFPrkQ4GTA6B3ca4MmUetA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48782044"
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="59972342"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 07:03:22 -0700
-X-CSE-ConnectionGUID: C4SaQpo/RzqXtS1119Zmgg==
-X-CSE-MsgGUID: AK9FnrvzQpasHCgJ5fx6Cw==
+   d="scan'208";a="48782044"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 07:13:28 -0700
+X-CSE-ConnectionGUID: +RFxhdCnQSasT+lMFMYEAg==
+X-CSE-MsgGUID: a91sjI53QdSfDx+i2iJY1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="136505681"
+   d="scan'208";a="141580846"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 May 2025 07:03:20 -0700
+  by orviesa004.jf.intel.com with ESMTP; 09 May 2025 07:13:22 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDOJp-000C8l-2k;
-	Fri, 09 May 2025 14:03:17 +0000
-Date: Fri, 9 May 2025 22:02:46 +0800
+	id 1uDOTW-000C9L-2i;
+	Fri, 09 May 2025 14:13:18 +0000
+Date: Fri, 9 May 2025 22:13:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jie Zhan <zhanjie9@hisilicon.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Lifeng Zheng <zhenglifeng1@huawei.com>
-Subject: [chanwoo:devfreq-testing 5/5]
- drivers/devfreq/hisi_uncore_freq.c:552:16: sparse: sparse: incorrect type in
- return expression (different modifiers)
-Message-ID: <202505092135.WsWbEZNU-lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-security-module@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: Re: [PATCH v1 bpf-next 3/5] af_unix: Remove redundant scm->fp check
+ in __scm_destroy().
+Message-ID: <202505092103.UWs7ZtbF-lkp@intel.com>
+References: <20250505215802.48449-4-kuniyu@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,73 +82,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250505215802.48449-4-kuniyu@amazon.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git devfreq-testing
-head:   a0983893e344a836747449e1d20f5273761d39fa
-commit: a0983893e344a836747449e1d20f5273761d39fa [5/5] PM / devfreq: Add HiSilicon uncore frequency scaling driver
-config: nios2-randconfig-r131-20250509 (https://download.01.org/0day-ci/archive/20250509/202505092135.WsWbEZNU-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250509/202505092135.WsWbEZNU-lkp@intel.com/reproduce)
+Hi Kuniyuki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/af_unix-Call-security_unix_may_send-in-sendmsg-for-all-socket-types/20250506-060219
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250505215802.48449-4-kuniyu%40amazon.com
+patch subject: [PATCH v1 bpf-next 3/5] af_unix: Remove redundant scm->fp check in __scm_destroy().
+config: i386-randconfig-054-20250509 (https://download.01.org/0day-ci/archive/20250509/202505092103.UWs7ZtbF-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505092103.UWs7ZtbF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505092135.WsWbEZNU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505092103.UWs7ZtbF-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/devfreq/hisi_uncore_freq.c:552:16: sparse: sparse: incorrect type in return expression (different modifiers) @@     expected struct cpumask * @@     got struct cpumask const * @@
-   drivers/devfreq/hisi_uncore_freq.c:552:16: sparse:     expected struct cpumask *
-   drivers/devfreq/hisi_uncore_freq.c:552:16: sparse:     got struct cpumask const *
-   drivers/devfreq/hisi_uncore_freq.c:562:16: sparse: sparse: incorrect type in return expression (different modifiers) @@     expected struct cpumask * @@     got struct cpumask const * @@
-   drivers/devfreq/hisi_uncore_freq.c:562:16: sparse:     expected struct cpumask *
-   drivers/devfreq/hisi_uncore_freq.c:562:16: sparse:     got struct cpumask const *
->> drivers/devfreq/hisi_uncore_freq.c:590:1: sparse: sparse: symbol 'dev_attr_related_cpus' was not declared. Should it be static?
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +552 drivers/devfreq/hisi_uncore_freq.c
-
-   549	
-   550	static struct cpumask *get_package_cpumask(int cpu)
-   551	{
- > 552		return topology_core_cpumask(cpu);
-   553	}
-   554	
-   555	static int get_cluster_id(int cpu)
-   556	{
-   557		return topology_cluster_id(cpu);
-   558	}
-   559	
-   560	static struct cpumask *get_cluster_cpumask(int cpu)
-   561	{
-   562		return topology_cluster_cpumask(cpu);
-   563	}
-   564	
-   565	static int hisi_uncore_mark_related_cpus_wrap(struct hisi_uncore_freq *uncore)
-   566	{
-   567		int rc;
-   568	
-   569		cpumask_clear(&uncore->related_cpus);
-   570	
-   571		rc = hisi_uncore_mark_related_cpus(uncore, "related-package",
-   572						   get_package_id,
-   573						   get_package_cpumask);
-   574		if (rc == 0)
-   575			return rc;
-   576	
-   577		return hisi_uncore_mark_related_cpus(uncore, "related-cluster",
-   578						     get_cluster_id,
-   579						     get_cluster_cpumask);
-   580	}
-   581	
-   582	static ssize_t related_cpus_show(struct device *dev,
-   583					 struct device_attribute *attr, char *buf)
-   584	{
-   585		struct hisi_uncore_freq *uncore = dev_get_drvdata(dev->parent);
-   586	
-   587		return cpumap_print_to_pagebuf(true, buf, &uncore->related_cpus);
-   588	}
-   589	
- > 590	DEVICE_ATTR_RO(related_cpus);
-   591	
+>> ERROR: modpost: "scm_fp_destroy" [net/bluetooth/bluetooth.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
