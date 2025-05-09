@@ -1,81 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5883423AE7C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 18:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6441E9B2A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 May 2025 18:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746813832; cv=none; b=jWJUfZexo1AasIPCp+Oui33bXXjys2o6dFkZn13PBYsqUlMuctxUoJsUKT5KYRPGs4uGpLMOEEznTdLOj9CUvJWZEOs4aYJHvPYqf/UAUokIVjEqV0yykzrRre1H74TaiXKdS952ja0AMmL79j9ASkJZisGoXm9uzHuHFXgMKu4=
+	t=1746815265; cv=none; b=nq2iiKtdFzTHLLfBHUleIRfsWD3qGMte/OGN3TEFTK7xcm/hpn603u4wwFolXa2fnnTT69TzrECrsnSgodNGnKBml1UONXvZ+tqcXsVZOpYTtj3yYNPtt7Unmb9NuQQx/cp+INFbBpIy4sx//EW6Y4iAjN55NSAPE5mEO5cBGDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746813832; c=relaxed/simple;
-	bh=TMIiQS5YfSgbaasKX3QzBCK1/RYA4e4rftcFiPeXxS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a0kkzrjyNLOakzC2XpDeH1LGmGadGG+Fo0o1eJrC2El44jyKASMs3NTX6zkXGZGSiD8yxajKpsqjw0q9YshZysI8bczFZYrCA3WKb136fOUHDWyf457tk/EHkGqe6gVl4+AsBVOP9QJ71/p846k9tKl6AZ6NMN0/vtiJWe1lqqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CRwRilSD; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1746815265; c=relaxed/simple;
+	bh=qV8V0m30GFRdn80wBEGyAI5zfw4HDBuqR2ybpcMyUOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gvsyF4qrS29tGtAGhoEbZrBfobPaXFdrDBFH/aKqN0gNw0FqVb4tvXwKynhioYzq9F87NdGIq6P3gk+ojkpMuXzYsv2Hr0Jjhknhv71v4MPVUUU58R5xzkd6aI9ALUJqSeBcmvPR1a/b/DRJa9WJ2kDJrYCMcjKSROGODM7aFS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8x/5Scx; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CRwRilSD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8x/5Scx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746813830; x=1778349830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TMIiQS5YfSgbaasKX3QzBCK1/RYA4e4rftcFiPeXxS8=;
-  b=CRwRilSDwM6EvLv3d66YeXGcQaJbsuD4dGaLDYwkPDIKE22pPqA+SVGF
-   mIdhEMc6DINlZABECe4tD8jamLlc8S2RfdOJ4YRioduIXqW918LSCbUZX
-   /wchVlxjKNA/yOdxWN3ooSV6tOpSmHdOlWDQXXPuRYaQG3NVyseKuA9NC
-   dFx6wEi0PKqcz16t5nULoMSYF7FVNNaAkIkCnkKdfRiO71EaHvFsaGOUq
-   sRCGEnaxTX5LIJzgFK8B7r7RecVkVS9ZHrLQLsFmRyGbusQ3XTOx9MIo3
-   IHLNGGZRCHKvtU0L5TOoIXmp7DwkKxBvwz1Jlhyr1NpReSlTVxze0n9cS
-   g==;
-X-CSE-ConnectionGUID: mrHDAFb4ShWq3jWwM52gZQ==
-X-CSE-MsgGUID: 0BLkgwnwT0qA+m0Vjakbyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48349966"
+  t=1746815264; x=1778351264;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qV8V0m30GFRdn80wBEGyAI5zfw4HDBuqR2ybpcMyUOc=;
+  b=O8x/5ScxO4yKAYsgj86HCIo7DEZNtifx5FAOvFKf7N1lcxwDL8fh3AkL
+   8Ab8rqCJxPcsjEhD1/ab+uGcg1fnZYpLbXn0NdpLOwkUZSibbGVFTAHya
+   ceP5iX7J9yK9lQ+T7kgJY8niVkD5dLVNmnOzEgyX+RQ+Ho+2qXWttc0eB
+   Hux9vJtHZPl6t1J5WhBCdk9+6QWOegvtvbSrlOWp3Yf20etE6S9bi+EZf
+   iXbKOwAO26uJyuWo14l8hp08WGMm4h1j8ZpCYxQ4wdYrlmMQcHIcrEwrR
+   jotPNp8KuusTJDSuZCEmnJ/aiLyf5bk0+QYuL+y9pwvxTUPtVrXct82qf
+   w==;
+X-CSE-ConnectionGUID: jsN/gwuZRLO7REDmxzqvDA==
+X-CSE-MsgGUID: HErJGTHARwyhP9ALf7dGxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="60057246"
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="48349966"
+   d="scan'208";a="60057246"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 11:03:49 -0700
-X-CSE-ConnectionGUID: Wdk17spXQvK54qmPmDD3Cw==
-X-CSE-MsgGUID: 97+KdvmWSkqS2ddY1D4QhA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 11:27:44 -0700
+X-CSE-ConnectionGUID: UGxa1MW/SHWCIsfqGWtt1A==
+X-CSE-MsgGUID: +ZgygB6fQbCkiYfw0cCJxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="141802458"
+   d="scan'208";a="141811332"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 May 2025 11:03:40 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 May 2025 11:27:43 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDS4Q-000CL5-0U;
-	Fri, 09 May 2025 18:03:38 +0000
-Date: Sat, 10 May 2025 02:03:05 +0800
+	id 1uDSRg-000CMN-1j;
+	Fri, 09 May 2025 18:27:40 +0000
+Date: Sat, 10 May 2025 02:27:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pop Ioan Daniel <pop.ioan-daniel@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
-	Dragos Bogdan <dragos.bogdan@analog.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Tobias Sperling <tobias.sperling@softing.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/4] iio: backend: update
- iio_backend_oversampling_ratio_set
-Message-ID: <202505100131.FZe7C8ot-lkp@intel.com>
-References: <20250508123107.3797042-2-pop.ioan-daniel@analog.com>
+Subject: [anolis-intel-cloud:devel-6.6 0/94] kernel/sched/isolation.c:323:6:
+ warning: no previous prototype for function 'update_wilds_cpumask'
+Message-ID: <202505100221.l8evb4Zp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,123 +61,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250508123107.3797042-2-pop.ioan-daniel@analog.com>
 
-Hi Pop,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.15-rc5 next-20250509]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pop-Ioan-Daniel/iio-backend-update-iio_backend_oversampling_ratio_set/20250508-203339
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250508123107.3797042-2-pop.ioan-daniel%40analog.com
-patch subject: [PATCH v2 1/4] iio: backend: update iio_backend_oversampling_ratio_set
-config: i386-randconfig-061-20250509 (https://download.01.org/0day-ci/archive/20250510/202505100131.FZe7C8ot-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100131.FZe7C8ot-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   3e44eae7361a463faa2cab260363678a02c089f5
+commit: 805a8687e30e5b269493f2deed8405e9888ff9ae [0/94] anolis: sched/isolation: dynamical CPU isolation support
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250510/202505100221.l8evb4Zp-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100221.l8evb4Zp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505100131.FZe7C8ot-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505100221.l8evb4Zp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/ad4851.c:324:60: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int chan @@     got struct iio_chan_spec const *chan @@
-   drivers/iio/adc/ad4851.c:324:60: sparse:     expected unsigned int chan
-   drivers/iio/adc/ad4851.c:324:60: sparse:     got struct iio_chan_spec const *chan
+All warnings (new ones prefixed by >>):
 
-vim +324 drivers/iio/adc/ad4851.c
+   In file included from kernel/sched/build_utility.c:105:
+>> kernel/sched/isolation.c:323:6: warning: no previous prototype for function 'update_wilds_cpumask' [-Wmissing-prototypes]
+     323 | void update_wilds_cpumask(cpumask_var_t new_allowed, cpumask_var_t old_allowed)
+         |      ^
+   kernel/sched/isolation.c:323:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     323 | void update_wilds_cpumask(cpumask_var_t new_allowed, cpumask_var_t old_allowed)
+         | ^
+         | static 
+   1 warning generated.
 
-   295	
-   296	static int ad4851_set_oversampling_ratio(struct iio_dev *indio_dev,
-   297						 const struct iio_chan_spec *chan,
-   298						 unsigned int osr)
-   299	{
-   300		struct ad4851_state *st = iio_priv(indio_dev);
-   301		int val, ret;
-   302	
-   303		guard(mutex)(&st->lock);
-   304	
-   305		if (osr == 1) {
-   306			ret = regmap_clear_bits(st->regmap, AD4851_REG_OVERSAMPLE,
-   307						AD4851_OS_EN_MSK);
-   308			if (ret)
-   309				return ret;
-   310		} else {
-   311			val = ad4851_osr_to_regval(osr);
-   312			if (val < 0)
-   313				return -EINVAL;
-   314	
-   315			ret = regmap_update_bits(st->regmap, AD4851_REG_OVERSAMPLE,
-   316						 AD4851_OS_EN_MSK |
-   317						 AD4851_OS_RATIO_MSK,
-   318						 FIELD_PREP(AD4851_OS_EN_MSK, 1) |
-   319						 FIELD_PREP(AD4851_OS_RATIO_MSK, val));
-   320			if (ret)
-   321				return ret;
-   322		}
-   323	
- > 324		ret = iio_backend_oversampling_ratio_set(st->back, chan, osr);
-   325		if (ret)
-   326			return ret;
-   327	
-   328		switch (st->info->resolution) {
-   329		case 20:
-   330			switch (osr) {
-   331			case 0:
-   332				return -EINVAL;
-   333			case 1:
-   334				val = 20;
-   335				break;
-   336			default:
-   337				val = 24;
-   338				break;
-   339			}
-   340			break;
-   341		case 16:
-   342			val = 16;
-   343			break;
-   344		default:
-   345			return -EINVAL;
-   346		}
-   347	
-   348		ret = iio_backend_data_size_set(st->back, val);
-   349		if (ret)
-   350			return ret;
-   351	
-   352		if (osr == 1 || st->info->resolution == 16) {
-   353			ret = regmap_clear_bits(st->regmap, AD4851_REG_PACKET,
-   354						AD4851_PACKET_FORMAT_MASK);
-   355			if (ret)
-   356				return ret;
-   357	
-   358			st->resolution_boost_enabled = false;
-   359		} else {
-   360			ret = regmap_update_bits(st->regmap, AD4851_REG_PACKET,
-   361						 AD4851_PACKET_FORMAT_MASK,
-   362						 FIELD_PREP(AD4851_PACKET_FORMAT_MASK, 1));
-   363			if (ret)
-   364				return ret;
-   365	
-   366			st->resolution_boost_enabled = true;
-   367		}
-   368	
-   369		if (st->osr != osr) {
-   370			ret = ad4851_scale_fill(indio_dev);
-   371			if (ret)
-   372				return ret;
-   373	
-   374			st->osr = osr;
-   375		}
-   376	
-   377		return 0;
-   378	}
-   379	
+
+vim +/update_wilds_cpumask +323 kernel/sched/isolation.c
+
+   322	
+ > 323	void update_wilds_cpumask(cpumask_var_t new_allowed, cpumask_var_t old_allowed)
+   324	{
+   325		struct css_task_iter it;
+   326		struct task_struct *task;
+   327		struct task_group *tg = &root_task_group;
+   328	
+   329		css_task_iter_start(&tg->css, 0, &it);
+   330		while ((task = css_task_iter_next(&it))) {
+   331			if (task->flags & PF_KTHREAD)
+   332				continue;
+   333	
+   334			if (!cpumask_equal(task->cpus_ptr, old_allowed))
+   335				continue;
+   336	
+   337			set_cpus_allowed_ptr(task, new_allowed);
+   338		}
+   339		css_task_iter_end(&it);
+   340	}
+   341	
 
 -- 
 0-DAY CI Kernel Test Service
