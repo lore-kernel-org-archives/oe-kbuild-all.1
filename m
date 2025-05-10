@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACF11754B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 01:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531661F03D4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 02:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746842184; cv=none; b=QSl4mG5vlc29cAxdEpMB9pU3om/Awzub1pejB3LVUbxzHaJgn+crJ4EHw7xFc5Q6cHBnTsv8GqDGC9kqVjXd/P+/4yGIgg1Yc5sX1CQf13RSFHgYoedknQfjvjaAH8rIfhnapoAl5CrNDGCiIRTKRAKn6ZiyFYhdHjw4P2rhPqc=
+	t=1746842786; cv=none; b=u5KKXsoXwxXJz3g0mRcV7yikIAqxeQSdU/jmoEru6Sih+c1ql1ho147FGDaWfgXOVlgGwaMcrEeZuDjsGnF9sFgOq9UZZXiKP6gnMraHJ1f8pwsW4GVnzf8h+Y1zpyzKypmxzs/22U0AKYMiPSBitlQWtXI3YBLIUH0/jmiJBaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746842184; c=relaxed/simple;
-	bh=3kw7GwvlQSxXk2TFGn+EMYYmpKYDJL0SriSZ1oNnUyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F5GdSSc0LFB15Ur7d6k2J20CrZ9jgUr4Az2T3g4tm1CWjoxubzWnRmr5U032jM5PXsbdspVMhfDxbRFp5G41kvGtCrQGcfMPN2plU7SX8qfev00zsax93XWg2B7DV14xGYr77E3GrCe3UAu5924WT1aY9XqNgV9R3Dpc5C4Ns48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SG62DSsN; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1746842786; c=relaxed/simple;
+	bh=3GI9uef+gbdOUP1K3y9Vtg3YS6z9BG6DFYSXR9Qy8Kw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L7ItL52P++5BdG9Je0e3P3tfu4OnUEScDU29w7ddMfjcg97/SK2XvJRPOfVZHutc3yj3XNAqm9tZR9xJ8qdQVxJTR9BJ4vJbEiTrp3HKRUc82YgQhPbgrwfDxf65zX/QWcrI0VCaT+oxe+AjVLMiqrUtawqYmi1ZHIg2sn58xow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gL6HRUFz; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SG62DSsN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gL6HRUFz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746842183; x=1778378183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3kw7GwvlQSxXk2TFGn+EMYYmpKYDJL0SriSZ1oNnUyE=;
-  b=SG62DSsNdWvHA3SsTs2WXCZHYYSuUdF3IQcPCS+Dov+rrGnAh9fBP168
-   YsoaEhA3uJ8BWflkHH1inAjt3UlWVAaQiSGjntraE52uEBFC9qTASOSUe
-   xluZc3O5Kf/JF2foVb3jd/sHeZK+XGJOvkdQcCTJpxzYnVMCIcR4FAcZt
-   JkMJZpF3XaygmgaSpNlZFC5yekriAQYA0wRJnVNM9DrXLPqy/jA05c05z
-   coHEDlhHgg/h6S1Enl8ve3hadDwVtf8wOSGWE+ciRqGQ7NIW49ouiJAFz
-   W8Fc2XqjdNZdACjtnDuWrCrjIbOxNBSv/dwmy2fsjAgV51/ejSFHqUI7Y
-   Q==;
-X-CSE-ConnectionGUID: qqXpNw6dTd6WbYhG5UDcRw==
-X-CSE-MsgGUID: t+MDmsnKTKm9432jIpIOWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48378553"
+  t=1746842784; x=1778378784;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3GI9uef+gbdOUP1K3y9Vtg3YS6z9BG6DFYSXR9Qy8Kw=;
+  b=gL6HRUFzfequiyF9iWM/1yKlvymhrMPfOvmof18qCwLmYRHrlj1IpP2E
+   6g1vYWFHzqmFSnd0HuuWWok3JjNfi3fIox5AZvaSRzYqgUA/lpUGu8ncV
+   uyDI+7bCMwXtfNzVl91j9vnGpJ1ZMmZkPgrdNKHunPffa6CPb4ZPKDgjr
+   tJ1X8m49eIgoTVpLW/opS+eU72uNUjfCQmUpcWk0YUKpkQBXD6UO5S0N/
+   AR3RUNmlPFJMIuZVtWd9l9MZCGU2A1/WVRAXsUnBLKBjwVsuIP2Zc8upo
+   PFBKVmWZjxBtoTvWrg5tsUi2wVckRHB0BEBdtQ19B7AcwDN5ln9qtaPKO
+   g==;
+X-CSE-ConnectionGUID: 5RNYs7V4T2GliK51PjGbRQ==
+X-CSE-MsgGUID: 5bh4mwrzRuKN71XwevCffA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48838777"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="48378553"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 18:56:22 -0700
-X-CSE-ConnectionGUID: E2COr/TLQOuey6R2Ths4IA==
-X-CSE-MsgGUID: 8foTDd3jT5WhlTyAKxhe6Q==
+   d="scan'208";a="48838777"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 19:06:23 -0700
+X-CSE-ConnectionGUID: s00EMUpzQymV4eTjAixdoQ==
+X-CSE-MsgGUID: waqBNc2SSOeqUTjBNaY4sA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="167868132"
+   d="scan'208";a="141900881"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 May 2025 18:56:21 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 May 2025 19:06:22 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDZRq-000CfP-37;
-	Sat, 10 May 2025 01:56:18 +0000
-Date: Sat, 10 May 2025 09:56:05 +0800
+	id 1uDZbY-000Cgh-0Y;
+	Sat, 10 May 2025 02:06:20 +0000
+Date: Sat, 10 May 2025 10:06:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 19/19] mm, netmem: remove the page pool members in struct
- page
-Message-ID: <202505100932.uzAMBW1y-lkp@intel.com>
-References: <20250509115126.63190-20-byungchul@sk.com>
+Subject: [openeuler:OLK-6.6 2218/2218] kismet: WARNING: unmet direct
+ dependencies detected for RESCTRL_FS when selected by ARM64_MPAM
+Message-ID: <202505101047.t5A72bmv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,76 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250509115126.63190-20-byungchul@sk.com>
 
-Hi Byungchul,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on fd93b3350b4314eebd8fbf0fea3ca7fe48d777e3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/netmem-rename-struct-net_iov-to-struct-netmem_desc/20250509-195458
-base:   fd93b3350b4314eebd8fbf0fea3ca7fe48d777e3
-patch link:    https://lore.kernel.org/r/20250509115126.63190-20-byungchul%40sk.com
-patch subject: [RFC 19/19] mm, netmem: remove the page pool members in struct page
-config: x86_64-buildonly-randconfig-003-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100932.uzAMBW1y-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100932.uzAMBW1y-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   eb29ec38301f3cfe72a33627aef774ac499803cb
+commit: c5a4bf91167c714de74c47f5cd6d888c66e9860d [2218/2218] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
+config: arm64-kismet-CONFIG_RESCTRL_FS-CONFIG_ARM64_MPAM-0-0 (https://download.01.org/0day-ci/archive/20250510/202505101047.t5A72bmv-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250510/202505101047.t5A72bmv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505100932.uzAMBW1y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505101047.t5A72bmv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/net/netdevsim/netdev.c: In function 'nsim_pp_hold_write':
->> drivers/net/netdevsim/netdev.c:852:49: error: 'struct page' has no member named 'pp'
-     852 |                 page_pool_put_full_page(ns->page->pp, ns->page, false);
-         |                                                 ^~
-   drivers/net/netdevsim/netdev.c: In function 'nsim_destroy':
-   drivers/net/netdevsim/netdev.c:1077:49: error: 'struct page' has no member named 'pp'
-    1077 |                 page_pool_put_full_page(ns->page->pp, ns->page, false);
-         |                                                 ^~
-
-
-vim +852 drivers/net/netdevsim/netdev.c
-
-1580cbcbfe770b Jakub Kicinski 2024-04-12  827  
-1580cbcbfe770b Jakub Kicinski 2024-04-12  828  static ssize_t
-1580cbcbfe770b Jakub Kicinski 2024-04-12  829  nsim_pp_hold_write(struct file *file, const char __user *data,
-1580cbcbfe770b Jakub Kicinski 2024-04-12  830  		   size_t count, loff_t *ppos)
-1580cbcbfe770b Jakub Kicinski 2024-04-12  831  {
-1580cbcbfe770b Jakub Kicinski 2024-04-12  832  	struct netdevsim *ns = file->private_data;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  833  	ssize_t ret;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  834  	bool val;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  835  
-1580cbcbfe770b Jakub Kicinski 2024-04-12  836  	ret = kstrtobool_from_user(data, count, &val);
-1580cbcbfe770b Jakub Kicinski 2024-04-12  837  	if (ret)
-1580cbcbfe770b Jakub Kicinski 2024-04-12  838  		return ret;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  839  
-1580cbcbfe770b Jakub Kicinski 2024-04-12  840  	rtnl_lock();
-1580cbcbfe770b Jakub Kicinski 2024-04-12  841  	ret = count;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  842  	if (val == !!ns->page)
-1580cbcbfe770b Jakub Kicinski 2024-04-12  843  		goto exit;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  844  
-1580cbcbfe770b Jakub Kicinski 2024-04-12  845  	if (!netif_running(ns->netdev) && val) {
-1580cbcbfe770b Jakub Kicinski 2024-04-12  846  		ret = -ENETDOWN;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  847  	} else if (val) {
-915c82f842f955 Jakub Kicinski 2025-01-07  848  		ns->page = page_pool_dev_alloc_pages(ns->rq[0]->page_pool);
-1580cbcbfe770b Jakub Kicinski 2024-04-12  849  		if (!ns->page)
-1580cbcbfe770b Jakub Kicinski 2024-04-12  850  			ret = -ENOMEM;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  851  	} else {
-1580cbcbfe770b Jakub Kicinski 2024-04-12 @852  		page_pool_put_full_page(ns->page->pp, ns->page, false);
-1580cbcbfe770b Jakub Kicinski 2024-04-12  853  		ns->page = NULL;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  854  	}
-1580cbcbfe770b Jakub Kicinski 2024-04-12  855  
-1580cbcbfe770b Jakub Kicinski 2024-04-12  856  exit:
-b9b8301d369b4c Eric Dumazet   2024-12-16  857  	rtnl_unlock();
-b9b8301d369b4c Eric Dumazet   2024-12-16  858  	return ret;
-1580cbcbfe770b Jakub Kicinski 2024-04-12  859  }
-1580cbcbfe770b Jakub Kicinski 2024-04-12  860  
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for RESCTRL_FS when selected by ARM64_MPAM
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+     Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+     Selected by [y]:
+     - ARM64_MPAM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
