@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2900010F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 22:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03652205ABA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 22:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746915752; cv=none; b=QK/GwFLAZGhoqkD9FhBJnmYLqQV4UbNggxchb/m5Eu2fmV+vU35y6E/N73TT51ZOySsk0fTsqxkrz+EmpYoSifX/MuKBLEPfRRDQiiVuLGFJdm1MLzBSCJica4DVaEMsQABeXofwrPbShajYWPRCLks2i6+GQIm1KCFpJjZzp3Q=
+	t=1746915754; cv=none; b=UEFX+mKga99hRnSvRTXOaFVjmxywYHiyRicaxEQU5Anv5V9a+LF4FyBXzSVSDKTQjiUz92GfhzDhuOyikaXssYaXKXYNQiMLa55kdQc0ZcTAQ1knA267MFAgkz97gAY5TJKAjVK2RsdB2/5bgV9f//VPscMZNMBb9R/jk9EiQZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746915752; c=relaxed/simple;
-	bh=84Q/LuEHAVtWoNz0cxglBwlMiqatc312kaL8hisuw6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VZpI0Gk7m6YhSJC8HrwM2/b+lUa3TrXgWnSV2Ak05rJVr+hJ86nYSZabkxsYhyWuIG36X0uMrjb1wYpVX7bQJ9nGemAJEO9cxN4bjRfTzWWcwGylfFIRKQvBP+AWGxXxKkrkcdcXFSzsfjydNGEIy3syPqdFEVkOOM2j+nFYETc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/CIt9Zw; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1746915754; c=relaxed/simple;
+	bh=ukgB+evCgCwwEnYan1JRIC6vSU5Hcfx4UggVn9a88D0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TtSGI31n0tKD+Sae+eLTbdwxdUtH5acursvppkKKA+weIRqcUWpR4zKlC6dWp3FQH9SvF9x0Hk9Hl9UoBGB/XRaAI8ABG3MraSDz+qI7YIVl//Ew1L4iLosiWM+G9IHgbbH8gGLZKKS9L6dieb98epxpJs1siSem6YgsFTN9xPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZFR7Ovf+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/CIt9Zw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFR7Ovf+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746915750; x=1778451750;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=84Q/LuEHAVtWoNz0cxglBwlMiqatc312kaL8hisuw6Y=;
-  b=B/CIt9Zwiza3cuhOmiIir0/NQCjxz2gbLx+6KgO76+cBWvbiIjq9OkK1
-   vwuluGmyczapMG4Na2wAIMQFaSncLFZw+n/QECzbngxAgr5GGEgLvkVrK
-   cm9qvmd/s654f+rYhmczQUv67OHLcIF8pfrxFzqRqQYYA+8UL4eHFgKJH
-   68g2Tba3L1df7saCST72q/K/y0few6ITQXzPqUSQULb8fWIhKT0eLxZwr
-   lJLwXD5+eq1NB/MLN8N0tT22O01+79IkWFKGANfSo8uuRu5FKt/rTxEaR
-   9oNZFR0vffw0+Fpn7O2tGfHZcaI7kNc1HK3E0UYaAtBTy88dIy6QX3QVt
-   Q==;
-X-CSE-ConnectionGUID: AEKEHgXORHCJFAsWnl4SOg==
-X-CSE-MsgGUID: L0gGPJ2mTYi5KvPDNCeglQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="66138904"
+  t=1746915751; x=1778451751;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ukgB+evCgCwwEnYan1JRIC6vSU5Hcfx4UggVn9a88D0=;
+  b=ZFR7Ovf+sms3/8fK6wEMykK5n7B6hixmsyY7bfR5lefmdYOl+pIYuuYD
+   SphuWTqP18qQpH0TVewMY85eozA2p6Lc1LgGf6dnblWHMReTl+jr8QtFu
+   jHGmrsEdCtGTuaXxr0ooFETmYy5hr3nYCvBZ95l1P5wg0NvjI/vvNQXc1
+   FYzBDiW8gf1yn5cYz7XxwwzvZUMOWh82/ddI7UicWy4SKWTyS/pqlLuPa
+   zOVMxs4a2AO1ruH1TDZ9fAD2H9kEs3cd3SoOqDHtrgxPXwan0n8dFFMvx
+   /ooF4aNaYRVY1HkueNAysMy9+2xfTgvs+0eCCUXl+l8lXk+Y7XuDoo6pl
+   A==;
+X-CSE-ConnectionGUID: aLivnF9/S6qlgHrgV65fmw==
+X-CSE-MsgGUID: 8AHm6F5hQ6CaSe7POvbOsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="60070997"
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="66138904"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 15:22:29 -0700
-X-CSE-ConnectionGUID: lscQ47ITTw2+0KEZPua8sA==
-X-CSE-MsgGUID: 5IvkztQ1SSGc8SWOaXa3dQ==
+   d="scan'208";a="60070997"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 15:22:31 -0700
+X-CSE-ConnectionGUID: yDZ2mg0YT5CNxlYkKlF02Q==
+X-CSE-MsgGUID: 24ULPRgJRqy7z5ibucgwkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="141728523"
+   d="scan'208";a="142192608"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 May 2025 15:22:29 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 10 May 2025 15:22:28 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDsaQ-000DR6-1x;
+	id 1uDsaQ-000DR1-1n;
 	Sat, 10 May 2025 22:22:26 +0000
-Date: Sun, 11 May 2025 06:21:44 +0800
+Date: Sun, 11 May 2025 06:21:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/94] mm/unevictable.c:160:6: warning:
- no previous prototype for function 'del_unevict_task'
-Message-ID: <202505110625.v08JlgBX-lkp@intel.com>
+To: Raju Rangoju <Raju.Rangoju@amd.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Raju Rangoju <Raju.Rangoju@amd.com>,
+	Krishnamoorthi M <krishnamoorthi.m@amd.com>,
+	Akshata MukundShetty <akshata.mukundshetty@amd.com>
+Subject: Re: [PATCH] spi: spi_amd: Add HIDDMA basic write support
+Message-ID: <202505110641.zLT16Dv7-lkp@intel.com>
+References: <20250509181737.997167-1-Raju.Rangoju@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,70 +65,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250509181737.997167-1-Raju.Rangoju@amd.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   5b7daba404993131fe0d699e5acdccaa5bc3a017
-commit: 9fccd3992b49b1773fb24a20db0102fc49590248 [0/94] anolis: mm: unevictable: adjust three key functions
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250511/202505110625.v08JlgBX-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110625.v08JlgBX-lkp@intel.com/reproduce)
+Hi Raju,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.15-rc5]
+[also build test WARNING on linus/master]
+[cannot apply to broonie-spi/for-next next-20250509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/spi-spi_amd-Add-HIDDMA-basic-write-support/20250510-021954
+base:   v6.15-rc5
+patch link:    https://lore.kernel.org/r/20250509181737.997167-1-Raju.Rangoju%40amd.com
+patch subject: [PATCH] spi: spi_amd: Add HIDDMA basic write support
+config: m68k-randconfig-r111-20250511 (https://download.01.org/0day-ci/archive/20250511/202505110641.zLT16Dv7-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250511/202505110641.zLT16Dv7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505110625.v08JlgBX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505110641.zLT16Dv7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-amd.c:594:57: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/spi/spi-amd.c:594:57: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/spi/spi-amd.c:594:57: sparse:     got void *
 
->> mm/unevictable.c:160:6: warning: no previous prototype for function 'del_unevict_task' [-Wmissing-prototypes]
-     160 | void del_unevict_task(struct task_struct *tsk)
-         |      ^
-   mm/unevictable.c:160:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     160 | void del_unevict_task(struct task_struct *tsk)
-         | ^
-         | static 
-   1 warning generated.
+vim +594 drivers/spi/spi-amd.c
 
-
-vim +/del_unevict_task +160 mm/unevictable.c
-
-   159	
- > 160	void del_unevict_task(struct task_struct *tsk)
-   161	{
-   162		struct evict_pid_entry *result;
-   163	
-   164		if (!tsk) {
-   165			struct evict_pid_entry *pid_entry, *tmp;
-   166	
-   167			mutex_lock(&pid_mutex);
-   168			list_for_each_entry_safe(pid_entry, tmp, &pid_list, list) {
-   169				rcu_read_lock();
-   170				tsk = find_task_by_pid_ns(pid_entry->rootpid,
-   171						&init_pid_ns);
-   172				rcu_read_unlock();
-   173				if (!tsk) {
-   174					list_del(&pid_entry->list);
-   175					__remove_entry(pid_entry);
-   176					kfree(pid_entry);
-   177				}
-   178			}
-   179			mutex_unlock(&pid_mutex);
-   180			return;
-   181		}
-   182	
-   183		mutex_lock(&pid_mutex);
-   184		result = lookup_unevict_entry(tsk);
-   185		if (result) {
-   186			list_del(&result->list);
-   187			__remove_entry(result);
-   188			mutex_unlock(&pid_mutex);
-   189			__evict_pid(result);
-   190			kfree(result);
-   191		} else
-   192			mutex_unlock(&pid_mutex);
-   193	}
-   194	
+   566	
+   567	static void amd_spi_mem_data_out(struct amd_spi *amd_spi,
+   568					 const struct spi_mem_op *op)
+   569	{
+   570		int base_addr = AMD_SPI_FIFO_BASE + op->addr.nbytes;
+   571		u64 *buf_64 = (u64 *)op->data.buf.out;
+   572		u64 addr_val = op->addr.val;
+   573		u32 nbytes = op->data.nbytes;
+   574		u32 left_data = nbytes;
+   575		u8 *buf;
+   576		int i;
+   577	
+   578		/*
+   579		 * Condition for using HID write mode. Only for writing complete page data, use HID write.
+   580		 * Use index mode otherwise.
+   581		 */
+   582		if (amd_spi->version == AMD_HID2_SPI && amd_is_spi_write_cmd(op->cmd.opcode)) {
+   583			void *hid_base_addr = amd_spi->dma_virt_addr + op->addr.nbytes + op->cmd.nbytes;
+   584	
+   585			/* Write opcode and address in system memory */
+   586			writeb(op->cmd.opcode, amd_spi->dma_virt_addr);
+   587	
+   588			for (i = 0; i < op->addr.nbytes; i++) {
+   589				writeb(addr_val & GENMASK(7, 0), hid_base_addr - i - op->cmd.nbytes);
+   590				addr_val >>= 8;
+   591			}
+   592	
+   593			for (i = 0; left_data >= 8; i++, left_data -= 8)
+ > 594				writeq(*buf_64++, hid_base_addr + (i * 8));
+   595	
+   596			buf = (u8 *)buf_64;
+   597	
+   598			for (i = 0; i < left_data; i++)
+   599				writeb(buf[i], hid_base_addr + (nbytes - left_data + i));
+   600	
+   601			amd_spi_hiddma_write(amd_spi, op);
+   602		} else {
+   603			amd_spi_set_opcode(amd_spi, op->cmd.opcode);
+   604			amd_spi_set_addr(amd_spi, op);
+   605	
+   606			for (i = 0; left_data >= 8; i++, left_data -= 8)
+   607				amd_spi_writereg64(amd_spi, base_addr + op->dummy.nbytes + (i * 8),
+   608						   *buf_64++);
+   609	
+   610			buf = (u8 *)buf_64;
+   611			for (i = 0; i < left_data; i++) {
+   612				amd_spi_writereg8(amd_spi,
+   613						  base_addr + op->dummy.nbytes + nbytes + i - left_data,
+   614						  buf[i]);
+   615			}
+   616	
+   617			amd_spi_set_tx_count(amd_spi, op->addr.nbytes + op->data.nbytes);
+   618			amd_spi_set_rx_count(amd_spi, 0);
+   619			amd_spi_clear_fifo_ptr(amd_spi);
+   620			amd_spi_execute_opcode(amd_spi);
+   621		}
+   622	}
+   623	
 
 -- 
 0-DAY CI Kernel Test Service
