@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A455821B19D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 18:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A1B2750ED
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 18:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746901310; cv=none; b=gS9jXBk4Gn7qALDRzkzMgNrY1vyw/dCWCyD6ddDOgEnlGWjm8YsqaBUDKjxXDc0aGepGPxiYU1N2WRMms6kv8h81e8Hsj54R4bazVlAHZJerGOedsR4pCVisuXHGMI3sQG0iR08ENF2oLUOHBJApmMrc8C52JEvJCuEHrvaEv5g=
+	t=1746901311; cv=none; b=s92mMriBLk/2ujzxtC544ycq2Flz6HM5BkwJMM+bOXMWJVyDAlwcx3UxF90NXNONtQucHwbbCRkzJhOZBUkB+w/WZUzCg7XHtsuJlVY3ovF07IkDHGjuIY59Vtn8grTZYpMc8CQ8Kw2FS3llCmdZuNVFEO8mnzgkUHqHWjYuicE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746901310; c=relaxed/simple;
-	bh=3IJUPx4mTCmbf/rR/pJYHJcK5Uds2BW1vf9YZK3SsQg=;
+	s=arc-20240116; t=1746901311; c=relaxed/simple;
+	bh=xl2Xm03MEzX92K3RCfMoIfeHFxeUA2uFI9WSwepWXvM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ed2KofsSa+7KIl/q7MXOorOyuMkUjMQMfdyI5RIn7CJESJmTeqN0wSrCg6ALW2s0fDuUdv4U2cdQqzMBQzeRCnbtV2BVhw/sqs7WSquHhUWTJf7Am71oSI69DNJyFzq9wfIofDTtDoUEUQ8FYr8lX1f4PON65MhYw5KGYR9I56k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJf8ti8Z; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=qUp9QtKGFKMaIBmd+EhaxtXTSl18jMDva4lwA1+d33DGy4G8/jv8Emm7onjhBFiRyaaYJ4FlPifwWXLkA5/A0/ibCMv2zNQ28/8AU1ygLeP4Avr9aayBqpEoHLQZ5XUZR6n4rJZsMt3D+yObXLHRvsIelYqqaljzWqyqeDlR2ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kH1+NrCR; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJf8ti8Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kH1+NrCR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746901307; x=1778437307;
+  t=1746901310; x=1778437310;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3IJUPx4mTCmbf/rR/pJYHJcK5Uds2BW1vf9YZK3SsQg=;
-  b=GJf8ti8Zhmc4c0cfzrWiCMGLv78hqKPwXRkRm+NqyDvXWE9KMBi8VwZ4
-   Zku0USegwWyqTLv6J4IZZ8RVUkkiWNbO0mZ5lJFq6SgcC3bql0soOVeoq
-   6niYThepu9Km/FFEheEji1SLpI9yaAUYaZNf2VzCHzn1sYv05M2+NyKA2
-   d2IT5g3nLjuIqhIq5RenON+ONMxmV0fa65VuTN/cH96j3XZOzSFnjPwoe
-   lJHfVSOjisTEvCVpcZfUe6DorIe95iTQuZTcDqMcBMBhlM9gJgoprFlLA
-   T4Ln+2ixasrZm3TdRwNqt9j1aEuiROiLVmcWqULZhSHMtSB0jIJdhqeah
-   g==;
-X-CSE-ConnectionGUID: nVv2CVuoQf+qfSB0M2n4DA==
-X-CSE-MsgGUID: IUw47wocQhmIWvdjeEhCkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="47835039"
+  bh=xl2Xm03MEzX92K3RCfMoIfeHFxeUA2uFI9WSwepWXvM=;
+  b=kH1+NrCRP7UVWYLve+93Fm9SYeBRbVMTZXOJC533Fnk76J1x5u4PRkcO
+   xbGoA4ssIBxEd8wXS/WzxgOfDFnamklTA02AsiDVlA7IynhFtS1GdvZRM
+   77yjUWdlVCwgaQq61D8PAw0t/MFtVWc44UMddtZ0ex6eDhqjLWgJjKE9M
+   MYhWQDYcnwv3UfMaZMJJA8pyFEkY4fbys+v+VpXb4Ha0as2RFA9SZdZCV
+   C/EzHYsdtW8FNyOO8zFSHSeMUBhCpFMHFbhQbbN29BYkMfFoR1FKgUl9k
+   8qm5c60ZyroVrspwK7pzqe7adJQEr2Kle4F8Z/Xf04rPX/vQ7DJig0fM9
+   w==;
+X-CSE-ConnectionGUID: nngUcgxES3mfBkXr5w6fJQ==
+X-CSE-MsgGUID: gp+8dMvlSg2v41/IWyTfew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="47835040"
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="47835039"
+   d="scan'208";a="47835040"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 11:21:46 -0700
-X-CSE-ConnectionGUID: iM5EQdcBTQywyan67sq9/g==
-X-CSE-MsgGUID: mH/oPz/iQqG7djF9FBdULQ==
+X-CSE-ConnectionGUID: GOKj9HCJR0yQwBpw6cXOfA==
+X-CSE-MsgGUID: CzWrPRSaThmlsh6BX75ALw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="167860082"
+   d="scan'208";a="167860083"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 10 May 2025 11:21:46 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDopT-000DHB-2i;
+	id 1uDopT-000DHE-2m;
 	Sat, 10 May 2025 18:21:43 +0000
-Date: Sun, 11 May 2025 02:21:35 +0800
+Date: Sun, 11 May 2025 02:21:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/94] mm/memcg_zombie_reaper.c:47:6:
- warning: no previous prototype for function 'memcg_reap_background_set'
-Message-ID: <202505110205.P015V563-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:work.coredump.socket 12/17] net/unix/af_unix.c:
+ linux/pidfs.h is included more than once.
+Message-ID: <202505110216.S25ORSP7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +63,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   a79e0786f3fa90fd521f198ac6ccf6b11dbf67c2
-commit: 67960246d7b8e4034d9a6ef1f75aaa35353ed21e [0/94] anolis: mm, memcg: introduce per memcg switch to reap zombie background
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250511/202505110205.P015V563-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110205.P015V563-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git work.coredump.socket
+head:   bad5a454ba7c00605ca5652812cc6af5952457ad
+commit: 48d45baea7169602452b8ae6a2ab8ced20620b74 [12/17] pidfs, coredump: add PIDFD_INFO_COREDUMP
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505110205.P015V563-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505110216.S25ORSP7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> net/unix/af_unix.c: linux/pidfs.h is included more than once.
 
->> mm/memcg_zombie_reaper.c:47:6: warning: no previous prototype for function 'memcg_reap_background_set' [-Wmissing-prototypes]
-      47 | void memcg_reap_background_set(void)
-         |      ^
-   mm/memcg_zombie_reaper.c:47:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      47 | void memcg_reap_background_set(void)
-         | ^
-         | static 
->> mm/memcg_zombie_reaper.c:53:6: warning: no previous prototype for function 'memcg_reap_background_clear' [-Wmissing-prototypes]
-      53 | void memcg_reap_background_clear(void)
-         |      ^
-   mm/memcg_zombie_reaper.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      53 | void memcg_reap_background_clear(void)
-         | ^
-         | static 
-   2 warnings generated.
+vim +93 net/unix/af_unix.c
 
-
-vim +/memcg_reap_background_set +47 mm/memcg_zombie_reaper.c
-
-    46	
-  > 47	void memcg_reap_background_set(void)
-    48	{
-    49		reaper_kthread_on |= REAP_BACKGROUND_MEMCG;
-    50		wake_up_interruptible(&reaper_waitq);
-    51	}
-    52	
-  > 53	void memcg_reap_background_clear(void)
-    54	{
-    55		reaper_kthread_on &= ~REAP_BACKGROUND_MEMCG;
-    56	}
-    57	
+    79	
+    80	#include <linux/bpf-cgroup.h>
+    81	#include <linux/btf_ids.h>
+    82	#include <linux/dcache.h>
+    83	#include <linux/errno.h>
+    84	#include <linux/fcntl.h>
+    85	#include <linux/file.h>
+    86	#include <linux/filter.h>
+    87	#include <linux/fs.h>
+    88	#include <linux/init.h>
+    89	#include <linux/kernel.h>
+    90	#include <linux/kstrtox.h>
+    91	#include <linux/mount.h>
+    92	#include <linux/namei.h>
+  > 93	#include <linux/pidfs.h>
+    94	#include <linux/poll.h>
+    95	#include <linux/proc_fs.h>
+    96	#include <linux/sched/signal.h>
+    97	#include <linux/security.h>
+    98	#include <linux/seq_file.h>
+    99	#include <linux/skbuff.h>
+   100	#include <linux/slab.h>
+   101	#include <linux/sock_diag.h>
+   102	#include <linux/socket.h>
+   103	#include <linux/splice.h>
+   104	#include <linux/string.h>
+   105	#include <linux/uaccess.h>
+ > 106	#include <linux/pidfs.h>
+   107	#include <net/af_unix.h>
+   108	#include <net/net_namespace.h>
+   109	#include <net/scm.h>
+   110	#include <net/tcp_states.h>
+   111	#include <uapi/linux/sockios.h>
+   112	#include <uapi/linux/termios.h>
+   113	
 
 -- 
 0-DAY CI Kernel Test Service
