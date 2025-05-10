@@ -1,110 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67B81DE2B4;
-	Sat, 10 May 2025 07:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FF63D561
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 08:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746863856; cv=none; b=kXivsm2RdiGkXIYrsmOGHhR5tUJDE2mU8Uw05HKJFlMvu5Hl9GdT1Fo3gnuVePLs3vpZ58K0wOveTx3HcQ8yvFsrAtqswx2KM91jas4pvmnDz59o83LaiL/Ld9UqZZUWg7s4E5v8NNRrlmiscKBaWwcgqzG1x5I8ncLV0Cbz6qM=
+	t=1746865077; cv=none; b=L/s8aAhOvY+OUreFh6Xne+MLfnCVrW9Sk4bfNhzm/q04H8IUti2LWDpQiz4r0tk7qy3FuU3WFhAPEd1Lt5c6K7qgkuw4vRuK6+1TNAgU9bQKpkGfEYe7DgStK5IwP7UHbQ8Bg//umNcRH+9nnd9i446D5vFWG3wF9+SscATP09Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746863856; c=relaxed/simple;
-	bh=IcxqyCvAxuY7/D6iq4+8OLP6e1wvf44VoWVfqXP0B8s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RpEy0RfEZef7XV+ETh5VZICywPjP4Jy26MH3jjaBzUHQiOCXsoD4PwW2JMox4hSfhT+edaGGPvRRor5UCrll1uuge9crtb+3yNJ84nfxoVocYn6N5+cf3EJs3+6/kOsdkYP/nUw9biBDZdxC7ugmpHPX+6nYnEA4YLEdjdFc7sE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pMzCCeFv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746865077; c=relaxed/simple;
+	bh=DQJ+y8N0SgM9LyRU4SbsT3Ur3qRAAgouTHCUEAACvVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L4na4DvGskIaUAGpFlcgH2HJMKG8t4fpqQbDsWmEqOavLFDpuOo4aAq+YqO1iC1/Il7p5sLu/Vr3AlQimbVWgvW5AqvJXZsAMTXFSK6d/d1lP5lvCEDkjnNPVGv4xRarUSGgzcWZ8QeOgNfKmSSq0ozHir++7i5EelFqjseP/G0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eaj94i0o; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pMzCCeFv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27C32C4CEF0;
-	Sat, 10 May 2025 07:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746863856;
-	bh=IcxqyCvAxuY7/D6iq4+8OLP6e1wvf44VoWVfqXP0B8s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pMzCCeFvmNVJ0zjXW5ztkSdZo1DuK94/+EoHlmQJGNcndgRLAJMraqyfdZQjwFqiD
-	 tWEBY3XQhOv78It2ke/gQeCjy7IK7CH3tVH5pSyqCIttR7vVL9dCDwKe4IRnoaCqUS
-	 V0LQ40Bqa7zGnll9zMImJRg7rMwYknlROArOE1PHlIuH2uvag58bcP0j2vC3+gckr/
-	 hvWVUuTIrtC41/W5YNqbDeGG7dQSrjbJ0M2lIsuj/aXYWFJ0HZA20o9iR/sG/1D2HQ
-	 krU2jQeH1EswOSAFz4x1iqMS3w/bkS9x05zM5WX8aqGCipOmeTmh2aLlfT9KsQFm/V
-	 m9nrwWHQxbE3A==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3104ddb8051so28745581fa.1;
-        Sat, 10 May 2025 00:57:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUz9cbwhvOXHcYaLPLJK+o+AEdliNyl/tyonK4VbOJRDJ3nZGNC8LWuPTzR8l6rVotOlktOattQuc9/7bMP@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+gryYBqAua4mbF0hcsJYugsZK0gplz0OkfT0ZFsJdMh62uj1W
-	lEyzSsazU2C7TJ9d2sw16FTq/ZvM7r9HYBs93/2gCxgmdVkknlwZpXPL/HpIBXIgfyUouxmnUBI
-	pzsGoLL/vbaJjAJXe6biHejCMj2g=
-X-Google-Smtp-Source: AGHT+IFpgtPM7/5m0jDyHXM4uIUDKTj2h3kaxyK81rt/Ovk6mMJV0aO5cXooKfpbv1jVAZJD+x+YypgJpcLJnKGwJSo=
-X-Received: by 2002:a05:651c:1477:b0:30c:f60:6c6 with SMTP id
- 38308e7fff4ca-326c4539858mr26937371fa.6.1746863854461; Sat, 10 May 2025
- 00:57:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eaj94i0o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746865075; x=1778401075;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DQJ+y8N0SgM9LyRU4SbsT3Ur3qRAAgouTHCUEAACvVk=;
+  b=Eaj94i0oRnr+AYoODVDw1+EubDFO0t+eXnaecYThkqCNcy/41LoFF/el
+   vXctaOLON1GSt0Q2jTp37vgAYgr3yYs6AVCoPOOiJ2w93HFzcPKsRfSvy
+   o+Wir/tB7ORP+LsAMeZ0+GymiL0f9sGot0lXhIZQaOp4HAxITNapQciNd
+   N6a1FONo1U5zKPrpIZAlzz2QePk5t4oU1rBvl0crczdtYEi395jGjehwQ
+   Szt+XQ0aWyC+GKiIlgWmUSOl/2jZm/DDzGVVLh3lOdUscnyPqaPO32J5h
+   90p1fpHLuvifU9yRde9YFn4Sg7lQL/JGRsGcXB476aF8PjiPoEicsHZhr
+   A==;
+X-CSE-ConnectionGUID: 5wgoBhkvQoyPOmyaBRKSLg==
+X-CSE-MsgGUID: rV28SdeTSlWQZRg9TBbm7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48853792"
+X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
+   d="scan'208";a="48853792"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 01:17:54 -0700
+X-CSE-ConnectionGUID: J52t0WsNRvKslzzbLf3R9A==
+X-CSE-MsgGUID: eo/HzuMtTa6Qmug2BDtuSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
+   d="scan'208";a="136785258"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 10 May 2025 01:17:52 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uDfP4-000CuJ-1Y;
+	Sat, 10 May 2025 08:17:50 +0000
+Date: Sat, 10 May 2025 16:17:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 1/1]
+ arch/arm64/kvm/iommu.c:153:58: sparse: sparse: Using plain integer as NULL
+ pointer
+Message-ID: <202505101648.NDMOBdKr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202505100719.9pE7wDfB-lkp@intel.com>
-In-Reply-To: <202505100719.9pE7wDfB-lkp@intel.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Sat, 10 May 2025 09:57:23 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHyVh7KwNyekd8ZAATufnMHyzyMismVf2xW8F=LfBJviQ@mail.gmail.com>
-X-Gm-Features: AX0GCFtsspZDoJSzTIpWIF5K44lx3dUBFQ3Iqa8sTNyzw8WaopdlJgFz-FmjNTw
-Message-ID: <CAMj1kXHyVh7KwNyekd8ZAATufnMHyzyMismVf2xW8F=LfBJviQ@mail.gmail.com>
-Subject: Re: [tip:x86/boot 10/10] arch/x86/boot/compressed/sev-handle-vc.c:104
- do_boot_stage2_vc() error: we previously assumed 'boot_ghcb' could be null
- (see line 101)
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   54fe54966861b5352dfb0a9559b9afcda7d0c52d
+commit: 9dabecc2a2c31f11239b0853839bfc860de071e0 [1/1] ANDROID: KVM: arm64: iommu: Add memcache for guest pvIOMMU
+config: arm64-randconfig-r133-20250510 (https://download.01.org/0day-ci/archive/20250510/202505101648.NDMOBdKr-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce: (https://download.01.org/0day-ci/archive/20250510/202505101648.NDMOBdKr-lkp@intel.com/reproduce)
 
-On Sat, 10 May 2025 at 09:43, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->
-> Hi Ard,
->
-> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/boot
-> head:   ed4d95d033e359f9445e85bf5a768a5859a5830b
-> commit: ed4d95d033e359f9445e85bf5a768a5859a5830b [10/10] x86/sev: Disentangle #VC handling code from startup code
-> config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100719.9pE7wDfB-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202505100719.9pE7wDfB-lkp@intel.com/
->
-> smatch warnings:
-> arch/x86/boot/compressed/sev-handle-vc.c:104 do_boot_stage2_vc() error: we previously assumed 'boot_ghcb' could be null (see line 101)
->
-> vim +/boot_ghcb +104 arch/x86/boot/compressed/sev-handle-vc.c
->
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04   96  void do_boot_stage2_vc(struct pt_regs *regs, unsigned long exit_code)
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04   97  {
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04   98   struct es_em_ctxt ctxt;
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04   99   enum es_result result;
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04  100
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04 @101   if (!boot_ghcb && !early_setup_ghcb())
->                                                     ^^^^^^^^^^
-> Check for NULL.  Should the && be ||?
->
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04  102           sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SEV_ES_GEN_REQ);
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04  103
-> ed4d95d033e359 Ard Biesheuvel 2025-05-04 @104   vc_ghcb_invalidate(boot_ghcb);
->                                                                    ^^^^^^^^^
-> Unchecked dereference.
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505101648.NDMOBdKr-lkp@intel.com/
 
-On success, early_setup_ghcb() will assign boot_ghcb, and so it is
-only called if it was unset.
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/iommu.c:153:58: sparse: sparse: Using plain integer as NULL pointer
+   arch/arm64/kvm/iommu.c:162:50: sparse: sparse: Using plain integer as NULL pointer
 
-The logic is a bit clunky here: for clarity, it could be rewritten as
+vim +153 arch/arm64/kvm/iommu.c
 
-if (!boot_ghcb) {
-  early_setup_ghcb();
-  if (!boot_ghcb)
-    sev_es_terminate(...);
-}
+   145	
+   146	int kvm_iommu_guest_alloc_mc(struct kvm_hyp_memcache *mc, u32 pgsize, u32 nr_pages)
+   147	{
+   148		u8 order = get_order(pgsize);
+   149	
+   150		/* Driver might have dedicated allocator especially if it needs large pages. */
+   151		if (iommu_driver && iommu_driver->guest_alloc && iommu_driver->guest_free)
+   152			return __topup_hyp_memcache(mc, nr_pages, iommu_driver->guest_alloc,
+ > 153						    kvm_host_pa, 0, order);
+   154	
+   155		return topup_hyp_memcache(mc, nr_pages, order);
+   156	}
+   157	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
