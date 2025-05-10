@@ -1,74 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFE922331C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 17:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A455821B19D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 18:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746898067; cv=none; b=N4QvQvcrMl6fhDaADAFEefD5tGHMrnHKOGRJ36EXwBLxeTkz6WWYxl+PBPcObS5CSRsIob9009SDHoOOoI0Vtc3K+Q0TcGy1g8pK1lF3lyHko9OFJ9hYBHBuC4EyQ3dHwZfiuTCcYHGaE8bSfcPNyWVo3gWgcBm2q5fs6EJ/Yok=
+	t=1746901310; cv=none; b=gS9jXBk4Gn7qALDRzkzMgNrY1vyw/dCWCyD6ddDOgEnlGWjm8YsqaBUDKjxXDc0aGepGPxiYU1N2WRMms6kv8h81e8Hsj54R4bazVlAHZJerGOedsR4pCVisuXHGMI3sQG0iR08ENF2oLUOHBJApmMrc8C52JEvJCuEHrvaEv5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746898067; c=relaxed/simple;
-	bh=+J/+CqkaZBq2Lqdhn+5CkAOalO3LtUaHMJsMspBO4Qs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mArNMTh0+WhGnR0pa5ozBP4NkvmT096TIEP7EyBVWU6CTS77T1NG0rTdPKiNqK204+pbPuuO6uFnMNatLyNq3JXFOfhvBDy3cYlXi6p1f8VFLZ7aUDK6V58BOf4dOx/ASK5o/DVsmchDE2FGsiGUDzNmtmYz4RmKQr8hh4E7dXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8H2s5X9; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1746901310; c=relaxed/simple;
+	bh=3IJUPx4mTCmbf/rR/pJYHJcK5Uds2BW1vf9YZK3SsQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ed2KofsSa+7KIl/q7MXOorOyuMkUjMQMfdyI5RIn7CJESJmTeqN0wSrCg6ALW2s0fDuUdv4U2cdQqzMBQzeRCnbtV2BVhw/sqs7WSquHhUWTJf7Am71oSI69DNJyFzq9wfIofDTtDoUEUQ8FYr8lX1f4PON65MhYw5KGYR9I56k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJf8ti8Z; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8H2s5X9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJf8ti8Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746898065; x=1778434065;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+J/+CqkaZBq2Lqdhn+5CkAOalO3LtUaHMJsMspBO4Qs=;
-  b=Q8H2s5X9V7hyt9oX0rDkG8o7BgykL6aXlnjJ7u/57ktGSiO76LYbsCe4
-   ineyp4Nz+GPfZT2wj1m0Kg5Sdb0oAeHMKnKRzN1tJEcWyg0tLlV9NBsQP
-   l/SZirQ9ivx/BhnusTwgnQL7lxc7OtsgdmjHAY1KO/h+pb6dh5ieWDDRT
-   6qzVmeO3WmosktEha5RLF7GLWqAydDjoEl+ZaGtYiHZ44bfiZ5JM2IncL
-   +bDbV3wCmE1hx8YedUmrwjCBE962qhQWDay+t62+LHrLQ2snq2u8XgYNC
-   Yxg751EFueF7bdsC0kbVhoLqMpdxN9dhd5C0DlP9R4iJNtK4gP+q036hY
-   w==;
-X-CSE-ConnectionGUID: dpUupzmNTViO2synmP648g==
-X-CSE-MsgGUID: G0yKG0J/TtmVbIJJ7+jULQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="52370602"
+  t=1746901307; x=1778437307;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3IJUPx4mTCmbf/rR/pJYHJcK5Uds2BW1vf9YZK3SsQg=;
+  b=GJf8ti8Zhmc4c0cfzrWiCMGLv78hqKPwXRkRm+NqyDvXWE9KMBi8VwZ4
+   Zku0USegwWyqTLv6J4IZZ8RVUkkiWNbO0mZ5lJFq6SgcC3bql0soOVeoq
+   6niYThepu9Km/FFEheEji1SLpI9yaAUYaZNf2VzCHzn1sYv05M2+NyKA2
+   d2IT5g3nLjuIqhIq5RenON+ONMxmV0fa65VuTN/cH96j3XZOzSFnjPwoe
+   lJHfVSOjisTEvCVpcZfUe6DorIe95iTQuZTcDqMcBMBhlM9gJgoprFlLA
+   T4Ln+2ixasrZm3TdRwNqt9j1aEuiROiLVmcWqULZhSHMtSB0jIJdhqeah
+   g==;
+X-CSE-ConnectionGUID: nVv2CVuoQf+qfSB0M2n4DA==
+X-CSE-MsgGUID: IUw47wocQhmIWvdjeEhCkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="47835039"
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="52370602"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 10:27:44 -0700
-X-CSE-ConnectionGUID: cBLo+jBWRP+JHUZYaI3zLQ==
-X-CSE-MsgGUID: Vqz4sNCcRO+QrY8wrOd+aw==
+   d="scan'208";a="47835039"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 11:21:46 -0700
+X-CSE-ConnectionGUID: iM5EQdcBTQywyan67sq9/g==
+X-CSE-MsgGUID: mH/oPz/iQqG7djF9FBdULQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="174084803"
+   d="scan'208";a="167860082"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 May 2025 10:27:40 -0700
+  by orviesa002.jf.intel.com with ESMTP; 10 May 2025 11:21:46 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDnz7-000DF1-2S;
-	Sat, 10 May 2025 17:27:37 +0000
-Date: Sun, 11 May 2025 01:26:50 +0800
+	id 1uDopT-000DHB-2i;
+	Sat, 10 May 2025 18:21:43 +0000
+Date: Sun, 11 May 2025 02:21:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Daniel Golle <daniel@makrotopia.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v3 11/11] net: airoha: add phylink support for
- GDM2/3/4
-Message-ID: <202505110156.WGym4cxS-lkp@intel.com>
-References: <20250510102348.14134-12-ansuelsmth@gmail.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 0/94] mm/memcg_zombie_reaper.c:47:6:
+ warning: no previous prototype for function 'memcg_reap_background_set'
+Message-ID: <202505110205.P015V563-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,112 +61,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250510102348.14134-12-ansuelsmth@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phylink-keep-and-use-MAC-supported_interfaces-in-phylink-struct/20250510-182833
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250510102348.14134-12-ansuelsmth%40gmail.com
-patch subject: [net-next PATCH v3 11/11] net: airoha: add phylink support for GDM2/3/4
-config: sh-randconfig-002-20250510 (https://download.01.org/0day-ci/archive/20250511/202505110156.WGym4cxS-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110156.WGym4cxS-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   a79e0786f3fa90fd521f198ac6ccf6b11dbf67c2
+commit: 67960246d7b8e4034d9a6ef1f75aaa35353ed21e [0/94] anolis: mm, memcg: introduce per memcg switch to reap zombie background
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250511/202505110205.P015V563-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110205.P015V563-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505110156.WGym4cxS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505110205.P015V563-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/airoha/airoha_eth.c:10:
->> include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
-      90 | fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/pcs/pcs.h:78:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
-      78 | static int register_fwnode_pcs_notifier(struct notifier_block *nb)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/memcg_zombie_reaper.c:47:6: warning: no previous prototype for function 'memcg_reap_background_set' [-Wmissing-prototypes]
+      47 | void memcg_reap_background_set(void)
+         |      ^
+   mm/memcg_zombie_reaper.c:47:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      47 | void memcg_reap_background_set(void)
+         | ^
+         | static 
+>> mm/memcg_zombie_reaper.c:53:6: warning: no previous prototype for function 'memcg_reap_background_clear' [-Wmissing-prototypes]
+      53 | void memcg_reap_background_clear(void)
+         |      ^
+   mm/memcg_zombie_reaper.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      53 | void memcg_reap_background_clear(void)
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +/fwnode_phylink_pcs_get_from_fwnode +90 include/linux/pcs/pcs.h
+vim +/memcg_reap_background_set +47 mm/memcg_zombie_reaper.c
 
-91110a42083f1a Christian Marangi 2025-05-10  24  
-90fbe52edd2a1f Christian Marangi 2025-05-10  25  /**
-90fbe52edd2a1f Christian Marangi 2025-05-10  26   * fwnode_pcs_get - Retrieves a PCS from a firmware node
-90fbe52edd2a1f Christian Marangi 2025-05-10  27   * @fwnode: firmware node
-90fbe52edd2a1f Christian Marangi 2025-05-10  28   * @index: index fwnode PCS handle in firmware node
-90fbe52edd2a1f Christian Marangi 2025-05-10  29   *
-90fbe52edd2a1f Christian Marangi 2025-05-10  30   * Get a PCS from the firmware node at index.
-90fbe52edd2a1f Christian Marangi 2025-05-10  31   *
-90fbe52edd2a1f Christian Marangi 2025-05-10  32   * Returns a pointer to the phylink_pcs or a negative
-90fbe52edd2a1f Christian Marangi 2025-05-10  33   * error pointer. Can return -EPROBE_DEFER if the PCS is not
-90fbe52edd2a1f Christian Marangi 2025-05-10  34   * present in global providers list (either due to driver
-90fbe52edd2a1f Christian Marangi 2025-05-10  35   * still needs to be probed or it failed to probe/removed)
-90fbe52edd2a1f Christian Marangi 2025-05-10  36   */
-90fbe52edd2a1f Christian Marangi 2025-05-10  37  struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
-90fbe52edd2a1f Christian Marangi 2025-05-10  38  				   int index);
-90fbe52edd2a1f Christian Marangi 2025-05-10  39  
-91110a42083f1a Christian Marangi 2025-05-10  40  /**
-91110a42083f1a Christian Marangi 2025-05-10  41   * fwnode_phylink_pcs_get_from_fwnode - Retrieves the PCS provided
-91110a42083f1a Christian Marangi 2025-05-10  42   *					by the firmware node from a
-91110a42083f1a Christian Marangi 2025-05-10  43   *					firmware node
-91110a42083f1a Christian Marangi 2025-05-10  44   * @fwnode: firmware node
-91110a42083f1a Christian Marangi 2025-05-10  45   * @pcs_fwnode: PCS firmware node
-91110a42083f1a Christian Marangi 2025-05-10  46   *
-91110a42083f1a Christian Marangi 2025-05-10  47   * Parse 'pcs-handle' in 'fwnode' and get the PCS that match
-91110a42083f1a Christian Marangi 2025-05-10  48   * 'pcs_fwnode' firmware node.
-91110a42083f1a Christian Marangi 2025-05-10  49   *
-91110a42083f1a Christian Marangi 2025-05-10  50   * Returns a pointer to the phylink_pcs or a negative
-91110a42083f1a Christian Marangi 2025-05-10  51   * error pointer. Can return -EPROBE_DEFER if the PCS is not
-91110a42083f1a Christian Marangi 2025-05-10  52   * present in global providers list (either due to driver
-91110a42083f1a Christian Marangi 2025-05-10  53   * still needs to be probed or it failed to probe/removed)
-91110a42083f1a Christian Marangi 2025-05-10  54   */
-91110a42083f1a Christian Marangi 2025-05-10  55  struct phylink_pcs *
-91110a42083f1a Christian Marangi 2025-05-10  56  fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-91110a42083f1a Christian Marangi 2025-05-10  57  				   struct fwnode_handle *pcs_fwnode);
-91110a42083f1a Christian Marangi 2025-05-10  58  
-90fbe52edd2a1f Christian Marangi 2025-05-10  59  /**
-90fbe52edd2a1f Christian Marangi 2025-05-10  60   * fwnode_phylink_pcs_parse - generic PCS parse for fwnode PCS provider
-90fbe52edd2a1f Christian Marangi 2025-05-10  61   * @fwnode: firmware node
-90fbe52edd2a1f Christian Marangi 2025-05-10  62   * @available_pcs: pointer to preallocated array of PCS
-90fbe52edd2a1f Christian Marangi 2025-05-10  63   * @num_pcs: where to store count of parsed PCS
-90fbe52edd2a1f Christian Marangi 2025-05-10  64   *
-90fbe52edd2a1f Christian Marangi 2025-05-10  65   * Generic helper function to fill available_pcs array with PCS parsed
-90fbe52edd2a1f Christian Marangi 2025-05-10  66   * from a "pcs-handle" fwnode property defined in firmware node up to
-90fbe52edd2a1f Christian Marangi 2025-05-10  67   * passed num_pcs.
-90fbe52edd2a1f Christian Marangi 2025-05-10  68   *
-90fbe52edd2a1f Christian Marangi 2025-05-10  69   * If available_pcs is NULL, num_pcs is updated with the count of the
-90fbe52edd2a1f Christian Marangi 2025-05-10  70   * parsed PCS.
-90fbe52edd2a1f Christian Marangi 2025-05-10  71   *
-90fbe52edd2a1f Christian Marangi 2025-05-10  72   * Returns 0 or a negative error.
-90fbe52edd2a1f Christian Marangi 2025-05-10  73   */
-90fbe52edd2a1f Christian Marangi 2025-05-10  74  int fwnode_phylink_pcs_parse(struct fwnode_handle *fwnode,
-90fbe52edd2a1f Christian Marangi 2025-05-10  75  			     struct phylink_pcs **available_pcs,
-90fbe52edd2a1f Christian Marangi 2025-05-10  76  			     unsigned int *num_pcs);
-90fbe52edd2a1f Christian Marangi 2025-05-10  77  #else
-91110a42083f1a Christian Marangi 2025-05-10 @78  static int register_fwnode_pcs_notifier(struct notifier_block *nb)
-91110a42083f1a Christian Marangi 2025-05-10  79  {
-91110a42083f1a Christian Marangi 2025-05-10  80  	return -EOPNOTSUPP;
-91110a42083f1a Christian Marangi 2025-05-10  81  }
-91110a42083f1a Christian Marangi 2025-05-10  82  
-90fbe52edd2a1f Christian Marangi 2025-05-10  83  static inline struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
-90fbe52edd2a1f Christian Marangi 2025-05-10  84  						 int index)
-90fbe52edd2a1f Christian Marangi 2025-05-10  85  {
-90fbe52edd2a1f Christian Marangi 2025-05-10  86  	return ERR_PTR(-ENOENT);
-90fbe52edd2a1f Christian Marangi 2025-05-10  87  }
-90fbe52edd2a1f Christian Marangi 2025-05-10  88  
-91110a42083f1a Christian Marangi 2025-05-10  89  static struct phylink_pcs *
-91110a42083f1a Christian Marangi 2025-05-10 @90  fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-91110a42083f1a Christian Marangi 2025-05-10  91  				   struct fwnode_handle *pcs_fwnode)
-91110a42083f1a Christian Marangi 2025-05-10  92  {
-91110a42083f1a Christian Marangi 2025-05-10  93  	return ERR_PTR(-ENOENT);
-91110a42083f1a Christian Marangi 2025-05-10  94  }
-91110a42083f1a Christian Marangi 2025-05-10  95  
+    46	
+  > 47	void memcg_reap_background_set(void)
+    48	{
+    49		reaper_kthread_on |= REAP_BACKGROUND_MEMCG;
+    50		wake_up_interruptible(&reaper_waitq);
+    51	}
+    52	
+  > 53	void memcg_reap_background_clear(void)
+    54	{
+    55		reaper_kthread_on &= ~REAP_BACKGROUND_MEMCG;
+    56	}
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
