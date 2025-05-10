@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD22F21421A;
-	Sat, 10 May 2025 23:44:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7FA1DED66
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 23:44:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746920680; cv=none; b=mO/e3cTIxYOH1xsqle0sKOive4PMOorCXfquzHEsAI0nJbcedrpHZzF6qeg1ZdJCrqJCoIoNahPql2i66jozPu/xpVl0F1bQqimqLYprGeSrFNpM69+b5uJ960MOz3uX3Spdb7l+CxNNvkcFAnefag9liM3w0vfFLP8c8/kNhsw=
+	t=1746920681; cv=none; b=sKYozHgjH1+LrSOZTSlCpZyV4fSYIg0vRZ2auvM50woMzt3dMQyCSPpDqjyWL6pYnnE9CeY+Zprq7kjBif57z6yKahuXNo4CJdnz5XXhL2pacEZ6AgHd2InAt9IdGVWxAaq7203UoG6W/JTreMOsjeAHDg9rhz1BvzJmmzDNV38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746920680; c=relaxed/simple;
-	bh=7ZvSarleHa/MjL/z4qnQXJbCzefrLMHSNLjH/SoWYVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f+0JQ2Aow+PxEDgSXSJCyXmwDHs1fn02vLCSzYHvLxuRE014YnSrYIcsgQhy/t21PCM1RQ1evUSyTXktIwml0leJNLPDABReuztEqyjHxEr8pq/ZAeiqwKGiS9y+ZimfoCfax8E8nLSrjMfkQXlUwnPSTYYDw14AONN1IUKKOdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/50YvMc; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1746920681; c=relaxed/simple;
+	bh=OcrjuwKmH8gRN7V43BS4Upp3Th3waCQG80IGh2FoVz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XilCzbeiy2dLRyk1fRxmjddph7XxRhBakPPXyAibuCCr/GJ9RC7Ltr+cIF34x4Mkw04B/d1V0IsRarWQsjW2XpW8eLxY70EFa2o79oiVxcr1jqaxkaxVBy26h4+W+eshxwJY3F6FGxXQOnQ8RRbZluch6imGu3gUWqiICeHx8Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bv1BMDU3; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/50YvMc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bv1BMDU3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746920679; x=1778456679;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7ZvSarleHa/MjL/z4qnQXJbCzefrLMHSNLjH/SoWYVE=;
-  b=W/50YvMc1PWIHzOEX9OcoiaAi8hcVxuYktdEdmRlLL33GS90G8PXlxc7
-   GZ1O9A+70rTwLWOn/zuqemmplN0M+cGhTX3cwA6XFIhUOTSVpC/y8DfnS
-   pLWmnqt5NjvAENA47kKGzhULRSoAX1koN1u8JhshositZGSrRRPKfr4fn
-   LyR2Wf08aoKiXs9IiYawByc2q1A67VEIGwRumRzazMWmTkkAkS5X7FlMS
-   IxxUFQ1mFnWzIQWkZOQE5p6zDAOJKgzU9Ns2JgMSYKlwHGqVpPX9bmAV9
-   Wo8n9bl3J/3xIYodXNDhQ9h+ptPvPVRDhloRhPU0mH9BFe5dE+xKoEjmN
-   A==;
-X-CSE-ConnectionGUID: wKH8OIizQqmiD1a33DAuNA==
-X-CSE-MsgGUID: xf9J/YlUT26Sc1C26aloKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="51394159"
+  t=1746920680; x=1778456680;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OcrjuwKmH8gRN7V43BS4Upp3Th3waCQG80IGh2FoVz4=;
+  b=Bv1BMDU3a/4yQ0AOtDZaoMren17gXnGH0TcFuaeSEkZp9dzQ5hjQbeFG
+   IuCyUgtTuBgsmsbTHlmNxpVrL83kfHRpG+Zr4Soyo1INxlhbgK+jkuc7q
+   7xErc6m6tq5M5sB7zg61o71p93DwC8RQKmnR1HP6q/t6gWJC91owNlPyZ
+   hC4G40405sFWU/Xo32r4DtA4Tf//RCzbYHNMEfJy5iKKf4NclWBhwsLsi
+   aX8OopZeHESCDS0UY2RfbG+bCqIa/8Z6jKA2Vh05oXg1skEO7VSkUfEse
+   lvmf5kfpptgsnZAMWU22UikEzNgf9rx7a4LvOJE0X+xQwEzbDipON+Y+7
+   Q==;
+X-CSE-ConnectionGUID: YNTqhZWQT7ClT1Woqr4/Og==
+X-CSE-MsgGUID: xxuqkewvTTmjRoETi/HFpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="51394161"
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="51394159"
+   d="scan'208";a="51394161"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 16:44:36 -0700
-X-CSE-ConnectionGUID: uJG14slFQWKbrgHvxxdp7g==
-X-CSE-MsgGUID: Ke5+kLPaR9GiYqk+DhkqWQ==
+X-CSE-ConnectionGUID: gwdmZW5LQRygAzLkKRwe8Q==
+X-CSE-MsgGUID: JkSDOhp1QDu43oWTYiL+Vg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="136858505"
+   d="scan'208";a="136858507"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 May 2025 16:44:34 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 May 2025 16:44:35 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDtrs-000DTb-22;
+	id 1uDtrs-000DTj-2F;
 	Sat, 10 May 2025 23:44:32 +0000
-Date: Sun, 11 May 2025 07:43:43 +0800
+Date: Sun, 11 May 2025 07:43:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai Huang <kai.huang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 4/5] x86/virt/tdx: Remove the !KEXEC_CORE dependency
-Message-ID: <202505110749.3WJFCO0R-lkp@intel.com>
-References: <0c0d9d250a7961e4aca325f970e73e204d650ad9.1746874095.git.kai.huang@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel'
+ directive output may be truncated writing 4 bytes into a region of size
+ between 3 and 13
+Message-ID: <202505110731.zGNzAnGK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +63,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0c0d9d250a7961e4aca325f970e73e204d650ad9.1746874095.git.kai.huang@intel.com>
 
-Hi Kai,
+Hi Jani,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 5b036d3516a8be54c24c05d8d1dc86f9815ba53e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kai-Huang/x86-sme-Use-percpu-boolean-to-control-wbinvd-during-kexec/20250510-192315
-base:   5b036d3516a8be54c24c05d8d1dc86f9815ba53e
-patch link:    https://lore.kernel.org/r/0c0d9d250a7961e4aca325f970e73e204d650ad9.1746874095.git.kai.huang%40intel.com
-patch subject: [PATCH v2 4/5] x86/virt/tdx: Remove the !KEXEC_CORE dependency
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250511/202505110749.3WJFCO0R-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110749.3WJFCO0R-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   345030986df8f7712f9e4c00fe61e145c8984ef3
+commit: 03ee752f00fd0daa082b43774cfd03a7f9a17385 drm/imx: prefer snprintf over sprintf
+date:   1 year, 3 months ago
+config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250511/202505110731.zGNzAnGK-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110731.zGNzAnGK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505110749.3WJFCO0R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505110731.zGNzAnGK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/coco/tdx/debug.c:8:
->> arch/x86/include/asm/tdx.h:109:2: error: call to undeclared function 'preempt_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     109 |         preempt_disable();
-         |         ^
->> arch/x86/include/asm/tdx.h:127:2: error: call to undeclared function 'preempt_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     127 |         preempt_enable();
-         |         ^
-   2 errors generated.
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c: In function 'imx_ldb_probe':
+>> drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel' directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Wformat-truncation=]
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                                                         ^~~~
+   drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:17: note: 'snprintf' output between 8 and 18 bytes into a destination of size 16
+     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/preempt_disable +109 arch/x86/include/asm/tdx.h
+vim +/_sel +658 drivers/gpu/drm/imx/ipuv3/imx-ldb.c
 
-1e66a7e27539305 Kai Huang 2023-12-08  103  
-448631f05539246 Kai Huang 2025-05-10  104  static inline u64 do_seamcall(sc_func_t func, u64 fn,
-448631f05539246 Kai Huang 2025-05-10  105  			      struct tdx_module_args *args)
-448631f05539246 Kai Huang 2025-05-10  106  {
-448631f05539246 Kai Huang 2025-05-10  107  	u64 ret;
-448631f05539246 Kai Huang 2025-05-10  108  
-448631f05539246 Kai Huang 2025-05-10 @109  	preempt_disable();
-448631f05539246 Kai Huang 2025-05-10  110  
-448631f05539246 Kai Huang 2025-05-10  111  	/*
-448631f05539246 Kai Huang 2025-05-10  112  	 * SEAMCALLs are made to the TDX module and can generate dirty
-448631f05539246 Kai Huang 2025-05-10  113  	 * cachelines of TDX private memory.  Mark cache state incoherent
-448631f05539246 Kai Huang 2025-05-10  114  	 * so that the cache can be flushed during kexec.
-448631f05539246 Kai Huang 2025-05-10  115  	 *
-448631f05539246 Kai Huang 2025-05-10  116  	 * Not all SEAMCALL leaf functions generate dirty cachelines
-448631f05539246 Kai Huang 2025-05-10  117  	 * but for simplicity just treat all of them do.
-448631f05539246 Kai Huang 2025-05-10  118  	 *
-448631f05539246 Kai Huang 2025-05-10  119  	 * This needs to be done before actually making the SEAMCALL,
-448631f05539246 Kai Huang 2025-05-10  120  	 * because kexec-ing CPU could send NMI to stop remote CPUs,
-448631f05539246 Kai Huang 2025-05-10  121  	 * in which case even disabling IRQ won't help here.
-448631f05539246 Kai Huang 2025-05-10  122  	 */
-448631f05539246 Kai Huang 2025-05-10  123  	this_cpu_write(cache_state_incoherent, true);
-448631f05539246 Kai Huang 2025-05-10  124  
-448631f05539246 Kai Huang 2025-05-10  125  	ret = func(fn, args);
-448631f05539246 Kai Huang 2025-05-10  126  
-448631f05539246 Kai Huang 2025-05-10 @127  	preempt_enable();
-448631f05539246 Kai Huang 2025-05-10  128  
-448631f05539246 Kai Huang 2025-05-10  129  	return ret;
-448631f05539246 Kai Huang 2025-05-10  130  }
-448631f05539246 Kai Huang 2025-05-10  131  
+   617	
+   618	static int imx_ldb_probe(struct platform_device *pdev)
+   619	{
+   620		struct device *dev = &pdev->dev;
+   621		struct device_node *np = dev->of_node;
+   622		struct device_node *child;
+   623		struct imx_ldb *imx_ldb;
+   624		int dual;
+   625		int ret;
+   626		int i;
+   627	
+   628		imx_ldb = devm_kzalloc(dev, sizeof(*imx_ldb), GFP_KERNEL);
+   629		if (!imx_ldb)
+   630			return -ENOMEM;
+   631	
+   632		imx_ldb->regmap = syscon_regmap_lookup_by_phandle(np, "gpr");
+   633		if (IS_ERR(imx_ldb->regmap)) {
+   634			dev_err(dev, "failed to get parent regmap\n");
+   635			return PTR_ERR(imx_ldb->regmap);
+   636		}
+   637	
+   638		/* disable LDB by resetting the control register to POR default */
+   639		regmap_write(imx_ldb->regmap, IOMUXC_GPR2, 0);
+   640	
+   641		imx_ldb->dev = dev;
+   642		imx_ldb->lvds_mux = device_get_match_data(dev);
+   643	
+   644		dual = of_property_read_bool(np, "fsl,dual-channel");
+   645		if (dual)
+   646			imx_ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
+   647	
+   648		/*
+   649		 * There are three different possible clock mux configurations:
+   650		 * i.MX53:  ipu1_di0_sel, ipu1_di1_sel
+   651		 * i.MX6q:  ipu1_di0_sel, ipu1_di1_sel, ipu2_di0_sel, ipu2_di1_sel
+   652		 * i.MX6dl: ipu1_di0_sel, ipu1_di1_sel, lcdif_sel
+   653		 * Map them all to di0_sel...di3_sel.
+   654		 */
+   655		for (i = 0; i < 4; i++) {
+   656			char clkname[16];
+   657	
+ > 658			snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+   659			imx_ldb->clk_sel[i] = devm_clk_get(imx_ldb->dev, clkname);
+   660			if (IS_ERR(imx_ldb->clk_sel[i])) {
+   661				ret = PTR_ERR(imx_ldb->clk_sel[i]);
+   662				imx_ldb->clk_sel[i] = NULL;
+   663				break;
+   664			}
+   665	
+   666			imx_ldb->clk_parent[i] = clk_get_parent(imx_ldb->clk_sel[i]);
+   667		}
+   668		if (i == 0)
+   669			return ret;
+   670	
+   671		for_each_child_of_node(np, child) {
+   672			struct imx_ldb_channel *channel;
+   673			int bus_format;
+   674	
+   675			ret = of_property_read_u32(child, "reg", &i);
+   676			if (ret || i < 0 || i > 1) {
+   677				ret = -EINVAL;
+   678				goto free_child;
+   679			}
+   680	
+   681			if (!of_device_is_available(child))
+   682				continue;
+   683	
+   684			if (dual && i > 0) {
+   685				dev_warn(dev, "dual-channel mode, ignoring second output\n");
+   686				continue;
+   687			}
+   688	
+   689			channel = &imx_ldb->channel[i];
+   690			channel->ldb = imx_ldb;
+   691			channel->chno = i;
+   692	
+   693			/*
+   694			 * The output port is port@4 with an external 4-port mux or
+   695			 * port@2 with the internal 2-port mux.
+   696			 */
+   697			ret = drm_of_find_panel_or_bridge(child,
+   698							  imx_ldb->lvds_mux ? 4 : 2, 0,
+   699							  &channel->panel, &channel->bridge);
+   700			if (ret && ret != -ENODEV)
+   701				goto free_child;
+   702	
+   703			/* panel ddc only if there is no bridge */
+   704			if (!channel->bridge) {
+   705				ret = imx_ldb_panel_ddc(dev, channel, child);
+   706				if (ret)
+   707					goto free_child;
+   708			}
+   709	
+   710			bus_format = of_get_bus_format(dev, child);
+   711			if (bus_format == -EINVAL) {
+   712				/*
+   713				 * If no bus format was specified in the device tree,
+   714				 * we can still get it from the connected panel later.
+   715				 */
+   716				if (channel->panel && channel->panel->funcs &&
+   717				    channel->panel->funcs->get_modes)
+   718					bus_format = 0;
+   719			}
+   720			if (bus_format < 0) {
+   721				dev_err(dev, "could not determine data mapping: %d\n",
+   722					bus_format);
+   723				ret = bus_format;
+   724				goto free_child;
+   725			}
+   726			channel->bus_format = bus_format;
+   727			channel->child = child;
+   728		}
+   729	
+   730		platform_set_drvdata(pdev, imx_ldb);
+   731	
+   732		return component_add(&pdev->dev, &imx_ldb_ops);
+   733	
+   734	free_child:
+   735		of_node_put(child);
+   736		return ret;
+   737	}
+   738	
 
 -- 
 0-DAY CI Kernel Test Service
