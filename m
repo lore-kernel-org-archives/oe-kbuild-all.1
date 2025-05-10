@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32391A2D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 00:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EE6E567
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 00:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746837197; cv=none; b=PHeVZXedqlRXaZ/Vi98MRX8qovCZfDULycyVVHCsg3m/Lntgv5gCguBwIlojLd3FlC16DohfBZ8hFvfQbmAibBHwIDvPh/gPXZ3E6JF/UfMKCIDj/3SSwalQRs1qDa9WgxJJBp55LCpVTjZw0hky12m2P4lTKke41WM0+08YodI=
+	t=1746837199; cv=none; b=sf7ntp2pp5LDsZWryS19V+rFJkJBHRz5eO2/cwk2AijNa9bLWoWyeUKfG+760nXbuy16l5hvceH4VotiUZO/XNIO+gW5h9R/gNPc3KqTdHB4++JsD4b1aWTrHuGuvm96OfPbHflzs6uB+AB+mI3eY/w1JL4o/Z33QMApg40GexY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746837197; c=relaxed/simple;
-	bh=15dk4HRfl3Tj2SYBMkDxQ/ocmZUlOFHxJunAU70Z0Sc=;
+	s=arc-20240116; t=1746837199; c=relaxed/simple;
+	bh=68Yyo9DKhyUzGrzZE+Y1y7T4U7CvNc4zRHAS8WYlyTA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IDCk8Y1z4xWBUmeVkgTXRfF/VDI8/XYsy2ebzCg6YCGaayz414urihj26m3UIFMOaoLgoSCv26U6RrSgeG2FUPxwpqaNYovuJwdgZlifaHBFvs3lWkEixXq8QfXYrmnjfBn/yLttjIfbzi0x57rQoV+DwZGqjY4VNY8FF6jjbGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bq9beBuv; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=NmKdfrcDPdGhqbJr7HJRBz5cUcdEtgzXkXxbRLKg3QgI+QbLzx6zZa2dOE4eL6WdFxJFhp/QcMjP47sY7S8qF++KTbPB6ImuVCTcp4sXriizM5THw0xXVkl6CzMLpLrfx/X+PB3eNZUd8tXPC6b7sxS1M6TJkjjMqmAvw/ZHQE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g9Tx6eg4; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bq9beBuv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g9Tx6eg4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746837195; x=1778373195;
+  t=1746837197; x=1778373197;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=15dk4HRfl3Tj2SYBMkDxQ/ocmZUlOFHxJunAU70Z0Sc=;
-  b=bq9beBuvHVS+wWJjkL4QQ+R2wgrlT+n0abWkJ/panQhZrXjng4AMSnvt
-   W7BeKDle3Njx8nS+stgDZEwVDZeM0jLcFmf85+8TZMtQ3VZeTATkMZ4fe
-   v6Uz8aVp3C9B6NnULPqZOP95VYtW8S7naEK9JTWjjqOa5+Wna0T3XUxFo
-   BQyJdONSrBB13rKxgKGOVhoRcf3CEDHPWCtrzNqKhYlOcsw+Q495tWUoF
-   Qq/53giOqCp7pl12X/qhiXzxfnwLvsBv0HdqvDzKq7O2YjCr+R4b0eVtb
-   XqGKt0Yy8UH/lo2NaOoXEJ9kpNuVHrrC0FMmnzlZauveS/0wFGXJgSOts
+  bh=68Yyo9DKhyUzGrzZE+Y1y7T4U7CvNc4zRHAS8WYlyTA=;
+  b=g9Tx6eg4U8GYNUrh7XhqH0nbkzJE7BzSnSaMVHlDt8ldDwfhWM7p/0iK
+   AytANapX801mkG3NbLYN5WyRjYthQk+O8DH3XYro1h4wyc8rfUKDJ3LkQ
+   fYGGNxUm/cuBz+Iu+l4kkpApVYTp4xBu54/nO2iXL5VGUvcmwFIa4kvBA
+   Yh6WewVyCd/yufOhcv4MnoURxwFHwZuH79ybAspoz3WLxfYHj3ZqnY6Y4
+   Elu5M5cMF2Jf38AR4JIXZJDosknXb6DfEtjVTLZ573HV/jtaCJdns57q1
+   l3Y1VeHUzces5uxS3N2QmIaMdaXlmdhO2PSBnj+iSpkINeDKRs3Fq0H7A
    g==;
-X-CSE-ConnectionGUID: 5JJN+s6tQSeo1Q1/wcKnsQ==
-X-CSE-MsgGUID: uEHejwzgQlO86hA2w25yAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48601780"
+X-CSE-ConnectionGUID: 7Ai+3DGFSWCin7BwGapHyw==
+X-CSE-MsgGUID: CF9EecvLQcS/TwMhEWOU0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48601781"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="48601780"
+   d="scan'208";a="48601781"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 17:33:14 -0700
-X-CSE-ConnectionGUID: I8QhpaB2TrKo9U5FJo4i7A==
-X-CSE-MsgGUID: cxkqXNpkQHyXahxYj17BtQ==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 17:33:15 -0700
+X-CSE-ConnectionGUID: udVbD7UCRo2VFOAulWVHew==
+X-CSE-MsgGUID: 9IROyiIJSG69s7zCGcawMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="137160214"
+   d="scan'208";a="137160215"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 09 May 2025 17:33:13 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDY9P-000Cax-24;
+	id 1uDY9P-000Caz-29;
 	Sat, 10 May 2025 00:33:11 +0000
-Date: Sat, 10 May 2025 08:32:28 +0800
+Date: Sat, 10 May 2025 08:32:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/94] fs/proc/stat.c:41:5: warning: no
- previous prototype for function 'get_iowait_time'
-Message-ID: <202505100801.ziVFA3Ca-lkp@intel.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: drivers/thermal/thermal_debugfs.c:252:59: warning: '%d' directive
+ output may be truncated writing between 1 and 5 bytes into a region of size
+ between 3 and 8
+Message-ID: <202505100843.B3Gh1AwW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,50 +64,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   a79e0786f3fa90fd521f198ac6ccf6b11dbf67c2
-commit: 3014b20d3d7c0a34a5968c4337314684b0fe0304 [0/94] anolis: cpuacct: export cpuacct.proc_stat interface
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250510/202505100801.ziVFA3Ca-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100801.ziVFA3Ca-lkp@intel.com/reproduce)
+Hi Daniel,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0e1329d4045ca3606f9c06a8c47f62e758a09105
+commit: 755113d7678681a137c330f7997ceb680adb644e thermal/debugfs: Add thermal cooling device debugfs information
+date:   1 year, 4 months ago
+config: csky-randconfig-002-20250106 (https://download.01.org/0day-ci/archive/20250510/202505100843.B3Gh1AwW-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100843.B3Gh1AwW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505100801.ziVFA3Ca-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505100843.B3Gh1AwW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/proc/stat.c:41:5: warning: no previous prototype for function 'get_iowait_time' [-Wmissing-prototypes]
-      41 | u64 get_iowait_time(struct kernel_cpustat *kcs, int cpu)
-         |     ^
-   fs/proc/stat.c:41:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      41 | u64 get_iowait_time(struct kernel_cpustat *kcs, int cpu)
-         | ^
-         | static 
-   1 warning generated.
+   drivers/thermal/thermal_debugfs.c:103:6: warning: no previous prototype for 'thermal_debug_init' [-Wmissing-prototypes]
+     103 | void thermal_debug_init(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_debugfs.c:329:6: warning: no previous prototype for 'thermal_debug_cdev_state_update' [-Wmissing-prototypes]
+     329 | void thermal_debug_cdev_state_update(const struct thermal_cooling_device *cdev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_debugfs.c:389:6: warning: no previous prototype for 'thermal_debug_cdev_add' [-Wmissing-prototypes]
+     389 | void thermal_debug_cdev_add(struct thermal_cooling_device *cdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_debugfs.c:431:6: warning: no previous prototype for 'thermal_debug_cdev_remove' [-Wmissing-prototypes]
+     431 | void thermal_debug_cdev_remove(struct thermal_cooling_device *cdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/thermal_debugfs.c: In function 'cdev_tt_seq_show':
+>> drivers/thermal/thermal_debugfs.c:252:59: warning: '%d' directive output may be truncated writing between 1 and 5 bytes into a region of size between 3 and 8 [-Wformat-truncation=]
+     252 |                 snprintf(buffer, ARRAY_SIZE(buffer), "%d->%d",
+         |                                                           ^~
+   drivers/thermal/thermal_debugfs.c:252:54: note: directive argument in the range [0, 65535]
+     252 |                 snprintf(buffer, ARRAY_SIZE(buffer), "%d->%d",
+         |                                                      ^~~~~~~~
+   drivers/thermal/thermal_debugfs.c:252:17: note: 'snprintf' output between 5 and 14 bytes into a destination of size 11
+     252 |                 snprintf(buffer, ARRAY_SIZE(buffer), "%d->%d",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     253 |                          entry->id >> 16, entry->id & 0xFFFF);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/get_iowait_time +41 fs/proc/stat.c
+vim +252 drivers/thermal/thermal_debugfs.c
 
-    40	
-  > 41	u64 get_iowait_time(struct kernel_cpustat *kcs, int cpu)
-    42	{
-    43		u64 iowait, iowait_usecs = -1ULL;
-    44	
-    45		if (cpu_online(cpu))
-    46			iowait_usecs = get_cpu_iowait_time_us(cpu, NULL);
-    47	
-    48		if (iowait_usecs == -1ULL)
-    49			/* !NO_HZ or cpu offline so we can rely on cpustat.iowait */
-    50			iowait = kcs->cpustat[CPUTIME_IOWAIT];
-    51		else
-    52			iowait = iowait_usecs * NSEC_PER_USEC;
-    53	
-    54		return iowait;
-    55	}
-    56	
+   233	
+   234	static int cdev_tt_seq_show(struct seq_file *s, void *v)
+   235	{
+   236		struct thermal_debugfs *thermal_dbg = s->private;
+   237		struct cdev_debugfs *cdev_dbg = &thermal_dbg->cdev_dbg;
+   238		struct list_head *transitions = cdev_dbg->transitions;
+   239		struct cdev_record *entry;
+   240		int i = *(loff_t *)v;
+   241	
+   242		if (!i)
+   243			seq_puts(s, "Transition\tOccurences\n");
+   244	
+   245		list_for_each_entry(entry, &transitions[i], node) {
+   246			/*
+   247			 * Assuming maximum cdev states is 1024, the longer
+   248			 * string for a transition would be "1024->1024\0"
+   249			 */
+   250			char buffer[11];
+   251	
+ > 252			snprintf(buffer, ARRAY_SIZE(buffer), "%d->%d",
+   253				 entry->id >> 16, entry->id & 0xFFFF);
+   254	
+   255			seq_printf(s, "%-10s\t%-10llu\n", buffer, entry->count);
+   256		}
+   257	
+   258		return 0;
+   259	}
+   260	
 
 -- 
 0-DAY CI Kernel Test Service
