@@ -1,280 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2080.outbound.protection.outlook.com [40.107.93.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006EA27702
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 12:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746881178; cv=none; b=rCVnRNPkx90YWXoIi7ub1+cJYEdd3/3vWvhFC9cjhILPBIXB2SBnKrwniHH/tr4eL4ghXOq2JQei5+fvaxr5YNJItIOdSH2fon4xGcMYNf/XG9zUFshdLFWeXTxi6Cp63PuN1y23iXMc1jGU199d7wfScFlPa+3oMnWqdadZPS4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746881178; c=relaxed/simple;
-	bh=2lQv7fUr7PCSnDLTJvYoWjZMi9DuQ/XDWfQy+6/FSAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eg9sk63gS8K5RqCZZkR5LeSj1wPG1q46xISGFEKhhXfKe7H0fg5OnJ9iXZuKSl+aT7FpDAkslmodm7Gncbh0D8lSzt31hZ8uO0bAzuN0wTs69qaA+mbCH6BwOQIJ4eNNYZZ5ojORT71ww/SgbcB+p8+0JQM414begUEUXZGzf1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mWH4E5eQ; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342D91F0E32
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 13:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.80
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746882490; cv=fail; b=Sznda03lHFUEMSdm1QK5ePbiCaJxzupRcwo1OkJqaW+RZVxIxNyooEw32mwoL4kJU6hzD/ir5qFC3qfTzB/Z6tPdpJ5LZRq6Y1QXBWjl5jl/YuU6ILyOSe0uxtm1qQ3uvcsLNXdJZ0DitjGusrbSFkBXyvBwNga2GWZQ389/gD8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746882490; c=relaxed/simple;
+	bh=GwADlEznXPPHZ2iuLqtPDR1x2azK60fvQq9FICGZV4U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=IbM1EkDpw6/SrCIHalthQ4XGs2iw+SlnxvHQfMor6M0oG4MebhZ4aF2JIXlPBmXrSA9/fqtbFcFeo7aImTyfk1siyHVFZYcUPF+j/KznMa2IhLPNtACwbApS3lnDNet90iT4TO9QjFAtv2c7gp+9Pid+PMUdOjiuKYbf8Pg8tEc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ojLOhErW; arc=fail smtp.client-ip=40.107.93.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mWH4E5eQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746881176; x=1778417176;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2lQv7fUr7PCSnDLTJvYoWjZMi9DuQ/XDWfQy+6/FSAk=;
-  b=mWH4E5eQIVjDiXRXYuPHTrWMOEKDfboj9mZkTX0awOIsYLE6bX9CbWug
-   WN5I4q7RGWUF80AHd6RcSc7IXcyNjCmEZcuRO0nC5gtfhXAEg/skElzQY
-   NP9FxbZxlNQJGVVSjC9z3dx1JpXGSP9cBUAfVe9O25fSeVDVyaYN0VZcn
-   xcc66EqZlNkCb2L82ZM24cHEIZ1LB7Dfy21rrEmUs7E7RZ+d+abTHVIlW
-   RjAxESCs4F5lllc41ekXeE9XNiHmzhsSyu34Nk9Vu1Qi8ioPVw+aJ870d
-   MCxBljF4peYzH6IXJt0ovwsFOk3NvS6ZXet1eO0tJshFXcWvebCUi5AW2
-   w==;
-X-CSE-ConnectionGUID: qr2NO4pyTQSsSL55TxN8CQ==
-X-CSE-MsgGUID: dqfNeSQISyi6Z7DDrbDt3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="48576401"
-X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="48576401"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 05:46:15 -0700
-X-CSE-ConnectionGUID: rc/NufyRSVaYsKBK20zsBw==
-X-CSE-MsgGUID: 30qVebdkS6Wq5uhzNmr9pQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="137857742"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 May 2025 05:46:13 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uDjal-000D4t-2F;
-	Sat, 10 May 2025 12:46:11 +0000
-Date: Sat, 10 May 2025 20:45:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zi Yan <ziy@nvidia.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ojLOhErW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kCn+NIqQLfSgoGNyI4c1MBxI1jVgZFSSPs4Q1of9TsdbV8p+NM1n3uZxVjaIjua7x5g/dTFDcAKs1eyLzJdUT7o4P6yqsDy8QaQ9IhJ8sEBL5BlOu6GBo84Vi3rhHEjZf7+YMo+CAM7gNkbmqGOiNsg5t/sPsLqKfoYmE1UdGxc0kJrv/MXji+cEx5Vd1BhTCu96nJoHRgRAyUfsLJLZDlzBjhv0hAsvqWul/BEdKUQM+COZ2jKXSzn3YiFZckGcqODchgqkVx8dsCkXpvLi8PGLkx8FILe6SsRnKx5vpqwO31MhGRUsjc+9qihidN1FenRNCwg+qts+G3mYdI+qNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QGNeJlAFQQDvGkgk/28eVp4XFXDOQTUBvkIINV9ASCU=;
+ b=c7q4uboZ7VNtAwS73U0Zcrp2crcWP9DxF4XXyL/LO4yBtLSNIN2Yfwoe0Vd8HrlCY7PwAZBgllQp1rFWwTFUCiQF77vTYSq0TY+PajwaGQ9dY7QAaRIo4VsCX1c52TwhAwDradRiIeB6y/DERWNu/UYA7NyGDRvqCr20uYVOhRcqBEnR2xgLeJEAXb0xZMZuNjfg1tTVCMYJuGIpplNBqoWPVFOOVttnV3oSKB3GQ0VJVhcQCmc7Unzf2x7El9s3/zyWRG2V3u5cR4exmfAbvmCng6E0JtF1F60M3XJxnKq+gpoHkMtO11dqfy/1J8+R/ZgP36qEXon0mvAs681QZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QGNeJlAFQQDvGkgk/28eVp4XFXDOQTUBvkIINV9ASCU=;
+ b=ojLOhErW2dg4GaXJ7GyIz2zyX8KSUOXdinkfjpuOXe6BNpny70HojIDVSrOan87FJidJFlGuPrHKzM2gbUgsZesvjUmvEThpAySxkOjvFnIwCyEsqLowgfzsodeGFEgaHBrhvDJfUZotCDWL17vbUwpyFhAC8xXgNqtixOMuX6MUYNlx77UyLBq6TAf4ERODzwILzxj3vXfo5Yor3rEFH1UvR2f3xRK8ViDlebXvGxLJB+DvVD++91UqvXtkRj5dXRGGT8TekLqbi42bjTQse2KtxOaKVIL0pL/2zTUb2njPUQA8tQlUX4MAn6nELDdICSP4rPHaR4uFEXvihIZDfw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ DM6PR12MB4090.namprd12.prod.outlook.com (2603:10b6:5:217::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.27; Sat, 10 May 2025 13:08:04 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8722.020; Sat, 10 May 2025
+ 13:08:04 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v4 4/4] mm/page_isolation: remove migratetype parameter
  from more functions.
-Message-ID: <202505102037.qTxGl3jk-lkp@intel.com>
+Date: Sat, 10 May 2025 09:08:02 -0400
+X-Mailer: MailMate (2.0r6255)
+Message-ID: <E8B1A041-C572-4606-A983-270A4EFA2BF0@nvidia.com>
+In-Reply-To: <202505102037.qTxGl3jk-lkp@intel.com>
 References: <20250509200111.3372279-5-ziy@nvidia.com>
+ <202505102037.qTxGl3jk-lkp@intel.com>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BL0PR02CA0033.namprd02.prod.outlook.com
+ (2603:10b6:207:3c::46) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250509200111.3372279-5-ziy@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|DM6PR12MB4090:EE_
+X-MS-Office365-Filtering-Correlation-Id: b01ef4a1-e98d-4702-d95c-08dd8fc3b346
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?BqKKxI2ZqWZZ402166r9LRCMK6lOX9UIxWMoiqplqErFGIfOtzk0cg6XMze2?=
+ =?us-ascii?Q?32Z0CLOdtL6KisQxKj9H1r/1rl1eVeI5IyOjQScYSN1C0LLCA5WLDffeZkPb?=
+ =?us-ascii?Q?ThkzTQ3x+86cXe5+z0x3ffaN+Ge7367SXyVvoFkAHj89U/fAC4uxbnqJXDpJ?=
+ =?us-ascii?Q?ZAsFM0Mm/HHmZqqsTmJu0w1h4YMi7QO46oqIdgoj6SJWkhDC0QDuQ5ethFNV?=
+ =?us-ascii?Q?fTcvBxAEjuX4/uQSRwZNjuUZS7+1EQP75kPMyDBpjiV7w+6zmJEGowFnrGnZ?=
+ =?us-ascii?Q?QejzqsvqENYx2fLzDv3r+JEqXc+odzqN4meqo8jo+zmGoUNvTyAPTkWxdJAX?=
+ =?us-ascii?Q?Z6Qwozzyqo2hY9A9W4yfxhufxoD2YqhjoOw//atF46+TSh8V1PpZSY0eP6io?=
+ =?us-ascii?Q?uTW2hKRnEdsN99cXq9ZTxs7buLbXcR8kzXQAIReyLZNOArwR6SxN0YoV31c1?=
+ =?us-ascii?Q?PMYInQK1KaR/jqGpoO8jZ2oxMyyVKDsN49WWFzIgErNqrkkstPMpQ0M3TZib?=
+ =?us-ascii?Q?wX4zKqteCa9U2Eh5ttzBJmVaoSgG6uOb4zVpNl7vBaCjPZrDIzXrU9/1Z6NG?=
+ =?us-ascii?Q?g+u5JTvJdXUmy+DH6GKOUWXNJTveZ0/MjXe5KjURyF7wW9pLc3Oj0tnAMRJ3?=
+ =?us-ascii?Q?5/ESMiZGTZbSZwaq4OVNqFpPSUzd54YJH16dO01tSKPODuytDVO4pWAxsMzB?=
+ =?us-ascii?Q?sKczvr5heFYtPh++3oymFmybvtslgAll4747LNa08GrjU0FuvN5bzDpFIKSg?=
+ =?us-ascii?Q?/P1uvWAHY2YRBXOS0qktynraXmZVYhsMIGPvjPMvRQOkbKN9jx/P4EI1QQJe?=
+ =?us-ascii?Q?SghsMP1A8tYP+3oP+7Gx783Wowt/3jx2xx3cMtdrAh3AqfZ390ONeWSJkO/9?=
+ =?us-ascii?Q?7qjjkPziMamAfyDV0zHb5wDWIcs0jHRfKdobvFZUsz8xdwaKlrGzryfL14yU?=
+ =?us-ascii?Q?9I3UfNdedTRC4sV4FZEs8h3SHIksPa7pZTAgrIADnIA7chykG7JjyG1MBoaD?=
+ =?us-ascii?Q?ftLujE6Fegs1pii587BMpDWLWFdANFul3ocQPAVXNY8LXGkfMiQ8+/KSeYkQ?=
+ =?us-ascii?Q?pSpLA8k72g0Lv1AnAIARJQkakMjLDfqskEEvaQaCxTnGiXR2J7g6qzefGwSZ?=
+ =?us-ascii?Q?guijq4EGJiN3Qtc5fq4VkziLPpgXuzg/2838xnosmJPktfYfPICaa0L+xADN?=
+ =?us-ascii?Q?Tt9cSD/AYRBQciiTPr+dKTZIv6CH2tIrjnDcuIwtQ5oOeEBkXffdpPdOYxux?=
+ =?us-ascii?Q?vCMDfQe0RpiV/HwN/Vkiy4psIWDWTzjMbuvU9WxrsEkZh46lVcYeugedAB2v?=
+ =?us-ascii?Q?vKkZFvfHxwHL2X5AR2vcVAwMsKhYbELNLvqH8VhrveGOOKND0mNxVBBee2Hv?=
+ =?us-ascii?Q?DR6uRZlA0fDkII10SW0L+KYuuMMf?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?mwahoNaPWLwLic+T5yzxE7b6yIut5x/YDJ2VlAybfUKM0v+TqvyCeMOmCIeP?=
+ =?us-ascii?Q?kdNOc1/4NIn9N25Sw2vHC8SYJiseNYX9YrEGiMgfbXDZ+ccvc5JsBBqS565D?=
+ =?us-ascii?Q?g7FV7qC5WB2mf9L+rA7ekIYANXHRbz5KJHUKwluqAHdNoKGcoXmERQr3fG+9?=
+ =?us-ascii?Q?JloaLsk76ugOIh9tdXYvrYk4pLibQgWD1nI38jl3ePQcNnS0IG5m6Jkjhi2H?=
+ =?us-ascii?Q?n0gDg53VbdhSbwNpvlwfIu6LZRkTsCXEtBQRFl3JKvlLC4p3mOJf2ei1eSUV?=
+ =?us-ascii?Q?bLwO5Y3UCmeEweWYgFcmktXtzo/vS447iWXpeDfvEHCzsTTPTVViZVFQqvwv?=
+ =?us-ascii?Q?sC0BtR7Kw4Q/+QsfbWONjQUEDQy/m4okQYCjPWTw+dB/naMscFR8RFTOFBHF?=
+ =?us-ascii?Q?J6f2RX/Dj3gky++gMnPE1QuQNJ0h7mPykdd11uuMD3YgjkxjFiscHfIQi/Mb?=
+ =?us-ascii?Q?n/FmQJrZGpwwmyncgwTOTd4Hmz8/20lcRzczsFGt8mwXeGVqgIAXNT6golHp?=
+ =?us-ascii?Q?UV53XYNLHSCm309GABxT0zyUR0fSS07Xvzpq2Xu9maURHlAxKqZKBhzVTrAA?=
+ =?us-ascii?Q?zafcGtmT191XCVqX06bS80woT3OQMK9jYCnrzR9++Dv0DJlR/45sQCsqzig2?=
+ =?us-ascii?Q?Rvsm1TA9yK1gxHi6Y4CexJS7rW4zz4qzIF8jWYCETQANJkPrYm73Arc+Uu4f?=
+ =?us-ascii?Q?Gsw2D7n2MwmUZaUNYrKPStk/jf5LZWSqciE/NzGHvNHe6N6SyR9TLeah74jj?=
+ =?us-ascii?Q?6ZQQCp+1mTX0U445LrJc4lp8dcqR7m0rZqlllexDhnlPDesb1iF2m6kxfaUZ?=
+ =?us-ascii?Q?Q7LkFouKAvxrP9I/PxfBECsj8zK/RZOXzuSnYWyJ/7z2K7mkazW8z+ovwvKC?=
+ =?us-ascii?Q?1lDRsg6AnGEsQnfWr0r3P2jdFJXik6tB/lKeTMyivaEuQzRDKPSRbtto215p?=
+ =?us-ascii?Q?+w/Drpgqyk87x1B5GLOYWaIXvzLtdKeVqvt08BbhM1ZcQwtkreXUwsOXxb4d?=
+ =?us-ascii?Q?C4/fH6CMxssmOgycqAQhXi5sf6ZLJSIqc/FPlUskNBrFMzJLqvQLZcOplx/W?=
+ =?us-ascii?Q?WWJZeBcNh4dogozySNYJeDqjKTD+/cIKXDGG7kTieEa+LfIiiIug4KeJeGQz?=
+ =?us-ascii?Q?dMDN8F08qJR6278TqVz/i6HRSHgDtP+FY9Mxjq+DyQoAQbWoeomh9o6aVLdN?=
+ =?us-ascii?Q?XH9TfoyT+XRQ/O2VS1wRpso6T9KojYEgePZ0v7cyLKwNAzYMoDbw3ea0iXrX?=
+ =?us-ascii?Q?XP/zO//AYA3mXQP0+wp8we9TXHBupV3h3L3zSxsU0Sdii9oulLZhkRWbFmjX?=
+ =?us-ascii?Q?DEgK9mKBsauWP6YkgclZRs4xuzL/a4CvzWiDMS9QIqjqtdw7RQ/idzMDjoaA?=
+ =?us-ascii?Q?G38Lzav45vpKx0in00eC9UqbnGiuewPqpz+UjGVnyL56SFupStJxaR9md3ln?=
+ =?us-ascii?Q?6wTWkp2sUeKmKkACyPQB7W27sQe78eow72IhQZQs5mUA/w5WwaE6Tv/K7j0F?=
+ =?us-ascii?Q?I61/eJiBbOdbkx64BBqf3r7Um4g/tgB3Z5voTtykvINmmrJXQQ4Vno8Jf0UX?=
+ =?us-ascii?Q?N4O+adSt6z7Wn3PKyeItajcTy6v73DW0WgaSxFQP?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b01ef4a1-e98d-4702-d95c-08dd8fc3b346
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2025 13:08:04.6629
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IXP5JH4FtduZXu9U9wl1NBCJdexjfJfAJByOVOPq7JpAvpov8s57osg0HtiBPYyy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4090
 
-Hi Zi,
+On 10 May 2025, at 8:45, kernel test robot wrote:
 
-kernel test robot noticed the following build warnings:
+> Hi Zi,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on next-20250509]
+> [cannot apply to akpm-mm/mm-everything trace/for-next linus/master v6.1=
+5-rc5 v6.15-rc4 v6.15-rc3 v6.15-rc5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.=
 
-[auto build test WARNING on next-20250509]
-[cannot apply to akpm-mm/mm-everything trace/for-next linus/master v6.15-rc5 v6.15-rc4 v6.15-rc3 v6.15-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-page_i=
+solation-make-page-isolation-a-standalone-bit/20250510-040418
+> base:   next-20250509
+> patch link:    https://lore.kernel.org/r/20250509200111.3372279-5-ziy%4=
+0nvidia.com
+> patch subject: [PATCH v4 4/4] mm/page_isolation: remove migratetype par=
+ameter from more functions.
+> config: x86_64-randconfig-122-20250510 (https://download.01.org/0day-ci=
+/archive/20250510/202505102037.qTxGl3jk-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250510/202505102037.qTxGl3jk-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505102037.qTxGl3jk-l=
+kp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>    mm/page_alloc.c:6656:62: sparse: sparse: incorrect type in argument =
+3 (different base types) @@     expected unsigned long nr_migrated @@    =
+ got restricted acr_flags_t [usertype] alloc_flags @@
+>    mm/page_alloc.c:6656:62: sparse:     expected unsigned long nr_migra=
+ted
+>    mm/page_alloc.c:6656:62: sparse:     got restricted acr_flags_t [use=
+rtype] alloc_flags
+>    mm/page_alloc.c:6659:50: sparse: sparse: incorrect type in argument =
+6 (different base types) @@     expected restricted acr_flags_t [usertype=
+] alloc_flags @@     got unsigned long [assigned] total_mapped @@
+>    mm/page_alloc.c:6659:50: sparse:     expected restricted acr_flags_t=
+ [usertype] alloc_flags
+>    mm/page_alloc.c:6659:50: sparse:     got unsigned long [assigned] to=
+tal_mapped
+>>> mm/page_alloc.c:6760:55: sparse: sparse: incorrect type in initialize=
+r (different base types) @@     expected restricted isolate_mode_t [usert=
+ype] mode @@     got int @@
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-page_isolation-make-page-isolation-a-standalone-bit/20250510-040418
-base:   next-20250509
-patch link:    https://lore.kernel.org/r/20250509200111.3372279-5-ziy%40nvidia.com
-patch subject: [PATCH v4 4/4] mm/page_isolation: remove migratetype parameter from more functions.
-config: x86_64-randconfig-122-20250510 (https://download.01.org/0day-ci/archive/20250510/202505102037.qTxGl3jk-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505102037.qTxGl3jk-lkp@intel.com/reproduce)
+<snip>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505102037.qTxGl3jk-lkp@intel.com/
+>> 6760		isolate_mode_t mode =3D (alloc_flags & ACR_CMA) ? CMA_ALLOCATION=
+ :
+>   6761								ISOLATE_MODE_NONE;
 
-sparse warnings: (new ones prefixed by >>)
-   mm/page_alloc.c:6656:62: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long nr_migrated @@     got restricted acr_flags_t [usertype] alloc_flags @@
-   mm/page_alloc.c:6656:62: sparse:     expected unsigned long nr_migrated
-   mm/page_alloc.c:6656:62: sparse:     got restricted acr_flags_t [usertype] alloc_flags
-   mm/page_alloc.c:6659:50: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected restricted acr_flags_t [usertype] alloc_flags @@     got unsigned long [assigned] total_mapped @@
-   mm/page_alloc.c:6659:50: sparse:     expected restricted acr_flags_t [usertype] alloc_flags
-   mm/page_alloc.c:6659:50: sparse:     got unsigned long [assigned] total_mapped
->> mm/page_alloc.c:6760:55: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted isolate_mode_t [usertype] mode @@     got int @@
-   mm/page_alloc.c:6760:55: sparse:     expected restricted isolate_mode_t [usertype] mode
-   mm/page_alloc.c:6760:55: sparse:     got int
-   mm/page_alloc.c:2761:13: sparse: sparse: context imbalance in '__free_frozen_pages' - different lock contexts for basic block
-   mm/page_alloc.c:2864:33: sparse: sparse: context imbalance in 'free_unref_folios' - unexpected unlock
-   mm/page_alloc.c:3154:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
-   mm/page_alloc.c:4982:9: sparse: sparse: context imbalance in 'alloc_pages_bulk_noprof' - different lock contexts for basic block
+mode is getting either CMA_ALLOCATION or ISOLATE_MODE_NONE. Both are isol=
+ate_mode_t
+enums. Is sparse giving a false positive here since it does not read ISOL=
+ATE_MODE_NONE
+in the newline below 6760?
 
-vim +6760 mm/page_alloc.c
 
-  6722	
-  6723	/**
-  6724	 * alloc_contig_range() -- tries to allocate given range of pages
-  6725	 * @start:	start PFN to allocate
-  6726	 * @end:	one-past-the-last PFN to allocate
-  6727	 * @alloc_flags:	allocation information
-  6728	 * @gfp_mask:	GFP mask. Node/zone/placement hints are ignored; only some
-  6729	 *		action and reclaim modifiers are supported. Reclaim modifiers
-  6730	 *		control allocation behavior during compaction/migration/reclaim.
-  6731	 *
-  6732	 * The PFN range does not have to be pageblock aligned. The PFN range must
-  6733	 * belong to a single zone.
-  6734	 *
-  6735	 * The first thing this routine does is attempt to MIGRATE_ISOLATE all
-  6736	 * pageblocks in the range.  Once isolated, the pageblocks should not
-  6737	 * be modified by others.
-  6738	 *
-  6739	 * Return: zero on success or negative error code.  On success all
-  6740	 * pages which PFN is in [start, end) are allocated for the caller and
-  6741	 * need to be freed with free_contig_range().
-  6742	 */
-  6743	int alloc_contig_range_noprof(unsigned long start, unsigned long end,
-  6744				acr_flags_t alloc_flags, gfp_t gfp_mask)
-  6745	{
-  6746		unsigned long outer_start, outer_end;
-  6747		int ret = 0;
-  6748	
-  6749		struct compact_control cc = {
-  6750			.nr_migratepages = 0,
-  6751			.order = -1,
-  6752			.zone = page_zone(pfn_to_page(start)),
-  6753			.mode = MIGRATE_SYNC,
-  6754			.ignore_skip_hint = true,
-  6755			.no_set_skip_hint = true,
-  6756			.alloc_contig = true,
-  6757		};
-  6758		INIT_LIST_HEAD(&cc.migratepages);
-  6759		bool is_range_aligned;
-> 6760		isolate_mode_t mode = (alloc_flags & ACR_CMA) ? CMA_ALLOCATION :
-  6761								ISOLATE_MODE_NONE;
-  6762	
-  6763		gfp_mask = current_gfp_context(gfp_mask);
-  6764		if (__alloc_contig_verify_gfp_mask(gfp_mask, (gfp_t *)&cc.gfp_mask))
-  6765			return -EINVAL;
-  6766	
-  6767		/*
-  6768		 * What we do here is we mark all pageblocks in range as
-  6769		 * MIGRATE_ISOLATE.  Because pageblock and max order pages may
-  6770		 * have different sizes, and due to the way page allocator
-  6771		 * work, start_isolate_page_range() has special handlings for this.
-  6772		 *
-  6773		 * Once the pageblocks are marked as MIGRATE_ISOLATE, we
-  6774		 * migrate the pages from an unaligned range (ie. pages that
-  6775		 * we are interested in). This will put all the pages in
-  6776		 * range back to page allocator as MIGRATE_ISOLATE.
-  6777		 *
-  6778		 * When this is done, we take the pages in range from page
-  6779		 * allocator removing them from the buddy system.  This way
-  6780		 * page allocator will never consider using them.
-  6781		 *
-  6782		 * This lets us mark the pageblocks back as
-  6783		 * MIGRATE_CMA/MIGRATE_MOVABLE so that free pages in the
-  6784		 * aligned range but not in the unaligned, original range are
-  6785		 * put back to page allocator so that buddy can use them.
-  6786		 */
-  6787	
-  6788		ret = start_isolate_page_range(start, end, mode, 0);
-  6789		if (ret)
-  6790			goto done;
-  6791	
-  6792		drain_all_pages(cc.zone);
-  6793	
-  6794		/*
-  6795		 * In case of -EBUSY, we'd like to know which page causes problem.
-  6796		 * So, just fall through. test_pages_isolated() has a tracepoint
-  6797		 * which will report the busy page.
-  6798		 *
-  6799		 * It is possible that busy pages could become available before
-  6800		 * the call to test_pages_isolated, and the range will actually be
-  6801		 * allocated.  So, if we fall through be sure to clear ret so that
-  6802		 * -EBUSY is not accidentally used or returned to caller.
-  6803		 */
-  6804		ret = __alloc_contig_migrate_range(&cc, start, end, alloc_flags);
-  6805		if (ret && ret != -EBUSY)
-  6806			goto done;
-  6807	
-  6808		/*
-  6809		 * When in-use hugetlb pages are migrated, they may simply be released
-  6810		 * back into the free hugepage pool instead of being returned to the
-  6811		 * buddy system.  After the migration of in-use huge pages is completed,
-  6812		 * we will invoke replace_free_hugepage_folios() to ensure that these
-  6813		 * hugepages are properly released to the buddy system.
-  6814		 */
-  6815		ret = replace_free_hugepage_folios(start, end);
-  6816		if (ret)
-  6817			goto done;
-  6818	
-  6819		/*
-  6820		 * Pages from [start, end) are within a pageblock_nr_pages
-  6821		 * aligned blocks that are marked as MIGRATE_ISOLATE.  What's
-  6822		 * more, all pages in [start, end) are free in page allocator.
-  6823		 * What we are going to do is to allocate all pages from
-  6824		 * [start, end) (that is remove them from page allocator).
-  6825		 *
-  6826		 * The only problem is that pages at the beginning and at the
-  6827		 * end of interesting range may be not aligned with pages that
-  6828		 * page allocator holds, ie. they can be part of higher order
-  6829		 * pages.  Because of this, we reserve the bigger range and
-  6830		 * once this is done free the pages we are not interested in.
-  6831		 *
-  6832		 * We don't have to hold zone->lock here because the pages are
-  6833		 * isolated thus they won't get removed from buddy.
-  6834		 */
-  6835		outer_start = find_large_buddy(start);
-  6836	
-  6837		/* Make sure the range is really isolated. */
-  6838		if (test_pages_isolated(outer_start, end, mode)) {
-  6839			ret = -EBUSY;
-  6840			goto done;
-  6841		}
-  6842	
-  6843		/* Grab isolated pages from freelists. */
-  6844		outer_end = isolate_freepages_range(&cc, outer_start, end);
-  6845		if (!outer_end) {
-  6846			ret = -EBUSY;
-  6847			goto done;
-  6848		}
-  6849	
-  6850		/*
-  6851		 * With __GFP_COMP and the requested order < MAX_PAGE_ORDER,
-  6852		 * isolated free pages can have higher order than the requested
-  6853		 * one. Use split_free_pages() to free out of range pages.
-  6854		 */
-  6855		is_range_aligned = is_power_of_2(end - start);
-  6856		if (!(gfp_mask & __GFP_COMP) ||
-  6857			(is_range_aligned && ilog2(end - start) < MAX_PAGE_ORDER)) {
-  6858			split_free_pages(cc.freepages, gfp_mask);
-  6859	
-  6860			/* Free head and tail (if any) */
-  6861			if (start != outer_start)
-  6862				free_contig_range(outer_start, start - outer_start);
-  6863			if (end != outer_end)
-  6864				free_contig_range(end, outer_end - end);
-  6865	
-  6866			outer_start = start;
-  6867			outer_end = end;
-  6868	
-  6869			if (!(gfp_mask & __GFP_COMP))
-  6870				goto done;
-  6871		}
-  6872	
-  6873		if (start == outer_start && end == outer_end && is_range_aligned) {
-  6874			struct page *head = pfn_to_page(start);
-  6875			int order = ilog2(end - start);
-  6876	
-  6877			check_new_pages(head, order);
-  6878			prep_new_page(head, order, gfp_mask, 0);
-  6879			set_page_refcounted(head);
-  6880		} else {
-  6881			ret = -EINVAL;
-  6882			WARN(true, "PFN range: requested [%lu, %lu), allocated [%lu, %lu)\n",
-  6883			     start, end, outer_start, outer_end);
-  6884		}
-  6885	done:
-  6886		undo_isolate_page_range(start, end);
-  6887		return ret;
-  6888	}
-  6889	EXPORT_SYMBOL(alloc_contig_range_noprof);
-  6890	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Best Regards,
+Yan, Zi
