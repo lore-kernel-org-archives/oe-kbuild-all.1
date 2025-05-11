@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AA5BE4A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 May 2025 02:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150732747B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 May 2025 04:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746931310; cv=none; b=qunWc5vfh6TdiyXt4DpVFtrYkIRQx0zO5o5dy92Jo/mL/0PHuVCEBveXpBCWpitYNvbxJiF1k/I+LevfOqv6kekXWvHQc/4aTLTFDSp+FTuT60I2ZHR92cCRQ/ld4YqNtz+Hi2ZsdlMfGfckURTy5JTcP6yAm5+uQ9TnXsGZbSU=
+	t=1746936245; cv=none; b=Ayro6lzwHUKnhKJrHE2hJxJ4uxpDVkoUXr3CBd3mBmXLv+3ghdfrfe65JBBoOU48NDorpNkJm6kSc97sKCTlDzlAOKp2yDFrI19jCYPPCHk8iMLrTijW0wCqg5NO33bFvG3/F1WhA1aS/3UhsTQF7mSZY0I/DTqe/0J95d52cjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746931310; c=relaxed/simple;
-	bh=wFlLoYQr4HtvMJsdxPWQVUef9uoYpqKWxZLi84mFgb4=;
+	s=arc-20240116; t=1746936245; c=relaxed/simple;
+	bh=2XaOSMgkkemyPrEYbDxWXHGcixNSE4cw/rGWOMObhjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HRbAsNuN9iW55GzVWGKH8I6GX0kheG2Pk3T5UCy9dbo3jtW3opUfu4ywFZ/tuBoT3iO3mbprEj3UCoukrMHmoiAolL3SyMYnppIIkC0kpFys5EyQSNSIoIP9G7Rqk3bvr5aEgu+OJbHQEFcDh6LzXlcFrQni19xykXHytFylyvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qb8RhZId; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=g7aUaO4zdJ8bB1wLKYpEwsUjlA14vNTlJbXr/zlBRvPB0HYIsfbKGNObs7XoYgwvTJeFf0lcIKsDbsChCvnJODUXTwWh6y0TPRXksv3pws+npwcrXYwF7383nT23DR8svqf/8HkvKeoS5Wn8pa14TbfFCGmuhhsqhGlQANoHOqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bxjv9eev; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qb8RhZId"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bxjv9eev"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746931309; x=1778467309;
+  t=1746936244; x=1778472244;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wFlLoYQr4HtvMJsdxPWQVUef9uoYpqKWxZLi84mFgb4=;
-  b=Qb8RhZIdeYrziP8T0kUUzxa2Cgs3fmXho2BJ1BfDsXHxztFgHkGf6kf2
-   jpCt3o0ceguhhBoub2T0v/vWjdr/HTQYQ/Ivh4ttNFiGNtjEC9PyC04Sa
-   jJz+f6CkraKrvLASiKPCxWLxsE43IiuMEmuauINJd8E59APJLZPpDN8l3
-   4R85LVK/JzON3FFmzHqJSO3h1eowVeMo5zj6wwoLtZ6+IDa2JkAN0HUOC
-   nlbF3y5H3J7rToS5vfeipH4HwAKTF1fVjsRHFRTPIpaCxYv8WOvzq49BM
-   wsA65ZVyXWFSr2BMWiiPEVOr4bb200MolQ3ZO6fqewhp5Kb175UHsopBR
-   Q==;
-X-CSE-ConnectionGUID: iCIhaip4SgyPdOLhYXYCHQ==
-X-CSE-MsgGUID: +Fa2dZ5kTYKKhvFdwmk1OQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="59401930"
+  bh=2XaOSMgkkemyPrEYbDxWXHGcixNSE4cw/rGWOMObhjw=;
+  b=Bxjv9eevZ+x9Dmw9E7dR4b8Te44df9lOvD+zF1GUisa2imQLix+7Cgpe
+   oTsrY46TmUk8norcQPLAuVZU8+a/UJLsHISK06pWp+iM3iTb5yvW+tBKo
+   4c7laWwKuIzwrrCe9C6lgq1LcR3sghvsLf+WAPBx03ZMc4+EA7GSBxPfU
+   v5V/Z/QjSwCsVK//E1v5utmIwLIP2Be1ERuCl1NvRl1Jc84kfoaXaKQ7b
+   pHbKc6mOe4MPkVYsLpf+Dt2wt9f1nn3A+fd3sXil3ZYCfuupL5mSRcsZj
+   VVubvnXQDcNtirsWSGFV5M3UnYlUSue47qDvnh0SM5mPxvWj5DbGjesab
+   A==;
+X-CSE-ConnectionGUID: N/p8Tz7SRZOJ16LhpbzGOg==
+X-CSE-MsgGUID: h/COW2qCRrWUFQm3qi/gPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="48668477"
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="59401930"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 19:41:48 -0700
-X-CSE-ConnectionGUID: lLpfnabcS8CB7myXvQjdBQ==
-X-CSE-MsgGUID: j7c/Xd15T1WmAPyIUbI6OQ==
+   d="scan'208";a="48668477"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 21:04:03 -0700
+X-CSE-ConnectionGUID: 0UKWAtatS7WkCtdG/QPWLA==
+X-CSE-MsgGUID: ZYwUdCuaQviaaVWz/3ybQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="137403917"
+   d="scan'208";a="160297301"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 May 2025 19:41:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 May 2025 21:04:02 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDwdN-000DXn-0g;
-	Sun, 11 May 2025 02:41:45 +0000
-Date: Sun, 11 May 2025 10:41:07 +0800
+	id 1uDxuy-000Da3-1s;
+	Sun, 11 May 2025 04:04:00 +0000
+Date: Sun, 11 May 2025 12:03:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: [linux-next:master 7560/10031]
- drivers/gpu/drm/msm/hdmi/hdmi.c:439:1: sparse: sparse: symbol
- 'msm_hdmi_pm_ops' was not declared. Should it be static?
-Message-ID: <202505111047.hLZqZUqQ-lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org
+Subject: [agraf-2.6:kexec-cma 2/2] kernel/kexec_core.c:322
+ kimage_free_pages() warn: inconsistent indenting
+Message-ID: <202505111440.nvpCp0Tw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,26 +62,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ed61cb3d78d585209ec775933078e268544fe9a4
-commit: b77770cfe2196e2b68ec01d87211bd28fb7be49d [7560/10031] drm/msm/hdmi: implement proper runtime PM handling
-config: powerpc-randconfig-r121-20250510 (https://download.01.org/0day-ci/archive/20250511/202505111047.hLZqZUqQ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce: (https://download.01.org/0day-ci/archive/20250511/202505111047.hLZqZUqQ-lkp@intel.com/reproduce)
+tree:   https://github.com/agraf/linux-2.6.git kexec-cma
+head:   752619bbe38c535612b1a9e5b47ea7d962c63449
+commit: 752619bbe38c535612b1a9e5b47ea7d962c63449 [2/2] XXX
+config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250511/202505111440.nvpCp0Tw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505111047.hLZqZUqQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505111440.nvpCp0Tw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/msm/hdmi/hdmi.c:439:1: sparse: sparse: symbol 'msm_hdmi_pm_ops' was not declared. Should it be static?
+smatch warnings:
+kernel/kexec_core.c:322 kimage_free_pages() warn: inconsistent indenting
+kernel/kexec_core.c:717 kimage_alloc_page() warn: inconsistent indenting
 
-vim +/msm_hdmi_pm_ops +439 drivers/gpu/drm/msm/hdmi/hdmi.c
+vim +322 kernel/kexec_core.c
 
-   438	
- > 439	DEFINE_RUNTIME_DEV_PM_OPS(msm_hdmi_pm_ops, msm_hdmi_runtime_suspend, msm_hdmi_runtime_resume, NULL);
-   440	
+   307	
+   308	static void kimage_free_pages(struct page *page)
+   309	{
+   310		unsigned int order, count, i;
+   311	
+   312		order = page_private(page);
+   313		count = 1 << order;
+   314	
+   315		arch_kexec_pre_free_pages(page_address(page), count);
+   316	
+   317		/*
+   318		 * CMA pages are always kept at PAGE_SIZE granule in dest_pages so
+   319		 * later allocation can pick them up. Free them one by one even if
+   320		 * they are larger in theory to ensure we don't double free.
+   321		 */
+ > 322	pr_info("XXX %s:%d page phys addr %lx\n", __func__, __LINE__, page_to_boot_pfn(page));
+   323		if (!dma_release_from_contiguous(NULL, page, 1)) {
+   324			for (i = 0; i < count; i++)
+   325				ClearPageReserved(page + i);
+   326			__free_pages(page, order);
+   327	pr_info("XXX %s:%d normal page order %d\n", __func__, __LINE__, order);
+   328		} else {
+   329	pr_info("XXX %s:%d DMA page\n", __func__, __LINE__);
+   330		}
+   331	}
+   332	
 
 -- 
 0-DAY CI Kernel Test Service
