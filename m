@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999EF28F1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 May 2025 10:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DB21A3148
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 May 2025 11:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746958352; cv=none; b=Ql3X59g/o6aRjm4ON22dFakZI5DioJFbIjSEAs/iX1nXPwxWbX55H0jlxAdXtA61uRqwcKNOTHlYErpFOftBXrnjB69FjK55I7NURKZ64dmSaDtTTfyBDFuoVqrYl0U/lOqtQZRKXHaXhFtsgE9tbrz6NFPbuPtBsg+Cfwb9k7M=
+	t=1746962019; cv=none; b=nWglPsW12BvGpqmSOUfF1O6+2AfbeAeVaw0lA2h1JtaHKbvTsnOxgGLLmrpbP+OlyJbR2B1+gVvuMaV4D/CzgwNQvWlgKPUrFia6VC57kkusdUe3BdgNK+5T+0miWY/2ZB0fKWlwhszo1SY4d4HrbDB49EKPbK35pOQ7os0bR4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746958352; c=relaxed/simple;
-	bh=zlJYLTAtVzQso5q3JSelRYveY62sZOp5Z2+P33Y2BQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RxKHrGXD5fZ8kXFhEDdqdXDY2iBT4QVjPWsHL2nICN0odnxDTseBjS/u5iAATS8BO2eSPmBU/6ET7Q0M9iN3CF/yFEmKzfoGO2raqwHwDgx702qOb0kaCWLC9CwVG65IpfXQPvhP5vRTygyvNQHn8kFJV8EM1kbo9uFql7Ijv94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m7oi6VKw; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1746962019; c=relaxed/simple;
+	bh=1rAsgwZYIQE6e6R96BL5uR52KMCv8+3yF9wTwCO3IdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZDYd1oFzkziW7+E3mHYUNllu1R8YrcNfYBeFx/cZj5MPy45aSaGxPQwR1uv8MqEtTPNTw1e8XUVmQJlRmcyjV4An98GGN4VOiSvG/thT+WzbGL/1tbw/t08xS/vxI8jnRrKWT42cskr+FH8eRALNHQL6ReDtxTm4BydsSABMz4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ra9bLu/M; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m7oi6VKw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ra9bLu/M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746958351; x=1778494351;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zlJYLTAtVzQso5q3JSelRYveY62sZOp5Z2+P33Y2BQ0=;
-  b=m7oi6VKwrRbvBQTiensxdWqSJ69bYxm35k8gSl5yjEO3Gf7Yi2fnb+Id
-   //2lEDHQ79NwVsPkdLDG21CSgtSdi1mUQQU4wOAwGD+feGlLPkV6iL35q
-   2TdP4XNaDDDof9dFhtXrtECXQYVta4MUJAjHh3DX7dnn3iFa8NjuIKx8D
-   BWsUbnqsXzZ7KQMxgw/cwiry9cqqaAQTn1svWph3P4iA8rZFMo/3BOWTs
-   qVMtRoKKwFnSu27l9H5WHizOZIoHhwRZ/+H+5ec7/mwgMlcEgVzijzwJF
-   bTm4J8XYkwS6+kzpFSxfT0MdANRpYDy6/EBpsxpaRs5NLKYwpJoTntUHX
-   g==;
-X-CSE-ConnectionGUID: IneVL/nlQB2hG/mlby+EAg==
-X-CSE-MsgGUID: p0Z5g0DIQCGxsk55VPzOAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="59419158"
+  t=1746962018; x=1778498018;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1rAsgwZYIQE6e6R96BL5uR52KMCv8+3yF9wTwCO3IdI=;
+  b=Ra9bLu/MhareMqizcctI/oZ/m8L6tuhpNmt5t8cNCGeGNcA5AGOHvN6T
+   TrHuu967t3WluBaKA1vjpTgBozBLE1Ha23op9T7JJ2v30vjdA2daf+0pu
+   SOfK3JrN65KfjcOnB6Jfauh0QvaQ8Jx2+kzb9ee7A694YfsgfKTZvqKey
+   zPbLTZynIyYbmot4h83P8spOokW5iqSnGACLNDz3A3m8kJe61BO9j1rRX
+   WbAkL/t6kzlbGy1lNjc2hn810miGSO8AAIbbTqHu2zeNy2b5lkyhu0PCb
+   Io03h/x0DVZLNrWlF928M7idE+dWbQT8ZVEsyn76RktXIvoLcJKObyWDb
+   w==;
+X-CSE-ConnectionGUID: n0rerUObSniTezYoNE41RA==
+X-CSE-MsgGUID: zzXcCgs3QjyazdF8r8w6qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="47873553"
 X-IronPort-AV: E=Sophos;i="6.15,280,1739865600"; 
-   d="scan'208";a="59419158"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 03:12:30 -0700
-X-CSE-ConnectionGUID: mJK3yRbmSDGTlyv0DmrYmA==
-X-CSE-MsgGUID: wFeJHm2lTgyf/Y5ngA+8xg==
+   d="scan'208";a="47873553"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 04:13:37 -0700
+X-CSE-ConnectionGUID: kXTEaESAQbGa6BLvEcG9BA==
+X-CSE-MsgGUID: cG3jbXnLQ2qq1JMScR/teQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,280,1739865600"; 
-   d="scan'208";a="168016505"
+   d="scan'208";a="137603556"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 May 2025 03:12:29 -0700
+  by orviesa007.jf.intel.com with ESMTP; 11 May 2025 04:13:34 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uE3fW-000DiJ-1Y;
-	Sun, 11 May 2025 10:12:26 +0000
-Date: Sun, 11 May 2025 18:11:26 +0800
+	id 1uE4cc-000Djb-1r;
+	Sun, 11 May 2025 11:13:30 +0000
+Date: Sun, 11 May 2025 19:13:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-Subject: [linux-next:master 9199/10031] ld.lld: error: undefined symbol:
- tasdevice_remove
-Message-ID: <202505111855.FP2fScKA-lkp@intel.com>
+To: Alexey Charkov <alchark@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	Alexey Charkov <alchark@gmail.com>
+Subject: Re: [PATCH 2/3] mtd: spi-nor: Add a driver for the VIA/WonderMedia
+ serial flash controller
+Message-ID: <202505111905.tlinDurh-lkp@intel.com>
+References: <20250510-wmt-sflash-v1-2-02a1ac6adf12@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +75,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250510-wmt-sflash-v1-2-02a1ac6adf12@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ed61cb3d78d585209ec775933078e268544fe9a4
-commit: 28a09d9e42c500204fd79e91f40434b16b4c9372 [9199/10031] ALSA: hda/tas2781: Create an independent lib to save the shared parts for both SPI and I2C driver
-config: x86_64-randconfig-r071-20250511 (https://download.01.org/0day-ci/archive/20250511/202505111855.FP2fScKA-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505111855.FP2fScKA-lkp@intel.com/reproduce)
+Hi Alexey,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ed61cb3d78d585209ec775933078e268544fe9a4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Charkov/dt-bindings-spi-Add-VIA-WonderMedia-serial-flash-controller/20250511-034459
+base:   ed61cb3d78d585209ec775933078e268544fe9a4
+patch link:    https://lore.kernel.org/r/20250510-wmt-sflash-v1-2-02a1ac6adf12%40gmail.com
+patch subject: [PATCH 2/3] mtd: spi-nor: Add a driver for the VIA/WonderMedia serial flash controller
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250511/202505111905.tlinDurh-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505111905.tlinDurh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505111855.FP2fScKA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505111905.tlinDurh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: tasdevice_remove
-   >>> referenced by tas2781_hda.c:33 (sound/pci/hda/tas2781_hda.c:33)
-   >>>               vmlinux.o:(tas2781_hda_remove)
+   drivers/mtd/spi-nor/controllers/wmt-sflash.c: In function 'wmt_sflash_pcmd_mode':
+>> drivers/mtd/spi-nor/controllers/wmt-sflash.c:132:16: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     132 |         reg |= FIELD_PREP(SF_PROG_CMD_MOD, enable);
+         |                ^~~~~~~~~~
+
+
+vim +/FIELD_PREP +132 drivers/mtd/spi-nor/controllers/wmt-sflash.c
+
+   126	
+   127	static void wmt_sflash_pcmd_mode(struct wmt_sflash_host *host, bool enable)
+   128	{
+   129		u32 reg = readl(host->regbase + SF_SPI_INTF_CFG);
+   130	
+   131		reg &= ~SF_PROG_CMD_MOD;
+ > 132		reg |= FIELD_PREP(SF_PROG_CMD_MOD, enable);
+   133		writel(reg, host->regbase + SF_SPI_INTF_CFG);
+   134	}
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
