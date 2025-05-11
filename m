@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C43E573;
-	Sun, 11 May 2025 15:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F12D7464
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 May 2025 15:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746975653; cv=none; b=Ki8AbLYiR1HxCox0LKwlv2ZBXpLnejQEsWyIOl7dzU2qMSCP72uN08vcq40Ze9liTlRdrG/DwoUHtlQaxD2n9bBLBQFFx1TeyrV/MhvKbeQTH798GRhHA3X9T19MT2NCtpP5GnoEcNtZIh7592zdIzkd8KMc0D25udvc+L7xfkk=
+	t=1746975653; cv=none; b=iSrhc/lQJNP89lv2+sALcaci5j7RNTGfbQ8jxw++cj5p1fRK3kUtXhI6pYnAq5dLsJGkHUsJz3PnmHdyUJeViRVtcITSJ0vTpqziLhTi18eddzaQjdVRVDfHHEzB84LRynY0DuSbVKe1z1hUBj4Op+qQpOXhAsKNGyg3qCGPKWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746975653; c=relaxed/simple;
-	bh=gTSsCAo2HJAu/GodNl8N+nrQWmJQ5t2fdSiiCDI+0l0=;
+	bh=MVgNh3jfPfUtLpKr3417tGgYuuA40C7D68FSiOt05Rw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sfyWIukoj2IXIeaGEU3JpLUkF9D9LsYkqc2ymXfwvsV5//zZlcjUvUqQyqcoqfYrn1PbqHeF4vQ4eDe2DTgG4E/Qbjct1wGSaoBV7nkT9a8E7JXgNqrr32bBKPfNltLHYleSpdfkzG2yldjHQNWQZ3X5ewU8g4snyCMc5SvMMN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lPEkxlPv; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Ne43PWoTA82RyjsuF/AC+PnOnLrnlLj/GxzM4teoxo4D4vrt6oKRaysOfS1rTgMnCzceE77TuBT7KqYbnFTJKWOSki5capz1W4etj2+kZ5H7bAAq4G/DiwGKNM+MP6fhqrMzLw8+YPvOk4rVra/ucPmEaEHg4qRMMQnzaNF1iGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bJVndlkg; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lPEkxlPv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bJVndlkg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746975651; x=1778511651;
+  t=1746975652; x=1778511652;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gTSsCAo2HJAu/GodNl8N+nrQWmJQ5t2fdSiiCDI+0l0=;
-  b=lPEkxlPvrR3qN9Q7wlcWHqXvlG75SPPiXaH9pbBWH7O0DVHGMNVmFUfP
-   CLhcpwpHA4tnHAxM/LUk9HiCNI90af3HcboSoEwK8ihwZHg53KkLf23xm
-   7W2WXaxqQHNZLFwKe6luAzlvrfge0O1gnQoEQUNJnAlYUlQgr11Xius/B
-   2+Mw7EYzy6FZ3Jy3HngmGaDrB/0jRuz+5Yj0ESk1WF0cmh2lWZGpPt2UC
-   SuACz3JXBXezSe8E5ukumyBknSmsk89zUXUpBC65p9VLwHrX2ActoTLwK
-   XZYX3M+tI91BorXwGEVo4LWEavtdGx9r0Wf7HzcY09ORV95aLFH6v4HzZ
+  bh=MVgNh3jfPfUtLpKr3417tGgYuuA40C7D68FSiOt05Rw=;
+  b=bJVndlkgIXleQrS6gez2pUrEmawv/eLC13Lc7M1p2wzWPOCCvYeFCK87
+   GTuI81ZVDr1N3zcx98AIUgqGZURoNMfR/cXIMuBpAIT9wzOl0aN8OZ5L3
+   LLW/1C8jtIsBJSZwcTYNG8fa/DrGk2ffo08fuMc5Bq5z+uk0b+rbqkr6J
+   d1qadE+Ex3zjsj6BRdzGZ4Y3K4AUbxrnqC+EOO/qbGb4F+wIhb5DuAZog
+   FdWtN+yJLLIL3inT80qTmMm5Gt/wAWsHTPzocPFjUjy4/JHUStaVc2Key
+   DlMuq08uH2d2la0dcwS3kllbINqmXiRQlOyUJ+Ttm7V/y1eezFOGomSpl
    w==;
-X-CSE-ConnectionGUID: KjSw93H8RFeTEcOadApCPw==
-X-CSE-MsgGUID: jCZdSrMpTVyWROedWRykPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="48636382"
+X-CSE-ConnectionGUID: 98Cj9MMsS7aFkpwxi+wsGA==
+X-CSE-MsgGUID: uumPXcpDRpmQYHZvtpQgCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="48935902"
 X-IronPort-AV: E=Sophos;i="6.15,280,1739865600"; 
-   d="scan'208";a="48636382"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 08:00:50 -0700
-X-CSE-ConnectionGUID: 3PQ5wB4DTvSkG9UazSpG8g==
-X-CSE-MsgGUID: CtwYNgcpSwOElTqxiFSCUQ==
+   d="scan'208";a="48935902"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 08:00:51 -0700
+X-CSE-ConnectionGUID: EzQVCPCCRJafI8F8DE9F5w==
+X-CSE-MsgGUID: N//jrah7Rq2oElahE/PmjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,280,1739865600"; 
-   d="scan'208";a="142343495"
+   d="scan'208";a="137528743"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 May 2025 08:00:49 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 11 May 2025 08:00:49 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uE8AZ-000DoH-0w;
+	id 1uE8AZ-000DoF-0r;
 	Sun, 11 May 2025 15:00:47 +0000
-Date: Sun, 11 May 2025 23:00:40 +0800
+Date: Sun, 11 May 2025 23:00:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-vfs:work.coredump.socket 11/17] net/socket.c:3606:14:
- error: use of undeclared identifier 'SOCK_COREDUMP'; did you mean
- 'SOCK_STREAM'?
-Message-ID: <202505112251.o8vQJy7U-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 0/94] mm/shrinker.c:688:6: warning: no
+ previous prototype for function 'register_shrinker_prepared'
+Message-ID: <202505112247.tsCIUciI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,61 +62,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git work.coredump.socket
-head:   a6db84ba07f7137a473dace5a769551ee0ae3415
-commit: fae7938dfe0ba5302ee34640a53a85c6305ad99c [11/17] coredump: add coredump socket
-config: mips-ci20_defconfig (https://download.01.org/0day-ci/archive/20250511/202505112251.o8vQJy7U-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505112251.o8vQJy7U-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   5b7daba404993131fe0d699e5acdccaa5bc3a017
+commit: 504ef1c9f57c863225587809ba9e1c29029c34c4 [0/94] mm: shrinker: remove old APIs
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250511/202505112247.tsCIUciI-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505112247.tsCIUciI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505112251.o8vQJy7U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505112247.tsCIUciI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/socket.c:3606:14: error: use of undeclared identifier 'SOCK_COREDUMP'; did you mean 'SOCK_STREAM'?
-    3606 |         if (flags & SOCK_COREDUMP)
-         |                     ^~~~~~~~~~~~~
-         |                     SOCK_STREAM
-   arch/mips/include/asm/socket.h:31:2: note: 'SOCK_STREAM' declared here
-      31 |         SOCK_STREAM     = 2,
-         |         ^
-   1 error generated.
+>> mm/shrinker.c:688:6: warning: no previous prototype for function 'register_shrinker_prepared' [-Wmissing-prototypes]
+     688 | void register_shrinker_prepared(struct shrinker *shrinker)
+         |      ^
+   mm/shrinker.c:688:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     688 | void register_shrinker_prepared(struct shrinker *shrinker)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +3606 net/socket.c
+vim +/register_shrinker_prepared +688 mm/shrinker.c
 
-  3587	
-  3588	/**
-  3589	 *	kernel_connect - connect a socket (kernel space)
-  3590	 *	@sock: socket
-  3591	 *	@addr: address
-  3592	 *	@addrlen: address length
-  3593	 *	@flags: flags (O_NONBLOCK, ...)
-  3594	 *
-  3595	 *	For datagram sockets, @addr is the address to which datagrams are sent
-  3596	 *	by default, and the only address from which datagrams are received.
-  3597	 *	For stream sockets, attempts to connect to @addr.
-  3598	 *	Returns 0 or an error code.
-  3599	 */
-  3600	
-  3601	int kernel_connect(struct socket *sock, struct sockaddr *addr, int addrlen,
-  3602			   int flags)
-  3603	{
-  3604		struct sockaddr_storage address;
-  3605	
-> 3606		if (flags & SOCK_COREDUMP)
-  3607			memcpy(&address, addr, addrlen + sizeof(sock->sk->sk_cookie));
-  3608		else
-  3609			memcpy(&address, addr, addrlen);
-  3610	
-  3611		return READ_ONCE(sock->ops)->connect(sock, (struct sockaddr *)&address,
-  3612						     addrlen, flags);
-  3613	}
-  3614	EXPORT_SYMBOL(kernel_connect);
-  3615	
+af7c9c99bd63fc Qi Zheng 2023-09-11  687  
+af7c9c99bd63fc Qi Zheng 2023-09-11 @688  void register_shrinker_prepared(struct shrinker *shrinker)
+af7c9c99bd63fc Qi Zheng 2023-09-11  689  {
+af7c9c99bd63fc Qi Zheng 2023-09-11  690  	down_write(&shrinker_rwsem);
+af7c9c99bd63fc Qi Zheng 2023-09-11  691  	list_add_tail(&shrinker->list, &shrinker_list);
+af7c9c99bd63fc Qi Zheng 2023-09-11  692  	shrinker->flags |= SHRINKER_REGISTERED;
+af7c9c99bd63fc Qi Zheng 2023-09-11  693  	shrinker_debugfs_add(shrinker);
+af7c9c99bd63fc Qi Zheng 2023-09-11  694  	up_write(&shrinker_rwsem);
+af7c9c99bd63fc Qi Zheng 2023-09-11  695  }
+af7c9c99bd63fc Qi Zheng 2023-09-11  696  
+
+:::::: The code at line 688 was first introduced by commit
+:::::: af7c9c99bd63fc40bba758503e56287d483c09a9 mm: vmscan: move shrinker-related code into a separate file
+
+:::::: TO: Qi Zheng <zhengqi.arch@bytedance.com>
+:::::: CC: Qinyun Tan <qinyuntan@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
