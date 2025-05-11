@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7FA1DED66
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 May 2025 23:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BAB195
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 May 2025 00:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746920681; cv=none; b=sKYozHgjH1+LrSOZTSlCpZyV4fSYIg0vRZ2auvM50woMzt3dMQyCSPpDqjyWL6pYnnE9CeY+Zprq7kjBif57z6yKahuXNo4CJdnz5XXhL2pacEZ6AgHd2InAt9IdGVWxAaq7203UoG6W/JTreMOsjeAHDg9rhz1BvzJmmzDNV38=
+	t=1746921940; cv=none; b=qehPR2WKYzHeEqlW117YUEqIaKLPxQwOytgszivqWY8uUhrhX2+xLAHk1r6usluvt0PJjFQqjDtG0EwWl5h+/REcx++62qmr5AR212AHzu9Vn3t5fc7WnnyRKbcQKBwbsKmcns7DcZSAW8mMb58LgzrYQTX147tL8sU3einiUvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746920681; c=relaxed/simple;
-	bh=OcrjuwKmH8gRN7V43BS4Upp3Th3waCQG80IGh2FoVz4=;
+	s=arc-20240116; t=1746921940; c=relaxed/simple;
+	bh=1asJrNN/Mekp4mUwfQz6O4H2pskM62Z7NnrODJV7RWY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XilCzbeiy2dLRyk1fRxmjddph7XxRhBakPPXyAibuCCr/GJ9RC7Ltr+cIF34x4Mkw04B/d1V0IsRarWQsjW2XpW8eLxY70EFa2o79oiVxcr1jqaxkaxVBy26h4+W+eshxwJY3F6FGxXQOnQ8RRbZluch6imGu3gUWqiICeHx8Tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bv1BMDU3; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=Oi4sDAXiaET2+BX0RaAvwQ0RsqZP8EcQZBobM1g3Rvh4qgM2oYXAM+dkklNuOYt0S5T7AmX7L48XcR9AjDp4TGfLpjaC1LlITZZZV/cu24Z1XtjqIuWFbmcdUZAHmBncEK6PWCy2lsIFISqP6+kwku+0RxbCbopBfoa9KUGLjp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kb3OSG1B; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bv1BMDU3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kb3OSG1B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746920680; x=1778456680;
+  t=1746921938; x=1778457938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OcrjuwKmH8gRN7V43BS4Upp3Th3waCQG80IGh2FoVz4=;
-  b=Bv1BMDU3a/4yQ0AOtDZaoMren17gXnGH0TcFuaeSEkZp9dzQ5hjQbeFG
-   IuCyUgtTuBgsmsbTHlmNxpVrL83kfHRpG+Zr4Soyo1INxlhbgK+jkuc7q
-   7xErc6m6tq5M5sB7zg61o71p93DwC8RQKmnR1HP6q/t6gWJC91owNlPyZ
-   hC4G40405sFWU/Xo32r4DtA4Tf//RCzbYHNMEfJy5iKKf4NclWBhwsLsi
-   aX8OopZeHESCDS0UY2RfbG+bCqIa/8Z6jKA2Vh05oXg1skEO7VSkUfEse
-   lvmf5kfpptgsnZAMWU22UikEzNgf9rx7a4LvOJE0X+xQwEzbDipON+Y+7
-   Q==;
-X-CSE-ConnectionGUID: YNTqhZWQT7ClT1Woqr4/Og==
-X-CSE-MsgGUID: xxuqkewvTTmjRoETi/HFpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="51394161"
+  bh=1asJrNN/Mekp4mUwfQz6O4H2pskM62Z7NnrODJV7RWY=;
+  b=Kb3OSG1BWrocUEAXaAU5dO2rQHnT24phZ9urVX3BxZlaz/NPxhZCkvD/
+   zDcQIf/lGQIs4SghvqjRV2iaWyy2WBo6M4Z6LzKcpQpVhuk4Knnr2ft5X
+   ygnjL9V/pp9ckr4lN9cTrOIdjd4vrmPYPrwCKIURRMgO+qfVzOBOSK6Sr
+   C9liFwcn8Zhst9VguEpICsp6qElDtWgc/STT5BVDl7dEd2PPVBpKiEEbt
+   DcnRcGgIwfVNQ+cCvmYFdcewphSGdEeg+8/hT8HJsZxtrETaTulVQwZlY
+   nqc6+jH2Ny7WVnJSq4+SU1BsWsyClG6rGKJAacrT8zHnlddMA9yZdr6Op
+   w==;
+X-CSE-ConnectionGUID: XtupuNKuRZaxQ2RGsLCzwQ==
+X-CSE-MsgGUID: mr4Hk9mlTVaTdIV+X3G2Rw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="47847543"
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="51394161"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 16:44:36 -0700
-X-CSE-ConnectionGUID: gwdmZW5LQRygAzLkKRwe8Q==
-X-CSE-MsgGUID: JkSDOhp1QDu43oWTYiL+Vg==
+   d="scan'208";a="47847543"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 17:05:37 -0700
+X-CSE-ConnectionGUID: HBBHQDY4Rri3tsH7vbB+SA==
+X-CSE-MsgGUID: SBHaHnebTLOqAVOh8TFGXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="136858507"
+   d="scan'208";a="136698523"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 May 2025 16:44:35 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 May 2025 17:05:36 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDtrs-000DTj-2F;
-	Sat, 10 May 2025 23:44:32 +0000
-Date: Sun, 11 May 2025 07:43:44 +0800
+	id 1uDuCE-000DU7-0M;
+	Sun, 11 May 2025 00:05:34 +0000
+Date: Sun, 11 May 2025 08:04:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel'
- directive output may be truncated writing 4 bytes into a region of size
- between 3 and 13
-Message-ID: <202505110731.zGNzAnGK-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 11/11]
+ arch/x86/kernel/ftrace.c:691:6: warning: no previous prototype for function
+ 'arch_foreign_patched'
+Message-ID: <202505110758.H7GlDn8z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,158 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jani,
+Hi Yihao,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   345030986df8f7712f9e4c00fe61e145c8984ef3
-commit: 03ee752f00fd0daa082b43774cfd03a7f9a17385 drm/imx: prefer snprintf over sprintf
-date:   1 year, 3 months ago
-config: csky-randconfig-r053-20231127 (https://download.01.org/0day-ci/archive/20250511/202505110731.zGNzAnGK-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110731.zGNzAnGK-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   135e4e84e5a63d5ee88888402c3f84836ab97e95
+commit: 18978e3fb6aa251cfe4851c5249c427cc11d5344 [11/11] anolis: kprobes: fix ftrace conflict check for aarch64
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250511/202505110758.H7GlDn8z-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110758.H7GlDn8z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505110731.zGNzAnGK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505110758.H7GlDn8z-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/imx/ipuv3/imx-ldb.c: In function 'imx_ldb_probe':
->> drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: warning: '_sel' directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Wformat-truncation=]
-     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
-         |                                                         ^~~~
-   drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:17: note: 'snprintf' output between 8 and 18 bytes into a destination of size 16
-     658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/ftrace.c:691:6: warning: no previous prototype for function 'arch_foreign_patched' [-Wmissing-prototypes]
+     691 | bool arch_foreign_patched(unsigned long addr)
+         |      ^
+   arch/x86/kernel/ftrace.c:691:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     691 | bool arch_foreign_patched(unsigned long addr)
+         | ^
+         | static 
+   1 warning generated.
+--
+   kernel/trace/ftrace.c:302:5: warning: no previous prototype for function '__register_ftrace_function' [-Wmissing-prototypes]
+     302 | int __register_ftrace_function(struct ftrace_ops *ops)
+         |     ^
+   kernel/trace/ftrace.c:302:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     302 | int __register_ftrace_function(struct ftrace_ops *ops)
+         | ^
+         | static 
+   kernel/trace/ftrace.c:345:5: warning: no previous prototype for function '__unregister_ftrace_function' [-Wmissing-prototypes]
+     345 | int __unregister_ftrace_function(struct ftrace_ops *ops)
+         |     ^
+   kernel/trace/ftrace.c:345:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     345 | int __unregister_ftrace_function(struct ftrace_ops *ops)
+         | ^
+         | static 
+   kernel/trace/ftrace.c:584:5: warning: no previous prototype for function 'ftrace_profile_pages_init' [-Wmissing-prototypes]
+     584 | int ftrace_profile_pages_init(struct ftrace_profile_stat *stat)
+         |     ^
+   kernel/trace/ftrace.c:584:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     584 | int ftrace_profile_pages_init(struct ftrace_profile_stat *stat)
+         | ^
+         | static 
+   kernel/trace/ftrace.c:3882:15: warning: no previous prototype for function 'arch_ftrace_match_adjust' [-Wmissing-prototypes]
+    3882 | char * __weak arch_ftrace_match_adjust(char *str, const char *search)
+         |               ^
+   kernel/trace/ftrace.c:3882:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3882 | char * __weak arch_ftrace_match_adjust(char *str, const char *search)
+         | ^
+         | static 
+   kernel/trace/ftrace.c:4193:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    4193 |         int ret;
+         |             ^
+   kernel/trace/ftrace.c:5630:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    5630 |         int ret;
+         |             ^
+>> kernel/trace/ftrace.c:7643:13: warning: no previous prototype for function 'arch_foreign_patched' [-Wmissing-prototypes]
+    7643 | bool __weak arch_foreign_patched(unsigned long addr)
+         |             ^
+   kernel/trace/ftrace.c:7643:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7643 | bool __weak arch_foreign_patched(unsigned long addr)
+         | ^
+         | static 
+   7 warnings generated.
 
 
-vim +/_sel +658 drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+vim +/arch_foreign_patched +691 arch/x86/kernel/ftrace.c
 
-   617	
-   618	static int imx_ldb_probe(struct platform_device *pdev)
-   619	{
-   620		struct device *dev = &pdev->dev;
-   621		struct device_node *np = dev->of_node;
-   622		struct device_node *child;
-   623		struct imx_ldb *imx_ldb;
-   624		int dual;
-   625		int ret;
-   626		int i;
-   627	
-   628		imx_ldb = devm_kzalloc(dev, sizeof(*imx_ldb), GFP_KERNEL);
-   629		if (!imx_ldb)
-   630			return -ENOMEM;
-   631	
-   632		imx_ldb->regmap = syscon_regmap_lookup_by_phandle(np, "gpr");
-   633		if (IS_ERR(imx_ldb->regmap)) {
-   634			dev_err(dev, "failed to get parent regmap\n");
-   635			return PTR_ERR(imx_ldb->regmap);
-   636		}
-   637	
-   638		/* disable LDB by resetting the control register to POR default */
-   639		regmap_write(imx_ldb->regmap, IOMUXC_GPR2, 0);
-   640	
-   641		imx_ldb->dev = dev;
-   642		imx_ldb->lvds_mux = device_get_match_data(dev);
-   643	
-   644		dual = of_property_read_bool(np, "fsl,dual-channel");
-   645		if (dual)
-   646			imx_ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
-   647	
-   648		/*
-   649		 * There are three different possible clock mux configurations:
-   650		 * i.MX53:  ipu1_di0_sel, ipu1_di1_sel
-   651		 * i.MX6q:  ipu1_di0_sel, ipu1_di1_sel, ipu2_di0_sel, ipu2_di1_sel
-   652		 * i.MX6dl: ipu1_di0_sel, ipu1_di1_sel, lcdif_sel
-   653		 * Map them all to di0_sel...di3_sel.
-   654		 */
-   655		for (i = 0; i < 4; i++) {
-   656			char clkname[16];
-   657	
- > 658			snprintf(clkname, sizeof(clkname), "di%d_sel", i);
-   659			imx_ldb->clk_sel[i] = devm_clk_get(imx_ldb->dev, clkname);
-   660			if (IS_ERR(imx_ldb->clk_sel[i])) {
-   661				ret = PTR_ERR(imx_ldb->clk_sel[i]);
-   662				imx_ldb->clk_sel[i] = NULL;
-   663				break;
-   664			}
-   665	
-   666			imx_ldb->clk_parent[i] = clk_get_parent(imx_ldb->clk_sel[i]);
-   667		}
-   668		if (i == 0)
-   669			return ret;
-   670	
-   671		for_each_child_of_node(np, child) {
-   672			struct imx_ldb_channel *channel;
-   673			int bus_format;
-   674	
-   675			ret = of_property_read_u32(child, "reg", &i);
-   676			if (ret || i < 0 || i > 1) {
-   677				ret = -EINVAL;
-   678				goto free_child;
-   679			}
-   680	
-   681			if (!of_device_is_available(child))
-   682				continue;
-   683	
-   684			if (dual && i > 0) {
-   685				dev_warn(dev, "dual-channel mode, ignoring second output\n");
-   686				continue;
-   687			}
-   688	
-   689			channel = &imx_ldb->channel[i];
-   690			channel->ldb = imx_ldb;
-   691			channel->chno = i;
-   692	
-   693			/*
-   694			 * The output port is port@4 with an external 4-port mux or
-   695			 * port@2 with the internal 2-port mux.
-   696			 */
-   697			ret = drm_of_find_panel_or_bridge(child,
-   698							  imx_ldb->lvds_mux ? 4 : 2, 0,
-   699							  &channel->panel, &channel->bridge);
-   700			if (ret && ret != -ENODEV)
-   701				goto free_child;
-   702	
-   703			/* panel ddc only if there is no bridge */
-   704			if (!channel->bridge) {
-   705				ret = imx_ldb_panel_ddc(dev, channel, child);
-   706				if (ret)
-   707					goto free_child;
-   708			}
-   709	
-   710			bus_format = of_get_bus_format(dev, child);
-   711			if (bus_format == -EINVAL) {
-   712				/*
-   713				 * If no bus format was specified in the device tree,
-   714				 * we can still get it from the connected panel later.
-   715				 */
-   716				if (channel->panel && channel->panel->funcs &&
-   717				    channel->panel->funcs->get_modes)
-   718					bus_format = 0;
-   719			}
-   720			if (bus_format < 0) {
-   721				dev_err(dev, "could not determine data mapping: %d\n",
-   722					bus_format);
-   723				ret = bus_format;
-   724				goto free_child;
-   725			}
-   726			channel->bus_format = bus_format;
-   727			channel->child = child;
-   728		}
-   729	
-   730		platform_set_drvdata(pdev, imx_ldb);
-   731	
-   732		return component_add(&pdev->dev, &imx_ldb_ops);
-   733	
-   734	free_child:
-   735		of_node_put(child);
-   736		return ret;
-   737	}
-   738	
+   690	
+ > 691	bool arch_foreign_patched(unsigned long addr)
 
 -- 
 0-DAY CI Kernel Test Service
