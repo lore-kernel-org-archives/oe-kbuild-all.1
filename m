@@ -1,74 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622BC256C8F;
-	Sun, 11 May 2025 12:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FB4645
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 May 2025 13:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746965806; cv=none; b=XVp3Fxkv0V0tmpO/ESpSZM7e8tTxIova136tE47SiT0iR3Q/g+0BcOKNQp8u4vJ2Mig95DcbbOjFigs+CdJ+X066LvtZocXNOUX1e+ju/KULsGVHPufiEofnI1MU6AjiTsP/mjOEbK9mPgzE1PEJaUH3VD5bqHDJQyzUuaeoKEs=
+	t=1746969525; cv=none; b=lXEqbSBB9lpTICfhEHUPo7csaReOVcrAy2B5zCStxtOdndzYnQpsSohi9xsurffJOsEH9S/Lpx3/ltf9W36aSayFhDaFY47EPzr4YyVOqCMKwOftlRK2k4gvbDCgtUvgrGAmYd++cPA9JUgL0S7aLbMvkEVq5sFqQXn0hQJiLUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746965806; c=relaxed/simple;
-	bh=wftDMjtzW8rN7nLd3WUBpBEtoE+MVGxiJ707Gbrl6L0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PiY+N79hQ9q0xxK2kXGVA7KTFJ6i+Qup3UEh4NvJ1rAF4hJBxbmOB3uyBM80b35HbyCIvoZPI723uC+c/m1bmrHJRwu7yKS7sP2rhZOseQstBzKzgvIJni3PzmErot28QoBuURyulZDGzjfZeGTUMYTewJD6HZ4a7WCJg7llXB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f5KnpD+z; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1746969525; c=relaxed/simple;
+	bh=3T7TjgmQw4XwIkHp6Umj0ChxPbjgWDhWnqDsS+sKbss=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=roxbuHBmXx0ZgQz04IdFVyThyjCk4O67KnW6nEyEihQYMRSQ3S4z/9b/7whtY6oTk9WfAxXakVVofXuWcVw06xVZJiMTDuc/RHumzYhY273XavuxLqE/N3bAIMgyMI0/Il63YVxRpgS8SbyY/vSUAMcXMfKy95jjVrMZxcBLDJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SEGkedkQ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f5KnpD+z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SEGkedkQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746965804; x=1778501804;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wftDMjtzW8rN7nLd3WUBpBEtoE+MVGxiJ707Gbrl6L0=;
-  b=f5KnpD+zfGbnKwCIzfJlRLSADJgK4QnRqYrlcAgB9TImfgaYuLCRysvW
-   oxaMxbuCZe2z9tWqHBM51N17YmiZJ9H/aT1gtId/bLti63b7JX7sDxIHW
-   EGf/q2l8QeUmAaEr5BFhb79o/NH+VZIryKF4mItRYgrXTHxNDNCqgnz6M
-   3JkFGOLpVLCEN0PcRqq9HXXaK1KYY1virsA2hRbaK8YrGPv4Nf/rue+jU
-   ObMkWBsnHLV7vZzjS1M+BhmZ6L7V1NWiEzWnWzx2CoeEAxrDmT8fur42/
-   4LXxAEJwnk7RLETCsba8c9iSzHt1NBzLTllTujw9gNZL19+qe+29zuHyq
-   w==;
-X-CSE-ConnectionGUID: dqR8URe/RpG4GFT3YBUMJQ==
-X-CSE-MsgGUID: CzHsEcF+TLy7vSzOOzMy3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="74151061"
+  t=1746969523; x=1778505523;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3T7TjgmQw4XwIkHp6Umj0ChxPbjgWDhWnqDsS+sKbss=;
+  b=SEGkedkQE/emkUSJFT8R28sWQ9wTxjIt15fYsa2XrKm5olJcoJRt/AVH
+   Rrowz7CRd6hS8dYrAhvUREI5dEXdPwVu94/sQEmjAPKvnG37sULiNM+Gr
+   u21yklKAMRHlXZfCS5ZhKNklRTE8RMJLop6FaK5PWMzinYHrYaVNp1jcC
+   MsSz1zr/3EzsVJgHxpOVOIaDyagbsIPokyuJtVT2oM/s41CsL+yZEgb8F
+   CKACpKMJzmjoGCAlKmCxyGLIGEoI1bLdHjLtlRDmd31AE0xxmHA9aM0H7
+   mMJ1GweHqD8OviP/iUJHo8gjEn5KJrjkRWkYF7EiJA5vm03WGluwOeJd9
+   g==;
+X-CSE-ConnectionGUID: Fj+CYhlcRCe9cjOWz/Ml8g==
+X-CSE-MsgGUID: 6TFeGWQkQ3eME+rsi+s7ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="66303061"
 X-IronPort-AV: E=Sophos;i="6.15,280,1739865600"; 
-   d="scan'208";a="74151061"
+   d="scan'208";a="66303061"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 05:16:41 -0700
-X-CSE-ConnectionGUID: dwGziZdxRlWZOOvoLGw2jQ==
-X-CSE-MsgGUID: M5A026x7SUGsYKtlwFn+Zw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 06:18:42 -0700
+X-CSE-ConnectionGUID: 16Hnb1k1Qi+icy2yKGYI9Q==
+X-CSE-MsgGUID: COsh6PA4SBG9E2e51ytS9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,280,1739865600"; 
-   d="scan'208";a="142223778"
+   d="scan'208";a="142231395"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 May 2025 05:16:37 -0700
+  by orviesa005.jf.intel.com with ESMTP; 11 May 2025 06:18:41 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uE5be-000Dkf-1z;
-	Sun, 11 May 2025 12:16:34 +0000
-Date: Sun, 11 May 2025 20:16:21 +0800
+	id 1uE6Zj-000Dlz-0Z;
+	Sun, 11 May 2025 13:18:39 +0000
+Date: Sun, 11 May 2025 21:18:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Schrefl <chrisi.schrefl@gmail.com>, Sky <sky@sky9.dev>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Gerald =?iso-8859-1?Q?Wisb=F6ck?= <gerald.wisboeck@feather.ink>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	Christian Schrefl <chrisi.schrefl@gmail.com>
-Subject: Re: [PATCH v3 1/3] rust: add UnsafePinned type
-Message-ID: <202505112005.CDR6Xi0o-lkp@intel.com>
-References: <20250510-rust_unsafe_pinned-v3-1-57ce151123f9@gmail.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 0/94]
+ drivers/crypto/ccp/hygon/vpsp.c:589:6: warning: no previous prototype for
+ function 'vpsp_set_default_vid_permission'
+Message-ID: <202505112150.oTOGp9zL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,35 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250510-rust_unsafe_pinned-v3-1-57ce151123f9@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 9de1a293c8ece00d226b21a35751ec178be2a9fa]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Schrefl/rust-add-UnsafePinned-type/20250510-173533
-base:   9de1a293c8ece00d226b21a35751ec178be2a9fa
-patch link:    https://lore.kernel.org/r/20250510-rust_unsafe_pinned-v3-1-57ce151123f9%40gmail.com
-patch subject: [PATCH v3 1/3] rust: add UnsafePinned type
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250511/202505112005.CDR6Xi0o-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   5b7daba404993131fe0d699e5acdccaa5bc3a017
+commit: c064140695cecdb1ffb00447520a4e286081e5a6 [0/94] anolis: crypto: ccp: move vpsp-related functions to vpsp.c
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250511/202505112150.oTOGp9zL-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505112005.CDR6Xi0o-lkp@intel.com/reproduce)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505112150.oTOGp9zL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505112005.CDR6Xi0o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505112150.oTOGp9zL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0599]: no method named `get_mut_unchecked` found for struct `UnsafePinned` in the current scope
-   --> rust/doctests_kernel_generated.rs:7770:7
-   |
-   7770 |     x.get_mut_unchecked().write(1);
-   |       ^^^^^^^^^^^^^^^^^ method not found in `UnsafePinned<{integer}>`
+>> drivers/crypto/ccp/hygon/vpsp.c:589:6: warning: no previous prototype for function 'vpsp_set_default_vid_permission' [-Wmissing-prototypes]
+     589 | void vpsp_set_default_vid_permission(uint32_t is_allow)
+         |      ^
+   drivers/crypto/ccp/hygon/vpsp.c:589:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     589 | void vpsp_set_default_vid_permission(uint32_t is_allow)
+         | ^
+         | static 
+>> drivers/crypto/ccp/hygon/vpsp.c:1055:5: warning: no previous prototype for function 'vpsp_do_cmd' [-Wmissing-prototypes]
+    1055 | int vpsp_do_cmd(int cmd, phys_addr_t phy_addr, int *psp_ret)
+         |     ^
+   drivers/crypto/ccp/hygon/vpsp.c:1055:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1055 | int vpsp_do_cmd(int cmd, phys_addr_t phy_addr, int *psp_ret)
+         | ^
+         | static 
+   2 warnings generated.
+
+
+vim +/vpsp_set_default_vid_permission +589 drivers/crypto/ccp/hygon/vpsp.c
+
+   582	
+   583	/**
+   584	 * When 'allow_default_vid' is set to 1,
+   585	 * QEMU is allowed to use 'vid 0' by default
+   586	 * in the absence of a valid 'vid' setting.
+   587	 */
+   588	uint32_t allow_default_vid = 1;
+ > 589	void vpsp_set_default_vid_permission(uint32_t is_allow)
+   590	{
+   591		allow_default_vid = is_allow;
+   592	}
+   593	
 
 -- 
 0-DAY CI Kernel Test Service
