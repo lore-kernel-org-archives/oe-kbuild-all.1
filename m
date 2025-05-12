@@ -1,160 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EECB2566D3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 19:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FBE252908
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 20:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747078735; cv=none; b=DxOO66GTfd9/El9AG37NM8GFquKOTMXbSuWKijVtbwVEmwrdWibeDlA0anDvFgIVdVgBXl68zSNicIcrinjytGcNXEPnD/etuK3h8fXolcvVtkOg4k+DzGFB4EzsFVQNV1fR6ecXz+iPcVk4s8UigKfU6h+ruouVRqKIVTmC+8M=
+	t=1747081404; cv=none; b=DPQejfAFxG5LMKxprZwq7S6qZSR1HU2+if1fE7KqZvjFRgVh8ctVgkVmCbmqu/sQYDwtcpd00VxjTn0+6HpYPp6SGfJzkcNPJbcnKqnHJXcRiMG0ZT9u/wFYTI08fH9we4XoFfhC5eXd7T9kCVuiuBg1kg7fgor8hn2smNquKaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747078735; c=relaxed/simple;
-	bh=uVCIiTx/UEcSBS+BpHcS4AnKvUJdOrbQ+rjtWTTqsNM=;
+	s=arc-20240116; t=1747081404; c=relaxed/simple;
+	bh=ne9hcForkoj/dyMjXqH5/aq0qYxuf6vWkv/eOH44GgM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ighST0lx6FhMsE1+Wv2E3t5mKQpGO/T9dlUsUv4QnrSUBN43b6orloCJBRl1dQFoPFLCl17vj+0SqOHQJMwv9vk7zYP4DXWeRSyEYFO251MROSEloMnrjxkUiDds0Ws8mleXD8ZrSQKp0U3s85EBkWwJmR2LzbbnxJhQ6X797bM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DTi8mdZS; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=U4IGaM0eOlU8bY1u0n1ghYyMKB/CWp9p+CsMXez+I34Fy5aPPW1gKQqVEja2XsRaKGk4tViXZJllHgvUgejVRoOCi1a3iUuVP01nZi+wpxHrDQ03DRfD77+d3t+ql3emldlOnAFyokAmX00LmfHHKUNv9rL8LhpECFkVvXfEqkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAsS03nd; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DTi8mdZS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAsS03nd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747078733; x=1778614733;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uVCIiTx/UEcSBS+BpHcS4AnKvUJdOrbQ+rjtWTTqsNM=;
-  b=DTi8mdZS3FlTnrTxPvPKnJY/ewWxrTlM26ztq4VH6/Z50U7/2j59nVIJ
-   Eb+wyySI5Qpb3LBThWbphO752+fL6a7YYqSvXdiTgGCtFR/dWCIshc6j6
-   0H2QTIH+QahSYo2W+1Zr1WOSvWPh48DWdWxKCrxIdp1ILJMBzOvXPXnXW
-   XwZR7j1zOejJqaKk7yCwT53fem4HPGpkkh4A0o0uUKAwc2VVjlBGym+Jf
-   ZZ4dOEBA/0ac7V4UjjV+2FPb3tUl4A3Q8vEVORhqQudG+l5IDIzdDoBq1
-   ZCoo7xWleyD82O9DS4nSmLQhPDZ70+j80NE+43i+ShMhlG5Txhu70bTfF
+  t=1747081402; x=1778617402;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ne9hcForkoj/dyMjXqH5/aq0qYxuf6vWkv/eOH44GgM=;
+  b=LAsS03ndP0qFFB+0IilzZ8TSniXuycZiUXwRjDxXR4xprRdfzY7HOEtm
+   J8cn76KJ5x+lBe0ZQucqeVffg7CPA+mF5Ifo8OMAUQ9RuHOMMuEdcrvmA
+   LJA9jGmPnvNiW/zY1PSp2bHYk0qNQw0W4XBUBob+1FQ/9gPgL3/NLvGoQ
+   f7/g0BqlD2qD4ASOyodsW+m2xlyVPKJ+GtKe5sThHuxGlTYBoAUdDX8SY
+   wk2hj4GWmQWzWA9G1T/6ISNZisdqzrbWgQKQwDlLQcI52E876UsQqVLHt
+   mkmi1Ggj4uNAxF7Q/EbeyQtgkcRuCTAJy5Y7PzXQxTgenF4jFNug2Mla0
    A==;
-X-CSE-ConnectionGUID: fglApXZyQHWVBqIkLycn9A==
-X-CSE-MsgGUID: 693ywW0jRTG+biR65+GxBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="49044479"
+X-CSE-ConnectionGUID: Y+oG9kDDQ5W3ZSYP+eszwQ==
+X-CSE-MsgGUID: KOlVKakmTPGTObBpFa9JOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="74295463"
 X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="49044479"
+   d="scan'208";a="74295463"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 12:38:52 -0700
-X-CSE-ConnectionGUID: 5yYyhYIKQoCtNukkJ4RDqg==
-X-CSE-MsgGUID: Hw0RB68XRO2RDTBNl0JdxA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 13:23:21 -0700
+X-CSE-ConnectionGUID: nvJtVrBwSU+ufBay8iyE1g==
+X-CSE-MsgGUID: 8VpxAx1uSjeTTzywsHi5oA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="168548592"
+   d="scan'208";a="168568118"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 May 2025 12:38:52 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 12 May 2025 13:23:02 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uEYzB-000FLr-0G;
-	Mon, 12 May 2025 19:38:49 +0000
-Date: Tue, 13 May 2025 03:38:34 +0800
+	id 1uEZfv-000FOU-0T;
+	Mon, 12 May 2025 20:22:59 +0000
+Date: Tue, 13 May 2025 04:22:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Suraj Kandpal <suraj.kandpal@intel.com>,
-	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: [linux-next:master 9168/10491] drivers/gpu/drm/drm_plane.c:212:24:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202505130314.2p06umZj-lkp@intel.com>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Subject: [linux-next:master 8818/10491]
+ sound/pci/hda/tas2781_hda_spi.c:496:25: sparse: sparse: symbol
+ 'tas2781_snd_ctls' was not declared. Should it be static?
+Message-ID: <202505130420.vr9yDI3k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   edef457004774e598fc4c1b7d1d4f0bcd9d0bb30
-commit: 0d6dcd741c266389bbf0a8758f537b3a171ac32a [9168/10491] drm/plane: modify create_in_formats to acommodate async
-config: hexagon-randconfig-r122-20250512 (https://download.01.org/0day-ci/archive/20250513/202505130314.2p06umZj-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce: (https://download.01.org/0day-ci/archive/20250513/202505130314.2p06umZj-lkp@intel.com/reproduce)
+commit: 28a09d9e42c500204fd79e91f40434b16b4c9372 [8818/10491] ALSA: hda/tas2781: Create an independent lib to save the shared parts for both SPI and I2C driver
+config: i386-randconfig-062-20250512 (https://download.01.org/0day-ci/archive/20250513/202505130420.vr9yDI3k-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505130420.vr9yDI3k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505130314.2p06umZj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505130420.vr9yDI3k-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_plane.c:212:24: sparse: sparse: Using plain integer as NULL pointer
+>> sound/pci/hda/tas2781_hda_spi.c:496:25: sparse: sparse: symbol 'tas2781_snd_ctls' was not declared. Should it be static?
+>> sound/pci/hda/tas2781_hda_spi.c:505:25: sparse: sparse: symbol 'tas2781_prof_ctl' was not declared. Should it be static?
+>> sound/pci/hda/tas2781_hda_spi.c:512:25: sparse: sparse: symbol 'tas2781_dsp_ctls' was not declared. Should it be static?
 
-vim +212 drivers/gpu/drm/drm_plane.c
+vim +/tas2781_snd_ctls +496 sound/pci/hda/tas2781_hda_spi.c
 
-db1689aa61bd1e Ben Widawsky  2017-07-23  195  
-0d6dcd741c2663 Arun R Murthy 2025-04-07  196  static struct drm_property_blob *create_in_format_blob(struct drm_device *dev,
-0d6dcd741c2663 Arun R Murthy 2025-04-07  197  						       struct drm_plane *plane,
-0d6dcd741c2663 Arun R Murthy 2025-04-07  198  						       bool (*format_mod_supported)
-0d6dcd741c2663 Arun R Murthy 2025-04-07  199  						       (struct drm_plane *plane,
-0d6dcd741c2663 Arun R Murthy 2025-04-07  200  							u32 format,
-0d6dcd741c2663 Arun R Murthy 2025-04-07  201  							u64 modifier))
-db1689aa61bd1e Ben Widawsky  2017-07-23  202  {
-db1689aa61bd1e Ben Widawsky  2017-07-23  203  	struct drm_property_blob *blob;
-db1689aa61bd1e Ben Widawsky  2017-07-23  204  	struct drm_format_modifier *mod;
-db1689aa61bd1e Ben Widawsky  2017-07-23  205  	size_t blob_size, formats_size, modifiers_size;
-db1689aa61bd1e Ben Widawsky  2017-07-23  206  	struct drm_format_modifier_blob *blob_data;
-db1689aa61bd1e Ben Widawsky  2017-07-23  207  	unsigned int i, j;
-db1689aa61bd1e Ben Widawsky  2017-07-23  208  
-db1689aa61bd1e Ben Widawsky  2017-07-23  209  	formats_size = sizeof(__u32) * plane->format_count;
-db1689aa61bd1e Ben Widawsky  2017-07-23  210  	if (WARN_ON(!formats_size)) {
-db1689aa61bd1e Ben Widawsky  2017-07-23  211  		/* 0 formats are never expected */
-db1689aa61bd1e Ben Widawsky  2017-07-23 @212  		return 0;
-db1689aa61bd1e Ben Widawsky  2017-07-23  213  	}
-db1689aa61bd1e Ben Widawsky  2017-07-23  214  
-db1689aa61bd1e Ben Widawsky  2017-07-23  215  	modifiers_size =
-db1689aa61bd1e Ben Widawsky  2017-07-23  216  		sizeof(struct drm_format_modifier) * plane->modifier_count;
-db1689aa61bd1e Ben Widawsky  2017-07-23  217  
-db1689aa61bd1e Ben Widawsky  2017-07-23  218  	blob_size = sizeof(struct drm_format_modifier_blob);
-db1689aa61bd1e Ben Widawsky  2017-07-23  219  	/* Modifiers offset is a pointer to a struct with a 64 bit field so it
-db1689aa61bd1e Ben Widawsky  2017-07-23  220  	 * should be naturally aligned to 8B.
-db1689aa61bd1e Ben Widawsky  2017-07-23  221  	 */
-db1689aa61bd1e Ben Widawsky  2017-07-23  222  	BUILD_BUG_ON(sizeof(struct drm_format_modifier_blob) % 8);
-db1689aa61bd1e Ben Widawsky  2017-07-23  223  	blob_size += ALIGN(formats_size, 8);
-db1689aa61bd1e Ben Widawsky  2017-07-23  224  	blob_size += modifiers_size;
-db1689aa61bd1e Ben Widawsky  2017-07-23  225  
-db1689aa61bd1e Ben Widawsky  2017-07-23  226  	blob = drm_property_create_blob(dev, blob_size, NULL);
-db1689aa61bd1e Ben Widawsky  2017-07-23  227  	if (IS_ERR(blob))
-0d6dcd741c2663 Arun R Murthy 2025-04-07  228  		return NULL;
-db1689aa61bd1e Ben Widawsky  2017-07-23  229  
-11b83e3fbc4196 Ville Syrjälä 2018-02-23  230  	blob_data = blob->data;
-db1689aa61bd1e Ben Widawsky  2017-07-23  231  	blob_data->version = FORMAT_BLOB_CURRENT;
-db1689aa61bd1e Ben Widawsky  2017-07-23  232  	blob_data->count_formats = plane->format_count;
-db1689aa61bd1e Ben Widawsky  2017-07-23  233  	blob_data->formats_offset = sizeof(struct drm_format_modifier_blob);
-db1689aa61bd1e Ben Widawsky  2017-07-23  234  	blob_data->count_modifiers = plane->modifier_count;
-db1689aa61bd1e Ben Widawsky  2017-07-23  235  
-db1689aa61bd1e Ben Widawsky  2017-07-23  236  	blob_data->modifiers_offset =
-db1689aa61bd1e Ben Widawsky  2017-07-23  237  		ALIGN(blob_data->formats_offset + formats_size, 8);
-db1689aa61bd1e Ben Widawsky  2017-07-23  238  
-db1689aa61bd1e Ben Widawsky  2017-07-23  239  	memcpy(formats_ptr(blob_data), plane->format_types, formats_size);
-db1689aa61bd1e Ben Widawsky  2017-07-23  240  
-db1689aa61bd1e Ben Widawsky  2017-07-23  241  	mod = modifiers_ptr(blob_data);
-db1689aa61bd1e Ben Widawsky  2017-07-23  242  	for (i = 0; i < plane->modifier_count; i++) {
-db1689aa61bd1e Ben Widawsky  2017-07-23  243  		for (j = 0; j < plane->format_count; j++) {
-0d6dcd741c2663 Arun R Murthy 2025-04-07  244  			if (!format_mod_supported ||
-0d6dcd741c2663 Arun R Murthy 2025-04-07  245  			    format_mod_supported(plane,
-db1689aa61bd1e Ben Widawsky  2017-07-23  246  						 plane->format_types[j],
-db1689aa61bd1e Ben Widawsky  2017-07-23  247  						 plane->modifiers[i])) {
-aadd41485bb227 Dan Carpenter 2017-08-09  248  				mod->formats |= 1ULL << j;
-db1689aa61bd1e Ben Widawsky  2017-07-23  249  			}
-db1689aa61bd1e Ben Widawsky  2017-07-23  250  		}
-db1689aa61bd1e Ben Widawsky  2017-07-23  251  
-db1689aa61bd1e Ben Widawsky  2017-07-23  252  		mod->modifier = plane->modifiers[i];
-db1689aa61bd1e Ben Widawsky  2017-07-23  253  		mod->offset = 0;
-db1689aa61bd1e Ben Widawsky  2017-07-23  254  		mod->pad = 0;
-db1689aa61bd1e Ben Widawsky  2017-07-23  255  		mod++;
-db1689aa61bd1e Ben Widawsky  2017-07-23  256  	}
-db1689aa61bd1e Ben Widawsky  2017-07-23  257  
-0d6dcd741c2663 Arun R Murthy 2025-04-07  258  	return blob;
-db1689aa61bd1e Ben Widawsky  2017-07-23  259  }
-db1689aa61bd1e Ben Widawsky  2017-07-23  260  
-
-:::::: The code at line 212 was first introduced by commit
-:::::: db1689aa61bd1efb5ce9b896e7aa860a85b7f1b6 drm: Create a format/modifier blob
-
-:::::: TO: Ben Widawsky <ben@bwidawsk.net>
-:::::: CC: Daniel Stone <daniels@collabora.com>
+   495	
+ > 496	struct snd_kcontrol_new tas2781_snd_ctls[] = {
+   497		ACARD_SINGLE_RANGE_EXT_TLV(NULL, TAS2781_AMP_LEVEL, 1, 0, 20, 0,
+   498			tas2781_amp_getvol, tas2781_amp_putvol, amp_vol_tlv),
+   499		ACARD_SINGLE_RANGE_EXT_TLV(NULL, TAS2781_DVC_LVL, 0, 0, 200, 1,
+   500			tas2781_digital_getvol, tas2781_digital_putvol, dvc_tlv),
+   501		ACARD_SINGLE_BOOL_EXT(NULL, 0, tas2781_force_fwload_get,
+   502			tas2781_force_fwload_put),
+   503	};
+   504	
+ > 505	struct snd_kcontrol_new tas2781_prof_ctl = {
+   506		.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+   507		.info = tasdevice_info_profile,
+   508		.get = tasdevice_get_profile_id,
+   509		.put = tasdevice_set_profile_id,
+   510	};
+   511	
+ > 512	struct snd_kcontrol_new tas2781_dsp_ctls[] = {
+   513		/* Speaker Program */
+   514		{
+   515			.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+   516			.info = tasdevice_info_programs,
+   517			.get = tasdevice_program_get,
+   518			.put = tasdevice_program_put,
+   519		},
+   520		/* Speaker Config */
+   521		{
+   522			.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+   523			.info = tasdevice_info_config,
+   524			.get = tasdevice_config_get,
+   525			.put = tasdevice_config_put,
+   526		},
+   527	};
+   528	
 
 -- 
 0-DAY CI Kernel Test Service
