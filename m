@@ -1,137 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FA2296158
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 21:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473C1258CFC;
+	Mon, 12 May 2025 22:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747085239; cv=none; b=XM9hsDoQRuIR476tasIasJUzFjZY/nBrSgjCNGWC+Jz1xbxjnbn9hpVY41+ZFuk5hotCuhEbcFWGMzik+z8r51de2fl/J16i/C6ufrSzT4Neb+Kr/E+fejrRHnqg9vWUojFhzsN4ceZdRVpLzFybMEFxoU18EsvkeaEcSdiJ2/8=
+	t=1747087849; cv=none; b=fo1i3yAesY5v+61tYVXDEdPxYtDk4F/hLVVtb99b4/ftO0iQwt938Sznv9yh4aWlURcpTZ9F8HQmynENYqSSIB1R4B+vy7zHB9ecJYRcreellvXNIy46tUHvXWnRb59h5epAzijlWdSFI2FcbWPjbo3gQ5oGprAgbXYh5hWkodQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747085239; c=relaxed/simple;
-	bh=MjwoJwDMlLUQ0bo4JY/L1ooY69zgG23YhBSme2DpFUM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/JCwhkJe2RMwdPWMq5tzR5vPBqGlDirQyyulWfpuQTMGy9I0kmbjDAcfIxJffW6Jd1PCtno8S92Jd0k6ynfZ0cY7KJ87OFwyGTavrX3bwYxexA7rHF01jz1oan9m4cng898R/DE00DmebQaCEJ24Szg6cQkjja2kJhuw+jhWAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDBnXMvb; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747087849; c=relaxed/simple;
+	bh=Tw9uGkMbDXao8DIVFN7rA2XNqQCc+VGWbBiGjIYgypk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iP4Z+GmCIZ9cYdZkKT16XMT4W4hKGVI/xFt4KOLEZo27nl5vSv1CJAnnt4KGDogKrsPAviIq0FcMrMvBdCHh+4fEcNmYYo7pugrkUOHOUrJ/AEJ/4uKtiqLNGzKtFVMzoKDwmzeamffjd9roSPGSBovHSYA+Z4QymxAOtoqN9PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=iPCQP+Lx; arc=none smtp.client-ip=52.119.213.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDBnXMvb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747085237; x=1778621237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MjwoJwDMlLUQ0bo4JY/L1ooY69zgG23YhBSme2DpFUM=;
-  b=fDBnXMvbV35fPDnGVtA/SX5x8gSy/QPkDn1ez1giUjShLx2JFATskEKX
-   j8ufvfpvU6VDWWQIC3FSf8VcZtwOfK7VaC81SQaGYTiH9aPznq5vML2+U
-   N2qCpa/LY9TLF7CwriDn7kWR5ylcoFhh7kZP3oHBoTwRouhTtE4FKvx9K
-   y94AFtAOSu/vNpqBzLSWApnqwuXn92//zGJPE/StEr7XDwYbAOKAKSYp6
-   WEV+CjD4uBYfGrmLCfMw1Z6oMxpWZF0W7EUYMf2PSZ9rxGa3FOENPHQkd
-   TQYBv/iZcGlkMW+aZRA5XCeHKVIAxatm2XXrVgyouenDxriCSaKCbK41v
-   A==;
-X-CSE-ConnectionGUID: 0nnrmaJcSqGejyDovQpp9g==
-X-CSE-MsgGUID: xK74PjqMRSS4vgmVOuMtHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="51555311"
-X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="51555311"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 14:27:16 -0700
-X-CSE-ConnectionGUID: EFmkp3ZhSKOT4e5wVN8G5g==
-X-CSE-MsgGUID: m8H7JVlgRC2iGeHO15JLtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="174636997"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 May 2025 14:27:13 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uEag2-000FR9-30;
-	Mon, 12 May 2025 21:27:10 +0000
-Date: Tue, 13 May 2025 05:26:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 2/2] thermal: Add support for Airoha EN7581 thermal
- sensor
-Message-ID: <202505130415.DDziIQRY-lkp@intel.com>
-References: <20250510172509.2547273-2-ansuelsmth@gmail.com>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="iPCQP+Lx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1747087848; x=1778623848;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=7tN0DJOjCDbYyLG3fBURerzunikZ2GPsRRAIeI9irw8=;
+  b=iPCQP+LxBYb7wAjnnNnv/yDijmUFzAxn18VHr3wO8YF6M74XQZ3pMBwf
+   QnkgkWCPE5bQPdd6Aqw409DiO9y+VbypZ8XUlTPpsWhJMRvGhb5szwXmR
+   hd445yEUR0sJFnhopKeb+LHcDgaMAdjtzIxpKvYoFV9D63q9lFz+4/QGH
+   tOAh2Nfz10iVp6+T3WiDAGrgch5MWsvyH04iEo0VKujC/gdqRdyEBe6Ug
+   S5XH+dXV3i9hHi2jmzT9w7GqW++fJF+EawTy4M8PPwRpMNIJFRhv5+siJ
+   mKI7DneLySAEEkCkdrLnKkayiqYSQi/L1AuWiPM5y7vw/JQGZFx3ktPiP
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.15,283,1739836800"; 
+   d="scan'208";a="92404891"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 22:10:43 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.38.20:17316]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.51.68:2525] with esmtp (Farcaster)
+ id dc358a6f-7c1b-414a-9827-10a9fec784f8; Mon, 12 May 2025 22:10:42 +0000 (UTC)
+X-Farcaster-Flow-ID: dc358a6f-7c1b-414a-9827-10a9fec784f8
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Mon, 12 May 2025 22:10:41 +0000
+Received: from 6c7e67bfbae3.amazon.com (10.187.170.42) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Mon, 12 May 2025 22:10:37 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <syzbot+e953a8f3071f5c0a28fd@syzkaller.appspotmail.com>
+CC: <alibuda@linux.alibaba.com>, <danielyang32@g.ucla.edu>,
+	<danielyangkang@gmail.com>, <davem@davemloft.net>, <edumazet@google.com>,
+	<guwen@linux.alibaba.com>, <hdanton@sina.com>, <jaka@linux.ibm.com>,
+	<kuba@kernel.org>, <kuniyu@amazon.com>, <laforge@gnumonks.org>,
+	<linux-kernel@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+	<lkp@intel.com>, <llvm@lists.linux.dev>, <netdev@vger.kernel.org>,
+	<oe-kbuild-all@lists.linux.dev>,
+	<osmocom-net-gprs-bounces@lists.osmocom.org>,
+	<osmocom-net-gprs@lists.osmocom.org>, <pabeni@redhat.com>,
+	<pablo@netfilter.org>, <syzkaller-bugs@googlegroups.com>,
+	<tonylu@linux.alibaba.com>, <wenjia@linux.ibm.com>
+Subject: Re: [syzbot] [net?] possible deadlock in gtp_encap_enable_socket
+Date: Mon, 12 May 2025 15:10:26 -0700
+Message-ID: <20250512221029.56357-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <68221ce4.050a0220.f2294.0070.GAE@google.com>
+References: <68221ce4.050a0220.f2294.0070.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250510172509.2547273-2-ansuelsmth@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D041UWB002.ant.amazon.com (10.13.139.179) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-Hi Christian,
+From: syzbot <syzbot+e953a8f3071f5c0a28fd@syzkaller.appspotmail.com>
+Date: Mon, 12 May 2025 09:08:04 -0700
+> syzbot suspects this issue was fixed by commit:
+> 
+> commit 752e2217d789be2c6a6ac66554b981cd71cd9f31
+> Author: Kuniyuki Iwashima <kuniyu@amazon.com>
+> Date:   Mon Apr 7 17:03:17 2025 +0000
+> 
+>     smc: Fix lockdep false-positive for IPPROTO_SMC.
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=140462f4580000
+> start commit:   9410645520e9 Merge tag 'net-next-6.12' of git://git.kernel..
+> git tree:       net-next
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=37c006d80708398d
+> dashboard link: https://syzkaller.appspot.com/bug?extid=e953a8f3071f5c0a28fd
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16215ca9980000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=110c6c27980000
+> 
+> If the result looks correct, please mark the issue as fixed by replying with:
+> 
+> #syz fix: smc: Fix lockdep false-positive for IPPROTO_SMC.
 
-kernel test robot noticed the following build warnings:
+#syz fix: smc: Fix lockdep false-positive for IPPROTO_SMC.
 
-[auto build test WARNING on rafael-pm/thermal]
-[also build test WARNING on linus/master v6.15-rc6 next-20250512]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/thermal-Add-support-for-Airoha-EN7581-thermal-sensor/20250511-012647
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20250510172509.2547273-2-ansuelsmth%40gmail.com
-patch subject: [PATCH v6 2/2] thermal: Add support for Airoha EN7581 thermal sensor
-config: alpha-randconfig-r111-20250512 (https://download.01.org/0day-ci/archive/20250513/202505130415.DDziIQRY-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250513/202505130415.DDziIQRY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505130415.DDziIQRY-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/thermal/airoha_thermal.c:317:9: sparse: sparse: statement expected after case label
-
-vim +317 drivers/thermal/airoha_thermal.c
-
-   297	
-   298	static irqreturn_t airoha_thermal_irq(int irq, void *data)
-   299	{
-   300		struct airoha_thermal_priv *priv = data;
-   301		enum thermal_notify_event event;
-   302		bool update = false;
-   303		u32 status;
-   304	
-   305		status = readl(priv->base + EN7581_TEMPMONINTSTS);
-   306		switch (status & (EN7581_HOFSINTSTS0 | EN7581_LOFSINTSTS0)) {
-   307		case EN7581_HOFSINTSTS0:
-   308			event = THERMAL_TRIP_VIOLATED;
-   309			update = true;
-   310			break;
-   311		case EN7581_LOFSINTSTS0:
-   312			event = THERMAL_EVENT_UNSPECIFIED;
-   313			update = true;
-   314			break;
-   315		/* Should be impossible as we enable only these interrupt */
-   316		default:
- > 317		}
-   318	
-   319		/* reset interrupt */
-   320		writel(status, priv->base + EN7581_TEMPMONINTSTS);
-   321	
-   322		if (update)
-   323			thermal_zone_device_update(priv->tz, event);
-   324	
-   325		return IRQ_HANDLED;
-   326	}
-   327	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
