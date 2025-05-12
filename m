@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516BC64D;
-	Mon, 12 May 2025 05:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4A425523D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 05:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747027782; cv=none; b=BVhDAMhnx/PlUW96ZxxpEU9EGlzi917xXMMpOcCOk4szx5Pirt5cul0+cQnl24i/df8EFiURb+4vnB0XQSmFbUJJt+Drtd3oaBYL8kbv4lkokR287/SY0RZ9zAJ8CMjjb3LZl4Qb0ESfjuoe1Hrr65nyS+XmwqnBvO91jqFJ83U=
+	t=1747028443; cv=none; b=Q9czgcjB4HCubb35DR8WdKWFF23xyiDALJNQCSWkxxoz+OuxLxv8RQNVIJwyK+SctzSV0WtoWMR6GxQ8dhgWEQGMHmv8A16lkpPWj4saDKX2OcfLas4Nc4gZRA72gqpDxVNrBvd9sSNjKge3CxUukGDHt3VJ6e+QDfV8LuSYDVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747027782; c=relaxed/simple;
-	bh=/nfN9aKGsNACNNpw3B/2A6OdAxxurnuETdQZ3fHNOQc=;
+	s=arc-20240116; t=1747028443; c=relaxed/simple;
+	bh=W1kuVJ1hrT0oinDKb+swhOeCE0WjQvxBfgFzwL9Ibyw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GzxQhTl1oU3T5I+fvOuxz4jZfKU3BpsOY+LBoIENFg3P3wDL0oiX4ysydrNMEEGhJ75B67CBXclOsOyIOh2JRL4+koxZZRqiB72K7epCUASb5IKplA9KTlZHABzmvWhjYJ9vlZeFmDPiNYcWS+wMKe/OrvcRrM8z4Ck7vnX54Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QMoulTsb; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=j8jd+UOVDmjdJTYZn6gptliVWEg3F9IKXy02bdy4ZpvrWz/xAB8kKC5X0tF9xUoZEPiPJuEvs2aDZlQRJ3LlGSKujl2KmjxSGuEoFUFY/8CSMg+LkoKI42odlW1gR2fQq0xju5i9UyBA5tyScl8PRtbpsdQb07mpLwbwuX43Nvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fvaexREX; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QMoulTsb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fvaexREX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747027780; x=1778563780;
+  t=1747028441; x=1778564441;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/nfN9aKGsNACNNpw3B/2A6OdAxxurnuETdQZ3fHNOQc=;
-  b=QMoulTsbrthKTkve/zA48PerOi/sxCOb7ydwph+XJk+GFAMCEjPB4LWj
-   Co0GSgelzky2mCdVuaH21TujjxchBbZ3wls2K2baH24imDNuBgB3qKcoQ
-   OMJlh6OuFENzO5SbZKxeQjHqOnL/a09XFWC5ISNanF9rsYpTdKy/9+G7N
-   WhuY/cmzHXJA8iuuMubZ8/IwIJFGKOAy7HPYhHtSPKPxOvEQqtBGfYrNF
-   /hNu5+iNxJZnaZpKX2aTeNj6xl1TgHBco58vg0PRCza7Y89OcKEzbLuEr
-   GbrfTuN/oWkF/VbeU1PDzpV9axETJ6+CMSGp7GmybngGnbGcS+BqtMNsa
-   Q==;
-X-CSE-ConnectionGUID: 083MpJgZQhuLsc+cDHw8OQ==
-X-CSE-MsgGUID: dpZKC4EuQNGsraVIMGY0FQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="59440219"
+  bh=W1kuVJ1hrT0oinDKb+swhOeCE0WjQvxBfgFzwL9Ibyw=;
+  b=fvaexREXQu6aziRkiaFs9mVl2Tg4tob9Wbf2sObR2PQ/U7zvSwU9n9OQ
+   VaPXiBR7bufDqvi6uit38v+LSiBEYj9ANW4qUPnkN0KdoVtuQdXOCau6Q
+   /uLxVGiyS52MIKW9rd4QTl+zxrKDA7Vf1FdaJIceXRRPaotoqQzSdd1Tr
+   2v2oFni2Re30H3vpOzm9Dtpi8lDbhfuhxs9IsMSJzmAuRJ1dI4w9DZbgk
+   uoHa4fw6FvwlTDM7uEKGILul40ml51i6hycmLQzVSelYglk25klqECByW
+   z9v0lVfzqBkDXdhCLnZd/A0DQvFsffP59zO0R/B/x5Ng+GoggbvM4hkIu
+   w==;
+X-CSE-ConnectionGUID: y/EO/J+qRU+lNsKt4OPJxw==
+X-CSE-MsgGUID: zNUA5mNvSJ+xf7mOciQbcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="66347962"
 X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="59440219"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 22:29:39 -0700
-X-CSE-ConnectionGUID: IpRibGUkSui/m0mznbdovQ==
-X-CSE-MsgGUID: ptYMUc5cQEuiVhqGqwWd2w==
+   d="scan'208";a="66347962"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 22:40:41 -0700
+X-CSE-ConnectionGUID: ZQBA3aluQGWuupA0PyYFuA==
+X-CSE-MsgGUID: 7+0mR8SIQ7mI9xlte9HRDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="168199309"
+   d="scan'208";a="142380062"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 May 2025 22:29:37 -0700
+  by orviesa005.jf.intel.com with ESMTP; 11 May 2025 22:40:39 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uELjL-000ECV-1o;
-	Mon, 12 May 2025 05:29:35 +0000
-Date: Mon, 12 May 2025 13:29:29 +0800
+	id 1uELu0-000ECt-35;
+	Mon, 12 May 2025 05:40:36 +0000
+Date: Mon, 12 May 2025 13:40:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suma Hegde <suma.hegde@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
-Subject: [pdx86-platform-drivers-x86:review-ilpo-next 94/99] ld.lld: error:
- duplicate symbol: hsmp_create_sensor
-Message-ID: <202505121359.IvDzAbhN-lkp@intel.com>
+To: Shahab Vahedi <shahab@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: arch/arc/net/bpf_jit_arcv2.c:2236:3: error: label at end of compound
+ statement
+Message-ID: <202505121349.qq0nmtYa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,31 +64,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
-head:   d5251eef71bab8bd0b9ea3fe0005ad3d2553c3bb
-commit: 8957cb9cfa76f95aa05b1da514de9b82f04b5a07 [94/99] platform/x86/amd/hsmp: Report power via hwmon sensors
-config: i386-buildonly-randconfig-006-20250512 (https://download.01.org/0day-ci/archive/20250512/202505121359.IvDzAbhN-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250512/202505121359.IvDzAbhN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3
+commit: f122668ddcce450c2585f0be4bf4478d6fd6176b ARC: Add eBPF JIT support
+date:   12 months ago
+config: arc-randconfig-001-20250512 (https://download.01.org/0day-ci/archive/20250512/202505121349.qq0nmtYa-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250512/202505121349.qq0nmtYa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505121359.IvDzAbhN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505121349.qq0nmtYa-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: duplicate symbol: hsmp_create_sensor
-   >>> defined at hsmp.c
-   >>>            drivers/platform/x86/amd/hsmp/hsmp.o:(hsmp_create_sensor) in archive vmlinux.a
-   >>> defined at plat.c
-   >>>            drivers/platform/x86/amd/hsmp/plat.o:(.text+0x0) in archive vmlinux.a
+   arch/arc/net/bpf_jit_arcv2.c: In function 'gen_swap':
+>> arch/arc/net/bpf_jit_arcv2.c:2236:3: error: label at end of compound statement
+      default:
+      ^~~~~~~
+   arch/arc/net/bpf_jit_arcv2.c:2254:3: error: label at end of compound statement
+      default:
+      ^~~~~~~
+   arch/arc/net/bpf_jit_arcv2.c: In function 'gen_jmp_64':
+   arch/arc/net/bpf_jit_arcv2.c:2867:2: error: label at end of compound statement
+     default:
+     ^~~~~~~
 --
->> ld.lld: error: duplicate symbol: hsmp_create_sensor
-   >>> defined at hsmp.c
-   >>>            drivers/platform/x86/amd/hsmp/hsmp.o:(hsmp_create_sensor) in archive vmlinux.a
-   >>> defined at acpi.c
-   >>>            drivers/platform/x86/amd/hsmp/acpi.o:(.text+0x0) in archive vmlinux.a
+   {standard input}: Assembler messages:
+>> {standard input}:315: Error: flag mismatch for instruction 'mpydu'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM_XE [=m] && DRM_XE [=m]=m
+
+
+vim +2236 arch/arc/net/bpf_jit_arcv2.c
+
+  2199	
+  2200	u8 gen_swap(u8 *buf, u8 rd, u8 size, u8 endian, bool force, bool do_zext)
+  2201	{
+  2202		u8 len = 0;
+  2203	#ifdef __BIG_ENDIAN
+  2204		const u8 host_endian = BPF_FROM_BE;
+  2205	#else
+  2206		const u8 host_endian = BPF_FROM_LE;
+  2207	#endif
+  2208		if (host_endian != endian || force) {
+  2209			switch (size) {
+  2210			case 16:
+  2211				/*
+  2212				 * r = B4B3_B2B1 << 16 --> r = B2B1_0000
+  2213				 * then, swape(r) would become the desired 0000_B1B2
+  2214				 */
+  2215				len = arc_asli_r(buf, REG_LO(rd), REG_LO(rd), 16);
+  2216				fallthrough;
+  2217			case 32:
+  2218				len += arc_swape_r(BUF(buf, len), REG_LO(rd));
+  2219				if (do_zext)
+  2220					len += zext(BUF(buf, len), rd);
+  2221				break;
+  2222			case 64:
+  2223				/*
+  2224				 * swap "hi" and "lo":
+  2225				 *   hi ^= lo;
+  2226				 *   lo ^= hi;
+  2227				 *   hi ^= lo;
+  2228				 * and then swap the bytes in "hi" and "lo".
+  2229				 */
+  2230				len  = arc_xor_r(buf, REG_HI(rd), REG_LO(rd));
+  2231				len += arc_xor_r(BUF(buf, len), REG_LO(rd), REG_HI(rd));
+  2232				len += arc_xor_r(BUF(buf, len), REG_HI(rd), REG_LO(rd));
+  2233				len += arc_swape_r(BUF(buf, len), REG_LO(rd));
+  2234				len += arc_swape_r(BUF(buf, len), REG_HI(rd));
+  2235				break;
+> 2236			default:
+  2237				/* The caller must have handled this. */
+  2238			}
+  2239		} else {
+  2240			/*
+  2241			 * If the same endianness, there's not much to do other
+  2242			 * than zeroing out the upper bytes based on the "size".
+  2243			 */
+  2244			switch (size) {
+  2245			case 16:
+  2246				len = arc_and_i(buf, REG_LO(rd), 0xffff);
+  2247				fallthrough;
+  2248			case 32:
+  2249				if (do_zext)
+  2250					len += zext(BUF(buf, len), rd);
+  2251				break;
+  2252			case 64:
+  2253				break;
+  2254			default:
+  2255				/* The caller must have handled this. */
+  2256			}
+  2257		}
+  2258	
+  2259		return len;
+  2260	}
+  2261	
 
 -- 
 0-DAY CI Kernel Test Service
