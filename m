@@ -1,172 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4A425523D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 05:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747028443; cv=none; b=Q9czgcjB4HCubb35DR8WdKWFF23xyiDALJNQCSWkxxoz+OuxLxv8RQNVIJwyK+SctzSV0WtoWMR6GxQ8dhgWEQGMHmv8A16lkpPWj4saDKX2OcfLas4Nc4gZRA72gqpDxVNrBvd9sSNjKge3CxUukGDHt3VJ6e+QDfV8LuSYDVY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747028443; c=relaxed/simple;
-	bh=W1kuVJ1hrT0oinDKb+swhOeCE0WjQvxBfgFzwL9Ibyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j8jd+UOVDmjdJTYZn6gptliVWEg3F9IKXy02bdy4ZpvrWz/xAB8kKC5X0tF9xUoZEPiPJuEvs2aDZlQRJ3LlGSKujl2KmjxSGuEoFUFY/8CSMg+LkoKI42odlW1gR2fQq0xju5i9UyBA5tyScl8PRtbpsdQb07mpLwbwuX43Nvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fvaexREX; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD0D256C75
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 07:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747034307; cv=fail; b=WuOUDTbpIDNeUt9QyXE1xHulB8rX9TvfIP6iip+imPV/luLEYwPncKO/6YJseCVqjwdqpfYQ47xQGFw1D/dxRXi9Q5F0CerPdOiJxGd/oLNkYNIFIVSwa2SY5JWyd/BLmtElOQlafArrj3ahfIvB1EFgeWkU6hN0gl6ix3N4Igg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747034307; c=relaxed/simple;
+	bh=o5EdAPaTRd5WlQKlvE7pbpg4OB6bd/iGSkqFlluDpSc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hds8UnJiEewPJqydpsbjcmyq3/9As8G70lbTld8r/6j1ldNXgwlCbKsCrR/5h3X6M8mzpEHqtd0P23OKiBrpoy1q3ZDM5eaI5d2NwFvaqyTqVxBeVMx9jCiU+OlawZi4VTlZ7+6PTWDhxnwBOhTynghnabLfoMbX/CAf9v2jebU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=f52l9mW9; arc=fail smtp.client-ip=40.107.223.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fvaexREX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747028441; x=1778564441;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W1kuVJ1hrT0oinDKb+swhOeCE0WjQvxBfgFzwL9Ibyw=;
-  b=fvaexREXQu6aziRkiaFs9mVl2Tg4tob9Wbf2sObR2PQ/U7zvSwU9n9OQ
-   VaPXiBR7bufDqvi6uit38v+LSiBEYj9ANW4qUPnkN0KdoVtuQdXOCau6Q
-   /uLxVGiyS52MIKW9rd4QTl+zxrKDA7Vf1FdaJIceXRRPaotoqQzSdd1Tr
-   2v2oFni2Re30H3vpOzm9Dtpi8lDbhfuhxs9IsMSJzmAuRJ1dI4w9DZbgk
-   uoHa4fw6FvwlTDM7uEKGILul40ml51i6hycmLQzVSelYglk25klqECByW
-   z9v0lVfzqBkDXdhCLnZd/A0DQvFsffP59zO0R/B/x5Ng+GoggbvM4hkIu
-   w==;
-X-CSE-ConnectionGUID: y/EO/J+qRU+lNsKt4OPJxw==
-X-CSE-MsgGUID: zNUA5mNvSJ+xf7mOciQbcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="66347962"
-X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="66347962"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 22:40:41 -0700
-X-CSE-ConnectionGUID: ZQBA3aluQGWuupA0PyYFuA==
-X-CSE-MsgGUID: 7+0mR8SIQ7mI9xlte9HRDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="142380062"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 May 2025 22:40:39 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uELu0-000ECt-35;
-	Mon, 12 May 2025 05:40:36 +0000
-Date: Mon, 12 May 2025 13:40:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shahab Vahedi <shahab@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: arch/arc/net/bpf_jit_arcv2.c:2236:3: error: label at end of compound
- statement
-Message-ID: <202505121349.qq0nmtYa-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="f52l9mW9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yGHsrbI/m2OXRXdCXSNhvcp4mddR1PsMwK6qZv2CQLdpvB7QMOELrWv0DlC89yl50pFWTsxzPtld74EaCyEsXsAorEQ05bXiNA/m7+g+gfi33jcgmN6L2jTrNu4ttw1NVNf6bss81Whgnp+GJ6cjHs8IeF8c/rp+6wqFmjMH6UD0JiPul7fBwlKXwki6d5NuRXC/AiN0/WDS76SqLo7qsi+NiAJ1O+KZC74NqH4iocgYDbdl8X8hNJN1+usEXR0g/5PMQ7En4/H5HvV22zgdhMQ8Rxgzm/vFn0CY063GMkPRhlwWOV+srJ0Zr6+sPAY3U67cDGXZt6z2Wi+wuStvjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z677cRatg8TtdT1SHoT/5cPjY43dRXWlqcI00vH1b/E=;
+ b=AQZHvOaGaiX3tnHhV1jqcw/HTv5gWAQ1Z1wAKlVnObTVSzLHVNjfc4IvdiwNoy+64urGzPIvKu/0bKV9IMVeIAyTvXPs0ZrY2HOLBvUXBYKcpLNsXY6MF47gS9dy3O6lUGZseDcBgyGXMVOZUfJUu5DhEfNowAmTPyeyY13XR/bvPc7834btdxq+0EHUQhZSn+R0ZE5uSGrZLkQOQ9XHuGXO6zDJlMf2L0U1ir4UC8wGNI2K6LiQqqMd0hvnXwNyI/Een0rdnUcHXJWc4P5a6C09dxGHa/6MuDX1sA4ZLp8C2Z732qOSL9A6GglAQELDXbprDtmrhMSKdtGTuKfMoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z677cRatg8TtdT1SHoT/5cPjY43dRXWlqcI00vH1b/E=;
+ b=f52l9mW9vNiCEXzrOr7MN0uvdqnVZ1v0MpevjBNLvXnZi0mUPtw3R7DAtE2Fzh82a9oVIKbHqj9FVIT8jQBQ9rsO2z64Z2D0Ospu1VIFBy9laDLdWQW98CGcxvAgKteraX+d8hJ8KnzzVQg4TnKrLtpZDX5uCmnyMwt7Jd4XJrA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB6395.namprd12.prod.outlook.com (2603:10b6:510:1fd::14)
+ by MW3PR12MB4489.namprd12.prod.outlook.com (2603:10b6:303:5e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.28; Mon, 12 May
+ 2025 07:18:21 +0000
+Received: from PH7PR12MB6395.namprd12.prod.outlook.com
+ ([fe80::5a9e:cee7:496:6421]) by PH7PR12MB6395.namprd12.prod.outlook.com
+ ([fe80::5a9e:cee7:496:6421%4]) with mapi id 15.20.8722.024; Mon, 12 May 2025
+ 07:18:18 +0000
+Message-ID: <e84f5483-a203-4095-82cd-23fa94c87700@amd.com>
+Date: Mon, 12 May 2025 12:48:11 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] spi: spi_amd: Add HIDDMA basic write support
+To: kernel test robot <lkp@intel.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Krishnamoorthi M <krishnamoorthi.m@amd.com>,
+ Akshata MukundShetty <akshata.mukundshetty@amd.com>
+References: <20250509181737.997167-1-Raju.Rangoju@amd.com>
+ <202505110641.zLT16Dv7-lkp@intel.com>
+Content-Language: en-US
+From: "Rangoju, Raju" <raju.rangoju@amd.com>
+In-Reply-To: <202505110641.zLT16Dv7-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0023.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:97::13) To PH7PR12MB6395.namprd12.prod.outlook.com
+ (2603:10b6:510:1fd::14)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB6395:EE_|MW3PR12MB4489:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f7dd4e4-14b2-494f-7417-08dd91252b3d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TTAxb2Y4c0ZBZ1BaWHMxRzlNYVI0VGVFMndNUCtTU3dNYzZFTXN0UkRrdUxD?=
+ =?utf-8?B?MDBHSmlWdHNINklsNExIWUE4TEJ0STJzdHEyN2hJYmZoV2lMZ1pvYTN1K202?=
+ =?utf-8?B?R2s0WTVxdnc1MU5zVXFuNTU3SlJucTBoNjBmbDBoejJrZHVCdkd1ekdMMDMw?=
+ =?utf-8?B?Y1Zyc1lkbVZIZURSOHZDVmJSN2x3R2ZUdjdyQlYwT3VxdWwvSUxENFFVMENL?=
+ =?utf-8?B?aDdIWFlBV2x3dVhVZWx2OWo0ZGJZc2I4MWhMTVVqRmxRQTNMTWgyM2Y5QlVp?=
+ =?utf-8?B?NzM4amFSMkxoaE1FaFVlL0JTMTNtWjlQWWJwUWJ2dERNanZrK3hZcTY4OHlJ?=
+ =?utf-8?B?Z2hxbFMxSStkWnRnUXNsZW5QZkNmWXEwcVRKWTZ0b3F6K2NobFl6Q25UVlYz?=
+ =?utf-8?B?THBZOUEvNmxEbDJjSzFMTjRlcnpraTRXdU5XcG81YytJZmRLWmF0aTBRZURy?=
+ =?utf-8?B?d2VvQlZKR0tTVE9OQzhxQzJhSWNNT0JZcFQ4TG5SWmUyYW82M1dwZEtybk9s?=
+ =?utf-8?B?ZlZnbW81RmtUWWtMM29FOU5ra2RWSXFYdXNGNHdPL25aRlpzbmpqQ05NU1Y2?=
+ =?utf-8?B?eFlGb2FQTWl0Y1RUL2loTUpXZGhmSDZmRjFERS9CWXJaUEZCS2o4T3hNOEs3?=
+ =?utf-8?B?SG40NEhmSmpZZXk2a0U5NGVlSkRvNEw3SW1WN0hERnJyZGJ1NDRzcXVheUxt?=
+ =?utf-8?B?ZnFMdVBTQnZsSkNmKzA5Y0pyRVNFWnhNVUJnVHErNkdFTTJ6SWo5cWtvL2Vo?=
+ =?utf-8?B?VkJCZ2JmR2pmeVZ5SVdndGQvR3ByZTFXR1BVcEU4dFdEaEFTYmRwVnk1S0hO?=
+ =?utf-8?B?RkxRL2NzWWk3ZlNNRWxudjQ1WEFuWEZackhrMDQ5K3lpMzNiaVNVR2RkN3FF?=
+ =?utf-8?B?d0lpeVhoRlpQcnQ5cVdTK0h3K1N1YTI3RU1pOUU2KzNadGwwOE5BWXNGcTJy?=
+ =?utf-8?B?YXQ4NnRPT3pKdXlZT3FMVlVzQW0xQVB4U2gySGdCWTNqU2o5OUlxU2RiZ2k5?=
+ =?utf-8?B?VlZvZUdoTHAxOEh2Mk9BUWQ5bTFKRkFDZGhqRVB2RlBhUE9sQTBPaTNYOWht?=
+ =?utf-8?B?bVhsSjM4UnBjL1ZJMGJxckZyT1VKVWdVN2FFemhaaHVzUGpldlY1WEZJamc4?=
+ =?utf-8?B?eEFLYlBSdWFqeDVqZDFkVFdML3o1VnBSUmlFaXhCMlEzWDQ3UG9aZEx0enha?=
+ =?utf-8?B?cmZKNlh6L2gweVJrMlZzYXFTbDJ2Yitwc21yeGROSk1FV3FNSHpKYnRPVTVJ?=
+ =?utf-8?B?Wk00TU55VE1mT1Q3R2taTEdUOStOR0lSY0pDZXNGczFJUEJJRGJOMGtRNis1?=
+ =?utf-8?B?NFNVM2hRdWFOSEl1THNMS0FkOUx2MW1ndlFqM1YxczhtOFNJblVGc280NWNk?=
+ =?utf-8?B?KzhmWFhOM2sxMEI0aUc3RU8zN3ZnWERJZXQwUElBZTJSK0g2T1B3ZElJNkxT?=
+ =?utf-8?B?Mkh4TitJejBGMit6eG5nTExHZCthengyb1NQY1oyVzVhNzFWSjNsa0pxOW5E?=
+ =?utf-8?B?eStoWDJiVHZxdDFVaTBVZENkR1BjNWNwemNjdzR6RnhsckFLVG9YbldqMytr?=
+ =?utf-8?B?QXo3SnV4MWRjZ2ltZHpjTUw0bUsyRUFQbnN3SzUxTVpCMkFRS2hGSjBQK3pG?=
+ =?utf-8?B?TEsvT0hPUHZkU3hKUGJGYTJlTnV4N1lTVHROUTRkTExFWis2aUc3T0Vsck9T?=
+ =?utf-8?B?WHFEeUd1Y3VmVHpXeXhmK1NoT1A3emtoeE5QMi9OMThmR2M1VlArYmhsTGZm?=
+ =?utf-8?B?QnNscm52bFAzYXZjSkZNYXpJZHdReWJpUjBqamxpdStGbmVJQ2lTY2M0Ky9m?=
+ =?utf-8?B?c1k4QWE4WXhzUHROV2hIU0VRNlhHTGxsUTBOSnlqeG1qS0ExeXA0VUpGd0g2?=
+ =?utf-8?Q?VGblJwKUeiMv7?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6395.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Si9FRHZtcWl5NEtqdEtZTWVic2N4akc5SzdabnNDbGdFcFFQblAwNXpOQ1J4?=
+ =?utf-8?B?Y0tPVkJZK1lrL0xzQWw5VUtmYXd5M0FpZndhR25mTVB6b29oaFlySmM3ZDdC?=
+ =?utf-8?B?YmxGU285N1pBQnZ4KzVDWGFGY2NGS3dZbDBpanIySmlZaG81S3ozZ240WklZ?=
+ =?utf-8?B?SXN5ckh4VnM5clcrNTk4eUh0dm94czlPUEx4ZzNyUkdYL3dhRjFHWkMyZm5W?=
+ =?utf-8?B?b01oMWNlTlNrVXd6Z0JSRjNMNE9HNnphMEl1dGhyUnFxbXJlVGw5YjczLzZi?=
+ =?utf-8?B?a0hIYTZnVjVUcHRKWlpJanlkckIzcHVJK3dQK0x2KzlkV01hYTZhWlhLMFVx?=
+ =?utf-8?B?TFp6R1QxamZ1REN2V2RWbk1jV210SENxaVhET1JUWWVBUWhVTHo1VmlLMThR?=
+ =?utf-8?B?YWN3L0tLYldXaVR5WlJybm0vb0t2MnNKcHlHdEtRcHZhanpMMkczQlJmcXNU?=
+ =?utf-8?B?Zy8wZTgraElQcGlPaFFSMHB0T2NJbXplcUgyQS9RVHZRd2dNRnBIeVJHNWFY?=
+ =?utf-8?B?djFRRzJtNzZia3A3aUMvZlgrV1R5Wk5DNHJ4K01TczZ2Y1dnbi9iMHc3a1Rr?=
+ =?utf-8?B?dHRnMXQwQmIzUGZYZkwwMGlYU1ozRjhzbElCRThDNmpaRWRFdklPcFBpS0NJ?=
+ =?utf-8?B?VG9WZjhnajVpQ0tOdmhaSUprVW95TDBEb3N1Q2d0VkY4MEFJb212bGNQQTRu?=
+ =?utf-8?B?dFFpTXAyWHgwZFJ5Q2tyVUpyMFdabXFTYkNZQVdhMFJPUCt5ai84QTRUcW5H?=
+ =?utf-8?B?ZjlLQTA0QWpTZCtXTjUweEhVR2hrOFNXS0ErRCtvS1dFNUNxZDBsY2s1L05O?=
+ =?utf-8?B?TFB0STlSeVRiejFUSTMvWTBmQ2JLbXlYeVJxYmJRd20ydTF2R1ZRNzVPdWRa?=
+ =?utf-8?B?ekUzOXJ1YXJWdFJoc3k5Q1VWUkc2NThRVkw1R1VUUEZQODZNMXBhamgwWDRl?=
+ =?utf-8?B?a0d6Z1dLU1lhRHFkWVIxWnRiaXoyUUI0Qm4zRSs2UlpLQkc5eW8vcTcwTVds?=
+ =?utf-8?B?bW5iSWhDUkpDWVk4c3dhN29PekNVTnNTbEQrVENocm5laFdrYTVrWFlkcjhv?=
+ =?utf-8?B?Um43SmkwQnM3SGZ2NFFqSlM0N3FxVXVXaTFDVW5NcmZJUTFHWE5Bd1ArdVFs?=
+ =?utf-8?B?UkJ4TC9Za0FEQ2owNGg4ZXI3V1RiTnVEQTB1VEhFWkJpOWRHWXk2b2dVNFl3?=
+ =?utf-8?B?ais2VUJlVGtyQzF2dHNHUkUvUG5SMzNqeDVmYitFMzFtL3JVVS84S0RERWFL?=
+ =?utf-8?B?Ui8vUEZFR3AweE9GQ3NYVms0Y3NpYmpqVlllcDYyY0Q2YUxaUi9kWDEwYjFy?=
+ =?utf-8?B?dnpuL3lhUy9PNTA1K09TVHo0NnhyQXQxdWRhNC9kdjZVSDZscEZtRTdsd1V1?=
+ =?utf-8?B?Y3J0bHp6blJvUk83eEdxNWhZWHVFTHQra2dFU2xzMjJLNXlETUJneHRlYjg1?=
+ =?utf-8?B?N1RQbG9qdVJHVU9UODJPNkhVZnlYTkpLamVNRTMvWkRtSDhHaUN1TUc2V2tE?=
+ =?utf-8?B?Tk04ZVdaczZkeG94ajczVHhTVWtOQ3lEaFFEc2pMOUI1Uyt3Ukt4SWVqRnJ0?=
+ =?utf-8?B?T2FIRlVoYTgxWU9UTDhZbkppa3VhREhWVjZNbDRsdGVFczFtM0RmRTU2NmJO?=
+ =?utf-8?B?ZmVNNVJVTnFNWmFVY1czemZuSGpCaXVoQnRJSnp0Um1HTno4dWFDZG54WEFY?=
+ =?utf-8?B?UDJ2a3FyZXlhTTMySEI5d0VxbE04NUNRbUdHbWYwLzF5STM4bXlRODI3M1hh?=
+ =?utf-8?B?Q0FwRExnTDRkUVBmTmNBK0M3U0tYelVXNnJ3RGlVblFONzlwRkk2Ynl0NHZV?=
+ =?utf-8?B?TkxXZHhWZmhGWUo3Y1BERXV1d2g4ZENvNFcyaHEyQmxnYnIxM2lwMVQxV29Q?=
+ =?utf-8?B?QTFkbXNzd1RkamJJenYyODU1TUJYTkpoZzJrSjJrTHhtSE5DTzNEZDZob1BI?=
+ =?utf-8?B?MXBaMUQ0elRSVmhnb1FuTWRSeXVjcmdFeWMydVA0ZTNMT3RXTnZWZVM5Qy93?=
+ =?utf-8?B?QU1hb3JiTGxKcW9XMC9iZlZ4blRJQWdNYTc5dzlVNk13STdxdmxQUk5MekZF?=
+ =?utf-8?B?YTFydHcwNjZtTDJ6WkRWWFExMUtVZ0RHdUtEbTBXbjA3SUZxTHdUam8rMFRj?=
+ =?utf-8?Q?wh/eoz56u2DBY72gX4yUUVV3O?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f7dd4e4-14b2-494f-7417-08dd91252b3d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6395.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2025 07:18:18.6434
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k2jTKfzhYjHGZMfB46G80QROrkWbh1/5XLyLSBeHQay17hWhqZU2ninwRWpeRu3xw1y3Q0k71YGNxo/di/ajAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4489
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3
-commit: f122668ddcce450c2585f0be4bf4478d6fd6176b ARC: Add eBPF JIT support
-date:   12 months ago
-config: arc-randconfig-001-20250512 (https://download.01.org/0day-ci/archive/20250512/202505121349.qq0nmtYa-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250512/202505121349.qq0nmtYa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505121349.qq0nmtYa-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/arc/net/bpf_jit_arcv2.c: In function 'gen_swap':
->> arch/arc/net/bpf_jit_arcv2.c:2236:3: error: label at end of compound statement
-      default:
-      ^~~~~~~
-   arch/arc/net/bpf_jit_arcv2.c:2254:3: error: label at end of compound statement
-      default:
-      ^~~~~~~
-   arch/arc/net/bpf_jit_arcv2.c: In function 'gen_jmp_64':
-   arch/arc/net/bpf_jit_arcv2.c:2867:2: error: label at end of compound statement
-     default:
-     ^~~~~~~
---
-   {standard input}: Assembler messages:
->> {standard input}:315: Error: flag mismatch for instruction 'mpydu'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
-   Selected by [m]:
-   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM_XE [=m] && DRM_XE [=m]=m
 
 
-vim +2236 arch/arc/net/bpf_jit_arcv2.c
+On 5/11/2025 3:51 AM, kernel test robot wrote:
+> Hi Raju,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on v6.15-rc5]
+> [also build test WARNING on linus/master]
+> [cannot apply to broonie-spi/for-next next-20250509]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/spi-spi_amd-Add-HIDDMA-basic-write-support/20250510-021954
+> base:   v6.15-rc5
+> patch link:    https://lore.kernel.org/r/20250509181737.997167-1-Raju.Rangoju%40amd.com
+> patch subject: [PATCH] spi: spi_amd: Add HIDDMA basic write support
+> config: m68k-randconfig-r111-20250511 (https://download.01.org/0day-ci/archive/20250511/202505110641.zLT16Dv7-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 14.2.0
 
-  2199	
-  2200	u8 gen_swap(u8 *buf, u8 rd, u8 size, u8 endian, bool force, bool do_zext)
-  2201	{
-  2202		u8 len = 0;
-  2203	#ifdef __BIG_ENDIAN
-  2204		const u8 host_endian = BPF_FROM_BE;
-  2205	#else
-  2206		const u8 host_endian = BPF_FROM_LE;
-  2207	#endif
-  2208		if (host_endian != endian || force) {
-  2209			switch (size) {
-  2210			case 16:
-  2211				/*
-  2212				 * r = B4B3_B2B1 << 16 --> r = B2B1_0000
-  2213				 * then, swape(r) would become the desired 0000_B1B2
-  2214				 */
-  2215				len = arc_asli_r(buf, REG_LO(rd), REG_LO(rd), 16);
-  2216				fallthrough;
-  2217			case 32:
-  2218				len += arc_swape_r(BUF(buf, len), REG_LO(rd));
-  2219				if (do_zext)
-  2220					len += zext(BUF(buf, len), rd);
-  2221				break;
-  2222			case 64:
-  2223				/*
-  2224				 * swap "hi" and "lo":
-  2225				 *   hi ^= lo;
-  2226				 *   lo ^= hi;
-  2227				 *   hi ^= lo;
-  2228				 * and then swap the bytes in "hi" and "lo".
-  2229				 */
-  2230				len  = arc_xor_r(buf, REG_HI(rd), REG_LO(rd));
-  2231				len += arc_xor_r(BUF(buf, len), REG_LO(rd), REG_HI(rd));
-  2232				len += arc_xor_r(BUF(buf, len), REG_HI(rd), REG_LO(rd));
-  2233				len += arc_swape_r(BUF(buf, len), REG_LO(rd));
-  2234				len += arc_swape_r(BUF(buf, len), REG_HI(rd));
-  2235				break;
-> 2236			default:
-  2237				/* The caller must have handled this. */
-  2238			}
-  2239		} else {
-  2240			/*
-  2241			 * If the same endianness, there's not much to do other
-  2242			 * than zeroing out the upper bytes based on the "size".
-  2243			 */
-  2244			switch (size) {
-  2245			case 16:
-  2246				len = arc_and_i(buf, REG_LO(rd), 0xffff);
-  2247				fallthrough;
-  2248			case 32:
-  2249				if (do_zext)
-  2250					len += zext(BUF(buf, len), rd);
-  2251				break;
-  2252			case 64:
-  2253				break;
-  2254			default:
-  2255				/* The caller must have handled this. */
-  2256			}
-  2257		}
-  2258	
-  2259		return len;
-  2260	}
-  2261	
+Thanks for reporting this. We do not support m68k.
+Will re-spin v2 with necessary changes in Kconfig.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> reproduce: (https://download.01.org/0day-ci/archive/20250511/202505110641.zLT16Dv7-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505110641.zLT16Dv7-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>>> drivers/spi/spi-amd.c:594:57: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+>     drivers/spi/spi-amd.c:594:57: sparse:     expected void volatile [noderef] __iomem *addr
+>     drivers/spi/spi-amd.c:594:57: sparse:     got void *
