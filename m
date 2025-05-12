@@ -1,224 +1,161 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B35A297A42
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 19:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EECB2566D3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 19:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747076779; cv=none; b=J1MzVpWn7GT6NDT/uMoI8XFJJo/jjL1HdwYFd5YEFzcbWqPeSoAB7F6/2wndkTZXqvZ8BqHoztGlDQPg8o3gxV3kpxkvkTjInDyDwvZaSA3tj7GQhoc+7g3SVUt+aEEw6F5RPCUr5oSM/zpH7Fs7EVF/msKhLQIupyIkc+bz/Cw=
+	t=1747078735; cv=none; b=DxOO66GTfd9/El9AG37NM8GFquKOTMXbSuWKijVtbwVEmwrdWibeDlA0anDvFgIVdVgBXl68zSNicIcrinjytGcNXEPnD/etuK3h8fXolcvVtkOg4k+DzGFB4EzsFVQNV1fR6ecXz+iPcVk4s8UigKfU6h+ruouVRqKIVTmC+8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747076779; c=relaxed/simple;
-	bh=UqjIGIkaqS00AwLfEnqGgArqbDkaqFgVmPeo8WzeUF8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wl1tmonkcQW6zblfwPRJKqb1u32yM5yQS2B6JjQ0e8GLKcxiBdki554v+J3wp5d2CKrGs6x+cgOVubJLy8IuDlDtALu1uc2ju1ySpbo4Ma6sjvuNgIrc3PZ+6hEYGOHldLM4MT0smc3Z8w8B2hCcYAmqiI2dyPcmMnz9tOFEN2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AzHev9Zr; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1747078735; c=relaxed/simple;
+	bh=uVCIiTx/UEcSBS+BpHcS4AnKvUJdOrbQ+rjtWTTqsNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ighST0lx6FhMsE1+Wv2E3t5mKQpGO/T9dlUsUv4QnrSUBN43b6orloCJBRl1dQFoPFLCl17vj+0SqOHQJMwv9vk7zYP4DXWeRSyEYFO251MROSEloMnrjxkUiDds0Ws8mleXD8ZrSQKp0U3s85EBkWwJmR2LzbbnxJhQ6X797bM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DTi8mdZS; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AzHev9Zr"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-48b7747f881so60821cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 12:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747076776; x=1747681576; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SlaBIoGCDj2YBbfCjPUIByxs5tgRMLkhs+czsg2KRtk=;
-        b=AzHev9ZrGJE6UUT58mfRcy38PTUWPGR69/VKZEhfIOE4kNwA9N0LfdlVLwCxyjKdWM
-         VCFoLkZf1VpqphKsKidETNEltiL54yXri8PgpOTXCjZvkQqS2MZCWBT6kqSt80SXjto2
-         JyeOQzpmmg1G2OYaQDg0X1Q7NtUxfRG/SH4chQxtDoFf5WrHbS+ufONyKgF0mhArLbG7
-         ZW29XaA3dvPCQ7vHr+LYIriRDiah4bqGKcHUuTOBTLjDxnYv2ahVAw5pHFVS0vXftN8s
-         1llBjN4UYt8wONDHYJSPZjupdsfj5yUz6SLMmbcatyJdbLqhnSNOFP+zjXsLICaHVVfS
-         k1WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747076776; x=1747681576;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SlaBIoGCDj2YBbfCjPUIByxs5tgRMLkhs+czsg2KRtk=;
-        b=tgt92FThPWziGsg6r5lONqRkFc3lFXcWOiOni7o5FiXEuLoY6Zzzqb34M95JJXfQma
-         67UHzIubov5jT7ZdESODQd0/VmZHeLRIIqThGjM4EyMYL2kBvF14TBNzy9Ro25oXBZGB
-         TkKDUdVxUJSHD0nS9iDjWc2zGwpT3aIvsLoYVo2czLbhyHyxzw+EkpnADmVgKaxh2Qoi
-         kYZDfYeGahQpMg8UFnaDQkGHsxA1drBdKCocFU7OjMxaGomwsOgQjxow4DsUUeO/Rk+U
-         hBnRnc8MFBI3/3N2CqwkLlbDzNWVtCR0LJF9GGrOSLphCDAuwxQulDRFIHuzOnpuImAl
-         wpfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXApDo9kYSw494zEObqAKl77G4wonnj5jUK6D7rxyJ1WXpN6gpA1xHJpLHyQbK/rnNw4i7IAqqOcfMatC5q@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBEm+sGkWwtfp70R9VWLeG/jkAblWwAGouFxQzfrixa2tHXm1B
-	l9ZRRLII9z01ciFX6Wooqgj9QqAzRuRkSuySWQ3cCxhG1X8uyNUOqqG1Ydg872fUz3NbE5y0psX
-	874Oab/QudPWgDTJDRNVkofZBiR0reW55VToh
-X-Gm-Gg: ASbGnctiyBVZKiZhkcLKYiZdfP5x2wGWVHtnIMbxRkz1g23bfbU3pXhjiGqKTEHoo1+
-	6fzrTuiLi8NpSTTDWl9jULtqGFCOCWHDxEn5jGh7Zje6XjTFpdfvwTL4pZ2sT7sr+4gPE9kClXK
-	20kOrynf9YZfzLO4J45jT7EZ5qKcTa6Zu91AVDtq2tiff12mpWlPckAgzyVPsMuZ6QOw==
-X-Google-Smtp-Source: AGHT+IFBi76c9HCC/BtyKlkS54kVR4sp9uMVllBKhvHfQguku4lD2jIfu3weJnzfKcjV/mhhBSWJ2xr+zru+2lPauaI=
-X-Received: by 2002:a05:622a:164e:b0:48a:5b89:473b with SMTP id
- d75a77b69052e-4948828457bmr338911cf.7.1747076775897; Mon, 12 May 2025
- 12:06:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DTi8mdZS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747078733; x=1778614733;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uVCIiTx/UEcSBS+BpHcS4AnKvUJdOrbQ+rjtWTTqsNM=;
+  b=DTi8mdZS3FlTnrTxPvPKnJY/ewWxrTlM26ztq4VH6/Z50U7/2j59nVIJ
+   Eb+wyySI5Qpb3LBThWbphO752+fL6a7YYqSvXdiTgGCtFR/dWCIshc6j6
+   0H2QTIH+QahSYo2W+1Zr1WOSvWPh48DWdWxKCrxIdp1ILJMBzOvXPXnXW
+   XwZR7j1zOejJqaKk7yCwT53fem4HPGpkkh4A0o0uUKAwc2VVjlBGym+Jf
+   ZZ4dOEBA/0ac7V4UjjV+2FPb3tUl4A3Q8vEVORhqQudG+l5IDIzdDoBq1
+   ZCoo7xWleyD82O9DS4nSmLQhPDZ70+j80NE+43i+ShMhlG5Txhu70bTfF
+   A==;
+X-CSE-ConnectionGUID: fglApXZyQHWVBqIkLycn9A==
+X-CSE-MsgGUID: 693ywW0jRTG+biR65+GxBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="49044479"
+X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
+   d="scan'208";a="49044479"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 12:38:52 -0700
+X-CSE-ConnectionGUID: 5yYyhYIKQoCtNukkJ4RDqg==
+X-CSE-MsgGUID: Hw0RB68XRO2RDTBNl0JdxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
+   d="scan'208";a="168548592"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 12 May 2025 12:38:52 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uEYzB-000FLr-0G;
+	Mon, 12 May 2025 19:38:49 +0000
+Date: Tue, 13 May 2025 03:38:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Suraj Kandpal <suraj.kandpal@intel.com>,
+	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: [linux-next:master 9168/10491] drivers/gpu/drm/drm_plane.c:212:24:
+ sparse: sparse: Using plain integer as NULL pointer
+Message-ID: <202505130314.2p06umZj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202505091548.FuKO4b4v-lkp@intel.com> <CAJDx_rg6QHsLK8=i-6D5=B=OL50-RUPP=e9JZgRiAfE3sgwRMg@mail.gmail.com>
- <aCFKczeBZOp8wiPg@rli9-mobl>
-In-Reply-To: <aCFKczeBZOp8wiPg@rli9-mobl>
-From: Juan Yescas <jyescas@google.com>
-Date: Mon, 12 May 2025 12:06:03 -0700
-X-Gm-Features: AX0GCFvQOxojxpWtWcort3iToPLLjrZi4pJYvap4QTgX7RWu9TBjkS13M4u_8O8
-Message-ID: <CAJDx_rhLT1yEd4Ln0c6dyOuSY_zvdxy1122S+JaxEXb8urT9uw@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-unstable 333/334] include/linux/mmzone.h:1816:8:
- warning: left shift count is negative
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 11, 2025 at 6:10=E2=80=AFPM Philip Li <philip.li@intel.com> wro=
-te:
->
-> On Fri, May 09, 2025 at 01:43:33PM -0700, Juan Yescas wrote:
-> > On Fri, May 9, 2025 at 12:49=E2=80=AFAM kernel test robot <lkp@intel.co=
-m> wrote:
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git m=
-m-unstable
-> > > head:   930c125f685d7e8eef566fcd563390b76a28d824
-> > > commit: 16994f2b09a22523885d371caa59f17999686805 [333/334] mm: add CO=
-NFIG_PAGE_BLOCK_ORDER to select page block order
-> > > config: powerpc64-randconfig-003-20250509 (https://download.01.org/0d=
-ay-ci/archive/20250509/202505091548.FuKO4b4v-lkp@intel.com/config)
-> > > compiler: powerpc64-linux-gcc (GCC) 10.5.0
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20250509/202505091548.FuKO4b4v-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202505091548.FuKO4b4v=
--lkp@intel.com/
-> > >
-> > > All warnings (new ones prefixed by >>):
-> > >
-> > >    In file included from include/vdso/const.h:5,
-> > >                     from include/linux/const.h:4,
-> > >                     from include/linux/bits.h:5,
-> > >                     from include/linux/ratelimit_types.h:5,
-> > >                     from include/linux/printk.h:9,
-> > >                     from include/asm-generic/bug.h:22,
-> > >                     from arch/powerpc/include/asm/bug.h:116,
-> > >                     from include/linux/bug.h:5,
-> > >                     from include/linux/mmdebug.h:5,
-> > >                     from include/linux/mm.h:6,
-> > >                     from mm/sparse.c:5:
-> > >    mm/sparse.c: In function 'usemap_size':
-> > > >> include/linux/mmzone.h:1816:8: warning: left shift count is negati=
-ve [-Wshift-count-negative]
-> > >     1816 |  ((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGE=
-BLOCK_BITS)
-> > >          |        ^~
-> > >    include/uapi/linux/const.h:51:40: note: in definition of macro '__=
-KERNEL_DIV_ROUND_UP'
-> > >       51 | #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d)=
-)
-> > >          |                                        ^
-> > >    mm/sparse.c:301:9: note: in expansion of macro 'BITS_TO_LONGS'
-> > >      301 |  return BITS_TO_LONGS(SECTION_BLOCKFLAGS_BITS) * sizeof(un=
-signed long);
-> > >          |         ^~~~~~~~~~~~~
-> > >    mm/sparse.c:301:23: note: in expansion of macro 'SECTION_BLOCKFLAG=
-S_BITS'
-> > >      301 |  return BITS_TO_LONGS(SECTION_BLOCKFLAGS_BITS) * sizeof(un=
-signed long);
-> > >          |                       ^~~~~~~~~~~~~~~~~~~~~~~
-> > >
-> > >
-> > > vim +1816 include/linux/mmzone.h
-> > >
-> > > d41dee369bff3b Andy Whitcroft 2005-06-23  1814
-> > > 835c134ec4dd75 Mel Gorman     2007-10-16  1815  #define SECTION_BLOCK=
-FLAGS_BITS \
-> > > d9c2340052278d Mel Gorman     2007-10-16 @1816          ((1UL << (PFN=
-_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-> > > 835c134ec4dd75 Mel Gorman     2007-10-16  1817
-> > >
-> >
-> > Thanks for testing,
-> >
-> > The reason for the warning is because CONFIG_PAGE_BLOCK_ORDER >
-> > CONFIG_ARCH_FORCE_MAX_ORDER.
-> >
-> > This config: powerpc64-randconfig-003-20250509
-> > (https://download.01.org/0day-ci/archive/20250509/202505091548.FuKO4b4v=
--lkp@intel.com/config)
-> >
-> > is not respecting the range config below. Should the test make sure
-> > that the ranges are valid?
->
-> Thanks for the information, I will check the bot side to resolve the prob=
-lem.
->
-> Sorry for the false positive.
->
-Thanks Philip,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   edef457004774e598fc4c1b7d1d4f0bcd9d0bb30
+commit: 0d6dcd741c266389bbf0a8758f537b3a171ac32a [9168/10491] drm/plane: modify create_in_formats to acommodate async
+config: hexagon-randconfig-r122-20250512 (https://download.01.org/0day-ci/archive/20250513/202505130314.2p06umZj-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce: (https://download.01.org/0day-ci/archive/20250513/202505130314.2p06umZj-lkp@intel.com/reproduce)
 
-I tried to reproduce the issue in an ARM64 build by modifying the
-.config manually
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505130314.2p06umZj-lkp@intel.com/
 
- $ vim .config
- $ cat .config | grep MAX_ORDER
-CONFIG_ARCH_FORCE_MAX_ORDER=3D8
- $ cat .config | grep PAGE_BLOCK
-CONFIG_PAGE_BLOCK_ORDER=3D10
- $ make -j40 ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu-
-  CALL    scripts/checksyscalls.sh
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/drm_plane.c:212:24: sparse: sparse: Using plain integer as NULL pointer
 
-However, after I built the kernel, the CONFIG_PAGE_BLOCK_ORDER got
-overridden with
-a valid value.
+vim +212 drivers/gpu/drm/drm_plane.c
 
- $ cat .config | grep MAX_ORDER
-CONFIG_ARCH_FORCE_MAX_ORDER=3D10
- $ cat .config | grep PAGE_BLOCK
-CONFIG_PAGE_BLOCK_ORDER=3D10
+db1689aa61bd1e Ben Widawsky  2017-07-23  195  
+0d6dcd741c2663 Arun R Murthy 2025-04-07  196  static struct drm_property_blob *create_in_format_blob(struct drm_device *dev,
+0d6dcd741c2663 Arun R Murthy 2025-04-07  197  						       struct drm_plane *plane,
+0d6dcd741c2663 Arun R Murthy 2025-04-07  198  						       bool (*format_mod_supported)
+0d6dcd741c2663 Arun R Murthy 2025-04-07  199  						       (struct drm_plane *plane,
+0d6dcd741c2663 Arun R Murthy 2025-04-07  200  							u32 format,
+0d6dcd741c2663 Arun R Murthy 2025-04-07  201  							u64 modifier))
+db1689aa61bd1e Ben Widawsky  2017-07-23  202  {
+db1689aa61bd1e Ben Widawsky  2017-07-23  203  	struct drm_property_blob *blob;
+db1689aa61bd1e Ben Widawsky  2017-07-23  204  	struct drm_format_modifier *mod;
+db1689aa61bd1e Ben Widawsky  2017-07-23  205  	size_t blob_size, formats_size, modifiers_size;
+db1689aa61bd1e Ben Widawsky  2017-07-23  206  	struct drm_format_modifier_blob *blob_data;
+db1689aa61bd1e Ben Widawsky  2017-07-23  207  	unsigned int i, j;
+db1689aa61bd1e Ben Widawsky  2017-07-23  208  
+db1689aa61bd1e Ben Widawsky  2017-07-23  209  	formats_size = sizeof(__u32) * plane->format_count;
+db1689aa61bd1e Ben Widawsky  2017-07-23  210  	if (WARN_ON(!formats_size)) {
+db1689aa61bd1e Ben Widawsky  2017-07-23  211  		/* 0 formats are never expected */
+db1689aa61bd1e Ben Widawsky  2017-07-23 @212  		return 0;
+db1689aa61bd1e Ben Widawsky  2017-07-23  213  	}
+db1689aa61bd1e Ben Widawsky  2017-07-23  214  
+db1689aa61bd1e Ben Widawsky  2017-07-23  215  	modifiers_size =
+db1689aa61bd1e Ben Widawsky  2017-07-23  216  		sizeof(struct drm_format_modifier) * plane->modifier_count;
+db1689aa61bd1e Ben Widawsky  2017-07-23  217  
+db1689aa61bd1e Ben Widawsky  2017-07-23  218  	blob_size = sizeof(struct drm_format_modifier_blob);
+db1689aa61bd1e Ben Widawsky  2017-07-23  219  	/* Modifiers offset is a pointer to a struct with a 64 bit field so it
+db1689aa61bd1e Ben Widawsky  2017-07-23  220  	 * should be naturally aligned to 8B.
+db1689aa61bd1e Ben Widawsky  2017-07-23  221  	 */
+db1689aa61bd1e Ben Widawsky  2017-07-23  222  	BUILD_BUG_ON(sizeof(struct drm_format_modifier_blob) % 8);
+db1689aa61bd1e Ben Widawsky  2017-07-23  223  	blob_size += ALIGN(formats_size, 8);
+db1689aa61bd1e Ben Widawsky  2017-07-23  224  	blob_size += modifiers_size;
+db1689aa61bd1e Ben Widawsky  2017-07-23  225  
+db1689aa61bd1e Ben Widawsky  2017-07-23  226  	blob = drm_property_create_blob(dev, blob_size, NULL);
+db1689aa61bd1e Ben Widawsky  2017-07-23  227  	if (IS_ERR(blob))
+0d6dcd741c2663 Arun R Murthy 2025-04-07  228  		return NULL;
+db1689aa61bd1e Ben Widawsky  2017-07-23  229  
+11b83e3fbc4196 Ville Syrjälä 2018-02-23  230  	blob_data = blob->data;
+db1689aa61bd1e Ben Widawsky  2017-07-23  231  	blob_data->version = FORMAT_BLOB_CURRENT;
+db1689aa61bd1e Ben Widawsky  2017-07-23  232  	blob_data->count_formats = plane->format_count;
+db1689aa61bd1e Ben Widawsky  2017-07-23  233  	blob_data->formats_offset = sizeof(struct drm_format_modifier_blob);
+db1689aa61bd1e Ben Widawsky  2017-07-23  234  	blob_data->count_modifiers = plane->modifier_count;
+db1689aa61bd1e Ben Widawsky  2017-07-23  235  
+db1689aa61bd1e Ben Widawsky  2017-07-23  236  	blob_data->modifiers_offset =
+db1689aa61bd1e Ben Widawsky  2017-07-23  237  		ALIGN(blob_data->formats_offset + formats_size, 8);
+db1689aa61bd1e Ben Widawsky  2017-07-23  238  
+db1689aa61bd1e Ben Widawsky  2017-07-23  239  	memcpy(formats_ptr(blob_data), plane->format_types, formats_size);
+db1689aa61bd1e Ben Widawsky  2017-07-23  240  
+db1689aa61bd1e Ben Widawsky  2017-07-23  241  	mod = modifiers_ptr(blob_data);
+db1689aa61bd1e Ben Widawsky  2017-07-23  242  	for (i = 0; i < plane->modifier_count; i++) {
+db1689aa61bd1e Ben Widawsky  2017-07-23  243  		for (j = 0; j < plane->format_count; j++) {
+0d6dcd741c2663 Arun R Murthy 2025-04-07  244  			if (!format_mod_supported ||
+0d6dcd741c2663 Arun R Murthy 2025-04-07  245  			    format_mod_supported(plane,
+db1689aa61bd1e Ben Widawsky  2017-07-23  246  						 plane->format_types[j],
+db1689aa61bd1e Ben Widawsky  2017-07-23  247  						 plane->modifiers[i])) {
+aadd41485bb227 Dan Carpenter 2017-08-09  248  				mod->formats |= 1ULL << j;
+db1689aa61bd1e Ben Widawsky  2017-07-23  249  			}
+db1689aa61bd1e Ben Widawsky  2017-07-23  250  		}
+db1689aa61bd1e Ben Widawsky  2017-07-23  251  
+db1689aa61bd1e Ben Widawsky  2017-07-23  252  		mod->modifier = plane->modifiers[i];
+db1689aa61bd1e Ben Widawsky  2017-07-23  253  		mod->offset = 0;
+db1689aa61bd1e Ben Widawsky  2017-07-23  254  		mod->pad = 0;
+db1689aa61bd1e Ben Widawsky  2017-07-23  255  		mod++;
+db1689aa61bd1e Ben Widawsky  2017-07-23  256  	}
+db1689aa61bd1e Ben Widawsky  2017-07-23  257  
+0d6dcd741c2663 Arun R Murthy 2025-04-07  258  	return blob;
+db1689aa61bd1e Ben Widawsky  2017-07-23  259  }
+db1689aa61bd1e Ben Widawsky  2017-07-23  260  
 
-Is there a parameter or configuration in the test that indicates not
-to fix the .config files?
+:::::: The code at line 212 was first introduced by commit
+:::::: db1689aa61bd1efb5ce9b896e7aa860a85b7f1b6 drm: Create a format/modifier blob
 
+:::::: TO: Ben Widawsky <ben@bwidawsk.net>
+:::::: CC: Daniel Stone <daniels@collabora.com>
 
-> >
-> > config PAGE_BLOCK_ORDER
-> > int "Page Block Order"
-> > range 1 10 if !ARCH_FORCE_MAX_ORDER
-> > default 10 if !ARCH_FORCE_MAX_ORDER
-> > range 1 ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
-> > default ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
-> >
-> > I can add a check in include/linux/pageblock-flags.h
-> >
-> > /*
-> >  * The PAGE_BLOCK_ORDER, which defines the order for the number of page=
-s
-> >  * that can have a migrate type, must be less or equal to the MAX_PAGE_=
-ORDER,
-> >  * which defines the max order of pages to be allocated by the buddy al=
-locator.
-> >  */
-> > BUILD_BUG_ON_MSG(PAGE_BLOCK_ORDER > MAX_PAGE_ORDER,
-> >         "MAX_PAGE_ORDER must be >=3D PAGE_BLOCK_ORDER");
-> >
-> > Is there any preference?
-> >
-> > > :::::: The code at line 1816 was first introduced by commit
-> > > :::::: d9c2340052278d8eb2ffb16b0484f8f794def4de Do not depend on MAX_=
-ORDER when grouping pages by mobility
-> > >
-> > > :::::: TO: Mel Gorman <mel@csn.ul.ie>
-> > > :::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
-> > >
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> >
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
