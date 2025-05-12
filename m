@@ -1,144 +1,224 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2679F1DE4CD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 18:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B35A297A42
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 19:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747074909; cv=none; b=obPJu/k3HDVTa0r6G5eo7AehLmpbI0h/nbEtC8oyD2pCuy8c84qRkoK/0BCrIX8IC/b00jzT25QUaBov8B5NzVoCJn7yo6hJDw8a2gx5u3mIy9SzWBdr10zkn9tOYGHbHWazwtIs841JxN47DfjmBnhS0hnV48m9mWh2+KnYWyE=
+	t=1747076779; cv=none; b=J1MzVpWn7GT6NDT/uMoI8XFJJo/jjL1HdwYFd5YEFzcbWqPeSoAB7F6/2wndkTZXqvZ8BqHoztGlDQPg8o3gxV3kpxkvkTjInDyDwvZaSA3tj7GQhoc+7g3SVUt+aEEw6F5RPCUr5oSM/zpH7Fs7EVF/msKhLQIupyIkc+bz/Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747074909; c=relaxed/simple;
-	bh=t9E7jaIRgmZ+jhjkrMSLZufPgigLkMJGG8vibrwiY9A=;
+	s=arc-20240116; t=1747076779; c=relaxed/simple;
+	bh=UqjIGIkaqS00AwLfEnqGgArqbDkaqFgVmPeo8WzeUF8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e+VoSKg1F96Qlyya+MlttTu5dO71aagILBTDkgQb/ezyW6rHA80EE8sGjelSbu6kft7h+d2il8I+zbXi324tvmeBCkJEvoeT/Jvf9GbTS0dJs9Y7FVcoN5/RfLQKNf6SqY5/9P2grzWS8gekP1thCQ42bdEQk9ohybhOFRDWQJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4df4ef9c59dso643530137.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 11:35:06 -0700 (PDT)
+	 To:Cc:Content-Type; b=Wl1tmonkcQW6zblfwPRJKqb1u32yM5yQS2B6JjQ0e8GLKcxiBdki554v+J3wp5d2CKrGs6x+cgOVubJLy8IuDlDtALu1uc2ju1ySpbo4Ma6sjvuNgIrc3PZ+6hEYGOHldLM4MT0smc3Z8w8B2hCcYAmqiI2dyPcmMnz9tOFEN2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AzHev9Zr; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AzHev9Zr"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-48b7747f881so60821cf.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 12:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747076776; x=1747681576; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SlaBIoGCDj2YBbfCjPUIByxs5tgRMLkhs+czsg2KRtk=;
+        b=AzHev9ZrGJE6UUT58mfRcy38PTUWPGR69/VKZEhfIOE4kNwA9N0LfdlVLwCxyjKdWM
+         VCFoLkZf1VpqphKsKidETNEltiL54yXri8PgpOTXCjZvkQqS2MZCWBT6kqSt80SXjto2
+         JyeOQzpmmg1G2OYaQDg0X1Q7NtUxfRG/SH4chQxtDoFf5WrHbS+ufONyKgF0mhArLbG7
+         ZW29XaA3dvPCQ7vHr+LYIriRDiah4bqGKcHUuTOBTLjDxnYv2ahVAw5pHFVS0vXftN8s
+         1llBjN4UYt8wONDHYJSPZjupdsfj5yUz6SLMmbcatyJdbLqhnSNOFP+zjXsLICaHVVfS
+         k1WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747074905; x=1747679705;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=faDWq4SXHnuv6JR8rza3bg7AFXqM/F53I5xb503DYJA=;
-        b=WGx/VABpEK5A2kTiajpIPMhNqWIgfnZGsF1fnjLWbga7bU58q9MpxquUTwvsOnndKG
-         oSvFFAKUCxFPvQUu1ytPcQziyrgI1NuRzo6UjsXqgx8jYkoMPsij2NFXGBZJdujx4wpY
-         pQSIq4yzRBhchUvA3/O+uEiFHXoK6icnL68CcmX28d2z8IY1OGJwFDnRrI7sawAu0HRM
-         viE90ptU7nlXBoBa+lJAzlGynoPXNtXLbxirv8lX0q2rdjTBGbwAbyuNxAisdrc0VXHN
-         GJRu/R9raSqtxQWWqq1Rb2xIJ+p7O4xk8gnhcKmKIkFlLGF3SBoZyTESJGIH9/RPewJ7
-         3xyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhb0+KFfYw8QF2MbC35PLt2Qnb7f+XSK2kp3FUNybIduL9rNOF5/vxEg/xW8ZuhWuQgbizfl2c1ys/uQgo@lists.linux.dev
-X-Gm-Message-State: AOJu0YxiCsPM6fNOjfpQ+wYyk6Iy8UVQQAyXs7pI7QpqU8PDpYlUU5Gt
-	M5mDNy9GCjjB+RSJ2apPjpWZBAiE060RIXnPS9PLQjBOmLqbuyGjh5j+Aodh
-X-Gm-Gg: ASbGncvaGHuBdk2lYXqD4YQUumY9Wj1mcd68qO6EbW762mhxq/ideQD9iuDJB70u5CB
-	Hi9YzT2ic8Ex8DMTqeATFe55T9SkExZJjDAR7O0DAdMy3sVQiCUzMSv8wwpe6DpmYrFCeUCZ5XQ
-	WiR2CkA46SHLmQvjaVUVtPgbVapp5j0qa00Nk8tJ66uB/9eZLP14mfhFE1WL0HszKPKc57YCVCh
-	4BHnyl3OOAsNFj3pExenEZO1YipWyv4Fg+r6fmCSLBUFg6ZRt9Y4b7OBm10tQW+2NsrXyrDQQIw
-	lkPsvJxDX+BLfIBXvUp6aY7Kp1uUK7oIzqnbkIzpITV6M9p/ejJWZQfSBCj36D/c5ZupJfTPzA6
-	TP0Fjlm7VRvdC7w==
-X-Google-Smtp-Source: AGHT+IHBMnbTZGomuG1n3N7c1VKKL0HHRvMz4OMNKmPTOK38skFgFA86Npic8FH8EpY2+AUeUNLQBw==
-X-Received: by 2002:a05:6102:91a:b0:4da:e629:58c5 with SMTP id ada2fe7eead31-4deed3f1364mr10834711137.23.1747074905176;
-        Mon, 12 May 2025 11:35:05 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4dea85d7c32sm5442299137.15.2025.05.12.11.35.05
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 May 2025 11:35:05 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-8783bce9f84so1235601241.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 11:35:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXTY6rheK7y0XSgswNEe16Xr7Yroc3zuvCN0GRF1HxqZlMxVRuTa5JPfM0Wdck3OMYvhuNpmNFstwkO1rod@lists.linux.dev
-X-Received: by 2002:a05:6102:5345:b0:4dd:c8f6:c479 with SMTP id
- ada2fe7eead31-4deed337524mr12552678137.7.1747074904660; Mon, 12 May 2025
- 11:35:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747076776; x=1747681576;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SlaBIoGCDj2YBbfCjPUIByxs5tgRMLkhs+czsg2KRtk=;
+        b=tgt92FThPWziGsg6r5lONqRkFc3lFXcWOiOni7o5FiXEuLoY6Zzzqb34M95JJXfQma
+         67UHzIubov5jT7ZdESODQd0/VmZHeLRIIqThGjM4EyMYL2kBvF14TBNzy9Ro25oXBZGB
+         TkKDUdVxUJSHD0nS9iDjWc2zGwpT3aIvsLoYVo2czLbhyHyxzw+EkpnADmVgKaxh2Qoi
+         kYZDfYeGahQpMg8UFnaDQkGHsxA1drBdKCocFU7OjMxaGomwsOgQjxow4DsUUeO/Rk+U
+         hBnRnc8MFBI3/3N2CqwkLlbDzNWVtCR0LJF9GGrOSLphCDAuwxQulDRFIHuzOnpuImAl
+         wpfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXApDo9kYSw494zEObqAKl77G4wonnj5jUK6D7rxyJ1WXpN6gpA1xHJpLHyQbK/rnNw4i7IAqqOcfMatC5q@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBEm+sGkWwtfp70R9VWLeG/jkAblWwAGouFxQzfrixa2tHXm1B
+	l9ZRRLII9z01ciFX6Wooqgj9QqAzRuRkSuySWQ3cCxhG1X8uyNUOqqG1Ydg872fUz3NbE5y0psX
+	874Oab/QudPWgDTJDRNVkofZBiR0reW55VToh
+X-Gm-Gg: ASbGnctiyBVZKiZhkcLKYiZdfP5x2wGWVHtnIMbxRkz1g23bfbU3pXhjiGqKTEHoo1+
+	6fzrTuiLi8NpSTTDWl9jULtqGFCOCWHDxEn5jGh7Zje6XjTFpdfvwTL4pZ2sT7sr+4gPE9kClXK
+	20kOrynf9YZfzLO4J45jT7EZ5qKcTa6Zu91AVDtq2tiff12mpWlPckAgzyVPsMuZ6QOw==
+X-Google-Smtp-Source: AGHT+IFBi76c9HCC/BtyKlkS54kVR4sp9uMVllBKhvHfQguku4lD2jIfu3weJnzfKcjV/mhhBSWJ2xr+zru+2lPauaI=
+X-Received: by 2002:a05:622a:164e:b0:48a:5b89:473b with SMTP id
+ d75a77b69052e-4948828457bmr338911cf.7.1747076775897; Mon, 12 May 2025
+ 12:06:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250509181737.997167-1-Raju.Rangoju@amd.com> <202505110641.zLT16Dv7-lkp@intel.com>
- <e84f5483-a203-4095-82cd-23fa94c87700@amd.com> <CAMuHMdUAE2umYggDdBjYZJY2-mYwim=P_=4Q00k9b8gB1tNY+Q@mail.gmail.com>
- <8c89410b-80f2-47ad-97fd-6ac10752c040@amd.com>
-In-Reply-To: <8c89410b-80f2-47ad-97fd-6ac10752c040@amd.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 May 2025 20:34:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX_ugjS475udqa1oOOfbOJ+0s_JAKcCyCcdQfPhhaWOTQ@mail.gmail.com>
-X-Gm-Features: AX0GCFvM4NO1qlCePh4MALJ9BqQGETeVVgnvPLy3fBf6nSRJBizZ7wMT2W-NF_U
-Message-ID: <CAMuHMdX_ugjS475udqa1oOOfbOJ+0s_JAKcCyCcdQfPhhaWOTQ@mail.gmail.com>
-Subject: Re: [PATCH] spi: spi_amd: Add HIDDMA basic write support
-To: "Rangoju, Raju" <raju.rangoju@amd.com>
-Cc: kernel test robot <lkp@intel.com>, broonie@kernel.org, oe-kbuild-all@lists.linux.dev, 
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Krishnamoorthi M <krishnamoorthi.m@amd.com>, 
-	Akshata MukundShetty <akshata.mukundshetty@amd.com>
+References: <202505091548.FuKO4b4v-lkp@intel.com> <CAJDx_rg6QHsLK8=i-6D5=B=OL50-RUPP=e9JZgRiAfE3sgwRMg@mail.gmail.com>
+ <aCFKczeBZOp8wiPg@rli9-mobl>
+In-Reply-To: <aCFKczeBZOp8wiPg@rli9-mobl>
+From: Juan Yescas <jyescas@google.com>
+Date: Mon, 12 May 2025 12:06:03 -0700
+X-Gm-Features: AX0GCFvQOxojxpWtWcort3iToPLLjrZi4pJYvap4QTgX7RWu9TBjkS13M4u_8O8
+Message-ID: <CAJDx_rhLT1yEd4Ln0c6dyOuSY_zvdxy1122S+JaxEXb8urT9uw@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-unstable 333/334] include/linux/mmzone.h:1816:8:
+ warning: left shift count is negative
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Raju,
-
-On Mon, 12 May 2025 at 19:55, Rangoju, Raju <raju.rangoju@amd.com> wrote:
-> On 5/12/2025 7:47 PM, Geert Uytterhoeven wrote:
-> > On Mon, 12 May 2025 at 09:29, Rangoju, Raju <raju.rangoju@amd.com> wrote:
-> >> On 5/11/2025 3:51 AM, kernel test robot wrote:
-> >>> kernel test robot noticed the following build warnings:
-> >>>
-> >>> [auto build test WARNING on v6.15-rc5]
-> >>> [also build test WARNING on linus/master]
-> >>> [cannot apply to broonie-spi/for-next next-20250509]
-> >>> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> >>> And when submitting patch, we suggest to use '--base' as documented in
-> >>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >>>
-> >>> url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/spi-spi_amd-Add-HIDDMA-basic-write-support/20250510-021954
-> >>> base:   v6.15-rc5
-> >>> patch link:    https://lore.kernel.org/r/20250509181737.997167-1-Raju.Rangoju%40amd.com
-> >>> patch subject: [PATCH] spi: spi_amd: Add HIDDMA basic write support
-> >>> config: m68k-randconfig-r111-20250511 (https://download.01.org/0day-ci/archive/20250511/202505110641.zLT16Dv7-lkp@intel.com/config)
-> >>> compiler: m68k-linux-gcc (GCC) 14.2.0
-> >>
-> >> Thanks for reporting this. We do not support m68k.
-> >
-> > All write[bwlq]() functions take a volatile void __iomem pointer
-> > (https://elixir.bootlin.com/linux/v6.14.6/source/include/asm-generic/io.h#L174)
-> > while you are passing a void *, so sparse should complain about this
-> > on all architectures.
+On Sun, May 11, 2025 at 6:10=E2=80=AFPM Philip Li <philip.li@intel.com> wro=
+te:
 >
-> My bad, with the following flags included, sparse now complains this on
-> all architectures.
+> On Fri, May 09, 2025 at 01:43:33PM -0700, Juan Yescas wrote:
+> > On Fri, May 9, 2025 at 12:49=E2=80=AFAM kernel test robot <lkp@intel.co=
+m> wrote:
+> > >
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git m=
+m-unstable
+> > > head:   930c125f685d7e8eef566fcd563390b76a28d824
+> > > commit: 16994f2b09a22523885d371caa59f17999686805 [333/334] mm: add CO=
+NFIG_PAGE_BLOCK_ORDER to select page block order
+> > > config: powerpc64-randconfig-003-20250509 (https://download.01.org/0d=
+ay-ci/archive/20250509/202505091548.FuKO4b4v-lkp@intel.com/config)
+> > > compiler: powerpc64-linux-gcc (GCC) 10.5.0
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20250509/202505091548.FuKO4b4v-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202505091548.FuKO4b4v=
+-lkp@intel.com/
+> > >
+> > > All warnings (new ones prefixed by >>):
+> > >
+> > >    In file included from include/vdso/const.h:5,
+> > >                     from include/linux/const.h:4,
+> > >                     from include/linux/bits.h:5,
+> > >                     from include/linux/ratelimit_types.h:5,
+> > >                     from include/linux/printk.h:9,
+> > >                     from include/asm-generic/bug.h:22,
+> > >                     from arch/powerpc/include/asm/bug.h:116,
+> > >                     from include/linux/bug.h:5,
+> > >                     from include/linux/mmdebug.h:5,
+> > >                     from include/linux/mm.h:6,
+> > >                     from mm/sparse.c:5:
+> > >    mm/sparse.c: In function 'usemap_size':
+> > > >> include/linux/mmzone.h:1816:8: warning: left shift count is negati=
+ve [-Wshift-count-negative]
+> > >     1816 |  ((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGE=
+BLOCK_BITS)
+> > >          |        ^~
+> > >    include/uapi/linux/const.h:51:40: note: in definition of macro '__=
+KERNEL_DIV_ROUND_UP'
+> > >       51 | #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d)=
+)
+> > >          |                                        ^
+> > >    mm/sparse.c:301:9: note: in expansion of macro 'BITS_TO_LONGS'
+> > >      301 |  return BITS_TO_LONGS(SECTION_BLOCKFLAGS_BITS) * sizeof(un=
+signed long);
+> > >          |         ^~~~~~~~~~~~~
+> > >    mm/sparse.c:301:23: note: in expansion of macro 'SECTION_BLOCKFLAG=
+S_BITS'
+> > >      301 |  return BITS_TO_LONGS(SECTION_BLOCKFLAGS_BITS) * sizeof(un=
+signed long);
+> > >          |                       ^~~~~~~~~~~~~~~~~~~~~~~
+> > >
+> > >
+> > > vim +1816 include/linux/mmzone.h
+> > >
+> > > d41dee369bff3b Andy Whitcroft 2005-06-23  1814
+> > > 835c134ec4dd75 Mel Gorman     2007-10-16  1815  #define SECTION_BLOCK=
+FLAGS_BITS \
+> > > d9c2340052278d Mel Gorman     2007-10-16 @1816          ((1UL << (PFN=
+_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
+> > > 835c134ec4dd75 Mel Gorman     2007-10-16  1817
+> > >
+> >
+> > Thanks for testing,
+> >
+> > The reason for the warning is because CONFIG_PAGE_BLOCK_ORDER >
+> > CONFIG_ARCH_FORCE_MAX_ORDER.
+> >
+> > This config: powerpc64-randconfig-003-20250509
+> > (https://download.01.org/0day-ci/archive/20250509/202505091548.FuKO4b4v=
+-lkp@intel.com/config)
+> >
+> > is not respecting the range config below. Should the test make sure
+> > that the ranges are valid?
 >
-> -fmax-errors=unlimited -fmax-warnings=unlimited
+> Thanks for the information, I will check the bot side to resolve the prob=
+lem.
 >
-> And sparse is right, this driver is using MMIO
-> > accessors on allocated DMA memory, which is just plain wrong:
-> >
-> >      amd_spi->dma_virt_addr = dma_alloc_coherent(dev, AMD_SPI_HID2_DMA_SIZE,
-> >              &amd_spi->phy_dma_buf, GFP_KERNEL);
-> >
-> >       for (i = 0; left_data >= 8; i++, left_data -= 8)
-> >              *buf_64++ = readq((u8 __iomem *)amd_spi->dma_virt_addr + (i * 8));
-> >
-> >> Will re-spin v2 with necessary changes in Kconfig.
-> >
-> > Please fix the real issue instead ;-)
+> Sorry for the false positive.
 >
-> We are using read*/write* calls instead of memcpy to copy data to/from
-> DMA memory due to performance concerns, as we observed better throughput
-> during continuous read/write compared to the memcpy functions.
+Thanks Philip,
 
-Perhaps your memcpy() copies backwards?
-https://lwn.net/Articles/1016300/
+I tried to reproduce the issue in an ARM64 build by modifying the
+.config manually
 
-There is no guarantee that read*/write* calls work on normal RAM on
-all architectures. It may just crash, as some architectures return
-cookies instead of real pointers when mapping MMIO.
+ $ vim .config
+ $ cat .config | grep MAX_ORDER
+CONFIG_ARCH_FORCE_MAX_ORDER=3D8
+ $ cat .config | grep PAGE_BLOCK
+CONFIG_PAGE_BLOCK_ORDER=3D10
+ $ make -j40 ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu-
+  CALL    scripts/checksyscalls.sh
 
-Gr{oetje,eeting}s,
+However, after I built the kernel, the CONFIG_PAGE_BLOCK_ORDER got
+overridden with
+a valid value.
 
-                        Geert
+ $ cat .config | grep MAX_ORDER
+CONFIG_ARCH_FORCE_MAX_ORDER=3D10
+ $ cat .config | grep PAGE_BLOCK
+CONFIG_PAGE_BLOCK_ORDER=3D10
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Is there a parameter or configuration in the test that indicates not
+to fix the .config files?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+> >
+> > config PAGE_BLOCK_ORDER
+> > int "Page Block Order"
+> > range 1 10 if !ARCH_FORCE_MAX_ORDER
+> > default 10 if !ARCH_FORCE_MAX_ORDER
+> > range 1 ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
+> > default ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
+> >
+> > I can add a check in include/linux/pageblock-flags.h
+> >
+> > /*
+> >  * The PAGE_BLOCK_ORDER, which defines the order for the number of page=
+s
+> >  * that can have a migrate type, must be less or equal to the MAX_PAGE_=
+ORDER,
+> >  * which defines the max order of pages to be allocated by the buddy al=
+locator.
+> >  */
+> > BUILD_BUG_ON_MSG(PAGE_BLOCK_ORDER > MAX_PAGE_ORDER,
+> >         "MAX_PAGE_ORDER must be >=3D PAGE_BLOCK_ORDER");
+> >
+> > Is there any preference?
+> >
+> > > :::::: The code at line 1816 was first introduced by commit
+> > > :::::: d9c2340052278d8eb2ffb16b0484f8f794def4de Do not depend on MAX_=
+ORDER when grouping pages by mobility
+> > >
+> > > :::::: TO: Mel Gorman <mel@csn.ul.ie>
+> > > :::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+> > >
+> > > --
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+> >
