@@ -1,81 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC5929A319
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 22:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D671FC3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 23:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747089635; cv=none; b=ecARSnrSeifRyRu1BVmkW86LfGUtSG7spgmMJFAeFYmGoxHL5GqnnF58z89q+0AYHVXiHTrT13bXMzOjs2VfxZra8MXtmpTfasl+dlUskh/BjTz0Iyrg/5X1V326fQhln25M9DxEj7EHWEeJhx82z5nTf2l+NHWAApwzjIxPUEg=
+	t=1747090836; cv=none; b=U8JvuMzbGY2PpeUtjdO6TQzCXzWniThXUnb8o6ZlBVGw+Bu4H6T9WhxmBs4XsJwmttQxERMgP95FZMmAks69m0uarj89mDEIQJt3v5EiwMUU12VFKmtBl8YHHHDyW6u62kRw1E0JMvPMQJesrzLBtwxg/dO12aNxTHHUcSO30DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747089635; c=relaxed/simple;
-	bh=IsFdOGeVB9Z4dwg7zB3kN/cGUL5kif9E+VoJLXZIFoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YG+2lcy4smRHidQLzF4g3GWvYdi/gCUqQ5qW0N8vYIM1OIYa/nZn7DvX0TDx7RREyFszCd4crN9yhkxEazVz+l3whUtpA8gFHWWUYwyCM0+TSMeR3Sw39InYBHQW/LMiZJFmnJ4lwjyq/j4TRpRVDWxA6SF4l+zGfXeE0Rg8otI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P8Ayp3F9; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1747090836; c=relaxed/simple;
+	bh=MgwD+FUu/elyRuRs/F14sUJe0G6/m4ca2VEE6xORJy4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UhSDROYphuN+lSrD3zMK3iUeGLEmL/55FGgqK7ok+clR9pIFvsn/8mtx85PuiE2fxGP7LDj4QYgEeQqi9pc8FJ86YRj3N6VB056Cyb7HoKLOfBPsg48q1I093JPVjq3GS/2+rQvY8O62P16yI3bEq5tuCy8XawsNFneDZeDnWKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrI5ERg2; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8Ayp3F9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrI5ERg2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747089634; x=1778625634;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IsFdOGeVB9Z4dwg7zB3kN/cGUL5kif9E+VoJLXZIFoU=;
-  b=P8Ayp3F9pZf7ATSuIk3Z4Q+WkUqcdvZ3x/8qDpT822TE6/TTkkUVaipD
-   MOrToJrMZWbboAbhWF9ZrXPon0FkOYNvM6sb5yR2J0XKCrwlzXggqJMf3
-   xD4a4zV6vh+krfdmUpsxE+STAqQKi8ROCAI6Nj9PiDj/O8bePizRwOcK/
-   LfqbKaNTlxD+xOcUMmU5dsYkfv7fxHhWRlCR3RZgr/tbE/+mn2cjVR2QL
-   R6ZmQlMni9eiSp3gmL/tmIdDSnf1vUa+RJDr/l7Ja/20TrikmuUe2mFdM
-   xdI2EwnKjRUhilQ3zvCqLkBq7mBYCTXNTEmJkwboNl06/CQtiVUbCstfN
-   Q==;
-X-CSE-ConnectionGUID: KZhkAEtPSUewQIczzCzAmg==
-X-CSE-MsgGUID: u41HDZg3TriJI7edTJlYqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59571289"
+  t=1747090833; x=1778626833;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MgwD+FUu/elyRuRs/F14sUJe0G6/m4ca2VEE6xORJy4=;
+  b=UrI5ERg2uem1rHCcd0gPBzxtW+LfOsVE1Cw7z1j2XCGw/QuNO0tyg2Mq
+   SUytwgQFMIQe1fMn0G9Xuh70NZK0T/9B5YPbwDAAtFwNlYfwFlr+ilOce
+   ZNCukBBD4pqshWDbAAHCKxg9s94Y3bHEqc9kd9gLLlfzD3hoMxVIoIs99
+   RJh1UBjebCi0Dlm2o8HfzF9DCUErmKDeUVIxu8BtzXTWcZTMWqdsEbPrQ
+   tGycAZ+kpryOEc8BStILJxyLdcYmYKK+OuPAiRj8WEGfWNjy1b+07ZUA3
+   WoNxR+hgJKU4G7pGILvJcw+OC/s8LLczTjQhXSihmJtsSTAvmyfU2q8tM
+   w==;
+X-CSE-ConnectionGUID: KunrwE86RvuMaKOmj178Fg==
+X-CSE-MsgGUID: NLaiLigaQQG0ItvDYRDP+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="74312438"
 X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="59571289"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 15:40:34 -0700
-X-CSE-ConnectionGUID: ZDqxwHf/RZuEU1s9gaIttA==
-X-CSE-MsgGUID: vRw+cxwTQgWXLQrlP7QOxA==
+   d="scan'208";a="74312438"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 16:00:32 -0700
+X-CSE-ConnectionGUID: 4Wu/FS8bTAGeZRIjYXJ0Aw==
+X-CSE-MsgGUID: 0IlKUrttS1eZQmPw7FvOcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="137981734"
+   d="scan'208";a="142641050"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 May 2025 15:40:28 -0700
+  by orviesa005.jf.intel.com with ESMTP; 12 May 2025 16:00:31 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uEbow-000FUb-10;
-	Mon, 12 May 2025 22:40:26 +0000
-Date: Tue, 13 May 2025 06:39:27 +0800
+	id 1uEc8L-000FVb-0U;
+	Mon, 12 May 2025 23:00:29 +0000
+Date: Tue, 13 May 2025 07:00:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>, Junhao Xie <bigfoot@classfun.cn>,
-	Aradhya Bhatia <a-bhatia1@ti.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Gaosheng Cui <cuigaosheng1@huawei.com>,
-	Ricardo Ribalda <ribalda@chromium.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: allegro-dvt: Add Gen 3 IP stateful decoder
- driver
-Message-ID: <202505130610.joo2DpuX-lkp@intel.com>
-References: <20250511144752.504162-3-yassine.ouaissa@allegrodvt.com>
+To: kernel@openeuler.org, Shi Jing <shijing34@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2220/2220]
+ drivers/net/ethernet/huawei/hinic3/hinic3_mag_cfg.c: mag_mpu_cmd_defs.h is
+ included more than once.
+Message-ID: <202505130655.7iroL05g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,37 +62,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250511144752.504162-3-yassine.ouaissa@allegrodvt.com>
 
-Hi Yassine,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.15-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yassine-Ouaissa/media-allegro-dvt-Move-the-current-driver-to-a-subdirectory/20250511-225629
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250511144752.504162-3-yassine.ouaissa%40allegrodvt.com
-patch subject: [PATCH 2/3] media: allegro-dvt: Add Gen 3 IP stateful decoder driver
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250513/202505130610.joo2DpuX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505130610.joo2DpuX-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e1106320058bf1d983657f80490249b4f919ebad
+commit: 0bf0c942a09ba92e1d22e6960464b628dd4408fa [2220/2220] net/hinic3: Synchronize new NIC features and bug fixes
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505130610.joo2DpuX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505130655.7iroL05g-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/huawei/hinic3/hinic3_mag_cfg.c: mag_mpu_cmd_defs.h is included more than once.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
->> ERROR: modpost: "__bad_udelay" [drivers/media/platform/allegro-dvt/al300/al300-vdec.ko] undefined!
+vim +21 drivers/net/ethernet/huawei/hinic3/hinic3_mag_cfg.c
+
+    16	
+    17	#include "ossl_knl.h"
+    18	#include "hinic3_crm.h"
+    19	#include "hinic3_hw.h"
+    20	#include "mag_mpu_cmd.h"
+  > 21	#include "mag_mpu_cmd_defs.h"
+    22	#include "hinic3_nic_io.h"
+    23	#include "hinic3_nic_cfg.h"
+    24	#include "hinic3_srv_nic.h"
+    25	#include "hinic3_nic.h"
+    26	#include "hinic3_common.h"
+  > 27	#include "mag_mpu_cmd_defs.h"
+    28	
 
 -- 
 0-DAY CI Kernel Test Service
