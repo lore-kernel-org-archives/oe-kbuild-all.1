@@ -1,97 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5C31E32D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 14:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1192F2288E3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 14:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747060371; cv=none; b=pgC8dAKNRCYbwtGHoZz52ODJ+/HaBx3SXnR51IBKxsJMvLXuO8TKMyD1bXSzpVfevip/qqD87VK+IeY5bnvlLrCfAgS8V7EWtVcgWpeFc41hoKhUmT8C/mS9T0+MivFltY5869FxqJiWB5KcOXmylxAeDtxEUOtkEFnRQceR6pI=
+	t=1747061034; cv=none; b=AE67oxognDvAJD5GJU+C67o4VBf3erprRkTW2+aDqlC9USTKS87SOY0wQ3h6VMBA+wRDWfPuDLVY7HQuz5Up7z9o4j7pLzYe+aFvFtnwDMWxWMaarkQJfZjgqMEP8GKFt3ytTfaM7SuyZxP8GBCn1mOQxZa7HyagCyyVOmGxUME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747060371; c=relaxed/simple;
-	bh=My4MOxd7J67T+HF20EtXujinBFhqirVY6qjh/lEwc2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nqP8IwJT+2JI1xElmVMBgds3zsJg2uTKUkPEV/M998QKPwMzTXMg3KKcdLU75Yk6bJyVUS8lAKytxNPih263qoAi5Bz3kmzthpzX+SLcZ629mITU7WP1pTtOu0ZR4E6xYngXTEQrwS2pjhXHvEiEMAlqBgDFQGKUh1V7kvcfLTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iNxHPnPS; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1747061034; c=relaxed/simple;
+	bh=aMcY98rvT3+Gv3S6jFWEKI7EYVNx8+l+hDVnIdzv3cE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XTREV4ZK+N150DJ3QoHLytt82rQkb6V1GWEO3f9nzolX7qxIjwFeSePHTp7/Y9/+13RXNZ2Spv8+P0X2da7sv2L3NMo48nwaoLFxPHM5eeK5H3dhIBesTe+R8AqkIMEf5Dor6kBcV5XdjUQ6m1mTY/6bwZVh7YodcSdj5Qujm1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cncGeDDP; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iNxHPnPS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cncGeDDP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747060369; x=1778596369;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=My4MOxd7J67T+HF20EtXujinBFhqirVY6qjh/lEwc2A=;
-  b=iNxHPnPSKhlI27xS5dFHPGYEKVaNc40aIfCIE/gzDX+dkDIDBXp1cSol
-   w/kLP5mkgCg67oL3106s6kxhIL7gDkE69ivrHMMQ+ESzpeBtKQHIyP6sQ
-   WzJ4KgcA42gYhZgvnqiJj6/5aYav5PSlMPEh1JVfGWkjj1IjYcb+pshsK
-   pZwJtzZHooFh7goFDDH46I1FOGXEY45pmRJ/ZmanckHXbF6CyMexe8SID
-   ENYIULvdvOWvuAOD1CCDacs/ufPsR0X1h0OAnuRAmnuznXRUCV2yPzZ11
-   OnmTtz5ir2rK8Cgru08DMVFaItsqPJae+gfWl6WD+pn+fHhnHjuk0kv9b
-   Q==;
-X-CSE-ConnectionGUID: 55YzpC4iTwyr2BIkIyDmMg==
-X-CSE-MsgGUID: xlPh1w+5TlmLRnnFmdqhvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59861635"
+  t=1747061032; x=1778597032;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=aMcY98rvT3+Gv3S6jFWEKI7EYVNx8+l+hDVnIdzv3cE=;
+  b=cncGeDDPXbc+Z8aJeagg5ZrzG7kTIV+4tC+u51MsX3u1vtSPxBDlZ4sX
+   zJchlb3UxClKCToOkR6YhxZFeBuhKRoXsK51qY/oavzbk0BHbvotKMiy/
+   nHMPdadwI9InZsMRi+bs8KF5ojtD5MA31xf2Z4tdfhWZr/ZIWJsyw/VdA
+   FDYSgQYzyhL9j7XoiKexb6A1wNroBV4K/YIMl9EkV+Hr5kR2ph+yJPLJR
+   GSD4jatzbHFtVD0fRR3F9dMcrEETDvxXLMeFgppCbSob7MHy7p59ku8gA
+   ydjcm5M8uK3WEYfpO7Oa7GwYCHMMZXmPoaAJ950zLdsPG4Bl4DNPqp51w
+   A==;
+X-CSE-ConnectionGUID: RiBghPY9Qy2OAczofqhzNA==
+X-CSE-MsgGUID: LayiVpdkT9CrU1Wq4nUErQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="52509453"
 X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; 
-   d="scan'208";a="59861635"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 07:32:49 -0700
-X-CSE-ConnectionGUID: 6dZSJKcWSOaAy5BbNBoL/A==
-X-CSE-MsgGUID: kFZSCgXwSm64FBMFIQz46g==
+   d="scan'208";a="52509453"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 07:43:51 -0700
+X-CSE-ConnectionGUID: GcXqWT1qRNSSUDl8fsiP2A==
+X-CSE-MsgGUID: 53vPXQh7RgWAf3vxil6W6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,282,1739865600"; 
-   d="scan'208";a="142496378"
+   d="scan'208";a="174518166"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 May 2025 07:32:48 -0700
+  by orviesa001.jf.intel.com with ESMTP; 12 May 2025 07:43:48 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uEUCz-000EVL-1A;
-	Mon, 12 May 2025 14:32:45 +0000
-Date: Mon, 12 May 2025 22:32:29 +0800
+	id 1uEUNd-000EVX-38;
+	Mon, 12 May 2025 14:43:45 +0000
+Date: Mon, 12 May 2025 22:42:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:smc-v6 15/21]
- macsmc.c:(.text.apple_smc_cmd_locked+0x2ac): undefined reference to
- `apple_rtkit_send_message'
-Message-ID: <202505122243.XBc9fXsd-lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+	tj@kernel.org, christian.koenig@amd.com,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+	Waiman Long <longman@redhat.com>, simona@ffwll.ch
+Subject: Re: [PATCH 5/7] ttm: add initial memcg integration. (v4)
+Message-ID: <202505122244.IEuTPfWF-lkp@intel.com>
+References: <20250512061913.3522902-6-airlied@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250512061913.3522902-6-airlied@gmail.com>
 
-tree:   https://github.com/AsahiLinux/linux smc-v6
-head:   0f1fd213b9a2dd3a57b0f75556b6bc90e9be0ed4
-commit: 248373f1a3ed3c62db91ea3fa83636d843e3d67d [15/21] mfd: Add Apple Silicon System Management Controller
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20250512/202505122243.XBc9fXsd-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250512/202505122243.XBc9fXsd-lkp@intel.com/reproduce)
+Hi Dave,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations/20250512-182204
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250512061913.3522902-6-airlied%40gmail.com
+patch subject: [PATCH 5/7] ttm: add initial memcg integration. (v4)
+config: riscv-randconfig-001-20250512 (https://download.01.org/0day-ci/archive/20250512/202505122244.IEuTPfWF-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250512/202505122244.IEuTPfWF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505122243.XBc9fXsd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505122244.IEuTPfWF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/mfd/macsmc.o: in function `apple_smc_cmd_locked':
->> macsmc.c:(.text.apple_smc_cmd_locked+0x2ac): undefined reference to `apple_rtkit_send_message'
-   arm-linux-gnueabi-ld: drivers/mfd/macsmc.o: in function `apple_smc_write_atomic':
->> macsmc.c:(.text.apple_smc_write_atomic+0x270): undefined reference to `apple_rtkit_send_message'
->> arm-linux-gnueabi-ld: macsmc.c:(.text.apple_smc_write_atomic+0x320): undefined reference to `apple_rtkit_poll'
-   arm-linux-gnueabi-ld: drivers/mfd/macsmc.o: in function `apple_smc_remove':
->> macsmc.c:(.text.apple_smc_remove+0x15c): undefined reference to `apple_rtkit_is_running'
->> arm-linux-gnueabi-ld: macsmc.c:(.text.apple_smc_remove+0x1b0): undefined reference to `apple_rtkit_quiesce'
-   arm-linux-gnueabi-ld: drivers/mfd/macsmc.o: in function `apple_smc_probe':
->> macsmc.c:(.text.apple_smc_probe+0x154): undefined reference to `devm_apple_rtkit_init'
->> arm-linux-gnueabi-ld: macsmc.c:(.text.apple_smc_probe+0x21c): undefined reference to `apple_rtkit_wake'
->> arm-linux-gnueabi-ld: macsmc.c:(.text.apple_smc_probe+0x294): undefined reference to `apple_rtkit_start_ep'
->> arm-linux-gnueabi-ld: macsmc.c:(.text.apple_smc_probe+0x3c8): undefined reference to `apple_rtkit_send_message'
->> arm-linux-gnueabi-ld: macsmc.c:(.text.apple_smc_probe+0x770): undefined reference to `apple_rtkit_is_running'
->> arm-linux-gnueabi-ld: macsmc.c:(.text.apple_smc_probe+0x7c8): undefined reference to `apple_rtkit_quiesce'
+   drivers/gpu/drm/xe/xe_bo.c: In function 'xe_bo_evict_pinned':
+>> drivers/gpu/drm/xe/xe_bo.c:1147:2: warning: the address of 'ctx' will always evaluate as 'true' [-Waddress]
+     ret = ttm_bo_populate(&bo->ttm, &ctx);
+     ^~~
+>> drivers/gpu/drm/xe/xe_bo.c:1147:8: error: too few arguments to function 'ttm_bo_populate'
+     ret = ttm_bo_populate(&bo->ttm, &ctx);
+           ^~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_bo_types.h:12:0,
+                    from drivers/gpu/drm/xe/xe_bo.h:11,
+                    from drivers/gpu/drm/xe/xe_bo.c:6:
+   include/drm/ttm/ttm_bo.h:494:5: note: declared here
+    int ttm_bo_populate(struct ttm_buffer_object *bo,
+        ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_bo.c: In function 'xe_bo_restore_pinned':
+   drivers/gpu/drm/xe/xe_bo.c:1208:2: warning: the address of 'ctx' will always evaluate as 'true' [-Waddress]
+     ret = ttm_bo_populate(&bo->ttm, &ctx);
+     ^~~
+   drivers/gpu/drm/xe/xe_bo.c:1208:8: error: too few arguments to function 'ttm_bo_populate'
+     ret = ttm_bo_populate(&bo->ttm, &ctx);
+           ^~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_bo_types.h:12:0,
+                    from drivers/gpu/drm/xe/xe_bo.h:11,
+                    from drivers/gpu/drm/xe/xe_bo.c:6:
+   include/drm/ttm/ttm_bo.h:494:5: note: declared here
+    int ttm_bo_populate(struct ttm_buffer_object *bo,
+        ^~~~~~~~~~~~~~~
+
+
+vim +/ttm_bo_populate +1147 drivers/gpu/drm/xe/xe_bo.c
+
+00c8efc3180f0c Thomas Hellström 2025-03-05  1096  
+36919ebeaacab3 Matthew Auld     2023-04-06  1097  /**
+36919ebeaacab3 Matthew Auld     2023-04-06  1098   * xe_bo_evict_pinned() - Evict a pinned VRAM object to system memory
+36919ebeaacab3 Matthew Auld     2023-04-06  1099   * @bo: The buffer object to move.
+36919ebeaacab3 Matthew Auld     2023-04-06  1100   *
+75fd04f276de31 Nitin Gote       2025-01-06  1101   * On successful completion, the object memory will be moved to system memory.
+36919ebeaacab3 Matthew Auld     2023-04-06  1102   *
+36919ebeaacab3 Matthew Auld     2023-04-06  1103   * This is needed to for special handling of pinned VRAM object during
+36919ebeaacab3 Matthew Auld     2023-04-06  1104   * suspend-resume.
+36919ebeaacab3 Matthew Auld     2023-04-06  1105   *
+36919ebeaacab3 Matthew Auld     2023-04-06  1106   * Return: 0 on success. Negative error code on failure.
+36919ebeaacab3 Matthew Auld     2023-04-06  1107   */
+36919ebeaacab3 Matthew Auld     2023-04-06  1108  int xe_bo_evict_pinned(struct xe_bo *bo)
+36919ebeaacab3 Matthew Auld     2023-04-06  1109  {
+36919ebeaacab3 Matthew Auld     2023-04-06  1110  	struct ttm_place place = {
+36919ebeaacab3 Matthew Auld     2023-04-06  1111  		.mem_type = XE_PL_TT,
+36919ebeaacab3 Matthew Auld     2023-04-06  1112  	};
+36919ebeaacab3 Matthew Auld     2023-04-06  1113  	struct ttm_placement placement = {
+36919ebeaacab3 Matthew Auld     2023-04-06  1114  		.placement = &place,
+36919ebeaacab3 Matthew Auld     2023-04-06  1115  		.num_placement = 1,
+36919ebeaacab3 Matthew Auld     2023-04-06  1116  	};
+36919ebeaacab3 Matthew Auld     2023-04-06  1117  	struct ttm_operation_ctx ctx = {
+36919ebeaacab3 Matthew Auld     2023-04-06  1118  		.interruptible = false,
+6bd49cc1a8924c Thomas Hellström 2024-10-31  1119  		.gfp_retry_mayfail = true,
+36919ebeaacab3 Matthew Auld     2023-04-06  1120  	};
+36919ebeaacab3 Matthew Auld     2023-04-06  1121  	struct ttm_resource *new_mem;
+36919ebeaacab3 Matthew Auld     2023-04-06  1122  	int ret;
+36919ebeaacab3 Matthew Auld     2023-04-06  1123  
+36919ebeaacab3 Matthew Auld     2023-04-06  1124  	xe_bo_assert_held(bo);
+36919ebeaacab3 Matthew Auld     2023-04-06  1125  
+36919ebeaacab3 Matthew Auld     2023-04-06  1126  	if (WARN_ON(!bo->ttm.resource))
+36919ebeaacab3 Matthew Auld     2023-04-06  1127  		return -EINVAL;
+36919ebeaacab3 Matthew Auld     2023-04-06  1128  
+36919ebeaacab3 Matthew Auld     2023-04-06  1129  	if (WARN_ON(!xe_bo_is_pinned(bo)))
+36919ebeaacab3 Matthew Auld     2023-04-06  1130  		return -EINVAL;
+36919ebeaacab3 Matthew Auld     2023-04-06  1131  
+a19d1db9a3fa89 Matthew Brost    2024-10-31  1132  	if (!xe_bo_is_vram(bo))
+a19d1db9a3fa89 Matthew Brost    2024-10-31  1133  		return 0;
+36919ebeaacab3 Matthew Auld     2023-04-06  1134  
+36919ebeaacab3 Matthew Auld     2023-04-06  1135  	ret = ttm_bo_mem_space(&bo->ttm, &placement, &new_mem, &ctx);
+36919ebeaacab3 Matthew Auld     2023-04-06  1136  	if (ret)
+36919ebeaacab3 Matthew Auld     2023-04-06  1137  		return ret;
+36919ebeaacab3 Matthew Auld     2023-04-06  1138  
+36919ebeaacab3 Matthew Auld     2023-04-06  1139  	if (!bo->ttm.ttm) {
+36919ebeaacab3 Matthew Auld     2023-04-06  1140  		bo->ttm.ttm = xe_ttm_tt_create(&bo->ttm, 0);
+36919ebeaacab3 Matthew Auld     2023-04-06  1141  		if (!bo->ttm.ttm) {
+36919ebeaacab3 Matthew Auld     2023-04-06  1142  			ret = -ENOMEM;
+36919ebeaacab3 Matthew Auld     2023-04-06  1143  			goto err_res_free;
+36919ebeaacab3 Matthew Auld     2023-04-06  1144  		}
+36919ebeaacab3 Matthew Auld     2023-04-06  1145  	}
+36919ebeaacab3 Matthew Auld     2023-04-06  1146  
+fc5d96670eb254 Thomas Hellström 2024-09-11 @1147  	ret = ttm_bo_populate(&bo->ttm, &ctx);
+36919ebeaacab3 Matthew Auld     2023-04-06  1148  	if (ret)
+36919ebeaacab3 Matthew Auld     2023-04-06  1149  		goto err_res_free;
+36919ebeaacab3 Matthew Auld     2023-04-06  1150  
+36919ebeaacab3 Matthew Auld     2023-04-06  1151  	ret = dma_resv_reserve_fences(bo->ttm.base.resv, 1);
+36919ebeaacab3 Matthew Auld     2023-04-06  1152  	if (ret)
+36919ebeaacab3 Matthew Auld     2023-04-06  1153  		goto err_res_free;
+36919ebeaacab3 Matthew Auld     2023-04-06  1154  
+36919ebeaacab3 Matthew Auld     2023-04-06  1155  	ret = xe_bo_move(&bo->ttm, false, &ctx, new_mem, NULL);
+36919ebeaacab3 Matthew Auld     2023-04-06  1156  	if (ret)
+36919ebeaacab3 Matthew Auld     2023-04-06  1157  		goto err_res_free;
+36919ebeaacab3 Matthew Auld     2023-04-06  1158  
+36919ebeaacab3 Matthew Auld     2023-04-06  1159  	return 0;
+36919ebeaacab3 Matthew Auld     2023-04-06  1160  
+36919ebeaacab3 Matthew Auld     2023-04-06  1161  err_res_free:
+36919ebeaacab3 Matthew Auld     2023-04-06  1162  	ttm_resource_free(&bo->ttm, &new_mem);
+36919ebeaacab3 Matthew Auld     2023-04-06  1163  	return ret;
+36919ebeaacab3 Matthew Auld     2023-04-06  1164  }
+36919ebeaacab3 Matthew Auld     2023-04-06  1165  
 
 -- 
 0-DAY CI Kernel Test Service
