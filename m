@@ -1,134 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704B729A313
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0C929A304
 	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 May 2025 22:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747089632; cv=none; b=ihDVsnaBjNou45zDKEfjAj6Y2OoLTI7PCH9f4gTxz2ILBKeZDMu1GV0Rt8arN6dSlfbbrRUJAeJG3wAistN1QYqLoo9CrfQ8i/fbj+Mu16lPFdea2IU6i5mm3z9hrt0iTJHqOLsNYFGuNv8WaF+VOaFNWUDXsRDooXXh5KYYnwg=
+	t=1747089632; cv=none; b=cVKGcPNXJRZb022CiJVbiW9Jh7WzY1PQmu7B9i414Qt63vCRpnuUqolyOt6OaqrVYQDNCXRFDRpnp9hazd9B/UGpOyJMTWKYDxvd5MVH5VbzTm+2+gFpYDhCDyFiekJOGwvHZZ3B3McTDnH7OGHTP7DTbxM/ldYTuvBYRPIX+1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747089632; c=relaxed/simple;
-	bh=VuiS0D1YG4GWVYhms8pgr0gb1FNy7qE4w2qE07T7WWs=;
+	bh=OC6BNt/psi1pvdmQlAGy6RuvzoX+VEKdlfEKsTmj/NI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qkyhN1JJnevjG9Z2WnOm++CUE7Z61pUzSHPubqesUjtbxJ5WCpRu+qBjOJ6KpRyDcaTwqBtyZBmCeC3ZuOEwD9Fjz+Zl5EUC0q9l4iCHnKhmAsPrbGsR2gb5Ii2H7ZOjUcYALBjrVpiP4sLvI+LuMyXrghr9JIxu208Tc8XTznc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m79zLcS7; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=MA5yqL0WJ9BJAGvk1E9evCuYnGM0B/aBXTW4JPURrNOA3+dQErmBkWlxkosftk1i/QFCags5EFqZBGsg14CUg7EGkSOrqpvPnu5XpgZi4Y2A2V86GjC+xq4Q02g16KAh3PF02wWL/Y5hZUNpFBQQ0WO73xIw1p++A5Zr4WoF5GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFEsME3/; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m79zLcS7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFEsME3/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1747089630; x=1778625630;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VuiS0D1YG4GWVYhms8pgr0gb1FNy7qE4w2qE07T7WWs=;
-  b=m79zLcS7eIJBFpkdpKafEOPEPPOQzC30CrJHvjRbd45N6bz+HjQpI95N
-   IiUVlydM/x1GwkAQQkj82xj3dfiU/AsUgWzeHOuHgNnzkt7dFcmVfC0et
-   S2wq3a2u62DOXxbdzek8+LcQNP2C6r40uutYGvJ5+4A+oWfUcKIe4XItB
-   Gwdm1JFAnD64ZcmOtXrH6GtRZhZudjI0p2niWAu9QAP+Gx7idrzna6AWl
-   fAq2NWgpeuD+gQVQOaCSIL6o+Da+n8MSCbQvCs7vChZLskbOKd9p6lXyQ
-   CPUhYYdVcuimE6cB/1r9ajYTOjokNEVuPg2uXjG8uO14d4V8zmrlbVb2Y
-   A==;
-X-CSE-ConnectionGUID: ulWKmsSPTuy6Gdzvy+Tvxw==
-X-CSE-MsgGUID: M2Lt40iLT3SsfQvX5hXZ5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="48607071"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OC6BNt/psi1pvdmQlAGy6RuvzoX+VEKdlfEKsTmj/NI=;
+  b=fFEsME3/HLdJrh8t0mnJkIAy4qPwCGbhwIfIhSbuoI2Gr4lQd9grDjQr
+   Whl/1Q4EArnm5CuwE5ZN5PP2lpZpHtFDFbjwhKsjPmglPoZAGmTeYgcKC
+   9X1zV1Vv3mVp9NwdJkGMn6NL69YYEfvQHfT7Flm9LXyEE6B2yJPMG+6fw
+   GMBEda1Kx9z4Q/DoeSDqHYxDrxW9lJRQr2RxbUirVQl2u29rjWLn17Q/L
+   OOZAgsK0FKaKmrXYaueggVhsBQHtDrToUIGiyqSVj2+qKZAPQ0S4ciyQs
+   ENF6AncFHThRE/Dox9R8hKN8x33ppnSm+Sc5CbBGhMCzBkS0rU5VlfM4v
+   g==;
+X-CSE-ConnectionGUID: SblDYZ5fT5yecW03RMTpLg==
+X-CSE-MsgGUID: 3IgKO7kbSf6iv4dS/Hr4gA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59571287"
 X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="48607071"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 15:40:29 -0700
-X-CSE-ConnectionGUID: QiB0QPDcRNCJcKTdQg8V2Q==
-X-CSE-MsgGUID: 7ZdKgZOZSnmuYNdTt/vNBw==
+   d="scan'208";a="59571287"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 15:40:30 -0700
+X-CSE-ConnectionGUID: hSa9TGkHSB6uX6uu4R7NWA==
+X-CSE-MsgGUID: g3a6eKhNTGGRcB7KIxOL9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="160784297"
+   d="scan'208";a="137981744"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 May 2025 15:40:28 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 12 May 2025 15:40:28 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uEbow-000FUe-15;
+	id 1uEbow-000FUZ-0w;
 	Mon, 12 May 2025 22:40:26 +0000
-Date: Tue, 13 May 2025 06:39:28 +0800
+Date: Tue, 13 May 2025 06:39:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>,
-	Cyril Bur <cyrilbur@tenstorrent.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [linux-next:master 8977/10491] arch/riscv/kernel/signal.c:136:15:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202505130601.jp4IyETY-lkp@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nirmoy Das <nirmoy.das@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: ERROR: modpost: "gt_reset_failure" [drivers/gpu/drm/xe/xe.ko]
+ undefined!
+Message-ID: <202505130641.mslg7QUr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   edef457004774e598fc4c1b7d1d4f0bcd9d0bb30
-commit: f6bff7827a48e59cff1ef98aae72452d65174e0c [8977/10491] riscv: uaccess: use 'asm_goto_output' for get_user()
-config: riscv-randconfig-r121-20250512 (https://download.01.org/0day-ci/archive/20250513/202505130601.jp4IyETY-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250513/202505130601.jp4IyETY-lkp@intel.com/reproduce)
+Hi Lucas,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   627277ba7c2398dc4f95cc9be8222bb2d9477800
+commit: 08b5a4798713f4331317272752b27b1c4f6a246d drm/xe: Allow to compile out debugfs
+date:   9 months ago
+config: parisc-randconfig-001-20250513 (https://download.01.org/0day-ci/archive/20250513/202505130641.mslg7QUr-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505130641.mslg7QUr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505130601.jp4IyETY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505130641.mslg7QUr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/signal.c:136:15: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +136 arch/riscv/kernel/signal.c
-
-8ee0b41898fa26 Greentime Hu 2023-06-05  110  
-8ee0b41898fa26 Greentime Hu 2023-06-05  111  /*
-8ee0b41898fa26 Greentime Hu 2023-06-05  112   * Restore Vector extension context from the user's signal frame. This function
-8ee0b41898fa26 Greentime Hu 2023-06-05  113   * assumes a valid extension header. So magic and size checking must be done by
-8ee0b41898fa26 Greentime Hu 2023-06-05  114   * the caller.
-8ee0b41898fa26 Greentime Hu 2023-06-05  115   */
-8ee0b41898fa26 Greentime Hu 2023-06-05  116  static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
-8ee0b41898fa26 Greentime Hu 2023-06-05  117  {
-8ee0b41898fa26 Greentime Hu 2023-06-05  118  	long err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  119  	struct __sc_riscv_v_state __user *state = sc_vec;
-8ee0b41898fa26 Greentime Hu 2023-06-05  120  	void __user *datap;
-8ee0b41898fa26 Greentime Hu 2023-06-05  121  
-c27fa53b858b4e Björn Töpel  2024-04-03  122  	/*
-c27fa53b858b4e Björn Töpel  2024-04-03  123  	 * Mark the vstate as clean prior performing the actual copy,
-c27fa53b858b4e Björn Töpel  2024-04-03  124  	 * to avoid getting the vstate incorrectly clobbered by the
-c27fa53b858b4e Björn Töpel  2024-04-03  125  	 *  discarded vector state.
-c27fa53b858b4e Björn Töpel  2024-04-03  126  	 */
-c27fa53b858b4e Björn Töpel  2024-04-03  127  	riscv_v_vstate_set_restore(current, regs);
-c27fa53b858b4e Björn Töpel  2024-04-03  128  
-8ee0b41898fa26 Greentime Hu 2023-06-05  129  	/* Copy everything of __sc_riscv_v_state except datap. */
-8ee0b41898fa26 Greentime Hu 2023-06-05  130  	err = __copy_from_user(&current->thread.vstate, &state->v_state,
-8ee0b41898fa26 Greentime Hu 2023-06-05  131  			       offsetof(struct __riscv_v_ext_state, datap));
-8ee0b41898fa26 Greentime Hu 2023-06-05  132  	if (unlikely(err))
-8ee0b41898fa26 Greentime Hu 2023-06-05  133  		return err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  134  
-8ee0b41898fa26 Greentime Hu 2023-06-05  135  	/* Copy the pointer datap itself. */
-8ee0b41898fa26 Greentime Hu 2023-06-05 @136  	err = __get_user(datap, &state->v_state.datap);
-8ee0b41898fa26 Greentime Hu 2023-06-05  137  	if (unlikely(err))
-8ee0b41898fa26 Greentime Hu 2023-06-05  138  		return err;
-8ee0b41898fa26 Greentime Hu 2023-06-05  139  	/*
-8ee0b41898fa26 Greentime Hu 2023-06-05  140  	 * Copy the whole vector content from user space datap. Use
-8ee0b41898fa26 Greentime Hu 2023-06-05  141  	 * copy_from_user to prevent information leak.
-8ee0b41898fa26 Greentime Hu 2023-06-05  142  	 */
-c27fa53b858b4e Björn Töpel  2024-04-03  143  	return copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
-8ee0b41898fa26 Greentime Hu 2023-06-05  144  }
-8ee0b41898fa26 Greentime Hu 2023-06-05  145  #else
-8ee0b41898fa26 Greentime Hu 2023-06-05  146  #define save_v_state(task, regs) (0)
-8ee0b41898fa26 Greentime Hu 2023-06-05  147  #define __restore_v_state(task, regs) (0)
-8ee0b41898fa26 Greentime Hu 2023-06-05  148  #endif
-8ee0b41898fa26 Greentime Hu 2023-06-05  149  
-
-:::::: The code at line 136 was first introduced by commit
-:::::: 8ee0b41898fa26f66e32237f179b6989c65600d6 riscv: signal: Add sigcontext save/restore for vector
-
-:::::: TO: Greentime Hu <greentime.hu@sifive.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-ts4800.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-altera.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-altera-msi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mt7621.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_parisc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/esp32_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/twl4030_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-google-stadiaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+>> ERROR: modpost: "gt_reset_failure" [drivers/gpu/drm/xe/xe.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
