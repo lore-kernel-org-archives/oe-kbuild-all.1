@@ -1,207 +1,249 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502421BC3F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 20:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65CC2045B5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 22:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747168768; cv=none; b=qNMWDsLOTfEfuzXUn9GktFS3fmxah5zr3QzYpiHh0QdTvUYXn93We4YP6eKXH2v1UgoOYcCNf2EXg+OPmr3zOQ2mtLNMgPN3oZHGqkcDnVkt2XPwaQva5TbLq4X/hiy9aubOWjCj//f4JKrGSEesC5ys/SABXzfx2i1uEy+Grrw=
+	t=1747174756; cv=none; b=gS38vEpVZ/okG8Jaoixv+uIJ74eMKmpWD1JPf+RSuutngL1FpjzpDZlWjqvOcbi3HsrLVX2WBUd7WTZkej/TRZHa3zNkusrnN5RWzOCWrAsqZDNjuJlUd2t/7YJ68roTQ/G18tX7LTWz9umF3kQGVLjXhqw9cFG0NuIqhgtY7VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747168768; c=relaxed/simple;
-	bh=TJafEwdeqjrP6AcWhb1FzDP3OG9jHCSl2xxI4+oU+mY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lX/9wojYAxp898gZVQHuGCZ4ZF6PSypA/X7avTkY8WDIc2xCndHsCJG7WKroUKJd5LAPrfCnY26mc3echcBF6kBihO4jyBb6auGAUMpIr/GbZQWxknx7TRHhlH5WL1JO+Z0ADVQuhOTd4RNKxgkkxi7Bna1xgs7FRvfqoi21C3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZCjW3StS; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1747174756; c=relaxed/simple;
+	bh=fqeZJOEOY2aVWBB3599olrvu/ImNPnFHF5EeqlYBts8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q/d+qmSW0lXnk993a7WR5QUldCR8/M46/BT6DgIDSuaBuQYv2Z1S/ioIHO2f3zAzWV0IQO+RKTa7DTybSLxL3T3scFUVkJmABjhv0gwqoyhC5ZTDVN6db06Q+QN69onsZ1ILTfGd/iFv1sCiVjC2JkVi+FfoRAWjgEqGKkb+p44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=alIByoEJ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZCjW3StS"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5fc9c49c8adso6392333a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 13:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1747168763; x=1747773563; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=juaG+AmbI9q0dBfqd6nXXGHR850jBoYkaw6Nn2riiLQ=;
-        b=ZCjW3StSWtdbKCKDqbzniM1ZusF0WN0/1yElejma5oCWkz+WBoTLWjUiKgoB/W7tc3
-         6CXN+4i0iw3Ai4bc6yTtidctRfPhhdhFaQZfcusAXuiORxkpV847rWC2+D2sK4ma5+PQ
-         c9TXNFT5taAOJpcsWuLqn4jMny1vaVylmdljZdx2mB8G2hagWI5YVYUntll5LNGMcL9u
-         xjHJ3YB1OuuSy3cFIbkh8gqQukkzcteZem0WbIbKCkZxyRrl7fnfh4T1Uy4S2UyXK94e
-         uKMZJZQbnwuh4T0DuwjeUH9AhZ2quKMgD2cU08Qn0C9GrcCZNjI1Z8fy0Qe49WZGWBn2
-         AZVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747168763; x=1747773563;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=juaG+AmbI9q0dBfqd6nXXGHR850jBoYkaw6Nn2riiLQ=;
-        b=M0FKljj2A4hsvWVvmdq2MT3uJVe2SfFpWzUG2n2guFYjZ7nURFZjgTOMSx63XxAysp
-         +yMklIQzvU5ORhUdbTEaiAxgT58btStCu2zF/74BRA/FZ50d4q1bm2Te82imoXT9TvNI
-         Nshd5WuR75mQOTgpLOYha4BN1/XmrLejQ9RKKymOcHU9IG5LBV4J+q2erbR4EHZBMeEk
-         HPTKMY7GGR9HuhawR0MI4Def4PE8+kWdMB0fd4jZrdy7W6CBZXp1HLQja9RB5Nil4NFU
-         Ua47Iw4wobnew4XLKR7Q04PSiODSGVD2f8ATI3CbwxW70aeHRAvYtnmX4PkImZ2X/2QX
-         vLbg==
-X-Forwarded-Encrypted: i=1; AJvYcCW6UAuUeNKFSDZVrVFMbDsZd/mggO8uV83XsRaWD8fy5v6SKh8oG8LmZIrK3Qndyh/nsnJfvLbLx7BtCpF9@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8x0kIblmKdyyxHYkdCot2vOVYL8XPwdk7R+IJDX/uDMPv+tr+
-	jDlGAGF98EK2af9U6hxpa1sPzqD26l4na5f1NJhYLommkSZs60wtuRQgoWrWfyk=
-X-Gm-Gg: ASbGncsqg672rt/UWQF7DzRgr3sRb++jO2pNR+UMBbsLTMgKGdXE94UJVUxO1xwca0w
-	+mO8Nx2Nui1PUzNtyh85wF7hSCJZEIf7V17BYgQQAMwuN2obL6/ha9pEi3JyTUNU/fC69EOK9du
-	Dsh/CiFFHvpNVq6Rj7DeJvqZe+6ZABRhyMuSgtzC5ylmdGDa2w0H42LLzeTYc3FJY5UqKlFK74S
-	e3nNeRLo/rYUGM837SFrQ1Our13telFJrSy1YKdPTZFDzlJ2bYr51CUvaKitipp2+t2IOW9OgVd
-	yW/0AwbjQ5jLnqWUIFVfD12abDRGk9LobF2DK5lOkHPXdaFxkVMugUrI
-X-Google-Smtp-Source: AGHT+IEWi0WXmXZATUkUPYXouuDIbFY4Wie5OHgl0qQme2z1Ey//pJl2AcKhRMhJ30qxF29lDPOGiA==
-X-Received: by 2002:a17:907:7f93:b0:aca:d5a1:c324 with SMTP id a640c23a62f3a-ad4f6f2d088mr92332366b.0.1747168763600;
-        Tue, 13 May 2025 13:39:23 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ad2417f2341sm558309166b.19.2025.05.13.13.39.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 13:39:22 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Chanwoo Choi <chanwoo@kernel.org>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v2] PM / devfreq: sun8i-a33-mbus: Simplify by using more devm functions
-Date: Tue, 13 May 2025 22:39:02 +0200
-Message-ID: <20250513203908.205060-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alIByoEJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747174753; x=1778710753;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fqeZJOEOY2aVWBB3599olrvu/ImNPnFHF5EeqlYBts8=;
+  b=alIByoEJ4gJ+nGskFVevvoBjqLH69anhLZLHqG003SBAoeAr4B0v9URJ
+   S20iLfcz57FZfqDrpqw0a7syEv7bxHPtprR0zQxnyeSMXFKwbOBeooLm3
+   zMKn2Fi2ze/ytsnmj5Y5KeoM3CMskDNnfuLW/fMPk3Es6QdCyNY+SB4je
+   VbL/Fm4cFuywacVi/E/Aj8G9ct+Y3l3CxmVLgFPDxw9Pb98SMWacNZcmR
+   8EuA5Lwy6SkuS2DxQ9f51KOSjvHSV6R/cOa5zo6dA0OWeLh+1JM1OSqml
+   sJW4CB2VfY7eallWeHGwIRN7IeZy5T6AqTmHOF5x9hMNGxCWBjezg3IEV
+   Q==;
+X-CSE-ConnectionGUID: 2h8teC6zQkG8U4nvhMF45A==
+X-CSE-MsgGUID: mRBYuUneSniqBzgIWiYxmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="48156550"
+X-IronPort-AV: E=Sophos;i="6.15,286,1739865600"; 
+   d="scan'208";a="48156550"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 15:19:13 -0700
+X-CSE-ConnectionGUID: VvTFqD7DS6qBfKMgls7JIw==
+X-CSE-MsgGUID: mLGuGxC8TGm/YKdAHuzHNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,286,1739865600"; 
+   d="scan'208";a="138825627"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 13 May 2025 15:19:10 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uExxs-000GRz-0m;
+	Tue, 13 May 2025 22:19:08 +0000
+Date: Wed, 14 May 2025 06:18:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Can Ayberk Demir <ayberkdemir@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Michal Simek <monstr@monstr.eu>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Can Ayberk DEMIR <ayberkdemir@gmail.com>
+Subject: Re: [PATCH v2] drivers: net: axienet: safely drop oversized RX frames
+Message-ID: <202505140618.dkbky4zD-lkp@intel.com>
+References: <20250509063727.35560-1-ayberkdemir@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4304; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=TJafEwdeqjrP6AcWhb1FzDP3OG9jHCSl2xxI4+oU+mY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBoI63sY58Twokv5DGNH6EVESTwuHi9qJrQuljDW 0TZ/o6436uJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaCOt7AAKCRCPgPtYfRL+ ThdmCACTnKilk91CPrcwCCc8E6w6Qkeu1s7JX1d7nbxmop8SKujh1EkNmq3VZsh6Jmr/lrNMsq0 TFJEt8AsI9PDKE8pgk/O0HnavuU+wFSXMqkXvfho7F/bZ3AH0YqB6FzcVQTq2SdjR/fdfYedDAN xq5za9VcjV9tJsNETgJBu4lk1F34qD5+EMsTcWU3zInCUMoiJjsvox/8DV/olg3mWnNDgbiZPbr 6FfbQaBKYIais3/ScGfPoThGaKJgqhNGJur1JjCHlG4tuO44gtIcd4lMg5gDiiuj+ox/6MqCxUy Q6n84JggAIId8OQOhKXPjNL9k8hlNKcF5kcVyRqNgrwaAkO/
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250509063727.35560-1-ayberkdemir@gmail.com>
 
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Hi Can,
 
-Use devm allocators for enabling the bus clock and
-clk_rate_exclusive_get(). This simplifies error handling and the remove
-callback.
+kernel test robot noticed the following build errors:
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
-Hello,
+[auto build test ERROR on net/main]
+[also build test ERROR on net-next/main linus/master v6.15-rc6 next-20250513]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Wed, May 14, 2025 at 01:25:51AM +0900, Chanwoo Choi wrote in the
-thread at
-https://lore.kernel.org/linux-pm/CAGTfZH2uk-6-R5QNZwsssQ1UtnqexKeo=e=SsXB26NMwqf8c9g@mail.gmail.com:
-> Instead of fix-up patch, I'd like you to send the v2 of patch[1].
-> [1] https://patchwork.kernel.org/project/linux-pm/patch/20241111112237.336310-2-u.kleine-koenig@baylibre.com/
+url:    https://github.com/intel-lab-lkp/linux/commits/Can-Ayberk-Demir/drivers-net-axienet-safely-drop-oversized-RX-frames/20250509-143942
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250509063727.35560-1-ayberkdemir%40gmail.com
+patch subject: [PATCH v2] drivers: net: axienet: safely drop oversized RX frames
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20250514/202505140618.dkbky4zD-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505140618.dkbky4zD-lkp@intel.com/reproduce)
 
-Ah, then I misunderstood. Here comes the requested v2. The changes since
-(implicit) v1 are:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505140618.dkbky4zD-lkp@intel.com/
 
- - Fix the build failure that I introduced by forgetting to add the dev
-   parameter to devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
+All errors (new ones prefixed by >>):
 
- - Added the Reviewed-by tag for Chen-Yu.
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_rx_poll':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1227:45: error: 'ndev' undeclared (first use in this function); did you mean 'cdev'?
+    1227 |                                 netdev_warn(ndev,
+         |                                             ^~~~
+         |                                             cdev
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1227:45: note: each undeclared identifier is reported only once for each function it appears in
 
- - Actually compile tested. I would have sworn I did that for v1
-   already, but that is proven to be a perjury now. Don't know how that
-   slipped through.
 
-Best regards and again sorry for the mess
-Uwe
+vim +1227 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
 
- drivers/devfreq/sun8i-a33-mbus.c | 38 ++++++++------------------------
- 1 file changed, 9 insertions(+), 29 deletions(-)
+  1184	
+  1185	/**
+  1186	 * axienet_rx_poll - Triggered by RX ISR to complete the BD processing.
+  1187	 * @napi:	Pointer to NAPI structure.
+  1188	 * @budget:	Max number of RX packets to process.
+  1189	 *
+  1190	 * Return: Number of RX packets processed.
+  1191	 */
+  1192	static int axienet_rx_poll(struct napi_struct *napi, int budget)
+  1193	{
+  1194		u32 length;
+  1195		u32 csumstatus;
+  1196		u32 size = 0;
+  1197		int packets = 0;
+  1198		dma_addr_t tail_p = 0;
+  1199		struct axidma_bd *cur_p;
+  1200		struct sk_buff *skb, *new_skb;
+  1201		struct axienet_local *lp = container_of(napi, struct axienet_local, napi_rx);
+  1202	
+  1203		cur_p = &lp->rx_bd_v[lp->rx_bd_ci];
+  1204	
+  1205		while (packets < budget && (cur_p->status & XAXIDMA_BD_STS_COMPLETE_MASK)) {
+  1206			dma_addr_t phys;
+  1207	
+  1208			/* Ensure we see complete descriptor update */
+  1209			dma_rmb();
+  1210	
+  1211			skb = cur_p->skb;
+  1212			cur_p->skb = NULL;
+  1213	
+  1214			/* skb could be NULL if a previous pass already received the
+  1215			 * packet for this slot in the ring, but failed to refill it
+  1216			 * with a newly allocated buffer. In this case, don't try to
+  1217			 * receive it again.
+  1218			 */
+  1219			if (likely(skb)) {
+  1220				length = cur_p->app4 & 0x0000FFFF;
+  1221	
+  1222				phys = desc_get_phys_addr(lp, cur_p);
+  1223				dma_unmap_single(lp->dev, phys, lp->max_frm_size,
+  1224						 DMA_FROM_DEVICE);
+  1225	
+  1226				if (unlikely(length > skb_tailroom(skb))) {
+> 1227					netdev_warn(ndev,
+  1228						    "Dropping oversized RX frame (len=%u, tailroom=%u)\n",
+  1229						    length, skb_tailroom(skb));
+  1230					dev_kfree_skb(skb);
+  1231					skb = NULL;
+  1232				} else {
+  1233					skb_put(skb, length);
+  1234					skb->protocol = eth_type_trans(skb, lp->ndev);
+  1235					/*skb_checksum_none_assert(skb);*/
+  1236					skb->ip_summed = CHECKSUM_NONE;
+  1237	
+  1238					/* if we're doing Rx csum offload, set it up */
+  1239					if (lp->features & XAE_FEATURE_FULL_RX_CSUM) {
+  1240						csumstatus = (cur_p->app2 &
+  1241								XAE_FULL_CSUM_STATUS_MASK) >> 3;
+  1242						if (csumstatus == XAE_IP_TCP_CSUM_VALIDATED ||
+  1243						    csumstatus == XAE_IP_UDP_CSUM_VALIDATED) {
+  1244							skb->ip_summed = CHECKSUM_UNNECESSARY;
+  1245						}
+  1246					} else if (lp->features & XAE_FEATURE_PARTIAL_RX_CSUM) {
+  1247						skb->csum = be32_to_cpu(cur_p->app3 & 0xFFFF);
+  1248						skb->ip_summed = CHECKSUM_COMPLETE;
+  1249					}
+  1250	
+  1251					napi_gro_receive(napi, skb);
+  1252	
+  1253					size += length;
+  1254					packets++;
+  1255				}
+  1256			}
+  1257	
+  1258			new_skb = napi_alloc_skb(napi, lp->max_frm_size);
+  1259			if (!new_skb)
+  1260				break;
+  1261	
+  1262			phys = dma_map_single(lp->dev, new_skb->data,
+  1263					      lp->max_frm_size,
+  1264					      DMA_FROM_DEVICE);
+  1265			if (unlikely(dma_mapping_error(lp->dev, phys))) {
+  1266				if (net_ratelimit())
+  1267					netdev_err(lp->ndev, "RX DMA mapping error\n");
+  1268				dev_kfree_skb(new_skb);
+  1269				break;
+  1270			}
+  1271			desc_set_phys_addr(lp, phys, cur_p);
+  1272	
+  1273			cur_p->cntrl = lp->max_frm_size;
+  1274			cur_p->status = 0;
+  1275			cur_p->skb = new_skb;
+  1276	
+  1277			/* Only update tail_p to mark this slot as usable after it has
+  1278			 * been successfully refilled.
+  1279			 */
+  1280			tail_p = lp->rx_bd_p + sizeof(*lp->rx_bd_v) * lp->rx_bd_ci;
+  1281	
+  1282			if (++lp->rx_bd_ci >= lp->rx_bd_num)
+  1283				lp->rx_bd_ci = 0;
+  1284			cur_p = &lp->rx_bd_v[lp->rx_bd_ci];
+  1285		}
+  1286	
+  1287		u64_stats_update_begin(&lp->rx_stat_sync);
+  1288		u64_stats_add(&lp->rx_packets, packets);
+  1289		u64_stats_add(&lp->rx_bytes, size);
+  1290		u64_stats_update_end(&lp->rx_stat_sync);
+  1291	
+  1292		if (tail_p)
+  1293			axienet_dma_out_addr(lp, XAXIDMA_RX_TDESC_OFFSET, tail_p);
+  1294	
+  1295		if (packets < budget && napi_complete_done(napi, packets)) {
+  1296			if (READ_ONCE(lp->rx_dim_enabled)) {
+  1297				struct dim_sample sample = {
+  1298					.time = ktime_get(),
+  1299					/* Safe because we are the only writer */
+  1300					.pkt_ctr = u64_stats_read(&lp->rx_packets),
+  1301					.byte_ctr = u64_stats_read(&lp->rx_bytes),
+  1302					.event_ctr = READ_ONCE(lp->rx_irqs),
+  1303				};
+  1304	
+  1305				net_dim(&lp->rx_dim, &sample);
+  1306			}
+  1307	
+  1308			/* Re-enable RX completion interrupts. This should
+  1309			 * cause an immediate interrupt if any RX packets are
+  1310			 * already pending.
+  1311			 */
+  1312			spin_lock_irq(&lp->rx_cr_lock);
+  1313			axienet_dma_out32(lp, XAXIDMA_RX_CR_OFFSET, lp->rx_dma_cr);
+  1314			spin_unlock_irq(&lp->rx_cr_lock);
+  1315		}
+  1316		return packets;
+  1317	}
+  1318	
 
-diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33-mbus.c
-index 7c6ae91ede1f..4bd5657558d6 100644
---- a/drivers/devfreq/sun8i-a33-mbus.c
-+++ b/drivers/devfreq/sun8i-a33-mbus.c
-@@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv->reg_mbus))
- 		return PTR_ERR(priv->reg_mbus);
- 
--	priv->clk_bus = devm_clk_get(dev, "bus");
-+	priv->clk_bus = devm_clk_get_enabled(dev, "bus");
- 	if (IS_ERR(priv->clk_bus))
- 		return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
- 				     "failed to get bus clock\n");
-@@ -375,24 +375,15 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
- 				     "failed to get mbus clock\n");
- 
--	ret = clk_prepare_enable(priv->clk_bus);
--	if (ret)
--		return dev_err_probe(dev, ret,
--				     "failed to enable bus clock\n");
--
- 	/* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
--	ret = clk_rate_exclusive_get(priv->clk_dram);
--	if (ret) {
--		err = "failed to lock dram clock rate\n";
--		goto err_disable_bus;
--	}
-+	ret = devm_clk_rate_exclusive_get(dev, priv->clk_dram);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to lock dram clock rate\n");
- 
- 	/* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
--	ret = clk_rate_exclusive_get(priv->clk_mbus);
--	if (ret) {
--		err = "failed to lock mbus clock rate\n";
--		goto err_unlock_dram;
--	}
-+	ret = devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to lock mbus clock rate\n");
- 
- 	priv->gov_data.upthreshold	= 10;
- 	priv->gov_data.downdifferential	=  5;
-@@ -405,10 +396,8 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
- 	priv->profile.max_state		= max_state;
- 
- 	ret = devm_pm_opp_set_clkname(dev, "dram");
--	if (ret) {
--		err = "failed to add OPP table\n";
--		goto err_unlock_mbus;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to add OPP table\n");
- 
- 	base_freq = clk_get_rate(clk_get_parent(priv->clk_dram));
- 	for (i = 0; i < max_state; ++i) {
-@@ -448,12 +437,6 @@ static int sun8i_a33_mbus_probe(struct platform_device *pdev)
- 
- err_remove_opps:
- 	dev_pm_opp_remove_all_dynamic(dev);
--err_unlock_mbus:
--	clk_rate_exclusive_put(priv->clk_mbus);
--err_unlock_dram:
--	clk_rate_exclusive_put(priv->clk_dram);
--err_disable_bus:
--	clk_disable_unprepare(priv->clk_bus);
- 
- 	return dev_err_probe(dev, ret, err);
- }
-@@ -472,9 +455,6 @@ static void sun8i_a33_mbus_remove(struct platform_device *pdev)
- 		dev_warn(dev, "failed to restore DRAM frequency: %d\n", ret);
- 
- 	dev_pm_opp_remove_all_dynamic(dev);
--	clk_rate_exclusive_put(priv->clk_mbus);
--	clk_rate_exclusive_put(priv->clk_dram);
--	clk_disable_unprepare(priv->clk_bus);
- }
- 
- static const struct sun8i_a33_mbus_variant sun50i_a64_mbus = {
-
-base-commit: 92a09c47464d040866cf2b4cd052bc60555185fb
 -- 
-2.47.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
