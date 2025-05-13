@@ -1,134 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857B24A08
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 16:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B72925B1FA;
+	Tue, 13 May 2025 16:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747152039; cv=none; b=K3L05DboGD5+cIhVpNMHimoHBWiGBkyZ/WzXrJVXTu+NAMfNBQ/rjbwjXisNDp53r681ucp8JZuDtPtSHYvNlxl/mJW8DsF5pSKCPlUlWA9lT75PgfRtJj5qRO6atIFj855muTx+uN2uf/PFkBggF4HQ6XpMy1ude7CyCwz+0A0=
+	t=1747153588; cv=none; b=nLZiqTm6izgJOu5DdqD9u7GMQ42ohMbO/gvuBN/EtPecOesZ47HCjGUoYOw/WqB0GR/bPgs/iU5kSxOfvkdcf2YKmjbGG0zN7p4CHm8jqP9vdS8C3G+XhDmejjxmbElL4e/SX8mt6PfsXSw8TtqQOtzxum50BgHKvNC6sBPl3T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747152039; c=relaxed/simple;
-	bh=rq9Pnx4u8xrDRe3jE0ihKOvy9882z7bueE39NsJNy9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F+wUaSjv5Q6qzL//e0F3cA+GHCNMq1oxxyi6AEUAofLoL3zml/mDG02MBSNgSlLCqXJXYNRffdmE8n4JMO1JmA1zZSJArFHqXXajE0Xe5YTBbe0038DNGQKD9fezBKlpbl3QIZ7ZtwnjV1x4kDYsTL0xCRc90S+EwLwq1+N5Y88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g6NkZeHP; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747153588; c=relaxed/simple;
+	bh=ga3zCv76QkUCBLxG+3obr75Z66d/dc+j2DqdsPQXh0c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZaDAxqSbnCDcjca6n+yQhqTXDY+6kLLtwC6qk4YNpd2JhvpkYskoXvINKI5SCtjWLjYckpAS5vTaeVRlGRewihyXItfRzMm8oYBWO02jDGNssU6kbcUrhRvuGF+6rK7SF5xBI5lvnj6Ydm6yZU+g8gSfaKTytwkXxR3L3VbZX8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghnA84IH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g6NkZeHP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747152037; x=1778688037;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rq9Pnx4u8xrDRe3jE0ihKOvy9882z7bueE39NsJNy9M=;
-  b=g6NkZeHPWJMFaVESszq02TLLUbz9ewmtvYooepHRG44S4ORMya9Quf6c
-   IZp86/cA1+7nFMDq1eyu0FlG60aIZmNdCUvlRJfeRv4zN3EcvhB5/JzEM
-   S/Mji+EpSkCJwEhECvXBnEVmhVswqnwd/6D0gh9FJYmdAcEO4rDVK6RiP
-   FPP91+KcCO+vKgOv6yuQhO3dsBSd9feYuxwxfjFvUTccKMQikgVHevrfc
-   f9vSLkoXtCYT8hjX5wkyW+qvXkNQWQgFry3ZNeq1Uy8nqwDx104/yRy4v
-   E7sG1lm/2Auhp3MH+Yl1XbeeS9Na9NfX/2P5+NGZL0ArK/Fdc+wmauiyK
-   A==;
-X-CSE-ConnectionGUID: VRpFHKVpSVeF+CyJUBAAmg==
-X-CSE-MsgGUID: rNewbe80Sk6uHn9/cUACOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="49127620"
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="49127620"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 09:00:36 -0700
-X-CSE-ConnectionGUID: gpwpCEkNTZOdAeimUa/Ghg==
-X-CSE-MsgGUID: nhtV6JgoSsC7i7IaVGAD0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="138728403"
-Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
-  by fmviesa009.fm.intel.com with ESMTP; 13 May 2025 09:00:36 -0700
-Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uEs3V-00010Y-2B;
-	Tue, 13 May 2025 16:00:33 +0000
-Date: Tue, 13 May 2025 23:59:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-vfs:work.coredump.socket.tmp 12/17]
- include/linux/compiler_types.h:557:45: error: call to
- '__compiletime_assert_419' declared with attribute error: Need native word
- sized stores/loads for atomicity.
-Message-ID: <202505132316.mHWip0p1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghnA84IH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A17C4CEEF;
+	Tue, 13 May 2025 16:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747153587;
+	bh=ga3zCv76QkUCBLxG+3obr75Z66d/dc+j2DqdsPQXh0c=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ghnA84IHlg7O22yhptVGd5Vo4K2suyTcvlb+dB5s7Xg4X6SCKx0ZtMdwAnmiIGhrH
+	 M868zaiZXQjfGDXf9pX+lD9EQ9T5uT9qwj6inycMkJOrwftBuYfzqwRkK1PToW2PZs
+	 RYNCKFYf3234mnyWthq+oKNmQQvb8i58T5ANMMw1R8pSUmTgMPX1KuXrfKOLRSumu4
+	 Y/Lg0OuxA6RGFWAgVYErB6RT1wwV+AFVxlYEKgJ6/v10H8Ksf7D8azLajSyucjEEwe
+	 mWxhdjJIYEZ+LQTq5P2LTa366AGYaAE9nvfu0kzlc/FZxK0WpLPebLv/Wk5X+aA5O9
+	 LGfIdhM7MlxpQ==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5fcc96b6a64so7120245a12.0;
+        Tue, 13 May 2025 09:26:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUVQBfRkPIqGTX99HjzpQLFiCjOUtInDi+O6iCwCoAd/ndVIhIhhb9yoFiHk1+7FTElmv+ovfJvmo3vNLubqQ==@lists.linux.dev, AJvYcCVFk0PoVbvYVnEDvdW7Ic3ZlgHSsdNvL60sbq6bnsjyUcHAAwLYyLBjPAebViERuHJhGL5wB6QgMTRtZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1vZGRPg4D51Ptpc+gmUNsEv2XMwlumFu7eMu2R4s3vqll/Dlm
+	HiR9DG/UZL5mSUz2wii4EAiQOX9ol8/4x+Gv5mCvctgyEuMcZjpTxDSFiP4ExnMo0ocTNtN3IXp
+	SJwwCAPew4kZDH76e/RZQINmieLY=
+X-Google-Smtp-Source: AGHT+IGLphKmJHdSpxiAM6EZINozmZaCBpRvN/kTcv+//ma0V7JmmF8efQr+QHrkewteuL8JarBqgc1UuBNDbXrxzSs=
+X-Received: by 2002:a17:907:d17:b0:ad4:f6d3:a188 with SMTP id
+ a640c23a62f3a-ad4f755173bmr20068366b.46.1747153586566; Tue, 13 May 2025
+ 09:26:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250512082938.97110-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20250512082938.97110-2-u.kleine-koenig@baylibre.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Wed, 14 May 2025 01:25:51 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH2uk-6-R5QNZwsssQ1UtnqexKeo=e=SsXB26NMwqf8c9g@mail.gmail.com>
+X-Gm-Features: AX0GCFv7rFmK8zZwyel010vviBuZuUDkrqDnxqcGo43EqBsoQ0TBQM5VkdZiclQ
+Message-ID: <CAGTfZH2uk-6-R5QNZwsssQ1UtnqexKeo=e=SsXB26NMwqf8c9g@mail.gmail.com>
+Subject: Re: [PATCH] PM / devfreq: sun8i-a33-mbus: Fix misconversion to devm_clk_rate_exclusive_get()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git work.coredump.socket.tmp
-head:   35c4ddb37fc4f2ba3ada4ef8eb64e849f82c702b
-commit: f4d791098be37448a5552aaf97191618ada89a2d [12/17] pidfs, coredump: add PIDFD_INFO_COREDUMP
-config: i386-buildonly-randconfig-2002-20250513 (https://download.01.org/0day-ci/archive/20250513/202505132316.mHWip0p1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505132316.mHWip0p1-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505132316.mHWip0p1-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   fs/pidfs.c: In function 'pidfs_coredump_cookie':
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_419' declared with attribute error: Need native word sized stores/loads for atomicity.
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:560:9: note: in expansion of macro 'compiletime_assert'
-     560 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/barrier.h:61:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-      61 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   fs/pidfs.c:608:9: note: in expansion of macro 'smp_store_release'
-     608 |         smp_store_release(&exit_info->coredump_cookie, coredump_cookie);
-         |         ^~~~~~~~~~~~~~~~~
+Instead of fix-up patch, I'd like you to send the v2 of patch[1].
+[1] https://patchwork.kernel.org/project/linux-pm/patch/20241111112237.3363=
+10-2-u.kleine-koenig@baylibre.com/
 
 
-vim +/__compiletime_assert_419 +557 include/linux/compiler_types.h
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+On Mon, May 12, 2025 at 5:29=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> The patch converting the driver to make more use of devm functions got
+> one conversion wrong making the driver not compilable any more. I have
+> no excuse, mea culpa!
+>
+> Fix this by adding the needed device parameter.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/all/202412070231.MzXdNrLv-lkp@intel.com
+> Fixes: bc253b28a365 ("PM / devfreq: sun8i-a33-mbus: Simplify by using mor=
+e devm functions")
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+>  drivers/devfreq/sun8i-a33-mbus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
+-mbus.c
+> index f99af530211d..4bd5657558d6 100644
+> --- a/drivers/devfreq/sun8i-a33-mbus.c
+> +++ b/drivers/devfreq/sun8i-a33-mbus.c
+> @@ -381,7 +381,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
+e *pdev)
+>                 return dev_err_probe(dev, ret, "failed to lock dram clock=
+ rate\n");
+>
+>         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+> -       ret =3D devm_clk_rate_exclusive_get(priv->clk_mbus);
+> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
+>         if (ret)
+>                 return dev_err_probe(dev, ret, "failed to lock mbus clock=
+ rate\n");
+>
+> --
+> 2.47.2
+>
 
-:::::: The code at line 557 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
 
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
