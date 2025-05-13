@@ -1,70 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44811E5716;
-	Tue, 13 May 2025 06:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7491D1E8332
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 06:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747116564; cv=none; b=XjVqOMa7mpVf9bipfKfw6o1tECkkcsOe4nNAu2BfdEB0ECOdKETSn7HpyhQ2naIj2kKmDZW6CITg3jp20Ewdfi3oqQwi7ovKYR8FNzV1jAVWGXspwm5hA+5ejbZCzHyaKLQ976BqY3JZ3iJyDqqI8I5oywxsjLaRtvr4Ptqfj58=
+	t=1747116624; cv=none; b=OlPzP6Av3WUKoQRV3rCbLow3t6WViZ08hn3ucmnzELsF8smFMNB1B40Mq+wSy7ZZHxDNGONRUmL+edphUGfxIbQJ2Wh4saSpQeEGJ+0DQgj/yrXpbnuuI2U/QelXoVQGWyjR4H+KQPT9M4osVZ/1oFS8zxnZ6arsADy0kF+JCs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747116564; c=relaxed/simple;
-	bh=Hmx8otWf9AOsg//ZAqhxQIypiCudbdqpzPydYKjqlA0=;
+	s=arc-20240116; t=1747116624; c=relaxed/simple;
+	bh=QF7NoVWs9s4mtxHSKnQEUbnugHIa6+FV/FaaMB1Fj+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cVxEC9s+Iukn41xQS91rCPw8NBrTuvyyBbnCFQNECN+7/wIq8hZNtEHlmxvUOjoEP3SKYb0Qj9c4l01sAIgyh5J5Cq+LKUnfHubBMypZ+z5oPFyOkFovZOsjXZpE4qvAzk2c2ByeF0c0qSfJVGZLJFFXWhs5HcDt/vFv4RtAGJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+nSsds1; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=tLc87+sdNWqFq92CVk91Z+LqnRpQgIPX+OCZGZO5RJGrx0nNN50Rfs/CtAu6YkJflABry4eD/9DzJ4igILzkYrdzpeDmKSyKbJM83HB4IgkNErxQoWFEZB+JPIyljt75+5Dy5ZPaZUbVTJ61ggrwBBOd91NGQ9eHFzPgPmcIAsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HWxhIbOf; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+nSsds1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWxhIbOf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747116561; x=1778652561;
+  t=1747116622; x=1778652622;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Hmx8otWf9AOsg//ZAqhxQIypiCudbdqpzPydYKjqlA0=;
-  b=F+nSsds1PZTupftKgutkWsR2Wu6Ma3NskE3QTjKfsYYWcqN6fnLmFwSE
-   Lb+Oq43xZd3Jo1JWoHxkjpVhiwgIBVFjdjz1RVLIRdIxbZ1/D4jBVfPup
-   M5Vghb56khQZUDpeKZXshQrIMRtbqNncQNOteGmVEllXI3UGDOvvpSq3P
-   08iB2k9HOeGSUKLaQhCIiW4DZ5X8GqeAykj77ZBModEL68fJjtXajzNpW
-   TwCBa2gJd01eerDUoTt4C/7HeCq0A4iJ3AzDjEw9Ov3TGBJUVBDwGszJ0
-   v4h9Squ1F1u0EWijIc1HB4vM/HyrIefrxs15SP6yIHdvux6KxJDnyoVJP
-   g==;
-X-CSE-ConnectionGUID: GU3NXoKKQoOeE1g86yaqdQ==
-X-CSE-MsgGUID: jkzzhneLTCCeZSGiHpOnLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59946160"
+  bh=QF7NoVWs9s4mtxHSKnQEUbnugHIa6+FV/FaaMB1Fj+4=;
+  b=HWxhIbOfb/M/1nD1ctDI/QxXN+m6Dq0/BTcYsNFkyd5EZP1XxL7wyTlC
+   o7h7CS5/ZvliexIGW+SEN8zceL31YOB+hXm/rs455ge7KmOwSqF9+huNW
+   MUNIXXVyqS+mcIbqRW50h+ePFlIqczZxX0d8mVuAnQpgZMCjRjagU2pLf
+   c7Uc6z38iaamCrRhCCAkV0brYhztLnlgD+l/hrUnZvsMOIRMzHt+DAyCP
+   XYPaWyCYosfN0k3bqf+l5poCJMIbxm38PSWCRBpj16ZoW9th7e4Xmulxa
+   yJME8iQxWAe+UG54PjeYMxxOMWBl/1jKAUi++I6LKR0SRaTSAR+n2sj2k
+   Q==;
+X-CSE-ConnectionGUID: mClnmg5vSmSfc0FxLcQYKw==
+X-CSE-MsgGUID: jv0LPEPcSv6ucdSC9Ai0yA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="74342403"
 X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="59946160"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 23:09:21 -0700
-X-CSE-ConnectionGUID: D2SUU/18SAukkO4owmYMcw==
-X-CSE-MsgGUID: tdkg41Z3QSqlZ0e3f8ip+Q==
+   d="scan'208";a="74342403"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 23:10:22 -0700
+X-CSE-ConnectionGUID: 2ZRKHzvuQjeytCkGuQE3/A==
+X-CSE-MsgGUID: SHAHOI7TSbOnGic5LP4cKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="160866821"
+   d="scan'208";a="137461582"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 May 2025 23:09:14 -0700
+  by orviesa010.jf.intel.com with ESMTP; 12 May 2025 23:10:15 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uEipE-000FlH-1H;
-	Tue, 13 May 2025 06:09:12 +0000
-Date: Tue, 13 May 2025 14:09:11 +0800
+	id 1uEiqC-000FlR-1e;
+	Tue, 13 May 2025 06:10:12 +0000
+Date: Tue, 13 May 2025 14:09:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org,
-	airlied@gmail.com, simona@ffwll.ch, akpm@linux-foundation.org,
-	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-	gregkh@linuxfoundation.org, rafael@kernel.org, bhelgaas@google.com,
-	kwilczynski@kernel.org, raag.jadav@intel.com,
-	andriy.shevchenko@linux.intel.com, arnd@arndb.de, me@kloenk.dev,
-	fujita.tomonori@gmail.com, daniel.almeida@collabora.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH 04/11] rust: io: add PortIo
-Message-ID: <202505131314.ozIwFdR4-lkp@intel.com>
-References: <20250509031524.2604087-5-andrewjballance@gmail.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Andrei Botila <andrei.botila@oss.nxp.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Michael Klein <michael@fossekall.de>,
+	Daniel Golle <daniel@makrotopia.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: Re: [net-next PATCH v9 1/6] net: phy: pass PHY driver to
+ .match_phy_device OP
+Message-ID: <202505131337.ZjnU5fK1-lkp@intel.com>
+References: <20250511183933.3749017-2-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,65 +81,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250509031524.2604087-5-andrewjballance@gmail.com>
+In-Reply-To: <20250511183933.3749017-2-ansuelsmth@gmail.com>
 
-Hi Andrew,
+Hi Christian,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 92a09c47464d040866cf2b4cd052bc60555185fb]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Ballance/rust-helpers-io-use-macro-to-generate-io-accessor-functions/20250509-111818
-base:   92a09c47464d040866cf2b4cd052bc60555185fb
-patch link:    https://lore.kernel.org/r/20250509031524.2604087-5-andrewjballance%40gmail.com
-patch subject: [PATCH 04/11] rust: io: add PortIo
-config: x86_64-randconfig-073-20250512 (https://download.01.org/0day-ci/archive/20250513/202505131314.ozIwFdR4-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-pass-PHY-driver-to-match_phy_device-OP/20250512-024253
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250511183933.3749017-2-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH v9 1/6] net: phy: pass PHY driver to .match_phy_device OP
+config: x86_64-randconfig-r073-20250513 (https://download.01.org/0day-ci/archive/20250513/202505131337.ZjnU5fK1-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505131314.ozIwFdR4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505131337.ZjnU5fK1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505131314.ozIwFdR4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505131337.ZjnU5fK1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `inb` in crate `bindings`
-   --> rust/kernel/io.rs:481:26
+   ***
+   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
+   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
+   *** unless patched (like Debian's).
+   ***   Your bindgen version:  0.65.1
+   ***   Your libclang version: 20.1.2
+   ***
+   ***
+   *** Please see Documentation/rust/quick-start.rst for details
+   *** on how to set up the Rust support.
+   ***
+>> error[E0308]: mismatched types
+   --> rust/kernel/net/phy.rs:527:18
    |
-   481 |         read8_unchecked, inb, write8_unchecked, outb, u8;
-   |                          ^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `outb` in crate `bindings`
-   --> rust/kernel/io.rs:481:49
+   527 |             Some(Adapter::<T>::match_phy_device_callback)
+   |             ---- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ incorrect number of function parameters
+   |             |
+   |             arguments to this enum variant are incorrect
    |
-   481 |         read8_unchecked, inb, write8_unchecked, outb, u8;
-   |                                                 ^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `inw` in crate `bindings`
-   --> rust/kernel/io.rs:482:27
+   = note: expected fn pointer `unsafe extern "C" fn(*mut bindings::phy_device, *const phy_driver) -> _`
+   found fn item `unsafe extern "C" fn(*mut bindings::phy_device) -> _ {phy::Adapter::<T>::match_phy_device_callback}`
+   help: the type constructed contains `unsafe extern "C" fn(*mut bindings::phy_device) -> i32 {phy::Adapter::<T>::match_phy_device_callback}` due to the type of the argument passed
+   --> rust/kernel/net/phy.rs:527:13
    |
-   482 |         read16_unchecked, inw, write16_unchecked, outw, u16;
-   |                           ^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `outw` in crate `bindings`
-   --> rust/kernel/io.rs:482:51
+   527 |             Some(Adapter::<T>::match_phy_device_callback)
+   |             ^^^^^---------------------------------------^
+   |                  |
+   |                  this argument influences the type of `Some`
+   note: tuple variant defined here
+   --> /opt/cross/rustc-1.78.0-bindgen-0.65.1/rustup/toolchains/1.78.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:580:5
    |
-   482 |         read16_unchecked, inw, write16_unchecked, outw, u16;
-   |                                                   ^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `inl` in crate `bindings`
-   --> rust/kernel/io.rs:483:27
-   |
-   483 |         read32_unchecked, inl, write32_unchecked, outl, u32;
-   |                           ^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `outl` in crate `bindings`
-   --> rust/kernel/io.rs:483:51
-   |
-   483 |         read32_unchecked, inl, write32_unchecked, outl, u32;
-   |                                                   ^^^^ not found in `bindings`
+   580 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+   |     ^^^^
 
 -- 
 0-DAY CI Kernel Test Service
