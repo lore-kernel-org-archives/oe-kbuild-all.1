@@ -1,61 +1,60 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E181528DEE8;
-	Tue, 13 May 2025 12:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4492B24C67B;
+	Tue, 13 May 2025 12:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747138098; cv=none; b=LLn/GMbZjSPVDkkpZN46hrHXaeaYgPM0v9hrAAN78jx3nH3Zefkj6bOEVqvUK9B5Ar27vftr1Q0lk7DLXjZuMpRAcJHh8/UBNUvVcqS5EBv1TuMp1PmwNccBsQCChYute6HQJOPtx2gO4j9JxNPpSJIKgcThkate329Ire3VIUA=
+	t=1747138825; cv=none; b=YdJfwTEtHio3kXM4CKb487yIel6VqVDMq+KRjDAbACSfjbMrTGmoRQC69sWBHTOEeAG04uy4ZmHl3qytfI6ug9lMC5yNMGSfTAne9K8VKTxxM2QntmzT+xW1Mk8fHbsVmTa7vl8aD6cWp4t9WOSUrwCo3KPy1Jodpdf4PVsuK/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747138098; c=relaxed/simple;
-	bh=04IqMlrqp/WIYzuHaMiLU4ueA1GGHXFTtZcs+wvov0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ys0Sz3h3KuRjcWfHxxHo6kVhowuhspoZ5+yzscxUz/hQR0MVJuADSZMSXLr06RRuv2kHkUgJ8m/jAPqcr3FMZk4OyRaVg43h9/Ahh+GG1rtRzP0JGmRtA/vh96wAcIQEs7dKz9M/1+Z6rOoX1NVxxizzGLhqIZhHQpIhxFCBvY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=RpMImA/s; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1747138825; c=relaxed/simple;
+	bh=Ybutf2ZA0+rRTJ80CH2hJeSazzgT4qAWA0r4s/tfjQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HLRssLz7VGI+O8xfAr6ZgGEhdfoHiVOKRNsrQ34pHAd+H4RFm0rmLNxEIL+QNZGIJ7wKimUF7BYxsIYFG5mXb/D6Saqss/cZjzTz3pWyomETwciJIASBOPmSIsxnuCZz0XtST+Q7FkTbCA0Z+4jq767143uS3PkRo71mllw6JjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m+ZqZwsl; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="RpMImA/s"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=N2H4cLPRbfUQFyPPzFfWWlyMCXtxohV6unCFbuukGGk=; b=RpMImA/s7eelZNYeI4DyjQj0Fu
-	A2r8G1uC7Bd6Q6sDeo2MRR4pWhndq21tbRnwuMawpPDgcI1Z1mBIwK7hrMu2KVaGk6NSjkVpxbboO
-	eREHDpiTLLp8fZv0L6WtuAblFXYoSIC/dv8OEGVhY9JLukEcEDsZVJOh/AMv1VuDWpyM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uEoQK-00CRpC-PS; Tue, 13 May 2025 14:07:52 +0200
-Date: Tue, 13 May 2025 14:07:52 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: kernel test robot <lkp@intel.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Cc: Christian Marangi <ansuelsmth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Andrei Botila <andrei.botila@oss.nxp.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Michael Klein <michael@fossekall.de>,
-	Daniel Golle <daniel@makrotopia.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Subject: Re: [net-next PATCH v9 1/6] net: phy: pass PHY driver to
- .match_phy_device OP
-Message-ID: <c097072b-af72-4d52-9f16-690b3ec3e75e@lunn.ch>
-References: <20250511183933.3749017-2-ansuelsmth@gmail.com>
- <202505131337.ZjnU5fK1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m+ZqZwsl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747138824; x=1778674824;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ybutf2ZA0+rRTJ80CH2hJeSazzgT4qAWA0r4s/tfjQM=;
+  b=m+ZqZwslcyNlvgBgcbbmbClZ/gt1VxbGMSFo7O9+AhvudeYwCXqBKiJg
+   5IYBEy5FvLk7t7UjhufIFJvlnPbqxseFMioR+Sbad1f+L6Rlc06FgNWiX
+   H1j1LyLG+hzxZxqdyQliKRbszmE8mMncQnEzft4bXzL+Yrp4wySfevm4Z
+   YAHzvWx8lsY2RUhx8gxgxSFV0AdjgTPKiAJ+hPgBZKNzoZxKaClolA6FG
+   A7exEk9Igj+mJpiUGKhcByTX1BTgv6Uv4XVp1aL7itZhi0gtEpBTBMA+M
+   BMOmLWtbHMkMT5YGIuG0piOwBNTwQutrI0YR5FXm0Vy3aUnwp1GucPQ5x
+   g==;
+X-CSE-ConnectionGUID: 63PkRt6ORCWKg7+KQPtqDg==
+X-CSE-MsgGUID: pMQQkAS+TS+bJgaUzSZ0BQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="49127384"
+X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
+   d="scan'208";a="49127384"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 05:20:24 -0700
+X-CSE-ConnectionGUID: 5o298X1LR6iFqCuV/bBBtg==
+X-CSE-MsgGUID: gYqTXkO0RfeLl189ltJQGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
+   d="scan'208";a="137578854"
+Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
+  by fmviesa006.fm.intel.com with ESMTP; 13 May 2025 05:20:22 -0700
+Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uEocO-0000yM-0Z;
+	Tue, 13 May 2025 12:20:20 +0000
+Date: Tue, 13 May 2025 20:20:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hongbo Li <lihongbo22@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Eric Sandeen <sandeen@redhat.com>
+Subject: [jaegeuk-f2fs:dev-test 188/191] fs/f2fs/super.c:5283:6: warning:
+ unused variable 'i'
+Message-ID: <202505132038.wjQGfZCG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +63,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202505131337.ZjnU5fK1-lkp@intel.com>
 
-On Tue, May 13, 2025 at 02:09:12PM +0800, kernel test robot wrote:
-> Hi Christian,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+head:   7274f75b0d876f1cc87349fe8e5c8b45f90695c5
+commit: 33605141d92b1eb2a5e625a79abe35856a588662 [188/191] f2fs: switch to the new mount api
+config: i386-buildonly-randconfig-2003-20250513 (https://download.01.org/0day-ci/archive/20250513/202505132038.wjQGfZCG-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505132038.wjQGfZCG-lkp@intel.com/reproduce)
 
-Adding FUJITA Tomonori <fujita.tomonori@gmail.com>.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505132038.wjQGfZCG-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/f2fs/super.c:5283:6: warning: unused variable 'i' [-Wunused-variable]
+    5283 |         int i;
+         |             ^
+   fs/f2fs/super.c:370:20: warning: unused function 'ctx_set_flags' [-Wunused-function]
+     370 | static inline void ctx_set_flags(struct f2fs_fs_context *ctx,
+         |                    ^~~~~~~~~~~~~
+   2 warnings generated.
 
 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-pass-PHY-driver-to-match_phy_device-OP/20250512-024253
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20250511183933.3749017-2-ansuelsmth%40gmail.com
-> patch subject: [net-next PATCH v9 1/6] net: phy: pass PHY driver to .match_phy_device OP
-> config: x86_64-randconfig-r073-20250513 (https://download.01.org/0day-ci/archive/20250513/202505131337.ZjnU5fK1-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505131337.ZjnU5fK1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505131337.ZjnU5fK1-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ***
->    *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
->    *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
->    *** unless patched (like Debian's).
->    ***   Your bindgen version:  0.65.1
->    ***   Your libclang version: 20.1.2
->    ***
->    ***
->    *** Please see Documentation/rust/quick-start.rst for details
->    *** on how to set up the Rust support.
->    ***
-> >> error[E0308]: mismatched types
->    --> rust/kernel/net/phy.rs:527:18
->    |
->    527 |             Some(Adapter::<T>::match_phy_device_callback)
->    |             ---- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ incorrect number of function parameters
->    |             |
->    |             arguments to this enum variant are incorrect
->    |
->    = note: expected fn pointer `unsafe extern "C" fn(*mut bindings::phy_device, *const phy_driver) -> _`
->    found fn item `unsafe extern "C" fn(*mut bindings::phy_device) -> _ {phy::Adapter::<T>::match_phy_device_callback}`
->    help: the type constructed contains `unsafe extern "C" fn(*mut bindings::phy_device) -> i32 {phy::Adapter::<T>::match_phy_device_callback}` due to the type of the argument passed
->    --> rust/kernel/net/phy.rs:527:13
->    |
->    527 |             Some(Adapter::<T>::match_phy_device_callback)
->    |             ^^^^^---------------------------------------^
->    |                  |
->    |                  this argument influences the type of `Some`
->    note: tuple variant defined here
->    --> /opt/cross/rustc-1.78.0-bindgen-0.65.1/rustup/toolchains/1.78.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:580:5
->    |
->    580 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
->    |     ^^^^
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +/i +5283 fs/f2fs/super.c
+
+  5279	
+  5280	static void f2fs_fc_free(struct fs_context *fc)
+  5281	{
+  5282		struct f2fs_fs_context *ctx = fc->fs_private;
+> 5283		int i;
+  5284	
+  5285		if (!ctx)
+  5286			return;
+  5287	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
