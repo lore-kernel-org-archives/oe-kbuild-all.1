@@ -1,152 +1,239 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2063.outbound.protection.outlook.com [40.107.243.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C281D555;
-	Tue, 13 May 2025 15:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747148437; cv=none; b=JS6rqMLL/z1FINUaDbU3IEa6laVUo2yrFSUaxgtKy8vHwhR5j06Iy0SSkQT/tAab2P2sJc8RTQ1ZhUKn3CFP3L4axUxIiK98lFgGLFJjv/tOvuj5ppvTyzXdyu5uKUBmmK1EUsKoPLmoZrYps0OVP2g7acoiRgrElFOygjtqy5I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747148437; c=relaxed/simple;
-	bh=zrvXKF8W3wQ3r5b5s2jD6kmqeUtqyfGkprYOpJjfvGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bfGtzh3KiPRlylYY5fHpRJ8sl6jcYZviPunjoDnDRC2DjstChoo+IXRMyCCTgg+lSDU/3vxVcDQnf3TjhkTfRlay87k0kT+w6kfGaO+J8r7ydQmgaA/EP0DEgyul4u0yEoUpQKldggrZHvQzXBDym4G+RJb+FL95ynQ4A2U16L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L8NGkqeQ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1FE1B21AD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 15:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747148907; cv=fail; b=tISW/EDZAyulzTEy94A7T4ebZJZRSbIYSamy54aT/TAGPWOqFboio4WUQysxmdCXQj8R3g/dAxaCY1y3G9XiLNr7Z19F7EXRXOT3N7D7WDTT6fRMjTmpjmHJ/B1VB3nfvTdux2XpjEhM6JbP2z+kqmJK9ryGEeHWQaD3/jSUrGk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747148907; c=relaxed/simple;
+	bh=OYxBm4twnnWuQm6odYT+JoV+orXs49J8EMfyAugpRVw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pvkZnVpXRbg87RqDp4J0gVGBoJ9M0UmpBFq6E6KkG76VN6hasxoWdY0gPi3FA747zcAFuAgHejgkf8Jjx/3ohIEuaIv4hyQZoSkxKflvKqo8tGDDDFunHgTkwDPyDii6m8DC34d1V5O2YkJKkBlM1OagmUCbrnuBZ9QyWoVhEoQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=d4HwQkTG; arc=fail smtp.client-ip=40.107.243.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L8NGkqeQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747148436; x=1778684436;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zrvXKF8W3wQ3r5b5s2jD6kmqeUtqyfGkprYOpJjfvGo=;
-  b=L8NGkqeQenf5brrS/GZAgcwRchfhPmu+pl7ti9pFNecd/cFoZ9DLeV3D
-   74ypMRE/Zk20RSlwLzffLkiBtNS6TcmUkk5lVOG7Kznm1yMwiRQryoUAa
-   Wdz7/C/hqc3HDrggPXUkr8wcADA1C8Kt/lWFIOiF3MPN+pCI3pTrj0CnY
-   2+tEJsyt2CRf0Zr85F9lwWtVvOSe+VZXW76dLcYax/y7w7EIyTRGuyuZZ
-   jXIcX4RiahknlxvihJAEmtcg3j6SArOUUGZDNVaID5cRRSywI/iS6MR8L
-   PXTy1RJ5W8ujkTHsE4rhOPHUReyYtRMrfNo3IdiELgyJH4jbj3yUVzstz
-   A==;
-X-CSE-ConnectionGUID: qxlGrWgqTSi9vPveijoZ1w==
-X-CSE-MsgGUID: Z/nu431wQw6xNwneigKikQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="52803484"
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="52803484"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 08:00:35 -0700
-X-CSE-ConnectionGUID: VJW97oTxSnuVTlIpJp7AAQ==
-X-CSE-MsgGUID: pO7DIjjRSlyD/LFGo8Ec8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="138238422"
-Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 May 2025 08:00:33 -0700
-Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uEr7O-0000zy-0D;
-	Tue, 13 May 2025 15:00:30 +0000
-Date: Tue, 13 May 2025 22:59:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Subject: [cxl:cxl-acquire 6/7] drivers/cxl/core/core.h:64:1: warning:
- non-void function does not return a value
-Message-ID: <202505132222.3xgbkl4I-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="d4HwQkTG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=quKSXcY0AySN6+gz+8ILq710BsqktT5jS4gDS3Tajj67ozfFsfSwfWONIk+tQi5Fm1oEDFYhwue0pwb/aygGt3TaRoCpi0JLG9Cw+kGWsd7b4c/DA9kBM5+uB6X/uScVKRLmfxeZOsxvFI014BfZOfsGA8JHIyxoB1GsVvD5VEbqXzsMqtwXb4ikZ235g/wh0vrc9VZyMz/4LQ4JJKb1TSD1ZPaXpAYUcMrA0RTaWErlZMHO108lX8dfsHiWhLujfI6xV5Zy+zTBl0XjxBCGbVAGQewjBadFW9i8wXftaI8iBDgGRPbhMkhq8SgZPoP33wHougItaFQ7Ty8WxPVf4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dJg8Rg6Ds57Q210/jqmLA8qIuPn4YWSLB7CY+sv/ScU=;
+ b=SZIF8CF0AW6WD/FoOoViBRQ8tRto61YJ+ahB5hRcpH0/P3JMd+CEsUlmMsjzXaOQobiXwqtNPdVFsMz/WuJZFbTPgCLum19oXRVDvlR0nZgCttJsy8C1/irGeaC78RjwgjSdX5kxxAgpEbCfN9nDW8ACRirsmwTaO7cr+ObqlCyNrD9EAePJUC0ZgJZ+y7GFikSL1JVnrQI9+uiXO5aew9PhxVJqDXw2n14X80HaIH+5xe+vrTux8oK2aWHCD1GR1MPfUQPQzpAd40ffVXI4lxfmXF/bnuYv0CVMgCeuQyA76ou3N92KuqULXZKNYv2/i6Oil7x+rAGg0v8OetqgMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dJg8Rg6Ds57Q210/jqmLA8qIuPn4YWSLB7CY+sv/ScU=;
+ b=d4HwQkTGkNEf79lm06/JTKhGnf+la8iv51dB6eaBhnA+laLGcQq7nTKwoFUgbNlvg5zZVNGUHdAUcVsdr8K1kKZFRFPuXpv6SKqr3UkEcHGKUiM0KcfOo6F2fMp8/ROlG1PI7z+BV8s9JHO8eUPcavZu1ehNUjt+Ro8nNNbAIJDX7uln53I9LP6qc179fMh0C481exF5vctn1G1YO3Suh3yY/fQ49eH4f8gj1XAgQ9z30xSiUjA/Qi1Ub5kUYkYHPrgVGTmlMY7IemGc6P7xU+m07dFc6Vg36xsvxOGFWMz8yqJV43o5NMCDDnACrGC1qGvrAZK/fZXWeK0pVuqnyA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ BN7PPFD3499E3E3.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6e3) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.34; Tue, 13 May
+ 2025 15:08:22 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8722.027; Tue, 13 May 2025
+ 15:08:22 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Juan Yescas <jyescas@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>, tjmercier@google.com,
+ isaacmanjarres@google.com, surenb@google.com, kaleshsingh@google.com,
+ Vlastimil Babka <vbabka@suse.cz>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>,
+ Minchan Kim <minchan@kernel.org>
+Subject: Re: [PATCH v4] mm: Add CONFIG_PAGE_BLOCK_ORDER to select page block
+ order
+Date: Tue, 13 May 2025 11:08:20 -0400
+X-Mailer: MailMate (2.0r6255)
+Message-ID: <A3E9017A-7282-4BF9-AC60-E2C74EB68980@nvidia.com>
+In-Reply-To: <202505110035.wtOWnL8o-lkp@intel.com>
+References: <20250510010338.3978696-1-jyescas@google.com>
+ <202505110035.wtOWnL8o-lkp@intel.com>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: MN2PR06CA0004.namprd06.prod.outlook.com
+ (2603:10b6:208:23d::9) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|BN7PPFD3499E3E3:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ad0ad09-e0d9-4432-cac5-08dd92300089
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?n5VPCzdbGgO0cNlrkM/JnqeSLL9ezhfU0i5GqHz9Rkv8PbkRw0kPmalc/VYj?=
+ =?us-ascii?Q?Z3CZuWOF71wdf+pGUEp+3BfSS8fm6PnV7XaAhUbo9ZIkEt/xI9YJl5kBDwJp?=
+ =?us-ascii?Q?SyT0GqAfSuhHS4vzzNKY/DSQiArLXnttn8aA+Ei8vpqcwk6UrWXy0yxpiXDX?=
+ =?us-ascii?Q?ijZ4IIntwtIHgkUPT9aKUFD69yPTvOZohk4Of1dDNkpdhnmhw1K4zX8TkcYX?=
+ =?us-ascii?Q?7Wd7VLrCzcKr+tXF3kqGpIkC1bxTWwyliXICsfPn1HVsIsxfXr4wnr0lb262?=
+ =?us-ascii?Q?niCDYmz6jl0Xl6q6sOAYnhP+0NzKu0zKOxK2Nc8q2tFO+lbj0bepfQ899Bod?=
+ =?us-ascii?Q?aJWEGWwE/H8MuO5FYRHYxf04C1rZQvUUz7H016okEd9J0QDfiJsok1q7bIrS?=
+ =?us-ascii?Q?6oZNyRQXbZ+VZYzdxa2AP/QbZT6+fjwI9HT+efxbPjP/Nu081MLVcAhWkF7w?=
+ =?us-ascii?Q?RDlkqjxXdKPvKyFiWM8mWxR23O7kEYrVNmW0pOBABnHp4w61iMoiERIz4jX5?=
+ =?us-ascii?Q?aeSro6VF7Cy4YCRv4d/rE1jFoUyaap5b53GbtzC2eTw4a5jUIXJYh82htU4u?=
+ =?us-ascii?Q?AoFNIuU+gUkOvpu8aTrGd4qTzujQom+kipLuq/bWkKltrXMBz+HiPgX24dvQ?=
+ =?us-ascii?Q?+wuBN37ITeJOJUjAit5foAOS21miqKUV1u3+Hmt2v+n5RjnFoECT1GfGx47k?=
+ =?us-ascii?Q?cSNS1jIzvW+DvcfXSxd29xfDjxoChzzdGzR6khOveJBzpEENEpi8+cle9K3r?=
+ =?us-ascii?Q?m+yMw5oohbYUHLXMaArRqHDxU9BW+KiKpmJaGHA3rJ4gWVn+fOQR6/oM+DK6?=
+ =?us-ascii?Q?k0oFU0tQo97PQShte/F/+rXPnEyVMvS4Kru3Nhrvd1cNwSpjX2Eg2kC57qQw?=
+ =?us-ascii?Q?V5OEDeubVWCHXva2rlp7tXrsrR1aiUIeLd8rzCg3aCKVoMNGcGhvSIajMW2a?=
+ =?us-ascii?Q?PDdRUUUk838BBtlwg8XfILYeNvkpaqe4tbWejAxtXNB+9fyPFo23ZsDmBUzn?=
+ =?us-ascii?Q?m5CMhhS0CpYrAH+aqOhxDAiMXqyQbU1lGt70KP8KKaEoVQ7JjtI+Sv/jD9ZO?=
+ =?us-ascii?Q?qBMppGYw5JB7vIvHr9nGRBFxOTSsDsvgrK/q5d3HVN1tOgdpGHAVwF+D27m8?=
+ =?us-ascii?Q?gyKBk7GuDzFMjOqk18UjSb7PZAO1uoh+FcO7PXL298pYTG/bpyJoV8M6G+Tz?=
+ =?us-ascii?Q?wGHFO78UYHJqR8uEKmciyHT9zOvLD4cjTp25cxhIri+DlMAWUP8bKvjNnIUD?=
+ =?us-ascii?Q?WiP5SL4dsE32hIH88jnJxN+boYfFOg9UMDasyt6/+2v9PTcqXo0uaxqjkFDX?=
+ =?us-ascii?Q?d9WlLGkhATD7C9aiRMKgE8Qx815re2AqAKg6f5ee/ph+j5nF3CVCtdFBhxLO?=
+ =?us-ascii?Q?GpSMn7voLSSFWcicpDnkZq8QuUpAfnQ9GQai4p2cyZDa7NmCC6pURHm/NHKv?=
+ =?us-ascii?Q?e+SFecwitB4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3oUncuaYtBZbGoUWsLkXvofzxMW+qOdS7U4Lv3Hc10UQycKTOCqX22B5AgGy?=
+ =?us-ascii?Q?78URWB6v0FnZXCPs0uRp60ojdsGhi/gAhuRCK0Nt2Jx2K+JwAU4m32Uo+9P6?=
+ =?us-ascii?Q?UHV2Tq2s7P6aC0KAhJrCgwpNqGLOygVUpNug1WZWhF00nGhAKOMMthKWB/1S?=
+ =?us-ascii?Q?HlvLgkPq+35StwknmuJ1Uve/uNynGE8IgkiD8yQrIZAKMu+bnIi+mekAMqUj?=
+ =?us-ascii?Q?90fwshHeLM72MdGsZuoxWIOmN1fMMEtXaiPmDe8IkZCwFtpgSydioi2zej8p?=
+ =?us-ascii?Q?VE3uyYsHBuhqp+V2nctemQKnOxtj9PBKlKrF9QBSqfSw+RYJU8royTruitGk?=
+ =?us-ascii?Q?w5eWEbyvwwVagwluK2sqAawxPgN/+/2rUaLIbKQdjKyYfAvZep+z4HEhhzEa?=
+ =?us-ascii?Q?Zw3ed5WjiMKtUjPmcRBqm6+k8EI95AbW/Poo9I74/tlVjTQW4Dotntr0jArT?=
+ =?us-ascii?Q?a3FA2IR1r0dWE3mfg2S8rhUBfhv7JxBOS++atEK/O5KQpSkBbABRjIVRrXWV?=
+ =?us-ascii?Q?Y7k03eNKC2O4ZmVORDTVES7vqR3IupzvCghC5dhROZt40i+TmE26uepNjV8T?=
+ =?us-ascii?Q?QDMIrOpwE36lMp2c/FyPdJtm/YX1Vl7NByJvuFF77iTSZYlwn1E93tPQ+pFx?=
+ =?us-ascii?Q?Wzlu1Z8u9whoK8KrInsXPfTIhb3vP5YXSdu85vwFTLtbHb2QETokNtGD0ip1?=
+ =?us-ascii?Q?zJw6OvDCiPDfXws/UPq0kJHmcI5lBUBj607fjMl1v9hyR7NIU+eBw61Dvecd?=
+ =?us-ascii?Q?rKZ8o6meknN+u3OBqT4rWAVJgO4Ugq8bZWJ5pOT0KqS0foc47v+wlAluCyY+?=
+ =?us-ascii?Q?5mivn2OmpCUdluTxmWaGRtNu1j4uYdAYUk5TNcFa1bZEgeuAtU8Uu2KqcXpq?=
+ =?us-ascii?Q?uKFf9FXVfNZAUN1ESm5e499A1tDB51a0fgPukGwWucv2NanKmBnGlGyMGUbb?=
+ =?us-ascii?Q?ZCkK8l/zbsSvfED7/4sK1RGbWrlCnb+XK6SC03gppRQl7c8DnD2Lo4JsFkWW?=
+ =?us-ascii?Q?PsCxpVOKtOejC58C+jFSgr0jVZezbUPoLarrrKTWMU8iUMgTY4UrXHjh2MFV?=
+ =?us-ascii?Q?NqmUiH2v6qMJ/qnYnXUdXy7T6m50963aYHra6yI3X8IGVMQ4UmPBvsHsVnds?=
+ =?us-ascii?Q?nOeGG06GuFl8Ez5CR0us/xohgHcymXBwioun8DOK7aA20BQQheqm4J4KQeGA?=
+ =?us-ascii?Q?J5iv3xirfoQvyv7k2GGR9puoacCGZnJ9rFoUKZrhc3TEYeGCzPH0yePGyr0r?=
+ =?us-ascii?Q?DNvLZUW6g575LIErkXCEnj6Utnua3coJOOREjf0mke6L8OV6o8tUA8p25xBV?=
+ =?us-ascii?Q?qezM68p1Kk19UqopXKjW2HCPZNdRxD9kEGSwr8UmUEtBZDMznWG49xTL/L8d?=
+ =?us-ascii?Q?XHByDBK1djWicMaZ6OLQ2wnING7s1oND3nKZtzBNgWlvs9e8tsFTQSdNvXfp?=
+ =?us-ascii?Q?zuMJuHbReGWSt6M2t17nBYaix5GDSgr1JecB+ZzyEveE7k36wgcoTG298ff7?=
+ =?us-ascii?Q?/Zk8+SDEeOpfgcLKLQC1sTPzhi0JaUo52NKAUVJrFho9jp3V40vxk9s/QD/S?=
+ =?us-ascii?Q?ZE797CWrqum4cedp0mLigrKzTyqoVW9kcKJDg26W?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ad0ad09-e0d9-4432-cac5-08dd92300089
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 15:08:22.2666
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yF0q+zlCn5vXRXZik16E5J/1UBvE5TcNewf8u3AhIiwMXdMNxNTpy0JfnRYV3AYr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPFD3499E3E3
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git cxl-acquire
-head:   8b6078f03a61a162ea390c80585942f6cd9e60f4
-commit: f86344b036325af56a7f90fa8d90b19bb6961faf [6/7] cxl/region: Introduce CLASS(cxl_decoder_detach...) consolidate multiple paths
-config: x86_64-buildonly-randconfig-2001-20250513 (https://download.01.org/0day-ci/archive/20250513/202505132222.3xgbkl4I-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505132222.3xgbkl4I-lkp@intel.com/reproduce)
+On 10 May 2025, at 13:16, kernel test robot wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505132222.3xgbkl4I-lkp@intel.com/
+> Hi Juan,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.15-rc5]
+> [cannot apply to akpm-mm/mm-everything next-20250509]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.=
 
-All warnings (new ones prefixed by >>):
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Juan-Yescas/mm-A=
+dd-CONFIG_PAGE_BLOCK_ORDER-to-select-page-block-order/20250510-090501
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20250510010338.3978696-1-jyesc=
+as%40google.com
+> patch subject: [PATCH v4] mm: Add CONFIG_PAGE_BLOCK_ORDER to select pag=
+e block order
+> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/2=
+0250511/202505110035.wtOWnL8o-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250511/202505110035.wtOWnL8o-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505110035.wtOWnL8o-l=
+kp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from include/linux/gfp.h:7,
+>                     from include/linux/xarray.h:16,
+>                     from include/linux/list_lru.h:14,
+>                     from include/linux/fs.h:14,
+>                     from include/linux/compat.h:17,
+>                     from arch/powerpc/kernel/asm-offsets.c:12:
+>>> include/linux/mmzone.h:53:2: error: #error MAX_PAGE_ORDER must be >=3D=
+ PAGE_BLOCK_ORDER
+>       53 | #error MAX_PAGE_ORDER must be >=3D PAGE_BLOCK_ORDER
+>          |  ^~~~~
+>    make[3]: *** [scripts/Makefile.build:98: arch/powerpc/kernel/asm-off=
+sets.s] Error 1
 
-   In file included from drivers/cxl/core/hdm.c:8:
->> drivers/cxl/core/core.h:64:1: warning: non-void function does not return a value [-Wreturn-type]
-      64 | }
-         | ^
-   1 warning generated.
+In this config, CONFIG_ARCH_FORCE_MAX_ORDER is set to 8, lower than
+the default PAGE_BLOCK_ORDER value, 10. I wonder if the error should
+be changed to ignore CONFIG_PAGE_BLOCK_ORDER when MAX_PAGE_ORDER is
+set by CONFIG_ARCH_FORCE_MAX_ORDER and give a warning instead.
+
+>    make[3]: Target 'prepare' not remade because of errors.
+>    make[2]: *** [Makefile:1275: prepare0] Error 2
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:248: __sub-make] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:248: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
+>
+>
+> vim +53 include/linux/mmzone.h
+>
+>     46	=
+
+>     47	/*
+>     48	 * The MAX_PAGE_ORDER, which defines the max order of pages to b=
+e allocated
+>     49	 * by the buddy allocator, has to be larger or equal to the PAGE=
+_BLOCK_ORDER,
+>     50	 * which defines the order for the number of pages that can have=
+ a migrate type
+>     51	 */
+>     52	#if (PAGE_BLOCK_ORDER > MAX_PAGE_ORDER)
+>   > 53	#error MAX_PAGE_ORDER must be >=3D PAGE_BLOCK_ORDER
+>     54	#endif
+>     55	=
+
+>
+> -- =
+
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 
-vim +64 drivers/cxl/core/core.h
-
-f86344b036325a Dan Williams     2025-05-05  28  
-f86344b036325a Dan Williams     2025-05-05  29  struct cxl_region *cxl_decoder_detach(struct cxl_region *cxlr,
-f86344b036325a Dan Williams     2025-05-05  30  				      struct cxl_endpoint_decoder *cxled,
-f86344b036325a Dan Williams     2025-05-05  31  				      int pos, enum cxl_detach_mode mode);
-f86344b036325a Dan Williams     2025-05-05  32  
-779dd20cfb56c5 Ben Widawsky     2021-06-08  33  #define CXL_REGION_ATTR(x) (&dev_attr_##x.attr)
-8d48817df6ac20 Dan Williams     2021-06-15  34  #define CXL_REGION_TYPE(x) (&cxl_region_type)
-779dd20cfb56c5 Ben Widawsky     2021-06-08  35  #define SET_CXL_REGION_ATTR(x) (&dev_attr_##x.attr),
-04ad63f086d1a9 Dan Williams     2022-01-11  36  #define CXL_PMEM_REGION_TYPE(x) (&cxl_pmem_region_type)
-09d09e04d2fcf8 Dan Williams     2023-02-10  37  #define CXL_DAX_REGION_TYPE(x) (&cxl_dax_region_type)
-8d48817df6ac20 Dan Williams     2021-06-15  38  int cxl_region_init(void);
-8d48817df6ac20 Dan Williams     2021-06-15  39  void cxl_region_exit(void);
-f0832a58639691 Alison Schofield 2023-04-18  40  int cxl_get_poison_by_endpoint(struct cxl_port *port);
-b98d042698a325 Alison Schofield 2024-04-30  41  struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa);
-9aa5f6235e16ac Alison Schofield 2024-07-02  42  u64 cxl_dpa_to_hpa(struct cxl_region *cxlr, const struct cxl_memdev *cxlmd,
-86954ff5032d9d Alison Schofield 2024-04-30  43  		   u64 dpa);
-b98d042698a325 Alison Schofield 2024-04-30  44  
-779dd20cfb56c5 Ben Widawsky     2021-06-08  45  #else
-9aa5f6235e16ac Alison Schofield 2024-07-02  46  static inline u64 cxl_dpa_to_hpa(struct cxl_region *cxlr,
-9aa5f6235e16ac Alison Schofield 2024-07-02  47  				 const struct cxl_memdev *cxlmd, u64 dpa)
-86954ff5032d9d Alison Schofield 2024-04-30  48  {
-86954ff5032d9d Alison Schofield 2024-04-30  49  	return ULLONG_MAX;
-86954ff5032d9d Alison Schofield 2024-04-30  50  }
-b98d042698a325 Alison Schofield 2024-04-30  51  static inline
-b98d042698a325 Alison Schofield 2024-04-30  52  struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
-b98d042698a325 Alison Schofield 2024-04-30  53  {
-b98d042698a325 Alison Schofield 2024-04-30  54  	return NULL;
-b98d042698a325 Alison Schofield 2024-04-30  55  }
-f0832a58639691 Alison Schofield 2023-04-18  56  static inline int cxl_get_poison_by_endpoint(struct cxl_port *port)
-f0832a58639691 Alison Schofield 2023-04-18  57  {
-f0832a58639691 Alison Schofield 2023-04-18  58  	return 0;
-f0832a58639691 Alison Schofield 2023-04-18  59  }
-f86344b036325a Dan Williams     2025-05-05  60  static inline struct cxl_region *
-f86344b036325a Dan Williams     2025-05-05  61  cxl_decoder_detach(struct cxl_region *cxlr, struct cxl_endpoint_decoder *cxled,
-f86344b036325a Dan Williams     2025-05-05  62  		   int pos, enum cxl_detach_mode mode)
-b9686e8c8e39d4 Dan Williams     2022-06-04  63  {
-b9686e8c8e39d4 Dan Williams     2022-06-04 @64  }
-8d48817df6ac20 Dan Williams     2021-06-15  65  static inline int cxl_region_init(void)
-8d48817df6ac20 Dan Williams     2021-06-15  66  {
-8d48817df6ac20 Dan Williams     2021-06-15  67  	return 0;
-8d48817df6ac20 Dan Williams     2021-06-15  68  }
-8d48817df6ac20 Dan Williams     2021-06-15  69  static inline void cxl_region_exit(void)
-8d48817df6ac20 Dan Williams     2021-06-15  70  {
-8d48817df6ac20 Dan Williams     2021-06-15  71  }
-779dd20cfb56c5 Ben Widawsky     2021-06-08  72  #define CXL_REGION_ATTR(x) NULL
-8d48817df6ac20 Dan Williams     2021-06-15  73  #define CXL_REGION_TYPE(x) NULL
-779dd20cfb56c5 Ben Widawsky     2021-06-08  74  #define SET_CXL_REGION_ATTR(x)
-04ad63f086d1a9 Dan Williams     2022-01-11  75  #define CXL_PMEM_REGION_TYPE(x) NULL
-09d09e04d2fcf8 Dan Williams     2023-02-10  76  #define CXL_DAX_REGION_TYPE(x) NULL
-779dd20cfb56c5 Ben Widawsky     2021-06-08  77  #endif
-779dd20cfb56c5 Ben Widawsky     2021-06-08  78  
-
-:::::: The code at line 64 was first introduced by commit
-:::::: b9686e8c8e39d4072081ef078c04915ee51c8af4 cxl/region: Enable the assignment of endpoint decoders to regions
-
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+Yan, Zi
