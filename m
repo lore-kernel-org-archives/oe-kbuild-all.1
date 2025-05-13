@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833121F151D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 07:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF2B12CDAE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 08:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747122909; cv=none; b=rGRWsKzziS2yyOrLjHIwv0rtoiDaRuQHoWfpynLI841kzJL5Kc4JtIuPmrNdOG9j71uSPQz7kpvE6LMbFrQjncgaRDyLZp369CTAD2921sS4hL0CmSKWYxk1i7jdmoh7N9kwUG3FVhXwnVPglZRu88nrHFAIz9DdZTBgBZLydgM=
+	t=1747123223; cv=none; b=ek4gnZ4uuPKi4hwYElW1aZEDUpB5ZSFoM3UhKfFys92mwa36ibCc8W2JfPZuKe3mN1XQCrACjC4HwKk4leUSUCU63RxPTccQZ3fn6kjXMMrIhCXMPi8W7AGdGLVJILFUy6bfIOD/iol3JoSBLMKWWU7hYzHr2SgMuOHasyYVw6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747122909; c=relaxed/simple;
-	bh=IyOd5VEa25PH+Jl/zupeRZeX47rx0OnZlMJylsX5NUg=;
+	s=arc-20240116; t=1747123223; c=relaxed/simple;
+	bh=1lBQoHN/7PWHMGfYzcAiy+RWiPyzpT1oQU8AO2uIjmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X4JeBzBYYb9Dr5gAM06FJxKgfLCtX7jcGk8eT57za+RmkECFSO71VwGdMnoFjqkuCyvc2kqL/dTYLXTGWITJoL70DrVApqjlL3oHLCU6aJLOgHxARBzIWfzs0OSVHB67XJT7DrGvKpfse2i8dENaCzFEO48orpKZhfabK4kms3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNf3w3cf; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=DFOwYs1THtEnPLOku2WQZdYpM1FYsrW5GPmm1gWgHTRiFFsmfS5TFu2tVQkzp7LmRpJuOivJ50ofq1A+VkmpLrCtvxIpo1DY3QruwZ/a3YABPXSxbShR3ncS8sk1SLN8iiw1s26CBNN/ZbqVoNFBvbKXP6gC8FrF+Nmlecnz9zA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DVak8SK4; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNf3w3cf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747122908; x=1778658908;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IyOd5VEa25PH+Jl/zupeRZeX47rx0OnZlMJylsX5NUg=;
-  b=KNf3w3cfNjdj9+PSRD2AHDbfu+CQ1pNQSZXiVsE+JngdAZmo1nQKCTqJ
-   SxDRZ5pG8Fn7KC4ECfQVzTNbZVFIVISlKC+2SZUyBIzh5SFlI856bpQcz
-   uvfz1+8M348s+QYtw5SC1lE8wnt0W/sBIcVKQj7pEyVAxy1QuvTW2Jdz9
-   Lb7G6UKvCQMLdpgv9bDQDB8aEJ5ojFtl8tecx8zI1SYNWxzVd+2bBkPYX
-   Fv3sLiQmfi/CyoGtedFF8rur5swD3ra4imPtFidKekFQAM2pa3TXWJXjW
-   Y75GpUtd4YZKAgNLN7uDFG1mlmZxA4j67ePr+2VgT9A2cpmU2Mp2S9KVW
-   g==;
-X-CSE-ConnectionGUID: 3ve0AjfSTNiT1rr3z3oGqQ==
-X-CSE-MsgGUID: ZpRTGky0Q4mORkC5wf97JQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="48208673"
-X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="48208673"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 00:55:06 -0700
-X-CSE-ConnectionGUID: P1R4I5ArQh62eDZO6NEy6g==
-X-CSE-MsgGUID: P9rT/ya3RkuUIYy+jHyG5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="174757149"
-Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 May 2025 00:55:05 -0700
-Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uEkTe-0000ug-2c;
-	Tue, 13 May 2025 07:55:02 +0000
-Date: Tue, 13 May 2025 15:54:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:b4/syscon-phandle-args-iommu 4/4]
- drivers/iommu/mtk_iommu_v1.c:512:28: warning: variable 'data' set but not
- used
-Message-ID: <202505131519.XF8MywZu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DVak8SK4"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so54808325e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 01:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747123216; x=1747728016; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4D7BVolXRAAtXfmL3BcLl8Eiqaw3L/l8xoeqAeraOx0=;
+        b=DVak8SK4iR84sEN4drMvimgtJmNrw6RK3g8pjQSX6gLSmyPLgMGaFhrPaF8AsWas1Z
+         7rS4JYXxrhqO4EKyIBWCJzNmCB0ZY+cWNalLCuEhJSIoqLyZnlKVN6b4IBgN/6s/1lJT
+         +BAk1siU+Xf0k9WwQ8UEOUk4Qtp4LzX4fwdgZnvyzIrS+N3VLQyaK9JYObk0c7q61PKf
+         s5txMpo4WXOIckc1PvXeGJCezkJ83+QKxPPQNsek1W4tp75gKRY8lD88X8lFXuH54ifF
+         OHlgb5jrN3o3wdfun5gSf5aVV+ZqCtvHQGjAM6YZ4V3PVLgYsm6q9O5tGJOPiohxOmKZ
+         zwOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747123216; x=1747728016;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4D7BVolXRAAtXfmL3BcLl8Eiqaw3L/l8xoeqAeraOx0=;
+        b=HODJG21rgqfY5A37FQ4psyyTqS0NIrCpuQ7JBwagoQj+JBdrgAXGuvvi6XSFFifbmV
+         Y6wrgAdTOlDveqArGvH2gAMAXaP70LjlRFrcyKcGAFxVqDOmSYpF0J1neGz/JMH4ipA1
+         zAQlh3IE9vL2cbrzINE9k2ToLOT/9GEuS3ZH15GTiywSbGuBRN4pX4PvyebDdmj4bdWE
+         lyAt/2I6jwKiMVc5X82p5fFsFmJkhqj5wtKbkly+B1YLR8SfhmPT/gy3yAMq3C1d3OwC
+         04pmiDIDFcqiG/korhnQDg3cGcZIKOwhL6grd65GXAfdtj1NP65qpUfnwmcs4PSA5qaW
+         CQ9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWmGkiCai7/ETwlIBykqAZAPjXBRSBWkffWy9zTLmnHa1iQNRLRr0hwF6zHGDCNalOE9CsBdeP+EcUxKNrt@lists.linux.dev
+X-Gm-Message-State: AOJu0YwS3NeiLyIdx61tdyQS8Dz12AmypYXgQvJ/XnebVcqZw3TDQHe1
+	+yDL/DT22G9jh1jE3CB2XdvclF7e4fzfS640JQbTlMYHhXwCziadLhRS2RkEz7Y=
+X-Gm-Gg: ASbGncvAWTQUiKL+886RQnODpk3EwhLApBuvOVLJ+IvwCGn/Wtrb0yFS+mov+I7AfIM
+	Kk5JBM90eOe115Mv4N9ilEHn0kuCwJZAT83/RVxHhox38Gjr2spB/0jpa2ZqAeHzUNWjcP3mgGE
+	+rnMfOI2EC57rcOw/l7lum4UTGoQ0xFwEKBoKlrSOr1mSsWGDoTzDGGYYGCq6nbfHBOYlZIebg0
+	1YcmTU2z1xPICEDkf3iieCEUW7Fml4ZnYDw++5gvSrfnpmdHvs7mrb2qZtVc7me3988+2fKxBuu
+	zgmLxH+GyZchRQ6ASombIGKprj6KfF9wNLf1diEimkNcBCA2rXiXjszOoEQ3OfNT7k9ZvIURzJW
+	6KDZrBQ==
+X-Google-Smtp-Source: AGHT+IHqpoT66C/0UgUmKDin0anmvZ+Q/xF1r2yiozJRTYT3VriCuDezWmWMXYySr2wsYFAG39vUEA==
+X-Received: by 2002:a05:600c:cca:b0:43c:f597:d582 with SMTP id 5b1f17b1804b1-442d6cfa8d8mr120252085e9.1.1747123215819;
+        Tue, 13 May 2025 01:00:15 -0700 (PDT)
+Received: from localhost (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442cd3b7b83sm194214025e9.33.2025.05.13.01.00.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 01:00:15 -0700 (PDT)
+Date: Tue, 13 May 2025 11:00:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Swapnil Sapkal <swapnil.sapkal@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>
+Subject: [superm1:linux-next 4/4] drivers/cpufreq/amd-pstate-ut.c:262
+ amd_pstate_ut_check_driver() error: uninitialized symbol 'ret'.
+Message-ID: <9fa7e533-96c4-497b-9e6c-687065d46454@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,49 +74,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux b4/syscon-phandle-args-iommu
-head:   2ffacca9e16ae5a4cf942a7bd5756c2d9903a45e
-commit: 2ffacca9e16ae5a4cf942a7bd5756c2d9903a45e [4/4] iommu: mtk_iommu_v1: Simplify by dropping local 'mtk_mapping' variable
-config: alpha-randconfig-2006-20250504 (https://download.01.org/0day-ci/archive/20250513/202505131519.XF8MywZu-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505131519.XF8MywZu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+head:   d26d16438bc5fd5524121244cc133f9872a63210
+commit: d26d16438bc5fd5524121244cc133f9872a63210 [4/4] amd-pstate-ut: Reset amd-pstate driver mode after running selftests
+config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250511/202505110608.VZ20jjP5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505131519.XF8MywZu-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505110608.VZ20jjP5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/cpufreq/amd-pstate-ut.c:262 amd_pstate_ut_check_driver() error: uninitialized symbol 'ret'.
 
-   cc1: note: -Wvla-larger-than=0 is meaningless
-   drivers/iommu/mtk_iommu_v1.c: In function 'mtk_iommu_v1_probe_finalize':
->> drivers/iommu/mtk_iommu_v1.c:512:28: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-     struct mtk_iommu_v1_data *data;
-                               ^~~~
+vim +/ret +262 drivers/cpufreq/amd-pstate-ut.c
 
+a7875346c68910 Mario Limonciello 2025-02-14  242  static int amd_pstate_ut_check_driver(u32 index)
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  243  {
+93497752dfed19 Qianqiang Liu     2024-09-11  244  	enum amd_pstate_mode mode1, mode2 = AMD_PSTATE_DISABLE;
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  245  	enum amd_pstate_mode orig_mode = amd_pstate_get_status();
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  246  	int ret;
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  247  
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  248  	for (mode1 = AMD_PSTATE_DISABLE; mode1 < AMD_PSTATE_MAX; mode1++) {
+a7875346c68910 Mario Limonciello 2025-02-14  249  		int ret = amd_pstate_set_mode(mode1);
 
-vim +/data +512 drivers/iommu/mtk_iommu_v1.c
+int accidentally declared twice.
 
-57dbf81f50c82a Joerg Roedel        2020-04-29  509  
-ad9b10e533f6fb Yong Wu             2022-05-03  510  static void mtk_iommu_v1_probe_finalize(struct device *dev)
-57dbf81f50c82a Joerg Roedel        2020-04-29  511  {
-ad9b10e533f6fb Yong Wu             2022-05-03 @512  	struct mtk_iommu_v1_data *data;
-57dbf81f50c82a Joerg Roedel        2020-04-29  513  	int err;
-f3e827d73ed454 Yong Wu             2018-01-26  514  
-3524b5592cad63 Joerg Roedel        2020-03-26  515  	data        = dev_iommu_priv_get(dev);
-f3e827d73ed454 Yong Wu             2018-01-26  516  
-2ffacca9e16ae5 Krzysztof Kozlowski 2025-05-01  517  	err = arm_iommu_attach_device(dev, data->mapping);
-57dbf81f50c82a Joerg Roedel        2020-04-29  518  	if (err)
-57dbf81f50c82a Joerg Roedel        2020-04-29  519  		dev_err(dev, "Can't create IOMMU mapping - DMA-OPS will not work\n");
-b17336c55d8928 Honghui Zhang       2016-06-08  520  }
-b17336c55d8928 Honghui Zhang       2016-06-08  521  
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  250  		if (ret)
+a7875346c68910 Mario Limonciello 2025-02-14  251  			return ret;
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  252  		for (mode2 = AMD_PSTATE_DISABLE; mode2 < AMD_PSTATE_MAX; mode2++) {
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  253  			if (mode1 == mode2)
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  254  				continue;
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  255  			ret = amd_pstate_set_mode(mode2);
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  256  			if (ret)
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  257  				goto out;
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  258  		}
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  259  	}
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  260  
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  261  out:
+d26d16438bc5fd Swapnil Sapkal    2025-04-30 @262  	if (ret)
 
-:::::: The code at line 512 was first introduced by commit
-:::::: ad9b10e533f6fb3fa74afdc2341774b1305c176f iommu/mediatek-v1: Just rename mtk_iommu to mtk_iommu_v1
+Uninitialized.
 
-:::::: TO: Yong Wu <yong.wu@mediatek.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  263  		pr_warn("%s: failed to update status for %s->%s: %d\n", __func__,
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  264  			amd_pstate_get_mode_string(mode1),
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  265  			amd_pstate_get_mode_string(mode2), ret);
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  266  
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  267  	amd_pstate_set_mode(orig_mode);
+d26d16438bc5fd Swapnil Sapkal    2025-04-30  268  	return ret;
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  269  }
+3e39e68dfbb6d4 Mario Limonciello 2024-08-31  270  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
