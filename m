@@ -1,127 +1,84 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A411A23AD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 18:31:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604801C3BFC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 20:12:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747161115; cv=none; b=nTGUA9E1u5DIOi3pJU3ZZQW8bpEYLvVXRnvP1ihnrqNXC7L9s71AcGyZntszxACKPZGUVp8pwAU1j7sXu7m99m+A802z4QT093rp5CYiS4Hda4X+pK9LzTgZLIG1mMyUeHHu9E1xb/1xuiDg8JgUR1ilz61thZvIfQuJEMYdzSc=
+	t=1747167176; cv=none; b=bJEjEsFgkHuRuwBXqVYoc8a1q8fOyW9YpPARC87g5W25KyZhG1kMWIdMaIKmTCexYi6pdEL2rPaozAlDL6xevtrWtXQiStMthsrlXR6ZMqyGFxfgD/wucL8rJuLCH3B7eMTXVw4GVQCb45X40BEb2OnCDJ9gGHNNup5JC3lKO8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747161115; c=relaxed/simple;
-	bh=rJBPnA8TGJX13YRuwqtzueA/mnw6MbJxj6hqdWnIYwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K/Td7zqZzTiHrqBlq59so6LjSCEdorVWTLraE/o+U4UuPaBSfEzqjNQmTWGjycM9jRRpJUW/3qnDqe+B92Br9KlpDR0NUdsepPh8GnBFDhfXsh7q72g12BGvATmEV9DiYprFi1tNt3lWRJf5EtRCbbsyXuoe71e8mCpKuhggBfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XW1tNotT; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1747167176; c=relaxed/simple;
+	bh=9ViDNBSBi/hZr25O/FqL+EhlNLlo+f2Dq0bNQg08P7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bY1ptpzi4PBiLvDJ0LvWFc3ISJVT1Fy2GvJ0pb3BIE5//ATmjHu+1EL0uSSeYirI9kE79Bgy0xr9XHyoz2Qb/OWJFSoPelRX5s6+gfHmMh9BSx0GALQj+Nb+9xE2iseaDNKwLL/V0XsukEfytkt1OH5eYhHU337W0FPtji6Mxb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m+AVwMsV; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XW1tNotT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m+AVwMsV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747161112; x=1778697112;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=rJBPnA8TGJX13YRuwqtzueA/mnw6MbJxj6hqdWnIYwM=;
-  b=XW1tNotT+Kx9pOK5yfOEpaFQMrQBh2kQIv/qNIzHB4y+XVk+wHq4MDrW
-   qj7Hu9BDmcdBXd9tlWVLZ4FfPSGcaawwI768uwPEqKR4MPj8LeBfjpDjG
-   fAJW08NAPIsKKrwlNfYdHyYJm1Q71Hr5bE2Pfb5sc6I3mJq5q1QjUQSVN
-   WwSG6yiaw4Y0424N7ZeyNA+Pssk1Ux/haL5l6hQ5NcCiJnZvjWWw/yCvn
-   Hsf3fCNKIfF08kFS7Ax+kRrjhmqD5hyhtwiICKxurze34/VyRYQWQHWb7
-   YZAQ1LTLkvC2y7w6gDcYNmvpRPAcV0aUuDi/qbZke471pfgnQWCdWuhZa
+  t=1747167174; x=1778703174;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9ViDNBSBi/hZr25O/FqL+EhlNLlo+f2Dq0bNQg08P7M=;
+  b=m+AVwMsVCvDS12OMay8ZUVOMN0wBoAGPhGibXorqyo7yVxYdyX7S5HZZ
+   49chgajpelJY20w+i99adJaKRHZgSxHFXTHP3bpQweKI5CMXwY6JrcaST
+   yS0MyVSxAFiGbviesjJRkvNTlLZWqCJquxA17HrT/bQdEM0DocWoZzbiZ
+   ClAAAhbDM9nScrK/7ldPNnPVl6U125fXcJ8++JR7NVGSCTNtfikA2H9YS
+   z7lDiXYrKs1/HNtLBqHUyhaNCAegWeBiANsi/ydVDhgvDMmv3wYhrq8BI
+   V2IWhS5co9owcU2TRLzgEhHVEUDHDZjFS+n3BjXmnGmfEraIYCe46fxEU
    w==;
-X-CSE-ConnectionGUID: 0Ec7EYQySG2rg5BsX5DwIw==
-X-CSE-MsgGUID: RQuK5n5LSfOSGcfv28NXbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="66576694"
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="66576694"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 11:31:51 -0700
-X-CSE-ConnectionGUID: soHmn7MdRkaAicAsiKNdeQ==
-X-CSE-MsgGUID: zayVSekKTGOUlzo1T/zQSA==
+X-CSE-ConnectionGUID: +8oO+0m0Rhihe1krWhduhQ==
+X-CSE-MsgGUID: LBgDhSjIRIyulj8bv8DNKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="66585586"
+X-IronPort-AV: E=Sophos;i="6.15,286,1739865600"; 
+   d="scan'208";a="66585586"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 13:12:53 -0700
+X-CSE-ConnectionGUID: 8TapMhKPSiiVQFoWZN1PKQ==
+X-CSE-MsgGUID: LOOAkPjCSlm1lnPj9YucHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="141831324"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 May 2025 11:31:48 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.15,286,1739865600"; 
+   d="scan'208";a="137734191"
+Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
+  by orviesa006.jf.intel.com with ESMTP; 13 May 2025 13:12:51 -0700
+Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uEuPq-000GJH-0W;
-	Tue, 13 May 2025 18:31:46 +0000
-Date: Wed, 14 May 2025 02:31:41 +0800
+	id 1uEvzc-00012w-39;
+	Tue, 13 May 2025 20:12:48 +0000
+Date: Wed, 14 May 2025 04:11:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>,
-	dregan@broadcom.com, florian.fainelli@broadcom.com,
-	computersforpeace@gmail.com, kamal.dasu@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com, miquel.raynal@bootlin.com,
-	richard@nod.at, vigneshr@ti.com, jonas.gorski@gmail.com,
-	dgcbueu@gmail.com, linux-mtd@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>
-Subject: Re: [PATCH] mtd: rawnand: brcmnand: remove unused parameters
-Message-ID: <202505140147.koX7Q1tn-lkp@intel.com>
-References: <20250513061052.547392-1-noltari@gmail.com>
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
+Subject: [linux-next:master 9170/10774]
+ arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dtb:
+ nand-controller@10b80000 (cdns,hp-nfc): 'clock-names' is a required property
+Message-ID: <202505140434.eVLVb8DW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250513061052.547392-1-noltari@gmail.com>
 
-Hi Álvaro,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mtd/nand/next]
-[also build test WARNING on linus/master v6.15-rc6 next-20250513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/lvaro-Fern-ndez-Rojas/mtd-rawnand-brcmnand-remove-unused-parameters/20250513-141316
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20250513061052.547392-1-noltari%40gmail.com
-patch subject: [PATCH] mtd: rawnand: brcmnand: remove unused parameters
-config: arc-randconfig-002-20250514 (https://download.01.org/0day-ci/archive/20250514/202505140147.koX7Q1tn-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505140147.koX7Q1tn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   aa94665adc28f3fdc3de2979ac1e98bae961d6ca
+commit: 0d57ac1f92c7558b5d1b8f9780b9eb2f0d06b284 [9170/10774] Merge tag 'socfpga_dts_updates_for_v6.15' of https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux into soc/dt
+config: arm64-randconfig-2052-20250513 (https://download.01.org/0day-ci/archive/20250514/202505140434.eVLVb8DW-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505140434.eVLVb8DW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505140147.koX7Q1tn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505140434.eVLVb8DW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c: In function 'brcmnand_read_page':
->> drivers/mtd/nand/raw/brcmnand/brcmnand.c:2233:31: warning: unused variable 'host' [-Wunused-variable]
-    2233 |         struct brcmnand_host *host = nand_get_controller_data(chip);
-         |                               ^~~~
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c: In function 'brcmnand_write_page':
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c:2359:31: warning: unused variable 'host' [-Wunused-variable]
-    2359 |         struct brcmnand_host *host = nand_get_controller_data(chip);
-         |                               ^~~~
-
-
-vim +/host +2233 drivers/mtd/nand/raw/brcmnand/brcmnand.c
-
-27c5b17cd1b105 drivers/mtd/nand/brcmnand/brcmnand.c     Brian Norris           2015-03-06  2228  
-b976168757f7f4 drivers/mtd/nand/raw/brcmnand/brcmnand.c Boris Brezillon        2018-09-06  2229  static int brcmnand_read_page(struct nand_chip *chip, uint8_t *buf,
-b976168757f7f4 drivers/mtd/nand/raw/brcmnand/brcmnand.c Boris Brezillon        2018-09-06  2230  			      int oob_required, int page)
-27c5b17cd1b105 drivers/mtd/nand/brcmnand/brcmnand.c     Brian Norris           2015-03-06  2231  {
-b976168757f7f4 drivers/mtd/nand/raw/brcmnand/brcmnand.c Boris Brezillon        2018-09-06  2232  	struct mtd_info *mtd = nand_to_mtd(chip);
-d699ed250c0738 drivers/mtd/nand/brcmnand/brcmnand.c     Boris Brezillon        2015-12-10 @2233  	struct brcmnand_host *host = nand_get_controller_data(chip);
-27c5b17cd1b105 drivers/mtd/nand/brcmnand/brcmnand.c     Brian Norris           2015-03-06  2234  	u8 *oob = oob_required ? (u8 *)chip->oob_poi : NULL;
-3c8260ce766342 drivers/mtd/nand/raw/brcmnand/brcmnand.c David Regan            2023-11-24  2235  	u64 addr = (u64)page << chip->page_shift;
-27c5b17cd1b105 drivers/mtd/nand/brcmnand/brcmnand.c     Brian Norris           2015-03-06  2236  
-898f67d076dde5 drivers/mtd/nand/raw/brcmnand/brcmnand.c Álvaro Fernández Rojas 2025-05-13  2237  	return brcmnand_read(mtd, chip, addr, mtd->writesize >> FC_SHIFT,
-898f67d076dde5 drivers/mtd/nand/raw/brcmnand/brcmnand.c Álvaro Fernández Rojas 2025-05-13  2238  			     (u32 *)buf, oob);
-27c5b17cd1b105 drivers/mtd/nand/brcmnand/brcmnand.c     Brian Norris           2015-03-06  2239  }
-27c5b17cd1b105 drivers/mtd/nand/brcmnand/brcmnand.c     Brian Norris           2015-03-06  2240  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_nand.dtb: nand-controller@10b80000 (cdns,hp-nfc): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/cdns,hp-nfc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
