@@ -1,59 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79B219E7F9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 May 2025 02:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AF819E7F9;
+	Tue, 13 May 2025 02:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747102195; cv=none; b=a+5OokPD0tC1vzfQt95ekxqBOpOaN88ew5YqodrUS4v1jsy5OedSrTNstrTfaXLqDJrRLzg62uOZmyNFbKwyS9+glNw0fCo8v2yHTRPFJ/j/XXemRgIH5oYY8v3xs34gb06lozNMg/FDBdLPayAZUeFJFTOO4wrebMLv/D503oA=
+	t=1747102197; cv=none; b=lRIZmdn4bmjKNKCm7A4OTAIkhBCZjPRS6fZpfhvvZQmCDtM+sRSh+I+kVWZ0cKrbMQ5nb0uxBZKyR8dzyWcnGzZfwOM6MbDCsQQzgbfEoI/V56WQ37PlnXbNuat+FevL+qKBCX3jUDUL/PVwGz+rnwlSuIAFAmtvRYeLkOjb+58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747102195; c=relaxed/simple;
-	bh=+lVc8N/JwDKR24RkXugAjVTzdJLL/O4z+PPwqklSK3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QfI3WDhhvb35Dci+4J41vqYlfst+4w9SbRk28h0COVqTbHkhIzQPQtV4l4fGDnl288yR/Tlg29NvzVa6tEJY2A/5YadOlP+ws+c1nnmgRlyNgasuL/3NiJ/j43oa0/aLx9M3TxRl403j3o88X7hrtPY+GQdOhqdezAjXw2HXOmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zf2biDOj; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1747102197; c=relaxed/simple;
+	bh=jli27B/5jY90qrTVnL5B2hPffaX2OOJy3Y08w33Rh5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FuN1kQ1lhNPiplEbd/L/jfkcqGuONW2jd0K9zXYGumPDxofO/Fz2kg2xfX/vTdMkRFE8UcTpRhHyi49NphpNVe5yx5NjWfk2+9PlhUG48fFBBjZU6yq16z3U7mRVW9Gf4NrWaE6BT1F0K+X3Fxhgh72DatQSNH2Ff6PpT0fpweE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hp9k/4Ph; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zf2biDOj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hp9k/4Ph"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747102193; x=1778638193;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+lVc8N/JwDKR24RkXugAjVTzdJLL/O4z+PPwqklSK3U=;
-  b=Zf2biDOjcX2CN9sx5mpBmBBKjPd3OKJXgv+VOFzcHy1lB+p6Bs7RFZhL
-   VEtrkQtet1YS1LkOhKl1D1PcH9ue/iPI+1fsexvE34eMvN4z+O+ZTsdvs
-   4SAPIr3nj2P5x9K0HRMTIP86VmyqVNgR180b97U4CYmlzfN/F8v5Xzju4
-   Ea1nqE/NNxxSIoT5m2vswmSkx1JTzJPspL9okevkLjHkrOHg2AgiiweTo
-   Y1o5wxfEpNNBdW2Yatdr9Tx0xQEZro98mTJb+6cKdnG7cGFjMum8rIO4+
-   oyOqqTE4FwpXGtyg93ai+942VsBhLTDi+qAq5n0iCmGawsnQ4mn6N3qBN
+  t=1747102195; x=1778638195;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jli27B/5jY90qrTVnL5B2hPffaX2OOJy3Y08w33Rh5k=;
+  b=hp9k/4PhH6ghE1rnd/ara5/AxElT6QQCUyO7gmtydZvIoTvJLDkD8vJU
+   PTbx+BPAyNqFdfBL5kODfEvBX8+/WSOBg4UVTCp3hjIRu7rt157hfgY2W
+   0GVFdb2ReIsCJ/2sxdGTUBkjocQPtb6QxSk8sgC5lmBghP4BIVYYyhXiJ
+   zvOTfSHrBre94rQ0Brck8Wz79+2g05llqdyZS7exAdnFvxEwUjlAD+Jwn
+   tneFra/yQll+OP64dHBJSJlRT/u4dw1sol6iL/veXFEOVePaudlmJXkbn
+   gMAl9zsbBe76FSB8gY4tndiG+QZZ4HFJmmPMrklnsQeJ+H1uCJFL0xNYi
    g==;
-X-CSE-ConnectionGUID: bWv7A9h/RLKYmCtcLmJTDQ==
-X-CSE-MsgGUID: LuqWADkRTDi+aVtr+bJAcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59929218"
+X-CSE-ConnectionGUID: pQ38nDapRauow9FCW9eRFg==
+X-CSE-MsgGUID: IhXKLGAeQE+mzqP7ms935w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59929226"
 X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="59929218"
+   d="scan'208";a="59929226"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 19:09:53 -0700
-X-CSE-ConnectionGUID: 0Ft2YmxrTTGnr3HGLa3fJg==
-X-CSE-MsgGUID: sfYil5dkQoiwusUQATsTYw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 19:09:55 -0700
+X-CSE-ConnectionGUID: 4KmA8ZP2Q1Kxb+NIqTdIWA==
+X-CSE-MsgGUID: 3YBxHFhgQvCuzV2Ed3pDKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="168642028"
+   d="scan'208";a="168642027"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 12 May 2025 19:09:51 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uEf5Z-000Faa-2s;
+	id 1uEf5Z-000FaV-2Y;
 	Tue, 13 May 2025 02:09:49 +0000
-Date: Tue, 13 May 2025 10:09:42 +0800
+Date: Tue, 13 May 2025 10:09:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wenyu Huang <huangwenyu5@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2220/2220] kernel/sched/fair.c:8325:9: error:
- call to undeclared function 'sched_idle_cpu'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202505131239.WbFmKdYn-lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-mmc@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] mmc: loongson2: Add Loongson-2K SD/SDIO
+ controller driver
+Message-ID: <202505130918.uanOGxju-lkp@intel.com>
+References: <1308b6ca9ffc2674cc0f089cfd163da87e53a8cd.1746581751.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +71,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1308b6ca9ffc2674cc0f089cfd163da87e53a8cd.1746581751.git.zhoubinbin@loongson.cn>
 
-Hi Zhang,
+Hi Binbin,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   e1106320058bf1d983657f80490249b4f919ebad
-commit: 926b9b0cd97e640ee680347cf449c3dc152dddd2 [2220/2220] sched: Throttle qos cfs_rq when current cpu is running online task
-config: x86_64-randconfig-122-20250513 (https://download.01.org/0day-ci/archive/20250513/202505131239.WbFmKdYn-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505131239.WbFmKdYn-lkp@intel.com/reproduce)
+[auto build test WARNING on 9e12816f9a6195f1f5b7c5dc2e388c2458411b97]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/dt-bindings-mmc-Add-Loongson-2K-SD-SDIO-eMMC-controller-binding/20250507-153435
+base:   9e12816f9a6195f1f5b7c5dc2e388c2458411b97
+patch link:    https://lore.kernel.org/r/1308b6ca9ffc2674cc0f089cfd163da87e53a8cd.1746581751.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v2 2/4] mmc: loongson2: Add Loongson-2K SD/SDIO controller driver
+config: csky-randconfig-r112-20250513 (https://download.01.org/0day-ci/archive/20250513/202505130918.uanOGxju-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250513/202505130918.uanOGxju-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505131239.WbFmKdYn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505130918.uanOGxju-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mmc/host/loongson2-mmc.c:534:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/mmc/host/loongson2-mmc.c:534:41: sparse:     expected unsigned int [usertype]
+   drivers/mmc/host/loongson2-mmc.c:534:41: sparse:     got restricted __be32 [usertype]
 
-   In file included from kernel/sched/fair.c:27:
-   In file included from include/linux/mm_api.h:1:
-   In file included from include/linux/mm.h:2174:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/sched/fair.c:8325:9: error: call to undeclared function 'sched_idle_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    8325 |                      !sched_idle_cpu(smp_processor_id()) &&
-         |                       ^
-   kernel/sched/fair.c:8325:9: note: did you mean 'sched_idle_rq'?
-   kernel/sched/fair.c:6517:12: note: 'sched_idle_rq' declared here
-    6517 | static int sched_idle_rq(struct rq *rq)
-         |            ^
->> kernel/sched/fair.c:8328:23: error: no member named 'online' in 'struct rq'
-    8328 |                 if (!rq_of(cfs_rq)->online)
-         |                      ~~~~~~~~~~~~~  ^
->> kernel/sched/fair.c:8531:7: error: no member named 'idle_stamp' in 'struct rq'; did you mean 'idle_state'?
-    8531 |                 rq->idle_stamp = 0;
-         |                     ^~~~~~~~~~
-         |                     idle_state
-   kernel/sched/sched.h:1143:24: note: 'idle_state' declared here
-    1143 |         struct cpuidle_state    *idle_state;
-         |                                  ^
-   1 warning and 3 errors generated.
+vim +534 drivers/mmc/host/loongson2-mmc.c
 
-
-vim +/sched_idle_cpu +8325 kernel/sched/fair.c
-
-  8321	
-  8322	static bool check_qos_cfs_rq(struct cfs_rq *cfs_rq)
-  8323	{
-  8324		if (unlikely(cfs_rq && cfs_rq->tg->qos_level < 0 &&
-> 8325			     !sched_idle_cpu(smp_processor_id()) &&
-  8326			     cfs_rq->h_nr_running == cfs_rq->idle_h_nr_running)) {
-  8327	
-> 8328			if (!rq_of(cfs_rq)->online)
-  8329				return false;
-  8330	
-  8331			throttle_qos_cfs_rq(cfs_rq);
-  8332			return true;
-  8333		}
-  8334	
-  8335		return false;
-  8336	}
-  8337	
+   500	
+   501	static int loongson2_reorder_cmd_list[] = { SD_APP_SEND_SCR, SD_APP_SEND_NUM_WR_BLKS,
+   502						    SD_APP_SD_STATUS, MMC_SEND_WRITE_PROT,
+   503						    SD_SWITCH };
+   504	
+   505	/*
+   506	 * According to SD spec, ACMD13, ACMD22, ACMD51 and CMD30
+   507	 * response datas has different byte order with usual data packets.
+   508	 * However sdio controller will send these datas in usual data format,
+   509	 * so we need to adjust these datas to a protocol consistent byte order.
+   510	 */
+   511	static void loongson2_mmc_reorder_cmd_data(struct loongson2_mmc_host *host,
+   512						   struct mmc_command *cmd)
+   513	{
+   514		struct scatterlist *sg;
+   515		u32 *data;
+   516		int i, j;
+   517	
+   518		if (mmc_cmd_type(cmd) != MMC_CMD_ADTC)
+   519			return;
+   520	
+   521		for (i = 0; i < ARRAY_SIZE(loongson2_reorder_cmd_list); i++)
+   522			if (cmd->opcode == loongson2_reorder_cmd_list[i])
+   523				break;
+   524	
+   525		if (i == ARRAY_SIZE(loongson2_reorder_cmd_list))
+   526			return;
+   527	
+   528		for_each_sg(cmd->data->sg, sg, cmd->data->sg_len, i) {
+   529			data = sg_virt(&sg[i]);
+   530			for (j = 0; j < (sg_dma_len(&sg[i]) / 4); j++)
+   531				if (cmd->opcode == SD_SWITCH)
+   532					data[j] = bitrev8x4(data[j]);
+   533				else
+ > 534					data[j] = cpu_to_be32(data[j]);
+   535		}
+   536	}
+   537	
 
 -- 
 0-DAY CI Kernel Test Service
