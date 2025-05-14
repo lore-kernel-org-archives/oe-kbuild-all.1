@@ -1,208 +1,248 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F294219BBC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 14:55:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09281922FA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 14:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747234541; cv=none; b=dMTWESoaS36MCCnpecYSPfR46XvYKLYMGMe4dvbbI74LAvV/1u3ISOeD9QB0XODkoOcxrX3C1W7nledFObMNkDBTPsmsv/uhy0XkWp/lkyybgZ7ascRjLCmom9sG060OEdjfubgU7MlKjZoo/HMLc8TIPnEYAB/R1rSOuyjzdjA=
+	t=1747234544; cv=none; b=DgOgHNHx0dLNBY/j6XJ7dQRjfe0SkMP2NWwBV9WxeEOF2uRQvdeGoEo+TjaCH9m4V1xDaNSm8W2kSJsemwHPaaVFi61aC4k1epcAC2FRiLojdmybXc/73Kmg5uxc8bRHHsRZ1wl15rhnuRjR7rltt9VdxcDVTwGeIdo5mn1a2jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747234541; c=relaxed/simple;
-	bh=1icq9jSxAe5V2hWKWqC55XK6M+3IkVMUjY+spgAIUIU=;
+	s=arc-20240116; t=1747234544; c=relaxed/simple;
+	bh=rXg/YdDyq1jh2SsWLQzI8FKFiEz5G57YumUzkZTleh8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HQvFlz0XV6NK+ZifAGkgBUt9KPn2NAXsTnEq845oIYQaxyt7b9ZLc2FUBWyrERjAgnASBTo1QjxcYUrRqSxn7Plw8J5UunGymtYBXg5yGkQcW9BKYwRFqNiefwOwpKoJDjwp6VURNIrsJMMVERdzQbg1pl0JG/PIsC+FlmtnZFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSzyLj8x; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=XbMj0qWYAdr9caCr/Oc2ECClE/Y784EhJgtUgRRGoQNdd82WZmd5PflVqom2p96/H+SAucrlwb2niDiiFT4fkkq2LpZD5Og87TNGpaVmi+WwCcgSbag2dXUS//UyKoOtIf5cEVZoPO8Wv1x3rpbmmnX13zKwYa7+wTCRIKD2eLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsm1Dtg8; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSzyLj8x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsm1Dtg8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747234539; x=1778770539;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1icq9jSxAe5V2hWKWqC55XK6M+3IkVMUjY+spgAIUIU=;
-  b=RSzyLj8xb4CZFcI1aO5Bkt3PtlsuPYHutn8gOVap7HtnhkGYwFNv5gnH
-   +mZJLfLB7g3evT0Z5MmlYenaGcXA5I+tJPL+7jFA3XqQNBPBzl83oh8NY
-   xwzTe7WrXVFpXH/oNrdWsfy3BBWACVEHtYKn92i1gMFAjdctHiVH1pK7C
-   o6hB5d8Pn4JrURxPglbkgBskfhuTmik6QNIAkA3atZV8dlEPenIvoDcij
-   UEfjn3UZWuRDT77P64nqIBySxAJqQwH8AgfAuW47XbggegSumoeNnvF3X
-   NzS1+3uHPrSx1rA2I1515wYgtIUm6UKg+W+9lyaVWIMXGAHcwxs71PXO8
+  t=1747234542; x=1778770542;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rXg/YdDyq1jh2SsWLQzI8FKFiEz5G57YumUzkZTleh8=;
+  b=dsm1Dtg8a+mbUIo6tNv6y9jW3pwCQjWvbKRJ1yGtu0hFku4gPvM5GFDJ
+   zVvUdeRCiotUKYM9+L0Jt0JAqBVcH6l6d/W5QWtTAkuOz6ItyRzofyeLd
+   bkVZrKrvqusTDD6mOw9aJ8M27Qzhsl2N4NuIBpIkFYa9S5WapiemJHBdz
+   5wtm0jZfJGzRtVRHHs+WAXRiKZ3z2/ZU/iKxuynFtphjOZtqRSg7+0Hjj
+   RCJlGgwUu7CEmVOP67i5UB8aquybtfhezl/95jNkgK6UUhI1IAipLUplj
+   +Bx3ZwjR2h1jd3vywytBon/hV4eyDOk2sE3t9s8bcAOMlXk7cD/c/hfYf
    w==;
-X-CSE-ConnectionGUID: yL+ULpiEQpOtp/VmXh2U1Q==
-X-CSE-MsgGUID: jAQK1IY5TcaK0k5jWRk3Xg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49277305"
+X-CSE-ConnectionGUID: W9XWbRaNT+6Q5+GQ8OaBrw==
+X-CSE-MsgGUID: wvktIkglSjuGkE4+7UV5uA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49277308"
 X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
-   d="scan'208";a="49277305"
+   d="scan'208";a="49277308"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 07:55:38 -0700
-X-CSE-ConnectionGUID: bI3UkzDqRpyIfdQEcts94Q==
-X-CSE-MsgGUID: E25EP62sQp+Ru075UdasRQ==
+X-CSE-ConnectionGUID: mP3Fa8t9Q+qn/kCSPwODbw==
+X-CSE-MsgGUID: LJp/LPI9TMqL/79R4JQFMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
-   d="scan'208";a="143260543"
+   d="scan'208";a="143260544"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 14 May 2025 07:55:37 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFDWA-000HFF-39;
+	id 1uFDWA-000HFD-33;
 	Wed, 14 May 2025 14:55:34 +0000
-Date: Wed, 14 May 2025 22:54:46 +0800
+Date: Wed, 14 May 2025 22:54:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 4/4] mm/migrate.c:630:9:
- error: implicit declaration of function 'folio_migrate_refs'; did you mean
- 'folio_migrate_ksm'?
-Message-ID: <202505142225.BsuNSqq9-lkp@intel.com>
+Subject: [android-common:android15-6.6-desktop 1/1]
+ drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:10: warning:
+ return makes pointer from integer without a cast
+Message-ID: <202505142248.P7AatbAG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
 head:   aba25e4ac40a20c6843e2b3128c2e8acfa43e99d
-commit: b6776081daa3730aac859791902664bf9a8be4f5 [4/4] FIXUP: CHROMIUM: mm/mglru: Fix compilation with no MGLRU
-config: x86_64-randconfig-101-20250513 (https://download.01.org/0day-ci/archive/20250514/202505142225.BsuNSqq9-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505142225.BsuNSqq9-lkp@intel.com/reproduce)
+commit: a8fc6bda929968899263afa92764a6838a7e6286 [1/1] CHROMIUM: remoteproc: mediatek: Add APU config and timesync
+config: arm-randconfig-r133-20250514 (https://download.01.org/0day-ci/archive/20250514/202505142248.P7AatbAG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250514/202505142248.P7AatbAG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505142225.BsuNSqq9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505142248.P7AatbAG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/migrate.c: In function 'folio_migrate_flags':
->> mm/migrate.c:630:9: error: implicit declaration of function 'folio_migrate_refs'; did you mean 'folio_migrate_ksm'? [-Werror=implicit-function-declaration]
-     630 |         folio_migrate_refs(newfolio, folio);
-         |         ^~~~~~~~~~~~~~~~~~
-         |         folio_migrate_ksm
-   cc1: some warnings being treated as errors
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c: In function 'get_mbox_regmap':
+>> drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:10: warning: return makes pointer from integer without a cast [-Wint-conversion]
+      return dev_err_probe(dev, -EPROBE_DEFER,
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             "failed to add device link between power and mailbox\n");
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
-   Depends on [n]: DMADEVICES [=n]
+   WARNING: unmet direct dependencies detected for MTK_SCP
+   Depends on [n]: REMOTEPROC [=n] && (ARCH_MEDIATEK [=n] || COMPILE_TEST [=y])
    Selected by [y]:
-   - GKI_HIDDEN_DMA_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
+   - MTK_APUSYS_SUPPORT [=y] && (ARCH_MEDIATEK [=n] || COMPILE_TEST [=y]) && (ARM [=y] || ARM64)
 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:37: sparse: sparse: incorrect type in return expression (different base types) @@     expected struct regmap * @@     got int @@
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:37: sparse:     expected struct regmap *
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:77:37: sparse:     got int
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:140:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:140:22: sparse:     expected void *
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:140:22: sparse:     got void [noderef] __iomem *
+>> drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:170:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *to @@     got void *[assigned] resv_ce_va @@
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:170:25: sparse:     expected void volatile [noderef] __iomem *to
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:170:25: sparse:     got void *[assigned] resv_ce_va
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:209:27: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[addressable] resv_mem_va @@
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:209:27: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c:209:27: sparse:     got void *[addressable] resv_mem_va
 
-vim +630 mm/migrate.c
+vim +77 drivers/soc/mediatek/apusys/power/platform/mt8196_aputop.c
 
-290408d4a25002f Naoya Horiguchi         2010-09-08  587  
-b20a35035f983f4 Christoph Lameter       2006-03-22  588  /*
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  589)  * Copy the flags and some other ancillary information
-b20a35035f983f4 Christoph Lameter       2006-03-22  590   */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  591) void folio_migrate_flags(struct folio *newfolio, struct folio *folio)
-b20a35035f983f4 Christoph Lameter       2006-03-22  592  {
-7851a45cd3f6198 Rik van Riel            2013-10-07  593  	int cpupid;
-7851a45cd3f6198 Rik van Riel            2013-10-07  594  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  595) 	if (folio_test_error(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  596) 		folio_set_error(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  597) 	if (folio_test_referenced(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  598) 		folio_set_referenced(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  599) 	if (folio_test_uptodate(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  600) 		folio_mark_uptodate(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  601) 	if (folio_test_clear_active(folio)) {
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  602) 		VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  603) 		folio_set_active(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  604) 	} else if (folio_test_clear_unevictable(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  605) 		folio_set_unevictable(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  606) 	if (folio_test_workingset(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  607) 		folio_set_workingset(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  608) 	if (folio_test_checked(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  609) 		folio_set_checked(newfolio);
-6c287605fd56466 David Hildenbrand       2022-05-09  610  	/*
-6c287605fd56466 David Hildenbrand       2022-05-09  611  	 * PG_anon_exclusive (-> PG_mappedtodisk) is always migrated via
-6c287605fd56466 David Hildenbrand       2022-05-09  612  	 * migration entries. We can still have PG_anon_exclusive set on an
-6c287605fd56466 David Hildenbrand       2022-05-09  613  	 * effectively unmapped and unreferenced first sub-pages of an
-6c287605fd56466 David Hildenbrand       2022-05-09  614  	 * anonymous THP: we can simply copy it here via PG_mappedtodisk.
-6c287605fd56466 David Hildenbrand       2022-05-09  615  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  616) 	if (folio_test_mappedtodisk(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  617) 		folio_set_mappedtodisk(newfolio);
-b20a35035f983f4 Christoph Lameter       2006-03-22  618  
-76541556a9a3540 Peifeng Li              2022-09-13  619  	trace_android_vh_look_around_migrate_folio(folio, newfolio);
-76541556a9a3540 Peifeng Li              2022-09-13  620  
-3417013e0d183be Matthew Wilcox (Oracle  2021-05-07  621) 	/* Move dirty on pages not done by folio_migrate_mapping() */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  622) 	if (folio_test_dirty(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  623) 		folio_set_dirty(newfolio);
-b20a35035f983f4 Christoph Lameter       2006-03-22  624  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  625) 	if (folio_test_young(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  626) 		folio_set_young(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  627) 	if (folio_test_idle(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  628) 		folio_set_idle(newfolio);
-33c3fc71c8cfa3c Vladimir Davydov        2015-09-09  629  
-a33f7320b43e220 Zhaoyang Huang          2024-09-24 @630  	folio_migrate_refs(newfolio, folio);
-7851a45cd3f6198 Rik van Riel            2013-10-07  631  	/*
-7851a45cd3f6198 Rik van Riel            2013-10-07  632  	 * Copy NUMA information to the new page, to prevent over-eager
-7851a45cd3f6198 Rik van Riel            2013-10-07  633  	 * future migrations of this same page.
-7851a45cd3f6198 Rik van Riel            2013-10-07  634  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  635) 	cpupid = page_cpupid_xchg_last(&folio->page, -1);
-33024536bafd912 Huang Ying              2022-07-13  636  	/*
-33024536bafd912 Huang Ying              2022-07-13  637  	 * For memory tiering mode, when migrate between slow and fast
-33024536bafd912 Huang Ying              2022-07-13  638  	 * memory node, reset cpupid, because that is used to record
-33024536bafd912 Huang Ying              2022-07-13  639  	 * page access time in slow memory node.
-33024536bafd912 Huang Ying              2022-07-13  640  	 */
-33024536bafd912 Huang Ying              2022-07-13  641  	if (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) {
-33024536bafd912 Huang Ying              2022-07-13  642  		bool f_toptier = node_is_toptier(page_to_nid(&folio->page));
-33024536bafd912 Huang Ying              2022-07-13  643  		bool t_toptier = node_is_toptier(page_to_nid(&newfolio->page));
-33024536bafd912 Huang Ying              2022-07-13  644  
-33024536bafd912 Huang Ying              2022-07-13  645  		if (f_toptier != t_toptier)
-33024536bafd912 Huang Ying              2022-07-13  646  			cpupid = -1;
-33024536bafd912 Huang Ying              2022-07-13  647  	}
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  648) 	page_cpupid_xchg_last(&newfolio->page, cpupid);
-7851a45cd3f6198 Rik van Riel            2013-10-07  649  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  650) 	folio_migrate_ksm(newfolio, folio);
-c8d6553b9580188 Hugh Dickins            2013-02-22  651  	/*
-c8d6553b9580188 Hugh Dickins            2013-02-22  652  	 * Please do not reorder this without considering how mm/ksm.c's
-c8d6553b9580188 Hugh Dickins            2013-02-22  653  	 * get_ksm_page() depends upon ksm_migrate_page() and PageSwapCache().
-c8d6553b9580188 Hugh Dickins            2013-02-22  654  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  655) 	if (folio_test_swapcache(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  656) 		folio_clear_swapcache(folio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  657) 	folio_clear_private(folio);
-ad2fa3717b74994 Muchun Song             2021-06-30  658  
-ad2fa3717b74994 Muchun Song             2021-06-30  659  	/* page->private contains hugetlb specific flags */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  660) 	if (!folio_test_hugetlb(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  661) 		folio->private = NULL;
-b20a35035f983f4 Christoph Lameter       2006-03-22  662  
-b20a35035f983f4 Christoph Lameter       2006-03-22  663  	/*
-b20a35035f983f4 Christoph Lameter       2006-03-22  664  	 * If any waiters have accumulated on the new page then
-b20a35035f983f4 Christoph Lameter       2006-03-22  665  	 * wake them up.
-b20a35035f983f4 Christoph Lameter       2006-03-22  666  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  667) 	if (folio_test_writeback(newfolio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  668) 		folio_end_writeback(newfolio);
-d435edca9288050 Vlastimil Babka         2016-03-15  669  
-6aeff241fe6c456 Yang Shi                2020-04-06  670  	/*
-6aeff241fe6c456 Yang Shi                2020-04-06  671  	 * PG_readahead shares the same bit with PG_reclaim.  The above
-6aeff241fe6c456 Yang Shi                2020-04-06  672  	 * end_page_writeback() may clear PG_readahead mistakenly, so set the
-6aeff241fe6c456 Yang Shi                2020-04-06  673  	 * bit after that.
-6aeff241fe6c456 Yang Shi                2020-04-06  674  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  675) 	if (folio_test_readahead(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  676) 		folio_set_readahead(newfolio);
-6aeff241fe6c456 Yang Shi                2020-04-06  677  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  678) 	folio_copy_owner(newfolio, folio);
-74485cf2bc85d2a Johannes Weiner         2016-03-15  679  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  680) 	if (!folio_test_hugetlb(folio))
-d21bba2b7d0ae19 Matthew Wilcox (Oracle  2021-05-06  681) 		mem_cgroup_migrate(folio, newfolio);
-b20a35035f983f4 Christoph Lameter       2006-03-22  682  }
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  683) EXPORT_SYMBOL(folio_migrate_flags);
-2916ecc0f9d435d Jérôme Glisse           2017-09-08  684  
+b5e9a80a77e31f Karl Li 2024-09-27   53  
+b5e9a80a77e31f Karl Li 2024-09-27   54  static struct regmap *get_mbox_regmap(struct device *dev)
+b5e9a80a77e31f Karl Li 2024-09-27   55  {
+b5e9a80a77e31f Karl Li 2024-09-27   56  	struct device_node *mbox_node;
+b5e9a80a77e31f Karl Li 2024-09-27   57  	struct platform_device *mbox_pdev;
+b5e9a80a77e31f Karl Li 2024-09-27   58  	struct regmap *regmap = NULL;
+b5e9a80a77e31f Karl Li 2024-09-27   59  	struct device_link *link;
+b5e9a80a77e31f Karl Li 2024-09-27   60  
+b5e9a80a77e31f Karl Li 2024-09-27   61  	mbox_node = of_parse_phandle(dev->of_node, "mediatek,mbox-spare-reg", 0);
+b5e9a80a77e31f Karl Li 2024-09-27   62  	if (!mbox_node)
+b5e9a80a77e31f Karl Li 2024-09-27   63  		return ERR_PTR(-ENODEV);
+b5e9a80a77e31f Karl Li 2024-09-27   64  
+b5e9a80a77e31f Karl Li 2024-09-27   65  	mbox_pdev = of_find_device_by_node(mbox_node);
+b5e9a80a77e31f Karl Li 2024-09-27   66  	if (!mbox_pdev) {
+b5e9a80a77e31f Karl Li 2024-09-27   67  		regmap = ERR_PTR(-EPROBE_DEFER);
+b5e9a80a77e31f Karl Li 2024-09-27   68  		goto out_put_node;
+b5e9a80a77e31f Karl Li 2024-09-27   69  	}
+b5e9a80a77e31f Karl Li 2024-09-27   70  
+b5e9a80a77e31f Karl Li 2024-09-27   71  	regmap = dev_get_regmap(&mbox_pdev->dev, NULL);
+b5e9a80a77e31f Karl Li 2024-09-27   72  	if (!regmap)
+b5e9a80a77e31f Karl Li 2024-09-27   73  		regmap = ERR_PTR(-EINVAL);
+b5e9a80a77e31f Karl Li 2024-09-27   74  
+b5e9a80a77e31f Karl Li 2024-09-27   75  	link = device_link_add(dev, &mbox_pdev->dev, DL_FLAG_PM_RUNTIME);
+b5e9a80a77e31f Karl Li 2024-09-27   76  	if (!link)
+b5e9a80a77e31f Karl Li 2024-09-27  @77  		return dev_err_probe(dev, -EPROBE_DEFER,
+b5e9a80a77e31f Karl Li 2024-09-27   78  				     "failed to add device link between power and mailbox\n");
+b5e9a80a77e31f Karl Li 2024-09-27   79  
+b5e9a80a77e31f Karl Li 2024-09-27   80  	platform_device_put(mbox_pdev);
+b5e9a80a77e31f Karl Li 2024-09-27   81  
+b5e9a80a77e31f Karl Li 2024-09-27   82  out_put_node:
+b5e9a80a77e31f Karl Li 2024-09-27   83  	of_node_put(mbox_node);
+b5e9a80a77e31f Karl Li 2024-09-27   84  	return regmap;
+b5e9a80a77e31f Karl Li 2024-09-27   85  }
+b5e9a80a77e31f Karl Li 2024-09-27   86  
+b5e9a80a77e31f Karl Li 2024-09-27   87  static int init_reg_base(struct platform_device *pdev, struct mtk_apu_power *apupw)
+b5e9a80a77e31f Karl Li 2024-09-27   88  {
+b5e9a80a77e31f Karl Li 2024-09-27   89  	for (unsigned int idx = 0; idx < ARRAY_SIZE(reg_name); idx++) {
+b5e9a80a77e31f Karl Li 2024-09-27   90  		apupw->regs[idx] = devm_platform_ioremap_resource_byname(pdev, reg_name[idx]);
+b5e9a80a77e31f Karl Li 2024-09-27   91  		if (IS_ERR(apupw->regs[idx]))
+b5e9a80a77e31f Karl Li 2024-09-27   92  			return dev_err_probe(&pdev->dev, PTR_ERR(apupw->regs[idx]),
+b5e9a80a77e31f Karl Li 2024-09-27   93  					     "%s remap base fail\n", reg_name[idx]);
+b5e9a80a77e31f Karl Li 2024-09-27   94  	}
+b5e9a80a77e31f Karl Li 2024-09-27   95  
+b5e9a80a77e31f Karl Li 2024-09-27   96  	return 0;
+b5e9a80a77e31f Karl Li 2024-09-27   97  }
+b5e9a80a77e31f Karl Li 2024-09-27   98  
+b5e9a80a77e31f Karl Li 2024-09-27   99  static uint32_t apusys_pwr_smc_call(struct device *dev, uint32_t smc_id, uint32_t a2)
+b5e9a80a77e31f Karl Li 2024-09-27  100  {
+b5e9a80a77e31f Karl Li 2024-09-27  101  	struct arm_smccc_res res;
+b5e9a80a77e31f Karl Li 2024-09-27  102  
+b5e9a80a77e31f Karl Li 2024-09-27  103  	dev_dbg(dev, "%s: smc call %d\n", __func__, smc_id);
+b5e9a80a77e31f Karl Li 2024-09-27  104  
+b5e9a80a77e31f Karl Li 2024-09-27  105  	arm_smccc_smc(MTK_SIP_APUSYS_CONTROL, smc_id, a2, 0, 0, 0, 0, 0, &res);
+b5e9a80a77e31f Karl Li 2024-09-27  106  	if (((long) res.a0) < 0)
+b5e9a80a77e31f Karl Li 2024-09-27  107  		dev_err(dev, "%s: smc call %d return error(%lu)\n", __func__, smc_id, res.a0);
+b5e9a80a77e31f Karl Li 2024-09-27  108  
+b5e9a80a77e31f Karl Li 2024-09-27  109  	return res.a0;
+b5e9a80a77e31f Karl Li 2024-09-27  110  }
+b5e9a80a77e31f Karl Li 2024-09-27  111  
+b5e9a80a77e31f Karl Li 2024-09-27  112  
+b5e9a80a77e31f Karl Li 2024-09-27  113  static int get_reserved_mem(struct device *dev, void **resv_mem_va)
+b5e9a80a77e31f Karl Li 2024-09-27  114  {
+b5e9a80a77e31f Karl Li 2024-09-27  115  	struct device_node *data_np;
+b5e9a80a77e31f Karl Li 2024-09-27  116  	struct resource r;
+b5e9a80a77e31f Karl Li 2024-09-27  117  	int ret;
+b5e9a80a77e31f Karl Li 2024-09-27  118  
+b5e9a80a77e31f Karl Li 2024-09-27  119  	/*
+b5e9a80a77e31f Karl Li 2024-09-27  120  	 * To enable the MTK APU power feature, we need to load the binary of the
+b5e9a80a77e31f Karl Li 2024-09-27  121  	 * Command Engine (CE) into the reserved memory, which is shared with the
+b5e9a80a77e31f Karl Li 2024-09-27  122  	 * MTK APU remote processor (remoteproc) to store the APU image.
+b5e9a80a77e31f Karl Li 2024-09-27  123  	 * Therefore, we need to parse the phandle and obtain the virtual address
+b5e9a80a77e31f Karl Li 2024-09-27  124  	 * of that reserved memory.
+b5e9a80a77e31f Karl Li 2024-09-27  125  	 */
+b5e9a80a77e31f Karl Li 2024-09-27  126  	data_np = of_parse_phandle(dev->of_node, "memory-region", 0);
+b5e9a80a77e31f Karl Li 2024-09-27  127  	if (!data_np) {
+b5e9a80a77e31f Karl Li 2024-09-27  128  		dev_err(dev, "No reserved memory region found.\n");
+b5e9a80a77e31f Karl Li 2024-09-27  129  		return -EINVAL;
+b5e9a80a77e31f Karl Li 2024-09-27  130  	}
+b5e9a80a77e31f Karl Li 2024-09-27  131  
+b5e9a80a77e31f Karl Li 2024-09-27  132  	ret = of_address_to_resource(data_np, 0, &r);
+b5e9a80a77e31f Karl Li 2024-09-27  133  	if (ret) {
+b5e9a80a77e31f Karl Li 2024-09-27  134  		dev_err(dev, "failed to parse reserved memory: %d\n", ret);
+b5e9a80a77e31f Karl Li 2024-09-27  135  		of_node_put(data_np);
+b5e9a80a77e31f Karl Li 2024-09-27  136  		return ret;
+b5e9a80a77e31f Karl Li 2024-09-27  137  	}
+b5e9a80a77e31f Karl Li 2024-09-27  138  	of_node_put(data_np);
+b5e9a80a77e31f Karl Li 2024-09-27  139  
+b5e9a80a77e31f Karl Li 2024-09-27  140  	*resv_mem_va = devm_ioremap_wc(dev, r.start, resource_size(&r));
+b5e9a80a77e31f Karl Li 2024-09-27  141  
+b5e9a80a77e31f Karl Li 2024-09-27  142  	return 0;
+b5e9a80a77e31f Karl Li 2024-09-27  143  }
+b5e9a80a77e31f Karl Li 2024-09-27  144  
+b5e9a80a77e31f Karl Li 2024-09-27  145  static int load_ce_bin(struct device *dev, const struct firmware *fw, void *resv_mem_va)
+b5e9a80a77e31f Karl Li 2024-09-27  146  {
+b5e9a80a77e31f Karl Li 2024-09-27  147  	struct apusys_secure_info_t *sec_info_ptr = NULL;
+b5e9a80a77e31f Karl Li 2024-09-27  148  	const struct ptimg_hdr_t *hdr;
+b5e9a80a77e31f Karl Li 2024-09-27  149  	const struct ptimg_hdr_t *hdr_end;
+b5e9a80a77e31f Karl Li 2024-09-27  150  	const void *img;
+b5e9a80a77e31f Karl Li 2024-09-27  151  	void *resv_ce_va;
+b5e9a80a77e31f Karl Li 2024-09-27  152  
+b5e9a80a77e31f Karl Li 2024-09-27  153  	hdr = (const struct ptimg_hdr_t *)(fw->data + 0x200);
+b5e9a80a77e31f Karl Li 2024-09-27  154  	dev_dbg(dev, "%s: hdr->magic is 0x%x\n", __func__, hdr->magic);
+b5e9a80a77e31f Karl Li 2024-09-27  155  
+b5e9a80a77e31f Karl Li 2024-09-27  156  	sec_info_ptr = resv_mem_va + 0x100000;
+b5e9a80a77e31f Karl Li 2024-09-27  157  	sec_info_ptr->ce_bin_ofs = 0x100000 + roundup(sizeof(*sec_info_ptr), 16);
+b5e9a80a77e31f Karl Li 2024-09-27  158  	resv_ce_va = resv_mem_va + sec_info_ptr->ce_bin_ofs;
+b5e9a80a77e31f Karl Li 2024-09-27  159  
+b5e9a80a77e31f Karl Li 2024-09-27  160  	hdr_end = (const struct ptimg_hdr_t *)(fw->data + fw->size);
+b5e9a80a77e31f Karl Li 2024-09-27  161  	while (hdr < hdr_end && hdr->magic == PT_MAGIC) {
+b5e9a80a77e31f Karl Li 2024-09-27  162  		img = ((const void *) hdr) + hdr->hdr_size;
+b5e9a80a77e31f Karl Li 2024-09-27  163  		dev_dbg(dev, "Rhdr->hdr_size= 0x%x\n", hdr->hdr_size);
+b5e9a80a77e31f Karl Li 2024-09-27  164  		dev_dbg(dev, "img address is %p\n", img);
+b5e9a80a77e31f Karl Li 2024-09-27  165  
+b5e9a80a77e31f Karl Li 2024-09-27  166  		switch (hdr->id) {
+b5e9a80a77e31f Karl Li 2024-09-27  167  		case PT_ID_CE_BIN:
+b5e9a80a77e31f Karl Li 2024-09-27  168  			dev_dbg(dev, "PT_ID_CE_BIN\n");
+b5e9a80a77e31f Karl Li 2024-09-27  169  			sec_info_ptr->ce_bin_sz = hdr->hdr_size + hdr->img_size;
+b5e9a80a77e31f Karl Li 2024-09-27 @170  			memcpy_toio(resv_ce_va, img, sec_info_ptr->ce_bin_sz);
+b5e9a80a77e31f Karl Li 2024-09-27  171  			dev_dbg(dev, "ce_bin_sz = 0x%x\n", sec_info_ptr->ce_bin_sz);
+b5e9a80a77e31f Karl Li 2024-09-27  172  			return 0;
+b5e9a80a77e31f Karl Li 2024-09-27  173  		default:
+b5e9a80a77e31f Karl Li 2024-09-27  174  			break;
+b5e9a80a77e31f Karl Li 2024-09-27  175  		}
+b5e9a80a77e31f Karl Li 2024-09-27  176  
+b5e9a80a77e31f Karl Li 2024-09-27  177  		img += roundup(hdr->img_size, hdr->align);
+b5e9a80a77e31f Karl Li 2024-09-27  178  		hdr = (const struct ptimg_hdr_t *)img;
+b5e9a80a77e31f Karl Li 2024-09-27  179  	}
+b5e9a80a77e31f Karl Li 2024-09-27  180  
+b5e9a80a77e31f Karl Li 2024-09-27  181  	return -EINVAL;
+b5e9a80a77e31f Karl Li 2024-09-27  182  }
+b5e9a80a77e31f Karl Li 2024-09-27  183  
 
-:::::: The code at line 630 was first introduced by commit
-:::::: a33f7320b43e2208558b33b0e6253d1bce6e1060 FROMGIT: mm: migrate LRU_REFS_MASK bits in folio_migrate_flags
+:::::: The code at line 77 was first introduced by commit
+:::::: b5e9a80a77e31f854ee4584ff3e7290800042a88 CHROMIUM: soc: mediatek: apu: Add mt8196 apu power driver
 
-:::::: TO: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
-:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+:::::: TO: Karl Li <karl.li@mediatek.corp-partner.google.com>
+:::::: CC: Hubert Mazur <hmazur@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
