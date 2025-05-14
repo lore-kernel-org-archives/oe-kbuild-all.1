@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62B21F4165
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 05:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA223101EE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 05:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747199551; cv=none; b=JgWPMjTiwyOGzgjhl6MS8jodLvwdnsaEeLN2N6nZ2OaMn7hEKcrxP8poH1v3ZLHDWHk67eFlnXBcQSY8DMdz3x+f6La6NX1B3s4b89VLyCple0/PFAYjdUuR7PjbUdQcC7oVVv6V6y1H02AcyytAY5TPd6QlJ4H7sxcfXG4n6A8=
+	t=1747199629; cv=none; b=LOCnRB3CjEqho9NS0gm0dc7Z9JXllwUwbnvT+mJPEEhg9BSqcdhUkhCR14uQbsK7a/tfHP3arV0pq6M/Bz7lzAAjbPmdGek6bSmjUhEsBMTMFiuiWqTcN+cKLg2cFHIkCBRL7xKxglRFNu39IIl5jSm0L8i//R+kgcVG4W1rWcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747199551; c=relaxed/simple;
-	bh=TkR3DD22iDzXK+HBI8eDQVjJ8bNqeOA6gz8mfSej0RM=;
+	s=arc-20240116; t=1747199629; c=relaxed/simple;
+	bh=47lOjf4Nx59xY4fGA/g1In171qR64RKWgiryJ142M44=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fYSo4s6gJf/WGILUa4js9ZQZtwOrZ5mNM8Go96LDRSBV44tDYMwxbTjmZ8lFlAiwcW6X4f909oMN4gQ1OVeuUCRynb7eyAB2P3U/h9Y0w6RMdWx+tPtdhzgTgI6O8of5Rw+Rx6alRiYhdfsz10YdFIYVL2Fvf3L1CP7W666mQAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NV/GECkX; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition:In-Reply-To; b=Oyiwe1sXlyR4QtqsQS60sdVKyv3OT90RvMXp35Der61Gw0+weYT5Y5CIPU/9gKosxjYXiuGYv/mIunjHrmKNx0RQR9o6iHK1vSrcRK5Zob0wqXFtqym80xL/Q3ermva1pTkkx7aL2f4h0dWdpTDATa2MmtXOI/p2YRlHqRu0YBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UHSTyjnG; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NV/GECkX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHSTyjnG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747199549; x=1778735549;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TkR3DD22iDzXK+HBI8eDQVjJ8bNqeOA6gz8mfSej0RM=;
-  b=NV/GECkXuFYBu2ua+AycEb2wYpU2tJsXXxgr+N00t/UzuOO9oVAbGIpx
-   zm7FbiKDSajOnDIxxXcSm+WGw5KiivjeoP9GWx9w6nANdTjj1VGW1d8Wu
-   xjVx86e7rvIQXHRMK4A07mYyz+MZSnWmhPU2xSTSvOixflMrAgqvgTOxk
-   X1wfW/b8hsmmgHebeEO/pDPfYiz28KIvH+n/HNxTMn1L7rKuoE1UoKulA
-   OJq8khNrv+IunNfCB9KgZoPGHANGKxNDnTu+IY0VTIEfIPP++gzZ7vNdj
-   snOK67NBjsWpemo+sMAibGnDnFGUIVUKLGclgreHloOGSbTtNt3VaeI5H
-   g==;
-X-CSE-ConnectionGUID: 8MI+8uSkSLSnGXxGBxF/1w==
-X-CSE-MsgGUID: FNKzge6NSEKrvY3ZvK8GGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="48947234"
+  t=1747199627; x=1778735627;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=47lOjf4Nx59xY4fGA/g1In171qR64RKWgiryJ142M44=;
+  b=UHSTyjnGest1mkA9OJquREictLcN7Ddn1CgnJ6IRFVvmsMtqok17nIb3
+   Yul5gZFf6JhONqpFw72LkbDXsAxjJ5IpJGDGMu481LZGsJxPoVtLCmlDJ
+   FvYjYJzcodksRIsoqr/OEpthv7C6OBjpACWT9OdNhA2TVUE0HGMDfly7q
+   5WxX2gGDxbLQ8fkSgzaHTfj4NRSFCTZaS028XHNmoiuRc/qAHu+oYfC22
+   hL+7W6EV6YpJ3FIy+YuYLZl2xsKAA1ohrCdhpgO8qGOtdFS87ckC5WPYp
+   PF6/MM421DiBAMphXVf9X1CrS2J01VVo6T27qezO8LGbu4yiv31CwuaWV
+   Q==;
+X-CSE-ConnectionGUID: bwYHJA25Tiy6jZ1GydDYNQ==
+X-CSE-MsgGUID: LSKAhz+kTtWOaxsqgzH7YQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="49056034"
 X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="48947234"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 22:12:28 -0700
-X-CSE-ConnectionGUID: 19pBxg9mTQCOomDfQA5kcA==
-X-CSE-MsgGUID: xcF8O3qASICqmGd+pOUIFQ==
+   d="scan'208";a="49056034"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 22:13:46 -0700
+X-CSE-ConnectionGUID: q3uS2N3dStOcTMdFNY6/bw==
+X-CSE-MsgGUID: oFKeLhAVQIyOV/Ksca9WSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="143036758"
-Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 May 2025 22:12:26 -0700
-Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
+   d="scan'208";a="138418373"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 13 May 2025 22:13:45 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uF4Pl-00016Y-00;
-	Wed, 14 May 2025 05:12:21 +0000
-Date: Wed, 14 May 2025 13:11:41 +0800
+	id 1uF4R5-000GhT-0Q;
+	Wed, 14 May 2025 05:13:43 +0000
+Date: Wed, 14 May 2025 13:13:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin Zeng <xin.zeng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-Subject: drivers/crypto/intel/qat/qat_common/adf_mstate_mgr.h:16:41: warning:
- '%x' directive output may be truncated writing between 1 and 8 bytes into a
- region of size 5
-Message-ID: <202505141312.bKZ7SW4V-lkp@intel.com>
+To: Bharat Bhushan <bbhushan2@marvell.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/4 RESEND] crypto: octeontx2: add timeout for load_fvc
+ completion poll
+Message-ID: <aCQmeDeJJZ4rFYbB@75fa4dc5d8b3>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,72 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250514051043.3178659-2-bbhushan2@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f35e33144ae5377d6a8de86dd3bd4d995c6ac65
-commit: f0bbfc391aa7eaa796f09ee40dd1cd78c6c81960 crypto: qat - implement interface for live migration
-date:   1 year, 1 month ago
-config: x86_64-randconfig-2005-20250514 (https://download.01.org/0day-ci/archive/20250514/202505141312.bKZ7SW4V-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505141312.bKZ7SW4V-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505141312.bKZ7SW4V-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   In file included from drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:16:
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c: In function 'adf_gen4_vfmig_load_state':
->> drivers/crypto/intel/qat/qat_common/adf_mstate_mgr.h:16:41: warning: '%x' directive output may be truncated writing between 1 and 8 bytes into a region of size 5 [-Wformat-truncation=]
-      16 | #define ADF_MSTATE_BANK_IDX_IDS         "bnk"
-         |                                         ^~~~~
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:381:46: note: in expansion of macro 'ADF_MSTATE_BANK_IDX_IDS'
-     381 |         snprintf(bank_ids, sizeof(bank_ids), ADF_MSTATE_BANK_IDX_IDS "%x", bank_nr);
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:608:71: note: format string is defined here
-     608 |         snprintf(bank_ids, sizeof(bank_ids), ADF_MSTATE_BANK_IDX_IDS "%x", bank_nr);
-         |                                                                       ^~
-   In file included from drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:16:
-   drivers/crypto/intel/qat/qat_common/adf_mstate_mgr.h:16:41: note: directive argument in the range [0, 2147483646]
-      16 | #define ADF_MSTATE_BANK_IDX_IDS         "bnk"
-         |                                         ^~~~~
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:381:46: note: in expansion of macro 'ADF_MSTATE_BANK_IDX_IDS'
-     381 |         snprintf(bank_ids, sizeof(bank_ids), ADF_MSTATE_BANK_IDX_IDS "%x", bank_nr);
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:381:9: note: 'snprintf' output between 5 and 12 bytes into a destination of size 8
-     381 |         snprintf(bank_ids, sizeof(bank_ids), ADF_MSTATE_BANK_IDX_IDS "%x", bank_nr);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:16:
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c: In function 'adf_gen4_vfmig_save_etr':
->> drivers/crypto/intel/qat/qat_common/adf_mstate_mgr.h:16:41: warning: '%x' directive output may be truncated writing between 1 and 8 bytes into a region of size 5 [-Wformat-truncation=]
-      16 | #define ADF_MSTATE_BANK_IDX_IDS         "bnk"
-         |                                         ^~~~~
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:608:46: note: in expansion of macro 'ADF_MSTATE_BANK_IDX_IDS'
-     608 |         snprintf(bank_ids, sizeof(bank_ids), ADF_MSTATE_BANK_IDX_IDS "%x", bank_nr);
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:608:71: note: format string is defined here
-     608 |         snprintf(bank_ids, sizeof(bank_ids), ADF_MSTATE_BANK_IDX_IDS "%x", bank_nr);
-         |                                                                       ^~
-   In file included from drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:16:
-   drivers/crypto/intel/qat/qat_common/adf_mstate_mgr.h:16:41: note: directive argument in the range [0, 2147483646]
-      16 | #define ADF_MSTATE_BANK_IDX_IDS         "bnk"
-         |                                         ^~~~~
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:608:46: note: in expansion of macro 'ADF_MSTATE_BANK_IDX_IDS'
-     608 |         snprintf(bank_ids, sizeof(bank_ids), ADF_MSTATE_BANK_IDX_IDS "%x", bank_nr);
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/intel/qat/qat_common/adf_gen4_vf_mig.c:608:9: note: 'snprintf' output between 5 and 12 bytes into a destination of size 8
-     608 |         snprintf(bank_ids, sizeof(bank_ids), ADF_MSTATE_BANK_IDX_IDS "%x", bank_nr);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +16 drivers/crypto/intel/qat/qat_common/adf_mstate_mgr.h
-
-    15	
-  > 16	#define ADF_MSTATE_BANK_IDX_IDS		"bnk"
-    17	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH 1/4 RESEND] crypto: octeontx2: add timeout for load_fvc completion poll
+Link: https://lore.kernel.org/stable/20250514051043.3178659-2-bbhushan2%40marvell.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
