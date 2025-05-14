@@ -1,131 +1,209 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68E718B464
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 14:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F294219BBC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 14:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747234354; cv=none; b=rKgs3+qHZi5EA28uQKc6G4r+wB0LdFA6JGKNGewjnrME4aId/76cJ2BWwj8kvIh19PZGqiSTHQ9WFzBZ3EzBrAfuJrSoZN+2nsOiKcKXTQeyEoffWFbtSfBwqdjnLdQBL565uMF1Ew2qxH4q1Im33to5Z1ji58nxnWoJ1twScSk=
+	t=1747234541; cv=none; b=dMTWESoaS36MCCnpecYSPfR46XvYKLYMGMe4dvbbI74LAvV/1u3ISOeD9QB0XODkoOcxrX3C1W7nledFObMNkDBTPsmsv/uhy0XkWp/lkyybgZ7ascRjLCmom9sG060OEdjfubgU7MlKjZoo/HMLc8TIPnEYAB/R1rSOuyjzdjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747234354; c=relaxed/simple;
-	bh=MGry8nGOh38zyKXq66KoqnQD7ODjB3x9wJqWF5lMYzY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=naRaojMdR2xLdHZdiINUJ4WFjrmk4SpSmkRiaa8WLXJJjIyPFYIfZiXymJqXedu1h0WSBkpGIHGJLpvrNMpHvGScskPWkWsjeCGOKBgjGBUT8fPflRZLCD3gcMHKIpBmSJArlzRzjrLGGfen+8gaeAN8wwUzoebdb8PJjVKsd3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=EZyIATW7; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1747234541; c=relaxed/simple;
+	bh=1icq9jSxAe5V2hWKWqC55XK6M+3IkVMUjY+spgAIUIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HQvFlz0XV6NK+ZifAGkgBUt9KPn2NAXsTnEq845oIYQaxyt7b9ZLc2FUBWyrERjAgnASBTo1QjxcYUrRqSxn7Plw8J5UunGymtYBXg5yGkQcW9BKYwRFqNiefwOwpKoJDjwp6VURNIrsJMMVERdzQbg1pl0JG/PIsC+FlmtnZFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSzyLj8x; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="EZyIATW7"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54E8pOJ5029482;
-	Wed, 14 May 2025 14:52:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=sP9HCX
-	m3oiUlMsavHEc5ksXvFcineQQa645gWvOSAPI=; b=EZyIATW7w7UAdIdAiRL3SZ
-	8qAbqpGt+LYy7JqNRpJHtlMJthhCzFBQ8iZy6q273n+ANx2fgd+hXHIbPG/45Gee
-	1492Sm65ZeYfFQAHwf0ikUEYh+M/DEO9LY/7GmtHLH961SDV5B/zHExw6XqXiMZY
-	QyY371DkYEBCwMf7I8AGc9c7Wa9iFA5Pq2tkxaZYt4aVw2SUhqqavWi7GSyi9Jnm
-	CTSS7zsowlB1tsNUr17g46ZWWYPKQgbGoS6xn4Ttu55lNti9XMTbJEQgzWPavQ1m
-	r42YD8gLhNhAb1ltJM5CqmS2lSyi1dL4gxTLEGkQVj+6GUP78XvCu+cbmzQ9yFxA
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46mr1ghtf6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 May 2025 14:52:24 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54EDWk0X019883;
-	Wed, 14 May 2025 14:52:23 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 46mbfrmsb5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 May 2025 14:52:23 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54EEqJOq34669212
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 May 2025 14:52:19 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8659A200CA;
-	Wed, 14 May 2025 14:52:19 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B1DDE200A8;
-	Wed, 14 May 2025 14:52:18 +0000 (GMT)
-Received: from [9.111.70.163] (unknown [9.111.70.163])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 14 May 2025 14:52:18 +0000 (GMT)
-Message-ID: <6f8f3780-902b-49d4-a766-ea2e1a8f85ea@linux.ibm.com>
-Date: Wed, 14 May 2025 16:52:18 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSzyLj8x"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747234539; x=1778770539;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=1icq9jSxAe5V2hWKWqC55XK6M+3IkVMUjY+spgAIUIU=;
+  b=RSzyLj8xb4CZFcI1aO5Bkt3PtlsuPYHutn8gOVap7HtnhkGYwFNv5gnH
+   +mZJLfLB7g3evT0Z5MmlYenaGcXA5I+tJPL+7jFA3XqQNBPBzl83oh8NY
+   xwzTe7WrXVFpXH/oNrdWsfy3BBWACVEHtYKn92i1gMFAjdctHiVH1pK7C
+   o6hB5d8Pn4JrURxPglbkgBskfhuTmik6QNIAkA3atZV8dlEPenIvoDcij
+   UEfjn3UZWuRDT77P64nqIBySxAJqQwH8AgfAuW47XbggegSumoeNnvF3X
+   NzS1+3uHPrSx1rA2I1515wYgtIUm6UKg+W+9lyaVWIMXGAHcwxs71PXO8
+   w==;
+X-CSE-ConnectionGUID: yL+ULpiEQpOtp/VmXh2U1Q==
+X-CSE-MsgGUID: jAQK1IY5TcaK0k5jWRk3Xg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49277305"
+X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
+   d="scan'208";a="49277305"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 07:55:38 -0700
+X-CSE-ConnectionGUID: bI3UkzDqRpyIfdQEcts94Q==
+X-CSE-MsgGUID: E25EP62sQp+Ru075UdasRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
+   d="scan'208";a="143260543"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 14 May 2025 07:55:37 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uFDWA-000HFF-39;
+	Wed, 14 May 2025 14:55:34 +0000
+Date: Wed, 14 May 2025 22:54:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 4/4] mm/migrate.c:630:9:
+ error: implicit declaration of function 'folio_migrate_refs'; did you mean
+ 'folio_migrate_ksm'?
+Message-ID: <202505142225.BsuNSqq9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [akpm-mm:mm-new 320/331] arch/s390/kvm/gaccess.c:321:2: error:
- expected identifier
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-        Ignacio Moreno Gonzalez <Ignacio.MorenoGonzalez@kuka.com>,
-        kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Yang Shi <yang@os.amperecomputing.com>,
-        Janosch Frank
- <frankja@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
-        pbonzini@redhat.com
-References: <202505140943.IgHDa9s7-lkp@intel.com>
- <63ddfc13-6608-4738-a4a2-219066e7a36d@kuka.com>
- <8e506dd6-245f-4987-91de-496c4e351ace@lucifer.local>
- <20250514162722.01c6c247@p-imbrenda>
- <0da0f2fc-c97f-4e95-b28e-fa8e7bede9cb@linux.ibm.com>
- <20250514164822.4b44dc5c@p-imbrenda>
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20250514164822.4b44dc5c@p-imbrenda>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: vZQvzaD6N2zKvmDBrayT5pqw2jZzs1K6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDEzMCBTYWx0ZWRfXzLJ5iNsvV+yB 3jA/+o81u1shUiK2qniX3WjvGKQjxeTmfT6V1IiKG1D0MJ/GZphNr94WH0jf4OpcpRU/fh0H/Gl eMyxNVG+UmkD5ejn3hm84rdeKBhRfm4oytj/fLuRpjXfxgROwgedAYRjRB8m8iRkBI9U3OIbvtb
- 75Fc110Wq+EKpeg7gaB79Z1KH6aIpTBRVNhHhpuqqNoazYOMiKYIt217Y0oyQ1fUzFTfRbRrm0N qeXNBLZIdlzm+Gl6yCOYYQQltMrHhlfstd2AOFbHIfP84Tz89tet+VKpiI4G1r/GseRPQVpWffW Ah7YcJRivGhmnfripCt9rw/KUEAOgmUeCS4N47lLolgLKGJZ9ER6ZCVybjPCYiG6p0TCrx4n+Z9
- NALJYInoFNKbMJ2kgBy5njkcwDfbrRyoacnuFGK6s6qT2GSbDMtRDl9zXYR3OodaQjXl5+VB
-X-Proofpoint-GUID: vZQvzaD6N2zKvmDBrayT5pqw2jZzs1K6
-X-Authority-Analysis: v=2.4 cv=QOxoRhLL c=1 sm=1 tr=0 ts=6824ae28 cx=c_pps a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VnNF1IyMAAAA:8 a=zy4cdgbtwusFmoiP-5MA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-14_04,2025-05-14_03,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- clxscore=1015 mlxscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=978
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505140130
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   aba25e4ac40a20c6843e2b3128c2e8acfa43e99d
+commit: b6776081daa3730aac859791902664bf9a8be4f5 [4/4] FIXUP: CHROMIUM: mm/mglru: Fix compilation with no MGLRU
+config: x86_64-randconfig-101-20250513 (https://download.01.org/0day-ci/archive/20250514/202505142225.BsuNSqq9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505142225.BsuNSqq9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505142225.BsuNSqq9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   mm/migrate.c: In function 'folio_migrate_flags':
+>> mm/migrate.c:630:9: error: implicit declaration of function 'folio_migrate_refs'; did you mean 'folio_migrate_ksm'? [-Werror=implicit-function-declaration]
+     630 |         folio_migrate_refs(newfolio, folio);
+         |         ^~~~~~~~~~~~~~~~~~
+         |         folio_migrate_ksm
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
+   Depends on [n]: DMADEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DMA_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
 
 
+vim +630 mm/migrate.c
 
-Am 14.05.25 um 16:48 schrieb Claudio Imbrenda:
+290408d4a25002f Naoya Horiguchi         2010-09-08  587  
+b20a35035f983f4 Christoph Lameter       2006-03-22  588  /*
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  589)  * Copy the flags and some other ancillary information
+b20a35035f983f4 Christoph Lameter       2006-03-22  590   */
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  591) void folio_migrate_flags(struct folio *newfolio, struct folio *folio)
+b20a35035f983f4 Christoph Lameter       2006-03-22  592  {
+7851a45cd3f6198 Rik van Riel            2013-10-07  593  	int cpupid;
+7851a45cd3f6198 Rik van Riel            2013-10-07  594  
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  595) 	if (folio_test_error(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  596) 		folio_set_error(newfolio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  597) 	if (folio_test_referenced(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  598) 		folio_set_referenced(newfolio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  599) 	if (folio_test_uptodate(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  600) 		folio_mark_uptodate(newfolio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  601) 	if (folio_test_clear_active(folio)) {
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  602) 		VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  603) 		folio_set_active(newfolio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  604) 	} else if (folio_test_clear_unevictable(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  605) 		folio_set_unevictable(newfolio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  606) 	if (folio_test_workingset(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  607) 		folio_set_workingset(newfolio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  608) 	if (folio_test_checked(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  609) 		folio_set_checked(newfolio);
+6c287605fd56466 David Hildenbrand       2022-05-09  610  	/*
+6c287605fd56466 David Hildenbrand       2022-05-09  611  	 * PG_anon_exclusive (-> PG_mappedtodisk) is always migrated via
+6c287605fd56466 David Hildenbrand       2022-05-09  612  	 * migration entries. We can still have PG_anon_exclusive set on an
+6c287605fd56466 David Hildenbrand       2022-05-09  613  	 * effectively unmapped and unreferenced first sub-pages of an
+6c287605fd56466 David Hildenbrand       2022-05-09  614  	 * anonymous THP: we can simply copy it here via PG_mappedtodisk.
+6c287605fd56466 David Hildenbrand       2022-05-09  615  	 */
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  616) 	if (folio_test_mappedtodisk(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  617) 		folio_set_mappedtodisk(newfolio);
+b20a35035f983f4 Christoph Lameter       2006-03-22  618  
+76541556a9a3540 Peifeng Li              2022-09-13  619  	trace_android_vh_look_around_migrate_folio(folio, newfolio);
+76541556a9a3540 Peifeng Li              2022-09-13  620  
+3417013e0d183be Matthew Wilcox (Oracle  2021-05-07  621) 	/* Move dirty on pages not done by folio_migrate_mapping() */
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  622) 	if (folio_test_dirty(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  623) 		folio_set_dirty(newfolio);
+b20a35035f983f4 Christoph Lameter       2006-03-22  624  
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  625) 	if (folio_test_young(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  626) 		folio_set_young(newfolio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  627) 	if (folio_test_idle(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  628) 		folio_set_idle(newfolio);
+33c3fc71c8cfa3c Vladimir Davydov        2015-09-09  629  
+a33f7320b43e220 Zhaoyang Huang          2024-09-24 @630  	folio_migrate_refs(newfolio, folio);
+7851a45cd3f6198 Rik van Riel            2013-10-07  631  	/*
+7851a45cd3f6198 Rik van Riel            2013-10-07  632  	 * Copy NUMA information to the new page, to prevent over-eager
+7851a45cd3f6198 Rik van Riel            2013-10-07  633  	 * future migrations of this same page.
+7851a45cd3f6198 Rik van Riel            2013-10-07  634  	 */
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  635) 	cpupid = page_cpupid_xchg_last(&folio->page, -1);
+33024536bafd912 Huang Ying              2022-07-13  636  	/*
+33024536bafd912 Huang Ying              2022-07-13  637  	 * For memory tiering mode, when migrate between slow and fast
+33024536bafd912 Huang Ying              2022-07-13  638  	 * memory node, reset cpupid, because that is used to record
+33024536bafd912 Huang Ying              2022-07-13  639  	 * page access time in slow memory node.
+33024536bafd912 Huang Ying              2022-07-13  640  	 */
+33024536bafd912 Huang Ying              2022-07-13  641  	if (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) {
+33024536bafd912 Huang Ying              2022-07-13  642  		bool f_toptier = node_is_toptier(page_to_nid(&folio->page));
+33024536bafd912 Huang Ying              2022-07-13  643  		bool t_toptier = node_is_toptier(page_to_nid(&newfolio->page));
+33024536bafd912 Huang Ying              2022-07-13  644  
+33024536bafd912 Huang Ying              2022-07-13  645  		if (f_toptier != t_toptier)
+33024536bafd912 Huang Ying              2022-07-13  646  			cpupid = -1;
+33024536bafd912 Huang Ying              2022-07-13  647  	}
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  648) 	page_cpupid_xchg_last(&newfolio->page, cpupid);
+7851a45cd3f6198 Rik van Riel            2013-10-07  649  
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  650) 	folio_migrate_ksm(newfolio, folio);
+c8d6553b9580188 Hugh Dickins            2013-02-22  651  	/*
+c8d6553b9580188 Hugh Dickins            2013-02-22  652  	 * Please do not reorder this without considering how mm/ksm.c's
+c8d6553b9580188 Hugh Dickins            2013-02-22  653  	 * get_ksm_page() depends upon ksm_migrate_page() and PageSwapCache().
+c8d6553b9580188 Hugh Dickins            2013-02-22  654  	 */
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  655) 	if (folio_test_swapcache(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  656) 		folio_clear_swapcache(folio);
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  657) 	folio_clear_private(folio);
+ad2fa3717b74994 Muchun Song             2021-06-30  658  
+ad2fa3717b74994 Muchun Song             2021-06-30  659  	/* page->private contains hugetlb specific flags */
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  660) 	if (!folio_test_hugetlb(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  661) 		folio->private = NULL;
+b20a35035f983f4 Christoph Lameter       2006-03-22  662  
+b20a35035f983f4 Christoph Lameter       2006-03-22  663  	/*
+b20a35035f983f4 Christoph Lameter       2006-03-22  664  	 * If any waiters have accumulated on the new page then
+b20a35035f983f4 Christoph Lameter       2006-03-22  665  	 * wake them up.
+b20a35035f983f4 Christoph Lameter       2006-03-22  666  	 */
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  667) 	if (folio_test_writeback(newfolio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  668) 		folio_end_writeback(newfolio);
+d435edca9288050 Vlastimil Babka         2016-03-15  669  
+6aeff241fe6c456 Yang Shi                2020-04-06  670  	/*
+6aeff241fe6c456 Yang Shi                2020-04-06  671  	 * PG_readahead shares the same bit with PG_reclaim.  The above
+6aeff241fe6c456 Yang Shi                2020-04-06  672  	 * end_page_writeback() may clear PG_readahead mistakenly, so set the
+6aeff241fe6c456 Yang Shi                2020-04-06  673  	 * bit after that.
+6aeff241fe6c456 Yang Shi                2020-04-06  674  	 */
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  675) 	if (folio_test_readahead(folio))
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  676) 		folio_set_readahead(newfolio);
+6aeff241fe6c456 Yang Shi                2020-04-06  677  
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  678) 	folio_copy_owner(newfolio, folio);
+74485cf2bc85d2a Johannes Weiner         2016-03-15  679  
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  680) 	if (!folio_test_hugetlb(folio))
+d21bba2b7d0ae19 Matthew Wilcox (Oracle  2021-05-06  681) 		mem_cgroup_migrate(folio, newfolio);
+b20a35035f983f4 Christoph Lameter       2006-03-22  682  }
+19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  683) EXPORT_SYMBOL(folio_migrate_flags);
+2916ecc0f9d435d Jérôme Glisse           2017-09-08  684  
 
->>>>> A possible fix for this would be to rename PROT_NONE in the enum to PROT_TYPE_NONE.
->>>
->>> please write a patch to rename PROT_NONE in our enum to
->>> PROT_TYPE_DUMMY, I can review it quickly.
->>>
->>> if Paolo has no objections, I'm fine with having the patch go through
->>> the mm tree
->>
->> Yes, lets do a quick fix and I can also do
->> Acked-by: Christian Borntraeger <borntraeger@linux.ibm.com>
->>
->> for a s/PROT_NONE/PROT_TYPE_NONE/g
->> patch.
-> 
-> I'd rather have PROT_TYPE_DUMMY, since it's a dummy value and not
-> something that indicates "no protection"
+:::::: The code at line 630 was first introduced by commit
+:::::: a33f7320b43e2208558b33b0e6253d1bce6e1060 FROMGIT: mm: migrate LRU_REFS_MASK bits in folio_migrate_flags
 
-makes sense.
+:::::: TO: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
