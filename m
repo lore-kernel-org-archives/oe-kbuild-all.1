@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536D5216E1B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 12:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D748A1482E7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 12:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747224928; cv=none; b=BR1IWTjoQ3JcQMQW4QYMIJLnFuRfcFAFG068kRMclNWdDkrMWBbbqvsFY8DESfc7KjGzpKXH2cHKhB6OEiyhdumdFb6dP39fKJn6dFYVYOloA9nKJ4UIVdAZbhYq0JHOdCViHHWT60VyFTff52A4v0FhsXAyD/u5k5mvyjl5ht4=
+	t=1747225584; cv=none; b=dolCNdbEXjYMnhLs1aEmZcTm6rQOCthkvhmOBiuvWHMyLBGGBUbogAxJPqq3F3oKs2UKW7+qguYjhdGjUzDPz7ct1q2twj8rwtB8wASmfaPqq9bF/d13jSVadqzaxmwSQs7JPh1lxuneokmK/gqGqer53PEQpOvvDyCIfq1E6Mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747224928; c=relaxed/simple;
-	bh=Wq2iBIEwsY6FhRxgTv+U9RMmZ6m7AXpMshuV5t9m3Ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DzQUDU8My9hHmHVTi9deb6M2v1HYoWKenUMRKB4VaahbQYETkGCbNA2UYIHu/d865w7QvhJTJUEBG1chwMuKjou6Ob5yr8xIKoMFqnVP4s/kdHHQ2eEuMcIpXOOPCINA7BiZfydM5pAswjwpCG42XhHI3fG3D0B9yWA2T5wIo8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dDesafKP; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1747225584; c=relaxed/simple;
+	bh=VKdunYHzNsljWxUwfUcsx0oDa4lnDPzauJNrYuQNlnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EmoyRgfCuKx0iLAMyRuTegVOcggdTvrKaOGPQvtUPbOnTauTxvH++iOYKblTIQjD7xWCC3P8v83AH0U2GIfgAfL5tw1Vwqh7rEb686Ah+sVAS+z77HqE9VKlXi/hUbtfbxWy/wScdw5rLJFirRhWWNmV0yDLiWbS0VBU2bSJ10k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHJdrD7i; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dDesafKP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHJdrD7i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747224927; x=1778760927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wq2iBIEwsY6FhRxgTv+U9RMmZ6m7AXpMshuV5t9m3Ts=;
-  b=dDesafKPYQHLMRrBmrBv4lFR5wKME8x9zZTm2xem+9Tg4VshNuOCRBej
-   0Lwx5wNiq8G234hSLdQWNmlecm9zq4dzNaah1p8+cX8p5x2IFtnv/YhUN
-   bOVCvI/urVfYGC6QH1+6JJOOcv6mO4aHDlKzuAR0oHFb1w2VZFR3fPj9Z
-   3b88bPv7o8p09wEW/56nZRO26WjqImEfW4Pg6vu/m/e6yLzwVWQvheOga
-   3daTaywV0VOPkMs9gvmJYfwzcQ5NB7hEyLcjwfQzcEWFtQet3AGSVYegP
-   KRFd6JTq5AUcXfI1bFXqomj72MNYFSHe08ZzNUZZZLqGscD8tswDyTAj1
-   w==;
-X-CSE-ConnectionGUID: OET6aFtRT7mcDi/iDcF9hg==
-X-CSE-MsgGUID: tFS/+HATSaaLUGQ8UkvB1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="71621462"
+  t=1747225583; x=1778761583;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VKdunYHzNsljWxUwfUcsx0oDa4lnDPzauJNrYuQNlnM=;
+  b=JHJdrD7ix5jQRMf1HmZIltQbxS2vwx41Qs82Ay8/ZWztceugVNEbJud4
+   ZhzFUQhaWGBOz03SyLZFQh2TQxy5G5w4q9FD4XWiOQ1wQXaQYtaHQnYOK
+   kM4BWZ7IHX7j4OzR4DZtazburk5hBW+3LWpprj9boM6ghsld9Um0Xjvpl
+   WqTBVN9rB3UKqKVlwcHik5PmaWn42cWnyT5QYhKV7ytUmWHzeSk99mJri
+   YACCsiEnrVz01Tpo01/Rf0O2KCLiftGY/qv415SEe/C6C2f3GUGnOOGT4
+   PkRU1fNp5cjf1rfIIIuTrcFyZvYU+Sz7H6PTqez6aDN10YuilKjBeX8jG
+   A==;
+X-CSE-ConnectionGUID: VSEHVggHS56QGVzMf/tMSg==
+X-CSE-MsgGUID: G35DSX5OQE6moMOaWdBGTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="60519718"
 X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
-   d="scan'208";a="71621462"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 05:15:26 -0700
-X-CSE-ConnectionGUID: 10hiSKPcTemNRJ3E3wInOw==
-X-CSE-MsgGUID: v2pUpbBIT0uxm7g3oN8LFg==
+   d="scan'208";a="60519718"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 05:26:22 -0700
+X-CSE-ConnectionGUID: GCUwWwtKQhmljC7kHTDRVg==
+X-CSE-MsgGUID: pUYVW33JRU6XlME1/BiXGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
-   d="scan'208";a="138071684"
+   d="scan'208";a="137732899"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 May 2025 05:15:19 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 May 2025 05:26:21 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFB13-000H5P-1n;
-	Wed, 14 May 2025 12:15:17 +0000
-Date: Wed, 14 May 2025 20:14:36 +0800
+	id 1uFBBi-000H6V-2Y;
+	Wed, 14 May 2025 12:26:18 +0000
+Date: Wed, 14 May 2025 20:25:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
-	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
-	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
-	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com
-Subject: Re: [PATCH v15 02/43] dept: implement DEPT(DEPendency Tracker)
-Message-ID: <202505142038.OTu01zaa-lkp@intel.com>
-References: <20250513100730.12664-3-byungchul@sk.com>
+To: kernel@openeuler.org, WenChen <chenwen54@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2894/2894]
+ drivers/ub/urma/ubcore/ubcore_tp.c:392:5: sparse: sparse: symbol
+ 'ubcore_modify_tp_state' was not declared. Should it be static?
+Message-ID: <202505142017.QGHM5TBg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,37 +62,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250513100730.12664-3-byungchul@sk.com>
 
-Hi Byungchul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-move-llist_-head-node-definition-to-types-h/20250513-181346
-base:   82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3
-patch link:    https://lore.kernel.org/r/20250513100730.12664-3-byungchul%40sk.com
-patch subject: [PATCH v15 02/43] dept: implement DEPT(DEPendency Tracker)
-config: x86_64-kismet-CONFIG_DEBUG_MUTEXES-CONFIG_DEPT-0-0 (https://download.01.org/0day-ci/archive/20250514/202505142038.OTu01zaa-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250514/202505142038.OTu01zaa-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   731227d05f54b13300b28332fabd3f3aaf0950eb
+commit: 329bf7f331286ee5d571d374e31ed50d2877b110 [2894/2894] ubcore: fix the bug of tp negotiation concurrency
+config: x86_64-randconfig-r121-20250514 (https://download.01.org/0day-ci/archive/20250514/202505142017.QGHM5TBg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505142017.QGHM5TBg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505142038.OTu01zaa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505142017.QGHM5TBg-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DEBUG_MUTEXES when selected by DEPT
-   WARNING: unmet direct dependencies detected for DEBUG_RWSEMS
-     Depends on [n]: DEBUG_KERNEL [=y] && !PREEMPT_RT [=y]
-     Selected by [y]:
-     - DEPT [=y] && DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=y]
-   
-   WARNING: unmet direct dependencies detected for DEBUG_MUTEXES
-     Depends on [n]: DEBUG_KERNEL [=y] && !PREEMPT_RT [=y]
-     Selected by [y]:
-     - DEPT [=y] && DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=y]
+sparse warnings: (new ones prefixed by >>)
+>> drivers/ub/urma/ubcore/ubcore_tp.c:392:5: sparse: sparse: symbol 'ubcore_modify_tp_state' was not declared. Should it be static?
+
+vim +/ubcore_modify_tp_state +392 drivers/ub/urma/ubcore/ubcore_tp.c
+
+   391	
+ > 392	int ubcore_modify_tp_state(struct ubcore_device *dev, struct ubcore_tp *tp,
+   393		enum ubcore_tp_state new_state, struct ubcore_tp_attr *attr, union ubcore_tp_attr_mask mask)
+   394	{
+   395		if (ubcore_modify_tp_state_check(tp, new_state) != 0)
+   396			return -1;
+   397	
+   398		if (tp->state == UBCORE_TP_STATE_ERR && new_state == UBCORE_TP_STATE_ERR) {
+   399			ubcore_log_info("tp is already in ERR state and tpn = %u",
+   400				tp->tpn);
+   401			return 0;
+   402		}
+   403	
+   404		if (dev->ops->modify_tp(tp, attr, mask) != 0) {
+   405			/* tp->peer_ext.addr will be freed when called ubcore_destroy_tp */
+   406			ubcore_log_err("Failed to modify tp to %u from state %u and tpn = %u",
+   407				(uint32_t)new_state, (uint32_t)tp->state, tp->tpn);
+   408			return -1;
+   409		}
+   410		tp->state = new_state;
+   411		ubcore_log_info("tp state:(%u to %u) with tpn %u, peer_tpn %u",
+   412			(uint32_t)tp->state, (uint32_t)new_state, tp->tpn, tp->peer_tpn);
+   413		return 0;
+   414	}
+   415	
 
 -- 
 0-DAY CI Kernel Test Service
