@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2008272E5E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 10:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1874C9F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 11:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747217836; cv=none; b=JDphozbStuCgl0FYXCQ/NewEQU/TYZHBN4Oar1Dq0CR3VLyMaEQFt+XLrXwrYPvDwom4JQT+LPwJ1nawTIyFSCe2susN9QkfkszYeN5jKx/P9x2heTDQKJwLeQt0N/QWanQNGdH/CRZ2JxQraZ1fsoA+5c234X2nqS5FkTeYQFE=
+	t=1747220415; cv=none; b=sYhA5nfWAhMYn0+Xd6KywRBvk0U7pGV4/OCVyO32SwxGyXBRaBC/nYjupQiGvIqJ/rO+GICHKVjcGP1/hExj8Za6sInQjxvN4ISK158j85yKNYIlBCLFld2KYwASHos/5Xoj3UN/LLxtCfQVpo9ARcSQC5gh7mqa+DM8OLnu+LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747217836; c=relaxed/simple;
-	bh=pUhczTFxFK//x74/GLVSjCp54Mp/AI+ECRjcC7UguWA=;
+	s=arc-20240116; t=1747220415; c=relaxed/simple;
+	bh=85oZVOlTXEtpXJ/bWZMknJ8zgVMKsB9riX0PALvd3pg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TYYG90J71L+7Sy8MsxaKFL5oLVvuKTy4IUGcWnlJt0hYis+w1jOFb+1RHnDzNeQXHUizgFodc3S0ZZOVWiu2rK8xnXjWcT7RNiVvMvafLyi6L5P58uQ1PYxSvZ+TsSaq3UeVoMJcDKSze75D3ZZ2QPAiuqT7SSqbIQpiDqMH8CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ht3Mkzoi; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=WhUmjSkLyhzmehLlmksALZO9DcbcYnbwsr3Ck0iLwentzXGUEK/LlR4ZhLfs4as1Ec1/05qJnmaWXXP6fxlDZjo9P6oEO4OvGvrhrvfuPdTwMaJmH7Hlt9BZ8hllVtXNWbtIwMrqnvNkCyEd4fKpY/DyTduI1HDMGmzu6veuvPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbGyAeWc; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ht3Mkzoi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbGyAeWc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747217831; x=1778753831;
+  t=1747220414; x=1778756414;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pUhczTFxFK//x74/GLVSjCp54Mp/AI+ECRjcC7UguWA=;
-  b=ht3Mkzoig0F31117BUoK4yd1A3A0Ga9428++Wf2cbfygLDeXAfFoIpJV
-   d2jePk9KxhsIddLhUNAvMQwnFau02ueG3zaNVI9+Wlpk/loi3i/OC4BD/
-   XTUGOLTrOderr1x+QNJ/boxwR9sgq55ohzeI55sqVeUaaD9kZ9MBWO1x1
-   5ntEqe4245rkMKhA5+IcVBbvgj4UvnkUHGwL55TqV+3Oh2pi/OYZpxdWL
-   qC4MjryCZNyaL3YsqS/eLMVcACW4K3cajNA28KCgURdCX/pO7PW2zaslz
-   mDu/w79fwdgBPiZUlNvXuMIWc9whJE3H5xLmUoEI+u1KseRNCi4QvZVUI
-   w==;
-X-CSE-ConnectionGUID: cctsIMYWT9ii5XjxMjcTIA==
-X-CSE-MsgGUID: nYwdazGuRE+KKRAqrY5ZRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="49086961"
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="49086961"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 03:17:08 -0700
-X-CSE-ConnectionGUID: GjtIEYBDSbC+GWcxujFoIg==
-X-CSE-MsgGUID: RGpChVc+T9m/faUahnP5vA==
+  bh=85oZVOlTXEtpXJ/bWZMknJ8zgVMKsB9riX0PALvd3pg=;
+  b=AbGyAeWcfX3oITDNFqw0fPjfRZx5ZousOXBJLJW4AmJvKrtnk4Yyhhzc
+   wGlSWFkjp0QzQGFJtltQLmp1KkW1U/+sE1Vve5QDmow3IKXOvDsnyleTg
+   y8yt7a7N4jVWucnWf/kY+OKc+sk+3IopFuWw7O6POHB1+/jwZAKY26k3K
+   NuEdBykDI7YMeNsMcERMFTAHipP0+srwYhq7p6KsbnOetjLZnn+bDCRzh
+   ZCi83Ie86Is2Un89/89MgxkmMJLphFOelJwA5LLwGehx4iqZU8+O00Whn
+   HofYA9QF6+UaeQoZT1RhDN7otrNhOLwUIwjRLY3ROt2yoAac9054hvhtI
+   A==;
+X-CSE-ConnectionGUID: n/3XsjM7Rha/ZRh95z0Y2Q==
+X-CSE-MsgGUID: Fglr+nMFT52uQwu/HTgFyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="71612365"
+X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
+   d="scan'208";a="71612365"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 04:00:13 -0700
+X-CSE-ConnectionGUID: 2UyvQoCuTwqCLKbm8nkRAw==
+X-CSE-MsgGUID: V15yGB8dQHOyJ23rPZTF9Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="169094843"
+X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
+   d="scan'208";a="138061065"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 May 2025 03:17:06 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 May 2025 04:00:11 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uF9Ae-000Gy1-20;
-	Wed, 14 May 2025 10:17:04 +0000
-Date: Wed, 14 May 2025 18:16:33 +0800
+	id 1uF9qL-000H0Z-21;
+	Wed, 14 May 2025 11:00:09 +0000
+Date: Wed, 14 May 2025 19:00:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yizhen Fan <fanyizhen@huawei.com>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2894/2894]
- drivers/ub/urma/ubcore/ubcore_main.c:890:41: sparse: sparse: incorrect type
- in assignment (different base types)
-Message-ID: <202505141824.YitLoE8O-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 56/56] mm/ksm.c:146: warning: Function
+ parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
+Message-ID: <202505141807.sk1zcIgx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,368 +62,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   731227d05f54b13300b28332fabd3f3aaf0950eb
-commit: 84e122368ec3a37e074c9657bc09422b62f6ccd0 [2894/2894] ub: add new feature for urma
-config: x86_64-randconfig-r121-20250514 (https://download.01.org/0day-ci/archive/20250514/202505141824.YitLoE8O-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505141824.YitLoE8O-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   962678f628e6378bd0b60eeb52c2e28ec5881096
+commit: 6213df05e6a41c4359febd123367d169fd284683 [56/56] anolis: kabi: reserve some space for kABI
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250514/202505141807.sk1zcIgx-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505141807.sk1zcIgx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505141824.YitLoE8O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505141807.sk1zcIgx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/ub/urma/ubcore/ubcore_main.c:90:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:90:44: sparse:     expected void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:90:44: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:121:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:121:44: sparse:     expected void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:121:44: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:143:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:143:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:143:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:159:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:159:44: sparse:     expected void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:159:44: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:184:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:184:37: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:184:37: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:194:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:194:44: sparse:     expected void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:194:44: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:228:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:228:44: sparse:     expected void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:228:44: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:313:18: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:313:18: sparse:     expected void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:313:18: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:511:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:511:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:511:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:518:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:518:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:518:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:524:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:524:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:524:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:530:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:530:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:530:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:536:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:536:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:536:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:542:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:542:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:542:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:549:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:549:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:549:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:556:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:556:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:556:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:563:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:563:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:563:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:569:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:569:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:569:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:575:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:575:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:575:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:614:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:614:34: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:614:34: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:639:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:639:34: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:639:34: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:673:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:673:49: sparse:     expected void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:673:49: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:724:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:724:36: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:724:36: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:738:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:738:44: sparse:     expected void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:738:44: sparse:     got void [noderef] __user *
-   drivers/ub/urma/ubcore/ubcore_main.c:764:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/ubcore/ubcore_main.c:764:37: sparse:     expected void *args_addr
-   drivers/ub/urma/ubcore/ubcore_main.c:764:37: sparse:     got void [noderef] __user *
->> drivers/ub/urma/ubcore/ubcore_main.c:890:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] reserved2 @@     got restricted __be32 [usertype] @@
-   drivers/ub/urma/ubcore/ubcore_main.c:890:41: sparse:     expected unsigned int [usertype] reserved2
-   drivers/ub/urma/ubcore/ubcore_main.c:890:41: sparse:     got restricted __be32 [usertype]
-   drivers/ub/urma/ubcore/ubcore_main.c:891:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] addr @@     got restricted __be32 [usertype] ipv4 @@
-   drivers/ub/urma/ubcore/ubcore_main.c:891:36: sparse:     expected unsigned int [usertype] addr
-   drivers/ub/urma/ubcore/ubcore_main.c:891:36: sparse:     got restricted __be32 [usertype] ipv4
->> drivers/ub/urma/ubcore/ubcore_main.c:1061:51: sparse: sparse: restricted __be64 degrades to integer
-   drivers/ub/urma/ubcore/ubcore_main.c:1168:66: sparse: sparse: restricted __be64 degrades to integer
-   drivers/ub/urma/ubcore/ubcore_main.c: note: in included file:
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/ubcore/ubcore_cmd.h:133:33: sparse:     got void *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/ubcore/ubcore_cmd.h:122:41: sparse:     got void const *args_addr
+All warnings (new ones prefixed by >>):
 
-vim +890 drivers/ub/urma/ubcore/ubcore_main.c
+>> mm/ksm.c:146: warning: Function parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
 
-   886	
-   887	static void ubcore_ipv4_to_netaddr(struct ubcore_net_addr *netaddr, __be32 ipv4)
-   888	{
-   889		netaddr->net_addr.in4.reserved1 = 0;
- > 890		netaddr->net_addr.in4.reserved2 = htonl(UBCORE_IPV4_MAP_IPV6_PREFIX);
-   891		netaddr->net_addr.in4.addr = ipv4;
-   892	}
-   893	
-   894	static void ubcore_sip_init(struct ubcore_sip_info *sip, struct ubcore_device *pf_dev,
-   895		const struct ubcore_net_addr *netaddr, uint32_t port_id, uint32_t prefix_len, uint32_t mtu)
-   896	{
-   897		(void)memcpy(sip->dev_name, pf_dev->dev_name, UBCORE_MAX_DEV_NAME);
-   898		(void)memcpy(&sip->addr, netaddr, sizeof(struct ubcore_net_addr));
-   899		sip->port_id[0] = (uint8_t)port_id;
-   900		sip->port_cnt = 1;
-   901		sip->prefix_len = prefix_len;
-   902		sip->mtu = mtu;
-   903	}
-   904	
-   905	static void ubcore_add_net_addr(struct ubcore_device *tpf_dev, struct ubcore_device *pf_dev,
-   906		struct ubcore_net_addr *netaddr, struct net_device *netdev, uint32_t prefix_len)
-   907	{
-   908		struct ubcore_sip_info sip = {0};
-   909		uint32_t index;
-   910		uint32_t port_id;
-   911		int ret;
-   912	
-   913		/* get driver set nedev port */
-   914		port_id = ubcore_find_port_netdev(pf_dev, netdev);
-   915	
-   916		ubcore_sip_init(&sip, pf_dev,
-   917			netaddr, port_id, prefix_len, (uint32_t)netdev->mtu);
-   918	
-   919		ret = ubcore_lookup_sip_idx(&sip, &index);
-   920		if (ret == 0) {
-   921			ubcore_log_err("sip already exists\n");
-   922			return;
-   923		}
-   924		index = ubcore_sip_idx_alloc(0);
-   925	
-   926		if (tpf_dev->ops->add_net_addr != NULL &&
-   927			tpf_dev->ops->add_net_addr(tpf_dev, netaddr, index) != 0)
-   928			ubcore_log_err("Failed to set net addr");
-   929	
-   930		/* add net_addr entry, record idx -> netaddr mapping */
-   931		(void)ubcore_add_sip_entry(&sip, index);
-   932	
-   933		/* nodify uvs add sip info */
-   934		if (ubcore_get_netlink_valid() == true)
-   935			(void)ubcore_notify_uvs_add_sip(tpf_dev, &sip, index);
-   936	
-   937		/* The ubcore sip table and up/down events are updated synchronously, and the uvs
-   938		 * is abnormally disconnected. After waiting for the pull-up,
-   939		 * the sip table in the kernel state is actively synchronized.
-   940		 */
-   941	}
-   942	
-   943	static void ubcore_delete_net_addr(struct ubcore_device *tpf_dev, struct ubcore_device *pf_dev,
-   944		struct ubcore_net_addr *netaddr, struct net_device *netdev, uint32_t prefix_len)
-   945	{
-   946		struct ubcore_sip_info sip = {0};
-   947		uint32_t port_id;
-   948		uint32_t index;
-   949	
-   950		port_id = ubcore_find_port_netdev(pf_dev, netdev);
-   951		ubcore_sip_init(&sip, pf_dev,
-   952			netaddr, port_id, prefix_len, (uint32_t)netdev->mtu);
-   953		if (ubcore_lookup_sip_idx(&sip, &index) != 0)
-   954			return;
-   955	
-   956		if (tpf_dev->ops->delete_net_addr != NULL &&
-   957			tpf_dev->ops->delete_net_addr(tpf_dev, index) != 0)
-   958			ubcore_log_err("Failed to delete net addr");
-   959	
-   960		(void)ubcore_del_sip_entry(index);
-   961		(void)ubcore_sip_idx_free(index);
-   962		/* nodify uvs delete sip info */
-   963		if (ubcore_get_netlink_valid() == true)
-   964			(void)ubcore_notify_uvs_del_sip(tpf_dev, &sip, index);
-   965	
-   966		/* The ubcore sip table and up/down events are updated synchronously,
-   967		 * and the uvs is abnormally disconnected. After waiting for the pull-up,
-   968		 * the sip table in the kernel state is actively synchronized
-   969		 */
-   970	}
-   971	
-   972	static void ubcore_update_eid(struct ubcore_device *dev,
-   973		struct ubcore_net_addr *netaddr, bool is_add)
-   974	{
-   975		union ubcore_eid *eid;
-   976	
-   977		if (dev->transport_type <= UBCORE_TRANSPORT_INVALID ||
-   978			dev->transport_type >= UBCORE_TRANSPORT_MAX)
-   979			return;
-   980	
-   981		if (!dev->dynamic_eid) {
-   982			ubcore_log_err("static mode does not allow modify of eid");
-   983			return;
-   984		}
-   985		eid = (union ubcore_eid *)(void *)&netaddr->net_addr;
-   986		if (dev->cfg.pattern == (uint8_t)UBCORE_PATTERN_1)
-   987			ubcore_update_pattern1_eid(dev, eid, is_add);
-   988		else
-   989			ubcore_update_pattern3_eid(dev, eid, is_add);
-   990	}
-   991	
-   992	static int ubcore_handle_inetaddr_event(struct net_device *netdev, unsigned long event,
-   993						struct ubcore_net_addr *netaddr, uint32_t prefix_len)
-   994	{
-   995		struct net_device *real_netdev;
-   996		struct ubcore_net_addr real_netaddr;
-   997		struct ubcore_device **devices;
-   998		uint32_t num_devices = 0;
-   999		struct ubcore_device *tpf_dev;
-  1000		struct ubcore_device *dev;
-  1001	
-  1002		uint32_t i;
-  1003	
-  1004		if (netdev == NULL || netdev->reg_state >= NETREG_UNREGISTERING)
-  1005			return NOTIFY_DONE;
-  1006	
-  1007		if (is_vlan_dev(netdev)) {
-  1008			real_netdev = vlan_dev_real_dev(netdev);
-  1009			(void)ubcore_fill_netaddr_macvlan(&real_netaddr, real_netdev, netaddr->type);
-  1010		} else {
-  1011			real_netdev = netdev;
-  1012			real_netaddr = *netaddr;
-  1013		}
-  1014		tpf_dev = ubcore_find_tpf_device(&real_netaddr, UBCORE_TRANSPORT_UB);
-  1015		devices = ubcore_get_devices_from_netdev(real_netdev, &num_devices);
-  1016		if (devices == NULL) {
-  1017			ubcore_put_device(tpf_dev);
-  1018			return NOTIFY_DONE;
-  1019		}
-  1020		for (i = 0; i < num_devices; i++) {
-  1021			dev = devices[i];
-  1022			switch (event) {
-  1023			case NETDEV_UP:
-  1024				if (tpf_dev)
-  1025					ubcore_add_net_addr(tpf_dev, dev, netaddr, netdev, prefix_len);
-  1026				ubcore_update_eid(dev, netaddr, true);
-  1027				break;
-  1028			case NETDEV_DOWN:
-  1029				if (tpf_dev)
-  1030					ubcore_delete_net_addr(tpf_dev, dev, netaddr, netdev, prefix_len);
-  1031				ubcore_update_eid(dev, netaddr, false);
-  1032				break;
-  1033			default:
-  1034				break;
-  1035			}
-  1036		}
-  1037		ubcore_put_device(tpf_dev);
-  1038		ubcore_put_devices(devices, num_devices);
-  1039		return NOTIFY_OK;
-  1040	}
-  1041	
-  1042	static int ubcore_ipv6_notifier_call(struct notifier_block *nb,
-  1043		unsigned long event, void *arg)
-  1044	{
-  1045		struct inet6_ifaddr *ifa = (struct inet6_ifaddr *)arg;
-  1046		struct ubcore_net_addr netaddr;
-  1047		struct net_device *netdev;
-  1048	
-  1049		if (ifa == NULL || ifa->idev == NULL || ifa->idev->dev == NULL)
-  1050			return NOTIFY_DONE;
-  1051	
-  1052		netdev = ifa->idev->dev;
-  1053		ubcore_log_info("Get a ipv6 event %s from netdev %s%s ip %pI6c prefixlen %u",
-  1054			netdev_cmd_to_name(event), netdev_name(netdev), netdev_reg_state(netdev),
-  1055			&ifa->addr, ifa->prefix_len);
-  1056	
-  1057		memset(&netaddr, 0, sizeof(struct ubcore_net_addr));
-  1058		(void)memcpy(&netaddr.net_addr, &ifa->addr, sizeof(struct in6_addr));
-  1059		(void)ubcore_fill_netaddr_macvlan(&netaddr, netdev, UBCORE_NET_ADDR_TYPE_IPV6);
-  1060	
-> 1061		if (netaddr.net_addr.in6.subnet_prefix == cpu_to_be64(UBCORE_LOCAL_SHUNET))
-  1062			/* When mtu changes, intercept the ipv6 address up/down that triggers fe80 */
-  1063			return NOTIFY_DONE;
-  1064		return ubcore_handle_inetaddr_event(netdev, event, &netaddr, ifa->prefix_len);
-  1065	}
-  1066	
+
+vim +146 mm/ksm.c
+
+31dbd01f314364 Izik Eidus   2009-09-21  128  
+31dbd01f314364 Izik Eidus   2009-09-21  129  /**
+31dbd01f314364 Izik Eidus   2009-09-21  130   * struct ksm_scan - cursor for scanning
+31dbd01f314364 Izik Eidus   2009-09-21  131   * @mm_slot: the current mm_slot we are scanning
+31dbd01f314364 Izik Eidus   2009-09-21  132   * @address: the next address inside that to be scanned
+6514d511dbe5a7 Hugh Dickins 2009-12-14  133   * @rmap_list: link to the next rmap to be scanned in the rmap_list
+31dbd01f314364 Izik Eidus   2009-09-21  134   * @seqnr: count of completed full scans (needed when removing unstable node)
+31dbd01f314364 Izik Eidus   2009-09-21  135   *
+31dbd01f314364 Izik Eidus   2009-09-21  136   * There is only the one ksm_scan instance of this cursor structure.
+31dbd01f314364 Izik Eidus   2009-09-21  137   */
+31dbd01f314364 Izik Eidus   2009-09-21  138  struct ksm_scan {
+21fbd59136e077 Qi Zheng     2022-08-31  139  	struct ksm_mm_slot *mm_slot;
+31dbd01f314364 Izik Eidus   2009-09-21  140  	unsigned long address;
+21fbd59136e077 Qi Zheng     2022-08-31  141  	struct ksm_rmap_item **rmap_list;
+31dbd01f314364 Izik Eidus   2009-09-21  142  	unsigned long seqnr;
+6213df05e6a41c Guixin Liu   2024-08-26  143  
+6213df05e6a41c Guixin Liu   2024-08-26  144  	CK_KABI_RESERVE(1)
+6213df05e6a41c Guixin Liu   2024-08-26  145  	CK_KABI_RESERVE(2)
+31dbd01f314364 Izik Eidus   2009-09-21 @146  };
+31dbd01f314364 Izik Eidus   2009-09-21  147  
+
+:::::: The code at line 146 was first introduced by commit
+:::::: 31dbd01f314364b70c2e026a5793a29a4da8a9dc ksm: Kernel SamePage Merging
+
+:::::: TO: Izik Eidus <ieidus@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
