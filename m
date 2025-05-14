@@ -1,63 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774D419341F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 15:27:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933AC1C862D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 15:27:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747236466; cv=none; b=CSli9yzbMLuLcBsxQulY3Yqz/vq0icKEt6K5bFZwJp0aYTaPfmFm9xLNWOewfuK2pcXRBMYRlIsA7P3IHJyNd3Wac7rnQ9DSuk+DeBkyc1wrmQTFbw672Nq99HLijL3ZdVMabHrl7ArlP0JCUWuqutlVd3+LnjJ4IMt1BwzIPbY=
+	t=1747236472; cv=none; b=aH2r2f3YuKL+Z9HX2yK2B9HrcoouXCvH6u1WOcvDXoakYKJD6nDl0OnWEz+DLxAB//Vna9Che2Q4zFpjm3aaVN5zL3B12yV93Jof8Ash9FCD2+F5Fh7kC1VQ7nvLfThR1yN8hFBUSAqiNleqiMJsoE0cPEXi36QJUahwNE114nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747236466; c=relaxed/simple;
-	bh=Tx87UH5/X5KEdw4O/rDGFH4djE3sFSAJH3bGJ07BA6E=;
+	s=arc-20240116; t=1747236472; c=relaxed/simple;
+	bh=P4BH575FBKSRRUHOEBLubn9LCIJLPGRG4oWLRNDGjY8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EvMNHQgzepEYd9Szh7/UMftkidaN1bMelTsus+pP5jE6QYAEtMk3panr0L5v/OzqjoIQL/mq/0gB/8b2MVbu5W90VHSVRrZSTgN5C+ZFNPNVXMD/SqHushQQQE0H0sfEFyFg2iINb2Sbu4b3pnGfV21CJuPpVr4myGAe72TBr78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nhVBeW1v; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mmud3re5KA9GFpV7+cMXBLgyAqFdF76HZwJ1TvFjaQhapI2jeWV05+CvmmdXzSTnHeAPA6E1sdP+dKFx6YclvDXVgHNx8cUUj4W49LXvwMt0YZ3P1Xm0w+42zba6Lo81DlMrGNH6zdtf4JTWSGdIq8A5TmeNYx6GJ+liejVBgok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dTuLbvpK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nhVBeW1v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dTuLbvpK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747236464; x=1778772464;
+  t=1747236468; x=1778772468;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Tx87UH5/X5KEdw4O/rDGFH4djE3sFSAJH3bGJ07BA6E=;
-  b=nhVBeW1vZA8Vo6w320Rh+u058tQC/LeLM8BJPUty7AX/VsqrrHmbOv6/
-   kPUoWduHJQI1Zvip68454NenG9wUMOPMN3EXAdlfcxy2rPMXedVGZ8rFI
-   mDdhOQOgcSiCLJjFPP0Bi1Ija2SDKfs5GRwAECAyfPA9CiRhiMRz0W13e
-   o227Slmb1hrvIVHdgIQoNgejl/dO28+jS6RhzXM1UPYpQQK8H2GbcdaFm
-   ssNPpeakE7C/hMzFyEujucHFhHvXseE1nRrPeBNxURs5YzP/rwe7oR6Vg
-   E71NoW6zUa3FGvLbtJY0pFMaWrwi3IewZJjlFdGVdLAxV4XhNObAzD1d5
-   Q==;
-X-CSE-ConnectionGUID: 9eu+nNaGRii3wdm8LyLAAQ==
-X-CSE-MsgGUID: xiwMoBv4Qi2gVfMIDQ3sLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49011855"
+  bh=P4BH575FBKSRRUHOEBLubn9LCIJLPGRG4oWLRNDGjY8=;
+  b=dTuLbvpKOoJkIusofNu6VRmTzQ9/6ot3/cke8bdygyRaEcuFy50twmSj
+   drCzaLsSydIyfpvK4QHQobScfUUbFudbzpouvdx8wgwqt4rQaEQb5p9/U
+   /+o9r/9x/lPM2GIq8cT9bxlIT5EyHg01An7zwazb1BaaAqK2U67EzyuN3
+   95F737bQRvKB7m2Lg76tGLWDK+8BH0Y0taWXe+6mQY0u23iIrlQhlWnsW
+   dO1q93E3ZQ3FPWvhspQ0WsTmp1Ripz7r6kkQ4aFDf5JVz+xO48XgmV0Iz
+   d0SODeSGmEwuIINIo80l5aZoRBkDcv/l9+BvURL1s2hGG2pTpSS1pbbwY
+   A==;
+X-CSE-ConnectionGUID: vgKtv2NYSyqnmFWq1AM2+Q==
+X-CSE-MsgGUID: g/zTpR0UQzuGn9600j5pnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49011868"
 X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
-   d="scan'208";a="49011855"
+   d="scan'208";a="49011868"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 08:27:43 -0700
-X-CSE-ConnectionGUID: IQTYckveRESfx5mZ1KepsQ==
-X-CSE-MsgGUID: Gn256g4pSIaheNqXyn1KLA==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 08:27:47 -0700
+X-CSE-ConnectionGUID: 6M0mFNVXS1WQNOpaUjmxFA==
+X-CSE-MsgGUID: r0hgZytISMGBd7h96K6ctA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,288,1739865600"; 
-   d="scan'208";a="138597878"
+   d="scan'208";a="138597901"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 14 May 2025 08:27:40 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFE1C-000HH9-0Z;
+	id 1uFE1C-000HHD-0g;
 	Wed, 14 May 2025 15:27:38 +0000
-Date: Wed, 14 May 2025 23:27:08 +0800
+Date: Wed, 14 May 2025 23:27:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Norris <briannorris@chromium.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, Douglas Anderson <dianders@chromium.org>,
-	Tsai Sung-Fu <danielsftsai@google.com>,
-	linux-kernel@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH 1/2] genirq: Add kunit tests for depth counts
-Message-ID: <202505142327.mfHUg14q-lkp@intel.com>
-References: <20250513224402.864767-2-briannorris@chromium.org>
+To: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com,
+	chenhuacai@kernel.org, mpe@ellerman.id.au, anup@brainfault.org,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	seanjc@google.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	willy@infradead.org, akpm@linux-foundation.org,
+	xiaoyao.li@intel.com, yilun.xu@intel.com,
+	chao.p.peng@linux.intel.com, jarkko@kernel.org, amoorthy@google.com,
+	dmatlack@google.com, isaku.yamahata@intel.com, mic@digikod.net,
+	vbabka@suse.cz, vannapurve@google.com, ackerleytng@google.com,
+	mail@maciej.szmigiero.name, david@redhat.com, michael.roth@amd.com,
+	wei.w.wang@intel.com
+Subject: Re: [PATCH v9 10/17] KVM: x86: Compute max_mapping_level with input
+ from guest_memfd
+Message-ID: <202505142334.6dQb5Sei-lkp@intel.com>
+References: <20250513163438.3942405-11-tabba@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,117 +74,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250513224402.864767-2-briannorris@chromium.org>
+In-Reply-To: <20250513163438.3942405-11-tabba@google.com>
 
-Hi Brian,
+Hi Fuad,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on linus/master v6.15-rc6 next-20250514]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Norris/genirq-Add-kunit-tests-for-depth-counts/20250514-065050
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20250513224402.864767-2-briannorris%40chromium.org
-patch subject: [PATCH 1/2] genirq: Add kunit tests for depth counts
-config: arm-randconfig-003-20250514 (https://download.01.org/0day-ci/archive/20250514/202505142327.mfHUg14q-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505142327.mfHUg14q-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fuad-Tabba/KVM-Rename-CONFIG_KVM_PRIVATE_MEM-to-CONFIG_KVM_GMEM/20250514-003900
+base:   82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3
+patch link:    https://lore.kernel.org/r/20250513163438.3942405-11-tabba%40google.com
+patch subject: [PATCH v9 10/17] KVM: x86: Compute max_mapping_level with input from guest_memfd
+config: x86_64-buildonly-randconfig-002-20250514 (https://download.01.org/0day-ci/archive/20250514/202505142334.6dQb5Sei-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505142334.6dQb5Sei-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505142327.mfHUg14q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505142334.6dQb5Sei-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/arm/lib/clearbit.S: Assembler messages:
->> arch/arm/lib/clearbit.S:12: Error: architectural extension `mp' is not allowed for the current base architecture
->> arch/arm/lib/clearbit.S:12: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
---
-   arch/arm/lib/changebit.S: Assembler messages:
->> arch/arm/lib/changebit.S:12: Error: architectural extension `mp' is not allowed for the current base architecture
->> arch/arm/lib/changebit.S:12: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
---
-   arch/arm/lib/testclearbit.S: Assembler messages:
->> arch/arm/lib/testclearbit.S:12: Error: architectural extension `mp' is not allowed for the current base architecture
->> arch/arm/lib/testclearbit.S:12: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
-   arch/arm/lib/testclearbit.S:15: Error: architectural extension `mp' is not allowed for the current base architecture
-   arch/arm/lib/testclearbit.S:15: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
---
-   arch/arm/lib/testsetbit.S: Assembler messages:
->> arch/arm/lib/testsetbit.S:12: Error: architectural extension `mp' is not allowed for the current base architecture
->> arch/arm/lib/testsetbit.S:12: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
-   arch/arm/lib/testsetbit.S:15: Error: architectural extension `mp' is not allowed for the current base architecture
-   arch/arm/lib/testsetbit.S:15: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
---
-   arch/arm/lib/testchangebit.S: Assembler messages:
->> arch/arm/lib/testchangebit.S:12: Error: architectural extension `mp' is not allowed for the current base architecture
->> arch/arm/lib/testchangebit.S:12: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
-   arch/arm/lib/testchangebit.S:15: Error: architectural extension `mp' is not allowed for the current base architecture
-   arch/arm/lib/testchangebit.S:15: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
---
-   arch/arm/lib/setbit.S: Assembler messages:
->> arch/arm/lib/setbit.S:12: Error: architectural extension `mp' is not allowed for the current base architecture
->> arch/arm/lib/setbit.S:12: Error: selected processor does not support `pldw.w [r1]' in Thumb mode
---
->> arch/arm/kernel/smp.c:98:22: warning: 'get_arch_pgd' defined but not used [-Wunused-function]
-    static unsigned long get_arch_pgd(pgd_t *pgd)
-                         ^~~~~~~~~~~~
-   /tmp/ccR1vg73.s: Assembler messages:
->> /tmp/ccR1vg73.s:470: Error: architectural extension `mp' is not allowed for the current base architecture
->> /tmp/ccR1vg73.s:471: Error: selected processor does not support `pldw [r1]' in Thumb mode
---
-   arch/arm/kernel/head-nommu.S: Assembler messages:
->> arch/arm/kernel/head-nommu.S:488: Error: ARM register expected -- `str r0,[,#0x98]'
-   arch/arm/kernel/head-nommu.S:495: Error: ARM register expected -- `str r0,[,#0x9c]'
->> arch/arm/kernel/head-nommu.S:495: Error: ARM register expected -- `str r5,[,#0xa0]'
-   arch/arm/kernel/head-nommu.S:497: Error: ARM register expected -- `str r0,[,#0x9c]'
-   arch/arm/kernel/head-nommu.S:497: Error: ARM register expected -- `str r5,[,#0xa0]'
---
-   /tmp/ccPRjQyq.s: Assembler messages:
-   /tmp/ccPRjQyq.s:388: Error: architectural extension `mp' is not allowed for the current base architecture
->> /tmp/ccPRjQyq.s:389: Error: selected processor does not support `pldw [r4]' in Thumb mode
-   /tmp/ccPRjQyq.s:549: Error: architectural extension `mp' is not allowed for the current base architecture
-   /tmp/ccPRjQyq.s:550: Error: selected processor does not support `pldw [r4]' in Thumb mode
---
-   /tmp/cc0opIaH.s: Assembler messages:
-   /tmp/cc0opIaH.s:1308: Error: architectural extension `mp' is not allowed for the current base architecture
->> /tmp/cc0opIaH.s:1309: Error: selected processor does not support `pldw [r3]' in Thumb mode
-   /tmp/cc0opIaH.s:2474: Error: architectural extension `mp' is not allowed for the current base architecture
-   /tmp/cc0opIaH.s:2475: Error: selected processor does not support `pldw [r3]' in Thumb mode
-   /tmp/cc0opIaH.s:2671: Error: architectural extension `mp' is not allowed for the current base architecture
-   /tmp/cc0opIaH.s:2672: Error: selected processor does not support `pldw [r3]' in Thumb mode
---
-   /tmp/ccEJFH9Z.s: Assembler messages:
-   /tmp/ccEJFH9Z.s:206: Error: architectural extension `mp' is not allowed for the current base architecture
->> /tmp/ccEJFH9Z.s:207: Error: selected processor does not support `pldw [r5]' in Thumb mode
-   /tmp/ccEJFH9Z.s:233: Error: architectural extension `mp' is not allowed for the current base architecture
-   /tmp/ccEJFH9Z.s:234: Error: selected processor does not support `pldw [r5]' in Thumb mode
-   /tmp/ccEJFH9Z.s:540: Error: architectural extension `mp' is not allowed for the current base architecture
->> /tmp/ccEJFH9Z.s:541: Error: selected processor does not support `pldw [r8]' in Thumb mode
-   /tmp/ccEJFH9Z.s:568: Error: architectural extension `mp' is not allowed for the current base architecture
-   /tmp/ccEJFH9Z.s:569: Error: selected processor does not support `pldw [r8]' in Thumb mode
-..
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SMP
-   Depends on [n]: (CPU_V6K [=n] || CPU_V7 [=n]) && HAVE_SMP [=n] && (MMU [=n] || ARM_MPU [=y])
-   Selected by [y]:
-   - IRQ_KUNIT_TEST [=y] && KUNIT [=y]
+   arch/x86/kvm/mmu/mmu.c: In function 'kvm_mmu_max_mapping_level':
+>> arch/x86/kvm/mmu/mmu.c:3315:14: error: implicit declaration of function 'kvm_get_memory_attributes' [-Werror=implicit-function-declaration]
+    3315 |              kvm_get_memory_attributes(kvm, gfn) & KVM_MEMORY_ATTRIBUTE_PRIVATE)) {
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +14 kernel/irq/irq_test.c
+vim +/kvm_get_memory_attributes +3315 arch/x86/kvm/mmu/mmu.c
 
-    13	
-  > 14	static irqreturn_t noop_handler(int, void *)
-    15	{
-    16		return IRQ_HANDLED;
-    17	}
-    18	
+  3303	
+  3304	int kvm_mmu_max_mapping_level(struct kvm *kvm,
+  3305				      const struct kvm_memory_slot *slot, gfn_t gfn)
+  3306	{
+  3307		int max_level;
+  3308	
+  3309		max_level = kvm_lpage_info_max_mapping_level(kvm, slot, gfn, PG_LEVEL_NUM);
+  3310		if (max_level == PG_LEVEL_4K)
+  3311			return PG_LEVEL_4K;
+  3312	
+  3313		if (kvm_slot_has_gmem(slot) &&
+  3314		    (kvm_gmem_memslot_supports_shared(slot) ||
+> 3315		     kvm_get_memory_attributes(kvm, gfn) & KVM_MEMORY_ATTRIBUTE_PRIVATE)) {
+  3316			return kvm_gmem_max_mapping_level(slot, gfn, max_level);
+  3317		}
+  3318	
+  3319		return min(max_level, host_pfn_mapping_level(kvm, gfn, slot));
+  3320	}
+  3321	
 
 -- 
 0-DAY CI Kernel Test Service
