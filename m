@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E822AF10
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 19:17:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4B2297B67;
+	Wed, 14 May 2025 20:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747250228; cv=none; b=ChBOP3fvDfQiMNzRR9tCAprmff52mgdnDgRwwkBYmHVb933JMj9AxDxiPqf6Qwsjabm4Qc6IRAnbMawuolDXjTrKJCIIhn/t9T98ni5zwMpxQXp3/gWC9Qiaya+h3U5ieoMGQsJ8WAPX2KG4oT98cVDQ6k2gx9SeAirUltxFyk8=
+	t=1747253956; cv=none; b=cTYfEVXDX/EX8Nwdoaqg/OXAjrAKY2vB8o19tde+FpPY7jOR2qEzY1Ic91qlvT6//CGLP1YD2+GSfPx9rxnmTFgSSncFy+d376uvFbaGGL65os+wHk5Mwt7yqmKCpa/hjgzh79FACO7P6w4tw3uoV/EePVL0qj7hnIuQRowVasQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747250228; c=relaxed/simple;
-	bh=F/h27kq45p6njTQbG9tZrwtiwWFjic5XsS6r9obphu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WNdMTyrIlOth0W6TEsvzPs96HyMGV6tuN4QeU0hcHJ3bjkWUMuMnSQ1vlkwfnzijW4cBu7wHdT3NpcH1exTfNcyADJyT8rQbz1/KA2I5xuFxfVRqIBrAvrmR+nSf5aSWz9JXP9IrJV0uMJTLSoy5ppRLZKGEVaIYysgkMHeEO9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L1wsydrG; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1747253956; c=relaxed/simple;
+	bh=hYrU9RvV+4y2DHFLaQiCECHzjwEV+OkrnWnu8hwtrgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iWrInO6x2H9b0gn3AGxsnG8oFx210UazMW94Sl3TcJcCBsW2EeOq1Jq76R1hsIh4wwA7C7MdvhGt3VJW9xxfvosv9aP48AXOAryEa12v8k+b/SuVTlHS2ACNJC97kybmaeBTb0Hr67UdkSNLlHCG3a8Dq46dZW4FAzAGr4fv2/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5A4U/Mu; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L1wsydrG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5A4U/Mu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747250226; x=1778786226;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F/h27kq45p6njTQbG9tZrwtiwWFjic5XsS6r9obphu8=;
-  b=L1wsydrGg7D7Vt1ccG+TbUIukMTdLheSG+NPLMCQotFbAWHlh7FTVjFX
-   rpif9EFXq1TDKDtoweFzLc67f6WiWPnNCY0A3j/ZW2rtP4Du1Os2zoLo9
-   vIACDnUiSZXUOx06DFUGwiYQbVbZAlpPFgErRxi1MyDjmSmdwI/ZG6ToW
-   wekFlBonhWSH2sFN0q5FIWLNXY5x7rMeoWa2QVqMB6wqPxtlPzqnx4b3H
-   kioMjUsxYS60W0dz/fZvAJ2W2fFbPrbMQ9eO1OBS2PSo22VSTbxQ3t9rh
-   Jqbz69hw4Ue/9iCMpzbbtHcx5aVcL6K5rcSMG1QUvzk2slRRGGToQoi0B
-   A==;
-X-CSE-ConnectionGUID: bj6j6QlyRueM0ngi5yGWww==
-X-CSE-MsgGUID: eB9opp7jTAOF/Sel2dpKuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="52835546"
+  t=1747253954; x=1778789954;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hYrU9RvV+4y2DHFLaQiCECHzjwEV+OkrnWnu8hwtrgU=;
+  b=W5A4U/MuznMYUwssUybHr6Rm/LiqYcRbcNvoGaVrM0pMreeuwRcSJ8Ka
+   84wBWgCnBpmzoL4ysw+gfyJlXo1Hqi1/wC7cgo/3j9fnTCCn1vG7uzFWD
+   D/iq/HDdKCuxjsMvnHPZjla4jtDtYm9cDkvkW2IKpvDl4Jj86amqx6BcK
+   8U7whg80bbHgzJrj6dHAvem/AMlFbgAtMYXesN8Q7ExgLZ8logmU9r2tb
+   pQGMO7Spj/C0Rcwg4YwWjlhMEXntykI3xoonrVhoMMM7mJXTCpFyJdRNK
+   mPtmNXNDE5VBkY52/svEXTCCvTzFEf7N1M/boNYR/0+CRRM+cEDXwQhaz
+   g==;
+X-CSE-ConnectionGUID: GilWXcYKRqGd4jCHJOvroQ==
+X-CSE-MsgGUID: mE/U+rkLQ+2Zr+1V5FDqMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="71677946"
 X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="52835546"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 12:17:05 -0700
-X-CSE-ConnectionGUID: lY0ASrdxSRiAbTy0Ge40oQ==
-X-CSE-MsgGUID: 2UW0hPg5REGPHjZyeAYLlQ==
+   d="scan'208";a="71677946"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 13:19:14 -0700
+X-CSE-ConnectionGUID: aoXVi9WcQ9WWpZlstv9FhA==
+X-CSE-MsgGUID: c9k03sXERRO7riqhJkfvNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="138660001"
+   d="scan'208";a="169084389"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 May 2025 12:17:05 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 May 2025 13:19:10 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFHbC-000HU5-1C;
-	Wed, 14 May 2025 19:17:02 +0000
-Date: Thu, 15 May 2025 03:16:44 +0800
+	id 1uFIZH-000HWZ-2b;
+	Wed, 14 May 2025 20:19:07 +0000
+Date: Thu, 15 May 2025 04:18:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Davis <afd@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 6950/11093] ERROR: modpost:
- "__regmap_init_mmio_clk" [drivers/mux/mux-mmio.ko] undefined!
-Message-ID: <202505150312.dYbBqUhG-lkp@intel.com>
+To: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-amlogic@lists.infradead.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>
+Subject: Re: [PATCH 5/8] pinctrl: meson: support amlogic S6/S7/S7D SoC
+Message-ID: <202505150408.vMuuQH5G-lkp@intel.com>
+References: <20250514-s6-s7-pinctrl-v1-5-39d368cad250@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +74,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250514-s6-s7-pinctrl-v1-5-39d368cad250@amlogic.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bdd609656ff5573db9ba1d26496a528bdd297cf2
-commit: 61de83fd8256e185588670d3cf0bccc3e913819c [6950/11093] mux: mmio: Do not use syscon helper to build regmap
-config: s390-randconfig-r121-20250514 (https://download.01.org/0day-ci/archive/20250515/202505150312.dYbBqUhG-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250515/202505150312.dYbBqUhG-lkp@intel.com/reproduce)
+Hi Xianwei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on aa94665adc28f3fdc3de2979ac1e98bae961d6ca]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-pinctl-amlogic-pinctrl-a4-Add-compatible-string-for-S7/20250514-150438
+base:   aa94665adc28f3fdc3de2979ac1e98bae961d6ca
+patch link:    https://lore.kernel.org/r/20250514-s6-s7-pinctrl-v1-5-39d368cad250%40amlogic.com
+patch subject: [PATCH 5/8] pinctrl: meson: support amlogic S6/S7/S7D SoC
+config: arm64-randconfig-004-20250514 (https://download.01.org/0day-ci/archive/20250515/202505150408.vMuuQH5G-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505150408.vMuuQH5G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505150312.dYbBqUhG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505150408.vMuuQH5G-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "__regmap_init_mmio_clk" [drivers/mux/mux-mmio.ko] undefined!
+>> drivers/pinctrl/meson/pinctrl-amlogic-a4.c:128:13: error: designator into flexible array member subobject
+     128 |         .multi_data[0] = {
+         |                    ^~~~~~~
+     129 |                 .m_bank_id = AMLOGIC_GPIO_CC,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     130 |                 .m_bit_offs = 24,
+         |                 ~~~~~~~~~~~~~~~~~
+     131 |                 .sid = (AMLOGIC_GPIO_X << 8) + 16,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     132 |                 .eid = (AMLOGIC_GPIO_X << 8) + 19,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     133 |         },
+         |         ~
+   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:69:19: note: initialized flexible array member 'multi_data' is here
+      69 |         struct multi_mux multi_data[];
+         |                          ^
+   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:138:13: error: designator into flexible array member subobject
+     138 |         .multi_data[0] = {
+         |                    ^~~~~~~
+     139 |                 .m_bank_id = AMLOGIC_GPIO_CC,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     140 |                 .m_bit_offs = 24,
+         |                 ~~~~~~~~~~~~~~~~~
+     141 |                 .sid = (AMLOGIC_GPIO_X << 8) + 16,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     142 |                 .eid = (AMLOGIC_GPIO_X << 8) + 19,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     143 |         },
+         |         ~
+   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:69:19: note: initialized flexible array member 'multi_data' is here
+      69 |         struct multi_mux multi_data[];
+         |                          ^
+   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:144:13: error: designator into flexible array member subobject
+     144 |         .multi_data[1] = {
+         |                    ^~~~~~~
+     145 |                 .m_bank_id = AMLOGIC_GPIO_F,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     146 |                 .m_bit_offs = 4,
+         |                 ~~~~~~~~~~~~~~~~
+     147 |                 .sid = (AMLOGIC_GPIO_D << 8) + 6,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     148 |                 .eid = (AMLOGIC_GPIO_D << 8) + 6,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     149 |         },
+         |         ~
+   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:69:19: note: initialized flexible array member 'multi_data' is here
+      69 |         struct multi_mux multi_data[];
+         |                          ^
+   3 errors generated.
+
+
+vim +128 drivers/pinctrl/meson/pinctrl-amlogic-a4.c
+
+   125	
+   126	const struct aml_pctl_data s7_priv_data = {
+   127		.number = 1,
+ > 128		.multi_data[0] = {
+   129			.m_bank_id = AMLOGIC_GPIO_CC,
+   130			.m_bit_offs = 24,
+   131			.sid = (AMLOGIC_GPIO_X << 8) + 16,
+   132			.eid = (AMLOGIC_GPIO_X << 8) + 19,
+   133		},
+   134	};
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
