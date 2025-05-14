@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F130C1FF7DC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 06:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6548E20127F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 May 2025 06:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747204639; cv=none; b=TK61SJ91fepUPvTPpq8MU7uWqt1i1TX2ITRrPEJbD+4PIQeCyZjwF0E5eegKb9QbSUTjcruJp9EPTS5wokUYc+Gxq1ceH4GmT7mp4eYdvKrnGeLO9ygUkyu28kR9TlugZfQ3jr7wJxrIODq0a0K0bC9kVt+y5tgoQglJmPgHnQI=
+	t=1747205012; cv=none; b=FuXgCdu8vCS+CXyGwD96mt8cyrwvjEZu51wGibAkyhpiXmI99e0DubGrTuxeR58I6zh/QnEtse//IOOVAx+4LeVgloOz4SzErR7/cQ7otna1GJSXSyW/+uY7zfZcBT3FuGBGoNA2ka027z0ldfsG8PAqzyQBN480CMRfedtGag8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747204639; c=relaxed/simple;
-	bh=RbhXtIrRhBy0RlZvUxz2MFpP+1FzxdT29n2jIZIigBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QuHIXgXTX+rFbhNP0A0c3/B1ZcImIcLq2dNp3mNYA1IHdKpvWhFiUDGVAIKTX9otzOAh7AhLGTqUFMCw5sCP4dCFyCr60SRt1hstusPjgIAWm401CmZ+vlR1EClJxgEdsTPJEld0v4qUBVk7TRYFwFCYs6uBUSgfqKHGDAXrOIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IhdMpq3V; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1747205012; c=relaxed/simple;
+	bh=dO7bfqJG9uDnlrOeg++cvbMG6k4hIN2RV49BT0YBs1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oVYLLSvoEVFOU9PfWHE93PfjujRXXR2TlyP2aT+E9GqrrIBxeNTNuIhU5TeJ3MwLBt1uiuat00jPSVyS2t2Qy/NT/XC5rbiUEp5MMkg5i8c28zVigk4kbZ/mKmwjTOlfTVLosrIgfncMzbfDhdhwbNaP5Mjwm7ow3yQHzwv64e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BMwj/YMS; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IhdMpq3V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BMwj/YMS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747204638; x=1778740638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RbhXtIrRhBy0RlZvUxz2MFpP+1FzxdT29n2jIZIigBw=;
-  b=IhdMpq3Voa7r5QCYzJSq++bWEH9z+3mKbaNvN3sE7pZHOM9JSp7q7W3Q
-   QJzp4xTxVjP+XnBmDXslw+yvAsxZIGbAcR4NFydD7xH9yon6XgOOy2H/T
-   EPyjAnraue+UoVOZKWGnc/eziCn0KamipGcJ0Z+ABR72F/P/Kq2PR5Kn0
-   VitTS5zHqdAwOG5ZttxzsxDAkGVQiFU8uzTCc+q/Lf3pA/46T6pnvs3rR
-   W+HAjdx9TjodYVuM5gMer1S8NHcH7y67SgZVcaMlfcw7/P3zgtn2TLgZ+
-   wFOiQiJg9iXQlq8wWBmbw29czDpvALWutCv1RJUpiELm2T7OyL8KPH2zl
-   w==;
-X-CSE-ConnectionGUID: qSCqpGruTN2MC8TW3G+0/w==
-X-CSE-MsgGUID: IJu/nUvlRSW9AkwPS2/Rpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="52747829"
+  t=1747205010; x=1778741010;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dO7bfqJG9uDnlrOeg++cvbMG6k4hIN2RV49BT0YBs1s=;
+  b=BMwj/YMSeSjOSWcD86XoQD91MK6tpKRz5iN9Q9pqtljrKqAjz5U3pxuQ
+   1RAmbgQ+69QxvPRPgKgy7NfbCmSG0e586R4TSUwBPRLklFTenkTdsdtdg
+   NyyKm8T5EnhA+5EyeF/yV61Wjox27V6vtHQTTs4xfJgDCHh0C1CEDGdfQ
+   cZ2Xb2fwvLAEOg7S+/xQ7euk0ioJ74fZuSnfejLVhIQf+53otSCuXzNc6
+   x73l9ceVeBnwlcRL2UHo996nQkTMwr356CD95WEZ/LeQtlZqtO9WT+85s
+   /QScd5jEEWUgmquDUnc+aRAD1a5vs+iGqkUm6Jf6Au8xmvl49anR7Y/VT
+   A==;
+X-CSE-ConnectionGUID: cdd0myzHSBGTMLNTiOYEVg==
+X-CSE-MsgGUID: 6vm7a3G2Q6uC4j61oYw6ew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="48952944"
 X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="52747829"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 23:37:17 -0700
-X-CSE-ConnectionGUID: jF0NRkM1Tmy83oc6fZJjmw==
-X-CSE-MsgGUID: YDOIw/whQ1q72UtK/u//TA==
+   d="scan'208";a="48952944"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 23:43:29 -0700
+X-CSE-ConnectionGUID: jOWmdwKMSdqa7YtTvgipqw==
+X-CSE-MsgGUID: IT/3nCrgR7as1+VWXrSlEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="175062780"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 May 2025 23:37:14 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="137866239"
+Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
+  by orviesa006.jf.intel.com with ESMTP; 13 May 2025 23:43:29 -0700
+Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uF5js-000GlD-0A;
-	Wed, 14 May 2025 06:37:12 +0000
-Date: Wed, 14 May 2025 14:36:30 +0800
+	id 1uF5pu-00017G-1U;
+	Wed, 14 May 2025 06:43:26 +0000
+Date: Wed, 14 May 2025 14:43:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Esben Haabendal <esben@geanix.com>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] pinctrl: freescale: Enable driver if platform is
- enabled.
-Message-ID: <202505141457.fMT8QfVq-lkp@intel.com>
-References: <20250513150010.600656-1-alexander.stein@ew.tq-group.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 1/1] drivers/dma/imx-sdma.c:240:
+ warning: Function parameter or member 'uart_2_mcu_rom_addr' not described in
+ 'sdma_script_start_addrs'
+Message-ID: <202505141442.5wojnyVA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,36 +62,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250513150010.600656-1-alexander.stein@ew.tq-group.com>
 
-Hi Alexander,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next linus/master v6.15-rc6 next-20250513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Stein/pinctrl-freescale-Enable-driver-if-platform-is-enabled/20250513-230259
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20250513150010.600656-1-alexander.stein%40ew.tq-group.com
-patch subject: [PATCH v2 1/1] pinctrl: freescale: Enable driver if platform is enabled.
-config: alpha-kismet-CONFIG_PINCTRL_IMX-CONFIG_PINCTRL_IMX_SCU-0-0 (https://download.01.org/0day-ci/archive/20250514/202505141457.fMT8QfVq-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250514/202505141457.fMT8QfVq-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   0caacc39200ed39c9449b0b8da1ffc26e2402876
+commit: 6b8af9f967499ed92676296615424601401d82a6 [1/1] dmaengine: imx-sdma: fix init of uart scripts
+config: arm-randconfig-2002-20250514 (https://download.01.org/0day-ci/archive/20250514/202505141442.5wojnyVA-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505141442.5wojnyVA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505141457.fMT8QfVq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505141442.5wojnyVA-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PINCTRL_IMX when selected by PINCTRL_IMX_SCU
-   WARNING: unmet direct dependencies detected for PINCTRL_IMX
-     Depends on [n]: PINCTRL [=y] && OF [=n]
-     Selected by [y]:
-     - PINCTRL_IMX_SCU [=y] && PINCTRL [=y] && (IMX_SCU [=y] || COMPILE_TEST [=y])
+All warnings (new ones prefixed by >>):
+
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'ap_2_ap_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'ap_2_bp_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'ap_2_ap_fixed_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'bp_2_ap_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'loopback_on_dsp_side_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_interrupt_only_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'firi_2_per_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'firi_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'per_2_firi_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_firi_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'uart_2_per_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'uart_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'per_2_app_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_app_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'per_2_per_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'uartsh_2_per_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'uartsh_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'per_2_shp_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_shp_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'ata_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_ata_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'app_2_per_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'app_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'shp_2_per_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'shp_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mshc_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_mshc_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'spdif_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_spdif_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'asrc_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'ext_mem_2_ipu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'descrambler_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'dptc_dvfs_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'utra_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'ram_code_start_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_ssish_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'ssish_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'hdmi_dma_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'zcanfd_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'zqspi_2_mcu_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_ecspi_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_sai_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'sai_2_mcu_addr' not described in 'sdma_script_start_addrs'
+>> drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'uart_2_mcu_rom_addr' not described in 'sdma_script_start_addrs'
+>> drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'uartsh_2_mcu_rom_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:240: warning: Function parameter or member 'mcu_2_zqspi_addr' not described in 'sdma_script_start_addrs'
+   drivers/dma/imx-sdma.c:444: warning: Function parameter or member 'terminated' not described in 'sdma_channel'
+   drivers/dma/imx-sdma.c:444: warning: Function parameter or member 'is_ram_script' not described in 'sdma_channel'
+
+
+vim +240 drivers/dma/imx-sdma.c
+
+8391ecf465ec5c Shengjiu Wang      2015-07-10  174  
+f9d4a398f121b0 Nicolin Chen       2017-09-14  175  #define SDMA_DMA_BUSWIDTHS	(BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) | \
+f9d4a398f121b0 Nicolin Chen       2017-09-14  176  				 BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) | \
+f9d4a398f121b0 Nicolin Chen       2017-09-14  177  				 BIT(DMA_SLAVE_BUSWIDTH_4_BYTES))
+f9d4a398f121b0 Nicolin Chen       2017-09-14  178  
+f9d4a398f121b0 Nicolin Chen       2017-09-14  179  #define SDMA_DMA_DIRECTIONS	(BIT(DMA_DEV_TO_MEM) | \
+f9d4a398f121b0 Nicolin Chen       2017-09-14  180  				 BIT(DMA_MEM_TO_DEV) | \
+f9d4a398f121b0 Nicolin Chen       2017-09-14  181  				 BIT(DMA_DEV_TO_DEV))
+f9d4a398f121b0 Nicolin Chen       2017-09-14  182  
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  183  /**
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  184   * struct sdma_script_start_addrs - SDMA script start pointers
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  185   *
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  186   * start addresses of the different functions in the physical
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  187   * address space of the SDMA engine.
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  188   */
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  189  struct sdma_script_start_addrs {
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  190  	s32 ap_2_ap_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  191  	s32 ap_2_bp_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  192  	s32 ap_2_ap_fixed_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  193  	s32 bp_2_ap_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  194  	s32 loopback_on_dsp_side_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  195  	s32 mcu_interrupt_only_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  196  	s32 firi_2_per_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  197  	s32 firi_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  198  	s32 per_2_firi_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  199  	s32 mcu_2_firi_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  200  	s32 uart_2_per_addr;
+6b8af9f967499e Kevin Groeneveld   2022-04-10  201  	s32 uart_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  202  	s32 per_2_app_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  203  	s32 mcu_2_app_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  204  	s32 per_2_per_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  205  	s32 uartsh_2_per_addr;
+6b8af9f967499e Kevin Groeneveld   2022-04-10  206  	s32 uartsh_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  207  	s32 per_2_shp_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  208  	s32 mcu_2_shp_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  209  	s32 ata_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  210  	s32 mcu_2_ata_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  211  	s32 app_2_per_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  212  	s32 app_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  213  	s32 shp_2_per_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  214  	s32 shp_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  215  	s32 mshc_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  216  	s32 mcu_2_mshc_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  217  	s32 spdif_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  218  	s32 mcu_2_spdif_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  219  	s32 asrc_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  220  	s32 ext_mem_2_ipu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  221  	s32 descrambler_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  222  	s32 dptc_dvfs_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  223  	s32 utra_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  224  	s32 ram_code_start_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  225  	/* End of v1 array */
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  226  	s32 mcu_2_ssish_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  227  	s32 ssish_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  228  	s32 hdmi_dma_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  229  	/* End of v2 array */
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  230  	s32 zcanfd_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  231  	s32 zqspi_2_mcu_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  232  	s32 mcu_2_ecspi_addr;
+b98ce2f4e32bef Robin Gong         2021-07-14  233  	s32 mcu_2_sai_addr;
+b98ce2f4e32bef Robin Gong         2021-07-14  234  	s32 sai_2_mcu_addr;
+6b8af9f967499e Kevin Groeneveld   2022-04-10  235  	s32 uart_2_mcu_rom_addr;
+6b8af9f967499e Kevin Groeneveld   2022-04-10  236  	s32 uartsh_2_mcu_rom_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  237  	/* End of v3 array */
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  238  	s32 mcu_2_zqspi_addr;
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  239  	/* End of v4 array */
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20 @240  };
+8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  241  
+
+:::::: The code at line 240 was first introduced by commit
+:::::: 8d11cfb0c37547bd6b1cdc7c2653c1e6b5ec5abb dmaengine: imx-sdma: Remove platform data header
+
+:::::: TO: Vladimir Zapolskiy <vz@mleia.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
