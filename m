@@ -1,71 +1,58 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A08E2046AD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 17:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6ED258CF0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 17:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747329724; cv=none; b=XDfExM8EF6G00/7JKu7U10Fw7GYY8K7Utep9f58enR3QJb6zwzVtAvjxMkP7ZeA72bCPaNmcl81XEaFcWLQxjsK/bA7V2jsWJ/aMk+ILhcTwCPFixl8jHPkphjK2cc1HBDaMd0eeLWmaY2LvK+EoTLpK3Ysj91QwztM8QxJfZtc=
+	t=1747331109; cv=none; b=P88BYYm7fj7fugEafcczU8nbjQjS+d58IZRXdfho18UKI+JWxsvXOkjJY1PjL6wgcyIRE38ODYFQnQ6AEPDfInHo+EG8N3QhqHI6TIM6eliznq4lN9JuocV6dSfRQ1dQTcYS5Wo2mPr5iDtq5ThTLDAQTnAVqaKqRD4NPrRfHG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747329724; c=relaxed/simple;
-	bh=mfCeoOfwRJ2IubXApVWQduxn7NdySIMTBa5CH/dXP+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GuMkLxTH2HV/4vcSkAWh6tSFxZGs8DQqlvz7N7n9NQTkAjvPinrLiePvCCIYuoAsjqutS02Emh/QL+AhpkBpwbdfybe6YnBVtJCuoGKGGfX+0pWsmChna4kzwz5uZjT2tB6IXVmK2V6IyO/JEKoqZoO4m6i5xzMGtlZ6d6hhkFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Dlf2q3Z5; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1747331109; c=relaxed/simple;
+	bh=87/V3FwJ+djUhO/Slwepfw6jLXY5w4FR6NL/kFWvKx8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aR0fLa0OEwQxSTB1+UWXFo+BYxLQ/yHOYXpI38MNyOlZfZ4IbFURkU5eWozMGZ5Mg+7mRdJOwNTUHUFvRcUIJ4Kc+0uf4iVOJzVNN8hz+GybyYtDTSLo8i465IpNByvhf2ISJbwTnZNBqHmHoKofe8pWwg3CKSJpDC0Q1BkR/oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jZko1GAw; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Dlf2q3Z5"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7399a2dc13fso1746086b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 10:22:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1747329722; x=1747934522; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AZkQs5Y9+0MeoeQo27zBlTtClsZ5pt01lNLAK9VkB3I=;
-        b=Dlf2q3Z58slqJ784LGNZr8b7ZVG901XoCGrZXls1DIGM6sx5FRGs0dPuYxm4ckRPg6
-         gaiVHbA/zqiRvURgMu/xzQkvPSfhonxKNe7Y4/FxtomMOaapyfVribZXkeGOF9+cALwY
-         oVpHxrDX7ZqUgb3YktV007zt0JD3tdM8BaQYg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747329722; x=1747934522;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AZkQs5Y9+0MeoeQo27zBlTtClsZ5pt01lNLAK9VkB3I=;
-        b=bBamN2MS1BB2OZ6ugL2H1bFEzjmoS+w5NAxacoIbMUtrR1RPx85vYwRL9gDFU2UUaC
-         4IKGhcpRwAO1Fm/eYjoM0HvIVZVaBvo+9HNsRuoouoTY6U5oUgCjzTcEk4ZDPsB9anXH
-         5InM1s4ckTL+pfIl3al17VE9HXO3SVE0Vxs0DJ8OV/dB7JYxKEfL/qV6pGeqj3ab6fFR
-         meXDHKo5w98F9nDlA0V6E/tKjWHXMDN3VPQzJsophy1QmT3Q39HR6Pu7KMj9G7V1DRSs
-         TYPOZxO31MUZpnZLuI3uJ9IdGWpFOC4wwv+l3M2LfX39EKwsqtBDv4oxIMjUC/ptuKu0
-         qQlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNn9HpkB8lPbZ8lrHBuiuQSgqkukUQNDPLhxB68nRu35d8GPrWhPFO/7AOaKrfGaoQwPG0FSG6PKsioAq+@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzkf7omuA76uDsKKvJvT60oy6ZjMsILa9pwoQcb1OUpGyfl3J3U
-	DDPligYUYK8ynscBOwycXQ6T/GTYPlxYXyhCaAdOOXo93A/e7JlIaGsmwzY6/MmSOw==
-X-Gm-Gg: ASbGncs/wgngRUXuy6dmCEtitton3A/bPa4Q9cavfUy967FTON9HS0UNK9em3c3NdpH
-	J008bohm6sUjJwV0xnNpIgVpOIWyVHtcRoS9sQ0NzUqHZk6xgx/eBKjsExCxKjA9Ei6ZvZ23VJC
-	F4UFcZ9V+lQTKwbyEIP0Bma+CjqxU2HPfM9mS/h+SYbYfXXhsMGmNI7x66ApUNCWRj5VYdaiEOZ
-	8HYSrmEyZts4nkfNmnheSsdFlooytMq/bVKPZm3xVJrPLac0u2uZtq8v/TofTZLjmwJJDptRRaR
-	TzCkHiqiOw8qnn3YyckBbWJzSYFaTrc5ekdICQ8CiFlB9wsBzNjAeWN5FjvxWNei6jZUz+duYyI
-	fc+mLwpi+XH5p4A==
-X-Google-Smtp-Source: AGHT+IGoidqfL8uEq7VTSHRz9j2OBbBO6mNxzWcPuV572jAmJW70jDu4s7p58cVo+XRQEqjyzJkCSw==
-X-Received: by 2002:a05:6a00:1822:b0:740:a879:4f7b with SMTP id d2e1a72fcca58-742a98a0cc1mr245972b3a.18.1747329722449;
-        Thu, 15 May 2025 10:22:02 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e14:7:cd06:335b:936a:7dc1])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-742a973a261sm69730b3a.84.2025.05.15.10.22.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 May 2025 10:22:01 -0700 (PDT)
-Date: Thu, 15 May 2025 10:21:59 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Tsai Sung-Fu <danielsftsai@google.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 2/2] genirq: Add kunit tests for depth counts
-Message-ID: <aCYit48N85WpjmiN@google.com>
-References: <20250514201353.3481400-3-briannorris@chromium.org>
- <202505152136.y04AHovS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZko1GAw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747331107; x=1778867107;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=87/V3FwJ+djUhO/Slwepfw6jLXY5w4FR6NL/kFWvKx8=;
+  b=jZko1GAwWLKOwttRFQ+XC9pLhMs/2Fl1S1G3ADocsdQCj5Z9zTYXmzHZ
+   JtUd1oVlBvd2tjP3Iws2KLss5sMcGFUz+oxZIOSYJzJxT0coK39ZNXrPE
+   +MSLR5sFD05NRg+ZWuYAp3ammeB250/T14o0LPwX4fvaoL8EstMrUx+18
+   I1cWp2ChIIWQUdUT2Wz1VHd1p4av5OLplgyLPgQXXcAkW6CiwbKlS2iZg
+   Bw4pXqJkjEkKCcZM/tDTlsrFhyb+Ghqb02zC6ar5MWF1Gs7nwsP1pXEsI
+   5DqthGkyydo607QUpFoWPdh3YNj9klAgdcQ5n0jK23uKNs87KlxborN72
+   A==;
+X-CSE-ConnectionGUID: 4Bo7ifAzSR+scIy14Zjs5g==
+X-CSE-MsgGUID: tbET7XvBS4iZ0YmA4MNqvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="51921050"
+X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; 
+   d="scan'208";a="51921050"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 10:45:06 -0700
+X-CSE-ConnectionGUID: 4/4EmEIESSiKfoFi/cgrkA==
+X-CSE-MsgGUID: N385b2/8S3icBH9L3PZHuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; 
+   d="scan'208";a="138178080"
+Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
+  by orviesa009.jf.intel.com with ESMTP; 15 May 2025 10:45:05 -0700
+Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uFcdi-0000Hv-0a;
+	Thu, 15 May 2025 17:45:02 +0000
+Date: Fri, 16 May 2025 01:44:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2229/2229] arch/x86/kernel/csv-shared.c:130:13:
+ warning: no previous prototype for function 'csv3_scan_secure_call_pages'
+Message-ID: <202505160152.NN3T3Zfg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,66 +61,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202505152136.y04AHovS-lkp@intel.com>
 
-Hi Thomas,
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   baf4f02470215e4f896899f495ff7ac7fbfda979
+commit: ce19f23605e1ab1ab99b4caefdcd1d07dd3dc329 [2229/2229] x86/kernel: Add CSV3 early update(enc/dec)/reset memory helpers
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250516/202505160152.NN3T3Zfg-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505160152.NN3T3Zfg-lkp@intel.com/reproduce)
 
-On Thu, May 15, 2025 at 10:01:18PM +0800, kernel test robot wrote:
-> patch link:    https://lore.kernel.org/r/20250514201353.3481400-3-briannorris%40chromium.org
-> patch subject: [PATCH v2 2/2] genirq: Add kunit tests for depth counts
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505160152.NN3T3Zfg-lkp@intel.com/
 
-First of all, thanks for the help, and for applying patch 1. I see that:
-1) this bot noticed a trivial problem with patch 2; and
-2) I received notification that patch 2 was applied to tip/irq/core, but
-3) I can't find it there any more.
+All warnings (new ones prefixed by >>):
 
-I'm not sure if #3 is because you dropped it (e.g., due to #1's report)
-or some other reason, so I'm not sure what to do next. Possibilities:
+   In file included from arch/x86/kernel/csv.c:15:
+>> arch/x86/kernel/csv-shared.c:130:13: warning: no previous prototype for function 'csv3_scan_secure_call_pages' [-Wmissing-prototypes]
+     130 | void __init csv3_scan_secure_call_pages(struct boot_params *boot_params)
+         |             ^
+   arch/x86/kernel/csv-shared.c:130:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     130 | void __init csv3_scan_secure_call_pages(struct boot_params *boot_params)
+         | ^
+         | static 
+>> arch/x86/kernel/csv-shared.c:177:13: warning: no previous prototype for function 'csv3_early_secure_call_ident_map' [-Wmissing-prototypes]
+     177 | void __init csv3_early_secure_call_ident_map(u64 base_address, u64 num_pages,
+         |             ^
+   arch/x86/kernel/csv-shared.c:177:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     177 | void __init csv3_early_secure_call_ident_map(u64 base_address, u64 num_pages,
+         | ^
+         | static 
+   2 warnings generated.
 
-(a) send the trivial fix separately, as a fixup (against what tree?)
-(b) resend an improved patch 2 on its own, against tip/irq/core
-(c) just drop it, because you have deeper reasons to not want these
-    tests.
 
-I'm fine with anything you'd like, although I do think there's value in
-providing unit tests for corner cases like this.
+vim +/csv3_scan_secure_call_pages +130 arch/x86/kernel/csv-shared.c
 
-See below for the trivial fix, for the record. I can send it separately
-if you'd like.
+d2600299dc44d3 Xin Jiang 2024-03-11  122  
+d2600299dc44d3 Xin Jiang 2024-03-11  123  /**
+d2600299dc44d3 Xin Jiang 2024-03-11  124   * csv3_scan_secure_call_pages - try to find the secure call pages.
+d2600299dc44d3 Xin Jiang 2024-03-11  125   * @boot_params:	boot parameters where e820_table resides.
+d2600299dc44d3 Xin Jiang 2024-03-11  126   *
+d2600299dc44d3 Xin Jiang 2024-03-11  127   * The secure call pages are reserved by BIOS. We scan all the reserved pages
+d2600299dc44d3 Xin Jiang 2024-03-11  128   * to check the CSV3 secure call guid bytes.
+d2600299dc44d3 Xin Jiang 2024-03-11  129   */
+d2600299dc44d3 Xin Jiang 2024-03-11 @130  void __init csv3_scan_secure_call_pages(struct boot_params *boot_params)
+d2600299dc44d3 Xin Jiang 2024-03-11  131  {
+d2600299dc44d3 Xin Jiang 2024-03-11  132  	struct boot_e820_entry *entry;
+d2600299dc44d3 Xin Jiang 2024-03-11  133  	struct csv3_secure_call_cmd *sc_page;
+d2600299dc44d3 Xin Jiang 2024-03-11  134  	u64 offset;
+d2600299dc44d3 Xin Jiang 2024-03-11  135  	u64 addr;
+d2600299dc44d3 Xin Jiang 2024-03-11  136  	u8 i;
+d2600299dc44d3 Xin Jiang 2024-03-11  137  	u8 table_num;
+d2600299dc44d3 Xin Jiang 2024-03-11  138  	int count = 0;
+d2600299dc44d3 Xin Jiang 2024-03-11  139  
+d2600299dc44d3 Xin Jiang 2024-03-11  140  	if (!boot_params)
+d2600299dc44d3 Xin Jiang 2024-03-11  141  		return;
+d2600299dc44d3 Xin Jiang 2024-03-11  142  
+d2600299dc44d3 Xin Jiang 2024-03-11  143  	if (csv3_boot_sc_page_a != -1ul && csv3_boot_sc_page_b != -1ul)
+d2600299dc44d3 Xin Jiang 2024-03-11  144  		return;
+d2600299dc44d3 Xin Jiang 2024-03-11  145  
+d2600299dc44d3 Xin Jiang 2024-03-11  146  	table_num = min_t(u8, boot_params->e820_entries,
+d2600299dc44d3 Xin Jiang 2024-03-11  147  			  E820_MAX_ENTRIES_ZEROPAGE);
+d2600299dc44d3 Xin Jiang 2024-03-11  148  	entry = &boot_params->e820_table[0];
+d2600299dc44d3 Xin Jiang 2024-03-11  149  	for (i = 0; i < table_num; i++) {
+d2600299dc44d3 Xin Jiang 2024-03-11  150  		if (entry[i].type != E820_TYPE_RESERVED)
+d2600299dc44d3 Xin Jiang 2024-03-11  151  			continue;
+d2600299dc44d3 Xin Jiang 2024-03-11  152  
+d2600299dc44d3 Xin Jiang 2024-03-11  153  		addr = entry[i].addr & PAGE_MASK;
+d2600299dc44d3 Xin Jiang 2024-03-11  154  		for (offset = 0; offset < entry[i].size; offset += PAGE_SIZE) {
+d2600299dc44d3 Xin Jiang 2024-03-11  155  			sc_page = (void *)(addr + offset);
+d2600299dc44d3 Xin Jiang 2024-03-11  156  			if (sc_page->guid_64[0] == CSV3_SECURE_CALL_GUID_LOW &&
+d2600299dc44d3 Xin Jiang 2024-03-11  157  			    sc_page->guid_64[1] == CSV3_SECURE_CALL_GUID_HIGH) {
+d2600299dc44d3 Xin Jiang 2024-03-11  158  				if (count == 0)
+d2600299dc44d3 Xin Jiang 2024-03-11  159  					csv3_boot_sc_page_a = addr + offset;
+d2600299dc44d3 Xin Jiang 2024-03-11  160  				else if (count == 1)
+d2600299dc44d3 Xin Jiang 2024-03-11  161  					csv3_boot_sc_page_b = addr + offset;
+d2600299dc44d3 Xin Jiang 2024-03-11  162  				count++;
+d2600299dc44d3 Xin Jiang 2024-03-11  163  			}
+d2600299dc44d3 Xin Jiang 2024-03-11  164  			if (count >= 2)
+d2600299dc44d3 Xin Jiang 2024-03-11  165  				return;
+d2600299dc44d3 Xin Jiang 2024-03-11  166  		}
+d2600299dc44d3 Xin Jiang 2024-03-11  167  	}
+d2600299dc44d3 Xin Jiang 2024-03-11  168  }
+d2600299dc44d3 Xin Jiang 2024-03-11  169  
+d2600299dc44d3 Xin Jiang 2024-03-11  170  /**
+d2600299dc44d3 Xin Jiang 2024-03-11  171   * csv3_early_secure_call_ident_map - issue early secure call command at the
+d2600299dc44d3 Xin Jiang 2024-03-11  172   *			stage where identity page table is created.
+d2600299dc44d3 Xin Jiang 2024-03-11  173   * @base_address:	Start address of the specified memory range.
+d2600299dc44d3 Xin Jiang 2024-03-11  174   * @num_pages:		number of the specific pages.
+d2600299dc44d3 Xin Jiang 2024-03-11  175   * @cmd_type:		Secure call cmd type.
+d2600299dc44d3 Xin Jiang 2024-03-11  176   */
+d2600299dc44d3 Xin Jiang 2024-03-11 @177  void __init csv3_early_secure_call_ident_map(u64 base_address, u64 num_pages,
 
-> config: i386-buildonly-randconfig-004-20250515 (https://download.01.org/0day-ci/archive/20250515/202505152136.y04AHovS-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505152136.y04AHovS-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505152136.y04AHovS-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ucs2_string.o
-> ERROR: modpost: "irq_domain_alloc_descs" [kernel/irq/irq_test.ko] undefined!
-> ERROR: modpost: "irq_to_desc" [kernel/irq/irq_test.ko] undefined!
-> ERROR: modpost: "irq_shutdown_and_deactivate" [kernel/irq/irq_test.ko] undefined!
-> >> ERROR: modpost: "irq_activate" [kernel/irq/irq_test.ko] undefined!
-> >> ERROR: modpost: "irq_startup_managed" [kernel/irq/irq_test.ko] undefined!
+:::::: The code at line 130 was first introduced by commit
+:::::: d2600299dc44d38ae1c69b2c0d5a0259c577290f x86/boot/compressed/64: Init CSV3 secure call pages
 
-The test Kconfig symbol should be bool, not tristate. Some of the
-functions required for the test are non-modular.
+:::::: TO: Xin Jiang <jiangxin@hygon.cn>
+:::::: CC: hanliyang <hanliyang@hygon.cn>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202505152136.y04AHovS-lkp@intel.com/
-Signed-off-by: Brian Norris <briannorris@chromium.org>
-
---- a/kernel/irq/Kconfig
-+++ b/kernel/irq/Kconfig
-@@ -145,7 +145,7 @@ config GENERIC_IRQ_KEXEC_CLEAR_VM_FORWARD
- 	bool
- 
- config IRQ_KUNIT_TEST
--	tristate "KUnit tests for IRQ management APIs" if !KUNIT_ALL_TESTS
-+	bool "KUnit tests for IRQ management APIs" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
- 	default KUNIT_ALL_TESTS
- 	imply SMP
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
