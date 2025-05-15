@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAFA1C28E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 14:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36663153800
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 14:04:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747317895; cv=none; b=oBnpGX+nYWkK27ANoj4sqlcAqponoefpaOBjVSr+YdLuFNb7QjogJ6UGee7+Z1DG65AC6+Gb6aCMG7aZGb65m/oBoTYamq1LLHW9e+46ghvWznPctvEf/NEZ3ifhs9ILlVGbvALqbbsoBjNQa2pCt/fGXSHlxaRV0oxaXjvMlAs=
+	t=1747317896; cv=none; b=u4tj2m1rDkI7Zu5hS/83VIikiVpRtaFJaJAfDT88nfCF0MI52vwoH26IHHLzwIwg+rvEB6jJ7NF3bXTCtvasqIDIfuIaH0FNGDDlW4o5+4c5/dxXbdVoCtvHVvwuvCJ7lNvplT3NyLkrvvcqj7EbYijfC1q3/RXj41vpcmOgDf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747317895; c=relaxed/simple;
-	bh=xnZzAo5XlH6clexuCtsuHmwPe6dlj9gUZ4O+ZpGNZDs=;
+	s=arc-20240116; t=1747317896; c=relaxed/simple;
+	bh=8daWUOsKuGRiMCeAsZdChIsRAipNZGh3Atz3ZxuTnpw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zgl7kCIohXWocA0UWbN4UPI4Fa6HJtfONBRNGBmoW+dWXhkwFc1vd5/A/IQEz9IiLNE3oUzZQV94u0i3ygqPuu6rS11YwHKsAzHSx3Wq3MMZ2eY4fZ36H5zAH37R9+ZcVV+Tk/LVT95/YgBtelPpqXXXrtYPZpHl0IBiR3uthgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W+VCJzHE; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=GMxCBI26qamTTXgebJHo21cvdMOqMcfC5hFGj+5nk+LjRw/zXtCIygeSJQQxaWECTl0RnvSNYINyLbP+/3Y/1pPblS3XaU3EPs+DNgVKjYoZBhXF2xsEuASVWsy68ohBjFbFmamCKSWWyX3MzOl5HKVuaO0KbUbhJZ5K0SGEnfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V4Ln8pM0; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W+VCJzHE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V4Ln8pM0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1747317894; x=1778853894;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xnZzAo5XlH6clexuCtsuHmwPe6dlj9gUZ4O+ZpGNZDs=;
-  b=W+VCJzHE/9BrYH9CKNlPHKjKg9qu2dWsNd+YM8IR4Qv1ySg+N3aZujrp
-   faqgAvlWCPS0U29i+LCqdusnYW5qFdAM2gEIpYNAliNwnZCkUBzoapesP
-   nvOa3pfvR1Evj7s6Tp+8O1PFAh0F7oo+qY/jaQ+gedmhjAyOAByCA6DMC
-   JzoJfvum6G7K3Az9cQxmmBeKr4DStw0mKuxMTJfpAe4vwyFFnX+KOgRlR
-   mLSZILMWxW3gibeWn7U8mRA1eYYqOC04uF4zRe9h7dR4Hj91RnRHVDjU6
-   0DcU6N8D751PzRfICoOpB/goaZLrBVOMgndU5d1pxwXsSerl0Qz3URbK7
+  bh=8daWUOsKuGRiMCeAsZdChIsRAipNZGh3Atz3ZxuTnpw=;
+  b=V4Ln8pM0bxMlxOjUNdv5hRLylLBTSUu9UfwRV72V64YR5bBFCaenPBvs
+   tsukd0eiCrTX3/Aw+iBj9YdrgZJ1XbWkYTVPyZbyQHVZ2f+yCzTJ9we6G
+   YchvQgSBlYXMTOFtn4oCxDlzdkXQHmUTpwER5pLMDWIOxF0XvXLuujrut
+   o8IID3+f896AJNu2vl6q1dIry/JHSETWa+4wGwWH6K7BCJhUsC32EF2AC
+   1DzdlBJzg3d6p4Ez+akrNMo2CTFawyL8jI5gaIki4+yZVF5qnLZK+6Hnz
+   RY7ovsFOg2RAjR8ahiNVOZMlb1tH/PGgyUbypZvWVqM6ZM6e+esyflvxy
    A==;
-X-CSE-ConnectionGUID: xOec1awoSA+mxK04HW6g9Q==
-X-CSE-MsgGUID: qPYGINR1TDyFa8dvp/tU7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="48943618"
+X-CSE-ConnectionGUID: WgmEtBpISEiZwE25U8w1bQ==
+X-CSE-MsgGUID: qYjGbSUYTXGbd/0vXb+KmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="48943623"
 X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; 
-   d="scan'208";a="48943618"
+   d="scan'208";a="48943623"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 07:04:52 -0700
-X-CSE-ConnectionGUID: F7eYwpx2TNuJzDsrz/PnWw==
-X-CSE-MsgGUID: u+s9E/+fR/2aqb3/P+lBeA==
+X-CSE-ConnectionGUID: FvgjEvutQUaZEw7R41luNw==
+X-CSE-MsgGUID: oUfluzNYTpChe3yAEn2MwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; 
-   d="scan'208";a="138778835"
+   d="scan'208";a="138778840"
 Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
   by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 07:04:50 -0700
 Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFZCa-0000F7-1i;
+	id 1uFZCa-0000F1-1T;
 	Thu, 15 May 2025 14:04:48 +0000
-Date: Thu, 15 May 2025 22:04:16 +0800
+Date: Thu, 15 May 2025 22:04:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2229/2229] arch/x86/kernel/head64.c:382:12:
- warning: no previous prototype for function
- 'early_clflush_bss_decrypted_section'
-Message-ID: <202505150041.GhGsIYWp-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2229/2229]
+ drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous
+ prototype for function 'tdm_service_run'
+Message-ID: <202505150403.myIeqBlp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,81 +65,162 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   a53913bacac4876eee9ce118b3101dff842318ef
-commit: ca0c1fa1ec4b6d9040cec7e543d50a93fc88d4c6 [2229/2229] x86/head/64: Flush caches for .bss..decrypted section after CR3 switches to early_top_pgt
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250515/202505150041.GhGsIYWp-lkp@intel.com/config)
+commit: 3ad98583441f7c8a2553e1e8d6340ed4397033e2 [2229/2229] crypto: tdm: Support dynamic protection for SCT and IDT by HYGON TDM
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250515/202505150403.myIeqBlp-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505150041.GhGsIYWp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505150403.myIeqBlp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505150041.GhGsIYWp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505150403.myIeqBlp-lkp@intel.com/
 
-Note: functions only called from assembly code should be annotated with the asmlinkage attribute
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/head64.c:382:12: warning: no previous prototype for function 'early_clflush_bss_decrypted_section' [-Wmissing-prototypes]
-     382 | void __ref early_clflush_bss_decrypted_section(void)
-         |            ^
-   arch/x86/kernel/head64.c:382:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     382 | void __ref early_clflush_bss_decrypted_section(void)
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous prototype for function 'tdm_service_run' [-Wmissing-prototypes]
+     151 | int tdm_service_run(struct tdm_security_enhance *data)
+         |     ^
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     151 | int tdm_service_run(struct tdm_security_enhance *data)
          | ^
          | static 
-   1 warning generated.
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:5: warning: no previous prototype for function 'tdm_service_exit' [-Wmissing-prototypes]
+     212 | int tdm_service_exit(struct tdm_security_enhance *data)
+         |     ^
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     212 | int tdm_service_exit(struct tdm_security_enhance *data)
+         | ^
+         | static 
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:243:15: warning: no previous prototype for function 'kprobe_symbol_address_byname' [-Wmissing-prototypes]
+     243 | unsigned long kprobe_symbol_address_byname(const char *name)
+         |               ^
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:243:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     243 | unsigned long kprobe_symbol_address_byname(const char *name)
+         | ^
+         | static 
+   3 warnings generated.
 
 
-vim +/early_clflush_bss_decrypted_section +382 arch/x86/kernel/head64.c
+vim +/tdm_service_run +151 drivers/crypto/ccp/hygon/tdm-kernel-guard.c
 
-   381	
- > 382	void __ref early_clflush_bss_decrypted_section(void)
-   383	{
-   384		unsigned long vaddr, vaddr_end;
-   385		char *cl, *start, *end;
-   386	
-   387		/* Only allow bsp flush these caches and the bsp must at early boot stage */
-   388		if (bsp_flush_bss_decrypted_section_handled)
-   389			return;
-   390	
-   391		if (read_cr3_pa() != __pa_nodebug(early_top_pgt))
-   392			return;
-   393	
-   394		/* Only Hygon CSV guest should do the clflush */
-   395		if (!__should_do_clflush())
-   396			goto handled;
-   397	
-   398		/*
-   399		 * The memory region of .bss..decrypted section maybe mapped
-   400		 * with encryption in earlier stage. If the correspond stale
-   401		 * caches lives in earlier stage were not flushed before we
-   402		 * access that memory region, then Linux will crash later
-   403		 * because the stale caches will pollute the memory. So we
-   404		 * need flush the caches with encrypted mapping before we
-   405		 * access .bss..decrypted section.
-   406		 *
-   407		 * The function __startup_64() have already filled the
-   408		 * encrypted mapping for .bss..decrypted section, use that
-   409		 * mapping here.
-   410		 */
-   411		vaddr = (unsigned long)__start_bss_decrypted -
-   412					__START_KERNEL_map + phys_base;
-   413		vaddr_end = (unsigned long)__end_bss_decrypted -
-   414					__START_KERNEL_map + phys_base;
-   415	
-   416		/* Hardcode cl-size to 64 at this stage. */
-   417		start = (char *)(vaddr & ~63);
-   418		end   = (char *)((vaddr_end + 63) & ~63);
-   419	
-   420		asm volatile("mfence" : : : "memory");
-   421		for (cl = start; cl != end; cl += 64)
-   422			clflush(cl);
-   423		asm volatile("mfence" : : : "memory");
-   424	
-   425	handled:
-   426		bsp_flush_bss_decrypted_section_handled = true;
-   427	}
-   428	#endif
-   429	
+   150	
+ > 151	int tdm_service_run(struct tdm_security_enhance *data)
+   152	{
+   153		int ret = 0;
+   154		struct addr_range_info *addr_range = NULL;
+   155	
+   156		// Allocate memory for addr_range
+   157		addr_range = kzalloc(sizeof(struct addr_range_info) + sizeof(struct addr_info), GFP_KERNEL);
+   158		if (!addr_range) {
+   159			ret = -DYN_ERR_MEM;
+   160			pr_err("addr_range kzalloc memory failed\n");
+   161			goto end;
+   162		}
+   163	
+   164		// Fill in addr_range
+   165		addr_range->count = 1;
+   166		addr_range->addr[0].addr_start = data->vaddr;
+   167		addr_range->addr[0].length = data->size;
+   168		data->mem_range = addr_range;
+   169	
+   170		// Context configuration
+   171		data->context |= TASK_CREATE_VADDR;
+   172	
+   173		// Allocate memory for authcode
+   174		data->authcode = kzalloc(sizeof(struct authcode_2b) + AUTHCODE_MAX, GFP_KERNEL);
+   175		if (!data->authcode) {
+   176			ret = -DYN_ERR_MEM;
+   177			pr_err("authcode_2b kzalloc memory failed\n");
+   178			goto free_addr_range_info;
+   179		}
+   180	
+   181		data->authcode->len = AUTHCODE_MAX;
+   182	
+   183		// Measurement data configuration
+   184		data->mdata.hash_algo = HASH_ALGO_SM3;
+   185		data->mdata.period_ms = 0;
+   186		ret = calc_expected_hash((uint8_t *)data->vaddr, data->size,
+   187			data->mdata.expected_measurement);
+   188		if (ret) {
+   189			pr_err("calculate expected hash failed!\n");
+   190			goto free_authcode;
+   191		}
+   192	
+   193		// Create and start tdm task
+   194		ret = tdm_task_create_and_run(data);
+   195		if (ret) {
+   196			pr_err("tdm_task_create_and_run failed!\n");
+   197			goto free_authcode;
+   198		}
+   199	
+   200		return ret;
+   201	
+   202	free_authcode:
+   203		kfree(data->authcode);
+   204		data->authcode = NULL;
+   205	free_addr_range_info:
+   206		kfree(data->mem_range);
+   207		data->mem_range = NULL;
+   208	end:
+   209		return ret;
+   210	}
+   211	
+ > 212	int tdm_service_exit(struct tdm_security_enhance *data)
+   213	{
+   214		int ret = 0;
+   215		int task_status = 0;
+   216	
+   217		task_status = psp_startstop_measure_task(data->task_id, data->authcode, false);
+   218		if (task_status < 0) {
+   219			ret = task_status;
+   220			pr_err("task_id %d stop failed with 0x%x\n", data->task_id, ret);
+   221			goto end;
+   222		}
+   223	
+   224		// Waiting for the task to end
+   225		msleep(40);
+   226	
+   227		psp_destroy_measure_task(data->task_id, data->authcode);
+   228	
+   229		kfree(data->authcode);
+   230		data->authcode = NULL;
+   231		kfree(data->mem_range);
+   232		data->mem_range = NULL;
+   233	end:
+   234		return ret;
+   235	}
+   236	
+   237	#if !IS_BUILTIN(CONFIG_TDM_KERNEL_GUARD)
+   238	static int p_tmp_kprobe_handler(struct kprobe *p_ri, struct pt_regs *p_regs)
+   239	{
+   240		return 0;
+   241	}
+   242	
+ > 243	unsigned long kprobe_symbol_address_byname(const char *name)
+   244	{
+   245		int p_ret;
+   246		struct kprobe p_kprobe;
+   247		unsigned long addr = 0;
+   248	
+   249		memset(&p_kprobe, 0, sizeof(p_kprobe));
+   250	
+   251		p_kprobe.pre_handler = p_tmp_kprobe_handler;
+   252		p_kprobe.symbol_name = name;
+   253	
+   254		p_ret = register_kprobe(&p_kprobe);
+   255		if (p_ret < 0) {
+   256			pr_err("register_kprobe error [%d] :(\n", p_ret);
+   257			return 0;
+   258		}
+   259	
+   260		addr = (unsigned long)p_kprobe.addr;
+   261		unregister_kprobe(&p_kprobe);
+   262	
+   263		return addr;
+   264	}
+   265	#endif
+   266	
 
 -- 
 0-DAY CI Kernel Test Service
