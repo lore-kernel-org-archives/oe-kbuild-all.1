@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDAB2397BF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 01:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEBB221F2C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 01:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747271500; cv=none; b=cP2Nt2uVu/0vdHe2YIT3c6ucriMcaCWNe+d8VLxkq7wukamsqZZ+fJSNupQNlkBHMdy27Nr/CwCeZEZ+aqtzTbU9KYMDpUBPEszzfbP6FfEP8z+uyucJ/B4e02hSe3SsvsDG18qyyWeKuae8bX5DSah9eJAxF+dAvLmTtVJ8Fc4=
+	t=1747272102; cv=none; b=P4lFbP97ZzUD+wtK334krAMdWTLe3pNOwRn0SBMQ/FzER863sSs1zAcY+1nAp2PnsWfRKgvlzZAOI4omscog0e2jw0GdQPfuTZ9gxIXBloKiooFOI567wAZ38vWcWFhgfUoySY0QXa5iboS1A7gM+QteHWH70RxIBAICFGZjk8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747271500; c=relaxed/simple;
-	bh=38aF9paVSqeOFCIEN7tD7pZBymP3k8LdanXZXKzNeJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X9AHqZ5Z5x7V3VtwC0Xy/9pR7jHJnq90/Xo2X2g9H/ac+igUnS8HQ/geIKnzx5fJlbuolwhVaRKKBthYjGiYcuktB/xLBTshdIQs5lJ1IYUNWEMkGXuSvWyzDNdAIbPQuEMaTaoDOqtOYeXDO31a9s+ekPxs4gfiKtjo9FHQcxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwkW7xqC; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1747272102; c=relaxed/simple;
+	bh=jgjSrlr/T0ZiWg2l9ELXgMwJAxZDAl6Zhb98CMnMTL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HH0lsUY0jTlAa1grxxgWOpsEekQbu5XSpi50JhAsCUaswNE7DcSKgkEuAyTpIHKY2wpq71BTETDzE06nis6XSBK3TdIFxMJQEkY3jLy6NbtQaUKmmlqbuymGhLAvHnDR/qS7s1sbbqiCgYgkWoCP3RiNRGWNrhydsLRHNEedrw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrYJDVOk; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwkW7xqC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrYJDVOk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747271498; x=1778807498;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=38aF9paVSqeOFCIEN7tD7pZBymP3k8LdanXZXKzNeJk=;
-  b=mwkW7xqC/n82TsYS+fdOdIG7I4pdBdoPUFJz+e4//c71n+l8O/Y/Gs+n
-   p+NX1jA2CloXvMknHJDWNGbtURh5ojbxqG+388gHTtlTlG4NHWqdJq6iH
-   yyGFwtct1gSst3k0kA2kKdiESfc8YI/jIHK5xwSfJC0Hel+OQpIwF4Jjy
-   0fXIkDhC1m4Txf1LCziWQ1GXm1pddNjv2ryZxcMmQePOP/HbuuLAHCJhb
-   KfF9MQJCsBoBNg5rfWknXWhfjpHv3P/QS4GqTSfhb3q8AqCnLPz4C08TQ
-   qaS7L5WB9RuYabDUHuVptpl500xRH6GVwuo2kjU0Ost6z2ItE8zKUf8PI
+  t=1747272100; x=1778808100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jgjSrlr/T0ZiWg2l9ELXgMwJAxZDAl6Zhb98CMnMTL8=;
+  b=QrYJDVOki4MtHKtLPwkPaGCVSxqlU2V3obxdu7QjC3k1iH6kI/63S/xe
+   P3bLXVakhD8TbztfPv3ZHKFwc4oxMvDQWPF/QjGq2VOz2mn4RbZx2u+J1
+   9gtRc9zGvZ7X5wBgz/Na6YgX+vjjSC+247amwuY88wje1WE0BBIqmyMs2
+   5Bvcog8HzZ6V3QHh5m/5a1cIaDnL2P5KYdbrWnsGz8A28De9c4vGe5nDs
+   7lNVGA7vDyV0DQAf1ZZ+7Ea0+2SWZT1S6/9WW8/yMlC3vV7zkrnv4Cd7i
+   dJ3AbCBHV3N0JL4E0n0CiTIH+2jIOeBrQA03YM3VJExcK+DIwkc+qMXtP
    Q==;
-X-CSE-ConnectionGUID: fGjAgmqGQ/eH777x036T8Q==
-X-CSE-MsgGUID: n8BTFFyJTzSN7NvX2k9org==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49090364"
+X-CSE-ConnectionGUID: pYDrH8ULSUiZ82cOfyelyg==
+X-CSE-MsgGUID: 5Aov9zB3RwmGAjsES0wiCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="52997090"
 X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="49090364"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 18:11:38 -0700
-X-CSE-ConnectionGUID: OBzO+HAZTnmjpzuntLzl+w==
-X-CSE-MsgGUID: /dxPZKWcSu+tXz4Q3X4OEg==
+   d="scan'208";a="52997090"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 18:21:40 -0700
+X-CSE-ConnectionGUID: ZHDeO+p7Q5iDzwAbdYR0CA==
+X-CSE-MsgGUID: QbWLwMJ8SnOi5SPFb4oH8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="139207567"
+   d="scan'208";a="138716109"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 May 2025 18:11:36 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 May 2025 18:21:36 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFN8H-000Hkl-2b;
-	Thu, 15 May 2025 01:11:33 +0000
-Date: Thu, 15 May 2025 09:10:41 +0800
+	id 1uFNHy-000Hkz-1M;
+	Thu, 15 May 2025 01:21:34 +0000
+Date: Thu, 15 May 2025 09:20:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [broonie-ci:v8_20250509_mathieu_dubois_briand_add_support_for_max7360
- 1/1] drivers/base/regmap/regmap-irq.c:914:89: error: macro "array_size"
- requires 2 arguments, but only 1 given
-Message-ID: <202505150947.wEwjZZ0G-lkp@intel.com>
+To: Aleksa Paunovic via B4 Relay <devnull+aleksa.paunovic.htecgroup.com@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+	Djordje Todorovic <djordje.todorovic@htecgroup.com>,
+	Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
+Subject: Re: [PATCH v4 2/2] Allow for riscv-clock to pick up mmio address.
+Message-ID: <202505150913.Iq1XRKqC-lkp@intel.com>
+References: <20250514-riscv-time-mmio-v4-2-cb0cf2922d66@htecgroup.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,365 +72,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250514-riscv-time-mmio-v4-2-cb0cf2922d66@htecgroup.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v8_20250509_mathieu_dubois_briand_add_support_for_max7360
-head:   f1d49f15e78ac1fa3092f1c0bbf56882345b349f
-commit: f1d49f15e78ac1fa3092f1c0bbf56882345b349f [1/1] regmap: irq: Add support for chips without separate IRQ status
-config: i386-randconfig-012-20250515 (https://download.01.org/0day-ci/archive/20250515/202505150947.wEwjZZ0G-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505150947.wEwjZZ0G-lkp@intel.com/reproduce)
+Hi Aleksa,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 9c32cda43eb78f78c73aee4aa344b777714e259b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Paunovic-via-B4-Relay/dt-bindings-timer-mti-gcru/20250514-165347
+base:   9c32cda43eb78f78c73aee4aa344b777714e259b
+patch link:    https://lore.kernel.org/r/20250514-riscv-time-mmio-v4-2-cb0cf2922d66%40htecgroup.com
+patch subject: [PATCH v4 2/2] Allow for riscv-clock to pick up mmio address.
+config: riscv-randconfig-001-20250515 (https://download.01.org/0day-ci/archive/20250515/202505150913.Iq1XRKqC-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505150913.Iq1XRKqC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505150947.wEwjZZ0G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505150913.Iq1XRKqC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/base/regmap/regmap-irq.c: In function 'regmap_add_irq_chip_fwnode':
->> drivers/base/regmap/regmap-irq.c:914:89: error: macro "array_size" requires 2 arguments, but only 1 given
-     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
-         |                                                                                         ^
-   In file included from include/linux/string.h:13,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/processor.h:20,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/base/regmap/regmap-irq.c:10:
-   include/linux/overflow.h:327: note: macro "array_size" defined here
-     327 | #define array_size(a, b)        size_mul(a, b)
-         | 
-   In file included from include/linux/string.h:392:
->> drivers/base/regmap/regmap-irq.c:914:59: error: 'array_size' undeclared (first use in this function)
-     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
-         |                                                           ^~~~~~~~~~
-   include/linux/fortify-string.h:627:48: note: in definition of macro '__fortify_memcpy_chk'
-     627 |         const size_t __fortify_size = (size_t)(size);                   \
-         |                                                ^~~~
-   drivers/base/regmap/regmap-irq.c:914:17: note: in expansion of macro 'memcpy'
-     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
-         |                 ^~~~~~
-   drivers/base/regmap/regmap-irq.c:914:59: note: each undeclared identifier is reported only once for each function it appears in
-     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
-         |                                                           ^~~~~~~~~~
-   include/linux/fortify-string.h:627:48: note: in definition of macro '__fortify_memcpy_chk'
-     627 |         const size_t __fortify_size = (size_t)(size);                   \
-         |                                                ^~~~
-   drivers/base/regmap/regmap-irq.c:914:17: note: in expansion of macro 'memcpy'
-     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
-         |                 ^~~~~~
+   In file included from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/jiffies.h:10,
+                    from include/linux/ktime.h:25,
+                    from include/linux/timer.h:6,
+                    from include/linux/uprobes.h:18,
+                    from include/linux/mm_types.h:16,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/riscv/kernel/asm-offsets.c:8:
+   arch/riscv/include/asm/timex.h: In function 'random_get_entropy':
+>> arch/riscv/include/asm/timex.h:39:9: error: implicit declaration of function 'get_cycles'; did you mean 'get_cycles_ptr'? [-Werror=implicit-function-declaration]
+     return get_cycles();
+            ^~~~~~~~~~
+            get_cycles_ptr
+   arch/riscv/include/asm/timex.h: In function 'get_cycles64':
+>> arch/riscv/include/asm/timex.h:45:23: error: implicit declaration of function 'get_cycles_ptr_hi'; did you mean 'get_cycles_ptr'? [-Werror=implicit-function-declaration]
+    #define get_cycles_hi get_cycles_ptr_hi
+                          ^~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/timex.h:58:8: note: in expansion of macro 'get_cycles_hi'
+      hi = get_cycles_hi();
+           ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:98: arch/riscv/kernel/asm-offsets.s] Error 1 shuffle=2386734513
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1282: prepare0] Error 2 shuffle=2386734513
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2386734513
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2386734513
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/array_size +914 drivers/base/regmap/regmap-irq.c
+vim +39 arch/riscv/include/asm/timex.h
 
-   651	
-   652	
-   653	/**
-   654	 * regmap_add_irq_chip_fwnode() - Use standard regmap IRQ controller handling
-   655	 *
-   656	 * @fwnode: The firmware node where the IRQ domain should be added to.
-   657	 * @map: The regmap for the device.
-   658	 * @irq: The IRQ the device uses to signal interrupts.
-   659	 * @irq_flags: The IRQF_ flags to use for the primary interrupt.
-   660	 * @irq_base: Allocate at specific IRQ number if irq_base > 0.
-   661	 * @chip: Configuration for the interrupt controller.
-   662	 * @data: Runtime data structure for the controller, allocated on success.
-   663	 *
-   664	 * Returns 0 on success or an errno on failure.
-   665	 *
-   666	 * In order for this to be efficient the chip really should use a
-   667	 * register cache.  The chip driver is responsible for restoring the
-   668	 * register values used by the IRQ controller over suspend and resume.
-   669	 */
-   670	int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
-   671				       struct regmap *map, int irq,
-   672				       int irq_flags, int irq_base,
-   673				       const struct regmap_irq_chip *chip,
-   674				       struct regmap_irq_chip_data **data)
-   675	{
-   676		struct regmap_irq_chip_data *d;
-   677		int i;
-   678		int ret = -ENOMEM;
-   679		u32 reg;
-   680	
-   681		if (chip->num_regs <= 0)
-   682			return -EINVAL;
-   683	
-   684		if (chip->clear_on_unmask && (chip->ack_base || chip->use_ack))
-   685			return -EINVAL;
-   686	
-   687		if (chip->mask_base && chip->unmask_base && !chip->mask_unmask_non_inverted)
-   688			return -EINVAL;
-   689	
-   690		for (i = 0; i < chip->num_irqs; i++) {
-   691			if (chip->irqs[i].reg_offset % map->reg_stride)
-   692				return -EINVAL;
-   693			if (chip->irqs[i].reg_offset / map->reg_stride >=
-   694			    chip->num_regs)
-   695				return -EINVAL;
-   696		}
-   697	
-   698		if (irq_base) {
-   699			irq_base = irq_alloc_descs(irq_base, 0, chip->num_irqs, 0);
-   700			if (irq_base < 0) {
-   701				dev_warn(map->dev, "Failed to allocate IRQs: %d\n",
-   702					 irq_base);
-   703				return irq_base;
-   704			}
-   705		}
-   706	
-   707		d = kzalloc(sizeof(*d), GFP_KERNEL);
-   708		if (!d)
-   709			return -ENOMEM;
-   710	
-   711		if (chip->num_main_regs) {
-   712			d->main_status_buf = kcalloc(chip->num_main_regs,
-   713						     sizeof(*d->main_status_buf),
-   714						     GFP_KERNEL);
-   715	
-   716			if (!d->main_status_buf)
-   717				goto err_alloc;
-   718		}
-   719	
-   720		d->status_buf = kcalloc(chip->num_regs, sizeof(*d->status_buf),
-   721					GFP_KERNEL);
-   722		if (!d->status_buf)
-   723			goto err_alloc;
-   724	
-   725		if (chip->status_is_level) {
-   726			d->prev_status_buf = kcalloc(chip->num_regs, sizeof(*d->prev_status_buf),
-   727						     GFP_KERNEL);
-   728			if (!d->prev_status_buf)
-   729				goto err_alloc;
-   730		}
-   731	
-   732		d->mask_buf = kcalloc(chip->num_regs, sizeof(*d->mask_buf),
-   733				      GFP_KERNEL);
-   734		if (!d->mask_buf)
-   735			goto err_alloc;
-   736	
-   737		d->mask_buf_def = kcalloc(chip->num_regs, sizeof(*d->mask_buf_def),
-   738					  GFP_KERNEL);
-   739		if (!d->mask_buf_def)
-   740			goto err_alloc;
-   741	
-   742		if (chip->wake_base) {
-   743			d->wake_buf = kcalloc(chip->num_regs, sizeof(*d->wake_buf),
-   744					      GFP_KERNEL);
-   745			if (!d->wake_buf)
-   746				goto err_alloc;
-   747		}
-   748	
-   749		if (chip->type_in_mask) {
-   750			d->type_buf_def = kcalloc(chip->num_regs,
-   751						  sizeof(*d->type_buf_def), GFP_KERNEL);
-   752			if (!d->type_buf_def)
-   753				goto err_alloc;
-   754	
-   755			d->type_buf = kcalloc(chip->num_regs, sizeof(*d->type_buf), GFP_KERNEL);
-   756			if (!d->type_buf)
-   757				goto err_alloc;
-   758		}
-   759	
-   760		if (chip->num_config_bases && chip->num_config_regs) {
-   761			/*
-   762			 * Create config_buf[num_config_bases][num_config_regs]
-   763			 */
-   764			d->config_buf = kcalloc(chip->num_config_bases,
-   765						sizeof(*d->config_buf), GFP_KERNEL);
-   766			if (!d->config_buf)
-   767				goto err_alloc;
-   768	
-   769			for (i = 0; i < chip->num_config_bases; i++) {
-   770				d->config_buf[i] = kcalloc(chip->num_config_regs,
-   771							   sizeof(**d->config_buf),
-   772							   GFP_KERNEL);
-   773				if (!d->config_buf[i])
-   774					goto err_alloc;
-   775			}
-   776		}
-   777	
-   778		d->irq_chip = regmap_irq_chip;
-   779		d->irq_chip.name = chip->name;
-   780		d->irq = irq;
-   781		d->map = map;
-   782		d->chip = chip;
-   783		d->irq_base = irq_base;
-   784	
-   785		if (chip->irq_reg_stride)
-   786			d->irq_reg_stride = chip->irq_reg_stride;
-   787		else
-   788			d->irq_reg_stride = 1;
-   789	
-   790		if (chip->get_irq_reg)
-   791			d->get_irq_reg = chip->get_irq_reg;
-   792		else
-   793			d->get_irq_reg = regmap_irq_get_irq_reg_linear;
-   794	
-   795		if (regmap_irq_can_bulk_read_status(d)) {
-   796			d->status_reg_buf = kmalloc_array(chip->num_regs,
-   797							  map->format.val_bytes,
-   798							  GFP_KERNEL);
-   799			if (!d->status_reg_buf)
-   800				goto err_alloc;
-   801		}
-   802	
-   803		mutex_init(&d->lock);
-   804	
-   805		for (i = 0; i < chip->num_irqs; i++)
-   806			d->mask_buf_def[chip->irqs[i].reg_offset / map->reg_stride]
-   807				|= chip->irqs[i].mask;
-   808	
-   809		/* Mask all the interrupts by default */
-   810		for (i = 0; i < chip->num_regs; i++) {
-   811			d->mask_buf[i] = d->mask_buf_def[i];
-   812	
-   813			if (chip->handle_mask_sync) {
-   814				ret = chip->handle_mask_sync(i, d->mask_buf_def[i],
-   815							     d->mask_buf[i],
-   816							     chip->irq_drv_data);
-   817				if (ret)
-   818					goto err_alloc;
-   819			}
-   820	
-   821			if (chip->mask_base && !chip->handle_mask_sync) {
-   822				reg = d->get_irq_reg(d, chip->mask_base, i);
-   823				ret = regmap_update_bits(d->map, reg,
-   824							 d->mask_buf_def[i],
-   825							 d->mask_buf[i]);
-   826				if (ret) {
-   827					dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
-   828						reg, ret);
-   829					goto err_alloc;
-   830				}
-   831			}
-   832	
-   833			if (chip->unmask_base && !chip->handle_mask_sync) {
-   834				reg = d->get_irq_reg(d, chip->unmask_base, i);
-   835				ret = regmap_update_bits(d->map, reg,
-   836						d->mask_buf_def[i], ~d->mask_buf[i]);
-   837				if (ret) {
-   838					dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
-   839						reg, ret);
-   840					goto err_alloc;
-   841				}
-   842			}
-   843	
-   844			if (!chip->init_ack_masked)
-   845				continue;
-   846	
-   847			/* Ack masked but set interrupts */
-   848			if (d->chip->no_status) {
-   849				/* no status register so default to all active */
-   850				d->status_buf[i] = UINT_MAX;
-   851			} else {
-   852				reg = d->get_irq_reg(d, d->chip->status_base, i);
-   853				ret = regmap_read(map, reg, &d->status_buf[i]);
-   854				if (ret != 0) {
-   855					dev_err(map->dev, "Failed to read IRQ status: %d\n",
-   856						ret);
-   857					goto err_alloc;
-   858				}
-   859			}
-   860	
-   861			if (chip->status_invert)
-   862				d->status_buf[i] = ~d->status_buf[i];
-   863	
-   864			if (d->status_buf[i] && (chip->ack_base || chip->use_ack)) {
-   865				reg = d->get_irq_reg(d, d->chip->ack_base, i);
-   866				if (chip->ack_invert)
-   867					ret = regmap_write(map, reg,
-   868						~(d->status_buf[i] & d->mask_buf[i]));
-   869				else
-   870					ret = regmap_write(map, reg,
-   871						d->status_buf[i] & d->mask_buf[i]);
-   872				if (chip->clear_ack) {
-   873					if (chip->ack_invert && !ret)
-   874						ret = regmap_write(map, reg, UINT_MAX);
-   875					else if (!ret)
-   876						ret = regmap_write(map, reg, 0);
-   877				}
-   878				if (ret != 0) {
-   879					dev_err(map->dev, "Failed to ack 0x%x: %d\n",
-   880						reg, ret);
-   881					goto err_alloc;
-   882				}
-   883			}
-   884		}
-   885	
-   886		/* Wake is disabled by default */
-   887		if (d->wake_buf) {
-   888			for (i = 0; i < chip->num_regs; i++) {
-   889				d->wake_buf[i] = d->mask_buf_def[i];
-   890				reg = d->get_irq_reg(d, d->chip->wake_base, i);
-   891	
-   892				if (chip->wake_invert)
-   893					ret = regmap_update_bits(d->map, reg,
-   894								 d->mask_buf_def[i],
-   895								 0);
-   896				else
-   897					ret = regmap_update_bits(d->map, reg,
-   898								 d->mask_buf_def[i],
-   899								 d->wake_buf[i]);
-   900				if (ret != 0) {
-   901					dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
-   902						reg, ret);
-   903					goto err_alloc;
-   904				}
-   905			}
-   906		}
-   907	
-   908		/* Store current levels */
-   909		if (chip->status_is_level) {
-   910			ret = read_irq_data(d);
-   911			if (ret < 0)
-   912				goto err_alloc;
-   913	
- > 914			memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
-   915		}
-   916	
-   917		ret = regmap_irq_create_domain(fwnode, irq_base, chip, d);
-   918		if (ret)
-   919			goto err_alloc;
-   920	
-   921		ret = request_threaded_irq(irq, NULL, regmap_irq_thread,
-   922					   irq_flags | IRQF_ONESHOT,
-   923					   chip->name, d);
-   924		if (ret != 0) {
-   925			dev_err(map->dev, "Failed to request IRQ %d for %s: %d\n",
-   926				irq, chip->name, ret);
-   927			goto err_domain;
-   928		}
-   929	
-   930		*data = d;
-   931	
-   932		return 0;
-   933	
-   934	err_domain:
-   935		/* Should really dispose of the domain but... */
-   936	err_alloc:
-   937		kfree(d->type_buf);
-   938		kfree(d->type_buf_def);
-   939		kfree(d->wake_buf);
-   940		kfree(d->mask_buf_def);
-   941		kfree(d->mask_buf);
-   942		kfree(d->main_status_buf);
-   943		kfree(d->status_buf);
-   944		kfree(d->prev_status_buf);
-   945		kfree(d->status_reg_buf);
-   946		if (d->config_buf) {
-   947			for (i = 0; i < chip->num_config_bases; i++)
-   948				kfree(d->config_buf[i]);
-   949			kfree(d->config_buf);
-   950		}
-   951		kfree(d);
-   952		return ret;
-   953	}
-   954	EXPORT_SYMBOL_GPL(regmap_add_irq_chip_fwnode);
-   955	
+d5be89a8d118a8 Palmer Dabbelt     2020-09-14  29  
+aa9887608e77b8 Anup Patel         2020-09-27  30  /*
+aa9887608e77b8 Anup Patel         2020-09-27  31   * Much like MIPS, we may not have a viable counter to use at an early point
+aa9887608e77b8 Anup Patel         2020-09-27  32   * in the boot process. Unfortunately we don't have a fallback, so instead
+aa9887608e77b8 Anup Patel         2020-09-27  33   * we just return 0.
+aa9887608e77b8 Anup Patel         2020-09-27  34   */
+aa9887608e77b8 Anup Patel         2020-09-27  35  static inline unsigned long random_get_entropy(void)
+aa9887608e77b8 Anup Patel         2020-09-27  36  {
+aa9887608e77b8 Anup Patel         2020-09-27  37  	if (unlikely(clint_time_val == NULL))
+6d01238623faa9 Jason A. Donenfeld 2022-04-08  38  		return random_get_entropy_fallback();
+aa9887608e77b8 Anup Patel         2020-09-27 @39  	return get_cycles();
+aa9887608e77b8 Anup Patel         2020-09-27  40  }
+aa9887608e77b8 Anup Patel         2020-09-27  41  #define random_get_entropy()	random_get_entropy()
+7eeda0113dff84 Aleksa Paunovic    2025-05-14  42  #endif
+aa9887608e77b8 Anup Patel         2020-09-27  43  
+7eeda0113dff84 Aleksa Paunovic    2025-05-14  44  #define get_cycles get_cycles_ptr
+7eeda0113dff84 Aleksa Paunovic    2025-05-14 @45  #define get_cycles_hi get_cycles_ptr_hi
+ccbbfd1cbf365b Palmer Dabbelt     2020-11-25  46  
 
 -- 
 0-DAY CI Kernel Test Service
