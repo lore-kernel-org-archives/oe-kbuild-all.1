@@ -1,88 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A744F25A349
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 21:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4241FECB0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 22:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747345776; cv=none; b=bfQBSc760Xf9XSUfnF2j/tMLvWZ9GjWf1vJexPYf8Dm+gluB5K+Z9MbuoVkCnfJlxXqN//Dfb5wzrTnK8TmhrQKrQgX7FwyX3j64zCownS2lpAUeCayMJfyNLpfCPvjQ01uGC//wWWocK2I6isCeeMUuREAvks373iUm1UevuKg=
+	t=1747347624; cv=none; b=H0x/1KfvxT8/1yOD/YtUOoWZYGGIuEQNJ5ooCo8kcova7kHbWPB5Z21I/barHtv5jgMhYfl8pKaRQVxxbPRHDG4jBlX5B5aSk6jjIEL4AZMvsEbdfFPJumQysIL4nrfgY+hjLPOTPSDGqNBA294Q60WPUmFUMo75klrdXt7B/n4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747345776; c=relaxed/simple;
-	bh=RoCc345vfJVENvuSRJcrRZFcN774itnQr3aMxr0Fyfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K548VqDwRBUkV2C73dkAZDsaW0IA0pK/aSdqjL/R6VdKQ9ukWrsBvrVbyZ1h7wmQ4C3g/sxTd4oOMsIMIzVkzcBM7l1VcDiVy+Qg+/XW1ANbj0e19G09nJs69QlkIdFtxXrjjbzMtBgfun1FgGa5RFj+gdpCMUkImURdwyy0BGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9Nb5ngX; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1747347624; c=relaxed/simple;
+	bh=xa+sZpmuziX2Vade5WDa3ArQqf7JdxIxvp8RgpTfuTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MUgERxqaGQwYK+w74zUpdvrlHOhQGVF0mKpOWw4Ne48Uspoefqo8q9XbU8SpMB1nV+pzawKCsutDSS+9lwselOiO8gqxawd2XkLmXYbN/TOxN8vrJyU6aejRMLcWnzQBUmSUIe4RLoCnBK0VZ9B8acij0coXa6MgyWQNCZwqplQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOUsycMT; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9Nb5ngX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOUsycMT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747345774; x=1778881774;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RoCc345vfJVENvuSRJcrRZFcN774itnQr3aMxr0Fyfw=;
-  b=f9Nb5ngXL/wiTgmTqa6TuthzoRW9ZoUr0BAX7Ljw4dSC9EkDc/2zThVf
-   QSCChxqVVeNFLoXrLAfdSiDD7emUOGo9s7PaGdtr8FKyUJMfsvTwMfBvg
-   KDoCqaWOFu+RiDGcK5HtnwdUKXGy0DL+MF4OAxx18hU+1gbuX8B4IP2Dd
-   1ISoKfpMcXl6qysPCwqSsTwCRuzEwzcSgyAWaXRcINYLb3S4+mWR4ALA1
-   9760Zkx7c9h5nioV/ZPXfQDtgbjNhuN6+9JGevZlBK7s7DZEmY5EfQU20
-   XOJHjqQ7pAed/U62RS3qW36ADJzV7lm4UxnGxW5tTqhNbv5R0VaUHjSrF
-   Q==;
-X-CSE-ConnectionGUID: J4BxAuhSTb2fAqcc1UJcQg==
-X-CSE-MsgGUID: pHfJbPcbRROAVDGFYZo7Cg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="74706556"
+  t=1747347622; x=1778883622;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xa+sZpmuziX2Vade5WDa3ArQqf7JdxIxvp8RgpTfuTw=;
+  b=iOUsycMTb7WCNCdsgnONRJCI/34svJsLhgUK+pUzYa38a9fivw5FqR9P
+   oTT4Z7lHeQTC4oCoweEvVYyfhYn+m/bPBQpj6FyNZMpHKsEJSsFmUVzdv
+   5GW/9qj9il+x7FFOIhXGDEH05wuEov3ps2WnOMrKMTNCEkqCXHtFJtoZB
+   sUHUNVRufh2ZIqmGDfAGo+iBm3e/ZoGMAgPhsdzK/YBuKHoawWulgdYcc
+   ekJRanPgdtkzX8FHZGm6NDqsLJvHQ78ATnZLYCm7dMumENXoiyiafufAF
+   IrG58zWAXKAfxgUY1Su0k3wmHopt11miknnXevEFytcBFD3lPAXqhl+HA
+   g==;
+X-CSE-ConnectionGUID: OItmCw4TTf6vtD/Z/UQzzA==
+X-CSE-MsgGUID: LdV9cohJQEGKTIdRG1HBdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49002002"
 X-IronPort-AV: E=Sophos;i="6.15,292,1739865600"; 
-   d="scan'208";a="74706556"
+   d="scan'208";a="49002002"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 14:49:33 -0700
-X-CSE-ConnectionGUID: gPxS+KsDQICu4S9djjz6WA==
-X-CSE-MsgGUID: lV50IQaLQZ+PFDXaZT8Gcg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 15:20:22 -0700
+X-CSE-ConnectionGUID: Nmi/ovrpR12NTx8v758GQg==
+X-CSE-MsgGUID: KkTHEsoiRtazPja0v24KSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,292,1739865600"; 
-   d="scan'208";a="138895866"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 14:49:27 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="138901546"
+Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
+  by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 15:20:21 -0700
+Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFgSD-000Ilz-07;
-	Thu, 15 May 2025 21:49:25 +0000
-Date: Fri, 16 May 2025 05:48:39 +0800
+	id 1uFgw6-0000Jf-1a;
+	Thu, 15 May 2025 22:20:18 +0000
+Date: Fri, 16 May 2025 06:19:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Markus Elfring <Markus.Elfring@web.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Collabora Kernel Team <kernel@collabora.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Val Packett <val@packett.cool>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	Michael Riesch <michael.riesch@wolfvision.net>
-Subject: Re: [PATCH v7 07/14] media: rockchip: add driver for mipi csi-2
- receiver
-Message-ID: <202505160513.MZRCAdXI-lkp@intel.com>
-References: <20240220-rk3568-vicap-v7-7-7581fd96a33a@collabora.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2229/2229] drivers/crypto/ccp/hygon/vpsp.c:589:6:
+ warning: no previous prototype for function
+ 'vpsp_set_default_vid_permission'
+Message-ID: <202505160621.OjKQTnzL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -91,32 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240220-rk3568-vicap-v7-7-7581fd96a33a@collabora.com>
 
-Hi Michael,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Riesch-via-B4-Relay/Documentation-admin-guide-media-add-rockchip-camera-interface/20250514-235450
-base:   82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3
-patch link:    https://lore.kernel.org/r/20240220-rk3568-vicap-v7-7-7581fd96a33a%40collabora.com
-patch subject: [PATCH v7 07/14] media: rockchip: add driver for mipi csi-2 receiver
-config: i386-kismet-CONFIG_VIDEO_V4L2_SUBDEV_API-CONFIG_VIDEO_ROCKCHIP_CSI-0-0 (https://download.01.org/0day-ci/archive/20250516/202505160513.MZRCAdXI-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250516/202505160513.MZRCAdXI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   baf4f02470215e4f896899f495ff7ac7fbfda979
+commit: e2861aaa47961017ada7f66de11104bbf3b85eb1 [2229/2229] crypto: ccp: move vpsp-related functions to vpsp.c
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250516/202505160621.OjKQTnzL-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505160621.OjKQTnzL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505160513.MZRCAdXI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505160621.OjKQTnzL-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API when selected by VIDEO_ROCKCHIP_CSI
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-     Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-     Selected by [y]:
-     - VIDEO_ROCKCHIP_CSI [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && (ARCH_ROCKCHIP || COMPILE_TEST [=y]) && V4L_PLATFORM_DRIVERS [=y] && PM [=y] && COMMON_CLK [=y]
+All warnings (new ones prefixed by >>):
+
+>> drivers/crypto/ccp/hygon/vpsp.c:589:6: warning: no previous prototype for function 'vpsp_set_default_vid_permission' [-Wmissing-prototypes]
+     589 | void vpsp_set_default_vid_permission(uint32_t is_allow)
+         |      ^
+   drivers/crypto/ccp/hygon/vpsp.c:589:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     589 | void vpsp_set_default_vid_permission(uint32_t is_allow)
+         | ^
+         | static 
+>> drivers/crypto/ccp/hygon/vpsp.c:1055:5: warning: no previous prototype for function 'vpsp_do_cmd' [-Wmissing-prototypes]
+    1055 | int vpsp_do_cmd(int cmd, phys_addr_t phy_addr, int *psp_ret)
+         |     ^
+   drivers/crypto/ccp/hygon/vpsp.c:1055:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1055 | int vpsp_do_cmd(int cmd, phys_addr_t phy_addr, int *psp_ret)
+         | ^
+         | static 
+   2 warnings generated.
+
+
+vim +/vpsp_set_default_vid_permission +589 drivers/crypto/ccp/hygon/vpsp.c
+
+   582	
+   583	/**
+   584	 * When 'allow_default_vid' is set to 1,
+   585	 * QEMU is allowed to use 'vid 0' by default
+   586	 * in the absence of a valid 'vid' setting.
+   587	 */
+   588	uint32_t allow_default_vid = 1;
+ > 589	void vpsp_set_default_vid_permission(uint32_t is_allow)
+   590	{
+   591		allow_default_vid = is_allow;
+   592	}
+   593	
 
 -- 
 0-DAY CI Kernel Test Service
