@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EA8BA50
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 00:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDAB2397BF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 01:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747267776; cv=none; b=hnOU/k/KEJcfXPyqOZAWYdcN22vegta2i0G0Ue7F3V2xB2EWAit6XnVR0vxNACOk3C51GD+VGf55cgx1gH/0M5sdU9v66Kpgzobl+E/4yHnqpLcZJBGnQNCUKLsBcRQ/wdYYUu4DiJer4wbEWRsmuUFwBp/ZXjr+rmtb7hZf8MU=
+	t=1747271500; cv=none; b=cP2Nt2uVu/0vdHe2YIT3c6ucriMcaCWNe+d8VLxkq7wukamsqZZ+fJSNupQNlkBHMdy27Nr/CwCeZEZ+aqtzTbU9KYMDpUBPEszzfbP6FfEP8z+uyucJ/B4e02hSe3SsvsDG18qyyWeKuae8bX5DSah9eJAxF+dAvLmTtVJ8Fc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747267776; c=relaxed/simple;
-	bh=u5U8IBS0aj/yCkIaJ/fZu4+XiINvUVPyxrRtiX7Am4w=;
+	s=arc-20240116; t=1747271500; c=relaxed/simple;
+	bh=38aF9paVSqeOFCIEN7tD7pZBymP3k8LdanXZXKzNeJk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XTTX4dzSIWrmOSM6GTNDrjDPkqxL4hlY4PZ4NUXdoBp/rrrUzwH2Q9dIjnl9oUSbzsD1hwPgleAmKIhG1KkYPfKCFUG/LtSA5luvBdZJcY1R8FS08wjMVhes3/04FH+laPcy6kUDdKW/ZqaV8lXzYgGWpMkDLYQw+u9E5770N3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+IlcLg/; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=X9AHqZ5Z5x7V3VtwC0Xy/9pR7jHJnq90/Xo2X2g9H/ac+igUnS8HQ/geIKnzx5fJlbuolwhVaRKKBthYjGiYcuktB/xLBTshdIQs5lJ1IYUNWEMkGXuSvWyzDNdAIbPQuEMaTaoDOqtOYeXDO31a9s+ekPxs4gfiKtjo9FHQcxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwkW7xqC; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+IlcLg/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwkW7xqC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747267773; x=1778803773;
+  t=1747271498; x=1778807498;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u5U8IBS0aj/yCkIaJ/fZu4+XiINvUVPyxrRtiX7Am4w=;
-  b=a+IlcLg/MfAdzmtvhk6DgJL/NA01WG4cHqqX2Hn9pcM7vR3iFGhB6Rn2
-   ELu7O0bKXKyPldffgDcKe8QmpkqN4AQTzLtnhlMYtfFE6bqC6+BcUd3dC
-   mEoEw1ZiWO7u33frVoPVy63urJo+AJ6OOPYrK1cELAkIKPsfplwvOnodA
-   BMPnmfiKXklCe2bkFdd3paugtLRsrdjucY4qv205SOXSWWHNovCPIVhR4
-   qpi6fDRh4GndJ8agUMKGDz7KHxkY0/gZZKn2eJbN8wiYMH0o51kDWSLgS
-   2Hy/R5rkqj9UMx7T5Bm/+QbLiy35ggZ7PpPlUn1mgHPCXxJh7bB8bnADd
-   w==;
-X-CSE-ConnectionGUID: lhO7R8zcQVmSgZBkDgvTJw==
-X-CSE-MsgGUID: T7PS7faOQOi1tTSERNF1QA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="51827118"
+  bh=38aF9paVSqeOFCIEN7tD7pZBymP3k8LdanXZXKzNeJk=;
+  b=mwkW7xqC/n82TsYS+fdOdIG7I4pdBdoPUFJz+e4//c71n+l8O/Y/Gs+n
+   p+NX1jA2CloXvMknHJDWNGbtURh5ojbxqG+388gHTtlTlG4NHWqdJq6iH
+   yyGFwtct1gSst3k0kA2kKdiESfc8YI/jIHK5xwSfJC0Hel+OQpIwF4Jjy
+   0fXIkDhC1m4Txf1LCziWQ1GXm1pddNjv2ryZxcMmQePOP/HbuuLAHCJhb
+   KfF9MQJCsBoBNg5rfWknXWhfjpHv3P/QS4GqTSfhb3q8AqCnLPz4C08TQ
+   qaS7L5WB9RuYabDUHuVptpl500xRH6GVwuo2kjU0Ost6z2ItE8zKUf8PI
+   Q==;
+X-CSE-ConnectionGUID: fGjAgmqGQ/eH777x036T8Q==
+X-CSE-MsgGUID: n8BTFFyJTzSN7NvX2k9org==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49090364"
 X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="51827118"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 17:09:32 -0700
-X-CSE-ConnectionGUID: Fz8ecVpjQqySy/FciNl6uQ==
-X-CSE-MsgGUID: hLtjp/coSv+G/x89VeWuBg==
+   d="scan'208";a="49090364"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 18:11:38 -0700
+X-CSE-ConnectionGUID: OBzO+HAZTnmjpzuntLzl+w==
+X-CSE-MsgGUID: /dxPZKWcSu+tXz4Q3X4OEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="137924783"
+   d="scan'208";a="139207567"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 May 2025 17:09:32 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 14 May 2025 18:11:36 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFMAD-000Hhz-0h;
-	Thu, 15 May 2025 00:09:29 +0000
-Date: Thu, 15 May 2025 08:08:56 +0800
+	id 1uFN8H-000Hkl-2b;
+	Thu, 15 May 2025 01:11:33 +0000
+Date: Thu, 15 May 2025 09:10:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Ghiti <alexghiti@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexghiti:alex-for-next-sbi-3.0 80/96]
- arch/riscv/kernel/asm-offsets.c:517:23: error: 'SBI_EXT_FWFT' undeclared
-Message-ID: <202505150834.94GUtmGm-lkp@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [broonie-ci:v8_20250509_mathieu_dubois_briand_add_support_for_max7360
+ 1/1] drivers/base/regmap/regmap-irq.c:914:89: error: macro "array_size"
+ requires 2 arguments, but only 1 given
+Message-ID: <202505150947.wEwjZZ0G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,493 +64,364 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/alexghiti/linux.git alex-for-next-sbi-3.0
-head:   f478bb7469147d98ed15ea4caeebd0f7022b6a81
-commit: 47c129a8340a093394a2f092ece2a9ca55591ba1 [80/96] riscv: enable kernel access to shadow stack memory via FWFT sbi call
-config: riscv-randconfig-001-20250515 (https://download.01.org/0day-ci/archive/20250515/202505150834.94GUtmGm-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505150834.94GUtmGm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v8_20250509_mathieu_dubois_briand_add_support_for_max7360
+head:   f1d49f15e78ac1fa3092f1c0bbf56882345b349f
+commit: f1d49f15e78ac1fa3092f1c0bbf56882345b349f [1/1] regmap: irq: Add support for chips without separate IRQ status
+config: i386-randconfig-012-20250515 (https://download.01.org/0day-ci/archive/20250515/202505150947.wEwjZZ0G-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505150947.wEwjZZ0G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505150834.94GUtmGm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505150947.wEwjZZ0G-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/asm-offsets.c:7:
-   arch/riscv/kernel/asm-offsets.c: In function 'asm_offsets':
->> arch/riscv/kernel/asm-offsets.c:517:23: error: 'SBI_EXT_FWFT' undeclared (first use in this function)
-     DEFINE(SBI_EXT_FWFT, SBI_EXT_FWFT);
-                          ^~~~~~~~~~~~
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
-   arch/riscv/kernel/asm-offsets.c:517:23: note: each undeclared identifier is reported only once for each function it appears in
-     DEFINE(SBI_EXT_FWFT, SBI_EXT_FWFT);
-                          ^~~~~~~~~~~~
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
->> arch/riscv/kernel/asm-offsets.c:518:27: error: 'SBI_EXT_FWFT_SET' undeclared (first use in this function)
-     DEFINE(SBI_EXT_FWFT_SET, SBI_EXT_FWFT_SET);
-                              ^~~~~~~~~~~~~~~~
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
->> arch/riscv/kernel/asm-offsets.c:519:32: error: 'SBI_FWFT_SHADOW_STACK' undeclared (first use in this function); did you mean 'VM_SHADOW_STACK'?
-     DEFINE(SBI_FWFT_SHADOW_STACK, SBI_FWFT_SHADOW_STACK);
-                                   ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
->> arch/riscv/kernel/asm-offsets.c:520:33: error: 'SBI_FWFT_SET_FLAG_LOCK' undeclared (first use in this function); did you mean 'CSD_FLAG_LOCK'?
-     DEFINE(SBI_FWFT_SET_FLAG_LOCK, SBI_FWFT_SET_FLAG_LOCK);
-                                    ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-     asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-                                                                 ^~~
-   make[3]: *** [scripts/Makefile.build:98: arch/riscv/kernel/asm-offsets.s] Error 1 shuffle=2386734513
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2 shuffle=2386734513
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2386734513
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2386734513
-   make: Target 'prepare' not remade because of errors.
+   drivers/base/regmap/regmap-irq.c: In function 'regmap_add_irq_chip_fwnode':
+>> drivers/base/regmap/regmap-irq.c:914:89: error: macro "array_size" requires 2 arguments, but only 1 given
+     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
+         |                                                                                         ^
+   In file included from include/linux/string.h:13,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/processor.h:20,
+                    from include/linux/sched.h:13,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/base/regmap/regmap-irq.c:10:
+   include/linux/overflow.h:327: note: macro "array_size" defined here
+     327 | #define array_size(a, b)        size_mul(a, b)
+         | 
+   In file included from include/linux/string.h:392:
+>> drivers/base/regmap/regmap-irq.c:914:59: error: 'array_size' undeclared (first use in this function)
+     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
+         |                                                           ^~~~~~~~~~
+   include/linux/fortify-string.h:627:48: note: in definition of macro '__fortify_memcpy_chk'
+     627 |         const size_t __fortify_size = (size_t)(size);                   \
+         |                                                ^~~~
+   drivers/base/regmap/regmap-irq.c:914:17: note: in expansion of macro 'memcpy'
+     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
+         |                 ^~~~~~
+   drivers/base/regmap/regmap-irq.c:914:59: note: each undeclared identifier is reported only once for each function it appears in
+     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
+         |                                                           ^~~~~~~~~~
+   include/linux/fortify-string.h:627:48: note: in definition of macro '__fortify_memcpy_chk'
+     627 |         const size_t __fortify_size = (size_t)(size);                   \
+         |                                                ^~~~
+   drivers/base/regmap/regmap-irq.c:914:17: note: in expansion of macro 'memcpy'
+     914 |                 memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
+         |                 ^~~~~~
 
 
-vim +/SBI_EXT_FWFT +517 arch/riscv/kernel/asm-offsets.c
+vim +/array_size +914 drivers/base/regmap/regmap-irq.c
 
-    92	
-    93		DEFINE(PT_SIZE, sizeof(struct pt_regs));
-    94		OFFSET(PT_EPC, pt_regs, epc);
-    95		OFFSET(PT_RA, pt_regs, ra);
-    96		OFFSET(PT_FP, pt_regs, s0);
-    97		OFFSET(PT_S0, pt_regs, s0);
-    98		OFFSET(PT_S1, pt_regs, s1);
-    99		OFFSET(PT_S2, pt_regs, s2);
-   100		OFFSET(PT_S3, pt_regs, s3);
-   101		OFFSET(PT_S4, pt_regs, s4);
-   102		OFFSET(PT_S5, pt_regs, s5);
-   103		OFFSET(PT_S6, pt_regs, s6);
-   104		OFFSET(PT_S7, pt_regs, s7);
-   105		OFFSET(PT_S8, pt_regs, s8);
-   106		OFFSET(PT_S9, pt_regs, s9);
-   107		OFFSET(PT_S10, pt_regs, s10);
-   108		OFFSET(PT_S11, pt_regs, s11);
-   109		OFFSET(PT_SP, pt_regs, sp);
-   110		OFFSET(PT_TP, pt_regs, tp);
-   111		OFFSET(PT_A0, pt_regs, a0);
-   112		OFFSET(PT_A1, pt_regs, a1);
-   113		OFFSET(PT_A2, pt_regs, a2);
-   114		OFFSET(PT_A3, pt_regs, a3);
-   115		OFFSET(PT_A4, pt_regs, a4);
-   116		OFFSET(PT_A5, pt_regs, a5);
-   117		OFFSET(PT_A6, pt_regs, a6);
-   118		OFFSET(PT_A7, pt_regs, a7);
-   119		OFFSET(PT_T0, pt_regs, t0);
-   120		OFFSET(PT_T1, pt_regs, t1);
-   121		OFFSET(PT_T2, pt_regs, t2);
-   122		OFFSET(PT_T3, pt_regs, t3);
-   123		OFFSET(PT_T4, pt_regs, t4);
-   124		OFFSET(PT_T5, pt_regs, t5);
-   125		OFFSET(PT_T6, pt_regs, t6);
-   126		OFFSET(PT_GP, pt_regs, gp);
-   127		OFFSET(PT_ORIG_A0, pt_regs, orig_a0);
-   128		OFFSET(PT_STATUS, pt_regs, status);
-   129		OFFSET(PT_BADADDR, pt_regs, badaddr);
-   130		OFFSET(PT_CAUSE, pt_regs, cause);
-   131	
-   132		OFFSET(SUSPEND_CONTEXT_REGS, suspend_context, regs);
-   133	
-   134		OFFSET(HIBERN_PBE_ADDR, pbe, address);
-   135		OFFSET(HIBERN_PBE_ORIG, pbe, orig_address);
-   136		OFFSET(HIBERN_PBE_NEXT, pbe, next);
-   137	
-   138		OFFSET(KVM_ARCH_GUEST_ZERO, kvm_vcpu_arch, guest_context.zero);
-   139		OFFSET(KVM_ARCH_GUEST_RA, kvm_vcpu_arch, guest_context.ra);
-   140		OFFSET(KVM_ARCH_GUEST_SP, kvm_vcpu_arch, guest_context.sp);
-   141		OFFSET(KVM_ARCH_GUEST_GP, kvm_vcpu_arch, guest_context.gp);
-   142		OFFSET(KVM_ARCH_GUEST_TP, kvm_vcpu_arch, guest_context.tp);
-   143		OFFSET(KVM_ARCH_GUEST_T0, kvm_vcpu_arch, guest_context.t0);
-   144		OFFSET(KVM_ARCH_GUEST_T1, kvm_vcpu_arch, guest_context.t1);
-   145		OFFSET(KVM_ARCH_GUEST_T2, kvm_vcpu_arch, guest_context.t2);
-   146		OFFSET(KVM_ARCH_GUEST_S0, kvm_vcpu_arch, guest_context.s0);
-   147		OFFSET(KVM_ARCH_GUEST_S1, kvm_vcpu_arch, guest_context.s1);
-   148		OFFSET(KVM_ARCH_GUEST_A0, kvm_vcpu_arch, guest_context.a0);
-   149		OFFSET(KVM_ARCH_GUEST_A1, kvm_vcpu_arch, guest_context.a1);
-   150		OFFSET(KVM_ARCH_GUEST_A2, kvm_vcpu_arch, guest_context.a2);
-   151		OFFSET(KVM_ARCH_GUEST_A3, kvm_vcpu_arch, guest_context.a3);
-   152		OFFSET(KVM_ARCH_GUEST_A4, kvm_vcpu_arch, guest_context.a4);
-   153		OFFSET(KVM_ARCH_GUEST_A5, kvm_vcpu_arch, guest_context.a5);
-   154		OFFSET(KVM_ARCH_GUEST_A6, kvm_vcpu_arch, guest_context.a6);
-   155		OFFSET(KVM_ARCH_GUEST_A7, kvm_vcpu_arch, guest_context.a7);
-   156		OFFSET(KVM_ARCH_GUEST_S2, kvm_vcpu_arch, guest_context.s2);
-   157		OFFSET(KVM_ARCH_GUEST_S3, kvm_vcpu_arch, guest_context.s3);
-   158		OFFSET(KVM_ARCH_GUEST_S4, kvm_vcpu_arch, guest_context.s4);
-   159		OFFSET(KVM_ARCH_GUEST_S5, kvm_vcpu_arch, guest_context.s5);
-   160		OFFSET(KVM_ARCH_GUEST_S6, kvm_vcpu_arch, guest_context.s6);
-   161		OFFSET(KVM_ARCH_GUEST_S7, kvm_vcpu_arch, guest_context.s7);
-   162		OFFSET(KVM_ARCH_GUEST_S8, kvm_vcpu_arch, guest_context.s8);
-   163		OFFSET(KVM_ARCH_GUEST_S9, kvm_vcpu_arch, guest_context.s9);
-   164		OFFSET(KVM_ARCH_GUEST_S10, kvm_vcpu_arch, guest_context.s10);
-   165		OFFSET(KVM_ARCH_GUEST_S11, kvm_vcpu_arch, guest_context.s11);
-   166		OFFSET(KVM_ARCH_GUEST_T3, kvm_vcpu_arch, guest_context.t3);
-   167		OFFSET(KVM_ARCH_GUEST_T4, kvm_vcpu_arch, guest_context.t4);
-   168		OFFSET(KVM_ARCH_GUEST_T5, kvm_vcpu_arch, guest_context.t5);
-   169		OFFSET(KVM_ARCH_GUEST_T6, kvm_vcpu_arch, guest_context.t6);
-   170		OFFSET(KVM_ARCH_GUEST_SEPC, kvm_vcpu_arch, guest_context.sepc);
-   171		OFFSET(KVM_ARCH_GUEST_SSTATUS, kvm_vcpu_arch, guest_context.sstatus);
-   172		OFFSET(KVM_ARCH_GUEST_HSTATUS, kvm_vcpu_arch, guest_context.hstatus);
-   173		OFFSET(KVM_ARCH_GUEST_SCOUNTEREN, kvm_vcpu_arch, guest_csr.scounteren);
-   174	
-   175		OFFSET(KVM_ARCH_HOST_ZERO, kvm_vcpu_arch, host_context.zero);
-   176		OFFSET(KVM_ARCH_HOST_RA, kvm_vcpu_arch, host_context.ra);
-   177		OFFSET(KVM_ARCH_HOST_SP, kvm_vcpu_arch, host_context.sp);
-   178		OFFSET(KVM_ARCH_HOST_GP, kvm_vcpu_arch, host_context.gp);
-   179		OFFSET(KVM_ARCH_HOST_TP, kvm_vcpu_arch, host_context.tp);
-   180		OFFSET(KVM_ARCH_HOST_T0, kvm_vcpu_arch, host_context.t0);
-   181		OFFSET(KVM_ARCH_HOST_T1, kvm_vcpu_arch, host_context.t1);
-   182		OFFSET(KVM_ARCH_HOST_T2, kvm_vcpu_arch, host_context.t2);
-   183		OFFSET(KVM_ARCH_HOST_S0, kvm_vcpu_arch, host_context.s0);
-   184		OFFSET(KVM_ARCH_HOST_S1, kvm_vcpu_arch, host_context.s1);
-   185		OFFSET(KVM_ARCH_HOST_A0, kvm_vcpu_arch, host_context.a0);
-   186		OFFSET(KVM_ARCH_HOST_A1, kvm_vcpu_arch, host_context.a1);
-   187		OFFSET(KVM_ARCH_HOST_A2, kvm_vcpu_arch, host_context.a2);
-   188		OFFSET(KVM_ARCH_HOST_A3, kvm_vcpu_arch, host_context.a3);
-   189		OFFSET(KVM_ARCH_HOST_A4, kvm_vcpu_arch, host_context.a4);
-   190		OFFSET(KVM_ARCH_HOST_A5, kvm_vcpu_arch, host_context.a5);
-   191		OFFSET(KVM_ARCH_HOST_A6, kvm_vcpu_arch, host_context.a6);
-   192		OFFSET(KVM_ARCH_HOST_A7, kvm_vcpu_arch, host_context.a7);
-   193		OFFSET(KVM_ARCH_HOST_S2, kvm_vcpu_arch, host_context.s2);
-   194		OFFSET(KVM_ARCH_HOST_S3, kvm_vcpu_arch, host_context.s3);
-   195		OFFSET(KVM_ARCH_HOST_S4, kvm_vcpu_arch, host_context.s4);
-   196		OFFSET(KVM_ARCH_HOST_S5, kvm_vcpu_arch, host_context.s5);
-   197		OFFSET(KVM_ARCH_HOST_S6, kvm_vcpu_arch, host_context.s6);
-   198		OFFSET(KVM_ARCH_HOST_S7, kvm_vcpu_arch, host_context.s7);
-   199		OFFSET(KVM_ARCH_HOST_S8, kvm_vcpu_arch, host_context.s8);
-   200		OFFSET(KVM_ARCH_HOST_S9, kvm_vcpu_arch, host_context.s9);
-   201		OFFSET(KVM_ARCH_HOST_S10, kvm_vcpu_arch, host_context.s10);
-   202		OFFSET(KVM_ARCH_HOST_S11, kvm_vcpu_arch, host_context.s11);
-   203		OFFSET(KVM_ARCH_HOST_T3, kvm_vcpu_arch, host_context.t3);
-   204		OFFSET(KVM_ARCH_HOST_T4, kvm_vcpu_arch, host_context.t4);
-   205		OFFSET(KVM_ARCH_HOST_T5, kvm_vcpu_arch, host_context.t5);
-   206		OFFSET(KVM_ARCH_HOST_T6, kvm_vcpu_arch, host_context.t6);
-   207		OFFSET(KVM_ARCH_HOST_SEPC, kvm_vcpu_arch, host_context.sepc);
-   208		OFFSET(KVM_ARCH_HOST_SSTATUS, kvm_vcpu_arch, host_context.sstatus);
-   209		OFFSET(KVM_ARCH_HOST_HSTATUS, kvm_vcpu_arch, host_context.hstatus);
-   210		OFFSET(KVM_ARCH_HOST_SSCRATCH, kvm_vcpu_arch, host_sscratch);
-   211		OFFSET(KVM_ARCH_HOST_STVEC, kvm_vcpu_arch, host_stvec);
-   212		OFFSET(KVM_ARCH_HOST_SCOUNTEREN, kvm_vcpu_arch, host_scounteren);
-   213	
-   214		OFFSET(KVM_ARCH_TRAP_SEPC, kvm_cpu_trap, sepc);
-   215		OFFSET(KVM_ARCH_TRAP_SCAUSE, kvm_cpu_trap, scause);
-   216		OFFSET(KVM_ARCH_TRAP_STVAL, kvm_cpu_trap, stval);
-   217		OFFSET(KVM_ARCH_TRAP_HTVAL, kvm_cpu_trap, htval);
-   218		OFFSET(KVM_ARCH_TRAP_HTINST, kvm_cpu_trap, htinst);
-   219	
-   220		/* F extension */
-   221	
-   222		OFFSET(KVM_ARCH_FP_F_F0, kvm_cpu_context, fp.f.f[0]);
-   223		OFFSET(KVM_ARCH_FP_F_F1, kvm_cpu_context, fp.f.f[1]);
-   224		OFFSET(KVM_ARCH_FP_F_F2, kvm_cpu_context, fp.f.f[2]);
-   225		OFFSET(KVM_ARCH_FP_F_F3, kvm_cpu_context, fp.f.f[3]);
-   226		OFFSET(KVM_ARCH_FP_F_F4, kvm_cpu_context, fp.f.f[4]);
-   227		OFFSET(KVM_ARCH_FP_F_F5, kvm_cpu_context, fp.f.f[5]);
-   228		OFFSET(KVM_ARCH_FP_F_F6, kvm_cpu_context, fp.f.f[6]);
-   229		OFFSET(KVM_ARCH_FP_F_F7, kvm_cpu_context, fp.f.f[7]);
-   230		OFFSET(KVM_ARCH_FP_F_F8, kvm_cpu_context, fp.f.f[8]);
-   231		OFFSET(KVM_ARCH_FP_F_F9, kvm_cpu_context, fp.f.f[9]);
-   232		OFFSET(KVM_ARCH_FP_F_F10, kvm_cpu_context, fp.f.f[10]);
-   233		OFFSET(KVM_ARCH_FP_F_F11, kvm_cpu_context, fp.f.f[11]);
-   234		OFFSET(KVM_ARCH_FP_F_F12, kvm_cpu_context, fp.f.f[12]);
-   235		OFFSET(KVM_ARCH_FP_F_F13, kvm_cpu_context, fp.f.f[13]);
-   236		OFFSET(KVM_ARCH_FP_F_F14, kvm_cpu_context, fp.f.f[14]);
-   237		OFFSET(KVM_ARCH_FP_F_F15, kvm_cpu_context, fp.f.f[15]);
-   238		OFFSET(KVM_ARCH_FP_F_F16, kvm_cpu_context, fp.f.f[16]);
-   239		OFFSET(KVM_ARCH_FP_F_F17, kvm_cpu_context, fp.f.f[17]);
-   240		OFFSET(KVM_ARCH_FP_F_F18, kvm_cpu_context, fp.f.f[18]);
-   241		OFFSET(KVM_ARCH_FP_F_F19, kvm_cpu_context, fp.f.f[19]);
-   242		OFFSET(KVM_ARCH_FP_F_F20, kvm_cpu_context, fp.f.f[20]);
-   243		OFFSET(KVM_ARCH_FP_F_F21, kvm_cpu_context, fp.f.f[21]);
-   244		OFFSET(KVM_ARCH_FP_F_F22, kvm_cpu_context, fp.f.f[22]);
-   245		OFFSET(KVM_ARCH_FP_F_F23, kvm_cpu_context, fp.f.f[23]);
-   246		OFFSET(KVM_ARCH_FP_F_F24, kvm_cpu_context, fp.f.f[24]);
-   247		OFFSET(KVM_ARCH_FP_F_F25, kvm_cpu_context, fp.f.f[25]);
-   248		OFFSET(KVM_ARCH_FP_F_F26, kvm_cpu_context, fp.f.f[26]);
-   249		OFFSET(KVM_ARCH_FP_F_F27, kvm_cpu_context, fp.f.f[27]);
-   250		OFFSET(KVM_ARCH_FP_F_F28, kvm_cpu_context, fp.f.f[28]);
-   251		OFFSET(KVM_ARCH_FP_F_F29, kvm_cpu_context, fp.f.f[29]);
-   252		OFFSET(KVM_ARCH_FP_F_F30, kvm_cpu_context, fp.f.f[30]);
-   253		OFFSET(KVM_ARCH_FP_F_F31, kvm_cpu_context, fp.f.f[31]);
-   254		OFFSET(KVM_ARCH_FP_F_FCSR, kvm_cpu_context, fp.f.fcsr);
-   255	
-   256		/* D extension */
-   257	
-   258		OFFSET(KVM_ARCH_FP_D_F0, kvm_cpu_context, fp.d.f[0]);
-   259		OFFSET(KVM_ARCH_FP_D_F1, kvm_cpu_context, fp.d.f[1]);
-   260		OFFSET(KVM_ARCH_FP_D_F2, kvm_cpu_context, fp.d.f[2]);
-   261		OFFSET(KVM_ARCH_FP_D_F3, kvm_cpu_context, fp.d.f[3]);
-   262		OFFSET(KVM_ARCH_FP_D_F4, kvm_cpu_context, fp.d.f[4]);
-   263		OFFSET(KVM_ARCH_FP_D_F5, kvm_cpu_context, fp.d.f[5]);
-   264		OFFSET(KVM_ARCH_FP_D_F6, kvm_cpu_context, fp.d.f[6]);
-   265		OFFSET(KVM_ARCH_FP_D_F7, kvm_cpu_context, fp.d.f[7]);
-   266		OFFSET(KVM_ARCH_FP_D_F8, kvm_cpu_context, fp.d.f[8]);
-   267		OFFSET(KVM_ARCH_FP_D_F9, kvm_cpu_context, fp.d.f[9]);
-   268		OFFSET(KVM_ARCH_FP_D_F10, kvm_cpu_context, fp.d.f[10]);
-   269		OFFSET(KVM_ARCH_FP_D_F11, kvm_cpu_context, fp.d.f[11]);
-   270		OFFSET(KVM_ARCH_FP_D_F12, kvm_cpu_context, fp.d.f[12]);
-   271		OFFSET(KVM_ARCH_FP_D_F13, kvm_cpu_context, fp.d.f[13]);
-   272		OFFSET(KVM_ARCH_FP_D_F14, kvm_cpu_context, fp.d.f[14]);
-   273		OFFSET(KVM_ARCH_FP_D_F15, kvm_cpu_context, fp.d.f[15]);
-   274		OFFSET(KVM_ARCH_FP_D_F16, kvm_cpu_context, fp.d.f[16]);
-   275		OFFSET(KVM_ARCH_FP_D_F17, kvm_cpu_context, fp.d.f[17]);
-   276		OFFSET(KVM_ARCH_FP_D_F18, kvm_cpu_context, fp.d.f[18]);
-   277		OFFSET(KVM_ARCH_FP_D_F19, kvm_cpu_context, fp.d.f[19]);
-   278		OFFSET(KVM_ARCH_FP_D_F20, kvm_cpu_context, fp.d.f[20]);
-   279		OFFSET(KVM_ARCH_FP_D_F21, kvm_cpu_context, fp.d.f[21]);
-   280		OFFSET(KVM_ARCH_FP_D_F22, kvm_cpu_context, fp.d.f[22]);
-   281		OFFSET(KVM_ARCH_FP_D_F23, kvm_cpu_context, fp.d.f[23]);
-   282		OFFSET(KVM_ARCH_FP_D_F24, kvm_cpu_context, fp.d.f[24]);
-   283		OFFSET(KVM_ARCH_FP_D_F25, kvm_cpu_context, fp.d.f[25]);
-   284		OFFSET(KVM_ARCH_FP_D_F26, kvm_cpu_context, fp.d.f[26]);
-   285		OFFSET(KVM_ARCH_FP_D_F27, kvm_cpu_context, fp.d.f[27]);
-   286		OFFSET(KVM_ARCH_FP_D_F28, kvm_cpu_context, fp.d.f[28]);
-   287		OFFSET(KVM_ARCH_FP_D_F29, kvm_cpu_context, fp.d.f[29]);
-   288		OFFSET(KVM_ARCH_FP_D_F30, kvm_cpu_context, fp.d.f[30]);
-   289		OFFSET(KVM_ARCH_FP_D_F31, kvm_cpu_context, fp.d.f[31]);
-   290		OFFSET(KVM_ARCH_FP_D_FCSR, kvm_cpu_context, fp.d.fcsr);
-   291	
-   292		/*
-   293		 * THREAD_{F,X}* might be larger than a S-type offset can handle, but
-   294		 * these are used in performance-sensitive assembly so we can't resort
-   295		 * to loading the long immediate every time.
-   296		 */
-   297		DEFINE(TASK_THREAD_RA_RA,
-   298			  offsetof(struct task_struct, thread.ra)
-   299			- offsetof(struct task_struct, thread.ra)
-   300		);
-   301		DEFINE(TASK_THREAD_SP_RA,
-   302			  offsetof(struct task_struct, thread.sp)
-   303			- offsetof(struct task_struct, thread.ra)
-   304		);
-   305		DEFINE(TASK_THREAD_S0_RA,
-   306			  offsetof(struct task_struct, thread.s[0])
-   307			- offsetof(struct task_struct, thread.ra)
-   308		);
-   309		DEFINE(TASK_THREAD_S1_RA,
-   310			  offsetof(struct task_struct, thread.s[1])
-   311			- offsetof(struct task_struct, thread.ra)
-   312		);
-   313		DEFINE(TASK_THREAD_S2_RA,
-   314			  offsetof(struct task_struct, thread.s[2])
-   315			- offsetof(struct task_struct, thread.ra)
-   316		);
-   317		DEFINE(TASK_THREAD_S3_RA,
-   318			  offsetof(struct task_struct, thread.s[3])
-   319			- offsetof(struct task_struct, thread.ra)
-   320		);
-   321		DEFINE(TASK_THREAD_S4_RA,
-   322			  offsetof(struct task_struct, thread.s[4])
-   323			- offsetof(struct task_struct, thread.ra)
-   324		);
-   325		DEFINE(TASK_THREAD_S5_RA,
-   326			  offsetof(struct task_struct, thread.s[5])
-   327			- offsetof(struct task_struct, thread.ra)
-   328		);
-   329		DEFINE(TASK_THREAD_S6_RA,
-   330			  offsetof(struct task_struct, thread.s[6])
-   331			- offsetof(struct task_struct, thread.ra)
-   332		);
-   333		DEFINE(TASK_THREAD_S7_RA,
-   334			  offsetof(struct task_struct, thread.s[7])
-   335			- offsetof(struct task_struct, thread.ra)
-   336		);
-   337		DEFINE(TASK_THREAD_S8_RA,
-   338			  offsetof(struct task_struct, thread.s[8])
-   339			- offsetof(struct task_struct, thread.ra)
-   340		);
-   341		DEFINE(TASK_THREAD_S9_RA,
-   342			  offsetof(struct task_struct, thread.s[9])
-   343			- offsetof(struct task_struct, thread.ra)
-   344		);
-   345		DEFINE(TASK_THREAD_S10_RA,
-   346			  offsetof(struct task_struct, thread.s[10])
-   347			- offsetof(struct task_struct, thread.ra)
-   348		);
-   349		DEFINE(TASK_THREAD_S11_RA,
-   350			  offsetof(struct task_struct, thread.s[11])
-   351			- offsetof(struct task_struct, thread.ra)
-   352		);
-   353	
-   354		DEFINE(TASK_THREAD_F0_F0,
-   355			  offsetof(struct task_struct, thread.fstate.f[0])
-   356			- offsetof(struct task_struct, thread.fstate.f[0])
-   357		);
-   358		DEFINE(TASK_THREAD_F1_F0,
-   359			  offsetof(struct task_struct, thread.fstate.f[1])
-   360			- offsetof(struct task_struct, thread.fstate.f[0])
-   361		);
-   362		DEFINE(TASK_THREAD_F2_F0,
-   363			  offsetof(struct task_struct, thread.fstate.f[2])
-   364			- offsetof(struct task_struct, thread.fstate.f[0])
-   365		);
-   366		DEFINE(TASK_THREAD_F3_F0,
-   367			  offsetof(struct task_struct, thread.fstate.f[3])
-   368			- offsetof(struct task_struct, thread.fstate.f[0])
-   369		);
-   370		DEFINE(TASK_THREAD_F4_F0,
-   371			  offsetof(struct task_struct, thread.fstate.f[4])
-   372			- offsetof(struct task_struct, thread.fstate.f[0])
-   373		);
-   374		DEFINE(TASK_THREAD_F5_F0,
-   375			  offsetof(struct task_struct, thread.fstate.f[5])
-   376			- offsetof(struct task_struct, thread.fstate.f[0])
-   377		);
-   378		DEFINE(TASK_THREAD_F6_F0,
-   379			  offsetof(struct task_struct, thread.fstate.f[6])
-   380			- offsetof(struct task_struct, thread.fstate.f[0])
-   381		);
-   382		DEFINE(TASK_THREAD_F7_F0,
-   383			  offsetof(struct task_struct, thread.fstate.f[7])
-   384			- offsetof(struct task_struct, thread.fstate.f[0])
-   385		);
-   386		DEFINE(TASK_THREAD_F8_F0,
-   387			  offsetof(struct task_struct, thread.fstate.f[8])
-   388			- offsetof(struct task_struct, thread.fstate.f[0])
-   389		);
-   390		DEFINE(TASK_THREAD_F9_F0,
-   391			  offsetof(struct task_struct, thread.fstate.f[9])
-   392			- offsetof(struct task_struct, thread.fstate.f[0])
-   393		);
-   394		DEFINE(TASK_THREAD_F10_F0,
-   395			  offsetof(struct task_struct, thread.fstate.f[10])
-   396			- offsetof(struct task_struct, thread.fstate.f[0])
-   397		);
-   398		DEFINE(TASK_THREAD_F11_F0,
-   399			  offsetof(struct task_struct, thread.fstate.f[11])
-   400			- offsetof(struct task_struct, thread.fstate.f[0])
-   401		);
-   402		DEFINE(TASK_THREAD_F12_F0,
-   403			  offsetof(struct task_struct, thread.fstate.f[12])
-   404			- offsetof(struct task_struct, thread.fstate.f[0])
-   405		);
-   406		DEFINE(TASK_THREAD_F13_F0,
-   407			  offsetof(struct task_struct, thread.fstate.f[13])
-   408			- offsetof(struct task_struct, thread.fstate.f[0])
-   409		);
-   410		DEFINE(TASK_THREAD_F14_F0,
-   411			  offsetof(struct task_struct, thread.fstate.f[14])
-   412			- offsetof(struct task_struct, thread.fstate.f[0])
-   413		);
-   414		DEFINE(TASK_THREAD_F15_F0,
-   415			  offsetof(struct task_struct, thread.fstate.f[15])
-   416			- offsetof(struct task_struct, thread.fstate.f[0])
-   417		);
-   418		DEFINE(TASK_THREAD_F16_F0,
-   419			  offsetof(struct task_struct, thread.fstate.f[16])
-   420			- offsetof(struct task_struct, thread.fstate.f[0])
-   421		);
-   422		DEFINE(TASK_THREAD_F17_F0,
-   423			  offsetof(struct task_struct, thread.fstate.f[17])
-   424			- offsetof(struct task_struct, thread.fstate.f[0])
-   425		);
-   426		DEFINE(TASK_THREAD_F18_F0,
-   427			  offsetof(struct task_struct, thread.fstate.f[18])
-   428			- offsetof(struct task_struct, thread.fstate.f[0])
-   429		);
-   430		DEFINE(TASK_THREAD_F19_F0,
-   431			  offsetof(struct task_struct, thread.fstate.f[19])
-   432			- offsetof(struct task_struct, thread.fstate.f[0])
-   433		);
-   434		DEFINE(TASK_THREAD_F20_F0,
-   435			  offsetof(struct task_struct, thread.fstate.f[20])
-   436			- offsetof(struct task_struct, thread.fstate.f[0])
-   437		);
-   438		DEFINE(TASK_THREAD_F21_F0,
-   439			  offsetof(struct task_struct, thread.fstate.f[21])
-   440			- offsetof(struct task_struct, thread.fstate.f[0])
-   441		);
-   442		DEFINE(TASK_THREAD_F22_F0,
-   443			  offsetof(struct task_struct, thread.fstate.f[22])
-   444			- offsetof(struct task_struct, thread.fstate.f[0])
-   445		);
-   446		DEFINE(TASK_THREAD_F23_F0,
-   447			  offsetof(struct task_struct, thread.fstate.f[23])
-   448			- offsetof(struct task_struct, thread.fstate.f[0])
-   449		);
-   450		DEFINE(TASK_THREAD_F24_F0,
-   451			  offsetof(struct task_struct, thread.fstate.f[24])
-   452			- offsetof(struct task_struct, thread.fstate.f[0])
-   453		);
-   454		DEFINE(TASK_THREAD_F25_F0,
-   455			  offsetof(struct task_struct, thread.fstate.f[25])
-   456			- offsetof(struct task_struct, thread.fstate.f[0])
-   457		);
-   458		DEFINE(TASK_THREAD_F26_F0,
-   459			  offsetof(struct task_struct, thread.fstate.f[26])
-   460			- offsetof(struct task_struct, thread.fstate.f[0])
-   461		);
-   462		DEFINE(TASK_THREAD_F27_F0,
-   463			  offsetof(struct task_struct, thread.fstate.f[27])
-   464			- offsetof(struct task_struct, thread.fstate.f[0])
-   465		);
-   466		DEFINE(TASK_THREAD_F28_F0,
-   467			  offsetof(struct task_struct, thread.fstate.f[28])
-   468			- offsetof(struct task_struct, thread.fstate.f[0])
-   469		);
-   470		DEFINE(TASK_THREAD_F29_F0,
-   471			  offsetof(struct task_struct, thread.fstate.f[29])
-   472			- offsetof(struct task_struct, thread.fstate.f[0])
-   473		);
-   474		DEFINE(TASK_THREAD_F30_F0,
-   475			  offsetof(struct task_struct, thread.fstate.f[30])
-   476			- offsetof(struct task_struct, thread.fstate.f[0])
-   477		);
-   478		DEFINE(TASK_THREAD_F31_F0,
-   479			  offsetof(struct task_struct, thread.fstate.f[31])
-   480			- offsetof(struct task_struct, thread.fstate.f[0])
-   481		);
-   482		DEFINE(TASK_THREAD_FCSR_F0,
-   483			  offsetof(struct task_struct, thread.fstate.fcsr)
-   484			- offsetof(struct task_struct, thread.fstate.f[0])
-   485		);
-   486	
-   487		/*
-   488		 * We allocate a pt_regs on the stack when entering the kernel.  This
-   489		 * ensures the alignment is sane.
-   490		 */
-   491		DEFINE(PT_SIZE_ON_STACK, ALIGN(sizeof(struct pt_regs), STACK_ALIGN));
-   492	
-   493		OFFSET(KERNEL_MAP_VIRT_ADDR, kernel_mapping, virt_addr);
-   494		OFFSET(SBI_HART_BOOT_TASK_PTR_OFFSET, sbi_hart_boot_data, task_ptr);
-   495		OFFSET(SBI_HART_BOOT_STACK_PTR_OFFSET, sbi_hart_boot_data, stack_ptr);
-   496	
-   497		DEFINE(STACKFRAME_SIZE_ON_STACK, ALIGN(sizeof(struct stackframe), STACK_ALIGN));
-   498		OFFSET(STACKFRAME_FP, stackframe, fp);
-   499		OFFSET(STACKFRAME_RA, stackframe, ra);
-   500	
-   501	#ifdef CONFIG_DYNAMIC_FTRACE_WITH_ARGS
-   502		DEFINE(FREGS_SIZE_ON_STACK, ALIGN(sizeof(struct __arch_ftrace_regs), STACK_ALIGN));
-   503		DEFINE(FREGS_EPC,	    offsetof(struct __arch_ftrace_regs, epc));
-   504		DEFINE(FREGS_RA,	    offsetof(struct __arch_ftrace_regs, ra));
-   505		DEFINE(FREGS_SP,	    offsetof(struct __arch_ftrace_regs, sp));
-   506		DEFINE(FREGS_S0,	    offsetof(struct __arch_ftrace_regs, s0));
-   507		DEFINE(FREGS_T1,	    offsetof(struct __arch_ftrace_regs, t1));
-   508		DEFINE(FREGS_A0,	    offsetof(struct __arch_ftrace_regs, a0));
-   509		DEFINE(FREGS_A1,	    offsetof(struct __arch_ftrace_regs, a1));
-   510		DEFINE(FREGS_A2,	    offsetof(struct __arch_ftrace_regs, a2));
-   511		DEFINE(FREGS_A3,	    offsetof(struct __arch_ftrace_regs, a3));
-   512		DEFINE(FREGS_A4,	    offsetof(struct __arch_ftrace_regs, a4));
-   513		DEFINE(FREGS_A5,	    offsetof(struct __arch_ftrace_regs, a5));
-   514		DEFINE(FREGS_A6,	    offsetof(struct __arch_ftrace_regs, a6));
-   515		DEFINE(FREGS_A7,	    offsetof(struct __arch_ftrace_regs, a7));
-   516	#endif
- > 517		DEFINE(SBI_EXT_FWFT, SBI_EXT_FWFT);
- > 518		DEFINE(SBI_EXT_FWFT_SET, SBI_EXT_FWFT_SET);
- > 519		DEFINE(SBI_FWFT_SHADOW_STACK, SBI_FWFT_SHADOW_STACK);
- > 520		DEFINE(SBI_FWFT_SET_FLAG_LOCK, SBI_FWFT_SET_FLAG_LOCK);
+   651	
+   652	
+   653	/**
+   654	 * regmap_add_irq_chip_fwnode() - Use standard regmap IRQ controller handling
+   655	 *
+   656	 * @fwnode: The firmware node where the IRQ domain should be added to.
+   657	 * @map: The regmap for the device.
+   658	 * @irq: The IRQ the device uses to signal interrupts.
+   659	 * @irq_flags: The IRQF_ flags to use for the primary interrupt.
+   660	 * @irq_base: Allocate at specific IRQ number if irq_base > 0.
+   661	 * @chip: Configuration for the interrupt controller.
+   662	 * @data: Runtime data structure for the controller, allocated on success.
+   663	 *
+   664	 * Returns 0 on success or an errno on failure.
+   665	 *
+   666	 * In order for this to be efficient the chip really should use a
+   667	 * register cache.  The chip driver is responsible for restoring the
+   668	 * register values used by the IRQ controller over suspend and resume.
+   669	 */
+   670	int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
+   671				       struct regmap *map, int irq,
+   672				       int irq_flags, int irq_base,
+   673				       const struct regmap_irq_chip *chip,
+   674				       struct regmap_irq_chip_data **data)
+   675	{
+   676		struct regmap_irq_chip_data *d;
+   677		int i;
+   678		int ret = -ENOMEM;
+   679		u32 reg;
+   680	
+   681		if (chip->num_regs <= 0)
+   682			return -EINVAL;
+   683	
+   684		if (chip->clear_on_unmask && (chip->ack_base || chip->use_ack))
+   685			return -EINVAL;
+   686	
+   687		if (chip->mask_base && chip->unmask_base && !chip->mask_unmask_non_inverted)
+   688			return -EINVAL;
+   689	
+   690		for (i = 0; i < chip->num_irqs; i++) {
+   691			if (chip->irqs[i].reg_offset % map->reg_stride)
+   692				return -EINVAL;
+   693			if (chip->irqs[i].reg_offset / map->reg_stride >=
+   694			    chip->num_regs)
+   695				return -EINVAL;
+   696		}
+   697	
+   698		if (irq_base) {
+   699			irq_base = irq_alloc_descs(irq_base, 0, chip->num_irqs, 0);
+   700			if (irq_base < 0) {
+   701				dev_warn(map->dev, "Failed to allocate IRQs: %d\n",
+   702					 irq_base);
+   703				return irq_base;
+   704			}
+   705		}
+   706	
+   707		d = kzalloc(sizeof(*d), GFP_KERNEL);
+   708		if (!d)
+   709			return -ENOMEM;
+   710	
+   711		if (chip->num_main_regs) {
+   712			d->main_status_buf = kcalloc(chip->num_main_regs,
+   713						     sizeof(*d->main_status_buf),
+   714						     GFP_KERNEL);
+   715	
+   716			if (!d->main_status_buf)
+   717				goto err_alloc;
+   718		}
+   719	
+   720		d->status_buf = kcalloc(chip->num_regs, sizeof(*d->status_buf),
+   721					GFP_KERNEL);
+   722		if (!d->status_buf)
+   723			goto err_alloc;
+   724	
+   725		if (chip->status_is_level) {
+   726			d->prev_status_buf = kcalloc(chip->num_regs, sizeof(*d->prev_status_buf),
+   727						     GFP_KERNEL);
+   728			if (!d->prev_status_buf)
+   729				goto err_alloc;
+   730		}
+   731	
+   732		d->mask_buf = kcalloc(chip->num_regs, sizeof(*d->mask_buf),
+   733				      GFP_KERNEL);
+   734		if (!d->mask_buf)
+   735			goto err_alloc;
+   736	
+   737		d->mask_buf_def = kcalloc(chip->num_regs, sizeof(*d->mask_buf_def),
+   738					  GFP_KERNEL);
+   739		if (!d->mask_buf_def)
+   740			goto err_alloc;
+   741	
+   742		if (chip->wake_base) {
+   743			d->wake_buf = kcalloc(chip->num_regs, sizeof(*d->wake_buf),
+   744					      GFP_KERNEL);
+   745			if (!d->wake_buf)
+   746				goto err_alloc;
+   747		}
+   748	
+   749		if (chip->type_in_mask) {
+   750			d->type_buf_def = kcalloc(chip->num_regs,
+   751						  sizeof(*d->type_buf_def), GFP_KERNEL);
+   752			if (!d->type_buf_def)
+   753				goto err_alloc;
+   754	
+   755			d->type_buf = kcalloc(chip->num_regs, sizeof(*d->type_buf), GFP_KERNEL);
+   756			if (!d->type_buf)
+   757				goto err_alloc;
+   758		}
+   759	
+   760		if (chip->num_config_bases && chip->num_config_regs) {
+   761			/*
+   762			 * Create config_buf[num_config_bases][num_config_regs]
+   763			 */
+   764			d->config_buf = kcalloc(chip->num_config_bases,
+   765						sizeof(*d->config_buf), GFP_KERNEL);
+   766			if (!d->config_buf)
+   767				goto err_alloc;
+   768	
+   769			for (i = 0; i < chip->num_config_bases; i++) {
+   770				d->config_buf[i] = kcalloc(chip->num_config_regs,
+   771							   sizeof(**d->config_buf),
+   772							   GFP_KERNEL);
+   773				if (!d->config_buf[i])
+   774					goto err_alloc;
+   775			}
+   776		}
+   777	
+   778		d->irq_chip = regmap_irq_chip;
+   779		d->irq_chip.name = chip->name;
+   780		d->irq = irq;
+   781		d->map = map;
+   782		d->chip = chip;
+   783		d->irq_base = irq_base;
+   784	
+   785		if (chip->irq_reg_stride)
+   786			d->irq_reg_stride = chip->irq_reg_stride;
+   787		else
+   788			d->irq_reg_stride = 1;
+   789	
+   790		if (chip->get_irq_reg)
+   791			d->get_irq_reg = chip->get_irq_reg;
+   792		else
+   793			d->get_irq_reg = regmap_irq_get_irq_reg_linear;
+   794	
+   795		if (regmap_irq_can_bulk_read_status(d)) {
+   796			d->status_reg_buf = kmalloc_array(chip->num_regs,
+   797							  map->format.val_bytes,
+   798							  GFP_KERNEL);
+   799			if (!d->status_reg_buf)
+   800				goto err_alloc;
+   801		}
+   802	
+   803		mutex_init(&d->lock);
+   804	
+   805		for (i = 0; i < chip->num_irqs; i++)
+   806			d->mask_buf_def[chip->irqs[i].reg_offset / map->reg_stride]
+   807				|= chip->irqs[i].mask;
+   808	
+   809		/* Mask all the interrupts by default */
+   810		for (i = 0; i < chip->num_regs; i++) {
+   811			d->mask_buf[i] = d->mask_buf_def[i];
+   812	
+   813			if (chip->handle_mask_sync) {
+   814				ret = chip->handle_mask_sync(i, d->mask_buf_def[i],
+   815							     d->mask_buf[i],
+   816							     chip->irq_drv_data);
+   817				if (ret)
+   818					goto err_alloc;
+   819			}
+   820	
+   821			if (chip->mask_base && !chip->handle_mask_sync) {
+   822				reg = d->get_irq_reg(d, chip->mask_base, i);
+   823				ret = regmap_update_bits(d->map, reg,
+   824							 d->mask_buf_def[i],
+   825							 d->mask_buf[i]);
+   826				if (ret) {
+   827					dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
+   828						reg, ret);
+   829					goto err_alloc;
+   830				}
+   831			}
+   832	
+   833			if (chip->unmask_base && !chip->handle_mask_sync) {
+   834				reg = d->get_irq_reg(d, chip->unmask_base, i);
+   835				ret = regmap_update_bits(d->map, reg,
+   836						d->mask_buf_def[i], ~d->mask_buf[i]);
+   837				if (ret) {
+   838					dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
+   839						reg, ret);
+   840					goto err_alloc;
+   841				}
+   842			}
+   843	
+   844			if (!chip->init_ack_masked)
+   845				continue;
+   846	
+   847			/* Ack masked but set interrupts */
+   848			if (d->chip->no_status) {
+   849				/* no status register so default to all active */
+   850				d->status_buf[i] = UINT_MAX;
+   851			} else {
+   852				reg = d->get_irq_reg(d, d->chip->status_base, i);
+   853				ret = regmap_read(map, reg, &d->status_buf[i]);
+   854				if (ret != 0) {
+   855					dev_err(map->dev, "Failed to read IRQ status: %d\n",
+   856						ret);
+   857					goto err_alloc;
+   858				}
+   859			}
+   860	
+   861			if (chip->status_invert)
+   862				d->status_buf[i] = ~d->status_buf[i];
+   863	
+   864			if (d->status_buf[i] && (chip->ack_base || chip->use_ack)) {
+   865				reg = d->get_irq_reg(d, d->chip->ack_base, i);
+   866				if (chip->ack_invert)
+   867					ret = regmap_write(map, reg,
+   868						~(d->status_buf[i] & d->mask_buf[i]));
+   869				else
+   870					ret = regmap_write(map, reg,
+   871						d->status_buf[i] & d->mask_buf[i]);
+   872				if (chip->clear_ack) {
+   873					if (chip->ack_invert && !ret)
+   874						ret = regmap_write(map, reg, UINT_MAX);
+   875					else if (!ret)
+   876						ret = regmap_write(map, reg, 0);
+   877				}
+   878				if (ret != 0) {
+   879					dev_err(map->dev, "Failed to ack 0x%x: %d\n",
+   880						reg, ret);
+   881					goto err_alloc;
+   882				}
+   883			}
+   884		}
+   885	
+   886		/* Wake is disabled by default */
+   887		if (d->wake_buf) {
+   888			for (i = 0; i < chip->num_regs; i++) {
+   889				d->wake_buf[i] = d->mask_buf_def[i];
+   890				reg = d->get_irq_reg(d, d->chip->wake_base, i);
+   891	
+   892				if (chip->wake_invert)
+   893					ret = regmap_update_bits(d->map, reg,
+   894								 d->mask_buf_def[i],
+   895								 0);
+   896				else
+   897					ret = regmap_update_bits(d->map, reg,
+   898								 d->mask_buf_def[i],
+   899								 d->wake_buf[i]);
+   900				if (ret != 0) {
+   901					dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
+   902						reg, ret);
+   903					goto err_alloc;
+   904				}
+   905			}
+   906		}
+   907	
+   908		/* Store current levels */
+   909		if (chip->status_is_level) {
+   910			ret = read_irq_data(d);
+   911			if (ret < 0)
+   912				goto err_alloc;
+   913	
+ > 914			memcpy(d->prev_status_buf, d->status_buf, array_size(d->prev_status_buf));
+   915		}
+   916	
+   917		ret = regmap_irq_create_domain(fwnode, irq_base, chip, d);
+   918		if (ret)
+   919			goto err_alloc;
+   920	
+   921		ret = request_threaded_irq(irq, NULL, regmap_irq_thread,
+   922					   irq_flags | IRQF_ONESHOT,
+   923					   chip->name, d);
+   924		if (ret != 0) {
+   925			dev_err(map->dev, "Failed to request IRQ %d for %s: %d\n",
+   926				irq, chip->name, ret);
+   927			goto err_domain;
+   928		}
+   929	
+   930		*data = d;
+   931	
+   932		return 0;
+   933	
+   934	err_domain:
+   935		/* Should really dispose of the domain but... */
+   936	err_alloc:
+   937		kfree(d->type_buf);
+   938		kfree(d->type_buf_def);
+   939		kfree(d->wake_buf);
+   940		kfree(d->mask_buf_def);
+   941		kfree(d->mask_buf);
+   942		kfree(d->main_status_buf);
+   943		kfree(d->status_buf);
+   944		kfree(d->prev_status_buf);
+   945		kfree(d->status_reg_buf);
+   946		if (d->config_buf) {
+   947			for (i = 0; i < chip->num_config_bases; i++)
+   948				kfree(d->config_buf[i]);
+   949			kfree(d->config_buf);
+   950		}
+   951		kfree(d);
+   952		return ret;
+   953	}
+   954	EXPORT_SYMBOL_GPL(regmap_add_irq_chip_fwnode);
+   955	
 
 -- 
 0-DAY CI Kernel Test Service
