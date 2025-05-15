@@ -1,126 +1,210 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6619E18FC91
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 14:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE467260C;
+	Thu, 15 May 2025 14:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747319478; cv=none; b=fB70dcZGAwDBEiS4pqtA0T5piUFRefZ+C+tiOqBkNS0qnDMYopUb6ZVkZx0mdqZJqHaBEAPZbkNAG677N8XzOwsc9QZU1Y9kWbRBKLBhhmzx1+O+zwn3PdeQyN42Sb+qVEqUrgJNcpe5z+oKwpH+pIhR5xg5TJNrHhVTjz4y3KM=
+	t=1747319927; cv=none; b=R0FbpY2dCf/9wh/QPJru/oO8UAH3jABW5HBH7Qkm3ZPm7Eb+Vz3DGcYiyyuG6bMiyeoDw3+B04jXx3K98TWTJEy3f+kY8XteXZRppEDKgI5oUUxKNx7LMu8QNPtZpTSL6vIyjc4XDfbVq6bAjqh9B9Zrc7iv805O/geoEyAFKTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747319478; c=relaxed/simple;
-	bh=AyEUhzg/CF+u+Jvp4t2YvSPVolejY6f9goQIef7us50=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=liRJu8AaNxhp3GJ6pOHr98CxYPZXYSBHYyTzR/bmqghWBi97y0UylBCV/TQmHfg7j84Lu9hZHHdWDPAUVh9VYGxg5kekv5eke4cbpXSksK/AqeiYePA52h+oG2sOnqgDDRe4i4W0B3BsZ/bh66vjhHQS6S0p2PKSK7jqiFQm3p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=Hszkrbog; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=pQJtDB4M reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1747319927; c=relaxed/simple;
+	bh=HY+qJgM0yYWWR5BRYJcoqs5QSVlkgtqqpbluFMxs0w0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JGWggrDgq8LtAlfhl7D8VbRhHBqFA7Y9WwUwxGvqdaFielQysdINye7aRNM6WDQh/ma3m0+a8GP/kjMmDYqp+RcuELxToBIiEPMwNFt51w1kn/DZyJUC0dE4p8d9GlihB80y0oXerbtaxchF5ttpPxnqB9778QleSAzoJWJU99I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XlUNeyHg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="Hszkrbog";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="pQJtDB4M"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1747319475; x=1778855475;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Nnis2Ixks07bqEwjjCU48V6rCXhkVbKB57we+5pKGzE=;
-  b=HszkrbogJ7L/S8ovOePWQzrQL1wf4tIXMhjCVMYkZhxXvh1w9eQ5NTwK
-   Vvpp5x9IBAc7R0BO/0Mp8u5ivZMjGiy+gc1sYtwRqoihfYPQnFbyo73pF
-   PcX7eHQYSJdsW+4a6ghtl/cQ4AEEJnndhWUau0nShNLXkIqfDY+jhdR6T
-   a5EMxPNuZASUqrbYCCpXd9Y/K3+y5tDrVBMPe9c++p7fzrto2BpJhz/Ma
-   tjmA+6D6oV1MXzkI67kteYvfroq2L0vXGWW+uZEQocP6PoPuQUK9YbxSD
-   LhVPhx7JYJTU9k3x0Gh/bDIYGu11Q933kyiHixJLBclPUzOzOKH8kqeyb
-   Q==;
-X-CSE-ConnectionGUID: ZXhsFuNFQ1iJ1j/R4Bv/Gg==
-X-CSE-MsgGUID: EtjKOKSLSDm8PCkrbTRdNQ==
-X-IronPort-AV: E=Sophos;i="6.15,291,1739833200"; 
-   d="scan'208";a="44102250"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 15 May 2025 16:31:13 +0200
-X-CheckPoint: {6825FAB1-3-BF62DDF1-CB8BF55F}
-X-MAIL-CPID: C6C41B994A20E2E6935A8AB3FF312BAB_1
-X-Control-Analysis: str=0001.0A00639A.6825FAB6.0041,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D1FE516A011;
-	Thu, 15 May 2025 16:31:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1747319469;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nnis2Ixks07bqEwjjCU48V6rCXhkVbKB57we+5pKGzE=;
-	b=pQJtDB4MytM+8YJfxUUQR3NPJE549acsDKatIHTsTzqMkw00c01ZUOhR1KgrfO7VmDp9S+
-	v+6VkE+q++9I+7zN9No/ZszjURiFTfVqkEBest5vWe0ebqED5Uxya0BHUrorQw/pD1pXHa
-	x8qXVOWepKitrkQYt5Hxx1B8yPsR2ha8J3Rwf2rUF3rXZWem1jobVWgPQzyCUcaVv3remQ
-	bKrmT+24YHgrk35gK9tM6V0BTNYFjhdFofAECcAhDxKGVG/YWoa7BydwpqUa5NL4ydzZwF
-	CsQjQuxe4pd8nUqDjQKr61d+sspiEleTKZjM/SS00nSthwEqqTqIhkhJUVOH1g==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>
-Subject:
- Re: [linux-next:master 8991/11093]
- arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-lvds-imx219.dtb:
- camera@10 (sony, imx219): 'orientation',
- 'rotation' do not match any of the regexes: '^pinctrl-[0-9]+$'
-Date: Thu, 15 May 2025 16:31:07 +0200
-Message-ID: <4673935.LvFx2qVVIh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <202505151412.lkZyg8yI-lkp@intel.com>
-References: <202505151412.lkZyg8yI-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlUNeyHg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A54C4CEE7;
+	Thu, 15 May 2025 14:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747319927;
+	bh=HY+qJgM0yYWWR5BRYJcoqs5QSVlkgtqqpbluFMxs0w0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XlUNeyHgu1WgqlfjtdehqwZSsxtnbh5JxSjmDdvRvzZIC8dHMp5ZlM3q6gHbE+u0m
+	 uWXcNeLT3nQUFcAMydn4hY1VrshtDY1S2MMtFt4TdtmlkRdxfZHqHITwT+V2Ww4LJt
+	 rAWa1bPaQ6kuHRnrx7YIe9uWu2XGmjdyzgVODAirrQ0DWUxL4tMOAc7ZhA+LzEpxsb
+	 Gpk8gBy0XGQYuyEWsYVtfEZGyQes+VbSai4YAQNKM6TqY0mbEpKeyZ8EhPJ9TVeppt
+	 qSlF6NXfthVpAxgzDOezmIxq0q0mzmV78hFXz/h1H4cnZZkEeTKKG5dCxs3BH6RWP2
+	 dZ1Kf0pmIbXmg==
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-609e7f27c66so414252eaf.0;
+        Thu, 15 May 2025 07:38:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUYPguaux1VV8VkYiVsY5umpg59vkWdXwq789/SmqSnL6ueBgg22EtrN2xZDXrjKxKhL7J/wWRVgo77cJTK6g==@lists.linux.dev, AJvYcCXQtnqBn5dHpPjRXEUZeSZRRWzFCC/OJ2IEsYmRksZFpJsOzv8UgQZeQu7nh2OngvUtWQNN3v6TQUl3aQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmOxraKQt7nN5tUu28h6UdWrVTmSmjdydz57wEmv6Y359qFG+j
+	JsRI4NO1J0RJxNWY6FQ6pYYfbQiQlfaMq0aSh4yAxP3YxWmhJLfZ5CkDfdw3ZxUt6K7hXBtThMr
+	Hi6PXHvnizxaKRITJ7WFNfeBWTDc=
+X-Google-Smtp-Source: AGHT+IHGdjpe73oLpoH8fkWYunyQ+qiWvEA5aPtzHTJu6wWW6p5XtqkX8NoQ0qeCaUyT8XvFkMDBDMNOpym6MJAH8Cs=
+X-Received: by 2002:a05:6820:98d:b0:603:fada:ac53 with SMTP id
+ 006d021491bc7-609ec1f446dmr1516987eaf.2.1747319926526; Thu, 15 May 2025
+ 07:38:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20250513203908.205060-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20250513203908.205060-2-u.kleine-koenig@baylibre.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Thu, 15 May 2025 23:38:11 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH2jVrD_Bfu3NZJ+vNdQCjdxo4vygxWob+h0VasyxUa4gA@mail.gmail.com>
+X-Gm-Features: AX0GCFuopvJHbf-CNvM7N5xp7U1FlvHL3EE-1-DaHwbFHrhtaHm-zDV1Ez_RZWI
+Message-ID: <CAGTfZH2jVrD_Bfu3NZJ+vNdQCjdxo4vygxWob+h0VasyxUa4gA@mail.gmail.com>
+Subject: Re: [PATCH v2] PM / devfreq: sun8i-a33-mbus: Simplify by using more
+ devm functions
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
 
-Am Donnerstag, 15. Mai 2025, 16:05:07 CEST schrieb kernel test robot:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   bdd609656ff5573db9ba1d26496a528bdd297cf2
-> commit: 6c2df49628c15ea8bca9d04b84fdf70549152da1 [8991/11093] arm64: dts:=
- imx8mp-tqma8mpql-mba8mp-ras314: Add Raspberry Pi Camera V2 overlay
-> config: arm64-randconfig-2052-20250513 (https://download.01.org/0day-ci/a=
-rchive/20250515/202505151412.lkZyg8yI-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f=
-819f46284f2a79790038e1f6649172789734ae8)
-> dtschema version: 2025.3.dev27+g32749b3
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250515/202505151412.lkZyg8yI-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505151412.lkZyg8yI-lkp=
-@intel.com/
->=20
-> dtcheck warnings: (new ones prefixed by >>)
-> >> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-lvds-imx2=
-19.dtb: camera@10 (sony,imx219): 'orientation', 'rotation' do not match any=
- of the regexes: '^pinctrl-[0-9]+$'
->    	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
+On Wed, May 14, 2025 at 5:39=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=3DUTF-8
+> Content-Transfer-Encoding: 8bit
+
+Applied it after removing the above unneeded information.
+
+Thanks,
+
+>
+> Use devm allocators for enabling the bus clock and
+> clk_rate_exclusive_get(). This simplifies error handling and the remove
+> callback.
+>
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+> Hello,
+>
+> On Wed, May 14, 2025 at 01:25:51AM +0900, Chanwoo Choi wrote in the
+> thread at
+> https://lore.kernel.org/linux-pm/CAGTfZH2uk-6-R5QNZwsssQ1UtnqexKeo=3De=3D=
+SsXB26NMwqf8c9g@mail.gmail.com:
+> > Instead of fix-up patch, I'd like you to send the v2 of patch[1].
+> > [1] https://patchwork.kernel.org/project/linux-pm/patch/20241111112237.=
+336310-2-u.kleine-koenig@baylibre.com/
+>
+> Ah, then I misunderstood. Here comes the requested v2. The changes since
+> (implicit) v1 are:
+>
+>  - Fix the build failure that I introduced by forgetting to add the dev
+>    parameter to devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
+>
+>  - Added the Reviewed-by tag for Chen-Yu.
+>
+>  - Actually compile tested. I would have sworn I did that for v1
+>    already, but that is proven to be a perjury now. Don't know how that
+>    slipped through.
+>
+> Best regards and again sorry for the mess
+> Uwe
+>
+>  drivers/devfreq/sun8i-a33-mbus.c | 38 ++++++++------------------------
+>  1 file changed, 9 insertions(+), 29 deletions(-)
+>
+> diff --git a/drivers/devfreq/sun8i-a33-mbus.c b/drivers/devfreq/sun8i-a33=
+-mbus.c
+> index 7c6ae91ede1f..4bd5657558d6 100644
+> --- a/drivers/devfreq/sun8i-a33-mbus.c
+> +++ b/drivers/devfreq/sun8i-a33-mbus.c
+> @@ -360,7 +360,7 @@ static int sun8i_a33_mbus_probe(struct platform_devic=
+e *pdev)
+>         if (IS_ERR(priv->reg_mbus))
+>                 return PTR_ERR(priv->reg_mbus);
+>
+> -       priv->clk_bus =3D devm_clk_get(dev, "bus");
+> +       priv->clk_bus =3D devm_clk_get_enabled(dev, "bus");
+>         if (IS_ERR(priv->clk_bus))
+>                 return dev_err_probe(dev, PTR_ERR(priv->clk_bus),
+>                                      "failed to get bus clock\n");
+> @@ -375,24 +375,15 @@ static int sun8i_a33_mbus_probe(struct platform_dev=
+ice *pdev)
+>                 return dev_err_probe(dev, PTR_ERR(priv->clk_mbus),
+>                                      "failed to get mbus clock\n");
+>
+> -       ret =3D clk_prepare_enable(priv->clk_bus);
+> -       if (ret)
+> -               return dev_err_probe(dev, ret,
+> -                                    "failed to enable bus clock\n");
+> -
+>         /* Lock the DRAM clock rate to keep priv->nominal_bw in sync. */
+> -       ret =3D clk_rate_exclusive_get(priv->clk_dram);
+> -       if (ret) {
+> -               err =3D "failed to lock dram clock rate\n";
+> -               goto err_disable_bus;
+> -       }
+> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_dram);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "failed to lock dram clock=
+ rate\n");
+>
+>         /* Lock the MBUS clock rate to keep MBUS_TMR_PERIOD in sync. */
+> -       ret =3D clk_rate_exclusive_get(priv->clk_mbus);
+> -       if (ret) {
+> -               err =3D "failed to lock mbus clock rate\n";
+> -               goto err_unlock_dram;
+> -       }
+> +       ret =3D devm_clk_rate_exclusive_get(dev, priv->clk_mbus);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "failed to lock mbus clock=
+ rate\n");
+>
+>         priv->gov_data.upthreshold      =3D 10;
+>         priv->gov_data.downdifferential =3D  5;
+> @@ -405,10 +396,8 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
+ce *pdev)
+>         priv->profile.max_state         =3D max_state;
+>
+>         ret =3D devm_pm_opp_set_clkname(dev, "dram");
+> -       if (ret) {
+> -               err =3D "failed to add OPP table\n";
+> -               goto err_unlock_mbus;
+> -       }
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "failed to add OPP table\n=
+");
+>
+>         base_freq =3D clk_get_rate(clk_get_parent(priv->clk_dram));
+>         for (i =3D 0; i < max_state; ++i) {
+> @@ -448,12 +437,6 @@ static int sun8i_a33_mbus_probe(struct platform_devi=
+ce *pdev)
+>
+>  err_remove_opps:
+>         dev_pm_opp_remove_all_dynamic(dev);
+> -err_unlock_mbus:
+> -       clk_rate_exclusive_put(priv->clk_mbus);
+> -err_unlock_dram:
+> -       clk_rate_exclusive_put(priv->clk_dram);
+> -err_disable_bus:
+> -       clk_disable_unprepare(priv->clk_bus);
+>
+>         return dev_err_probe(dev, ret, err);
+>  }
+> @@ -472,9 +455,6 @@ static void sun8i_a33_mbus_remove(struct platform_dev=
+ice *pdev)
+>                 dev_warn(dev, "failed to restore DRAM frequency: %d\n", r=
+et);
+>
+>         dev_pm_opp_remove_all_dynamic(dev);
+> -       clk_rate_exclusive_put(priv->clk_mbus);
+> -       clk_rate_exclusive_put(priv->clk_dram);
+> -       clk_disable_unprepare(priv->clk_bus);
+>  }
+>
+>  static const struct sun8i_a33_mbus_variant sun50i_a64_mbus =3D {
+>
+> base-commit: 92a09c47464d040866cf2b4cd052bc60555185fb
 > --
-> >> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-imx219.dt=
-b: camera@10 (sony,imx219): 'orientation', 'rotation' do not match any of t=
-he regexes: '^pinctrl-[0-9]+$'
->    	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->=20
->=20
-
-Will be fixed by [1].
-
-Best regards,
-Alexander
-
-[1] https://lore.kernel.org/linux-media/20250515142945.1348722-1-alexander.=
-stein@ew.tq-group.com/T/#u
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+> 2.47.2
+>
 
 
+--=20
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
