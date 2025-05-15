@@ -1,124 +1,104 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076BE1F2C56
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 20:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E99182B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 20:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747339233; cv=none; b=PZ8WUQjCehNF+N/M5tJ8opT/ShfJXKsO5A7IvOIG+Kywjtc7rccWb5JhGf25dglFo7gKPSo+nh/yUnPnNodrtt6fdCHxPTBwLW0llAlSwVOVqx0elcYYVj2z4qSxp10hw39B85aBq4Ofp2QS58dcYMxwzypPUG3Wvh/Vu5CUaZY=
+	t=1747340122; cv=none; b=ZCRAJc66C93zelANneDEkdWEiY9eZND/qP3+VEj2sj2n12AWbSoy8QGHvu5MJB/5SAyEOEErdZMCCIaavIhVGEw2V948Atq8QduaQZGHgFlbHX8X5bfPpdmMgYflMXfnLBu5N6JOcPRJcaCaQ6leeLEQmRl0p6uAcPQJgDSzyMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747339233; c=relaxed/simple;
-	bh=h1sXw35rTSS7pTuDFEY54HVj+OPPf2cg7Q7+jHB1Tok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZNXcIsmchgbxoPJylAoUO4l+O5skFSUjl1YWdFUcr+M+wzR+oERj4I3wcxVyTHYOSVb+4FTFDHF6fEkeCMfc26h/9r3DZsRhzDq3Q0UGKWm2JrZTO6yLgLtjmy3EfLvRAeVJjalDp4JWOo4A2Lm+4coV/7lnebBDYssKZOhCjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZpsbVuO1; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1747340122; c=relaxed/simple;
+	bh=u+dvVN5JqB9pw3rdw/rWQ+ScBFWQIQxa57gtZVFMUg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PNG7kYlmvIS9m9Hi+VwnhD52uyGLhcHEsmB8C3rZogre4u4zkjbo60EevXBBdagbFFSj6bwhj1vWwPsrJUWCSYsBW8wqdoSA+PyWLgtmntaQ0R6gKNyy563G6XLPPOmceoFfIE+hSxnWxWcC9OtiAbSoWcWM+mwU1sjWAeWp0eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=El51v9BK; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZpsbVuO1"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ad257009e81so217238366b.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 13:00:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1747339229; x=1747944029; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h1sXw35rTSS7pTuDFEY54HVj+OPPf2cg7Q7+jHB1Tok=;
-        b=ZpsbVuO1jWDogt36Oou2aH4F9pEXVl7LsuDbYsZRthLhyS3nNQ+0YxkBNAy/ivzbLz
-         Jh79iQ7qLlhK9hcoa8relZ4JJ0+Zk4wwqHRhQe9618Y6IAo1kl7ZHSG7+oYl/SaOXE2H
-         xrGoP4ZN0ApFwRFewF2zQ1/t+K7gbd1OINgAc1t9a8U6k4THkLfHTw6fzqvieGeYUOWI
-         ig9hp1xE1SjvkB9xwV4C1WdQSJNkR3kPcOEug0AQ91mFqqJZcCsxSjouS2RamG6HXvqW
-         PRyrnSYdEsdVKFsqsLI5q1BY0X7KFjfpGd8yecVfO9shRfFZbIsJa5f8971hmyYOadTN
-         ia3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747339229; x=1747944029;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h1sXw35rTSS7pTuDFEY54HVj+OPPf2cg7Q7+jHB1Tok=;
-        b=GpeQUNFPlSLMj577yN759oakXGI2KB0xynJ7gL4euydzH066qRW/Lq/HNZGjz95Ynn
-         lVNXIq8tS26XF4WIB7HBGQ+DZw9nlwBKIMgMs/jqaB6FrlgmGkTo0Nn3zlAeLuGt9iU1
-         uMVwe4gmToL87e9on3YZjhGoZZ/mZght0JvAAbhCNr4JWt62QY21GPAcVTPzhq0K4qrR
-         ksq4M+d0FM6Wi7VgXgbeecc9dAS3CcO2rSrGKTxv4YcRQ4h76of+sUpB7cDgZAx14XjB
-         NQ3STY6Nf8Xh6rL5PqgflnF6NvrGcf7qkcVZkuRGmy34Lp4VLhScQsRh02sxHMxx1Lnc
-         U56g==
-X-Forwarded-Encrypted: i=1; AJvYcCUMb3Scz6ALQDJdBkT8+5drUG1Vw7wuDs2cXg6FMs1iRRtVrxUfeBgbSzaD1lvGa3/RRBsGxSA33/8CFyVA@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpuyjzaRXdOCdLk60bMZuYVtpwEZWxXPNsFsh4ixnRXeQvvSFy
-	dKUlxOJR63YGLCy+BPK2zgkBYBQj8IyRP5MVo4Ea3OKNMB9Xts6kx4jCo4xznm8AKoQ=
-X-Gm-Gg: ASbGncvx5AVuH3dBo6+QIM4ypHxOe5vcn5czVqVAjZWmVZbZLnEg272iuo2F+TDR0dF
-	r6b/j/efsYYHPGIrKWO1q/yeNtyBK6LPH/rQRt+kvod2gKYHG8tdMU3Y5sYCLWugZ+wU5wcdnqU
-	FDkkxdtpsaV3jofbda8AbBY7XOFqAZq8VSw01p/OHRM8sNruRcJtqG7EBrJjyb8Ha29IQO7AQzR
-	sXoAbC1xuEvS+8rlXMpfJ40wPoDYBiZyKSLTofLquiAjQkj2YAW9sUIFvwjJgxeMnSNsbNexILZ
-	enEejLWprtxyTR3AkRo8LzTY8DftJpHGOw7IuoJ7ccM1lBX4uO9sRQRR
-X-Google-Smtp-Source: AGHT+IGPOFtpI/vK8bB6QX01z/3mHJSuoT96bx2VZRxF7C4JeqX1CuZQvwl02jljZ2PZvA1htePF9A==
-X-Received: by 2002:a17:907:1c0f:b0:ad2:2ef3:d487 with SMTP id a640c23a62f3a-ad52d5ff0f5mr99764766b.58.1747339229197;
-        Thu, 15 May 2025 13:00:29 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ad52d06df95sm34035166b.56.2025.05.15.13.00.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 13:00:28 -0700 (PDT)
-Date: Thu, 15 May 2025 22:00:26 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Chanwoo Choi <chanwoo@kernel.org>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] PM / devfreq: sun8i-a33-mbus: Simplify by using more
- devm functions
-Message-ID: <tdqcadvrr4lfn2ipkbcu2n7zgv3e57q25tirvuo5ooh5zzf6my@u27v7wxswber>
-References: <20250513203908.205060-2-u.kleine-koenig@baylibre.com>
- <CAGTfZH2jVrD_Bfu3NZJ+vNdQCjdxo4vygxWob+h0VasyxUa4gA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="El51v9BK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747340121; x=1778876121;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u+dvVN5JqB9pw3rdw/rWQ+ScBFWQIQxa57gtZVFMUg8=;
+  b=El51v9BKqb75gqFXqtwQOXqztXUOLtiJMoFbF8VNpta1iJmK40/tzK9i
+   I1TzK9Lu3nPpuVwD/HZbHQRKTLq1FGznBc4qya+qAz5+RpE+L/P5dsGpW
+   1pG6OKJeEGYY+Mi0aBFTqt4DSourphuaebkVDx4wt//kkIR/HtRZIxafw
+   ddVcfUqzdFhTDs7Xa27lm2V7u6wJ7PHN1x7GgxOeA05Hng/h1BBzDhZNM
+   YRmf5S/kTz6w78YwxO8TXpFIFh5IDxrAKO1taobfV2Fe5CXa1Fr2RUOzI
+   w4X/XzyUrsM1PkW0iF8o/gSVjUM6a1PdRycGw0uapFf9WH2vDtjmkV5Sg
+   w==;
+X-CSE-ConnectionGUID: 5Ko1gteMSvW3kw/pg326Yg==
+X-CSE-MsgGUID: haR3M5KQQ+2EH3dGwPioyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="48992765"
+X-IronPort-AV: E=Sophos;i="6.15,292,1739865600"; 
+   d="scan'208";a="48992765"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 13:15:21 -0700
+X-CSE-ConnectionGUID: +c9KzhBrTdaQpUMacAhMtA==
+X-CSE-MsgGUID: RYniFtP+Rj+uy2GtvRSXqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,292,1739865600"; 
+   d="scan'208";a="175601887"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 15 May 2025 13:15:20 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uFez7-000Iil-15;
+	Thu, 15 May 2025 20:15:17 +0000
+Date: Fri, 16 May 2025 04:15:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mykyta Yatsenko <yatsenko@meta.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>
+Subject: [bpf-next:master 2/4] kernel/trace/bpf_trace.c:3619:52: sparse:
+ sparse: cast removes address space '__user' of expression
+Message-ID: <202505160426.4odfmpXg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h3k2tl2vtfjhrlpb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGTfZH2jVrD_Bfu3NZJ+vNdQCjdxo4vygxWob+h0VasyxUa4gA@mail.gmail.com>
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+head:   9325d53fe9adff354b6a93fda5f38c165947da0f
+commit: a498ee7576de24b4b0916ce56cf2686e261a29f7 [2/4] bpf: Implement dynptr copy kfuncs
+config: x86_64-randconfig-123-20250515 (https://download.01.org/0day-ci/archive/20250516/202505160426.4odfmpXg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505160426.4odfmpXg-lkp@intel.com/reproduce)
 
---h3k2tl2vtfjhrlpb
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] PM / devfreq: sun8i-a33-mbus: Simplify by using more
- devm functions
-MIME-Version: 1.0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505160426.4odfmpXg-lkp@intel.com/
 
-Hello,
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/bpf_trace.c:835:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr @@     got void * @@
+   kernel/trace/bpf_trace.c:835:41: sparse:     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr
+   kernel/trace/bpf_trace.c:835:41: sparse:     got void *
+>> kernel/trace/bpf_trace.c:3619:52: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3633:56: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3647:52: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3654:56: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3662:52: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3670:56: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:871:25: sparse: sparse: context imbalance in 'uprobe_prog_run' - unexpected unlock
 
-On Thu, May 15, 2025 at 11:38:11PM +0900, Chanwoo Choi wrote:
-> On Wed, May 14, 2025 at 5:39=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@baylibre.com> wrote:
-> >
-> > MIME-Version: 1.0
-> > Content-Type: text/plain; charset=3DUTF-8
-> > Content-Transfer-Encoding: 8bit
->=20
-> Applied it after removing the above unneeded information.
+vim +/__user +3619 kernel/trace/bpf_trace.c
 
-Oh indeed. That happend because I added a newline in the header part of
-the patch mail. Thanks for fixing.
+  3615	
+  3616	__bpf_kfunc int bpf_probe_read_user_dynptr(struct bpf_dynptr *dptr, u32 off,
+  3617						   u32 size, const void __user *unsafe_ptr__ign)
+  3618	{
+> 3619		return __bpf_dynptr_copy(dptr, off, size, (const void *)unsafe_ptr__ign,
+  3620					 copy_user_data_nofault, NULL);
+  3621	}
+  3622	
 
-Uwe
-
---h3k2tl2vtfjhrlpb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgmR9cACgkQj4D7WH0S
-/k7qZgf/W9wz4qM8Tz2N3KVv0s0oVU6w1DHns83H0SunE+jquxj7/y0evxnc1Ilq
-V7aafapnyBgz/U74H9Utvd9gMBwKk0+lnAQXnOnGeySRsr05q1toZq1bVilPn44z
-c3HCsfln9Kb7m4ysM5O6U8p92h9Rg7uP0epQ02JXxknaQDHiY0Ac+EzsZZw1uRbe
-mvlrfet/eYHmpaMPxlRM6ksBrxJQpSIKuJpIIf1VlkWNniiXY93fl4yor/7JCj0L
-v/fgrnnDu+6Gk6c7cj1fvpL3Twh3AlRwx5lmMkJ7HoSvxhNcrIc2m7U4o9/pCEh6
-jTzhBsJxpV9AAfOGA02x5qQdG3x9wg==
-=60Q6
------END PGP SIGNATURE-----
-
---h3k2tl2vtfjhrlpb--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
