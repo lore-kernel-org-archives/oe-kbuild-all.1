@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279501F3B9E;
-	Thu, 15 May 2025 15:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EEF21A427
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 15:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747322698; cv=none; b=tBlq1vTyAJkgp0WgRCVzSjc6Nq1vu0qULWAjltAgN1fPmKovp8eDS2eVItrMVVWZe+3WwZYNYUiDXATmeVQZgao+30Z+4phC9mvi/8LepRpRJGcFWyfYhjYhhFt9/7D7myTCCDprwJd/pQqmkG/tBhsXGqA3wIZqvb7iAB2KNfM=
+	t=1747323299; cv=none; b=GxoqMKEk1VJNtSqjFUE0/OzZ4z0yVjI6OGh1Usf4uvVRQ6GOTRaRTLn0RqakXdPLtiKFqBfif0uwDtagW0o1IpaxZ65RpxaMj8MS9GTeLU4ojBwqC4ryZKWrk6nLARNpEXAOyE3WSI785b0PzDwvqNrKxgwHlB6S9mx1Q6lCHeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747322698; c=relaxed/simple;
-	bh=09F/fmQ9DRw3bPZW/fkgLE51zlKtqbf7b8dvt7aMdn0=;
+	s=arc-20240116; t=1747323299; c=relaxed/simple;
+	bh=Ta7G6CBTxU8DNvqDA8rYAFkViNkgINUqipetKCAfWUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GXJDmUhQUwplfi2LsUokkSejeU7XHvU33auJ1q4H5Ff6uiD0L3nJ4PwZdBX/55Nuq1Gm0VdPiF9F1HZeeCOfhldO/SFVsDolpLvEpYMKLZHTGEABe9Dq8L6gZAAzgU2Ou4IBhYQ/nD8WezMV/GC7H+/TJY0GjnnvmHlwN0dVx0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lhu5l9cR; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=JNwGLy+ThfenJC9v1DNG01kK7Jrywj1gJGltL6KEtiicoLnRuA2mP1IHRGdBbndYBrodX0CX8I3VNr/EY1HlBWJyPODJ1eTRQz0D+auX8jFAPTGmLyJWO7irMl85lMfWN3W7v08VNGNO9PF6BXo5+M25IJp5xB/rOV8ujwlw4v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFWSLvtr; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lhu5l9cR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFWSLvtr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747322697; x=1778858697;
+  t=1747323298; x=1778859298;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=09F/fmQ9DRw3bPZW/fkgLE51zlKtqbf7b8dvt7aMdn0=;
-  b=lhu5l9cRq4QLb2U2ptmsYVtmjDkzmCXP/roWZ1xzFvkqVc4SNI70CYEw
-   7VASeQ333TlfDZkDEc+rk/jXd0doNBq8UuKQ+Hf6X2RK6X9S5ukhWeSg/
-   pFL3qEfflJwuih7OsiAzB+dZt8CoGJN8knajl9GqNh4x3tg+S4SHIeJDH
-   Bpy3QscZdmB7HTZGnl5VaagLkOHHHPb+fF7lK2TktCQs1+g2kEmI/ki5M
-   eiDe+G/tioKQgv8vPfNIh6S46OQy8P1b/YwX9V+6mLAZQaLqsLfZ7+/KU
-   u92oND8TRnLyREmyXoTRa0cJD/RYIjS9bn9L3Aa4mhazaWLN8loTP6M6A
+  bh=Ta7G6CBTxU8DNvqDA8rYAFkViNkgINUqipetKCAfWUY=;
+  b=oFWSLvtrMmRIjp7mQnk0Vyf3pMlJgC0e6KfiDVvsff//AZTrZ+svI1Pg
+   r2VQIEu1hpRkfiEayTmBQnSS3Y6hDoiFLDC6nf5vndoZxs7ZEKu+Vi67v
+   oparIwEMrSRoz5BaAVkT70TJF1y7CaKD7UxxQj7C4N1Mszv38z8uT/Z+L
+   Jjj/e9cUEIvs+iAr8maJnqkubkCcYdmt6vkcqGaoTNljBuSEGphq1MOjI
+   rGgT6CsLPEovJrA4d7LXnfqa3Wi/glwGFNXt19AcAKflF8hfVvoDQ3q0e
+   SErLHGRS0OETfn2iFRUDscEOoZljArYNK/mJdr4ljxZRZACy3y34G8Xt9
    w==;
-X-CSE-ConnectionGUID: /DKWgtQ2RdG/o5sBZqurVA==
-X-CSE-MsgGUID: IDVy2sv6TTy50ebyxMB+jQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49136706"
+X-CSE-ConnectionGUID: C6bTjkoqRC+Q5FBHw2jZ+w==
+X-CSE-MsgGUID: ELxcG97lQdupbHhg7bn0+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="59496275"
 X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; 
-   d="scan'208";a="49136706"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 08:24:56 -0700
-X-CSE-ConnectionGUID: qLORngJCQReupv3UAVBuig==
-X-CSE-MsgGUID: 9tw5fYq+SlC0INW5WTNcNg==
+   d="scan'208";a="59496275"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 08:34:58 -0700
+X-CSE-ConnectionGUID: vkVBHvzGRHeGs4epsKrZNA==
+X-CSE-MsgGUID: /qSu1vxLSGKouuHedNJmlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; 
-   d="scan'208";a="143295418"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 15 May 2025 08:24:53 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="138129531"
+Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
+  by orviesa009.jf.intel.com with ESMTP; 15 May 2025 08:34:56 -0700
+Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFaS3-000IUt-0P;
-	Thu, 15 May 2025 15:24:51 +0000
-Date: Thu, 15 May 2025 23:24:15 +0800
+	id 1uFabm-0000H9-16;
+	Thu, 15 May 2025 15:34:54 +0000
+Date: Thu, 15 May 2025 23:34:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>
-Subject: [pci:slot-reset 1/1]
- drivers/pci/controller/dwc/pcie-dw-rockchip.c:721:58: error: use of
- undeclared identifier 'PCIE_CLIENT_GENERAL_CON'
-Message-ID: <202505152337.AoKvnBmd-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2229/2229] arch/x86/kvm/svm/csv.c:2037: warning:
+ This comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202505152346.3HOURWea-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,102 +63,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git slot-reset
-head:   ebf9d2fae99254fc37f49384b769f363e676018d
-commit: ebf9d2fae99254fc37f49384b769f363e676018d [1/1] PCI: dw-rockchip: Add support for slot reset on link down event
-config: arm64-randconfig-002-20250515 (https://download.01.org/0day-ci/archive/20250515/202505152337.AoKvnBmd-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505152337.AoKvnBmd-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a53913bacac4876eee9ce118b3101dff842318ef
+commit: c97c1d0165cc29f48725448620197d76e751d734 [2229/2229] KVM: SVM: CSV: Add ioctl API to unpin shared pages of CSV3 guest
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250515/202505152346.3HOURWea-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505152346.3HOURWea-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505152337.AoKvnBmd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505152346.3HOURWea-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:721:58: error: use of undeclared identifier 'PCIE_CLIENT_GENERAL_CON'
-     721 |         rockchip_pcie_writel_apb(rockchip, PCIE_CLIENT_RC_MODE, PCIE_CLIENT_GENERAL_CON);
-         |                                                                 ^
-   1 error generated.
+>> arch/x86/kvm/svm/csv.c:2037: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    *  Return negative error code on fail,
 
 
-vim +/PCIE_CLIENT_GENERAL_CON +721 drivers/pci/controller/dwc/pcie-dw-rockchip.c
+vim +2037 arch/x86/kvm/svm/csv.c
 
-   679	
-   680	static int rockchip_pcie_rc_reset_slot(struct pci_host_bridge *bridge,
-   681					       struct pci_dev *pdev)
-   682	{
-   683		struct pci_bus *bus = bridge->bus;
-   684		struct dw_pcie_rp *pp = bus->sysdata;
-   685		struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-   686		struct rockchip_pcie *rockchip = to_rockchip_pcie(pci);
-   687		struct device *dev = rockchip->pci.dev;
-   688		u32 val;
-   689		int ret;
-   690	
-   691		dw_pcie_stop_link(pci);
-   692		clk_bulk_disable_unprepare(rockchip->clk_cnt, rockchip->clks);
-   693		rockchip_pcie_phy_deinit(rockchip);
-   694	
-   695		ret = reset_control_assert(rockchip->rst);
-   696		if (ret)
-   697			return ret;
-   698	
-   699		ret = rockchip_pcie_phy_init(rockchip);
-   700		if (ret)
-   701			goto disable_regulator;
-   702	
-   703		ret = reset_control_deassert(rockchip->rst);
-   704		if (ret)
-   705			goto deinit_phy;
-   706	
-   707		ret = rockchip_pcie_clk_init(rockchip);
-   708		if (ret)
-   709			goto deinit_phy;
-   710	
-   711		ret = pp->ops->init(pp);
-   712		if (ret) {
-   713			dev_err(dev, "host init failed: %d\n", ret);
-   714			goto deinit_clk;
-   715		}
-   716	
-   717		/* LTSSM enable control mode. */
-   718		val = HIWORD_UPDATE_BIT(PCIE_LTSSM_ENABLE_ENHANCE);
-   719		rockchip_pcie_writel_apb(rockchip, val, PCIE_CLIENT_HOT_RESET_CTRL);
-   720	
- > 721		rockchip_pcie_writel_apb(rockchip, PCIE_CLIENT_RC_MODE, PCIE_CLIENT_GENERAL_CON);
-   722	
-   723		ret = dw_pcie_setup_rc(pp);
-   724		if (ret) {
-   725			dev_err(dev, "failed to setup RC: %d\n", ret);
-   726			goto deinit_clk;
-   727		}
-   728	
-   729		/* Unmask DLL up/down indicator and hot reset/link-down reset IRQ. */
-   730		val = HIWORD_UPDATE(PCIE_RDLH_LINK_UP_CHGED | PCIE_LINK_REQ_RST_NOT_INT, 0);
-   731		rockchip_pcie_writel_apb(rockchip, val, PCIE_CLIENT_INTR_MASK_MISC);
-   732	
-   733		ret = dw_pcie_start_link(pci);
-   734		if (ret)
-   735			goto deinit_clk;
-   736	
-   737		/* Ignore errors, the link may come up later. */
-   738		dw_pcie_wait_for_link(pci);
-   739		dev_dbg(dev, "slot reset completed\n");
-   740		return ret;
-   741	
-   742	deinit_clk:
-   743		clk_bulk_disable_unprepare(rockchip->clk_cnt, rockchip->clks);
-   744	deinit_phy:
-   745		rockchip_pcie_phy_deinit(rockchip);
-   746	disable_regulator:
-   747		if (rockchip->vpcie3v3)
-   748			regulator_disable(rockchip->vpcie3v3);
-   749	
-   750		return ret;
-   751	}
-   752	
+  2035	
+  2036	/**
+> 2037	 *  Return negative error code on fail,
+  2038	 *  or return the number of pages unpinned successfully
+  2039	 */
+  2040	static int csv3_unpin_shared_memory(struct kvm *kvm, gpa_t gpa, u32 num_pages)
+  2041	{
+  2042		struct kvm_csv_info *csv;
+  2043		struct shared_page *sp;
+  2044		gfn_t gfn;
+  2045		unsigned long i;
+  2046		int unpin_cnt = 0;
+  2047	
+  2048		csv = &to_kvm_svm_csv(kvm)->csv_info;
+  2049		gfn = gpa_to_gfn(gpa);
+  2050	
+  2051		mutex_lock(&csv->sp_lock);
+  2052		for (i = 0; i < num_pages; i++, gfn++) {
+  2053			sp = shared_page_remove(&csv->sp_mgr, gfn);
+  2054			if (sp) {
+  2055				unpin_user_page(sp->page);
+  2056				kmem_cache_free(csv->sp_slab, sp);
+  2057				csv->sp_mgr.count--;
+  2058				unpin_cnt++;
+  2059			}
+  2060		}
+  2061		mutex_unlock(&csv->sp_lock);
+  2062	
+  2063		return unpin_cnt;
+  2064	}
+  2065	
 
 -- 
 0-DAY CI Kernel Test Service
