@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050A61E7C03;
-	Thu, 15 May 2025 21:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DC6B664
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 21:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747343248; cv=none; b=caVxArpNC3iR9gTpVH74Zc0VwFlGd8NccE2fdu3YaOXRRR59Q6Nx21aUIbv5fHsU9gI4q26D1HEy8eBLWlzKJKfgZhDeqLPbuTGpuW6ob92kWANCU9PZZfjnpW8KroOK+dfq9JdFyacAQQrQWqpBgXYD22hS3wa7LSbW8aU1XZI=
+	t=1747345170; cv=none; b=AB/2iv5rZz7k5mHj1QwEcy/C6b7i9urNRX7CVhIgyT0TC3k3vSNyz1Y22zUH7aYPSGeK6FyD4rzSgr/na319WxQHHiW84SVXQQw6NtADXQDif6L7RDrX2kfCkKh1CgwxnN2qJ6yofvhicl2Odh/HK7OnB8tegcZ5IDVe3SDV3kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747343248; c=relaxed/simple;
-	bh=F1DZmTJmJeHrH0/syPtI2XbebqUW0IxtJqKSBpNegE8=;
+	s=arc-20240116; t=1747345170; c=relaxed/simple;
+	bh=sAItSJuA0gDFDsaAlfi6jyZon83JoFoumqzTcWsNKRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WFGqqFYiWOzMr0ZC/1xri8qjydj8pLX3l+L9xOQTMSvLQ2oKzUzHBSIpX5sIr7QE9bYnwPRkw+r8o9pME0BLUHG4A2F/k04PtZ86CObOSJqK4LpyAOjuRhAlB/1hFoqPUTbEjGPoMix8dApZUKuQ2koNgYGOiwl2wthbwTbXobk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJkLyDb4; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=regNNhwXa0BID8+FEhwq/RUwaSeQtQD+3c/+a+vEzlezmLe2PDaCSkJJfkvAkXIhn+MeT96Ey6NcFu3UM0XXGgcIs4pXwpdlllLgfYpHidjma5iXfrpygfg6hEwrZCDA8cHI5DuEVjv2TuBZ0F4hT+JDkDOIyDKQM50P7+2x8ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NIWOoCOS; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJkLyDb4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NIWOoCOS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747343246; x=1778879246;
+  t=1747345168; x=1778881168;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F1DZmTJmJeHrH0/syPtI2XbebqUW0IxtJqKSBpNegE8=;
-  b=AJkLyDb4Dv5CkGRRUm5gztV8xpbaujfMGTgMO1zB95RBzphjbIfuF4mv
-   jQjMYfQxzZWniQx8FrVtDRX0/UoEXSC9haB3zaoFuvQHiJ/QQQTR4MKK3
-   uTuilRS9rIQsBxd/XBigg5IkRJOmj8LAVnA9eGr0vnrOUpaa8tZ/M2IXZ
-   cQ6kJ4aJqUrVFQQiiH/eU24F0H/DNi8WYCkNQtxtifpDMwZidoScUkL6F
-   cjo0suAw+Ao+WsO8Ca6YWTi+C040Xmw8kMLYMDnctumLiJIBc206rJDo2
-   2BwkAP6HIJ2Z4VRHTKFY/kpat5rw0ExBWMA1c257/wfIfmlEY7O9l959q
-   w==;
-X-CSE-ConnectionGUID: Y73rRK0dTeui4x8R7KMHVQ==
-X-CSE-MsgGUID: pCwk+7uVRVamzj4Ic5i7sQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="53105023"
+  bh=sAItSJuA0gDFDsaAlfi6jyZon83JoFoumqzTcWsNKRo=;
+  b=NIWOoCOSX/NxTepF0IcM0A0nFrb1r1zQJpZ2G5318Q1gptHFMvrJy5zd
+   13FwOudXHgHqAUzH8UtD7fjLVhHhA/XTWAaaH9g10ZcGOpV2GqeQxJLS3
+   JWGulwrfzrQdKIMTisqmxEF0uf9AZpiO7hXFrfPVupADmvLQ7Bc3b5Dpl
+   HmgyNWkeQSRtyMdGMgAfbmG1EkC94Yj7zaJ1ny2ZjI0PWvElVXxsg8IvG
+   C/mSakDV8UAoCk0j3Hnp5mBZCvGrZ+QgEMTnQlOOyAAxBQHEZESFeBXJg
+   svTMZOIcSIG//YMVMD1g3RQiIMgm03DejkpfkABcgPiOx8B1Z4JGdGK37
+   g==;
+X-CSE-ConnectionGUID: bwlRvDYJTiWxLxg8ITJ9yg==
+X-CSE-MsgGUID: w6PSREGSSSWhpij7xu0omA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="53118797"
 X-IronPort-AV: E=Sophos;i="6.15,292,1739865600"; 
-   d="scan'208";a="53105023"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 14:07:25 -0700
-X-CSE-ConnectionGUID: qK5SWUIbTF+2dMiIskKOCg==
-X-CSE-MsgGUID: to0aNyyLQBar3bJCbbfZ3g==
+   d="scan'208";a="53118797"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 14:39:27 -0700
+X-CSE-ConnectionGUID: vlw2NGqpSoiPHU1G26HiPQ==
+X-CSE-MsgGUID: 7uCmY/95S+uN7EWEmztQvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,292,1739865600"; 
-   d="scan'208";a="143608517"
+   d="scan'208";a="138994749"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 May 2025 14:07:23 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 May 2025 14:39:26 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFfnV-000IkF-1L;
-	Thu, 15 May 2025 21:07:21 +0000
-Date: Fri, 16 May 2025 05:07:09 +0800
+	id 1uFgIW-000IlP-0K;
+	Thu, 15 May 2025 21:39:24 +0000
+Date: Fri, 16 May 2025 05:38:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Himanshu Chauhan <hchauhan@ventanamicro.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_raid6_rvv_v5 58/68] kernel/iomem.c:13:25: error: call
- to undeclared function 'ioremap_prot'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202505160422.Ac5PTNaI-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1]
+ include/linux/fortify-string.h:70:29: warning: '__builtin_memcpy': specified
+ size between 4294967272 and 4294967295 exceeds maximum object size
+ 2147483647
+Message-ID: <202505160507.TpdEr4cX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,116 +64,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_raid6_rvv_v5
-head:   9b85cdf2ad159e2a8ee78d62c6b423942917119e
-commit: ba7f462ebad5b1808e7252e72258434fcf86109b [58/68] riscv: Define ioremap_cache for RISC-V
-config: riscv-nommu_k210_defconfig (https://download.01.org/0day-ci/archive/20250516/202505160422.Ac5PTNaI-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505160422.Ac5PTNaI-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   33d0bb4218ed324364ecbbaef42f75f4479a2fc7
+commit: 1359fd9eae29490c542e17c107cb41cfb8463138 [1/1] ARM: 9429/1: ioremap: Sync PGDs for VMALLOC shadow
+config: arm-randconfig-r111-20250516 (https://download.01.org/0day-ci/archive/20250516/202505160507.TpdEr4cX-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250516/202505160507.TpdEr4cX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505160422.Ac5PTNaI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505160507.TpdEr4cX-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/iomem.c:4:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:139:
-   include/asm-generic/io.h:804:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     804 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:107:53: note: expanded from macro 'insb'
-     107 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/iomem.c:4:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:139:
-   include/asm-generic/io.h:812:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     812 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:108:53: note: expanded from macro 'insw'
-     108 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/iomem.c:4:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:139:
-   include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     820 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:109:53: note: expanded from macro 'insl'
-     109 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/iomem.c:4:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:139:
-   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     829 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:121:55: note: expanded from macro 'outsb'
-     121 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/iomem.c:4:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:139:
-   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     838 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:122:55: note: expanded from macro 'outsw'
-     122 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/iomem.c:4:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:139:
-   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     847 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:123:55: note: expanded from macro 'outsl'
-     123 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/iomem.c:4:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:139:
-   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> kernel/iomem.c:13:25: error: call to undeclared function 'ioremap_prot'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      13 |         return (__force void *)ioremap_cache(offset, size);
-         |                                ^
-   arch/riscv/include/asm/io.h:34:19: note: expanded from macro 'ioremap_cache'
-      34 |         ((__force void *)ioremap_prot((addr), (size), PAGE_KERNEL))
-         |                          ^
->> kernel/iomem.c:13:25: warning: cast to 'void *' from smaller integer type 'int' [-Wint-to-void-pointer-cast]
-      13 |         return (__force void *)ioremap_cache(offset, size);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:34:3: note: expanded from macro 'ioremap_cache'
-      34 |         ((__force void *)ioremap_prot((addr), (size), PAGE_KERNEL))
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   8 warnings and 1 error generated.
+   In file included from include/linux/string.h:294:0,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from arch/arm/mm/ioremap.c:24:
+   In function 'memcpy_pgd.constprop',
+       inlined from '__check_vmalloc_seq' at arch/arm/mm/ioremap.c:145:3:
+>> include/linux/fortify-string.h:70:29: warning: '__builtin_memcpy': specified size between 4294967272 and 4294967295 exceeds maximum object size 2147483647 [-Wstringop-overflow=]
+    #define __underlying_memcpy __builtin_memcpy
+                                ^
+   include/linux/fortify-string.h:662:2: note: in expansion of macro '__underlying_memcpy'
+     __underlying_##op(p, q, __fortify_size);   \
+     ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:707:26: note: in expansion of macro '__fortify_memcpy_chk'
+    #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,   \
+                             ^~~~~~~~~~~~~~~~~~~~
+   arch/arm/mm/ioremap.c:135:2: note: in expansion of macro 'memcpy'
+     memcpy(pgd_offset(mm, start), pgd_offset_k(start),
+     ^~~~~~
 
 
-vim +/ioremap_prot +13 kernel/iomem.c
+vim +/__builtin_memcpy +70 include/linux/fortify-string.h
 
-5981690ddb8f72 Dan Williams       2018-03-29   7  
-5981690ddb8f72 Dan Williams       2018-03-29   8  #ifndef arch_memremap_wb
-a9ebcb88136ca8 Kirill A. Shutemov 2025-02-17   9  static void *arch_memremap_wb(resource_size_t offset, unsigned long size,
-a9ebcb88136ca8 Kirill A. Shutemov 2025-02-17  10  			      unsigned long flags)
-5981690ddb8f72 Dan Williams       2018-03-29  11  {
-68af05143fd4b4 Arnd Bergmann      2023-07-26  12  #ifdef ioremap_cache
-5981690ddb8f72 Dan Williams       2018-03-29 @13  	return (__force void *)ioremap_cache(offset, size);
-68af05143fd4b4 Arnd Bergmann      2023-07-26  14  #else
-68af05143fd4b4 Arnd Bergmann      2023-07-26  15  	return (__force void *)ioremap(offset, size);
-68af05143fd4b4 Arnd Bergmann      2023-07-26  16  #endif
-5981690ddb8f72 Dan Williams       2018-03-29  17  }
-5981690ddb8f72 Dan Williams       2018-03-29  18  #endif
-5981690ddb8f72 Dan Williams       2018-03-29  19  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  59  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #if defined(__SANITIZE_MEMORY__)
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  /*
+78a498c3a227f2 Alexander Potapenko 2022-10-24  62   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
+78a498c3a227f2 Alexander Potapenko 2022-10-24  63   * corresponding __msan_XXX functions.
+78a498c3a227f2 Alexander Potapenko 2022-10-24  64   */
+78a498c3a227f2 Alexander Potapenko 2022-10-24  65  #include <linux/kmsan_string.h>
+78a498c3a227f2 Alexander Potapenko 2022-10-24  66  #define __underlying_memcpy	__msan_memcpy
+78a498c3a227f2 Alexander Potapenko 2022-10-24  67  #define __underlying_memmove	__msan_memmove
+78a498c3a227f2 Alexander Potapenko 2022-10-24  68  #define __underlying_memset	__msan_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  69  #else
+a28a6e860c6cf2 Francis Laniel      2021-02-25 @70  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  71  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel      2021-02-25  72  #define __underlying_memset	__builtin_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  73  #endif
+78a498c3a227f2 Alexander Potapenko 2022-10-24  74  
 
-:::::: The code at line 13 was first introduced by commit
-:::::: 5981690ddb8f72f9546a2d017a914cf56095fc1f memremap: split devm_memremap_pages() and memremap() infrastructure
+:::::: The code at line 70 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
 
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
