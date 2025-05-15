@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8532868AF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 02:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AB21A8409
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 May 2025 02:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747276666; cv=none; b=itouSlLhP0JZCIoagzaWWmGneuJBhZqtUW4BV4OHpQwpQbNfYfwBN55HRuqc30bOJXW47p+IexjVWoxX9ozoaimgY60MWdS/rEF/KVabyLgni58qhFWnI9Qh61enKYjDMIDlbYjGyTt81DyPCyfR+hCn1WjEbOOm0fDSwMH8P8w=
+	t=1747277990; cv=none; b=E/OWDgieT8iMnl+107CXkpoT+CfjmDfi4sDXFPKy/lRejKNtZH2X4iBt4IQoqWse+//b6lTlM3FjX5iI3BfmcZPHjKBirCj9vP2d2L73MwarzMStKwqp0BTBTiEkYVQs7Isza/LgXgfSe5s0nccUsGbrhq15+LHQcSQE7CV5e/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747276666; c=relaxed/simple;
-	bh=mOUp8j/eOBdqeYoi+sZWQOgIAuqKsc4r4lk5+T6TLEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QYVgnASqyRoCnEnRhjJA+MMA6MxjLDiPFMm+YxNQMoWf3ibfspiaDZfdW3hMfEMARgQ5KGtXdbeK6LDLerBnjWcOEnvUidJYpjZZWV4xLdVLdTVxa4dtpK47ML3Kt00eSnN3nj03vL/zXCfptsKyJcqEQ5IuVhoXUVrMPm+/gNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YRlWnSSn; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1747277990; c=relaxed/simple;
+	bh=HsfreBSPTaUwvPo+a+UW0RwvFkDmhpcCnMej2+zMrZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IykjEOxJ8a2gKJZN2e+UFqQeipB5Lk7YioCehXxGV5lvrHQQB6mjGBbhrX32t9zyrbL0qQN6+TXpje7ZDRBNu1/re/9b3Pzxtu78jtxJGjs2809QfmkDlP6LYBRaauCTa/UmxNxzgcyizHdLkcWDpGTwSlr355uCu7IgrsJg+0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+hSxxUv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YRlWnSSn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+hSxxUv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747276665; x=1778812665;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mOUp8j/eOBdqeYoi+sZWQOgIAuqKsc4r4lk5+T6TLEA=;
-  b=YRlWnSSnmwREdM6nmhwMwMrLIjiayxFgGjMjkDqafDQQ3Uf9j12fTkt2
-   h+VaefXa6WsY+nnE14aKmjeA3JbJjKWNgSQgmqa9hbn+wZ+GP0KsGk+0p
-   moWoFz87HlIqM2AWrQRz8H80iahxydsW1RfSaJaeq5emzPpU9BOBu/wfl
-   2VEMvEb/x81xLZkk0UyLCtgwQLAeNv4oeWw2dhx90IY73KWo1uk09Zn7/
-   Ndbc/iGxo0fF9RH6KwsA3J8TOCUMpAW4Ot+UkrpS0F9rNWy/TNNQ3AfY+
-   WpcGYF9oVAbIlSkFUTGXPjXW5BgW8tu6BmUGOqAHO+5uT/IdUPVs/AcGU
-   A==;
-X-CSE-ConnectionGUID: 0ZVKTIoFSQ635lH/cPohXA==
-X-CSE-MsgGUID: TE/bXAh7RuqcDdXeBXfTTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="53008946"
+  t=1747277988; x=1778813988;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HsfreBSPTaUwvPo+a+UW0RwvFkDmhpcCnMej2+zMrZo=;
+  b=n+hSxxUvZtbkd9bII3gUFprAyP/RX2gqjjVX40Bj/pxq3I6KX1Dr0S+o
+   8E3YsCfSkrlDoyhahAN1dNIB0+NL67EDzTgEcru7b9w51b+nha/TPFPA/
+   mjxh3GbbY08jFzlsLFlRQql9O6yTGiBiJMMGas/Cw4tTwdyu956FSlKA0
+   xsURVrdDNFZV/alrus6tJELyXw0IiYE0fgGceMRJfNC/4Kb+4ywdsXj+q
+   bdHHBWo7kLuoWT+xndZfV8vZQE0SBn9yxmum/UZ8w2ivyMLi6ApErpZjy
+   WSiuy5+jNbiOk+Zbhaswovm6DzHoj+gYxxSdf8jPIG1q8Cy6pHpvD2hCw
+   w==;
+X-CSE-ConnectionGUID: KrAF+KXPTQ2kdDW1zndmmQ==
+X-CSE-MsgGUID: 7WDTqSXKTQKUWGvcbZbxNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="59850505"
 X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="53008946"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 19:37:44 -0700
-X-CSE-ConnectionGUID: gJwWGR4TSPWQQQ2bUEabYw==
-X-CSE-MsgGUID: YoLMjR2dRhO7TfqTCLrBAA==
+   d="scan'208";a="59850505"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 19:59:47 -0700
+X-CSE-ConnectionGUID: 3bTV9dubTkq3H46JE5s/ZA==
+X-CSE-MsgGUID: 1nGSZBhDR2+oUzrzoyHjfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="139225193"
+   d="scan'208";a="175363445"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 May 2025 19:37:42 -0700
+  by orviesa001.jf.intel.com with ESMTP; 14 May 2025 19:59:45 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFOTc-000HnT-2E;
-	Thu, 15 May 2025 02:37:40 +0000
-Date: Thu, 15 May 2025 10:37:19 +0800
+	id 1uFOow-000Hnz-2S;
+	Thu, 15 May 2025 02:59:42 +0000
+Date: Thu, 15 May 2025 10:59:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: [tip:irq/core 55/56] kernel/irq/debugfs.c:233:26: warning: 'sprintf'
- may write a terminating nul past the end of the destination
-Message-ID: <202505151057.xbyXAbEn-lkp@intel.com>
+To: Bo Liu <liubo03@inspur.com>, xiang@kernel.org, chao@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, Bo Liu <liubo03@inspur.com>
+Subject: Re: [PATCH v2] erofs: support deflate decompress by using Intel QAT
+Message-ID: <202505151023.ond6cMbi-lkp@intel.com>
+References: <20250514121709.2557-1-liubo03@inspur.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,48 +63,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250514121709.2557-1-liubo03@inspur.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-head:   58eb5721a445ea0af310d1410d7117a1910627bc
-commit: 47af06c9d31fe558493de4e04f9a07847dc4992f [55/56] genirq: Consistently use '%u' format specifier for unsigned int variables
-config: x86_64-randconfig-123-20250515 (https://download.01.org/0day-ci/archive/20250515/202505151057.xbyXAbEn-lkp@intel.com/config)
+Hi Bo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on xiang-erofs/dev-test]
+[also build test ERROR on xiang-erofs/dev xiang-erofs/fixes linus/master v6.15-rc6 next-20250514]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bo-Liu/erofs-support-deflate-decompress-by-using-Intel-QAT/20250514-202351
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+patch link:    https://lore.kernel.org/r/20250514121709.2557-1-liubo03%40inspur.com
+patch subject: [PATCH v2] erofs: support deflate decompress by using Intel QAT
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250515/202505151023.ond6cMbi-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505151057.xbyXAbEn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505151023.ond6cMbi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505151057.xbyXAbEn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505151023.ond6cMbi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/irq/debugfs.c: In function 'irq_debugfs_init':
->> kernel/irq/debugfs.c:233:26: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-     233 |         sprintf(name, "%u", irq);
-         |                          ^
-   In function 'irq_add_debugfs_entry',
-       inlined from 'irq_add_debugfs_entry' at kernel/irq/debugfs.c:226:6,
-       inlined from 'irq_debugfs_init' at kernel/irq/debugfs.c:251:3:
-   kernel/irq/debugfs.c:233:9: note: 'sprintf' output between 2 and 11 bytes into a destination of size 10
-     233 |         sprintf(name, "%u", irq);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/erofs/sysfs.c:60:27: error: 'erofs_attr_crypto_enable' undeclared here (not in a function); did you mean 'attr_crypto_enable'?
+      60 | #define ATTR_LIST(name) (&erofs_attr_##name.attr)
+         |                           ^~~~~~~~~~~
+   fs/erofs/sysfs.c:103:9: note: in expansion of macro 'ATTR_LIST'
+     103 |         ATTR_LIST(crypto_enable),
+         |         ^~~~~~~~~
+>> fs/erofs/sysfs.c:60:27: error: 'erofs_attr_crypto_disable' undeclared here (not in a function); did you mean 'attr_crypto_disable'?
+      60 | #define ATTR_LIST(name) (&erofs_attr_##name.attr)
+         |                           ^~~~~~~~~~~
+   fs/erofs/sysfs.c:104:9: note: in expansion of macro 'ATTR_LIST'
+     104 |         ATTR_LIST(crypto_disable),
+         |         ^~~~~~~~~
 
 
-vim +/sprintf +233 kernel/irq/debugfs.c
+vim +60 fs/erofs/sysfs.c
 
-   225	
-   226	void irq_add_debugfs_entry(unsigned int irq, struct irq_desc *desc)
-   227	{
-   228		char name [10];
-   229	
-   230		if (!irq_dir || !desc || desc->debugfs_file)
-   231			return;
-   232	
- > 233		sprintf(name, "%u", irq);
-   234		desc->debugfs_file = debugfs_create_file(name, 0644, irq_dir, desc,
-   235							 &dfs_irq_ops);
-   236	}
-   237	
+168e9a76200c54 Huang Jianan 2021-12-01  47  
+168e9a76200c54 Huang Jianan 2021-12-01  48  #define EROFS_ATTR_RW(_name, _id, _struct)	\
+168e9a76200c54 Huang Jianan 2021-12-01  49  	EROFS_ATTR_OFFSET(_name, 0644, _id, _struct)
+168e9a76200c54 Huang Jianan 2021-12-01  50  
+168e9a76200c54 Huang Jianan 2021-12-01  51  #define EROFS_RO_ATTR(_name, _id, _struct)	\
+168e9a76200c54 Huang Jianan 2021-12-01  52  	EROFS_ATTR_OFFSET(_name, 0444, _id, _struct)
+168e9a76200c54 Huang Jianan 2021-12-01  53  
+168e9a76200c54 Huang Jianan 2021-12-01  54  #define EROFS_ATTR_RW_UI(_name, _struct)	\
+168e9a76200c54 Huang Jianan 2021-12-01  55  	EROFS_ATTR_RW(_name, pointer_ui, _struct)
+168e9a76200c54 Huang Jianan 2021-12-01  56  
+168e9a76200c54 Huang Jianan 2021-12-01  57  #define EROFS_ATTR_RW_BOOL(_name, _struct)	\
+168e9a76200c54 Huang Jianan 2021-12-01  58  	EROFS_ATTR_RW(_name, pointer_bool, _struct)
+168e9a76200c54 Huang Jianan 2021-12-01  59  
+168e9a76200c54 Huang Jianan 2021-12-01 @60  #define ATTR_LIST(name) (&erofs_attr_##name.attr)
+168e9a76200c54 Huang Jianan 2021-12-01  61  
 
 -- 
 0-DAY CI Kernel Test Service
