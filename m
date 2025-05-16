@@ -1,51 +1,59 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C2E22DF95;
-	Fri, 16 May 2025 08:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8626F282E1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 08:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747385186; cv=none; b=aOOFlQb6yU6TpqEfov09tR7tfUJUfcLJ70scLUAImxYIeJbIFt9pI8eVIDcvsUbYWg5Zu5cSFXl9sjZc5doPglGDis0zyvC2wVVbGIJ5wACYOxGJgHryQFJuPXxnN4vulbmIOzSYMfbth27S3n094t5EDUmZbXPWlWp0XhCO1eU=
+	t=1747385303; cv=none; b=FXzFEXpWrT28R+HXZdvQVr6txUhy7Lk63areda3/ppzLfg2gmb4fCbXTNpU8VvDAfL/Lizu95RI/dLX73rEVI1LhLSxipNf/P33fiNU+YH/WNADiHMfL89j1WUE8oTiBM+ljyB54BcZpw3zLnSwWfpQ8DPO74rQxkK2h2/DyFwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747385186; c=relaxed/simple;
-	bh=SkjQSxNeU2OHOXF+ESEbWRVOyvYvbZPEB7pgJ4QXGcA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKgNPtCOD3nHarGnItU1a6rr1f038E4Bn0K+qlpwYHNNimrs0TmxABc/6xJDL6HLZSrBWPGGQoba4pa63jZ9H2Hmqc+EwNsLJOH0eYJ4pz1DmnbfnanDNitWxyJKTePHlLuJNavGssUCn5axg7hSiOIMWQGKKJCZQmjjTMrDGk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=c3sNC6+d; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1747385303; c=relaxed/simple;
+	bh=kDkOm7pGhchT8GKyfSBekrMJI37CilN0rcaf5ViEAps=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ceYJWA8BtiKaUAkRi6Qpsx7eQmaDSoFHa5+4cn1VJWr165PaFUhclvbhF40GyyZjjfZ7ijgAVkmv4ABlVPE4cjc22y1J3ysE4KjwVyngISu+ynMWpa9/0J5fVPlTn66hWsyKWr8cwuGfm1UYwTUlenFH7rLLlRohHbAXzngq7UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F3k8P/yp; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="c3sNC6+d"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=632mvGumOaKkY1p9t4Qs3NLLv5XO+fTtmBWPXtqhGQc=; b=c3sNC6+dF6eci78NbJHi/7PQwf
-	Ivk7Iz5nrHYp9Z4TUZ4Jut7lIBPRH/8a8ngd6RzQOP6Br7KbC0BZwvQATxMxAc63oCr1cvWigLVtT
-	HH+tp6+9IsNpUlJC/LkPh/p9Bzlm8PkXDopxAwFwjqpRp6VEMMATRsaDNCH8xZmT0WaZpMzJuFgym
-	4uHJ2SNeKmcg3aAa5R882fEAXG3tPtRA2HXqK4OF8nF9a6aYpzyDEsZiqlvxjmiuI10IMNcBM9kzE
-	jwrFI5vbr2Q+g3+SLQ6jofSNFSVnVCjpA/IF6cpJaFsIBgCyP+3oqoqJ7eR34aPoJSrGewT8apHFk
-	ATnzgf2g==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uFqht-006XZO-06;
-	Fri, 16 May 2025 16:46:18 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 16 May 2025 16:46:17 +0800
-Date: Fri, 16 May 2025 16:46:17 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Danny Tsen <dtsen@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: [PATCH] powerpc: Add gcc 128-bit shift helpers
-Message-ID: <aCb7WW2gRrtEmgqD@gondor.apana.org.au>
-References: <202505152053.FrKekjCe-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F3k8P/yp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747385301; x=1778921301;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=kDkOm7pGhchT8GKyfSBekrMJI37CilN0rcaf5ViEAps=;
+  b=F3k8P/ypNMWBMkFItUgdSizOwP7KE1w+Hxbz8u78x+19ogzz3wHTZUBv
+   6B/ZAxdb31gv4lkQO7nfmczBCOljAKN6ErXhUFYqg1YlKwlueAXj5y0pX
+   HpbkRRfBVUdWsb7LM7Tla3y07p79+SNderXvz5eT+5/4c2bAkzrFuDFC8
+   8LjprEf02USc77/yVhnJW41qSswjk/Ms4mCAORbNa84rdBhhZZTHHtFIK
+   wWCkZYt0gA1t8PSEmV7+QhjOSaRxGLV2rG7zqhS04Fg58mIc+sjq/8LYh
+   lIrJp+6gY7kUcTgeaRvXgmUj9eDpnuIKPqw7/OPA/1OGXWPrrhBprX6G6
+   g==;
+X-CSE-ConnectionGUID: UdX+PZv+TNG3ceIGczRlBA==
+X-CSE-MsgGUID: qG+Y1pznSMqm6OFqgY8Erg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49220611"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="49220611"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 01:48:21 -0700
+X-CSE-ConnectionGUID: tMnSTwNYRl2AD27EQls5tg==
+X-CSE-MsgGUID: iINea8/7RhyC2xr0BfStrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="143862070"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 16 May 2025 01:48:20 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uFqjp-000J9z-2t;
+	Fri, 16 May 2025 08:48:17 +0000
+Date: Fri, 16 May 2025 16:47:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bharat Bhushan <bbhushan2@marvell.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] crypto: octeontx2: Initialize cptlfs device info
+ once
+Message-ID: <aCb7nE8gEpmdvpoZ@8c81029db2be>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,98 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202505152053.FrKekjCe-lkp@intel.com>
+In-Reply-To: <20250516084441.3721548-2-bbhushan2@marvell.com>
 
-On Thu, May 15, 2025 at 08:06:09PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   484803582c77061b470ac64a634f25f89715be3f
-> commit: c66d7ebbe2fa14e41913adb421090a7426f59786 [10914/11408] crypto: powerpc/poly1305 - Add SIMD fallback
-> config: powerpc64-randconfig-002-20250515 (https://download.01.org/0day-ci/archive/20250515/202505152053.FrKekjCe-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505152053.FrKekjCe-lkp@intel.com/reproduce)
+Hi,
 
-Thanks for the report.  This patch should fix the problem.
+Thanks for your patch.
 
----8<---
-When optimising for size, gcc generates out-of-line calls for 128-bit
-integer shifts.  Add these functions to avoid build errors.
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-Fixes: c66d7ebbe2fa ("crypto: powerpc/poly1305 - Add SIMD fallback")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202505152053.FrKekjCe-lkp@intel.com/
-Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-diff --git a/arch/powerpc/lib/Makefile b/arch/powerpc/lib/Makefile
-index 1cd74673cbf7..a41c071c1652 100644
---- a/arch/powerpc/lib/Makefile
-+++ b/arch/powerpc/lib/Makefile
-@@ -87,3 +87,5 @@ obj-$(CONFIG_CRC_T10DIF_ARCH) += crc-t10dif-powerpc.o
- crc-t10dif-powerpc-y := crc-t10dif-glue.o crct10dif-vpmsum_asm.o
- 
- obj-$(CONFIG_PPC64) += $(obj64-y)
-+
-+obj-$(CONFIG_ARCH_SUPPORTS_INT128) += tishift.o
-diff --git a/arch/powerpc/lib/tishift.S b/arch/powerpc/lib/tishift.S
-new file mode 100644
-index 000000000000..79afef2d8d54
---- /dev/null
-+++ b/arch/powerpc/lib/tishift.S
-@@ -0,0 +1,54 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Copyright (c) 2025 Herbert Xu <herbert@gondor.apana.org.au>
-+ */
-+#include <asm/ppc_asm.h>
-+#include <linux/export.h>
-+
-+_GLOBAL(__lshrti3)
-+	cmplwi	r5,63
-+	ble	1f
-+	addi	r5,r5,-64
-+	srd	r3,r4,r5
-+	li	r4,0
-+	blr
-+1:
-+	subfic	r7,r5,64
-+	srd	r3,r3,r5
-+	sld	r6,r4,r7
-+	srd	r4,r4,r5
-+	or	r3,r3,r6
-+	blr
-+EXPORT_SYMBOL(__lshrti3)
-+
-+_GLOBAL(__ashrti3)
-+	cmplwi	r5,63
-+	ble	1f
-+	addi	r5,r5,-64
-+	srad	r3,r4,r5
-+	sradi	r4,r4,63
-+	blr
-+1:
-+	subfic	r7,r5,64
-+	srd	r3,r3,r5
-+	sld	r6,r4,r7
-+	srad	r4,r4,r5
-+	or	r3,r3,r6
-+	blr
-+EXPORT_SYMBOL(__ashrti3)
-+
-+_GLOBAL(__ashlti3)
-+	cmplwi	r5,63
-+	ble	1f
-+	addi	r5,r5,-64
-+	sld	r4,r3,r5
-+	li	r3,0
-+	blr
-+1:
-+	subfic	r7,r5,64
-+	sld	r4,r4,r5
-+	srd	r6,r3,r7
-+	sld	r3,r3,r5
-+	or	r4,r4,r6
-+	blr
-+EXPORT_SYMBOL(__ashlti3)
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2 1/2] crypto: octeontx2: Initialize cptlfs device info once
+Link: https://lore.kernel.org/stable/20250516084441.3721548-2-bbhushan2%40marvell.com
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
