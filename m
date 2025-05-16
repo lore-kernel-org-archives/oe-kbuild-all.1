@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E68223DC5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 06:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9220C1FF7DC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 06:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747377313; cv=none; b=n3c6v0yt4jlbse1flRVi27wkioX+74AW2kLNYqxfd8QGWxhxjl8WuLtnK/xigweqDwU/6iVx4pc0DTy5pu+hxLBd3eaXOJkNu89AtO8ESlPqM6ytIx3DxpdE454rqOgDyGonQLB3ca/R+Wcf4U66MN6dVcyUzzcVNhYy+r/nrjw=
+	t=1747377314; cv=none; b=VmCQtvAjUT0Hd6zhkVCqZKF2RDwc4UD9WpG999DdLx6Gw18gPP1/yFXCxH7KLkqOPNF4zRZWl+8CwvoClD+ENiQ5ohPUUhdxxh5njV88kYErEshxFvOxEskIOsin39phKAS7qTVO4EyXUtGnzEMjSlzHg6eNPSByacI3VXCstL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747377313; c=relaxed/simple;
-	bh=pwvq2RtunE5lhY2bptrlJgYhn5/jL/7cU28+YSHM7gc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ITX90v/3STg7ufpTnTpEw4yHjt9kfzuJoIpOEiyprFfDbo5nBPcWfgbHs4nUiPi5EBLqJcaqpFHZIbJiSjIqew9DU2J3odXRS7GdsCZVLPfkOK+7WlxBLNQsZEyVl4JfcY7xg/0IhnCjqIsk23/kmbv/GSRuBktQWLs5G1qguPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJXlyh1S; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1747377314; c=relaxed/simple;
+	bh=QCZtNJW2TAKa87VLFt4NbNEoeK4ppmMpbEoMRvqP0Vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kGy/NWHmL/RlbY9I3Ca969kx7J/yz2o1hLyELOvNm2OwhpeDmZNV47jsFpcQVnvyGLJ6/k8n3SsTLG7926qu1oo/OG7htihSvv63p2R60q1s6RUKQV02eoOjl/iN0FdMTn8N8hhf5GY7Im0pWebpoJvOqdvwkT7aClWEdezIVvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OETKptcR; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJXlyh1S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OETKptcR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747377311; x=1778913311;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pwvq2RtunE5lhY2bptrlJgYhn5/jL/7cU28+YSHM7gc=;
-  b=lJXlyh1S2AFFW1TChoSADvOAk3wC69Vrim/+tkBTKH+lhxRcADwp/i2b
-   KTOFHLiaYYW1S9/fFAjK2rO0TUyFJv/W+YvRiklj+uge+4tZ2F6B9uQtR
-   aC7ZSuqHX5QPHtiqk5Z7twYMTg5toPE2AahN/ne8FoE9JCDDT+cyw2T+H
-   J0mxYmVQVMv4d1+PPB6esrxQZzUuj8Lg0hgSAUErRx7O2ebTuqN1r8Pkg
-   GTjqJudsnK+PoegT9zmydOdj68LQg+oDyvvwszHKVpM+fGqRQVbwDYi+y
-   yH7cBsOhriPMcbvxrujd1Gxtkt3dQgcFdtSwnsVSRnFPt/6NHBzyVWbNE
-   w==;
-X-CSE-ConnectionGUID: FFhEfwAmS2WfDWPwZ7spZw==
-X-CSE-MsgGUID: tgf2Cs3vRLeCa7KnDkS4Tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49323331"
+  t=1747377313; x=1778913313;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QCZtNJW2TAKa87VLFt4NbNEoeK4ppmMpbEoMRvqP0Vc=;
+  b=OETKptcRzuxR0O48XheaEF+hFFi+zAtO0fWFc9JiwBDksbLNUB1Nxo4y
+   KpHW8YP/c/rzM+5zUY6pXd6VkETf8AQUcN7j2sY7YqZHNHjD1Q/9y5mzR
+   +9VTPA697tvwTq1sZtaI0F42RJ7+7Va7xjhKr36Oq5zEHLy+2/PvhF/7D
+   HG9uSuGjOKJlNFyDeIowKbUJj1Vxo7JUc+/XvqOvSY85co2FKCI+9ByXi
+   NAiG4zgypQ7ah7llX/PbaindV1/Y+RFn+qjfp4tbuI9idgPv7LDVksFYJ
+   37oF94+EtUiTuDTgmuEp09yhqY1IZL4Z5toFeFsjYghlgyXonKeSHgkiJ
+   Q==;
+X-CSE-ConnectionGUID: K/X+wRS2TcW4YG+Hu4xjoA==
+X-CSE-MsgGUID: aPHaXX77TDe5IR6i8GISQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="53011100"
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="49323331"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 23:35:10 -0700
-X-CSE-ConnectionGUID: Y8F9uNf9TZCevJAdkR2OTg==
-X-CSE-MsgGUID: HVEVVEcGRHusQs8CJo/L6w==
+   d="scan'208";a="53011100"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 23:35:12 -0700
+X-CSE-ConnectionGUID: 6i7joXiyRzyfNlAd6YLpEQ==
+X-CSE-MsgGUID: CRTgF/3RRkWobcHHH2vTlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="138990799"
+   d="scan'208";a="169661158"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 23:35:09 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 May 2025 23:35:09 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFoew-000J3P-2k;
+	id 1uFoew-000J3L-2d;
 	Fri, 16 May 2025 06:35:06 +0000
-Date: Fri, 16 May 2025 14:34:46 +0800
+Date: Fri, 16 May 2025 14:34:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 5/5] mm/slub.c:4106:7: warning: no
- previous prototype for 'oot___kmalloc_node_0'
-Message-ID: <202505161410.uOpS9thM-lkp@intel.com>
+To: Ashley Smith <ashley.smith@collabora.com>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+	Ashley Smith <ashley.smith@collabora.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: Reset queue slots if termination fails
+Message-ID: <202505161417.tAUp1jmc-lkp@intel.com>
+References: <20250515103314.1682471-1-ashley.smith@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,253 +71,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250515103314.1682471-1-ashley.smith@collabora.com>
 
-Hi Yi,
+Hi Ashley,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   bfc84bc1ba93833ad3fd1e370a33e511711611a6
-commit: baa47e1aa754428b439764393f2d71fb6bce04bf [5/5] anolis: mm: introduce per module slab for oot memory isolation
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250516/202505161410.uOpS9thM-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161410.uOpS9thM-lkp@intel.com/reproduce)
+[auto build test ERROR on 9934ab18051118385c7ea44d8e14175edbe6dc9c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashley-Smith/drm-panthor-Reset-queue-slots-if-termination-fails/20250515-183502
+base:   9934ab18051118385c7ea44d8e14175edbe6dc9c
+patch link:    https://lore.kernel.org/r/20250515103314.1682471-1-ashley.smith%40collabora.com
+patch subject: [PATCH] drm/panthor: Reset queue slots if termination fails
+config: sparc-randconfig-002-20250516 (https://download.01.org/0day-ci/archive/20250516/202505161417.tAUp1jmc-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161417.tAUp1jmc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505161410.uOpS9thM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505161417.tAUp1jmc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_0' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4040:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4040 | DEFINE_OOT_FUNC___kmalloc(0);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_1' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4041:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4041 | DEFINE_OOT_FUNC___kmalloc(1);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_2' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4042:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4042 | DEFINE_OOT_FUNC___kmalloc(2);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_3' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4043:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4043 | DEFINE_OOT_FUNC___kmalloc(3);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_4' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4044:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4044 | DEFINE_OOT_FUNC___kmalloc(4);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_5' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4045:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4045 | DEFINE_OOT_FUNC___kmalloc(5);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_6' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4046:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4046 | DEFINE_OOT_FUNC___kmalloc(6);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_7' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4047:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4047 | DEFINE_OOT_FUNC___kmalloc(7);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_8' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4048:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4048 | DEFINE_OOT_FUNC___kmalloc(8);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_9' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4049:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4049 | DEFINE_OOT_FUNC___kmalloc(9);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_10' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4050:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4050 | DEFINE_OOT_FUNC___kmalloc(10);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_11' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4051:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4051 | DEFINE_OOT_FUNC___kmalloc(11);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_12' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4052:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4052 | DEFINE_OOT_FUNC___kmalloc(12);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_13' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4053:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4053 | DEFINE_OOT_FUNC___kmalloc(13);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_14' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4054:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4054 | DEFINE_OOT_FUNC___kmalloc(14);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_15' [-Wmissing-prototypes]
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slub.c:4055:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    4055 | DEFINE_OOT_FUNC___kmalloc(15);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_0' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4136:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4136 | DEFINE_OOT_FUNC___kmalloc_node(0);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_1' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4137:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4137 | DEFINE_OOT_FUNC___kmalloc_node(1);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_2' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4138:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4138 | DEFINE_OOT_FUNC___kmalloc_node(2);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_3' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4139:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4139 | DEFINE_OOT_FUNC___kmalloc_node(3);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_4' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4140:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4140 | DEFINE_OOT_FUNC___kmalloc_node(4);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_5' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4141:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4141 | DEFINE_OOT_FUNC___kmalloc_node(5);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_6' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4142:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4142 | DEFINE_OOT_FUNC___kmalloc_node(6);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_7' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4143:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4143 | DEFINE_OOT_FUNC___kmalloc_node(7);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_8' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4144:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4144 | DEFINE_OOT_FUNC___kmalloc_node(8);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_9' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4145:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4145 | DEFINE_OOT_FUNC___kmalloc_node(9);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_10' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4146:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4146 | DEFINE_OOT_FUNC___kmalloc_node(10);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_11' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4147:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4147 | DEFINE_OOT_FUNC___kmalloc_node(11);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_12' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4148:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4148 | DEFINE_OOT_FUNC___kmalloc_node(12);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_13' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4149:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4149 | DEFINE_OOT_FUNC___kmalloc_node(13);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_14' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4150:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4150 | DEFINE_OOT_FUNC___kmalloc_node(14);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_15' [-Wmissing-prototypes]
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4151:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4151 | DEFINE_OOT_FUNC___kmalloc_node(15);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_sched.c: In function 'panthor_sched_suspend':
+>> drivers/gpu/drm/panthor/panthor_sched.c:2736:18: error: expected ';' before 'queue_count'
+        for (i = 0; i queue_count; i++) {
+                     ^~~~~~~~~~~~
+                     ;
 
 
-vim +/oot___kmalloc_node_0 +4106 mm/slub.c
+vim +2736 drivers/gpu/drm/panthor/panthor_sched.c
 
-  4104	
-  4105	#define DEFINE_OOT_FUNC___kmalloc_node(index)				\
-> 4106	void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)	\
-  4107	{									\
-  4108		struct kmem_cache *s;						\
-  4109		void *ret;							\
-  4110										\
-  4111		if (unlikely(size > KMALLOC_MAX_CACHE_SIZE)) {			\
-  4112			ret = kmalloc_large_node(size, flags, node);		\
-  4113										\
-  4114			trace_kmalloc_node(_RET_IP_, ret,			\
-  4115					   size, PAGE_SIZE << get_order(size),	\
-  4116					   flags, node);			\
-  4117										\
-  4118			return ret;						\
-  4119		}								\
-  4120										\
-  4121		s = oot_kmalloc_slab(index, size, flags);			\
-  4122										\
-  4123		if (unlikely(ZERO_OR_NULL_PTR(s)))				\
-  4124			return s;						\
-  4125										\
-  4126		ret = slab_alloc_node(s, flags, node, _RET_IP_, size);		\
-  4127										\
-  4128		trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);	\
-  4129										\
-  4130		ret = kasan_kmalloc(s, ret, size, flags);			\
-  4131										\
-  4132		return ret;							\
-  4133	}									\
-  4134	EXPORT_SYMBOL(oot___kmalloc_node_ ## index)
-  4135	
+  2666	
+  2667	void panthor_sched_suspend(struct panthor_device *ptdev)
+  2668	{
+  2669		struct panthor_scheduler *sched = ptdev->scheduler;
+  2670		struct panthor_csg_slots_upd_ctx upd_ctx;
+  2671		struct panthor_group *group;
+  2672		u32 suspended_slots;
+  2673		u32 i;
+  2674	
+  2675		mutex_lock(&sched->lock);
+  2676		csgs_upd_ctx_init(&upd_ctx);
+  2677		for (i = 0; i < sched->csg_slot_count; i++) {
+  2678			struct panthor_csg_slot *csg_slot = &sched->csg_slots[i];
+  2679	
+  2680			if (csg_slot->group) {
+  2681				csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, i,
+  2682							group_can_run(csg_slot->group) ?
+  2683							CSG_STATE_SUSPEND : CSG_STATE_TERMINATE,
+  2684							CSG_STATE_MASK);
+  2685			}
+  2686		}
+  2687	
+  2688		suspended_slots = upd_ctx.update_mask;
+  2689	
+  2690		csgs_upd_ctx_apply_locked(ptdev, &upd_ctx);
+  2691		suspended_slots &= ~upd_ctx.timedout_mask;
+  2692	
+  2693		if (upd_ctx.timedout_mask) {
+  2694			u32 slot_mask = upd_ctx.timedout_mask;
+  2695	
+  2696			drm_err(&ptdev->base, "CSG suspend failed, escalating to termination");
+  2697			csgs_upd_ctx_init(&upd_ctx);
+  2698			while (slot_mask) {
+  2699				u32 csg_id = ffs(slot_mask) - 1;
+  2700				struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
+  2701	
+  2702				/* If the group was still usable before that point, we consider
+  2703				 * it innocent.
+  2704				 */
+  2705				if (group_can_run(csg_slot->group))
+  2706					csg_slot->group->innocent = true;
+  2707	
+  2708				/* We consider group suspension failures as fatal and flag the
+  2709				 * group as unusable by setting timedout=true.
+  2710				 */
+  2711				csg_slot->group->timedout = true;
+  2712	
+  2713				csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
+  2714							CSG_STATE_TERMINATE,
+  2715							CSG_STATE_MASK);
+  2716				slot_mask &= ~BIT(csg_id);
+  2717			}
+  2718	
+  2719			csgs_upd_ctx_apply_locked(ptdev, &upd_ctx);
+  2720	
+  2721			slot_mask = upd_ctx.timedout_mask;
+  2722			while (slot_mask) {
+  2723				u32 csg_id = ffs(slot_mask) - 1;
+  2724				struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
+  2725	
+  2726				/* Terminate command timedout, but the soft-reset will
+  2727				 * automatically terminate all active groups, so let's
+  2728				 * force the state to halted here.
+  2729				 */
+  2730				if (csg_slot->group->state != PANTHOR_CS_GROUP_TERMINATED) {
+  2731					csg_slot->group->state = PANTHOR_CS_GROUP_TERMINATED;
+  2732	
+  2733					/* Reset the queue slots manually if the termination
+  2734					 * request failed.
+  2735					 */
+> 2736					for (i = 0; i queue_count; i++) {
+  2737						if (group->queues[i])
+  2738							cs_slot_reset_locked(ptdev, csg_id, i);
+  2739					}
+  2740				}
+  2741				slot_mask &= ~BIT(csg_id);
+  2742			}
+  2743		}
+  2744	
+  2745		/* Flush L2 and LSC caches to make sure suspend state is up-to-date.
+  2746		 * If the flush fails, flag all queues for termination.
+  2747		 */
+  2748		if (suspended_slots) {
+  2749			bool flush_caches_failed = false;
+  2750			u32 slot_mask = suspended_slots;
+  2751	
+  2752			if (panthor_gpu_flush_caches(ptdev, CACHE_CLEAN, CACHE_CLEAN, 0))
+  2753				flush_caches_failed = true;
+  2754	
+  2755			while (slot_mask) {
+  2756				u32 csg_id = ffs(slot_mask) - 1;
+  2757				struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
+  2758	
+  2759				if (flush_caches_failed)
+  2760					csg_slot->group->state = PANTHOR_CS_GROUP_TERMINATED;
+  2761				else
+  2762					csg_slot_sync_update_locked(ptdev, csg_id);
+  2763	
+  2764				slot_mask &= ~BIT(csg_id);
+  2765			}
+  2766		}
+  2767	
+  2768		for (i = 0; i < sched->csg_slot_count; i++) {
+  2769			struct panthor_csg_slot *csg_slot = &sched->csg_slots[i];
+  2770	
+  2771			group = csg_slot->group;
+  2772			if (!group)
+  2773				continue;
+  2774	
+  2775			group_get(group);
+  2776	
+  2777			if (group->csg_id >= 0)
+  2778				sched_process_csg_irq_locked(ptdev, group->csg_id);
+  2779	
+  2780			group_unbind_locked(group);
+  2781	
+  2782			drm_WARN_ON(&group->ptdev->base, !list_empty(&group->run_node));
+  2783	
+  2784			if (group_can_run(group)) {
+  2785				list_add(&group->run_node,
+  2786					 &sched->groups.idle[group->priority]);
+  2787			} else {
+  2788				/* We don't bother stopping the scheduler if the group is
+  2789				 * faulty, the group termination work will finish the job.
+  2790				 */
+  2791				list_del_init(&group->wait_node);
+  2792				group_queue_work(group, term);
+  2793			}
+  2794			group_put(group);
+  2795		}
+  2796		mutex_unlock(&sched->lock);
+  2797	}
+  2798	
 
 -- 
 0-DAY CI Kernel Test Service
