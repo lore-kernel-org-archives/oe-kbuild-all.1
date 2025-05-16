@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE70F8BF8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 02:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224871862
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 02:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747362233; cv=none; b=aJhr+QzYIQ6IE2fANs9pahLdcqX+v2HTYilTRkwJxCUIHqz/3Pjz+VJa3io3gisyQGYJvBCQpv+b0w/oa1ArDUgqjjVnGZWq+JTQWKn/PNrv5DV6BgO5bfT0AUZkXM408znBo80MpVpief1SRkJSbWtcOHI6z1x+D2wGPdtJ0Js=
+	t=1747364096; cv=none; b=gpVaCz9pu+5mB8twe+CEAIiAu3lkMO/TKF83SqwgijDZJ4CcPFka+xMs31HhW4QpwCH2xE4lF0EBB4waWfPtSPuu+p07gFMcrxQJa6ANpZQJF2/m8hEYEogAZ/DwMqiesZNO4pq+uwPZBdrCzXpDfxQ8IVuEclk6jrgcMJhDdFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747362233; c=relaxed/simple;
-	bh=PNgh3YTfapYES4b5uoWz19dcs5NDFscaYJL6l5rn7vE=;
+	s=arc-20240116; t=1747364096; c=relaxed/simple;
+	bh=RMNCKUywg0PJnEDtLRKQCZMsEbvinJ81L9fP52QY61g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NHBHMd5p86E/cS1w3kkfTCqVqT+MdKrW1uzAJsiLLcYsgcbbRSIjKP/BCluqdEcu4+BUMEnWSwxKjSZW9FcrfWd8bbWTaCm5JJDtaow2KRdS0fM2R+5R4AZ3vtOjzzLT2aT/vReg7iC8n43VNB3QJhVJ8jWS/Pj9jctbw43jino=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bRKiuTHJ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=neuO/ikDEsCmzvF1enDgzfBXnwAaq++Zmg9HqpET1SKrQzXXC+hy7W8qHyfZumZ5afNXW23WaZvNd9TsGzeRuztFIxc6jbaFQzh/Jm700AUiBhfO2geqzjMfG+FaikYbkAaaU2HOyy9QCiHQWSn1B1eSvQHeDkH42H8y5q+4ku0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T71dOpFd; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bRKiuTHJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T71dOpFd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747362231; x=1778898231;
+  t=1747364093; x=1778900093;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PNgh3YTfapYES4b5uoWz19dcs5NDFscaYJL6l5rn7vE=;
-  b=bRKiuTHJP1paXenkuBVPjCsp618IiTV8MzbUILgHssw3TQH/XIikNYzl
-   lr6BbvLP9VUFHr6fDmGEK1Ub3HnPKMfzKmTD0OJdqr86c5Hr50kDAPgl4
-   xx/czCXYj422eMWnl2v7Ul36TQdr9qdWzCPmwl5VurgEdRouScnLAqj3v
-   +te+Y7098ILM6xcGzCgevqoHrFNIbqxixoUNEcsECLaoXPwdE9xApYma+
-   x197/vwitHgw59URL/TTUwEIApDwEptr665/j4KoDYZb3xVMEaS9Vl5Vq
-   3QzcwwWpEzf+iVqjZuWmH+A1wmm0DIwOW0mmYVBRNIHxu5FWD0oqs0jOv
-   Q==;
-X-CSE-ConnectionGUID: CI8e6pHNSFylTW2v7zvdkQ==
-X-CSE-MsgGUID: tIyA5kkAQIqSDqCxmVlpTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="53128849"
-X-IronPort-AV: E=Sophos;i="6.15,292,1739865600"; 
-   d="scan'208";a="53128849"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 19:23:50 -0700
-X-CSE-ConnectionGUID: FnXeEYqKR2SqylDzDC2tVA==
-X-CSE-MsgGUID: k8gFyRrlSLKzT6/0YutHbA==
+  bh=RMNCKUywg0PJnEDtLRKQCZMsEbvinJ81L9fP52QY61g=;
+  b=T71dOpFdF/6+t3RskbWo2VPAJArw88TpuOInwqw4//7EcQYw3NZGaevE
+   fclnU/gRhPMNzUYq9C/gHNr80boS2/Qjd6tvHL3amiimjakjKM7/vJ4+Z
+   qvM0L6RdjQqEaN+CqgQGCA2pkHHn6rkKm6VP/4IXOyZGN9Zzt75cvu96J
+   XqKt6S7eGt9Op4ao3ztfRDyWV6G02AuS47gWW7c3faONZ2TcxWjfuNGO3
+   yadFsSTkRTF8Xq4p6ZRmZYtLo5zUOSQu8JZwvv82NIQaEAfaY0Bcf3RPR
+   3ZdVaRh+T/PWbcgLJwvOBP02Mpt1KZR/DImbR7DAGI26uUPIol3JkPs2t
+   A==;
+X-CSE-ConnectionGUID: ewZ9v5KmQZGL0QYNOSvm1A==
+X-CSE-MsgGUID: WMR19HbHTIKhTrBnta3u/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="66729338"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="66729338"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 19:54:52 -0700
+X-CSE-ConnectionGUID: IHxwmqsHRgCAMTK4WynkrA==
+X-CSE-MsgGUID: 81Rv31NNSB+jXFbxDUyzyA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,292,1739865600"; 
-   d="scan'208";a="139092617"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="169625779"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 May 2025 19:23:50 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 May 2025 19:54:50 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFkji-000IvD-2m;
-	Fri, 16 May 2025 02:23:46 +0000
-Date: Fri, 16 May 2025 10:23:25 +0800
+	id 1uFlDk-000Ivx-2o;
+	Fri, 16 May 2025 02:54:48 +0000
+Date: Fri, 16 May 2025 10:54:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/sysfs-const-bin_attr-final 4/5]
- drivers/virt/coco/guest/tsm-mr.c:212:28: error: 'struct bin_attribute' has
- no member named 'read_new'
-Message-ID: <202505161035.3rp4Lo4I-lkp@intel.com>
+To: Michael Chan <michael.chan@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Shruti Parab <shruti.parab@broadcom.com>,
+	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>
+Subject: drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:2120
+ bnxt_get_regs() warn: unsigned 'j' is never less than zero.
+Message-ID: <202505161058.QFYrp89W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,153 +65,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/sysfs-const-bin_attr-final
-head:   ec736d2ecd3dd88a7df03b27d0aa941113b58149
-commit: b52fcd8946c512617cc2671ee1a2d564c3842662 [4/5] sysfs: remove bin_attribute::read_new/write_new()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250516/202505161035.3rp4Lo4I-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161035.3rp4Lo4I-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fee3e843b309444f48157e2188efa6818bae85cf
+commit: 02e8be5a032cae0f4ca33c6053c44d83cf4acc93 bnxt_en: Fix ethtool -d byte order for 32-bit values
+date:   2 weeks ago
+config: x86_64-randconfig-161-20250516 (https://download.01.org/0day-ci/archive/20250516/202505161058.QFYrp89W-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505161035.3rp4Lo4I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505161058.QFYrp89W-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:2120 bnxt_get_regs() warn: unsigned 'j' is never less than zero.
 
-   drivers/virt/coco/guest/tsm-mr.c: In function 'tsm_mr_create_attribute_group':
->> drivers/virt/coco/guest/tsm-mr.c:212:28: error: 'struct bin_attribute' has no member named 'read_new'
-     212 |                         bap->read_new = tm_digest_read;
-         |                            ^~
->> drivers/virt/coco/guest/tsm-mr.c:217:28: error: 'struct bin_attribute' has no member named 'write_new'
-     217 |                         bap->write_new = tm_digest_write;
-         |                            ^~
+vim +/j +2120 drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
 
-
-vim +212 drivers/virt/coco/guest/tsm-mr.c
-
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  121  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  122  /**
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  123   * tsm_mr_create_attribute_group() - creates an attribute group for measurement
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  124   * registers (MRs)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  125   * @tm: pointer to &struct tsm_measurements containing the MR definitions.
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  126   *
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  127   * This function creates attributes corresponding to the MR definitions
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  128   * provided by @tm->mrs.
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  129   *
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  130   * The created attributes will reference @tm and its members. The caller must
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  131   * not free @tm until after tsm_mr_free_attribute_group() is called.
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  132   *
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  133   * Context: Process context. May sleep due to memory allocation.
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  134   *
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  135   * Return:
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  136   * * On success, the pointer to a an attribute group is returned; otherwise
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  137   * * %-EINVAL - Invalid MR definitions.
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  138   * * %-ENOMEM - Out of memory.
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  139   */
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  140  const struct attribute_group *
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  141  tsm_mr_create_attribute_group(const struct tsm_measurements *tm)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  142  {
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  143  	size_t nlen;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  144  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  145  	if (!tm || !tm->mrs)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  146  		return ERR_PTR(-EINVAL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  147  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  148  	/* aggregated length of all MR names */
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  149  	nlen = 0;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  150  	for (size_t i = 0; i < tm->nr_mrs; ++i) {
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  151  		if ((tm->mrs[i].mr_flags & TSM_MR_F_LIVE) && !tm->refresh)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  152  			return ERR_PTR(-EINVAL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  153  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  154  		if ((tm->mrs[i].mr_flags & TSM_MR_F_WRITABLE) && !tm->write)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  155  			return ERR_PTR(-EINVAL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  156  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  157  		if (!tm->mrs[i].mr_name)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  158  			return ERR_PTR(-EINVAL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  159  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  160  		if (tm->mrs[i].mr_flags & TSM_MR_F_NOHASH)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  161  			continue;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  162  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  163  		if (tm->mrs[i].mr_hash >= HASH_ALGO__LAST)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  164  			return ERR_PTR(-EINVAL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  165  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  166  		/* MR sysfs attribute names have the form of MRNAME:HASH */
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  167  		nlen += strlen(tm->mrs[i].mr_name) + 1 +
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  168  			strlen(hash_algo_name[tm->mrs[i].mr_hash]) + 1;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  169  	}
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  170  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  171  	/*
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  172  	 * @attrs and the MR name strings are combined into a single allocation
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  173  	 * so that we don't have to free MR names one-by-one in
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  174  	 * tsm_mr_free_attribute_group()
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  175  	 */
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  176  	const struct bin_attribute **attrs __free(kfree) =
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  177  		kzalloc(sizeof(*attrs) * (tm->nr_mrs + 1) + nlen, GFP_KERNEL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  178  	struct tm_context *ctx __free(kfree) =
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  179  		kzalloc(struct_size(ctx, mrs, tm->nr_mrs), GFP_KERNEL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  180  	char *name, *end;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  181  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  182  	if (!ctx || !attrs)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  183  		return ERR_PTR(-ENOMEM);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  184  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  185  	/* @attrs is followed immediately by MR name strings */
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  186  	name = (char *)&attrs[tm->nr_mrs + 1];
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  187  	end = name + nlen;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  188  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  189  	for (size_t i = 0; i < tm->nr_mrs; ++i) {
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  190  		struct bin_attribute *bap = &ctx->mrs[i];
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  191  
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  192  		sysfs_bin_attr_init(bap);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  193  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  194  		if (tm->mrs[i].mr_flags & TSM_MR_F_NOHASH)
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  195  			bap->attr.name = tm->mrs[i].mr_name;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  196  		else if (name < end) {
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  197  			bap->attr.name = name;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  198  			name += snprintf(name, end - name, "%s:%s",
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  199  					 tm->mrs[i].mr_name,
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  200  					 hash_algo_name[tm->mrs[i].mr_hash]);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  201  			++name;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  202  		} else
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  203  			return ERR_PTR(-EINVAL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  204  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  205  		/* check for duplicated MR definitions */
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  206  		for (size_t j = 0; j < i; ++j)
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  207  			if (!strcmp(bap->attr.name, attrs[j]->attr.name))
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  208  				return ERR_PTR(-EINVAL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  209  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  210  		if (tm->mrs[i].mr_flags & TSM_MR_F_READABLE) {
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  211  			bap->attr.mode |= 0444;
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13 @212  			bap->read_new = tm_digest_read;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  213  		}
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  214  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  215  		if (tm->mrs[i].mr_flags & TSM_MR_F_WRITABLE) {
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  216  			bap->attr.mode |= 0200;
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13 @217  			bap->write_new = tm_digest_write;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  218  		}
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  219  
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  220  		bap->size = tm->mrs[i].mr_size;
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  221  		bap->private = ctx;
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  222  
-b0ca403a9e38114 drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-13  223  		attrs[i] = bap;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  224  	}
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  225  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  226  	if (name != end)
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  227  		return ERR_PTR(-EINVAL);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  228  
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  229  	init_rwsem(&ctx->rwsem);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  230  	ctx->agrp.name = "measurements";
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  231  	ctx->agrp.bin_attrs_new = no_free_ptr(attrs);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  232  	ctx->tm = tm;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  233  	return &no_free_ptr(ctx)->agrp;
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  234  }
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  235  EXPORT_SYMBOL_GPL(tsm_mr_create_attribute_group);
-b9e22b35d4598ae drivers/virt/coco/tsm-mr.c Cedric Xing 2025-05-08  236  
-
-:::::: The code at line 212 was first introduced by commit
-:::::: b0ca403a9e381140cf626ca94519fb468370fc3e tsm-mr: Fix init breakage after bin_attrs constification by scoping non-const pointers to init phase
-
-:::::: TO: Cedric Xing <cedric.xing@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+  2075	
+  2076	static void bnxt_get_regs(struct net_device *dev, struct ethtool_regs *regs,
+  2077				  void *_p)
+  2078	{
+  2079		struct pcie_ctx_hw_stats *hw_pcie_stats;
+  2080		struct hwrm_pcie_qstats_input *req;
+  2081		struct bnxt *bp = netdev_priv(dev);
+  2082		dma_addr_t hw_pcie_stats_addr;
+  2083		int rc;
+  2084	
+  2085		regs->version = 0;
+  2086		if (!(bp->fw_dbg_cap & DBG_QCAPS_RESP_FLAGS_REG_ACCESS_RESTRICTED))
+  2087			bnxt_dbg_hwrm_rd_reg(bp, 0, BNXT_PXP_REG_LEN / 4, _p);
+  2088	
+  2089		if (!(bp->fw_cap & BNXT_FW_CAP_PCIE_STATS_SUPPORTED))
+  2090			return;
+  2091	
+  2092		if (hwrm_req_init(bp, req, HWRM_PCIE_QSTATS))
+  2093			return;
+  2094	
+  2095		hw_pcie_stats = hwrm_req_dma_slice(bp, req, sizeof(*hw_pcie_stats),
+  2096						   &hw_pcie_stats_addr);
+  2097		if (!hw_pcie_stats) {
+  2098			hwrm_req_drop(bp, req);
+  2099			return;
+  2100		}
+  2101	
+  2102		regs->version = 1;
+  2103		hwrm_req_hold(bp, req); /* hold on to slice */
+  2104		req->pcie_stat_size = cpu_to_le16(sizeof(*hw_pcie_stats));
+  2105		req->pcie_stat_host_addr = cpu_to_le64(hw_pcie_stats_addr);
+  2106		rc = hwrm_req_send(bp, req);
+  2107		if (!rc) {
+  2108			u8 *dst = (u8 *)(_p + BNXT_PXP_REG_LEN);
+  2109			u8 *src = (u8 *)hw_pcie_stats;
+  2110			int i, j;
+  2111	
+  2112			for (i = 0, j = 0; i < sizeof(*hw_pcie_stats); ) {
+  2113				if (i >= bnxt_pcie_32b_entries[j].start &&
+  2114				    i <= bnxt_pcie_32b_entries[j].end) {
+  2115					u32 *dst32 = (u32 *)(dst + i);
+  2116	
+  2117					*dst32 = le32_to_cpu(*(__le32 *)(src + i));
+  2118					i += 4;
+  2119					if (i > bnxt_pcie_32b_entries[j].end &&
+> 2120					    j < ARRAY_SIZE(bnxt_pcie_32b_entries) - 1)
+  2121						j++;
+  2122				} else {
+  2123					u64 *dst64 = (u64 *)(dst + i);
+  2124	
+  2125					*dst64 = le64_to_cpu(*(__le64 *)(src + i));
+  2126					i += 8;
+  2127				}
+  2128			}
+  2129		}
+  2130		hwrm_req_drop(bp, req);
+  2131	}
+  2132	
 
 -- 
 0-DAY CI Kernel Test Service
