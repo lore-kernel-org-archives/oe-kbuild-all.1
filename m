@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE7E1A704B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 09:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A461B230D0D;
+	Fri, 16 May 2025 09:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747386685; cv=none; b=r3C0NbgOYdiWzq5nh07roR8RiZsYOH/CyIA9lXlkHfRZyYlNbwjTnCA7iydo1oJnjThnvgzh1Qf5zHbgyATXIFIwgap2yaAcfXylpCT76wxXuznVqwDg2GAUiuZ5u310zR0HKHJGEyfXYlg3XGSmO1Ibq2IqIOWy1z0px8YLCsQ=
+	t=1747387948; cv=none; b=TKUXYlSmr/a9uRNm7xchL5tvLOLiI61u33QndvYnVIZsGLw9QCjoYBjVYkeKBKl3VGUmSXBdVMkUty5+b99H69pdN750g1pqghmVfBxPvvAXjcq82sEQi49YFBsS0ni9RQgRi5M/NY2Br4JC3C+GO65SqLxyQFqjbJVciLPrKOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747386685; c=relaxed/simple;
-	bh=j5SdOjYF7JJuPbxlh193PFbIqQcO/L9ByOb7SILIbDc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VbrhNAtqW+6I8AJztOYgGjlJVRPdM+RcI3e2q82t1UD37Tp5/PTiNGDeVwEvrUiK4ixHIEsZvW5PsuRMGh9I8vC5UxWxgWelPR9Jlh8GtcXmewHq3t/H+6IJGz29ygFkOenG2DCxAS98kbT/J/YZuzpNhYNxohUhfW8FDdAGsy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNB/CRTy; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1747387948; c=relaxed/simple;
+	bh=Bq93ZRkwfbKb+bfr4gy6lr3T9Y2SIheBEM/PcIPkYoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYiy2tVBEP7b0DLB0G43QpiMVxECgsOLnv72n0yOTynr86VG+cei1UQryCZVTWQOh2FG1NG86JNj/x7gT8ldariVfMtf0JgKq+lR7cgmD5+bN4MP6wt6fTb8UqUCVUDtJY30K67tsNCwn6YUBPHQ1uvKauVdLl4nmVIy5E+Pjzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lm/ba+Fa; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNB/CRTy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lm/ba+Fa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747386683; x=1778922683;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j5SdOjYF7JJuPbxlh193PFbIqQcO/L9ByOb7SILIbDc=;
-  b=ZNB/CRTyZHR+2FILf1TEggombyna8AKcChW2FO4DUc+uPXTrXkQNSBdC
-   1jzdOe+9BBSsgRGI67cN9HeYTlR5Uxe7c7ev7BFoINSYzNaNbncA3R3os
-   QNHqtFYv/352VTYXNJ26m9qdVb76VJz0oDKfSgAtmVV97KIpkornJwv6n
-   RuMapnDzpQrPwE+gHl3oFOb+ueIwN7vpOJZIF2nu2dI5tKKvQTNZ1bgC6
-   n2Lvjyhfmm5GkyyzAjpel5mKT7z+idAJku/2/YnHQknRVWBkUHyBDcaFP
-   JtlmjKOPhU1x50I1y8NFofw2NhdHyHoN4n9BzjNr6XcLBmNnwksiinOWH
+  t=1747387947; x=1778923947;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bq93ZRkwfbKb+bfr4gy6lr3T9Y2SIheBEM/PcIPkYoc=;
+  b=lm/ba+FazGCm5SQb/QoFikCWxeM0bXbPhmrobjN2p0D1vR5qVN9GvbIe
+   hG/8p158lM1DD6n/q5fpW/Z8I8b/hk/mAciUlYLUfAD6aRqCnPycU9lSR
+   rRTPv7+Y8MXnFK8H8W9kdT4Jty2TjXGJxf8rwoeDbyKSuVx0DhVWvpRN/
+   MRBFC/Sdt+PVBBn6mTzVaXEitLecpsLCqu2IGEjfCS846mB/XAlHCmviS
+   IzvvEkhDrywZr9XUFTl0wLkTzMNPZXUtZaX6SGfIc0CeePljnYRJf8iF0
+   q5bLPHkJ15TIOQhIszYyYE0ZXT/hxNOMewTUPFMQ8IXOy+tFiB7xsBICq
    w==;
-X-CSE-ConnectionGUID: YF8LZzN9R4yRACyTz396KA==
-X-CSE-MsgGUID: QnQKBWD2QdKvsKy0OrD2og==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="48605542"
+X-CSE-ConnectionGUID: RPRFiAWzRmux5rlHqqVWkQ==
+X-CSE-MsgGUID: t2c2UvoNR62A9MiyQCOgxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="66757850"
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="48605542"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 02:11:23 -0700
-X-CSE-ConnectionGUID: GWFmiWGoS7CtPWq9mYcqKw==
-X-CSE-MsgGUID: 8dmUiNKLT+qoJ5x/oESqyA==
+   d="scan'208";a="66757850"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 02:32:26 -0700
+X-CSE-ConnectionGUID: Gfpp87wxRhiOD2H06y8eug==
+X-CSE-MsgGUID: pPvL/h0nQ0e7X+wJSj1vHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="143748159"
+   d="scan'208";a="169695633"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 16 May 2025 02:11:21 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 May 2025 02:32:23 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFr67-000JAp-1y;
-	Fri, 16 May 2025 09:11:19 +0000
-Date: Fri, 16 May 2025 17:11:17 +0800
+	id 1uFrQT-000JBb-27;
+	Fri, 16 May 2025 09:32:21 +0000
+Date: Fri, 16 May 2025 17:31:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 5/5] mm/vmalloc.c:2805: warning:
- Function parameter or member 'flag' not described in '__vmap_area_range'
-Message-ID: <202505161705.42EnnWMR-lkp@intel.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Russell King - ARM Linux <linux@armlinux.org.uk>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	David Miller <davem@davemloft.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH net-next] net: phy: make mdio consumer / device layer a
+ separate module
+Message-ID: <202505161753.e2B0R1Th-lkp@intel.com>
+References: <9a284c3d-73d4-402c-86ba-c82aabe9c44e@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,104 +68,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9a284c3d-73d4-402c-86ba-c82aabe9c44e@gmail.com>
 
-Hi Rongwei,
+Hi Heiner,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   bfc84bc1ba93833ad3fd1e370a33e511711611a6
-commit: c39d9864ef4b6fafbed9a4d35cf4f6686aab9ca6 [5/5] anolis: mm/vmalloc: add two couples of vmalloc operations for virtio-ism
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250516/202505161705.42EnnWMR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161705.42EnnWMR-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/net-phy-make-mdio-consumer-device-layer-a-separate-module/20250515-134852
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/9a284c3d-73d4-402c-86ba-c82aabe9c44e%40gmail.com
+patch subject: [PATCH net-next] net: phy: make mdio consumer / device layer a separate module
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250516/202505161753.e2B0R1Th-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161753.e2B0R1Th-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505161705.42EnnWMR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505161753.e2B0R1Th-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> mm/vmalloc.c:2805: warning: Function parameter or member 'flag' not described in '__vmap_area_range'
->> mm/vmalloc.c:2805: warning: Excess function parameter 'flags' description in '__vmap_area_range'
-   mm/vmalloc.c:3734: warning: Function parameter or member 'align' not described in 'pvm_determine_end_from_reverse'
-
-
-vim +2805 mm/vmalloc.c
-
-  2789	
-  2790	/**
-  2791	 * vmap_area_range - map an array of pages into specified and virtually contiguous space
-  2792	 * @pages: array of page pointers
-  2793	 * @count: number of pages to map
-  2794	 * @flags: vm_area->flags
-  2795	 * @prot: page protection for the mapping
-  2796	 * @addr: specified virtual address
-  2797	 * @check: whether to check this area has already mapped or not
-  2798	 *
-  2799	 * Return: true or false on failure
-  2800	 *
-  2801	 * THIS IS A CUSTOM INTERFACE FOR SPECIAL DRIVERS.
-  2802	 */
-  2803	bool __vmap_area_range(struct page **pages, unsigned int count,
-  2804			     unsigned long flag, pgprot_t prot, const void *addr, bool check)
-> 2805	{
-  2806		struct vmap_area *va;
-  2807		struct vm_struct *area;
-  2808		unsigned long vaddr = (unsigned long)addr;
-  2809		unsigned long size;
-  2810	
-  2811		va = find_vmap_area(vaddr);
-  2812		if (unlikely(!va)) {
-  2813			WARN(1, "Trying to map nonexistent vm area (%p)\n", addr);
-  2814			return false;
-  2815		}
-  2816	
-  2817		size = (unsigned long)count << PAGE_SHIFT;
-  2818		/* make sure map with valid parameters */
-  2819		if (!size || (vaddr + size) > va->va_end) {
-  2820			WARN(1, "Trying to map vm area with invalid values\n");
-  2821			return false;
-  2822		}
-  2823		area = va->vm;
-  2824		if (!(area->flags & VM_ALLOC_DECOUPLE_MAP)) {
-  2825			WARN(1, "Trying to call vmap_area_range() on standard area (%lx)\n",
-  2826			     vaddr);
-  2827			return false;
-  2828		}
-  2829	
-  2830		/* Make sure no pages mapped at this address */
-  2831		if (check) {
-  2832			struct page *p;
-  2833			unsigned long kaddr;
-  2834	
-  2835			for (kaddr = vaddr; kaddr < vaddr + size; kaddr += PAGE_SIZE) {
-  2836				p = vmalloc_to_page((void *)kaddr);
-  2837				if (p) {
-  2838					WARN(1, "Trying to remap vm area (%lx)\n", kaddr);
-  2839					return false;
-  2840				}
-  2841			}
-  2842		}
-  2843	
-  2844		if (vmap_pages_range(vaddr, vaddr + size, pgprot_nx(prot),
-  2845				     pages, PAGE_SHIFT) < 0) {
-  2846			pr_warn("vmap_area_range error: addr %lu, size %lu", vaddr, size);
-  2847			return false;
-  2848		}
-  2849		/*
-  2850		 * Here VM_MAP_PUT_PAGES is ignored, that's because of the callers
-  2851		 * will use {vmap, vunmap}_area_range() on sub area, and overlapping
-  2852		 * area->pages if VM_MAP_PUT_PAGES is aware. It's different with
-  2853		 * standard vmap() and vunmap().
-  2854		 */
-  2855		area->nr_pages += count;
-  2856	
-  2857		return true;
-  2858	}
-  2859	EXPORT_SYMBOL(__vmap_area_range);
-  2860	
+>> ERROR: modpost: "mdio_device_bus_match" [drivers/net/phy/libphy.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
