@@ -1,114 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9F6235063;
-	Fri, 16 May 2025 12:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01427235063
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 12:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747398566; cv=none; b=pqCdq7G8lLLi+MJEdEXUManjXAn7NxIPBvrxMRZRcy2XM9dQote+Q9ypg82DUyF23LwPTXO41EwxNnkd5T8KXsHDO2JyM9YmOkR43FTLweAgx27RpITMlYaZ3VIfpbk80E+gQeoeGQMbvkUS1w9GSaB1he3JKhoxFCCOXHA3vZA=
+	t=1747399788; cv=none; b=uovZaPFsTq6bQYdeB+m2IHE6GuSBd9raXU3H5ZV1wfWjGqMZTlkgoVG8bv1vcH+8r/Kn0rFvwp8EBVywDo2MSqvPbRjCySjl0PYKeRHql+X0G6+KNlX6GLnIrmRPpNyX+/KZOOe+A5WMTVqIES4Ncqq8J84l/+IMoSw0QDEvKsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747398566; c=relaxed/simple;
-	bh=KTxOt6wCKajOUiqP/zeq2Yl3SxpLh1CxH9DAEovFdqI=;
+	s=arc-20240116; t=1747399788; c=relaxed/simple;
+	bh=/8f/jSS6gLVAzhPFW0vE1+5UJ8HssoY0+ZN5Yf2qqIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GLW8W1EoegheBy6sJCdVjIu51BfvgqnaD2Sa5+UkLndmkuh7teS93cLayXepjIV0qOMBmD9mxPLMgpvwYBtvWmBhp5ho4zZZdMlw755JZzy/MzFtfseGOdT/HmiRsTIq5paQ6lzlosyO8uxgyt/hUMO31SKZTrv0q3eIk6UqbPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AtImGomR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lBTkrW0lvQUrnkm51QgvxvuduIt1MOsut0FlyoQMtJMIL6V5jYgPYYv0LGevofTThHB9n1LX720431+RS+gNhHMF+jdtJRRFGAgz1lddsVtpAPn76pz8UQ3ZpKkNqTCN+iCg2N3sGPHi+2/ekgWbt1nqWRUHEypkFDMf6ZHXVl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YT+EYV87; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AtImGomR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95C99C4CEE4;
-	Fri, 16 May 2025 12:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747398565;
-	bh=KTxOt6wCKajOUiqP/zeq2Yl3SxpLh1CxH9DAEovFdqI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AtImGomRKyX0HrKgOc6RhP//Sl6K2+2UApbuRiT6s9UEO9Mjx9GP7+ewdFHfBYazq
-	 AobTyTbaG9E8iRygKCReEPD7DUJsYY5yEVyOA2xOD1kTgWZC8TX3Gh9diwDDOr75lX
-	 vy6omROkxPgrL1/dcMQUNc4jquCCxc8Rs0JwkttKpwD7qtYfqPRxwarGG+u21jrF2+
-	 sDcbazp46rrOFgq0+ojtwsuXSpGTDrqLmqefbXmY9nDsr2t85FdB3kTxX14pJ93HQr
-	 FkJbRHG1mkzXgSKkqxdeHS2b4/HffhumEjnkwk7CJ/4W6sNcynSh78dGYLhb2fklwC
-	 Zr3/1FYdYDDTw==
-Date: Fri, 16 May 2025 14:29:20 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Krzysztof =?utf-8?B?V2lsY3p577+977+9c2tp?= <kwilczynski@kernel.org>
-Cc: Hans Zhang <Hans.Zhang@cixtech.com>, kernel test robot <lkp@intel.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbcGNpOnNsb3QtcmVz?=
- =?utf-8?Q?et_1=2F1=5D_drivers=2Fpci=2Fcontroller=2Fdwc=2Fpcie-dw-rockchip?=
- =?utf-8?Q?=2Ec=3A721=3A58=3A_error?= =?utf-8?Q?=3A?= use of undeclared
- identifier 'PCIE_CLIENT_GENERAL_CON'
-Message-ID: <aCcvoPUJ3uOx_vk0@ryzen>
-References: <202505152337.AoKvnBmd-lkp@intel.com>
- <KL1PR0601MB4726782470E271865672B2079D90A@KL1PR0601MB4726.apcprd06.prod.outlook.com>
- <20250515162405.GA511285@rocinante>
- <aCcGkN-9pN-jUwkS@ryzen>
- <20250516103633.GA448167@rocinante>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YT+EYV87"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747399786; x=1778935786;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/8f/jSS6gLVAzhPFW0vE1+5UJ8HssoY0+ZN5Yf2qqIo=;
+  b=YT+EYV87ciCIXSzUscS3u8E7RWok7mAURlU1/ndu2qfuSlIaHB3ZDs6/
+   OVLtyYwXptHa8uv6tkbF6+ZOWSkmP2lNDukT19/SBsz4V75Mm7PmvuHC8
+   WWpFhYgy1koRH1393QicwurLKwX4ycappAlFVoB+mqa13ykeRJJZ5fdbd
+   sHLDEWnLVgtJ6z2/D+ojsIycVuWAQYwd+s+BZi5U9tOXU+8tDzPNk9FBU
+   6xGpzCBLEop5R1YPa4iVQPob1HUs00SuoaFw3eukF1wh64yQl/H5P2oW5
+   weLxaezwiOA4Kfo29MOqHkx5r+g/EnG51r9gNmUmiOALWfYtokJlhrE7w
+   w==;
+X-CSE-ConnectionGUID: KDEwJ00TRo61KpDFFRU62w==
+X-CSE-MsgGUID: V2Pq0ViJQdug4QObT4UGnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="49526766"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="49526766"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 05:49:46 -0700
+X-CSE-ConnectionGUID: vir2mYIiQrOA2wDbVj7+LQ==
+X-CSE-MsgGUID: a070JebaRO+dCo493+BkhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="169623060"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 16 May 2025 05:49:42 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uFuVQ-000JLv-0y;
+	Fri, 16 May 2025 12:49:40 +0000
+Date: Fri, 16 May 2025 20:48:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leonardo Gomes <leonardodasigomes@gmail.com>, harry.wentland@amd.com,
+	sunpeng.li@amd.com, alexander.deucher@amd.com,
+	christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, derick.william.moraes@gmail.com,
+	Leonardo Gomes <leonardodasigomes@gmail.com>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2 RESEND] drm/amd/display: Adjust get_value function
+ with prefix to help in ftrace
+Message-ID: <202505162041.ftJ48E6X-lkp@intel.com>
+References: <20250514174306.82693-1-leonardodasigomes@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250516103633.GA448167@rocinante>
+In-Reply-To: <20250514174306.82693-1-leonardodasigomes@gmail.com>
 
-Hello Krzysztof,
+Hi Leonardo,
 
-On Fri, May 16, 2025 at 07:36:33PM +0900, Krzysztof Wilczy��ski wrote:
-> Hello,
-> 
-> [...]
-> > Comparing the commit that landed on the branch, with Wilfred's patch on the
-> > mailing list, I did notice this diff:
-> 
-> [...]
-> > Reviewing the diff, the changes looks fine to me, but I strongly think
-> > that if the actual code is modified from the submission (rather than
-> > just fixing some minor grammar in the commit message), the (unwritten?)
-> > rule is that the person should add a:
-> > 
-> > [person: describe modifications from the original submission]
-> 
-> Sorry about that.  I did forgot to add this.  Good catch.
-> 
-> That said, a single single line with a nudge or a reminder would suffice.
-> 
-> There is no need for a condescending tone and the lecturing and such.
+kernel test robot noticed the following build errors:
 
-I've been reading my reply multiple times, and I honestly don't understand
-where this is coming from.
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.15-rc6 next-20250515]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I was simply saying that, if the actual code is changed when applying,
-then I think that it is important to either:
-1) Write something in the thread (e.g. in the 'Applied' message), or
-2) Add a [user: ] line after the SoB
+url:    https://github.com/intel-lab-lkp/linux/commits/Leonardo-Gomes/drm-amd-display-Adjust-set_value-function-with-prefix-to-help-in-ftrace/20250515-151114
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250514174306.82693-1-leonardodasigomes%40gmail.com
+patch subject: [PATCH 1/2 RESEND] drm/amd/display: Adjust get_value function with prefix to help in ftrace
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250516/202505162041.ftJ48E6X-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505162041.ftJ48E6X-lkp@intel.com/reproduce)
 
-When it comes to simply modifying the commit log, then, my personal
-opinion is that 1) and/or 2) is of magnitudes less importance.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505162041.ftJ48E6X-lkp@intel.com/
 
-I wasn't trying to lecture, I was simply trying to explain the logic of
-my opinion.
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_hpd.c:65:25: error: static declaration of 'dal_hw_gpio_get_value' follows non-static declaration
+      65 | static enum gpio_result dal_hw_gpio_get_value(
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_hpd.c:30:
+   drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_gpio.h:122:18: note: previous declaration of 'dal_hw_gpio_get_value' with type 'enum gpio_result(const struct hw_gpio_pin *, uint32_t *)' {aka 'enum gpio_result(const struct hw_gpio_pin *, unsigned int *)'}
+     122 | enum gpio_result dal_hw_gpio_get_value(
+         |                  ^~~~~~~~~~~~~~~~~~~~~
 
 
-> 
-> You have been doing this for a while now, and if you continue doing this,
-> I will have no choice but to start to ignore submissions from you, I do not
-> have the time to deal with any forms of such passive-aggressive attitude.
+vim +/dal_hw_gpio_get_value +65 drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_hpd.c
 
-This is surprising to me, our only other discussion recently was about
-RESEND tags, were I also stated my personal opinion.
+    64	
+  > 65	static enum gpio_result dal_hw_gpio_get_value(
+    66		const struct hw_gpio_pin *ptr,
+    67		uint32_t *value)
+    68	{
+    69		struct hw_hpd *hpd = HW_HPD_FROM_BASE(ptr);
+    70		uint32_t hpd_delayed = 0;
+    71	
+    72		/* in Interrupt mode we ask for SENSE bit */
+    73	
+    74		if (ptr->mode == GPIO_MODE_INTERRUPT) {
+    75	
+    76			REG_GET(int_status,
+    77				DC_HPD_SENSE_DELAYED, &hpd_delayed);
+    78	
+    79			*value = hpd_delayed;
+    80			return GPIO_RESULT_OK;
+    81		}
+    82	
+    83		/* in any other modes, operate as normal GPIO */
+    84	
+    85		return dal_hw_gpio_get_value(ptr, value);
+    86	}
+    87	
 
-But that was also a sensible discussion IMO.
-
-Not being allowed to pick up tags, e.g. Reviewed-by and Tested-by, when
-doing a RESEND (as long as code and commit log is unchanged) seems
-counterproductive to me, as the time spent by the Tester/Reviewer would
-have been for nought.
-
-
-Kind regards,
-Niklas
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
