@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9900A2253FD;
-	Fri, 16 May 2025 06:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E68223DC5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 06:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747376593; cv=none; b=b5GE3jh+kNbQYJuUYEf6ALDtkUngELwWxJqOekNdSnKn1iolmt++nepN56hyeQcybB2MJvLhhU7LXzKnad1Wh26Sc4EtWjmTRCS9/3Ung3FZ8i8hsgGnh61bddUCtE7jMNX8vClEgTqAOo9FVFjrTo8ejAH87lQmyDMTsJPfbhA=
+	t=1747377313; cv=none; b=n3c6v0yt4jlbse1flRVi27wkioX+74AW2kLNYqxfd8QGWxhxjl8WuLtnK/xigweqDwU/6iVx4pc0DTy5pu+hxLBd3eaXOJkNu89AtO8ESlPqM6ytIx3DxpdE454rqOgDyGonQLB3ca/R+Wcf4U66MN6dVcyUzzcVNhYy+r/nrjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747376593; c=relaxed/simple;
-	bh=LeJ/Ga2L1x/wpcLtOMeGqGT6n+8HJ0WUg1poUE8iIZM=;
+	s=arc-20240116; t=1747377313; c=relaxed/simple;
+	bh=pwvq2RtunE5lhY2bptrlJgYhn5/jL/7cU28+YSHM7gc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C/X6l/Rxr4/Jax1Q5xGpdpGtxw6drqhIN/79J63295R+k9zAMeVpgzhcREP0jjgOArlPaNY1odygdYMyy5EOP6rnWNIRQtdz48SzMQ/IuuvrDYGBdz42YLz8XGsrcVsamCDqaLOOnKnX/G19s3CObAnLKCdn6FTdWzhBvrc4HHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+lBj+rF; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ITX90v/3STg7ufpTnTpEw4yHjt9kfzuJoIpOEiyprFfDbo5nBPcWfgbHs4nUiPi5EBLqJcaqpFHZIbJiSjIqew9DU2J3odXRS7GdsCZVLPfkOK+7WlxBLNQsZEyVl4JfcY7xg/0IhnCjqIsk23/kmbv/GSRuBktQWLs5G1qguPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJXlyh1S; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+lBj+rF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJXlyh1S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747376591; x=1778912591;
+  t=1747377311; x=1778913311;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LeJ/Ga2L1x/wpcLtOMeGqGT6n+8HJ0WUg1poUE8iIZM=;
-  b=c+lBj+rFv89FGwOwOUQvB2dkB2c3YEAvs07skf5LOVdBQZ9Ju/R6XgQN
-   dxG8RFZq/GEFG4HNGCgdJWDf7P6C6YYoNP8aioP0RqERc6NTJ2aAR3s0i
-   FVNGgzhOZpFOSv2h0cZ/Hy/CLft3jVCWL3gG783OhW6ZFW4sVlPifKQ+Z
-   A80NlRALKiG/cw4QtcgcwR2+bHgIedq1PkBwivfXmeXVpIu6huZyX/TWY
-   kUP08l1hIHTNsG1BUTYO2Ap8zTRIfoZyf+pCayKaTKylF3cffs0SDM6h2
-   53ChWB9SeClGHAA2JrFlKY4UNauemhPHZWBTl1Ae4hKuZmKIrFPfGyZ0C
-   g==;
-X-CSE-ConnectionGUID: AlZA++HsSeCsATMA/IjKBA==
-X-CSE-MsgGUID: K+fmfjBnQHW05/4Ot+N0jQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="71842967"
+  bh=pwvq2RtunE5lhY2bptrlJgYhn5/jL/7cU28+YSHM7gc=;
+  b=lJXlyh1S2AFFW1TChoSADvOAk3wC69Vrim/+tkBTKH+lhxRcADwp/i2b
+   KTOFHLiaYYW1S9/fFAjK2rO0TUyFJv/W+YvRiklj+uge+4tZ2F6B9uQtR
+   aC7ZSuqHX5QPHtiqk5Z7twYMTg5toPE2AahN/ne8FoE9JCDDT+cyw2T+H
+   J0mxYmVQVMv4d1+PPB6esrxQZzUuj8Lg0hgSAUErRx7O2ebTuqN1r8Pkg
+   GTjqJudsnK+PoegT9zmydOdj68LQg+oDyvvwszHKVpM+fGqRQVbwDYi+y
+   yH7cBsOhriPMcbvxrujd1Gxtkt3dQgcFdtSwnsVSRnFPt/6NHBzyVWbNE
+   w==;
+X-CSE-ConnectionGUID: FFhEfwAmS2WfDWPwZ7spZw==
+X-CSE-MsgGUID: tgf2Cs3vRLeCa7KnDkS4Tg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49323331"
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="71842967"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 23:23:09 -0700
-X-CSE-ConnectionGUID: MKGKdoqjRUOLtOnUnpAPRw==
-X-CSE-MsgGUID: PthARFJ2RrmD9NgqBDUnAA==
+   d="scan'208";a="49323331"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 23:35:10 -0700
+X-CSE-ConnectionGUID: Y8F9uNf9TZCevJAdkR2OTg==
+X-CSE-MsgGUID: HVEVVEcGRHusQs8CJo/L6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="139482064"
+   d="scan'208";a="138990799"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 May 2025 23:23:08 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 23:35:09 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFoTJ-000J2X-21;
-	Fri, 16 May 2025 06:23:05 +0000
-Date: Fri, 16 May 2025 14:23:00 +0800
+	id 1uFoew-000J3P-2k;
+	Fri, 16 May 2025 06:35:06 +0000
+Date: Fri, 16 May 2025 14:34:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:migration 22/22]
- drivers/media/platform/qcom/iris/iris_probe.c:259:35: warning: implicit
- conversion from 'unsigned long long' to 'unsigned long' changes value from
- 18446744073709551615 to 4294967295
-Message-ID: <202505161457.qR0dXT17-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 5/5] mm/slub.c:4106:7: warning: no
+ previous prototype for 'oot___kmalloc_node_0'
+Message-ID: <202505161410.uOpS9thM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,139 +62,252 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davidhildenbrand/linux migration
-head:   3cb1246117612eea7427990a681167665d573c5b
-commit: 3cb1246117612eea7427990a681167665d573c5b [22/22] mm: rename PAGE_MAPPING_* to FOLIO_MAPPING_*
-config: hexagon-randconfig-001-20250516 (https://download.01.org/0day-ci/archive/20250516/202505161457.qR0dXT17-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161457.qR0dXT17-lkp@intel.com/reproduce)
+Hi Yi,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   bfc84bc1ba93833ad3fd1e370a33e511711611a6
+commit: baa47e1aa754428b439764393f2d71fb6bce04bf [5/5] anolis: mm: introduce per module slab for oot memory isolation
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250516/202505161410.uOpS9thM-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161410.uOpS9thM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505161457.qR0dXT17-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505161410.uOpS9thM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/qcom/iris/iris_probe.c:14:
-   In file included from drivers/media/platform/qcom/iris/iris_core.h:11:
-   In file included from include/media/v4l2-device.h:12:
-   In file included from include/media/media-device.h:16:
-   In file included from include/linux/pci.h:2697:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:8:
-   include/linux/mm.h:2159:47: error: use of undeclared identifier 'PAGE_MAPPING_FLAGS'
-    2159 |         } else if (!((unsigned long)folio->mapping & PAGE_MAPPING_FLAGS)) {
-         |                                                      ^
-   drivers/media/platform/qcom/iris/iris_probe.c:258:35: warning: implicit conversion from 'unsigned long long' to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-     258 |         dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-         |         ~~~~~~~~~~~~~~~~~~~~             ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:73:40: note: expanded from macro 'DMA_BIT_MASK'
-      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                        ^~~~~
->> drivers/media/platform/qcom/iris/iris_probe.c:259:35: warning: implicit conversion from 'unsigned long long' to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-     259 |         dma_set_seg_boundary(&pdev->dev, DMA_BIT_MASK(32));
-         |         ~~~~~~~~~~~~~~~~~~~~             ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:73:40: note: expanded from macro 'DMA_BIT_MASK'
-      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                        ^~~~~
-   2 warnings and 1 error generated.
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_0' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4040:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4040 | DEFINE_OOT_FUNC___kmalloc(0);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_1' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4041:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4041 | DEFINE_OOT_FUNC___kmalloc(1);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_2' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4042:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4042 | DEFINE_OOT_FUNC___kmalloc(2);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_3' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4043:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4043 | DEFINE_OOT_FUNC___kmalloc(3);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_4' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4044:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4044 | DEFINE_OOT_FUNC___kmalloc(4);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_5' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4045:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4045 | DEFINE_OOT_FUNC___kmalloc(5);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_6' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4046:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4046 | DEFINE_OOT_FUNC___kmalloc(6);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_7' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4047:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4047 | DEFINE_OOT_FUNC___kmalloc(7);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_8' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4048:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4048 | DEFINE_OOT_FUNC___kmalloc(8);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_9' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4049:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4049 | DEFINE_OOT_FUNC___kmalloc(9);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_10' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4050:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4050 | DEFINE_OOT_FUNC___kmalloc(10);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_11' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4051:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4051 | DEFINE_OOT_FUNC___kmalloc(11);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_12' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4052:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4052 | DEFINE_OOT_FUNC___kmalloc(12);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_13' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4053:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4053 | DEFINE_OOT_FUNC___kmalloc(13);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_14' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4054:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4054 | DEFINE_OOT_FUNC___kmalloc(14);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4017:7: warning: no previous prototype for 'oot___kmalloc_15' [-Wmissing-prototypes]
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slub.c:4055:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    4055 | DEFINE_OOT_FUNC___kmalloc(15);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_0' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4136:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4136 | DEFINE_OOT_FUNC___kmalloc_node(0);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_1' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4137:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4137 | DEFINE_OOT_FUNC___kmalloc_node(1);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_2' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4138:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4138 | DEFINE_OOT_FUNC___kmalloc_node(2);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_3' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4139:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4139 | DEFINE_OOT_FUNC___kmalloc_node(3);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_4' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4140:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4140 | DEFINE_OOT_FUNC___kmalloc_node(4);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_5' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4141:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4141 | DEFINE_OOT_FUNC___kmalloc_node(5);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_6' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4142:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4142 | DEFINE_OOT_FUNC___kmalloc_node(6);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_7' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4143:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4143 | DEFINE_OOT_FUNC___kmalloc_node(7);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_8' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4144:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4144 | DEFINE_OOT_FUNC___kmalloc_node(8);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_9' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4145:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4145 | DEFINE_OOT_FUNC___kmalloc_node(9);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_10' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4146:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4146 | DEFINE_OOT_FUNC___kmalloc_node(10);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_11' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4147:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4147 | DEFINE_OOT_FUNC___kmalloc_node(11);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_12' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4148:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4148 | DEFINE_OOT_FUNC___kmalloc_node(12);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_13' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4149:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4149 | DEFINE_OOT_FUNC___kmalloc_node(13);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_14' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4150:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4150 | DEFINE_OOT_FUNC___kmalloc_node(14);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:4106:7: warning: no previous prototype for 'oot___kmalloc_node_15' [-Wmissing-prototypes]
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4151:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4151 | DEFINE_OOT_FUNC___kmalloc_node(15);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +259 drivers/media/platform/qcom/iris/iris_probe.c
+vim +/oot___kmalloc_node_0 +4106 mm/slub.c
 
-fb583a214337a5 Dikshita Agarwal 2025-02-07  191  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  192  static int iris_probe(struct platform_device *pdev)
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  193  {
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  194  	struct device *dev = &pdev->dev;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  195  	struct iris_core *core;
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  196  	u64 dma_mask;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  197  	int ret;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  198  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  199  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  200  	if (!core)
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  201  		return -ENOMEM;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  202  	core->dev = dev;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  203  
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  204  	core->state = IRIS_CORE_DEINIT;
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  205  	mutex_init(&core->lock);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  206  	init_completion(&core->core_init_done);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  207  
-fb583a214337a5 Dikshita Agarwal 2025-02-07  208  	core->response_packet = devm_kzalloc(core->dev, IFACEQ_CORE_PKT_SIZE, GFP_KERNEL);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  209  	if (!core->response_packet)
-fb583a214337a5 Dikshita Agarwal 2025-02-07  210  		return -ENOMEM;
-fb583a214337a5 Dikshita Agarwal 2025-02-07  211  
-38fc8beaba55e0 Dikshita Agarwal 2025-02-07  212  	INIT_LIST_HEAD(&core->instances);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  213  	INIT_DELAYED_WORK(&core->sys_error_handler, iris_sys_error_handler);
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  214  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  215  	core->reg_base = devm_platform_ioremap_resource(pdev, 0);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  216  	if (IS_ERR(core->reg_base))
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  217  		return PTR_ERR(core->reg_base);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  218  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  219  	core->irq = platform_get_irq(pdev, 0);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  220  	if (core->irq < 0)
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  221  		return core->irq;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  222  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  223  	core->iris_platform_data = of_device_get_match_data(core->dev);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  224  
-fb583a214337a5 Dikshita Agarwal 2025-02-07  225  	ret = devm_request_threaded_irq(core->dev, core->irq, iris_hfi_isr,
-fb583a214337a5 Dikshita Agarwal 2025-02-07  226  					iris_hfi_isr_handler, IRQF_TRIGGER_HIGH, "iris", core);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  227  	if (ret)
-fb583a214337a5 Dikshita Agarwal 2025-02-07  228  		return ret;
-fb583a214337a5 Dikshita Agarwal 2025-02-07  229  
-fb583a214337a5 Dikshita Agarwal 2025-02-07  230  	disable_irq_nosync(core->irq);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  231  
-fa186c97e3d293 Dikshita Agarwal 2025-02-07  232  	iris_init_ops(core);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  233  	core->iris_platform_data->init_hfi_command_ops(core);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  234  	core->iris_platform_data->init_hfi_response_ops(core);
-fb583a214337a5 Dikshita Agarwal 2025-02-07  235  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  236  	ret = iris_init_resources(core);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  237  	if (ret)
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  238  		return ret;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  239  
-33be1dde17e3e8 Dikshita Agarwal 2025-02-07  240  	iris_session_init_caps(core);
-33be1dde17e3e8 Dikshita Agarwal 2025-02-07  241  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  242  	ret = v4l2_device_register(dev, &core->v4l2_dev);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  243  	if (ret)
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  244  		return ret;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  245  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  246  	ret = iris_register_video_device(core);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  247  	if (ret)
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  248  		goto err_v4l2_unreg;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  249  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  250  	platform_set_drvdata(pdev, core);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  251  
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  252  	dma_mask = core->iris_platform_data->dma_mask;
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  253  
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  254  	ret = dma_set_mask_and_coherent(dev, dma_mask);
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  255  	if (ret)
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  256  		goto err_vdev_unreg;
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  257  
-d7378f84e94e14 Dikshita Agarwal 2025-02-07 @258  	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-d7378f84e94e14 Dikshita Agarwal 2025-02-07 @259  	dma_set_seg_boundary(&pdev->dev, DMA_BIT_MASK(32));
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  260  
-bb8a95aa038e09 Dikshita Agarwal 2025-02-07  261  	pm_runtime_set_autosuspend_delay(core->dev, AUTOSUSPEND_DELAY_VALUE);
-bb8a95aa038e09 Dikshita Agarwal 2025-02-07  262  	pm_runtime_use_autosuspend(core->dev);
-bb8a95aa038e09 Dikshita Agarwal 2025-02-07  263  	ret = devm_pm_runtime_enable(core->dev);
-bb8a95aa038e09 Dikshita Agarwal 2025-02-07  264  	if (ret)
-bb8a95aa038e09 Dikshita Agarwal 2025-02-07  265  		goto err_vdev_unreg;
-bb8a95aa038e09 Dikshita Agarwal 2025-02-07  266  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  267  	return 0;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  268  
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  269  err_vdev_unreg:
-d7378f84e94e14 Dikshita Agarwal 2025-02-07  270  	video_unregister_device(core->vdev_dec);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  271  err_v4l2_unreg:
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  272  	v4l2_device_unregister(&core->v4l2_dev);
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  273  
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  274  	return ret;
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  275  }
-38506cb7e8d25a Dikshita Agarwal 2025-02-07  276  
-
-:::::: The code at line 259 was first introduced by commit
-:::::: d7378f84e94e14998b3469dcc0d8ce609d049ccc media: iris: introduce iris core state management with shared queues
-
-:::::: TO: Dikshita Agarwal <quic_dikshita@quicinc.com>
-:::::: CC: Hans Verkuil <hverkuil@xs4all.nl>
+  4104	
+  4105	#define DEFINE_OOT_FUNC___kmalloc_node(index)				\
+> 4106	void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)	\
+  4107	{									\
+  4108		struct kmem_cache *s;						\
+  4109		void *ret;							\
+  4110										\
+  4111		if (unlikely(size > KMALLOC_MAX_CACHE_SIZE)) {			\
+  4112			ret = kmalloc_large_node(size, flags, node);		\
+  4113										\
+  4114			trace_kmalloc_node(_RET_IP_, ret,			\
+  4115					   size, PAGE_SIZE << get_order(size),	\
+  4116					   flags, node);			\
+  4117										\
+  4118			return ret;						\
+  4119		}								\
+  4120										\
+  4121		s = oot_kmalloc_slab(index, size, flags);			\
+  4122										\
+  4123		if (unlikely(ZERO_OR_NULL_PTR(s)))				\
+  4124			return s;						\
+  4125										\
+  4126		ret = slab_alloc_node(s, flags, node, _RET_IP_, size);		\
+  4127										\
+  4128		trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);	\
+  4129										\
+  4130		ret = kasan_kmalloc(s, ret, size, flags);			\
+  4131										\
+  4132		return ret;							\
+  4133	}									\
+  4134	EXPORT_SYMBOL(oot___kmalloc_node_ ## index)
+  4135	
 
 -- 
 0-DAY CI Kernel Test Service
