@@ -1,85 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C38B238C2D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 11:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D5523814D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 12:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747396667; cv=none; b=OZ05FwF1UNtWmbv50BzaWOb795dWMfajovJ9KmY/8UHAGSejFQ0tUzrFvqUbg+3sztKAtXJZ/tCB2DZmoSCvyXMajbb+Gl8xlV1n6ZMhCrMcRSXMmZ2mIXxIthGTDVP9ZeVfbscLt+O3PiaC/ia3mPuvqY3KpC/17iK01iD4EYk=
+	t=1747398526; cv=none; b=Ip1w3GFLNa5GrhNtL/UzaBXW4SsAzgAAFAq3ao1NnY5KUUh7G4Icbq1zgkdaEuny7QtsfHTn73dOeSmVo1Zy1ii/ZEQXW/svlQUMi0tEweKjoxkQ/O62A9YsYUQgJ7eLN8PzlsqNT6ZG/rY6KwQflFCHYG6HNgbLNAP/9e3e1zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747396667; c=relaxed/simple;
-	bh=zas5qRvLzeVSRNH8Gf3aeHid+8WKUrrNydSDBKWaLx8=;
+	s=arc-20240116; t=1747398526; c=relaxed/simple;
+	bh=W3K28pAKxl8sf9FQ1cFzRh/S7+lXMOVHJ01qrcT3Epg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pwA1glL2Qb7xEOCHfUmjlRoPIUOaM1hflI386rGis1sdoJ3i8gG9WpuzpE+qPNcN+Dyx3Fw97vwVDe9On4zNU+mzCm2bkdpv5dWwRczIAGXDFiFjDCD+2vCq94Cg9/z71VLz+nZOpPc/8EwoDR4tTuX/unFR6sthFi1GlH+aUyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CnlGIgMI; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xt7BMlg4jWb6gmA1Kom9HGm172k2Zgg53swOv6ldRTk5MJVlqto9mly+dmwxFH/ugYMnNYf5eTHddkZP7amQzRQdqDhM2GgO6J3fxP+GrhzqxvmY0zSX5T88ZbhuMX378/P5vakN3ztUfqhbKEUpqndNY1C7wXSAO9DcwcsU+/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6txO3wk; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CnlGIgMI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6txO3wk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747396666; x=1778932666;
+  t=1747398524; x=1778934524;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zas5qRvLzeVSRNH8Gf3aeHid+8WKUrrNydSDBKWaLx8=;
-  b=CnlGIgMIvKZv+IrJeev1Z0yJ06d9toUzUevqQvDYyYwz1XyzUiYK/LK5
-   6HU4KJUx0RMrQq7dWygTQJnNr1QofmhITLlrQ3fVsSSe0NYrWEAmH2Cdj
-   HRKOaSAH/3AOHAPcEzcH6EpWtlUZXfH10XbknmxzNGCkAtWtt2ZWbHA2n
-   1yQKibGqqFuUsgqgSMl7uMJQgvdA7yBYDcIJ9y8vOAKX4o/o5us93Z9Os
-   NpcqMMutV/p0RuohU4GEnMOI5JlaGjyyIcx+idE7fU8x+LsFbhX0RGVii
-   dTqQ7HQA0nndId612klhWv6tGwfyC6XL56i+GC+yV6WnMSGGUCrHFMT28
-   w==;
-X-CSE-ConnectionGUID: /cHuyw6JSp6Js+hhQQAWAA==
-X-CSE-MsgGUID: H9daigKpQHSfyQOuaJs3FA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="53038201"
+  bh=W3K28pAKxl8sf9FQ1cFzRh/S7+lXMOVHJ01qrcT3Epg=;
+  b=l6txO3wkykKEs7nAE5PF1wVltevVJzdYYGsTNDWuo6YzTy+EZibQ9GKB
+   u/JvqXeMjdI7seNlH1nkDwg6QXXsg2fj8vLjTWgCQm8fvc/iUobQmzp3N
+   q7/mGnC8r3+Ry624Yta8cYAtkZdMklSExDHYUHqZTON4xnLYcrmoIebF+
+   rXah43tRKl6zkHUtf2kjZl72f/3u87UW2NJQfKJ3Hz3SY8D3d0IzeVneY
+   bAwwvUiRvI0dDwDQnkavjtzW7w+8zMem8m5hY+Thdy20YZ804XX1xqwWM
+   3+uyvh6ZD6GBT4NC0YcnA4DU2cMfiYzt2hP5iGndWglpZ/ZXIMFhYWT+f
+   g==;
+X-CSE-ConnectionGUID: AhIGAjZVS16CjdqgYTHzKA==
+X-CSE-MsgGUID: Zqe3kfW1SPyXokuomTkb5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="74767453"
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="53038201"
+   d="scan'208";a="74767453"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 04:57:45 -0700
-X-CSE-ConnectionGUID: psRhwjvHQoO3hIq4z3kOiw==
-X-CSE-MsgGUID: bzsxGEAzSnO4N/caoHzEyw==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 05:28:43 -0700
+X-CSE-ConnectionGUID: FIv2m/x9Q1GLwkhas4irZg==
+X-CSE-MsgGUID: 3juNk3wcTFaGDejhu/y9CA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="143563541"
+   d="scan'208";a="143571042"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 May 2025 04:57:37 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 16 May 2025 05:28:40 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFth1-000JJX-26;
-	Fri, 16 May 2025 11:57:35 +0000
-Date: Fri, 16 May 2025 19:56:59 +0800
+	id 1uFuB4-000JKV-12;
+	Fri, 16 May 2025 12:28:38 +0000
+Date: Fri, 16 May 2025 20:28:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Andrei Botila <andrei.botila@oss.nxp.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Trevor Gross <tmgross@umich.edu>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Michael Klein <michael@fossekall.de>,
-	Daniel Golle <daniel@makrotopia.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v10 7/7] rust: net::phy sync with
- match_phy_device C changes
-Message-ID: <202505161944.2x21wbM5-lkp@intel.com>
-References: <20250515112721.19323-8-ansuelsmth@gmail.com>
+To: Wentao Liang <vulab@iscas.ac.cn>, mustafa.ismail@intel.com,
+	tatyana.e.nikolova@intel.com, jgg@ziepe.ca, leon@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] RDMA/irdma: puda: Clear entries after allocation to
+ ensure clean state
+Message-ID: <202505162002.CUpcFouJ-lkp@intel.com>
+References: <20250515133929.1222-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -88,70 +66,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250515112721.19323-8-ansuelsmth@gmail.com>
+In-Reply-To: <20250515133929.1222-1-vulab@iscas.ac.cn>
 
-Hi Christian,
+Hi Wentao,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on rdma/for-next]
+[also build test ERROR on linus/master v6.15-rc6 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-pass-PHY-driver-to-match_phy_device-OP/20250515-193151
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250515112721.19323-8-ansuelsmth%40gmail.com
-patch subject: [net-next PATCH v10 7/7] rust: net::phy sync with match_phy_device C changes
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250516/202505161944.2x21wbM5-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161944.2x21wbM5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/RDMA-irdma-puda-Clear-entries-after-allocation-to-ensure-clean-state/20250515-214046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/20250515133929.1222-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] RDMA/irdma: puda: Clear entries after allocation to ensure clean state
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250516/202505162002.CUpcFouJ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505162002.CUpcFouJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505161944.2x21wbM5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505162002.CUpcFouJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/net/phy.rs at line 422:
-        //  `phy_driver`.
-        unsafe extern "C" fn match_phy_device_callback(
-            phydev: *mut bindings::phy_device,
-   -        phydrv: *const bindings::phy_driver
-   +        phydrv: *const bindings::phy_driver,
-        ) -> crate::ffi::c_int {
-            // SAFETY: This callback is called only in contexts
-            // where we hold `phy_device->lock`, so the accessors on
->> Diff in rust/kernel/net/phy.rs at line 422:
-        //  `phy_driver`.
-        unsafe extern "C" fn match_phy_device_callback(
-            phydev: *mut bindings::phy_device,
-   -        phydrv: *const bindings::phy_driver
-   +        phydrv: *const bindings::phy_driver,
-        ) -> crate::ffi::c_int {
-            // SAFETY: This callback is called only in contexts
-            // where we hold `phy_device->lock`, so the accessors on
->> Diff in rust/kernel/net/phy.rs at line 422:
-        //  `phy_driver`.
-        unsafe extern "C" fn match_phy_device_callback(
-            phydev: *mut bindings::phy_device,
-   -        phydrv: *const bindings::phy_driver
-   +        phydrv: *const bindings::phy_driver,
-        ) -> crate::ffi::c_int {
-            // SAFETY: This callback is called only in contexts
-            // where we hold `phy_device->lock`, so the accessors on
-   make[2]: *** [Makefile:1826: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   drivers/infiniband/hw/irdma/puda.c: In function 'irdma_puda_send':
+>> drivers/infiniband/hw/irdma/puda.c:448:24: error: passing argument 1 of 'irdma_clr_wqes' from incompatible pointer type [-Wincompatible-pointer-types]
+     448 |         irdma_clr_wqes(qp, wqe_idx);
+         |                        ^~
+         |                        |
+         |                        struct irdma_sc_qp *
+   In file included from drivers/infiniband/hw/irdma/type.h:7,
+                    from drivers/infiniband/hw/irdma/puda.c:6:
+   drivers/infiniband/hw/irdma/user.h:412:41: note: expected 'struct irdma_qp_uk *' but argument is of type 'struct irdma_sc_qp *'
+     412 | void irdma_clr_wqes(struct irdma_qp_uk *qp, u32 qp_wqe_idx);
+         |                     ~~~~~~~~~~~~~~~~~~~~^~
+
+
+vim +/irdma_clr_wqes +448 drivers/infiniband/hw/irdma/puda.c
+
+   420	
+   421	/**
+   422	 * irdma_puda_send - complete send wqe for transmit
+   423	 * @qp: puda qp for send
+   424	 * @info: buffer information for transmit
+   425	 */
+   426	int irdma_puda_send(struct irdma_sc_qp *qp, struct irdma_puda_send_info *info)
+   427	{
+   428		__le64 *wqe;
+   429		u32 iplen, l4len;
+   430		u64 hdr[2];
+   431		u32 wqe_idx;
+   432		u8 iipt;
+   433	
+   434		/* number of 32 bits DWORDS in header */
+   435		l4len = info->tcplen >> 2;
+   436		if (info->ipv4) {
+   437			iipt = 3;
+   438			iplen = 5;
+   439		} else {
+   440			iipt = 1;
+   441			iplen = 10;
+   442		}
+   443	
+   444		wqe = irdma_puda_get_next_send_wqe(&qp->qp_uk, &wqe_idx);
+   445		if (!wqe)
+   446			return -ENOMEM;
+   447	
+ > 448		irdma_clr_wqes(qp, wqe_idx);
+   449	
+   450		qp->qp_uk.sq_wrtrk_array[wqe_idx].wrid = (uintptr_t)info->scratch;
+   451		/* Third line of WQE descriptor */
+   452		/* maclen is in words */
+   453	
+   454		if (qp->dev->hw_attrs.uk_attrs.hw_rev >= IRDMA_GEN_2) {
+   455			hdr[0] = 0; /* Dest_QPN and Dest_QKey only for UD */
+   456			hdr[1] = FIELD_PREP(IRDMA_UDA_QPSQ_OPCODE, IRDMA_OP_TYPE_SEND) |
+   457				 FIELD_PREP(IRDMA_UDA_QPSQ_L4LEN, l4len) |
+   458				 FIELD_PREP(IRDMAQPSQ_AHID, info->ah_id) |
+   459				 FIELD_PREP(IRDMA_UDA_QPSQ_SIGCOMPL, 1) |
+   460				 FIELD_PREP(IRDMA_UDA_QPSQ_VALID,
+   461					    qp->qp_uk.swqe_polarity);
+   462	
+   463			/* Forth line of WQE descriptor */
+   464	
+   465			set_64bit_val(wqe, 0, info->paddr);
+   466			set_64bit_val(wqe, 8,
+   467				      FIELD_PREP(IRDMAQPSQ_FRAG_LEN, info->len) |
+   468				      FIELD_PREP(IRDMA_UDA_QPSQ_VALID, qp->qp_uk.swqe_polarity));
+   469		} else {
+   470			hdr[0] = FIELD_PREP(IRDMA_UDA_QPSQ_MACLEN, info->maclen >> 1) |
+   471				 FIELD_PREP(IRDMA_UDA_QPSQ_IPLEN, iplen) |
+   472				 FIELD_PREP(IRDMA_UDA_QPSQ_L4T, 1) |
+   473				 FIELD_PREP(IRDMA_UDA_QPSQ_IIPT, iipt) |
+   474				 FIELD_PREP(IRDMA_GEN1_UDA_QPSQ_L4LEN, l4len);
+   475	
+   476			hdr[1] = FIELD_PREP(IRDMA_UDA_QPSQ_OPCODE, IRDMA_OP_TYPE_SEND) |
+   477				 FIELD_PREP(IRDMA_UDA_QPSQ_SIGCOMPL, 1) |
+   478				 FIELD_PREP(IRDMA_UDA_QPSQ_DOLOOPBACK, info->do_lpb) |
+   479				 FIELD_PREP(IRDMA_UDA_QPSQ_VALID, qp->qp_uk.swqe_polarity);
+   480	
+   481			/* Forth line of WQE descriptor */
+   482	
+   483			set_64bit_val(wqe, 0, info->paddr);
+   484			set_64bit_val(wqe, 8,
+   485				      FIELD_PREP(IRDMAQPSQ_GEN1_FRAG_LEN, info->len));
+   486		}
+   487	
+   488		set_64bit_val(wqe, 16, hdr[0]);
+   489		dma_wmb(); /* make sure WQE is written before valid bit is set */
+   490	
+   491		set_64bit_val(wqe, 24, hdr[1]);
+   492	
+   493		print_hex_dump_debug("PUDA: PUDA SEND WQE", DUMP_PREFIX_OFFSET, 16, 8,
+   494				     wqe, 32, false);
+   495		irdma_uk_qp_post_wr(&qp->qp_uk);
+   496		return 0;
+   497	}
+   498	
 
 -- 
 0-DAY CI Kernel Test Service
