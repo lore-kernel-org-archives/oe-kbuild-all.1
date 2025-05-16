@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAB015665C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 23:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5232367BE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 23:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747437520; cv=none; b=DFvybI3eeelXbxw20OvLo/hT1eUvEplSjXESvgMw7EbGhTaCxlKq7yCXW5l7KcFhk2VffOjMCJ14P+ozG2dtZBInPuEADz5EsR+qB6pIcK3G+hrsYdTXMWcCWAOsXOrODxzFmM6XfjbD7/6gwGTpkM/LrBH8NMttk7MfS/L0BXg=
+	t=1747437522; cv=none; b=b40qoxuMS4MIDmrWppWh2H/Ev+xnOjYLEe+ZfDkUXVAgTo35aIIvXZ/Dnf847DHlYwoskOu9EvPKfGY0u4GWtEF1ONW6Z6yDwbyxcn+7Wi/dmaqY4RHKbsRUYqBO1bEETUO8hYxbw5XxiBDQmMMEewS8GamLZe/X7QSHXaK8juc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747437520; c=relaxed/simple;
-	bh=wUMwRaS90krwkioahgWErDYneRaYIkp8P71PBn/9UNQ=;
+	s=arc-20240116; t=1747437522; c=relaxed/simple;
+	bh=Dw/7OBhx/FSDQY2PNzPNmdmSayTEBQOrA6vSWMuHBiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mJebpVL7kSrX4qUEpUZepcZ0zkUxop7kAB9owk0bQBmrYlpTX/0ymvspaibyKe8w4F/MYvw3rZi0leouLbAxffeGKgkHagQVJV8EpvYvDnptAS/U12naaA2yQEzRq9jY3ce7S7PKBcIjAMSc+NbouyCJVnDzB7/9Wm8/2sJ5FRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fEGU2VS9; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=tVHA/1oL9YW0cckEL9xrEubCbLG0KDeYfX7bKPvHZrSqJ0RC7k+soPKBxD1Fl5q1hQZ3H5IHRcFi761eSMBhxDm8EvqSZCoiukiV8CAXCasbitMiIVQ5NJxse5bwz+GR/3TFfIa6NRnuR5/MPKkD8v0X84lNFSUpLvaTFij7GWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCYoWMDg; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fEGU2VS9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCYoWMDg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747437518; x=1778973518;
+  t=1747437520; x=1778973520;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wUMwRaS90krwkioahgWErDYneRaYIkp8P71PBn/9UNQ=;
-  b=fEGU2VS9Quq3tMYrWIQ/acQrtUvs/zA5OfshvKXXOuQPAfquKwM11Z8c
-   UvPRIlDF0xlxtCTFfqpblbv7YJV4HwPt8w1wjPA7BzbmzNoyGGpau7ORo
-   aG7aOe6fehZRcozx9xpyQvrzNxx5eDt5MnPaVg+Rt43AU4XNXY2Hsks3W
-   ZhEnEvWIRmzfkCb+hlKCf1TiZmXME3jOccY5KFMlBqLWGfOSoBq5RrH88
-   dKR1W8hQudYwijktKH6g1yTvBC9W6ygAYHshA0NnzCeLCIl4t6VwJZP4F
-   CT8i7NS8Ysmi9KkvcWDSAycQI1Nc7XUDVt1tTbvFz75MyaXGhDBszgyKp
-   A==;
-X-CSE-ConnectionGUID: UW10mpFlTl2+toUxbjGIvQ==
-X-CSE-MsgGUID: 6C84tT//SkKE7fgalPWrwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="60814777"
+  bh=Dw/7OBhx/FSDQY2PNzPNmdmSayTEBQOrA6vSWMuHBiU=;
+  b=aCYoWMDgIKrQn6e5X7+gi53j/Usk8cej9GX8j0ooJEzfLoMyVT+MdKkX
+   5bLijafcJAhdfI0bTKoa+eLgv3lqQJtnVrQGwfOmH0KnHA/aLBdSngCKp
+   e31t3fTDc3p6NOwMFMnT+Sm+U2SJMyIx+nMKkM64SgEU3ZKPzNTkgVELJ
+   2fdFSTuM4ZoltuF3obY7TjNZsr49Dju07pJQln5ZRLlS/eYiMcfdwmdgv
+   rS0LicvZwfxbIz4ijBUUYm0Mi1mKKrT2eoR/2KcCXQ1/7oSzVlR5ECBwA
+   xREEqcWXHvhJklP1vYJuiVUWCV0y0drOi9zbcfr2UeClIhUQf9A9t7QWL
+   g==;
+X-CSE-ConnectionGUID: XNs10+YcS+mzxev81uoJqQ==
+X-CSE-MsgGUID: bD/djw7tSSy6n2Y4H+YKPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="49489827"
 X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; 
-   d="scan'208";a="60814777"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 16:18:38 -0700
-X-CSE-ConnectionGUID: 2e9HKZ/3TMKqap1I/qgTmw==
-X-CSE-MsgGUID: LzxZcaFGTk2Fa1vQVh8oYg==
+   d="scan'208";a="49489827"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 16:18:37 -0700
+X-CSE-ConnectionGUID: Y773/JRhSvqJ86iu1/g/QQ==
+X-CSE-MsgGUID: fkKVWwljQseDIATgJZX3vQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; 
-   d="scan'208";a="169857722"
+   d="scan'208";a="143942930"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 May 2025 16:18:36 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 May 2025 16:18:37 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uG4K2-000Jmb-2S;
+	id 1uG4K2-000Jmd-2W;
 	Fri, 16 May 2025 23:18:34 +0000
-Date: Sat, 17 May 2025 07:18:13 +0800
+Date: Sat, 17 May 2025 07:18:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:cpumask_next 22/33] drivers/net/wireguard/queueing.h:107:20:
- error: 'cpu' undeclared
-Message-ID: <202505170753.TAEYmvkT-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1639/1639] net/can/j1939/main.o:
+ warning: objtool: missing symbol for section .exit.text
+Message-ID: <202505170752.BGWpf4BO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,80 +62,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux cpumask_next
-head:   0577ced82818590ec7abe2f40119b340c1124a55
-commit: 04ae3062fb41ac0c5445a26ddc6c1b0ca2562e8e [22/33] wireguard/queueing: simplify wg_cpumask_next_online()
-config: um-randconfig-001-20250517 (https://download.01.org/0day-ci/archive/20250517/202505170753.TAEYmvkT-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   9f24885126c03082a677c4d607a2e3502781c858
+commit: e0c2ee9edcacfdda0e806166eaec1310cdf9e324 [1639/1639] can: add support of SAE J1939 protocol
+config: x86_64-buildonly-randconfig-005-20250516 (https://download.01.org/0day-ci/archive/20250517/202505170752.BGWpf4BO-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505170753.TAEYmvkT-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505170752.BGWpf4BO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505170753.TAEYmvkT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505170752.BGWpf4BO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/uapi/asm/swab.h:6,
-                    from include/uapi/linux/swab.h:8,
-                    from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/little_endian.h:14,
-                    from include/linux/byteorder/little_endian.h:5,
-                    from arch/x86/include/uapi/asm/byteorder.h:5,
-                    from include/linux/unaligned.h:10,
-                    from include/crypto/utils.h:10,
-                    from include/crypto/algapi.h:10,
-                    from include/crypto/curve25519.h:9,
-                    from drivers/net/wireguard/messages.h:9,
-                    from drivers/net/wireguard/noise.h:8,
-                    from drivers/net/wireguard/device.h:9,
-                    from drivers/net/wireguard/peer.h:9,
-                    from drivers/net/wireguard/peer.c:6:
-   drivers/net/wireguard/queueing.h: In function 'wg_cpumask_choose_online':
->> drivers/net/wireguard/queueing.h:107:20: error: 'cpu' undeclared (first use in this function)
-     107 |         if (likely(cpu <= nr_cpu_ids && cpumask_test_cpu(cpu, cpu_online_mask)))
-         |                    ^~~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   drivers/net/wireguard/queueing.h:107:9: note: in expansion of macro 'if'
-     107 |         if (likely(cpu <= nr_cpu_ids && cpumask_test_cpu(cpu, cpu_online_mask)))
-         |         ^~
-   include/linux/compiler.h:44:26: note: in expansion of macro '__branch_check__'
-      44 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   drivers/net/wireguard/queueing.h:107:13: note: in expansion of macro 'likely'
-     107 |         if (likely(cpu <= nr_cpu_ids && cpumask_test_cpu(cpu, cpu_online_mask)))
-         |             ^~~~~~
-   drivers/net/wireguard/queueing.h:107:20: note: each undeclared identifier is reported only once for each function it appears in
-     107 |         if (likely(cpu <= nr_cpu_ids && cpumask_test_cpu(cpu, cpu_online_mask)))
-         |                    ^~~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   drivers/net/wireguard/queueing.h:107:9: note: in expansion of macro 'if'
-     107 |         if (likely(cpu <= nr_cpu_ids && cpumask_test_cpu(cpu, cpu_online_mask)))
-         |         ^~
-   include/linux/compiler.h:44:26: note: in expansion of macro '__branch_check__'
-      44 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   drivers/net/wireguard/queueing.h:107:13: note: in expansion of macro 'likely'
-     107 |         if (likely(cpu <= nr_cpu_ids && cpumask_test_cpu(cpu, cpu_online_mask)))
-         |             ^~~~~~
-
-
-vim +/cpu +107 drivers/net/wireguard/queueing.h
-
-   104	
-   105	static inline int wg_cpumask_choose_online(int *stored_cpu, unsigned int id)
-   106	{
- > 107		if (likely(cpu <= nr_cpu_ids && cpumask_test_cpu(cpu, cpu_online_mask)))
-   108			return cpu;
-   109	
-   110		*stored_cpu = cpumask_nth(id % num_online_cpus(), cpu_online_mask);
-   111		return *stored_cpu;
-   112	}
-   113	
+>> net/can/j1939/main.o: warning: objtool: missing symbol for section .exit.text
 
 -- 
 0-DAY CI Kernel Test Service
