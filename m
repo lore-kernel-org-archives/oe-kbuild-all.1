@@ -1,87 +1,107 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C3817AE11;
-	Fri, 16 May 2025 15:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBEA221730
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 16:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747407617; cv=none; b=IWAE3YXpekC8d1OU+qyXZmoXsh6zND/3gVpUsmL1Yj6kIyHRtvKp4xSolJZTNedC6iAaAXf7EEspAo7HpO6J8Z86gvnGO+3CVJ/0BXv+Oxe/h7k4H9BU6pINZ8wtjJrmedNiyWFcDSSkPs3twQz1y2o+UEBTH9inOd1RfcnGJ6Q=
+	t=1747414570; cv=none; b=OgpGGnohCIMmTe5M6Ujre5B+O6Sr19PhoNF/hfQJhJlMX5+TkdRoROcR3IyA8/SnGoZShUXsZRWAJtpjPNPlSUmF/LYga9ROgi9h1wAGriHmvSNXio/vruQmizn8ekgGd4S9IgjTl+P4BrM7rpev7d/HnOcGbWXA3jemHxA3mT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747407617; c=relaxed/simple;
-	bh=v96n5iiAHHqMfFUbaCXpj7ufULHqoumXcVKDhrv6qCk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Hz/5p/10jca53WFV8BfUn7bKHwnagcwYz0sTkTeNJmA72fAxNYkpG3QpwThgOyTMUvRNxbaMg48s0KlMkq9FTlNqsWeuY7YI9VZwe875QaonY9b5iGm7/HjPlC0PND6djdYWZDSmr8J0gVmIbHm3brlGwBS2V2Gf3NfEfO+N4Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Hrp1CwwW; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1747414570; c=relaxed/simple;
+	bh=WUhsxqKWzwZ9FQyS1b86Zmg2rRjWgJbT9jvoR18yXyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SViuM1TBsCb5WioVQ98151oQ2H5Adq/ZYiuE6dXG41fChsADVr81fQvz/1x0Wfwrpxc2NQlIIDfmjrcZi00RiGAPebJyShD5TmgkO8VQrUN+gyaByK1CR4WSP8LxjElTqsKFRMH791zLdxfekA66UQD0EZbnVAWSs2Z48v2ObXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZuFO84BD; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Hrp1CwwW"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 33BA943959;
-	Fri, 16 May 2025 15:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1747407613;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bZ6faYT8fnXQ6ScBXuSsIagMYz8he0aFldvIQNvvFho=;
-	b=Hrp1CwwWIbEeHSIYxnu5ov3sGoO7SSECi6tFGMR1jRnsDnLzSdSjgZTgd/Zg0sda5ZCqrx
-	cFqhneUudGV60u63qnUNVPnvIyfvtkBWM8nPuqi7w66TmBwm6VVZFu28lVkJU0ZnKypsSF
-	OVBL7TmpgbMRqxG1cxsRF4ORKJGfehLEhG5VqEWNfpiX6sC09QrLL1sCAiFMH/mALUt/UN
-	AghhU1KJ6miE+Y+zw8oQueSkOt0CA/R5+JUu+yLDEvElNiCFRByKpds9NKmkPJD/uBgwtS
-	nOcYouqExGDwUrsPbJXOXdUFvgcza2O2Vo3gR6u+mY+bl05NA+vFFcpGJu747A==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,  Keguang Zhang <keguang.zhang@gmail.com>,
-  lkp@intel.com,  oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 6048/10031]
- drivers/mtd/nand/raw/loongson1-nand-controller.c:374
- ls1x_nand_dma_transfer() warn: passing zero to 'PTR_ERR'
-In-Reply-To: <1f6eea14-762f-47ab-ab84-4e9d1e95883b@suswa.mountain> (Dan
-	Carpenter's message of "Tue, 13 May 2025 17:42:12 +0300")
-References: <1f6eea14-762f-47ab-ab84-4e9d1e95883b@suswa.mountain>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Fri, 16 May 2025 17:00:12 +0200
-Message-ID: <87cyc8d2ir.fsf@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuFO84BD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747414568; x=1778950568;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WUhsxqKWzwZ9FQyS1b86Zmg2rRjWgJbT9jvoR18yXyA=;
+  b=ZuFO84BDCMGuFGb8t6tuVAn/KgctGfXuVZUXefkuQfJvh7/oToomdcdr
+   J51myVf6VChuo/RPYK7gg3xHzUQ2xplcCHAgwmNqdauQRtr7yaCFuKKbL
+   H/0ScKrR2TA9t3SNBL1IdTr6U5jxUEWB7Dpm9pAM9Nm3aYyRY1vWRQ58d
+   1CYxiPaWMfe31SqlHGKvzOwrw/A9Ez+JDsrwmm+VBuAX8sX6vE/JJgWbA
+   wonf3d7EEBM7Pdifa08sf0frDkVWfxkz3/Smhc5M+//PCvmdxYlR5YOHR
+   kyMwg2ZuNeQYWurEs0vwmEPhOJyRt8pwMb6O31iXiS14qL02n3yZZdcFd
+   w==;
+X-CSE-ConnectionGUID: y9hUMCxuRsOIKyr6jbwfhA==
+X-CSE-MsgGUID: k0FvGyEuTPqxMaFX+XyE1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="59622206"
+X-IronPort-AV: E=Sophos;i="6.15,294,1739865600"; 
+   d="scan'208";a="59622206"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 09:56:07 -0700
+X-CSE-ConnectionGUID: HlBuESsTTrutsxqY06YgxA==
+X-CSE-MsgGUID: 7WcDaN2hTkCArqd9nm55Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,294,1739865600"; 
+   d="scan'208";a="142740119"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 16 May 2025 09:56:06 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uFyLs-000JYG-11;
+	Fri, 16 May 2025 16:56:04 +0000
+Date: Sat, 17 May 2025 00:55:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pohsun Su <pohsuns@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Robert Lin <robelin@nvidia.com>
+Subject: [linux-next:master 8131/11779]
+ drivers/clocksource/timer-tegra186.c:417: undefined reference to `__udivdi3'
+Message-ID: <202505170016.oISGP1dO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudeftdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufgjfhgffffkgggtgfesthhqredttderjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedvieduudejvefgvdevuedvfeejgeevjeduhfeuteekteefuefggeevfeeuveehhfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepuggrnhdrtggrrhhpvghnthgvrheslhhinhgrrhhordhorhhgpdhrtghpthhtohepohgvqdhksghuihhlugeslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehkvghguhgrnhhgrdiihhgrnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhop
- ehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghv
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello Dan,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8566fc3b96539e3235909d6bdda198e1282beaed
+commit: 840383cd35851c2379fe908f48cbb2ce18fbf4b0 [8131/11779] clocksource/drivers/timer-tegra186: Add WDIOC_GETTIMELEFT support
+config: xtensa-randconfig-001-20250516 (https://download.01.org/0day-ci/archive/20250517/202505170016.oISGP1dO-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505170016.oISGP1dO-lkp@intel.com/reproduce)
 
-On 13/05/2025 at 17:42:12 +03, Dan Carpenter <dan.carpenter@linaro.org> wro=
-te:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505170016.oISGP1dO-lkp@intel.com/
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   ed61cb3d78d585209ec775933078e268544fe9a4
-> commit: d2d10ede04b1671dc4762479a2d06f183aaafbba [6048/10031] mtd: rawnan=
-d: Add Loongson-1 NAND Controller Driver
-> config: microblaze-randconfig-r072-20250511
-> (https://download.01.org/0day-ci/archive/20250511/202505111115.FfRZilcq-l=
-kp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 14.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202505111115.FfRZilcq-lkp@intel.com/
+All errors (new ones prefixed by >>):
 
-Thanks for the report, but I believe it is a duplicate of:
-https://lore.kernel.org/linux-mtd/174706014455.62075.9908160461728250420.b4=
--ty@bootlin.com/
+   xtensa-linux-ld: drivers/clocksource/timer-tegra186.o: in function `tegra186_timer_usec_read':
+>> drivers/clocksource/timer-tegra186.c:417: undefined reference to `__udivdi3'
+   xtensa-linux-ld: drivers/clocksource/timer-tegra186.o: in function `tegra186_timer_remove':
+   drivers/clocksource/timer-tegra186.c:243: undefined reference to `__udivdi3'
 
-Thanks,
-Miqu=C3=A8l
+
+vim +417 drivers/clocksource/timer-tegra186.c
+
+42cee19a9f839f Thierry Reding 2022-07-04  410  
+42cee19a9f839f Thierry Reding 2022-07-04  411  static u64 tegra186_timer_usec_read(struct clocksource *cs)
+42cee19a9f839f Thierry Reding 2022-07-04  412  {
+42cee19a9f839f Thierry Reding 2022-07-04  413  	struct tegra186_timer *tegra = container_of(cs, struct tegra186_timer,
+42cee19a9f839f Thierry Reding 2022-07-04  414  						    usec);
+42cee19a9f839f Thierry Reding 2022-07-04  415  
+42cee19a9f839f Thierry Reding 2022-07-04  416  	return readl_relaxed(tegra->regs + TKEUSEC);
+42cee19a9f839f Thierry Reding 2022-07-04 @417  }
+42cee19a9f839f Thierry Reding 2022-07-04  418  
+
+:::::: The code at line 417 was first introduced by commit
+:::::: 42cee19a9f839f2d60f1cd237d6905d8649127aa clocksource: Add Tegra186 timers support
+
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
