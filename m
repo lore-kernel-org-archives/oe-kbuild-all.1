@@ -1,121 +1,103 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D931E4B2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 13:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00717242D8C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 13:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747400547; cv=none; b=E+oIm6HH42BAlvp7ckDgXVTuXdWcFTg9ev/1+0kT2KSIe4fYpSBmudem3JvIZpeYGFF0wjkQuGlNLK6ylnBI/LEoM6UQVV6PZLwRr4ugtp2CJQlgo9Lz5or7gm7n47YYF78DhP2XOzs/nwVTI4uQi4Y222VrQbVitRalFjOn26M=
+	t=1747400989; cv=none; b=u+TF3oBuxvWXVu3HUO3//j9Uo+0dpn7JECGDxgaBgp5CSSGyME9fY9EBGrX5OwmI8MS9R4WqjfoycVLyRPMJTMjhzYnHuiSdxcJ9r/bZdg5IOafbPcgMOwz0bhhqd5mBljjBglolg0tL11VnfYjBMMvicxv2S8vooy3L48Xg6mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747400547; c=relaxed/simple;
-	bh=KVS47/XoSWd+fNXjULjdUBqXz+ZFamPMM11G3krrkqA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iG6le0y0eLe01mizk9gwayCY/COdZ6x4wm3ap28AmEkvxUbq9jr9re6XSO1FZbe3BPke6J8276jk4h0SCE61mo5dAcRg6xnVcm8L4/sviB6Dwp3xM230zhEvA0JuA+H4lL5WyVWiGkka0wCHbCyPxmcJyyDXHzKZCAmjAbgWhvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HQlgDcGP; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747400989; c=relaxed/simple;
+	bh=kgV4jLI+lHbevVtE/xrY035nKOIawFE2ady5GL4s7Ro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m+b/IuCce2DeT+hKZc4iKyzh2lHT4Eoq2WbbpFhAIlKdBX1ZNnWMcqiZJvEBTrVEwZpvUXhEHAXRmYVFFv6+ZfTAVHDTaSY5HYz9RPIgyX8tJa/jyiQysx0e98gM+Xd8aTOBqaxe454sbQ1Q1VD8HBgD8ue5vLVgSU6x5oDfg8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPClHFTp; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HQlgDcGP"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-48d71b77cc0so27467181cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 06:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747400545; x=1748005345; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8EAaXCcBODOqPPRNoOnVtfPFAMjr1gPjPXMHsuSlMuo=;
-        b=HQlgDcGP0/nMqfa0OizzzEltgUlcsk3DgSh0jF5ei/bVkRZMa7UfZSUzFE3U0Vq0Ii
-         a07Rl2SiFiszmvZtUyWPDPV2NPZP7nvB7HBueoITgDNRy0K9qZm1R4mIAa/b5wvXL+UK
-         YG8h0XWfgtaZ3D6EkuYjrr9/O+49Lm+HOtlZYo8npctLGRclDm4McPqiHAgTo8cLHPG8
-         tOuo5gQ6/wyFfOstHhWu2Rg70htydAgZs2oQoOB8v4nBBJazUVX/SFnWsmjX/UY5MlZi
-         QA/SQEVp6Qs1Z3VfG7+enNxlF8OQPsgJ+Tcd1X3RbHdC84BowvthSECiMT/vRDbu+Btp
-         yraQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747400545; x=1748005345;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8EAaXCcBODOqPPRNoOnVtfPFAMjr1gPjPXMHsuSlMuo=;
-        b=BC2aKDYpPQAA2LokJ8NrgkP44jMK3+Ar3zVYD+ySqV0WFwkg4NFUEcGiZVpw02EGN7
-         ZUxHOr/y7DhxbQitjjyFRBP5Fu+hPI8wJTlKLjwUhv/L2QUvaZyYXhMTXjSObBxRRUvH
-         BIwAzBCpa9ltjE81wkqqf6bAZn1ESoKkLB1bwjQdfumTv+SM5fYjYoU0oE2TaBTRWVbK
-         i7QxbesAHQ2rCa9/UtS5IhA9sCEZpxAPM4zt8Z+vK82F3ZYeszS4w8lmj3I/jjvgNTqo
-         QNx9JlSGJwRtD2EGvTVrLE+HOSQJn6X/NX7QacBoYZ63+PvyqQwVO5POd8ET5vAgi7p4
-         hPjw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/ClvKo9aYH70b7XiMKxAmRm8H4M00N1NLfjO93OJ47V4ApMuzCB7xTLNic6ZiESqyiMm+p+nKsCmFBIXM@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxo1hNtJNYvWl2O7HQVdghNnGPwKUdty0P+6ELEZbxikK05dnDp
-	QPMicL+R6Qp2rdH7q1nkPldyFb1iNtFbKWdldOkikqW9EybRA0x0PiD11riJAfWTAJwhJpI2WLB
-	wRrJPTmPojlJylc4x80Ac9xeRdUQ1gqk=
-X-Gm-Gg: ASbGncuFB2Ig11rRDDL259WSmn9bLRChLqcJ0RtJ89v1etSSm3layG2oOsxx4FFTbCm
-	QpDWfFHYQGM+wcUaCTNF3Vw3t06SHc4H7B7KxiHUPC9L3ucjrwZBvCXJsRR+tSSUZdy9pmFhWjD
-	B1+tDQf2i9SDpCu/dQ1ULd89IX9gosGBPTwDlshDsqVP0=
-X-Google-Smtp-Source: AGHT+IHZyJqid//wCBlVNP3pcnUuvkjajKER+xeFHB1o8i8ij6OKhPHYHUDAmLQb9yNNQCp7v0lXFOO9XZFKzyx4pHM=
-X-Received: by 2002:ac8:6f1b:0:b0:48b:5656:bb01 with SMTP id
- d75a77b69052e-494ae352f98mr41415291cf.10.1747400544544; Fri, 16 May 2025
- 06:02:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPClHFTp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747400988; x=1778936988;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kgV4jLI+lHbevVtE/xrY035nKOIawFE2ady5GL4s7Ro=;
+  b=cPClHFTpFWKKq/0xgJvowD4D5hnwUEl4GyXU5W+XNgv4QfxB1eGPRTzn
+   HQ5gyAoyzcimgWIX4s5q6PqW5STATMLCIKjKQ8MYcdnT/+9MGG2E0Ws4C
+   C0ZDfSYntZBpRJMRZT8Id23Ka4+7GwFddpZNUkdvOobF1nTKvhI+LgE/u
+   Tkg4LRZXgYgV0T4LFbDlWN6vvVRTZ9HMRasGblnD5rifg6CFSBGFMMSqD
+   Zjn0xz+bBU5xrRkt2Q7Y/KnqiU8lUMTwKe1uzCekfaYAuVEp/FPiaA4s4
+   enx9FUnWRRdfLwSvUiHL6Wbjf9GyLE1aCETKVkvCb+t6VnDVGp9KbaZWC
+   g==;
+X-CSE-ConnectionGUID: vZjuU2wfRm+y/gtZ376dHw==
+X-CSE-MsgGUID: VouBKCvoTjqGsGbVJpY2BA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="60010923"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="60010923"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 06:09:47 -0700
+X-CSE-ConnectionGUID: RCWs+DXOSeapkbm9PVWYEA==
+X-CSE-MsgGUID: AIqY6aH4QA6e6m/Zp5UAZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="143810615"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 16 May 2025 06:09:44 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uFuon-000JMZ-20;
+	Fri, 16 May 2025 13:09:41 +0000
+Date: Fri, 16 May 2025 21:09:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Glathe via B4 Relay <devnull+jens.glathe.oldschoolsolutions.biz@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>,
+	Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
+	Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+Subject: Re: [PATCH 4/4] arm64: dts: qcom: x1p42100-lenovo-thinkbook-16: dt
+ definition for Thinkbook 16
+Message-ID: <202505162035.hYLdjmWr-lkp@intel.com>
+References: <20250515-tb16-dt-v1-4-dc5846a25c48@oldschoolsolutions.biz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250515-vt8500-timer-updates-v3-4-2197a1b062bd@gmail.com> <202505161430.wdURc0TG-lkp@intel.com>
-In-Reply-To: <202505161430.wdURc0TG-lkp@intel.com>
-From: Alexey Charkov <alchark@gmail.com>
-Date: Fri, 16 May 2025 16:02:13 +0300
-X-Gm-Features: AX0GCFuUyfeKPyuuQKwLTH_a0JHlANkAjiXIiU8TmkAt1AD4XrUds-vQSs5nQng
-Message-ID: <CABjd4YykcZckQFfyuSpMtCJybq2nQuj9TYAP2S7RfivPLYPUnw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] watchdog: Add support for VIA/WonderMedia SoC
- watchdog functionality
-To: kernel test robot <lkp@intel.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250515-tb16-dt-v1-4-dc5846a25c48@oldschoolsolutions.biz>
 
-On Fri, May 16, 2025 at 9:56=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Alexey,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on 92a09c47464d040866cf2b4cd052bc60555185fb]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Charkov/dt-=
-bindings-timer-via-vt8500-timer-Convert-to-YAML/20250516-025729
-> base:   92a09c47464d040866cf2b4cd052bc60555185fb
-> patch link:    https://lore.kernel.org/r/20250515-vt8500-timer-updates-v3=
--4-2197a1b062bd%40gmail.com
-> patch subject: [PATCH v3 4/4] watchdog: Add support for VIA/WonderMedia S=
-oC watchdog functionality
-> config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250=
-516/202505161430.wdURc0TG-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250516/202505161430.wdURc0TG-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505161430.wdURc0TG-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    drivers/watchdog/vt8500-wdt.c: In function 'vt8500_wdt_probe':
-> >> drivers/watchdog/vt8500-wdt.c:98:44: warning: conversion from 'long un=
-signed int' to 'unsigned int' changes value from '6148914691236517' to '328=
-7081637' [-Woverflow]
->       98 |         drvdata->wdd.max_hw_heartbeat_ms =3D -1UL / (VT8500_TI=
-MER_HZ / 1000);
+Hi Jens,
 
-Will change to U32_MAX in the next version.
+kernel test robot noticed the following build errors:
 
-Best regards,
-Alexey
+[auto build test ERROR on bdd609656ff5573db9ba1d26496a528bdd297cf2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jens-Glathe-via-B4-Relay/dt-bindings-arm-qcom-Add-Lenovo-Thinkbook-16/20250516-044052
+base:   bdd609656ff5573db9ba1d26496a528bdd297cf2
+patch link:    https://lore.kernel.org/r/20250515-tb16-dt-v1-4-dc5846a25c48%40oldschoolsolutions.biz
+patch subject: [PATCH 4/4] arm64: dts: qcom: x1p42100-lenovo-thinkbook-16: dt definition for Thinkbook 16
+config: arm64-randconfig-001-20250516 (https://download.01.org/0day-ci/archive/20250516/202505162035.hYLdjmWr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505162035.hYLdjmWr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505162035.hYLdjmWr-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> Error: arch/arm64/boot/dts/qcom/x1p42100-lenovo-thinkbook-16.dts:22.15-30 Label or path pm8010_thermal not found
+>> FATAL ERROR: Syntax error parsing input tree
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
