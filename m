@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BB21B424D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 04:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6000B17E4;
+	Fri, 16 May 2025 05:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747371547; cv=none; b=ehJTvKLPCgnzeDcVy97TBzIz0qX5tNTVkb+tDoljAdiOyQp18c7+R446ihUmkuE2ydtF2RVx/n+bod0ZLDkksJJCUva60LX93SuLZVQjzTfEX/PopQ0Gev9g2Lw1MUH6N/8WQAEV0KZ3tP3w2WHr79j31CZb4OYGgGrqqrRes8o=
+	t=1747373470; cv=none; b=Yu+wiw0cPtQQwiWk1GF9ZnYfg3dawuUhMogwX6EZzqI+UYjNfdHsnpxX/2yeavH6HnrT07y7/a5Caz2XC4BSHn5m3iph55lcKVWRJyjZnQI8UV3VqfA6CveY1xbMLiWFWLrB1EE0lcGrKHOJOyORIRM0Dys0XBodhDmkbW5N/FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747371547; c=relaxed/simple;
-	bh=nlrXDc3GEqree6DycjxmMwxqK8W7S1MWDqB1wo+lN1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qMc5TJ4n7n8Gb7r6ohv3Bho7wUgEVuwVZLise63Xre495Ow9deaU0jWOF9N0Pq2Qop5k6rNuWvdn43PZXB29fOpRG7/DWEFPeqA0SQJDcuT3CE1Q0c7Hr/Q8Hfgzo2F6kr8PqlYzqLB1KNWLnAbaV8u8nQ2MLcvzD49eTPk2SFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVEripkQ; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1747373470; c=relaxed/simple;
+	bh=toxGotdghsHUab1+RRGl3zwSsX4qzYDutwY3v4Z9C+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S+7KBxD4OArOOmtT9wnhpQ4zwWwejXyS5CRhgv9gzVnowdnMCk9PCIlGjm4QP8+CsG91yaHHevN4CdBkhMHhbbxzsEFNvua3SVPEiOjnYX6t6ZPOUogq0dX/SLRb3F3ZK9pquOT7ByRSJ8e6J9XZo/NUso+n8pZEMBmJLz1vubs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=flChyQuo; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVEripkQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="flChyQuo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747371545; x=1778907545;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nlrXDc3GEqree6DycjxmMwxqK8W7S1MWDqB1wo+lN1g=;
-  b=NVEripkQhSsqm1JBoBfapHhkoUfjp32X9NfTp+5pOHl2ljoFCxfdxlMb
-   vrDpHcAU81a7UuUwWvBco1bb+aspxvTA8p9bNOcz5vaYqSTpjrXSf4/2v
-   fJrUfrUlCJZjoay9OvDRpU2wb0PyOVoEnZFgC/d3Y2s4WLex2kQhkHDM2
-   r8065jHdq29mWJc3Ndm29s9OumlaUCZHJFxSPFVNnA0z4QFlbo/9TM1eL
-   b3E13Vp16grxUwF81SxSTnmLAxzZ71dhYgRDkaioelNbusmriaEZLrM4w
-   YL3yPauGqwdJyH44XZnCc8cHudUnQtd05CfSxJg1hgSVv8dXVRM7CgP+h
-   A==;
-X-CSE-ConnectionGUID: IFDlarsbTziqk1UF0MPf+Q==
-X-CSE-MsgGUID: CjndOB3WRNShytYWwDpcOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49317444"
+  t=1747373468; x=1778909468;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=toxGotdghsHUab1+RRGl3zwSsX4qzYDutwY3v4Z9C+g=;
+  b=flChyQuoqj295K+RgewPDDaIjgM3ItSaWcqmxjP9gGn/m/PrSLYNHqxc
+   XSCMgMYto6DFTYvfgaaCqhyPFUc/kEVjqv+FHcbQocbH97qZZR9dDgdYC
+   KGZn0P4jb1C4A+4eBAA1wZpyRTk/nNDan2pheGv9wnusy+0y/i/VnkGb1
+   7KFPq/58i8f6i++6akaaSV1BmLN+JWbMyOB7AntuBxBExpx1ZmxeYVm69
+   bAMeky8OOpZ4NIJSKHUO3TkHkDJ+8FjRt9TOry6tyHiUEzpH4IwkAftM3
+   YVm/O22OPacryPgxlvi3z+Hlaf9c2M6t37MGRqU0wHnpqeCvJXgJh/oQo
+   Q==;
+X-CSE-ConnectionGUID: t2Lexd+fTECpme0TfQDQ/g==
+X-CSE-MsgGUID: leH2roEETxG7yr7kmgDRhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="74734090"
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="49317444"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 21:59:02 -0700
-X-CSE-ConnectionGUID: 7F6eJ2Z8R067qdCegNXMlg==
-X-CSE-MsgGUID: q3sJPYGgRN+xPZEWjqsaPw==
+   d="scan'208";a="74734090"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 22:31:08 -0700
+X-CSE-ConnectionGUID: XDTdNfeGSuG7gBpjsL5y9w==
+X-CSE-MsgGUID: m0RU7hrdT9K3M202SrKrLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="138318923"
+   d="scan'208";a="138979538"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 May 2025 21:59:02 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 May 2025 22:31:04 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFn9v-000J0B-1R;
-	Fri, 16 May 2025 04:58:59 +0000
-Date: Fri, 16 May 2025 12:58:29 +0800
+	id 1uFnew-000J1T-0H;
+	Fri, 16 May 2025 05:31:02 +0000
+Date: Fri, 16 May 2025 13:30:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 5/5] mm/migrate.c:1539:5: warning: no
- previous prototype for 'migrate_pages_batch'
-Message-ID: <202505161229.1i93TU7E-lkp@intel.com>
+To: Chiang Brian <chiang.brian@inventec.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chiang Brian <chiang.brian@inventec.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v7 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+Message-ID: <202505161242.oQFhPxZ9-lkp@intel.com>
+References: <20250515081449.1433772-3-chiang.brian@inventec.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,187 +71,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250515081449.1433772-3-chiang.brian@inventec.com>
 
-Hi Huang,
+Hi Chiang,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   bfc84bc1ba93833ad3fd1e370a33e511711611a6
-commit: ac79f033ce6b175a45cdce5a554f1fc1719602a3 [5/5] migrate_pages: restrict number of pages to migrate in batch
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250516/202505161229.1i93TU7E-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161229.1i93TU7E-lkp@intel.com/reproduce)
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on groeck-staging/hwmon-next krzk-dt/for-next linus/master v6.15-rc6 next-20250515]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chiang-Brian/hwmon-pmbus-tps53679-Add-support-for-TPS53685/20250515-171511
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250515081449.1433772-3-chiang.brian%40inventec.com
+patch subject: [PATCH v7 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+config: i386-buildonly-randconfig-001-20250516 (https://download.01.org/0day-ci/archive/20250516/202505161242.oQFhPxZ9-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161242.oQFhPxZ9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505161229.1i93TU7E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505161242.oQFhPxZ9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/migrate.c:1539:5: warning: no previous prototype for 'migrate_pages_batch' [-Wmissing-prototypes]
-    1539 | int migrate_pages_batch(struct list_head *from, new_page_t get_new_page,
-         |     ^~~~~~~~~~~~~~~~~~~
+>> drivers/hwmon/pmbus/tps53679.c:133:50: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'char *' [-Wint-conversion]
+     133 |         ret = tps53679_identify_chip(client, pmbus_rev, device_id);
+         |                                                         ^~~~~~~~~
+   drivers/hwmon/pmbus/tps53679.c:90:26: note: passing argument to parameter 'id' here
+      90 |                                   u8 revision, char *id)
+         |                                                      ^
+>> drivers/hwmon/pmbus/tps53679.c:165:10: error: incompatible pointer to integer conversion passing 'char[2]' to parameter of type 'int' [-Wint-conversion]
+     165 |                                             TPS53681_DEVICE_ID);
+         |                                             ^~~~~~~~~~~~~~~~~~
+   drivers/hwmon/pmbus/tps53679.c:34:32: note: expanded from macro 'TPS53681_DEVICE_ID'
+      34 | #define TPS53681_DEVICE_ID     "\x81"
+         |                                ^~~~~~
+   drivers/hwmon/pmbus/tps53679.c:129:25: note: passing argument to parameter 'device_id' here
+     129 |                                         int pmbus_rev, int device_id)
+         |                                                            ^
+   2 errors generated.
 
 
-vim +/migrate_pages_batch +1539 mm/migrate.c
+vim +133 drivers/hwmon/pmbus/tps53679.c
 
-  1538	
-> 1539	int migrate_pages_batch(struct list_head *from, new_page_t get_new_page,
-  1540			free_page_t put_new_page, unsigned long private,
-  1541			enum migrate_mode mode, int reason, struct list_head *ret_pages,
-  1542			struct migrate_pages_stats *stats)
-  1543	{
-  1544		int retry = 1;
-  1545		int thp_retry = 1;
-  1546		int nr_failed = 0;
-  1547		int nr_retry_pages = 0;
-  1548		int pass = 0;
-  1549		bool is_thp = false;
-  1550		struct page *page, *page2;
-  1551		int rc, nr_pages;
-  1552		LIST_HEAD(thp_split_pages);
-  1553		bool nosplit = (reason == MR_NUMA_MISPLACED);
-  1554		bool no_subpage_counting = false;
-  1555	
-  1556	thp_subpage_migration:
-  1557		for (pass = 0;
-  1558		     pass < NR_MAX_MIGRATE_PAGES_RETRY && (retry || thp_retry);
-  1559		     pass++) {
-  1560			retry = 0;
-  1561			thp_retry = 0;
-  1562			nr_retry_pages = 0;
-  1563	
-  1564			list_for_each_entry_safe(page, page2, from, lru) {
-  1565				/*
-  1566				 * THP statistics is based on the source huge page.
-  1567				 * Capture required information that might get lost
-  1568				 * during migration.
-  1569				 */
-  1570				is_thp = PageTransHuge(page) && !PageHuge(page);
-  1571				nr_pages = compound_nr(page);
-  1572				cond_resched();
-  1573	
-  1574				rc = unmap_and_move(get_new_page, put_new_page,
-  1575						    private, page, pass > 2, mode,
-  1576						    reason, ret_pages);
-  1577				/*
-  1578				 * The rules are:
-  1579				 *	Success: page will be freed
-  1580				 *	-EAGAIN: stay on the from list
-  1581				 *	-ENOMEM: stay on the from list
-  1582				 *	-ENOSYS: stay on the from list
-  1583				 *	Other errno: put on ret_pages list
-  1584				 */
-  1585				switch(rc) {
-  1586				/*
-  1587				 * THP migration might be unsupported or the
-  1588				 * allocation could've failed so we should
-  1589				 * retry on the same page with the THP split
-  1590				 * to base pages.
-  1591				 *
-  1592				 * Sub-pages are put in thp_split_pages, and
-  1593				 * we will migrate them after the rest of the
-  1594				 * list is processed.
-  1595				 */
-  1596				case -ENOSYS:
-  1597					/* THP migration is unsupported */
-  1598					if (is_thp) {
-  1599						stats->nr_thp_failed++;
-  1600						if (!try_split_thp(page, &thp_split_pages)) {
-  1601							stats->nr_thp_split++;
-  1602							break;
-  1603						}
-  1604					/* Hugetlb migration is unsupported */
-  1605					} else if (!no_subpage_counting) {
-  1606						nr_failed++;
-  1607					}
-  1608	
-  1609					stats->nr_failed_pages += nr_pages;
-  1610					list_move_tail(&page->lru, ret_pages);
-  1611					break;
-  1612				case -ENOMEM:
-  1613					/*
-  1614					 * When memory is low, don't bother to try to migrate
-  1615					 * other pages, just exit.
-  1616					 */
-  1617					if (is_thp) {
-  1618						stats->nr_thp_failed++;
-  1619						/* THP NUMA faulting doesn't split THP to retry. */
-  1620						if (!nosplit && !try_split_thp(page, &thp_split_pages)) {
-  1621							stats->nr_thp_split++;
-  1622							break;
-  1623						}
-  1624					} else if (!no_subpage_counting) {
-  1625						nr_failed++;
-  1626					}
-  1627	
-  1628					stats->nr_failed_pages += nr_pages + nr_retry_pages;
-  1629					/*
-  1630					 * There might be some subpages of fail-to-migrate THPs
-  1631					 * left in thp_split_pages list. Move them back to migration
-  1632					 * list so that they could be put back to the right list by
-  1633					 * the caller otherwise the page refcnt will be leaked.
-  1634					 */
-  1635					list_splice_init(&thp_split_pages, ret_pages);
-  1636					/* nr_failed isn't updated for not used */
-  1637					stats->nr_thp_failed += thp_retry;
-  1638					goto out;
-  1639				case -EAGAIN:
-  1640					if (is_thp)
-  1641						thp_retry++;
-  1642					else if (!no_subpage_counting)
-  1643						retry++;
-  1644					nr_retry_pages += nr_pages;
-  1645					break;
-  1646				case MIGRATEPAGE_SUCCESS:
-  1647					stats->nr_succeeded += nr_pages;
-  1648					if (is_thp)
-  1649						stats->nr_thp_succeeded++;
-  1650					break;
-  1651				default:
-  1652					/*
-  1653					 * Permanent failure (-EBUSY, etc.):
-  1654					 * unlike -EAGAIN case, the failed page is
-  1655					 * removed from migration page list and not
-  1656					 * retried in the next outer loop.
-  1657					 */
-  1658					if (is_thp)
-  1659						stats->nr_thp_failed++;
-  1660					else if (!no_subpage_counting)
-  1661						nr_failed++;
-  1662	
-  1663					stats->nr_failed_pages += nr_pages;
-  1664					break;
-  1665				}
-  1666			}
-  1667		}
-  1668		nr_failed += retry;
-  1669		stats->nr_thp_failed += thp_retry;
-  1670		stats->nr_failed_pages += nr_retry_pages;
-  1671		/*
-  1672		 * Try to migrate subpages of fail-to-migrate THPs, no nr_failed
-  1673		 * counting in this round, since all subpages of a THP is counted
-  1674		 * as 1 failure in the first round.
-  1675		 */
-  1676		if (!list_empty(&thp_split_pages)) {
-  1677			/*
-  1678			 * Move non-migrated pages (after NR_MAX_MIGRATE_PAGES_RETRY
-  1679			 * retries) to ret_pages to avoid migrating them again.
-  1680			 */
-  1681			list_splice_init(from, ret_pages);
-  1682			list_splice_init(&thp_split_pages, from);
-  1683			no_subpage_counting = true;
-  1684			retry = 1;
-  1685			goto thp_subpage_migration;
-  1686		}
-  1687	
-  1688		rc = nr_failed + stats->nr_thp_failed;
-  1689	out:
-  1690		return rc;
-  1691	}
-  1692	
+53030bcc87e4a4b Guenter Roeck 2020-01-20  120  
+53030bcc87e4a4b Guenter Roeck 2020-01-20  121  /*
+53030bcc87e4a4b Guenter Roeck 2020-01-20  122   * Common identification function for chips with multi-phase support.
+53030bcc87e4a4b Guenter Roeck 2020-01-20  123   * Since those chips have special configuration registers, we want to have
+53030bcc87e4a4b Guenter Roeck 2020-01-20  124   * some level of reassurance that we are really talking with the chip
+53030bcc87e4a4b Guenter Roeck 2020-01-20  125   * being probed. Check PMBus revision and chip ID.
+53030bcc87e4a4b Guenter Roeck 2020-01-20  126   */
+53030bcc87e4a4b Guenter Roeck 2020-01-20  127  static int tps53679_identify_multiphase(struct i2c_client *client,
+53030bcc87e4a4b Guenter Roeck 2020-01-20  128  					struct pmbus_driver_info *info,
+53030bcc87e4a4b Guenter Roeck 2020-01-20  129  					int pmbus_rev, int device_id)
+53030bcc87e4a4b Guenter Roeck 2020-01-20  130  {
+53030bcc87e4a4b Guenter Roeck 2020-01-20  131  	int ret;
+53030bcc87e4a4b Guenter Roeck 2020-01-20  132  
+53030bcc87e4a4b Guenter Roeck 2020-01-20 @133  	ret = tps53679_identify_chip(client, pmbus_rev, device_id);
+53030bcc87e4a4b Guenter Roeck 2020-01-20  134  	if (ret < 0)
+53030bcc87e4a4b Guenter Roeck 2020-01-20  135  		return ret;
+53030bcc87e4a4b Guenter Roeck 2020-01-20  136  
+53030bcc87e4a4b Guenter Roeck 2020-01-20  137  	ret = tps53679_identify_mode(client, info);
+53030bcc87e4a4b Guenter Roeck 2020-01-20  138  	if (ret < 0)
+53030bcc87e4a4b Guenter Roeck 2020-01-20  139  		return ret;
+53030bcc87e4a4b Guenter Roeck 2020-01-20  140  
+53030bcc87e4a4b Guenter Roeck 2020-01-20  141  	return tps53679_identify_phases(client, info);
+53030bcc87e4a4b Guenter Roeck 2020-01-20  142  }
+53030bcc87e4a4b Guenter Roeck 2020-01-20  143  
+53030bcc87e4a4b Guenter Roeck 2020-01-20  144  static int tps53679_identify(struct i2c_client *client,
+53030bcc87e4a4b Guenter Roeck 2020-01-20  145  			     struct pmbus_driver_info *info)
+53030bcc87e4a4b Guenter Roeck 2020-01-20  146  {
+53030bcc87e4a4b Guenter Roeck 2020-01-20  147  	return tps53679_identify_mode(client, info);
+53030bcc87e4a4b Guenter Roeck 2020-01-20  148  }
+53030bcc87e4a4b Guenter Roeck 2020-01-20  149  
+340e957083852e1 Chiang Brian  2025-05-15  150  static int tps53685_identify(struct i2c_client *client,
+340e957083852e1 Chiang Brian  2025-05-15  151  				 struct pmbus_driver_info *info)
+340e957083852e1 Chiang Brian  2025-05-15  152  {
+340e957083852e1 Chiang Brian  2025-05-15  153  	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
+340e957083852e1 Chiang Brian  2025-05-15  154  			 PMBUS_HAVE_STATUS_INPUT;
+340e957083852e1 Chiang Brian  2025-05-15  155  	info->format[PSC_VOLTAGE_OUT] = linear;
+340e957083852e1 Chiang Brian  2025-05-15  156  	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
+340e957083852e1 Chiang Brian  2025-05-15  157  					   TPS53685_DEVICE_ID);
+340e957083852e1 Chiang Brian  2025-05-15  158  }
+340e957083852e1 Chiang Brian  2025-05-15  159  
+53030bcc87e4a4b Guenter Roeck 2020-01-20  160  static int tps53681_identify(struct i2c_client *client,
+53030bcc87e4a4b Guenter Roeck 2020-01-20  161  			     struct pmbus_driver_info *info)
+53030bcc87e4a4b Guenter Roeck 2020-01-20  162  {
+53030bcc87e4a4b Guenter Roeck 2020-01-20  163  	return tps53679_identify_multiphase(client, info,
+53030bcc87e4a4b Guenter Roeck 2020-01-20  164  					    TPS53681_PMBUS_REVISION,
+53030bcc87e4a4b Guenter Roeck 2020-01-20 @165  					    TPS53681_DEVICE_ID);
+53030bcc87e4a4b Guenter Roeck 2020-01-20  166  }
+53030bcc87e4a4b Guenter Roeck 2020-01-20  167  
 
 -- 
 0-DAY CI Kernel Test Service
