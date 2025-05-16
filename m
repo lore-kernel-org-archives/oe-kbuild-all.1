@@ -1,65 +1,85 @@
-Received: from mx07-006a4e02.pphosted.com (mx07-006a4e02.pphosted.com [143.55.146.78])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949B3227EBF;
-	Fri, 16 May 2025 11:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.55.146.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C38B238C2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 May 2025 11:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747396559; cv=none; b=DMy2cIeZkHxgmFoRlNBpf8Guppkj3za19G6EiOqnkPNx+Wuhuz1rvuz89z+m3EyV+B3EAfnBt6W3QFa7db5aNNnaDfeEn5syCFjxTg95J6AbibLeppDdxiXwcj8ASFSoLiifSlxf3MGnbkjCAAggP2EPqJ+usTN8nCtToPJ4VG4=
+	t=1747396667; cv=none; b=OZ05FwF1UNtWmbv50BzaWOb795dWMfajovJ9KmY/8UHAGSejFQ0tUzrFvqUbg+3sztKAtXJZ/tCB2DZmoSCvyXMajbb+Gl8xlV1n6ZMhCrMcRSXMmZ2mIXxIthGTDVP9ZeVfbscLt+O3PiaC/ia3mPuvqY3KpC/17iK01iD4EYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747396559; c=relaxed/simple;
-	bh=giXkP9+j3aa2B4vWkt+/h2ylfg8ZzjjCkVq81okbuaM=;
+	s=arc-20240116; t=1747396667; c=relaxed/simple;
+	bh=zas5qRvLzeVSRNH8Gf3aeHid+8WKUrrNydSDBKWaLx8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BggkK3UIe0nSH9AAusBwUNc0flDeCA06Q599JIeeoFh0H7afI0WoOSu+p7/kFw+IoMX8K3LRQTE6g6HGi7gJ3EzJjdzKxi1ZaegnCz5va3IjrD1Oxui2ENGNA70q5V5AvpK4FdiaIbeP97XBo3XdfV6mSf3WFYytSKWmtfjdMmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iram.es; spf=pass smtp.mailfrom=iram.es; dkim=pass (2048-bit key) header.d=iram.es header.i=@iram.es header.b=rV4MaNF3; arc=none smtp.client-ip=143.55.146.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iram.es
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iram.es
+	 Content-Type:Content-Disposition:In-Reply-To; b=pwA1glL2Qb7xEOCHfUmjlRoPIUOaM1hflI386rGis1sdoJ3i8gG9WpuzpE+qPNcN+Dyx3Fw97vwVDe9On4zNU+mzCm2bkdpv5dWwRczIAGXDFiFjDCD+2vCq94Cg9/z71VLz+nZOpPc/8EwoDR4tTuX/unFR6sthFi1GlH+aUyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CnlGIgMI; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iram.es header.i=@iram.es header.b="rV4MaNF3"
-Received: from pps.filterd (m0316687.ppops.net [127.0.0.1])
-	by m0316687.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 54G9xZ29008804;
-	Fri, 16 May 2025 13:06:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iram.es; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=dkim3; bh=bAYUGQc7Hv5rKaaMRmows/SqSVf4
-	K8fqsjT9i6Qc9Mc=; b=rV4MaNF34s8G27C5bOSrMOefpzbnwgynEvS6vcjxBy1i
-	Mq+s4gKZkkLyil0gXiDBo0yYmYIfDW/bFZuwRaB5EhWmWGdmtApMGh/Z/ROFrs2M
-	KuzZ2+VjjZvyjKfPt/9g6vw7GCNsvl7WQ7Ps0Tm51un0GvjGdyEYE/rS1ibfChUk
-	F8ub0lMfbasg+cSLngx5oFK03GvmcqC+PWojhrY1UkyJsxv3zmb7uZAHT2b8ZVzh
-	7CQmgVe7hSNIPfkh33qf9EW4IrSUgipP1wcfNBwDb+Qe9hk7qZ0hvw07HPce+b7x
-	4xET90GnlLho/Ijpa+/13LP6PFZOgAxWvMpPleJ5YA==
-Received: from sim.rediris.es (mta-out04.sim.rediris.es [130.206.24.46])
-	by m0316687.ppops.net (PPS) with ESMTPS id 46p0mfm9qs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 May 2025 13:06:57 +0200 (MEST)
-Received: from sim.rediris.es (localhost.localdomain [127.0.0.1])
-	by sim.rediris.es (Postfix) with ESMTPS id C5065181FA5;
-	Fri, 16 May 2025 13:06:56 +0200 (CEST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by sim.rediris.es (Postfix) with ESMTP id A8707181FAB;
-	Fri, 16 May 2025 13:06:56 +0200 (CEST)
-X-Amavis-Modified: Mail body modified (using disclaimer) -
- mta-out04.sim.rediris.es
-Received: from sim.rediris.es ([127.0.0.1])
- by localhost (mta-out04.sim.rediris.es [127.0.0.1]) (amavis, port 10026)
- with ESMTP id IkzjQ4rBb6FP; Fri, 16 May 2025 13:06:56 +0200 (CEST)
-Received: from lt-gp.iram.es (haproxy01.sim.rediris.es [130.206.24.69])
-	by sim.rediris.es (Postfix) with ESMTPA id E3CE4181FA5;
-	Fri, 16 May 2025 13:06:55 +0200 (CEST)
-Date: Fri, 16 May 2025 13:06:54 +0200
-From: Gabriel Paubert <paubert@iram.es>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Danny Tsen <dtsen@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH] powerpc: Add gcc 128-bit shift helpers
-Message-ID: <aCccToR_71ETmPd-@lt-gp.iram.es>
-References: <202505152053.FrKekjCe-lkp@intel.com>
- <aCb7WW2gRrtEmgqD@gondor.apana.org.au>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CnlGIgMI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747396666; x=1778932666;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zas5qRvLzeVSRNH8Gf3aeHid+8WKUrrNydSDBKWaLx8=;
+  b=CnlGIgMIvKZv+IrJeev1Z0yJ06d9toUzUevqQvDYyYwz1XyzUiYK/LK5
+   6HU4KJUx0RMrQq7dWygTQJnNr1QofmhITLlrQ3fVsSSe0NYrWEAmH2Cdj
+   HRKOaSAH/3AOHAPcEzcH6EpWtlUZXfH10XbknmxzNGCkAtWtt2ZWbHA2n
+   1yQKibGqqFuUsgqgSMl7uMJQgvdA7yBYDcIJ9y8vOAKX4o/o5us93Z9Os
+   NpcqMMutV/p0RuohU4GEnMOI5JlaGjyyIcx+idE7fU8x+LsFbhX0RGVii
+   dTqQ7HQA0nndId612klhWv6tGwfyC6XL56i+GC+yV6WnMSGGUCrHFMT28
+   w==;
+X-CSE-ConnectionGUID: /cHuyw6JSp6Js+hhQQAWAA==
+X-CSE-MsgGUID: H9daigKpQHSfyQOuaJs3FA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="53038201"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="53038201"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 04:57:45 -0700
+X-CSE-ConnectionGUID: psRhwjvHQoO3hIq4z3kOiw==
+X-CSE-MsgGUID: bzsxGEAzSnO4N/caoHzEyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="143563541"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 16 May 2025 04:57:37 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uFth1-000JJX-26;
+	Fri, 16 May 2025 11:57:35 +0000
+Date: Fri, 16 May 2025 19:56:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Andrei Botila <andrei.botila@oss.nxp.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Trevor Gross <tmgross@umich.edu>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Michael Klein <michael@fossekall.de>,
+	Daniel Golle <daniel@makrotopia.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v10 7/7] rust: net::phy sync with
+ match_phy_device C changes
+Message-ID: <202505161944.2x21wbM5-lkp@intel.com>
+References: <20250515112721.19323-8-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,139 +88,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aCb7WW2gRrtEmgqD@gondor.apana.org.au>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDEwNSBTYWx0ZWRfX7CsnzgdvuQVa
- Hc0cXDxfh9yA4+m/JqkPrYv58GcaKF2gqvrkHtx4ktpgF+qchKBAmO1vfHLNXItrxaNVEmmS5yA
- iQ5B0ELhcz8FOhNRnOfb++zNkj5qRa44Bdxqjz9WyKxw1Fkqk7eHk92A/qc675NjLSAYuI+0szR
- ve5FtbhAH+qplRVNcdyhzkKqJJf8mQg+pncjyCpBWQKSeKOjA0FbBvuJrcxES4u6kycmPs28fDz
- R6+Wk8hrNqdnWD/ofZ/P2fwtxJ92VlL6/NdE/C/j7DYd/UChPGvNdibzZNOWJuKjK6liRb3pks5
- EB64UGcBZCabpVQrWY839k5+3fsfT+/36RHAmhB6b+++0oB13dY9s2aIezsZ7kX0PQla7Ejbeo9
- XVSPThMtUaR7gPt/oCEHfgFOOf+h0QI0jvps/AhgmqsZwQxddlKBu+vixOL25xlnfTGh4RNX
-X-Proofpoint-GUID: H_SYM61NNgWlRx99XEkaczkpNMGGkLti
-X-Proofpoint-ORIG-GUID: H_SYM61NNgWlRx99XEkaczkpNMGGkLti
-X-Authority-Analysis: v=2.4 cv=EtzSrTcA c=1 sm=1 tr=0 ts=68271c51 cx=c_pps
- a=Kke4r4mcy+kRAsMtzpf9hg==:117 a=Kke4r4mcy+kRAsMtzpf9hg==:17
- a=kj9zAlcOel0A:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8
- a=QyXUC8HyAAAA:8 a=FNyBlpCuAAAA:8 a=LpSzYAz8VI8wa4E5YnoA:9 a=CjuIK1q_8ugA:10
- a=mmqRlSCDY2ywfjPLJ4af:22 a=RlW-AWeGUCXs_Nkyno-6:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-16_04,2025-05-16_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=salida_notspam policy=salida score=0
- mlxscore=0 malwarescore=0 bulkscore=0 phishscore=0 priorityscore=1501
- suspectscore=0 mlxlogscore=999 impostorscore=0 spamscore=0 lowpriorityscore=0
- adultscore=0 clxscore=1011 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505160105
+In-Reply-To: <20250515112721.19323-8-ansuelsmth@gmail.com>
 
-On Fri, May 16, 2025 at 04:46:17PM +0800, Herbert Xu wrote:
-> On Thu, May 15, 2025 at 08:06:09PM +0800, kernel test robot wrote:
-> > tree:   https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git__;!!D9dNQwwGXtA!TSuOAutxjuD3Hp-RC0Fw9dTNuagdCKeNLTN71tv_OmhUxyAPLfIfwwpZop5pKFXgS4Jfkt830_tEMkbHT4vfog$  master
-> > head:   484803582c77061b470ac64a634f25f89715be3f
-> > commit: c66d7ebbe2fa14e41913adb421090a7426f59786 [10914/11408] crypto: powerpc/poly1305 - Add SIMD fallback
-> > config: powerpc64-randconfig-002-20250515 (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20250515/202505152053.FrKekjCe-lkp@intel.com/config__;!!D9dNQwwGXtA!TSuOAutxjuD3Hp-RC0Fw9dTNuagdCKeNLTN71tv_OmhUxyAPLfIfwwpZop5pKFXgS4Jfkt830_tEMkaPDLMaoA$ )
-> > compiler: powerpc64-linux-gcc (GCC) 8.5.0
-> > reproduce (this is a W=1 build): (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20250515/202505152053.FrKekjCe-lkp@intel.com/reproduce__;!!D9dNQwwGXtA!TSuOAutxjuD3Hp-RC0Fw9dTNuagdCKeNLTN71tv_OmhUxyAPLfIfwwpZop5pKFXgS4Jfkt830_tEMkbNYWK3LQ$ )
-> 
-> Thanks for the report.  This patch should fix the problem.
+Hi Christian,
 
-It won't work for big endian, nor for 32 bit obviously.
+kernel test robot noticed the following build errors:
 
-Besides that, in arch/power/kernel/misc_32.S, you'll find a branchless
-version of these functions. It's for 64 bit shifts on 32 bit big-endian
-but it can easily be adapted to 128 bit shifts on 64 bit processors
-(swapping r3 and r4 depending on endianness).
+[auto build test ERROR on net-next/main]
 
-Several functions of kernel/misc_32.S should arguably be moved to lib/.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-pass-PHY-driver-to-match_phy_device-OP/20250515-193151
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250515112721.19323-8-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH v10 7/7] rust: net::phy sync with match_phy_device C changes
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250516/202505161944.2x21wbM5-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250516/202505161944.2x21wbM5-lkp@intel.com/reproduce)
 
-Cheers,
-Gabriel
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505161944.2x21wbM5-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
 
-> 
-> ---8<---
-> When optimising for size, gcc generates out-of-line calls for 128-bit
-> integer shifts.  Add these functions to avoid build errors.
-> 
-> Fixes: c66d7ebbe2fa ("crypto: powerpc/poly1305 - Add SIMD fallback")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://urldefense.com/v3/__https://lore.kernel.org/oe-kbuild-all/202505152053.FrKekjCe-lkp@intel.com/__;!!D9dNQwwGXtA!TSuOAutxjuD3Hp-RC0Fw9dTNuagdCKeNLTN71tv_OmhUxyAPLfIfwwpZop5pKFXgS4Jfkt830_tEMkbo7rsvYg$ 
-> Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
-> 
-> diff --git a/arch/powerpc/lib/Makefile b/arch/powerpc/lib/Makefile
-> index 1cd74673cbf7..a41c071c1652 100644
-> --- a/arch/powerpc/lib/Makefile
-> +++ b/arch/powerpc/lib/Makefile
-> @@ -87,3 +87,5 @@ obj-$(CONFIG_CRC_T10DIF_ARCH) += crc-t10dif-powerpc.o
->  crc-t10dif-powerpc-y := crc-t10dif-glue.o crct10dif-vpmsum_asm.o
->  
->  obj-$(CONFIG_PPC64) += $(obj64-y)
-> +
-> +obj-$(CONFIG_ARCH_SUPPORTS_INT128) += tishift.o
-> diff --git a/arch/powerpc/lib/tishift.S b/arch/powerpc/lib/tishift.S
-> new file mode 100644
-> index 000000000000..79afef2d8d54
-> --- /dev/null
-> +++ b/arch/powerpc/lib/tishift.S
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (c) 2025 Herbert Xu <herbert@gondor.apana.org.au>
-> + */
-> +#include <asm/ppc_asm.h>
-> +#include <linux/export.h>
-> +
-> +_GLOBAL(__lshrti3)
-> +	cmplwi	r5,63
-> +	ble	1f
-> +	addi	r5,r5,-64
-> +	srd	r3,r4,r5
-> +	li	r4,0
-> +	blr
-> +1:
-> +	subfic	r7,r5,64
-> +	srd	r3,r3,r5
-> +	sld	r6,r4,r7
-> +	srd	r4,r4,r5
-> +	or	r3,r3,r6
-> +	blr
-> +EXPORT_SYMBOL(__lshrti3)
-> +
-> +_GLOBAL(__ashrti3)
-> +	cmplwi	r5,63
-> +	ble	1f
-> +	addi	r5,r5,-64
-> +	srad	r3,r4,r5
-> +	sradi	r4,r4,63
-> +	blr
-> +1:
-> +	subfic	r7,r5,64
-> +	srd	r3,r3,r5
-> +	sld	r6,r4,r7
-> +	srad	r4,r4,r5
-> +	or	r3,r3,r6
-> +	blr
-> +EXPORT_SYMBOL(__ashrti3)
-> +
-> +_GLOBAL(__ashlti3)
-> +	cmplwi	r5,63
-> +	ble	1f
-> +	addi	r5,r5,-64
-> +	sld	r4,r3,r5
-> +	li	r3,0
-> +	blr
-> +1:
-> +	subfic	r7,r5,64
-> +	sld	r4,r4,r5
-> +	srd	r6,r3,r7
-> +	sld	r3,r3,r5
-> +	or	r4,r4,r6
-> +	blr
-> +EXPORT_SYMBOL(__ashlti3)
-> -- 
-> Email: Herbert Xu <herbert@gondor.apana.org.au>
-> Home Page: https://urldefense.com/v3/__http://gondor.apana.org.au/*herbert/__;fg!!D9dNQwwGXtA!TSuOAutxjuD3Hp-RC0Fw9dTNuagdCKeNLTN71tv_OmhUxyAPLfIfwwpZop5pKFXgS4Jfkt830_tEMkbwt6bO1g$ 
-> PGP Key: https://urldefense.com/v3/__http://gondor.apana.org.au/*herbert/pubkey.txt__;fg!!D9dNQwwGXtA!TSuOAutxjuD3Hp-RC0Fw9dTNuagdCKeNLTN71tv_OmhUxyAPLfIfwwpZop5pKFXgS4Jfkt830_tEMkam0aoZDQ$ 
-> 
- 
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/net/phy.rs at line 422:
+        //  `phy_driver`.
+        unsafe extern "C" fn match_phy_device_callback(
+            phydev: *mut bindings::phy_device,
+   -        phydrv: *const bindings::phy_driver
+   +        phydrv: *const bindings::phy_driver,
+        ) -> crate::ffi::c_int {
+            // SAFETY: This callback is called only in contexts
+            // where we hold `phy_device->lock`, so the accessors on
+>> Diff in rust/kernel/net/phy.rs at line 422:
+        //  `phy_driver`.
+        unsafe extern "C" fn match_phy_device_callback(
+            phydev: *mut bindings::phy_device,
+   -        phydrv: *const bindings::phy_driver
+   +        phydrv: *const bindings::phy_driver,
+        ) -> crate::ffi::c_int {
+            // SAFETY: This callback is called only in contexts
+            // where we hold `phy_device->lock`, so the accessors on
+>> Diff in rust/kernel/net/phy.rs at line 422:
+        //  `phy_driver`.
+        unsafe extern "C" fn match_phy_device_callback(
+            phydev: *mut bindings::phy_device,
+   -        phydrv: *const bindings::phy_driver
+   +        phydrv: *const bindings::phy_driver,
+        ) -> crate::ffi::c_int {
+            // SAFETY: This callback is called only in contexts
+            // where we hold `phy_device->lock`, so the accessors on
+   make[2]: *** [Makefile:1826: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
