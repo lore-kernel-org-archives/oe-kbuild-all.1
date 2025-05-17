@@ -1,70 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8351BE23F;
-	Sat, 17 May 2025 08:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561BA1F4601;
+	Sat, 17 May 2025 11:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747472246; cv=none; b=E1P5cGuG/ARcTKEaCA213hM95OYxMeAY2GeSlAKc45h1VvuZQWLbia6tgg4CuF51fsL4HnF++kU/TncyF3u7mPvb4zVI3W0RJhP/XG8yUx2QrMCdCAt07BpvIMvy7ycdY1EQCIaXxGkoi9DoX0WPrS3uQnrggWkwGfbYjebKDHA=
+	t=1747483180; cv=none; b=RVg3ip6ucSvTrWXv1kxOAv2MfULGb4mNMEZOxdmz2EL/OKjGisbvflu1tFC9C8GqWnm39lRaBAG0k71igiAhGlrXWVveyJ7zzzQrez8KYIj05phiXfZgFlOC82SJbmhOEkpTC2z86aFGxzDN07EJwtPQV4px02tac8FiOpp6Fyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747472246; c=relaxed/simple;
-	bh=wa0AvHkjwezpx8OoGdRvdZZ/3qzIMnEuZXauHsK4oX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ecpht11v0pjwZbA7hIL88mcifDr9pBynCxwTwv6ZqXaCuS8hm2KRytoIzY3s/fDlcbX1ZY2qNTnUCPD0ynGWH+WYo3SiqSh6ZtPvu617aZ1eEYvm9MN36NwMw4lgRpNvIeYSIBjXVm521kRezaGm5keCUYSlKT5IBj5/2TXJ6f4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oAXtYknx; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1747483180; c=relaxed/simple;
+	bh=xXSu6JbmrTcQ/+2pTjJReOP2K/NKOeJrKNa7BRWA3WM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cBjfBkeoxL1l1BbpRD0Y26bjheBtf1JxxET5iwcdlgeBWbmv0FZaE+pyFV4dg7NT9dRAAmBJ8IglCjCqovU73skkFDK/0aWIknq3ymWxU8Zo7n9fYUVQ+2KeBUHE+P5J3ooAmvoJTUYCbJjtacc/nNJEMV15dHU4ZtR1PsXeDPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ku05dS+X; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oAXtYknx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ku05dS+X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747472245; x=1779008245;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wa0AvHkjwezpx8OoGdRvdZZ/3qzIMnEuZXauHsK4oX0=;
-  b=oAXtYknx1wl2G/uJhMfhVyrPT7pbKVbWQrhzY+Wj7N4D8tjJg3VVaxAq
-   pammjGPWVhjIAfWgFFWDHeBdx2XGiNA1AzhRExCUE037lrGElCV/etlaM
-   w8wV4rsjfS0SUNsQ/ldw/79n/V1PT9zdyqwczef51WDmHZiqsqgxEVO0W
-   sVsDE+VfqZ22OB6JspPI6fJNUykqNFJp6o9KoieyQkeKJOTMtxS8ch4xT
-   rz1HtYRNPgy5dMfOUwLKuOCq2jkpMsTRLgA/sSecy7RChwvGvMract1vj
-   7OTfwB1itgl9ndwUKe3vFd45ca/tcfgpLrd7RdPiVypEQ4Q0pFts2e8mc
+  t=1747483178; x=1779019178;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xXSu6JbmrTcQ/+2pTjJReOP2K/NKOeJrKNa7BRWA3WM=;
+  b=Ku05dS+XxBVZb4UCeQfgGtFfwDARb8kE9SY+rqDeGAx0PG8uae1Ant9C
+   JDhbwx0Q+mtyfA/SSpoPjXpkM4HsjzrP5poIIW99jf2jyHH1TxEOmd/q4
+   W89nmH1tctliUORcze533eXdS4orlruZcFKXw2tfCC03MPHaPWVvNWOOR
+   e6Fwv0wm29Z6UnqHHVheWig+4l1PRcDqR30R71eq5RBCuv3klaWCVnK5m
+   XP4G6pZPORL1my/PEfLialWx+3S6muViWI8OX/+VCml6qs1r6V/LpY3YB
+   JooUDeekqvcKjdy3R5sF2dQCCO1mrZPnJsseFOIcU0txVuruUx4IGevR2
    A==;
-X-CSE-ConnectionGUID: 5PZ3J2TgSieNgmqnuqVURw==
-X-CSE-MsgGUID: otLM69P7QHOzED6HnuhPvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="49140356"
+X-CSE-ConnectionGUID: WaTSR6bKSEmdHpkE6Ldf6Q==
+X-CSE-MsgGUID: jScjdLWJRtiO279u/Bw9pQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="60471859"
 X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
-   d="scan'208";a="49140356"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 01:57:24 -0700
-X-CSE-ConnectionGUID: DF6Ut8pDRF2sGI12i8T6mg==
-X-CSE-MsgGUID: rEEAtEDYSWeWOVKmwVFEyg==
+   d="scan'208";a="60471859"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 04:59:35 -0700
+X-CSE-ConnectionGUID: q2mnjH0xRwKpHQWl/2RpqA==
+X-CSE-MsgGUID: 5vB52mVPRg2Zz4RVLpS7uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
-   d="scan'208";a="142896842"
+   d="scan'208";a="139951236"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 May 2025 01:57:20 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 17 May 2025 04:59:33 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGDM6-000K2J-0n;
-	Sat, 17 May 2025 08:57:18 +0000
-Date: Sat, 17 May 2025 16:56:33 +0800
+	id 1uGGCR-000K6h-0L;
+	Sat, 17 May 2025 11:59:31 +0000
+Date: Sat, 17 May 2025 19:59:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	Lukas Zapolskas <lukas.zapolskas@arm.com>
-Subject: Re: [PATCH v4 5/7] drm/panthor: Implement the counter sampler and
- sample handling
-Message-ID: <202505171601.i0qhMG1O-lkp@intel.com>
-References: <7005fb2eba3abbb2ee95282d117f70c8a7c8555f.1747148172.git.lukas.zapolskas@arm.com>
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 226/227]
+ fs/bcachefs/recovery_passes.c:332:6: warning: variable 'in_recovery' is used
+ uninitialized whenever 'if' condition is true
+Message-ID: <202505171930.jZF5fGGX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,62 +63,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7005fb2eba3abbb2ee95282d117f70c8a7c8555f.1747148172.git.lukas.zapolskas@arm.com>
 
-Hi Lukas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 96c85e428ebaeacd2c640eba075479ab92072ccd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Zapolskas/drm-panthor-Add-performance-counter-uAPI/20250517-000257
-base:   96c85e428ebaeacd2c640eba075479ab92072ccd
-patch link:    https://lore.kernel.org/r/7005fb2eba3abbb2ee95282d117f70c8a7c8555f.1747148172.git.lukas.zapolskas%40arm.com
-patch subject: [PATCH v4 5/7] drm/panthor: Implement the counter sampler and sample handling
-config: i386-buildonly-randconfig-002-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171601.i0qhMG1O-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171601.i0qhMG1O-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   18721b36f18669525c303bf447446e4e9b15e0cc
+commit: 5a3a12453df5915843cabc5b95d71fceba433fc7 [226/227] bcachefs: Run recovery passes asynchronously
+config: riscv-randconfig-002-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171930.jZF5fGGX-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171930.jZF5fGGX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505171601.i0qhMG1O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505171930.jZF5fGGX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/panthor/panthor_perf.c:381:8: error: redefinition of 'panthor_perf_counter_block'
-     381 | struct panthor_perf_counter_block {
-         |        ^
-   drivers/gpu/drm/panthor/panthor_perf.c:126:8: note: previous definition is here
-     126 | struct panthor_perf_counter_block {
-         |        ^
->> drivers/gpu/drm/panthor/panthor_perf.c:651:15: error: redefinition of 'session_get_user_sample_size'
-     651 | static size_t session_get_user_sample_size(const struct drm_panthor_perf_info *const info)
-         |               ^
-   drivers/gpu/drm/panthor/panthor_perf.c:391:15: note: previous definition is here
-     391 | static size_t session_get_user_sample_size(const struct drm_panthor_perf_info *const info)
-         |               ^
->> drivers/gpu/drm/panthor/panthor_perf.c:1038:19: error: incompatible pointer types passing '__u64 (*)[2]' (aka 'unsigned long long (*)[2]') to parameter of type 'u64 *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-    1038 |                 bitmap_to_arr64(&blk->header.enable_mask, blk_em, PANTHOR_PERF_EM_BITS);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitmap.h:313:27: note: passing argument to parameter 'buf' here
-     313 | void bitmap_to_arr64(u64 *buf, const unsigned long *bitmap, unsigned int nbits);
-         |                           ^
-   3 errors generated.
+>> fs/bcachefs/recovery_passes.c:332:6: warning: variable 'in_recovery' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     332 |         if (!__recovery_pass_needs_set(c, pass, flags)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/recovery_passes.c:371:7: note: uninitialized use occurs here
+     371 |         if (!in_recovery) {
+         |              ^~~~~~~~~~~
+   fs/bcachefs/recovery_passes.c:332:2: note: remove the 'if' if its condition is always false
+     332 |         if (!__recovery_pass_needs_set(c, pass, flags)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     333 |                 r->passes_ratelimiting &= ~BIT_ULL(pass);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     334 |                 goto run_async;
+         |                 ~~~~~~~~~~~~~~~
+     335 |         }
+         |         ~
+   fs/bcachefs/recovery_passes.c:337:2: note: variable 'in_recovery' is declared here
+     337 |         bool in_recovery = test_bit(BCH_FS_in_recovery, &c->flags);
+         |         ^
+   1 warning generated.
 
 
-vim +/session_get_user_sample_size +651 drivers/gpu/drm/panthor/panthor_perf.c
+vim +332 fs/bcachefs/recovery_passes.c
 
-   650	
- > 651	static size_t session_get_user_sample_size(const struct drm_panthor_perf_info *const info)
-   652	{
-   653		const size_t block_size = get_annotated_block_size(info->counters_per_block);
-   654		const size_t block_nr = info->cshw_blocks + info->fw_blocks +
-   655			info->tiler_blocks + info->memsys_blocks + info->shader_blocks;
-   656	
-   657		return sizeof(struct drm_panthor_perf_sample_header) + (block_size * block_nr);
-   658	}
-   659	
+   309	
+   310	/*
+   311	 * For when we need to rewind recovery passes and run a pass we skipped:
+   312	 */
+   313	int __bch2_run_explicit_recovery_pass(struct bch_fs *c,
+   314					      struct printbuf *out,
+   315					      enum bch_recovery_pass pass,
+   316					      enum bch_run_recovery_pass_flags flags)
+   317	{
+   318		struct bch_fs_recovery *r = &c->recovery;
+   319		int ret = 0;
+   320	
+   321		lockdep_assert_held(&c->sb_lock);
+   322	
+   323		bch2_printbuf_make_room(out, 1024);
+   324		out->atomic++;
+   325	
+   326		unsigned long lockflags;
+   327		spin_lock_irqsave(&r->lock, lockflags);
+   328	
+   329		if (!recovery_pass_needs_set(c, pass, flags))
+   330			goto out;
+   331	
+ > 332		if (!__recovery_pass_needs_set(c, pass, flags)) {
+   333			r->passes_ratelimiting &= ~BIT_ULL(pass);
+   334			goto run_async;
+   335		}
+   336	
+   337		bool in_recovery = test_bit(BCH_FS_in_recovery, &c->flags);
+   338		bool rewind = in_recovery && r->curr_pass > pass;
+   339	
+   340		if ((flags & RUN_RECOVERY_PASS_nopersistent) && in_recovery) {
+   341			r->passes_to_run |= BIT_ULL(pass);
+   342		} else {
+   343			struct bch_sb_field_ext *ext = bch2_sb_field_get(c->disk_sb.sb, ext);
+   344			__set_bit_le64(bch2_recovery_pass_to_stable(pass), ext->recovery_passes_required);
+   345		}
+   346	
+   347		if (pass < BCH_RECOVERY_PASS_set_may_go_rw &&
+   348		    (!in_recovery || r->curr_pass >= BCH_RECOVERY_PASS_set_may_go_rw)) {
+   349			prt_printf(out, "need recovery pass %s (%u), but already rw\n",
+   350				   bch2_recovery_passes[pass], pass);
+   351			ret = -BCH_ERR_cannot_rewind_recovery;
+   352			goto out;
+   353		}
+   354	
+   355		prt_printf(out, "running recovery pass %s (%u), currently at %s (%u)%s\n",
+   356			   bch2_recovery_passes[pass], pass,
+   357			   bch2_recovery_passes[r->curr_pass], r->curr_pass,
+   358			   rewind ? " - rewinding" : "");
+   359	
+   360		if (test_bit(BCH_FS_in_recovery, &c->flags))
+   361			r->passes_to_run |= BIT_ULL(pass);
+   362		else if (flags & RUN_RECOVERY_PASS_ratelimit)
+   363			r->passes_ratelimiting |= BIT_ULL(pass);
+   364	
+   365		if (rewind) {
+   366			r->next_pass = pass;
+   367			r->passes_complete &= (1ULL << pass) >> 1;
+   368			ret = -BCH_ERR_restart_recovery;
+   369		}
+   370	run_async:
+   371		if (!in_recovery) {
+   372			struct recovery_pass_fn *p = recovery_pass_fns + pass;
+   373			if (p->when & PASS_ONLINE)
+   374				bch2_run_async_recovery_passes(c);
+   375		}
+   376	out:
+   377		spin_unlock_irqrestore(&r->lock, lockflags);
+   378		--out->atomic;
+   379		return ret;
+   380	}
+   381	
 
 -- 
 0-DAY CI Kernel Test Service
