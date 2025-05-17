@@ -1,68 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5471DE8BE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 21:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32661BEF7D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 23:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747517848; cv=none; b=IwXaDvtB+O7JXZMbvVfx88qyHqLSCwylKPsDnm4lf98oNNbwK6ZktOR3qvEnGevybLuLqpSkBhCS4D6kvYyMvkFrVDfs+xJQHrsr2FWJjjTYv5psUAtq+HCasp5aX5Ud2Ij2jpQBn/67aTGZXmbmnHrN0TQWKfhcs/GmipAB5ZM=
+	t=1747524574; cv=none; b=kuke3r+I1dC+RsAriL1YdwTAX1mTK/PiiNZDZn0bFexdqxRs+yx/l4xWm9oeSS8Ct9gZzrvTBczmxzxNcvjXcOYkvdqs6orPLDaqBbsse4rpyTpqwc0xdltvUPm9dKI4VQzOi0A3yeY19V6d6p6GTpDG63EnSKqOvv5SjJvZmf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747517848; c=relaxed/simple;
-	bh=a4Z+OfYM/RmSaLQ/ZTI97l43un5yBV8OEUGbPy6KrCs=;
+	s=arc-20240116; t=1747524574; c=relaxed/simple;
+	bh=+N5lFSz20yfTznoLYimB/B5/K33oBnBQz4l+F/eNhms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gxBRPIBU7Mzn9yiEXwvyA9oULAhAf57g3UL7yNHu1ibrh1eh/K72HoGm8wVSdBrvDzeOELLhpQeZvYKHJDaHZJz3L5Vv95SMi/Ud2OejllIwh/uaDg8RWh2liWABoIah4qdsmErR7iw4PI9WwK6/1QM/Va1tq+qOvI9CzazGNqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJ1LX0hJ; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=A/Wew5guqxZO8WLqysXGnpJgG8qeGKa8RmWI7JJjkMZGIdaN6R4DuGYEaT2AbUC/lMYlBaNDi9jeO0oRtIX40oOW1rtVdWcl5UAJ4wm7fsT+hYFTl8fA1jUX1KYLDfJLOv0D21tMxMaqYOqadar6agHHyF5+M/AmZldhwHhreYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yur6uYCM; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJ1LX0hJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yur6uYCM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747517845; x=1779053845;
+  t=1747524572; x=1779060572;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=a4Z+OfYM/RmSaLQ/ZTI97l43un5yBV8OEUGbPy6KrCs=;
-  b=jJ1LX0hJVkccVeZ4U89KHy6BTX2REXAFf6a8i63KRANfPY1Ybnh9aCal
-   lKzBAVJjtcguEbYXwEt6FNoGvT3WHppcon9wBpUbXrI44Tc/2zjXFC8Bq
-   j4gusdNhrFgzXumuGntH4sAb0AiBfoPVd1OWtgT51bBse7HJmYEtV/Pi0
-   KEZj7G2wZY+sxLxVloBe7ggXB5+3bq97k14won4XiyTyuMzyt+5bvL+Oh
-   LtQPWKaHZJNSDtIIG5k/Gkw4LPXBpOYOPUwpXC8tKRGPRM8BkVka3+G0u
-   w84BtxMBjlnRqtLYRd1iFwnFyyWoXQpacqUZxDbQjyzBYFpNMnq71sJZb
-   w==;
-X-CSE-ConnectionGUID: nTJ+YrLrQ3ms06+jXrjugQ==
-X-CSE-MsgGUID: zuEuuD4cRyykqg8jSbkAfQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="49567144"
-X-IronPort-AV: E=Sophos;i="6.15,297,1739865600"; 
-   d="scan'208";a="49567144"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 14:37:24 -0700
-X-CSE-ConnectionGUID: 7bZfwtb7QoC0ylkpxoMQIQ==
-X-CSE-MsgGUID: QtBAnf0RQUuQh7+WOotLLQ==
+  bh=+N5lFSz20yfTznoLYimB/B5/K33oBnBQz4l+F/eNhms=;
+  b=Yur6uYCMbQnP9Y7sng7TKN+UyL83R3hG3Hlz3ESQLxMIC/EO2ASuP0SI
+   chGjJjLALu8IpC2C+40yxzfNUqQEJJ1pqx6rJi27lT5U4nxObIJpjVzBi
+   mqzjQ4U6f3Dc8tVHp/JEn8t+2X0sAD0vUZm4qpmd7F43EU0JCl7bnOJfl
+   m9b8ZuwDhTd+CNYNWu5Pl+qzGMvmykOJGUAP6V5Sddw6d2B+ozAE+DIAq
+   s49hOnX85YcdNpweu7tLVVpD0+W4GQEb069sQTj7AdL6m4L9VfXeGhysV
+   E/8vPCjx1k0I5IVEePeOtKgioyNRskIMStPi0CHqTWjNVLyNrTYiZBvGB
+   g==;
+X-CSE-ConnectionGUID: p+1lsyAFQYeEw2zSpOiYCQ==
+X-CSE-MsgGUID: 2if1SReIRuu+1qAqASjNbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="49601211"
+X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
+   d="scan'208";a="49601211"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 16:29:31 -0700
+X-CSE-ConnectionGUID: O6HBPcOMQyu85uTDRnncEQ==
+X-CSE-MsgGUID: Es0LnsFwRWaT+ee1ohzpfg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,297,1739865600"; 
-   d="scan'208";a="139496803"
+X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
+   d="scan'208";a="170061095"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 May 2025 14:37:21 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 May 2025 16:29:29 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGPDa-000KS7-2g;
-	Sat, 17 May 2025 21:37:18 +0000
-Date: Sun, 18 May 2025 05:36:39 +0800
+	id 1uGQy6-000KUh-3A;
+	Sat, 17 May 2025 23:29:26 +0000
+Date: Sun, 18 May 2025 07:28:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Igor Korotin <igor.korotin@yahoo.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	Igor Korotin <igor.korotin@yahoo.com>
-Subject: Re: [PATCH v4] rust: macros: Fix macro referencing core and kernel
- crates
-Message-ID: <202505180525.LRAJXV9j-lkp@intel.com>
-References: <20250516122349.1944895-1-igor.korotin@yahoo.com>
+To: zhangsenchuan@eswincomputing.com, gregkh@linuxfoundation.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Thinh.Nguyen@synopsys.com,
+	p.zabel@pengutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, ningyu@eswincomputing.com,
+	linmin@eswincomputing.com, yangwei1@eswincomputing.com,
+	Senchuan Zhang <zhangsenchuan@eswincomputing.com>
+Subject: Re: [PATCH v1 2/2] usb: dwc3: eic7700: Add EIC7700 usb driver
+Message-ID: <202505180701.e5gwT1y2-lkp@intel.com>
+References: <20250516095408.704-1-zhangsenchuan@eswincomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,58 +68,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250516122349.1944895-1-igor.korotin@yahoo.com>
+In-Reply-To: <20250516095408.704-1-zhangsenchuan@eswincomputing.com>
 
-Hi Igor,
+Hi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on rust/rust-next]
-[cannot apply to shuah-kselftest/kunit shuah-kselftest/kunit-fixes linus/master v6.15-rc6 next-20250516]
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus robh/for-next westeri-thunderbolt/next linus/master v6.15-rc6 next-20250516]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Korotin/rust-macros-Fix-macro-referencing-core-and-kernel-crates/20250516-203554
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20250516122349.1944895-1-igor.korotin%40yahoo.com
-patch subject: [PATCH v4] rust: macros: Fix macro referencing core and kernel crates
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250518/202505180525.LRAJXV9j-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505180525.LRAJXV9j-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/zhangsenchuan-eswincomputing-com/dt-bindings-usb-Add-Eswin-EIC7700-Usb-controller/20250516-175800
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20250516095408.704-1-zhangsenchuan%40eswincomputing.com
+patch subject: [PATCH v1 2/2] usb: dwc3: eic7700: Add EIC7700 usb driver
+config: x86_64-randconfig-005-20250518 (https://download.01.org/0day-ci/archive/20250518/202505180701.e5gwT1y2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505180701.e5gwT1y2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505180525.LRAJXV9j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505180701.e5gwT1y2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in scripts/rustdoc_test_builder.rs at line 50:
-        // Qualify `Result` to avoid the collision with our own `Result` coming from the prelude.
-        let body = body.replace(
-            &format!("{rustdoc_function_name}() -> Result<(), impl ::core::fmt::Debug> {{"),
-   -        &format!("{rustdoc_function_name}() -> ::core::result::Result<(), impl ::core::fmt::Debug> {{"),
-   +        &format!(
-   +            "{rustdoc_function_name}() -> ::core::result::Result<(), impl ::core::fmt::Debug> {{"
-   +        ),
-        );
-    
-        // For tests that get generated with `Result`, like above, `rustdoc` generates an `unwrap()` on
-   make[2]: *** [Makefile:1826: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+>> ERROR: modpost: "dwc3_gadget_get_link_state" [drivers/usb/dwc3/dwc3-eic7700.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
