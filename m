@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2C61714AE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 20:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51C48F6F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 20:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747512860; cv=none; b=qyj3VJaziV+s3huH4IFvQz0mFUL/gv4urM08G7dat/ueKmtuVq9q4Uo/Q25Z22MjLUe9lEoE51YhGWm0TNY9CdUf+B4OPU+A83ptYy6mB1YPMQ6RrAyyGSdDBGRM5xdU7h3EA8Ni7IKTwyHdKeEMqj+KNyLxLuHSunWBtOYXoUI=
+	t=1747514121; cv=none; b=HzF8KBL9n9sGTvRnsIGSn3X4IbOoSPnMzJxzVYpejBYLIy3/mvFwcyxaY6zhL/ocOxhz7zWBJ5cgueWygEvnspauJwklUOpyLqNdKQWmy8zRxZ0nQx58gyTmWZAK4+AkAXX87QEPJItN1wtwqZFZuOMUVsmRREkb33RzIZ8xd1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747512860; c=relaxed/simple;
-	bh=SKCXI74U/gmxDrxYFYuuztblXn49b0th/copPEAX0yY=;
+	s=arc-20240116; t=1747514121; c=relaxed/simple;
+	bh=A1adUe+cYOvArGNE/hSK4EzFP4GP4YO5FYj9H98ZZGQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TAeFuoc5vb4ll7b7zlSxPy+9ZY6+eNZk+vbpjf3Xoo+iZFLd3fog3y1ypiY9+C1YHoNNwkPzQU2zyrxKEFXXXd6EzJs3jgSahuMZGXoeWk++p+AUSZkScEvxHVHvmmqGXrtzaNUqdpj6/HMqYgYG6+oQyS6fP4qFnSpz9IiXXHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAAZM1iQ; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=S+kugoGxWJaH1xRU4ir6AZed8PyYzMrUg+ro3Xwq+V4FtEdjCIkY0Oy9jJpKvPJvb6BsDesAxpiMQCu0aCeOHv/Gn5+GBcVEqvQwKZZHzdz8UKx31Y30aOMFbtdJONLJui+UmfZNYXC94R73Wm5b3RLMavqJxovsfXRsLLHJCiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+kQUxFO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAAZM1iQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+kQUxFO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747512858; x=1779048858;
+  t=1747514120; x=1779050120;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SKCXI74U/gmxDrxYFYuuztblXn49b0th/copPEAX0yY=;
-  b=NAAZM1iQu7o9eOvMNHvIujreYQZz+EmZIp0DufE9XRk02/XfoSTAC7i0
-   Llfu0VMWKRhgy1r6JZgqJIfu6BJ/EbOuR3zec+KlmSeS+DIP5bt6sXwrM
-   16QQkBWRV4f6rUMUCUFlCKdPvSnZzugUvUf3Rinycma7gRjHejK99jYTS
-   gNf0AeID9nGPJ3AwZlaR2t3JBYiryDZSd9n2V/F3NhUfcyu2/VGsiRG9W
-   2zRBUu4Cmel5Hw9ZCUusbmG7cbFS3tMTZZa3UNDZCy72sX0HqO0LpPKfl
-   GKEO6aUzthLuXZD4KRwEItrjcDOH4bU1NeOBXbDZKx5vuUfQ/t9RnxbAf
-   g==;
-X-CSE-ConnectionGUID: eC8CCJQAQu+iWC2ImCrDLA==
-X-CSE-MsgGUID: j+Jt5Yy9Rvy5BEfKrnbkgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="37075925"
+  bh=A1adUe+cYOvArGNE/hSK4EzFP4GP4YO5FYj9H98ZZGQ=;
+  b=l+kQUxFOF7H1XamjgfipG/v+EmIA4uqrrPtcyeH9+RZMPRjfPHTth5K+
+   nrsisM4lBfzAA+FkDju4d4NwEObmus/5NtnGCsJYqqRgyQCrxBBY7SJf2
+   7nc5EwTa7O+NDANIlHG+IxgRc7nj49NDmaJx94Jw32n6z9iXqdBFNdrY4
+   pRzO7LV87br1MPfEzRSNBi8LnqjqMUjCCrwHOpImrEny1NTB2dSxj2EEe
+   lRBfuJ1ZbJzMrXhYDaM1amKP+jwD1JJ3SMeSn7SdCMeh4q+aNBFtz2gJi
+   q0wIB+9c8MU6RECWvITcoo06XZubGJhHkU5Dxl92piBlRjLgVdMNYsMQd
+   A==;
+X-CSE-ConnectionGUID: 4MUtUvoWSYusfZVQX+vnUw==
+X-CSE-MsgGUID: oyp4F0PgSgGLJheRJxxUVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="71961253"
 X-IronPort-AV: E=Sophos;i="6.15,297,1739865600"; 
-   d="scan'208";a="37075925"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 13:14:17 -0700
-X-CSE-ConnectionGUID: ENNxh/SVSKKbaUQ9PgtivQ==
-X-CSE-MsgGUID: plOD7kqdRKK6xKcgcWpZ7w==
+   d="scan'208";a="71961253"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 13:35:19 -0700
+X-CSE-ConnectionGUID: KuzKdv50RgmVX84J2pgSQg==
+X-CSE-MsgGUID: SE9CoXYGRI+xOotZOC8XOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,297,1739865600"; 
-   d="scan'208";a="144244932"
+   d="scan'208";a="139402611"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 May 2025 13:14:14 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 May 2025 13:35:17 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGNvA-000KP5-04;
-	Sat, 17 May 2025 20:14:12 +0000
-Date: Sun, 18 May 2025 04:13:46 +0800
+	id 1uGOFW-000KQF-0H;
+	Sat, 17 May 2025 20:35:14 +0000
+Date: Sun, 18 May 2025 04:35:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
-	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>, Robin Gong <yibin.gong@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-imx@nxp.com,
-	linux-input@vger.kernel.org, Abel Vesa <abelvesa@linux.com>,
-	Enric Balletbo Serra <eballetbo@gmail.com>
-Subject: Re: [PATCH v2 6/9] regulator: pf1550: add support for regulator
-Message-ID: <202505180341.aMQhbUVJ-lkp@intel.com>
-References: <4dd316e06a66634b5af13f1faedc985753b061bc.1747409892.git.samuel.kayode@savoirfairelinux.com>
+To: Wentao Liang <vulab@iscas.ac.cn>, ajay.kathat@microchip.com,
+	claudiu.beznea@tuxon.dev, kvalo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] wifi: wilc1000: Add error handling for wilc_sdio_cmd52()
+Message-ID: <202505180440.dyQDHWJJ-lkp@intel.com>
+References: <20250516083842.903-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,36 +65,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4dd316e06a66634b5af13f1faedc985753b061bc.1747409892.git.samuel.kayode@savoirfairelinux.com>
+In-Reply-To: <20250516083842.903-1-vulab@iscas.ac.cn>
 
-Hi Samuel,
+Hi Wentao,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on b1d8766052eb0534b27edda8af1865d53621bd6a]
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.15-rc6 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Kayode/dt-bindings-power-supply-add-pf1550/20250517-030259
-base:   b1d8766052eb0534b27edda8af1865d53621bd6a
-patch link:    https://lore.kernel.org/r/4dd316e06a66634b5af13f1faedc985753b061bc.1747409892.git.samuel.kayode%40savoirfairelinux.com
-patch subject: [PATCH v2 6/9] regulator: pf1550: add support for regulator
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/wifi-wilc1000-Add-error-handling-for-wilc_sdio_cmd52/20250516-163959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20250516083842.903-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] wifi: wilc1000: Add error handling for wilc_sdio_cmd52()
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250518/202505180440.dyQDHWJJ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505180440.dyQDHWJJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505180341.aMQhbUVJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505180440.dyQDHWJJ-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/regulator/pf1550.c: linux/regulator/machine.h is included more than once.
->> drivers/regulator/pf1550.c: linux/slab.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +19 drivers/regulator/pf1550.c
+   In file included from include/linux/device.h:15,
+                    from include/linux/mmc/sdio_func.h:11,
+                    from drivers/net/wireless/microchip/wilc1000/sdio.c:8:
+   drivers/net/wireless/microchip/wilc1000/sdio.c: In function 'wilc_sdio_read_size':
+>> drivers/net/wireless/microchip/wilc1000/sdio.c:792:32: error: 'struct sdio_func' has no member named 'devm'; did you mean 'dev'?
+     792 |                 dev_err(&func->devm, "Fail cmd 52, interrupt data register...\n");
+         |                                ^~~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/net/wireless/microchip/wilc1000/sdio.c:792:17: note: in expansion of macro 'dev_err'
+     792 |                 dev_err(&func->devm, "Fail cmd 52, interrupt data register...\n");
+         |                 ^~~~~~~
+   drivers/net/wireless/microchip/wilc1000/sdio.c:801:32: error: 'struct sdio_func' has no member named 'devm'; did you mean 'dev'?
+     801 |                 dev_err(&func->devm, "Fail cmd 52, interrupt data register...\n");
+         |                                ^~~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/net/wireless/microchip/wilc1000/sdio.c:801:17: note: in expansion of macro 'dev_err'
+     801 |                 dev_err(&func->devm, "Fail cmd 52, interrupt data register...\n");
+         |                 ^~~~~~~
 
-  > 19	#include <linux/regulator/machine.h>
-    20	#include <linux/regulator/of_regulator.h>
-  > 21	#include <linux/regulator/machine.h>
-    22	#include <linux/platform_device.h>
-    23	
+
+vim +792 drivers/net/wireless/microchip/wilc1000/sdio.c
+
+   774	
+   775	static int wilc_sdio_read_size(struct wilc *wilc, u32 *size)
+   776	{
+   777		u32 tmp;
+   778		struct sdio_cmd52 cmd;
+   779		struct sdio_func *func = dev_to_sdio_func(wilc->dev);
+   780		int ret;
+   781	
+   782		/**
+   783		 *      Read DMA count in words
+   784		 **/
+   785		cmd.read_write = 0;
+   786		cmd.function = 0;
+   787		cmd.raw = 0;
+   788		cmd.address = WILC_SDIO_INTERRUPT_DATA_SZ_REG;
+   789		cmd.data = 0;
+   790		ret = wilc_sdio_cmd52(wilc, &cmd);
+   791		if (ret) {
+ > 792			dev_err(&func->devm, "Fail cmd 52, interrupt data register...\n");
+   793			return ret;
+   794		}
+   795		tmp = cmd.data;
+   796	
+   797		cmd.address = WILC_SDIO_INTERRUPT_DATA_SZ_REG + 1;
+   798		cmd.data = 0;
+   799		ret = wilc_sdio_cmd52(wilc, &cmd);
+   800		if (ret) {
+   801			dev_err(&func->devm, "Fail cmd 52, interrupt data register...\n");
+   802			return ret;
+   803		}
+   804		tmp |= (cmd.data << 8);
+   805	
+   806		*size = tmp;
+   807		return 0;
+   808	}
+   809	
 
 -- 
 0-DAY CI Kernel Test Service
