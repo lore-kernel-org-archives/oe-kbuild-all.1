@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CD915E8B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 19:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2C61714AE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 20:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747510996; cv=none; b=ZsMpUMrYAKhHH0CB+Z8RRGPkMm/ds6QJdnVrq4FjL4xHI0j4s5BDHWuqgawJG2ELiLXA53lWbGLbzt0Bzq4L0rcpsw+9uj5X5XBVCwCbzZWkfvuiyLlP7xQuPxL1/t8JLslSRz8RHYfLrE92ikLJpPmVWGsmQEzqUpjTinXqQVk=
+	t=1747512860; cv=none; b=qyj3VJaziV+s3huH4IFvQz0mFUL/gv4urM08G7dat/ueKmtuVq9q4Uo/Q25Z22MjLUe9lEoE51YhGWm0TNY9CdUf+B4OPU+A83ptYy6mB1YPMQ6RrAyyGSdDBGRM5xdU7h3EA8Ni7IKTwyHdKeEMqj+KNyLxLuHSunWBtOYXoUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747510996; c=relaxed/simple;
-	bh=iLl3SB2Z7fCrywpxu/ecEIEYgWKDSAbn/J+qsFQ8RXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E6TxEd4iXzr/FDLrP98suerqbv4AXbpW1OiBtLXYwotcieRiJ6Pw/AW35khWfwWvockN9OPx3L98TDO3gvw2VljayeW5nMXaWJjl4INZcLAy42Q4bs88uVXZQ0naI/EXg7bAX6vQOU87CV69kpgEpCWc1izC4tCdfrBKmzaiG/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y0pWHbtk; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1747512860; c=relaxed/simple;
+	bh=SKCXI74U/gmxDrxYFYuuztblXn49b0th/copPEAX0yY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TAeFuoc5vb4ll7b7zlSxPy+9ZY6+eNZk+vbpjf3Xoo+iZFLd3fog3y1ypiY9+C1YHoNNwkPzQU2zyrxKEFXXXd6EzJs3jgSahuMZGXoeWk++p+AUSZkScEvxHVHvmmqGXrtzaNUqdpj6/HMqYgYG6+oQyS6fP4qFnSpz9IiXXHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAAZM1iQ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y0pWHbtk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAAZM1iQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747510994; x=1779046994;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iLl3SB2Z7fCrywpxu/ecEIEYgWKDSAbn/J+qsFQ8RXg=;
-  b=Y0pWHbtkc4DSpJPmt29gSXKkU/CE468OA3lv4S5qSwDwlF4vx3IPdtEf
-   Vr2Ql0+qqp4nvesQnxKEvA9eegL36lCdo6H9YIroz2owiAXc9KvBIcoaY
-   QjIzpyaprAzAv1MQ5ft0sOt+2zb06vVX+keHrfiRSaKhPQpd3p+qqEt0r
-   ksLPwT53gxaMoALiEa+Kv+qKqJJ6/OsybF+0sY99kTvUc959wCOHL2v0x
-   +M97xwVpoYV4r0gispaEBfaN528WsD1Q5FrWUMXAJJtRelgEod5fUSOVa
-   zZA97eVsGG9hH4PZPF0OQjqjDdYp/hzBVHXTG6B5QroDhx7/OekvWZt0K
-   w==;
-X-CSE-ConnectionGUID: CoYomB5QTTOeWns8MTRxYA==
-X-CSE-MsgGUID: 1UWe2vK6QoyNpZgAxJ2NGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="60485807"
+  t=1747512858; x=1779048858;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SKCXI74U/gmxDrxYFYuuztblXn49b0th/copPEAX0yY=;
+  b=NAAZM1iQu7o9eOvMNHvIujreYQZz+EmZIp0DufE9XRk02/XfoSTAC7i0
+   Llfu0VMWKRhgy1r6JZgqJIfu6BJ/EbOuR3zec+KlmSeS+DIP5bt6sXwrM
+   16QQkBWRV4f6rUMUCUFlCKdPvSnZzugUvUf3Rinycma7gRjHejK99jYTS
+   gNf0AeID9nGPJ3AwZlaR2t3JBYiryDZSd9n2V/F3NhUfcyu2/VGsiRG9W
+   2zRBUu4Cmel5Hw9ZCUusbmG7cbFS3tMTZZa3UNDZCy72sX0HqO0LpPKfl
+   GKEO6aUzthLuXZD4KRwEItrjcDOH4bU1NeOBXbDZKx5vuUfQ/t9RnxbAf
+   g==;
+X-CSE-ConnectionGUID: eC8CCJQAQu+iWC2ImCrDLA==
+X-CSE-MsgGUID: j+Jt5Yy9Rvy5BEfKrnbkgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="37075925"
 X-IronPort-AV: E=Sophos;i="6.15,297,1739865600"; 
-   d="scan'208";a="60485807"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 12:43:13 -0700
-X-CSE-ConnectionGUID: gpT29MJTTPCAN+SK6jH1dQ==
-X-CSE-MsgGUID: fKTNoyGvSX+tUdi1gj1NlQ==
+   d="scan'208";a="37075925"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 13:14:17 -0700
+X-CSE-ConnectionGUID: ENNxh/SVSKKbaUQ9PgtivQ==
+X-CSE-MsgGUID: plOD7kqdRKK6xKcgcWpZ7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,297,1739865600"; 
-   d="scan'208";a="140012972"
+   d="scan'208";a="144244932"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 May 2025 12:43:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 May 2025 13:14:14 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGNR7-000KOF-2h;
-	Sat, 17 May 2025 19:43:09 +0000
-Date: Sun, 18 May 2025 03:42:35 +0800
+	id 1uGNvA-000KP5-04;
+	Sat, 17 May 2025 20:14:12 +0000
+Date: Sun, 18 May 2025 04:13:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:la57-cpucap-v4 5/6]
- arch/x86/include/asm/pgtable_32_types.h:18: warning: "pgtable_l5_enabled"
- redefined
-Message-ID: <202505180307.D23Qndff-lkp@intel.com>
+To: Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
+	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, Robin Gong <yibin.gong@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-imx@nxp.com,
+	linux-input@vger.kernel.org, Abel Vesa <abelvesa@linux.com>,
+	Enric Balletbo Serra <eballetbo@gmail.com>
+Subject: Re: [PATCH v2 6/9] regulator: pf1550: add support for regulator
+Message-ID: <202505180341.aMQhbUVJ-lkp@intel.com>
+References: <4dd316e06a66634b5af13f1faedc985753b061bc.1747409892.git.samuel.kayode@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +69,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <4dd316e06a66634b5af13f1faedc985753b061bc.1747409892.git.samuel.kayode@savoirfairelinux.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git la57-cpucap-v4
-head:   51ac31cc5bf5d24277d69246d6e89e67b10d5348
-commit: ebbbb0910e2fb82b773ba3b0ced0f843eed79436 [5/6] x86/boot: Drop the early variant of pgtable_l5_enabled()
-config: i386-buildonly-randconfig-001-20250518 (https://download.01.org/0day-ci/archive/20250518/202505180307.D23Qndff-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505180307.D23Qndff-lkp@intel.com/reproduce)
+Hi Samuel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b1d8766052eb0534b27edda8af1865d53621bd6a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Kayode/dt-bindings-power-supply-add-pf1550/20250517-030259
+base:   b1d8766052eb0534b27edda8af1865d53621bd6a
+patch link:    https://lore.kernel.org/r/4dd316e06a66634b5af13f1faedc985753b061bc.1747409892.git.samuel.kayode%40savoirfairelinux.com
+patch subject: [PATCH v2 6/9] regulator: pf1550: add support for regulator
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505180307.D23Qndff-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505180341.aMQhbUVJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/regulator/pf1550.c: linux/regulator/machine.h is included more than once.
+>> drivers/regulator/pf1550.c: linux/slab.h is included more than once.
 
-   In file included from arch/x86/include/asm/pgtable_types.h:281,
-                    from arch/x86/include/asm/processor.h:21,
-                    from arch/x86/include/asm/cpufeature.h:7,
-                    from arch/x86/include/asm/thread_info.h:59,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/elf.h:8,
-                    from include/linux/elf.h:6,
-                    from arch/x86/boot/compressed/misc.h:32,
-                    from arch/x86/boot/compressed/kaslr.c:22:
->> arch/x86/include/asm/pgtable_32_types.h:18: warning: "pgtable_l5_enabled" redefined
-      18 | #define pgtable_l5_enabled() 0
-         | 
-   arch/x86/boot/compressed/misc.h:28: note: this is the location of the previous definition
-      28 | #define pgtable_l5_enabled() (native_read_cr4() & X86_CR4_LA57)
-         | 
+vim +19 drivers/regulator/pf1550.c
 
-
-vim +/pgtable_l5_enabled +18 arch/x86/include/asm/pgtable_32_types.h
-
-f402a65f93c712 Jeremy Fitzhardinge 2009-02-08  17  
-ed7588d5dc6f5e Kirill A. Shutemov  2018-05-18 @18  #define pgtable_l5_enabled() 0
-e626e6bb0dfaca Kirill A. Shutemov  2018-02-14  19  
-
-:::::: The code at line 18 was first introduced by commit
-:::::: ed7588d5dc6f5e7202fb9bbeb14d94706ba225d7 x86/mm: Stop pretending pgtable_l5_enabled is a variable
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+  > 19	#include <linux/regulator/machine.h>
+    20	#include <linux/regulator/of_regulator.h>
+  > 21	#include <linux/regulator/machine.h>
+    22	#include <linux/platform_device.h>
+    23	
 
 -- 
 0-DAY CI Kernel Test Service
