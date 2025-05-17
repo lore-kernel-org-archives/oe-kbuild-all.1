@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D57E18DB29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228D4198E7B
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 04:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747457106; cv=none; b=rY+nVWHxiwpKkVdw7B9NsI5WRt9h7+4mwGd0inx+xUGsubRc7Ut9w2tyPfRjxdAIlSvXrqICBBjuolYSQu4yuFZyM4BVmOjS1c8L0s0kgcmcx/W5ZGVAWj2r0Gg5vBCn8BbuSbohXZc10rTxgr8lBa4KQoj19B6W1kLxY4LUNF8=
+	t=1747457107; cv=none; b=ZvVIiHF1M/Bs0uDRVUXXvSj/n/Ge2IfF6BzBbfUJHrMaW0vFGCIeX8oYq6+VkDQ7lu/EQxzBbuA9AvVDBnxdHROGEvAt9jqLII7fmzgV4OC4epwWhAoZ7lUiuy2nDoHGLamKQvXqOA5BSaGKURgkLE+94VETW051oqMD0DPOPZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747457106; c=relaxed/simple;
-	bh=nLONp9OnbgmX/ElhVjnU9cE65rjhiA/FRcEAQvpyrr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q4uw93iIzkecX2+hS7Xn5tuy/1QtD1j8Z6nD7bNAgRAqh6976aY8ncbI2TCNuhzJ2BoI7fUI3ZisNCQMlZY+sVQYMBdqsFaGqaMKMXnmkIlgu5+JG+6UZWVY4KMvJykrh8DLdWvIJv+Uc5R3bwVdgDDBWVhQrHTF0zv/hU51tI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l0WhhpXw; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1747457107; c=relaxed/simple;
+	bh=AADRiBeV8B1tsvKaeQz7lDiCK5eB0B24qYkhqNMn9YM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kVN8GYWFU8nCM7ZTvOyaZpddtzNy0LPurrO2zPPvaivHmSd2r1QE/j+CEw7TIfshLKupIVT9np29eBV0RW3JFA6RqGxnOnNLai0IFN2fSN3CsQ0VYGHfLysYk2srhl+/GA9E14a47q5inFJWzLEAQEzTUixf/r4B4ulpFfxBRrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2kWttQA; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l0WhhpXw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2kWttQA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1747457105; x=1778993105;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nLONp9OnbgmX/ElhVjnU9cE65rjhiA/FRcEAQvpyrr4=;
-  b=l0WhhpXwlzA2wZ4bgGr+2Rx81KnBfh6K6XNZBPmpIk5+nAnptEyUrunW
-   GhgxkOkfACpmRaIVq6qJtp9gg8BX3TSILZj8JviEo/DZxSUDrfJPVWeJ7
-   A8WvFUaGU+ouPR6T9jMn2aZBJY47oUT2DxB43RWQD/bFjnzaAqR5BCBE/
-   XNwBEt8BACA2C9hoIDXfSc84SbPkpMGtDAVD5jYvjOHeBvljUhMoHzaLi
-   9mebpth7TG1mJ2RPydxVeZLiDbsvpirFORkfq5pZNlBtdfCPXDp2kZ6TM
-   T3Hr4pIOf6501WNBs8SZ5r3e6AT7m6RV4htLrwNnPEj+TaqpQfHA8s6hX
-   A==;
-X-CSE-ConnectionGUID: A0wZWHJVSzeFquBo0V2WBA==
-X-CSE-MsgGUID: EmYTlRJ8SJOzKjFjY0H6pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="49363378"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AADRiBeV8B1tsvKaeQz7lDiCK5eB0B24qYkhqNMn9YM=;
+  b=C2kWttQAKRDAwFldacfyfZTsG7KmLVZH+wQUuAozLdT/uQ5Nkyg1eBc2
+   cTRQ6xMG5Nn8wtGKP7eATTIrBDar6Qg5RSj00+ziNhvOzj3OOBb4EsV8v
+   t6AQzNV/f6IzCoJiA8IlNYQ9VeEIFvfwLthPk+uV/iE0o3NmxPyx2QIyE
+   7LAK6L1By/G8oBzKMvxZuYxQ0g/kBWC6vh+7EAdIgAdS6/EWF4ZrKnDEC
+   uqW7Tkp5xKgVPP4inIayqu7/VrGE/P4b6KX0deCSAoieg7D3E3kEj+qpL
+   cC5JkN8ZM/A/SSkiTtDBnTZM4VqgvZLgXTUiMQtz8Z4bcCDqr0Q0HTR5l
+   Q==;
+X-CSE-ConnectionGUID: /1QYM58RS76JnNsqfUMzmA==
+X-CSE-MsgGUID: 4dw0DAR0RIWbzSZhp6T+Ew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="53252057"
 X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
-   d="scan'208";a="49363378"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 21:45:04 -0700
-X-CSE-ConnectionGUID: oE3j8kRqQC+4xLFGDsIzpQ==
-X-CSE-MsgGUID: mgiN3AK6QnWhqD0fxamQqw==
+   d="scan'208";a="53252057"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 21:45:05 -0700
+X-CSE-ConnectionGUID: HoseE2wkTZqhXxcZoPndWg==
+X-CSE-MsgGUID: eK+ddwPNR1uBIK4XHHLe5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
-   d="scan'208";a="144121728"
+   d="scan'208";a="139401647"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 May 2025 21:45:02 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 May 2025 21:45:03 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uG9Pw-000Jw5-1d;
+	id 1uG9Pw-000Jw3-1V;
 	Sat, 17 May 2025 04:45:00 +0000
-Date: Sat, 17 May 2025 12:44:38 +0800
+Date: Sat, 17 May 2025 12:44:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rick Macklem <rmacklem@uoguelph.ca>
-Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
-Subject: [cel:nfsd-testing 76/93] fs/nfsd/nfs4xdr.c:426
- nfsd4_decode_posixace4() warn: inconsistent indenting
-Message-ID: <202505171239.vpzVYBWW-lkp@intel.com>
+To: Wenjie Xu <xuwenjie04@baidu.com>, muchun.song@linux.dev,
+	osalvador@suse.de, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, Wenjie Xu <xuwenjie04@baidu.com>,
+	Li RongQing <lirongqing@baidu.com>
+Subject: Re: [PATCH] hugetlb: two-phase hugepage allocation when reservation
+ is high
+Message-ID: <202505171227.2rpT5Nx7-lkp@intel.com>
+References: <20250516113552.17648-1-xuwenjie04@baidu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,69 +66,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250516113552.17648-1-xuwenjie04@baidu.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
-head:   d868e4920c3f4feefcbc17c5812bbe1a48af8c6f
-commit: ba7bba09df72ffb43309b9f76e7078d8018d8a58 [76/93] Add handling of the XDR for the POSIX draft ACL attributes
-config: i386-randconfig-141-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171239.vpzVYBWW-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+Hi Wenjie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.15-rc6 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wenjie-Xu/hugetlb-two-phase-hugepage-allocation-when-reservation-is-high/20250516-193732
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250516113552.17648-1-xuwenjie04%40baidu.com
+patch subject: [PATCH] hugetlb: two-phase hugepage allocation when reservation is high
+config: i386-buildonly-randconfig-006-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171227.2rpT5Nx7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171227.2rpT5Nx7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505171239.vpzVYBWW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505171227.2rpT5Nx7-lkp@intel.com/
 
-New smatch warnings:
-fs/nfsd/nfs4xdr.c:426 nfsd4_decode_posixace4() warn: inconsistent indenting
-fs/nfsd/nfs4xdr.c:3662 xdr_nfs4ace_stream_encode() warn: inconsistent indenting
-fs/nfsd/nfs4xdr.c:3706 encode_stream_posixacl() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-include/linux/sunrpc/xdr.h:804 xdr_stream_decode_uint32_array() warn: potential user controlled sizeof overflow 'len * 4' '0-u32max * 4'
-fs/nfsd/nfs4xdr.c:2661 nfsd4_decode_compound() warn: potential spectre issue 'nfsd4_dec_ops' [r]
-fs/nfsd/nfs4xdr.c:3682 xdr_nfs4ace_stream_encode() warn: inconsistent indenting
-fs/nfsd/nfs4xdr.c:3694 xdr_nfs4ace_stream_encode() warn: inconsistent indenting
-fs/nfsd/nfs4xdr.c:3719 encode_stream_posixacl() warn: inconsistent indenting
-
-vim +426 fs/nfsd/nfs4xdr.c
-
-   412	
-   413	static __be32
-   414	nfsd4_decode_posixace4(struct nfsd4_compoundargs *argp,
-   415				struct posix_acl_entry *ace)
-   416	{
-   417		u32 val;
-   418		__be32 *p, status;
-   419	
-   420		status = nfsacl4_posix_xdrtotag(argp->xdr, &val);
-   421		if (status != nfs_ok)
-   422			return status;
-   423		ace->e_tag = val;
-   424		if (xdr_stream_decode_u32(argp->xdr, &val) < 0)
-   425			return nfserr_bad_xdr;
- > 426	dprintk("perm=%d\n", val);
-   427		if (val & ~S_IRWXO)
-   428			return nfserr_bad_xdr;
-   429		ace->e_perm = val;
-   430	
-   431		if (xdr_stream_decode_u32(argp->xdr, &val) < 0)
-   432			return nfserr_bad_xdr;
-   433		p = xdr_inline_decode(argp->xdr, val);
-   434		if (!p)
-   435			return nfserr_bad_xdr;
-   436		switch(ace->e_tag) {
-   437		case ACL_USER:
-   438			status = nfsd_map_name_to_uid(argp->rqstp,
-   439					(char *)p, val, &ace->e_uid);
-   440			break;
-   441		case ACL_GROUP:
-   442			status = nfsd_map_name_to_gid(argp->rqstp,
-   443					(char *)p, val, &ace->e_gid);
-   444		}
-   445	
-   446		return status;
-   447	}
-   448	
+   ld: mm/hugetlb.o: in function `hugetlb_hstate_alloc_pages.constprop.0':
+>> hugetlb.c:(.init.text+0xac2): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
