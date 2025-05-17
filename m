@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FDC1C6B4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 03:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3574214EC5B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 03:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747450860; cv=none; b=UIYeCUZnI0v/4walsYdymKB9E+4ovtwjK+0uNh5Xo3iWgeGenRcsnk0fQtB/gYF3ndk64cxdltTeNfYdHdOoUaxddrd2CRK2jodS+DIEsxmQTPtVOJOof9QcnzTra2PsMGV+FPYgERg1Hk2nnd3kT6G7ONpUNvRdBhistbm+cvg=
+	t=1747451706; cv=none; b=nLqYk/PlIaCaT170zowM550HlkAnBLtSnOCdlHdSCoVHRdVDSwj/nl3skrEcYWnOPkHyVuT14k0v4fYGi3PQgy5XV331sRpH17FSfaaBxaKzhCB2CfV3H+Xu32rPxv40+Bw/3kpq8Y9dJP1sf4g/pWPd1tdt9xdVGq/kPf4tJtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747450860; c=relaxed/simple;
-	bh=mkDMQP1h66YWwYVWg6g963Rp0WAClba8r3hoNjgPiTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SZuFzztZ96uYaT9Bn+RPvdyLG1yQqeviBlmmB98+x9XBAlTqjVLiN7BgI4sKNyNh3rmpx7GM7AQeByi5wyDOQGOudJZJ7U1mgDUWTWb3MlkMqler2l5/GUzVPT5byrTsPUb5RMMch/mFNNtMiZwsCxVa3FnzG+gRn7h4F8lhyps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UruHTAWh; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1747451706; c=relaxed/simple;
+	bh=cNrzCual/6TxWf71XUoCV70SG694TLwQlCbI7ZAwJz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nktaWFLzcqb0VQuGVTMAR+HTR8DoNxjApfI96k0FQtOTo/CbwOE4A0CJrfMq1n1xfqeYeiRTNebxdUxbGt5iaKl7iH7qg/eCEE0qi5y+DvPCYLuTAy6qs0+TFB9AATLIVb5hTjARnYXjETBfGI1v4mlH9RWuy0z/5nUpkvmIY9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0mCMpwA; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UruHTAWh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0mCMpwA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747450859; x=1778986859;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mkDMQP1h66YWwYVWg6g963Rp0WAClba8r3hoNjgPiTk=;
-  b=UruHTAWhWqiqEBUusVZaBE/1srK26UoXzcuJmJjUIJ5HvigXL0dcgYOE
-   vYcLotNoa7Wr6PvozephHWp9SaNaStOi/MGTN8lC7qClwTJ7KBM7X3pEV
-   FDbC+XQhCSBm0EzyK5RoX9lg6gi8mKaO/+ivcVRcE+dJxQ8l6hvmBTMrb
-   4dQSdR/rg3SBH0X+/UBxYqQ6httDdjqYwpulZVRKxFzS2JvomhFzUdkV2
-   hgoUj7lZeJQQaiXWFIdvVi05KX2K8ppvCtS6RTnPrVslUOmZY8dk07zRS
-   G0FagMzwHFbr80PlOEdJpCW9jH+j3c1CuWHguIUY9txoe54wHwxkwOfIH
-   Q==;
-X-CSE-ConnectionGUID: 1PtUR618Q3CHcUc06NPUgA==
-X-CSE-MsgGUID: jJuc3EnGRAykz/D9UGfjGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="60458133"
+  t=1747451704; x=1778987704;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cNrzCual/6TxWf71XUoCV70SG694TLwQlCbI7ZAwJz4=;
+  b=R0mCMpwAetqeIYPxC/i673Alpagu2Ry4cvNnGEKawgqmMPOQxfNJ9uzi
+   1sT7HriMjLsVbYrHI5dNF0VMNWvHdiMMb+LC3pZ5atoAk3qK02mcCDGVn
+   8+zkcWKifsPLBzpvkLH2QNTW6WWCYgbLKsXIiZEBSBsnwKYXiHz9nrAHV
+   dS38gu3Aqww0idr03+CdFa6kuY7dIA1DDOOWTBtzBnhQ5nhxzMVZVL4zg
+   jika2zP3W7Na0fGjfUrb8ivMOp1GLPaDQmyGn6xfOjgPEAANX/JNMiQlg
+   OccZEUHkglsprSoyEOYLqFq+DRT2SrWZrp7UAX50k/MXiBfBsAyqZU76B
+   A==;
+X-CSE-ConnectionGUID: J088NzyrSwa67He0YvX7Eg==
+X-CSE-MsgGUID: nY8ekzTzTIKqpDn1KOwGEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="60459020"
 X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; 
-   d="scan'208";a="60458133"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 20:00:57 -0700
-X-CSE-ConnectionGUID: 4413dEC+QvSMBRBRr+g7Gw==
-X-CSE-MsgGUID: xgQtwdeEQ5u4BNuW4QA5mg==
+   d="scan'208";a="60459020"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 20:15:03 -0700
+X-CSE-ConnectionGUID: X1vHAgk/QB6EpFbZC9BAKw==
+X-CSE-MsgGUID: vQVF7XzJTzq5hxBksT3GCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; 
-   d="scan'208";a="143841197"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 May 2025 20:00:55 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="139349938"
+Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
+  by fmviesa010.fm.intel.com with ESMTP; 16 May 2025 20:15:02 -0700
+Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uG7nA-000Jtb-3C;
-	Sat, 17 May 2025 03:00:53 +0000
-Date: Sat, 17 May 2025 11:00:26 +0800
+	id 1uG80q-0000UN-1d;
+	Sat, 17 May 2025 03:15:00 +0000
+Date: Sat, 17 May 2025 11:14:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pankaj Raghav <p.raghav@samsung.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 3/3] iomap: use LARGE_ZERO_PAGE in iomap_dio_zero()
-Message-ID: <202505171027.aoHmoQqv-lkp@intel.com>
-References: <20250516101054.676046-4-p.raghav@samsung.com>
+Subject: [android-common:android13-5.15 1/1]
+ arch/arm64/kernel/proton-pack.c:1054:14: warning: no previous prototype for
+ 'spectre_bhb_patch_loop_iter'
+Message-ID: <202505171151.iNo8QKML-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,177 +62,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250516101054.676046-4-p.raghav@samsung.com>
 
-Hi Pankaj,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9e619cd4fefd19cdce16e169d5827bc64ae01aa1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Raghav/mm-add-large-zero-page-for-efficient-zeroing-of-larger-segments/20250516-181327
-base:   9e619cd4fefd19cdce16e169d5827bc64ae01aa1
-patch link:    https://lore.kernel.org/r/20250516101054.676046-4-p.raghav%40samsung.com
-patch subject: [RFC 3/3] iomap: use LARGE_ZERO_PAGE in iomap_dio_zero()
-config: arm-randconfig-003-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171027.aoHmoQqv-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171027.aoHmoQqv-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   0caacc39200ed39c9449b0b8da1ffc26e2402876
+commit: 4bbfd0c280254b273c564767021bb9b0f945148e [1/1] arm64: Mitigate spectre style branch history side channels
+config: arm64-randconfig-2003-20250514 (https://download.01.org/0day-ci/archive/20250517/202505171151.iNo8QKML-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171151.iNo8QKML-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505171027.aoHmoQqv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505171151.iNo8QKML-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
-     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-     ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-    #define __PASTE(a,b) ___PASTE(a,b)
-                         ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-    #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-                                ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-    #define __PASTE(a,b) ___PASTE(a,b)
-                         ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-    #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-                                        ^~~~~~~
-   include/linux/minmax.h:98:48: note: in expansion of macro '__UNIQUE_ID'
-     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-                                                   ^~~~~~~~~~~
-   include/linux/minmax.h:112:19: note: in expansion of macro '__careful_cmp'
-    #define max(x, y) __careful_cmp(max, x, y)
-                      ^~~~~~~~~~~~~
-   fs/iomap/direct-io.c:286:16: note: in expansion of macro 'max'
-     int nr_vecs = max(1, i_blocksize(inode) / ZERO_LARGE_PAGE_SIZE);
-                   ^~~
-   include/linux/minmax.h:71:10: error: first argument to '__builtin_choose_expr' not a constant
-     (typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
-             ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:537:9: note: in definition of macro '__compiletime_assert'
-      if (!(condition))     \
-            ^~~~~~~~~
-   include/linux/compiler_types.h:557:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-     ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:70:25: note: in expansion of macro 'statically_true'
-    #define __is_nonneg(ux) statically_true( \
-                            ^~~~~~~~~~~~~~~
-   include/linux/minmax.h:50:7: note: in expansion of macro '__is_nonneg'
-     (2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
-          ^~~~~~~~~~~
-   include/linux/minmax.h:75:20: note: in expansion of macro '__sign_use'
-     (__sign_use(ux) & __sign_use(uy))
-                       ^~~~~~~~~~
-   include/linux/minmax.h:93:20: note: in expansion of macro '__types_ok'
-     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-                       ^~~~~~~~~~
-   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
-     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:112:19: note: in expansion of macro '__careful_cmp'
-    #define max(x, y) __careful_cmp(max, x, y)
-                      ^~~~~~~~~~~~~
-   fs/iomap/direct-io.c:286:16: note: in expansion of macro 'max'
-     int nr_vecs = max(1, i_blocksize(inode) / ZERO_LARGE_PAGE_SIZE);
-                   ^~~
-   include/linux/minmax.h:71:10: error: first argument to '__builtin_choose_expr' not a constant
-     (typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
-             ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:537:9: note: in definition of macro '__compiletime_assert'
-      if (!(condition))     \
-            ^~~~~~~~~
-   include/linux/compiler_types.h:557:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-     ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:70:25: note: in expansion of macro 'statically_true'
-    #define __is_nonneg(ux) statically_true( \
-                            ^~~~~~~~~~~~~~~
-   include/linux/minmax.h:50:7: note: in expansion of macro '__is_nonneg'
-     (2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
-          ^~~~~~~~~~~
-   include/linux/minmax.h:75:20: note: in expansion of macro '__sign_use'
-     (__sign_use(ux) & __sign_use(uy))
-                       ^~~~~~~~~~
-   include/linux/minmax.h:93:20: note: in expansion of macro '__types_ok'
-     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-                       ^~~~~~~~~~
-   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
-     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:112:19: note: in expansion of macro '__careful_cmp'
-    #define max(x, y) __careful_cmp(max, x, y)
-                      ^~~~~~~~~~~~~
-   fs/iomap/direct-io.c:286:16: note: in expansion of macro 'max'
-     int nr_vecs = max(1, i_blocksize(inode) / ZERO_LARGE_PAGE_SIZE);
-                   ^~~
-   fs/iomap/direct-io.c:306:23: error: implicit declaration of function 'ZERO_LARGE_PAGE'; did you mean 'ZERO_PAGE'? [-Werror=implicit-function-declaration]
-      __bio_add_page(bio, ZERO_LARGE_PAGE(0), len, 0);
-                          ^~~~~~~~~~~~~~~
-                          ZERO_PAGE
->> fs/iomap/direct-io.c:306:23: warning: passing argument 2 of '__bio_add_page' makes pointer from integer without a cast [-Wint-conversion]
-      __bio_add_page(bio, ZERO_LARGE_PAGE(0), len, 0);
-                          ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/blkdev.h:17,
-                    from include/linux/iomap.h:11,
-                    from fs/iomap/direct-io.c:11:
-   include/linux/bio.h:416:51: note: expected 'struct page *' but argument is of type 'int'
-    void __bio_add_page(struct bio *bio, struct page *page,
-                                         ~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+   arch/arm64/kernel/proton-pack.c:564:13: warning: no previous prototype for 'spectre_v4_patch_fw_mitigation_enable' [-Wmissing-prototypes]
+    void __init spectre_v4_patch_fw_mitigation_enable(struct alt_instr *alt,
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/proton-pack.c:584:13: warning: no previous prototype for 'smccc_patch_fw_mitigation_conduit' [-Wmissing-prototypes]
+    void __init smccc_patch_fw_mitigation_conduit(struct alt_instr *alt,
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/proton-pack.c:1032:14: warning: no previous prototype for 'spectre_bhb_patch_loop_mitigation_enable' [-Wmissing-prototypes]
+    void noinstr spectre_bhb_patch_loop_mitigation_enable(struct alt_instr *alt,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/proton-pack.c:1043:14: warning: no previous prototype for 'spectre_bhb_patch_fw_mitigation_enabled' [-Wmissing-prototypes]
+    void noinstr spectre_bhb_patch_fw_mitigation_enabled(struct alt_instr *alt,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/proton-pack.c:1054:14: warning: no previous prototype for 'spectre_bhb_patch_loop_iter' [-Wmissing-prototypes]
+    void noinstr spectre_bhb_patch_loop_iter(struct alt_instr *alt,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/proton-pack.c:1075:14: warning: no previous prototype for 'spectre_bhb_patch_wa3' [-Wmissing-prototypes]
+    void noinstr spectre_bhb_patch_wa3(struct alt_instr *alt,
+                 ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__bio_add_page +306 fs/iomap/direct-io.c
+vim +/spectre_bhb_patch_loop_iter +1054 arch/arm64/kernel/proton-pack.c
 
-   280	
-   281	static int iomap_dio_zero(const struct iomap_iter *iter, struct iomap_dio *dio,
-   282			loff_t pos, unsigned len)
-   283	{
-   284		struct inode *inode = file_inode(dio->iocb->ki_filp);
-   285		struct bio *bio;
-   286		int nr_vecs = max(1, i_blocksize(inode) / ZERO_LARGE_PAGE_SIZE);
-   287	
-   288		if (!len)
-   289			return 0;
-   290		/*
-   291		 * Max block size supported is 64k
-   292		 */
-   293		if (WARN_ON_ONCE(len > SZ_64K))
-   294			return -EINVAL;
-   295	
-   296		bio = iomap_dio_alloc_bio(iter, dio, nr_vecs, REQ_OP_WRITE | REQ_SYNC | REQ_IDLE);
-   297		fscrypt_set_bio_crypt_ctx(bio, inode, pos >> inode->i_blkbits,
-   298					  GFP_KERNEL);
-   299		bio->bi_iter.bi_sector = iomap_sector(&iter->iomap, pos);
-   300		bio->bi_private = dio;
-   301		bio->bi_end_io = iomap_dio_bio_end_io;
-   302	
-   303		while (len) {
-   304			unsigned int io_len = min_t(unsigned int, len, ZERO_LARGE_PAGE_SIZE);
-   305	
- > 306			__bio_add_page(bio, ZERO_LARGE_PAGE(0), len, 0);
-   307			len -= io_len;
-   308		}
-   309		iomap_dio_submit_bio(iter, dio, bio, pos);
-   310		return 0;
-   311	}
-   312	
+  1030	
+  1031	/* Patched to NOP when enabled */
+> 1032	void noinstr spectre_bhb_patch_loop_mitigation_enable(struct alt_instr *alt,
+  1033							     __le32 *origptr,
+  1034							      __le32 *updptr, int nr_inst)
+  1035	{
+  1036		BUG_ON(nr_inst != 1);
+  1037	
+  1038		if (test_bit(BHB_LOOP, &system_bhb_mitigations))
+  1039			*updptr++ = cpu_to_le32(aarch64_insn_gen_nop());
+  1040	}
+  1041	
+  1042	/* Patched to NOP when enabled */
+  1043	void noinstr spectre_bhb_patch_fw_mitigation_enabled(struct alt_instr *alt,
+  1044							   __le32 *origptr,
+  1045							   __le32 *updptr, int nr_inst)
+  1046	{
+  1047		BUG_ON(nr_inst != 1);
+  1048	
+  1049		if (test_bit(BHB_FW, &system_bhb_mitigations))
+  1050			*updptr++ = cpu_to_le32(aarch64_insn_gen_nop());
+  1051	}
+  1052	
+  1053	/* Patched to correct the immediate */
+> 1054	void noinstr spectre_bhb_patch_loop_iter(struct alt_instr *alt,
+  1055					   __le32 *origptr, __le32 *updptr, int nr_inst)
+  1056	{
+  1057		u8 rd;
+  1058		u32 insn;
+  1059		u16 loop_count = spectre_bhb_loop_affected(SCOPE_SYSTEM);
+  1060	
+  1061		BUG_ON(nr_inst != 1); /* MOV -> MOV */
+  1062	
+  1063		if (!IS_ENABLED(CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY))
+  1064			return;
+  1065	
+  1066		insn = le32_to_cpu(*origptr);
+  1067		rd = aarch64_insn_decode_register(AARCH64_INSN_REGTYPE_RD, insn);
+  1068		insn = aarch64_insn_gen_movewide(rd, loop_count, 0,
+  1069						 AARCH64_INSN_VARIANT_64BIT,
+  1070						 AARCH64_INSN_MOVEWIDE_ZERO);
+  1071		*updptr++ = cpu_to_le32(insn);
+  1072	}
+  1073	
+  1074	/* Patched to mov WA3 when supported */
+> 1075	void noinstr spectre_bhb_patch_wa3(struct alt_instr *alt,
 
 -- 
 0-DAY CI Kernel Test Service
