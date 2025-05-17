@@ -1,53 +1,65 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F632CA9;
-	Sat, 17 May 2025 01:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CA428E3F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 May 2025 01:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747446657; cv=none; b=GWQAAdOMyslV+BbZfkONpDtm7ONh3ARHHvm/cvX1LQcYFB8NZm6/BDZUPt6O8Rit2kvdylGRoJphjDca5s5yg50+rMp+6MjlrXxev8n46JuEs0xpn8p+p8S6jkluORjbEgmu0m4tTEs8VebbfdBpLVRimsBFOfqQ7TzHi3np96U=
+	t=1747447077; cv=none; b=qoOovKU/2rRaWzGX2lGLjaaTtq9TJaDZ025g/wa4QUu9Eis8St99PecKZAxXVomTyuz9R1xNMEpCc3vZRxqs/OktzYi9fJLpcLEWMP5IYAHFP4r4+s+NTMnzdHmmVyPuZyW5X9t9jd4ykXQdIe5RmjkiPJwgBZY7dmbq8V3ZwNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747446657; c=relaxed/simple;
-	bh=kWEqnvh96du7d+Zs/PEPLq24WcirQFult4+44G9wPEE=;
+	s=arc-20240116; t=1747447077; c=relaxed/simple;
+	bh=FmgRQ+EscTRmQQR8dfEbqgf1KgXjBGzBaLIEKQ/fD+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BXOj5wcwbPojGrfwFa+HIPr9Ex/m7+Av2jzZpIXDTPo4qgufi3G7Odqj9SXs4LjCxdXXHZxTw1cTqxQoOLddc+Irg/6+nLC2Yep5mIqeojKT9vx4ZZ5lIwvzx5gFBa0cy/YStaEPJtOGQpWJr7s8lWmDWZpVT/r/hJWDmM712dA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=ZIgGx0Lm; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	 Content-Type:Content-Disposition:In-Reply-To; b=FPYw3LiS+6O0LdtlbZy1ZykEII3+GVv1GZbZ/gFsC8OvPT21JMBsGvM+lgTFFM55h+WrKxSf7zIrLUWiKTXTHPvKLG62PlwPD72Y3ZrsE66Zj2ynE6ucFNwgkolN5KMfWqOkd//UhpRHZvfvgqXaslIqT4nhu/JkhBoNheNlN6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z2pxkC6Q; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="ZIgGx0Lm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=UXb6LPirWZPeGfwUPWZJ+mkDqLNt13DgEKjkP7gfTRg=; b=ZIgGx0LmludT6ZEHkKfmw0k6Cj
-	lF4lirTVzW1/mMBvBxIFSEPn41NBWfVLh7z684v/EAtddcfiBBwNP8VTyCJ0NFq1ixC9uqIZGaXHl
-	BCszg06h0eEOhMfRYUz6RLMcl9OBZrfSpIMa4kgCO1MJ8fILcF/JavJhEJsAdSTXHKBuR7W/qoTxF
-	258OwDuRSVw0Hou1pjj1BXW8KY/u1HplLmuJLUcXAmu0q4WWsxYAZpnHVQALgbtTLO4wj6jZ+LTM/
-	vZvzmFoHKqqI7Lff64IIkaL2J5BMYMPpQ9puhhgyRsp0IUaNlYikcrvjjuAbayBhxRelDPFnV0jXp
-	QQl4luiQ==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uG6hE-006jky-08;
-	Sat, 17 May 2025 09:50:41 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 17 May 2025 09:50:40 +0800
-Date: Sat, 17 May 2025 09:50:40 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Gabriel Paubert <paubert@iram.es>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Danny Tsen <dtsen@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: [v2 PATCH] powerpc: Add gcc 128-bit shift helpers
-Message-ID: <aCfrcNFYIWJruP4G@gondor.apana.org.au>
-References: <202505152053.FrKekjCe-lkp@intel.com>
- <aCb7WW2gRrtEmgqD@gondor.apana.org.au>
- <aCccToR_71ETmPd-@lt-gp.iram.es>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2pxkC6Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747447074; x=1778983074;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FmgRQ+EscTRmQQR8dfEbqgf1KgXjBGzBaLIEKQ/fD+0=;
+  b=Z2pxkC6QERHhRaRYOZZAKdkpNZg5Yneo4GXZejNjxbLA/N2noezjYQRG
+   QZRzpkrluY50c9Q63i6+wbPtYQR2hXes8+TxgzVMTyUzOuTlHx/RYsSAg
+   t2Y+Qbdpww1ZJoa/GuGBTwmcAJPkYH+PaTbHgsidpvgJ5oDrD209rd/1o
+   Ty1UqkJsAIFwUHm9X0JuIHHAXAYRAX0UUkVfvPo259e6A9LiDGQVQa5pT
+   g6/zkiTbLMoqjuiGjys8sOOWQn9i5UJVLeUiodrLtTP+fiLE8LYY3qdLP
+   bi08kUvJ1bQP5Qwa2UyE+Ra+s1Q2HhkGupHGeg13jLzwLsWCgcZwUXfJa
+   Q==;
+X-CSE-ConnectionGUID: UhNvWRGRSauk0LFl0XX/aw==
+X-CSE-MsgGUID: Cth5UYWVRaWmlh/luDVvYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="66837679"
+X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; 
+   d="scan'208";a="66837679"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 18:57:53 -0700
+X-CSE-ConnectionGUID: T1Ku9bK9RD6dtiQ2cV06CA==
+X-CSE-MsgGUID: CF37wRNaRXGebK4IQ2l5Cw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; 
+   d="scan'208";a="138771775"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 16 May 2025 18:57:50 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uG6o8-000Jrn-0Z;
+	Sat, 17 May 2025 01:57:48 +0000
+Date: Sat, 17 May 2025 09:57:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: dongxuyang@eswincomputing.com, ulf.hansson@linaro.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	adrian.hunter@intel.com, p.zabel@pengutronix.de,
+	shanchun1218@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, ningyu@eswincomputing.com,
+	linmin@eswincomputing.com, xuxiang@eswincomputing.com,
+	Xuyang Dong <dongxuyang@eswincomputing.com>
+Subject: Re: [PATCH v1 2/2] sdhci: eswin: Add eic7700 sdhci driver
+Message-ID: <202505170947.NTFfubuO-lkp@intel.com>
+References: <20250516091727.887-1-dongxuyang@eswincomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,122 +68,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aCccToR_71ETmPd-@lt-gp.iram.es>
+In-Reply-To: <20250516091727.887-1-dongxuyang@eswincomputing.com>
 
-On Fri, May 16, 2025 at 01:06:54PM +0200, Gabriel Paubert wrote:
-> 
-> It won't work for big endian, nor for 32 bit obviously.
+Hi,
 
-Good catch, I will restrict the Kconfig option to little-endian.
-The accelerated crypto code which uses this is already restricted
-to little-endian anyway.
+kernel test robot noticed the following build errors:
 
-The Kconfig option is also dependent on PPC64 so 32-bit shouldn't
-be a problem.
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master ulf-hansson-mmc-mirror/next v6.15-rc6 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Besides that, in arch/power/kernel/misc_32.S, you'll find a branchless
-> version of these functions. It's for 64 bit shifts on 32 bit big-endian
-> but it can easily be adapted to 128 bit shifts on 64 bit processors
-> (swapping r3 and r4 depending on endianness).
+url:    https://github.com/intel-lab-lkp/linux/commits/dongxuyang-eswincomputing-com/dt-bindings-sdhci-eswin-Documentation-for-eic7700-SoC/20250516-171918
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250516091727.887-1-dongxuyang%40eswincomputing.com
+patch subject: [PATCH v1 2/2] sdhci: eswin: Add eic7700 sdhci driver
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20250517/202505170947.NTFfubuO-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505170947.NTFfubuO-lkp@intel.com/reproduce)
 
-Nice.  I've replaced the shift code with one based on misc_32.S.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505170947.NTFfubuO-lkp@intel.com/
 
-> Several functions of kernel/misc_32.S should arguably be moved to lib/.
+All errors (new ones prefixed by >>):
 
-I'll leave that to someone else :)
+   In file included from include/linux/device.h:25,
+                    from include/linux/platform_device.h:13,
+                    from drivers/mmc/host/sdhci-pltfm.h:12,
+                    from drivers/mmc/host/sdhci-eic7700.h:14,
+                    from drivers/mmc/host/sdhci-of-eic7700-sdio.c:13:
+>> drivers/mmc/host/sdhci-of-eic7700-sdio.c:972:36: error: 'eswin_sdhci_sdio_runtime_suspend' undeclared here (not in a function); did you mean 'eswin_sdhci_sdio_reset'?
+     972 |                 SET_RUNTIME_PM_OPS(eswin_sdhci_sdio_runtime_suspend,
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:337:28: note: in definition of macro 'RUNTIME_PM_OPS'
+     337 |         .runtime_suspend = suspend_fn, \
+         |                            ^~~~~~~~~~
+   drivers/mmc/host/sdhci-of-eic7700-sdio.c:972:17: note: in expansion of macro 'SET_RUNTIME_PM_OPS'
+     972 |                 SET_RUNTIME_PM_OPS(eswin_sdhci_sdio_runtime_suspend,
+         |                 ^~~~~~~~~~~~~~~~~~
+>> drivers/mmc/host/sdhci-of-eic7700-sdio.c:973:36: error: 'eswin_sdhci_sdio_runtime_resume' undeclared here (not in a function); did you mean 'eswin_sdhci_sdio_dumpregs'?
+     973 |                                    eswin_sdhci_sdio_runtime_resume, NULL)};
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:338:27: note: in definition of macro 'RUNTIME_PM_OPS'
+     338 |         .runtime_resume = resume_fn, \
+         |                           ^~~~~~~~~
+   drivers/mmc/host/sdhci-of-eic7700-sdio.c:972:17: note: in expansion of macro 'SET_RUNTIME_PM_OPS'
+     972 |                 SET_RUNTIME_PM_OPS(eswin_sdhci_sdio_runtime_suspend,
+         |                 ^~~~~~~~~~~~~~~~~~
 
-Thanks,
 
----8<---
-When optimising for size, gcc generates out-of-line calls for 128-bit
-integer shifts.  Add these functions to avoid build errors.
+vim +972 drivers/mmc/host/sdhci-of-eic7700-sdio.c
 
-Also restrict ARCH_SUPPORTS_INT128 to little-endian since the only
-user that prompted this poly1305 only supports that.
+   968	
+   969	static const struct dev_pm_ops eswin_sdhci_sdio_pmops = {
+   970		SET_SYSTEM_SLEEP_PM_OPS(eswin_sdhci_sdio_suspend,
+   971					eswin_sdhci_sdio_resume)
+ > 972			SET_RUNTIME_PM_OPS(eswin_sdhci_sdio_runtime_suspend,
+ > 973					   eswin_sdhci_sdio_runtime_resume, NULL)};
+   974	
 
-Fixes: c66d7ebbe2fa ("crypto: powerpc/poly1305 - Add SIMD fallback")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://urldefense.com/v3/__https://lore.kernel.org/oe-kbuild-all/202505152053.FrKekjCe-lkp@intel.com/__;!!D9dNQwwGXtA!TSuOAutxjuD3Hp-RC0Fw9dTNuagdCKeNLTN71tv_OmhUxyAPLfIfwwpZop5pKFXgS4Jfkt830_tEMkbo7rsvYg$ 
-Suggested-by: Gabriel Paubert <paubert@iram.es>
-Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
-
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index 651e0c32957a..7a7d39fa8b01 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -173,7 +173,7 @@ config PPC
- 	select ARCH_STACKWALK
- 	select ARCH_SUPPORTS_ATOMIC_RMW
- 	select ARCH_SUPPORTS_DEBUG_PAGEALLOC	if PPC_BOOK3S || PPC_8xx
--	select ARCH_SUPPORTS_INT128		if PPC64 && CC_HAS_INT128
-+	select ARCH_SUPPORTS_INT128		if PPC64 && CC_HAS_INT128 && CPU_LITTLE_ENDIAN
- 	select ARCH_USE_BUILTIN_BSWAP
- 	select ARCH_USE_CMPXCHG_LOCKREF		if PPC64
- 	select ARCH_USE_MEMTEST
-diff --git a/arch/powerpc/lib/Makefile b/arch/powerpc/lib/Makefile
-index 1cd74673cbf7..a41c071c1652 100644
---- a/arch/powerpc/lib/Makefile
-+++ b/arch/powerpc/lib/Makefile
-@@ -87,3 +87,5 @@ obj-$(CONFIG_CRC_T10DIF_ARCH) += crc-t10dif-powerpc.o
- crc-t10dif-powerpc-y := crc-t10dif-glue.o crct10dif-vpmsum_asm.o
- 
- obj-$(CONFIG_PPC64) += $(obj64-y)
-+
-+obj-$(CONFIG_ARCH_SUPPORTS_INT128) += tishift.o
-diff --git a/arch/powerpc/lib/tishift.S b/arch/powerpc/lib/tishift.S
-new file mode 100644
-index 000000000000..f63748b5e1c5
---- /dev/null
-+++ b/arch/powerpc/lib/tishift.S
-@@ -0,0 +1,47 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Copyright (C) 1995-1996 Gary Thomas (gdt@linuxppc.org)
-+ * Largely rewritten by Cort Dougan (cort@cs.nmt.edu)
-+ * and Paul Mackerras.
-+ * Copyright (c) 2025 Herbert Xu <herbert@gondor.apana.org.au>
-+ */
-+#include <asm/ppc_asm.h>
-+#include <linux/export.h>
-+
-+_GLOBAL(__lshrti3)
-+	subfic	r6,r5,64
-+	srd	r3,r3,r5	# LSW = count > 63 ? 0 : LSW >> count
-+	addi	r7,r5,-64	# could be xori, or addi with -64
-+	sld	r6,r4,r6	# t1 = count > 63 ? 0 : MSW << (64-count)
-+	srd	r7,r4,r7	# t2 = count < 64 ? 0 : MSW >> (count-64)
-+	or	r3,r3,r6	# LSW |= t1
-+	srd	r4,r4,r5	# MSW = MSW >> count
-+	or	r3,r3,r7	# LSW |= t2
-+	blr
-+EXPORT_SYMBOL(__lshrti3)
-+
-+_GLOBAL(__ashrti3)
-+	subfic	r6,r5,64
-+	srd	r3,r3,r5	# LSW = count > 63 ? 0 : LSW >> count
-+	addi	r7,r5,-64	# could be xori, or addi with -64
-+	sld	r6,r4,r6	# t1 = count > 63 ? 0 : MSW << (64-count)
-+	rlwinm	r8,r7,0,64	# t3 = (count < 64) ? 64 : 0
-+	srad	r7,r4,r7	# t2 = MSW >> (count-64)
-+	or	r3,r3,r6	# LSW |= t1
-+	sld	r7,r7,r8	# t2 = (count < 64) ? 0 : t2
-+	srad	r4,r4,r5	# MSW = MSW >> count
-+	or	r3,r3,r7	# LSW |= t2
-+	blr
-+EXPORT_SYMBOL(__ashrti3)
-+
-+_GLOBAL(__ashlti3)
-+	subfic	r6,r5,64
-+	sld	r4,r4,r5	# MSW = count > 64 ? 0 : MSW << count
-+	addi	r7,r5,-64	# could be xori, or addi with -64
-+	srd	r6,r3,r6	# t1 = count > 63 ? 0 : LSW >> (64-count)
-+	sld	r7,r3,r7	# t2 = count < 64 ? 0 : LSW << (count-64)
-+	or	r4,r4,r6	# MSW |= t1
-+	sld	r3,r3,r5	# LSW = LSW << count
-+	or	r4,r4,r7	# MSW |= t2
-+	blr
-+EXPORT_SYMBOL(__ashlti3)
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
