@@ -1,154 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAE31A0B08;
-	Sun, 18 May 2025 10:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AF04B1E76
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 10:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747564615; cv=none; b=FkJbNcVxnoPOUIsKDrgBrclOhKHzsNqtW6VuuQmh6k8TH7obtXdErL8ThirwvyCIjxdUyOEwPIrHspLI5AaFkixp6cgw/O2garRXbg4HBc++rd96Llef3W3j5v1kpR2Vpq6XcVzrGTi6TSiS0UpmqrHx0EMZL22ECrHwcAdHZqQ=
+	t=1747565665; cv=none; b=P3wbxgUVtgNftmNdiw3gTg0GdWcDlviceOecKkDq5ZSvJRjFFzGesmomMtZ2RiQoSszFLoz5noDfx/Vz1Yey585fpz+ybkznOfZoDJKp+F7lTQ8SRQgEYNsDDgr4BUaT5YTxhJXnwybdVaHSl10zzbo3NxoVQkjskxIDe9beMtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747564615; c=relaxed/simple;
-	bh=Zy91Pq1yFlAMUc+CSyEs08eCZGIpNcLhNJdnhr+kNxI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KNn4sd+SFz6yTox5bnLpzY+wlKcislwnapdONfq2ORgaIYAKVq6OOf5tGmJIjqQFePKqObeMekQYHOFaGruEZRS9ohRwpFqkuHgFiN9upbFa7iaOTj7dPcRMESJfibRENjDzCKXsAla1lLYqiEy2ctjAnJGDJ6vgtuivPU8FMLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WT9WbHNB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747565665; c=relaxed/simple;
+	bh=ICLa78jq8Dxj2QVI2+/MP9SucnV+xArhpAIH9jmYfHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L25OcGqOJlQ77Owu2BXX6lnsgJ4CMVaWDxll2toAxkTyan1nbnW/ile/mOwn7hrULSi71LFQHDTgmIdTWy+qG1FDD46VwW5C/LC2AXegDYbkVXY2FStXXDL80b1DSCGHCGFrS3g9TvtnB38v5ku9yzxA9iLT/QkACJyOMrP/v/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DTzFCjI2; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WT9WbHNB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7900FC4CEE9;
-	Sun, 18 May 2025 10:36:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747564615;
-	bh=Zy91Pq1yFlAMUc+CSyEs08eCZGIpNcLhNJdnhr+kNxI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WT9WbHNB42CEZzSZSSwHBjom1YxXVWrXPpPH08kVWYXj3gUXdogRFNSEqwSN9XdLg
-	 lce2oN53iwe0R1Zu6BTVN2RfaAyU/wrnRrnY+7li+HMalQNgG8rej83RRPpeTCxa6u
-	 wuzvEoTS/ufTF/rsEYKWku5TxdS579IatEVebAPLEXs0RYnYgNxpGpLzAYUcRm4M88
-	 eXNRBInbx/uT6YI6Cx6EHGCiK9sVrNbMtZLHQvmdKnl97LXqu1kNeQFhTOXIJ/oH5H
-	 4Sj+VIX/1qb96JrB3vXe+PE/iizb6t4flG4HYtJED7x0K95xlk15Z6fFwxbQjIrLaC
-	 2zPWgC2h3DZTQ==
-Message-ID: <3c3d0020-1dce-4364-a0a1-7c35b21e93de@kernel.org>
-Date: Sun, 18 May 2025 12:36:50 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DTzFCjI2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747565663; x=1779101663;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ICLa78jq8Dxj2QVI2+/MP9SucnV+xArhpAIH9jmYfHg=;
+  b=DTzFCjI2b/17AQRGfezt5WYeF4uUBzj+5KfcTlF+IfklPbHBD2gPeNYp
+   6MPEFkj8rpSa6gNqAPi/KTCTbD5mA/g3AoeUw0c6EYqm7wXdJTNVfkjEc
+   v3SQ3ZnBknpxKYGOiBmJ/eumDJX9rJlo8wXhoyv9cVxIH0Dv2fEh7F89M
+   iCEzNpFvp999nRj0wIG7CNT8zkaEzr0iQnOsoxi6wMabCVvEGn8SeaDdV
+   1X0clB4SnBOz4xLZKXa4y0uVxaRC+BjuJvTAk4ZZ/zxGgzAvi+pgqWEGW
+   u/fHte2mzHgo44Rtp505gHj5eS/F6Vj06zdOszqe3r/V8tQ/mmKcXlC/S
+   Q==;
+X-CSE-ConnectionGUID: Iofy2pxXRguXI1zt/OaTvw==
+X-CSE-MsgGUID: wcdRHqD3QyufNh3o50vMrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="49634332"
+X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
+   d="scan'208";a="49634332"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 03:54:23 -0700
+X-CSE-ConnectionGUID: 7WLB4qGcTZ+5oBxJ9Ke7Pg==
+X-CSE-MsgGUID: 41z4tH9oTR+NiF1YNyydFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
+   d="scan'208";a="139154385"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 18 May 2025 03:54:21 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uGbes-000Kkz-30;
+	Sun, 18 May 2025 10:54:18 +0000
+Date: Sun, 18 May 2025 18:54:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Sven Peter <sven@svenpeter.dev>
+Subject: [asahilinux:sven/atcphy 29/31] drivers/usb/typec/tipd/core.c:720:34:
+ sparse: sparse: cast to restricted __le16
+Message-ID: <202505181857.NVLANqSD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 9473/11093]
- arch/arm64/boot/dts/rockchip/rk3562.dtsi:624.26-675.5: Warning
- (simple_bus_reg): /soc/pcie@ff500000: simple-bus unit address format error,
- expected "fe000000"
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Finley Xiao <finley.xiao@rock-chips.com>, kernel test robot <lkp@intel.com>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-rockchip@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Kever Yang <kever.yang@rock-chips.com>
-References: <202505150745.PQT9TLYX-lkp@intel.com> <3983362.fW5hKsROvD@diego>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <3983362.fW5hKsROvD@diego>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 16/05/2025 22:10, Heiko Stübner wrote:
-> Am Donnerstag, 15. Mai 2025, 16:04:20 Mitteleuropäische Sommerzeit schrieb kernel test robot:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->> head:   bdd609656ff5573db9ba1d26496a528bdd297cf2
->> commit: ceb6ef1ea9002669afc0e1ef258e530d3c05d91a [9473/11093] arm64: dts: rockchip: Add RK3562 evb2 devicetree
->> config: arm64-randconfig-2052-20250513 (https://download.01.org/0day-ci/archive/20250515/202505150745.PQT9TLYX-lkp@intel.com/config)
->> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
->> dtschema version: 2025.3.dev27+g32749b3
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505150745.PQT9TLYX-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202505150745.PQT9TLYX-lkp@intel.com/
->>
->> dtcheck warnings: (new ones prefixed by >>)
->>>> arch/arm64/boot/dts/rockchip/rk3562.dtsi:624.26-675.5: Warning (simple_bus_reg): /soc/pcie@ff500000: simple-bus unit address format error, expected "fe000000"
->>>> arch/arm64/boot/dts/rockchip/rk3562.dtsi:1115.20-1181.5: Warning (simple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
-> 
-> hmm, I don't really understand this error message.
-> 
-> From a practical point, the dtschema-version I have installed is
-> 2025.3.dev27+g32749b3, which is the topmost commit from
-> may-13th.
-> 
-> Running the dtbscheck on the rk3562-evb-v10.dtb on the full
-> linux-next from today, yields no errors.
+tree:   https://github.com/AsahiLinux/linux sven/atcphy
+head:   bb58cc6399a58218b8b5204a9fadf26f07c7f0f3
+commit: bd20465a75dc504f3c11925e3c2968f4fa6baedf [29/31] usb: typec: tipd: WIP
+config: sh-randconfig-r132-20250518 (https://download.01.org/0day-ci/archive/20250518/202505181857.NVLANqSD-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250518/202505181857.NVLANqSD-lkp@intel.com/reproduce)
 
-These are standard dtc warnings.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505181857.NVLANqSD-lkp@intel.com/
 
-> 
-> Checking out the specific commit ceb6ef1ea90026 brings up the
-> errors from below [1], because they come from different trees.
-> 
-> 
-> But in no cases does dtbscheck complain about the PCI memory regions.
-> 
-> 
-> The PCIe controller in question of course has 3 memory regions
-> 	reg = <0x0 0xfe000000 0x0 0x400000>,
-> 	      <0x0 0xff500000 0x0 0x10000>,
-> 	      <0x0 0xfc000000 0x0 0x100000>;
-> 	reg-names = "dbi", "apb", "config";
-> 
-> and currently the node-name mimics the "apb" memory region.
-> Should it always use the first one?
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/typec/tipd/core.c:720:34: sparse: sparse: cast to restricted __le16
+>> drivers/usb/typec/tipd/core.c:720:34: sparse: sparse: cast from restricted __le32
+>> drivers/usb/typec/tipd/core.c:720:34: sparse: sparse: cast to restricted __le16
+>> drivers/usb/typec/tipd/core.c:720:34: sparse: sparse: cast from restricted __le32
+>> drivers/usb/typec/tipd/core.c:720:34: sparse: sparse: cast to restricted __le16
+>> drivers/usb/typec/tipd/core.c:720:34: sparse: sparse: cast from restricted __le32
+>> drivers/usb/typec/tipd/core.c:720:34: sparse: sparse: cast to restricted __le16
+>> drivers/usb/typec/tipd/core.c:720:34: sparse: sparse: cast from restricted __le32
 
-I don't understand where is the problem. The warning tells you: unit
-address is not correct. Fix the unit address to match reg.
+vim +720 drivers/usb/typec/tipd/core.c
 
+   644	
+   645	static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status *st)
+   646	{
+   647		struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
+   648	
+   649		if (st->data_status & TPS_DATA_STATUS_USB_DATA_ROLE)
+   650			cd321x->state.data_role = TYPEC_DEVICE;
+   651		else
+   652			cd321x->state.data_role = TYPEC_HOST;
+   653	
+   654		if (!(st->data_status & TPS_DATA_STATUS_DATA_CONNECTION)) {
+   655			if (cd321x->state.mode == TYPEC_STATE_SAFE)
+   656				return;
+   657			cd321x->state.alt = NULL;
+   658			cd321x->state.mode = TYPEC_STATE_SAFE;
+   659			cd321x->state.data = NULL;
+   660			typec_mux_set(cd321x->mux, &cd321x->state);
+   661		} else if (st->data_status & TPS_DATA_STATUS_DP_CONNECTION) {
+   662			struct typec_displayport_data dp_data;
+   663			unsigned long mode;
+   664	
+   665			switch(TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(st->data_status)) {
+   666			case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_A:
+   667			    mode = TYPEC_DP_STATE_A;
+   668		            break;
+   669			case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_B:
+   670			    mode = TYPEC_DP_STATE_B;
+   671		            break;
+   672			case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_C:
+   673			    mode = TYPEC_DP_STATE_C;
+   674		            break;
+   675			case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_D:
+   676			    mode = TYPEC_DP_STATE_D;
+   677		            break;
+   678			case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_E:
+   679			    mode = TYPEC_DP_STATE_E;
+   680		            break;
+   681			case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_F:
+   682			    mode = TYPEC_DP_STATE_F;
+   683		            break;
+   684			default:
+   685			    dev_err(tps->dev, "Invalid DP pin assignment\n");
+   686			    return;
+   687			}
+   688	
+   689			if(cd321x->state.alt == cd321x->port_altmode_dp &&
+   690			   cd321x->state.mode == mode) {
+   691				return;
+   692			}
+   693	
+   694			dp_data.status = le32_to_cpu(st->dp_sid_status.status_rx);
+   695			dp_data.conf = le32_to_cpu(st->dp_sid_status.configure);
+   696			cd321x->state.alt = cd321x->port_altmode_dp;
+   697			cd321x->state.data = &dp_data;
+   698			cd321x->state.mode = mode;
+   699			typec_mux_set(cd321x->mux, &cd321x->state);
+   700		} else if (st->data_status & TPS_DATA_STATUS_TBT_CONNECTION) {
+   701			struct typec_thunderbolt_data tbt_data;
+   702	
+   703			if(cd321x->state.alt == cd321x->port_altmode_tbt &&
+   704			   cd321x->state.mode == TYPEC_TBT_MODE)
+   705				return;
+   706	
+   707			tbt_data.cable_mode = le16_to_cpu(st->intel_vid_status.cable_mode);
+   708			tbt_data.device_mode = le16_to_cpu(st->intel_vid_status.device_mode);
+   709			tbt_data.enter_vdo = le16_to_cpu(st->intel_vid_status.enter_vdo);
+   710			cd321x->state.alt = cd321x->port_altmode_tbt;
+   711			cd321x->state.mode = TYPEC_TBT_MODE;
+   712			cd321x->state.data = &tbt_data;
+   713			typec_mux_set(cd321x->mux, &cd321x->state);
+   714		} else if (st->data_status & CD321X_DATA_STATUS_USB4_CONNECTION) {
+   715			struct enter_usb_data eusb_data;
+   716	
+   717			if(cd321x->state.alt == NULL && cd321x->state.mode == TYPEC_MODE_USB4)
+   718				return;
+   719	
+ > 720			eusb_data.eudo = le16_to_cpu(st->usb4_status.eudo);
+   721			eusb_data.active_link_training =
+   722				!!(st->data_status & TPS_DATA_STATUS_ACTIVE_LINK_TRAIN);
+   723	
+   724			cd321x->state.alt = NULL;
+   725			cd321x->state.data = &eusb_data;
+   726			cd321x->state.mode = TYPEC_MODE_USB4;
+   727			typec_mux_set(cd321x->mux, &cd321x->state);
+   728		} else {
+   729			if (cd321x->state.alt == NULL && cd321x->state.mode == TYPEC_STATE_USB)
+   730				return;
+   731			cd321x->state.alt = NULL;
+   732			cd321x->state.mode = TYPEC_STATE_USB;
+   733			cd321x->state.data = NULL;
+   734			typec_mux_set(cd321x->mux, &cd321x->state);
+   735		}
+   736	}
+   737	
 
-About second warning: that's also kind of already existing issue and
-fixed in multiple places. Don't put non-MMIO nodes in simple-bus, like
-soc, because it is not correct. simple-bus is for MMIO nodes.
-
-Best regards,
-Krzysztof
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
