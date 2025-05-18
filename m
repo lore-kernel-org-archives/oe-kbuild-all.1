@@ -1,175 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4A84C8F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 19:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8082E1FBEA4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 21:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747596687; cv=none; b=br3LS8h/GyrWmQEnSPLnfAxmQtduEeWI+tVOOEyRlqgDumb6EHOTm/7Ft89ga0UnYafnlP/SO8FFZ+tAiF0IClixOnkuDFKBP7HVqQdcg5X12bj4D8R2y3rftQJjGN08uuk3WYzf6VyIQpdmdyArPhfDGIKTLYy1jLn19e6nkms=
+	t=1747605040; cv=none; b=HUW5KkZuZTTye0PxQJ/1n7dhpp/l8eFF2H/vexdpKazIFRuM6yJEqEGGGx4qovX9W1f46lT+BnYRvmAvtdc/zN56t83o2vqWVO+p1YqkLCUS3CSduA68HiooifIecwPiv9L+0+mqwi/E+fcXxvHJbKyEanaJ/Zmdl1WksRA0b+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747596687; c=relaxed/simple;
-	bh=wM+N0LKANjRc7HX204LKq0PxCtmV93lQ7cutJnwVBc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OCqgez9q/boUso4iq+BY/DHzhccvb8j1yhuodNE7qIGxOKvJMyP/hmU8UJwg/wPoy85Bsu3GLu0C7u0sjzJu1lc+ft55sN0hQ7T5bnm91LITJVFdACIbi1cP9u04O9qiBhXaZVvAYAmTtrDVYEm79t22n3NZITrifAXwLT/F12g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brqNxvGp; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747605040; c=relaxed/simple;
+	bh=79kKnSEMKKqJ57YQnRDp4qba0VqmcjJ6iTAvPSXrnL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bU0lC39euF7QbXc8bgjMZ8/45Gvf9TjTFNCrmwOcjBZ9iTkGUBS2oz0XWM39gYhC4EIecvDLX4d09ZKKp8PAkxNg1kbo9vfVnZiaVlqRjKhw56pNtFGn3zUHwPVq7ipCIy/jgdgE8gdRmfTsRFIbd34MuwtkvdcyHXOLO5zPPVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ejo28Gsr; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brqNxvGp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747596686; x=1779132686;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wM+N0LKANjRc7HX204LKq0PxCtmV93lQ7cutJnwVBc4=;
-  b=brqNxvGpUtl+jSd0//LHVebHvylrKAKinh1KAbH0Z4fWfWZM67gteSb5
-   j+i1C+++A92s+qk+fsSpmpaPQRtdcAflWNn8gBNatK03Qc6Ycu4o+/cbG
-   D+GREbaSqBVFeekyLoqolZanMsiog3IIIdJ6CBuJqLV7UpH9KyQHMZ+Lg
-   P9knLx9mH/i3d5y2ZCjnqri/OGfsiPDwP85IsBbvMlqKxtnSniMw8/vLX
-   Mn/bzE95E7zpgJFr1YYoNfeHRC5oYN2KRfg8rAWyPtcs1QFldFOIM2dZa
-   M+nN/CPgN0fXa5+GKqopvZ6ymG/RxTpCL4LBRjj0mbYOpisudhTgWYZPR
-   A==;
-X-CSE-ConnectionGUID: 4DT2AxzUTu2XVjSVuR12Yw==
-X-CSE-MsgGUID: xSLUBrWTTdyXIKlR9fn+qQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="49372713"
-X-IronPort-AV: E=Sophos;i="6.15,299,1739865600"; 
-   d="scan'208";a="49372713"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 12:31:26 -0700
-X-CSE-ConnectionGUID: Hx9NByM4TWO2Z9KSIr3nlw==
-X-CSE-MsgGUID: 6gtXY2TVQbWXGtkIwZ3lpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,299,1739865600"; 
-   d="scan'208";a="139696620"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 May 2025 12:31:24 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uGjjF-0000kZ-2v;
-	Sun, 18 May 2025 19:31:21 +0000
-Date: Mon, 19 May 2025 03:30:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2025-05-07-2 110/112]
- sound/soc/codecs/cs48l32.c:350:49: error: invalid use of undefined type
- 'struct snd_soc_dapm_context'
-Message-ID: <202505190306.WYiVlKJo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ejo28Gsr"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a361b8a664so2377248f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 14:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747605037; x=1748209837; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dd87LfCI9WT//JyBxng83Lwb28MCQOSv3z3z3fk1VZs=;
+        b=Ejo28GsrEGSzLRWik+7yJotLjvY3+HGltOMy2uRu5WvapO9J036Zr7+hUIwKOyXMK8
+         p4RKLvToiee/7mKOQZTdgwRx9nmOZo8CVV8jOzXQElFOZyPgh9Ru/wl957QLRFc1F5v0
+         TWAj7YzlvJR1dbUw+2j210YIYsbMO+oHNzXcDyPztJtYVOB5mXTYxcJa3uH3IOBSnRCG
+         oV1Fe21Rxmyl/8TJNaBTlbtRT+Ax5q+B5nCawlYmtbi4r+1IwYttvSK7ZY8zlSduE2ZQ
+         rC1UGAa5GURlWjWZ3cn1suQkABfVT7oA0sMGmXovkzvhWiO5qsfHUWG0EDZxtBzRJPA6
+         YPrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747605037; x=1748209837;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dd87LfCI9WT//JyBxng83Lwb28MCQOSv3z3z3fk1VZs=;
+        b=Sw1S2DbJ180z+6EbgTwVlTIVxiF6TLpMt/eXm419eHIGzGUJJkUeTY3ffwUbBGZOQP
+         9fdfhv7tcfqACCxS3KKjOzTIu8NxUdBltBIQWjfQIDiRRBoGM+OSK3ldzMk5xzHEDxzP
+         IsrT56RMMIdTbt9tYvDQ/7bmLmHGewgrdDx8ClvB29QzHU88gp8vwLLuRKLWQQHIkgVV
+         jw79QuHHFkBZIY5MWM+/e86UWobpM/t2CkfxezVddFauKz5nS+snGwGX1WWauwmK58Dg
+         2hYgbnfBQXcJxlzG0lIEiiZbEXBVNZ06jOmhl1gbGb8TJYxK2bUkZOLnGoT6At3wr+gP
+         Ttxw==
+X-Forwarded-Encrypted: i=1; AJvYcCVALPJ0aqZ23W4V8lqZl+NZlL/uwdDHTZmAsomj8SvZ72UM4I0Fd/9OMjD+YGSR0IwB1jMZWHvwZd27R7lX@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMIFyrWuhSSdiyg/RVQ8Xk/iMshHlo7Dv+QMTQr2mAZs+SNnJW
+	qtz+xrHW8pSUIz4cKFwvGaB1zHKNDJuVcqlviJrUTAh9nCHDYDNchHF+
+X-Gm-Gg: ASbGncuF5WiPM0suwH/n/R0CAFJ+VyeFb+VvYERRM6dAB2ucdjsNMqiqDzAJlCD29L3
+	/NdeAyN1taFcUysJKXGCAiBJiQ8VbwhasAViiZejc1JiyK8Ire4CfTXcd6eRP0lUtZrQClB21PS
+	PNZ88LaMH5DkjRffHIiVCFdAFgtdMaOBb4Hh16HD4hO+3y22Yor9Ml1SaGpQQJ2nV9CU4lJiBY2
+	MSDkG6wYKU8g9jQFkZvMXdygU+kWLyzAX69SW62gtZ5zG54X7hxQy/SjK1FqKIevevwJjM+Zpj9
+	8rj39mSY8SumQZv+eQjf/n9cPvFFk9jN+pcmx99u28qWx9fpGdmvv70Y3SRLdWQXv3FUrt5j0h+
+	mA1IQ3cbNuiW7qw==
+X-Google-Smtp-Source: AGHT+IEoBiFPjelVAhh1P9nAn5mTVvxWL2CpLAah1CB9KofEoCk75lEIDvxxHgFp9MPCtfEn5qQMcA==
+X-Received: by 2002:a05:6000:430c:b0:3a3:6947:6d35 with SMTP id ffacd0b85a97d-3a369477158mr3953400f8f.57.1747605036646;
+        Sun, 18 May 2025 14:50:36 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca8d005sm10670936f8f.90.2025.05.18.14.50.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 May 2025 14:50:36 -0700 (PDT)
+Date: Sun, 18 May 2025 22:50:35 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, u.kleine-koenig@baylibre.com, Nicolas Pitre
+ <npitre@baylibre.com>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 next 2/4] lib: mul_u64_u64_div_u64() Use BUG_ON() for
+ divide by zero
+Message-ID: <20250518225035.2f887be7@pumpkin>
+In-Reply-To: <202505182351.bPFZE1vO-lkp@intel.com>
+References: <20250518133848.5811-3-david.laight.linux@gmail.com>
+	<202505182351.bPFZE1vO-lkp@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2025-05-07-2
-head:   acdf0bd7ea1bc39def35811e3fec3d0afe79c98d
-commit: 57a61b2976d93977cfddb6369ec5e6b24d9348bb [110/112] ASoC: soc-dapm: move struct snd_soc_dapm_context
-config: m68k-randconfig-2005-20250519 (https://download.01.org/0day-ci/archive/20250519/202505190306.WYiVlKJo-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505190306.WYiVlKJo-lkp@intel.com/reproduce)
+On Sun, 18 May 2025 23:42:44 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505190306.WYiVlKJo-lkp@intel.com/
+> Hi David,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on next-20250516]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/lib-mul_u64_u64_div_u64-rename-parameter-c-to-d/20250518-214037
+> base:   next-20250516
+> patch link:    https://lore.kernel.org/r/20250518133848.5811-3-david.laight.linux%40gmail.com
+> patch subject: [PATCH v2 next 2/4] lib: mul_u64_u64_div_u64() Use BUG_ON() for divide by zero
+> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250518/202505182351.bPFZE1vO-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505182351.bPFZE1vO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505182351.bPFZE1vO-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    lib/math/div64.c: In function 'mul_u64_u64_div_u64':
+> >> lib/math/div64.c:190:9: error: implicit declaration of function 'BUG_ON' [-Wimplicit-function-declaration]  
+>      190 |         BUG_ON(!d);
+>          |         ^~~~~~
 
-All errors (new ones prefixed by >>):
-
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_inmux_put':
-   sound/soc/codecs/cs48l32.c:323:47: error: implicit declaration of function 'snd_soc_dapm_kcontrol_component'; did you mean 'snd_soc_dapm_kcontrol_to_component'? [-Werror=implicit-function-declaration]
-     323 |         struct snd_soc_component *component = snd_soc_dapm_kcontrol_component(kcontrol);
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                               snd_soc_dapm_kcontrol_to_component
-   sound/soc/codecs/cs48l32.c:323:47: warning: initialization of 'struct snd_soc_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/codecs/cs48l32.c:324:45: error: implicit declaration of function 'snd_soc_dapm_kcontrol_dapm'; did you mean 'snd_soc_dapm_kcontrol_to_dapm'? [-Werror=implicit-function-declaration]
-     324 |         struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             snd_soc_dapm_kcontrol_to_dapm
-   sound/soc/codecs/cs48l32.c:324:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->> sound/soc/codecs/cs48l32.c:350:49: error: invalid use of undefined type 'struct snd_soc_dapm_context'
-     350 |         ret = snd_soc_component_update_bits(dapm->component,
-         |                                                 ^~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_dmode_put':
-   sound/soc/codecs/cs48l32.c:388:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     388 |         struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_in_rate_put':
-   sound/soc/codecs/cs48l32.c:708:45: error: implicit declaration of function 'snd_soc_component_get_dapm'; did you mean 'snd_soc_component_to_dapm'? [-Werror=implicit-function-declaration]
-     708 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             snd_soc_component_to_dapm
-   sound/soc/codecs/cs48l32.c:708:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_low_power_mode_put':
-   sound/soc/codecs/cs48l32.c:759:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     759 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_eq_mode_put':
-   sound/soc/codecs/cs48l32.c:965:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     965 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_eq_coeff_put':
-   sound/soc/codecs/cs48l32.c:1029:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1029 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_dsp_rate_put':
-   sound/soc/codecs/cs48l32.c:1086:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1086 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +350 sound/soc/codecs/cs48l32.c
-
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  319  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  320  static int cs48l32_inmux_put(struct snd_kcontrol *kcontrol,
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  321  			     struct snd_ctl_elem_value *ucontrol)
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  322  {
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  323  	struct snd_soc_component *component = snd_soc_dapm_kcontrol_component(kcontrol);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  324  	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  325  	struct cs48l32_codec *cs48l32_codec = snd_soc_component_get_drvdata(component);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  326  	struct soc_enum *e = (struct soc_enum *) kcontrol->private_value;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  327  	unsigned int mux, src_val, in_type;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  328  	int ret;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  329  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  330  	mux = ucontrol->value.enumerated.item[0];
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  331  	if (mux > 1)
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  332  		return -EINVAL;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  333  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  334  	switch (e->reg) {
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  335  	case CS48L32_IN1L_CONTROL1:
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  336  		in_type = cs48l32_codec->in_type[0][mux];
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  337  		break;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  338  	case CS48L32_IN1R_CONTROL1:
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  339  		in_type = cs48l32_codec->in_type[1][mux];
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  340  		break;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  341  	default:
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  342  		return -EINVAL;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  343  	}
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  344  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  345  	src_val = mux << e->shift_l;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  346  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  347  	if (in_type == CS48L32_IN_TYPE_SE)
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  348  		src_val |= 1 << CS48L32_INx_SRC_SHIFT;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  349  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15 @350  	ret = snd_soc_component_update_bits(dapm->component,
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  351  					    e->reg,
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  352  					    CS48L32_INx_SRC_MASK,
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  353  					    src_val);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  354  	if (ret > 0)
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  355  		snd_soc_dapm_mux_update_power(dapm, kcontrol, mux, e, NULL);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  356  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  357  	return ret;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  358  }
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  359  
-
-:::::: The code at line 350 was first introduced by commit
-:::::: e2bcbf99d045f6ae3826e39d1ed25978de17cbfe ASoC: cs48l32: Add driver for Cirrus Logic CS48L32 audio DSP
-
-:::::: TO: Richard Fitzgerald <rf@opensource.cirrus.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+compiles fine on x86 :-(
