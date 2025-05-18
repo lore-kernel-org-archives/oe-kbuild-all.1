@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C0E1FF7C5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 12:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EADBE49
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 12:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747570710; cv=none; b=i8iMXIdqSE7FMilAaRlrVOHgURtJXVRMrpsS7jAisKevUNpt7IPOILDsNPM6j+p9U2QIEjwF4VqrjHGodHXsNWaXrA5zNl/60alY5tNVUzI8hru+4ZKFV7aa9mYbhRV1CC3ylmFahTVDKlOZju0wjr6GY9gBl6llIKIkXZ1yOvM=
+	t=1747571311; cv=none; b=SJ5q8E15KPkZII/FtaEIfNQGQvY/EljZfNZkpnZSvq61SFW1wKBIv2ol477wtEzbmjyithaLqJrsOhnzx3tXwMJwW3KVnU2570D6R48F+4RbJMjWf7QT6Klp89vK1BlhxPOv5UVX+zFVOnhuwpyShFmqilDhMLagkfG72B2p664=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747570710; c=relaxed/simple;
-	bh=PHOLDTUXh8IV1F3H9yP8DDt9W/KplcOHe9W54A4NtZg=;
+	s=arc-20240116; t=1747571311; c=relaxed/simple;
+	bh=5J0LCGPbqCCkyNRHELzwmnkrbe26dGiMfDwZBl+uC/c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O19dCYnsCAu+tcBkCcW1BgRFuaawmv/+Ul9KyOVtNt1fBtZx1TrztYJ4RImLoUongyTaFTNbYPRVnlkyeaOm1bmK2QBd54VeyGG9ZDekNFqMB6TSsZqTsF+sUx4fwoBhLWthcbFwwyfJqXqBSxi641aeUJf8YmCEKoS4I90Z3kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeONqDDK; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=VlsjSm2Ezqy1dBCSYRYuY1iJhXObnbJMDd7U31w7BEu3hIx1DUcHKOMwAqDxxBGK9WoWN2nmU5lPE3kMYM2J5E3Hg4EOZcpgdKe0oI6M9i0bAemvLHYpiCiLT2rwWaeWST+rauTr5T1poKUBFDNZ2eqTOmSR9hqTHFh3mHQ6rrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9lAXcTG; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeONqDDK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9lAXcTG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747570709; x=1779106709;
+  t=1747571310; x=1779107310;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PHOLDTUXh8IV1F3H9yP8DDt9W/KplcOHe9W54A4NtZg=;
-  b=TeONqDDKRlZ7D7fqfticx7TezjIMiqd4vQSIw//X/94FnU7iFAKlk7ho
-   jg5sQrFJy6Nnz+CIHOAi4po6jErui5HjpsxVAmbMjf5fhjSgjc10PnYaI
-   B9WJney0YnusTsPM3v3MGrWaNcCyD8paBnHeTCVOOox24My8JmcmflqDQ
-   3kuk2PYjx+nWEny7E9i7Vk+3I/GRUfLBnjOw+llLqVHIR2gn/nPfOivKv
-   LPvcVb6UhFQoUlSmSUxMjRocNye4R62vzQdp4e28s69rCg0mCLUWwrurj
-   C2R+bciMggf+Hx1pdufaOc8+KycYno+Sr6z91Bz/RGYcdpB5nnZaFRXP2
-   g==;
-X-CSE-ConnectionGUID: KO+LOzuRSCG8VUes/EDYWA==
-X-CSE-MsgGUID: kD4jdJzoRreCNsG7HBJeGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="48591403"
+  bh=5J0LCGPbqCCkyNRHELzwmnkrbe26dGiMfDwZBl+uC/c=;
+  b=i9lAXcTG306bCoyQY0CM0pXTF2DZriOmobnAuVJUafZ1YQ4BnPi0bM8g
+   ys8f3xkUpCM0sX/V4T7twnVV01CCua9kvQpkHQg1dkZyztRD7zrI4Zdc3
+   B1NHamhUFawYtn88E3QVpxRVDmwG89h/7i5v04t2pputraWcCrEq045qK
+   wnFyoOF2kD4JS7b6FyKtAKfpSQog5d3VROAHoDOVu9Z14SgBMu62zR2yp
+   V4RvYSP1MYEnn/+oJJrPEscdgVWjwyd8DoaMKFnZBD0gQ8rmF5ZPn+7mq
+   AIw49SGysH8JoS5Of/dOa6CwjGXwEURoXyKQABGmDH7j8ABvIxed7dkPr
+   w==;
+X-CSE-ConnectionGUID: xL5IoGzIQlSNzYnsNUaUuA==
+X-CSE-MsgGUID: 4SY5LcC0TleUYmbrT867Ng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="71983612"
 X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="48591403"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 05:18:28 -0700
-X-CSE-ConnectionGUID: lzEr+A2sSYG98Bf8vOlZkw==
-X-CSE-MsgGUID: WsEIirHdToiX9Z0p7EETrg==
+   d="scan'208";a="71983612"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 05:28:29 -0700
+X-CSE-ConnectionGUID: ARt5iqsUTaS+qRlzTe2YvA==
+X-CSE-MsgGUID: l8Pr11wBQFmNCwf9u1xJyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="139038771"
+   d="scan'208";a="144246974"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 May 2025 05:18:26 -0700
+  by orviesa005.jf.intel.com with ESMTP; 18 May 2025 05:28:27 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGcyG-000Kn5-1q;
-	Sun, 18 May 2025 12:18:24 +0000
-Date: Sun, 18 May 2025 20:17:36 +0800
+	id 1uGd7x-000KnH-0m;
+	Sun, 18 May 2025 12:28:25 +0000
+Date: Sun, 18 May 2025 20:27:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 11/11] kernel/sched/fair.c:1155:6:
- warning: no previous prototype for function 'group_identity_get'
-Message-ID: <202505182019.kfhpRFfy-lkp@intel.com>
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:sven/atcphy 31/31] kismet: WARNING: unmet direct
+ dependencies detected for USB_COMMON when selected by PHY_ROCKCHIP_USBDP
+Message-ID: <202505182021.UpdtJWqI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,71 +65,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Cruz,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   950b90b563b8c87ae35bb6edc4775609bc9471c2
-commit: 31ec2541ea6607ba496f567250bb652cda0a34a6 [11/11] anolis: sched/fair: Introduce sysctl interface to enable group identity
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250518/202505182019.kfhpRFfy-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505182019.kfhpRFfy-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux sven/atcphy
+head:   bb58cc6399a58218b8b5204a9fadf26f07c7f0f3
+commit: bb58cc6399a58218b8b5204a9fadf26f07c7f0f3 [31/31] phy: apple: Add Apple Type-C PHY
+config: arm64-kismet-CONFIG_USB_COMMON-CONFIG_PHY_ROCKCHIP_USBDP-0-0 (https://download.01.org/0day-ci/archive/20250518/202505182021.UpdtJWqI-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250518/202505182021.UpdtJWqI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505182019.kfhpRFfy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505182021.UpdtJWqI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> kernel/sched/fair.c:1155:6: warning: no previous prototype for function 'group_identity_get' [-Wmissing-prototypes]
-    1155 | void group_identity_get(void)
-         |      ^
-   kernel/sched/fair.c:1155:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1155 | void group_identity_get(void)
-         | ^
-         | static 
->> kernel/sched/fair.c:1161:6: warning: no previous prototype for function 'group_identity_put' [-Wmissing-prototypes]
-    1161 | void group_identity_put(void)
-         |      ^
-   kernel/sched/fair.c:1161:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1161 | void group_identity_put(void)
-         | ^
-         | static 
-   kernel/sched/fair.c:2030:22: warning: no previous prototype for function '__pick_first_entity' [-Wmissing-prototypes]
-    2030 | struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
-         |                      ^
-   kernel/sched/fair.c:2030:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2030 | struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
-         | ^
-         | static 
-   kernel/sched/fair.c:8472:7: warning: variable 'min_vruntime' set but not used [-Wunused-but-set-variable]
-    8472 |                 u64 min_vruntime;
-         |                     ^
-   4 warnings generated.
-
-
-vim +/group_identity_get +1155 kernel/sched/fair.c
-
-  1150	
-  1151	/* Before we call group_identity_get() and group_identity_put(), we have hold
-  1152	 * the lock identity_mutex, so the atomicity of enable/disable group identity
-  1153	 * can be guaranteed.
-  1154	 */
-> 1155	void group_identity_get(void)
-  1156	{
-  1157		lockdep_assert_held(&identity_mutex);
-  1158		atomic_inc(&group_identity_count);
-  1159	}
-  1160	
-> 1161	void group_identity_put(void)
-  1162	{
-  1163		lockdep_assert_held(&identity_mutex);
-  1164		atomic_dec(&group_identity_count);
-  1165	}
-  1166	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for USB_COMMON when selected by PHY_ROCKCHIP_USBDP
+   WARNING: unmet direct dependencies detected for TYPEC
+     Depends on [n]: USB_SUPPORT [=n]
+     Selected by [y]:
+     - PHY_APPLE_ATC [=y] && (ARM64 [=y] && ARCH_APPLE [=y] || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
+   
+   WARNING: unmet direct dependencies detected for USB_COMMON
+     Depends on [n]: USB_SUPPORT [=n]
+     Selected by [y]:
+     - PHY_ROCKCHIP_USBDP [=y] && ARCH_ROCKCHIP [=y] && OF [=y] && TYPEC [=y]
 
 -- 
 0-DAY CI Kernel Test Service
