@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935967261D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 18:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBF01E4AB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 19:11:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747594705; cv=none; b=Dyw8qColrB0InEfnGUyQ3PYh4AuxDNyUEueYq1PJcokKfWCGDZ4aRHprOX8opSDqGdqDrRAeeKBCdamw5au3wgXBdRDRqogidWj/+Ow2YnRx+CGNkZgvqjJl/n/hkClgsn+t6h8ZL0cSvBm7ftSBlEahtLlmoATPeIf/RxWUh1o=
+	t=1747595488; cv=none; b=HitQuAWWmnWxw2I4pbIJvnb5l2bjRE+/zeh989+fakSshI0kXezKStxSTDP+8oJhWOhE19s4YHt0tClmv9aL+LYF3TLTd9G4k+fRUxTIJtK7GsW4dw7k2ooMC54FOAVLTTVvAM0TAdUyTchvBgkwtgr5ssWyZZ9UnN8st4E+9Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747594705; c=relaxed/simple;
-	bh=5mWSLcv96k8u5XMQztj/MjhtIs447YI5bH4u92bI5M0=;
+	s=arc-20240116; t=1747595488; c=relaxed/simple;
+	bh=cPSw+hpj+02yY2OAV+doqumle8jnszeQMrRt6RK9tTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S2lAvIP8+MReARl+HjkCdGQyhSLTWJkV4hmjU/8JD8xXv2RbgMgyYAQ0LxIp5yoiTFmsRSuCDd4TqaWDxRjVeDxnAMhOz8K+EjIUgGP2V8HMHwMdyXUviLK8pH7uqMInZjJ/VkgOxjdNjyE5aI7vmMKfCwaCfHz5uigdvPKx8zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlCoeQmx; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=lzeylW5Y9YPDUQ87VQDx0z0pUwisLZJUBpwyxCAKTO9E16O2IqcgChjGcXs9bjr18nHePfIA835DeKw2UbbqB8zACVRHC+1qHB1vWc1TQSqVLRIcIp8Apy2dGMPicKoINr8P/EEr7arv4qpSulFYGzaV1KLZONTd2icTzRAu3is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LxQKwy/+; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlCoeQmx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LxQKwy/+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747594704; x=1779130704;
+  t=1747595485; x=1779131485;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5mWSLcv96k8u5XMQztj/MjhtIs447YI5bH4u92bI5M0=;
-  b=XlCoeQmx67FEBKamm4FpAfH32CVBRo0LtE9yPUZWHHEZQUJf10eONf58
-   LVieKSO+Whuvp1kcgAig1tI81K1AJnSu76HSZLRRQ/GYKTGm203Ee+mxr
-   Iq4M/CTvdaPHr9MRCrQDKQW371TQODwe/WSSu0QkLjJilLd7Qu96rHNh6
-   Eq2GOXcXD7omsIqhSsf515llL+5+zXqpfs7W4lc/h3NpPzi4lnftPEWws
-   m35XwxwliiTDjHWUKAxEGTU88eoYgDgh+dZ+CRIRogJlaEPP8Fs1EF9iM
-   oP3CNzV74ce5HFyazCWqZTCBctwuG0V5rql61Cf07mahecg05KPSDy/lW
+  bh=cPSw+hpj+02yY2OAV+doqumle8jnszeQMrRt6RK9tTg=;
+  b=LxQKwy/+OmYz5U0XGdqj/yQZGNA9DDOrQVyzJRx8idjl7h+kOM5fc1ze
+   KpV3WGnYiQbTbX9YozyckwnbDn810+7bhhUiV9+xnUeDA+nmYJ6ZRTS3g
+   Xe8kXZsFU1VgCdoPp0RU8Sttht1Dcc/f+dUGKIkLwKBQzU73SP9mxsHiL
+   tnuJObJMsFwBmvVyec1VGyw6Bs2rB8Ckmk+RJPNdcsiTGxv6ZBo4JOmHw
+   9BF9JLqEOh2M36eQETnyUxJxhGYMQlK8Pijbnstp3Nt4G5SOLcULg5X8w
+   DCWocVxrxNdzjxQjQoTqq5e/UDzIeISlhgjpcd5ohpSse1aEFuHmv+hZ0
    w==;
-X-CSE-ConnectionGUID: vcvV9oSgQtCgRy7zgpfOkQ==
-X-CSE-MsgGUID: Q9mZPJjDQuGws3PwXZpfew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="48605232"
+X-CSE-ConnectionGUID: PgCIDdgaSLO0wduzmkflHg==
+X-CSE-MsgGUID: TdCbP41vTge4urpMhIXCcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="49476309"
 X-IronPort-AV: E=Sophos;i="6.15,299,1739865600"; 
-   d="scan'208";a="48605232"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 11:58:23 -0700
-X-CSE-ConnectionGUID: LA0F8IEVRxKQ27jH72AAbA==
-X-CSE-MsgGUID: EeVhGUhXSaWuxcpVvi8+Pg==
+   d="scan'208";a="49476309"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 12:11:24 -0700
+X-CSE-ConnectionGUID: A5VFKcGJQha45EzM0TlNlQ==
+X-CSE-MsgGUID: M3Mv8g0oQqairiC6BV9rIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,299,1739865600"; 
-   d="scan'208";a="139089371"
+   d="scan'208";a="139021086"
 Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 May 2025 11:58:21 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 May 2025 12:11:23 -0700
 Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGjDH-0000kJ-32;
-	Sun, 18 May 2025 18:58:19 +0000
-Date: Mon, 19 May 2025 02:57:57 +0800
+	id 1uGjPs-0000kN-2D;
+	Sun, 18 May 2025 19:11:20 +0000
+Date: Mon, 19 May 2025 03:10:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2025-05-07-2 107/112]
- sound/soc/codecs/cs48l32.c:323:47: error: implicit declaration of function
- 'snd_soc_dapm_kcontrol_component'; did you mean
- 'snd_soc_dapm_kcontrol_to_component'?
-Message-ID: <202505190241.udBIrmaO-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
+Message-ID: <202505190355.gY9aSTpX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,109 +61,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2025-05-07-2
-head:   acdf0bd7ea1bc39def35811e3fec3d0afe79c98d
-commit: eaa7844722275c9271a0fafa599c476175bc070a [107/112] ASoC: soc-dapm: remove compatibility definition for dapm
-config: m68k-randconfig-2005-20250519 (https://download.01.org/0day-ci/archive/20250519/202505190241.udBIrmaO-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505190241.udBIrmaO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5723cc3450bccf7f98f227b9723b5c9f6b3af1c5
+commit: 430ad3f0ddd7bb0f6ed8c4c45bbce67e2c7ed396 alpha: remove LCA and APECS based machines
+date:   1 year ago
+config: alpha-randconfig-2002-20250519 (https://download.01.org/0day-ci/archive/20250519/202505190355.gY9aSTpX-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505190355.gY9aSTpX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505190241.udBIrmaO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505190355.gY9aSTpX-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_inmux_put':
->> sound/soc/codecs/cs48l32.c:323:47: error: implicit declaration of function 'snd_soc_dapm_kcontrol_component'; did you mean 'snd_soc_dapm_kcontrol_to_component'? [-Werror=implicit-function-declaration]
-     323 |         struct snd_soc_component *component = snd_soc_dapm_kcontrol_component(kcontrol);
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                               snd_soc_dapm_kcontrol_to_component
->> sound/soc/codecs/cs48l32.c:323:47: warning: initialization of 'struct snd_soc_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->> sound/soc/codecs/cs48l32.c:324:45: error: implicit declaration of function 'snd_soc_dapm_kcontrol_dapm'; did you mean 'snd_soc_dapm_kcontrol_to_dapm'? [-Werror=implicit-function-declaration]
-     324 |         struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             snd_soc_dapm_kcontrol_to_dapm
-   sound/soc/codecs/cs48l32.c:324:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_dmode_put':
-   sound/soc/codecs/cs48l32.c:388:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     388 |         struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_in_rate_put':
-   sound/soc/codecs/cs48l32.c:708:45: error: implicit declaration of function 'snd_soc_component_get_dapm'; did you mean 'snd_soc_component_to_dapm'? [-Werror=implicit-function-declaration]
-     708 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             snd_soc_component_to_dapm
-   sound/soc/codecs/cs48l32.c:708:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_low_power_mode_put':
-   sound/soc/codecs/cs48l32.c:759:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     759 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_eq_mode_put':
-   sound/soc/codecs/cs48l32.c:965:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     965 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_eq_coeff_put':
-   sound/soc/codecs/cs48l32.c:1029:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1029 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c: In function 'cs48l32_dsp_rate_put':
-   sound/soc/codecs/cs48l32.c:1086:45: warning: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1086 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +323 sound/soc/codecs/cs48l32.c
-
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  319  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  320  static int cs48l32_inmux_put(struct snd_kcontrol *kcontrol,
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  321  			     struct snd_ctl_elem_value *ucontrol)
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  322  {
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15 @323  	struct snd_soc_component *component = snd_soc_dapm_kcontrol_component(kcontrol);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15 @324  	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  325  	struct cs48l32_codec *cs48l32_codec = snd_soc_component_get_drvdata(component);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  326  	struct soc_enum *e = (struct soc_enum *) kcontrol->private_value;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  327  	unsigned int mux, src_val, in_type;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  328  	int ret;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  329  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  330  	mux = ucontrol->value.enumerated.item[0];
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  331  	if (mux > 1)
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  332  		return -EINVAL;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  333  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  334  	switch (e->reg) {
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  335  	case CS48L32_IN1L_CONTROL1:
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  336  		in_type = cs48l32_codec->in_type[0][mux];
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  337  		break;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  338  	case CS48L32_IN1R_CONTROL1:
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  339  		in_type = cs48l32_codec->in_type[1][mux];
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  340  		break;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  341  	default:
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  342  		return -EINVAL;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  343  	}
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  344  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  345  	src_val = mux << e->shift_l;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  346  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  347  	if (in_type == CS48L32_IN_TYPE_SE)
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  348  		src_val |= 1 << CS48L32_INx_SRC_SHIFT;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  349  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  350  	ret = snd_soc_component_update_bits(dapm->component,
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  351  					    e->reg,
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  352  					    CS48L32_INx_SRC_MASK,
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  353  					    src_val);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  354  	if (ret > 0)
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  355  		snd_soc_dapm_mux_update_power(dapm, kcontrol, mux, e, NULL);
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  356  
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  357  	return ret;
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  358  }
-e2bcbf99d045f6 Richard Fitzgerald 2025-04-15  359  
-
-:::::: The code at line 323 was first introduced by commit
-:::::: e2bcbf99d045f6ae3826e39d1ed25978de17cbfe ASoC: cs48l32: Add driver for Cirrus Logic CS48L32 audio DSP
-
-:::::: TO: Richard Fitzgerald <rf@opensource.cirrus.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+>> WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/resource_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/sysctl-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/dmapool_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/string_helpers_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/fortify_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strscpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-ts4800.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/phy/broadcom/phy-bcm-ns-usb2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/bcm/pinctrl-bcm4908.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-gw-pld.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-mediatek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-visconti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/kyro/kyrofb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-apmixedsys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-bdp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-jpgdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-hif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-apmixedsys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mfgcfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-apmixedsys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu0.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu_adl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu_conn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mfgcfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-imp_iic_wrap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8186-mm.o
 
 -- 
 0-DAY CI Kernel Test Service
