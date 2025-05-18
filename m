@@ -1,133 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82781DF73C;
-	Sun, 18 May 2025 12:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5478615A;
+	Sun, 18 May 2025 13:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747572575; cv=none; b=ke24NKw93aC/xcE8pIfKuIl6pYqJNSZOAKa4IVKAocP7EPbU7kS3B0EVITvb74WP/oiBaqWnjekOPgelaRaMPm5FGJhgENXdfHRERApQiOxmCuIB8S7UTMOZ7N6wfOPFwBX7yO7x+6hP5pG0kYdDqQTEp6OEI+9eXc2zPD5Pc/Y=
+	t=1747576649; cv=none; b=uoyJGYv8wFqmlpAMajXK2bDyg2yiIr+aMM6jXxLtSU0itAZEj4PUiaBaUEv3kRhpyGmibn2fhEkdeJPhpL1QlmENXU/+J8f/6Xgtl5H91Ti23jY/qA/HctcSc6yts/UtRQ8a8Q0nWSd0kQa239BxUB8ey1VsCxyOTy7364VEAe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747572575; c=relaxed/simple;
-	bh=euC5PbXNjS2x0QacPIBKzuMlmM7Z9seXEnqXmFv9Xhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wgom6Ogt3SKvupL9SZlys/ShsvSn6F71J+C4agZLpqoXjofWQRdr+K2AWkn6uYtRk3aRXX8LQNfDQFN3rfeH76y43w+HujOUbH6Xw9Bb9ojhekyL/XoXWWwoPKMMZT5K4d92dLmPm/nJ4jHvpTIX4sGazdpiUI5M1JDUa2M2Aeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JKCtNpha; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747576649; c=relaxed/simple;
+	bh=0guoTVEf0JLLAhF7vqrd71VVzRoEOAz7Uv4UP9QZJZo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H2iD6x+5b/mFBLGHuKBne50ObGLMqj7UQ7i1Gfx1CWb8VSjUKjwtcJg3GCukDe9TQnp/zNq6cHlJbt8Cg+5RJ7MLynU7qsgEt8IcerRIIPtjLtBL70k7vkXRP0/c7FIosMpDtHm95YSKFdcvSN41samLolOTS9m4EvvFmGAycqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=u+xNnM8b; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKCtNpha"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747572573; x=1779108573;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=euC5PbXNjS2x0QacPIBKzuMlmM7Z9seXEnqXmFv9Xhk=;
-  b=JKCtNphaFvooDwWmkCfr+/4KCXh8ejQ8PBWJFjR6gn6DtcwNgZ6qS1s2
-   YHhGQ+CC82ojphygM7Z4YbpsF3dYOKPxgBLrMjYNsM82CWVofZb9MphPP
-   covYwTgdHgbgUhjRBdEXgPTbpWE8YxdqQCUqXmhymQ+cg0v0+XE8Z3UNk
-   2IupeD/syhKODmV4sQ0WRoz73cMJtXVFnJGV8lfzcOBWPTAEixG4AGW8T
-   32zORkAiFLEeuOAetKd+lE/TFczoxGQSDytmTmzabOA3xlnFPsaLHq37m
-   rp/6GojhBrPUS3mDU0cdIf0a/rj79sc0a5+qEKIvx5VNUMDiDoQFrFL3c
-   w==;
-X-CSE-ConnectionGUID: qpMWnYIuR0q8k1139DOuqw==
-X-CSE-MsgGUID: kqFTbU/hQNus0z6RWLwohw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="49180772"
-X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="49180772"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 05:49:32 -0700
-X-CSE-ConnectionGUID: LHLHb61RQ9qsKji1eIUIuQ==
-X-CSE-MsgGUID: 3dPjZgDXSM6hzvY7ML/pGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="139169168"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 May 2025 05:49:29 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uGdSI-000Knj-2c;
-	Sun, 18 May 2025 12:49:26 +0000
-Date: Sun, 18 May 2025 20:48:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, linux-coco@lists.linux.dev,
-	linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	lukas@wunner.de, aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
-	sameo@rivosinc.com, aik@amd.com, jgg@nvidia.com, zhiw@nvidia.com,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH v3 09/13] PCI/IDE: Report available IDE streams
-Message-ID: <202505182032.CfUZnPyX-lkp@intel.com>
-References: <20250516054732.2055093-10-dan.j.williams@intel.com>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="u+xNnM8b"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=8n1qhNBG9aKCngN6y44GHqsGUf3hTGo9f/XMCdBaqNI=; b=u+xNnM8bAVkEi+EEoXbSBB1F71
+	gbFybuoAdhIft85qDzxeeXz9yvHCGMQtFecDkPXIURmMZEG/iyCVaiRkCK/qXv0G579Vfto6m1m+X
+	oRsFBhclFcwyZmW5NU3Zh9MGlAWwUi4rc9xEY7p+c2+Hgf84R2uP4Y0C8yfpUmfaCYuBOLoEDVu/k
+	eqgtXrfUbX6ndPiItrv4c+fc0hzbo0oiYRGbQndAhgkUAABfa5Wmv6kPwl4shs1D1TKpx0M2oqjKD
+	QXgKwzZ1qTdtx60wwQ5IOV0VT5bXSU3xs8kj1Nrw3c4KwIp+c2eMZbDmTTV3tXMlZDQ6Cfd8YdzN+
+	osABZZ5w==;
+Received: from i53875a50.versanet.de ([83.135.90.80] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uGeW2-0003lu-JI; Sun, 18 May 2025 15:57:22 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Finley Xiao <finley.xiao@rock-chips.com>,
+ kernel test robot <lkp@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Kever Yang <kever.yang@rock-chips.com>
+Subject:
+ Re: [linux-next:master 9473/11093]
+ arch/arm64/boot/dts/rockchip/rk3562.dtsi:624.26-675.5: Warning
+ (simple_bus_reg): /soc/pcie@ff500000: simple-bus unit address format error,
+ expected "fe000000"
+Date: Sun, 18 May 2025 15:57:21 +0200
+Message-ID: <2410023.BjyWNHgNrj@diego>
+In-Reply-To: <3c3d0020-1dce-4364-a0a1-7c35b21e93de@kernel.org>
+References:
+ <202505150745.PQT9TLYX-lkp@intel.com> <3983362.fW5hKsROvD@diego>
+ <3c3d0020-1dce-4364-a0a1-7c35b21e93de@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250516054732.2055093-10-dan.j.williams@intel.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Dan,
+Am Sonntag, 18. Mai 2025, 12:36:50 Mitteleurop=C3=A4ische Sommerzeit schrie=
+b Krzysztof Kozlowski:
+> On 16/05/2025 22:10, Heiko St=C3=BCbner wrote:
+> > Am Donnerstag, 15. Mai 2025, 16:04:20 Mitteleurop=C3=A4ische Sommerzeit=
+ schrieb kernel test robot:
+> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-nex=
+t.git master
+> >> head:   bdd609656ff5573db9ba1d26496a528bdd297cf2
+> >> commit: ceb6ef1ea9002669afc0e1ef258e530d3c05d91a [9473/11093] arm64: d=
+ts: rockchip: Add RK3562 evb2 devicetree
+> >> config: arm64-randconfig-2052-20250513 (https://download.01.org/0day-c=
+i/archive/20250515/202505150745.PQT9TLYX-lkp@intel.com/config)
+> >> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-projec=
+t f819f46284f2a79790038e1f6649172789734ae8)
+> >> dtschema version: 2025.3.dev27+g32749b3
+> >> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/ar=
+chive/20250515/202505150745.PQT9TLYX-lkp@intel.com/reproduce)
+> >>
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new v=
+ersion of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202505150745.PQT9TLYX-=
+lkp@intel.com/
+> >>
+> >> dtcheck warnings: (new ones prefixed by >>)
+> >>>> arch/arm64/boot/dts/rockchip/rk3562.dtsi:624.26-675.5: Warning (simp=
+le_bus_reg): /soc/pcie@ff500000: simple-bus unit address format error, expe=
+cted "fe000000"
+> >>>> arch/arm64/boot/dts/rockchip/rk3562.dtsi:1115.20-1181.5: Warning (si=
+mple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
+> >=20
+> > hmm, I don't really understand this error message.
+> >=20
+> > From a practical point, the dtschema-version I have installed is
+> > 2025.3.dev27+g32749b3, which is the topmost commit from
+> > may-13th.
+> >=20
+> > Running the dtbscheck on the rk3562-evb-v10.dtb on the full
+> > linux-next from today, yields no errors.
+>=20
+> These are standard dtc warnings.
+>=20
+> >=20
+> > Checking out the specific commit ceb6ef1ea90026 brings up the
+> > errors from below [1], because they come from different trees.
+> >=20
+> >=20
+> > But in no cases does dtbscheck complain about the PCI memory regions.
+> >=20
+> >=20
+> > The PCIe controller in question of course has 3 memory regions
+> > 	reg =3D <0x0 0xfe000000 0x0 0x400000>,
+> > 	      <0x0 0xff500000 0x0 0x10000>,
+> > 	      <0x0 0xfc000000 0x0 0x100000>;
+> > 	reg-names =3D "dbi", "apb", "config";
+> >=20
+> > and currently the node-name mimics the "apb" memory region.
+> > Should it always use the first one?
+>=20
+> I don't understand where is the problem. The warning tells you: unit
+> address is not correct. Fix the unit address to match reg.
 
-kernel test robot noticed the following build warnings:
+The problem was more on "is my toolchain outdated or why am I not seeing
+these reports". Which I now managed to resolve, because I finally saw the
+"(this is a W=3D1 build)" in the header of the reporting mail ;-)
 
-[auto build test WARNING on 7515f45c165269b72ee739e6fc26cc2ef928fc1b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/coco-tsm-Introduce-a-core-device-for-TEE-Security-Managers/20250516-135307
-base:   7515f45c165269b72ee739e6fc26cc2ef928fc1b
-patch link:    https://lore.kernel.org/r/20250516054732.2055093-10-dan.j.williams%40intel.com
-patch subject: [PATCH v3 09/13] PCI/IDE: Report available IDE streams
-config: i386-randconfig-r072-20250518 (https://download.01.org/0day-ci/archive/20250518/202505182032.CfUZnPyX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+So yes, with the dtschema warning about the power-controller I got my mind
+stuck in the "is my dtschema" outdated, not realizing that the first one
+comes from dtc itself and then also missing the "(this is a W=3D1 build)"
+mention.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505182032.CfUZnPyX-lkp@intel.com/
 
-smatch warnings:
-drivers/pci/ide.c:475 available_secure_streams_show() warn: unsigned 'hb->nr_ide_streams' is never less than zero.
-drivers/pci/ide.c:495 pci_ide_attr_visible() warn: unsigned 'hb->nr_ide_streams' is never less than zero.
+Heiko
 
-vim +475 drivers/pci/ide.c
 
-   467	
-   468	static ssize_t available_secure_streams_show(struct device *dev,
-   469						     struct device_attribute *attr,
-   470						     char *buf)
-   471	{
-   472		struct pci_host_bridge *hb = to_pci_host_bridge(dev);
-   473		int avail;
-   474	
- > 475		if (hb->nr_ide_streams < 0)
-   476			return -ENXIO;
-   477	
-   478		avail = hb->nr_ide_streams -
-   479			bitmap_weight(hb->ide_stream_map, hb->nr_ide_streams);
-   480		return sysfs_emit(buf, "%d\n", avail);
-   481	}
-   482	static DEVICE_ATTR_RO(available_secure_streams);
-   483	
-   484	static struct attribute *pci_ide_attrs[] = {
-   485		&dev_attr_available_secure_streams.attr,
-   486		NULL,
-   487	};
-   488	
-   489	static umode_t pci_ide_attr_visible(struct kobject *kobj, struct attribute *a, int n)
-   490	{
-   491		struct device *dev = kobj_to_dev(kobj);
-   492		struct pci_host_bridge *hb = to_pci_host_bridge(dev);
-   493	
-   494		if (a == &dev_attr_available_secure_streams.attr)
- > 495			if (hb->nr_ide_streams < 0)
-   496				return 0;
-   497	
-   498		return a->mode;
-   499	}
-   500	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
