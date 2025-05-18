@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EADBE49
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 12:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5A02AD0C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 12:38:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747571311; cv=none; b=SJ5q8E15KPkZII/FtaEIfNQGQvY/EljZfNZkpnZSvq61SFW1wKBIv2ol477wtEzbmjyithaLqJrsOhnzx3tXwMJwW3KVnU2570D6R48F+4RbJMjWf7QT6Klp89vK1BlhxPOv5UVX+zFVOnhuwpyShFmqilDhMLagkfG72B2p664=
+	t=1747571913; cv=none; b=ECWWWxSoxqR2khF9gX4qpiwehYJ3o6aQV6ltdZFkxh0fsmFqjvyrPEzeQTWBtRuReobOZVTb3OsDVDI7v9oARu1k7KUzAl6rgOU5nRSp4bgaNSCQYdKnSRGrhwfY2I7Mhtla1WPRt1XV8D+c41pazW5hdgbZqPKrTI5/2RkN4i4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747571311; c=relaxed/simple;
-	bh=5J0LCGPbqCCkyNRHELzwmnkrbe26dGiMfDwZBl+uC/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VlsjSm2Ezqy1dBCSYRYuY1iJhXObnbJMDd7U31w7BEu3hIx1DUcHKOMwAqDxxBGK9WoWN2nmU5lPE3kMYM2J5E3Hg4EOZcpgdKe0oI6M9i0bAemvLHYpiCiLT2rwWaeWST+rauTr5T1poKUBFDNZ2eqTOmSR9hqTHFh3mHQ6rrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9lAXcTG; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1747571913; c=relaxed/simple;
+	bh=PoyuPg5e2LU/+nVt9+qZ5GK2kKH6IQI8uCwbW3k0Avg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RxRR5vyxCNDooPCaIqaQ8AN5e+f3fkhJQ6kTObGNrKUnCC9hhjQ+fCs21/eHxBERSsBR5JISkTA6vwlKyRFa4hGfHX05BdG+P7fOIagHx99xU9WznLIEUXOYYXb0v0/dgvaqC4jhQjDp4scSwWImiFtCTyGpAanE7nWIirF3DfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bd4ajHOR; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9lAXcTG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bd4ajHOR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747571310; x=1779107310;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5J0LCGPbqCCkyNRHELzwmnkrbe26dGiMfDwZBl+uC/c=;
-  b=i9lAXcTG306bCoyQY0CM0pXTF2DZriOmobnAuVJUafZ1YQ4BnPi0bM8g
-   ys8f3xkUpCM0sX/V4T7twnVV01CCua9kvQpkHQg1dkZyztRD7zrI4Zdc3
-   B1NHamhUFawYtn88E3QVpxRVDmwG89h/7i5v04t2pputraWcCrEq045qK
-   wnFyoOF2kD4JS7b6FyKtAKfpSQog5d3VROAHoDOVu9Z14SgBMu62zR2yp
-   V4RvYSP1MYEnn/+oJJrPEscdgVWjwyd8DoaMKFnZBD0gQ8rmF5ZPn+7mq
-   AIw49SGysH8JoS5Of/dOa6CwjGXwEURoXyKQABGmDH7j8ABvIxed7dkPr
-   w==;
-X-CSE-ConnectionGUID: xL5IoGzIQlSNzYnsNUaUuA==
-X-CSE-MsgGUID: 4SY5LcC0TleUYmbrT867Ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="71983612"
+  t=1747571911; x=1779107911;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PoyuPg5e2LU/+nVt9+qZ5GK2kKH6IQI8uCwbW3k0Avg=;
+  b=Bd4ajHORb5zh7ouk3qk6kHfPtoF+FI20U2aRM1asA/6yB4HAOqZVWtVT
+   /hmjIUkIj8rfZjs/GQ5gcrQTqZBmSBKA/FPcLLvMzrghz6PgVhN4bWqpx
+   gJvy/ceDlazjkPFBHjfxzZoXL488r9jsGUTzXAK7vWgl9S1ODoqqzYL8Z
+   CNdxVaXQN9D8ydL8l7CBhcudKjGOLTjXHD67uPRUc3R/gFTlMshVyX1Ln
+   Uk37sLLyLFu6obVqHVeCQakz7MRYA9L37vgV5doX1m871tfr7kc4TL5+r
+   ZTTT2cik2g4NlKHCphjUMLW9XhroRzPhKObk9lWCAYqezBbdyoQGzFS4b
+   g==;
+X-CSE-ConnectionGUID: RMeEsb/MSi+809epGdpesg==
+X-CSE-MsgGUID: lZr9e+q6RfeJI7HgD86+pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="49180171"
 X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="71983612"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 05:28:29 -0700
-X-CSE-ConnectionGUID: ARt5iqsUTaS+qRlzTe2YvA==
-X-CSE-MsgGUID: l8Pr11wBQFmNCwf9u1xJyA==
+   d="scan'208";a="49180171"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 05:38:31 -0700
+X-CSE-ConnectionGUID: M+m2/Jz9Tlu/ErvWTLKXtw==
+X-CSE-MsgGUID: 7cNYVkumQkmgrQGQChpJ8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="144246974"
+   d="scan'208";a="139029180"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 18 May 2025 05:28:27 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 May 2025 05:38:28 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGd7x-000KnH-0m;
-	Sun, 18 May 2025 12:28:25 +0000
-Date: Sun, 18 May 2025 20:27:49 +0800
+	id 1uGdHe-000KnX-09;
+	Sun, 18 May 2025 12:38:26 +0000
+Date: Sun, 18 May 2025 20:38:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:sven/atcphy 31/31] kismet: WARNING: unmet direct
- dependencies detected for USB_COMMON when selected by PHY_ROCKCHIP_USBDP
-Message-ID: <202505182021.UpdtJWqI-lkp@intel.com>
+To: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+	Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH 1/2] ACPI: platform_profile: Stub platform_profile_cycle
+Message-ID: <202505182014.8Vkd2piH-lkp@intel.com>
+References: <20250518-hid_lenovo_acpi_dependency-v1-1-afdb93b5d1a6@jannau.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,29 +68,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250518-hid_lenovo_acpi_dependency-v1-1-afdb93b5d1a6@jannau.net>
 
-tree:   https://github.com/AsahiLinux/linux sven/atcphy
-head:   bb58cc6399a58218b8b5204a9fadf26f07c7f0f3
-commit: bb58cc6399a58218b8b5204a9fadf26f07c7f0f3 [31/31] phy: apple: Add Apple Type-C PHY
-config: arm64-kismet-CONFIG_USB_COMMON-CONFIG_PHY_ROCKCHIP_USBDP-0-0 (https://download.01.org/0day-ci/archive/20250518/202505182021.UpdtJWqI-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250518/202505182021.UpdtJWqI-lkp@intel.com/reproduce)
+Hi Janne,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 0af2f6be1b4281385b618cb86ad946eded089ac8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Janne-Grunau-via-B4-Relay/ACPI-platform_profile-Stub-platform_profile_cycle/20250518-182021
+base:   0af2f6be1b4281385b618cb86ad946eded089ac8
+patch link:    https://lore.kernel.org/r/20250518-hid_lenovo_acpi_dependency-v1-1-afdb93b5d1a6%40jannau.net
+patch subject: [PATCH 1/2] ACPI: platform_profile: Stub platform_profile_cycle
+config: x86_64-buildonly-randconfig-005-20250518 (https://download.01.org/0day-ci/archive/20250518/202505182014.8Vkd2piH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505182014.8Vkd2piH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505182021.UpdtJWqI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505182014.8Vkd2piH-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for USB_COMMON when selected by PHY_ROCKCHIP_USBDP
-   WARNING: unmet direct dependencies detected for TYPEC
-     Depends on [n]: USB_SUPPORT [=n]
-     Selected by [y]:
-     - PHY_APPLE_ATC [=y] && (ARM64 [=y] && ARCH_APPLE [=y] || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
-   
-   WARNING: unmet direct dependencies detected for USB_COMMON
-     Depends on [n]: USB_SUPPORT [=n]
-     Selected by [y]:
-     - PHY_ROCKCHIP_USBDP [=y] && ARCH_ROCKCHIP [=y] && OF [=y] && TYPEC [=y]
+All errors (new ones prefixed by >>):
+
+>> drivers/acpi/platform_profile.c:493:5: error: redefinition of 'platform_profile_cycle'
+     493 | int platform_profile_cycle(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/acpi/platform_profile.c:12:
+   include/linux/platform_profile.h:64:19: note: previous definition of 'platform_profile_cycle' with type 'int(void)'
+      64 | static inline int platform_profile_cycle(void)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/platform_profile_cycle +493 drivers/acpi/platform_profile.c
+
+a2ff95e018f1d2 Mark Pearson      2020-12-29  487  
+ee7f3e2b4942e3 Kurt Borja        2025-01-15  488  /**
+ee7f3e2b4942e3 Kurt Borja        2025-01-15  489   * platform_profile_cycle - Cycles profiles available on all registered class devices
+ee7f3e2b4942e3 Kurt Borja        2025-01-15  490   *
+ee7f3e2b4942e3 Kurt Borja        2025-01-15  491   * Return: 0 on success, -errno on failure
+ee7f3e2b4942e3 Kurt Borja        2025-01-15  492   */
+ba95eb44676d68 Gergo Koteles     2024-04-08 @493  int platform_profile_cycle(void)
+ba95eb44676d68 Gergo Koteles     2024-04-08  494  {
+778b94d7ac17b5 Mario Limonciello 2025-02-28  495  	struct aggregate_choices_data data = {
+778b94d7ac17b5 Mario Limonciello 2025-02-28  496  		.aggregate = { [0 ... BITS_TO_LONGS(PLATFORM_PROFILE_LAST) - 1] = ~0UL },
+778b94d7ac17b5 Mario Limonciello 2025-02-28  497  		.count = 0,
+778b94d7ac17b5 Mario Limonciello 2025-02-28  498  	};
+70246f89c55fb1 Mario Limonciello 2024-12-05  499  	enum platform_profile_option next = PLATFORM_PROFILE_LAST;
+70246f89c55fb1 Mario Limonciello 2024-12-05  500  	enum platform_profile_option profile = PLATFORM_PROFILE_LAST;
+ba95eb44676d68 Gergo Koteles     2024-04-08  501  	int err;
+ba95eb44676d68 Gergo Koteles     2024-04-08  502  
+1f3ac55c2e65af Mario Limonciello 2024-12-05  503  	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+70246f89c55fb1 Mario Limonciello 2024-12-05  504  		err = class_for_each_device(&platform_profile_class, NULL,
+70246f89c55fb1 Mario Limonciello 2024-12-05  505  					    &profile, _aggregate_profiles);
+70246f89c55fb1 Mario Limonciello 2024-12-05  506  		if (err)
+70246f89c55fb1 Mario Limonciello 2024-12-05  507  			return err;
+ba95eb44676d68 Gergo Koteles     2024-04-08  508  
+70246f89c55fb1 Mario Limonciello 2024-12-05  509  		if (profile == PLATFORM_PROFILE_CUSTOM ||
+70246f89c55fb1 Mario Limonciello 2024-12-05  510  		    profile == PLATFORM_PROFILE_LAST)
+70246f89c55fb1 Mario Limonciello 2024-12-05  511  			return -EINVAL;
+70246f89c55fb1 Mario Limonciello 2024-12-05  512  
+70246f89c55fb1 Mario Limonciello 2024-12-05  513  		err = class_for_each_device(&platform_profile_class, NULL,
+778b94d7ac17b5 Mario Limonciello 2025-02-28  514  					    &data, _aggregate_choices);
+1f3ac55c2e65af Mario Limonciello 2024-12-05  515  		if (err)
+ba95eb44676d68 Gergo Koteles     2024-04-08  516  			return err;
+ba95eb44676d68 Gergo Koteles     2024-04-08  517  
+70246f89c55fb1 Mario Limonciello 2024-12-05  518  		/* never iterate into a custom if all drivers supported it */
+778b94d7ac17b5 Mario Limonciello 2025-02-28  519  		clear_bit(PLATFORM_PROFILE_CUSTOM, data.aggregate);
+70246f89c55fb1 Mario Limonciello 2024-12-05  520  
+778b94d7ac17b5 Mario Limonciello 2025-02-28  521  		next = find_next_bit_wrap(data.aggregate,
+70246f89c55fb1 Mario Limonciello 2024-12-05  522  					  PLATFORM_PROFILE_LAST,
+ba95eb44676d68 Gergo Koteles     2024-04-08  523  					  profile + 1);
+ba95eb44676d68 Gergo Koteles     2024-04-08  524  
+70246f89c55fb1 Mario Limonciello 2024-12-05  525  		err = class_for_each_device(&platform_profile_class, NULL, &next,
+70246f89c55fb1 Mario Limonciello 2024-12-05  526  					    _store_and_notify);
+ba95eb44676d68 Gergo Koteles     2024-04-08  527  
+1f3ac55c2e65af Mario Limonciello 2024-12-05  528  		if (err)
+1f3ac55c2e65af Mario Limonciello 2024-12-05  529  			return err;
+1f3ac55c2e65af Mario Limonciello 2024-12-05  530  	}
+ba95eb44676d68 Gergo Koteles     2024-04-08  531  
+ba95eb44676d68 Gergo Koteles     2024-04-08  532  	sysfs_notify(acpi_kobj, NULL, "platform_profile");
+ba95eb44676d68 Gergo Koteles     2024-04-08  533  
+1f3ac55c2e65af Mario Limonciello 2024-12-05  534  	return 0;
+ba95eb44676d68 Gergo Koteles     2024-04-08  535  }
+ba95eb44676d68 Gergo Koteles     2024-04-08  536  EXPORT_SYMBOL_GPL(platform_profile_cycle);
+ba95eb44676d68 Gergo Koteles     2024-04-08  537  
 
 -- 
 0-DAY CI Kernel Test Service
