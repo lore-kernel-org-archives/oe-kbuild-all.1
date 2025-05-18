@@ -1,71 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB3AC2C6
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 11:06:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB443212FB6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 11:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747566391; cv=none; b=IK9neFFXF8AyJNv9nrj3RQYW3XTxvOKRSNQR22GWqS3oNOht43rCwsjcY6zq6zR2phfjsLdFYTTesi/DmQIeQqCwHHBzGXD5JVijm3ghLIRhuGrdi5QgByB4RNfe4z0CE4SgtvdsTm76CqsQYvQX7qTz52Y44VgsCjGJ79nY/7U=
+	t=1747567593; cv=none; b=VylxZKIgoB+gyVjYoTBz2oQ/ET9+BhOxrEQbMBNacXyiTMIzagUIh1APDxlgcaTeP/iq4Le0Wc8dF4eYf0zu8nk/MzBDTmcwXXvyIYS5CAemNb/0w5V0zfONvOq7uEbAS3bmZ2i640FFU37/ARFT+KGFZy8zia1E8B1IWLjZGg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747566391; c=relaxed/simple;
-	bh=QWfnSdl856Z85mwypJieipjFXF993YS5KqHAE1cyjNY=;
+	s=arc-20240116; t=1747567593; c=relaxed/simple;
+	bh=X4FLcD9CPlrbVSA5eiBFd1Za/NDlJcFjuo167iNkPf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R8o0x/HMTKe1U4RGAkTuvMbLnVP2pCoVWfER0r5OXpoqig2B7UfpUq7fII97osKa3nP+taUiemmBPUboSPgfHALJ6MAm3ee+zi8ZBPE/L3rewWnGCHxdJUufH9ES+o9IhhsK1c3Ktp95n6jDzmGSKXFJMu07e/NtkixNYeKoaC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTRaJzqQ; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=K7rd5TwV/gXDp5GuIRfNv1qDf4ElFDKFTREDCSGlznnCjiSQ3NGW6Plb6h6xsaFEHu3xurooALnrN2e2lrQmUNNQHvwE5Vk/7TWdluGzgiRHxtJiA4uEgos+mkZXHL6CCsK5EguwFS8SwMqsks/fBuqUQF+79125cXYA5o+zvu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EcGhw+yk; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTRaJzqQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EcGhw+yk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747566386; x=1779102386;
+  t=1747567591; x=1779103591;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QWfnSdl856Z85mwypJieipjFXF993YS5KqHAE1cyjNY=;
-  b=OTRaJzqQvrFtVf02zct49oy44ApjHt6dQb5nhW4+vQFysnwyeBjwTKuW
-   Cy6yprgtE2yDtUYPYBoIQjiAp2D2JY/hKtD0iPVNxc7e8ieDPhOnaL07U
-   LravCvbzPDgXkWzSM0dmmruGyW+9pOpNJVghkkctox2//FAbiVD3FPpD2
-   2DT227KyWC17lsQ/rJeS6d3NUnHaYVKEj8CKC4pJ57mT0UyA0/ATEe0ZU
-   RMVBbrN1R23fqUSZ2EEUOt/MBcQe6qZi3tgiITmXj5qqGVOnOT0XZnkv1
-   E6tiNOthzsYfOF7VE0Jhbai9cs3tjuEQWody3K52ZqKuhnNMgyMR/TnaD
+  bh=X4FLcD9CPlrbVSA5eiBFd1Za/NDlJcFjuo167iNkPf8=;
+  b=EcGhw+ykwho2VEAxfVk1tEb5GaXS32/Lxd4MhmVC38ExXnWpDLUVJazi
+   vy9aPT4skF6BhY1iq3xXMav78YjjS7Ug64Fjiaf7OSAeyYh758k3BPtCS
+   AOCF6dlM+09+1c7ARJhVFt8l5oQ5+ERxhEHYgmoIvZ1lTdMT1/TsgTGHT
+   6pCW6VnTPFPmHAeNNkaqM7s309jCNxBZ8VonX8K+2uyxp5giJPPBawatl
+   r2CRXBsgMYbECy42DOtUkJSBczC3IzLwKyz4+lbNaJBAsLXbEstk9ex5O
+   SPvM57hCEWeBTfDvEa2+znTk5I9AsjvpWr9rnk9qezKZz1ybs/p/pT3bZ
    w==;
-X-CSE-ConnectionGUID: ZvQbeJXvRj6wp9e5BtQ5CQ==
-X-CSE-MsgGUID: 5O0xOyZ4Ru20baaKeQ9WMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="66889558"
+X-CSE-ConnectionGUID: gFiNyzFDSW2X3EmfQ9nOLQ==
+X-CSE-MsgGUID: ptPSK39gQTyqJ6wKLBFFxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="60133849"
 X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="66889558"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 04:06:26 -0700
-X-CSE-ConnectionGUID: 5hAveNSLTxGHSRCzB/L7Jw==
-X-CSE-MsgGUID: c7CUmisQQLu/ruOrK1t6HA==
+   d="scan'208";a="60133849"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 04:26:30 -0700
+X-CSE-ConnectionGUID: RqcLCHJEQwqT1rfMT3rA3Q==
+X-CSE-MsgGUID: sypfrONYS9O/hzIzj6+XwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="138854444"
+   d="scan'208";a="138957861"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 May 2025 04:06:22 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 May 2025 04:26:24 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGbqV-000KlT-2U;
-	Sun, 18 May 2025 11:06:19 +0000
-Date: Sun, 18 May 2025 19:05:43 +0800
+	id 1uGc9t-000Km3-13;
+	Sun, 18 May 2025 11:26:21 +0000
+Date: Sun, 18 May 2025 19:26:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Juan Yescas <jyescas@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Zi Yan <ziy@nvidia.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	tjmercier@google.com, isaacmanjarres@google.com,
-	kaleshsingh@google.com, Minchan Kim <minchan@kernel.org>
-Subject: Re: [PATCH v5] mm: Add CONFIG_PAGE_BLOCK_ORDER to select page block
- order
-Message-ID: <202505181825.FdKgAQ16-lkp@intel.com>
-References: <20250516232341.659513-1-jyescas@google.com>
+To: Andrey Albershteyn <aalbersh@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH v5 7/7] fs: introduce file_getattr and file_setattr
+ syscalls
+Message-ID: <202505181900.UGh2tVRs-lkp@intel.com>
+References: <20250513-xattrat-syscall-v5-7-22bb9c6c767f@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,51 +91,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250516232341.659513-1-jyescas@google.com>
+In-Reply-To: <20250513-xattrat-syscall-v5-7-22bb9c6c767f@kernel.org>
 
-Hi Juan,
+Hi Andrey,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test WARNING on 0d8d44db295ccad20052d6301ef49ff01fb8ae2d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Juan-Yescas/mm-Add-CONFIG_PAGE_BLOCK_ORDER-to-select-page-block-order/20250517-072434
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250516232341.659513-1-jyescas%40google.com
-patch subject: [PATCH v5] mm: Add CONFIG_PAGE_BLOCK_ORDER to select page block order
-config: i386-randconfig-r072-20250518 (https://download.01.org/0day-ci/archive/20250518/202505181825.FdKgAQ16-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Albershteyn/fs-split-fileattr-related-helpers-into-separate-file/20250513-172128
+base:   0d8d44db295ccad20052d6301ef49ff01fb8ae2d
+patch link:    https://lore.kernel.org/r/20250513-xattrat-syscall-v5-7-22bb9c6c767f%40kernel.org
+patch subject: [PATCH v5 7/7] fs: introduce file_getattr and file_setattr syscalls
+config: s390-randconfig-r112-20250518 (https://download.01.org/0day-ci/archive/20250518/202505181900.UGh2tVRs-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250518/202505181900.UGh2tVRs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505181825.FdKgAQ16-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505181900.UGh2tVRs-lkp@intel.com/
 
-smatch warnings:
-mm/compaction.c:302 pageblock_skip_persistent() warn: always true condition '(compound_order(page) >= (((((22 - 12))) < ((0))) ?(((22 - 12))):((0)))) => (0-u32max >= 0)'
-mm/page_alloc.c:618 compaction_capture() warn: unsigned 'order' is never less than zero.
+sparse warnings: (new ones prefixed by >>)
+>> fs/file_attr.c:362:1: sparse: sparse: Using plain integer as NULL pointer
+>> fs/file_attr.c:362:1: sparse: sparse: Using plain integer as NULL pointer
+>> fs/file_attr.c:362:1: sparse: sparse: Using plain integer as NULL pointer
+>> fs/file_attr.c:362:1: sparse: sparse: Using plain integer as NULL pointer
+   fs/file_attr.c:416:1: sparse: sparse: Using plain integer as NULL pointer
+   fs/file_attr.c:416:1: sparse: sparse: Using plain integer as NULL pointer
+   fs/file_attr.c:416:1: sparse: sparse: Using plain integer as NULL pointer
+   fs/file_attr.c:416:1: sparse: sparse: Using plain integer as NULL pointer
 
-vim +302 mm/compaction.c
+vim +362 fs/file_attr.c
 
-9721fd82351d47a Baolin Wang     2023-06-14  289  
-21dc7e023611fbc David Rientjes  2017-11-17  290  /*
-2271b016bf368d1 Hui Su          2020-12-14  291   * Compound pages of >= pageblock_order should consistently be skipped until
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  292   * released. It is always pointless to compact pages of such order (if they are
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  293   * migratable), and the pageblocks they occupy cannot contain any free pages.
-21dc7e023611fbc David Rientjes  2017-11-17  294   */
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  295  static bool pageblock_skip_persistent(struct page *page)
-21dc7e023611fbc David Rientjes  2017-11-17  296  {
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  297  	if (!PageCompound(page))
-21dc7e023611fbc David Rientjes  2017-11-17  298  		return false;
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  299  
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  300  	page = compound_head(page);
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  301  
-b527cfe5bc23208 Vlastimil Babka 2017-11-17 @302  	if (compound_order(page) >= pageblock_order)
-21dc7e023611fbc David Rientjes  2017-11-17  303  		return true;
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  304  
-b527cfe5bc23208 Vlastimil Babka 2017-11-17  305  	return false;
-21dc7e023611fbc David Rientjes  2017-11-17  306  }
-21dc7e023611fbc David Rientjes  2017-11-17  307  
+   361	
+ > 362	SYSCALL_DEFINE5(file_getattr, int, dfd, const char __user *, filename,
+   363			struct fsxattr __user *, ufsx, size_t, usize,
+   364			unsigned int, at_flags)
+   365	{
+   366		struct fileattr fa = {};
+   367		struct path filepath __free(path_put) = {};
+   368		int error;
+   369		unsigned int lookup_flags = 0;
+   370		struct filename *name;
+   371		struct fsxattr fsx = {};
+   372	
+   373		BUILD_BUG_ON(sizeof(struct fsxattr) < FSXATTR_SIZE_VER0);
+   374		BUILD_BUG_ON(sizeof(struct fsxattr) != FSXATTR_SIZE_LATEST);
+   375	
+   376		if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
+   377			return -EINVAL;
+   378	
+   379		if (!(at_flags & AT_SYMLINK_NOFOLLOW))
+   380			lookup_flags |= LOOKUP_FOLLOW;
+   381	
+   382		if (usize > PAGE_SIZE)
+   383			return -E2BIG;
+   384	
+   385		if (usize < FSXATTR_SIZE_VER0)
+   386			return -EINVAL;
+   387	
+   388		name = getname_maybe_null(filename, at_flags);
+   389		if (IS_ERR(name))
+   390			return PTR_ERR(name);
+   391	
+   392		if (!name && dfd >= 0) {
+   393			CLASS(fd, f)(dfd);
+   394	
+   395			filepath = fd_file(f)->f_path;
+   396			path_get(&filepath);
+   397		} else {
+   398			error = filename_lookup(dfd, name, lookup_flags, &filepath,
+   399						NULL);
+   400			putname(name);
+   401			if (error)
+   402				return error;
+   403		}
+   404	
+   405		error = vfs_fileattr_get(filepath.dentry, &fa);
+   406		if (error)
+   407			return error;
+   408	
+   409		fileattr_to_fsxattr(&fa, &fsx);
+   410		error = copy_struct_to_user(ufsx, usize, &fsx, sizeof(struct fsxattr),
+   411					    NULL);
+   412	
+   413		return error;
+   414	}
+   415	
 
 -- 
 0-DAY CI Kernel Test Service
