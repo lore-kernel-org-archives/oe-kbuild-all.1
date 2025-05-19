@@ -1,99 +1,63 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E2B269832
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 08:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF409268FF9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 08:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747642083; cv=none; b=WyblxXMsd5VXdS6Bwqn98qxlb6dikikS7XDSPM8/SEyFJL0Im5CKyRMhnrnGUW4nIVj5xlSo88ZBFihhpCqQNZGMfLvucRJswOZ+lknMSIZ5QG1ERw27w8giDRzoC1pFXURBfTcvq9OksEHAwZmeo/ghenu2fepi+15K8LcLL4c=
+	t=1747643166; cv=none; b=e2PZ8srJpyu9QaSrZ1b0d1jlzov3LP+S9eRJEWsXt34aEg7KHEpU9zF1+ApHlwvilOx0IUDbGCe5WxwXULXFFQJytDRFhGZkZBd59kv+flQfFe3zpQwBprF5bNFaTVSDXorHnU+WjW9gneyEmrChrg/OvbElSWdhIYThvFfNM1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747642083; c=relaxed/simple;
-	bh=gOxGbgsmHnpUiFwbKFSxvd8f+QgEK8bVgQCYIy6oO9s=;
+	s=arc-20240116; t=1747643166; c=relaxed/simple;
+	bh=yAQG7CT+mqanmUd2f1Pd4pOmu/OZwX6kWCA/QHpkodk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FL+iZpSPpioIMg9uaU+dBmI1n2Vj6lOQ8qdmSzUqHgYfpH0g88hbA44wN26UWwZIDcm/tcyy1hipR1IL05rLQ5RWDtBfTa6ciw17dAj2poqZJxub06B6GcQ8xb1jtI05nS+0DwE+D94+mlvAmHAUb3EM2dI4EwprU5gFKk0RgPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ODJS0YEF; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PLlOmoXowbZn/sCCKKq6e9b69nA43DttbU6nUvTRlDcfibnqAMzt1uzb5kgHNL8KHbEP+oRQSIXRUhL1NpD9SA/upDgfVYpYe7dY7mlH3rIYJ/uSrFMoh3e27HorQZ1Vc14QPyPGefa0UCyID+f6Ubpm/RZ4D+Qre48oW4PFgUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QTyITLk2; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ODJS0YEF"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J4XwNe014019;
-	Mon, 19 May 2025 08:07:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=YN5Qo4FM2hzPhRWkUYDd20g4MjCJ6G
-	0NO1Nkb5aQDuI=; b=ODJS0YEFzOAnSHyqTA9eKhtMVutBmx1YKe5vlpc/t7Aw3R
-	OCBpQhwlcmO+HTQtuhQwnPYd3zkcNWQUN71MGVFYLQZ+iwPctF9nWoUlR9G2yBqx
-	RRsF6Rytg/VXAFPvY5QzChx6mDOa95F1eeyA+FvIqOst1L8VKgg7vw5/cpGOo8pN
-	M4rGFlm6fHHiAH0wWEnXBHDy6t/SV1KopRHRHJiadM8uK4RML3/9Jd7LBAkH38xI
-	U+4LYSiFsf+tbSNsg4E706UDTj/MVHagF4eFY+Q0ar5tFSIbci0Pc02K55Itf97+
-	mS6VYU1F4GGR5Pfe4JnqJEM9I8pHd8+0gtVbrFCA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46qcrjbrt0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 May 2025 08:07:07 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 54J7aIro018242;
-	Mon, 19 May 2025 08:07:06 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46qcrjbrsp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 May 2025 08:07:06 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54J5gZfb013858;
-	Mon, 19 May 2025 08:07:06 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 46q4st5uyj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 May 2025 08:07:05 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54J872JO50266578
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 May 2025 08:07:02 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5C844200FD;
-	Mon, 19 May 2025 08:07:02 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 05D65200F9;
-	Mon, 19 May 2025 08:07:01 +0000 (GMT)
-Received: from osiris (unknown [9.111.14.133])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 19 May 2025 08:07:00 +0000 (GMT)
-Date: Mon, 19 May 2025 10:06:59 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrey Albershteyn <aalbersh@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Matt Turner <mattst88@gmail.com>, Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Naveen N Rao <naveen@kernel.org>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>, oe-kbuild-all@lists.linux.dev,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH v5 7/7] fs: introduce file_getattr and file_setattr
- syscalls
-Message-ID: <20250519080659.11601Ae4-hca@linux.ibm.com>
-References: <20250513-xattrat-syscall-v5-7-22bb9c6c767f@kernel.org>
- <202505181900.UGh2tVRs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QTyITLk2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747643165; x=1779179165;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yAQG7CT+mqanmUd2f1Pd4pOmu/OZwX6kWCA/QHpkodk=;
+  b=QTyITLk2lp1td0eJUdSD+COowBL4xc6R5M+sSpUol9izTbOedJjIY5JJ
+   dO+xaFbnss+A8c4Y8m30ut/hAUZVsBNmT3RALU/DiQxQ7C0zVnzh7dmuT
+   TgVh2ZL6F0mHeSP0oNHHbfaGsVzwNEa9jRLZArzF34lfx9DqG1iROtOb5
+   HIBwupt+d+huE6BMN14rGkcKihGW1huwS5hFGD3BDTahgRVSRpp/azTCL
+   HNbubERguTm6ttR9Oo8xrSv5neFfoR+XDFLgJlGVRrE7eaYEzzariOz4W
+   6fZeI9foVbVr9hx0uL2IrsAAVqQbIHFm3jCxmL4qqTU+S5P1j0PiITlvi
+   A==;
+X-CSE-ConnectionGUID: G8+c7BLcTDC2FfzNNqj4jA==
+X-CSE-MsgGUID: v2zxY8jkRQinzvSpof+d1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="49434162"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="49434162"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 01:26:04 -0700
+X-CSE-ConnectionGUID: TCqkIGRPSdSk5dN3KrV3Sw==
+X-CSE-MsgGUID: H3z9d4RPRgmoHVY3/zQ7xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="139043905"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 19 May 2025 01:26:02 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uGvot-000LHX-2I;
+	Mon, 19 May 2025 08:25:59 +0000
+Date: Mon, 19 May 2025 16:25:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yikai Tsai <yikai.tsai.wiwynn@gmail.com>, patrick@stwcx.xyz,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, Yikai Tsai <yikai.tsai.wiwynn@gmail.com>,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] hwmon: (isl28022) Fix current reading calculation
+Message-ID: <202505191635.mix4vgrC-lkp@intel.com>
+References: <20250519061637.8796-2-yikai.tsai.wiwynn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -102,63 +66,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202505181900.UGh2tVRs-lkp@intel.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 26Z1pXX-huwZjBsBkHZ0El21nYUFp4WM
-X-Proofpoint-ORIG-GUID: oahDWnkTyrngXNhvLQcVRFS-MU8VkbKm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDA3NiBTYWx0ZWRfXzvz0jPcv3AtG Tlpps7yuyoUsKaYiE4vBdmi79kkM+BjIHIwJXSgtu9IJV7k+TRKIRBWo22tTI57JvFfGOVwn7/5 NtT+9RT1bkp4yFo6iAMhM0CXHPQ+MXfCmhMkYA5kHxD3YdT1Uj+sIlOic80Twej7TchmoOvEEhQ
- d89bgpZu/Cyh/AJWhssj7VpA7+UAarB6DB4z4Ik+lDVcmLDQt5/42UyVjTzIeXQdZrQe1+II0JN Jwjq/I3028b1b3fYmDJQcdS1xbXyCnwBPuLVKQZa2pQCttHRL2dU46QkKYHhqoXdSXMqh7rJPzc lgl7ybJYEWXb8YlA6YeQsXtYEHgOHYWAWm8w4OSwF70xJEk+Zl490uVqctlonvxPjpoAWUAvqfz
- /RsS/9w9tRhG8n6wqLmhUEYkessvjHe/imJzKtag6UYwu+b2PJLZaYd7mYm7xXgpd/lFYYgr
-X-Authority-Analysis: v=2.4 cv=RZKQC0tv c=1 sm=1 tr=0 ts=682ae6ab cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=kj9zAlcOel0A:10 a=dt9VzEwgFbYA:10 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8
- a=Xka33dLGCC5fpbZpyycA:9 a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-19_03,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- mlxscore=0 adultscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=999 clxscore=1011 spamscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505190076
+In-Reply-To: <20250519061637.8796-2-yikai.tsai.wiwynn@gmail.com>
 
-On Sun, May 18, 2025 at 07:26:00PM +0800, kernel test robot wrote:
-> Hi Andrey,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 0d8d44db295ccad20052d6301ef49ff01fb8ae2d]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Albershteyn/fs-split-fileattr-related-helpers-into-separate-file/20250513-172128
-> base:   0d8d44db295ccad20052d6301ef49ff01fb8ae2d
-> patch link:    https://lore.kernel.org/r/20250513-xattrat-syscall-v5-7-22bb9c6c767f%40kernel.org
-> patch subject: [PATCH v5 7/7] fs: introduce file_getattr and file_setattr syscalls
-> config: s390-randconfig-r112-20250518 (https://download.01.org/0day-ci/archive/20250518/202505181900.UGh2tVRs-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 8.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250518/202505181900.UGh2tVRs-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505181900.UGh2tVRs-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> fs/file_attr.c:362:1: sparse: sparse: Using plain integer as NULL pointer
-> >> fs/file_attr.c:362:1: sparse: sparse: Using plain integer as NULL pointer
-> >> fs/file_attr.c:362:1: sparse: sparse: Using plain integer as NULL pointer
-> >> fs/file_attr.c:362:1: sparse: sparse: Using plain integer as NULL pointer
->    fs/file_attr.c:416:1: sparse: sparse: Using plain integer as NULL pointer
->    fs/file_attr.c:416:1: sparse: sparse: Using plain integer as NULL pointer
->    fs/file_attr.c:416:1: sparse: sparse: Using plain integer as NULL pointer
->    fs/file_attr.c:416:1: sparse: sparse: Using plain integer as NULL pointer
-> 
-> vim +362 fs/file_attr.c
-> 
->    361	
->  > 362	SYSCALL_DEFINE5(file_getattr, int, dfd, const char __user *, filename,
->    363			struct fsxattr __user *, ufsx, size_t, usize,
->    364			unsigned int, at_flags)
->    365	{
+Hi Yikai,
 
-Please ignore the warning. There is nothing to fix; this is a warning which
-happens only with CONFIG_COMPAT and Al's "SC_DELOUSE" macro, which is used for
-compat syscalls. Sparse cannot handle that.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.15-rc7 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yikai-Tsai/hwmon-isl28022-Fix-current-reading-calculation/20250519-142038
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250519061637.8796-2-yikai.tsai.wiwynn%40gmail.com
+patch subject: [PATCH v1 1/1] hwmon: (isl28022) Fix current reading calculation
+config: s390-randconfig-001-20250519 (https://download.01.org/0day-ci/archive/20250519/202505191635.mix4vgrC-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505191635.mix4vgrC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505191635.mix4vgrC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/hwmon/isl28022.c: In function 'isl28022_read_current':
+>> drivers/hwmon/isl28022.c:164:3: error: 'sign_bit' undeclared (first use in this function); did you mean 'assign_bit'?
+      sign_bit = (regval >> 15) & 0x01;
+      ^~~~~~~~
+      assign_bit
+   drivers/hwmon/isl28022.c:164:3: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +164 drivers/hwmon/isl28022.c
+
+   151	
+   152	static int isl28022_read_current(struct device *dev, u32 attr, long *val)
+   153	{
+   154		struct isl28022_data *data = dev_get_drvdata(dev);
+   155		unsigned int regval;
+   156		int err;
+   157	
+   158		switch (attr) {
+   159		case hwmon_curr_input:
+   160			err = regmap_read(data->regmap,
+   161					  ISL28022_REG_CURRENT, &regval);
+   162			if (err < 0)
+   163				return err;
+ > 164			sign_bit = (regval >> 15) & 0x01;
+   165			*val = (((long)(((u16)regval) & 0x7FFF) - (sign_bit * 32768)) *
+   166				1250L * (long)data->gain) / (long)data->shunt;
+   167			break;
+   168		default:
+   169			return -EOPNOTSUPP;
+   170		}
+   171	
+   172		return 0;
+   173	}
+   174	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
