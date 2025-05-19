@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540AC84A35
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 05:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F751F4CAF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 05:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747631101; cv=none; b=dkzq15BDckuHQHTaEYW1aywmCXwhgvBnOQcXzMJsvxEabRFrA+kb4RDB6sSwS7Y2AOl5Y4/nZQwQ0amd0i6E50OmkTlEN2TQssCCsFzLXeWts4i3DKVYWx3aOAa5PFk/oiH3+TlF3K80p4RDGDPCoHU0RXmqhNGsC4dkZ2/wlJs=
+	t=1747634334; cv=none; b=cpjrrEkdRlLicebXnYmxg6tQuyHTm03Y0PYauvt6Uldrgi3IvyM3IB7+EwNoWWpM5kuoMk0tAkIxZV69keppt1NGwH0xkqxwc5OfbdR1fHo67clXBKWm8QyccAV9Flsv3qZufKVGMxGb99Wnp8ySF31piuF65vlpwzUiUy1HWDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747631101; c=relaxed/simple;
-	bh=0Chf5OmRVqf6BcciazMRs7htHkS9tAAh6H8u3KKERGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=duM4pM2tM0+Gy/s1h/o9vQCpUAb65EoiYyXGM0/l8axpTTeU1tOPKIgdExOsFnnFaWXkmjM0cGkSPFHOMLmp9p9yelSWRjpJtE85toVZwG+ZkOcinICuMGbo9zgl6cGFwxUAxo+YY5d7wD3Z6jhcSGP48Hy8vf5j2b+lMgcoejE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LdaVrT7H; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1747634334; c=relaxed/simple;
+	bh=Jw6mXfv00dMuD2c25uxnyya946iEO7Hvz29jpU+3oL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EshBPv6XdZgUo4xZvepr9iBHVsQfWPWJTb0mBgS8RLLuFvQMEOufuVjUMr23XQwqD6yaMsOTr1LjTMjorlT/lh7K80v9/93/FQt2pnxjDHezVthttpeyJTyN1XiwGZ37Q2rv34IrL5JeoM7xbQ0cceXaATk7CzAW0Tp2IayZfhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lkaGnUkL; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LdaVrT7H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lkaGnUkL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747631099; x=1779167099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0Chf5OmRVqf6BcciazMRs7htHkS9tAAh6H8u3KKERGA=;
-  b=LdaVrT7Ho8wlRX1m88JF0ZIi21Nqpm3x3IYxmMRx2KIKs4xlSbw8j6/J
-   d1SSaAeP4nZCgxMg34OvqoI7/YR1BUAGJb8R9vJ/q1AXrKoItAae/w+Ut
-   eO+pA9LT7OS6LsAnh3WU2lNkz4wZrSiLm4yjgTaDadcwy0QaTzY+u8anU
-   512XKPR1I0H3UWLDwiCJWUVBJc0VPokeRr7gG3YcjfSc6zDbPCJX9cyYQ
-   Qp6A592Mbnzn0qzlulbWFUtJ1CIJvih0Wye3yDRmjCUpj7PVtvQH5V0u5
-   ueJtEnZe/wQ9mSS6DCnLI3SpdcNEAjQ4kkvvAQLs/I/K1q1fvadGozRkg
-   g==;
-X-CSE-ConnectionGUID: 3RNWwHcMRt6XHvqc6gHj1A==
-X-CSE-MsgGUID: jgwn04UpRG2ZZeyb0YJTGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="60169004"
+  t=1747634333; x=1779170333;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Jw6mXfv00dMuD2c25uxnyya946iEO7Hvz29jpU+3oL8=;
+  b=lkaGnUkL6Q/TdJ4CVTBWBFLE9i3ZcKXqPRtIn3QFU8hFitLWiFiE8Brz
+   U/xn/WM79yaJTwwdHyeLNTMncgnM5+NZZtgZSDQ7D1qtcpBfoa8UD7lT6
+   Ueuq2OM/mYYGFEeDBFEEtaYqSJJgS3n+bKSE49oFbUp/qGMNA9FCfmoEG
+   AoF1mfc0LCzfUOhL5dbpPdf+gFA8bwAGxsK4MYz03xExvq2qbNAp5nqTY
+   6aAQm3/4/7ZhbEqd/qU+MCd4oLMOPFgVEADn7fDQkrZr8No/9coGrk81E
+   Cl+zsq5+S/wUHHy7eFmEdFfjT7S0l5CZj5s6EfjzjfRYapSMYAZGVwXK/
+   w==;
+X-CSE-ConnectionGUID: XP++eULzSn+IvSY6FchAhQ==
+X-CSE-MsgGUID: 9CLnA74iRSuMt4+D8PgX4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="53336325"
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="60169004"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 22:04:59 -0700
-X-CSE-ConnectionGUID: 2iTdVqs+RWqEiNYuaD7ahA==
-X-CSE-MsgGUID: oC1TzHOpQ+OETXqSGih9FA==
+   d="scan'208";a="53336325"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 22:58:52 -0700
+X-CSE-ConnectionGUID: An3UK/4URmqvVNZz1hw2Yg==
+X-CSE-MsgGUID: kiA2wLPiT0iC3b1BcrBj7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="139168188"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 May 2025 22:04:57 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+   d="scan'208";a="139766798"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 18 May 2025 22:58:49 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGsgJ-0000mx-0l;
-	Mon, 19 May 2025 05:04:55 +0000
-Date: Mon, 19 May 2025 13:04:08 +0800
+	id 1uGtWR-000LB5-0G;
+	Mon, 19 May 2025 05:58:47 +0000
+Date: Mon, 19 May 2025 13:58:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>
-Subject: [nsa:b4/dev-adp5589-fw 15/23] drivers/mfd/adp5585.c:363:25: error:
- implicit declaration of function 'FIELD_PREP'
-Message-ID: <202505191335.IhiyNkCI-lkp@intel.com>
+To: Ethan Carter Edwards <ethan@ethancedwards.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Ethan Carter Edwards <ethan@ethancedwards.com>
+Subject: Re: [PATCH v2] ext4: replace strcpy() with '.' assignment
+Message-ID: <202505191321.ZwdQZhut-lkp@intel.com>
+References: <20250518-ext4-strcpy-v2-1-80d316325046@ethancedwards.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,129 +66,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250518-ext4-strcpy-v2-1-80d316325046@ethancedwards.com>
 
-tree:   https://github.com/nunojsa/linux b4/dev-adp5589-fw
-head:   af6389bf492da2aa423e604133e69a1c14f37292
-commit: 35cca179c33238f355ef6bab2cab933e5bd0ac6a [15/23] mfd: adp5585: support reset and unlock events
-config: alpha-randconfig-2002-20250519 (https://download.01.org/0day-ci/archive/20250519/202505191335.IhiyNkCI-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505191335.IhiyNkCI-lkp@intel.com/reproduce)
+Hi Ethan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5723cc3450bccf7f98f227b9723b5c9f6b3af1c5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Carter-Edwards/ext4-replace-strcpy-with-assignment/20250519-115601
+base:   5723cc3450bccf7f98f227b9723b5c9f6b3af1c5
+patch link:    https://lore.kernel.org/r/20250518-ext4-strcpy-v2-1-80d316325046%40ethancedwards.com
+patch subject: [PATCH v2] ext4: replace strcpy() with '.' assignment
+config: csky-randconfig-001-20250519 (https://download.01.org/0day-ci/archive/20250519/202505191321.ZwdQZhut-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505191321.ZwdQZhut-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505191335.IhiyNkCI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505191321.ZwdQZhut-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/mfd/adp5585.c: In function 'adp5585_reset_ev_parse':
->> drivers/mfd/adp5585.c:363:25: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-      adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET1_POL, 1);
-                            ^~~~~~~~~~
-   drivers/mfd/adp5585.c: In function 'adp5585_report_events':
-   drivers/mfd/adp5585.c:524:13: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-      key_val = FIELD_GET(ADP5585_KEY_EVENT_MASK, key);
-                ^~~~~~~~~
-   cc1: some warnings being treated as errors
+   fs/ext4/inline.c: In function 'ext4_inlinedir_to_tree':
+>> fs/ext4/inline.c:1317:17: warning: assignment to 'char' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+    1317 |    fake.name[0] = ".";
+         |                 ^
+   fs/ext4/inline.c:1327:32: warning: assignment to 'char' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+    1327 |    fake.name[0] = fake.name[1] = ".";
+         |                                ^
 
 
-vim +/FIELD_PREP +363 drivers/mfd/adp5585.c
+vim +1317 fs/ext4/inline.c
 
-   336	
-   337	static int adp5585_reset_ev_parse(struct adp5585_dev *adp5585, bool has_pin5)
-   338	{
-   339		struct device *dev = adp5585->dev;
-   340		u32 prop_val;
-   341		int ret;
-   342	
-   343		ret = adp5585_parse_ev_array(adp5585, "adi,reset1-events",
-   344					     adp5585->reset1_keys,
-   345					     &adp5585->nkeys_reset1,
-   346					     ARRAY_SIZE(adp5585->reset1_keys), true,
-   347					     has_pin5);
-   348		if (ret)
-   349			return ret;
-   350	
-   351		ret = adp5585_parse_ev_array(adp5585, "adi,reset2-events",
-   352					     adp5585->reset2_keys,
-   353					     &adp5585->nkeys_reset2,
-   354					     ARRAY_SIZE(adp5585->reset2_keys), true,
-   355					     has_pin5);
-   356		if (ret)
-   357			return ret;
-   358	
-   359		if (!adp5585->nkeys_reset1 && !adp5585->nkeys_reset2)
-   360			return 0;
-   361	
-   362		if (adp5585->nkeys_reset1 && device_property_read_bool(dev, "adi,reset1-active-high"))
- > 363			adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET1_POL, 1);
-   364	
-   365		if (adp5585->nkeys_reset2 && device_property_read_bool(dev, "adi,reset2-active-high"))
-   366			adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET2_POL, 1);
-   367	
-   368		if (device_property_read_bool(dev, "adi,rst-passthrough-enable"))
-   369			adp5585->reset_cfg |= FIELD_PREP(ADP5585_RST_PASSTHRU_EN, 1);
-   370	
-   371		ret = device_property_read_u32(dev, "adi,reset-trigger-ms", &prop_val);
-   372		if (!ret) {
-   373			switch (prop_val) {
-   374			case 0:
-   375				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 0);
-   376				break;
-   377			case 1000:
-   378				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 1);
-   379				break;
-   380			case 1500:
-   381				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 2);
-   382				break;
-   383			case 2000:
-   384				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 3);
-   385				break;
-   386			case 2500:
-   387				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 4);
-   388				break;
-   389			case 3000:
-   390				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 5);
-   391				break;
-   392			case 3500:
-   393				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 6);
-   394				break;
-   395			case 4000:
-   396				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 7);
-   397				break;
-   398			default:
-   399				return dev_err_probe(dev, -EINVAL,
-   400						     "Invalid value(%u) for adi,reset-trigger-ms\n",
-   401						     prop_val);
-   402			}
-   403		}
-   404	
-   405		ret = device_property_read_u32(dev, "adi,reset-pulse-width-us",
-   406					       &prop_val);
-   407		if (!ret) {
-   408			switch (prop_val) {
-   409			case 500:
-   410				adp5585->reset_cfg |= FIELD_PREP(ADP5585_PULSE_WIDTH, 0);
-   411				break;
-   412			case 1000:
-   413				adp5585->reset_cfg |= FIELD_PREP(ADP5585_PULSE_WIDTH, 1);
-   414				break;
-   415			case 2000:
-   416				adp5585->reset_cfg |= FIELD_PREP(ADP5585_PULSE_WIDTH, 2);
-   417				break;
-   418			case 10000:
-   419				adp5585->reset_cfg |= FIELD_PREP(ADP5585_PULSE_WIDTH, 3);
-   420				break;
-   421			default:
-   422				return dev_err_probe(dev, -EINVAL,
-   423						     "Invalid value(%u) for adi,reset-pulse-width-us\n",
-   424						     prop_val);
-   425			}
-   426		}
-   427	
-   428		return 0;
-   429	}
-   430	
+  1259	
+  1260	/*
+  1261	 * This function fills a red-black tree with information from an
+  1262	 * inlined dir.  It returns the number directory entries loaded
+  1263	 * into the tree.  If there is an error it is returned in err.
+  1264	 */
+  1265	int ext4_inlinedir_to_tree(struct file *dir_file,
+  1266				   struct inode *dir, ext4_lblk_t block,
+  1267				   struct dx_hash_info *hinfo,
+  1268				   __u32 start_hash, __u32 start_minor_hash,
+  1269				   int *has_inline_data)
+  1270	{
+  1271		int err = 0, count = 0;
+  1272		unsigned int parent_ino;
+  1273		int pos;
+  1274		struct ext4_dir_entry_2 *de;
+  1275		struct inode *inode = file_inode(dir_file);
+  1276		int ret, inline_size = 0;
+  1277		struct ext4_iloc iloc;
+  1278		void *dir_buf = NULL;
+  1279		struct ext4_dir_entry_2 fake;
+  1280		struct fscrypt_str tmp_str;
+  1281	
+  1282		ret = ext4_get_inode_loc(inode, &iloc);
+  1283		if (ret)
+  1284			return ret;
+  1285	
+  1286		down_read(&EXT4_I(inode)->xattr_sem);
+  1287		if (!ext4_has_inline_data(inode)) {
+  1288			up_read(&EXT4_I(inode)->xattr_sem);
+  1289			*has_inline_data = 0;
+  1290			goto out;
+  1291		}
+  1292	
+  1293		inline_size = ext4_get_inline_size(inode);
+  1294		dir_buf = kmalloc(inline_size, GFP_NOFS);
+  1295		if (!dir_buf) {
+  1296			ret = -ENOMEM;
+  1297			up_read(&EXT4_I(inode)->xattr_sem);
+  1298			goto out;
+  1299		}
+  1300	
+  1301		ret = ext4_read_inline_data(inode, dir_buf, inline_size, &iloc);
+  1302		up_read(&EXT4_I(inode)->xattr_sem);
+  1303		if (ret < 0)
+  1304			goto out;
+  1305	
+  1306		pos = 0;
+  1307		parent_ino = le32_to_cpu(((struct ext4_dir_entry_2 *)dir_buf)->inode);
+  1308		while (pos < inline_size) {
+  1309			/*
+  1310			 * As inlined dir doesn't store any information about '.' and
+  1311			 * only the inode number of '..' is stored, we have to handle
+  1312			 * them differently.
+  1313			 */
+  1314			if (pos == 0) {
+  1315				fake.inode = cpu_to_le32(inode->i_ino);
+  1316				fake.name_len = 1;
+> 1317				fake.name[0] = ".";
+  1318				fake.rec_len = ext4_rec_len_to_disk(
+  1319						  ext4_dir_rec_len(fake.name_len, NULL),
+  1320						  inline_size);
+  1321				ext4_set_de_type(inode->i_sb, &fake, S_IFDIR);
+  1322				de = &fake;
+  1323				pos = EXT4_INLINE_DOTDOT_OFFSET;
+  1324			} else if (pos == EXT4_INLINE_DOTDOT_OFFSET) {
+  1325				fake.inode = cpu_to_le32(parent_ino);
+  1326				fake.name_len = 2;
+  1327				fake.name[0] = fake.name[1] = ".";
+  1328				fake.rec_len = ext4_rec_len_to_disk(
+  1329						  ext4_dir_rec_len(fake.name_len, NULL),
+  1330						  inline_size);
+  1331				ext4_set_de_type(inode->i_sb, &fake, S_IFDIR);
+  1332				de = &fake;
+  1333				pos = EXT4_INLINE_DOTDOT_SIZE;
+  1334			} else {
+  1335				de = (struct ext4_dir_entry_2 *)(dir_buf + pos);
+  1336				pos += ext4_rec_len_from_disk(de->rec_len, inline_size);
+  1337				if (ext4_check_dir_entry(inode, dir_file, de,
+  1338						 iloc.bh, dir_buf,
+  1339						 inline_size, pos)) {
+  1340					ret = count;
+  1341					goto out;
+  1342				}
+  1343			}
+  1344	
+  1345			if (ext4_hash_in_dirent(dir)) {
+  1346				hinfo->hash = EXT4_DIRENT_HASH(de);
+  1347				hinfo->minor_hash = EXT4_DIRENT_MINOR_HASH(de);
+  1348			} else {
+  1349				err = ext4fs_dirhash(dir, de->name, de->name_len, hinfo);
+  1350				if (err) {
+  1351					ret = err;
+  1352					goto out;
+  1353				}
+  1354			}
+  1355			if ((hinfo->hash < start_hash) ||
+  1356			    ((hinfo->hash == start_hash) &&
+  1357			     (hinfo->minor_hash < start_minor_hash)))
+  1358				continue;
+  1359			if (de->inode == 0)
+  1360				continue;
+  1361			tmp_str.name = de->name;
+  1362			tmp_str.len = de->name_len;
+  1363			err = ext4_htree_store_dirent(dir_file, hinfo->hash,
+  1364						      hinfo->minor_hash, de, &tmp_str);
+  1365			if (err) {
+  1366				ret = err;
+  1367				goto out;
+  1368			}
+  1369			count++;
+  1370		}
+  1371		ret = count;
+  1372	out:
+  1373		kfree(dir_buf);
+  1374		brelse(iloc.bh);
+  1375		return ret;
+  1376	}
+  1377	
 
 -- 
 0-DAY CI Kernel Test Service
