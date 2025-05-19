@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A221CF96
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 06:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C951FF1C7;
+	Mon, 19 May 2025 07:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747636857; cv=none; b=Q93Jto30lCEQguhAm+Qj98RBQ8S9/PKePBWztQRyT/4/Hi3Fd782EkSsOZPv1H7gmHsOEDHxlmcWRFBhOIhr6eRSX3S2W9T48yT5aECywT9S5ttbZXD1xinIr5MBElcRRhhOd6WVsJzV1CzHeHFgSEvE3TF1MJYJFh9ssMYkswU=
+	t=1747638781; cv=none; b=Mz7C+D6PbUo8q9mgCOkJWem3w2khQvCTfI91jQfbNqXZS0WKOrSUWnrWZ8/9NMuhtuzJ82TxXxarMOTL+YN9FdyUDh5TQd45HN1GnA2mE6ZLkP+yANeiwRCpCdAVWJM6MrkbFTZf7n5E1KSJ0bIwOvmJvOV5RnczgFqmgg8QBZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747636857; c=relaxed/simple;
-	bh=PUC04+x5mqcBXRhcM55mScq4xFOwR7ujzndoP1dB0wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m9eaZnuD95It9VytXDv7rXiz/ixZ2krT0efR+MsxFA/vDGmqfBMqnGx45i/Z7bcguzY887ytHM7wPYrPbgLbSbl3vublXfonF6e16gPIiBYsgo40sM1txd9ae84webT+EunZuT2qY7Hjs8Q/u1v8/kJWrPc+EvlcYgG1ZdokR80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyFGofPq; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1747638781; c=relaxed/simple;
+	bh=7/SWLXW5Hy6DaiAx0ceb1uY2JzdxPxmqQ8x1Y1jN5VE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jl5+E6k3qCWGAg+5A/fcSnqfm2QTrlrRdAfDoUWBR5V6cwMzNUqvcYEI+eFsERiKT8cwy/noWwfG12m+/IGiutbDqHFIctrmdlTpdDNhCiKtke1ew6WUB1bJvmHYcoLe2fJTJ5QtdmuxcihKNRtPY8kF7b6/2ddDaD3Hboiv/aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hmxJHsqX; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyFGofPq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hmxJHsqX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747636855; x=1779172855;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PUC04+x5mqcBXRhcM55mScq4xFOwR7ujzndoP1dB0wc=;
-  b=SyFGofPqzuqtt5NsbYGOhA3s+ZtGqiMnmo1GFziC9Zvy8LSxlQjOYnl8
-   SWzB4E0hYNDwBB07dijqeqjOSEkDcIDifJTXFSPc1cOw8nGqkVPZlcz9J
-   hnsM5tgDL0M5/zO0NincOR3rC8lumX1hJHWLKw6megM6yPLbQIB4/W2Ok
-   OEPmmzPLs9oi6Hv7LAM198s7WmM9Xf2qq4LThn8eoCGpYv+V0xLodM53Z
-   L3goMBD6P3ArcVFDD6q8Tsfe9fWXn1dqEBjUotA/ijhvHPjc4BidjfUHg
-   8rLq8eHGvQBCvRgg9xiFvb67BN/F2gEw/l7oQVkIDmw6nmzbbc4hJBcS2
-   w==;
-X-CSE-ConnectionGUID: LpnWDMACQK2zuE+k4f+3Cw==
-X-CSE-MsgGUID: e8JHo3J7T8KQEmgN9lFd3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="60175429"
+  t=1747638780; x=1779174780;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7/SWLXW5Hy6DaiAx0ceb1uY2JzdxPxmqQ8x1Y1jN5VE=;
+  b=hmxJHsqXrJwZV/ar1cPbNDdWTuz2eGKFeiuMN8+558eqJgnMrzkp7Iy4
+   9A5465w6nrEcP/0pyBpCZPQK8yFpRABlCcRF+wrJHqcF74YJRoUGAmpVB
+   nwkQUd6yBKcInW5UqVMKTcyDRO57woBRm3ZUzdEo9NIAmFvcC5ogQq8P2
+   yuB+7uVXEAVEQwKFE42/QcS93C2hiBYnNYRjVZTXJWndNM/CuutkSptz9
+   izzCMEnx0ZuFW76s0AkPbZuuhbI2qW2gevBWBgn3aM+uTkSIrjyMGEOIu
+   XN5WOg37q4qFC+HswLDYVhVZgeWX5jovAFbMi9ZuJ9t0M1EjY5hoP5s2L
+   A==;
+X-CSE-ConnectionGUID: /bDAjKOnT4OXEiLncUxX1g==
+X-CSE-MsgGUID: 5pgs4oPxTou6yO0xLfkWzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="37142816"
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="60175429"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 23:40:55 -0700
-X-CSE-ConnectionGUID: MERj+iosR6Wf55TYu0/6VQ==
-X-CSE-MsgGUID: YlXwW8tXQ72b3gTTWX7Sng==
+   d="scan'208";a="37142816"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 00:12:59 -0700
+X-CSE-ConnectionGUID: TPxZaDTwQjG4bRil4Fs00A==
+X-CSE-MsgGUID: 3XDW3SxGQiOJ1pnp0+rzZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="176390621"
+   d="scan'208";a="139700215"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 May 2025 23:40:53 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 19 May 2025 00:12:56 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGuB9-000LDj-28;
-	Mon, 19 May 2025 06:40:51 +0000
-Date: Mon, 19 May 2025 14:40:46 +0800
+	id 1uGugA-000LFH-0G;
+	Mon, 19 May 2025 07:12:54 +0000
+Date: Mon, 19 May 2025 15:12:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ira Weiny <ira.weiny@intel.com>
-Subject: [weiny2:ackerley-1g-master 54/75] arch/x86/kvm/x86.c:12987:46:
- error: 'struct kvm_memory_slot' has no member named 'gmem'
-Message-ID: <202505191427.OTzMXtag-lkp@intel.com>
+To: Wentao Liang <vulab@iscas.ac.cn>, ajay.kathat@microchip.com,
+	claudiu.beznea@tuxon.dev, kvalo@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH v2] wifi: wilc1000: Add error handling for
+ wilc_sdio_cmd52()
+Message-ID: <202505191448.OycntzLM-lkp@intel.com>
+References: <20250519014434.901-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,65 +66,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250519014434.901-1-vulab@iscas.ac.cn>
 
-tree:   https://github.com/weiny2/linux-kernel.git ackerley-1g-master
-head:   773f26b5bef6e4d3094a33605165a5c6ab9aa0f0
-commit: 14fe211354da093607d2f5327908f3e55752c3ff [54/75] KVM: x86: Set disallow_lpage on base_gfn and guest_memfd pgoff misalignment
-config: i386-buildonly-randconfig-005-20250519 (https://download.01.org/0day-ci/archive/20250519/202505191427.OTzMXtag-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505191427.OTzMXtag-lkp@intel.com/reproduce)
+Hi Wentao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.15-rc7 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/wifi-wilc1000-Add-error-handling-for-wilc_sdio_cmd52/20250519-094706
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20250519014434.901-1-vulab%40iscas.ac.cn
+patch subject: [PATCH v2] wifi: wilc1000: Add error handling for wilc_sdio_cmd52()
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250519/202505191448.OycntzLM-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505191448.OycntzLM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505191427.OTzMXtag-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505191448.OycntzLM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/x86.c: In function 'kvm_should_allow_lpage_for_slot':
->> arch/x86/kvm/x86.c:12987:46: error: 'struct kvm_memory_slot' has no member named 'gmem'
-   12987 |                         slot->base_gfn ^ slot->gmem.pgoff, level);
-         |                                              ^~
+>> drivers/net/wireless/microchip/wilc1000/sdio.c:789:2: error: use of undeclared identifier 'ret'
+     789 |         ret = wilc_sdio_cmd52(wilc, &cmd);
+         |         ^
+   drivers/net/wireless/microchip/wilc1000/sdio.c:790:6: error: use of undeclared identifier 'ret'
+     790 |         if (ret) {
+         |             ^
+   drivers/net/wireless/microchip/wilc1000/sdio.c:792:10: error: use of undeclared identifier 'ret'
+     792 |                 return ret;
+         |                        ^
+   drivers/net/wireless/microchip/wilc1000/sdio.c:798:2: error: use of undeclared identifier 'ret'
+     798 |         ret = wilc_sdio_cmd52(wilc, &cmd);
+         |         ^
+   drivers/net/wireless/microchip/wilc1000/sdio.c:799:6: error: use of undeclared identifier 'ret'
+     799 |         if (ret) {
+         |             ^
+   drivers/net/wireless/microchip/wilc1000/sdio.c:801:10: error: use of undeclared identifier 'ret'
+     801 |                 return ret;
+         |                        ^
+   6 errors generated.
 
 
-vim +12987 arch/x86/kvm/x86.c
+vim +/ret +789 drivers/net/wireless/microchip/wilc1000/sdio.c
 
- 12959	
- 12960	static inline bool
- 12961	kvm_should_allow_lpage_for_slot(struct kvm_memory_slot *slot, int level)
- 12962	{
- 12963		bool gfn_and_userspace_addr_aligned;
- 12964		unsigned long ugfn;
- 12965	
- 12966		ugfn = slot->userspace_addr >> PAGE_SHIFT;
- 12967	
- 12968		/*
- 12969		 * If addresses are not aligned wrt each other, then large page mapping
- 12970		 * cannot be allowed for the slot since page tables only allow guest to
- 12971		 * host translations to function at fixed levels.
- 12972		 */
- 12973		gfn_and_userspace_addr_aligned =
- 12974			kvm_is_level_aligned(slot->base_gfn ^ ugfn, level);
- 12975	
- 12976		/*
- 12977		 * If slot->userspace_addr is 0 (disabled), 0 is always aligned so the
- 12978		 * check is deferred to gmem.pgoff.
- 12979		 */
- 12980		if (!gfn_and_userspace_addr_aligned)
- 12981			return false;
- 12982	
- 12983		if (kvm_slot_has_gmem(slot)) {
- 12984			bool gfn_and_gmem_pgoff_aligned;
- 12985	
- 12986			gfn_and_gmem_pgoff_aligned = kvm_is_level_aligned(
- 12987				slot->base_gfn ^ slot->gmem.pgoff, level);
- 12988	
- 12989			return gfn_and_gmem_pgoff_aligned;
- 12990		}
- 12991	
- 12992		return true;
- 12993	}
- 12994	
+   774	
+   775	static int wilc_sdio_read_size(struct wilc *wilc, u32 *size)
+   776	{
+   777		u32 tmp;
+   778		struct sdio_cmd52 cmd;
+   779		struct sdio_func *func = dev_to_sdio_func(wilc->dev);
+   780	
+   781		/**
+   782		 *      Read DMA count in words
+   783		 **/
+   784		cmd.read_write = 0;
+   785		cmd.function = 0;
+   786		cmd.raw = 0;
+   787		cmd.address = WILC_SDIO_INTERRUPT_DATA_SZ_REG;
+   788		cmd.data = 0;
+ > 789		ret = wilc_sdio_cmd52(wilc, &cmd);
+   790		if (ret) {
+   791			dev_err(&func->dev, "Fail cmd 52, interrupt data register...\n");
+   792			return ret;
+   793		}
+   794		tmp = cmd.data;
+   795	
+   796		cmd.address = WILC_SDIO_INTERRUPT_DATA_SZ_REG + 1;
+   797		cmd.data = 0;
+   798		ret = wilc_sdio_cmd52(wilc, &cmd);
+   799		if (ret) {
+   800			dev_err(&func->dev, "Fail cmd 52, interrupt data register...\n");
+   801			return ret;
+   802		}
+   803		tmp |= (cmd.data << 8);
+   804	
+   805		*size = tmp;
+   806		return 0;
+   807	}
+   808	
 
 -- 
 0-DAY CI Kernel Test Service
