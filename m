@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299021AAA1E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 07:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADAF2690F9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 07:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747640101; cv=none; b=K2ZXPEhposOW46O/pNVrDbpIw45MINBAO5R9ytF+KXkbZRwQRBQkiIXN5j6ThmYCv5GT1sgBU467XmOCHhG7FJkAyQUfSdUZAY+x8H3idotk6Az7z5fEc1U2MpPPYK9fRWmbY0YfBxQZAHWKyoposbDjgoSUyLEhCuXVdioPebk=
+	t=1747641304; cv=none; b=D8h3Mm5rVUFov03OtGahwGMiPUSVJ6djdCIRcxRkiNcaRtaq2XRtQzBYlRlWah/v7vmlJ2+mHeb/c7dCpTA8Nzkpx7E7WLm6iZtKMHaX5a0AsYGEWoFV73526JsCPuiKlR05q2G+U5uDqdiJptu0okQEEXT/6VEL1/rPcstV/LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747640101; c=relaxed/simple;
-	bh=LaBP5GDqr99j3ZTkPuJjXr1RLEErnA6DZ7lPo9h/F8I=;
+	s=arc-20240116; t=1747641304; c=relaxed/simple;
+	bh=bAeiXyQ4xmGax9eWamxTcSKHYyxrTUjgOR14Hk+vcFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OWrrYkyw2rMOAqw2GDQyUMvgXviyjiJ23RsCbC8e5HRv7RN6ccK5act6BMdOPsyPTIgtU/TwWp8AAK0xm6EKsvBRvgiXQK0xQ6ATfH3y5D5v4iqpktAAQHHUU4ipBowTNtXbS6kzRq+FtQzPYec6ozNBCq1kYQZPpoGFrgLC+aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EI0WmIMo; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=D7GxyQYVEyFYzBmkUjlPgVHmCZFKsV5U4MjcKaP7Dh4/4pNb5jmUfWbmjYkIx5RwxomME5gDMjiA46Bd1wg4FY9F9Riqs5w3YoFZ4rK+XADR1b7pFjAmcrJiI3/zabL8We8M2TlfiaWG5VzlUzL0iu7QQtA9NuXmeNRixeNyge8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lxT0k/dR; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EI0WmIMo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lxT0k/dR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747640100; x=1779176100;
+  t=1747641303; x=1779177303;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LaBP5GDqr99j3ZTkPuJjXr1RLEErnA6DZ7lPo9h/F8I=;
-  b=EI0WmIMoFRm46J03bylRnbYUhl4/Ae/71laVQ3XRr+3zapQpyQDizF4j
-   ZM+VTpFx6bi4lHDuR8ugJVuZaWYFdlybwSFZbOBliSl3tzctQ4iq6I2Oy
-   EH0C2GShtiXzMXrJ9BvrksMlahTdv31btNrvdXTuHgAomXRipW4Qp5/ck
-   /49xvjPa0K/jcgV4d8Cri9gCJwztjtF40j3ZRZ0W71IsU7k0grf8RepBD
-   nwjFWBAik/yT2bTdRYJNFklve+49DDcN0sFMBH6ife/fFnTuE9WGmBg5O
-   nZx4z/9psZ9NQRJ58HDtreK0r3uIOHu76bNsr8gQs3oeRzXXFE175HEVq
+  bh=bAeiXyQ4xmGax9eWamxTcSKHYyxrTUjgOR14Hk+vcFs=;
+  b=lxT0k/dRA8V0JSEOJggLMu11kofFBtQpMQandP7/JcMCAcdrPrtTqX/s
+   apK+qPk8LkTKUgZYsUe5+n0mdO0qWUhpZ1HvuFB2YHbTnR8oIZlMviIbI
+   2XAn+HFSRgLFyiXuV6O7ddXTAv3s+qn3fydAbEeO0L86ENZ+7ZU+4oe7U
+   HDBD2b23qW+4DvKQLqABsYmZajSUsWbskSu9ag5a34USzopnOasRll35h
+   hK4DFOmhf3wfpM3PK1bBG3pyuVaChp0JWwwZlU9wtAN2meqjMZHmk41RQ
+   ApnDz4PAKycc2i9Fh2MTfoz1eu7QCMjp2v1Naoj9TckoaXOl8WVJeow70
    w==;
-X-CSE-ConnectionGUID: UXBFB14ZQ8m1b0wOm25Tig==
-X-CSE-MsgGUID: O21DkxWeQL+LsWoYUzbPjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="48780483"
+X-CSE-ConnectionGUID: 72NPG4QfRj6JeF0em3QiAA==
+X-CSE-MsgGUID: i3h5lo7YTcOagCg8BKWYLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="67085142"
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="48780483"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 00:34:59 -0700
-X-CSE-ConnectionGUID: sOhhaZhxSrWz/zyzkLPz/w==
-X-CSE-MsgGUID: ilRB8x4ASN2QPZJJvtVsCA==
+   d="scan'208";a="67085142"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 00:55:01 -0700
+X-CSE-ConnectionGUID: 9ZfPo66QSuOOrWTYMUmSoA==
+X-CSE-MsgGUID: 0fry8PTfQlu7kCpNADEpoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="143294960"
+   d="scan'208";a="139034883"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 May 2025 00:34:58 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 May 2025 00:55:00 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGv1T-000LG7-2e;
-	Mon, 19 May 2025 07:34:55 +0000
-Date: Mon, 19 May 2025 15:33:58 +0800
+	id 1uGvKr-000LGW-0O;
+	Mon, 19 May 2025 07:54:57 +0000
+Date: Mon, 19 May 2025 15:54:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ira Weiny <ira.weiny@intel.com>
-Subject: [weiny2:ackerley-1g-master 52/75] mm/hugetlb_vmemmap.c:542:17:
- error: implicit declaration of function 'flush_tlb_all'; did you mean
- 'flush_tlb_page'?
-Message-ID: <202505191553.AMCEpROA-lkp@intel.com>
+To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+	Theodore Ts'o <tytso@mit.edu>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Subject: [tytso-ext4:dev 43/47] fs/ext4/inode.c:573:49-51: WARNING !A || A &&
+ B is equivalent to !A || B
+Message-ID: <202505191524.auftmOwK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,90 +64,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ackerley,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/weiny2/linux-kernel.git ackerley-1g-master
-head:   773f26b5bef6e4d3094a33605165a5c6ab9aa0f0
-commit: 4f9ec797adddb85edd77bc785348b440d8025dc9 [52/75] mm: guestmem_hugetlb: Wrap HugeTLB as an allocator for guest_memfd
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250519/202505191553.AMCEpROA-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505191553.AMCEpROA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+head:   e4e129b9e3d37b21d78a5a6617c6987dafa9600d
+commit: 2e7bad830aa9995dbc11577b8ee5090bc06b1b7b [43/47] ext4: Add support for EXT4_GET_BLOCKS_QUERY_LEAF_BLOCKS
+config: alpha-randconfig-r062-20250519 (https://download.01.org/0day-ci/archive/20250519/202505191524.auftmOwK-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505191553.AMCEpROA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505191524.auftmOwK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/ext4/inode.c:573:49-51: WARNING !A || A && B is equivalent to !A || B
 
-   mm/hugetlb_vmemmap.c: In function 'hugetlb_vmemmap_restore_folios':
->> mm/hugetlb_vmemmap.c:542:17: error: implicit declaration of function 'flush_tlb_all'; did you mean 'flush_tlb_page'? [-Wimplicit-function-declaration]
-     542 |                 flush_tlb_all();
-         |                 ^~~~~~~~~~~~~
-         |                 flush_tlb_page
+vim +573 fs/ext4/inode.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-   Depends on [n]: ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP [=n] && SPARSEMEM_VMEMMAP [=y]
-   Selected by [y]:
-   - GUESTMEM_HUGETLB [=y]
-
-
-vim +542 mm/hugetlb_vmemmap.c
-
-c24f188b228929 Mike Kravetz 2023-10-18  503  
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  504  /**
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  505   * hugetlb_vmemmap_restore_folios - restore vmemmap for every folio on the list.
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  506   * @h:			hstate.
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  507   * @folio_list:		list of folios.
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  508   * @non_hvo_folios:	Output list of folios for which vmemmap exists.
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  509   *
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  510   * Return: number of folios for which vmemmap was restored, or an error code
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  511   *		if an error was encountered restoring vmemmap for a folio.
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  512   *		Folios that have vmemmap are moved to the non_hvo_folios
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  513   *		list.  Processing of entries stops when the first error is
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  514   *		encountered. The folio that experienced the error and all
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  515   *		non-processed folios will remain on folio_list.
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  516   */
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  517  long hugetlb_vmemmap_restore_folios(const struct hstate *h,
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  518  					struct list_head *folio_list,
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  519  					struct list_head *non_hvo_folios)
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  520  {
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  521  	struct folio *folio, *t_folio;
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  522  	long restored = 0;
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  523  	long ret = 0;
-c2a967f6ab0ec8 Yu Zhao      2024-07-18  524  	unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH | VMEMMAP_SYNCHRONIZE_RCU;
-bd225530a4c717 Yu Zhao      2024-06-27  525  
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  526  	list_for_each_entry_safe(folio, t_folio, folio_list, lru) {
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  527  		if (folio_test_hugetlb_vmemmap_optimized(folio)) {
-c2a967f6ab0ec8 Yu Zhao      2024-07-18  528  			ret = __hugetlb_vmemmap_restore_folio(h, folio, flags);
-c2a967f6ab0ec8 Yu Zhao      2024-07-18  529  			/* only need to synchronize_rcu() once for each batch */
-c2a967f6ab0ec8 Yu Zhao      2024-07-18  530  			flags &= ~VMEMMAP_SYNCHRONIZE_RCU;
-c2a967f6ab0ec8 Yu Zhao      2024-07-18  531  
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  532  			if (ret)
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  533  				break;
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  534  			restored++;
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  535  		}
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  536  
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  537  		/* Add non-optimized folios to output list */
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  538  		list_move(&folio->lru, non_hvo_folios);
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  539  	}
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  540  
-c24f188b228929 Mike Kravetz 2023-10-18  541  	if (restored)
-c24f188b228929 Mike Kravetz 2023-10-18 @542  		flush_tlb_all();
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  543  	if (!ret)
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  544  		ret = restored;
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  545  	return ret;
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  546  }
-cfb8c75099dbf1 Mike Kravetz 2023-10-18  547  
-
-:::::: The code at line 542 was first introduced by commit
-:::::: c24f188b22892908a2a3bb2de0ce7d121dd72989 hugetlb: batch TLB flushes when restoring vmemmap
-
-:::::: TO: Mike Kravetz <mike.kravetz@oracle.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   540	
+   541	static int ext4_map_query_blocks(handle_t *handle, struct inode *inode,
+   542					 struct ext4_map_blocks *map, int flags)
+   543	{
+   544		unsigned int status;
+   545		int retval;
+   546		unsigned int orig_mlen = map->m_len;
+   547		unsigned int query_flags = flags & EXT4_GET_BLOCKS_QUERY_LAST_IN_LEAF;
+   548	
+   549		flags &= EXT4_EX_FILTER;
+   550		if (ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
+   551			retval = ext4_ext_map_blocks(handle, inode, map,
+   552						     flags | query_flags);
+   553		else
+   554			retval = ext4_ind_map_blocks(handle, inode, map, flags);
+   555	
+   556		if (retval <= 0)
+   557			return retval;
+   558	
+   559		if (unlikely(retval != map->m_len)) {
+   560			ext4_warning(inode->i_sb,
+   561				     "ES len assertion failed for inode "
+   562				     "%lu: retval %d != map->m_len %d",
+   563				     inode->i_ino, retval, map->m_len);
+   564			WARN_ON(1);
+   565		}
+   566	
+   567		/*
+   568		 * No need to query next in leaf:
+   569		 * - if returned extent is not last in leaf or
+   570		 * - if the last in leaf is the full requested range
+   571		 */
+   572		if (!(map->m_flags & EXT4_MAP_QUERY_LAST_IN_LEAF) ||
+ > 573				((map->m_flags & EXT4_MAP_QUERY_LAST_IN_LEAF) &&
+   574				 (map->m_len == orig_mlen))) {
+   575			status = map->m_flags & EXT4_MAP_UNWRITTEN ?
+   576					EXTENT_STATUS_UNWRITTEN : EXTENT_STATUS_WRITTEN;
+   577			ext4_es_insert_extent(inode, map->m_lblk, map->m_len,
+   578					      map->m_pblk, status, false);
+   579			return retval;
+   580		}
+   581	
+   582		return ext4_map_query_blocks_next_in_leaf(handle, inode, map,
+   583							  orig_mlen);
+   584	}
+   585	
 
 -- 
 0-DAY CI Kernel Test Service
