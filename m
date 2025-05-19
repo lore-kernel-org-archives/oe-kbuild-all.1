@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0731E833D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7D120C469
 	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 19:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747681922; cv=none; b=Igjj2wk7fwZAOADTKZX8R1+G0woObsWqYpeC5Z8gODqrkBfbAIgnF4TklCRfAamOaE5iXeUeWFIP3wYTgaHf/jobTF7+gNE6LFsbFQux6AT7PrVi5x90dnYSNDnMPJwlCatEIvCeBBVYG0XpyqWvylq/qYxf4FmB/RX/aptYZkc=
+	t=1747681922; cv=none; b=Wzy7tiWNFHdxtWDCJFUnACNCZzVahtSEDysmegj7ytGr2qI+APvw2uWuAtywpoNABBi6Z2DJG3gX3PEktXgcBgg3r6ge2RymprAxu0MJ/JC8LCzt71/iHL68ZBrSZQPTGy/KLGeNra2g6s0+YTRbTXIJ6b5Crlwd26pQsBCiOl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747681922; c=relaxed/simple;
-	bh=nkTDvsG4L2lI+zJvHJLK/Jo7CKqje5u+Cja7uCaAnpA=;
+	bh=MlLrO6+ous6nMN00B9L9XsyHL6xqDEDX72dho3TGiaI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BnQSyDk8BqkZdZyLOXYAvpNvZeC/s4U9CpB8N/Amenrjsi0j6VJ3ggS7afrBNqHPcapZ3yqsL3cKthme/5evHjVY7ECYgECzFOp5l4/KSEfZbfSWKhVhj5+Nw6W9U2NaVee60wDMxFPshiKxQeuzI2ngSEYTk0YEP7J1dydUD54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBw+k1oD; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=cE4mZ/nS0g7yi49r8v3HlTOF/Fg9+bcb/pSufeCwsa8mZ21VUFthG/XzXpT+YcaJMvtHHfmhwuKFery1KnjN2r7DdLH4GbnM9Cv/CSwgc+P3H/nUw9ptAedwYEYByvbcQhb7ytEDjgI+3u5znYSe0jF8vwQ8tk2SGcWgl4t+/A8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcZW5lUM; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBw+k1oD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcZW5lUM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1747681920; x=1779217920;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nkTDvsG4L2lI+zJvHJLK/Jo7CKqje5u+Cja7uCaAnpA=;
-  b=mBw+k1oDTkeZqJSF5BbrVFSquJApCL1Yx81nskxzITjvzdSRffn1wdsR
-   T5dAdwxIfprnY/sUlUHKg+qbVx/LQA1HTu5GTz0w+nBRMO/mpdYynkPvr
-   5lSPvM1CvjC9MRTwiTNvCnLMV60IB8PcOyyrGTEDr7uyY0XEoHBIoc/rM
-   +PzrFHUGNSgluiDF5OeW3zlyfxAg1NvRq+ApYCGBYgBw0p4dYt/JcPylc
-   DvJ3DE3qj5A8ZwCN+DGAM4LSpSNQTPLI39SSZBOS5Mt+pTZ7RutV1UCfH
-   dBFrxR677xRhg6N284ESYpZuqODdAiiBaDrt59Gny/zeVtvMTZY5STclW
-   A==;
-X-CSE-ConnectionGUID: QtAaZU+DRgmlc4UCRUY0sg==
-X-CSE-MsgGUID: qBwPEq+HSlm/z73zZebSeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49470336"
+  bh=MlLrO6+ous6nMN00B9L9XsyHL6xqDEDX72dho3TGiaI=;
+  b=jcZW5lUM+OxHhQjpLS5VhTZiDNRFWIIV6/jc97URnECbhtM0c+JrbrzL
+   9bhRbuhAUD50R2b0RNMrggLqxurdxRFsdBQ16iVNFtsADQvE0WqJJAuhD
+   /qzOwveQhkSktuDj2ZWvXPNgcrmdjmIpQzcIkkL4BThI21grDJ0p6WeF2
+   EmY7MK0fea2OWAz6/VEpEWJfSDslohzDL0U44UsYnRWjSzOHPfnxEx42j
+   6hOlvFNJl/XnuXu+hsWAC0UV03t/k6y78Lccbgx5gXL5zxozF/3bJWRXq
+   FSoe/QoaydJf1YxNL4sQV/OgG8dEJhn+IuvdFhmkNN1KAtL4d8K/zCWRA
+   g==;
+X-CSE-ConnectionGUID: JH/GaCv8TluTxwIJ9XFfFg==
+X-CSE-MsgGUID: O87qAed4T6WJ4jYMJOK6AA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49698400"
 X-IronPort-AV: E=Sophos;i="6.15,301,1739865600"; 
-   d="scan'208";a="49470336"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 12:11:59 -0700
-X-CSE-ConnectionGUID: OiHoIlgtR3aY3SyIQnp/+g==
-X-CSE-MsgGUID: YePtw/+/TnaJUIfXhWHJug==
+   d="scan'208";a="49698400"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 12:11:59 -0700
+X-CSE-ConnectionGUID: KMtu8Z6eTfusK0hnMZUPpw==
+X-CSE-MsgGUID: Gb4kk3m5RoiHbdGeXTLWEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,301,1739865600"; 
-   d="scan'208";a="139345415"
+   d="scan'208";a="170490848"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 19 May 2025 12:11:58 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 19 May 2025 12:11:58 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uH5tz-000Lm8-2I;
-	Mon, 19 May 2025 19:11:55 +0000
-Date: Tue, 20 May 2025 03:11:04 +0800
+	id 1uH5u0-000LmB-0U;
+	Mon, 19 May 2025 19:11:56 +0000
+Date: Tue, 20 May 2025 03:11:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:afs-fixes 2/2] fs/inode.c:2591:47: warning: passing
- argument 2 of 'vfs_inode_is_owned_by_me' discards 'const' qualifier from
- pointer target type
-Message-ID: <202505200320.XdIkjBor-lkp@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ira Weiny <ira.weiny@intel.com>
+Subject: [weiny2:fuad-mroth-2M 27/35] include/linux/compiler_types.h:557:45:
+ error: call to '__compiletime_assert_669' declared with attribute error:
+ BUILD_BUG_ON failed: BITS_PER_LONG != 64
+Message-ID: <202505200303.ntmJjwt3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +63,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git afs-fixes
-head:   3d7c34e70ff9f9f109feb055469b6a056e07b88b
-commit: 3d7c34e70ff9f9f109feb055469b6a056e07b88b [2/2] vfs: Fix inode ownership checks with regard to foreign ownership
-config: csky-randconfig-001-20250520 (https://download.01.org/0day-ci/archive/20250520/202505200320.XdIkjBor-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505200320.XdIkjBor-lkp@intel.com/reproduce)
+tree:   https://github.com/weiny2/linux-kernel.git fuad-mroth-2M
+head:   e7a0e768b14b70e6723b2800c0d108cf449c534e
+commit: 5f1c19a1fb8cb1ce084d9d55922793703fcf9af0 [27/35] KVM: gmem: track preparedness a page at a time
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250520/202505200303.ntmJjwt3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505200303.ntmJjwt3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505200320.XdIkjBor-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505200303.ntmJjwt3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/inode.c: In function 'inode_owner_or_capable':
->> fs/inode.c:2591:47: warning: passing argument 2 of 'vfs_inode_is_owned_by_me' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    2591 |         ret = vfs_inode_is_owned_by_me(idmap, inode);
-         |                                               ^~~~~
-   In file included from fs/inode.c:30:
-   fs/internal.h:55:69: note: expected 'struct inode *' but argument is of type 'const struct inode *'
-      55 | int vfs_inode_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode);
-         |                                                       ~~~~~~~~~~~~~~^~~~~
---
-   fs/attr.c: In function 'chown_ok':
->> fs/attr.c:101:47: warning: passing argument 2 of 'vfs_inode_is_owned_by_me' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     101 |         ret = vfs_inode_is_owned_by_me(idmap, inode);
-         |                                               ^~~~~
-   In file included from fs/attr.c:19:
-   fs/internal.h:55:69: note: expected 'struct inode *' but argument is of type 'const struct inode *'
-      55 | int vfs_inode_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode);
-         |                                                       ~~~~~~~~~~~~~~^~~~~
-   fs/attr.c: In function 'chgrp_ok':
-   fs/attr.c:130:47: warning: passing argument 2 of 'vfs_inode_is_owned_by_me' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     130 |         ret = vfs_inode_is_owned_by_me(idmap, inode);
-         |                                               ^~~~~
-   fs/internal.h:55:69: note: expected 'struct inode *' but argument is of type 'const struct inode *'
-      55 | int vfs_inode_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode);
-         |                                                       ~~~~~~~~~~~~~~^~~~~
+   In file included from <command-line>:
+   In function 'kvm_gmem_mark_range_unprepared',
+       inlined from 'kvm_gmem_punch_hole' at arch/x86/kvm/../../../virt/kvm/guest_memfd.c:294:2:
+>> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_669' declared with attribute error: BUILD_BUG_ON failed: BITS_PER_LONG != 64
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:130:17: note: in expansion of macro 'BUILD_BUG_ON'
+     130 |                 BUILD_BUG_ON(BITS_PER_LONG != 64);
+         |                 ^~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_mark_prepared.isra':
+   include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_665' declared with attribute error: BUILD_BUG_ON failed: BITS_PER_LONG != 64
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:111:17: note: in expansion of macro 'BUILD_BUG_ON'
+     111 |                 BUILD_BUG_ON(BITS_PER_LONG != 64);
+         |                 ^~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_bind':
+   include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_681' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_t) != sizeof(slot->gmem.pgoff)
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:827:9: note: in expansion of macro 'BUILD_BUG_ON'
+     827 |         BUILD_BUG_ON(sizeof(gfn_t) != sizeof(slot->gmem.pgoff));
+         |         ^~~~~~~~~~~~
 
 
-vim +2591 fs/inode.c
+vim +/__compiletime_assert_669 +557 include/linux/compiler_types.h
 
-  2569	
-  2570	/**
-  2571	 * inode_owner_or_capable - check current task permissions to inode
-  2572	 * @idmap: idmap of the mount the inode was found from
-  2573	 * @inode: inode being checked
-  2574	 *
-  2575	 * Return true if current either has CAP_FOWNER in a namespace with the
-  2576	 * inode owner uid mapped, or owns the file.
-  2577	 *
-  2578	 * If the inode has been found through an idmapped mount the idmap of
-  2579	 * the vfsmount must be passed through @idmap. This function will then take
-  2580	 * care to map the inode according to @idmap before checking permissions.
-  2581	 * On non-idmapped mounts or if permission checking is to be performed on the
-  2582	 * raw inode simply pass @nop_mnt_idmap.
-  2583	 */
-  2584	bool inode_owner_or_capable(struct mnt_idmap *idmap,
-  2585				    const struct inode *inode)
-  2586	{
-  2587		vfsuid_t vfsuid;
-  2588		struct user_namespace *ns;
-  2589		int ret;
-  2590	
-> 2591		ret = vfs_inode_is_owned_by_me(idmap, inode);
-  2592		if (ret == 0)
-  2593			return true;
-  2594		if (ret < 0)
-  2595			return false;
-  2596	
-  2597		vfsuid = i_uid_into_vfsuid(idmap, inode);
-  2598		ns = current_user_ns();
-  2599		if (vfsuid_has_mapping(ns, vfsuid) && ns_capable(ns, CAP_FOWNER))
-  2600			return true;
-  2601		return false;
-  2602	}
-  2603	EXPORT_SYMBOL(inode_owner_or_capable);
-  2604	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+
+:::::: The code at line 557 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
