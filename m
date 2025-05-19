@@ -1,114 +1,119 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8082E1FBEA4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 21:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C731B043C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 May 2025 01:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747605040; cv=none; b=HUW5KkZuZTTye0PxQJ/1n7dhpp/l8eFF2H/vexdpKazIFRuM6yJEqEGGGx4qovX9W1f46lT+BnYRvmAvtdc/zN56t83o2vqWVO+p1YqkLCUS3CSduA68HiooifIecwPiv9L+0+mqwi/E+fcXxvHJbKyEanaJ/Zmdl1WksRA0b+Q=
+	t=1747619945; cv=none; b=OZQpOJyHDCen3aidLexcBt8eNoEPzwNCcLC6Fg/QES1Xh/T6gpXIF/o8IQDsh7foGVXdT9XAe8lJZQ5c51sGq0k1c4v6p8PrORIPm/gkYAlnbqgbFxCBFa/k8BvgUaj6/p4TZOWQbIgvSJHpSKaC/k8PAGHrvTQuKqFkLaUXKic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747605040; c=relaxed/simple;
-	bh=79kKnSEMKKqJ57YQnRDp4qba0VqmcjJ6iTAvPSXrnL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bU0lC39euF7QbXc8bgjMZ8/45Gvf9TjTFNCrmwOcjBZ9iTkGUBS2oz0XWM39gYhC4EIecvDLX4d09ZKKp8PAkxNg1kbo9vfVnZiaVlqRjKhw56pNtFGn3zUHwPVq7ipCIy/jgdgE8gdRmfTsRFIbd34MuwtkvdcyHXOLO5zPPVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ejo28Gsr; arc=none smtp.client-ip=209.85.221.41
+	s=arc-20240116; t=1747619945; c=relaxed/simple;
+	bh=WWknmnTXcv1WYiNw1GpNgnFUPuzSkHXAntd1AlmTgIY=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=CSe45DgcoqUoYUh1k+fXTcW0gPCwix1nTfOHVP/V8+8HVaaClVrHVi6sv/MGP0jM7eWXo8t0qS1RqnX/bLis4WnkcFy/SVTFHO5YVkBwZAQcylA8ihSw7ybPlP+XT5Je/C7HXFoPTWsKjKORB7MW1M6DyP9QIaOGK03dqXiOxuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=duq4wSZq; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ejo28Gsr"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a361b8a664so2377248f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 14:50:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="duq4wSZq"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22d95f0dda4so41811765ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 May 2025 18:59:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747605037; x=1748209837; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dd87LfCI9WT//JyBxng83Lwb28MCQOSv3z3z3fk1VZs=;
-        b=Ejo28GsrEGSzLRWik+7yJotLjvY3+HGltOMy2uRu5WvapO9J036Zr7+hUIwKOyXMK8
-         p4RKLvToiee/7mKOQZTdgwRx9nmOZo8CVV8jOzXQElFOZyPgh9Ru/wl957QLRFc1F5v0
-         TWAj7YzlvJR1dbUw+2j210YIYsbMO+oHNzXcDyPztJtYVOB5mXTYxcJa3uH3IOBSnRCG
-         oV1Fe21Rxmyl/8TJNaBTlbtRT+Ax5q+B5nCawlYmtbi4r+1IwYttvSK7ZY8zlSduE2ZQ
-         rC1UGAa5GURlWjWZ3cn1suQkABfVT7oA0sMGmXovkzvhWiO5qsfHUWG0EDZxtBzRJPA6
-         YPrQ==
+        d=gmail.com; s=20230601; t=1747619943; x=1748224743; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:cc:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=465ybCN69urWCKwsV8zHhnkvhBdyoDe9eDKU2Bo8TAI=;
+        b=duq4wSZq/wW6ECDx/XrkrBR1L4vWy8zjRQW0KsKQNyMeBpELk+aqKNGA4f6rmTfizJ
+         f3iqH+xwNXIlbGkGaLQk0IWYyp+f2PlVgRP4qe/RAG19cYzwzz0AYQw0o16ClbZl8Zro
+         nB1K4zXted9vC4AmVxD/4L8wbqkNBMHUUU+nLoNzyyKO2t/qeo58Nxm2JIL09fuJMFjM
+         YtOVVkSSDkUYqUtDheccZuYiJ9H7cwgaMVwsZ7oFGHEVfIMVv0nDL0snafKoLkksEDw5
+         BvQg4fVHktQ3Ld9HkTvidgzjO1+LW4rP7ifFmjBlew0rAsuUznJZWMfImpX17PsT+ZOu
+         kOXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747605037; x=1748209837;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dd87LfCI9WT//JyBxng83Lwb28MCQOSv3z3z3fk1VZs=;
-        b=Sw1S2DbJ180z+6EbgTwVlTIVxiF6TLpMt/eXm419eHIGzGUJJkUeTY3ffwUbBGZOQP
-         9fdfhv7tcfqACCxS3KKjOzTIu8NxUdBltBIQWjfQIDiRRBoGM+OSK3ldzMk5xzHEDxzP
-         IsrT56RMMIdTbt9tYvDQ/7bmLmHGewgrdDx8ClvB29QzHU88gp8vwLLuRKLWQQHIkgVV
-         jw79QuHHFkBZIY5MWM+/e86UWobpM/t2CkfxezVddFauKz5nS+snGwGX1WWauwmK58Dg
-         2hYgbnfBQXcJxlzG0lIEiiZbEXBVNZ06jOmhl1gbGb8TJYxK2bUkZOLnGoT6At3wr+gP
-         Ttxw==
-X-Forwarded-Encrypted: i=1; AJvYcCVALPJ0aqZ23W4V8lqZl+NZlL/uwdDHTZmAsomj8SvZ72UM4I0Fd/9OMjD+YGSR0IwB1jMZWHvwZd27R7lX@lists.linux.dev
-X-Gm-Message-State: AOJu0YxMIFyrWuhSSdiyg/RVQ8Xk/iMshHlo7Dv+QMTQr2mAZs+SNnJW
-	qtz+xrHW8pSUIz4cKFwvGaB1zHKNDJuVcqlviJrUTAh9nCHDYDNchHF+
-X-Gm-Gg: ASbGncuF5WiPM0suwH/n/R0CAFJ+VyeFb+VvYERRM6dAB2ucdjsNMqiqDzAJlCD29L3
-	/NdeAyN1taFcUysJKXGCAiBJiQ8VbwhasAViiZejc1JiyK8Ire4CfTXcd6eRP0lUtZrQClB21PS
-	PNZ88LaMH5DkjRffHIiVCFdAFgtdMaOBb4Hh16HD4hO+3y22Yor9Ml1SaGpQQJ2nV9CU4lJiBY2
-	MSDkG6wYKU8g9jQFkZvMXdygU+kWLyzAX69SW62gtZ5zG54X7hxQy/SjK1FqKIevevwJjM+Zpj9
-	8rj39mSY8SumQZv+eQjf/n9cPvFFk9jN+pcmx99u28qWx9fpGdmvv70Y3SRLdWQXv3FUrt5j0h+
-	mA1IQ3cbNuiW7qw==
-X-Google-Smtp-Source: AGHT+IEoBiFPjelVAhh1P9nAn5mTVvxWL2CpLAah1CB9KofEoCk75lEIDvxxHgFp9MPCtfEn5qQMcA==
-X-Received: by 2002:a05:6000:430c:b0:3a3:6947:6d35 with SMTP id ffacd0b85a97d-3a369477158mr3953400f8f.57.1747605036646;
-        Sun, 18 May 2025 14:50:36 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca8d005sm10670936f8f.90.2025.05.18.14.50.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 14:50:36 -0700 (PDT)
-Date: Sun, 18 May 2025 22:50:35 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>, u.kleine-koenig@baylibre.com, Nicolas Pitre
- <npitre@baylibre.com>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 next 2/4] lib: mul_u64_u64_div_u64() Use BUG_ON() for
- divide by zero
-Message-ID: <20250518225035.2f887be7@pumpkin>
-In-Reply-To: <202505182351.bPFZE1vO-lkp@intel.com>
-References: <20250518133848.5811-3-david.laight.linux@gmail.com>
-	<202505182351.bPFZE1vO-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20230601; t=1747619943; x=1748224743;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:cc:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=465ybCN69urWCKwsV8zHhnkvhBdyoDe9eDKU2Bo8TAI=;
+        b=pP7uNyaGiUev5w00hZHIT0ssAZiGoe2SFWmGbIccum8nlzi3lEJW8avOlcVceAaeku
+         Bpa/u31d9HgL2en8jXoyocHTRA8j0vpkkLN7caW0gwMFBtFSKMGg4ZdbMZLW3BG1bRxo
+         bAFpzfel7Lao1m3Faqdoi+BhwpbIIU0zSCqpurOPK4fPkCmqh3xBadd04WkBbXSMiOwr
+         yEzhgbzZ8+aS08lcef9pg6fNwpAHWT35f3liAo5u3abcupy314AvflT8426EtA6m0hRO
+         76TAcnlC0KCx22Jje+7BbRE9F22PZ8yoZ9dHMYcvmpyhi6yW8ROyDd4ln2PZhG0oKyf3
+         uLBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcnLPeWbtSlWi/SjVeaToR8xgI6hTny0Fj+viC+MmvpPuuzGV1BdlwLN9p1KABL47utjLAu8o2nkBoFalS@lists.linux.dev
+X-Gm-Message-State: AOJu0YxllGjps/xp3Mr/2n4x2imvHO7rugpEazKZASvXqKOtHwT05W1m
+	F8CR3s5oUIqwG3z7ZAcYvbe/JfT91WhO0z5YMxnD4E0mC3tgLtQuMHBj
+X-Gm-Gg: ASbGncvqCOSP8fmcC6qs+kQvrKDeYKQK81w4L0xRVYAyBccBspcLt3ttpVyJS5ELSfP
+	TIKwOZFvNHbhRyZVtrGDp4NMlPqptO7FbQbGDzTGw1pDFe7IPouTAgdJXpCQXH/zihKleaIHPZy
+	3rLjFJjYQ8FO71xYbv+R/kSZ7uOCbkvilRkrh7qId7broZKJ/MFIsjCc9rnlu/CFXrovEUrN/pj
+	OuZzWycLpOq1uZ7HV/WmM+tZiEaxkCdGhXv6zMqPKtygoUuRLGQVHS3FrEiyXNtFtXbRldNLjOJ
+	+2qW6Hr765JJE1JiF9KEl67GecECeYyNbwb9ofWhiWsVB3fMb//rF8oBuTjPlbQ=
+X-Google-Smtp-Source: AGHT+IGtbaL6Rwx3Tp83tljaaL5Fb4pAonzvRiQVTrT6/GDNWs9E3hM2f206ofLvP2fHF/APsFgzIw==
+X-Received: by 2002:a17:902:f643:b0:224:1294:1d24 with SMTP id d9443c01a7336-231d43dc980mr123322975ad.3.1747619942933;
+        Sun, 18 May 2025 18:59:02 -0700 (PDT)
+Received: from [10.189.144.225] ([43.224.245.249])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4aff935sm49179165ad.94.2025.05.18.18.59.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 May 2025 18:59:02 -0700 (PDT)
+Message-ID: <2faff963-c96c-4576-8680-a3e9b432aba5@gmail.com>
+Date: Mon, 19 May 2025 09:58:59 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Cc: shengyong2021@gmail.com, oe-kbuild-all@lists.linux.dev,
+ Xiang Gao <xiang@kernel.org>, linux-erofs@lists.ozlabs.org,
+ Wang Shuai <wangshuai12@xiaomi.com>
+Subject: Re: [xiang-erofs:dev-test 5/5] fs/erofs/super.c:659:22: error: no
+ member named 'off' in 'struct erofs_device_info'
+To: kernel test robot <lkp@intel.com>, Sheng Yong <shengyong1@xiaomi.com>
+References: <202505190150.4HUHevyn-lkp@intel.com>
+Content-Language: en-US, fr-CH
+From: Sheng Yong <shengyong2021@gmail.com>
+In-Reply-To: <202505190150.4HUHevyn-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sun, 18 May 2025 23:42:44 +0800
-kernel test robot <lkp@intel.com> wrote:
-
-> Hi David,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on next-20250516]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/lib-mul_u64_u64_div_u64-rename-parameter-c-to-d/20250518-214037
-> base:   next-20250516
-> patch link:    https://lore.kernel.org/r/20250518133848.5811-3-david.laight.linux%40gmail.com
-> patch subject: [PATCH v2 next 2/4] lib: mul_u64_u64_div_u64() Use BUG_ON() for divide by zero
-> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250518/202505182351.bPFZE1vO-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505182351.bPFZE1vO-lkp@intel.com/reproduce)
+On 5/19/25 02:06, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+> head:   7cd18799175c533c3f9b1c2b2cb6551e2a86c921
+> commit: 7cd18799175c533c3f9b1c2b2cb6551e2a86c921 [5/5] erofs: add 'fsoffset' mount option to specify filesystem offset
+> config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20250519/202505190150.4HUHevyn-lkp@intel.com/config)
+> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505190150.4HUHevyn-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505182351.bPFZE1vO-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505190150.4HUHevyn-lkp@intel.com/
 > 
 > All errors (new ones prefixed by >>):
 > 
->    lib/math/div64.c: In function 'mul_u64_u64_div_u64':
-> >> lib/math/div64.c:190:9: error: implicit declaration of function 'BUG_ON' [-Wimplicit-function-declaration]  
->      190 |         BUG_ON(!d);
->          |         ^~~~~~
+>>> fs/erofs/super.c:659:22: error: no member named 'off' in 'struct erofs_device_info'
+>       659 |                                        sbi->dif0.off, 1 << sbi->blkszbits);
 
-compiles fine on x86 :-(
+Hi, Xiang,
+
+dif0.off has already been changed to dif0.fsoff, shall I resend the patch to fix that?
+
+thanks,
+shengyong
+
+>           |                                        ~~~~~~~~~ ^
+>     include/linux/fs_context.h:239:52: note: expanded from macro 'invalfc'
+>       239 | #define invalfc(fc, fmt, ...) (errorfc(fc, fmt, ## __VA_ARGS__), -EINVAL)
+>           |                                                    ^~~~~~~~~~~
+>     include/linux/fs_context.h:227:65: note: expanded from macro 'errorfc'
+>       227 | #define errorfc(fc, fmt, ...) __plog((&(fc)->log), 'e', fmt, ## __VA_ARGS__)
+>           |                                                                 ^~~~~~~~~~~
+>     include/linux/fs_context.h:192:17: note: expanded from macro '__plog'
+>       192 |                                         l, fmt, ## __VA_ARGS__)
+>           |                                                    ^~~~~~~~~~~
+>     1 error generated.
+[...]
+
