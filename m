@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F6D2517B3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 15:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C881624337C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 16:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747753747; cv=none; b=nE1bxAU1nMYUy6Nak7VwZVsKBw+4mdK+cWDoNy9/UGnOGndY2Sig3kUdarCp/oaqS0zdMUTk8OK2DADQlujsCSkwYyYJoDTDccZaIVlMDowHM59nZ7MZ3DnW12vqxm8140VVY2jTKvfzv8hJeNAaR7hu+et19KC3ND6mAX2PdRM=
+	t=1747756869; cv=none; b=MNJdyDhAh4joIvuoV7f+WyrKNFzWzLJthBEMuAhKl4Se7j+n8v8ex01ir7D15Y2dJDmIliwNR9TVQzWB0sz/SGHeRTWu/NL3VUiBIe9I6rtrejVHro56J93IH0T3zGbsiE8BbqnsRlj0Oi329jKzvEEHgxX/lI2T/reKjXcLy/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747753747; c=relaxed/simple;
-	bh=YKf24ia4AgUBUeEINtv1UCvaAZU/f/1L8iJcRbOgnao=;
+	s=arc-20240116; t=1747756869; c=relaxed/simple;
+	bh=El3qoL0dmGAAJxFLhmqwpbb/71r+8NNByfFhtZtxMEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LEQoItvudi7igv+4oV/ET6Mcg4eeWp8pxfE6/8a5X1E2aPPtRObMo3UrCbMk9WEhH+6Q4cI+MC1UKck52EuiZNZzwbZ+w7wGdI2vLbxi3EPsoQglPK5zeBApvz5wHZRxAZnr7Hm6w0WPaPiBUbElIFdzYDzLi83tjRvODuyGl6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=exwFibt9; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Zam7u4DRMxUz9TE5jYJCSDDx7NFI4eKJmq+RufCn+aGi16I5CcZAfIjjwNN99rfDU3AiQQ5T9KcShcX5Chih19JmvuHg12ekRCvNUbWIPf1EGRYVJWIartfsnre3CfuNZ5KWxpL6Tu/0jc3WWTZ35ABO7hvo0dU3vJcF/7b4eZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bHQ0PSAD; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="exwFibt9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bHQ0PSAD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747753745; x=1779289745;
+  t=1747756868; x=1779292868;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YKf24ia4AgUBUeEINtv1UCvaAZU/f/1L8iJcRbOgnao=;
-  b=exwFibt9LIzXSnf9DiX3kss5mSKWpz5P2MKvufn/BBjzB0Zivw6Hedrd
-   4+N38msThb154ld35AtOhsxvREOVC7FBwNDa+Ysy7/BMfLLWelY8ieSLU
-   2E6GlyPRwnDSQKG4wpflcDsOj5S37L9nk0/U53pEQae46WH86Wx9XryAZ
-   0AitA0yFj9W28D+Sba8MxuHpLf/uIz4qXuPzcAACYwPPYCiQe+T9iYj0l
-   759LZblaKQA87PQMZhcN68XjkMS9ah8eyhhUQJSjJy/PGAs3ktyPAzSGA
-   G1yYgTAl92J8Fqeu0WlwySaZIkobJX05bO7FVSxN1ZwdYWtN7D4XB8yQJ
+  bh=El3qoL0dmGAAJxFLhmqwpbb/71r+8NNByfFhtZtxMEU=;
+  b=bHQ0PSADVFoECtxjCzVRqrkRLsCdB1rhLNYrfRVAwc7RY8hZwGOqN01G
+   tMZNVuDTEhnryi0T0Yg8ZtWIvhRkQY19uQkSyIaYmLYwz5wt8yQvtDSBi
+   o3IN9NkO6Umg2jKMVnBuexmjBk3FHS76aYWXVsK8udSsoBqnhe3IErnLo
+   oNGxw3kgnp7i/pnlDL3kxJxeCX1kZygzaMd5Nd1guE21gh3QQ+kTt4+xE
+   FsK94OwHgrXiN79/zL0u8YbrWbdglOOvBnncpGWHBL3qfiq/gHi9ybneV
+   fEOJ+tKw2TqK5QJg/hHB9IsHOtGwTjJv3910k9h62vAc1auoLg2lZClHW
    w==;
-X-CSE-ConnectionGUID: TaPQVYlhQ7eXmZsOC+z6sg==
-X-CSE-MsgGUID: qzmIra6dTauV0ZleK8ijwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49848592"
+X-CSE-ConnectionGUID: k3J5dYxRT++rJL1p7G84iA==
+X-CSE-MsgGUID: RLduIE+0TvWCjVwY/IJZcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="67254550"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49848592"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 08:08:59 -0700
-X-CSE-ConnectionGUID: QnputxagSdC4vpPmcYmhAQ==
-X-CSE-MsgGUID: p6zSGIueSJadaMDzJ8RvDQ==
+   d="scan'208";a="67254550"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 09:01:07 -0700
+X-CSE-ConnectionGUID: iQA8nVv+S76NXxArI5xZfQ==
+X-CSE-MsgGUID: rsE0mo09SUyBnGJVStwVag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="139760220"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 May 2025 08:08:58 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+   d="scan'208";a="140241601"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 20 May 2025 09:01:06 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHOaN-0000z9-39;
-	Tue, 20 May 2025 15:08:56 +0000
-Date: Tue, 20 May 2025 23:07:57 +0800
+	id 1uHPOp-000NJm-0k;
+	Tue, 20 May 2025 16:01:03 +0000
+Date: Wed, 21 May 2025 00:00:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-05-exp 1/1]
- Documentation/devicetree/bindings/firmware/gunyah-cma-mem.yaml: ignoring,
- error parsing file
-Message-ID: <202505202326.NFvnzdDO-lkp@intel.com>
+To: Sricharan Ramabadhran <quic_srichara@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	George Moussalem <george.moussalem@outlook.com>
+Subject: [thermal:thermal/linux-next 12/13]
+ drivers/thermal/qcom/tsens-v1.c:246:24: sparse: sparse: symbol 'ops_ipq5018'
+ was not declared. Should it be static?
+Message-ID: <202505202356.S21Sc7bk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,25 +66,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-05-exp
-head:   318fd288f5897bd4bfdde5ba64cd16619c9f2c3a
-commit: f51d1788938f74dab42d10114f59a836b44d1823 [1/1] ANDROID: dt-bindings: CMA support for Virtual Machines on Gunyah
-config: arm-randconfig-2053-20250519 (https://download.01.org/0day-ci/archive/20250520/202505202326.NFvnzdDO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505202326.NFvnzdDO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git thermal/linux-next
+head:   e23cba0ab49a9cf95e9bc3a86cfbf336b0e285f6
+commit: 04b31cc53fe0df0e87a37d18a3c0363d7dee218f [12/13] thermal/drivers/qcom/tsens: Add support for IPQ5018 tsens
+config: arm64-randconfig-r123-20250520 (https://download.01.org/0day-ci/archive/20250520/202505202356.S21Sc7bk-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce: (https://download.01.org/0day-ci/archive/20250520/202505202356.S21Sc7bk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505202326.NFvnzdDO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505202356.S21Sc7bk-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/firmware/gunyah-cma-mem.yaml: ignoring, error parsing file
-   Documentation/devicetree/bindings/soc/fsl/fsl,bman.yaml: fsl,liodn: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/soc/fsl/fsl,qman-portal.yaml: fsl,liodn: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/soc/fsl/fsl,qman.yaml: fsl,liodn: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/crypto/fsl,sec-v4.0.yaml: fsl,liodn: multiple incompatible types: uint32
+sparse warnings: (new ones prefixed by >>)
+>> drivers/thermal/qcom/tsens-v1.c:246:24: sparse: sparse: symbol 'ops_ipq5018' was not declared. Should it be static?
+
+vim +/ops_ipq5018 +246 drivers/thermal/qcom/tsens-v1.c
+
+   245	
+ > 246	const struct tsens_ops ops_ipq5018 = {
+   247		.init		= init_tsens_v1_no_rpm,
+   248		.calibrate	= tsens_calibrate_common,
+   249		.get_temp	= get_temp_tsens_valid,
+   250	};
+   251	
 
 -- 
 0-DAY CI Kernel Test Service
