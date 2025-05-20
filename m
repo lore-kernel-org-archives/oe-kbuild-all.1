@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2399C21D3E8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 12:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F6426B2A9;
+	Tue, 20 May 2025 12:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747743096; cv=none; b=Iw7+VFCM99g49gABqK3hLEa6GFRPVO1C86zEdgG4SGiIsz1wjgImdMS/fX99pZBkXp3v3Z5XTESHaOjhCa6hDSOdav3JWg9rY3Oo2degmHJFQ1RthIMmN6fXGBTEg4RLah5NuXO3cB/ZvNusZ9xx8n8h3LyOiwsiFuT+mHNw368=
+	t=1747743097; cv=none; b=puiOWp0poBjr59yngriDnfSmBMfaIxpoayPdPUC7CH5TvGQjC0GLih7MNU28x452Mn5CGl4cMiFEkqwqPM3bt84r8+BqrKo3SDTBZgYw8cW6WnW1GJxL1pdoCuT14I0TrGUpKZ0Syx2bTt8JmvQ4BxgohX+YWkvd6UibTE+Q86A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747743096; c=relaxed/simple;
-	bh=iWLvY1qiFMZSAbNyfXrRyCDv11AhahH7lYWRBo5gkrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dy2IkQgrArozJ9k3xZMjvS8l6k+lwYwaBVaW5Ul7Jw6hvw98pKzXTVZAvn0cinfJDrZGvE9ajIFAkwEeGnDx5uuiOSZ5asxQMYkG+aCzJGz58gjtNLgTbxTyAGWAgbtkBsB7jUha0/eo0t2ZR5QsodjdOy835Z0kARpV9mS7OG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ao15SC4r; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1747743097; c=relaxed/simple;
+	bh=EHSvRNvgm+GaXbq1NtOZOkHkxxBeWpFGycrSmffCy+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dF9Wre/FIiyPKuz4YEcVo51Ad7zMu8smdazwJ+5+8GBreS0b9QFBV4cpcaVgwO2z/Fm7V7XQH5N4N7s/0o/VzYpIppa4fFOvm6vNwx1fil1kKaI/Y0Artcoe5KQOjXqU7P82RYkvGBXgnjKd2IqEI1Mf5GJ9YWdNMiQg4fqibhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ccpco1co; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ao15SC4r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ccpco1co"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747743094; x=1779279094;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iWLvY1qiFMZSAbNyfXrRyCDv11AhahH7lYWRBo5gkrI=;
-  b=Ao15SC4rW4MUxwhXspNIv3Jfkg8wFCkh8lnsWNJS7osEV5q44KP/ox9d
-   EYdDHYNzA3JiECel9qp6svJ2YNDRKL9qeHDMAaiYokwp8763LYcLOOjoA
-   mQr/MHzYle4O0iaFphvGu12Mx3zLjIYNU3GSXF3jOQAN52/LOfFJZmwhc
-   baz4pnwpbBddBtyOAEyKcG7fxoXHXgs9rAhD91yU1BAgWY4/9LNPcqk9r
-   0zsGXDD5GR28In/vJasIfksmmiaR+8ZWUeXl1jc2mIC2/XZVRuSbKKFty
-   Qi6rjOmeoVKJNOsDDakkROXqYDiM5LqrXjxfQLHf/Tg0iEOSHLaY2PeZT
-   Q==;
-X-CSE-ConnectionGUID: gU7ZhYQERhSaIWCyqxMFxw==
-X-CSE-MsgGUID: WxgbAvWaQBqqVhJsPQoByg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="59903618"
+  t=1747743095; x=1779279095;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EHSvRNvgm+GaXbq1NtOZOkHkxxBeWpFGycrSmffCy+g=;
+  b=Ccpco1co7VwyRno66kxjwIntJhemTnOM1B5J7V8/vNEsO720ydOegrsr
+   AFPZ9mp5ok/AmIIyxVKPsWPcsb0zXLmRY5cEFAh8WlDeUNniZYFfQdgMZ
+   +RvEUQcDyDp3mQdtZaEZEjHxrAx6QLlEcBh5PLRxMbPNHS7xECcvfM569
+   jASe1R+S0+DpJTO9sJplZHm91Q/9IZr8W4hGFl6e2maK/aVekXcl4NcTX
+   7sIeU7r9GKZAOJxHpy5nJ7e7wKvYPhdLFVt7TlmxFQQXxO023Toq8hH3+
+   SquLmWgKAox5CGnTbyj6VxY3I4hp6eTRNg5uKW2CuvznVyfnB0RN+T87v
+   A==;
+X-CSE-ConnectionGUID: ddh4sSCzQi+J/SxlyOMPqA==
+X-CSE-MsgGUID: Zqtc1VT/QRizjZowBWD7Gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="75075186"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="59903618"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 05:11:34 -0700
-X-CSE-ConnectionGUID: mK2SEDkMQuGOqpWMsfBqpg==
-X-CSE-MsgGUID: Qle3IJygS/KmPscsYYe1yQ==
+   d="scan'208";a="75075186"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 05:11:34 -0700
+X-CSE-ConnectionGUID: lf+5YtciTJapDKPzB3o74w==
+X-CSE-MsgGUID: 6ODpm6GhQSiKKHgA6g363Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="140594059"
+   d="scan'208";a="162976147"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 May 2025 05:11:33 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 20 May 2025 05:11:32 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHLog-000MYl-0s;
+	id 1uHLog-000MYa-06;
 	Tue, 20 May 2025 12:11:30 +0000
-Date: Tue, 20 May 2025 20:10:49 +0800
+Date: Tue, 20 May 2025 20:10:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2259/2259]
- drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:545:5: error: no previous
- prototype for 'ps3_pci_init'
-Message-ID: <202505201929.AHI9gRxc-lkp@intel.com>
+To: Kassey Li <quic_yingangl@quicinc.com>, rostedt@goodmis.org,
+	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
+	mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-scsi@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	quic_yingangl@quicinc.com
+Subject: Re: [PATCH v3] scsi: trace: change the rtn log in string
+Message-ID: <202505201948.7kMKhg6W-lkp@intel.com>
+References: <20250520010405.3844511-1-quic_yingangl@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,239 +66,249 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250520010405.3844511-1-quic_yingangl@quicinc.com>
 
-Hi liujie_answer,
+Hi Kassey,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   e69c6375f883badcc9ec4c9e9ed85660ac3fb1bf
-commit: 97a2bb6ece556f3882263ee8df2b77f10c511311 [2259/2259] SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250520/202505201929.AHI9gRxc-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201929.AHI9gRxc-lkp@intel.com/reproduce)
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on jejb-scsi/for-next mkp-scsi/for-next linus/master v6.15-rc7 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kassey-Li/scsi-trace-change-the-rtn-log-in-string/20250520-090745
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20250520010405.3844511-1-quic_yingangl%40quicinc.com
+patch subject: [PATCH v3] scsi: trace: change the rtn log in string
+config: riscv-randconfig-002-20250520 (https://download.01.org/0day-ci/archive/20250520/202505201948.7kMKhg6W-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201948.7kMKhg6W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505201929.AHI9gRxc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505201948.7kMKhg6W-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:307:5: error: no previous prototype for 'ps3_hard_reset_to_ready' [-Werror=missing-prototypes]
-     307 | int ps3_hard_reset_to_ready(struct ps3_instance *instance)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:876:6: error: no previous prototype for 'ps3_set_task_manager_busy' [-Werror=missing-prototypes]
-     876 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1110:5: error: no previous prototype for 'ps3_wait_for_outstanding_complete' [-Werror=missing-prototypes]
-    1110 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:131:6: error: no previous prototype for 'ps3_trigger_irq_poll' [-Werror=missing-prototypes]
-     131 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:243:5: error: no previous prototype for 'ps3_resp_status_convert' [-Werror=missing-prototypes]
-     243 | int ps3_resp_status_convert(unsigned int resp_status)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for 'ps3_qos_cmd_waitq_get' [-Werror=missing-prototypes]
-     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
-         | ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for 'ps3_qos_vd_cmdword_get' [-Werror=missing-prototypes]
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for 'ps3_qos_exclusive_cmdword_get' [-Werror=missing-prototypes]
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for 'ps3_qos_tg_decision' [-Werror=missing-prototypes]
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for 'ps3_qos_all_pd_rc_get' [-Werror=missing-prototypes]
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for 'ps3_pd_quota_waitq_clear_all' [-Werror=missing-prototypes]
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for 'ps3_pd_quota_waitq_clean' [-Werror=missing-prototypes]
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for 'ps3_qos_pd_waitq_ratio_update' [-Werror=missing-prototypes]
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for 'ps3_hba_qos_decision' [-Werror=missing-prototypes]
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for 'ps3_hba_qos_waitq_notify' [-Werror=missing-prototypes]
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for 'ps3_cmd_waitq_abort' [-Werror=missing-prototypes]
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for 'ps3_hba_qos_waitq_clear_all' [-Werror=missing-prototypes]
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for 'ps3_hba_qos_vd_init' [-Werror=missing-prototypes]
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for 'ps3_hba_qos_vd_reset' [-Werror=missing-prototypes]
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype for 'ps3_hba_qos_waitq_poll' [-Werror=missing-prototypes]
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:15: error: no previous prototype for 'ps3_raid_qos_decision' [-Werror=missing-prototypes]
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:6: error: no previous prototype for 'ps3_qos_mgrq_resend' [-Werror=missing-prototypes]
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:6: error: no previous prototype for 'ps3_raid_qos_waitq_notify' [-Werror=missing-prototypes]
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:15: error: no previous prototype for 'ps3_raid_qos_waitq_abort' [-Werror=missing-prototypes]
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:4022:6: error: no previous prototype for 'ps3_raid_qos_waitq_clear_all' [-Werror=missing-prototypes]
-    4022 | void ps3_raid_qos_waitq_clear_all(struct ps3_instance *instance,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:4083:6: error: no previous prototype for 'ps3_raid_qos_waitq_poll' [-Werror=missing-prototypes]
-    4083 | void ps3_raid_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:85:6: error: no previous prototype for 'ps3_cmd_stat_content_clear' [-Werror=missing-prototypes]
-      85 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:403:6: error: no previous prototype for 'ps3_io_recv_ok_stat_inc' [-Werror=missing-prototypes]
-     403 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:785:6: error: no previous prototype for 'ps3_clean_mgr_cmd' [-Werror=missing-prototypes]
-     785 | void ps3_clean_mgr_cmd(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:578:5: error: no previous prototype for 'ps3_r1x_hash_bit_check' [-Werror=missing-prototypes]
-     578 | int ps3_r1x_hash_bit_check(struct ps3_r1x_hash_bit_mgr *hash_mgr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:678:6: error: no previous prototype for 'ps3_r1x_conflict_queue_hash_bit_lock' [-Werror=missing-prototypes]
-     678 | void ps3_r1x_conflict_queue_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:730:5: error: no previous prototype for 'ps3_r1x_hash_bit_lock' [-Werror=missing-prototypes]
-     730 | int ps3_r1x_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:988:6: error: no previous prototype for 'ps3_r1x_hash_bit_unlock' [-Werror=missing-prototypes]
-     988 | void ps3_r1x_hash_bit_unlock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1173:5: error: no previous prototype for 'ps3_range_check_and_insert' [-Werror=missing-prototypes]
-    1173 | int ps3_range_check_and_insert(struct ps3_range_tree_root *range_root,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1231:5: error: no previous prototype for 'ps3_r1x_hash_range_lock' [-Werror=missing-prototypes]
-    1231 | int ps3_r1x_hash_range_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1312:6: error: no previous prototype for 'ps3_r1x_hash_range_unlock' [-Werror=missing-prototypes]
-    1312 | void ps3_r1x_hash_range_unlock(struct ps3_r1x_lock_mgr *mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_debug.c:883:5: error: no previous prototype for 'ps3_dump_dir_length' [-Werror=missing-prototypes]
-     883 | int ps3_dump_dir_length(const char *buf, size_t count)
-         |     ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_module_para.c:609:14: error: no previous prototype for 'ps3_cli_ver_query' [-Werror=missing-prototypes]
-     609 | unsigned int ps3_cli_ver_query(void)
-         |              ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_rb_tree.c:154:6: error: no previous prototype for 'rbtDelNodeDo' [-Werror=missing-prototypes]
-     154 | void rbtDelNodeDo(struct Ps3RbRoot *pRoot, struct Ps3RbNode *pNode)
-         |      ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_device_manager.c:1581:5: error: no previous prototype for 'ps3_scsi_private_init_pd' [-Werror=missing-prototypes]
-    1581 | int ps3_scsi_private_init_pd(struct scsi_device *sdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_device_manager.c:1663:5: error: no previous prototype for 'ps3_scsi_private_init_vd' [-Werror=missing-prototypes]
-    1663 | int ps3_scsi_private_init_vd(struct scsi_device *sdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-..
+   In file included from drivers/scsi/scsi.c:73:
+   In file included from include/trace/events/scsi.h:358:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/scsi.h:256:5: error: call to undeclared function 'show_rtn_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     256 |                   show_rtn_type(__entry->rtn)
+         |                   ^
+>> include/trace/events/scsi.h:256:5: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
+     209 |                 __entry->prot_op        = scsi_get_prot_op(cmd);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     210 |                 memcpy(__get_dynamic_array(cmnd), cmd->cmnd, cmd->cmd_len);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     211 |         ),
+         |         ~~
+     212 | 
+     213 |         TP_printk("host_no=%u channel=%u id=%u lun=%u data_sgl=%u prot_sgl=%u" \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     214 |                   " prot_op=%s driver_tag=%d scheduler_tag=%d cmnd=(%s %s raw=%s)" \
+         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     215 |                   " rtn=%s",
+         |                   ~~~~~~~~~~
+         |                         %d
+     216 |                   __entry->host_no, __entry->channel, __entry->id,
+         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     217 |                   __entry->lun, __entry->data_sglen, __entry->prot_sglen,
+         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     218 |                   show_prot_op_name(__entry->prot_op), __entry->driver_tag,
+         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     219 |                   __entry->scheduler_tag, show_opcode_name(__entry->opcode),
+         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     220 |                   __parse_cdb(__get_dynamic_array(cmnd), __entry->cmd_len),
+         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     221 |                   __print_hex(__get_dynamic_array(cmnd), __entry->cmd_len),
+         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     222 |                   show_rtn_type(__entry->rtn)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+     223 |           )
+         |           ~
+     224 | );
+         | ~
+   include/trace/stages/stage3_trace_output.h:9:43: note: expanded from macro 'TP_printk'
+       9 | #define TP_printk(fmt, args...) fmt "\n", args
+         |                                 ~~~       ^
+   include/trace/trace_events.h:45:16: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      41 |                              PARAMS(proto),                    \
+         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      42 |                              PARAMS(args),                     \
+         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      43 |                              PARAMS(tstruct),                  \
+         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      44 |                              PARAMS(assign),                   \
+         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      45 |                              PARAMS(print));                   \
+         |                              ~~~~~~~^~~~~~~
+   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
+     139 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:219:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   1 warning and 1 error generated.
 
 
-vim +/ps3_pci_init +545 drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c
+vim +256 include/trace/events/scsi.h
 
-   544	
- > 545	int ps3_pci_init(struct pci_dev *pdev, struct ps3_instance *instance)
-   546	{
-   547		resource_size_t base_addr = 0;
-   548		int ret = PS3_SUCCESS;
-   549	
-   550		ret = pci_enable_device_mem(pdev);
-   551		if (ret != PS3_SUCCESS) {
-   552			LOG_ERROR("hno:%u pci id[%u] pci enable failed\n",
-   553				  PS3_HOST(instance), pdev->dev.id);
-   554			goto l_pci_enable_device_mem_failed;
-   555		}
-   556	
-   557		pci_set_master(pdev);
-   558	
-   559		instance->reg_bar = PS3_REGISTER_BAR_INDEX;
-   560		ret = (pci_resource_flags(pdev, instance->reg_bar) & IORESOURCE_MEM);
-   561		if (!ret) {
-   562			LOG_ERROR("hno:%u Bar %lu isnot IORESOURCE_MEM\n",
-   563				  PS3_HOST(instance), instance->reg_bar);
-   564			goto l_bar_check_failed;
-   565		}
-   566		ret = pci_request_selected_regions(pdev, 1 << instance->reg_bar,
-   567						   "PS3 pci regions");
-   568		if (ret != PS3_SUCCESS) {
-   569			LOG_ERROR("hno:%u IO memory region busy\n", PS3_HOST(instance));
-   570			goto l_pci_request_selected_regions_failed;
-   571		}
-   572	#if defined(PS3_SUPPORT_PCIE_REPORT)
-   573		pci_enable_pcie_error_reporting(pdev);
-   574	#endif
-   575		if (instance->ioc_adpter->reg_set) {
-   576			instance->reg_set =
-   577				(struct Ps3Fifo __iomem *)instance->ioc_adpter->reg_set(
-   578					pdev, instance->reg_bar);
-   579		} else {
-   580			instance->reg_set = (struct Ps3Fifo __iomem *)ioremap(
-   581				pci_resource_start(pdev, instance->reg_bar),
-   582				PS3_REGISTER_SET_SIZE);
-   583		}
-   584		if (instance->reg_set == NULL) {
-   585			LOG_ERROR("hno:%u ioremap failed\n", PS3_HOST(instance));
-   586			goto l_ioremap_failed;
-   587		} else {
-   588			pci_set_drvdata(pdev, instance);
-   589		}
-   590	
-   591		ps3_atomic_set(&instance->watchdog_reg_read_fail_count, 0);
-   592		LOG_INFO(
-   593			"reg_bar_idx = %lu, bar_base_paddr = 0x%llx, reg_set_vaddr = 0x%p\n",
-   594			instance->reg_bar, (unsigned long long)base_addr, instance->reg_set);
-   595	
-   596		return PS3_SUCCESS;
-   597	l_ioremap_failed:
-   598		pci_release_selected_regions(instance->pdev, 1 << instance->reg_bar);
-   599	#if defined(PS3_SUPPORT_PCIE_REPORT)
-   600		pci_disable_pcie_error_reporting(pdev);
-   601	#endif
-   602	l_pci_request_selected_regions_failed:
-   603		pci_disable_device(instance->pdev);
-   604	l_bar_check_failed:
-   605	l_pci_enable_device_mem_failed:
-   606		return -PS3_FAILED;
-   607	}
-   608	
+   210	
+   211		TP_PROTO(struct scsi_cmnd *cmd, int rtn),
+   212	
+   213		TP_ARGS(cmd, rtn),
+   214	
+   215		TP_STRUCT__entry(
+   216			__field( unsigned int,	host_no	)
+   217			__field( unsigned int,	channel	)
+   218			__field( unsigned int,	id	)
+   219			__field( unsigned int,	lun	)
+   220			__field( int,		rtn	)
+   221			__field( unsigned int,	opcode	)
+   222			__field( unsigned int,	cmd_len )
+   223			__field( int,	driver_tag)
+   224			__field( int,	scheduler_tag)
+   225			__field( unsigned int,	data_sglen )
+   226			__field( unsigned int,	prot_sglen )
+   227			__field( unsigned char,	prot_op )
+   228			__dynamic_array(unsigned char,	cmnd, cmd->cmd_len)
+   229		),
+   230	
+   231		TP_fast_assign(
+   232			__entry->host_no	= cmd->device->host->host_no;
+   233			__entry->channel	= cmd->device->channel;
+   234			__entry->id		= cmd->device->id;
+   235			__entry->lun		= cmd->device->lun;
+   236			__entry->rtn		= rtn;
+   237			__entry->opcode		= cmd->cmnd[0];
+   238			__entry->cmd_len	= cmd->cmd_len;
+   239			__entry->driver_tag	= scsi_cmd_to_rq(cmd)->tag;
+   240			__entry->scheduler_tag	= scsi_cmd_to_rq(cmd)->internal_tag;
+   241			__entry->data_sglen	= scsi_sg_count(cmd);
+   242			__entry->prot_sglen	= scsi_prot_sg_count(cmd);
+   243			__entry->prot_op	= scsi_get_prot_op(cmd);
+   244			memcpy(__get_dynamic_array(cmnd), cmd->cmnd, cmd->cmd_len);
+   245		),
+   246	
+   247		TP_printk("host_no=%u channel=%u id=%u lun=%u data_sgl=%u prot_sgl=%u" \
+   248			  " prot_op=%s driver_tag=%d scheduler_tag=%d cmnd=(%s %s raw=%s)" \
+   249			  " rtn=%s",
+   250			  __entry->host_no, __entry->channel, __entry->id,
+   251			  __entry->lun, __entry->data_sglen, __entry->prot_sglen,
+   252			  show_prot_op_name(__entry->prot_op), __entry->driver_tag,
+   253			  __entry->scheduler_tag, show_opcode_name(__entry->opcode),
+   254			  __parse_cdb(__get_dynamic_array(cmnd), __entry->cmd_len),
+   255			  __print_hex(__get_dynamic_array(cmnd), __entry->cmd_len),
+ > 256			  show_rtn_type(__entry->rtn)
+   257		  )
+   258	);
+   259	
+   260	DECLARE_EVENT_CLASS(scsi_cmd_done_timeout_template,
+   261	
+   262		TP_PROTO(struct scsi_cmnd *cmd),
+   263	
+   264		TP_ARGS(cmd),
+   265	
+   266		TP_STRUCT__entry(
+   267			__field( unsigned int,	host_no	)
+   268			__field( unsigned int,	channel	)
+   269			__field( unsigned int,	id	)
+   270			__field( unsigned int,	lun	)
+   271			__field( int,		result	)
+   272			__field( unsigned int,	opcode	)
+   273			__field( unsigned int,	cmd_len )
+   274			__field( int,	driver_tag)
+   275			__field( int,	scheduler_tag)
+   276			__field( unsigned int,	data_sglen )
+   277			__field( unsigned int,	prot_sglen )
+   278			__field( unsigned char,	prot_op )
+   279			__dynamic_array(unsigned char,	cmnd, cmd->cmd_len)
+   280			__field( u8, sense_key )
+   281			__field( u8, asc )
+   282			__field( u8, ascq )
+   283		),
+   284	
+   285		TP_fast_assign(
+   286			struct scsi_sense_hdr sshdr;
+   287	
+   288			__entry->host_no	= cmd->device->host->host_no;
+   289			__entry->channel	= cmd->device->channel;
+   290			__entry->id		= cmd->device->id;
+   291			__entry->lun		= cmd->device->lun;
+   292			__entry->result		= cmd->result;
+   293			__entry->opcode		= cmd->cmnd[0];
+   294			__entry->cmd_len	= cmd->cmd_len;
+   295			__entry->driver_tag	= scsi_cmd_to_rq(cmd)->tag;
+   296			__entry->scheduler_tag	= scsi_cmd_to_rq(cmd)->internal_tag;
+   297			__entry->data_sglen	= scsi_sg_count(cmd);
+   298			__entry->prot_sglen	= scsi_prot_sg_count(cmd);
+   299			__entry->prot_op	= scsi_get_prot_op(cmd);
+   300			memcpy(__get_dynamic_array(cmnd), cmd->cmnd, cmd->cmd_len);
+   301			if (cmd->sense_buffer && SCSI_SENSE_VALID(cmd) &&
+   302			    scsi_command_normalize_sense(cmd, &sshdr)) {
+   303				__entry->sense_key = sshdr.sense_key;
+   304				__entry->asc = sshdr.asc;
+   305				__entry->ascq = sshdr.ascq;
+   306			} else {
+   307				__entry->sense_key = 0;
+   308				__entry->asc = 0;
+   309				__entry->ascq = 0;
+   310			}
+   311		),
+   312	
+   313		TP_printk("host_no=%u channel=%u id=%u lun=%u data_sgl=%u prot_sgl=%u " \
+   314			  "prot_op=%s driver_tag=%d scheduler_tag=%d cmnd=(%s %s raw=%s) " \
+   315			  "result=(driver=%s host=%s message=%s status=%s) "
+   316			  "sense=(key=%#x asc=%#x ascq=%#x)",
+   317			  __entry->host_no, __entry->channel, __entry->id,
+   318			  __entry->lun, __entry->data_sglen, __entry->prot_sglen,
+   319			  show_prot_op_name(__entry->prot_op), __entry->driver_tag,
+   320			  __entry->scheduler_tag, show_opcode_name(__entry->opcode),
+   321			  __parse_cdb(__get_dynamic_array(cmnd), __entry->cmd_len),
+   322			  __print_hex(__get_dynamic_array(cmnd), __entry->cmd_len),
+   323			  "DRIVER_OK",
+   324			  show_hostbyte_name(((__entry->result) >> 16) & 0xff),
+   325			  "COMMAND_COMPLETE",
+   326			  show_statusbyte_name(__entry->result & 0xff),
+   327			  __entry->sense_key, __entry->asc, __entry->ascq)
+   328	);
+   329	
+   330	DEFINE_EVENT(scsi_cmd_done_timeout_template, scsi_dispatch_cmd_done,
+   331		     TP_PROTO(struct scsi_cmnd *cmd),
+   332		     TP_ARGS(cmd));
+   333	
+   334	DEFINE_EVENT(scsi_cmd_done_timeout_template, scsi_dispatch_cmd_timeout,
+   335		     TP_PROTO(struct scsi_cmnd *cmd),
+   336		     TP_ARGS(cmd));
+   337	
+   338	TRACE_EVENT(scsi_eh_wakeup,
+   339	
+   340		TP_PROTO(struct Scsi_Host *shost),
+   341	
+   342		TP_ARGS(shost),
+   343	
+   344		TP_STRUCT__entry(
+   345			__field( unsigned int,	host_no	)
+   346		),
+   347	
+   348		TP_fast_assign(
+   349			__entry->host_no	= shost->host_no;
+   350		),
+   351	
+   352		TP_printk("host_no=%u", __entry->host_no)
+   353	);
+   354	
+   355	#endif /*  _TRACE_SCSI_H */
+   356	
+   357	/* This part must be outside protection */
+ > 358	#include <trace/define_trace.h>
 
 -- 
 0-DAY CI Kernel Test Service
