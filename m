@@ -1,61 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407F12063D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 21:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D815C24C09E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 21:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747776821; cv=none; b=M3S0nLzUQyrttfz52EC4dO47LDEeDGDTAfsj5fiIX3gHum2UpxveUyFJdDcwadNo40WhaQr4nNgBMqooMUIOhKOtYwXnVUby31omKULL1oq3dzf+IsHPOfLSYz+BTLO8kbKkkpx5n78jduYbz6MNR7oLsnlg9+iJ4Vrgtz93Y60=
+	t=1747776822; cv=none; b=NJzBTgIuZmaBs15Nq60/P2R0X/jQALrMzbVbUNrJSyHFi+j5rsAeiAhbF/A0T3VV4gQCaOqAXv3HkAH3h4P2ZyECcU9Aar55M0NkFynN2BCs9tBi6oz8FqufYbp7lLWbGn+Cd7mLx0sZVJuMqEevUliBnexEpUbdbq39xYae8UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747776821; c=relaxed/simple;
-	bh=dODCLeElG6Wh9quRkiymv7P+AzgfkZ0MxPRAWYmYTzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OohUUkljh7dP1hNjHUoVWsvZ57+CIcc6Rjv23TLhjWpQtPAkL/r8hh7/7hf2IrVPkspHBq4iAxFD+Bl/wCcSemvKQJtcc51X631wA8qxDfSWUTlZFeWJ6XF29whoEuwcoDaoTRhQzxz60MUhDRp+UkhgNVNugXjh/XaenADqzYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0nNCTUg; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1747776822; c=relaxed/simple;
+	bh=2dBBkVKAjPqMQO6yAxkJdcJQvunb0imiwfvphMP3bMs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B3TNG1DzorM6bi54sKac8/SDrYOQdsvsCvpW6qhykoKfyHFcvtVWAN4Pr7PgZ0/jJMbPtg3oCSDIWxsvSyyAgIhk9JiYcCb/nlNFs/5f3ATYBGyor3wQFLIZMzzpKOzU5YhcbIxHaDM8BrxEHbKpdM4KHfttNZJqzKHms43pXTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlXS8UNT; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0nNCTUg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlXS8UNT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747776820; x=1779312820;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dODCLeElG6Wh9quRkiymv7P+AzgfkZ0MxPRAWYmYTzY=;
-  b=m0nNCTUgjeeJ+hcxT+zOEWm6Xx4apKMtZmy37StiTeX61rjDCbI54qV/
-   U4YSxYWhlvLquQJpFF2rW4j758PknxeKYBizRqTt9IwR//gOYrRZbDHce
-   fkdO2K85X6aLJWhVKChK5AHQw6pNFetl30PIN7KDJQGaGS3ovmtqjtIDu
-   O09s1tPKGGYCx5ao5AcJKtSREH/PlLkWIeImW0Yr5xr3J2QJ510Xmps5f
-   PrIq4ofIYFhYKNlkUW0SPpOCL5mHwvcQk3whFJ+1FR13XSLk7V2WHFME+
-   v3nZ7QBGZJzlBIrVPiTfBObqP0myYbeDvqdWOLDwzQx3ooOsuSM0VccKa
-   g==;
-X-CSE-ConnectionGUID: HuUS1U/4S8e1paGX1wICUw==
-X-CSE-MsgGUID: DeB+iXP/Rx6Qv1JZVdIY3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="75132031"
+  t=1747776821; x=1779312821;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2dBBkVKAjPqMQO6yAxkJdcJQvunb0imiwfvphMP3bMs=;
+  b=ZlXS8UNTPYHqJ6MbN6bhZWv8cEKpqf7kMOOfSiXDYVd9Uh1BVYcVQw97
+   As/4CjwmFbelQIB6wG9N2Z4F8dE3TDquV55ALMtVulKvFEVnVUczwJXmA
+   x9819knF7khleJEKGHvhUAq8gze+66ydPUIZ9s8vrc0zkYfuORbJu+uIT
+   jYx35r9cevHNYtYj9hWJpjK/ArXpZylS5qOcfZfcbNPo5oDYa/z6QPCmi
+   FaeRK73CfsUSfsmXcnnsI5WD0ciiZdHN5Ku4gsZmAk60KHeIy/BX+dBUn
+   /wWvgx4dV6j7KRUN7tF4zemKzwFm+1AoQYdJoUyErIdx8uOxlXJDECSxn
+   Q==;
+X-CSE-ConnectionGUID: 2RU4gao+SDyDjV5JaF3j0Q==
+X-CSE-MsgGUID: KWxwLiwtSw+jDLL1JrjNgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49886552"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="75132031"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 14:33:39 -0700
-X-CSE-ConnectionGUID: cjV6qeL6TDOXLasbStPGdA==
-X-CSE-MsgGUID: +CRwhLbMRQG35Jv4HC0T7w==
+   d="scan'208";a="49886552"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 14:33:41 -0700
+X-CSE-ConnectionGUID: qKGsHbZ/Soe+T5yrGWF48w==
+X-CSE-MsgGUID: Rx5ednNxSfq2WVZorJIWPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="139689120"
+   d="scan'208";a="143811827"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 May 2025 14:33:35 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 May 2025 14:33:35 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHUab-000NaQ-0N;
+	id 1uHUab-000NaO-0J;
 	Tue, 20 May 2025 21:33:33 +0000
-Date: Wed, 21 May 2025 05:32:51 +0800
+Date: Wed, 21 May 2025 05:32:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Davidlohr Bueso <dave@stgolabs.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: [brauner-github:vfs-6.16.misc 50/54] fs/buffer.c:1130:30: error:
- implicit declaration of function '__find_get_block_nonatomic'; did you mean
- '__find_get_block_slow'?
-Message-ID: <202505210510.d50bbMua-lkp@intel.com>
+To: a0282524688@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
+	brgl@bgdev.pl, andi.shyti@kernel.org, mkl@pengutronix.de,
+	mailhol.vincent@wanadoo.fr, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, wim@linux-watchdog.org, linux@roeck-us.net,
+	jdelvare@suse.com, alexandre.belloni@bootlin.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-can@vger.kernel.org, netdev@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
+	Ming Yu <tmyu0@nuvoton.com>
+Subject: Re: [PATCH v11 6/7] hwmon: Add Nuvoton NCT6694 HWMON support
+Message-ID: <202505210555.mud6jZoi-lkp@intel.com>
+References: <20250520020355.3885597-7-tmyu0@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +72,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250520020355.3885597-7-tmyu0@nuvoton.com>
 
-tree:   https://github.com/brauner/linux.git vfs-6.16.misc
-head:   d5646f1b4073e9d428264b708a42262087faf6e0
-commit: f13865bcff540b64612f235534dc39663e159f5a [50/54] fs/buffer: use sleeping lookup in __getblk_slowpath()
-config: x86_64-buildonly-randconfig-003-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210510.d50bbMua-lkp@intel.com/config)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on mkl-can-next/testing groeck-staging/hwmon-next abelloni/rtc-next linus/master lee-mfd/for-mfd-fixes v6.15-rc7]
+[cannot apply to lee-mfd/for-mfd-next brgl/gpio/for-next next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/a0282524688-gmail-com/mfd-Add-core-driver-for-Nuvoton-NCT6694/20250520-100732
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20250520020355.3885597-7-tmyu0%40nuvoton.com
+patch subject: [PATCH v11 6/7] hwmon: Add Nuvoton NCT6694 HWMON support
+config: i386-randconfig-013-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210555.mud6jZoi-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210510.d50bbMua-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210555.mud6jZoi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210510.d50bbMua-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505210555.mud6jZoi-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/buffer.c: In function '__getblk_slow':
->> fs/buffer.c:1130:30: error: implicit declaration of function '__find_get_block_nonatomic'; did you mean '__find_get_block_slow'? [-Werror=implicit-function-declaration]
-    1130 |                         bh = __find_get_block_nonatomic(bdev, block, size);
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                              __find_get_block_slow
->> fs/buffer.c:1130:28: warning: assignment to 'struct buffer_head *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1130 |                         bh = __find_get_block_nonatomic(bdev, block, size);
-         |                            ^
-   cc1: some warnings being treated as errors
+>> drivers/hwmon/nct6694-hwmon.c:12:10: fatal error: linux<mfd/core.h: No such file or directory
+      12 | #include <linux<mfd/core.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +1130 fs/buffer.c
+vim +12 drivers/hwmon/nct6694-hwmon.c
 
-  1107	
-  1108	static struct buffer_head *
-  1109	__getblk_slow(struct block_device *bdev, sector_t block,
-  1110		     unsigned size, gfp_t gfp)
-  1111	{
-  1112		bool blocking = gfpflags_allow_blocking(gfp);
-  1113	
-  1114		/* Size must be multiple of hard sectorsize */
-  1115		if (unlikely(size & (bdev_logical_block_size(bdev)-1) ||
-  1116				(size < 512 || size > PAGE_SIZE))) {
-  1117			printk(KERN_ERR "getblk(): invalid block size %d requested\n",
-  1118						size);
-  1119			printk(KERN_ERR "logical block size: %d\n",
-  1120						bdev_logical_block_size(bdev));
-  1121	
-  1122			dump_stack();
-  1123			return NULL;
-  1124		}
-  1125	
-  1126		for (;;) {
-  1127			struct buffer_head *bh;
-  1128	
-  1129			if (blocking)
-> 1130				bh = __find_get_block_nonatomic(bdev, block, size);
-  1131			else
-  1132				bh = __find_get_block(bdev, block, size);
-  1133			if (bh)
-  1134				return bh;
-  1135	
-  1136			if (!grow_buffers(bdev, block, size, gfp))
-  1137				return NULL;
-  1138		}
-  1139	}
-  1140	
+  > 12	#include <linux<mfd/core.h>
+    13	#include <linux/mfd/nct6694.h>
+    14	#include <linux/module.h>
+    15	#include <linux/platform_device.h>
+    16	#include <linux/slab.h>
+    17	
 
 -- 
 0-DAY CI Kernel Test Service
