@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8131B4121
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 21:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC26217F35
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 21:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747775496; cv=none; b=Zg9YlKBQ9NrLWHkAYhG+FARXoNgFrQ4uo65W2cdMWnkvxPqERQPqvEB1uTvljDj7goe2EEz/jp488OLHVAj3St/IzHXy21O6+ZGLMv45bSwAC0ASLzos8kbnqBQpnL4FFq29suQCxf/SwdGetfT2vPIQQCsvfIpHzZ+p2ZkJg44=
+	t=1747775963; cv=none; b=hkWsaOBkA1Zqk816tR94ahlNqfeHWcWm9zWwtUKfdC+CisQAzhmcSYvNpS9Zf1mbohW/iK0hxzYIsIB1iUzU6Xmu5jtfWKRKCyDXd47oqGF7jr5pBzU38fhNBTcvW8qObAg978xdVTXkkjllAbppTp3s19zvWFLp6i7RenmCBKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747775496; c=relaxed/simple;
-	bh=vq0tpm8oWZ2LfahmyT65ua3EARel6qvrXfZLNY0qI6A=;
+	s=arc-20240116; t=1747775963; c=relaxed/simple;
+	bh=4eRBBiEiyAVyCDfqjmWq5yf+lJ0Ll06sdRdnyQ0P4aw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FuAaJMz3A3HIJislLbLM9IervsCoczzKhoi91e9LeeqpjW+3+CXwmSozyD6NrXW0COY/tHU+HSQjIbT9Ostv7ZXzZCvGB7w0f3LOPltxD8ShR8E/ixU00Ks8sbppt3Rbf7PJy+l2kLtGXxQs0ogTR4IaUxudVbamr+r6Mv52Cbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfAxJ0WH; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=j8rhkO9IJtoQHU9kmANFE5MXLXP+DecAZ2vbx9HXwOlRnOpMD5p6uTMKJuRhLhG0aOUHqwuEZrGVCiOMvUe8jsEKAxdEmmfP0NWwTsrAia0lKHefZbNoW6CB/HMSh6XTLc5gSKPvPlIEN6/LsJE6KRVbv3k6j1NkGPVQOmU0YrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dlRRrvpp; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfAxJ0WH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dlRRrvpp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747775495; x=1779311495;
+  t=1747775962; x=1779311962;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vq0tpm8oWZ2LfahmyT65ua3EARel6qvrXfZLNY0qI6A=;
-  b=TfAxJ0WHdw87KYy2187QGDx2Y4F2IvW++f61U+3T4c6E3PwEKXBPS6TF
-   fSY6M1MScf7nOQfMmadrvDpQm+uo3xjFJxo3JkFqYV+V5JLzN+3hvU/OT
-   6/vEkWHVAF0Tz2mrxPxu0+8yd/tmbq5pDrytwB25hDPFileBRWejX2jBX
-   LkCepRXzr3uYwy5vzm/zfIVVlVufUkPyfpAzPs8Gh5cI/6QSlwkC3VwWz
-   rfujDTKCZioxEEjTS6Ta52VHtHBhUg0ae26NKV2kCTYLju1DxM4IPUhbn
-   a2P6xHoF0rNzS0HCOkNho/gjRv+14ZCrBpn3pNG/DTJrKqUIz2VoU3J8l
-   A==;
-X-CSE-ConnectionGUID: JdJ5TjGOSK+EL+e+aQbzMA==
-X-CSE-MsgGUID: 4YZoDFWzS/u+TV8agM6zEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="53541714"
+  bh=4eRBBiEiyAVyCDfqjmWq5yf+lJ0Ll06sdRdnyQ0P4aw=;
+  b=dlRRrvppd3DXD1lfgrVjk6ErdzBlOu3bhipI/CjRtJAotgBZ34/PaK9e
+   q7D+rrzJYCgFk0BQwCCvVS8qtfzAJhDSXMvE5OzkHDUFVCJvbc+zJTE15
+   MnCcWCvtAIyxBqBpcXBPXiPGwO5OAgdpCiDRDD+B3HXjavHxFjo1F7DM6
+   +YXBexNvbxMmfKyneaLz/8gjOnMctjKpyDUVeqF2CrKmiI4r5Kl7l4LeH
+   WYv38/tdwiagEYA3kGd8vCjpcplmwgcpoRcts4EoCkxTev1whHeiig2P3
+   EjOeYZY52AId2nUe0hKCiraeIsVhUj9lmcKEWhTdOhmGNbyNGERx25vep
+   g==;
+X-CSE-ConnectionGUID: sSRfJXALRf6D7TSGLC1JXQ==
+X-CSE-MsgGUID: s9kkv5IcQnaWVAYpxFbm/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49432868"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="53541714"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 14:11:35 -0700
-X-CSE-ConnectionGUID: S0L3VAG1SUmT9CcrG7kDQg==
-X-CSE-MsgGUID: SHJJ2yFDTvWjWy1OdtlG7Q==
+   d="scan'208";a="49432868"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 14:19:22 -0700
+X-CSE-ConnectionGUID: 2C0io8WJT9irfPDLFYn0iw==
+X-CSE-MsgGUID: XD97Ua/+QMmO64Uxfaa6pw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="139713329"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 May 2025 14:11:33 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="144553456"
+Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
+  by orviesa003.jf.intel.com with ESMTP; 20 May 2025 14:19:20 -0700
+Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHUFH-000NZ8-09;
-	Tue, 20 May 2025 21:11:31 +0000
-Date: Wed, 21 May 2025 05:11:27 +0800
+	id 1uHUMn-00011r-33;
+	Tue, 20 May 2025 21:19:17 +0000
+Date: Wed, 21 May 2025 05:18:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tzungbi-chrome-platform:dev 19/20]
- drivers/platform/chrome/cros_ec_uart_test.c:127:27: error: too few arguments
- to function 'serdev_controller_alloc'
-Message-ID: <202505210509.AtyvLGTr-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Anna Schumaker <anna.schumaker@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>
+Subject: include/linux/rcupdate.h:538:9: error: dereferencing pointer to
+ incomplete type 'struct nfsd_file'
+Message-ID: <202505210501.UEXVUlZf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,114 +64,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tzungbi/chrome-platform.git dev
-head:   13ac901a15c34decc881c9ad9fbe22443d06258e
-commit: c4bd46c8c5c1750c0c59c902bcc11b64905901f4 [19/20] platform/chrome: kunit: cros_ec_uart: Add tests with kprobes stub
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250521/202505210509.AtyvLGTr-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210509.AtyvLGTr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b36ddb9210e6812eb1c86ad46b66cc46aa193487
+commit: 86e00412254a717ffd5d38dc5ec0ee1cce6281b3 nfs: cache all open LOCALIO nfsd_file(s) in client
+date:   4 months ago
+config: riscv-randconfig-2004-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210501.UEXVUlZf-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210501.UEXVUlZf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210509.AtyvLGTr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505210501.UEXVUlZf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/platform/chrome/cros_ec_uart_test.c: In function 'cros_ec_uart_test_init':
->> drivers/platform/chrome/cros_ec_uart_test.c:127:27: error: too few arguments to function 'serdev_controller_alloc'
-     127 |         priv->fake_ctrl = serdev_controller_alloc(&priv->fake_ctrl_dev, 0);
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/platform/chrome/cros_ec_uart_test.c:11:
-   include/linux/serdev.h:171:27: note: declared here
-     171 | struct serdev_controller *serdev_controller_alloc(struct device *host,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/rbtree.h:24:0,
+                    from include/linux/mm_types.h:11,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from fs/nfs/localio.c:11:
+   fs/nfs/localio.c: In function 'nfs_local_open_fh':
+>> include/linux/rcupdate.h:538:9: error: dereferencing pointer to incomplete type 'struct nfsd_file'
+     typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+            ^
+   include/linux/rcupdate.h:686:2: note: in expansion of macro '__rcu_dereference_check'
+     __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+     ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:758:28: note: in expansion of macro 'rcu_dereference_check'
+    #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                               ^~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/localio.c:279:7: note: in expansion of macro 'rcu_dereference'
+     nf = rcu_dereference(*pnf);
+          ^~~~~~~~~~~~~~~
 
 
-vim +/serdev_controller_alloc +127 drivers/platform/chrome/cros_ec_uart_test.c
+vim +538 include/linux/rcupdate.h
 
-    90	
-    91	static int cros_ec_uart_test_init(struct kunit *test)
-    92	{
-    93		struct cros_ec_uart_test_priv *priv;
-    94		int ret;
-    95		struct device_driver *drv;
-    96		enum probe_type orig;
-    97		static struct acpi_hardware_id hwid = {
-    98			.id = "GOOG0019",
-    99		};
-   100	
-   101		kunit_activate_kprobes_stub(test, acpi_dev_get_resources, fake_acpi_dev_get_resources);
-   102		kunit_activate_kprobes_stub(test, acpi_dev_gpio_irq_wake_get_by,
-   103					    fake_acpi_dev_gpio_irq_wake_get_by);
-   104		kunit_activate_kprobes_stub(test, cros_ec_register, fake_cros_ec_register);
-   105		kunit_activate_kprobes_stub(test, cros_ec_unregister, fake_cros_ec_unregister);
-   106	
-   107		priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-   108		KUNIT_ASSERT_NOT_NULL(test, priv);
-   109		test->priv = priv;
-   110	
-   111		priv->fake_class = class_create("fake-class");
-   112		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->fake_class);
-   113	
-   114		priv->fake_ctrl_dev.class = priv->fake_class;
-   115		dev_set_name(&priv->fake_ctrl_dev, "fake-ctrl-dev");
-   116		ret = device_register(&priv->fake_ctrl_dev);
-   117		if (ret)
-   118			put_device(&priv->fake_ctrl_dev);
-   119		KUNIT_ASSERT_EQ(test, ret, 0);
-   120	
-   121		mutex_init(&priv->ctrl_adev.physical_node_lock);
-   122		INIT_LIST_HEAD(&priv->ctrl_adev.physical_node_list);
-   123		fwnode_init(&priv->ctrl_adev.fwnode, &acpi_device_fwnode_ops);
-   124		device_initialize(&priv->ctrl_adev.dev);
-   125		ACPI_COMPANION_SET(&priv->fake_ctrl_dev, &priv->ctrl_adev);
-   126	
- > 127		priv->fake_ctrl = serdev_controller_alloc(&priv->fake_ctrl_dev, 0);
-   128		KUNIT_ASSERT_NOT_NULL(test, priv->fake_ctrl);
-   129		priv->fake_ctrl->ops = &fake_ctrl_ops;
-   130		priv->fake_ctrl->serdev = (void *)true;
-   131		KUNIT_ASSERT_EQ(test, serdev_controller_add(priv->fake_ctrl), 0);
-   132		priv->fake_ctrl->serdev = NULL;
-   133	
-   134		mutex_init(&priv->adev.physical_node_lock);
-   135		INIT_LIST_HEAD(&priv->adev.physical_node_list);
-   136		fwnode_init(&priv->adev.fwnode, &acpi_device_fwnode_ops);
-   137		device_initialize(&priv->adev.dev);
-   138	
-   139		INIT_LIST_HEAD(&priv->adev.pnp.ids);
-   140		INIT_LIST_HEAD(&hwid.list);
-   141		list_add_tail(&hwid.list, &priv->adev.pnp.ids);
-   142	
-   143		priv->adev.pnp.type.hardware_id = 1;
-   144		priv->adev.status.present = 1;
-   145		priv->adev.dev.kobj.ktype = &dummy_ktype;
-   146		ret = kobject_add(&priv->adev.dev.kobj, NULL, "dummy_kobj");
-   147		KUNIT_ASSERT_GE(test, ret, 0);
-   148	
-   149		priv->fake_sdev = serdev_device_alloc(priv->fake_ctrl);
-   150		KUNIT_ASSERT_NOT_NULL(test, priv->fake_sdev);
-   151		ACPI_COMPANION_SET(&priv->fake_sdev->dev, &priv->adev);
-   152		KUNIT_ASSERT_NOT_NULL(test, ACPI_COMPANION(&priv->fake_sdev->dev));
-   153	
-   154		/*
-   155		 * Force to use synchronous probe so that the upcoming serdev device gets
-   156		 * probed correctly and synchronously.
-   157		 */
-   158		ret = bus_for_each_drv(priv->fake_ctrl->dev.bus, NULL, &drv, find_target_driver);
-   159		KUNIT_ASSERT_EQ(test, ret, 0);
-   160		KUNIT_ASSERT_NOT_NULL(test, drv);
-   161		orig = drv->probe_type;
-   162		drv->probe_type = PROBE_FORCE_SYNCHRONOUS;
-   163	
-   164		ret = serdev_device_add(priv->fake_sdev);
-   165		/* Restore to original probe type. */
-   166		drv->probe_type = orig;
-   167		KUNIT_ASSERT_EQ(test, ret, 0);
-   168	
-   169		return 0;
-   170	}
-   171	
+76c8eaafe4f061 Paul E. McKenney        2021-04-21  528  
+24ba53017e188e Chun-Hung Tseng         2021-09-15  529  #define __rcu_access_pointer(p, local, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  530  ({ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  531  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  532) 	rcu_check_sparse(p, space); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  533  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  534  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  535  #define __rcu_dereference_check(p, local, c, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  536  ({ \
+ac59853c06993a Pranith Kumar           2014-11-13  537  	/* Dependency order vs. p above. */ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15 @538  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  539  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage"); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  540) 	rcu_check_sparse(p, space); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  541  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  542  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  543  #define __rcu_dereference_protected(p, local, c, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  544  ({ \
+f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  545  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  546) 	rcu_check_sparse(p, space); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  547  	((typeof(*p) __force __kernel *)(p)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  548  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  549  #define __rcu_dereference_raw(p, local) \
+995f1405610bd8 Paul E. McKenney        2016-07-01  550  ({ \
+995f1405610bd8 Paul E. McKenney        2016-07-01  551  	/* Dependency order vs. p above. */ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  552  	typeof(p) local = READ_ONCE(p); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  553  	((typeof(*p) __force __kernel *)(local)); \
+995f1405610bd8 Paul E. McKenney        2016-07-01  554  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  555  #define rcu_dereference_raw(p) __rcu_dereference_raw(p, __UNIQUE_ID(rcu))
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  556  
+
+:::::: The code at line 538 was first introduced by commit
+:::::: 24ba53017e188e031f9cb8b290286fad52d2af00 rcu: Replace ________p1 and _________p1 with __UNIQUE_ID(rcu)
+
+:::::: TO: Chun-Hung Tseng <henrybear327@gmail.com>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
