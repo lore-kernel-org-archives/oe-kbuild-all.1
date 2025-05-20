@@ -1,169 +1,144 @@
-Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9F38635C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 11:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.19.9.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EC721D3F0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 11:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747738829; cv=none; b=PrfOPX1Vp4JHK1UMqX/X0PSHE1VVaaW3UbbXYrUR+W7DWn+BYwVTyR+b7rRL0TJCgb9sL5Wc3RbsA86c+o0PVYAACK5mF/Y2maFTmvEor+RET75H5m4G7ODuGmTQPgkoizU/y3s7xFvqwV07kCA0q13mj6I3M0PlgIzfVb1EM/Y=
+	t=1747739852; cv=none; b=seUpXWhTWyQDjhQlgiTdtwlG1lOg3lg7EEk5O2Sj2fksPl5CsfUdoQLbMlYo1hRA5wio0IrDAgPiEvXBoFTlq1Jd6e/czv6lv+Og+ya1RJfRvYTOPoJR+efhCdhszA+rf00grWQCIoXztzCF6ym+6L+Bhuq8AivQm9Nf+HBLpzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747738829; c=relaxed/simple;
-	bh=g6+UIfeYu/GOK1YXqBBPFtuwynMHi8vjztJmB3m5qk0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z0/svIWI+1/H+JoNaM9qlDkR2hTyEiGmQLXz6xpDkvmbAy6SzQQxbcjBcqP1rdfEZ/tZGSpX60nAPNPebMHFb/KzwWPFhF52ZjcT4a1IGJ1YnFi37+4rR1WxeCIHav77ejh2U/gfa2OpV0F7or31eKSpG8CI5gvOtHrimMQGrGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=norik.com; spf=pass smtp.mailfrom=norik.com; dkim=pass (2048-bit key) header.d=norik.com header.i=@norik.com header.b=mnrtk5Qr; arc=none smtp.client-ip=46.19.9.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=norik.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=norik.com
+	s=arc-20240116; t=1747739852; c=relaxed/simple;
+	bh=Hh8DF8r6jRRdQ/y85b9Lhx0fYeMebOQAAXyN9k6clFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z8S2URwa4qgO+tx9z2qtMsMKg6vSnMvcoPHXRFUACIK6HjRIFfZZBhgvHboE/xFytzMOkmQ4O0z0qBocFD77FKFqxRupg0mqlvY4T9/BZVfz81GZO7YyXRFkAkCt4egP3sq608kCxJDRiuTsOp3TiRzh+YbCgaN7TeEp+vCQ0jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCK+QYHV; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=norik.com header.i=@norik.com header.b="mnrtk5Qr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com;
-	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vd5AsOmQ9Ly5phH5BbaqewujT13K+i11U7T3y314n3U=; b=mnrtk5Qr4XAbExoJBMcE5jil0O
-	tHEYAXcmcybVqwn3ebrgdaCpjwRD4e8+/aZo5Qic3lBB6/CgUIxdyIwG0hBchFWurDtNcqalJsfGN
-	yX+qwbhX8zzQhqrWX/t6nrblh3HKKTDOHXek6gp2PJ/l/s5y+qQb9NRCdnRvMdKO9lO+PIDlkZvx8
-	IIRsopCl+2RQNMk99CPLdG0LOtWotmei5USl0qgs7TcjZpaCqWMjkeFjechv8fhX0oj/JYarBzO2W
-	jBERSxcskq/nne4kbODNtFhjhely7ysPLzD8A3XVta0n+CM3IxtEcX8xroyggWU4TgNzqaiovJ+J3
-	Xgi/6pBg==;
-Received: from 89-212-21-243.static.t-2.net ([89.212.21.243]:48780 helo=[192.168.69.52])
-	by cpanel.siel.si with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <andrej.picej@norik.com>)
-	id 1uHKhs-00AgXt-0Q;
-	Tue, 20 May 2025 13:00:24 +0200
-Message-ID: <65983a8d-6816-4059-93a5-800f1a942059@norik.com>
-Date: Tue, 20 May 2025 13:00:22 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCK+QYHV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747739848; x=1779275848;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Hh8DF8r6jRRdQ/y85b9Lhx0fYeMebOQAAXyN9k6clFI=;
+  b=QCK+QYHVcbSViwbVZea2QZ55d1D/M1RcW1MgpAYINVFzmcfvGQEjlvr7
+   bPM+0CspE8TO1FHgtHv297E9zpbZVE+XP8FvhfiXHRbIuqnyTBh/yRUNQ
+   Ty6mJBjq5vIGjjtIi9VQWzFa42SOqxag96c9qgQoxxkWB0nbVIvVt3wVN
+   C4YnIH99AGacq/mbxR4Hxe3yPfGwk1xYCUmL8u96ENz/GoMNZpL9XCu5X
+   2iJB0nPedY4ffr3rBTdD517GeavkHQOpFbu3tWOGW4NXcijIlQSIeJLWO
+   zozC7GIxlQak0/+LBM4qK3ILqygwvoPCKfmhnvYDZ4qaK7cBD9mqZjXne
+   g==;
+X-CSE-ConnectionGUID: oIUFt8OYQxuUpXf9iFibqA==
+X-CSE-MsgGUID: ARLAXlOWRYKH94rFX9HCXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="60327250"
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
+   d="scan'208";a="60327250"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 04:17:27 -0700
+X-CSE-ConnectionGUID: 2Mww6cFWRhK83Lop1mbOXw==
+X-CSE-MsgGUID: /puFDGnOTAGtZbHkD8YVZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
+   d="scan'208";a="170671796"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 20 May 2025 04:17:26 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uHKyK-000MVG-1K;
+	Tue, 20 May 2025 11:17:24 +0000
+Date: Tue, 20 May 2025 19:17:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1646/1646] mm/hugetlb.c:1370:6:
+ warning: no previous prototype for 'free_huge_page_to_dhugetlb_pool'
+Message-ID: <202505201910.3QGTFYPj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 4287/7938]
- arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d
- (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-clock-microvolt:0:
- 200000 is not of type 'array'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>
-References: <202505021937.efnQPPqx-lkp@intel.com>
-Content-Language: en-US
-From: Andrej Picej <andrej.picej@norik.com>
-Autocrypt: addr=andrej.picej@norik.com; keydata=
- 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
- xtT/8OxBOVSHvA==
-In-Reply-To: <202505021937.efnQPPqx-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel.siel.si
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - norik.com
-X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id: andrej.picej@norik.com
-X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi all,
+Hi Liu,
 
-On 2. 05. 25 13:20, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   3e039dcc9c1320c0d33ddd51c372dcc91d3ea3c7
-> commit: 7ed7d1ed852d8f4c4dee7a4d4f7807ad59c7915d [4287/7938] arm64: dts: imx8mm-phyboard-polis-peb-av-10: Set lvds-vod-swing
-> config: arm64-randconfig-052-20250428 (https://download.01.org/0day-ci/archive/20250502/202505021937.efnQPPqx-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-> dtschema version: 2025.3.dev21+ge6ea659
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021937.efnQPPqx-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505021937.efnQPPqx-lkp@intel.com/
-> 
-> dtcheck warnings: (new ones prefixed by >>)
->>> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-clock-microvolt:0: 200000 is not of type 'array'
->     	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->>> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-clock-microvolt: [200000, 600000] is too long
->     	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->>> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-data-microvolt:0: 200000 is not of type 'array'
->     	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->>> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint:ti,lvds-vod-swing-data-microvolt: [200000, 600000] is too long
->     	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->>> arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: bridge@2d (ti,sn65dsi83): ports:port@2:endpoint: Unevaluated properties are not allowed ('ti,lvds-vod-swing-clock-microvolt', 'ti,lvds-vod-swing-data-microvolt' were unexpected)
->     	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
->     arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: endpoint: ti,lvds-vod-swing-data-microvolt:0: 200000 is not of type 'array'
->     	from schema $id: http://devicetree.org/schemas/property-units.yaml#
->     arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: endpoint: ti,lvds-vod-swing-data-microvolt:1: 600000 is not of type 'array'
->     	from schema $id: http://devicetree.org/schemas/property-units.yaml#
->     arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: endpoint: ti,lvds-vod-swing-clock-microvolt:0: 200000 is not of type 'array'
->     	from schema $id: http://devicetree.org/schemas/property-units.yaml#
->     arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtb: endpoint: ti,lvds-vod-swing-clock-microvolt:1: 600000 is not of type 'array'
->     	from schema $id: http://devicetree.org/schemas/property-units.yaml#
-> 
+FYI, the error/warning still remains.
 
-apologies for the delayed response, and thank you for the report.
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   2eb609d2f89b2d85d89cb018c3f97050989807e2
+commit: 0bc0d0d57edacd59ebe38d05ad9c4b2bc185aa51 [1646/1646] dhugetlb: backport dynamic hugetlb feature
+config: arm64-randconfig-001-20250520 (https://download.01.org/0day-ci/archive/20250520/202505201910.3QGTFYPj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201910.3QGTFYPj-lkp@intel.com/reproduce)
 
-I've investigated the DT schema validation errors reported for my patch. 
-The issue stems from using "$ref: 
-/schemas/types.yaml#/definitions/uint32-array" for the 
-"ti,lvds-vod-swing-clock-microvolt" and 
-"ti,lvds-vod-swing-data-microvolt" properties, which seems to expect a 
-different structure than what the DTS provides (a standard 2-element 
-uint32 array).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505201910.3QGTFYPj-lkp@intel.com/
 
-Replacing the "$ref" with an explicit array schema resolves the errors:
+All warnings (new ones prefixed by >>):
 
-> 
->   type: array
->   items:
->     type: integer
->   minItems: 2
->   maxItems: 2
+>> mm/hugetlb.c:1370:6: warning: no previous prototype for 'free_huge_page_to_dhugetlb_pool' [-Wmissing-prototypes]
+    1370 | void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-This matches the intended "<min max>" format in the DTS and passes 
-validation.
+vim +/free_huge_page_to_dhugetlb_pool +1370 mm/hugetlb.c
 
-Would this be the preferred way to describe such properties, or is there 
-another recommended style for handling this case?
+  1324	
+  1325	#ifdef CONFIG_DYNAMIC_HUGETLB
+  1326	static void free_huge_page_to_dhugetlb_pool(struct page *page,
+  1327						    bool restore_reserve)
+  1328	{
+  1329		struct hstate *h = page_hstate(page);
+  1330		struct dhugetlb_pool *hpool;
+  1331	
+  1332		hpool = get_dhugetlb_pool_from_dhugetlb_pagelist(page);
+  1333		if (unlikely(!hpool)) {
+  1334			pr_err("dhugetlb: free error: get hpool failed\n");
+  1335			return;
+  1336		}
+  1337	
+  1338		spin_lock(&hpool->lock);
+  1339		ClearPagePool(page);
+  1340		set_compound_page_dtor(page, NULL_COMPOUND_DTOR);
+  1341		if (!hstate_is_gigantic(h)) {
+  1342			list_add(&page->lru, &hpool->dhugetlb_2M_freelists);
+  1343			hpool->free_reserved_2M++;
+  1344			hpool->used_2M--;
+  1345			if (restore_reserve) {
+  1346				hpool->mmap_reserved_2M++;
+  1347				trace_dhugetlb_acct_memory(hpool,
+  1348							   hpool->mmap_reserved_2M,
+  1349							   DHUGETLB_RESV_2M);
+  1350			}
+  1351			trace_dhugetlb_alloc_free(hpool, page, hpool->free_reserved_2M,
+  1352						  DHUGETLB_FREE_2M);
+  1353		} else {
+  1354			list_add(&page->lru, &hpool->dhugetlb_1G_freelists);
+  1355			hpool->free_reserved_1G++;
+  1356			hpool->used_1G--;
+  1357			if (restore_reserve) {
+  1358				hpool->mmap_reserved_1G++;
+  1359				trace_dhugetlb_acct_memory(hpool,
+  1360							   hpool->mmap_reserved_1G,
+  1361							   DHUGETLB_RESV_1G);
+  1362			}
+  1363			trace_dhugetlb_alloc_free(hpool, page, hpool->free_reserved_1G,
+  1364						  DHUGETLB_FREE_1G);
+  1365		}
+  1366		spin_unlock(&hpool->lock);
+  1367		dhugetlb_pool_put(hpool);
+  1368	}
+  1369	#else
+> 1370	void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
+  1371	{
+  1372	}
+  1373	#endif
+  1374	
 
-Best regards,
-Andrej
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
