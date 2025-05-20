@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DDA1C8603
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49559257AFB
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 16:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747759994; cv=none; b=N4X8PQ3DWYaUxpwPNXk0CtDDfQI07zzZRUazAliNElSenJzRxWP/7YarutRiilCaz2Q47lVe5wafZGUpv1lc7KTA/zbpxRTK3wR7XCxCsaZqDJ2zBn1Lm5yS8EjCY8syyg/Ha/CqT+ICpAeEFA2wkIK6z17jt/cIoBHXuQ58JKs=
+	t=1747759995; cv=none; b=P6N6uTg5unqJf9MhXuDO6VoUm3u5rxrXOTCOkf/pMymvW1PQD2zb012NIPpPtnRVDj6ueZjJsLXUmj2GJsmx8//pCXcGPsX9eaqG6CKo2qbcRhgyg/Nr37GD41aAqJDAcb810YfSR/xuk3s+G2r5XegtE+l7jnHuozdQzeiDhJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747759994; c=relaxed/simple;
-	bh=daTJ3sNvDAZAxWdBrblqqVgPeMQaCqa3z28zVnJqHUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uigmTTKMM0oU3ZvpQ1v278StMbyWHvQyNy8DNp7Va713mmFfxhRTAPft7+FYet0UgZDve9vUdpE6s6C6QWVu2qM/4qIAhUYpPsq2VJJRRel+FDLMJQuAh0hLaXFawHJkfyB7cuWcHorszX543TP/0KboYvqD9rTM257wHwn5Ick=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKQoZZaA; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1747759995; c=relaxed/simple;
+	bh=tmzXyCQyClZVMLdcfWwHpgz5WdASr9ZFiRjHqcikgP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YKTnpYssHD7gRcq0PkhBbmAy0R0Onzz1eZRpJr/cclTvj8Y5wmEBQA0Qwh1MHmeKgfNUDQkfw3KYsxNJr6Hc1dJu/6Pz+sfqkrJMtSkmIJJbeHTjphNT3kWiAg+Gg5E8LQLT82zUTY5kxJXNXMz5bfWYT2r0O+IeZwgaCqlSXuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/8Pa2VH; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKQoZZaA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/8Pa2VH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1747759993; x=1779295993;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=daTJ3sNvDAZAxWdBrblqqVgPeMQaCqa3z28zVnJqHUo=;
-  b=hKQoZZaA7CK6hfY+R/1RY0G1mM/bFrEMU6Ws9MK6Wr1EWEk0cId+S+R7
-   u6JarDnrElGXrsp65YBlsWfta24yACZr2Y3osVq544DrrsKURZ/os6uaZ
-   FXASI7xQIbNMEL865Lq/CM+zWMttRGcYvwDzVBP4MSJFA3/Y0lxGhZiA2
-   nYplf+7femlUxgN/8sb7lhHpOe5InlihP2ZgnH8eoVCaVDwLRT7QyEg9J
-   RGpFPiv8SvB2hDfZaOuNMcr9pyG1ZQP36XAtf7RBTN7dLczX7aMXwtD+M
-   miOnU3hiwBnV+zqw0gjNkvJfgXZkwy4Qeac3dNERfL94Fwrxiq3DV8is8
-   Q==;
-X-CSE-ConnectionGUID: xr2Qt6BRQ8O3LHzu/Ejb+w==
-X-CSE-MsgGUID: Sv4WJVC7Qu2s65ZC2ro0gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="72221338"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tmzXyCQyClZVMLdcfWwHpgz5WdASr9ZFiRjHqcikgP8=;
+  b=a/8Pa2VHiNs2SQtlvAqxAu11loYh2zudpv20iYBGugkTHASi7oPulZtq
+   tfOuzKMqUXmXKjH7IJMnPHtGxpp7ZsQYbWwHcOgyafIcbyslt33e/lLM+
+   ZWxU1kuDexuIup65rZPDG3Wu6RYKf1h5xc2WxlCJTvK/IBZdgZcstlHC3
+   1FbP9HJYHly7t1WoVxQU7LPYK0UQ3Q8GXRKaPIHDMv0M+daMhxG8wS4Bo
+   yEuL3TfskgZqWlfFsr2gYRGB6PEIYuN9YqTyvbawWUHM/n3JViux0ixTZ
+   p5yPd/+KnUB5jkQHKph+iFRavFwAmgQXEqwnRgIjgyQebznndXghtG3ZG
+   A==;
+X-CSE-ConnectionGUID: NIYJwM/rQeqIxBIBe/EXiw==
+X-CSE-MsgGUID: y4iH5EqhS7iYVyFbwj3QFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="61099572"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="72221338"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 09:53:12 -0700
-X-CSE-ConnectionGUID: ZSQE61c3TgmqIiHbNI0Dfw==
-X-CSE-MsgGUID: UE3ZC+4ETE2a67SgGARUzA==
+   d="scan'208";a="61099572"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 09:53:12 -0700
+X-CSE-ConnectionGUID: lzllfVyNT5Kzg+hEhFqF6g==
+X-CSE-MsgGUID: Sg0s4aFAQjCmbQdUw3ZoRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="140676993"
+   d="scan'208";a="140789528"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 May 2025 09:53:11 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 20 May 2025 09:53:11 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHQDE-000NNo-2c;
+	id 1uHQDE-000NNq-2g;
 	Tue, 20 May 2025 16:53:08 +0000
-Date: Wed, 21 May 2025 00:52:39 +0800
+Date: Wed, 21 May 2025 00:52:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/5] mm/madvise: add PMADV_SKIP_ERRORS
- process_madvise() flag
-Message-ID: <202505210009.7TcFMYKJ-lkp@intel.com>
-References: <516daa1c1ec4b22f45d266d5786375e6d59572d1.1747686021.git.lorenzo.stoakes@oracle.com>
+Subject: [android-common:android11-kiwi-5.4 433/433] mm/page_alloc.c:2741:29:
+ sparse: sparse: Using plain integer as NULL pointer
+Message-ID: <202505210010.RRTLpWKL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,108 +61,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <516daa1c1ec4b22f45d266d5786375e6d59572d1.1747686021.git.lorenzo.stoakes@oracle.com>
 
-Hi Lorenzo,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on next-20250516]
-[cannot apply to linus/master v6.15-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-madvise-refactor-madvise_populate/20250520-045528
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/516daa1c1ec4b22f45d266d5786375e6d59572d1.1747686021.git.lorenzo.stoakes%40oracle.com
-patch subject: [RFC PATCH 2/5] mm/madvise: add PMADV_SKIP_ERRORS process_madvise() flag
-config: parisc-randconfig-002-20250520 (https://download.01.org/0day-ci/archive/20250521/202505210009.7TcFMYKJ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210009.7TcFMYKJ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
+head:   a830675dbb006ceaf34b8cf9cd42e61ab8c53b4e
+commit: b9d3d8f1e991052edb89b0537b8f2e8b2aa941ac [433/433] ANDROID: GKI: cma: redirect page allocation to CMA
+config: arm64-randconfig-r123-20250520 (https://download.01.org/0day-ci/archive/20250521/202505210010.RRTLpWKL-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250521/202505210010.RRTLpWKL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210009.7TcFMYKJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505210010.RRTLpWKL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/page_alloc.c:106:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
+>> mm/page_alloc.c:2741:29: sparse: sparse: Using plain integer as NULL pointer
+   mm/page_alloc.c:3252:51: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int cma @@     got restricted gfp_t @@
+   mm/page_alloc.c:3252:51: sparse:     expected int cma
+   mm/page_alloc.c:3252:51: sparse:     got restricted gfp_t
+   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/gfp.h:325:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:325:27: sparse: sparse: restricted gfp_t degrades to integer
 
-   mm/madvise.c: In function 'madvise_populate':
->> mm/madvise.c:969:48: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
-     969 |         bool can_skip = madv_behavior->flags & PMADV_SKIP_ERRORS;
-         |                                                ^~~~~~~~~~~~~~~~~
-   mm/madvise.c:969:48: note: each undeclared identifier is reported only once for each function it appears in
-   mm/madvise.c: In function 'madvise_vma_behavior':
-   mm/madvise.c:1374:48: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
-    1374 |         bool can_skip = madv_behavior->flags & PMADV_SKIP_ERRORS;
-         |                                                ^~~~~~~~~~~~~~~~~
-   mm/madvise.c: In function 'madvise_inject_error':
-   mm/madvise.c:1393:48: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
-    1393 |         bool can_skip = madv_behavior->flags & PMADV_SKIP_ERRORS;
-         |                                                ^~~~~~~~~~~~~~~~~
-   mm/madvise.c: In function 'vector_madvise':
-   mm/madvise.c:1883:33: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
-    1883 |         bool can_skip = flags & PMADV_SKIP_ERRORS;
-         |                                 ^~~~~~~~~~~~~~~~~
-   mm/madvise.c: In function 'check_process_madvise_flags':
-   mm/madvise.c:1953:29: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
-    1953 |         unsigned int mask = PMADV_SKIP_ERRORS;
-         |                             ^~~~~~~~~~~~~~~~~
+vim +2741 mm/page_alloc.c
 
-
-vim +/PMADV_SKIP_ERRORS +969 mm/madvise.c
-
-   964	
-   965	static long madvise_populate(struct mm_struct *mm, unsigned long start,
-   966			unsigned long end, struct madvise_behavior *madv_behavior)
-   967	{
-   968		int behavior = madv_behavior->behavior;
- > 969		bool can_skip = madv_behavior->flags & PMADV_SKIP_ERRORS;
-   970		const bool write = behavior == MADV_POPULATE_WRITE;
-   971		int locked = 1;
-   972		long pages;
-   973	
-   974		for (; start < end; start += pages * PAGE_SIZE) {
-   975			/* Populate (prefault) page tables readable/writable. */
-   976			pages = faultin_page_range(mm, start, end, write, &locked);
-   977			if (!locked) {
-   978				mmap_read_lock(mm);
-   979				locked = 1;
-   980			}
-   981	
-   982			if (pages >= 0)
-   983				continue;
-   984	
-   985			if (can_skip) {
-   986				/* Simply try the next page. */
-   987				pages = 1;
-   988				madv_behavior->saw_error = true;
-   989				continue;
-   990			}
-   991	
-   992			switch (pages) {
-   993			case -EINTR:
-   994				return -EINTR;
-   995			case -EINVAL: /* Incompatible mappings / permissions. */
-   996				return -EINVAL;
-   997			case -EHWPOISON:
-   998				return -EHWPOISON;
-   999			case -EFAULT: /* VM_FAULT_SIGBUS or VM_FAULT_SIGSEGV */
-  1000				return -EFAULT;
-  1001			default:
-  1002				pr_warn_once("%s: unhandled return value: %ld\n",
-  1003					     __func__, pages);
-  1004				fallthrough;
-  1005			case -ENOMEM: /* No VMA or out of memory. */
-  1006				return -ENOMEM;
-  1007			}
-  1008		}
-  1009		return 0;
-  1010	}
-  1011	
+  2736	
+  2737	static struct page *__rmqueue_cma(struct zone *zone, unsigned int order,
+  2738						int migratetype,
+  2739						unsigned int alloc_flags)
+  2740	{
+> 2741		struct page *page = 0;
+  2742	
+  2743	retry:
+  2744	#ifdef CONFIG_CMA
+  2745		if (migratetype == MIGRATE_MOVABLE && !zone->cma_alloc)
+  2746			page = __rmqueue_cma_fallback(zone, order);
+  2747		else
+  2748	#endif
+  2749			page = __rmqueue_smallest(zone, order, migratetype);
+  2750	
+  2751		if (unlikely(!page) && __rmqueue_fallback(zone, order, migratetype,
+  2752							  alloc_flags))
+  2753			goto retry;
+  2754	
+  2755		trace_mm_page_alloc_zone_locked(page, order, migratetype);
+  2756		return page;
+  2757	}
+  2758	
 
 -- 
 0-DAY CI Kernel Test Service
