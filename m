@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE982820C2;
-	Tue, 20 May 2025 20:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF64A182BC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 20:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747773095; cv=none; b=se7gdbgiiLtATVW56cK1X5kVJ++vjSZTCMeYKVkvpfoJJJLu5A/3ADG/d/WztA3YPnqBxVzhm49c4iy7ZPr7o6iMR0xYn+W4Kr8MkKwvnbxDE8Ok5NdI2bvVgRu0pomhi6pihDBeb8YyBIcTfM8nGFgEkPiiAzNyRxqxQjLSugE=
+	t=1747773694; cv=none; b=iUNLJX/do1qQ9FRKJ0YSSdyPsil1xhOK1+bUx6CrSZrm9LRtHUZUoSQyUlw0R2Bw5oR18seRla5xF0s5zcGvzWi639tNfaS7OKsYVYx6o+0/FEzNEhGGDKaFmWaOdPQVAEQVbv4pjnxW+FNlT18ZXimWiBrVOeuBjkfDRH/Yf2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747773095; c=relaxed/simple;
-	bh=3GWxq42/tgSqBxgPB7yrDRaLb7a882QSAs5qQK5Arp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YxSDwfZbZt0O9gNOJxCGqt3xr22Ua8ZBRVXPIXHgdWnNfzD/dlCcQ+cyiq39AIcCVIdN2UzvbGNdewZrAN0HjEakoJAvrYWZUtlWlrunzBmLhgoKuJe2toNU+s7xiFtT/HNznNSkvKQvZN1Hh2uKFiL0YW4GpikiC4b6vMhyLYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MwFkArGp; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1747773694; c=relaxed/simple;
+	bh=5e6ti8tfRcWWVegszgs7YLiAJvtQLuMsSQJzB5ALxM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZOU/Znwj+hmT0FYYWRbZODgpVq0B+SSIJjFZyyEjLwgBHV5BVaQXgXo2TSycI/WUm/mQqbg1D2E4OknFE0GS876g/aPhGlWDNy9bTK8tu3U2ZVCntITkKq2HMXJsdeisqU/GOpxoDBOK9O61gKzs2blIunYQ0v0Gvxj1tcyWHn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F4J827e1; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MwFkArGp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4J827e1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747773093; x=1779309093;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3GWxq42/tgSqBxgPB7yrDRaLb7a882QSAs5qQK5Arp4=;
-  b=MwFkArGpeogcwVgPjgL2rJMTtRAcbp9562nAO5+Ho28kuMYAZgAPA45R
-   YucRJdLLEipn66ji1PB36597lvHwlgT6I0mpng0ReYBqGVtRx+281SUfg
-   2CKNbgmiiskW+rDoF7hSY782cSM8MST3TckWrwYVVVsNfc657cl7cI1H4
-   XBzGphp60vK8nA9qGxFaRdqUU2OklW+eF4H0XyosxWMbcyFUlFlfnxIG2
-   hjHbCredLgRrG1IBkzu/qlYfp5AiHhWZCR0YwI8Kw1oHh8tZ3VqV6H0jg
-   /Rh1yTKt2H46rY/GJbY2wzAH81dPsJjRj9VG8j1ozzLiGj5Rwa85vdMSL
-   A==;
-X-CSE-ConnectionGUID: Lp4aa8G5Shir0V9I+5eRYA==
-X-CSE-MsgGUID: i5ZnxMpjSwiuWz5VkJBUGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49861357"
+  t=1747773693; x=1779309693;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5e6ti8tfRcWWVegszgs7YLiAJvtQLuMsSQJzB5ALxM8=;
+  b=F4J827e1Xy/4M+8kUmkjNf94yKxPJ68DNSETkPx89YphPgvQGdeu2Shk
+   tnR5V+vkRC2lRE9jkLZjaoUJ0GybY5/0FXqiSCGShYJEj3E9e8vGOEx4+
+   gJAdHrgjOeRQEGRFXhOzn9zMF8tyuB057z0OlWLg2hZ50rvF16676GbcQ
+   x1Js2BOR84uVjzEZ9XZ64h4maE7RUE9neEoL1v0tJGZ1Ctp0gj/nKHg1A
+   l2Jt8g7oQbP2DH4b9UkRVoVG+U5oXhpsO8I83qzwe8WgVuN//Jf/DRDYf
+   qiFUUrIBnUFCsiaBzALE/3Q6c8ADK5WryMX22ABMQnApBV5bsCjWqzGMO
+   g==;
+X-CSE-ConnectionGUID: jzrWmRP4QjS9b9XYPkwDqA==
+X-CSE-MsgGUID: AjdmxjbrQjuRBk//7bUjUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="72246888"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49861357"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 13:31:32 -0700
-X-CSE-ConnectionGUID: q0AcIwtGTrC78y+QjzCHfg==
-X-CSE-MsgGUID: JQOZXCiKQOu/6s3LgSjiSA==
+   d="scan'208";a="72246888"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 13:41:32 -0700
+X-CSE-ConnectionGUID: vs/cqNQVTA+6JQ3Sj2j3uw==
+X-CSE-MsgGUID: 4TrwiI3USuSvWMpGBuGIaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="176941458"
+   d="scan'208";a="145061939"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 May 2025 13:31:30 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 20 May 2025 13:41:31 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHTcW-000NXg-0K;
-	Tue, 20 May 2025 20:31:28 +0000
-Date: Wed, 21 May 2025 04:30:34 +0800
+	id 1uHTmC-000NYK-3A;
+	Tue, 20 May 2025 20:41:28 +0000
+Date: Wed, 21 May 2025 04:40:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wentao Liang <vulab@iscas.ac.cn>, andi.shyti@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] i2c: qup: Add error handling in qup_i2c_xfer_v2()
-Message-ID: <202505210438.G4nfkpQ2-lkp@intel.com>
-References: <20250519141918.2522-1-vulab@iscas.ac.cn>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 11/11]
+ drivers/crypto/ccp/hct.c:1234:15: warning: no previous prototype for
+ function 'hct_pin_memory'
+Message-ID: <202505210414.R1xhOcuT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,121 +62,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250519141918.2522-1-vulab@iscas.ac.cn>
 
-Hi Wentao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on linus/master v6.15-rc7 next-20250516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/i2c-qup-Add-error-handling-in-qup_i2c_xfer_v2/20250519-222137
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20250519141918.2522-1-vulab%40iscas.ac.cn
-patch subject: [PATCH] i2c: qup: Add error handling in qup_i2c_xfer_v2()
-config: hexagon-randconfig-001-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210438.G4nfkpQ2-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210438.G4nfkpQ2-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   6bec8a39b9738b7a22c1f607634a05ba0986225a
+commit: f008035cc14436f2d2147a43668b52b169873ff7 [11/11] anolis: newfeature: ccp: add hct module
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250521/202505210414.R1xhOcuT-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210414.R1xhOcuT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210438.G4nfkpQ2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505210414.R1xhOcuT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-qup.c:1619:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1619 |         if (!ret)
-         |             ^~~~
-   drivers/i2c/busses/i2c-qup.c:1621:6: note: uninitialized use occurs here
-    1621 |         if (err)
-         |             ^~~
-   drivers/i2c/busses/i2c-qup.c:1619:2: note: remove the 'if' if its condition is always true
-    1619 |         if (!ret)
-         |         ^~~~~~~~~
-    1620 |                 err = qup_i2c_change_state(qup, QUP_RESET_STATE);
-   drivers/i2c/busses/i2c-qup.c:1570:14: note: initialize the variable 'err' to silence this warning
-    1570 |         int ret, err, idx = 0;
-         |                     ^
-         |                      = 0
-   1 warning generated.
+>> drivers/crypto/ccp/hct.c:1234:15: warning: no previous prototype for function 'hct_pin_memory' [-Wmissing-prototypes]
+    1234 | struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
+         |               ^
+   drivers/crypto/ccp/hct.c:1234:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1234 | struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
+         | ^
+         | static 
+   drivers/crypto/ccp/hct.c:1530:6: warning: no previous prototype for function 'hct_iommu_unmap' [-Wmissing-prototypes]
+    1530 | void hct_iommu_unmap(struct hct_private *private)
+         |      ^
+   drivers/crypto/ccp/hct.c:1530:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1530 | void hct_iommu_unmap(struct hct_private *private)
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +1619 drivers/i2c/busses/i2c-qup.c
+vim +/hct_pin_memory +1234 drivers/crypto/ccp/hct.c
 
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1564  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1565  static int qup_i2c_xfer_v2(struct i2c_adapter *adap,
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1566  			   struct i2c_msg msgs[],
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1567  			   int num)
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1568  {
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1569  	struct qup_i2c_dev *qup = i2c_get_adapdata(adap);
-61f647e9d36d67 Wentao Liang          2025-05-19  1570  	int ret, err, idx = 0;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1571  
-fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1572  	qup->bus_err = 0;
-fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1573  	qup->qup_err = 0;
-fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1574  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1575  	ret = pm_runtime_get_sync(qup->dev);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1576  	if (ret < 0)
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1577  		goto out;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1578  
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1579  	ret = qup_i2c_determine_mode_v2(qup, msgs, num);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1580  	if (ret)
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1581  		goto out;
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1582  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1583  	writel(1, qup->base + QUP_SW_RESET);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1584  	ret = qup_i2c_poll_state(qup, QUP_RESET_STATE);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1585  	if (ret)
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1586  		goto out;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1587  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1588  	/* Configure QUP as I2C mini core */
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1589  	writel(I2C_MINI_CORE | I2C_N_VAL_V2, qup->base + QUP_CONFIG);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1590  	writel(QUP_V2_TAGS_EN, qup->base + QUP_I2C_MASTER_GEN);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1591  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1592  	if (qup_i2c_poll_state_i2c_master(qup)) {
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1593  		ret = -EIO;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1594  		goto out;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1595  	}
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1596  
-eb422b539c1f39 Abhishek Sahu         2018-03-12  1597  	if (qup->use_dma) {
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1598  		reinit_completion(&qup->xfer);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1599  		ret = qup_i2c_bam_xfer(adap, &msgs[0], num);
-eb422b539c1f39 Abhishek Sahu         2018-03-12  1600  		qup->use_dma = false;
-9cedf3b2f09946 Sricharan Ramabadhran 2016-02-22  1601  	} else {
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1602  		qup_i2c_conf_mode_v2(qup);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1603  
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1604  		for (idx = 0; idx < num; idx++) {
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1605  			qup->msg = &msgs[idx];
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1606  			qup->is_last = idx == (num - 1);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1607  
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1608  			ret = qup_i2c_xfer_v2_msg(qup, idx,
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1609  					!!(msgs[idx].flags & I2C_M_RD));
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1610  			if (ret)
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1611  				break;
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1612  		}
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1613  		qup->msg = NULL;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1614  	}
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1615  
-f74187932d30e4 Sricharan Ramabadhran 2016-01-19  1616  	if (!ret)
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1617  		ret = qup_i2c_bus_active(qup, ONE_BYTE);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1618  
-7545c7dba169c4 Abhishek Sahu         2018-03-12 @1619  	if (!ret)
-61f647e9d36d67 Wentao Liang          2025-05-19  1620  		err = qup_i2c_change_state(qup, QUP_RESET_STATE);
-61f647e9d36d67 Wentao Liang          2025-05-19  1621  	if (err)
-61f647e9d36d67 Wentao Liang          2025-05-19  1622  		return err;
-f74187932d30e4 Sricharan Ramabadhran 2016-01-19  1623  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1624  	if (ret == 0)
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1625  		ret = num;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1626  out:
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1627  	pm_runtime_mark_last_busy(qup->dev);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1628  	pm_runtime_put_autosuspend(qup->dev);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1629  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1630  	return ret;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1631  }
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1632  
+  1233	
+> 1234	struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
+  1235				unsigned long ulen, unsigned long *n)
+  1236	{
+  1237		unsigned long npages, size;
+  1238		int npinned;
+  1239		unsigned long locked;
+  1240		struct page **pages;
+  1241		unsigned long first, last;
+  1242	
+  1243		if (ulen == 0 || uaddr + ulen < uaddr)
+  1244			return NULL;
+  1245	
+  1246		first = (uaddr & PAGE_MASK) >> PAGE_SHIFT;
+  1247		last = ((uaddr + ulen - 1) & PAGE_MASK) >> PAGE_SHIFT;
+  1248		npages = (last - first + 1);
+  1249	
+  1250		locked = private->pages_locked + npages;
+  1251		if (locked > MCCP_DMA_LOCKED_LIMIT && !capable(CAP_IPC_LOCK)) {
+  1252			pr_err("%lu locked pages exceed the lock limit of %lu.\n",
+  1253					locked, MCCP_DMA_LOCKED_LIMIT);
+  1254			return NULL;
+  1255		}
+  1256	
+  1257		if (WARN_ON_ONCE(npages > INT_MAX))
+  1258			return NULL;
+  1259	
+  1260		size = npages * sizeof(struct page *);
+  1261		if (size > PAGE_SIZE)
+  1262			pages = vmalloc(size);
+  1263		else
+  1264			pages = kmalloc(size, GFP_KERNEL);
+  1265	
+  1266		if (!pages)
+  1267			return NULL;
+  1268	
+  1269		/* Pin the user virtual address. */
+  1270		npinned = pin_user_pages_fast(uaddr, npages, FOLL_WRITE, pages);
+  1271		if (npinned != npages) {
+  1272			pr_err("Failure locking %lu pages.\n", npages);
+  1273			goto err;
+  1274		}
+  1275	
+  1276		*n = npages;
+  1277		private->pages_locked = locked;
+  1278		return pages;
+  1279	
+  1280	err:
+  1281		if (npinned > 0)
+  1282			unpin_user_pages(pages, npinned);
+  1283	
+  1284		kvfree(pages);
+  1285		return NULL;
+  1286	}
+  1287	
 
 -- 
 0-DAY CI Kernel Test Service
