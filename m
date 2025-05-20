@@ -1,154 +1,406 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7B51B0416;
-	Tue, 20 May 2025 13:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E9A248895
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 14:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747748457; cv=none; b=filsndQohheUcXa+xkenQRX1EyciqGx/w/rXTdTyjVHilN5vg/2iG+J4LWmKVnGFWgVJDJYL8QWN+AQyDqlM6/aN8MBxgHLavXovPyvT2trKcumK9ZBybf8FUVKbyAG3C8E38bjHwEv310KdlGctiEuTgFTc6JHjeKHdcUZY2hU=
+	t=1747750073; cv=none; b=UBmWYAGxpka4JpZBQgciIVDNoT3xhdFf0Iz2a282tdHIKs8rMnXn0wk02at3VKlTuvXlTtA3Dtaq5fwgy01pmPhaDQheoI1E3f7tZGnkaPsr3RTynlWoYudNubPqT3ZnTclfN0vKhuBPkuXc7w+4k01nCSZOIARi6/xVTuyTFBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747748457; c=relaxed/simple;
-	bh=4Da8sbcJpW86NJQEA+qpqrzIVmF5Bz/QY1s2D+KxHec=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=UvzJxghqXmEvQLZas1gGTdQD2a00u/j3wOCitWF+4XfhVzaP2xqr2SRUxATvBq7tS71Y93jh3MCR6MIE06RrKn/6hGvNlnzn+bl6gKrQYRf7mrkFfh+MswP1Ro+5TAFrCVIep2Oas62ND8ABGUpnTGR1Pp1lH3wSHRnlFpoRaLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJ2Po1FZ; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1747750073; c=relaxed/simple;
+	bh=PAvCB79qLScuylVaWQFKB+ftt/95H30vIARU8zDWRCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=otgR/daEJlVTkFpvdLvB7U8z4CsBckqFqEBs0+c3G1SYG95q8n0vCRTFLCtvqMELlJeNA9JDI9p40vitKrZlr7RiKlbrrY6ODqdJOiE1D82ooskET9plLKkgE71T3Wo8F6dPvDu13mNEpfkIJKulQ6vMujqmGxQD/+2xloknRcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej+3Zxfa; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJ2Po1FZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej+3Zxfa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747748456; x=1779284456;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=4Da8sbcJpW86NJQEA+qpqrzIVmF5Bz/QY1s2D+KxHec=;
-  b=nJ2Po1FZ7MsGXhH9pCPdOfDN6Thixvj+jS+svUkFr60hZ1sSo/UBCsGl
-   4ydxCFGSU50JcM/rU7n8U+GkYMQEjxLETwoSRqPHJw41eqWz6wBrvwfl/
-   xYOaDxKip5dUaGdFkWWXfGaa4v84oVXschG9OR8/kaUX6ayhvf6si+R3K
-   suF52p+61+zPiRWTl14PlEaekth5udFDepAAgTsBuNFq8xgPDCwTSYX3Y
-   7Y+qV4F76VzKAPTqz+U19v7bqp1yieYSnAFSmqm9jHe8llqyCvOMa7nNI
-   UCw4M6umKDS9a+8SY4ke/ZLn3E8utpEzv/kOOJYuun65OcXJAuUBMOvGm
+  t=1747750070; x=1779286070;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PAvCB79qLScuylVaWQFKB+ftt/95H30vIARU8zDWRCQ=;
+  b=ej+3ZxfaCGv9ux8wYzSyTxA6ntr2eAXELHCSDWCil7nzRJ2dM1t3Ipoa
+   5W/JzuT3PxTi+VPXLSZHIngN2yIaX7DSoSR7FPoBO9Ctmc/tAW1tMJ3Ge
+   Hfa6oN2h/fL3w077SaZ0gf9zlRCVTYBUenjcQ1BKxSIcB8fBn5Rkv2S1J
+   XjPnk0eTGYx4b584qSqP+otg9kHr6iJwcObx7/kHQVSZC5sMVmtFOE32j
+   VE199YMdOzqfbrdX6fQX0cNFqR267EzLbzdVROeR/r3BFUYKgeDTSB7Jk
+   f1hwIBWYbRzZljKP0CqYwV/ewDF6QU6C+oMcr24d7/3IcxvO1+KENr2s0
    w==;
-X-CSE-ConnectionGUID: e6/1YP/QQkGhuT6FohEmmg==
-X-CSE-MsgGUID: +3g0gfOAQfGYgMH6FWxZyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49665431"
+X-CSE-ConnectionGUID: FwEx55wyRvWfASPjFoT8jg==
+X-CSE-MsgGUID: SLddDJvfTZy52FDyrJmh6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49385236"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49665431"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 06:40:55 -0700
-X-CSE-ConnectionGUID: MpBMBaPtR12liekaRMeyVw==
-X-CSE-MsgGUID: S4Lk2ywfTq+QaZm+1u4VZg==
+   d="scan'208";a="49385236"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 07:07:49 -0700
+X-CSE-ConnectionGUID: EUP2JYGeRqS3xCEzyxTIhA==
+X-CSE-MsgGUID: v7Q2FmxHQM64nYJU7QSAPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="144671241"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.235])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 06:40:52 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 20 May 2025 16:40:48 +0300 (EEST)
-To: "Luke D. Jones" <luke@ljones.dev>
-cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
-    oe-kbuild-all@lists.linux.dev, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    Hans de Goede <hdegoede@redhat.com>, 
-    Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [pdx86-platform-drivers-x86:review-ilpo-next 74/89]
- drivers/platform/x86/asus-wmi.c:5028:35: error: variable has incomplete type
- 'struct acpi_s2idle_dev_ops'
-In-Reply-To: <83e5ee5d-de9d-51c5-457e-803b0b7a57cd@linux.intel.com>
-Message-ID: <9adefaf8-b327-5730-664d-2741a1406c36@linux.intel.com>
-References: <202505090418.DaeaXe4i-lkp@intel.com> <83e5ee5d-de9d-51c5-457e-803b0b7a57cd@linux.intel.com>
+   d="scan'208";a="163002735"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 20 May 2025 07:07:47 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uHNdB-000Mrd-0o;
+	Tue, 20 May 2025 14:07:45 +0000
+Date: Tue, 20 May 2025 22:06:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1646/1646] mm/khugepaged.c:1336:
+ warning: Function parameter or member 'reliable' not described in
+ 'collapse_shmem'
+Message-ID: <202505202138.LT7VPPBg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1008686699-1747748448=:936"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Ma,
 
---8323328-1008686699-1747748448=:936
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+FYI, the error/warning still remains.
 
-Luke,
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   2eb609d2f89b2d85d89cb018c3f97050989807e2
+commit: ff0fb9e816fac221fa24a1810dd895745406070b [1646/1646] mm: thp: Add memory reliable support for hugepaged collapse
+config: x86_64-buildonly-randconfig-002-20250520 (https://download.01.org/0day-ci/archive/20250520/202505202138.LT7VPPBg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505202138.LT7VPPBg-lkp@intel.com/reproduce)
 
-Ping? This is still unsolved.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505202138.LT7VPPBg-lkp@intel.com/
 
-On Fri, 9 May 2025, Ilpo J=E4rvinen wrote:
-> On Fri, 9 May 2025, kernel test robot wrote:
->=20
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-=
-drivers-x86.git review-ilpo-next
-> > head:   83579675331059689e2869bf752ca9e17fadbd82
-> > commit: feea7bd6b02d43a794e3f065650d89cf8d8e8e59 [74/89] platform/x86: =
-asus-wmi: Refactor Ally suspend/resume
-> > config: x86_64-buildonly-randconfig-004-20250509 (https://download.01.o=
-rg/0day-ci/archive/20250509/202505090418.DaeaXe4i-lkp@intel.com/config)
-> > compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58=
-df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20250509/202505090418.DaeaXe4i-lkp@intel.com/reproduce)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202505090418.DaeaXe4i-l=
-kp@intel.com/
-> >=20
-> > All errors (new ones prefixed by >>):
-> >=20
-> > >> drivers/platform/x86/asus-wmi.c:5028:35: error: variable has incompl=
-ete type 'struct acpi_s2idle_dev_ops'
-> >     5028 | static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops =
-=3D {
-> >          |                                   ^
-> >    drivers/platform/x86/asus-wmi.c:5028:15: note: forward declaration o=
-f 'struct acpi_s2idle_dev_ops'
-> >     5028 | static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops =
-=3D {
-> >          |               ^
-> > >> drivers/platform/x86/asus-wmi.c:5063:8: error: call to undeclared fu=
-nction 'acpi_register_lps0_dev'; ISO C99 and later do not support implicit =
-function declarations [-Wimplicit-function-declaration]
-> >     5063 |         ret =3D acpi_register_lps0_dev(&asus_ally_s2idle_dev=
-_ops);
-> >          |               ^
-> > >> drivers/platform/x86/asus-wmi.c:5099:2: error: call to undeclared fu=
-nction 'acpi_unregister_lps0_dev'; ISO C99 and later do not support implici=
-t function declarations [-Wimplicit-function-declaration]
-> >     5099 |         acpi_unregister_lps0_dev(&asus_ally_s2idle_dev_ops);
-> >          |         ^
-> >    3 errors generated.
-> >=20
-> >=20
-> > vim +5028 drivers/platform/x86/asus-wmi.c
-> >=20
-> >   5026=09
-> >   5027=09/* Use only for Ally devices due to the wake_on_ac */
-> > > 5028=09static struct acpi_s2idle_dev_ops asus_ally_s2idle_dev_ops =3D=
- {
-> >   5029=09=09.restore =3D asus_ally_s2idle_restore,
-> >   5030=09};
-> >   5031=09
->=20
-> > > 5063=09=09ret =3D acpi_register_lps0_dev(&asus_ally_s2idle_dev_ops);
->=20
-> > > 5099=09=09acpi_unregister_lps0_dev(&asus_ally_s2idle_dev_ops);
->=20
-> Hi Luke,
->=20
-> It seems CONFIG_SUSPEND is not defined in this config leading to the=20
-> failure. Can you please look at this as I was slight unsure what way the=
-=20
-> fix should go although it looked like some ifdeffery is necessary and=20
-> probably wrapping those register/unregister functions.
->=20
->=20
+All warnings (new ones prefixed by >>):
 
---=20
- i.
+   mm/khugepaged.c:1336: warning: Function parameter or member 'mm' not described in 'collapse_shmem'
+   mm/khugepaged.c:1336: warning: Function parameter or member 'mapping' not described in 'collapse_shmem'
+   mm/khugepaged.c:1336: warning: Function parameter or member 'start' not described in 'collapse_shmem'
+   mm/khugepaged.c:1336: warning: Function parameter or member 'hpage' not described in 'collapse_shmem'
+   mm/khugepaged.c:1336: warning: Function parameter or member 'node' not described in 'collapse_shmem'
+>> mm/khugepaged.c:1336: warning: Function parameter or member 'reliable' not described in 'collapse_shmem'
 
---8323328-1008686699-1747748448=:936--
+
+vim +1336 mm/khugepaged.c
+
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1314  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1315  /**
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1316   * collapse_shmem - collapse small tmpfs/shmem pages into huge one.
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1317   *
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1318   * Basic scheme is simple, details are more complex:
+af24c01831e4e21 Hugh Dickins       2018-11-30  1319   *  - allocate and lock a new huge page;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1320   *  - scan over radix tree replacing old pages the new one
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1321   *    + swap in pages if necessary;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1322   *    + fill in gaps;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1323   *    + keep old pages around in case if rollback is required;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1324   *  - if replacing succeed:
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1325   *    + copy data over;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1326   *    + free old pages;
+af24c01831e4e21 Hugh Dickins       2018-11-30  1327   *    + unlock huge page;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1328   *  - if replacing failed;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1329   *    + put all pages back and unfreeze them;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1330   *    + restore gaps in the radix-tree;
+af24c01831e4e21 Hugh Dickins       2018-11-30  1331   *    + unlock and free huge page;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1332   */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1333  static void collapse_shmem(struct mm_struct *mm,
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1334  		struct address_space *mapping, pgoff_t start,
+ff0fb9e816fac22 Ma Wupeng          2022-02-09  1335  		struct page **hpage, int node, bool reliable)
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26 @1336  {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1337  	gfp_t gfp;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1338  	struct page *page, *new_page, *tmp;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1339  	struct mem_cgroup *memcg;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1340  	pgoff_t index, end = start + HPAGE_PMD_NR;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1341  	LIST_HEAD(pagelist);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1342  	struct radix_tree_iter iter;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1343  	void **slot;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1344  	int nr_none = 0, result = SCAN_SUCCEED;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1345  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1346  	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1347  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1348  	/* Only allocate from the target node */
+41b6167e8f746b4 Michal Hocko       2017-01-10  1349  	gfp = alloc_hugepage_khugepaged_gfpmask() | __GFP_THISNODE;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1350  
+ff0fb9e816fac22 Ma Wupeng          2022-02-09  1351  	if (reliable)
+ff0fb9e816fac22 Ma Wupeng          2022-02-09  1352  		gfp |= ___GFP_RELIABILITY;
+ff0fb9e816fac22 Ma Wupeng          2022-02-09  1353  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1354  	new_page = khugepaged_alloc_page(hpage, gfp, node);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1355  	if (!new_page) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1356  		result = SCAN_ALLOC_HUGE_PAGE_FAIL;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1357  		goto out;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1358  	}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1359  
+2a70f6a76bb86d1 Michal Hocko       2018-04-10  1360  	if (unlikely(mem_cgroup_try_charge(new_page, mm, gfp, &memcg, true))) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1361  		result = SCAN_CGROUP_CHARGE_FAIL;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1362  		goto out;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1363  	}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1364  
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1365  	__SetPageLocked(new_page);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1366  	__SetPageSwapBacked(new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1367  	new_page->index = start;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1368  	new_page->mapping = mapping;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1369  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1370  	/*
+af24c01831e4e21 Hugh Dickins       2018-11-30  1371  	 * At this point the new_page is locked and not up-to-date.
+af24c01831e4e21 Hugh Dickins       2018-11-30  1372  	 * It's safe to insert it into the page cache, because nobody would
+af24c01831e4e21 Hugh Dickins       2018-11-30  1373  	 * be able to map it or use it in another way until we unlock it.
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1374  	 */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1375  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1376  	index = start;
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1377  	xa_lock_irq(&mapping->i_pages);
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1378  	radix_tree_for_each_slot(slot, &mapping->i_pages, &iter, start) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1379  		int n = min(iter.index, end) - index;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1380  
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1381  		/*
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1382  		 * Stop if extent has been hole-punched, and is now completely
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1383  		 * empty (the more obvious i_size_read() check would take an
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1384  		 * irq-unsafe seqlock on 32-bit).
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1385  		 */
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1386  		if (n >= HPAGE_PMD_NR) {
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1387  			result = SCAN_TRUNCATED;
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1388  			goto tree_locked;
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1389  		}
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1390  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1391  		/*
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1392  		 * Handle holes in the radix tree: charge it from shmem and
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1393  		 * insert relevant subpage of new_page into the radix-tree.
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1394  		 */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1395  		if (n && !shmem_charge(mapping->host, n)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1396  			result = SCAN_FAIL;
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1397  			goto tree_locked;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1398  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1399  		for (; index < min(iter.index, end); index++) {
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1400  			radix_tree_insert(&mapping->i_pages, index,
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1401  					new_page + (index % HPAGE_PMD_NR));
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1402  		}
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1403  		nr_none += n;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1404  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1405  		/* We are done. */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1406  		if (index >= end)
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1407  			break;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1408  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1409  		page = radix_tree_deref_slot_protected(slot,
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1410  				&mapping->i_pages.xa_lock);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1411  		if (radix_tree_exceptional_entry(page) || !PageUptodate(page)) {
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1412  			xa_unlock_irq(&mapping->i_pages);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1413  			/* swap in or instantiate fallocated page */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1414  			if (shmem_getpage(mapping->host, index, &page,
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1415  						SGP_NOHUGE)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1416  				result = SCAN_FAIL;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1417  				goto tree_unlocked;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1418  			}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1419  		} else if (trylock_page(page)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1420  			get_page(page);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1421  			xa_unlock_irq(&mapping->i_pages);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1422  		} else {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1423  			result = SCAN_PAGE_LOCK;
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1424  			goto tree_locked;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1425  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1426  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1427  		/*
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1428  		 * The page must be locked, so we can drop the i_pages lock
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1429  		 * without racing with truncate.
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1430  		 */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1431  		VM_BUG_ON_PAGE(!PageLocked(page), page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1432  		VM_BUG_ON_PAGE(!PageUptodate(page), page);
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1433  
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1434  		/*
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1435  		 * If file was truncated then extended, or hole-punched, before
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1436  		 * we locked the first page, then a THP might be there already.
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1437  		 */
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1438  		if (PageTransCompound(page)) {
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1439  			result = SCAN_PAGE_COMPOUND;
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1440  			goto out_unlock;
+8b37c40503eadc6 Hugh Dickins       2018-11-30  1441  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1442  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1443  		if (page_mapping(page) != mapping) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1444  			result = SCAN_TRUNCATED;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1445  			goto out_unlock;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1446  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1447  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1448  		if (isolate_lru_page(page)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1449  			result = SCAN_DEL_PAGE_LRU;
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1450  			goto out_unlock;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1451  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1452  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1453  		if (page_mapped(page))
+977fbdcd5986c9f Matthew Wilcox     2018-01-31  1454  			unmap_mapping_pages(mapping, index, 1, false);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1455  
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1456  		xa_lock_irq(&mapping->i_pages);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1457  
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1458  		slot = radix_tree_lookup_slot(&mapping->i_pages, index);
+91a45f71078a656 Johannes Weiner    2016-12-12  1459  		VM_BUG_ON_PAGE(page != radix_tree_deref_slot_protected(slot,
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1460  					&mapping->i_pages.xa_lock), page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1461  		VM_BUG_ON_PAGE(page_mapped(page), page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1462  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1463  		/*
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1464  		 * The page is expected to have page_count() == 3:
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1465  		 *  - we hold a pin on it;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1466  		 *  - one reference from radix tree;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1467  		 *  - one from isolate_lru_page;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1468  		 */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1469  		if (!page_ref_freeze(page, 3)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1470  			result = SCAN_PAGE_COUNT;
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1471  			xa_unlock_irq(&mapping->i_pages);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1472  			putback_lru_page(page);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1473  			goto out_unlock;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1474  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1475  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1476  		/*
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1477  		 * Add the page to the list to be able to undo the collapse if
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1478  		 * something go wrong.
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1479  		 */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1480  		list_add_tail(&page->lru, &pagelist);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1481  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1482  		/* Finally, replace with the new page. */
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1483  		radix_tree_replace_slot(&mapping->i_pages, slot,
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1484  				new_page + (index % HPAGE_PMD_NR));
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1485  
+148deab223b2373 Matthew Wilcox     2016-12-14  1486  		slot = radix_tree_iter_resume(slot, &iter);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1487  		index++;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1488  		continue;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1489  out_unlock:
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1490  		unlock_page(page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1491  		put_page(page);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1492  		goto tree_unlocked;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1493  	}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1494  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1495  	/*
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1496  	 * Handle hole in radix tree at the end of the range.
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1497  	 * This code only triggers if there's nothing in radix tree
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1498  	 * beyond 'end'.
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1499  	 */
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1500  	if (index < end) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1501  		int n = end - index;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1502  
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1503  		/* Stop if extent has been truncated, and is now empty */
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1504  		if (n >= HPAGE_PMD_NR) {
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1505  			result = SCAN_TRUNCATED;
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1506  			goto tree_locked;
+8797f2f4fe0d555 Hugh Dickins       2018-11-30  1507  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1508  		if (!shmem_charge(mapping->host, n)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1509  			result = SCAN_FAIL;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1510  			goto tree_locked;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1511  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1512  		for (; index < end; index++) {
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1513  			radix_tree_insert(&mapping->i_pages, index,
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1514  					new_page + (index % HPAGE_PMD_NR));
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1515  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1516  		nr_none += n;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1517  	}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1518  
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1519  	__inc_node_page_state(new_page, NR_SHMEM_THPS);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1520  	if (nr_none) {
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1521  		struct zone *zone = page_zone(new_page);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1522  
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1523  		__mod_node_page_state(zone->zone_pgdat, NR_FILE_PAGES, nr_none);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1524  		__mod_node_page_state(zone->zone_pgdat, NR_SHMEM, nr_none);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1525  	}
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1526  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1527  tree_locked:
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1528  	xa_unlock_irq(&mapping->i_pages);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1529  tree_unlocked:
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1530  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1531  	if (result == SCAN_SUCCEED) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1532  		/*
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1533  		 * Replacing old pages with new one has succeed, now we need to
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1534  		 * copy the content and free old pages.
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1535  		 */
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1536  		index = start;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1537  		list_for_each_entry_safe(page, tmp, &pagelist, lru) {
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1538  			while (index < page->index) {
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1539  				clear_highpage(new_page + (index % HPAGE_PMD_NR));
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1540  				index++;
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1541  			}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1542  			copy_highpage(new_page + (page->index % HPAGE_PMD_NR),
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1543  					page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1544  			list_del(&page->lru);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1545  			page->mapping = NULL;
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1546  			page_ref_unfreeze(page, 1);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1547  			ClearPageActive(page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1548  			ClearPageUnevictable(page);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1549  			unlock_page(page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1550  			put_page(page);
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1551  			index++;
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1552  		}
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1553  		while (index < end) {
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1554  			clear_highpage(new_page + (index % HPAGE_PMD_NR));
+ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1555  			index++;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1556  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1557  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1558  		SetPageUptodate(new_page);
+af24c01831e4e21 Hugh Dickins       2018-11-30  1559  		page_ref_add(new_page, HPAGE_PMD_NR - 1);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1560  		set_page_dirty(new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1561  		mem_cgroup_commit_charge(new_page, memcg, false, true);
+9d5425af85abe36 Chris Down         2021-06-30  1562  		count_memcg_events(memcg, THP_COLLAPSE_ALLOC, 1);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1563  		lru_cache_add_anon(new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1564  
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1565  		/*
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1566  		 * Remove pte page tables, so we can re-fault the page as huge.
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1567  		 */
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1568  		retract_page_tables(mapping, start);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1569  		*hpage = NULL;
+87aa752906ecf69 Yang Shi           2018-08-17  1570  
+87aa752906ecf69 Yang Shi           2018-08-17  1571  		khugepaged_pages_collapsed++;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1572  	} else {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1573  		/* Something went wrong: rollback changes to the radix-tree */
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1574  		xa_lock_irq(&mapping->i_pages);
+78141aabfbb9560 Hugh Dickins       2018-11-30  1575  		mapping->nrpages -= nr_none;
+78141aabfbb9560 Hugh Dickins       2018-11-30  1576  		shmem_uncharge(mapping->host, nr_none);
+78141aabfbb9560 Hugh Dickins       2018-11-30  1577  
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1578  		radix_tree_for_each_slot(slot, &mapping->i_pages, &iter, start) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1579  			if (iter.index >= end)
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1580  				break;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1581  			page = list_first_entry_or_null(&pagelist,
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1582  					struct page, lru);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1583  			if (!page || iter.index < page->index) {
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1584  				if (!nr_none)
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1585  					break;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1586  				nr_none--;
+59749e6ce53735d Johannes Weiner    2016-12-12  1587  				/* Put holes back where they were */
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1588  				radix_tree_delete(&mapping->i_pages, iter.index);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1589  				continue;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1590  			}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1591  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1592  			VM_BUG_ON_PAGE(page->index != iter.index, page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1593  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1594  			/* Unfreeze the page. */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1595  			list_del(&page->lru);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1596  			page_ref_unfreeze(page, 2);
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1597  			radix_tree_replace_slot(&mapping->i_pages, slot, page);
+148deab223b2373 Matthew Wilcox     2016-12-14  1598  			slot = radix_tree_iter_resume(slot, &iter);
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1599  			xa_unlock_irq(&mapping->i_pages);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1600  			unlock_page(page);
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1601  			putback_lru_page(page);
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1602  			xa_lock_irq(&mapping->i_pages);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1603  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1604  		VM_BUG_ON(nr_none);
+b93b016313b3ba8 Matthew Wilcox     2018-04-10  1605  		xa_unlock_irq(&mapping->i_pages);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1606  
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1607  		mem_cgroup_cancel_charge(new_page, memcg, true);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1608  		new_page->mapping = NULL;
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1609  	}
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1610  
+3e9646c76cb91d6 Hugh Dickins       2018-11-30  1611  	unlock_page(new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1612  out:
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1613  	VM_BUG_ON(!list_empty(&pagelist));
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1614  	/* TODO: tracepoints */
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1615  }
+f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1616  
+
+:::::: The code at line 1336 was first introduced by commit
+:::::: f3f0e1d2150b2b99da2cbdfaad000089efe9bf30 khugepaged: add support of collapse for tmpfs/shmem pages
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
