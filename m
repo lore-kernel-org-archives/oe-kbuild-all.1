@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FAD2701B6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 16:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC64126FA4B;
+	Tue, 20 May 2025 17:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747759997; cv=none; b=CIH401tTg7S5875O8Qqz21wwI7XeY+JNb+EMj02Jhype17jjTg0ePjMPGRnJRoRJSHXtNUs/XoKcPBd6ttTGuoai6L47eyji57QiR2dOhyLklbNDo69D/oUJWLgCeAiXGRGghHCXldcgJB86rqUis7//w+MukNW0fa9qtpmQPVs=
+	t=1747760659; cv=none; b=M0yne99wKMFuPrv4ioX0QDnwL7fLtTburtzRNAspGr5jo2b5BU4VdiDVnlC5Gmv31o5lDhvUivQyUedJVCTub1RlddBSrrHyOE9Y5QYhTFxdZhMoUBckUDT8T7yAdwzkklcHz2eiYRQWnCNC9k4EpGJMkqTUNIO+kw2LQivRnlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747759997; c=relaxed/simple;
-	bh=J6byktbGeb21rpc5R8r1fVkPaW1EaI64wlO9/9/XkaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nwhXtoLwfcW8PLpC0Wy12/lnD46QqQrFKaDg+xDu6XozMc3fJrpf4FD6MzYKuGMI/91PfXNBDifX0b6k+4ZY+ohBGWWLASS4IEfk0zHApPehjzMmaYVfpQs0ht8V+BSMrtWqDBiam1v44wq3nue/fNk2X5yxAFlgD/XeTDrB0TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cbr1C5CE; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1747760659; c=relaxed/simple;
+	bh=YLvvwIBYnpG/jk1GRzsYK2XbhHpVwNpqCuHXYSxtbZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NcjDckTTW4iHRFvyMfXOn6h8ajsnPejZGOGjRh4bWlaQ0CG1pi7vTIlU6KuB72R7UZqMeJCVhyIMDzkgifL1Vwom0w+KASDYcVlg8VeFnXiFBaoiT9vwzZJTwEytKNOeQe6I2tXu1wF9EixEcSa/crTGwtQpc6Ral1+eBIToNYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MMeRU/jp; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cbr1C5CE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MMeRU/jp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747759996; x=1779295996;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J6byktbGeb21rpc5R8r1fVkPaW1EaI64wlO9/9/XkaE=;
-  b=Cbr1C5CEn03Dd0IO4Cq8Ez82OK3TM6EHuf16zc0FCleg9TuISmeoGfwN
-   zEh9w14SSUFU1IMKjdUWrZYLWwKZzzXJUI+Udc93EpAULLH989Sy/8Gjr
-   Ijm7O5mCndChKOy85bwfuR+yneqSvsVCengcIH4QqumL4izcegCNDFBKQ
-   JnjuJ2+OVQM4dKnTOZNlkzn1rowI4x+Dz9FTL9vdAnRU3LU5Sr4TAXUU/
-   ALqlmX6wSAaR9DLUdNis5BI+aTYRqOzNoZeN3wlhfNsa6PZyRfPUOQkuW
-   4pF/fNh0PNXtMz9vzM8FZ/lrVTIhvJuU0Uj37+FHAthHVACwA5BEdJ/qR
-   g==;
-X-CSE-ConnectionGUID: 7OIxamH1Q1qDVOZHPgKlOw==
-X-CSE-MsgGUID: P6KKfg0cSSeC2BZNiwrz7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="61099574"
+  t=1747760654; x=1779296654;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YLvvwIBYnpG/jk1GRzsYK2XbhHpVwNpqCuHXYSxtbZQ=;
+  b=MMeRU/jpBMrw1XW9Cu08mFb6Gh4xOh6C7VWKKhMaj5gU1PAMj8xYeoaw
+   38Y1IJZLFEv7wlkFtFlpGYTIBp0KpWo8Zr+ksjRukESVRigPjAo3AFA93
+   Fsrjey81YsKNkYm4kbAnbfCEU6lWnI0IDCB6fEKtiRPihNIiMweXq0/LN
+   3CNkpmdPB85tbZjM9BeAH0xbYGfSNMVYPO9StCobc9EbjeNpIzlhSBINm
+   JIHk+mymgR2LDeQyV99MkoXCpV8G64/GO589UBIonw3gZMeXk1Rcu4VON
+   /SRQXbLV3DZemSgjpg4Vy4Y0Su6kOUhTB8Ygws/D1LNgjxNTAQbPVCnu9
+   w==;
+X-CSE-ConnectionGUID: BTo61i57RtegDVBaK1ojTw==
+X-CSE-MsgGUID: 1ZOtUWhfQg6yfOcO+Ia5WA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="60746654"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="61099574"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 09:53:12 -0700
-X-CSE-ConnectionGUID: emwZ5T0vSX2ssAnNn0Hrdw==
-X-CSE-MsgGUID: lC70T7aUT7i8QP4D+PzNHw==
+   d="scan'208";a="60746654"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 10:04:14 -0700
+X-CSE-ConnectionGUID: nhCRxH3hTQSXSdwg7FCB/Q==
+X-CSE-MsgGUID: zAT0vywtS4Wou2wV8VBnMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="140789529"
+   d="scan'208";a="176887907"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 May 2025 09:53:11 -0700
+  by orviesa001.jf.intel.com with ESMTP; 20 May 2025 10:04:12 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHQDE-000NNv-2o;
-	Tue, 20 May 2025 16:53:08 +0000
-Date: Wed, 21 May 2025 00:52:38 +0800
+	id 1uHQNt-000NOa-2i;
+	Tue, 20 May 2025 17:04:09 +0000
+Date: Wed, 21 May 2025 01:03:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/afs/server.c:375:5-24: WARNING: atomic_dec_and_test variation
- before object free at line 383.
-Message-ID: <202505210027.EOM219DU-lkp@intel.com>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 3/5] mm: thp: add struct ops for BPF based THP
+ adjustment
+Message-ID: <202505210026.wIUy2SJG-lkp@intel.com>
+References: <20250520060504.20251-4-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,50 +63,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250520060504.20251-4-laoar.shao@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a5806cd506af5a7c19bcd596e4708b5c464bfd21
-commit: 4882ba78574e2d8c579658f65f6784b0d139d173 afs: Fix afs_server ref accounting
-date:   2 months ago
-config: loongarch-randconfig-r061-20250520 (https://download.01.org/0day-ci/archive/20250521/202505210027.EOM219DU-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+Hi Yafang,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-thp-Add-a-new-mode-bpf/20250520-140834
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250520060504.20251-4-laoar.shao%40gmail.com
+patch subject: [RFC PATCH v2 3/5] mm: thp: add struct ops for BPF based THP adjustment
+config: s390-randconfig-002-20250520 (https://download.01.org/0day-ci/archive/20250521/202505210026.wIUy2SJG-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210026.wIUy2SJG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210027.EOM219DU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505210026.wIUy2SJG-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/afs/server.c:375:5-24: WARNING: atomic_dec_and_test variation before object free at line 383.
-   fs/afs/server.c:357:5-24: WARNING: atomic_dec_and_test variation before object free at line 360.
+All errors (new ones prefixed by >>):
 
-vim +375 fs/afs/server.c
+   s390x-linux-ld: mm/memory.o: in function `thp_vma_allowable_orders':
+>> include/linux/huge_mm.h:309:(.text+0x43bc0): undefined reference to `hugepage_bpf_allowable'
+   s390x-linux-ld: mm/khugepaged.o: in function `thp_vma_allowable_orders':
+   include/linux/huge_mm.h:309:(.text+0x1628): undefined reference to `hugepage_bpf_allowable'
+   s390x-linux-ld: fs/proc/task_mmu.o: in function `thp_vma_allowable_orders':
+   include/linux/huge_mm.h:309:(.text+0xb00e): undefined reference to `hugepage_bpf_allowable'
 
-   365	
-   366	/*
-   367	 * Drop an active count on a server object.
-   368	 */
-   369	void afs_unuse_server(struct afs_net *net, struct afs_server *server,
-   370			      enum afs_server_trace reason)
-   371	{
-   372		if (!server)
-   373			return;
-   374	
- > 375		if (atomic_dec_and_test(&server->active)) {
-   376			if (!test_bit(AFS_SERVER_FL_EXPIRED, &server->flags) &&
-   377			    READ_ONCE(server->cell->state) < AFS_CELL_FAILED) {
-   378				time64_t unuse_time = ktime_get_real_seconds();
-   379	
-   380				server->unuse_time = unuse_time;
-   381				afs_set_server_timer(server, afs_server_gc_delay);
-   382			} else {
- > 383				schedule_work(&server->destroyer);
-   384			}
-   385		}
-   386	
-   387		afs_put_server(net, server, reason);
-   388	}
-   389	
+
+vim +309 include/linux/huge_mm.h
+
+3485b88390b0af9 Ryan Roberts   2023-12-07  274  
+3485b88390b0af9 Ryan Roberts   2023-12-07  275  unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
+e0ffb29bc54d86b Matthew Wilcox 2024-04-25  276  					 unsigned long vm_flags,
+e0ffb29bc54d86b Matthew Wilcox 2024-04-25  277  					 unsigned long tva_flags,
+3485b88390b0af9 Ryan Roberts   2023-12-07  278  					 unsigned long orders);
+3485b88390b0af9 Ryan Roberts   2023-12-07  279  
+3485b88390b0af9 Ryan Roberts   2023-12-07  280  /**
+3485b88390b0af9 Ryan Roberts   2023-12-07  281   * thp_vma_allowable_orders - determine hugepage orders that are allowed for vma
+3485b88390b0af9 Ryan Roberts   2023-12-07  282   * @vma:  the vm area to check
+3485b88390b0af9 Ryan Roberts   2023-12-07  283   * @vm_flags: use these vm_flags instead of vma->vm_flags
+e0ffb29bc54d86b Matthew Wilcox 2024-04-25  284   * @tva_flags: Which TVA flags to honour
+3485b88390b0af9 Ryan Roberts   2023-12-07  285   * @orders: bitfield of all orders to consider
+3485b88390b0af9 Ryan Roberts   2023-12-07  286   *
+3485b88390b0af9 Ryan Roberts   2023-12-07  287   * Calculates the intersection of the requested hugepage orders and the allowed
+3485b88390b0af9 Ryan Roberts   2023-12-07  288   * hugepage orders for the provided vma. Permitted orders are encoded as a set
+3485b88390b0af9 Ryan Roberts   2023-12-07  289   * bit at the corresponding bit position (bit-2 corresponds to order-2, bit-3
+3485b88390b0af9 Ryan Roberts   2023-12-07  290   * corresponds to order-3, etc). Order-0 is never considered a hugepage order.
+3485b88390b0af9 Ryan Roberts   2023-12-07  291   *
+3485b88390b0af9 Ryan Roberts   2023-12-07  292   * Return: bitfield of orders allowed for hugepage in the vma. 0 if no hugepage
+3485b88390b0af9 Ryan Roberts   2023-12-07  293   * orders are allowed.
+3485b88390b0af9 Ryan Roberts   2023-12-07  294   */
+3485b88390b0af9 Ryan Roberts   2023-12-07  295  static inline
+3485b88390b0af9 Ryan Roberts   2023-12-07  296  unsigned long thp_vma_allowable_orders(struct vm_area_struct *vma,
+e0ffb29bc54d86b Matthew Wilcox 2024-04-25  297  				       unsigned long vm_flags,
+e0ffb29bc54d86b Matthew Wilcox 2024-04-25  298  				       unsigned long tva_flags,
+3485b88390b0af9 Ryan Roberts   2023-12-07  299  				       unsigned long orders)
+3485b88390b0af9 Ryan Roberts   2023-12-07  300  {
+3485b88390b0af9 Ryan Roberts   2023-12-07  301  	/* Optimization to check if required orders are enabled early. */
+e0ffb29bc54d86b Matthew Wilcox 2024-04-25  302  	if ((tva_flags & TVA_ENFORCE_SYSFS) && vma_is_anonymous(vma)) {
+3485b88390b0af9 Ryan Roberts   2023-12-07  303  		unsigned long mask = READ_ONCE(huge_anon_orders_always);
+3485b88390b0af9 Ryan Roberts   2023-12-07  304  
+3485b88390b0af9 Ryan Roberts   2023-12-07  305  		if (vm_flags & VM_HUGEPAGE)
+3485b88390b0af9 Ryan Roberts   2023-12-07  306  			mask |= READ_ONCE(huge_anon_orders_madvise);
+3485b88390b0af9 Ryan Roberts   2023-12-07  307  		if (hugepage_global_always() ||
+31f9439b0bbc383 Yafang Shao    2025-05-20  308  		    ((vm_flags & VM_HUGEPAGE) && hugepage_global_enabled()) ||
+31f9439b0bbc383 Yafang Shao    2025-05-20 @309  		    hugepage_bpf_allowable())
+3485b88390b0af9 Ryan Roberts   2023-12-07  310  			mask |= READ_ONCE(huge_anon_orders_inherit);
+3485b88390b0af9 Ryan Roberts   2023-12-07  311  
+3485b88390b0af9 Ryan Roberts   2023-12-07  312  		orders &= mask;
+3485b88390b0af9 Ryan Roberts   2023-12-07  313  		if (!orders)
+3485b88390b0af9 Ryan Roberts   2023-12-07  314  			return 0;
+3485b88390b0af9 Ryan Roberts   2023-12-07  315  	}
+3485b88390b0af9 Ryan Roberts   2023-12-07  316  
+e0ffb29bc54d86b Matthew Wilcox 2024-04-25  317  	return __thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders);
+3485b88390b0af9 Ryan Roberts   2023-12-07  318  }
+43675e6fbbeadca Yang Shi       2019-07-18  319  
 
 -- 
 0-DAY CI Kernel Test Service
