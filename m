@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C681B256C9D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 23:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00ED825CC73
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 23:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747784330; cv=none; b=tm+sryt8soNOYxo+AIsDYbyNdeCPHxh9rgL7rDJEZimvYBokoKvYBOKihoqPVwPrXUrrfyauqCvheAkIBiN5ftpxAdUBJtjRdyswUhH/FHY73X+MIJFYclALiVNVKaBFQZvkfK/7uDQFFmH9RpYMWDIH58fzTmUk4DWQR+1aU8c=
+	t=1747784930; cv=none; b=kiPX984ao+rYuJPhFU+CPnHBJjZvc2YDA1cw3kRio44uIRyZhiESULR6rRY/Vk+FnR4IvffIEKrSZ6aIhwmsLdfRGGgFBKmyZyQebhU0KkMgyX7tfEce4QNvym92J8IGq8O35mu4uEzwiBy4wHBrboNZ7AMrx4acCsy/YfWmOY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747784330; c=relaxed/simple;
-	bh=6k7yATObDw4adb5vnXcEwNXFnoSuP4qFoAizUOImBEw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DXRR/X1KNq4Rh+4wSacbC+xEjgjQ0rDd7GAlRnFK6P2ljc05MRFjntwGvqrnWea+P/QV1yjE6F6g8FBk2ylWRxI+ahXnJE1pvil+2C8PP+2myxofpJKs/N+cVgjITJV61k5GoGlkHpNB0lDnCyoCQ/8d/Rh7z0tL4lY4/aib5Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSujWilA; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1747784930; c=relaxed/simple;
+	bh=qK9KfpF+RCiYkwa4Z4USuVJnQ/rRg7+g/eR/EwdA/4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L980Ru5XhMXNygJeesN5FU9twOypARqMoVd10NWurgNRcM5VdRSKSXjs3hNx0wRhw6OcCUUXfplj9IFPdcPFXIJhPIDK7gAyCkcux5Lr9UJp8WvhYbGPK7rvZu7FwfKLYo4+bSmIhmqSXMdxkwkFLz9heuy121/+btMYMuUT/zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKBKjY9L; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSujWilA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKBKjY9L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747784329; x=1779320329;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6k7yATObDw4adb5vnXcEwNXFnoSuP4qFoAizUOImBEw=;
-  b=VSujWilA3ybCRl7Hd7jUQIf+PUvKT15vw7UcgDAB2HXAtSA3FGw4dujG
-   nOW9zrtcFJJxdp8uFQi/t5VvOhiAryKg/5bzGWfockGFVExpp+Cdy6q4z
-   nnLrBezgqFUS7RpcNlXqJZumXpI5Xd1Vwj9Za1P0QDCjcCaQ3AdkIWn+x
-   QzJ/RdS3Gai4qcHmunbGE6Z3WWzlcpLo+dcCflWGj+6z3XGQDZiZcsdBg
-   z/m9pzbNELibjbT3gDpoVixdHB15e2ySYA60sClc9qm5XlJVAHSzAig/r
-   1FDpK1wR9DkZGi7MLkePBveb/daM1WnavSAMuV85Jxn84pASpWvXOwoZS
-   w==;
-X-CSE-ConnectionGUID: WNSEaHOySbm7OdCwe8Fkww==
-X-CSE-MsgGUID: DmtKHgO0QD+cqbLrg978ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="60380975"
+  t=1747784929; x=1779320929;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qK9KfpF+RCiYkwa4Z4USuVJnQ/rRg7+g/eR/EwdA/4k=;
+  b=jKBKjY9L6776+g+0lYp14sU1KTOyjLGJFyWbC63QDgdJXZq/QvURonVa
+   M9nh0ETLUnkayqwe60HQGymHKQABxOacDDpLvluCiTSRUsDg4K6DaL4wL
+   oNWU5m4J2I0N4MzQ255H/Yn1//HHxLSHUu6tqXdYS25qtVr1tYvPkgciB
+   jlAFcj4fFaN7K2B9shFuh35faEEbg5UAWuPChIF+bXINZd+UANdG4rImI
+   elD3nFAXAXXuZQyDJ9yuGM5Ofvh/Peei9uCEgKQriMwDxBjF5DXPpTuwB
+   V1i1P6wRv6cfl+sTb0CMXEyHuqXGIC32MuQL7bCBWPwfMI1P/kGIaTr8F
+   A==;
+X-CSE-ConnectionGUID: 3wi6wPaWREyIpuqvov+hMQ==
+X-CSE-MsgGUID: fhHiI6JFSq6joXmvUL+CEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49898256"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="60380975"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 16:38:48 -0700
-X-CSE-ConnectionGUID: nAe3oT3uTHyMCF3lRzQ6hg==
-X-CSE-MsgGUID: n77WxTsbRF22rRPP9zdLSA==
+   d="scan'208";a="49898256"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 16:48:49 -0700
+X-CSE-ConnectionGUID: Jcm4GjywQkOZnDh+eApcDA==
+X-CSE-MsgGUID: kE6lRB7KS9GBk5WN4KNpPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="144725084"
+   d="scan'208";a="140782406"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 May 2025 16:38:46 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 May 2025 16:48:47 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHWXk-000Nfo-1f;
-	Tue, 20 May 2025 23:38:44 +0000
-Date: Wed, 21 May 2025 07:37:57 +0800
+	id 1uHWhR-000Ng0-0f;
+	Tue, 20 May 2025 23:48:45 +0000
+Date: Wed, 21 May 2025 07:48:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: lizhe.67@bytedance.com, alex.williamson@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lizhe.67@bytedance.com,
-	muchun.song@linux.dev
-Subject: Re: [PATCH v3] vfio/type1: optimize vfio_pin_pages_remote() for huge
- folio
-Message-ID: <202505210701.WY7sKXwU-lkp@intel.com>
-References: <20250520070020.6181-1-lizhe.67@bytedance.com>
+To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2263/2263] mm/mem_sampling.c:37:6: warning: no
+ previous prototype for function 'mem_sampling_record_cb_register'
+Message-ID: <202505210722.gwnDsvxy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,106 +61,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250520070020.6181-1-lizhe.67@bytedance.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on awilliam-vfio/next]
-[also build test ERROR on awilliam-vfio/for-linus linus/master v6.15-rc7 next-20250516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/lizhe-67-bytedance-com/vfio-type1-optimize-vfio_pin_pages_remote-for-huge-folio/20250520-150123
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20250520070020.6181-1-lizhe.67%40bytedance.com
-patch subject: [PATCH v3] vfio/type1: optimize vfio_pin_pages_remote() for huge folio
-config: i386-randconfig-013-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210701.WY7sKXwU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210701.WY7sKXwU-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   dea1e68d661266b45b33cc596c34b451de95000c
+commit: cc5f4f44852f9eb4feb22a40cbb4e3d1b10c36a0 [2263/2263] mm_monitor/mm_spe: Add PMU based memory sampling abstract layer
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250521/202505210722.gwnDsvxy-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210722.gwnDsvxy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210701.WY7sKXwU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505210722.gwnDsvxy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/vfio/vfio_iommu_type1.c: In function 'vfio_pin_pages_remote':
->> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_499' declared with attribute error: min((long)batch->size, folio_nr_pages(folio) - (({ const struct page *__pg = (batch->pages[batch->offset]); int __sec = page_to_section(__pg); (unsigned long)(__pg - __section_mem_map_addr(__nr_to_section(__sec))); }) - folio_pfn(folio))) signedness error
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
-     523 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/vfio/vfio_iommu_type1.c:709:36: note: in expansion of macro 'min'
-     709 |                         nr_pages = min((long)batch->size, folio_nr_pages(folio) -
-         |                                    ^~~
---
-   In file included from <command-line>:
-   vfio_iommu_type1.c: In function 'vfio_pin_pages_remote':
->> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_499' declared with attribute error: min((long)batch->size, folio_nr_pages(folio) - (({ const struct page *__pg = (batch->pages[batch->offset]); int __sec = page_to_section(__pg); (unsigned long)(__pg - __section_mem_map_addr(__nr_to_section(__sec))); }) - folio_pfn(folio))) signedness error
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
-     523 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   vfio_iommu_type1.c:709:36: note: in expansion of macro 'min'
-     709 |                         nr_pages = min((long)batch->size, folio_nr_pages(folio) -
-         |                                    ^~~
+>> mm/mem_sampling.c:37:6: warning: no previous prototype for function 'mem_sampling_record_cb_register' [-Wmissing-prototypes]
+      37 | void mem_sampling_record_cb_register(mem_sampling_record_cb_type cb)
+         |      ^
+   mm/mem_sampling.c:37:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      37 | void mem_sampling_record_cb_register(mem_sampling_record_cb_type cb)
+         | ^
+         | static 
+>> mm/mem_sampling.c:54:6: warning: no previous prototype for function 'mem_sampling_record_cb_unregister' [-Wmissing-prototypes]
+      54 | void mem_sampling_record_cb_unregister(mem_sampling_record_cb_type cb)
+         |      ^
+   mm/mem_sampling.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      54 | void mem_sampling_record_cb_unregister(mem_sampling_record_cb_type cb)
+         | ^
+         | static 
+   mm/mem_sampling.c:67:6: warning: no previous prototype for function 'mem_sampling_process' [-Wmissing-prototypes]
+      67 | void mem_sampling_process(void)
+         |      ^
+   mm/mem_sampling.c:67:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      67 | void mem_sampling_process(void)
+         | ^
+         | static 
+   3 warnings generated.
 
 
-vim +/__compiletime_assert_499 +542 include/linux/compiler_types.h
+vim +/mem_sampling_record_cb_register +37 mm/mem_sampling.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  528  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  531  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  532  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  536   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  539   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  540   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+    36	
+  > 37	void mem_sampling_record_cb_register(mem_sampling_record_cb_type cb)
+    38	{
+    39		struct mem_sampling_record_cb_list_entry *cb_entry, *tmp;
+    40	
+    41		list_for_each_entry_safe(cb_entry, tmp, &mem_sampling_record_cb_list, list) {
+    42			if (cb_entry->cb == cb)
+    43				return;
+    44		}
+    45	
+    46		cb_entry = kmalloc(sizeof(struct mem_sampling_record_cb_list_entry), GFP_KERNEL);
+    47		if (!cb_entry)
+    48			return;
+    49	
+    50		cb_entry->cb = cb;
+    51		list_add(&(cb_entry->list), &mem_sampling_record_cb_list);
+    52	}
+    53	
+  > 54	void mem_sampling_record_cb_unregister(mem_sampling_record_cb_type cb)
+    55	{
+    56		struct mem_sampling_record_cb_list_entry *cb_entry, *tmp;
+    57	
+    58		list_for_each_entry_safe(cb_entry, tmp, &mem_sampling_record_cb_list, list) {
+    59			if (cb_entry->cb == cb) {
+    60				list_del(&cb_entry->list);
+    61				kfree(cb_entry);
+    62				return;
+    63			}
+    64		}
+    65	}
+    66	
 
 -- 
 0-DAY CI Kernel Test Service
