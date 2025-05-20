@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06881A2396
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CDA25D54F
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 07:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747725305; cv=none; b=ZAg/T0EXY4IWLZh1ZfFA8kebQwBSmbajROlBaXSb4XwxLMhKjFOmx35iHGYtjDEj598OTe7zCh2vchV101+t4mbxB2yLYwvhOEtplUkf673ZCW0U7WTO0hkrOQaMn6/SFM6qeU5WNR1xNCNgrSUpy2NG+IsNsovWJedHuRsXm6w=
+	t=1747725306; cv=none; b=ZPz8+kghnnw6GirFhT6dkRwi9uaVXP8upJJW7S2j7EegyRQ67T5u/2ketn9XeA14aksgqnroAyO/S2thwma4hkPYVFxVPSwY8WTfmmYSjWeVelTtfmItjAGP8fMNP+991ihIkMVS1+NRwD5SyZbbG21kHV3QvzBvMNJrwj1NZhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747725305; c=relaxed/simple;
-	bh=Vgyza4M9Pp5MUF66mwC7cuxxtJWLVhI2lEFL5ESCXnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A7T+Oaf01LntpLuMY5S8wmyUJ9hH4Dl035aZmlFxFgAytX9ZMqrdu0KnX0xLzbeERR36HjMbKwkpXTk3HC/jxzF+R8kMZwP6nxfp5YnK+yKksXaXp5531GxbysRnne0dEN5Tel6bt5OOrAXHeO5gyUP07tSn87jDMubQ9L88K9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=muKQ6pWT; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1747725306; c=relaxed/simple;
+	bh=4NK1U/Nsr/bYoUJG4HPRwTvy4d3e3dS/pU6xOSYGo6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tRYmFcE+2vBNkRjHcAHf0r+skJmh+slezfNH2AFouVBtadC83/+Y1rDbNeiA1925gd0RpZq+xd1q+68RLsFDCGawymM1riQUAQ43xcUyF+KTh1em2R1baES6A0LpT1dwOHB5hEcno/Er3l41+gF2cOJ02Yxe1VPN/GWrKTw06uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsa6z7D7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="muKQ6pWT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsa6z7D7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747725303; x=1779261303;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vgyza4M9Pp5MUF66mwC7cuxxtJWLVhI2lEFL5ESCXnA=;
-  b=muKQ6pWTC2NYAmowxKaKqJwrxq/7yy9/Zux7IAIQ2YoPjR6vcZ0j5BDo
-   kWwEf2wPlDnuS0cBbhUKXO8S31B6ZEEn/zgnmSMfy9qrczA5FRpQxY/1h
-   7kPRGligjW/p840Y47Qfi+7ya8V3L9Ak/baQGAKt7v3Y/loZ/IY+rjp0g
-   nWs3Q/0iQx6LnxENGL0wu/pYo/Jz/hzLCOvIqqkiRVtyYmJD7tUAQI2zt
-   pvn+e1Qe/Q2ynoBFzT7ZgnI1gkHh4N5FExDv4IBxMtcS5zUvEwYtmcvVx
-   6a/EImtVKrlJkXUIvMHhzZbx0LhminrsqbMFwG6J2bulqaEbv3bBqiER9
-   w==;
-X-CSE-ConnectionGUID: rCWbJCsFSJ+Q1RRA5Cbd/w==
-X-CSE-MsgGUID: UAJwDHx5SIGvtNEH3obH0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="53446245"
+  t=1747725304; x=1779261304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4NK1U/Nsr/bYoUJG4HPRwTvy4d3e3dS/pU6xOSYGo6A=;
+  b=nsa6z7D7QNRP2F4ZYiYlS9KphemXEi9H03OPDU+hEeMozCluMwD+oVEQ
+   TMzeUkkrKtaGFREeT6rEdkYsvF4Wn8D0Kpqdje6Vqm933rbLBLQUApUwP
+   l9wv7VwfuQmDJ2QLLRSLEBMLsToK9Bxd7vMi8NNCDfBeiMdG586innNhP
+   SM5ymb7Iev+tAXkHzBC6qQi5dnM7OXwzGkRe+gvHuLF9EhkDNEKGLAfnQ
+   wnf0FOMYjvjFJ5hslO/joB42VFTw973tPzr3wm5aQiUt5NxFs7hbLzTDC
+   f9KiOURdeGUtsgS5Nr3zfqrZO2FucNdEzPh7MMmx6GP0DUs/vgw8RjqV2
+   g==;
+X-CSE-ConnectionGUID: 89tzuOt6QWS2TVzXFruDrw==
+X-CSE-MsgGUID: Csq/zF6QRWCDpXHLrtWO8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="52277306"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="53446245"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 00:15:03 -0700
-X-CSE-ConnectionGUID: gfdvMNKGSHaXLdNZMaTkDA==
-X-CSE-MsgGUID: evh95+eqSb2CqNV+gh5bog==
+   d="scan'208";a="52277306"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 00:15:03 -0700
+X-CSE-ConnectionGUID: pyD17p8rTYWQbtrdjnDrsw==
+X-CSE-MsgGUID: JQRbffE9Q4+4+N6rnYwxXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="139445952"
+   d="scan'208";a="139507250"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 May 2025 00:15:02 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 20 May 2025 00:15:02 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHHBj-000MGo-2K;
+	id 1uHHBj-000MGm-2G;
 	Tue, 20 May 2025 07:14:59 +0000
 Date: Tue, 20 May 2025 15:14:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2257/2257] htmldocs: Warning:
- drivers/arm/mm_monitor/spe-decoder/arm-spe-decoder.c references a file that
- doesn't exist: Documentation/arm64/memory.rst
-Message-ID: <202505201519.o4k4rCxn-lkp@intel.com>
+To: Duan Jiong <djduanjiong@gmail.com>, ja@ssi.bg, pablo@netfilter.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Duan Jiong <djduanjiong@gmail.com>
+Subject: Re: [PATCH] ipvs: skip ipvs snat processing when packet dst is not
+ vip
+Message-ID: <202505201507.zvDoaADX-lkp@intel.com>
+References: <20250519103203.17255-1-djduanjiong@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,34 +64,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250519103203.17255-1-djduanjiong@gmail.com>
 
-Hi Ze,
+Hi Duan,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   289de29f4f837038aa79e765e64ddc1d410fe5fd
-commit: b8a759002c48f227d03084fb6b6213a3beaa44e3 [2257/2257] mm_monitor/mm_spe: Introduce standalone SPE profiling framework
-reproduce: (https://download.01.org/0day-ci/archive/20250520/202505201519.o4k4rCxn-lkp@intel.com/reproduce)
+[auto build test ERROR on netfilter-nf/main]
+[also build test ERROR on horms-ipvs/master linus/master v6.15-rc7 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Duan-Jiong/ipvs-skip-ipvs-snat-processing-when-packet-dst-is-not-vip/20250519-183312
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20250519103203.17255-1-djduanjiong%40gmail.com
+patch subject: [PATCH] ipvs: skip ipvs snat processing when packet dst is not vip
+config: i386-randconfig-014-20250520 (https://download.01.org/0day-ci/archive/20250520/202505201507.zvDoaADX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201507.zvDoaADX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505201519.o4k4rCxn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505201507.zvDoaADX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
-   Warning: crypto/asymmetric_keys/pgp_preload.c references a file that doesn't exist: Documentation/security/keys-crypto.txt
->> Warning: drivers/arm/mm_monitor/spe-decoder/arm-spe-decoder.c references a file that doesn't exist: Documentation/arm64/memory.rst
-   Warning: drivers/net/ethernet/nebula-matrix/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18110.rst
-   Warning: drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file that doesn't exist: Documentation/ioctl/ioctl-number.txt
-   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
-   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
-   Using alabaster theme
+   net/netfilter/ipvs/ip_vs_core.c: In function 'handle_response':
+>> net/netfilter/ipvs/ip_vs_core.c:1263:32: error: storage size of 'ctinfo' isn't known
+    1263 |         enum ip_conntrack_info ctinfo;
+         |                                ^~~~~~
+>> net/netfilter/ipvs/ip_vs_core.c:1264:30: error: implicit declaration of function 'nf_ct_get' [-Werror=implicit-function-declaration]
+    1264 |         struct nf_conn *ct = nf_ct_get(skb, &ctinfo);
+         |                              ^~~~~~~~~
+>> net/netfilter/ipvs/ip_vs_core.c:1278:24: error: invalid use of undefined type 'struct nf_conn'
+    1278 |                     &ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.dst.u3,
+         |                        ^~
+>> net/netfilter/ipvs/ip_vs_core.c:1278:36: error: 'IP_CT_DIR_ORIGINAL' undeclared (first use in this function)
+    1278 |                     &ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.dst.u3,
+         |                                    ^~~~~~~~~~~~~~~~~~
+   net/netfilter/ipvs/ip_vs_core.c:1278:36: note: each undeclared identifier is reported only once for each function it appears in
+>> net/netfilter/ipvs/ip_vs_core.c:1263:32: warning: unused variable 'ctinfo' [-Wunused-variable]
+    1263 |         enum ip_conntrack_info ctinfo;
+         |                                ^~~~~~
+   net/netfilter/ipvs/ip_vs_core.c: In function 'ip_vs_in_icmp':
+   net/netfilter/ipvs/ip_vs_core.c:1602:15: warning: variable 'outer_proto' set but not used [-Wunused-but-set-variable]
+    1602 |         char *outer_proto = "IPIP";
+         |               ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +1263 net/netfilter/ipvs/ip_vs_core.c
+
+  1254	
+  1255	/* Handle response packets: rewrite addresses and send away...
+  1256	 */
+  1257	static unsigned int
+  1258	handle_response(int af, struct sk_buff *skb, struct ip_vs_proto_data *pd,
+  1259			struct ip_vs_conn *cp, struct ip_vs_iphdr *iph,
+  1260			unsigned int hooknum)
+  1261	{
+  1262		struct ip_vs_protocol *pp = pd->pp;
+> 1263		enum ip_conntrack_info ctinfo;
+> 1264		struct nf_conn *ct = nf_ct_get(skb, &ctinfo);
+  1265	
+  1266		if (IP_VS_FWD_METHOD(cp) != IP_VS_CONN_F_MASQ)
+  1267			goto after_nat;
+  1268	
+  1269		IP_VS_DBG_PKT(11, af, pp, skb, iph->off, "Outgoing packet");
+  1270	
+  1271		if (skb_ensure_writable(skb, iph->len))
+  1272			goto drop;
+  1273	
+  1274		/* mangle the packet */
+  1275		if (ct != NULL &&
+  1276		    hooknum == NF_INET_FORWARD &&
+  1277		    !ip_vs_addr_equal(af,
+> 1278			    &ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.dst.u3,
+  1279			    &cp->vaddr))
+  1280			return NF_ACCEPT;
+  1281		if (pp->snat_handler &&
+  1282		    !SNAT_CALL(pp->snat_handler, skb, pp, cp, iph))
+  1283			goto drop;
+  1284	
 
 -- 
 0-DAY CI Kernel Test Service
