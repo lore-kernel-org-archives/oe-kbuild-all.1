@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E9A248895
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 14:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0462C2505C7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 14:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747750073; cv=none; b=UBmWYAGxpka4JpZBQgciIVDNoT3xhdFf0Iz2a282tdHIKs8rMnXn0wk02at3VKlTuvXlTtA3Dtaq5fwgy01pmPhaDQheoI1E3f7tZGnkaPsr3RTynlWoYudNubPqT3ZnTclfN0vKhuBPkuXc7w+4k01nCSZOIARi6/xVTuyTFBI=
+	t=1747750675; cv=none; b=kcoLw81mD5kZ4j7WWRF6Q3IJzCHjqXBreLOtLRnF5kUUB1fXjuJiI+tZjR/f+roG3NDzWUdt95k9/xVFsBOFgWO4hStsvF9wqLZpPk2NMQfriJ6z/y05zL4dok3LJyzX8qDHJ+t2iCUu0R/ayxnrLWX6sMcwXlfONWAcSwEiK2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747750073; c=relaxed/simple;
-	bh=PAvCB79qLScuylVaWQFKB+ftt/95H30vIARU8zDWRCQ=;
+	s=arc-20240116; t=1747750675; c=relaxed/simple;
+	bh=cr5cDHysIQ3H3OO9LkPTAQ3vUpqFCX0pRVVXTyUNOMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=otgR/daEJlVTkFpvdLvB7U8z4CsBckqFqEBs0+c3G1SYG95q8n0vCRTFLCtvqMELlJeNA9JDI9p40vitKrZlr7RiKlbrrY6ODqdJOiE1D82ooskET9plLKkgE71T3Wo8F6dPvDu13mNEpfkIJKulQ6vMujqmGxQD/+2xloknRcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej+3Zxfa; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=ULa7GMGxIKEQudrCvajQPc/jSEqKDVO2xaO1WQ/HsybY0j4KmWJ19kufgfcS3nMOSbTL1N1HT+pKzpuVjtD8sk0Vz/+TYcwREOJJFKEWv6cri40TnFCYQV7QNgy1cPtMZZjhYp7f+TKTQCMBvQlXP6hIvi2BLm3HP+JcrI1d+4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SE0XAJ5+; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej+3Zxfa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SE0XAJ5+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747750070; x=1779286070;
+  t=1747750673; x=1779286673;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PAvCB79qLScuylVaWQFKB+ftt/95H30vIARU8zDWRCQ=;
-  b=ej+3ZxfaCGv9ux8wYzSyTxA6ntr2eAXELHCSDWCil7nzRJ2dM1t3Ipoa
-   5W/JzuT3PxTi+VPXLSZHIngN2yIaX7DSoSR7FPoBO9Ctmc/tAW1tMJ3Ge
-   Hfa6oN2h/fL3w077SaZ0gf9zlRCVTYBUenjcQ1BKxSIcB8fBn5Rkv2S1J
-   XjPnk0eTGYx4b584qSqP+otg9kHr6iJwcObx7/kHQVSZC5sMVmtFOE32j
-   VE199YMdOzqfbrdX6fQX0cNFqR267EzLbzdVROeR/r3BFUYKgeDTSB7Jk
-   f1hwIBWYbRzZljKP0CqYwV/ewDF6QU6C+oMcr24d7/3IcxvO1+KENr2s0
-   w==;
-X-CSE-ConnectionGUID: FwEx55wyRvWfASPjFoT8jg==
-X-CSE-MsgGUID: SLddDJvfTZy52FDyrJmh6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49385236"
+  bh=cr5cDHysIQ3H3OO9LkPTAQ3vUpqFCX0pRVVXTyUNOMM=;
+  b=SE0XAJ5+nL3sQKycjzdorfwVAK7mSv04ujFw83m2K0fuiE1EfXHpyrNF
+   0+dS7tySM8EaDt7ddgyx4DBsXK5ddMdPMVZBLAKTfdoV1Vn2UvwiTbjcn
+   2BrBU177fdGlyKsgE+i+PwMjuo13/O1NcJ3j7nHcPzY13uHR6Wyys/IEw
+   O5Oro5CeOaF21Y2LL/4GeR1cR/7+rwvS8fLAcVX/6+zcubDJcEOFUgCFc
+   yJmWyZ2BqGrf1QBn1eTelWbBvQpOWLX9Jypkr+yxB9BkPQsU25XaS6l4j
+   RsKp6FeZ3AoK3/ir3v15OfB5NqTxaYG5gFF9WVzDGtJEcDcxQpDE4d1/M
+   Q==;
+X-CSE-ConnectionGUID: KqFuNMdJQjG9pRUY/eijQg==
+X-CSE-MsgGUID: +A5dOvvzRyCnlQOuCRKzPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49560813"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49385236"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 07:07:49 -0700
-X-CSE-ConnectionGUID: EUP2JYGeRqS3xCEzyxTIhA==
-X-CSE-MsgGUID: v7Q2FmxHQM64nYJU7QSAPQ==
+   d="scan'208";a="49560813"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 07:17:53 -0700
+X-CSE-ConnectionGUID: WX4+ORW/SzCNBFc4u9kbXA==
+X-CSE-MsgGUID: QbkYA1nFSNCnUhnh7TSejw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="163002735"
+   d="scan'208";a="144567860"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 May 2025 07:07:47 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 20 May 2025 07:17:51 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHNdB-000Mrd-0o;
-	Tue, 20 May 2025 14:07:45 +0000
-Date: Tue, 20 May 2025 22:06:51 +0800
+	id 1uHNmv-000N1M-0U;
+	Tue, 20 May 2025 14:17:49 +0000
+Date: Tue, 20 May 2025 22:17:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1646/1646] mm/khugepaged.c:1336:
- warning: Function parameter or member 'reliable' not described in
- 'collapse_shmem'
-Message-ID: <202505202138.LT7VPPBg-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 136/136]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__blk_mq__trace_system_name' defined but not used
+Message-ID: <202505202255.8t7Juwv1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,343 +63,239 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ma,
+Hi hao,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   2eb609d2f89b2d85d89cb018c3f97050989807e2
-commit: ff0fb9e816fac221fa24a1810dd895745406070b [1646/1646] mm: thp: Add memory reliable support for hugepaged collapse
-config: x86_64-buildonly-randconfig-002-20250520 (https://download.01.org/0day-ci/archive/20250520/202505202138.LT7VPPBg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505202138.LT7VPPBg-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   49f46e98f0ece6f15e0532e4fac923e201387364
+commit: 6912e0c8e9ff6035679c642c15ea31c077f248e2 [136/136] ANDROID: add hooks into blk-ma-tag.c for customized I/O scheduler
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250520/202505202255.8t7Juwv1-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505202255.8t7Juwv1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505202138.LT7VPPBg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505202255.8t7Juwv1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/khugepaged.c:1336: warning: Function parameter or member 'mm' not described in 'collapse_shmem'
-   mm/khugepaged.c:1336: warning: Function parameter or member 'mapping' not described in 'collapse_shmem'
-   mm/khugepaged.c:1336: warning: Function parameter or member 'start' not described in 'collapse_shmem'
-   mm/khugepaged.c:1336: warning: Function parameter or member 'hpage' not described in 'collapse_shmem'
-   mm/khugepaged.c:1336: warning: Function parameter or member 'node' not described in 'collapse_shmem'
->> mm/khugepaged.c:1336: warning: Function parameter or member 'reliable' not described in 'collapse_shmem'
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/creds.h:41,
+                    from drivers/android/vendor_hooks.c:53:
+   include/trace/trace_events.h:27:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/avc.h:33,
+                    from drivers/android/vendor_hooks.c:52:
+   include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/traps.h:42,
+                    from drivers/android/vendor_hooks.c:51:
+   include/trace/trace_events.h:27:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sys.h:22,
+                    from drivers/android/vendor_hooks.c:50:
+   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cgroup.h:43,
+                    from drivers/android/vendor_hooks.c:49:
+   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/blk_mq.h:33,
+                    from drivers/android/vendor_hooks.c:48:
+>> include/trace/trace_events.h:27:23: warning: 'str__blk_mq__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/block.h:119,
+                    from drivers/android/vendor_hooks.c:47:
+   include/trace/trace_events.h:27:23: warning: 'str__block__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ufshcd.h:114,
+                    from drivers/android/vendor_hooks.c:46:
+   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/thermal.h:34,
+                    from drivers/android/vendor_hooks.c:45:
+   include/trace/trace_events.h:27:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/iommu.h:53,
+                    from drivers/android/vendor_hooks.c:44:
+   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fault.h:45,
+                    from drivers/android/vendor_hooks.c:43:
+   include/trace/trace_events.h:27:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +1336 mm/khugepaged.c
+vim +/str__blk_mq__trace_system_name +27 include/trace/trace_events.h
 
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1314  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1315  /**
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1316   * collapse_shmem - collapse small tmpfs/shmem pages into huge one.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1317   *
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1318   * Basic scheme is simple, details are more complex:
-af24c01831e4e21 Hugh Dickins       2018-11-30  1319   *  - allocate and lock a new huge page;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1320   *  - scan over radix tree replacing old pages the new one
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1321   *    + swap in pages if necessary;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1322   *    + fill in gaps;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1323   *    + keep old pages around in case if rollback is required;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1324   *  - if replacing succeed:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1325   *    + copy data over;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1326   *    + free old pages;
-af24c01831e4e21 Hugh Dickins       2018-11-30  1327   *    + unlock huge page;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1328   *  - if replacing failed;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1329   *    + put all pages back and unfreeze them;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1330   *    + restore gaps in the radix-tree;
-af24c01831e4e21 Hugh Dickins       2018-11-30  1331   *    + unlock and free huge page;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1332   */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1333  static void collapse_shmem(struct mm_struct *mm,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1334  		struct address_space *mapping, pgoff_t start,
-ff0fb9e816fac22 Ma Wupeng          2022-02-09  1335  		struct page **hpage, int node, bool reliable)
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26 @1336  {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1337  	gfp_t gfp;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1338  	struct page *page, *new_page, *tmp;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1339  	struct mem_cgroup *memcg;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1340  	pgoff_t index, end = start + HPAGE_PMD_NR;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1341  	LIST_HEAD(pagelist);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1342  	struct radix_tree_iter iter;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1343  	void **slot;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1344  	int nr_none = 0, result = SCAN_SUCCEED;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1345  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1346  	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1347  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1348  	/* Only allocate from the target node */
-41b6167e8f746b4 Michal Hocko       2017-01-10  1349  	gfp = alloc_hugepage_khugepaged_gfpmask() | __GFP_THISNODE;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1350  
-ff0fb9e816fac22 Ma Wupeng          2022-02-09  1351  	if (reliable)
-ff0fb9e816fac22 Ma Wupeng          2022-02-09  1352  		gfp |= ___GFP_RELIABILITY;
-ff0fb9e816fac22 Ma Wupeng          2022-02-09  1353  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1354  	new_page = khugepaged_alloc_page(hpage, gfp, node);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1355  	if (!new_page) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1356  		result = SCAN_ALLOC_HUGE_PAGE_FAIL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1357  		goto out;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1358  	}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1359  
-2a70f6a76bb86d1 Michal Hocko       2018-04-10  1360  	if (unlikely(mem_cgroup_try_charge(new_page, mm, gfp, &memcg, true))) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1361  		result = SCAN_CGROUP_CHARGE_FAIL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1362  		goto out;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1363  	}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1364  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1365  	__SetPageLocked(new_page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1366  	__SetPageSwapBacked(new_page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1367  	new_page->index = start;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1368  	new_page->mapping = mapping;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1369  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1370  	/*
-af24c01831e4e21 Hugh Dickins       2018-11-30  1371  	 * At this point the new_page is locked and not up-to-date.
-af24c01831e4e21 Hugh Dickins       2018-11-30  1372  	 * It's safe to insert it into the page cache, because nobody would
-af24c01831e4e21 Hugh Dickins       2018-11-30  1373  	 * be able to map it or use it in another way until we unlock it.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1374  	 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1375  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1376  	index = start;
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1377  	xa_lock_irq(&mapping->i_pages);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1378  	radix_tree_for_each_slot(slot, &mapping->i_pages, &iter, start) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1379  		int n = min(iter.index, end) - index;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1380  
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1381  		/*
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1382  		 * Stop if extent has been hole-punched, and is now completely
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1383  		 * empty (the more obvious i_size_read() check would take an
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1384  		 * irq-unsafe seqlock on 32-bit).
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1385  		 */
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1386  		if (n >= HPAGE_PMD_NR) {
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1387  			result = SCAN_TRUNCATED;
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1388  			goto tree_locked;
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1389  		}
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1390  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1391  		/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1392  		 * Handle holes in the radix tree: charge it from shmem and
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1393  		 * insert relevant subpage of new_page into the radix-tree.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1394  		 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1395  		if (n && !shmem_charge(mapping->host, n)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1396  			result = SCAN_FAIL;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1397  			goto tree_locked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1398  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1399  		for (; index < min(iter.index, end); index++) {
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1400  			radix_tree_insert(&mapping->i_pages, index,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1401  					new_page + (index % HPAGE_PMD_NR));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1402  		}
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1403  		nr_none += n;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1404  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1405  		/* We are done. */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1406  		if (index >= end)
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1407  			break;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1408  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1409  		page = radix_tree_deref_slot_protected(slot,
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1410  				&mapping->i_pages.xa_lock);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1411  		if (radix_tree_exceptional_entry(page) || !PageUptodate(page)) {
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1412  			xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1413  			/* swap in or instantiate fallocated page */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1414  			if (shmem_getpage(mapping->host, index, &page,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1415  						SGP_NOHUGE)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1416  				result = SCAN_FAIL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1417  				goto tree_unlocked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1418  			}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1419  		} else if (trylock_page(page)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1420  			get_page(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1421  			xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1422  		} else {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1423  			result = SCAN_PAGE_LOCK;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1424  			goto tree_locked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1425  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1426  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1427  		/*
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1428  		 * The page must be locked, so we can drop the i_pages lock
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1429  		 * without racing with truncate.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1430  		 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1431  		VM_BUG_ON_PAGE(!PageLocked(page), page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1432  		VM_BUG_ON_PAGE(!PageUptodate(page), page);
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1433  
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1434  		/*
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1435  		 * If file was truncated then extended, or hole-punched, before
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1436  		 * we locked the first page, then a THP might be there already.
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1437  		 */
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1438  		if (PageTransCompound(page)) {
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1439  			result = SCAN_PAGE_COMPOUND;
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1440  			goto out_unlock;
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1441  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1442  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1443  		if (page_mapping(page) != mapping) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1444  			result = SCAN_TRUNCATED;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1445  			goto out_unlock;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1446  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1447  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1448  		if (isolate_lru_page(page)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1449  			result = SCAN_DEL_PAGE_LRU;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1450  			goto out_unlock;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1451  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1452  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1453  		if (page_mapped(page))
-977fbdcd5986c9f Matthew Wilcox     2018-01-31  1454  			unmap_mapping_pages(mapping, index, 1, false);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1455  
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1456  		xa_lock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1457  
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1458  		slot = radix_tree_lookup_slot(&mapping->i_pages, index);
-91a45f71078a656 Johannes Weiner    2016-12-12  1459  		VM_BUG_ON_PAGE(page != radix_tree_deref_slot_protected(slot,
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1460  					&mapping->i_pages.xa_lock), page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1461  		VM_BUG_ON_PAGE(page_mapped(page), page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1462  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1463  		/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1464  		 * The page is expected to have page_count() == 3:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1465  		 *  - we hold a pin on it;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1466  		 *  - one reference from radix tree;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1467  		 *  - one from isolate_lru_page;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1468  		 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1469  		if (!page_ref_freeze(page, 3)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1470  			result = SCAN_PAGE_COUNT;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1471  			xa_unlock_irq(&mapping->i_pages);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1472  			putback_lru_page(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1473  			goto out_unlock;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1474  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1475  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1476  		/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1477  		 * Add the page to the list to be able to undo the collapse if
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1478  		 * something go wrong.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1479  		 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1480  		list_add_tail(&page->lru, &pagelist);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1481  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1482  		/* Finally, replace with the new page. */
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1483  		radix_tree_replace_slot(&mapping->i_pages, slot,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1484  				new_page + (index % HPAGE_PMD_NR));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1485  
-148deab223b2373 Matthew Wilcox     2016-12-14  1486  		slot = radix_tree_iter_resume(slot, &iter);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1487  		index++;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1488  		continue;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1489  out_unlock:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1490  		unlock_page(page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1491  		put_page(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1492  		goto tree_unlocked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1493  	}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1494  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1495  	/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1496  	 * Handle hole in radix tree at the end of the range.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1497  	 * This code only triggers if there's nothing in radix tree
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1498  	 * beyond 'end'.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1499  	 */
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1500  	if (index < end) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1501  		int n = end - index;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1502  
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1503  		/* Stop if extent has been truncated, and is now empty */
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1504  		if (n >= HPAGE_PMD_NR) {
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1505  			result = SCAN_TRUNCATED;
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1506  			goto tree_locked;
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1507  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1508  		if (!shmem_charge(mapping->host, n)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1509  			result = SCAN_FAIL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1510  			goto tree_locked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1511  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1512  		for (; index < end; index++) {
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1513  			radix_tree_insert(&mapping->i_pages, index,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1514  					new_page + (index % HPAGE_PMD_NR));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1515  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1516  		nr_none += n;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1517  	}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1518  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1519  	__inc_node_page_state(new_page, NR_SHMEM_THPS);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1520  	if (nr_none) {
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1521  		struct zone *zone = page_zone(new_page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1522  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1523  		__mod_node_page_state(zone->zone_pgdat, NR_FILE_PAGES, nr_none);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1524  		__mod_node_page_state(zone->zone_pgdat, NR_SHMEM, nr_none);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1525  	}
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1526  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1527  tree_locked:
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1528  	xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1529  tree_unlocked:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1530  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1531  	if (result == SCAN_SUCCEED) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1532  		/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1533  		 * Replacing old pages with new one has succeed, now we need to
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1534  		 * copy the content and free old pages.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1535  		 */
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1536  		index = start;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1537  		list_for_each_entry_safe(page, tmp, &pagelist, lru) {
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1538  			while (index < page->index) {
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1539  				clear_highpage(new_page + (index % HPAGE_PMD_NR));
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1540  				index++;
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1541  			}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1542  			copy_highpage(new_page + (page->index % HPAGE_PMD_NR),
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1543  					page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1544  			list_del(&page->lru);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1545  			page->mapping = NULL;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1546  			page_ref_unfreeze(page, 1);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1547  			ClearPageActive(page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1548  			ClearPageUnevictable(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1549  			unlock_page(page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1550  			put_page(page);
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1551  			index++;
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1552  		}
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1553  		while (index < end) {
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1554  			clear_highpage(new_page + (index % HPAGE_PMD_NR));
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1555  			index++;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1556  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1557  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1558  		SetPageUptodate(new_page);
-af24c01831e4e21 Hugh Dickins       2018-11-30  1559  		page_ref_add(new_page, HPAGE_PMD_NR - 1);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1560  		set_page_dirty(new_page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1561  		mem_cgroup_commit_charge(new_page, memcg, false, true);
-9d5425af85abe36 Chris Down         2021-06-30  1562  		count_memcg_events(memcg, THP_COLLAPSE_ALLOC, 1);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1563  		lru_cache_add_anon(new_page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1564  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1565  		/*
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1566  		 * Remove pte page tables, so we can re-fault the page as huge.
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1567  		 */
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1568  		retract_page_tables(mapping, start);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1569  		*hpage = NULL;
-87aa752906ecf69 Yang Shi           2018-08-17  1570  
-87aa752906ecf69 Yang Shi           2018-08-17  1571  		khugepaged_pages_collapsed++;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1572  	} else {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1573  		/* Something went wrong: rollback changes to the radix-tree */
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1574  		xa_lock_irq(&mapping->i_pages);
-78141aabfbb9560 Hugh Dickins       2018-11-30  1575  		mapping->nrpages -= nr_none;
-78141aabfbb9560 Hugh Dickins       2018-11-30  1576  		shmem_uncharge(mapping->host, nr_none);
-78141aabfbb9560 Hugh Dickins       2018-11-30  1577  
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1578  		radix_tree_for_each_slot(slot, &mapping->i_pages, &iter, start) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1579  			if (iter.index >= end)
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1580  				break;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1581  			page = list_first_entry_or_null(&pagelist,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1582  					struct page, lru);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1583  			if (!page || iter.index < page->index) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1584  				if (!nr_none)
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1585  					break;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1586  				nr_none--;
-59749e6ce53735d Johannes Weiner    2016-12-12  1587  				/* Put holes back where they were */
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1588  				radix_tree_delete(&mapping->i_pages, iter.index);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1589  				continue;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1590  			}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1591  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1592  			VM_BUG_ON_PAGE(page->index != iter.index, page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1593  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1594  			/* Unfreeze the page. */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1595  			list_del(&page->lru);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1596  			page_ref_unfreeze(page, 2);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1597  			radix_tree_replace_slot(&mapping->i_pages, slot, page);
-148deab223b2373 Matthew Wilcox     2016-12-14  1598  			slot = radix_tree_iter_resume(slot, &iter);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1599  			xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1600  			unlock_page(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1601  			putback_lru_page(page);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1602  			xa_lock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1603  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1604  		VM_BUG_ON(nr_none);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1605  		xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1606  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1607  		mem_cgroup_cancel_charge(new_page, memcg, true);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1608  		new_page->mapping = NULL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1609  	}
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1610  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1611  	unlock_page(new_page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1612  out:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1613  	VM_BUG_ON(!list_empty(&pagelist));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1614  	/* TODO: tracepoints */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1615  }
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1616  
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
 
-:::::: The code at line 1336 was first introduced by commit
-:::::: f3f0e1d2150b2b99da2cbdfaad000089efe9bf30 khugepaged: add support of collapse for tmpfs/shmem pages
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
 
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
