@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B9721ADC9;
-	Tue, 20 May 2025 23:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C681B256C9D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 23:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747783730; cv=none; b=IWyKz3i3GzBdvDOpqKbITq+bNbC0U5GvOFf0m2kIsc7QwUijAazsWyivyKcg/dY68627OuDyD4tavOjkkMvtnboLrLE0uqf3Aa4+FmwJEXaCsAasFaauaV6BByeWT/GoFfx0qTGbAt5hYKIEcP/4x9ViZ3tgitrO45jYLvO+T88=
+	t=1747784330; cv=none; b=tm+sryt8soNOYxo+AIsDYbyNdeCPHxh9rgL7rDJEZimvYBokoKvYBOKihoqPVwPrXUrrfyauqCvheAkIBiN5ftpxAdUBJtjRdyswUhH/FHY73X+MIJFYclALiVNVKaBFQZvkfK/7uDQFFmH9RpYMWDIH58fzTmUk4DWQR+1aU8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747783730; c=relaxed/simple;
-	bh=NTysIJ+F5qZbKDc+/yLytQbpCooGh1tcjCfLIjNCteY=;
+	s=arc-20240116; t=1747784330; c=relaxed/simple;
+	bh=6k7yATObDw4adb5vnXcEwNXFnoSuP4qFoAizUOImBEw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qBTadqBOUronjGVsmWG5BvKN4T2MuaRVoAzOgwfpDv8i7mxvejui8e8jPybjDq71PKv2rcBxZU8Y+LS8ePisrkmNjhGSAJ/prZxlI8whdnxAK++OHIBNnBMJQsIQAhKwMaKbnfD79Z8v7EwOF7ZwP33IXf9VJInwQuT7ndKiVAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ClOe1A1U; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=DXRR/X1KNq4Rh+4wSacbC+xEjgjQ0rDd7GAlRnFK6P2ljc05MRFjntwGvqrnWea+P/QV1yjE6F6g8FBk2ylWRxI+ahXnJE1pvil+2C8PP+2myxofpJKs/N+cVgjITJV61k5GoGlkHpNB0lDnCyoCQ/8d/Rh7z0tL4lY4/aib5Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSujWilA; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ClOe1A1U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSujWilA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747783729; x=1779319729;
+  t=1747784329; x=1779320329;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NTysIJ+F5qZbKDc+/yLytQbpCooGh1tcjCfLIjNCteY=;
-  b=ClOe1A1UiGmlilPGBuGb5eV8yTj1GsuE0TDo+US0gCCJFHdFVBN968yW
-   Ia6vmBdang10NEGpVTWlxt9yln2ZsCEs1Zw/ZeQHNBgsRzW75Mbjn4FKk
-   m0z5XJ+EEPRxRcKOV8DaC/nlEYffqAwLvEIVYwmQtc9KCYbzEB4/Qfc8H
-   sIP5oYvGqP+dCZWyBr7VLd9be3HSrUbZjztvCi32cH5wAeffhWiyirG/h
-   w4TyFGkanx48EkkCCne7qzhyWwA4BBGbAnVYEZ7VNwWHPxhdlDC/lMdUN
-   1j3wB/Nz24DkVhPmShXZRDy1dceBQ7SFKv5xQPk3DZVJ62K76jJE1hKpv
-   A==;
-X-CSE-ConnectionGUID: NN5xeKxAR4S4EbQiImUZjQ==
-X-CSE-MsgGUID: kz0zI0CmSBCqZhEqXwe8Ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="75141583"
+  bh=6k7yATObDw4adb5vnXcEwNXFnoSuP4qFoAizUOImBEw=;
+  b=VSujWilA3ybCRl7Hd7jUQIf+PUvKT15vw7UcgDAB2HXAtSA3FGw4dujG
+   nOW9zrtcFJJxdp8uFQi/t5VvOhiAryKg/5bzGWfockGFVExpp+Cdy6q4z
+   nnLrBezgqFUS7RpcNlXqJZumXpI5Xd1Vwj9Za1P0QDCjcCaQ3AdkIWn+x
+   QzJ/RdS3Gai4qcHmunbGE6Z3WWzlcpLo+dcCflWGj+6z3XGQDZiZcsdBg
+   z/m9pzbNELibjbT3gDpoVixdHB15e2ySYA60sClc9qm5XlJVAHSzAig/r
+   1FDpK1wR9DkZGi7MLkePBveb/daM1WnavSAMuV85Jxn84pASpWvXOwoZS
+   w==;
+X-CSE-ConnectionGUID: WNSEaHOySbm7OdCwe8Fkww==
+X-CSE-MsgGUID: DmtKHgO0QD+cqbLrg978ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="60380975"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="75141583"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 16:28:48 -0700
-X-CSE-ConnectionGUID: Y5qi0L6BSdevdaW0kU8kzA==
-X-CSE-MsgGUID: qHR8R5FaQKeR8+8Nc90uPA==
+   d="scan'208";a="60380975"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 16:38:48 -0700
+X-CSE-ConnectionGUID: nAe3oT3uTHyMCF3lRzQ6hg==
+X-CSE-MsgGUID: n77WxTsbRF22rRPP9zdLSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="140777402"
+   d="scan'208";a="144725084"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 May 2025 16:28:46 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 20 May 2025 16:38:46 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHWO3-000Nfc-2t;
-	Tue, 20 May 2025 23:28:43 +0000
-Date: Wed, 21 May 2025 07:27:45 +0800
+	id 1uHWXk-000Nfo-1f;
+	Tue, 20 May 2025 23:38:44 +0000
+Date: Wed, 21 May 2025 07:37:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: "qiwu.chen" <qiwuchen55@gmail.com>, rafael@kernel.org,
-	daniel.lezcano@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pm@vger.kernel.org, "qiwu.chen" <qiwu.chen@transsion.com>
-Subject: Re: [PATCH] cpuidle: add tracepoint for enter_s2idle flow
-Message-ID: <202505210727.H0ZDt9ng-lkp@intel.com>
-References: <20250520030922.9505-1-qiwu.chen@transsion.com>
+To: lizhe.67@bytedance.com, alex.williamson@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, lizhe.67@bytedance.com,
+	muchun.song@linux.dev
+Subject: Re: [PATCH v3] vfio/type1: optimize vfio_pin_pages_remote() for huge
+ folio
+Message-ID: <202505210701.WY7sKXwU-lkp@intel.com>
+References: <20250520070020.6181-1-lizhe.67@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,35 +65,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250520030922.9505-1-qiwu.chen@transsion.com>
+In-Reply-To: <20250520070020.6181-1-lizhe.67@bytedance.com>
 
-Hi qiwu.chen,
+Hi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.15-rc7 next-20250516]
-[cannot apply to daniel-lezcano/clockevents/next]
+[auto build test ERROR on awilliam-vfio/next]
+[also build test ERROR on awilliam-vfio/for-linus linus/master v6.15-rc7 next-20250516]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/qiwu-chen/cpuidle-add-tracepoint-for-enter_s2idle-flow/20250520-111031
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250520030922.9505-1-qiwu.chen%40transsion.com
-patch subject: [PATCH] cpuidle: add tracepoint for enter_s2idle flow
-config: x86_64-randconfig-075-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210727.H0ZDt9ng-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210727.H0ZDt9ng-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/lizhe-67-bytedance-com/vfio-type1-optimize-vfio_pin_pages_remote-for-huge-folio/20250520-150123
+base:   https://github.com/awilliam/linux-vfio.git next
+patch link:    https://lore.kernel.org/r/20250520070020.6181-1-lizhe.67%40bytedance.com
+patch subject: [PATCH v3] vfio/type1: optimize vfio_pin_pages_remote() for huge folio
+config: i386-randconfig-013-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210701.WY7sKXwU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210701.WY7sKXwU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210727.H0ZDt9ng-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505210701.WY7sKXwU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: enter_s2idle_proper+0x34: call to trace_cpu_idle() leaves .noinstr.text section
+   In file included from <command-line>:
+   drivers/vfio/vfio_iommu_type1.c: In function 'vfio_pin_pages_remote':
+>> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_499' declared with attribute error: min((long)batch->size, folio_nr_pages(folio) - (({ const struct page *__pg = (batch->pages[batch->offset]); int __sec = page_to_section(__pg); (unsigned long)(__pg - __section_mem_map_addr(__nr_to_section(__sec))); }) - folio_pfn(folio))) signedness error
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/vfio/vfio_iommu_type1.c:709:36: note: in expansion of macro 'min'
+     709 |                         nr_pages = min((long)batch->size, folio_nr_pages(folio) -
+         |                                    ^~~
+--
+   In file included from <command-line>:
+   vfio_iommu_type1.c: In function 'vfio_pin_pages_remote':
+>> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_499' declared with attribute error: min((long)batch->size, folio_nr_pages(folio) - (({ const struct page *__pg = (batch->pages[batch->offset]); int __sec = page_to_section(__pg); (unsigned long)(__pg - __section_mem_map_addr(__nr_to_section(__sec))); }) - folio_pfn(folio))) signedness error
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   vfio_iommu_type1.c:709:36: note: in expansion of macro 'min'
+     709 |                         nr_pages = min((long)batch->size, folio_nr_pages(folio) -
+         |                                    ^~~
+
+
+vim +/__compiletime_assert_499 +542 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  528  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  531  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  532  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  536   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  539   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  540   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
 
 -- 
 0-DAY CI Kernel Test Service
