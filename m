@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F45D79CF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 16:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DDA1C8603
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 16:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747759870; cv=none; b=cSKLZObnVbI4jWEOPdNpfUGdNxOyWqkZYV35YIhxayDeDrmYskyOaEo3c+xnYS9+aQd1+AvHMyMIqxaXcSKSYctrS7+S25WpLKjOmzwACqpAC90mnX7IsYFWJHj1ZhpQT4aBbztsp++kzWgPJ/uMX5EtTf106nlXLpOKIQYmtok=
+	t=1747759994; cv=none; b=N4X8PQ3DWYaUxpwPNXk0CtDDfQI07zzZRUazAliNElSenJzRxWP/7YarutRiilCaz2Q47lVe5wafZGUpv1lc7KTA/zbpxRTK3wR7XCxCsaZqDJ2zBn1Lm5yS8EjCY8syyg/Ha/CqT+ICpAeEFA2wkIK6z17jt/cIoBHXuQ58JKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747759870; c=relaxed/simple;
-	bh=izt0ndj0kJS0aLONOt9MZ913RhTLLTvvgF7KcBvwetM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=opMJZ0yCuTI8YOfpYpWiZxKdilkPsA/q5aLe4LJoY/I6sS/p7dZiw8REKLKr6HLj+QN7AwB/lXnOnaUNXKBwmojyh+XfLOeWutBmEJa0KmYk7XgTDAqnEEQH3emkIxTrB6h0RgoQZsEWybsxiEzdu2fuVZxFwCSZ96jiYEjGH+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moFS2pX1; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1747759994; c=relaxed/simple;
+	bh=daTJ3sNvDAZAxWdBrblqqVgPeMQaCqa3z28zVnJqHUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uigmTTKMM0oU3ZvpQ1v278StMbyWHvQyNy8DNp7Va713mmFfxhRTAPft7+FYet0UgZDve9vUdpE6s6C6QWVu2qM/4qIAhUYpPsq2VJJRRel+FDLMJQuAh0hLaXFawHJkfyB7cuWcHorszX543TP/0KboYvqD9rTM257wHwn5Ick=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKQoZZaA; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moFS2pX1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKQoZZaA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747759866; x=1779295866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=izt0ndj0kJS0aLONOt9MZ913RhTLLTvvgF7KcBvwetM=;
-  b=moFS2pX11apFvovIRGMe+u7HuiSj0XwAAPZMd7XH3jxrSNDr6TrMlQNH
-   gk7I1nNgdJSoC9/Zr4X/6VtBhA44VgPxKZQFgyK8eIdZYy/0zl1V7Cc4k
-   U9Nz7HWhB8F2XYff5QzLNrzCwdnFqT+yjJX9kcM7nFe2SqcIrhlgNJCmH
-   zbYnzil7ouZIO+0+y13QhvwVy7Lxn+aCHzCFoaZa7mzrNMpwy2gndSVn8
-   HtohvnYybGpqEo2z4XdUIdyFDPZ9pMTEtFIY1YJ3z7yfR132Em/I3H/+B
-   W2//+27Y1hFxfPHPeAEAtnygQiWuderWi8AaYf3yxF2GPNKdPkA4NC6o1
-   A==;
-X-CSE-ConnectionGUID: C3w/p5W4RE+BatL8Wp953A==
-X-CSE-MsgGUID: mkibfyTMTES8vKVbpYt/vw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="52333615"
+  t=1747759993; x=1779295993;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=daTJ3sNvDAZAxWdBrblqqVgPeMQaCqa3z28zVnJqHUo=;
+  b=hKQoZZaA7CK6hfY+R/1RY0G1mM/bFrEMU6Ws9MK6Wr1EWEk0cId+S+R7
+   u6JarDnrElGXrsp65YBlsWfta24yACZr2Y3osVq544DrrsKURZ/os6uaZ
+   FXASI7xQIbNMEL865Lq/CM+zWMttRGcYvwDzVBP4MSJFA3/Y0lxGhZiA2
+   nYplf+7femlUxgN/8sb7lhHpOe5InlihP2ZgnH8eoVCaVDwLRT7QyEg9J
+   RGpFPiv8SvB2hDfZaOuNMcr9pyG1ZQP36XAtf7RBTN7dLczX7aMXwtD+M
+   miOnU3hiwBnV+zqw0gjNkvJfgXZkwy4Qeac3dNERfL94Fwrxiq3DV8is8
+   Q==;
+X-CSE-ConnectionGUID: xr2Qt6BRQ8O3LHzu/Ejb+w==
+X-CSE-MsgGUID: Sv4WJVC7Qu2s65ZC2ro0gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="72221338"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="52333615"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 09:51:05 -0700
-X-CSE-ConnectionGUID: UfOC7JLqQTudNRXcb1djgQ==
-X-CSE-MsgGUID: LSswtJ12T26Bgbz3/NBwQw==
+   d="scan'208";a="72221338"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 09:53:12 -0700
+X-CSE-ConnectionGUID: ZSQE61c3TgmqIiHbNI0Dfw==
+X-CSE-MsgGUID: UE3ZC+4ETE2a67SgGARUzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="144719874"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 May 2025 09:51:05 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+   d="scan'208";a="140676993"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 20 May 2025 09:53:11 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHQBC-000107-0L;
-	Tue, 20 May 2025 16:51:02 +0000
-Date: Wed, 21 May 2025 00:50:27 +0800
+	id 1uHQDE-000NNo-2c;
+	Tue, 20 May 2025 16:53:08 +0000
+Date: Wed, 21 May 2025 00:52:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2025-04 0/1]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:285:6: warning:
- no previous prototype for 'optc3_wait_drr_doublebuffer_pending_clear'
-Message-ID: <202505210054.bOakKmzc-lkp@intel.com>
+Subject: Re: [RFC PATCH 2/5] mm/madvise: add PMADV_SKIP_ERRORS
+ process_madvise() flag
+Message-ID: <202505210009.7TcFMYKJ-lkp@intel.com>
+References: <516daa1c1ec4b22f45d266d5786375e6d59572d1.1747686021.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,50 +63,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <516daa1c1ec4b22f45d266d5786375e6d59572d1.1747686021.git.lorenzo.stoakes@oracle.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-04
-head:   563a3050191027317f4c6206c4c69da9e9fc699e
-commit: d919f493bb7dc4d0b568039b728eb44ca961ebaa [0/1] drm/amd/display: Do not commit pipe when updating DRR
-config: x86_64-buildonly-randconfig-2004-20250520 (https://download.01.org/0day-ci/archive/20250521/202505210054.bOakKmzc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210054.bOakKmzc-lkp@intel.com/reproduce)
+Hi Lorenzo,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on next-20250516]
+[cannot apply to linus/master v6.15-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-madvise-refactor-madvise_populate/20250520-045528
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/516daa1c1ec4b22f45d266d5786375e6d59572d1.1747686021.git.lorenzo.stoakes%40oracle.com
+patch subject: [RFC PATCH 2/5] mm/madvise: add PMADV_SKIP_ERRORS process_madvise() flag
+config: parisc-randconfig-002-20250520 (https://download.01.org/0day-ci/archive/20250521/202505210009.7TcFMYKJ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210009.7TcFMYKJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210054.bOakKmzc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505210009.7TcFMYKJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:285:6: warning: no previous prototype for 'optc3_wait_drr_doublebuffer_pending_clear' [-Wmissing-prototypes]
-     285 | void optc3_wait_drr_doublebuffer_pending_clear(struct timing_generator *optc)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/dcn30_fpu.h:29,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:32:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:137:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
-     137 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-         |                      ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:134:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
-     134 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
-     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:131:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
-     131 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/madvise.c: In function 'madvise_populate':
+>> mm/madvise.c:969:48: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
+     969 |         bool can_skip = madv_behavior->flags & PMADV_SKIP_ERRORS;
+         |                                                ^~~~~~~~~~~~~~~~~
+   mm/madvise.c:969:48: note: each undeclared identifier is reported only once for each function it appears in
+   mm/madvise.c: In function 'madvise_vma_behavior':
+   mm/madvise.c:1374:48: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
+    1374 |         bool can_skip = madv_behavior->flags & PMADV_SKIP_ERRORS;
+         |                                                ^~~~~~~~~~~~~~~~~
+   mm/madvise.c: In function 'madvise_inject_error':
+   mm/madvise.c:1393:48: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
+    1393 |         bool can_skip = madv_behavior->flags & PMADV_SKIP_ERRORS;
+         |                                                ^~~~~~~~~~~~~~~~~
+   mm/madvise.c: In function 'vector_madvise':
+   mm/madvise.c:1883:33: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
+    1883 |         bool can_skip = flags & PMADV_SKIP_ERRORS;
+         |                                 ^~~~~~~~~~~~~~~~~
+   mm/madvise.c: In function 'check_process_madvise_flags':
+   mm/madvise.c:1953:29: error: 'PMADV_SKIP_ERRORS' undeclared (first use in this function)
+    1953 |         unsigned int mask = PMADV_SKIP_ERRORS;
+         |                             ^~~~~~~~~~~~~~~~~
 
 
-vim +/optc3_wait_drr_doublebuffer_pending_clear +285 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c
+vim +/PMADV_SKIP_ERRORS +969 mm/madvise.c
 
-   284	
- > 285	void optc3_wait_drr_doublebuffer_pending_clear(struct timing_generator *optc)
-   286	{
-   287		struct optc *optc1 = DCN10TG_FROM_TG(optc);
-   288	
-   289		REG_WAIT(OTG_DOUBLE_BUFFER_CONTROL, OTG_DRR_TIMING_DBUF_UPDATE_PENDING, 0, 2, 100000); /* 1 vupdate at 5hz */
-   290	
+   964	
+   965	static long madvise_populate(struct mm_struct *mm, unsigned long start,
+   966			unsigned long end, struct madvise_behavior *madv_behavior)
+   967	{
+   968		int behavior = madv_behavior->behavior;
+ > 969		bool can_skip = madv_behavior->flags & PMADV_SKIP_ERRORS;
+   970		const bool write = behavior == MADV_POPULATE_WRITE;
+   971		int locked = 1;
+   972		long pages;
+   973	
+   974		for (; start < end; start += pages * PAGE_SIZE) {
+   975			/* Populate (prefault) page tables readable/writable. */
+   976			pages = faultin_page_range(mm, start, end, write, &locked);
+   977			if (!locked) {
+   978				mmap_read_lock(mm);
+   979				locked = 1;
+   980			}
+   981	
+   982			if (pages >= 0)
+   983				continue;
+   984	
+   985			if (can_skip) {
+   986				/* Simply try the next page. */
+   987				pages = 1;
+   988				madv_behavior->saw_error = true;
+   989				continue;
+   990			}
+   991	
+   992			switch (pages) {
+   993			case -EINTR:
+   994				return -EINTR;
+   995			case -EINVAL: /* Incompatible mappings / permissions. */
+   996				return -EINVAL;
+   997			case -EHWPOISON:
+   998				return -EHWPOISON;
+   999			case -EFAULT: /* VM_FAULT_SIGBUS or VM_FAULT_SIGSEGV */
+  1000				return -EFAULT;
+  1001			default:
+  1002				pr_warn_once("%s: unhandled return value: %ld\n",
+  1003					     __func__, pages);
+  1004				fallthrough;
+  1005			case -ENOMEM: /* No VMA or out of memory. */
+  1006				return -ENOMEM;
+  1007			}
+  1008		}
+  1009		return 0;
+  1010	}
+  1011	
 
 -- 
 0-DAY CI Kernel Test Service
