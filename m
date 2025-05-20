@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697672798E1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 11:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2399C21D3E8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 12:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747741774; cv=none; b=gO5vXL+nm1fW4z7d4GmlJ6W7zkP96jcbeNdcUSx7ttamTgFJXQEYQwnpOkK6fVDSS/K/8ejHQu/bUFRYVCPQd8lkh/fPqeomb30xYgXXMuUJQsbNwcGA5noPNoLFOS1PXN2zOzDjrxAL7YbD6YgEsF+NcGgFfgCHe39bJi2rAmc=
+	t=1747743096; cv=none; b=Iw7+VFCM99g49gABqK3hLEa6GFRPVO1C86zEdgG4SGiIsz1wjgImdMS/fX99pZBkXp3v3Z5XTESHaOjhCa6hDSOdav3JWg9rY3Oo2degmHJFQ1RthIMmN6fXGBTEg4RLah5NuXO3cB/ZvNusZ9xx8n8h3LyOiwsiFuT+mHNw368=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747741774; c=relaxed/simple;
-	bh=L8enxUjr1RDNmaqdChkx8kW07x/pFhFaYdmn6wyqT4Q=;
+	s=arc-20240116; t=1747743096; c=relaxed/simple;
+	bh=iWLvY1qiFMZSAbNyfXrRyCDv11AhahH7lYWRBo5gkrI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SVPzcDbdUFfaqewRtpRLi44MdGKWr9GPKEjZolEwpgQCB/kXca5/RAwCoXPF0RLpwIjLH9aO8l7mgvTdYPmfFaOmbtZi4xk4znOHgz/CS25atw+m5Hfdi7A/Rwa8z3mDUTdoV2hbqqWnOVNxFdyCnOlAaspMLEXzELU4mvZ2ZOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bycju6P3; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=Dy2IkQgrArozJ9k3xZMjvS8l6k+lwYwaBVaW5Ul7Jw6hvw98pKzXTVZAvn0cinfJDrZGvE9ajIFAkwEeGnDx5uuiOSZ5asxQMYkG+aCzJGz58gjtNLgTbxTyAGWAgbtkBsB7jUha0/eo0t2ZR5QsodjdOy835Z0kARpV9mS7OG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ao15SC4r; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bycju6P3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ao15SC4r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747741773; x=1779277773;
+  t=1747743094; x=1779279094;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L8enxUjr1RDNmaqdChkx8kW07x/pFhFaYdmn6wyqT4Q=;
-  b=Bycju6P3DVg1RrujZvX8IJID+r9tp3HHXa447uM3nL4G4+WTppcoCsMn
-   7pfMpH9us5QqzRQxTIlTcxTpl0YmUWXdDm/iHj8j7E1ZfaPijVfoQr000
-   dHZK6lOJgLBqI+FkKtHpxnlIB0BS3Wqv3d/CeULCDZRmQ8f9V0HH5Zlzf
-   icmj9nMrRBzeQTdgy1/ovcEzQ3TDp303kkQ0yLox5bgDz6u5U4ZZQB3HP
-   n31nEZPq8yApot250Dzq897HJ3jzwVRD9eZfEVwWorFHGJhFLRjBnaENA
-   QOH4hyEFG11mFbj8EpjBOu0ePulCJL8VG8DgIRJKFjDzKgH6qd5hNkqeD
-   g==;
-X-CSE-ConnectionGUID: 1L4AxsylStuAPlJOAdxRZw==
-X-CSE-MsgGUID: 4WH0jkXdR3KTkUlMoOwPAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49772202"
+  bh=iWLvY1qiFMZSAbNyfXrRyCDv11AhahH7lYWRBo5gkrI=;
+  b=Ao15SC4rW4MUxwhXspNIv3Jfkg8wFCkh8lnsWNJS7osEV5q44KP/ox9d
+   EYdDHYNzA3JiECel9qp6svJ2YNDRKL9qeHDMAaiYokwp8763LYcLOOjoA
+   mQr/MHzYle4O0iaFphvGu12Mx3zLjIYNU3GSXF3jOQAN52/LOfFJZmwhc
+   baz4pnwpbBddBtyOAEyKcG7fxoXHXgs9rAhD91yU1BAgWY4/9LNPcqk9r
+   0zsGXDD5GR28In/vJasIfksmmiaR+8ZWUeXl1jc2mIC2/XZVRuSbKKFty
+   Qi6rjOmeoVKJNOsDDakkROXqYDiM5LqrXjxfQLHf/Tg0iEOSHLaY2PeZT
+   Q==;
+X-CSE-ConnectionGUID: gU7ZhYQERhSaIWCyqxMFxw==
+X-CSE-MsgGUID: WxgbAvWaQBqqVhJsPQoByg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="59903618"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49772202"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 04:49:31 -0700
-X-CSE-ConnectionGUID: OWYc1OC4T7aMTadN6wV4nw==
-X-CSE-MsgGUID: 7YPTm1GdQxawI8JFKliOcA==
+   d="scan'208";a="59903618"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 05:11:34 -0700
+X-CSE-ConnectionGUID: mK2SEDkMQuGOqpWMsfBqpg==
+X-CSE-MsgGUID: Qle3IJygS/KmPscsYYe1yQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="144420855"
+   d="scan'208";a="140594059"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 May 2025 04:49:31 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 May 2025 05:11:33 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHLTL-000MXA-2W;
-	Tue, 20 May 2025 11:49:27 +0000
-Date: Tue, 20 May 2025 19:49:02 +0800
+	id 1uHLog-000MYl-0s;
+	Tue, 20 May 2025 12:11:30 +0000
+Date: Tue, 20 May 2025 20:10:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 136/136]
- include/trace/trace_events.h:27:23: warning:
- 'str__wakeupbypass__trace_system_name' defined but not used
-Message-ID: <202505201927.V0RBC751-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2259/2259]
+ drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:545:5: error: no previous
+ prototype for 'ps3_pci_init'
+Message-ID: <202505201929.AHI9gRxc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,142 +63,238 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Vatsal,
+Hi liujie_answer,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   49f46e98f0ece6f15e0532e4fac923e201387364
-commit: b4b7d228301ff12eeef059f28d20b19ebd7c29b4 [136/136] ANDROID: wakeupbypass: Add vendor hook for batteryswap
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250520/202505201927.V0RBC751-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201927.V0RBC751-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e69c6375f883badcc9ec4c9e9ed85660ac3fb1bf
+commit: 97a2bb6ece556f3882263ee8df2b77f10c511311 [2259/2259] SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250520/202505201929.AHI9gRxc-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201929.AHI9gRxc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505201927.V0RBC751-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505201929.AHI9gRxc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/wakeupbypass.h:17,
-                    from drivers/android/vendor_hooks.c:79:
->> include/trace/trace_events.h:27:23: warning: 'str__wakeupbypass__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
+>> drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:307:5: error: no previous prototype for 'ps3_hard_reset_to_ready' [-Werror=missing-prototypes]
+     307 | int ps3_hard_reset_to_ready(struct ps3_instance *instance)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:876:6: error: no previous prototype for 'ps3_set_task_manager_busy' [-Werror=missing-prototypes]
+     876 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1110:5: error: no previous prototype for 'ps3_wait_for_outstanding_complete' [-Werror=missing-prototypes]
+    1110 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:131:6: error: no previous prototype for 'ps3_trigger_irq_poll' [-Werror=missing-prototypes]
+     131 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:243:5: error: no previous prototype for 'ps3_resp_status_convert' [-Werror=missing-prototypes]
+     243 | int ps3_resp_status_convert(unsigned int resp_status)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for 'ps3_qos_cmd_waitq_get' [-Werror=missing-prototypes]
+     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
          | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dmabuf.h:20,
-                    from drivers/android/vendor_hooks.c:78:
-   include/trace/trace_events.h:27:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/pci.h:22,
-                    from drivers/android/vendor_hooks.c:77:
-   include/trace/trace_events.h:27:23: warning: 'str__pci__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ipv4.h:34,
-                    from drivers/android/vendor_hooks.c:76:
-   include/trace/trace_events.h:27:23: warning: 'str__ipv4__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/snd_compr.h:24,
-                    from drivers/android/vendor_hooks.c:75:
-   include/trace/trace_events.h:27:23: warning: 'str__snd_compr__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sound.h:24,
-                    from drivers/android/vendor_hooks.c:74:
-   include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for 'ps3_qos_vd_cmdword_get' [-Werror=missing-prototypes]
+     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for 'ps3_qos_exclusive_cmdword_get' [-Werror=missing-prototypes]
+     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for 'ps3_qos_tg_decision' [-Werror=missing-prototypes]
+     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
+         |               ^~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for 'ps3_qos_all_pd_rc_get' [-Werror=missing-prototypes]
+     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
+         |               ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for 'ps3_pd_quota_waitq_clear_all' [-Werror=missing-prototypes]
+     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for 'ps3_pd_quota_waitq_clean' [-Werror=missing-prototypes]
+     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for 'ps3_qos_pd_waitq_ratio_update' [-Werror=missing-prototypes]
+    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for 'ps3_hba_qos_decision' [-Werror=missing-prototypes]
+    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
+         |               ^~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for 'ps3_hba_qos_waitq_notify' [-Werror=missing-prototypes]
+    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for 'ps3_cmd_waitq_abort' [-Werror=missing-prototypes]
+    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for 'ps3_hba_qos_waitq_clear_all' [-Werror=missing-prototypes]
+    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for 'ps3_hba_qos_vd_init' [-Werror=missing-prototypes]
+    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for 'ps3_hba_qos_vd_reset' [-Werror=missing-prototypes]
+    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype for 'ps3_hba_qos_waitq_poll' [-Werror=missing-prototypes]
+    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:15: error: no previous prototype for 'ps3_raid_qos_decision' [-Werror=missing-prototypes]
+    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
+         |               ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:6: error: no previous prototype for 'ps3_qos_mgrq_resend' [-Werror=missing-prototypes]
+    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:6: error: no previous prototype for 'ps3_raid_qos_waitq_notify' [-Werror=missing-prototypes]
+    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:15: error: no previous prototype for 'ps3_raid_qos_waitq_abort' [-Werror=missing-prototypes]
+    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:4022:6: error: no previous prototype for 'ps3_raid_qos_waitq_clear_all' [-Werror=missing-prototypes]
+    4022 | void ps3_raid_qos_waitq_clear_all(struct ps3_instance *instance,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:4083:6: error: no previous prototype for 'ps3_raid_qos_waitq_poll' [-Werror=missing-prototypes]
+    4083 | void ps3_raid_qos_waitq_poll(struct ps3_instance *instance)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:85:6: error: no previous prototype for 'ps3_cmd_stat_content_clear' [-Werror=missing-prototypes]
+      85 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:403:6: error: no previous prototype for 'ps3_io_recv_ok_stat_inc' [-Werror=missing-prototypes]
+     403 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:785:6: error: no previous prototype for 'ps3_clean_mgr_cmd' [-Werror=missing-prototypes]
+     785 | void ps3_clean_mgr_cmd(struct ps3_instance *instance)
+         |      ^~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:578:5: error: no previous prototype for 'ps3_r1x_hash_bit_check' [-Werror=missing-prototypes]
+     578 | int ps3_r1x_hash_bit_check(struct ps3_r1x_hash_bit_mgr *hash_mgr,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:678:6: error: no previous prototype for 'ps3_r1x_conflict_queue_hash_bit_lock' [-Werror=missing-prototypes]
+     678 | void ps3_r1x_conflict_queue_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:730:5: error: no previous prototype for 'ps3_r1x_hash_bit_lock' [-Werror=missing-prototypes]
+     730 | int ps3_r1x_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:988:6: error: no previous prototype for 'ps3_r1x_hash_bit_unlock' [-Werror=missing-prototypes]
+     988 | void ps3_r1x_hash_bit_unlock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1173:5: error: no previous prototype for 'ps3_range_check_and_insert' [-Werror=missing-prototypes]
+    1173 | int ps3_range_check_and_insert(struct ps3_range_tree_root *range_root,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1231:5: error: no previous prototype for 'ps3_r1x_hash_range_lock' [-Werror=missing-prototypes]
+    1231 | int ps3_r1x_hash_range_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1312:6: error: no previous prototype for 'ps3_r1x_hash_range_unlock' [-Werror=missing-prototypes]
+    1312 | void ps3_r1x_hash_range_unlock(struct ps3_r1x_lock_mgr *mgr,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_debug.c:883:5: error: no previous prototype for 'ps3_dump_dir_length' [-Werror=missing-prototypes]
+     883 | int ps3_dump_dir_length(const char *buf, size_t count)
+         |     ^~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_module_para.c:609:14: error: no previous prototype for 'ps3_cli_ver_query' [-Werror=missing-prototypes]
+     609 | unsigned int ps3_cli_ver_query(void)
+         |              ^~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_rb_tree.c:154:6: error: no previous prototype for 'rbtDelNodeDo' [-Werror=missing-prototypes]
+     154 | void rbtDelNodeDo(struct Ps3RbRoot *pRoot, struct Ps3RbNode *pNode)
+         |      ^~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_device_manager.c:1581:5: error: no previous prototype for 'ps3_scsi_private_init_pd' [-Werror=missing-prototypes]
+    1581 | int ps3_scsi_private_init_pd(struct scsi_device *sdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_device_manager.c:1663:5: error: no previous prototype for 'ps3_scsi_private_init_vd' [-Werror=missing-prototypes]
+    1663 | int ps3_scsi_private_init_vd(struct scsi_device *sdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+..
 
 
-vim +/str__wakeupbypass__trace_system_name +27 include/trace/trace_events.h
+vim +/ps3_pci_init +545 drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+   544	
+ > 545	int ps3_pci_init(struct pci_dev *pdev, struct ps3_instance *instance)
+   546	{
+   547		resource_size_t base_addr = 0;
+   548		int ret = PS3_SUCCESS;
+   549	
+   550		ret = pci_enable_device_mem(pdev);
+   551		if (ret != PS3_SUCCESS) {
+   552			LOG_ERROR("hno:%u pci id[%u] pci enable failed\n",
+   553				  PS3_HOST(instance), pdev->dev.id);
+   554			goto l_pci_enable_device_mem_failed;
+   555		}
+   556	
+   557		pci_set_master(pdev);
+   558	
+   559		instance->reg_bar = PS3_REGISTER_BAR_INDEX;
+   560		ret = (pci_resource_flags(pdev, instance->reg_bar) & IORESOURCE_MEM);
+   561		if (!ret) {
+   562			LOG_ERROR("hno:%u Bar %lu isnot IORESOURCE_MEM\n",
+   563				  PS3_HOST(instance), instance->reg_bar);
+   564			goto l_bar_check_failed;
+   565		}
+   566		ret = pci_request_selected_regions(pdev, 1 << instance->reg_bar,
+   567						   "PS3 pci regions");
+   568		if (ret != PS3_SUCCESS) {
+   569			LOG_ERROR("hno:%u IO memory region busy\n", PS3_HOST(instance));
+   570			goto l_pci_request_selected_regions_failed;
+   571		}
+   572	#if defined(PS3_SUPPORT_PCIE_REPORT)
+   573		pci_enable_pcie_error_reporting(pdev);
+   574	#endif
+   575		if (instance->ioc_adpter->reg_set) {
+   576			instance->reg_set =
+   577				(struct Ps3Fifo __iomem *)instance->ioc_adpter->reg_set(
+   578					pdev, instance->reg_bar);
+   579		} else {
+   580			instance->reg_set = (struct Ps3Fifo __iomem *)ioremap(
+   581				pci_resource_start(pdev, instance->reg_bar),
+   582				PS3_REGISTER_SET_SIZE);
+   583		}
+   584		if (instance->reg_set == NULL) {
+   585			LOG_ERROR("hno:%u ioremap failed\n", PS3_HOST(instance));
+   586			goto l_ioremap_failed;
+   587		} else {
+   588			pci_set_drvdata(pdev, instance);
+   589		}
+   590	
+   591		ps3_atomic_set(&instance->watchdog_reg_read_fail_count, 0);
+   592		LOG_INFO(
+   593			"reg_bar_idx = %lu, bar_base_paddr = 0x%llx, reg_set_vaddr = 0x%p\n",
+   594			instance->reg_bar, (unsigned long long)base_addr, instance->reg_set);
+   595	
+   596		return PS3_SUCCESS;
+   597	l_ioremap_failed:
+   598		pci_release_selected_regions(instance->pdev, 1 << instance->reg_bar);
+   599	#if defined(PS3_SUPPORT_PCIE_REPORT)
+   600		pci_disable_pcie_error_reporting(pdev);
+   601	#endif
+   602	l_pci_request_selected_regions_failed:
+   603		pci_disable_device(instance->pdev);
+   604	l_bar_check_failed:
+   605	l_pci_enable_device_mem_failed:
+   606		return -PS3_FAILED;
+   607	}
+   608	
 
 -- 
 0-DAY CI Kernel Test Service
