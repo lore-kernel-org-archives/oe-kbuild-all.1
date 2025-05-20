@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790AB267F41
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 11:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D371CCEE0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 11:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747741112; cv=none; b=e9f75za3QSnP9XdGrPLQZERcHr55ZeaagLs1O669AK1I2vAB7G1IHP824XvLJWhVV5tldyt7jEfE8BOp9DLRuqCaCqHqcXhN8LHI7yuFqZvsm74a9E1bvg/DIOTk/teO9VaeJfxYLaJ362Ruui98WxtEEU52LxAuKU2Zfw8WK/A=
+	t=1747741774; cv=none; b=f3Jq4tr6BZ2E3APi5BBpqIuITc7CDd6dvVMyFDKWnjOe5Ycl6EIMNu2gCJ+sBhJr/4nmOGa67/n3IPzy6PobR/BEQmIFdBhDbVRYHSmtdvg33mqHZ4XOmjgztZIs2EAIBe3eatsYvk1otCfW57oXH4vbNRacFpc8S3pCJ3I9AG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747741112; c=relaxed/simple;
-	bh=onzNthu//TqCk8fXRF+KW7Sh7xAH/kuJP5cNr1Ekph8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H9ZTRbKRsyviyo6ZX616NgnOw+/n2EHIXs6sNs9HqcFfCwRUd63JYOCs3FHA7Qvp4mCrF16kcWY1dN+PYbSEAiS9Bfytei4mqDnYuKtkPT8d9ywrADmvGwb2M1mjtptIn1j9DYHpyAzclhefjuhsW/IZyrxagpJHpL6pEa/nR0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ike68lEc; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1747741774; c=relaxed/simple;
+	bh=gcctEmOMB8/xZBo8QUAoV/HqxB1i417zp88odP8f5i4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bmzxGTbpEV+1rOLxDuCICpPV2PkAzajxCLycE5HR4BWkrpeNQzHnqyeDTIceA4nPDGfyzYVvU6EtJ0Zv0Z7BOu/73IC+Oj5L0/2rtwk6UQ9tDmECY88eOB6vy3VhdZMrNtOFe/ERKyRvgXXAwWRfS906WtTp9jzxPtkYBWRx2fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfxihqkF; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ike68lEc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfxihqkF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747741111; x=1779277111;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=onzNthu//TqCk8fXRF+KW7Sh7xAH/kuJP5cNr1Ekph8=;
-  b=Ike68lEcif+N038jj6lkvkNidjiIHHutRCxsmdROREITSdBwQru9ZvS5
-   dAOU//EJXM1jdM9EOU5F3Bl1Z17vi0KY+p3qOvISl+MS0u6tgAUsilELa
-   3XwhiEt7CfG1+FZN0OKoykUgpY7/p52ZnTSJ35DHGrTqxSrRD3sXrjnA3
-   DHPhzfTIss9omGJhCUg/ACxwHvJyA6q+SMLWYt/0LuLAKhcCxlikcH48r
-   okcJjgmrg76TXVbr+Irlpe+t63M91exYig9eqHGC7mtSGfC8IDEGstyXm
-   Ou5yt9nS5V8pJlQWtsUSxv/aPEQpzVvN1N6IlQCUaegdTHx8bkDwpfNrh
-   A==;
-X-CSE-ConnectionGUID: aJ6QeA+lQZagHOLjVqXE+g==
-X-CSE-MsgGUID: NMj67L2cT7G3DkvW7NGn3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="67077657"
+  t=1747741773; x=1779277773;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gcctEmOMB8/xZBo8QUAoV/HqxB1i417zp88odP8f5i4=;
+  b=NfxihqkFJrYD2kCSX5YPojZcgx3yxA/kOJOXKxLg9cfDd0pYR+GKy86I
+   +Lm9MHbUAiGMipK9ckc+pkbrWcncA+sUX0PxDfhSipsr1w3+6jVYiIEsX
+   ZjLKNIdLNBz7Jj6csU7XRyvFicT74Fzeq7NH/k26tLvOA4aA5upezaPWO
+   VnskyzxEuAhOIA/8bJsKaP5qQ6hzdg7jd8ly3EEemGMLTd/lIndi8XoLo
+   9VWIDMwU189rbr2wUUGlzYXdwf8PLuZW4jAgWru2/S7P91eJldnKL9+ys
+   //0TD1YPy/TQ7QZ/8plJGdVy+Ew1X4tLoc6qHsHytrwCWR7ND1kviAL3z
+   w==;
+X-CSE-ConnectionGUID: vTL70GZ+TiO1dV9GfiaVIA==
+X-CSE-MsgGUID: C2klK0mPRFeX99aL0L+udQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="48925060"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="67077657"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 04:38:30 -0700
-X-CSE-ConnectionGUID: DrZeBAEoRoSZV2ne/NJw+A==
-X-CSE-MsgGUID: 40bjcX6FQiOqBb0EKDbWuQ==
+   d="scan'208";a="48925060"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 04:49:32 -0700
+X-CSE-ConnectionGUID: ild0xZquRDmVIYTMaAQuNg==
+X-CSE-MsgGUID: 7XSw+vJMSbaDJe3Y88dBJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="139567031"
+   d="scan'208";a="143668111"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 May 2025 04:38:28 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 May 2025 04:49:30 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHLIg-000MWW-0l;
-	Tue, 20 May 2025 11:38:26 +0000
-Date: Tue, 20 May 2025 19:38:05 +0800
+	id 1uHLTL-000MXG-2p;
+	Tue, 20 May 2025 11:49:27 +0000
+Date: Tue, 20 May 2025 19:49:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Siddarth Gundu <siddarthsgml@gmail.com>, geert@linux-m68k.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-kernel@vger.kernel.org,
-	Siddarth Gundu <siddarthsgml@gmail.com>
-Subject: Re: [PATCH] m68k: apollo: replace strcpy() with strscpy()
-Message-ID: <202505201919.YX6T8TcK-lkp@intel.com>
-References: <20250514052327.96537-1-siddarthsgml@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ DRM_DISPLAY_DSC_HELPER when selected by DRM_PANEL_SAMSUNG_S6E3HA8
+Message-ID: <202505201924.nRldyjej-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,69 +65,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250514052327.96537-1-siddarthsgml@gmail.com>
 
-Hi Siddarth,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on geert-m68k/for-next]
-[also build test ERROR on geert-m68k/for-linus gerg-m68knommu/for-next linus/master v6.15-rc7 next-20250516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddarth-Gundu/m68k-apollo-replace-strcpy-with-strscpy/20250514-132427
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git for-next
-patch link:    https://lore.kernel.org/r/20250514052327.96537-1-siddarthsgml%40gmail.com
-patch subject: [PATCH] m68k: apollo: replace strcpy() with strscpy()
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20250520/202505201919.YX6T8TcK-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201919.YX6T8TcK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a5806cd506af5a7c19bcd596e4708b5c464bfd21
+commit: fd3b2c5f40a1e028bc813284260d430257444334 drm/panel: s6e3ha8: select CONFIG_DRM_DISPLAY_DSC_HELPER
+date:   7 months ago
+config: m68k-kismet-CONFIG_DRM_DISPLAY_DSC_HELPER-CONFIG_DRM_PANEL_SAMSUNG_S6E3HA8-0-0 (https://download.01.org/0day-ci/archive/20250520/202505201924.nRldyjej-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250520/202505201924.nRldyjej-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505201919.YX6T8TcK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505201924.nRldyjej-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from arch/m68k/apollo/config.c:2:
-   arch/m68k/apollo/config.c: In function 'dn_get_model':
->> include/linux/compiler.h:197:62: error: static assertion failed: "must be array"
-     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                              ^~~~~~~~~~~~~~
-   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/string.h:80:47: note: in expansion of macro '__must_be_array'
-      80 |         sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst) +    \
-         |                                               ^~~~~~~~~~~~~~~
-   include/linux/args.h:25:24: note: in expansion of macro '__strscpy0'
-      25 | #define __CONCAT(a, b) a ## b
-         |                        ^
-   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
-      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
-         |                           ^~~~~~~~
-   include/linux/string.h:114:9: note: in expansion of macro 'CONCATENATE'
-     114 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |         ^~~~~~~~~~~
-   arch/m68k/apollo/config.c:222:5: note: in expansion of macro 'strscpy'
-     222 |     strscpy(model, "Apollo ");
-         |     ^~~~~~~
-
-
-vim +197 include/linux/compiler.h
-
-230fa253df6352a Christian Borntraeger 2014-11-25  193  
-cb7380de9e4cbc9 Kees Cook             2025-02-05  194  #ifdef __CHECKER__
-cb7380de9e4cbc9 Kees Cook             2025-02-05  195  #define __BUILD_BUG_ON_ZERO_MSG(e, msg) (0)
-cb7380de9e4cbc9 Kees Cook             2025-02-05  196  #else /* __CHECKER__ */
-cb7380de9e4cbc9 Kees Cook             2025-02-05 @197  #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-cb7380de9e4cbc9 Kees Cook             2025-02-05  198  #endif /* __CHECKER__ */
-cb7380de9e4cbc9 Kees Cook             2025-02-05  199  
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_DISPLAY_DSC_HELPER when selected by DRM_PANEL_SAMSUNG_S6E3HA8
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_DSC_HELPER
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=n]
+     Selected by [y]:
+     - DRM_PANEL_SAMSUNG_S6E3HA8 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && DRM_MIPI_DSI [=y] && BACKLIGHT_CLASS_DEVICE [=y]
 
 -- 
 0-DAY CI Kernel Test Service
