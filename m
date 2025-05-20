@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EA2268C6B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 09:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B98264FAC;
+	Tue, 20 May 2025 09:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747734079; cv=none; b=Zu3onrvHp76bYPtPbobmqVcv356IjgcTXazEiEyyuh+VEeLgAN02sfDdI3ZXSRgyalktxoIRRksD/P9zjC5KBnsk+cnKsmMLWCbjJ7Si4Q3TWyRi5vLRZ7YS0D4il0goLhrLpDD/WPc9c9lVLmSHq4c27/1v5MzpzCcmVkbR7UU=
+	t=1747734746; cv=none; b=qEsZxsLIPQJ8AVoYQPX5RE7LYL+px8oKsvuxJvWM3qhQgJsmYVig3RCXkM2kTh3H5eU10yN8c5FW/nf/lok9ClSgcm4ncrivMP5WUaGRyChn86jxoKTbhAVsSklMWQgnzXv46E+fFzlods9LrZp7QzIyPIYKRPowVS03MEVeYIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747734079; c=relaxed/simple;
-	bh=MdGJp9kWFXVBty5Yck7O2ZXaKDAwNcwZwCccSB2tvnE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gWHwerVXOF5hMKcFnpWQbVW4ynBq3yHAEYpB5530/3uvaS714LcQemihSKGkJyRtrNO09a4V25iXEB0tR2FwpPNgmu7hD0UoCKiTL6x0LowaNaFk8uiYljuGCPA0z/hPzL1eO92I+QuNlkWBOfb72ddmZlI94Ag6jPOCMUWH8G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=njir/u9d; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1747734746; c=relaxed/simple;
+	bh=h/h0dnmW+e8eb7BpFrGOs6KEuwxdMkbEf18N/8+UCyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=etMtusBkI82omkJ/3Jk+34ttJPcq481jNh/CMLKJqVNbVt5HNHxFvPu4u4H/IX5FXEVrSek/432VXjTGTq4zEQZXF+wxu6jyO10t1xzsLazEHCWMnzxeVKBN11DpaSsXM+lcZtbvXyYFeTZj+06idvbAqOKtIkk7EM32Nu5xuLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCf4FFuy; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="njir/u9d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCf4FFuy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747734078; x=1779270078;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MdGJp9kWFXVBty5Yck7O2ZXaKDAwNcwZwCccSB2tvnE=;
-  b=njir/u9d+8U3m/TFYEQAroAMzosGmhOTGRmkHo8v2GNhWMk5VwDHiVQB
-   pxZlcl984fUUmbqieLSOt1qD34gVTBT3ovZFLkpYdK84JVyKZ+T4Xbi+H
-   Lyh0JQiShmpGh3YPyrK422W+IKZ6h0J20puajA2ZJPApLYMmE+A9dZjs/
-   1QVNsFPH/9NftII33gnwgX447w0K18jpe9KVudRd7NfQadlO0CqC8XKOf
-   dSBC1yKgkv5M4msirJkcFBFsz7wRHLHv4Cgh+fxnAMObo79PxdIg3qMgg
-   GyUZXdjpXbH1qoxcBBuplieU417jCLSVdxFOALvnn4gD27v/+yypVJ4xo
-   w==;
-X-CSE-ConnectionGUID: rfRsh3yQQkudGibEI0cMMA==
-X-CSE-MsgGUID: pXptq3fkTnqb1xrzGcakFw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49794210"
+  t=1747734745; x=1779270745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h/h0dnmW+e8eb7BpFrGOs6KEuwxdMkbEf18N/8+UCyU=;
+  b=eCf4FFuyCc+i+bVcUb/wsKzac3ST57HGtcOpmqlpYq+PnR5U+K0C46QW
+   +B7yU8kRw2wseBSfVZeGXF2EqJ64I3wfzK0IhraJ1cy7o9s6gASjgv6w8
+   HNWW5gm8H30JymFj10LjTkKJCkwNABiJYdgHVFs8wBf1fp1zp5mgYK+t4
+   cTRdis7xovowyWhtySKVxvmebjON2vZ/jxI+jyrI9Lfqr6hpz05vOoRlp
+   nQtoJg5zb6KiH3asl/4f9ZU2KY21AtIUlWuz1KJsgzSa7lM7/Ec3zvUrr
+   h0EHnkQwc7e2Ey5LVmI/izz83f+k0l4ejPwA8ME5j2rU8cBDlK1ZJKWsR
+   A==;
+X-CSE-ConnectionGUID: Q/hU4EqxTYKPMXIyzPPgfw==
+X-CSE-MsgGUID: nH9ueHMARZ2SYexP/o9Cdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49760570"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49794210"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 02:41:17 -0700
-X-CSE-ConnectionGUID: UEKwGIUaQKmoYa/Z1ZGnrQ==
-X-CSE-MsgGUID: C8m5IMciRoyM5FypdEm/oA==
+   d="scan'208";a="49760570"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 02:52:23 -0700
+X-CSE-ConnectionGUID: 3qIB5naYSh6wPginL6Csgw==
+X-CSE-MsgGUID: 2CquOxyBQUSUf7T5Q6efTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="139541649"
+   d="scan'208";a="170531758"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 May 2025 02:41:17 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 May 2025 02:52:18 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHJTG-000MP0-1F;
-	Tue, 20 May 2025 09:41:14 +0000
-Date: Tue, 20 May 2025 17:41:13 +0800
+	id 1uHJdv-000MPc-23;
+	Tue, 20 May 2025 09:52:15 +0000
+Date: Tue, 20 May 2025 17:51:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2257/2257]
- drivers/crypto/sedriver/wst_se_echip_driver.c:95:25: warning: no previous
- prototype for 'se_get_dma_buf'
-Message-ID: <202505201757.qoTbv6a9-lkp@intel.com>
+To: Usama Arif <usamaarif642@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, david@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
+	ziy@nvidia.com, laoar.shao@gmail.com, baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	npache@redhat.com, ryan.roberts@arm.com, vbabka@suse.cz,
+	jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel-team@meta.com, Usama Arif <usamaarif642@gmail.com>
+Subject: Re: [PATCH v3 1/7] mm: khugepaged: extract vm flag setting outside
+ of hugepage_madvise
+Message-ID: <202505201734.8Fyk3qKi-lkp@intel.com>
+References: <20250519223307.3601786-2-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,118 +72,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250519223307.3601786-2-usamaarif642@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   07f584ce776b1da46ead9c90d16968739723d311
-commit: 3fb87845837f13b19d7b20349801e75f2e303293 [2257/2257] crypto: loongson: add wst se chip support
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250520/202505201757.qoTbv6a9-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201757.qoTbv6a9-lkp@intel.com/reproduce)
+Hi Usama,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.15-rc7 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/mm-khugepaged-extract-vm-flag-setting-outside-of-hugepage_madvise/20250520-063452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250519223307.3601786-2-usamaarif642%40gmail.com
+patch subject: [PATCH v3 1/7] mm: khugepaged: extract vm flag setting outside of hugepage_madvise
+config: s390-randconfig-002-20250520 (https://download.01.org/0day-ci/archive/20250520/202505201734.8Fyk3qKi-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201734.8Fyk3qKi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505201757.qoTbv6a9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505201734.8Fyk3qKi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/crypto/sedriver/wst_se_echip_driver.c:95:25: warning: no previous prototype for 'se_get_dma_buf' [-Wmissing-prototypes]
-      95 | struct tag_dma_buf_ctl *se_get_dma_buf(int ikernel)
-         |                         ^~~~~~~~~~~~~~
->> drivers/crypto/sedriver/wst_se_echip_driver.c:114:5: warning: no previous prototype for 'se_free_dma_buf' [-Wmissing-prototypes]
-     114 | int se_free_dma_buf(struct tag_dma_buf_ctl *pdmabufctl)
-         |     ^~~~~~~~~~~~~~~
->> drivers/crypto/sedriver/wst_se_echip_driver.c:150:5: warning: no previous prototype for 'se_printk_hex' [-Wmissing-prototypes]
-     150 | int se_printk_hex(unsigned char *buff, int length)
-         |     ^~~~~~~~~~~~~
->> drivers/crypto/sedriver/wst_se_echip_driver.c:1082:9: warning: no previous prototype for 'se_kernelwrite' [-Wmissing-prototypes]
-    1082 | ssize_t se_kernelwrite(unsigned char *pInPtr, unsigned short usInlen,
-         |         ^~~~~~~~~~~~~~
->> drivers/crypto/sedriver/wst_se_echip_driver.c:1175:5: warning: no previous prototype for 'se_chip_load' [-Wmissing-prototypes]
-    1175 | int se_chip_load(void)
-         |     ^~~~~~~~~~~~
->> drivers/crypto/sedriver/wst_se_echip_driver.c:1272:6: warning: no previous prototype for 'se_chip_unload' [-Wmissing-prototypes]
-    1272 | void se_chip_unload(void)
-         |      ^~~~~~~~~~~~~~
+>> mm/khugepaged.c:359:20: error: use of undeclared identifier 'vma'
+     359 |                 if (mm_has_pgste(vma->vm_mm))
+         |                                  ^
+   1 error generated.
 
 
-vim +/se_get_dma_buf +95 drivers/crypto/sedriver/wst_se_echip_driver.c
+vim +/vma +359 mm/khugepaged.c
 
-    94	
-  > 95	struct tag_dma_buf_ctl *se_get_dma_buf(int ikernel)
-    96	{
-    97		struct tag_dma_buf_ctl *pbufctl = NULL;
-    98		unsigned long ultimeout = 0;
-    99	
-   100		ultimeout = jiffies + 20 * HZ;
-   101		while (1) {
-   102			spin_lock(&g_getdmabuflock);
-   103			pbufctl = (struct tag_dma_buf_ctl *)wst_Popfront_Que(
-   104				&g_DmaBQueueContainer);
-   105			spin_unlock(&g_getdmabuflock);
-   106			if (pbufctl)
-   107				return pbufctl;
-   108			if (down_timeout(&g_dmabufsem, ultimeout))
-   109				return NULL;
-   110		}
-   111		return pbufctl;
-   112	}
-   113	
- > 114	int se_free_dma_buf(struct tag_dma_buf_ctl *pdmabufctl)
-   115	{
-   116		spin_lock(&g_getdmabuflock);
-   117		wst_Pushback_Que(&g_DmaBQueueContainer, pdmabufctl);
-   118		spin_unlock(&g_getdmabuflock);
-   119		if (g_dmabufsem.count <= 0)
-   120			up(&g_dmabufsem);
-   121	
-   122		return 0;
-   123	}
-   124	
-   125	static unsigned long bytes_align(struct device *pdev, unsigned long ulVirAddr)
-   126	{
-   127		unsigned char diff;
-   128		unsigned long ulPhyAddr = (unsigned long)__pa((void *)ulVirAddr);
-   129	
-   130		if ((ulPhyAddr & 0x000000000000003f) == 0)
-   131			return ulVirAddr;
-   132		diff = ((long)ulPhyAddr & (~(0x000000000000003f))) + 64 - ulPhyAddr;
-   133		ulVirAddr += diff;
-   134	
-   135		return ulVirAddr;
-   136	}
-   137	
-   138	static unsigned long descri_bytes_align(unsigned long ulVirAddr)
-   139	{
-   140		unsigned char diff;
-   141		unsigned long ulPhyAddr = ulVirAddr;
-   142	
-   143		if ((ulPhyAddr & (~0x00000000ffffffe0)) == 0)
-   144			return ulVirAddr;
-   145		diff = ((long)ulPhyAddr & 0x00000000ffffffe0) + 32 - ulPhyAddr;
-   146		ulVirAddr += diff;
-   147		return ulVirAddr;
-   148	}
-   149	
- > 150	int se_printk_hex(unsigned char *buff, int length)
-   151	{
-   152		unsigned char *string_tmp = buff;
-   153		int i;
-   154		int count = 0;
-   155	
-   156		for (i = 0; i < length; i++, count++) {
-   157			if (count < 16)
-   158				pr_info("%02x ", string_tmp[i]);
-   159			else {
-   160				count = 0;
-   161				pr_info("\n%02x ", string_tmp[i]);
-   162				continue;
-   163			}
-   164		}
-   165		pr_info("\n");
-   166		return 0;
-   167	}
-   168	
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  348  
+d2a8f83f11a4ba Usama Arif         2025-05-19  349  int hugepage_set_vmflags(unsigned long *vm_flags, int advice)
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  350  {
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  351  	switch (advice) {
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  352  	case MADV_HUGEPAGE:
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  353  #ifdef CONFIG_S390
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  354  		/*
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  355  		 * qemu blindly sets MADV_HUGEPAGE on all allocations, but s390
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  356  		 * can't handle this properly after s390_enable_sie, so we simply
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  357  		 * ignore the madvise to prevent qemu from causing a SIGSEGV.
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  358  		 */
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @359  		if (mm_has_pgste(vma->vm_mm))
+d2a8f83f11a4ba Usama Arif         2025-05-19  360  			return -EPERM;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  361  #endif
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  362  		*vm_flags &= ~VM_NOHUGEPAGE;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  363  		*vm_flags |= VM_HUGEPAGE;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  364  		break;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  365  	case MADV_NOHUGEPAGE:
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  366  		*vm_flags &= ~VM_HUGEPAGE;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  367  		*vm_flags |= VM_NOHUGEPAGE;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  368  		/*
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  369  		 * Setting VM_NOHUGEPAGE will prevent khugepaged from scanning
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  370  		 * this vma even if we leave the mm registered in khugepaged if
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  371  		 * it got registered before VM_NOHUGEPAGE was set.
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  372  		 */
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  373  		break;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  374  	}
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  375  
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  376  	return 0;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  377  }
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  378  
 
 -- 
 0-DAY CI Kernel Test Service
