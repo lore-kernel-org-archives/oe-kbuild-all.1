@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6799122B5A6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 13:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6642022424C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 13:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747746244; cv=none; b=NNjR3ox6G1MfckQElqPexWAG7on7y7hQb9JUBgcTzXFQorIonWe5ncJblbF2jBBTXWKZ4kDUH/tLYLFBCeqdPJSPy1r5v2LhsXqAqEhpC/so04+TgA7dHlp2vce5ydFd00BLDnmz3ExDzIOqRiV2DWyv6jsxpHUfhUtgzwguXLs=
+	t=1747746822; cv=none; b=byvoKxIyh/lxoiNHGnDE7++JXPZKbEzFW+rSxx0NgrOcjX9GUxmVmkOtAiQEUHFYhK6JygkerFyP6hKHoHNTkF2OQ3pqTuc7NJaUuRAt/K5umDx+7G6MJh1TEFcYHI6qRUYhu4LF5X3WuCROBrPt0pyPB3vsDPJAKf5R+fRYyiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747746244; c=relaxed/simple;
-	bh=18OJVgMUDK/ds2/DMIG13wZ8+gLaInIFCpD6SbaidbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gsChp1XVsuy1FHewazKOlN6GbCcLnMZDSk/9jLtA4uDZvyAjwOJuO8hSlh0Lb5QG5TzJapxyXoY//Ck9sFkLzic8+KeMhX+fpidl8kzS1R86av4ziHO3QBuImvKge+1mA0+qaEKl1CDdcllyHabyqfRSJV8e6tzEVenXWjRcryY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BvhHhfqK; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1747746822; c=relaxed/simple;
+	bh=OsUk1HDLzXJbjJz5VCLQBVaTC8gEtGoSU5l12/RHrKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NsH4b1SXLHCL92kVW3K7gNZtMAhlWjy+m222QiyCIZBNX65cm37TmjXRlcleaP/rvdHvlqDnZET2U5sjrWYx106yRk9Sp5elWxXq9AqBCk7/nRegQjqGH3TwQ00CT87hEQprHeE11Q9jXBJ06P7diQtRb93xVuwVrvgexo4n8iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YppeWIkj; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BvhHhfqK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YppeWIkj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747746242; x=1779282242;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=18OJVgMUDK/ds2/DMIG13wZ8+gLaInIFCpD6SbaidbI=;
-  b=BvhHhfqKdP/5FWiMPLDPj6pEYvRWEC8LWW3YAvyVzbj/MKGZjLx95nAE
-   L8Sm9buL0PB2oL3208tpRizVqkVnQAdjT0TvGTABeG6kYopSaEg7wqhEJ
-   rsXK/fxUrkr1GwsMyD0URNVG+q8nCwRO7jV9UxXTp8S9V/GGyoUytnkaP
-   +ocM2GnHsacKUQcWFhb9zXFqUTpUeW9RGACl7K+AGTaCPqz8C9/UBeiIz
-   XrpqEwfQHLyKctCrEMLGP7aynntHhCJcfJCmZVEbFE+/c/TdoX8W6bhZm
-   GwpJmtikzeMpQ96ipcq1eFSKH2beqOKelokreHbs1dRE/QIGNqvntu2f0
-   A==;
-X-CSE-ConnectionGUID: y9ALZxxjRkCSJ2pN32M7OA==
-X-CSE-MsgGUID: T1tf9EJHRn6EksimL2QXkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="48932701"
+  t=1747746820; x=1779282820;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OsUk1HDLzXJbjJz5VCLQBVaTC8gEtGoSU5l12/RHrKg=;
+  b=YppeWIkjp6D2bTxbKNJXnlupB1mbHaXIZiUkM75Q9DphFKK8v1CJsQ3l
+   HHLhTvTnJYl9BYY6kvjbdXTCsJcoa11efvEMRC6y4t0bAPyovc8C8ep30
+   mDGr1TgWOUMNKD0NfKB1v624JqXP56f+ZiDnHkh9hzfMvIt58OEMyhmOj
+   29/rMhPbsZjpS1ajiePGZntc2I5qTF8mEJ71NU9t6E4EpzzENcOL9NpTK
+   /rhYvlfzIjHjxMeQ4GHMz+TqDlwnHqbBXiIU7hN+hhVpWGIx4/DWCtzGR
+   IqWTPkWGE/051KkadR2bj6b58+efQor5G4ojsWsfeUeGBIpYb1YX6246j
+   w==;
+X-CSE-ConnectionGUID: Od9/4cA4SPKmXe4Jch6OjQ==
+X-CSE-MsgGUID: om4UIwL2SKKMmFmgKbz9vg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="61074172"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="48932701"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 06:03:38 -0700
-X-CSE-ConnectionGUID: dnLmUXyURBGqSvye+GCn/Q==
-X-CSE-MsgGUID: gdsK8cwNTYqR92fjcuXcnA==
+   d="scan'208";a="61074172"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 06:13:40 -0700
+X-CSE-ConnectionGUID: rA1loLxxTQa7qEkXvaO1Fw==
+X-CSE-MsgGUID: 2vu6Lnj/S4ysDQHYaBmWIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="140607892"
+   d="scan'208";a="140109610"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 May 2025 06:03:37 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 20 May 2025 06:13:37 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHMd4-000Mb6-2U;
-	Tue, 20 May 2025 13:03:34 +0000
-Date: Tue, 20 May 2025 21:03:10 +0800
+	id 1uHMml-000MbQ-1y;
+	Tue, 20 May 2025 13:13:35 +0000
+Date: Tue, 20 May 2025 21:13:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 11/11] drivers/base/cpu.c:209:16:
- warning: stack frame size (2328) exceeds limit (2048) in 'show_cpus_attr'
-Message-ID: <202505202010.5cbwb172-lkp@intel.com>
+To: Zhongkun He <hezhongkun.hzk@bytedance.com>, tj@kernel.org,
+	hannes@cmpxchg.org, longman@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org, muchun.song@linux.dev,
+	Zhongkun He <hezhongkun.hzk@bytedance.com>
+Subject: Re: [PATCH] cpuset: introduce non-blocking cpuset.mems setting option
+Message-ID: <202505202106.sXzGXeU4-lkp@intel.com>
+References: <20250520031552.1931598-1-hezhongkun.hzk@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,74 +65,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250520031552.1931598-1-hezhongkun.hzk@bytedance.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   6bec8a39b9738b7a22c1f607634a05ba0986225a
-commit: cd1308cd06a17efa58ea0136db5935ca1c8bcda5 [11/11] anolis: sysfs/cpu: Add online cpus support for bpf rich container
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250520/202505202010.5cbwb172-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505202010.5cbwb172-lkp@intel.com/reproduce)
+Hi Zhongkun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tj-cgroup/for-next]
+[also build test ERROR on linus/master v6.15-rc7 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhongkun-He/cpuset-introduce-non-blocking-cpuset-mems-setting-option/20250520-111737
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20250520031552.1931598-1-hezhongkun.hzk%40bytedance.com
+patch subject: [PATCH] cpuset: introduce non-blocking cpuset.mems setting option
+config: sparc64-randconfig-001-20250520 (https://download.01.org/0day-ci/archive/20250520/202505202106.sXzGXeU4-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505202106.sXzGXeU4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505202010.5cbwb172-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505202106.sXzGXeU4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/base/cpu.c:209:16: warning: stack frame size (2328) exceeds limit (2048) in 'show_cpus_attr' [-Wframe-larger-than]
-     209 | static ssize_t show_cpus_attr(struct device *dev,
-         |                ^
-   1 warning generated.
+   kernel/cgroup/cpuset.c: In function 'cpuset_write_resmask':
+>> kernel/cgroup/cpuset.c:3246:3: error: a label can only be part of a statement and a declaration is not a statement
+      bool skip_migrate_once = false;
+      ^~~~
 
 
-vim +/show_cpus_attr +209 drivers/base/cpu.c
+vim +3246 kernel/cgroup/cpuset.c
 
-265d2e2e31c5f6 Andi Kleen  2010-01-05  208  
-8a25a2fd126c62 Kay Sievers 2011-12-21 @209  static ssize_t show_cpus_attr(struct device *dev,
-8a25a2fd126c62 Kay Sievers 2011-12-21  210  			      struct device_attribute *attr,
-265d2e2e31c5f6 Andi Kleen  2010-01-05  211  			      char *buf)
-9d1fe3236a1d64 Mike Travis 2008-04-08  212  {
-265d2e2e31c5f6 Andi Kleen  2010-01-05  213  	struct cpu_attr *ca = container_of(attr, struct cpu_attr, attr);
-8f51f2f82f2edb Xunlei Pang 2020-11-23  214  	struct cpumask cpuset_allowed;
-e5b00b47d48f2f Xunlei Pang 2021-06-15  215  	struct task_struct __maybe_unused *scenario;
-8f51f2f82f2edb Xunlei Pang 2020-11-23  216  	bool rich_container;
-cd1308cd06a17e Yi Tao      2023-08-21  217  	struct bpf_rich_container_info info = {0};
-8f51f2f82f2edb Xunlei Pang 2020-11-23  218  
-8f51f2f82f2edb Xunlei Pang 2020-11-23  219  	rcu_read_lock();
-8f51f2f82f2edb Xunlei Pang 2020-11-23  220  	rich_container = in_rich_container(current);
-8f51f2f82f2edb Xunlei Pang 2020-11-23  221  	rcu_read_unlock();
-8f51f2f82f2edb Xunlei Pang 2020-11-23  222  
-e5b00b47d48f2f Xunlei Pang 2021-06-15  223  	if (rich_container && !strcmp(attr->attr.name, "online")) {
-e5b00b47d48f2f Xunlei Pang 2021-06-15  224  #ifdef CONFIG_RICH_CONTAINER_CG_SWITCH
-aa278c4ae55977 Xunlei Pang 2021-06-15  225  		rich_container_get_cpuset_cpus(&cpuset_allowed);
-e5b00b47d48f2f Xunlei Pang 2021-06-15  226  #else
-e5b00b47d48f2f Xunlei Pang 2021-06-15  227  		read_lock(&tasklist_lock);
-e5b00b47d48f2f Xunlei Pang 2021-06-15  228  		scenario = rich_container_get_scenario();
-e5b00b47d48f2f Xunlei Pang 2021-06-15  229  		get_task_struct(scenario);
-e5b00b47d48f2f Xunlei Pang 2021-06-15  230  		read_unlock(&tasklist_lock);
-e5b00b47d48f2f Xunlei Pang 2021-06-15  231  
-e5b00b47d48f2f Xunlei Pang 2021-06-15  232  		rich_container_get_cpus(scenario, &cpuset_allowed);
-e5b00b47d48f2f Xunlei Pang 2021-06-15  233  
-e5b00b47d48f2f Xunlei Pang 2021-06-15  234  		put_task_struct(scenario);
-e5b00b47d48f2f Xunlei Pang 2021-06-15  235  #endif
-e5b00b47d48f2f Xunlei Pang 2021-06-15  236  	}
-8f51f2f82f2edb Xunlei Pang 2020-11-23  237  	else
-8f51f2f82f2edb Xunlei Pang 2020-11-23  238  		cpumask_copy(&cpuset_allowed, ca->map);
-8f51f2f82f2edb Xunlei Pang 2020-11-23  239  	
-cd1308cd06a17e Yi Tao      2023-08-21  240  	if (!BPF_CGROUP_RUN_PROG_RICH_CONTAINER_CPU(&info, 1))
-cd1308cd06a17e Yi Tao      2023-08-21  241  		cpumask_copy(&cpuset_allowed, &info.cpus_mask);
-cd1308cd06a17e Yi Tao      2023-08-21  242  
-8f51f2f82f2edb Xunlei Pang 2020-11-23  243  	return cpumap_print_to_pagebuf(true, buf, &cpuset_allowed);
-9d1fe3236a1d64 Mike Travis 2008-04-08  244  }
-9d1fe3236a1d64 Mike Travis 2008-04-08  245  
-
-:::::: The code at line 209 was first introduced by commit
-:::::: 8a25a2fd126c621f44f3aeaef80d51f00fc11639 cpu: convert 'cpu' and 'machinecheck' sysdev_class to a regular subsystem
-
-:::::: TO: Kay Sievers <kay.sievers@vrfy.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+  3215	
+  3216	/*
+  3217	 * Common handling for a write to a "cpus" or "mems" file.
+  3218	 */
+  3219	ssize_t cpuset_write_resmask(struct kernfs_open_file *of,
+  3220					    char *buf, size_t nbytes, loff_t off)
+  3221	{
+  3222		struct cpuset *cs = css_cs(of_css(of));
+  3223		struct cpuset *trialcs;
+  3224		int retval = -ENODEV;
+  3225	
+  3226		buf = strstrip(buf);
+  3227		cpus_read_lock();
+  3228		mutex_lock(&cpuset_mutex);
+  3229		if (!is_cpuset_online(cs))
+  3230			goto out_unlock;
+  3231	
+  3232		trialcs = alloc_trial_cpuset(cs);
+  3233		if (!trialcs) {
+  3234			retval = -ENOMEM;
+  3235			goto out_unlock;
+  3236		}
+  3237	
+  3238		switch (of_cft(of)->private) {
+  3239		case FILE_CPULIST:
+  3240			retval = update_cpumask(cs, trialcs, buf);
+  3241			break;
+  3242		case FILE_EXCLUSIVE_CPULIST:
+  3243			retval = update_exclusive_cpumask(cs, trialcs, buf);
+  3244			break;
+  3245		case FILE_MEMLIST:
+> 3246			bool skip_migrate_once = false;
+  3247	
+  3248			if ((of->file->f_flags & O_NONBLOCK) &&
+  3249				is_memory_migrate(cs) &&
+  3250				!cpuset_update_flag(CS_MEMORY_MIGRATE, cs, 0))
+  3251				skip_migrate_once = true;
+  3252	
+  3253			retval = update_nodemask(cs, trialcs, buf);
+  3254	
+  3255			/* Restore the migrate flag */
+  3256			if (skip_migrate_once)
+  3257				cpuset_update_flag(CS_MEMORY_MIGRATE, cs, 1);
+  3258			break;
+  3259		default:
+  3260			retval = -EINVAL;
+  3261			break;
+  3262		}
+  3263	
+  3264		free_cpuset(trialcs);
+  3265		if (force_sd_rebuild)
+  3266			rebuild_sched_domains_locked();
+  3267	out_unlock:
+  3268		mutex_unlock(&cpuset_mutex);
+  3269		cpus_read_unlock();
+  3270		flush_workqueue(cpuset_migrate_mm_wq);
+  3271		return retval ?: nbytes;
+  3272	}
+  3273	
 
 -- 
 0-DAY CI Kernel Test Service
