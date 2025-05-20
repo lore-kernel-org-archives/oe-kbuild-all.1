@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143A4254AE3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 10:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B282673BF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 May 2025 10:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747737325; cv=none; b=DQPH80pBnl4JeAGTnTHjWUHhzzaXcyHlf38dov1Ng7FQFPFInsxbdrbncOoYqpUy/SP+OmkB+ZH7Sk3umxIo0ehLLbAyuTNEPJjlwNXzasg4l7Z1Aeu7XrtcvDR6BkipPphmKSJdyHO23NXdK+Dfr+qud/bY1KH/WsrwrciU8IQ=
+	t=1747737330; cv=none; b=YJ6IWwslyszy6S1W0J+ZPCoMluNk+enOXekU/z3FrQ6N3hfc/SNPyqFiDd9VM0iZT4hHDKs4h7ZmTMD8vGQK9XlfKmsk4jLI00kZa16OkkZ9g+C0UK+cJ4WElimBUZ0SzTmHnQ6gtP/4Y26RjiDGF8JV2ChUfRtSKXVkx9Te8ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747737325; c=relaxed/simple;
-	bh=gedRGIT5Vg92eSJliNicFKQvXvF2FrbQu/01puHgJBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zdjx8YN6Gr5EdMoUAhB4Avt4YZEfskOika0ppZyEfqLXy0fSwY3xlx40cxaWEz1Zxf2amcr72LVs3W+1dc/v2hDLe426GU/rogpI5AHTcF3HmW/LKWLCC/dEDA1WOdB+F8dIFuopqV5tvYeg1PGk4fwvsJ93e7MEf6noS9gIFBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BuM6u6RJ; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1747737330; c=relaxed/simple;
+	bh=dXo6SGuXbAF9WMc+a1rAec7JrIlHarRG0aqXbcVpfTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RUhOeJ3ffeENUGKJfGPZYCjhrcR70FPLtLEP9HuNtiddnPDLRMYFHhu1wxOaxOo3RbESMOnOamjtDgfKyfudpklRsUCTalx7c6b8kyD6PDuFH1yvXTk8n5FAwjOF8/vr/DQijMD6n0xEUYlJ8fgxd/xHUIjRRHqz/r7XxfIgmk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d8tiRG1l; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuM6u6RJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8tiRG1l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747737325; x=1779273325;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gedRGIT5Vg92eSJliNicFKQvXvF2FrbQu/01puHgJBw=;
-  b=BuM6u6RJMzLKwd7e/wxhklz8uUJ8WEv4ZfZ0TAgDeJM6utLCUwWaCOo+
-   Qrew4fkAdSxQ9GyZmLm9Cgzw0OBuAzH9YVJ11/7NyWypy3xO9W00cojtO
-   lL+sRaKZ2DSozB6Gz6aSzZn//G0XGXCp6gjda/7mVcWRGi+yoyfJHiZhB
-   4rKFLnbQeVeS+YGQs8f9xwBRHsrnRW6uZ06DyEbVAHefQbyecq3ZbIzNQ
-   I/JgGmEsxEcb4I8QfsympfeRcOcGv/qnL6lpT8ax3M7wZA1LR2czsWYgC
-   uIKkzpan5vyG5GGJD8jb6J6SIfnkQQ2Vw72ze8mDKNwj2pVqQjC8peVgI
-   Q==;
-X-CSE-ConnectionGUID: 9Qn8FFWfTKyGcJE31+3Kyw==
-X-CSE-MsgGUID: 1pvdd4+TSgi0hniHjTocig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49567332"
+  t=1747737326; x=1779273326;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dXo6SGuXbAF9WMc+a1rAec7JrIlHarRG0aqXbcVpfTA=;
+  b=d8tiRG1lXsjNMrxg5S1AWnj8mFoRB7gMFbSh04pZqrb4rqlqb29SGPMO
+   l+slnWcSzlA3iEUADu1nBE/iAavyUwh6u/h76yxDOufv804tODyJlX6B6
+   kdOvfKzgd7GfZvWHNVsFThDAGPRRcRJf0e/IyiLPa5OWlvrP7iZMFLpRN
+   aGpurog2VbjNfjZVw22j6tSEGR3e+lOdt57Z4QhFj4sJcuCYVPhVeZLrD
+   8Pz5j8KrpwJXpqqgaj/ZuMNjpua+COKIuRyBVIeP9EEZEtx4iaDQijp8F
+   8DWULbIEVR/YIhI51tIi+t7IXBsCzsI0vFW8+bb14be/IdWFMbAHGj/ek
+   g==;
+X-CSE-ConnectionGUID: pX1manszQUu7xY8fvFjZgQ==
+X-CSE-MsgGUID: k1JXKSxnTaaSCjpFpYIK5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49567336"
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49567332"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 03:35:24 -0700
-X-CSE-ConnectionGUID: yiNaYEjGQ0ySot3XQBrtXg==
-X-CSE-MsgGUID: 8NFFosbjS1Oi1SPtCVrfkA==
+   d="scan'208";a="49567336"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 03:35:25 -0700
+X-CSE-ConnectionGUID: RRSV9netQiGtdhWTfUcTcw==
+X-CSE-MsgGUID: MM8iGlnhTT+9CJk6qzb7mg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="139533129"
+   d="scan'208";a="144776602"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 May 2025 03:35:22 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 May 2025 03:35:22 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHKJc-000MSG-0O;
+	id 1uHKJc-000MSO-0m;
 	Tue, 20 May 2025 10:35:20 +0000
-Date: Tue, 20 May 2025 18:35:13 +0800
+Date: Tue, 20 May 2025 18:35:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 08/11] bus: mhi: host: Add support for Bandwidth scale
-Message-ID: <202505201854.76yTjUT0-lkp@intel.com>
-References: <20250519-mhi_bw_up-v3-8-3acd4a17bbb5@oss.qualcomm.com>
+To: Caleb James DeLisle <cjd@cjdns.fr>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mips@vger.kernel.org,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+	linux-doc@vger.kernel.org
+Subject: [mips-linux:mips-next 19/19] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/interrupt-controller/econet,en751221-intc.yaml
+Message-ID: <202505201832.NNOJ4E78-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,63 +65,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250519-mhi_bw_up-v3-8-3acd4a17bbb5@oss.qualcomm.com>
 
-Hi Krishna,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on fee3e843b309444f48157e2188efa6818bae85cf]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-Update-current-bus-speed-as-part-of-pci_pwrctrl_notify/20250519-175340
-base:   fee3e843b309444f48157e2188efa6818bae85cf
-patch link:    https://lore.kernel.org/r/20250519-mhi_bw_up-v3-8-3acd4a17bbb5%40oss.qualcomm.com
-patch subject: [PATCH v3 08/11] bus: mhi: host: Add support for Bandwidth scale
-config: m68k-randconfig-r132-20250520 (https://download.01.org/0day-ci/archive/20250520/202505201854.76yTjUT0-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250520/202505201854.76yTjUT0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git mips-next
+head:   faefb0a59c5914b7b8f737e2ec5c82822e5bc4c7
+commit: faefb0a59c5914b7b8f737e2ec5c82822e5bc4c7 [19/19] MAINTAINERS: Add entry for newly added EcoNet platform.
+reproduce: (https://download.01.org/0day-ci/archive/20250520/202505201832.NNOJ4E78-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505201854.76yTjUT0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505201832.NNOJ4E78-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/bus/mhi/host/init.c:532:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int val @@     got restricted __le32 [usertype] @@
-   drivers/bus/mhi/host/init.c:532:13: sparse:     expected int val
-   drivers/bus/mhi/host/init.c:532:13: sparse:     got restricted __le32 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +532 drivers/bus/mhi/host/init.c
-
-   513	
-   514	static int mhi_init_bw_scale(struct mhi_controller *mhi_cntrl,
-   515				     int bw_scale_db)
-   516	{
-   517		struct device *dev = &mhi_cntrl->mhi_dev->dev;
-   518		int ret, er_index, val;
-   519		u32 bw_cfg_offset;
-   520	
-   521		ret = mhi_find_capability(mhi_cntrl, MHI_BW_SCALE_CAP_ID, &bw_cfg_offset);
-   522		if (ret)
-   523			return ret;
-   524	
-   525		er_index = mhi_get_er_index(mhi_cntrl, MHI_ER_BW_SCALE);
-   526		if (er_index < 0)
-   527			return er_index;
-   528	
-   529		bw_cfg_offset += MHI_BW_SCALE_CFG_OFFSET;
-   530	
-   531		/* Advertise host support */
- > 532		val = MHI_BW_SCALE_ENABLE(bw_scale_db, er_index);
-   533	
-   534		mhi_write_reg(mhi_cntrl, mhi_cntrl->regs, bw_cfg_offset, val);
-   535	
-   536		dev_dbg(dev, "Bandwidth scaling setup complete with event ring: %d\n",
-   537			er_index);
-   538	
-   539		return 0;
-   540	}
-   541	
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/interrupt-controller/econet,en751221-intc.yaml
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/timer/econet,en751221-timer.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
+   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
+   make[1]: *** [Makefile:1801: htmldocs] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
