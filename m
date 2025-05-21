@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC346264A61
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 11:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6218B236451;
+	Wed, 21 May 2025 11:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747827297; cv=none; b=Dg4NZBRsBxbiWKiti3h8NJ87zoLO/bTUeCdLg19+T4fWRuYm+l1ZEYHybljNYSmjd5fHTJsKqH6XLebLpQBzCxsJEDtsc+gqm2W1pk4gKXxYWbTfNlHMMMcKBoRiOyo+yLyLwOb8ja1P+luA0zbizeuPzzOp2lEgIojOgBrpS/0=
+	t=1747828740; cv=none; b=dTCiD0HDG48Adni4wZJ1oCLIaqOToyyH8txurQCxzvhZP+zD9wRTX+9W48fCCd42qiWDj3UP4Bg/eHI9I35pRsjt25jy3g246GjeojMpr4R/swZ535i6uMlLZnUz2nEV2Ki6dzE4hDFHUWNYrSTC2KxGuM0qZXPYntsEnTYzKKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747827297; c=relaxed/simple;
-	bh=pzXQ+5pI/KrEd+MyJMvzxFd3J6ZS/neldoHSvMLEgAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ewpgU9gRnjAYyeUJXG4teN1aByjDmXjTcpVsQ7ao3R92TafUt16oQz3UEc7CW26Xd8MDK6brHronA7c63LowXmFid3Qti6116cmP4z1bW0crHomCiWm1LshQuS+u2hobXDDh1gh5PF4H167JWgNbuk3LtkUVcLtWcOWkfY2/woI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j1Ie6e88; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1747828740; c=relaxed/simple;
+	bh=H1VBDSIJ2HMkJrDKIgh+iSVkesoM3W4lbNhILfvcvMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BHwFTDjtIQj7fgwPA8V2zsKh+WFI16hp0wzp36bNlNXF31DkdV0CclI3Lly1F4tCnHsTV+tKj9eoXoTRFdPXv9IxSQUl0xY8IvcjHyPMQiaTYdTN6NL6yCoU5EBtS5QZo9J0h9AIhsZ1qNj83kHm/ZtHMTiKbDcpBt4UlIWsUHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWTjqRqC; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j1Ie6e88"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWTjqRqC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747827295; x=1779363295;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pzXQ+5pI/KrEd+MyJMvzxFd3J6ZS/neldoHSvMLEgAY=;
-  b=j1Ie6e88OtuA6w6DcgwrMnxuixe9dOHW5qJaw1BdRBBo4UBCNsSdC/ts
-   UMxhDVBe866X76/SDOiW3fciaPq/PNCI0W3ccJDLMXTugaaZwfzjBS53V
-   +4PVRrlnYq7Kfgck9NksLpBVikgVFwnL4/bf2EmFJ0AMuIeqhVLdFCLXT
-   Lqds2xsHG5FwyzHpltNLiBU1WyD2OBDA/xwnFWzjx6cTX/EUjAObCyttQ
-   OAWd98vfryXnY6RvpMjpl876AkAISF+9tCrNcd7iYiHcDXXZgkRahAh3M
-   pI0FSERowX8DNVyE8F7wuuRIegsk9jvj8Z5GeHqVatDWvUgwto8HDpMVK
-   Q==;
-X-CSE-ConnectionGUID: w6jmTnssSVCpIWQPLeUyTA==
-X-CSE-MsgGUID: TUMxz1GqRBKstUXzil822A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="61202444"
+  t=1747828738; x=1779364738;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H1VBDSIJ2HMkJrDKIgh+iSVkesoM3W4lbNhILfvcvMY=;
+  b=IWTjqRqChEKagejg42xjsFKkT+j5Oc6n12s01HtRUYUsUSLNN9H2VGZZ
+   vayvRpBmGYaGYTKC06Ygn3KGF42dKOyoDnA+iNr/GdvAWEvGn8IO51nSD
+   rmDfz/i+iMXKCqX1a7eBRfb6TkqDFiizLyMaz6N7JKsdn/Vwtj0DAI+XJ
+   PybdrsvqdaPrH0a7QUztY2oIAEJO4r1msFvINEvSet5kzEEGoZSHzV52m
+   rIYo0SBDCDCEj9kh8VcZGhbYp4kW/dVO4CNKXMX3ov55oxaUACkvP5FfG
+   eWwW8qpCaMX568t+UZlOXya59x5GOuQXl8vyGJ0bMIHd1qyr6w6Yu2Ykw
+   w==;
+X-CSE-ConnectionGUID: 5GJL6WowT4G0TP+QnTF1mQ==
+X-CSE-MsgGUID: OvhEhc/LSDaGYyUpydYybg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49676846"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="61202444"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 04:34:54 -0700
-X-CSE-ConnectionGUID: TbcXttS4Tnm/5CvmPwkHMg==
-X-CSE-MsgGUID: hIiB+c8DRCWNSviAmAP+Ng==
+   d="scan'208";a="49676846"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 04:58:57 -0700
+X-CSE-ConnectionGUID: UyTnJ1iNSvyVOiQTzKqTQw==
+X-CSE-MsgGUID: qJGJTHuZRWW2G7aWSZdiEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="144765085"
+   d="scan'208";a="140546167"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 21 May 2025 04:34:52 -0700
+  by orviesa007.jf.intel.com with ESMTP; 21 May 2025 04:58:54 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHhij-000OCC-1d;
-	Wed, 21 May 2025 11:34:49 +0000
-Date: Wed, 21 May 2025 19:34:31 +0800
+	id 1uHi5z-000ODQ-29;
+	Wed, 21 May 2025 11:58:51 +0000
+Date: Wed, 21 May 2025 19:58:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
-	Jann Horn <jannh@google.com>
-Subject: [brauner-github:vfs-6.16.coredump 27/33] fs/coredump.c:966:17:
- error: 'default' label not within a switch statement
-Message-ID: <202505211906.Cck0K5xE-lkp@intel.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, vkoul@kernel.org,
+	chenxiang66@hisilicon.com, m.szyprowski@samsung.com,
+	robin.murphy@arm.com, leon@kernel.org, jgg@nvidia.com,
+	alex.williamson@redhat.com, joel.granados@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	iommu@lists.linux.dev, dmaengine@vger.kernel.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	mcgrof@kernel.org
+Subject: Re: [PATCH 6/6] dma-mapping: benchmark: add IOVA support
+Message-ID: <202505211909.CzQtqtu8-lkp@intel.com>
+References: <20250520223913.3407136-7-mcgrof@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,466 +68,212 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250520223913.3407136-7-mcgrof@kernel.org>
 
-tree:   https://github.com/brauner/linux.git vfs-6.16.coredump
-head:   ad2a84867c2951d84ba94acb9f67001314f511b7
-commit: 1fe211b28af6234d4a003072d9ab1fcdf7f7c4d9 [27/33] coredump: add coredump socket
-config: i386-buildonly-randconfig-003-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211906.Cck0K5xE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211906.Cck0K5xE-lkp@intel.com/reproduce)
+Hi Luis,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.15-rc7 next-20250516]
+[cannot apply to vkoul-dmaengine/next shuah-kselftest/next shuah-kselftest/fixes sysctl/sysctl-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Chamberlain/fake-dma-add-fake-dma-engine-driver/20250521-064035
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250520223913.3407136-7-mcgrof%40kernel.org
+patch subject: [PATCH 6/6] dma-mapping: benchmark: add IOVA support
+config: hexagon-randconfig-002-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211909.CzQtqtu8-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211909.CzQtqtu8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505211906.Cck0K5xE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505211909.CzQtqtu8-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/coredump.c: In function 'do_coredump':
->> fs/coredump.c:946:17: warning: enumeration value 'COREDUMP_FILE' not handled in switch [-Wswitch]
-     946 |                 switch (cn.core_type) {
-         |                 ^~~~~~
->> fs/coredump.c:946:17: warning: enumeration value 'COREDUMP_SOCK' not handled in switch [-Wswitch]
->> fs/coredump.c:966:17: error: 'default' label not within a switch statement
-     966 |                 default:
-         |                 ^~~~~~~
->> fs/coredump.c:967:25: error: break statement not within loop or switch
-     967 |                         break;
-         |                         ^~~~~
->> fs/coredump.c:828:25: error: label 'fail_dropcount' used but not defined
-     828 |                         goto fail_dropcount;
-         |                         ^~~~
->> fs/coredump.c:916:25: error: label 'close_fail' used but not defined
-     916 |                         goto close_fail;
-         |                         ^~~~
->> fs/coredump.c:814:25: error: label 'fail_unlock' used but not defined
-     814 |                         goto fail_unlock;
-         |                         ^~~~
->> fs/coredump.c:684:17: error: label 'fail_creds' used but not defined
-     684 |                 goto fail_creds;
-         |                 ^~~~
->> fs/coredump.c:669:17: error: label 'fail' used but not defined
-     669 |                 goto fail;
-         |                 ^~~~
->> fs/coredump.c:644:14: warning: variable 'core_dumped' set but not used [-Wunused-but-set-variable]
-     644 |         bool core_dumped = false;
-         |              ^~~~~~~~~~~
->> fs/coredump.c:637:28: warning: variable 'old_cred' set but not used [-Wunused-but-set-variable]
-     637 |         const struct cred *old_cred;
-         |                            ^~~~~~~~
-   fs/coredump.c: At top level:
->> fs/coredump.c:971:11: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
-     971 | close_fail:
-         |           ^
-   fs/coredump.c:974:15: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
-     974 | fail_dropcount:
-         |               ^
-   fs/coredump.c:977:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
-     977 | fail_unlock:
-         |            ^
->> fs/coredump.c:979:17: error: expected ')' before '.' token
-     979 |         kfree(cn.corename);
+   kernel/dma/map_benchmark.c:60:25: error: variable has incomplete type 'struct dma_iova_state'
+      60 |                 struct dma_iova_state iova_state;
+         |                                       ^
+   kernel/dma/map_benchmark.c:60:10: note: forward declaration of 'struct dma_iova_state'
+      60 |                 struct dma_iova_state iova_state;
+         |                        ^
+   kernel/dma/map_benchmark.c:76:8: error: call to undeclared function 'dma_iova_try_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      76 |                 if (!dma_iova_try_alloc(map->dev, &iova_state, phys, size)) {
+         |                      ^
+   kernel/dma/map_benchmark.c:88:9: error: call to undeclared function 'dma_iova_link'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      88 |                 ret = dma_iova_link(map->dev, &iova_state, phys, 0, size, dir, 0);
+         |                       ^
+   kernel/dma/map_benchmark.c:94:4: error: call to undeclared function 'dma_iova_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      94 |                         dma_iova_free(map->dev, &iova_state);
+         |                         ^
+   kernel/dma/map_benchmark.c:101:9: error: call to undeclared function 'dma_iova_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     101 |                 ret = dma_iova_sync(map->dev, &iova_state, 0, size);
+         |                       ^
+   kernel/dma/map_benchmark.c:107:4: error: call to undeclared function 'dma_iova_unlink'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     107 |                         dma_iova_unlink(map->dev, &iova_state, 0, size, dir, 0);
+         |                         ^
+   kernel/dma/map_benchmark.c:108:4: error: call to undeclared function 'dma_iova_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     108 |                         dma_iova_free(map->dev, &iova_state);
+         |                         ^
+   kernel/dma/map_benchmark.c:118:3: error: call to undeclared function 'dma_iova_destroy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     118 |                 dma_iova_destroy(map->dev, &iova_state, size, dir, 0);
          |                 ^
-         |                 )
->> fs/coredump.c:980:9: warning: data definition has no type or storage class
-     980 |         coredump_finish(core_dumped);
-         |         ^~~~~~~~~~~~~~~
->> fs/coredump.c:980:9: error: type defaults to 'int' in declaration of 'coredump_finish' [-Werror=implicit-int]
->> fs/coredump.c:980:9: warning: parameter names (without types) in function declaration
->> fs/coredump.c:980:9: error: conflicting types for 'coredump_finish'; have 'int()'
-   fs/coredump.c:519:13: note: previous definition of 'coredump_finish' with type 'void(bool)' {aka 'void(_Bool)'}
-     519 | static void coredump_finish(bool core_dumped)
-         |             ^~~~~~~~~~~~~~~
-   fs/coredump.c:981:9: warning: data definition has no type or storage class
-     981 |         revert_creds(old_cred);
-         |         ^~~~~~~~~~~~
->> fs/coredump.c:981:9: error: type defaults to 'int' in declaration of 'revert_creds' [-Werror=implicit-int]
-   fs/coredump.c:981:9: warning: parameter names (without types) in function declaration
->> fs/coredump.c:981:9: error: conflicting types for 'revert_creds'; have 'int()'
-   In file included from include/linux/sched/signal.h:10,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:34,
-                    from include/linux/fdtable.h:16,
-                    from fs/coredump.c:4:
-   include/linux/cred.h:178:34: note: previous definition of 'revert_creds' with type 'const struct cred *(const struct cred *)'
-     178 | static inline const struct cred *revert_creds(const struct cred *revert_cred)
-         |                                  ^~~~~~~~~~~~
-   fs/coredump.c:982:11: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
-     982 | fail_creds:
-         |           ^
-   fs/coredump.c:984:5: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
-     984 | fail:
-         |     ^
->> fs/coredump.c:986:1: error: expected identifier or '(' before '}' token
-     986 | }
-         | ^
-   fs/coredump.c:519:13: warning: 'coredump_finish' defined but not used [-Wunused-function]
-     519 | static void coredump_finish(bool core_dumped)
-         |             ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> kernel/dma/map_benchmark.c:340:23: warning: variable 'iova_threads' set but not used [-Wunused-but-set-variable]
+     340 |         int regular_threads, iova_threads;
+         |                              ^
+   1 warning and 8 errors generated.
 
 
-vim +/default +966 fs/coredump.c
+vim +/iova_threads +340 kernel/dma/map_benchmark.c
 
-   630	
-   631	void do_coredump(const kernel_siginfo_t *siginfo)
-   632	{
-   633		struct core_state core_state;
-   634		struct core_name cn;
-   635		struct mm_struct *mm = current->mm;
-   636		struct linux_binfmt * binfmt;
-   637		const struct cred *old_cred;
-   638		struct cred *cred;
-   639		int retval = 0;
-   640		size_t *argv = NULL;
-   641		int argc = 0;
-   642		/* require nonrelative corefile path and be extra careful */
-   643		bool need_suid_safe = false;
-   644		bool core_dumped = false;
-   645		static atomic_t core_dump_count = ATOMIC_INIT(0);
-   646		struct coredump_params cprm = {
-   647			.siginfo = siginfo,
-   648			.limit = rlimit(RLIMIT_CORE),
-   649			/*
-   650			 * We must use the same mm->flags while dumping core to avoid
-   651			 * inconsistency of bit flags, since this flag is not protected
-   652			 * by any locks.
-   653			 */
-   654			.mm_flags = mm->flags,
-   655			.vma_meta = NULL,
-   656			.cpu = raw_smp_processor_id(),
-   657		};
-   658	
-   659		audit_core_dumps(siginfo->si_signo);
-   660	
-   661		binfmt = mm->binfmt;
-   662		if (!binfmt || !binfmt->core_dump)
-   663			goto fail;
-   664		if (!__get_dumpable(cprm.mm_flags))
-   665			goto fail;
-   666	
-   667		cred = prepare_creds();
-   668		if (!cred)
-   669			goto fail;
-   670		/*
-   671		 * We cannot trust fsuid as being the "true" uid of the process
-   672		 * nor do we know its entire history. We only know it was tainted
-   673		 * so we dump it as root in mode 2, and only into a controlled
-   674		 * environment (pipe handler or fully qualified path).
-   675		 */
-   676		if (__get_dumpable(cprm.mm_flags) == SUID_DUMP_ROOT) {
-   677			/* Setuid core dump mode */
-   678			cred->fsuid = GLOBAL_ROOT_UID;	/* Dump root private */
-   679			need_suid_safe = true;
-   680		}
-   681	
-   682		retval = coredump_wait(siginfo->si_signo, &core_state);
-   683		if (retval < 0)
-   684			goto fail_creds;
-   685	
-   686		old_cred = override_creds(cred);
-   687	
-   688		retval = format_corename(&cn, &cprm, &argv, &argc);
-   689		if (retval < 0) {
-   690			coredump_report_failure("format_corename failed, aborting core");
-   691			goto fail_unlock;
-   692		}
-   693	
-   694		switch (cn.core_type) {
-   695		case COREDUMP_FILE: {
-   696			struct mnt_idmap *idmap;
-   697			struct inode *inode;
-   698			int open_flags = O_CREAT | O_WRONLY | O_NOFOLLOW |
-   699					 O_LARGEFILE | O_EXCL;
-   700	
-   701			if (cprm.limit < binfmt->min_coredump)
-   702				goto fail_unlock;
-   703	
-   704			if (need_suid_safe && cn.corename[0] != '/') {
-   705				coredump_report_failure(
-   706					"this process can only dump core to a fully qualified path, skipping core dump");
-   707				goto fail_unlock;
-   708			}
-   709	
-   710			/*
-   711			 * Unlink the file if it exists unless this is a SUID
-   712			 * binary - in that case, we're running around with root
-   713			 * privs and don't want to unlink another user's coredump.
-   714			 */
-   715			if (!need_suid_safe) {
-   716				/*
-   717				 * If it doesn't exist, that's fine. If there's some
-   718				 * other problem, we'll catch it at the filp_open().
-   719				 */
-   720				do_unlinkat(AT_FDCWD, getname_kernel(cn.corename));
-   721			}
-   722	
-   723			/*
-   724			 * There is a race between unlinking and creating the
-   725			 * file, but if that causes an EEXIST here, that's
-   726			 * fine - another process raced with us while creating
-   727			 * the corefile, and the other process won. To userspace,
-   728			 * what matters is that at least one of the two processes
-   729			 * writes its coredump successfully, not which one.
-   730			 */
-   731			if (need_suid_safe) {
-   732				/*
-   733				 * Using user namespaces, normal user tasks can change
-   734				 * their current->fs->root to point to arbitrary
-   735				 * directories. Since the intention of the "only dump
-   736				 * with a fully qualified path" rule is to control where
-   737				 * coredumps may be placed using root privileges,
-   738				 * current->fs->root must not be used. Instead, use the
-   739				 * root directory of init_task.
-   740				 */
-   741				struct path root;
-   742	
-   743				task_lock(&init_task);
-   744				get_fs_root(init_task.fs, &root);
-   745				task_unlock(&init_task);
-   746				cprm.file = file_open_root(&root, cn.corename,
-   747							   open_flags, 0600);
-   748				path_put(&root);
-   749			} else {
-   750				cprm.file = filp_open(cn.corename, open_flags, 0600);
-   751			}
-   752			if (IS_ERR(cprm.file))
-   753				goto fail_unlock;
-   754	
-   755			inode = file_inode(cprm.file);
-   756			if (inode->i_nlink > 1)
-   757				goto close_fail;
-   758			if (d_unhashed(cprm.file->f_path.dentry))
-   759				goto close_fail;
-   760			/*
-   761			 * AK: actually i see no reason to not allow this for named
-   762			 * pipes etc, but keep the previous behaviour for now.
-   763			 */
-   764			if (!S_ISREG(inode->i_mode))
-   765				goto close_fail;
-   766			/*
-   767			 * Don't dump core if the filesystem changed owner or mode
-   768			 * of the file during file creation. This is an issue when
-   769			 * a process dumps core while its cwd is e.g. on a vfat
-   770			 * filesystem.
-   771			 */
-   772			idmap = file_mnt_idmap(cprm.file);
-   773			if (!vfsuid_eq_kuid(i_uid_into_vfsuid(idmap, inode),
-   774					    current_fsuid())) {
-   775				coredump_report_failure("Core dump to %s aborted: "
-   776					"cannot preserve file owner", cn.corename);
-   777				goto close_fail;
-   778			}
-   779			if ((inode->i_mode & 0677) != 0600) {
-   780				coredump_report_failure("Core dump to %s aborted: "
-   781					"cannot preserve file permissions", cn.corename);
-   782				goto close_fail;
-   783			}
-   784			if (!(cprm.file->f_mode & FMODE_CAN_WRITE))
-   785				goto close_fail;
-   786			if (do_truncate(idmap, cprm.file->f_path.dentry,
-   787					0, 0, cprm.file))
-   788				goto close_fail;
-   789			break;
-   790		}
-   791		case COREDUMP_PIPE: {
-   792			int argi;
-   793			int dump_count;
-   794			char **helper_argv;
-   795			struct subprocess_info *sub_info;
-   796	
-   797			if (cprm.limit == 1) {
-   798				/* See umh_coredump_setup() which sets RLIMIT_CORE = 1.
-   799				 *
-   800				 * Normally core limits are irrelevant to pipes, since
-   801				 * we're not writing to the file system, but we use
-   802				 * cprm.limit of 1 here as a special value, this is a
-   803				 * consistent way to catch recursive crashes.
-   804				 * We can still crash if the core_pattern binary sets
-   805				 * RLIM_CORE = !1, but it runs as root, and can do
-   806				 * lots of stupid things.
-   807				 *
-   808				 * Note that we use task_tgid_vnr here to grab the pid
-   809				 * of the process group leader.  That way we get the
-   810				 * right pid if a thread in a multi-threaded
-   811				 * core_pattern process dies.
-   812				 */
-   813				coredump_report_failure("RLIMIT_CORE is set to 1, aborting core");
- > 814				goto fail_unlock;
-   815			}
-   816			cprm.limit = RLIM_INFINITY;
-   817	
-   818			dump_count = atomic_inc_return(&core_dump_count);
-   819			if (core_pipe_limit && (core_pipe_limit < dump_count)) {
-   820				coredump_report_failure("over core_pipe_limit, skipping core dump");
-   821				goto fail_dropcount;
-   822			}
-   823	
-   824			helper_argv = kmalloc_array(argc + 1, sizeof(*helper_argv),
-   825						    GFP_KERNEL);
-   826			if (!helper_argv) {
-   827				coredump_report_failure("%s failed to allocate memory", __func__);
- > 828				goto fail_dropcount;
-   829			}
-   830			for (argi = 0; argi < argc; argi++)
-   831				helper_argv[argi] = cn.corename + argv[argi];
-   832			helper_argv[argi] = NULL;
-   833	
-   834			retval = -ENOMEM;
-   835			sub_info = call_usermodehelper_setup(helper_argv[0],
-   836							helper_argv, NULL, GFP_KERNEL,
-   837							umh_coredump_setup, NULL, &cprm);
-   838			if (sub_info)
-   839				retval = call_usermodehelper_exec(sub_info,
-   840								  UMH_WAIT_EXEC);
-   841	
-   842			kfree(helper_argv);
-   843			if (retval) {
-   844				coredump_report_failure("|%s pipe failed", cn.corename);
-   845				goto close_fail;
-   846			}
-   847			break;
-   848		}
-   849		case COREDUMP_SOCK: {
-   850	#ifdef CONFIG_UNIX
-   851			struct file *file __free(fput) = NULL;
-   852			struct sockaddr_un addr = {
-   853				.sun_family = AF_UNIX,
-   854			};
-   855			ssize_t addr_len;
-   856			struct socket *socket;
-   857	
-   858			addr_len = strscpy(addr.sun_path, cn.corename);
-   859			if (addr_len < 0)
-   860				goto close_fail;
-   861			addr_len += offsetof(struct sockaddr_un, sun_path) + 1;
-   862	
-   863			/*
-   864			 * It is possible that the userspace process which is
-   865			 * supposed to handle the coredump and is listening on
-   866			 * the AF_UNIX socket coredumps. Userspace should just
-   867			 * mark itself non dumpable.
-   868			 */
-   869	
-   870			retval = sock_create_kern(&init_net, AF_UNIX, SOCK_STREAM, 0, &socket);
-   871			if (retval < 0)
-   872				goto close_fail;
-   873	
-   874			file = sock_alloc_file(socket, 0, NULL);
-   875			if (IS_ERR(file))
-   876				goto close_fail;
-   877	
-   878			retval = kernel_connect(socket, (struct sockaddr *)(&addr),
-   879						addr_len, O_NONBLOCK | SOCK_COREDUMP);
-   880			if (retval) {
-   881				if (retval == -EAGAIN)
-   882					coredump_report_failure("Coredump socket %s receive queue full", addr.sun_path);
-   883				else
-   884					coredump_report_failure("Coredump socket connection %s failed %d", addr.sun_path, retval);
-   885				goto close_fail;
-   886			}
-   887	
-   888			cprm.limit = RLIM_INFINITY;
-   889			cprm.file = no_free_ptr(file);
-   890	#else
-   891			coredump_report_failure("Core dump socket support %s disabled", cn.corename);
-   892			goto close_fail;
-   893	#endif
-   894			break;
-   895		}
-   896		default:
-   897			WARN_ON_ONCE(true);
-   898			goto close_fail;
-   899		}
-   900	
-   901		/* get us an unshared descriptor table; almost always a no-op */
-   902		/* The cell spufs coredump code reads the file descriptor tables */
-   903		retval = unshare_files();
-   904		if (retval)
-   905			goto close_fail;
-   906		if (!dump_interrupted()) {
-   907			/*
-   908			 * umh disabled with CONFIG_STATIC_USERMODEHELPER_PATH="" would
-   909			 * have this set to NULL.
-   910			 */
-   911			if (!cprm.file) {
-   912				coredump_report_failure("Core dump to |%s disabled", cn.corename);
-   913				goto close_fail;
-   914			}
-   915			if (!dump_vma_snapshot(&cprm))
- > 916				goto close_fail;
-   917	
-   918			file_start_write(cprm.file);
-   919			core_dumped = binfmt->core_dump(&cprm);
-   920			/*
-   921			 * Ensures that file size is big enough to contain the current
-   922			 * file postion. This prevents gdb from complaining about
-   923			 * a truncated file if the last "write" to the file was
-   924			 * dump_skip.
-   925			 */
-   926			if (cprm.to_skip) {
-   927				cprm.to_skip--;
-   928				dump_emit(&cprm, "", 1);
-   929			}
-   930			file_end_write(cprm.file);
-   931			free_vma_snapshot(&cprm);
-   932		}
-   933	
-   934	#ifdef CONFIG_UNIX
-   935		/* Let userspace know we're done processing the coredump. */
-   936		if (sock_from_file(cprm.file))
-   937			kernel_sock_shutdown(sock_from_file(cprm.file), SHUT_WR);
-   938	#endif
-   939	
-   940		/*
-   941		 * When core_pipe_limit is set we wait for the coredump server
-   942		 * or usermodehelper to finish before exiting so it can e.g.,
-   943		 * inspect /proc/<pid>.
-   944		 */
-   945		if (core_pipe_limit) {
- > 946			switch (cn.core_type) {
-   947			case COREDUMP_PIPE:
-   948				wait_for_dump_helpers(cprm.file);
-   949				break;
-   950	#ifdef CONFIG_UNIX
-   951			case COREDUMP_SOCK: {
-   952				ssize_t n;
-   953	
-   954				/*
-   955				 * We use a simple read to wait for the coredump
-   956				 * processing to finish. Either the socket is
-   957				 * closed or we get sent unexpected data. In
-   958				 * both cases, we're done.
-   959				 */
-   960				n = __kernel_read(cprm.file, &(char){ 0 }, 1, NULL);
-   961				if (n != 0)
-   962					coredump_report_failure("Unexpected data on coredump socket");
-   963				break;
-   964	#endif
-   965			}
- > 966			default:
- > 967				break;
-   968			}
-   969		}
-   970	
- > 971	close_fail:
-   972		if (cprm.file)
-   973			filp_close(cprm.file, NULL);
-   974	fail_dropcount:
-   975		if (cn.core_type == COREDUMP_PIPE)
-   976			atomic_dec(&core_dump_count);
-   977	fail_unlock:
-   978		kfree(argv);
- > 979		kfree(cn.corename);
- > 980		coredump_finish(core_dumped);
- > 981		revert_creds(old_cred);
-   982	fail_creds:
-   983		put_cred(cred);
-   984	fail:
-   985		return;
- > 986	}
-   987	
+   334	
+   335	static int do_streaming_iova_benchmark(struct map_benchmark_data *map)
+   336	{
+   337		struct task_struct **tsk;
+   338		int threads = map->bparam.threads;
+   339		int node = map->bparam.node;
+ > 340		int regular_threads, iova_threads;
+   341		u64 loops, iova_loops;
+   342		int ret = 0;
+   343		int i;
+   344	
+   345		tsk = kmalloc_array(threads * 2, sizeof(*tsk), GFP_KERNEL);
+   346		if (!tsk)
+   347			return -ENOMEM;
+   348	
+   349		get_device(map->dev);
+   350	
+   351		/* Split threads between regular and IOVA testing */
+   352		regular_threads = threads / 2;
+   353		iova_threads = threads - regular_threads;
+   354	
+   355		/* Create streaming DMA threads */
+   356		for (i = 0; i < regular_threads; i++) {
+   357			tsk[i] = kthread_create_on_node(benchmark_thread_streaming, map,
+   358					node, "dma-streaming-benchmark/%d", i);
+   359			if (IS_ERR(tsk[i])) {
+   360				pr_err("create dma_map thread failed\n");
+   361				ret = PTR_ERR(tsk[i]);
+   362				while (--i >= 0)
+   363					kthread_stop(tsk[i]);
+   364				goto out;
+   365			}
+   366	
+   367			if (node != NUMA_NO_NODE)
+   368				kthread_bind_mask(tsk[i], cpumask_of_node(node));
+   369		}
+   370	
+   371		/* Create IOVA DMA threads */
+   372		for (i = regular_threads; i < threads; i++) {
+   373			tsk[i] = kthread_create_on_node(benchmark_thread_iova, map,
+   374					node, "dma-iova-benchmark/%d", i - regular_threads);
+   375			if (IS_ERR(tsk[i])) {
+   376				pr_err("create dma_iova thread failed\n");
+   377				ret = PTR_ERR(tsk[i]);
+   378				while (--i >= 0)
+   379					kthread_stop(tsk[i]);
+   380				goto out;
+   381			}
+   382	
+   383			if (node != NUMA_NO_NODE)
+   384				kthread_bind_mask(tsk[i], cpumask_of_node(node));
+   385		}
+   386	
+   387		/* Clear previous benchmark values */
+   388		atomic64_set(&map->sum_map_100ns, 0);
+   389		atomic64_set(&map->sum_unmap_100ns, 0);
+   390		atomic64_set(&map->sum_sq_map, 0);
+   391		atomic64_set(&map->sum_sq_unmap, 0);
+   392		atomic64_set(&map->loops, 0);
+   393	
+   394		atomic64_set(&map->sum_iova_alloc_100ns, 0);
+   395		atomic64_set(&map->sum_iova_link_100ns, 0);
+   396		atomic64_set(&map->sum_iova_sync_100ns, 0);
+   397		atomic64_set(&map->sum_iova_destroy_100ns, 0);
+   398		atomic64_set(&map->sum_sq_iova_alloc, 0);
+   399		atomic64_set(&map->sum_sq_iova_link, 0);
+   400		atomic64_set(&map->sum_sq_iova_sync, 0);
+   401		atomic64_set(&map->sum_sq_iova_destroy, 0);
+   402		atomic64_set(&map->iova_loops, 0);
+   403	
+   404		/* Start all threads */
+   405		for (i = 0; i < threads; i++) {
+   406			get_task_struct(tsk[i]);
+   407			wake_up_process(tsk[i]);
+   408		}
+   409	
+   410		msleep_interruptible(map->bparam.seconds * 1000);
+   411	
+   412		/* Stop all threads */
+   413		for (i = 0; i < threads; i++) {
+   414			int kthread_ret = kthread_stop_put(tsk[i]);
+   415			if (kthread_ret)
+   416				ret = kthread_ret;
+   417		}
+   418	
+   419		if (ret)
+   420			goto out;
+   421	
+   422		/* Calculate streaming DMA statistics */
+   423		loops = atomic64_read(&map->loops);
+   424		if (loops > 0) {
+   425			u64 map_variance, unmap_variance;
+   426			u64 sum_map = atomic64_read(&map->sum_map_100ns);
+   427			u64 sum_unmap = atomic64_read(&map->sum_unmap_100ns);
+   428			u64 sum_sq_map = atomic64_read(&map->sum_sq_map);
+   429			u64 sum_sq_unmap = atomic64_read(&map->sum_sq_unmap);
+   430	
+   431			map->bparam.avg_map_100ns = div64_u64(sum_map, loops);
+   432			map->bparam.avg_unmap_100ns = div64_u64(sum_unmap, loops);
+   433	
+   434			map_variance = div64_u64(sum_sq_map, loops) -
+   435					map->bparam.avg_map_100ns * map->bparam.avg_map_100ns;
+   436			unmap_variance = div64_u64(sum_sq_unmap, loops) -
+   437					map->bparam.avg_unmap_100ns * map->bparam.avg_unmap_100ns;
+   438			map->bparam.map_stddev = int_sqrt64(map_variance);
+   439			map->bparam.unmap_stddev = int_sqrt64(unmap_variance);
+   440		}
+   441	
+   442		/* Calculate IOVA statistics */
+   443		iova_loops = atomic64_read(&map->iova_loops);
+   444		if (iova_loops > 0) {
+   445			u64 alloc_variance, link_variance, sync_variance, destroy_variance;
+   446			u64 sum_alloc = atomic64_read(&map->sum_iova_alloc_100ns);
+   447			u64 sum_link = atomic64_read(&map->sum_iova_link_100ns);
+   448			u64 sum_sync = atomic64_read(&map->sum_iova_sync_100ns);
+   449			u64 sum_destroy = atomic64_read(&map->sum_iova_destroy_100ns);
+   450	
+   451			map->bparam.avg_iova_alloc_100ns = div64_u64(sum_alloc, iova_loops);
+   452			map->bparam.avg_iova_link_100ns = div64_u64(sum_link, iova_loops);
+   453			map->bparam.avg_iova_sync_100ns = div64_u64(sum_sync, iova_loops);
+   454			map->bparam.avg_iova_destroy_100ns = div64_u64(sum_destroy, iova_loops);
+   455	
+   456			alloc_variance = div64_u64(atomic64_read(&map->sum_sq_iova_alloc), iova_loops) -
+   457					map->bparam.avg_iova_alloc_100ns * map->bparam.avg_iova_alloc_100ns;
+   458			link_variance = div64_u64(atomic64_read(&map->sum_sq_iova_link), iova_loops) -
+   459					map->bparam.avg_iova_link_100ns * map->bparam.avg_iova_link_100ns;
+   460			sync_variance = div64_u64(atomic64_read(&map->sum_sq_iova_sync), iova_loops) -
+   461					map->bparam.avg_iova_sync_100ns * map->bparam.avg_iova_sync_100ns;
+   462			destroy_variance = div64_u64(atomic64_read(&map->sum_sq_iova_destroy), iova_loops) -
+   463					map->bparam.avg_iova_destroy_100ns * map->bparam.avg_iova_destroy_100ns;
+   464	
+   465			map->bparam.iova_alloc_stddev = int_sqrt64(alloc_variance);
+   466			map->bparam.iova_link_stddev = int_sqrt64(link_variance);
+   467			map->bparam.iova_sync_stddev = int_sqrt64(sync_variance);
+   468			map->bparam.iova_destroy_stddev = int_sqrt64(destroy_variance);
+   469		}
+   470	
+   471	out:
+   472		put_device(map->dev);
+   473		kfree(tsk);
+   474		return ret;
+   475	}
+   476	
 
 -- 
 0-DAY CI Kernel Test Service
