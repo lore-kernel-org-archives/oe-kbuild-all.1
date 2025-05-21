@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D0F23644D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 21:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2262BCF7E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 21:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747861908; cv=none; b=mZ12Xa7wigW8OdFvKkRp05rKj2BCHNDobH4uU7xQ2FSe0HfhFiVw8NwFkaKOljltiAiMMj9fXUm8PKsbdnTrVzDmmCzZetVh40zKhKywiDpjuZEPqihhCZFY4fyr4+TZFIFocUsHdaF6wkn0tAHxtrBYiBleKFzAQO1pzJphq9g=
+	t=1747862720; cv=none; b=fTdF7Fj5DCv7BP8PcmkQ4ciIx7aDaXPln2Jxp3jBtxHNIKYAsNH5wVjVDj5YdRGZb+X3130klE0TLav/HfvBRrtWrbxAZZCu9e50GwehfX0OQw826sIYtXhEi0QHJMBdvciOfhbIUAYbpwwTlJpy2v7a5qAdSUr0iLA9NcZLjkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747861908; c=relaxed/simple;
-	bh=MStgpufgSKCCSySF//lKTy6gjrljmyEZH5bP1VAKH5E=;
+	s=arc-20240116; t=1747862720; c=relaxed/simple;
+	bh=RLgPL3wMwtzlutDaktiy95eJvNq6z3esuD7lMdi//os=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UqTcjMWxVZveMZm9TW77To7Gy6sMVBYV4zkugWmGtXE/PWmW6kkqOpUajJ15sOiQ9C+2PgU4mfS+ctJBAy3hKB/49SHpFXSF3LCJd4i5JTF0n5gKFtIV9tqnIGqDB+vcBoZwEoLVaP2obHC1q3lnqca9mUIfl8rDWxvUiBWlPX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjB+QZYN; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=cicC4DxQbXDIA98vLux/aOsGoWb2w1t/wNtXcqENsexJIDzRH8VWIErvtC7jkjHpnI45sGJqKb1UAzPKv9pCCsfS5b/o7hy2QJruuEB/faiJIBOxfjN1qi+Za5aG+ikVTcM2M72enbHI6/0HK7ymn3sObuEkgtN6PY3D7nMeSu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Np33vsSC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjB+QZYN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Np33vsSC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747861907; x=1779397907;
+  t=1747862719; x=1779398719;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MStgpufgSKCCSySF//lKTy6gjrljmyEZH5bP1VAKH5E=;
-  b=BjB+QZYNBMxsXnJPR7zgiq4e0ARsxL/CstdF4rENTJegZFnOPSZcpUOl
-   awKFxPWHpVy1/jzH5A0B8lDVdvs7tX66hKWwLibuqBLwS2q6CIclB+5yT
-   4Z+CbbtjxvwgQEKku7c5DyxGWQ7nyn1FbAJGTQvnVuiALNA7gOdLIPVCo
-   PjwAAk9MWeLmmGT5KplwghuBWdNiHK9maodhElH0/Bi8CA9rvX56ItONt
-   E1bsdZktDTkCczImste64U8Y1vo5gIvn4YhbNhri7QOrHiTC4ktZBi4Nu
-   FXX08WOOFyAZnFR87Wyjqi6ZIZJYhbFtus9HCEd5XgPBmxwea89YhmFUj
-   g==;
-X-CSE-ConnectionGUID: K98rD6ZXS6+8RrMZHQCidw==
-X-CSE-MsgGUID: mZGgOU4CTzmMJeKfzvmHMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="61269791"
+  bh=RLgPL3wMwtzlutDaktiy95eJvNq6z3esuD7lMdi//os=;
+  b=Np33vsSC8qPEMIo71EppIhfP11mFuZ8NkOVipxq254b59U+gclI2z264
+   e9nEjreA5itv72nlczQrZqGKJW/1VmQo6KciDEaqpVlt4YslfOmkeN/Xt
+   Qi+4qT4KffoIG2F11+PcOpoDZMog38ZRJbiTrvdtt5c1cEce17N6phBNb
+   bhIKqL9UUf4IcvxveA0ExmjvxLA5wZ/MjrKtIyPWCAtFP3xUaJBnf/jep
+   gavIRM8UTD6EA6C7oP1F96iVGpf5ABY++iT/izZL6kuINQwr1oyKAuSkX
+   rgXJWce38wFsPkxopKB5C84VxU54eMl7UHrw38he1EHoKJTrhGeqt1k+x
+   w==;
+X-CSE-ConnectionGUID: Ia7Azi1IRZ+SBYtJo8xX/A==
+X-CSE-MsgGUID: Oh+eJmgWQTO0V+eE4/zZug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="72383729"
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="61269791"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 14:11:47 -0700
-X-CSE-ConnectionGUID: +KEcEN10RfSPh+ZV5hGv7w==
-X-CSE-MsgGUID: 6NFxjqXIQzuUd4uScPu5og==
+   d="scan'208";a="72383729"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 14:25:18 -0700
+X-CSE-ConnectionGUID: vM1QqffQRDGiEPO505McQg==
+X-CSE-MsgGUID: iK52d6t6Sk67CnFvKVOa2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="141316888"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 May 2025 14:11:45 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+   d="scan'208";a="140158521"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 21 May 2025 14:25:16 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHqj1-0001B5-1R;
-	Wed, 21 May 2025 21:11:43 +0000
-Date: Thu, 22 May 2025 05:11:41 +0800
+	id 1uHqw6-000Oe4-1o;
+	Wed, 21 May 2025 21:25:14 +0000
+Date: Thu, 22 May 2025 05:24:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-01 4/4]
- arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: sound
- (simple-audio-card): 'simple-audio-card,hp-pin-name' does not match any of
- the regexes: '^pinctrl-[0-9]+$', '^simple-audio-card,codec(@[0-9a-f]+)?$',
- '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple...
-Message-ID: <202505220526.tfENxDjf-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [usb:usb-testing 49/52] sound/usb/qcom/qc_audio_offload.c:1019:
+ warning: Function parameter or struct member 'xfer_buf_cpu' not described in
+ 'uaudio_transfer_buffer_setup'
+Message-ID: <202505220522.rT5u07uk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,32 +64,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-01
-head:   97728a1436424265258cd2b247753e19e79202d3
-commit: 893c17716d0cf68f5ff4dc71c90e0c2bd1f7da46 [4/4] arm64: dts: rockchip: Add NanoPC T6
-config: arm64-randconfig-2051-20250516 (https://download.01.org/0day-ci/archive/20250522/202505220526.tfENxDjf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220526.tfENxDjf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   342e4955a1f1ce28c70a589999b76365082dbf10
+commit: 5c7ef5001292d70d09d90bc2251f7d869b9d135c [49/52] ALSA: qc_audio_offload: avoid leaking xfer_buf allocation
+config: sh-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220522.rT5u07uk-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220522.rT5u07uk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505220526.tfENxDjf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220522.rT5u07uk-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'msi' was expected
-   	'err' does not match '^int(a|b|c|d)$'
-   	'aer' was expected
-   	'pme' was expected
-   	'hp' was expected
-   	'bw_au' was expected
-   	'bw_mg' was expected
-   	arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: pcie@fe160000 (rockchip,rk3588-pcie): interrupt-names:4: 'err' is not one of ['intr']
-   	from schema $id: http://devicetree.org/schemas/pci/rockchip-dw-pcie.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /phy@fee80000: failed to match any schema with compatible: ['rockchip,rk3588-pcie3-phy']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: sound (simple-audio-card): 'simple-audio-card,hp-pin-name' does not match any of the regexes: '^pinctrl-[0-9]+$', '^simple-audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+All warnings (new ones prefixed by >>):
+
+>> sound/usb/qcom/qc_audio_offload.c:1019: warning: Function parameter or struct member 'xfer_buf_cpu' not described in 'uaudio_transfer_buffer_setup'
+>> sound/usb/qcom/qc_audio_offload.c:1019: warning: Excess function parameter 'xfer_buf' description in 'uaudio_transfer_buffer_setup'
+
+
+vim +1019 sound/usb/qcom/qc_audio_offload.c
+
+326bbc348298ab Wesley Cheng  2025-04-09  1003  
+326bbc348298ab Wesley Cheng  2025-04-09  1004  /**
+326bbc348298ab Wesley Cheng  2025-04-09  1005   * uaudio_transfer_buffer_setup() - fetch and populate xfer buffer params
+326bbc348298ab Wesley Cheng  2025-04-09  1006   * @subs: usb substream
+326bbc348298ab Wesley Cheng  2025-04-09  1007   * @xfer_buf: xfer buf to be allocated
+326bbc348298ab Wesley Cheng  2025-04-09  1008   * @xfer_buf_len: size of allocation
+326bbc348298ab Wesley Cheng  2025-04-09  1009   * @mem_info: QMI response info
+326bbc348298ab Wesley Cheng  2025-04-09  1010   *
+326bbc348298ab Wesley Cheng  2025-04-09  1011   * Allocates and maps the transfer buffers that will be utilized by the
+326bbc348298ab Wesley Cheng  2025-04-09  1012   * audio DSP.  Will populate the information in the QMI response that is
+326bbc348298ab Wesley Cheng  2025-04-09  1013   * sent back to the stream enable request.
+326bbc348298ab Wesley Cheng  2025-04-09  1014   *
+326bbc348298ab Wesley Cheng  2025-04-09  1015   */
+326bbc348298ab Wesley Cheng  2025-04-09  1016  static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
+5c7ef5001292d7 Arnd Bergmann 2025-05-13  1017  					void **xfer_buf_cpu, u32 xfer_buf_len,
+326bbc348298ab Wesley Cheng  2025-04-09  1018  					struct mem_info_v01 *mem_info)
+326bbc348298ab Wesley Cheng  2025-04-09 @1019  {
+326bbc348298ab Wesley Cheng  2025-04-09  1020  	struct sg_table xfer_buf_sgt;
+5c7ef5001292d7 Arnd Bergmann 2025-05-13  1021  	void *xfer_buf;
+326bbc348298ab Wesley Cheng  2025-04-09  1022  	phys_addr_t xfer_buf_pa;
+326bbc348298ab Wesley Cheng  2025-04-09  1023  	u32 len = xfer_buf_len;
+326bbc348298ab Wesley Cheng  2025-04-09  1024  	bool dma_coherent;
+485ae085925218 Arnd Bergmann 2025-05-13  1025  	unsigned long iova;
+326bbc348298ab Wesley Cheng  2025-04-09  1026  	u32 remainder;
+326bbc348298ab Wesley Cheng  2025-04-09  1027  	u32 mult;
+326bbc348298ab Wesley Cheng  2025-04-09  1028  	int ret;
+326bbc348298ab Wesley Cheng  2025-04-09  1029  
+326bbc348298ab Wesley Cheng  2025-04-09  1030  	dma_coherent = dev_is_dma_coherent(subs->dev->bus->sysdev);
+326bbc348298ab Wesley Cheng  2025-04-09  1031  
+326bbc348298ab Wesley Cheng  2025-04-09  1032  	/* xfer buffer, multiple of 4K only */
+326bbc348298ab Wesley Cheng  2025-04-09  1033  	if (!len)
+326bbc348298ab Wesley Cheng  2025-04-09  1034  		len = PAGE_SIZE;
+326bbc348298ab Wesley Cheng  2025-04-09  1035  
+326bbc348298ab Wesley Cheng  2025-04-09  1036  	mult = len / PAGE_SIZE;
+326bbc348298ab Wesley Cheng  2025-04-09  1037  	remainder = len % PAGE_SIZE;
+326bbc348298ab Wesley Cheng  2025-04-09  1038  	len = mult * PAGE_SIZE;
+326bbc348298ab Wesley Cheng  2025-04-09  1039  	len += remainder ? PAGE_SIZE : 0;
+326bbc348298ab Wesley Cheng  2025-04-09  1040  
+326bbc348298ab Wesley Cheng  2025-04-09  1041  	if (len > MAX_XFER_BUFF_LEN) {
+326bbc348298ab Wesley Cheng  2025-04-09  1042  		dev_err(uaudio_qdev->data->dev,
+326bbc348298ab Wesley Cheng  2025-04-09  1043  			"req buf len %d > max buf len %lu, setting %lu\n",
+326bbc348298ab Wesley Cheng  2025-04-09  1044  			len, MAX_XFER_BUFF_LEN, MAX_XFER_BUFF_LEN);
+326bbc348298ab Wesley Cheng  2025-04-09  1045  		len = MAX_XFER_BUFF_LEN;
+326bbc348298ab Wesley Cheng  2025-04-09  1046  	}
+326bbc348298ab Wesley Cheng  2025-04-09  1047  
+326bbc348298ab Wesley Cheng  2025-04-09  1048  	xfer_buf = usb_alloc_coherent(subs->dev, len, GFP_KERNEL, &xfer_buf_pa);
+326bbc348298ab Wesley Cheng  2025-04-09  1049  	if (!xfer_buf)
+326bbc348298ab Wesley Cheng  2025-04-09  1050  		return -ENOMEM;
+326bbc348298ab Wesley Cheng  2025-04-09  1051  
+326bbc348298ab Wesley Cheng  2025-04-09  1052  	dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
+326bbc348298ab Wesley Cheng  2025-04-09  1053  			xfer_buf_pa, len);
+485ae085925218 Arnd Bergmann 2025-05-13  1054  	iova = uaudio_iommu_map(MEM_XFER_BUF, dma_coherent, xfer_buf_pa, len,
+326bbc348298ab Wesley Cheng  2025-04-09  1055  			      &xfer_buf_sgt);
+485ae085925218 Arnd Bergmann 2025-05-13  1056  	if (!iova) {
+326bbc348298ab Wesley Cheng  2025-04-09  1057  		ret = -ENOMEM;
+326bbc348298ab Wesley Cheng  2025-04-09  1058  		goto unmap_sync;
+326bbc348298ab Wesley Cheng  2025-04-09  1059  	}
+326bbc348298ab Wesley Cheng  2025-04-09  1060  
+485ae085925218 Arnd Bergmann 2025-05-13  1061  	mem_info->dma = xfer_buf_pa;
+326bbc348298ab Wesley Cheng  2025-04-09  1062  	mem_info->size = len;
+485ae085925218 Arnd Bergmann 2025-05-13  1063  	mem_info->iova = PREPEND_SID_TO_IOVA(iova, uaudio_qdev->data->sid);
+5c7ef5001292d7 Arnd Bergmann 2025-05-13  1064  	*xfer_buf_cpu = xfer_buf;
+326bbc348298ab Wesley Cheng  2025-04-09  1065  	sg_free_table(&xfer_buf_sgt);
+326bbc348298ab Wesley Cheng  2025-04-09  1066  
+326bbc348298ab Wesley Cheng  2025-04-09  1067  	return 0;
+326bbc348298ab Wesley Cheng  2025-04-09  1068  
+326bbc348298ab Wesley Cheng  2025-04-09  1069  unmap_sync:
+326bbc348298ab Wesley Cheng  2025-04-09  1070  	usb_free_coherent(subs->dev, len, xfer_buf, xfer_buf_pa);
+326bbc348298ab Wesley Cheng  2025-04-09  1071  
+326bbc348298ab Wesley Cheng  2025-04-09  1072  	return ret;
+326bbc348298ab Wesley Cheng  2025-04-09  1073  }
+326bbc348298ab Wesley Cheng  2025-04-09  1074  
+
+:::::: The code at line 1019 was first introduced by commit
+:::::: 326bbc348298ab0946c5560defe024a5f6ef28bb ALSA: usb-audio: qcom: Introduce QC USB SND offloading support
+
+:::::: TO: Wesley Cheng <quic_wcheng@quicinc.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
