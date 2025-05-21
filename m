@@ -1,108 +1,118 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125844B1E76
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 21:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA341FFC48;
+	Wed, 21 May 2025 21:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747863326; cv=none; b=b0ruLOyGkMoAKnMy9YMKrlvUePRGuVm7oGy09Umm9pZmMGhf9u15w5CMqH53wJ63zOddEAslfmuYgRyDSNSONz1az6Jiyz/Bm2rATerW2lC0itYoBWP9+3QAE2ecmvc13M16mLgb23rgGpMUU3hM0YrWxy1zIWX04r1mUD29kH4=
+	t=1747863327; cv=none; b=Rso8653idd0Ix5bydkwuiRuIhF8hxdiIsqNhANRoJspO7ZUponLu9v+wQS/LrqHXkyBctsLH5Gz4jzkgNZSYIjRgGiCxOkHKY9E4JuzxiRl5wjmE36QwY2fW+We36yXQm8G+/s1y2mhe9OHK56lTF1bkLMBAjdjvJmaPQ4y/+0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747863326; c=relaxed/simple;
-	bh=JY3+EDGgRxvxsrUQbrwFOjb3pPNzoNfUgnXnt2viI8E=;
+	s=arc-20240116; t=1747863327; c=relaxed/simple;
+	bh=YZLxa21Ar6q84YL0TrLgO1kJWRoUTzRZEIr+JUaZ3Iw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jhI5WudVkd9MNkqj2Gpfm2e/xoRzV9rWgijgSe9z3A+Px2SVOqZXa2emVxcfosWQ2Wds7ops5O1znRSPjMTSpjKpqVaiYBkcIWAsw9dh4VJuKQ2FPMEDnZvMEpEfcAcuHK7v1tbYyDoVCtNKngzI9jZMbnSx9MKt0c97ktFZcMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mz5yFJmz; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=MSbxsRMx5CG+Qy/wG4fa064u1ZR0j8Zj3+YYyuFuO6AEndlNSjklOnLOQ48NFkqtfNHLnUSgEV0YHe7VqI6UWqCDuTUORXhGXEKO/GuWRGN0pMv9sxRFKjikF0INzVX5wPPi7SrO7qVqBth5x9isVclXS7OteIT05TDg9GeQhu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5XjaBj8; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mz5yFJmz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5XjaBj8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747863325; x=1779399325;
+  t=1747863326; x=1779399326;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=JY3+EDGgRxvxsrUQbrwFOjb3pPNzoNfUgnXnt2viI8E=;
-  b=Mz5yFJmzs1kfGGoujmyiqihleoW6RKXAjj3MwFqv9BDwSUCG+NYT6CrZ
-   OHtLhLtBEKrRc0LT4pw2CqD5qIPPVnyZk9gWYu96ew9aAlsYrNipUE5aq
-   DXm5/pxMEUgOZOSMZbAWmpEncyhCnQ8Lrprnx9Dl4ghOweX8ORQaWOpN0
-   HH/I05Dcb0O1dZmMe6xg6zhjBxo8npuQUs6b/QJ2596VWTczsOTZXYFf6
-   3bq9ckI+MLO2qlb54KW9fQrKlblXaUelOoUwhogMkvFKIDlAd8FnqBDSZ
-   xUcdT1kOjs5KFYB2+Chk6JZTgwLSV0T5efwVTXmA4/6W1qb2San7V8Be3
-   g==;
-X-CSE-ConnectionGUID: ipdf24ALTmGRfW0EIrzowQ==
-X-CSE-MsgGUID: QZHvmL4xRsKnCI1sR7JVGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="61208558"
+   mime-version:in-reply-to;
+  bh=YZLxa21Ar6q84YL0TrLgO1kJWRoUTzRZEIr+JUaZ3Iw=;
+  b=J5XjaBj8dGtgL+Hxl+Ms7JyTSw9YtlJThTbtQKdyKATQYcklxk6y251V
+   r97g2bmbIi1wdOWFZjbccQ06I6QXP8lAxk1Prj4zlGWvVcDM2R3Kr/adO
+   HeDafxkv7BzzKIKsqpcE1dMlmjKggjW9+VwSDCI+Ae2PHNRGLnJXYRs3f
+   eFzjsWyTziD/rILqq3xa/ZvEF+FhC6rQZPSv7j5HtxYPoHPM2BpXaLneP
+   h5VK2Jp7rMwKGT2KShXbAj/4Q7csLv5O2SXeQF7Qhy/qH8Iz9PDwvt9YC
+   kx9+K+1ed3elDXgGv1upLoLPZI6iP1htWI/ashpgcaiVw2oOJX10VSCdM
+   A==;
+X-CSE-ConnectionGUID: j/rOTiHiRYSpsK1moVHXsA==
+X-CSE-MsgGUID: kRhqMGegSWmzvAWGvcZIwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="61208573"
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="61208558"
+   d="scan'208";a="61208573"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 14:35:21 -0700
-X-CSE-ConnectionGUID: 3aiUfBnrQaSQSzx9A/Y0FQ==
-X-CSE-MsgGUID: yUBaWO8+THO92MV2mqshbg==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 14:35:23 -0700
+X-CSE-ConnectionGUID: r3/OdqIXRo6HroqyBfm0bQ==
+X-CSE-MsgGUID: Oc+ST89ATLKOARaVVf9qTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="145393226"
+   d="scan'208";a="145393225"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 21 May 2025 14:35:18 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHr5n-000Oee-2g;
+	id 1uHr5n-000Oeg-2k;
 	Wed, 21 May 2025 21:35:15 +0000
-Date: Thu, 22 May 2025 05:34:52 +0800
+Date: Thu, 22 May 2025 05:34:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
-Subject: Re: [PATCH v2 2/8] pinctrl: stm32: Introduce HDP driver
-Message-ID: <202505220509.cwmpJvcz-lkp@intel.com>
-References: <20250520-hdp-upstream-v2-2-53f6b8b5ffc8@foss.st.com>
+To: Remo Senekowitsch <remo@buenzli.dev>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Dirk Behme <dirk.behme@de.bosch.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v5 6/9] rust: device: Implement accessors for firmware
+ properties
+Message-ID: <202505220521.EPHBSqQg-lkp@intel.com>
+References: <20250520200024.268655-7-remo@buenzli.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250520-hdp-upstream-v2-2-53f6b8b5ffc8@foss.st.com>
+In-Reply-To: <20250520200024.268655-7-remo@buenzli.dev>
 
-Hi Clément,
+Hi Remo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 09fac5c576bbff764dddf2baca0038b359376fd8]
+[auto build test ERROR on rust/rust-next]
+[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus robh/for-next linus/master v6.15-rc7 next-20250521]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/dt-bindings-pinctrl-stm32-Introduce-HDP/20250520-230751
-base:   09fac5c576bbff764dddf2baca0038b359376fd8
-patch link:    https://lore.kernel.org/r/20250520-hdp-upstream-v2-2-53f6b8b5ffc8%40foss.st.com
-patch subject: [PATCH v2 2/8] pinctrl: stm32: Introduce HDP driver
-config: arc-randconfig-r121-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220509.cwmpJvcz-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250522/202505220509.cwmpJvcz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Remo-Senekowitsch/rust-device-Create-FwNode-abstraction-for-accessing-device-properties/20250521-040612
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20250520200024.268655-7-remo%40buenzli.dev
+patch subject: [PATCH v5 6/9] rust: device: Implement accessors for firmware properties
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250522/202505220521.EPHBSqQg-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220521.EPHBSqQg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505220509.cwmpJvcz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220521.EPHBSqQg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pinctrl/stm32/pinctrl-stm32-hdp.c:720:1: sparse: sparse: symbol 'stm32_hdp_pm_ops' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/stm32_hdp_pm_ops +720 drivers/pinctrl/stm32/pinctrl-stm32-hdp.c
-
-   719	
- > 720	DEFINE_SIMPLE_DEV_PM_OPS(stm32_hdp_pm_ops, stm32_hdp_suspend, stm32_hdp_resume);
-   721	
+>> error[E0432]: unresolved import `crate::private`
+   --> rust/kernel/device/property.rs:14:5
+   |
+   14 |     private::Sealed,
+   |     ^^^^^^^
+   |     |
+   |     unresolved import
+   |     help: a similar path exists: `crate::device::private`
 
 -- 
 0-DAY CI Kernel Test Service
