@@ -1,81 +1,109 @@
-Received: from mail.cjdns.fr (mail.cjdns.fr [5.135.140.105])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D4F4B1E76
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 21:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.135.140.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125844B1E76
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 21:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747863222; cv=none; b=C5kw26vsbO3DPkckKYQGfjPMBYlDZcStbcpzUoX3Twi/0UdxgR4/7GrkJxkIe6pZSGWu9kVaQp+FW6KkB829jc5qPBU9khS3R+KeKO3XR0CmiU4cfhHkzs9p3sB2NmyEMVVP17Y3W0wqkVX/mvRh7pSPwm10G7f2rcKdlWfyZho=
+	t=1747863326; cv=none; b=b0ruLOyGkMoAKnMy9YMKrlvUePRGuVm7oGy09Umm9pZmMGhf9u15w5CMqH53wJ63zOddEAslfmuYgRyDSNSONz1az6Jiyz/Bm2rATerW2lC0itYoBWP9+3QAE2ecmvc13M16mLgb23rgGpMUU3hM0YrWxy1zIWX04r1mUD29kH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747863222; c=relaxed/simple;
-	bh=vN1r6zqn3d9tBHJkeSLhwDop6Ruw32TGU6wIRhVF4Z8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nALCo515NQ2Wgqc0FWqFGoaUwC+QJ8TpqiMBZW84Mzh86FqslLBBAzO4ssTERgCz+fgmOt3+rMsiMSs01GV2yi+LEzQLVeAbpZGYfG8TC+UiQRWibXEVR13NVOExGIb6SD3Y8IkgE6h4s0+wt7RFjXBbHVwycfj+n2YnbEtPK/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr; spf=none smtp.mailfrom=cjdns.fr; dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b=dmGicxAa; arc=none smtp.client-ip=5.135.140.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cjdns.fr
+	s=arc-20240116; t=1747863326; c=relaxed/simple;
+	bh=JY3+EDGgRxvxsrUQbrwFOjb3pPNzoNfUgnXnt2viI8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jhI5WudVkd9MNkqj2Gpfm2e/xoRzV9rWgijgSe9z3A+Px2SVOqZXa2emVxcfosWQ2Wds7ops5O1znRSPjMTSpjKpqVaiYBkcIWAsw9dh4VJuKQ2FPMEDnZvMEpEfcAcuHK7v1tbYyDoVCtNKngzI9jZMbnSx9MKt0c97ktFZcMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mz5yFJmz; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b="dmGicxAa"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B5FD51A77DC;
-	Wed, 21 May 2025 23:33:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cjdns.fr; s=dkim;
-	t=1747863218; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=d3WTE/RsJr1jJjo0eFbqgq33WQ2zMmNlJsk6CWPh690=;
-	b=dmGicxAa1wjJLPMnhBx2/lqprn5p2lWhmjSBX2XR4ACnp72FzsQeaH1WULcF4QHxT9QS1V
-	z/qth6mDUiOTsO10zfvGGzeVUH86dxAypZAyNedgxzLa8G/P53KlNX4n7LAcOj8iSx+rA5
-	nHMyydNLxraSxSeDVNASkJLT5dyHnbkA67HkyG3LzPaGWWbtFVzyr7Yos+EuRw15PBslf5
-	d5gMupiFuDIjok6NWjXGf/fSjI2642z0QiwYQAWqHWkEjgHLdYiRg0TVGTJY5I2VLW0PjK
-	kzC7qafAyOMhlnBxw7qLTY+UQChFPnGiylWrWAlEnBwLyQtqQeqf6kocU6wSMQ==
-From: Caleb James DeLisle <cjd@cjdns.fr>
-To: linux-mips@vger.kernel.org
-Cc: lkp@intel.com,
-	cjd@cjdns.fr,
-	fazilyildiran@gmail.com,
-	oe-kbuild-all@lists.linux.dev,
-	paul@pgazz.com,
-	tsbogend@alpha.franken.de
-Subject: [PATCH v2] mips: econet: Fix incorrect Kconfig dependencies
-Date: Wed, 21 May 2025 21:33:33 +0000
-Message-Id: <20250521213333.481144-1-cjd@cjdns.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mz5yFJmz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747863325; x=1779399325;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=JY3+EDGgRxvxsrUQbrwFOjb3pPNzoNfUgnXnt2viI8E=;
+  b=Mz5yFJmzs1kfGGoujmyiqihleoW6RKXAjj3MwFqv9BDwSUCG+NYT6CrZ
+   OHtLhLtBEKrRc0LT4pw2CqD5qIPPVnyZk9gWYu96ew9aAlsYrNipUE5aq
+   DXm5/pxMEUgOZOSMZbAWmpEncyhCnQ8Lrprnx9Dl4ghOweX8ORQaWOpN0
+   HH/I05Dcb0O1dZmMe6xg6zhjBxo8npuQUs6b/QJ2596VWTczsOTZXYFf6
+   3bq9ckI+MLO2qlb54KW9fQrKlblXaUelOoUwhogMkvFKIDlAd8FnqBDSZ
+   xUcdT1kOjs5KFYB2+Chk6JZTgwLSV0T5efwVTXmA4/6W1qb2San7V8Be3
+   g==;
+X-CSE-ConnectionGUID: ipdf24ALTmGRfW0EIrzowQ==
+X-CSE-MsgGUID: QZHvmL4xRsKnCI1sR7JVGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="61208558"
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="61208558"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 14:35:21 -0700
+X-CSE-ConnectionGUID: 3aiUfBnrQaSQSzx9A/Y0FQ==
+X-CSE-MsgGUID: yUBaWO8+THO92MV2mqshbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="145393226"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 21 May 2025 14:35:18 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uHr5n-000Oee-2g;
+	Wed, 21 May 2025 21:35:15 +0000
+Date: Thu, 22 May 2025 05:34:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Subject: Re: [PATCH v2 2/8] pinctrl: stm32: Introduce HDP driver
+Message-ID: <202505220509.cwmpJvcz-lkp@intel.com>
+References: <20250520-hdp-upstream-v2-2-53f6b8b5ffc8@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+In-Reply-To: <20250520-hdp-upstream-v2-2-53f6b8b5ffc8@foss.st.com>
 
-config ECONET selects SERIAL_OF_PLATFORM and that depends on SERIAL_8250
-so we need to select SERIAL_8250 directly.
-Also do not enable DEBUG_ZBOOT unless DEBUG_KERNEL is set.
+Hi Clément,
 
-Signed-off-by: Caleb James DeLisle <cjd@cjdns.fr>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202505211654.CBdIsoTq-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202505211451.WRjyf3a9-lkp@intel.com/
----
-I only now noticed the DEBUG_ZBOOT issue since they both touch the same
-place decided better to do it in one patch.
----
- arch/mips/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index c3dbdc808664..1e48184ecf1e 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -395,9 +395,10 @@ config ECONET
- 	bool "EcoNet MIPS family"
- 	select BOOT_RAW
- 	select CPU_BIG_ENDIAN
--	select DEBUG_ZBOOT
-+	select DEBUG_ZBOOT if DEBUG_KERNEL
- 	select EARLY_PRINTK_8250
- 	select ECONET_EN751221_TIMER
-+	select SERIAL_8250
- 	select SERIAL_OF_PLATFORM
- 	select SYS_SUPPORTS_BIG_ENDIAN
- 	select SYS_HAS_CPU_MIPS32_R1
+[auto build test WARNING on 09fac5c576bbff764dddf2baca0038b359376fd8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/dt-bindings-pinctrl-stm32-Introduce-HDP/20250520-230751
+base:   09fac5c576bbff764dddf2baca0038b359376fd8
+patch link:    https://lore.kernel.org/r/20250520-hdp-upstream-v2-2-53f6b8b5ffc8%40foss.st.com
+patch subject: [PATCH v2 2/8] pinctrl: stm32: Introduce HDP driver
+config: arc-randconfig-r121-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220509.cwmpJvcz-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250522/202505220509.cwmpJvcz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220509.cwmpJvcz-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/stm32/pinctrl-stm32-hdp.c:720:1: sparse: sparse: symbol 'stm32_hdp_pm_ops' was not declared. Should it be static?
+
+vim +/stm32_hdp_pm_ops +720 drivers/pinctrl/stm32/pinctrl-stm32-hdp.c
+
+   719	
+ > 720	DEFINE_SIMPLE_DEV_PM_OPS(stm32_hdp_pm_ops, stm32_hdp_suspend, stm32_hdp_resume);
+   721	
+
 -- 
-2.39.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
