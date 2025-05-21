@@ -1,61 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6138C280321;
-	Wed, 21 May 2025 13:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC3427E1BA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 13:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747834403; cv=none; b=fL1tEXYEmwtBdIvk7yQsLYY7gKXNtHYwbum6Jxg1w/LOisgwaj3BSd8bNtEWT1nqe9b36LhLIfUxlV7NwYdUrik1IT+/q5g5R+V+f0XtaK3wEgG6zSNvPhNkM1gR6PxMvRgEJ6JlvfHh5L5DETrmEhNkEOwATDUDev6eSFUtm9Q=
+	t=1747834994; cv=none; b=p+3bqtkfHbtYfEBrUT+w+egwNj2BZrJxE2ad3sm6yiJ0egyXi33xfBzb2RSQWIrV0vcNaygzrcVXrSGI6zRFTb0ggzbikgOpXwFNqZO7Gk5X5ItU+oGSC+D1BxTLvjPch8zAYKCpFW5Zw6U7jegMJyjE4r6QfYn/xmFyCNqtvDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747834403; c=relaxed/simple;
-	bh=CZW/edTbhyFW8UMmT161zCSkBIgSRiqy+Oud/aJFEXs=;
+	s=arc-20240116; t=1747834994; c=relaxed/simple;
+	bh=bJ5mEdZwI1kOkQeq6MOsfoKYiUuW+SVq7Hv8nRuVGYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GSj8RZ7LgFvDN2VrGB+K1DXpSPyszJtP5gXWtKJejxkEIBgXPv0kp1MTPDTphyPVK0FS+S7e2vNtZsun13tqry/lmx73dpLrIOXg8jkD8U+0H39n1A2FpYn35nlZBk5aLEkUou+vYQ312uPhK9A7LFK8HkTyPL9NB0mYsAhS7k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDQlFIrL; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=FeCNQM7xsepUea+7r2Q3jAI6EgKsns4PtQUCjGf+vVvCh0GkvUuHwNwLkjKbTjOoOLmJeL5SOgPZDtH5BUBo+UCT7A9vZrcclCYIRdnciSE4iYNsZigfAqq0TykJKwPISL9Or9OMwbh62lnxAz0cH6rQrNpfSC7Utqd/V/G3U44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WqQTnP8i; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDQlFIrL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WqQTnP8i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747834401; x=1779370401;
+  t=1747834992; x=1779370992;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CZW/edTbhyFW8UMmT161zCSkBIgSRiqy+Oud/aJFEXs=;
-  b=FDQlFIrL/BqK3FrXc2i8n5w3JdEbpe+YSstjzVOm6OsSHjJ0tUvGYMXt
-   lv+TY5OokjstxqreZ00ZG5wkBIB7LZ9YrZe39iz6cJdv2zWTQhMU99hSy
-   dOGX+D0CLtFi3r/7uZwOqlTySnznMgGLj6fypYI5eamYdTk+5Pyy+oG48
-   UzSbt5tRNnynu53OlluIDwT+6BvOyyZNu5/XcXI/HU3hRor399lKKqL4y
-   6VyMPyoD1yzmNLPDOxw3kbVMfKztI+zTndVIRIwSxejPiGS4SqAFJ5i9N
-   cczBmYI52wN9c/tk4yGa3yYKjAKzqJU0o0FEVZ+mKfuGjI+4KPG5ZJThi
-   w==;
-X-CSE-ConnectionGUID: 5OmjRRttTCqary3HRGPMDA==
-X-CSE-MsgGUID: IR2YNoIuS2OjG4vjFDh3BA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="48930590"
+  bh=bJ5mEdZwI1kOkQeq6MOsfoKYiUuW+SVq7Hv8nRuVGYM=;
+  b=WqQTnP8i3f67Q72Pqc8YxuUYmgu6RKT4N+4O9cIDY7/Wtefzj4Vt1Zk4
+   DDM9usP1qdAeE12ReO4VKkCMJv9GaT0iwiRu1nh/tO9OGuk2hCTHXUXLd
+   F5+fSdVaS7oVRV1N9T09CcOFiAEK+AHS3QvQJsp0K0/8dmYnYbN0Gp0vN
+   gIl7oolku48J9ip5sjJdYxLg8s7nNXoHcfc8KRbtoN77CkrgVP4iV/lgT
+   5Xdoj/a7BUBEFNJMi1NxB7uoUodsfm4fR9VszkjI81fFT1TUVN0xoZ5tR
+   sF0Chfc5Y8gi/GUbQj2ueujCIa435fPdLpvDhWn5RwSlLUSbTEcQW95Gd
+   A==;
+X-CSE-ConnectionGUID: p20gnvZsRyKVptqbdmRblg==
+X-CSE-MsgGUID: JdJ0r8UDSLW7X0UJCmR8hQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49073346"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="48930590"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 06:33:19 -0700
-X-CSE-ConnectionGUID: rPPgbf4bQ269lFrmIi120Q==
-X-CSE-MsgGUID: pCfzpEUZT6uZUYigNcQIzg==
+   d="scan'208";a="49073346"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 06:43:11 -0700
+X-CSE-ConnectionGUID: QqoCNcCuS8OQgpkyvNjCpw==
+X-CSE-MsgGUID: Ochuz+B7RTO2SewZ7HfXJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="144810186"
+   d="scan'208";a="171083948"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 21 May 2025 06:33:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 May 2025 06:43:04 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHjZ7-000OJA-0t;
-	Wed, 21 May 2025 13:33:01 +0000
-Date: Wed, 21 May 2025 21:32:02 +0800
+	id 1uHjio-000OJo-0S;
+	Wed, 21 May 2025 13:43:02 +0000
+Date: Wed, 21 May 2025 21:42:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Donny-Dev <donnyturizo13@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Donny-Dev <donnyturizo13@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: Fix typo in variable name
- 'ips_deffer_ms'
-Message-ID: <202505212120.fuBu3jP5-lkp@intel.com>
-References: <20250521011358.12910-1-donnyturizo13@gmail.com>
+To: Kees Cook <kees@kernel.org>, Kuniyuki Iwashima <kuniyu@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <kees@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Jay Vosburgh <jv@jvosburgh.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+	Paul Fertser <fercerpav@gmail.com>,
+	Hayes Wang <hayeswang@realtek.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Grant Grundler <grundler@chromium.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Cosmin Ratiu <cratiu@nvidia.com>, Lei Yang <leiyang@redhat.com>,
+	netdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-wpan@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 6/7] net: core: Convert dev_set_mac_address() to struct
+ sockaddr_storage
+Message-ID: <202505212149.6QGSFucw-lkp@intel.com>
+References: <20250520223108.2672023-6-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,108 +83,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250521011358.12910-1-donnyturizo13@gmail.com>
+In-Reply-To: <20250520223108.2672023-6-kees@kernel.org>
 
-Hi Donny-Dev,
+Hi Kees,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on staging/staging-testing]
+[auto build test ERROR on linux-nvme/for-next]
+[also build test ERROR on mkp-scsi/for-next kees/for-next/pstore kees/for-next/kspp linus/master v6.15-rc7 next-20250521]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Donny-Dev/staging-rtl8723bs-Fix-typo-in-variable-name-ips_deffer_ms/20250521-091609
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250521011358.12910-1-donnyturizo13%40gmail.com
-patch subject: [PATCH] staging: rtl8723bs: Fix typo in variable name 'ips_deffer_ms'
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250521/202505212120.fuBu3jP5-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505212120.fuBu3jP5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/net-core-Convert-inet_addr_is_any-to-sockaddr_storage/20250521-063445
+base:   git://git.infradead.org/nvme.git for-next
+patch link:    https://lore.kernel.org/r/20250520223108.2672023-6-kees%40kernel.org
+patch subject: [PATCH 6/7] net: core: Convert dev_set_mac_address() to struct sockaddr_storage
+config: arc-randconfig-001-20250521 (https://download.01.org/0day-ci/archive/20250521/202505212149.6QGSFucw-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505212149.6QGSFucw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505212120.fuBu3jP5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505212149.6QGSFucw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/rtl8723bs/core/rtw_pwrctrl.c: In function '_rtw_pwr_wakeup':
->> drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:1078:48: error: 'ips_deffer_ms' undeclared (first use in this function); did you mean 'ips_defer_ms'?
-    1078 |         deny_time = jiffies + msecs_to_jiffies(ips_deffer_ms);
-         |                                                ^~~~~~~~~~~~~
-         |                                                ips_defer_ms
-   drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:1078:48: note: each undeclared identifier is reported only once for each function it appears in
+   net/core/dev_api.c: In function 'dev_set_mac_address':
+>> net/core/dev_api.c:318:35: error: 'sa' undeclared (first use in this function); did you mean 'ss'?
+     318 |  ret = netif_set_mac_address(dev, sa, extack);
+         |                                   ^~
+         |                                   ss
+   net/core/dev_api.c:318:35: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +1078 drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+vim +318 net/core/dev_api.c
 
-554c0a3abf216c9 Hans de Goede          2017-03-29  1014  
-fccab3afea6e474 Donny-Dev              2025-05-21  1015  int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_defer_ms, const char *caller)
-554c0a3abf216c9 Hans de Goede          2017-03-29  1016  {
-554c0a3abf216c9 Hans de Goede          2017-03-29  1017  	struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
-554c0a3abf216c9 Hans de Goede          2017-03-29  1018  	struct pwrctrl_priv *pwrpriv = dvobj_to_pwrctl(dvobj);
-554c0a3abf216c9 Hans de Goede          2017-03-29  1019  	struct mlme_priv *pmlmepriv;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1020  	int ret = _SUCCESS;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1021  	unsigned long start = jiffies;
-fccab3afea6e474 Donny-Dev              2025-05-21  1022  	unsigned long deny_time = jiffies + msecs_to_jiffies(ips_defer_ms);
-554c0a3abf216c9 Hans de Goede          2017-03-29  1023  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1024  	/* for LPS */
-554c0a3abf216c9 Hans de Goede          2017-03-29  1025  	LeaveAllPowerSaveMode(padapter);
-554c0a3abf216c9 Hans de Goede          2017-03-29  1026  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1027  	/* IPS still bound with primary adapter */
-554c0a3abf216c9 Hans de Goede          2017-03-29  1028  	padapter = GET_PRIMARY_ADAPTER(padapter);
-554c0a3abf216c9 Hans de Goede          2017-03-29  1029  	pmlmepriv = &padapter->mlmepriv;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1030  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1031  	if (time_before(pwrpriv->ips_deny_time, deny_time))
-554c0a3abf216c9 Hans de Goede          2017-03-29  1032  		pwrpriv->ips_deny_time = deny_time;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1033  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1034  
-709c8e49b51c370 Fabio Aiuto            2021-04-07  1035  	if (pwrpriv->ps_processing)
-554c0a3abf216c9 Hans de Goede          2017-03-29  1036  		while (pwrpriv->ps_processing && jiffies_to_msecs(jiffies - start) <= 3000)
-8204b61a775879a Jia-Ju Bai             2018-09-15  1037  			mdelay(10);
-554c0a3abf216c9 Hans de Goede          2017-03-29  1038  
-709c8e49b51c370 Fabio Aiuto            2021-04-07  1039  	if (!(pwrpriv->bInternalAutoSuspend) && pwrpriv->bInSuspend)
-8ec06b9ff8a4f5e Ross Schmidt           2020-11-09  1040  		while (pwrpriv->bInSuspend && jiffies_to_msecs(jiffies - start) <= 3000
-709c8e49b51c370 Fabio Aiuto            2021-04-07  1041  		)
-8204b61a775879a Jia-Ju Bai             2018-09-15  1042  			mdelay(10);
-554c0a3abf216c9 Hans de Goede          2017-03-29  1043  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1044  	/* System suspend is not allowed to wakeup */
-2e20a5ac67f8a58 Nishka Dasgupta        2019-07-25  1045  	if (!(pwrpriv->bInternalAutoSuspend) && pwrpriv->bInSuspend) {
-554c0a3abf216c9 Hans de Goede          2017-03-29  1046  		ret = _FAIL;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1047  		goto exit;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1048  	}
-554c0a3abf216c9 Hans de Goede          2017-03-29  1049  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1050  	/* block??? */
-2e20a5ac67f8a58 Nishka Dasgupta        2019-07-25  1051  	if (pwrpriv->bInternalAutoSuspend  && padapter->net_closed) {
-554c0a3abf216c9 Hans de Goede          2017-03-29  1052  		ret = _FAIL;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1053  		goto exit;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1054  	}
-554c0a3abf216c9 Hans de Goede          2017-03-29  1055  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1056  	/* I think this should be check in IPS, LPS, autosuspend functions... */
-2e20a5ac67f8a58 Nishka Dasgupta        2019-07-25  1057  	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
-554c0a3abf216c9 Hans de Goede          2017-03-29  1058  		ret = _SUCCESS;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1059  		goto exit;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1060  	}
-554c0a3abf216c9 Hans de Goede          2017-03-29  1061  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1062  	if (rf_off == pwrpriv->rf_pwrstate) {
-554c0a3abf216c9 Hans de Goede          2017-03-29  1063  		{
-bc21df678b4d5da Zhansaya Bagdauletkyzy 2021-04-06  1064  			if (ips_leave(padapter) == _FAIL) {
-554c0a3abf216c9 Hans de Goede          2017-03-29  1065  				ret = _FAIL;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1066  				goto exit;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1067  			}
-554c0a3abf216c9 Hans de Goede          2017-03-29  1068  		}
-554c0a3abf216c9 Hans de Goede          2017-03-29  1069  	}
-554c0a3abf216c9 Hans de Goede          2017-03-29  1070  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1071  	/* TODO: the following checking need to be merged... */
-8ec06b9ff8a4f5e Ross Schmidt           2020-11-09  1072  	if (padapter->bDriverStopped || !padapter->bup || !padapter->hw_init_completed) {
-554c0a3abf216c9 Hans de Goede          2017-03-29  1073  		ret = false;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1074  		goto exit;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1075  	}
-554c0a3abf216c9 Hans de Goede          2017-03-29  1076  
-554c0a3abf216c9 Hans de Goede          2017-03-29  1077  exit:
-554c0a3abf216c9 Hans de Goede          2017-03-29 @1078  	deny_time = jiffies + msecs_to_jiffies(ips_deffer_ms);
-554c0a3abf216c9 Hans de Goede          2017-03-29  1079  	if (time_before(pwrpriv->ips_deny_time, deny_time))
-554c0a3abf216c9 Hans de Goede          2017-03-29  1080  		pwrpriv->ips_deny_time = deny_time;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1081  	return ret;
-554c0a3abf216c9 Hans de Goede          2017-03-29  1082  
+   301	
+   302	/**
+   303	 * dev_set_mac_address() - change Media Access Control Address
+   304	 * @dev: device
+   305	 * @ss: new address
+   306	 * @extack: netlink extended ack
+   307	 *
+   308	 * Change the hardware (MAC) address of the device
+   309	 *
+   310	 * Return: 0 on success, -errno on failure.
+   311	 */
+   312	int dev_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+   313				struct netlink_ext_ack *extack)
+   314	{
+   315		int ret;
+   316	
+   317		netdev_lock_ops(dev);
+ > 318		ret = netif_set_mac_address(dev, sa, extack);
+   319		netdev_unlock_ops(dev);
+   320	
+   321		return ret;
+   322	}
+   323	EXPORT_SYMBOL(dev_set_mac_address);
+   324	
 
 -- 
 0-DAY CI Kernel Test Service
