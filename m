@@ -1,64 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E0A23E226;
-	Wed, 21 May 2025 23:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F45423E32B;
+	Wed, 21 May 2025 23:41:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747870898; cv=none; b=IFNGZKPX0G3vpSfgfnGhK0UK8OAPXDtbBon2eCzUJF6wFbZAhIxwm4taeE2iAHEB/paMvhu8jEwk7JAjrUezu7zNx5J2uLj++jL2vTbkUbe4Qnx0n1oSuWg1ZSN4jxvAKjABvAzN3mh6MQbkZD6KPjixC0t78FQt8RVpUcqzYHQ=
+	t=1747870900; cv=none; b=uqqQDAhnc4BQRhFVdQ0qXSfDT9WkK/hdpJNMIwvILrEoZG8Ya5oSeLoGLEL7GRn7udviuvDS78KgJe8lcsuSTyvP0RnUmRyFraE6Etm7Z4JI5fRbxEfiQGxPVEyT4kYiHSseCWLJGtET5KUeB68KRJAYAVpPwxu8U7pzqhFyWm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747870898; c=relaxed/simple;
-	bh=dmXBPaP+dUDCyAOUcCFQ6VMDi1A2rED504MmFv/HvAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTCaI29FXFy97/taqDYWoDeh7OP8jL5S3l5chtvJacxDEyhJ5PgGWo1DBMGW8S/kdcrQLWXLGEWknfjc7JcIfK/7e9GWu2AeAueGXRWC5X9W7Tj6j77atJCczOcp8A+rOkzB/NiZYpFVtxVPgS+uDaK295r5aSPnaSbiv0sk7Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qr9rr0HD; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1747870900; c=relaxed/simple;
+	bh=BYtNCCtjouYOT3LO3B7GmsL//4gBWBdFiXDrdOfy45E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DUGFbrB076XxCtsyO4NJM2ueu5ajmXsCb9fYvzP+FqcfZjeg7WIO8sU4VDojKBk30tJdQoNu2VFhpI7bB/Iju3RAKjjauYBzBvcFT2IovpZK9AVPzoYC0yVQDdrd+LrgVKf4pUmqIl1mdEpdkTFFS3byRGtxwlrk5j3yX1Jcez4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NiCMWbmk; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qr9rr0HD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NiCMWbmk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747870897; x=1779406897;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dmXBPaP+dUDCyAOUcCFQ6VMDi1A2rED504MmFv/HvAs=;
-  b=Qr9rr0HDKWov/+Q0/NVRtGHnerwKY6vs4Pw6Yj6Ki/L4QhrsVsN3rn8h
-   uQSkYzc7WI+V3Wx9tFdK302nrqC8NfrHjX9CKTjrnTah4zeQ/vp6LhuMz
-   XM5Woe+XFGSwRLX/GF73WWgsWKom+xHuBh+67NdhLPBOY/5OobxzNoOtv
-   70UOEqtk7WsZSuKptfCgY9yT1fu+PDbF3qqvHEu81eLoBM+RPYPtgqtMb
-   lKptwtQAeCXVrKPMzkECmn2+jlV6rl6iX7QZSTv3xQmTtu7om5DIxOnzT
-   s4a9pDIoLIv4HabfO+3MXufk+oCG/HcPCQKiAnh7+YocCeCt82LNTONe2
-   g==;
-X-CSE-ConnectionGUID: mwupOJn3TXWzosXjaHhT+g==
-X-CSE-MsgGUID: xy5j9T80Q5CpBv1kDwdMEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="50014405"
+  t=1747870898; x=1779406898;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BYtNCCtjouYOT3LO3B7GmsL//4gBWBdFiXDrdOfy45E=;
+  b=NiCMWbmkzYnFBVBqE9GvwpJezT4Z+UdK/Q7Dzorr9Djde5YpHr4kTS48
+   RnVh0qDn2eTwpj5K9UwUJtnedFg5tL++gvDQEjeQyC96S10839AjyUM5f
+   wYE+mYI/UCL+7J8L145bK8RoXpWi2giZ7SmheqHBxxN+R0siXYHcpLQ3H
+   S3SQRZMg0hWGZ2s8sTzPPiaJ/mG6btCE3sQfgXboHpIxIXzRHPGXhHmv3
+   0FZdOjZMBRM1GIU7yGjnC0GabozhlTly4yeuQldUN75NI1WZ7NQzsQp9m
+   S7MhUtV2FRmNFeDYpkgXeNXmPzzKZP/mmGZhEpZL+uwIcXdygSW/L8kG1
+   w==;
+X-CSE-ConnectionGUID: b3MF7fl6SByJar/P3i2q3w==
+X-CSE-MsgGUID: WhfF14I6Q8i3Y4wUwo1WvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="50014413"
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="50014405"
+   d="scan'208";a="50014413"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:41:33 -0700
-X-CSE-ConnectionGUID: EZOuNzdTTNKiUHZ2LdKp4A==
-X-CSE-MsgGUID: Cu7r3II8RwerSm5FlU65kg==
+X-CSE-ConnectionGUID: bW+xgYYMQJ67NmCgwGpUwg==
+X-CSE-MsgGUID: SVZC3WdvQPWNUxSadExryg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="140836538"
+   d="scan'208";a="140836539"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 21 May 2025 16:41:28 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHt3u-000Ojg-18;
+	id 1uHt3u-000Ojk-1G;
 	Wed, 21 May 2025 23:41:26 +0000
-Date: Thu, 22 May 2025 07:40:29 +0800
+Date: Thu, 22 May 2025 07:40:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>, vkoul@kernel.org,
-	chenxiang66@hisilicon.com, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, leon@kernel.org, jgg@nvidia.com,
-	alex.williamson@redhat.com, joel.granados@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
-	dmaengine@vger.kernel.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, mcgrof@kernel.org
-Subject: Re: [PATCH 1/6] fake-dma: add fake dma engine driver
-Message-ID: <202505220711.3GeHexsR-lkp@intel.com>
-References: <20250520223913.3407136-2-mcgrof@kernel.org>
+To: Wei Fang <wei.fang@nxp.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: [linux-next:master 8543/12618] ld.lld: error: undefined symbol:
+ ntmp_init_cbdr
+Message-ID: <202505220734.x6TF6oHR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,40 +63,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250520223913.3407136-2-mcgrof@kernel.org>
 
-Hi Luis,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.15-rc7 next-20250521]
-[cannot apply to vkoul-dmaengine/next shuah-kselftest/next shuah-kselftest/fixes sysctl/sysctl-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Chamberlain/fake-dma-add-fake-dma-engine-driver/20250521-064035
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250520223913.3407136-2-mcgrof%40kernel.org
-patch subject: [PATCH 1/6] fake-dma: add fake dma engine driver
-config: alpha-randconfig-r113-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220711.3GeHexsR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250522/202505220711.3GeHexsR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7bac2c97af4078d7a627500c9bcdd5b033f97718
+commit: e3f4a0a8ddb41962efa51c6353e869b90d183e68 [8543/12618] net: enetc: add command BD ring support for i.MX95 ENETC
+config: arm-randconfig-002-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220734.x6TF6oHR-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220734.x6TF6oHR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505220711.3GeHexsR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220734.x6TF6oHR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/dma/fake-dma.c:69:24: sparse: sparse: symbol 'single_fake_dma' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/single_fake_dma +69 drivers/dma/fake-dma.c
-
-    68	
-  > 69	struct fake_dma_device *single_fake_dma;
-    70	
+>> ld.lld: error: undefined symbol: ntmp_init_cbdr
+   >>> referenced by enetc_cbdr.c:88 (drivers/net/ethernet/freescale/enetc/enetc_cbdr.c:88)
+   >>>               drivers/net/ethernet/freescale/enetc/enetc_cbdr.o:(enetc4_setup_cbdr) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: ntmp_free_cbdr
+   >>> referenced by enetc_cbdr.c:96 (drivers/net/ethernet/freescale/enetc/enetc_cbdr.c:96)
+   >>>               drivers/net/ethernet/freescale/enetc/enetc_cbdr.o:(enetc4_teardown_cbdr) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
