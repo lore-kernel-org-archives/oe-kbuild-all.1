@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B171E489
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 22:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205C42367AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 23:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747868307; cv=none; b=H4IwSA8tt5NMkNHc/LJpttFquOpGlnRgMggvtsM/XAvM0O1kP82LtMeoNiXQYdZciP57PZQc1B51Qbq8fsykJC7/djo9wQrVzb0lBWKK9EETfrWUUJUVQtYQizOisQ+MTdnaBwYiSM8NN+oyp5WIrCvzgEZ8ZCPoymUcgNa2Qb0=
+	t=1747870894; cv=none; b=sv5Mr5kk15PUfYzef/spfr0rg/AeYxaz2Td0uTRkj9R+cUDJ8KiGsoG3KdNExYzEw7mDHgRhxgks7VjT3JNTOr9YKOZYZu8dTGTYEkGlUoFEmnKcW61FHvwzuORGXbAQdbUds5IGEPs95V3OoP1n6ZCGpDVxxGbyVWfqU2lUa7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747868307; c=relaxed/simple;
-	bh=38Rwix4Y08Z6Gx6nPGd6clMZbkChUk95Lls1u1oV+Qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jWp8zlHllcqFgyDCQWRklh8Oj+P16QaqJvOYb4ahNxUW6xcwwZRtcc1mLiSbyGlhbypPgWLN9S322T/NWcUqetl4C/E5l4+qfRcNIDO5aM1fo8eh0oB0jhUJqTFcV3i/42ywgEeEC/zg9rO/ewv0Ymb/veBb+ZiNAm+pMvEiFu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TwfrvMdC; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1747870894; c=relaxed/simple;
+	bh=C5lRt9o6oozpH1yv7cQ/1mE4W8MldKnxycR94t3ACls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NP0jDmt8c5KoRNFlSsAi06aaMACbMO/du5pliBO6s6UVvnfuzwXw3Cmc40FPFioMGn/052rHjnc2ddKugqeVI1/nMxN207hMlJWUMwJC3EiOzk2FZVd+xBoP4hI8LnmWmm5mLiaCYR3zZ5GekyHQbCCIHSjOLbRtrxJBqs9f0s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TV0aBVRS; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TwfrvMdC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TV0aBVRS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747868306; x=1779404306;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=38Rwix4Y08Z6Gx6nPGd6clMZbkChUk95Lls1u1oV+Qc=;
-  b=TwfrvMdCfoJy2dwlfbcEYYvChe0XgT0fZ9Yuv5db6pgk/uR5ltBF5KkJ
-   pbT4iyi/PU+ZLVl0xC4jbCRWsVVfAtvVppeGr+Un9YFwTiAPAk3NbS7td
-   bc9gjw3ei6A30M2h/d0mv/5i1heF4gAEnnwlburp06iDw6+Ex8et15xLu
-   9Sk2xXCJUI6tsYKySxInJDK9Qgasq147Xrr2Fz6FyfPLWDF/6X/ecZaPD
-   No4DXLwsRguL7dK1Iti1wnSnJLPV93D9tIZSSYRQeXkOow/hzu/XGZ6vz
-   Z0PxmglqtSQVB/J5e8JQD5CI3Gt/2XzNBiX81eiejQ5rTNxsmPIx/XAPO
-   Q==;
-X-CSE-ConnectionGUID: +/9jBG3sSzuGb92ORcO2CA==
-X-CSE-MsgGUID: inJPKVPKRnaZet5O7k3niQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49792212"
+  t=1747870893; x=1779406893;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C5lRt9o6oozpH1yv7cQ/1mE4W8MldKnxycR94t3ACls=;
+  b=TV0aBVRSG0PnvG0TjOkU0iphhmn+kcH3h5dReG5H7uQM+0gPvd6g8wNY
+   uyP5C/quWspSBymFhzVby4V5YRpLYBJNXknX4Go3ktUX+N4HGcbU2x04d
+   wmf5WFG8Yxf8LbcIkeUHfglW2l7W5c47inNjwMhrMnvnEvvbXb/ASyNlT
+   SulX+saCUR+fFB9V5BVJ47dDQsOOD166AufFxx9inpXiWVo/RzTfo+lMH
+   qDLurBok8tenGBpGXJoNx4v2Kk6b/isrvH2pUZsQQfq/ZnnO8ffH3Yse+
+   8AuoMHOC1teqczzmYg0zytID6edGiN5ST4aTg0ldM6WpBeK2nTqFL+Cd/
+   g==;
+X-CSE-ConnectionGUID: otxG9dRHSfe/+fbJSCj3Ew==
+X-CSE-MsgGUID: yB+fskmLRAqO48BjsvTkJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49864378"
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="49792212"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 15:58:25 -0700
-X-CSE-ConnectionGUID: Iyn11XBCSG2wjKMxEGh4nA==
-X-CSE-MsgGUID: QCe+YnkATE6nrKJsq6Fb7w==
+   d="scan'208";a="49864378"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:41:32 -0700
+X-CSE-ConnectionGUID: VZiSyD0eTIKD3pxH059vpQ==
+X-CSE-MsgGUID: lHPW0BhBRTiRyg/+OoZblA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="140716646"
+   d="scan'208";a="144282397"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 May 2025 15:58:24 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 21 May 2025 16:41:28 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHsOE-000Oi0-1F;
-	Wed, 21 May 2025 22:58:22 +0000
-Date: Thu, 22 May 2025 06:57:57 +0800
+	id 1uHt3u-000Oji-1D;
+	Wed, 21 May 2025 23:41:26 +0000
+Date: Thu, 22 May 2025 07:40:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:stacktrace/tests 2/4]
- lib/tests/stacktrace_kunit.c:259:undefined reference to
- `__kunit_do_failed_assertion'
-Message-ID: <202505220636.cdUrxYFg-lkp@intel.com>
+To: Maulik Shah <maulik.shah@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Doug Anderson <dianders@chromium.org>,
+	Maulik Shah <maulik.shah@oss.qualcomm.com>
+Subject: Re: [PATCH v2 1/3] soc: qcom: qcom_stats: Add support to read DDR
+ statistic
+Message-ID: <202505220739.yseb9RQm-lkp@intel.com>
+References: <20250521-ddr_stats_-v2-1-2c54ea4fc071@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,131 +72,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250521-ddr_stats_-v2-1-2c54ea4fc071@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
-head:   c734aedb3ed9454b32144052f3bd3af91a8a3942
-commit: fe72213446c2f40e11ceef009780df565eef74c3 [2/4] WIP: lib: add basic stacktrace tests
-config: parisc-randconfig-002-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220636.cdUrxYFg-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220636.cdUrxYFg-lkp@intel.com/reproduce)
+Hi Maulik,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 393d0c54cae31317deaa9043320c5fd9454deabc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maulik-Shah/soc-qcom-qcom_stats-Add-support-to-read-DDR-statistic/20250521-163434
+base:   393d0c54cae31317deaa9043320c5fd9454deabc
+patch link:    https://lore.kernel.org/r/20250521-ddr_stats_-v2-1-2c54ea4fc071%40oss.qualcomm.com
+patch subject: [PATCH v2 1/3] soc: qcom: qcom_stats: Add support to read DDR statistic
+config: arc-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220739.yseb9RQm-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220739.yseb9RQm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505220636.cdUrxYFg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220739.yseb9RQm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `__do_test_basic':
->> lib/tests/stacktrace_kunit.c:259:(.text+0x23c): undefined reference to `__kunit_do_failed_assertion'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_empty':
-   lib/tests/stacktrace_kunit.c:188:(.text+0x594): undefined reference to `__kunit_do_failed_assertion'
->> hppa-linux-ld: lib/tests/stacktrace_kunit.c:189:(.text+0x604): undefined reference to `__kunit_do_failed_assertion'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_trace':
-   lib/tests/stacktrace_kunit.c:221:(.text+0x744): undefined reference to `__kunit_do_failed_assertion'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.c:226:(.text+0x804): undefined reference to `__kunit_do_failed_assertion'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_expect_callers_present_reliable':
->> lib/tests/stacktrace_kunit.c:245:(.text+0x8b4): undefined reference to `kunit_log_append'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_test_exit':
->> lib/tests/stacktrace_kunit.c:47:(.text+0xb00): undefined reference to `kunit_kfree'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `std_dump':
-   lib/tests/stacktrace_kunit.c:22:(.text+0xb98): undefined reference to `kunit_log_append'
->> hppa-linux-ld: lib/tests/stacktrace_kunit.c:27:(.text+0xbd8): undefined reference to `kunit_log_append'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `kunit_kmalloc':
->> include/kunit/test.h:449:(.text+0xc2c): undefined reference to `kunit_kmalloc_array'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `.LC1':
->> stacktrace_kunit.c:(.rodata.cst4+0x0): undefined reference to `kunit_binary_ptr_assert_format'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `.LC42':
->> stacktrace_kunit.c:(.rodata.cst4+0x4c): undefined reference to `kunit_binary_assert_format'
-   hppa-linux-ld: lib/tests/stacktrace_kunit.o: in function `.LC51':
->> stacktrace_kunit.c:(.rodata.cst4+0x50): undefined reference to `kunit_fail_assert_format'
+   drivers/soc/qcom/qcom_stats.c: In function 'qcom_ddr_stats_print':
+>> drivers/soc/qcom/qcom_stats.c:172:53: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
+     172 |                 seq_printf(s, "DDR LPM Stat Name:0x%x\tcount:%u\tDuration (ticks):%llu\n",
+         |                                                    ~^
+         |                                                     |
+         |                                                     unsigned int
+         |                                                    %lx
+>> drivers/soc/qcom/qcom_stats.c:180:42: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
+     180 |                 seq_printf(s, "DDR Freq %uMhz:\tCP IDX:%u\tcount:%u\tDuration (ticks):%llu\n",
+         |                                         ~^
+         |                                          |
+         |                                          unsigned int
+         |                                         %lu
 
 
-vim +259 lib/tests/stacktrace_kunit.c
+vim +172 drivers/soc/qcom/qcom_stats.c
 
-   181	
-   182	typedef void (*std_expect_t)(struct kunit *test,
-   183				     struct stacktrace_test_data *std);
-   184	
-   185	static void std_expect_empty(struct kunit *test,
-   186				     struct stacktrace_test_data *std)
-   187	{
-   188		KUNIT_EXPECT_EQ(test, std->hit, false);
- > 189		KUNIT_EXPECT_EQ(test, std->len, 0);
-   190	}
-   191	
-   192	struct stacktrace_test_params {
-   193		void **trace;
-   194	};
-   195	
-   196	struct stacktrace_test_params basic_scenario = {
-   197		.trace = (void *[]) { caller_1, caller_2, caller_3, NULL },
-   198	};
-   199	
-   200	/*
-   201	 * Check that we have recorded the expected callchain.
-   202	 *
-   203	 * Every function in the expected trace for the scenario must exist in the real
-   204	 * trace, and must be ordered as with the expected trace.
-   205	 *
-   206	 * Other calls may exist in the trace, so we only check that the expected
-   207	 * functions exist and are ordered relative to one another, and do not check
-   208	 * their absolute positions in the trace, nor do we check their absolute
-   209	 * offsets from one another.
-   210	 */
-   211	static void std_expect_trace(struct kunit *test,
-   212				     struct stacktrace_test_data *std,
-   213				     void **expected_trace)
-   214	{
-   215		unsigned int idx_min = 0;
-   216	
-   217		for (void **trace = expected_trace; *trace != NULL; trace++) {
-   218			int idx_caller = stacktrace_find_sym(std, *trace);
-   219	
-   220			if (idx_caller < 0) {
-   221				KUNIT_FAIL(test, "Stacktrace misses %ps\n", *trace);
-   222				return;
-   223			}
-   224	
-   225			if (idx_caller < idx_min) {
-   226				KUNIT_FAIL(test, "Stacktrace ordered incorrectly\n");
-   227				return;
-   228			}
-   229	
-   230			idx_min = idx_caller + 1;
-   231		}
-   232	}
-   233	
-   234	static void std_expect_callers_present(struct kunit *test,
-   235					       struct stacktrace_test_data *std)
-   236	{
-   237	
-   238		std_expect_trace(test, std, basic_scenario.trace);
-   239	}
-   240	
-   241	static void std_expect_callers_present_reliable(struct kunit *test,
-   242							struct stacktrace_test_data *std)
-   243	{
-   244		if (std->len < 0) {
- > 245			kunit_info(test, "marked unreliable: %d", std->len);
-   246			return;
-   247		}
-   248	
-   249		std_expect_callers_present(test, std);
-   250	}
-   251	
-   252	static void __do_test_basic(struct kunit *test,
-   253				    callee_t callee,
-   254				    std_expect_t expect)
-   255	{
-   256		struct stacktrace_test_data *std = test->priv;
-   257	
-   258		void *ret = caller_3(callee, NULL);
- > 259		KUNIT_EXPECT_PTR_EQ(test, ret, NULL);
-   260	
-   261		expect(test, std);
-   262	}
-   263	
+   144	
+   145	static void qcom_ddr_stats_print(struct seq_file *s, struct ddr_stats_entry *data)
+   146	{
+   147		u32 cp_idx;
+   148	
+   149		/*
+   150		 * DDR statistic have two different types of details encoded.
+   151		 * (1) DDR LPM Stats
+   152		 * (2) DDR Frequency Stats
+   153		 *
+   154		 * The name field have details like which type of DDR stat (bits 8:15)
+   155		 * along with other details as explained below
+   156		 *
+   157		 * In case of DDR LPM stat, name field will be encoded as,
+   158		 * Bits	 -  Meaning
+   159		 * 0:7	 -  DDR LPM name, can be of 0xd4, 0xd3, 0x11 and 0xd0.
+   160		 * 8:15	 -  0x0 (indicates its a LPM stat)
+   161		 * 16:31 -  Unused
+   162		 *
+   163		 * In case of DDR FREQ stats, name field will be encoded as,
+   164		 * Bits  -  Meaning
+   165		 * 0:4   -  DDR Clock plan index (CP IDX)
+   166		 * 5:7   -  Unused
+   167		 * 8:15  -  0x1 (indicates its Freq stat)
+   168		 * 16:31 -  Frequency value in Mhz
+   169		 */
+   170		switch (DDR_STATS_TYPE(data->name)) {
+   171		case 0:
+ > 172			seq_printf(s, "DDR LPM Stat Name:0x%x\tcount:%u\tDuration (ticks):%llu\n",
+   173				   DDR_STATS_LPM_NAME(data->name), data->count, data->duration);
+   174			break;
+   175		case 1:
+   176			if (!data->count || !DDR_STATS_FREQ(data->name))
+   177				return;
+   178	
+   179			cp_idx = DDR_STATS_CP_IDX(data->name);
+ > 180			seq_printf(s, "DDR Freq %uMhz:\tCP IDX:%u\tcount:%u\tDuration (ticks):%llu\n",
+   181				   DDR_STATS_FREQ(data->name), cp_idx, data->count, data->duration);
+   182			break;
+   183		}
+   184	}
+   185	
 
 -- 
 0-DAY CI Kernel Test Service
