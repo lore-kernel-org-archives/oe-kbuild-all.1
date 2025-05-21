@@ -1,75 +1,116 @@
-Received: from mail.cjdns.fr (mail.cjdns.fr [5.135.140.105])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE4D12E5D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 17:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.135.140.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5087D098
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 18:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747848424; cv=none; b=duEHKnmKcAjMxNDMGEL2zl0Fd5J2FZyf1InQ1EFU2shnWc+ou7Qw4LWrPkdcfhQPiv7OProAxER0kokgSbkOwCnqqK3Z9vKMmhnwromI4f1XGafgHsK0GHb/1LUPX/4i5QN+aqwpwvh8Be0GhdXxM4XhOSpurYvR3OGPQymqZyY=
+	t=1747852833; cv=none; b=TGDSflcoorX218Sdkn0UVBhdk36Uj+ffXn/Wo14rm1e7vVkP7gUcN6gESZ5EaQc7SRiJjOKJfB3U/anB399JU0kvTjU0qRpVN2TtjEa4LeuHO4qjRF+3hnbTtWaMlU+fOJKE6vcSI45JdG7kLYR5WLCqEdAYxwH5dAzEp7q1Ps4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747848424; c=relaxed/simple;
-	bh=Ozf2K5aLWxUcsueIVSaKOvz59INQJwnTXOlW4JzMWoo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Vzl5UkyQZ4sFntFemeSUTACuWXQDKE/9wAqJdrtzixAoZ3Uo/xB8NJKFS0kQBP9CiWa6O/UTgwyojEjLO+rMUK8Qo9n6y/JqbbKlc1FVYBoO54HVY6uLPSVF2YeqvlTM5MQNDkdPLE94tUgU2fGKO/iYA6uHlVtotAv/7NlbNmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr; spf=none smtp.mailfrom=cjdns.fr; dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b=fhQhKMgC; arc=none smtp.client-ip=5.135.140.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cjdns.fr
+	s=arc-20240116; t=1747852833; c=relaxed/simple;
+	bh=RO43uuPYzhbkLC07NVMMcBLVbbVtpYaaKnRegwJ9lEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RfXPNKIdaXEzhJZiGMp3VLk0rqiK+vgjnXD7GoKs1yKZxkkbD0eYoKx3FeTZKwn+gw7GUGQcZ/+Btg/zm8hlbQ47T9trLWeShyQNGUiszkMI7UyYBnR14s0uQdhuaX2U5MPTBy/zJztjVgup+4ghXbDq8T7IZZhA2ObMgC7QNYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TaydEQH1; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b="fhQhKMgC"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C8BA21A2540;
-	Wed, 21 May 2025 19:26:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cjdns.fr; s=dkim;
-	t=1747848413; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=9ZOwVLxDdRlVFdc4Md6tASgtfCFcbsCuBgUjD/USceM=;
-	b=fhQhKMgCZOphb0Zs+ry/C17CoKBQcT1oNGeZI/wGCdMSZanyB7DGoJJ201prtjw2LsVK/a
-	jCd+vik69LbvcA8S2L6mDq06TQtDzTj+7f1fTROTPb45atJvkQ12bUUTPcNBroMlEHiGSz
-	ug5FtZomm20TzfO5+AFJoQ4tyATH16Aa9ED+2mrv3mIR93m5n8rJEK0S+6Ym2w+mqxCAe8
-	ILl7iwy6XwbHLDgXycpGGcF5uk8PR9sAKZOPGPh5KyREE/4atUfQg2KGQS2hUOeOImcb+9
-	jwg6y5AvWIGof2chWwXo2epr83fJ/iRJUe3fj7VXsT3uMZBQLNhWyJcv1TjAoQ==
-From: Caleb James DeLisle <cjd@cjdns.fr>
-To: lkp@intel.com
-Cc: cjd@cjdns.fr,
-	fazilyildiran@gmail.com,
-	linux-mips@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	paul@pgazz.com,
-	tsbogend@alpha.franken.de
-Subject: [PATCH] mips: econet: Select SERIAL_8250 because SERIAL_OF_PLATFORM depends on it
-Date: Wed, 21 May 2025 17:26:45 +0000
-Message-Id: <20250521172646.461046-1-cjd@cjdns.fr>
-In-Reply-To: <202505211654.CBdIsoTq-lkp@intel.com>
-References: <202505211654.CBdIsoTq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TaydEQH1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747852832; x=1779388832;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RO43uuPYzhbkLC07NVMMcBLVbbVtpYaaKnRegwJ9lEQ=;
+  b=TaydEQH1MkvV0Hba+gfxVszpRFGpmHaKfE60XlYk7LTmoDhktd5zn/OC
+   eJyVWyNXMTgRXcAwVR6bF8PQhcTxbEiuvc9LCGpfqK9hysgb8BlG6oPnF
+   jtu0psx4TbWr8KEbWmbhWCzY946CdKTTV5fYGMyOE5MOikVsEjv4Y4FqX
+   uFN3UgD3AYQtBpN4NnEzSHkC67l28GY+lyvxyKZrgA2XXmhLhk5fiGubr
+   bXndmfcOnXiHgGKvtPJFnyHyNXn0mhxCXQcHQnOjv+as8U/JqQtz3wDjd
+   Fi5QZQshHahhI4iUC3bkI98HsNu/UBAcFzL+V2ttQpzjURYSnGAozYKT4
+   A==;
+X-CSE-ConnectionGUID: nbvs61vzTEaupY4uhaWaUw==
+X-CSE-MsgGUID: VXYPOUZkTh6AWgPy2pgI4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="60487465"
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="60487465"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 11:40:31 -0700
+X-CSE-ConnectionGUID: WJOB/Lq9Rjif7GGhMSDQDw==
+X-CSE-MsgGUID: kAw5O7r7TdKWDoKg6/UQgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="140050718"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 21 May 2025 11:40:30 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uHoMd-000OX6-2z;
+	Wed, 21 May 2025 18:40:27 +0000
+Date: Thu, 22 May 2025 02:39:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 11/11] net/socket.c:1525:21: warning:
+ no previous prototype for function 'update_socket_protocol'
+Message-ID: <202505220253.recEQAjG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-config ECONET selects SERIAL_OF_PLATFORM and that depends on SERIAL_8250.
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   ace7789354948892feb8f07d384af6d4af715703
+commit: 5284b7a2430f7c5fce8e4645bea63eef55bd8b1d [11/11] bpf: Add update_socket_protocol hook
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250522/202505220253.recEQAjG-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220253.recEQAjG-lkp@intel.com/reproduce)
 
-Signed-off-by: Caleb James DeLisle <cjd@cjdns.fr>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202505211654.CBdIsoTq-lkp@intel.com/
----
- arch/mips/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220253.recEQAjG-lkp@intel.com/
 
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index c3dbdc808664..b23122633a02 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -398,6 +398,7 @@ config ECONET
- 	select DEBUG_ZBOOT
- 	select EARLY_PRINTK_8250
- 	select ECONET_EN751221_TIMER
-+	select SERIAL_8250
- 	select SERIAL_OF_PLATFORM
- 	select SYS_SUPPORTS_BIG_ENDIAN
- 	select SYS_HAS_CPU_MIPS32_R1
+All warnings (new ones prefixed by >>):
+
+>> net/socket.c:1525:21: warning: no previous prototype for function 'update_socket_protocol' [-Wmissing-prototypes]
+    1525 | __weak noinline int update_socket_protocol(int family, int type, int protocol)
+         |                     ^
+   net/socket.c:1525:17: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1525 | __weak noinline int update_socket_protocol(int family, int type, int protocol)
+         |                 ^
+         |                 static 
+   1 warning generated.
+
+
+vim +/update_socket_protocol +1525 net/socket.c
+
+  1509	
+  1510	/*	A hook for bpf progs to attach to and update socket protocol.
+  1511	 *
+  1512	 *	A static noinline declaration here could cause the compiler to
+  1513	 *	optimize away the function. A global noinline declaration will
+  1514	 *	keep the definition, but may optimize away the callsite.
+  1515	 *	Therefore, __weak is needed to ensure that the call is still
+  1516	 *	emitted, by telling the compiler that we don't know what the
+  1517	 *	function might eventually be.
+  1518	 *
+  1519	 *	__diag_* below are needed to dismiss the missing prototype warning.
+  1520	 */
+  1521	
+  1522	__diag_push();
+  1523	__diag_ignore(GCC, 8, "-Wmissing-prototypes",
+  1524			  "A fmod_ret entry point for BPF programs");
+> 1525	__weak noinline int update_socket_protocol(int family, int type, int protocol)
+  1526	{
+  1527		return protocol;
+  1528	}
+  1529	
+
 -- 
-2.39.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
