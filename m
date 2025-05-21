@@ -1,69 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205C42367AC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 23:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E0A23E226;
+	Wed, 21 May 2025 23:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747870894; cv=none; b=sv5Mr5kk15PUfYzef/spfr0rg/AeYxaz2Td0uTRkj9R+cUDJ8KiGsoG3KdNExYzEw7mDHgRhxgks7VjT3JNTOr9YKOZYZu8dTGTYEkGlUoFEmnKcW61FHvwzuORGXbAQdbUds5IGEPs95V3OoP1n6ZCGpDVxxGbyVWfqU2lUa7A=
+	t=1747870898; cv=none; b=IFNGZKPX0G3vpSfgfnGhK0UK8OAPXDtbBon2eCzUJF6wFbZAhIxwm4taeE2iAHEB/paMvhu8jEwk7JAjrUezu7zNx5J2uLj++jL2vTbkUbe4Qnx0n1oSuWg1ZSN4jxvAKjABvAzN3mh6MQbkZD6KPjixC0t78FQt8RVpUcqzYHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747870894; c=relaxed/simple;
-	bh=C5lRt9o6oozpH1yv7cQ/1mE4W8MldKnxycR94t3ACls=;
+	s=arc-20240116; t=1747870898; c=relaxed/simple;
+	bh=dmXBPaP+dUDCyAOUcCFQ6VMDi1A2rED504MmFv/HvAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NP0jDmt8c5KoRNFlSsAi06aaMACbMO/du5pliBO6s6UVvnfuzwXw3Cmc40FPFioMGn/052rHjnc2ddKugqeVI1/nMxN207hMlJWUMwJC3EiOzk2FZVd+xBoP4hI8LnmWmm5mLiaCYR3zZ5GekyHQbCCIHSjOLbRtrxJBqs9f0s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TV0aBVRS; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=eTCaI29FXFy97/taqDYWoDeh7OP8jL5S3l5chtvJacxDEyhJ5PgGWo1DBMGW8S/kdcrQLWXLGEWknfjc7JcIfK/7e9GWu2AeAueGXRWC5X9W7Tj6j77atJCczOcp8A+rOkzB/NiZYpFVtxVPgS+uDaK295r5aSPnaSbiv0sk7Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qr9rr0HD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TV0aBVRS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qr9rr0HD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747870893; x=1779406893;
+  t=1747870897; x=1779406897;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=C5lRt9o6oozpH1yv7cQ/1mE4W8MldKnxycR94t3ACls=;
-  b=TV0aBVRSG0PnvG0TjOkU0iphhmn+kcH3h5dReG5H7uQM+0gPvd6g8wNY
-   uyP5C/quWspSBymFhzVby4V5YRpLYBJNXknX4Go3ktUX+N4HGcbU2x04d
-   wmf5WFG8Yxf8LbcIkeUHfglW2l7W5c47inNjwMhrMnvnEvvbXb/ASyNlT
-   SulX+saCUR+fFB9V5BVJ47dDQsOOD166AufFxx9inpXiWVo/RzTfo+lMH
-   qDLurBok8tenGBpGXJoNx4v2Kk6b/isrvH2pUZsQQfq/ZnnO8ffH3Yse+
-   8AuoMHOC1teqczzmYg0zytID6edGiN5ST4aTg0ldM6WpBeK2nTqFL+Cd/
+  bh=dmXBPaP+dUDCyAOUcCFQ6VMDi1A2rED504MmFv/HvAs=;
+  b=Qr9rr0HDKWov/+Q0/NVRtGHnerwKY6vs4Pw6Yj6Ki/L4QhrsVsN3rn8h
+   uQSkYzc7WI+V3Wx9tFdK302nrqC8NfrHjX9CKTjrnTah4zeQ/vp6LhuMz
+   XM5Woe+XFGSwRLX/GF73WWgsWKom+xHuBh+67NdhLPBOY/5OobxzNoOtv
+   70UOEqtk7WsZSuKptfCgY9yT1fu+PDbF3qqvHEu81eLoBM+RPYPtgqtMb
+   lKptwtQAeCXVrKPMzkECmn2+jlV6rl6iX7QZSTv3xQmTtu7om5DIxOnzT
+   s4a9pDIoLIv4HabfO+3MXufk+oCG/HcPCQKiAnh7+YocCeCt82LNTONe2
    g==;
-X-CSE-ConnectionGUID: otxG9dRHSfe/+fbJSCj3Ew==
-X-CSE-MsgGUID: yB+fskmLRAqO48BjsvTkJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49864378"
+X-CSE-ConnectionGUID: mwupOJn3TXWzosXjaHhT+g==
+X-CSE-MsgGUID: xy5j9T80Q5CpBv1kDwdMEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="50014405"
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="49864378"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:41:32 -0700
-X-CSE-ConnectionGUID: VZiSyD0eTIKD3pxH059vpQ==
-X-CSE-MsgGUID: lHPW0BhBRTiRyg/+OoZblA==
+   d="scan'208";a="50014405"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:41:33 -0700
+X-CSE-ConnectionGUID: EZOuNzdTTNKiUHZ2LdKp4A==
+X-CSE-MsgGUID: Cu7r3II8RwerSm5FlU65kg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
-   d="scan'208";a="144282397"
+   d="scan'208";a="140836538"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 May 2025 16:41:28 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 21 May 2025 16:41:28 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHt3u-000Oji-1D;
+	id 1uHt3u-000Ojg-18;
 	Wed, 21 May 2025 23:41:26 +0000
-Date: Thu, 22 May 2025 07:40:28 +0800
+Date: Thu, 22 May 2025 07:40:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maulik Shah <maulik.shah@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Doug Anderson <dianders@chromium.org>,
-	Maulik Shah <maulik.shah@oss.qualcomm.com>
-Subject: Re: [PATCH v2 1/3] soc: qcom: qcom_stats: Add support to read DDR
- statistic
-Message-ID: <202505220739.yseb9RQm-lkp@intel.com>
-References: <20250521-ddr_stats_-v2-1-2c54ea4fc071@oss.qualcomm.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, vkoul@kernel.org,
+	chenxiang66@hisilicon.com, m.szyprowski@samsung.com,
+	robin.murphy@arm.com, leon@kernel.org, jgg@nvidia.com,
+	alex.williamson@redhat.com, joel.granados@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
+	dmaengine@vger.kernel.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, mcgrof@kernel.org
+Subject: Re: [PATCH 1/6] fake-dma: add fake dma engine driver
+Message-ID: <202505220711.3GeHexsR-lkp@intel.com>
+References: <20250520223913.3407136-2-mcgrof@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,88 +67,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250521-ddr_stats_-v2-1-2c54ea4fc071@oss.qualcomm.com>
+In-Reply-To: <20250520223913.3407136-2-mcgrof@kernel.org>
 
-Hi Maulik,
+Hi Luis,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 393d0c54cae31317deaa9043320c5fd9454deabc]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.15-rc7 next-20250521]
+[cannot apply to vkoul-dmaengine/next shuah-kselftest/next shuah-kselftest/fixes sysctl/sysctl-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maulik-Shah/soc-qcom-qcom_stats-Add-support-to-read-DDR-statistic/20250521-163434
-base:   393d0c54cae31317deaa9043320c5fd9454deabc
-patch link:    https://lore.kernel.org/r/20250521-ddr_stats_-v2-1-2c54ea4fc071%40oss.qualcomm.com
-patch subject: [PATCH v2 1/3] soc: qcom: qcom_stats: Add support to read DDR statistic
-config: arc-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220739.yseb9RQm-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220739.yseb9RQm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Chamberlain/fake-dma-add-fake-dma-engine-driver/20250521-064035
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250520223913.3407136-2-mcgrof%40kernel.org
+patch subject: [PATCH 1/6] fake-dma: add fake dma engine driver
+config: alpha-randconfig-r113-20250522 (https://download.01.org/0day-ci/archive/20250522/202505220711.3GeHexsR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.4.0
+reproduce: (https://download.01.org/0day-ci/archive/20250522/202505220711.3GeHexsR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505220739.yseb9RQm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220711.3GeHexsR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma/fake-dma.c:69:24: sparse: sparse: symbol 'single_fake_dma' was not declared. Should it be static?
 
-   drivers/soc/qcom/qcom_stats.c: In function 'qcom_ddr_stats_print':
->> drivers/soc/qcom/qcom_stats.c:172:53: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
-     172 |                 seq_printf(s, "DDR LPM Stat Name:0x%x\tcount:%u\tDuration (ticks):%llu\n",
-         |                                                    ~^
-         |                                                     |
-         |                                                     unsigned int
-         |                                                    %lx
->> drivers/soc/qcom/qcom_stats.c:180:42: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
-     180 |                 seq_printf(s, "DDR Freq %uMhz:\tCP IDX:%u\tcount:%u\tDuration (ticks):%llu\n",
-         |                                         ~^
-         |                                          |
-         |                                          unsigned int
-         |                                         %lu
+vim +/single_fake_dma +69 drivers/dma/fake-dma.c
 
-
-vim +172 drivers/soc/qcom/qcom_stats.c
-
-   144	
-   145	static void qcom_ddr_stats_print(struct seq_file *s, struct ddr_stats_entry *data)
-   146	{
-   147		u32 cp_idx;
-   148	
-   149		/*
-   150		 * DDR statistic have two different types of details encoded.
-   151		 * (1) DDR LPM Stats
-   152		 * (2) DDR Frequency Stats
-   153		 *
-   154		 * The name field have details like which type of DDR stat (bits 8:15)
-   155		 * along with other details as explained below
-   156		 *
-   157		 * In case of DDR LPM stat, name field will be encoded as,
-   158		 * Bits	 -  Meaning
-   159		 * 0:7	 -  DDR LPM name, can be of 0xd4, 0xd3, 0x11 and 0xd0.
-   160		 * 8:15	 -  0x0 (indicates its a LPM stat)
-   161		 * 16:31 -  Unused
-   162		 *
-   163		 * In case of DDR FREQ stats, name field will be encoded as,
-   164		 * Bits  -  Meaning
-   165		 * 0:4   -  DDR Clock plan index (CP IDX)
-   166		 * 5:7   -  Unused
-   167		 * 8:15  -  0x1 (indicates its Freq stat)
-   168		 * 16:31 -  Frequency value in Mhz
-   169		 */
-   170		switch (DDR_STATS_TYPE(data->name)) {
-   171		case 0:
- > 172			seq_printf(s, "DDR LPM Stat Name:0x%x\tcount:%u\tDuration (ticks):%llu\n",
-   173				   DDR_STATS_LPM_NAME(data->name), data->count, data->duration);
-   174			break;
-   175		case 1:
-   176			if (!data->count || !DDR_STATS_FREQ(data->name))
-   177				return;
-   178	
-   179			cp_idx = DDR_STATS_CP_IDX(data->name);
- > 180			seq_printf(s, "DDR Freq %uMhz:\tCP IDX:%u\tcount:%u\tDuration (ticks):%llu\n",
-   181				   DDR_STATS_FREQ(data->name), cp_idx, data->count, data->duration);
-   182			break;
-   183		}
-   184	}
-   185	
+    68	
+  > 69	struct fake_dma_device *single_fake_dma;
+    70	
 
 -- 
 0-DAY CI Kernel Test Service
