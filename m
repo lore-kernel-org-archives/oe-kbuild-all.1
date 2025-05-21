@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7EB1D89E3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 03:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D80221FD8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 03:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747797794; cv=none; b=ml3II18aunY/uj0r5BHxgBTlv5Jk/hhOP63nQA2MXWOc2BD0EW+9hAJB33PImDWnnW175FG+4Nc9YoWOYswnn9JdeAAqB3e/YKG856Hy1w8Hl4IwL/BSr5+foCmQOfUoHULkJ3YDdgPk8kW5QP6nw6g+0h/WluXm1YkNQBtS6Cs=
+	t=1747798512; cv=none; b=GNCDjIz3p5sfmtY9trt2LBEE25XDJlUz4dTzZ+Z54vEvCGm0/yFCR9jBZmRPTrGBx1hfvMPuaKWmleQiQzVjmquu3zi/mcmhfZ4vWumqfEOluimpgp8h7XlfIBw+ddZde5+sBzUuKfSqUz5zhkM3n/kUaVgeIGe2fdUh3cnYMIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747797794; c=relaxed/simple;
-	bh=+YEFzKaq9psK2JzVF99fnivsUq5RoK1qnhfPh9Gmews=;
+	s=arc-20240116; t=1747798512; c=relaxed/simple;
+	bh=oYwpVihZpscxBJKKmCxRxmidjOXsONoQmapRgC/dgTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h+sev/flUDT/0GfL5AYeJpy+zfAEqdEj2YwSVvdoqFllw+x4bcgNnkrA+zNeoalkyaeBHbEoFjByVLxQ25qCEYFqgbcpjhGIkN1EB/7YRTj8HR7g3zo1rI8UDv0gSCMqpJnP3cUio/+xKwFZcTSm3r0rO3/BXXI5uZQdjVSBoLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLKpdH42; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=ePdAGJ5Xq4e1MwJ9+P6S5OpqRb2mIsLjcw50IxjoyinXvOspFV8tye1OxqJsJuVny24L9wNTe8g/1Rb4bpq330uCuKp2/cAvCQK3M0B4dKUtsbQ8ppjmjzCj2UOPCI7eMUNLiadWWeWNWX3WVfEGfO864yoniN7ciV3jurCbL0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHltGnfy; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLKpdH42"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHltGnfy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747797792; x=1779333792;
+  t=1747798511; x=1779334511;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+YEFzKaq9psK2JzVF99fnivsUq5RoK1qnhfPh9Gmews=;
-  b=iLKpdH42A1MetlkLZPa8dJ/HJy7blq9plBQct4okJsRBKLvdvZyd//uU
-   oTMB8TNpGslAUI4Uv7hLStbLQYDpvol5h1/N54eWFCpMyH15xPcRwdokb
-   BWIdWNpm0S/7tYEMYbQQLyNRw5dctS0imH0hTbk/mthQD3l9H1ZxGb4Jz
-   d3hHkdKqZSmIpyQoKy4kqHlnF07l/y/cqMYUlC19x0QFvgTwlBoiMY/Pb
-   Abv2MbZ3fqx5Da5NV333dzy1jRs4f7PU72ziWpg5cryTSoVhqLPifI1h0
-   Tb4Ns00kPx3fEag3m6TkBB973p87jJeT+yHevXKdzknde/6aGtIkdVXMs
-   Q==;
-X-CSE-ConnectionGUID: Wy8fe0yyTZKoKYXcD3QjwA==
-X-CSE-MsgGUID: 1hpWFtv4TKiEdllLNhVqig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="61157292"
+  bh=oYwpVihZpscxBJKKmCxRxmidjOXsONoQmapRgC/dgTg=;
+  b=mHltGnfyIuF2m7DgS8Y6SW8b7H5fHcEgQoZwKbDH94LNGRUs2gxCvnP8
+   U0rEXWmBfapq7t1JGZ6KOzrVr64YXpco3a/jGgXchDTJ4Ku/Qzxr19b24
+   +KwOl8Qcvii3dQmsYypdPHQeA1Xpvkbkz43UnUCaHm0+DfpOmlq1tGMnW
+   FyVSNeJmdCWlSMOpcN5tqOhdqVsBkHHVFl+BdxF58uDI/LDMoA1so5BNo
+   uMgbn3ige+62aYIO6lF8EfyrTXxJin4TM2eEHGbqZUUzRBueF5X/kGGGB
+   wB9K8rODgALZKHDSe6ghhsY/6iMXzpUsFmucsfrLxaQnEmL3Gt47v44FV
+   g==;
+X-CSE-ConnectionGUID: bYzqB3gnToaSIVb9U0E/cg==
+X-CSE-MsgGUID: McHQbWnNRNOnHSdUONFUfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49819077"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="61157292"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 20:23:10 -0700
-X-CSE-ConnectionGUID: kv5aJe2zRFSIgcK6+BH+Fw==
-X-CSE-MsgGUID: i0Y3QJAsQs2f5CauknD2EA==
+   d="scan'208";a="49819077"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 20:35:10 -0700
+X-CSE-ConnectionGUID: 2T/dECnyRiuUlmTgt5TUXw==
+X-CSE-MsgGUID: tciQZLzFSx6y5VYoqs5CJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="144623290"
+   d="scan'208";a="139731734"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 May 2025 20:23:09 -0700
+  by orviesa010.jf.intel.com with ESMTP; 20 May 2025 20:35:10 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHa2s-000NpC-2C;
-	Wed, 21 May 2025 03:23:06 +0000
-Date: Wed, 21 May 2025 11:23:03 +0800
+	id 1uHaEV-000Npm-1q;
+	Wed, 21 May 2025 03:35:07 +0000
+Date: Wed, 21 May 2025 11:34:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 253/257] fs/dcache.c:3279:
- warning: Function parameter or struct member 'rename' not described in
- 'd_casefold_enable'
-Message-ID: <202505211103.Got6s4Fx-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-5.10 11/11] arch/x86/mm/fault.c:1229:11:
+ warning: no previous prototype for function 'memmap_page_fault'
+Message-ID: <202505211104.C0v6ZuVB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,141 +62,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   e4be9413b049e0e7d219b061645621e995713a40
-commit: 3435ad1cfa6dd84d4d501f702156c14437926b1b [253/257] fixup! fs: dcache locking for exlusion between overlayfs, casefolding
-config: arc-randconfig-001-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211103.Got6s4Fx-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211103.Got6s4Fx-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   ace7789354948892feb8f07d384af6d4af715703
+commit: 64f9a784aebe4551c84681f3037d1dab82b8193e [11/11] anolis: mm: initialize ZONE_DEVICE page struct on demand in guest kernel
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250521/202505211104.C0v6ZuVB-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211104.C0v6ZuVB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505211103.Got6s4Fx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505211104.C0v6ZuVB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/dcache.c:3225: warning: Function parameter or struct member 'dentry' not described in 'd_casefold_disabled_put'
-   fs/dcache.c:3247: warning: Function parameter or struct member 'dentry' not described in 'd_casefold_disabled_get'
-   fs/dcache.c:3279: warning: Function parameter or struct member 'dentry' not described in 'd_casefold_enable'
-   fs/dcache.c:3279: warning: Function parameter or struct member 'e' not described in 'd_casefold_enable'
->> fs/dcache.c:3279: warning: Function parameter or struct member 'rename' not described in 'd_casefold_enable'
+>> arch/x86/mm/fault.c:1229:11: warning: no previous prototype for function 'memmap_page_fault' [-Wmissing-prototypes]
+    1229 | int __ref memmap_page_fault(unsigned long address)
+         |           ^
+   arch/x86/mm/fault.c:1229:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1229 | int __ref memmap_page_fault(unsigned long address)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +3279 fs/dcache.c
+vim +/memmap_page_fault +1229 arch/x86/mm/fault.c
 
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3218  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3219  /**
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3220   * d_casefold_disabled_put - drop a "casefold disabled" ref
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3221   *
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3222   * Only for overlayfs.
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3223   */
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3224  void d_casefold_disabled_put(struct dentry *dentry)
-42b436b4f7bbf1 Kent Overstreet 2025-05-19 @3225  {
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3226  	if (!(dentry->d_sb->s_flags & SB_CASEFOLD))
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3227  		return;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3228  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3229  	guard(mutex)(&no_casefold_dentries_lock);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3230  	no_casefold_dentry_put(dentry, ref_casefold_disable);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3231  }
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3232  EXPORT_SYMBOL_GPL(d_casefold_disabled_put);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3233  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3234  /**
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3235   * d_casefold_disabled_get - attempt to disable casefold on a tree
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3236   *
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3237   * Only for overlayfs.
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3238   *
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3239   * Returns -EINVAL if casefolding is in use on any subdirectory; this must be
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3240   * tracked by the filesystem.
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3241   *
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3242   * On success, returns with a reference held that must be released by
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3243   * d_casefold_disabled_put(); this ref blocks casefold from being enabled
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3244   * by d_casefold_enable().
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3245   */
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3246  int d_casefold_disabled_get(struct dentry *dentry)
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3247  {
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3248  	if (!(dentry->d_sb->s_flags & SB_CASEFOLD))
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3249  		return 0;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3250  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3251  	guard(mutex)(&no_casefold_dentries_lock);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3252  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3253  	if (!(dentry->d_inode->i_flags & S_NO_CASEFOLD))
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3254  		return -EINVAL;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3255  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3256  	return no_casefold_dentry_get(dentry, ref_casefold_disable);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3257  }
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3258  EXPORT_SYMBOL_GPL(d_casefold_disabled_get);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3259  
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3260  static struct dentry *dget_parent_this_sb(struct dentry *dentry)
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3261  {
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3262  	struct dentry *parent = dentry != dentry->d_sb->s_root
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3263  		? dget_parent(dentry)
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3264  		: NULL;
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3265  	dput(dentry);
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3266  	return parent;
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3267  }
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3268  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3269  /**
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3270   * d_casefold_enable - check if casefolding may be enabled on a dentry
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3271   *
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3272   * Returns -EINVAL if casefolding has been disabled on any parent directory (by
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3273   * overlayfs).
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3274   *
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3275   * On success the inode will hase S_NO_CASEFOLD cleared.
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3276   */
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3277  int d_casefold_enable(struct dentry *dentry, struct d_casefold_enable *e,
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3278  		      bool rename)
-42b436b4f7bbf1 Kent Overstreet 2025-05-19 @3279  {
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3280  	struct super_block *sb = dentry->d_sb;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3281  	int ret = 0;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3282  
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3283  	if (rename) {
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3284  		lockdep_assert_held(&sb->s_vfs_rename_mutex);
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3285  		e->rename_mutex_held = NULL;
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3286  	} else {
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3287  		mutex_lock(&sb->s_vfs_rename_mutex);
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3288  		e->rename_mutex_held = sb;
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3289  	}
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3290  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3291  	guard(mutex)(&no_casefold_dentries_lock);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3292  
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3293  	dget(dentry);
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3294  
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3295  	for (struct dentry *i = dentry; i; i = dget_parent_this_sb(i)) {
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3296  		if (!(i->d_inode->i_flags & S_NO_CASEFOLD)) {
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3297  			dput(i);
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3298  			break;
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3299  		}
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3300  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3301  		ret = darray_push(&e->refs, i);
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3302  		if (ret) {
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3303  			dput(i);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3304  			goto err;
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3305  		}
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3306  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3307  		ret = no_casefold_dentry_get(i, ref_casefold_enable);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3308  		if (ret) {
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3309  			dput(i);
-3435ad1cfa6dd8 Kent Overstreet 2025-05-20  3310  			--e->refs.nr;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3311  			goto err;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3312  		}
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3313  	}
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3314  
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3315  	return 0;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3316  err:
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3317  	darray_for_each(e->refs, i)
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3318  		no_casefold_dentry_put(*i, ref_casefold_enable);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3319  	darray_exit(&e->refs);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3320  	return ret;
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3321  }
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3322  EXPORT_SYMBOL_GPL(d_casefold_enable);
-42b436b4f7bbf1 Kent Overstreet 2025-05-19  3323  
-
-:::::: The code at line 3279 was first introduced by commit
-:::::: 42b436b4f7bbf1584485cfa3a64bd4a42f3ba6dc fs: dcache locking for exlusion between overlayfs, casefolding
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+  1228	
+> 1229	int __ref memmap_page_fault(unsigned long address)
+  1230	{
+  1231		struct zdm_context *zdm;
+  1232		unsigned long start_pfn = 0, end_pfn, page_pfn, flags;
+  1233		unsigned int level;
+  1234		pte_t *pte;
+  1235		pmd_t *pmd;
+  1236	
+  1237		rcu_read_lock();
+  1238		zdm = zdm_lookup(address);
+  1239		if (!zdm) {
+  1240			rcu_read_unlock();
+  1241			return 0;
+  1242		}
+  1243	
+  1244		spin_lock_irqsave(&zdm->lock, flags);
+  1245		pte = lookup_address(address, &level);
+  1246		BUG_ON(!pte);
+  1247		if (pte_flags(*pte) & _PAGE_PRESENT)
+  1248			goto out;
+  1249	
+  1250		if (level == PG_LEVEL_4K) {
+  1251			address &= PAGE_MASK;
+  1252			page_pfn = pte_pfn(__pte(pte_val(*pte) | _PAGE_PRESENT));
+  1253			start_pfn = page_to_pfn((struct page *)address);
+  1254			end_pfn = start_pfn + PAGE_SIZE/sizeof(struct page);
+  1255		} else {
+  1256			pmd = (pmd_t *)pte;
+  1257			address &= PMD_MASK;
+  1258			page_pfn = pmd_pfn(__pmd(pmd_val(*pmd) | _PAGE_PRESENT));
+  1259			start_pfn = page_to_pfn((struct page *)address);
+  1260			end_pfn = start_pfn + PMD_SIZE/sizeof(struct page);
+  1261		}
+  1262	
+  1263		zdm_reinit_struct_pages(zdm, page_pfn, start_pfn, end_pfn);
+  1264	
+  1265		/* All job is done, recover the page table */
+  1266		if (level == PG_LEVEL_4K) {
+  1267			set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+  1268		} else {
+  1269			pmd = (pmd_t *)pte;
+  1270			set_pmd(pmd, __pmd(pmd_val(*pmd) | _PAGE_PRESENT));
+  1271		}
+  1272	out:
+  1273		spin_unlock_irqrestore(&zdm->lock, flags);
+  1274		rcu_read_unlock();
+  1275	
+  1276		return 1;
+  1277	}
+  1278	#endif
+  1279	
 
 -- 
 0-DAY CI Kernel Test Service
