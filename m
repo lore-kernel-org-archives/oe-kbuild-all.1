@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA0F22D4F2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 05:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3392112E5B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 06:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747804221; cv=none; b=TLJcOkjB0f3/GGkK2P5nSVgrBgXIIy7ZLr8AxcGWUctzQydBquHa/PpsylQVy1JH4NOJUVUppOXtyXxPtN1ekSur8IL/Yrgifz7CGXvBLWiBSjK4hWfg2oHKD+ffKenCZbfBqcV0U32tY4MMnMw4YaCrwn/9+zMlR8k05uyIsro=
+	t=1747808548; cv=none; b=kBtw2lzsU60bjQ13Y2Bud4Y8/29rlccClbbQpZ0IdcKlrr2WOZGD/A73WxaWHlRDs7SjaQR0TUoRdyqeK9vk9YMhFNYEawDqiKeZlpXR3S2pUeNXMcH2hDiP3vFowcyp9XTikh5JsnmhG8jzlVY8YXVe3xhwef8MF5JFvNw/rxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747804221; c=relaxed/simple;
-	bh=6ANwvXRToyj74uoL+RkehG6w9CESGWalXya3wnNzy84=;
+	s=arc-20240116; t=1747808548; c=relaxed/simple;
+	bh=tb0rv2Vx5a2jleh89F17Y3/qSV1RVB+jnQkZ+iooR9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ip+IxgGIlVqSy9iF5lUcAen0q4iuGD0llogUJ4u67SUdb3PN4taekHwXg8NN97sVsuFDOngMy0U2pcgbHGvAkeKxdcawR4SUEToUivgc0awhVvYi56fIiBoarMVaka3fUsqNq2Ll3DkaguU3kV95qtL044CzAKg9BCHWMus7cU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BSuaCidq; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=UHG/zZpUvehz5czCKDWlFV/yvNNAJ8f1DglpAAd0ZAwVwgLNUyYxIp0HMIEaxTGb5J4xuyDFI+k8qvQYFSF7T4JnUvQBNlRiY4GRqZKFix7TORCEltkdsMKFvwn0v+WnOdbbLPe6gJw8M2SqUY7ppE/cn7IbaOopZ7YtBrbzhC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L91Cy+4R; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSuaCidq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L91Cy+4R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747804219; x=1779340219;
+  t=1747808546; x=1779344546;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6ANwvXRToyj74uoL+RkehG6w9CESGWalXya3wnNzy84=;
-  b=BSuaCidqX3B9PSFtymp2f6yMIYmLSS+u7P8WS7B1h5GKm6U/hR6xNqbG
-   05/Rqv2KiUxrX9tiIeIh+84TVMwsHCTnsWvMacTRSUWVxCKt4qw0L5X99
-   nu4bPlSbNan2zrxKGPhVY2q1tveNfXjnMKsNigCXvuxMffDpbsWe+Khup
-   OZSCN2fWXdhoVmEpB1T3V2HXRC5tQDKPSzyxV0eWdk9VYscAZugqatvTV
-   zDKsGPYUezYgTtcoEbZ9uZRTIU8RO2SzUTqYbnpLNZWFxztUK/DyCxtb3
-   sKYz31PEADoE3jQKtYunsSgLgx8gR/f9+E+WGu9WRTjzHSGotj4N0glK7
-   w==;
-X-CSE-ConnectionGUID: ZYkhto2YRHa+KknsSoFdfQ==
-X-CSE-MsgGUID: cIUYITIqSzqv66Vc+dlQiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="59994539"
+  bh=tb0rv2Vx5a2jleh89F17Y3/qSV1RVB+jnQkZ+iooR9c=;
+  b=L91Cy+4RI8l5y1/l+XaBQO6Mn6n6VjMo/2mqGuWPI7kRFHKgZxjG3o5x
+   pCnB2mOjncdVRr8TQN+Iq/IFwk1BMzpeDvHtgVmtZbpbHpMckJq+q9Blz
+   6MYjCedEK9mvJA1TDnUg8fZiQ7A4nRCJZSn12WtgxsXRMYIBRVNjkIIyj
+   VWRx7c5KK/3WTUyM2e02hWXPG/LxWY/iyzUKtyQvZq0qq6bJWhK4Gtown
+   lEOLJkSo6GHKLaewNET87b6Ty9qf4Uz65s/63eyUZyJLz3a0xKLXuyhAr
+   dii+lgX8HMJOCv+GN+CqrgcILN2QYaNbIT3JA/aiRL9l5xYH5hFJBYneu
+   A==;
+X-CSE-ConnectionGUID: EBIH4X6hQtCyWnon+EwY9g==
+X-CSE-MsgGUID: VRZMXTaRSrKnyegBCrXIsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="48889189"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="59994539"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 22:10:19 -0700
-X-CSE-ConnectionGUID: su1vvr4jRSWcVsNfQ/gMJQ==
-X-CSE-MsgGUID: NB74JGMHQZWzNNzhgNRreg==
+   d="scan'208";a="48889189"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 23:22:25 -0700
+X-CSE-ConnectionGUID: GXlRqALoS0uccgFl2mHRKA==
+X-CSE-MsgGUID: 7hZG0tzyRiagYZZRaMdS1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="139806850"
+   d="scan'208";a="170928938"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 May 2025 22:10:17 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 20 May 2025 23:21:23 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHbiZ-000Nt6-0s;
-	Wed, 21 May 2025 05:10:15 +0000
-Date: Wed, 21 May 2025 13:09:18 +0800
+	id 1uHcpN-000NwK-1L;
+	Wed, 21 May 2025 06:21:21 +0000
+Date: Wed, 21 May 2025 14:21:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, xiajingze <xiajingze1@huawei.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2263/2263] drivers/message/fusion/mptbase.o:
- warning: objtool: mpt_interrupt+0x1593: unreachable instruction
-Message-ID: <202505211254.LgwpVTzi-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1327/1327] mm/vmscan.c:3257:21: error:
+ implicit declaration of function 'kernel_swap_enabled'
+Message-ID: <202505211409.Yqcxm2Qg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   60b649bb3c3ac2d6c073ccc63fa68c3166183c34
-commit: 241ad43fe7e9c24d5ba4cdd1ec22e731cdd22d14 [2263/2263] Compiler: Add clang's PGO support for kernel.
-config: x86_64-randconfig-r063-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211254.LgwpVTzi-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211254.LgwpVTzi-lkp@intel.com/reproduce)
+Hi liubo,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   2eb609d2f89b2d85d89cb018c3f97050989807e2
+commit: 44983705e56ab22fda801d66e2a6bd0d1be7ca0b [1327/1327] etmem: add original kernel swap enabled options
+config: x86_64-buildonly-randconfig-005-20241216 (https://download.01.org/0day-ci/archive/20250521/202505211409.Yqcxm2Qg-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211409.Yqcxm2Qg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505211254.LgwpVTzi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505211409.Yqcxm2Qg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/message/fusion/mptbase.c:56:
-   In file included from include/linux/pci.h:1666:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2235:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
->> drivers/message/fusion/mptbase.o: warning: objtool: mpt_interrupt+0x1593: unreachable instruction
+   mm/vmscan.c:2734:17: warning: variable 'node_lru_pages' set but not used [-Wunused-but-set-variable]
+    2734 |                 unsigned long node_lru_pages = 0;
+         |                               ^
+>> mm/vmscan.c:3257:21: error: implicit declaration of function 'kernel_swap_enabled' [-Werror,-Wimplicit-function-declaration]
+    3257 |         if (sc != NULL && !kernel_swap_enabled())
+         |                            ^
+   mm/vmscan.c:3257:21: note: did you mean 'kernfs_ns_enabled'?
+   include/linux/kernfs.h:309:20: note: 'kernfs_ns_enabled' declared here
+     309 | static inline bool kernfs_ns_enabled(struct kernfs_node *kn)
+         |                    ^
+   1 warning and 1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ACPI_HOTPLUG_IGNORE_OSC
-   Depends on [n]: ACPI [=y] && ACPI_HOTPLUG_CPU [=n]
-   Selected by [y]:
-   - X86 [=y] && ACPI [=y] && HOTPLUG_CPU [=y]
+
+vim +/kernel_swap_enabled +3257 mm/vmscan.c
+
+  3250	
+  3251	/*
+  3252	 * Check if original kernel swap is enabled
+  3253	 * turn off kernel swap,but leave page cache reclaim on
+  3254	 */
+  3255	static inline void kernel_swap_check(struct scan_control *sc)
+  3256	{
+> 3257		if (sc != NULL && !kernel_swap_enabled())
+  3258			sc->may_swap = 0;
+  3259	}
+  3260	
 
 -- 
 0-DAY CI Kernel Test Service
