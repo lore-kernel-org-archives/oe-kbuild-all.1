@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA76B1C860B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 04:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB2520E711
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 04:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747802899; cv=none; b=thauZTI3UZMUslsmUdhoqeqFMUVyd/qGjISWyMCl0jaI+sIFuVACNOtkAuW69bmcfbrtwLhFkY+ual63/R6Z/7Gc3fwzz6HB5hP2IucaeDw0rTK7dzmNMod9mPWm7NJlfIb7NX12LkPQZt2EmIUFGOIR3jQ5+jvb/iAyk1CRHF4=
+	t=1747802901; cv=none; b=HvPvLk18JiJQjBA5fBZxpvG/xZCGxSRdoknjM8vKZ8uC9bKVBJJMszu/mdQeME7XoBChU7xQhgdYZEH1jMiqglDi9muPjv23LLYqRuAg19eglXU51saGb6WM0uiVRuUGZ1/iRaEKy9DLQ9YY8hdZ99d+RhCN532GbHZtykbpWWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747802899; c=relaxed/simple;
-	bh=gUsNh2/pXAFoKQc9jNhu0Vb12b/RcJfrCG+ITAUcIWo=;
+	s=arc-20240116; t=1747802901; c=relaxed/simple;
+	bh=Wdbwljnq+hwAFlj7xsMIY+rzYvm4f5h+HZeF3VJzMoo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oTLKxnw6G6kVUaaaDNLv0O8Vn5LA27B+r0HIo8lUVenne4SGJnsqsycqR0nu0/PCrmUulxd9Ksm+gr0bx/xpIdl+/ifsqTlXPfX8w1Qcv79UmC8/khegS4m6aisJcXjqB5TI5d7pt4M6ZCbjs22YQhtppOW1DDQIys5Dwdb+LT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H54Wx9kP; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=rlr5FpcNl1au0mQpAbIWVkb97d1fyjsZCGuGZ4lqRjferdNXCyHhwaRefPeLAMwmkme2DZY3kqxsaI+QTzBOoKzsvU0/sDFwYVDlJUiEZ+IO1rdxyk2s7YI+yij/dzxCnBxuwqQBlx9JwJzzkWiYzSNwhAfjMGMBRHZC1trCbm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e3Vbmrb0; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H54Wx9kP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e3Vbmrb0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747802898; x=1779338898;
+  t=1747802900; x=1779338900;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gUsNh2/pXAFoKQc9jNhu0Vb12b/RcJfrCG+ITAUcIWo=;
-  b=H54Wx9kPfSbgzxacpKxoot+8oId8OtAe2VhTVg9FykbdWrRZCuLCgWgE
-   UaPJp3ir4J+uSFzEacCK8TL+LXX0Gx4oeAYDqsPtnhynTHi7C01iZ/war
-   qr4Pp+g1hrdfjqqXaSW3sm8SGSQy3dBB04IwaZjCCd9OGwQAhPOaNDk10
-   AQ1XeljqZSqYsxeKtGpyWTeYMA/9e+4r2LJJFeosV9tTT5FC/WqhPAknT
-   94M1b3QhXoDdKB+joupVFfyxP1gf+2WvebPXGX+fGbqCNH++pOS3QPQNC
-   ooq8nwfx79eIt+D5xhhWW5oB128i8B/rOEBU+GffOfi3ud6f7xyauOugW
-   g==;
-X-CSE-ConnectionGUID: YBS+rKrwRv6pkdjp42VRRA==
-X-CSE-MsgGUID: x6yOylrOTEuFhQ3XAN7iPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49022983"
+  bh=Wdbwljnq+hwAFlj7xsMIY+rzYvm4f5h+HZeF3VJzMoo=;
+  b=e3Vbmrb0I5TiraoNXUCyhYwXMnIxG9xnKQ5e3iprbxr6D4RO0Pv598Rn
+   c1o0rKYXkErePMGDoG8anKuRP6uoVPraZN5AG/jUWLJYUQbuB1J4lomXv
+   wa6XVXklnbuuCDZCHPfqFkQePacZ/LKmn8N2KKM/jBs0PNITAYrPFfwEw
+   tUkNdlw+i6GweAQA3mdi6LFvalZ1uI4fN5sYY7Tq6nOih+4MtMEBO25hM
+   wFPvu2DA61FvqV6Kf8sTboOFuCe/0vQVa6wQLIYCazBB5iQv6kfKHfC3j
+   N8V6G3hgcQDEb1MCY7kLCa7TqmYDOJ4+bENQfVt8jjtk+R2TO5AOwb6NI
+   w==;
+X-CSE-ConnectionGUID: BFvk3TbYTw2ZrIu+cwM8+A==
+X-CSE-MsgGUID: 8qWn1aMtSHmD4rrGcsLPwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49022984"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="49022983"
+   d="scan'208";a="49022984"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 21:48:17 -0700
-X-CSE-ConnectionGUID: JrhOtdVFQU6EXR4lrDzp3A==
-X-CSE-MsgGUID: n4kXt5QfRPmpASRn8ES1BQ==
+X-CSE-ConnectionGUID: 8A+jro2KRAaEJdhwwmStvw==
+X-CSE-MsgGUID: TvpNNGHOT6CSjL2QChKhkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="144639208"
+   d="scan'208";a="144639211"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 20 May 2025 21:48:16 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHbNF-000Ns2-0Y;
+	id 1uHbNF-000Ns8-0e;
 	Wed, 21 May 2025 04:48:13 +0000
-Date: Wed, 21 May 2025 12:47:52 +0800
+Date: Wed, 21 May 2025 12:47:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 0/1]
- arch/x86/kernel/cpu/common.c:2128: undefined reference to
- `amd_check_microcode'
-Message-ID: <202505211232.lS5X9tIn-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 35/35]
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c:48:6: warning: no previous prototype
+ for 'resctrl_arch_mon_event_config_read'
+Message-ID: <202505211225.TYY4Hqkl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +63,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Borislav,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   19c222d1fa1b012550595ea81fc039b4b57d933e
-commit: 00363ef30797211c247605464dc3daaa988531a2 [0/1] x86/cpu/amd: Add a Zenbleed fix
-config: x86_64-randconfig-121-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211232.lS5X9tIn-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   c30fc59e8f3a43d47f689edb48164b67c6704b07
+commit: 55f5270f74d9982d3f09854345877f1db4dda01f [35/35] x86/resctrl: Remove MSR reading of event configuration value
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250521/202505211225.TYY4Hqkl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211232.lS5X9tIn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211225.TYY4Hqkl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505211232.lS5X9tIn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505211225.TYY4Hqkl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: arch/x86/kernel/cpu/common.o: in function `microcode_check':
->> arch/x86/kernel/cpu/common.c:2128: undefined reference to `amd_check_microcode'
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:48:6: warning: no previous prototype for 'resctrl_arch_mon_event_config_read' [-Wmissing-prototypes]
+      48 | void resctrl_arch_mon_event_config_read(void *info)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:65:6: warning: no previous prototype for 'resctrl_arch_mon_event_config_write' [-Wmissing-prototypes]
+      65 | void resctrl_arch_mon_event_config_write(void *info)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2128 arch/x86/kernel/cpu/common.c
+vim +/resctrl_arch_mon_event_config_read +48 arch/x86/kernel/cpu/resctrl/rdtgroup.c
 
-  2116	
-  2117	/*
-  2118	 * The microcode loader calls this upon late microcode load to recheck features,
-  2119	 * only when microcode has been updated. Caller holds microcode_mutex and CPU
-  2120	 * hotplug lock.
-  2121	 */
-  2122	void microcode_check(void)
-  2123	{
-  2124		struct cpuinfo_x86 info;
-  2125	
-  2126		perf_check_microcode();
-  2127	
-> 2128		amd_check_microcode();
-  2129	
-  2130		/* Reload CPUID max function as it might've changed. */
-  2131		info.cpuid_level = cpuid_eax(0);
-  2132	
-  2133		/*
-  2134		 * Copy all capability leafs to pick up the synthetic ones so that
-  2135		 * memcmp() below doesn't fail on that. The ones coming from CPUID will
-  2136		 * get overwritten in get_cpu_cap().
-  2137		 */
-  2138		memcpy(&info.x86_capability, &boot_cpu_data.x86_capability, sizeof(info.x86_capability));
-  2139	
-  2140		get_cpu_cap(&info);
-  2141	
-  2142		if (!memcmp(&info.x86_capability, &boot_cpu_data.x86_capability, sizeof(info.x86_capability)))
-  2143			return;
-  2144	
-  2145		pr_warn("x86/CPU: CPU features have changed after loading microcode, but might not take effect.\n");
-  2146		pr_warn("x86/CPU: Please consider either early loading through initrd/built-in or a potential BIOS update.\n");
-  2147	}
-  2148	
+565d540ab0161e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2019-03-20  47  
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22 @48  void resctrl_arch_mon_event_config_read(void *info)
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  49  {
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  50  	struct resctrl_mon_config_info *mon_info = info;
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  51  	unsigned int index;
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  52  	u64 msrval;
+ac3f4c7f40e60a arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-02-13  53  
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  54  	index = mon_event_config_index_get(mon_info->evtid);
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  55  	if (index == INVALID_CONFIG_INDEX) {
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  56  		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  57  		return;
+3ced7bf9de896f arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-02-13  58  	}
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  59  	rdmsrl(MSR_IA32_EVT_CFG_BASE + index, msrval);
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  60  
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  61  	/* Report only the valid event configuration bits */
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  62  	mon_info->mon_config = msrval & MAX_EVT_CONFIG_BITS;
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  63  }
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  64  
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22 @65  void resctrl_arch_mon_event_config_write(void *info)
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  66  {
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  67  	struct resctrl_mon_config_info *mon_info = info;
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  68  	unsigned int index;
+ac3f4c7f40e60a arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-02-13  69  
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  70  	index = mon_event_config_index_get(mon_info->evtid);
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  71  	if (index == INVALID_CONFIG_INDEX) {
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  72  		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  73  		mon_info->err = -EINVAL;
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  74  		return;
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  75  	}
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  76  	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  77  
+b8939a341b6f68 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  78  	mon_info->err = 0;
+0b9aa6562650f4 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  79  }
+0b9aa6562650f4 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  80  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: b8939a341b6f68f80e299396f889c15e757da605 x86/resctrl: Move the resctrl filesystem code to /fs/resctrl
+
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: Qinyun Tan <qinyuntan@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
