@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C97F259C91
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 09:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE142254869
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 10:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747821109; cv=none; b=Rwl42ZUhpHcMB9eBTqCDdhKMApUSe7Mm8kmQqu6nrxCSODusz4FF19k4AGZ7op6rPqBPHI/IWoNfzL/zuxSutjCkAjDF+KEcCQh4cGR4UA/+zoC7K1ipOAO1ht0+ArINoX4aB7vRsOA4KPDcJN+dijxMq4+bGA8k7NqhOWLo//g=
+	t=1747822308; cv=none; b=eB023Scuvrh5/l29oyv8xUTkO1oAuUKIf2aOYoduOmZot8707EvcZ3Iex7QuQH0SCLk0AxoqRj9yPhdB4CYvMD1qCTrcPtPG4/PF6KfJgPvg9CShzm5YuIxEM0pLTOpXxojvRQA2OL7XqVawacae6xMK5VKNn60J0fVFn6Ac94w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747821109; c=relaxed/simple;
-	bh=nfbEjV0T4T1getVpg5GIisJpvPkxatulP54GSHOoNaA=;
+	s=arc-20240116; t=1747822308; c=relaxed/simple;
+	bh=fj3n1rUk0Hb1cBtVASv9EhUFHybcRGppy2+gHRLRoNE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JQE9tQs7xQi09yRf1DE+5RQSCgO+NN2yFrnzqj6m5CxqNHhzU0/gMKTaNDRIDfkOBjXc1ARAzEmKOsmV4YlRIWlf1cU9oWPWEObKIjFJN5ldWfWC3uGfLiwBs/W4pLzdJmOeQbwchUjG26hH0YJiOZd0ApXAtaFJIDLPL7Mk3+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPyke1dR; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=eajCcO9jOYFftr0HXyOz7SWLKT7gdTh/AqI6AWNWOQujYrnmGeDSQdrzivp41hPqCHVBrmw5Uu+UKhZKWEI/kap/pDPXi19S+r4+Mu2Hqs74toJeuLQiuxAJTKTZwpg/kM8B0ny8/bHSbVe5phGIHqj6L9Bb/Qecn+NJWb8ElTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9dcH6SJ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPyke1dR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9dcH6SJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747821107; x=1779357107;
+  t=1747822307; x=1779358307;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nfbEjV0T4T1getVpg5GIisJpvPkxatulP54GSHOoNaA=;
-  b=dPyke1dRQIixtBsHygv81zLbJ0yojsgPNBC0k2UHikUY5XMTEmiYiwFB
-   3R70gFMzWh9ywEhIqJukDPLyed5EDNfnsfNhYJl9/FrasmUdeTMB5MI6Z
-   BUH0W4xgZgUrWxP8ZeaUH7pHhJFJWBc3elCA9NVW/1hdybdHz1a3gEjmu
-   RFjYUxyOYp99yO9DNkv+po9eVz4CPWKRMfiJD1/UY8hp6045YPvi88fUA
-   AED8gB5OYp4yIAgARxXI/sP8ku/yyNPoOJb8eHV6c7NaXhWoAHaFBIQ49
-   GtYf35RUIX/w5wy9cW98VWT44OGXaJFkF9uvzMPeo4wUlliwXzNvitdSm
-   A==;
-X-CSE-ConnectionGUID: hqn/0zjZR0K9YsfbPGs1DQ==
-X-CSE-MsgGUID: OqKrsa//SM6JoSqT6fPJZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49051128"
+  bh=fj3n1rUk0Hb1cBtVASv9EhUFHybcRGppy2+gHRLRoNE=;
+  b=d9dcH6SJQkfOQO42EEKpld+p5PpmXCQtWmDaTJ7jPnGpIQy4mg/Majei
+   CN2h8qU9vMGYBiZdBUbYfagd0Tq3uzGImrgKLo9crqJMVqQRcUrEiQjSa
+   zXCYyy356S6h5GpnMf8hFh7r+oC1z+r0LRVICknGmfmBHwO7dqc1Ilxr3
+   4mpi4N8UUIdvQDm0A9HytP3GvIQ7dwPTS2koCH9A90X0zqWGhPuCiRN6/
+   j5ACDTwIcf6x33xnhpvGtlYJRkzkOraS87bJ/bgseebMXoBUPr8OYXQFv
+   qryiWetYwpx/GM05pA6ht8op/BEUfprx7NxGGbqaQ14c4ajnk4qVTCscQ
+   Q==;
+X-CSE-ConnectionGUID: TSrrN9gER26u/9205PgCNA==
+X-CSE-MsgGUID: 6CqS4ME7SziJR9xUj61+1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49717987"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="49051128"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 02:51:44 -0700
-X-CSE-ConnectionGUID: ZRCeMf94T8CL/YttmHq0ZA==
-X-CSE-MsgGUID: CCiU+BHxS96FL18oWQVEgw==
+   d="scan'208";a="49717987"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 03:11:46 -0700
+X-CSE-ConnectionGUID: yoPJelr/QtS7VAFxn8LvhA==
+X-CSE-MsgGUID: 9hKcquakR1GMmGtWMdU2bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="177139719"
+   d="scan'208";a="140510795"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 May 2025 02:51:43 -0700
+  by orviesa007.jf.intel.com with ESMTP; 21 May 2025 03:11:45 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHg6u-000O6y-2o;
-	Wed, 21 May 2025 09:51:40 +0000
-Date: Wed, 21 May 2025 17:50:51 +0800
+	id 1uHgQI-000O8O-2Q;
+	Wed, 21 May 2025 10:11:42 +0000
+Date: Wed, 21 May 2025 18:11:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 36/43] fs/nfsd/filecache.c:746: undefined reference
- to `nfsd_handle_dir_event'
-Message-ID: <202505211739.hqVud436-lkp@intel.com>
+To: Daisuke Matsuda <matsuda-daisuke@fujitsu.com>
+Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
+Subject: [linux-next:master 2016/11779]
+ include/linux/compiler_types.h:557:45: error: call to
+ '__compiletime_assert_748' declared with attribute error: Need native word
+ sized stores/loads for atomicity.
+Message-ID: <202505211820.JOq2y5qj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,56 +64,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   0f5740633a2679479da26057d462e4586d88ab90
-commit: e8d81f6e93c8e360920520ad08096b8937def9e0 [36/43] nfsd: add notification handlers for dir events
-config: microblaze-randconfig-r071-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211739.hqVud436-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211739.hqVud436-lkp@intel.com/reproduce)
+Hi Daisuke,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8566fc3b96539e3235909d6bdda198e1282beaed
+commit: b84001ad0ceeb34bc3fd6c383f197326d4fe8353 [2016/11779] RDMA/rxe: Enable ODP in ATOMIC WRITE operation
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250521/202505211820.JOq2y5qj-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211820.JOq2y5qj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505211739.hqVud436-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505211820.JOq2y5qj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   microblaze-linux-ld: fs/nfsd/filecache.o: in function `nfsd_file_fsnotify_handle_event':
->> fs/nfsd/filecache.c:746: undefined reference to `nfsd_handle_dir_event'
+   In file included from <command-line>:
+   drivers/infiniband/sw/rxe/rxe_odp.c: In function 'rxe_odp_do_atomic_write':
+>> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_748' declared with attribute error: Need native word sized stores/loads for atomicity.
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:560:9: note: in expansion of macro 'compiletime_assert'
+     560 |         compiletime_assert(__native_word(t),                            \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:141:9: note: in expansion of macro 'compiletime_assert_atomic_type'
+     141 |         compiletime_assert_atomic_type(*p);                             \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/sw/rxe/rxe_odp.c:420:9: note: in expansion of macro 'smp_store_release'
+     420 |         smp_store_release(&va[page_offset >> 3], value);
+         |         ^~~~~~~~~~~~~~~~~
 
 
-vim +746 fs/nfsd/filecache.c
+vim +/__compiletime_assert_748 +557 include/linux/compiler_types.h
 
-   734	
-   735	static int
-   736	nfsd_file_fsnotify_handle_event(struct fsnotify_mark *mark, u32 mask,
-   737					struct inode *inode, struct inode *dir,
-   738					const struct qstr *name, u32 cookie)
-   739	{
-   740		if (WARN_ON_ONCE(!inode))
-   741			return 0;
-   742	
-   743		trace_nfsd_file_fsnotify_handle_event(inode, mask);
-   744	
-   745		if (dir)
- > 746			return nfsd_handle_dir_event(mask, inode, dir, name);
-   747	
-   748		/* Should be no marks on non-regular files */
-   749		if (!S_ISREG(inode->i_mode)) {
-   750			WARN_ON_ONCE(1);
-   751			return 0;
-   752		}
-   753	
-   754		/* don't close files if this was not the last link */
-   755		if (mask & FS_ATTRIB) {
-   756			if (inode->i_nlink)
-   757				return 0;
-   758		}
-   759	
-   760		nfsd_file_close_inode(inode);
-   761		return 0;
-   762	}
-   763	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+
+:::::: The code at line 557 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
