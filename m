@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1881C212B3B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 15:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E604C227E94
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 15:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747841839; cv=none; b=pRxPtzA3FlPb0JppIIlZfH7P3HdQ/+mVO1hYtAIrm2i5pXvch8zAHf+xuZB/BdOI96/J4eJFMJet8emHNBsTUNTwdDqibHOP4THsxlWs9v6DSmjJOTuDB2SgtolDGxRPXuBmJoXb7u+H/aMezJAUli8Q8gfLmERvVHW0RzbEroU=
+	t=1747843039; cv=none; b=U9LTtZd5XLXihr1eKEyzv85heDKC6EnHhbisQMarTT08iyLbDDf57jxNDfNo46TnoLnMVw+FYZsug14ftUkOts++txDqkSDV+0KQ5XlZPfQfTb7icjsFc91q83agncioBTPZIgBlrCV8o6ajHYI/tEcZgYLoybUY9BvAjKie2ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747841839; c=relaxed/simple;
-	bh=jc1/UTbPukp1asAgfawdF1dPeTb92k2/dHpoHyOzvKM=;
+	s=arc-20240116; t=1747843039; c=relaxed/simple;
+	bh=cu+NuJemimQYmwhNsSM3z/pVnmIZv/JSAilKNPCIcvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pevIfu4qzsRAq7eQMNbRMFuIsaBVC6RmNz7ZoY9cbCkjUae8ZKUdt5PmWjpFzYGbB+O3K7uu2fULLGTOZej8T7PdfVX/7DDAXAQBFp05DXscle7/HxCJkOJczxEh4dDRrVeJ/nd211Q/8c4RQSlNNV09B9hbxdT0gQ3P0qPGurc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LwsuTXmR; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=CKXUH30fiyy3C67CQCNQPREwkaXa98p23Ds/FfngYxScuHb1yLG/dMnPF/XoFj3nksX+l8/sFtefhMR9M1I55z+AEZEvJ8WER5CncFctJpsQ+/MlfKmf17TN4JAsgLpcqDhZ0DOgelwBe0iZzL7RfXHWNMYo12oCjgz0TCqnC+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FLs6pzax; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LwsuTXmR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FLs6pzax"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747841838; x=1779377838;
+  t=1747843038; x=1779379038;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jc1/UTbPukp1asAgfawdF1dPeTb92k2/dHpoHyOzvKM=;
-  b=LwsuTXmR6vaz/nDYYVgL4YXCpPh4RMM9EW0qdx/lgPruZ1UekcxMIHSx
-   C9w7GPZ1iIRC84VxAklbzFTpnyP/YV9ECjDyMx5rH/3mQ727qfikvlRIx
-   i5jBSx7h5J9JCsIR1GSJbwMkU+r9Mo2ysQb7L9w8lNxYkmvDPc14CbQew
-   K8wdSjTjQQmkRTQy+iYeqgXTSfcYVYO4i1S3WyBwHzFxZNH7wPpKtlFK0
-   pMeYasHRQiNYbV1qXBHF9ImdkicQTSf11eJJwXdldhz9oYttbo/pmxbcf
-   JXf7IhCKg0+JRVJT24fm3PuIDXz4ClgXhcCLCO7/IMSlndD15fT/7ERU8
-   Q==;
-X-CSE-ConnectionGUID: baumWi65RyeqV0X6r5cy5A==
-X-CSE-MsgGUID: xCKwYVXXQzia1e0MpRsRgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="48945178"
+  bh=cu+NuJemimQYmwhNsSM3z/pVnmIZv/JSAilKNPCIcvY=;
+  b=FLs6pzaxFx6o5PGPUBO6eD2bYGQghWXF6jbNwwur9pAb0FznejKKYPTI
+   +KMHfHNRDJ+/zisa5tXSR6UFUUPQIfbF5t+yEowbCLlxFeLXtyi/SGd4Z
+   dmEpsStoDIhJjb3kGr4hYNlOZyWPBWb2x2kF590+ZHtF391GMelOI+4LF
+   lVsq/qPmyNRR3Z7gy40i9KZ7V/A4OYEDZjY2dIJvtwby2pXpXdOF9X4K4
+   QSqKzzkKyU3NzFF9MYeXWFGLrjRZvrlcf1UxYJT/fk256my/K+R0Fw1gk
+   D/o7+rPIbr3nOCrdN5wJEpvyRNmEaHbfLJM8cxSaUWvEbTrG2+5+ik88a
+   w==;
+X-CSE-ConnectionGUID: Lw5CwzPzRVaLMniKvCFR9Q==
+X-CSE-MsgGUID: HEVDC3wSQFeryewHMGTWKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49088880"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="48945178"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 08:37:15 -0700
-X-CSE-ConnectionGUID: hT/tHS8MR2Oe+f3iZiDqjw==
-X-CSE-MsgGUID: pBGDPZqaSlOJZfqfi4iZ0A==
+   d="scan'208";a="49088880"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 08:57:17 -0700
+X-CSE-ConnectionGUID: thJYo7RuQ3aTMXIseYI9RA==
+X-CSE-MsgGUID: T4hGK9ZRRlOgA33Gev9T1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="140645215"
+   d="scan'208";a="145391427"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 21 May 2025 08:37:14 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 May 2025 08:57:16 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHlVI-000OPA-0L;
-	Wed, 21 May 2025 15:37:12 +0000
-Date: Wed, 21 May 2025 23:36:19 +0800
+	id 1uHlof-000OPw-2T;
+	Wed, 21 May 2025 15:57:13 +0000
+Date: Wed, 21 May 2025 23:57:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 12611/12618] include/linux/compiler.h:191:9:
- error: '__v' undeclared
-Message-ID: <202505212325.2ZmguXFx-lkp@intel.com>
+To: Baisong Zhong <zhongbaisong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: kernel/sched/rt.c:9:18: warning: 'max_rt_runtime' defined but not
+ used
+Message-ID: <202505212328.gm09NHiP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7bac2c97af4078d7a627500c9bcdd5b033f97718
-commit: bd8589c92d7f22712f27ff92f45defa2362123b5 [12611/12618] Merge branch 'for-next/kspp' of git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git
-config: microblaze-allnoconfig (https://download.01.org/0day-ci/archive/20250521/202505212325.2ZmguXFx-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505212325.2ZmguXFx-lkp@intel.com/reproduce)
+Hi Baisong,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4a95bc121ccdaee04c4d72f84dbfa6b880a514b6
+commit: 28f152cd0926596e69d412467b11b6fe6fe4e864 sched/rt: fix build error when CONFIG_SYSCTL is disable
+date:   3 years, 2 months ago
+config: csky-randconfig-r001-20230826 (https://download.01.org/0day-ci/archive/20250521/202505212328.gm09NHiP-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505212328.gm09NHiP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505212325.2ZmguXFx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505212328.gm09NHiP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from include/linux/backing-dev.h:12,
-                    from mm/vma_internal.h:12,
-                    from mm/vma_init.c:8:
-   mm/vma_init.c: In function 'vm_area_init_from':
-   include/linux/string.h:398:9: error: expected expression before 'do'
-     398 |         do {                                                    \
-         |         ^~
-   include/linux/compiler.h:189:28: note: in definition of macro 'data_race'
-     189 |         __auto_type __v = (expr);                                       \
-         |                            ^~~~
-   mm/vma_init.c:58:19: note: in expansion of macro 'memcpy'
-      58 |         data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared)));
-         |                   ^~~~~~
->> include/linux/compiler.h:191:9: error: '__v' undeclared (first use in this function)
-     191 |         __v;                                                            \
-         |         ^~~
-   mm/vma_init.c:58:9: note: in expansion of macro 'data_race'
-      58 |         data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared)));
-         |         ^~~~~~~~~
-   include/linux/compiler.h:191:9: note: each undeclared identifier is reported only once for each function it appears in
-     191 |         __v;                                                            \
-         |         ^~~
-   mm/vma_init.c:58:9: note: in expansion of macro 'data_race'
-      58 |         data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared)));
-         |         ^~~~~~~~~
+   In file included from kernel/sched/build_policy.c:43:
+   kernel/sched/rt.c:309:6: warning: no previous prototype for 'unregister_rt_sched_group' [-Wmissing-prototypes]
+     309 | void unregister_rt_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:311:6: warning: no previous prototype for 'free_rt_sched_group' [-Wmissing-prototypes]
+     311 | void free_rt_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:313:5: warning: no previous prototype for 'alloc_rt_sched_group' [-Wmissing-prototypes]
+     313 | int alloc_rt_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/rt.c:716:6: warning: no previous prototype for 'sched_rt_bandwidth_account' [-Wmissing-prototypes]
+     716 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/rt.c:9:18: warning: 'max_rt_runtime' defined but not used [-Wunused-const-variable=]
+       9 | static const u64 max_rt_runtime = MAX_BW;
+         |                  ^~~~~~~~~~~~~~
 
 
-vim +/__v +191 include/linux/compiler.h
+vim +/max_rt_runtime +9 kernel/sched/rt.c
 
-6f33d58794ef4c Rusty Russell         2012-11-22  167  
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  168  /**
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  169   * data_race - mark an expression as containing intentional data races
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  170   *
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  171   * This data_race() macro is useful for situations in which data races
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  172   * should be forgiven.  One example is diagnostic code that accesses
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  173   * shared variables but is not a part of the core synchronization design.
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  174   * For example, if accesses to a given variable are protected by a lock,
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  175   * except for diagnostic code, then the accesses under the lock should
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  176   * be plain C-language accesses and those in the diagnostic code should
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  177   * use data_race().  This way, KCSAN will complain if buggy lockless
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  178   * accesses to that variable are introduced, even if the buggy accesses
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  179   * are protected by READ_ONCE() or WRITE_ONCE().
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  180   *
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  181   * This macro *does not* affect normal code generation, but is a hint
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  182   * to tooling that data races here are to be ignored.  If the access must
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  183   * be atomic *and* KCSAN should ignore the access, use both data_race()
-020e6c22bd6e67 Paul E. McKenney      2024-05-10  184   * and READ_ONCE(), for example, data_race(READ_ONCE(x)).
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  185   */
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  186  #define data_race(expr)							\
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  187  ({									\
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  188  	__kcsan_disable_current();					\
-7c812814e8c34a Alexey Dobriyan       2024-06-24 @189  	__auto_type __v = (expr);					\
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  190  	__kcsan_enable_current();					\
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11 @191  	__v;								\
-37d1a04b13a6d2 Thomas Gleixner       2020-06-11  192  })
-230fa253df6352 Christian Borntraeger 2014-11-25  193  
+d505b8af58912a Huaixin Chang  2020-04-25  @9  static const u64 max_rt_runtime = MAX_BW;
+ce0dbbbb30aee6 Clark Williams 2013-02-07  10  
 
-:::::: The code at line 191 was first introduced by commit
-:::::: 37d1a04b13a6d2fec91a6813fc034947a27db034 Rebase locking/kcsan to locking/urgent
+:::::: The code at line 9 was first introduced by commit
+:::::: d505b8af58912ae1e1a211fabc9995b19bd40828 sched: Defend cfs and rt bandwidth quota against overflow
 
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: Huaixin Chang <changhuaixin@linux.alibaba.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
