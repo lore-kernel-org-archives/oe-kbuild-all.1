@@ -1,45 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F53239E9B;
-	Wed, 21 May 2025 22:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16541134AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 22:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747867495; cv=none; b=E5twtJrzt3Dxp+aOpM5+DFRIfNE/HLz1DwiUIpWvpwPXT9UJNPKAu/YmMccd8kLEpiMhlqkg7aw5H5FAsKP0yzKHz1SWEdaaoL9FhTv4dLywdM4+Z3gAhYkT+9FKfEa9TB86jMayprgN6XfAGJygJFlaptBZNk8/qPXpsyn4ZNE=
+	t=1747867855; cv=none; b=Gwa6Y/EDIaoo765sTZm8f9T4T78K/yVLxTn2mpzdmfI3ypDUFrOoJ3cn7GbVsBopSogjAXQ+2VIoSAw/HhdN4omZOOIHHhsCPSuAX+J7C7vD+XecExIo9cIK/MlpcnY6QfBbwqb2UEA7z+RpHeueOAKdcF5kc8Keaohbl13UoiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747867495; c=relaxed/simple;
-	bh=RFci8NiCtNuJUGrSSysrHVigN36hprEjbgn8kcBN20I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hZroYqVRUASDMSLUu0Uk71hgWnX57jsLR+C+1YKsofCyFWsHaxd1xxOMuv4lT/6vCWsWIFQ46Xw+nq3NSB1SrSMdxgm+muup7gdAyTZFPrQDn+B9OtpRcRZig6nGTcEaZ1PNqD2e06HZsE3+fv4o09RF4xf+WuS20fHTz9aoHOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OMKWrxAy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747867855; c=relaxed/simple;
+	bh=CQsh+OoyYiMPXVY0UkDKGT2pUr6P/bOoxymH4+OWQQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uhXb9NPGFB84vtohH+m8MQmxehzzdFzkDdRZx0LAaKG3tcduUZxt275tSEsY+Zeh9DkEU7tevwzZNunxKglNUOkNAr/taOcxn9cr5DTwBUwENK54/7T1N6CEsTTvIbPaMBPHbatiiSl6OJEYM0FcKWFg31A0G+q2Ptz3Abian58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ob601ZqC; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OMKWrxAy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B1F6C4CEE4;
-	Wed, 21 May 2025 22:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747867494;
-	bh=RFci8NiCtNuJUGrSSysrHVigN36hprEjbgn8kcBN20I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OMKWrxAy8kKFB5xKLhVcMtSwG2PQjvTSK9EwzeQ62FislyBlZcZn1lKJ45TzUp3yk
-	 NUhNbJc9I8ov786tLhYNuoVga0u6vkPk7pumpKeLxT/kuc3dSQ5LuCLaQ+M3hG3qbr
-	 v3FECu6pISOduDO2hX1oGz8MZbsU5WXiJfIPSvncrSRb/qU+m3ZCJjz1iTe6MMGywl
-	 eBeWwFRtfV0FGVqTgc9yvwRhtW5WC+QZsNCZdlzakkKXILaPEAFUvjlEPdof/HfwAF
-	 4RQtkONYQlVtkLfhB0e8aPSNwDw93CdBTrGDLf+avLoy7byVG1VZCkWa9QIS4Wxr4P
-	 1XfD3oWDUo+ag==
-Date: Wed, 21 May 2025 15:44:50 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	kernel test robot <lkp@intel.com>,
-	Marco Crivellari <marco.crivellari@suse.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 5904/8679] <instantiation>:7:11: error:
- expected an immediate
-Message-ID: <20250521224450.GA2412476@ax162>
-References: <202505071331.Z0N2eSkr-lkp@intel.com>
- <20250508164308.GC834338@ax162>
- <aB0Lt7e4tnRK355u@alpha.franken.de>
- <alpine.DEB.2.21.2505121141400.46553@angie.orcam.me.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ob601ZqC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747867854; x=1779403854;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CQsh+OoyYiMPXVY0UkDKGT2pUr6P/bOoxymH4+OWQQQ=;
+  b=Ob601ZqCOFbZQ5jYCrfyYXFLVOYq70cw30opM5kV1yJwP6+i9jGS6nry
+   RCcVpR7iIvEbHaH3DOG3b1yrF52Jrqvj/5X8rcfVU9uQIMbchp+h8cco7
+   Q9I8Pt4Ap5YmFik402McAQHkb8v72uI6LYtzFk/4THgHWHESFDrhN8o34
+   uBqlOm/BkRUVPg0nxCzOMf1kW7tpEzvMypju0fABv2fJTriwWyF0Tvcpx
+   4h1weJ/AnZvi2Kn0OUmRbm5dtINTW3VRIOKfVTivVLNLh95DJh+QDHYee
+   hSTeERqcQPwSGEh9LwBzM77+4/YIWq8hh84mHgmNdmMyhYZ7ygxgOFUK9
+   g==;
+X-CSE-ConnectionGUID: 52spRjMmQPmA0Kige1fTiA==
+X-CSE-MsgGUID: hW4sGmOpRIabPDghxwwfSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="48992429"
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="48992429"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 15:50:53 -0700
+X-CSE-ConnectionGUID: qeIaHMKBTfqWqtxHhlEZ6g==
+X-CSE-MsgGUID: kP2frW83Tga+L15+YQLbqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="171159688"
+Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
+  by orviesa002.jf.intel.com with ESMTP; 21 May 2025 15:50:52 -0700
+Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uHsGv-0001Bz-1h;
+	Wed, 21 May 2025 22:50:49 +0000
+Date: Thu, 22 May 2025 06:50:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2025-05-exp 1/1]
+ Documentation/devicetree/bindings/iommu/pkvm,pviommu.yaml: ignoring, error
+ parsing file
+Message-ID: <202505220620.eypKwHBp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,42 +62,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2505121141400.46553@angie.orcam.me.uk>
 
-On Mon, May 12, 2025 at 11:47:45AM +0100, Maciej W. Rozycki wrote:
-> On Thu, 8 May 2025, Thomas Bogendoerfer wrote:
-> 
-> > > If it is not easy to work around, we can probably just leave it broken
-> > > and tell anybody who notices to upgrade their compiler.
-> > 
-> > I wrapped my head around it today, but no idea how to solve it...
-> 
-> #if defined(CONFIG_CC_IS_CLANG) && CONFIG_CLANG_VERSION < vvv
-> #error Please upgrade to version vvv to build this source
-> #endif
-> 
-> -- or suchlike, I suppose.  Someone just needs to fill `vvv' in.
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-05-exp
+head:   318fd288f5897bd4bfdde5ba64cd16619c9f2c3a
+commit: 9dd94d09198e8d8d739541714a405a730ac6e70f [1/1] ANDROID: drivers: iommu: pviommu: Add basic driver structure
+config: arm-randconfig-2053-20250519 (https://download.01.org/0day-ci/archive/20250522/202505220620.eypKwHBp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.3.dev27+g32749b3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505220620.eypKwHBp-lkp@intel.com/reproduce)
 
-Given this file is unconditionally compiled, we would be better served
-just adjusting min-tool-version.sh to show an error during configuration
-time. Technically, this is only needed with LLVM_IAS=1 but that is the
-default and adjusting as-version.sh to check the version would be a
-little difficult but I will try to think about it more in the next few
-days.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505220620.eypKwHBp-lkp@intel.com/
 
-Cheers,
-Nathan
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/iommu/pkvm,pviommu.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/firmware/gunyah-cma-mem.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/soc/fsl/fsl,bman.yaml: fsl,liodn: multiple incompatible types: uint32-array
+   Documentation/devicetree/bindings/soc/fsl/fsl,qman-portal.yaml: fsl,liodn: multiple incompatible types: uint32-array
+   Documentation/devicetree/bindings/soc/fsl/fsl,qman.yaml: fsl,liodn: multiple incompatible types: uint32-array
+   Documentation/devicetree/bindings/crypto/fsl,sec-v4.0.yaml: fsl,liodn: multiple incompatible types: uint32
 
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-index 787868183b84..5f5176505665 100755
---- a/scripts/min-tool-version.sh
-+++ b/scripts/min-tool-version.sh
-@@ -30,6 +30,8 @@ llvm)
- 		echo 15.0.0
- 	elif [ "$SRCARCH" = loongarch ]; then
- 		echo 18.0.0
-+	elif [ "$SRCARCH" = mips ]; then
-+		echo 21.0.0
- 	else
- 		echo 13.0.1
- 	fi
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
