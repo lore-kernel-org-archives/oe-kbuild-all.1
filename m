@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32DF219EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 06:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FA8235052
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 May 2025 07:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747809749; cv=none; b=I2RbyH/OuQNNLUwP4lGAp/4HEANTSCzygMnDbBo8gaX3OkAlKKv+15sbX7hjGMrIGLyWNxu8IIcjBsmYHPxJyD9w9QSEGlHdmctmTktYX+3yemQNbE++XyV49J8huMHvUtVAN4gQHubYs7U5Z2/JNhPaQHD1iaHDs3V+RYj3LZg=
+	t=1747811611; cv=none; b=onT1/gJacQ6/KpqwHroMRKp8+qp5DcaU6bBwubR3kGku7A8BZmRQDGDT8vDdOSPkHi3QbhzdflApiwRpporb5tZqoYgpTKHSQlIMlZ4gLVAbsMxTiYbptM422XiEiv3VBEq85/1xybgR1dtVD/TwWDRpJF/69T5SgyAe3+DoVg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747809749; c=relaxed/simple;
-	bh=nAHYE5sqPafaWICaABOdF7nRkxtex8QvUXXRBPCmeIM=;
+	s=arc-20240116; t=1747811611; c=relaxed/simple;
+	bh=+O6ZvMw4hsWCnlVxxOx86uEH5HsBlX+Vg4/MuSowpDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QeN5ZWcfzTxsbOTl1RRjNVBfoNqUbsc+TaBesbtdM+U56Pi5w4bXy1InXA/qIVsG0QkqJWSV4Wi5HD8jQTqIyWK9LkmBeg47kBAWcNJe91lccAAKZ9cMiBt1NXpqJRM/WxG1Ig6xlJ9ALC3H364oWPO6S9qfTxcUYKD+ZQ0N9Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkcOFfxD; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=VN1NYFhGXH+5xtYIhscFHyL6b72+zmwFRCupKAcFn3QVebzbKt+c51rBhMkL3jzTiHDNGMo514T44SgiadgpjkkOvIsWJ2U/kaPS5cCUpcM7lVeiTHndIdSGDxuTCeqeQE1JbHuVxswZCzoQSa3e5zc/TmFbdxB54Ed0QtKYVvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZQXgnOl8; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkcOFfxD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZQXgnOl8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747809748; x=1779345748;
+  t=1747811610; x=1779347610;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nAHYE5sqPafaWICaABOdF7nRkxtex8QvUXXRBPCmeIM=;
-  b=RkcOFfxDJyiEC2d9JSolAqwvkEnd4pAAVshM0KMnrLw7pm3ZdEgPAmUS
-   zV+ZCSVWNbmDty3KnxOO9LuXWZZPM7b7Y4EctiD4KnwPg+f5sYNK9i2Hp
-   yftpfjrnVoTkiXYgfrcZhjJLG+Fy4XykaV0dKvJFOAISK7rcu5cpZqKHK
-   LABkVbE98W9tX1W8k6X+/Mg3WcraIoZIofYN22jnLXAFjWRxxC/vPoX95
-   dbZG1LBCjhawM8uEEZTe9+E5hpJgMvs3Dyr07jWc8CX4ypa5CIouRlVxI
-   aTloMIfVeRY4RFtd7HWao9QiHzsK6om3K1TJeJ86o0ztJhhuWB8ZNAU0+
-   g==;
-X-CSE-ConnectionGUID: rUhHvhAZQTa6slw8xpfH4g==
-X-CSE-MsgGUID: w6bsmZQ2QMOM9KH/g5clWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="61111392"
+  bh=+O6ZvMw4hsWCnlVxxOx86uEH5HsBlX+Vg4/MuSowpDo=;
+  b=ZQXgnOl8Fc3wEWZO8E08MRMLNIGDqzK3nI7A4PRzFY/fIXcffdGzqQYx
+   afUBGAKBc/Js8IgE6YqOWmtiX07x3gKNxFE5DJwU5oveDacmQx0+9Hua3
+   jZU6VbCbCaM0cdHDbuQsAY2pxWx1MtlB7oxenQG9qjt2sAGeQ64kzoDq7
+   INOQD4SD90WBiqHiKlwq/C4z2zgxfWXf1KAXtm6eB/DDnu41GnCe4+5zF
+   ObJTYDLktk4itwr4pT5vSaPH+ChOMOCi04prQz7wyMy7ULmaPFw3ZeBET
+   0tdlicAFt9v6XdRk3cNEJyLwpLgvmgp/kGEx54CFfJTV91vYb33RJR5um
+   A==;
+X-CSE-ConnectionGUID: jqDRu7iVRE2Kusj7FDBIqA==
+X-CSE-MsgGUID: hvnzK/lQSp6MbBxIRBaBgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="60006892"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="61111392"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 23:42:27 -0700
-X-CSE-ConnectionGUID: H8KIgmpHQoiq2opeVzvZ7A==
-X-CSE-MsgGUID: Izxdsi6eSX+YOlrb+f0GqQ==
+   d="scan'208";a="60006892"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 00:13:30 -0700
+X-CSE-ConnectionGUID: fdW3JNXzR92i2rL5EeIomw==
+X-CSE-MsgGUID: t3EEweTCRU2eFEg22PT45A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="177068872"
+   d="scan'208";a="139834079"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 May 2025 23:42:25 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 21 May 2025 00:13:29 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHd9j-000NxY-1u;
-	Wed, 21 May 2025 06:42:23 +0000
-Date: Wed, 21 May 2025 14:41:35 +0800
+	id 1uHddm-000Nyu-0a;
+	Wed, 21 May 2025 07:13:26 +0000
+Date: Wed, 21 May 2025 15:13:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1480/1480] mm/debug.c:174:3: warning:
- format specifies type 'void *' but the argument has type 'int'
-Message-ID: <202505211408.BaK4ljKg-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1365/1365]
+ drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
+ functions is not needed.
+Message-ID: <202505211556.GuPF6Fy4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,142 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ding,
-
-FYI, the error/warning still remains.
-
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
 head:   2eb609d2f89b2d85d89cb018c3f97050989807e2
-commit: 2d2fe6b40444bd8f84f674930ac5f98a6314702e [1480/1480] ascend: mm: add an owner for mm_struct
-config: x86_64-randconfig-r112-20250311 (https://download.01.org/0day-ci/archive/20250521/202505211408.BaK4ljKg-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505211408.BaK4ljKg-lkp@intel.com/reproduce)
+commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [1365/1365] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
+config: x86_64-randconfig-102-20250103 (https://download.01.org/0day-ci/archive/20250521/202505211556.GuPF6Fy4-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505211408.BaK4ljKg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505211556.GuPF6Fy4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
 
-   mm/debug.c: note: in included file (through include/linux/kernel.h):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/debug.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/debug.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
->> mm/debug.c:174:3: warning: format specifies type 'void *' but the argument has type 'int' [-Wformat]
-     135 |                 atomic_read(&mm->tlb_flush_pending),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:175:3: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
-     142 |                 mm->def_flags, &mm->def_flags
-         |                 ^~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:175:18: warning: format specifies type 'unsigned long' but the argument has type 'const unsigned long *' [-Wformat]
-     143 |                 mm->def_flags, &mm->def_flags
-         |                                ^~~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:143:21: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-     143 |                 "def_flags: %#lx(%pGv)\n",
-         |                                  ~^
-   include/linux/printk.h:342:27: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ^~~
-   include/linux/printk.h:332:21: note: expanded from macro 'pr_fmt'
-     332 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   4 warnings generated.
+vim +614 drivers/acpi/cppc_acpi.c
 
-
-vim +174 mm/debug.c
-
-82742a3a515219 Sasha Levin           2014-10-09  114  
-31c9afa6db122a Sasha Levin           2014-10-09  115  void dump_mm(const struct mm_struct *mm)
-31c9afa6db122a Sasha Levin           2014-10-09  116  {
-7a9cdebdcc17e4 Linus Torvalds        2018-09-12  117  	pr_emerg("mm %px mmap %px seqnum %llu task_size %lu\n"
-31c9afa6db122a Sasha Levin           2014-10-09  118  #ifdef CONFIG_MMU
-152a2d199e1385 Matthew Wilcox        2018-01-04  119  		"get_unmapped_area %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  120  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  121  		"mmap_base %lu mmap_legacy_base %lu highest_vm_end %lu\n"
-152a2d199e1385 Matthew Wilcox        2018-01-04  122  		"pgd %px mm_users %d mm_count %d pgtables_bytes %lu map_count %d\n"
-31c9afa6db122a Sasha Levin           2014-10-09  123  		"hiwater_rss %lx hiwater_vm %lx total_vm %lx locked_vm %lx\n"
-84638335900f19 Konstantin Khlebnikov 2016-01-14  124  		"pinned_vm %lx data_vm %lx exec_vm %lx stack_vm %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  125  		"start_code %lx end_code %lx start_data %lx end_data %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  126  		"start_brk %lx brk %lx start_stack %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  127  		"arg_start %lx arg_end %lx env_start %lx env_end %lx\n"
-152a2d199e1385 Matthew Wilcox        2018-01-04  128  		"binfmt %px flags %lx core_state %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  129  #ifdef CONFIG_AIO
-152a2d199e1385 Matthew Wilcox        2018-01-04  130  		"ioctx_table %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  131  #endif
-2d2fe6b40444bd Ding Tianhong         2021-10-30  132  #ifdef CONFIG_MM_OWNER
-152a2d199e1385 Matthew Wilcox        2018-01-04  133  		"owner %px "
-31c9afa6db122a Sasha Levin           2014-10-09  134  #endif
-152a2d199e1385 Matthew Wilcox        2018-01-04  135  		"exe_file %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  136  #ifdef CONFIG_MMU_NOTIFIER
-152a2d199e1385 Matthew Wilcox        2018-01-04  137  		"mmu_notifier_mm %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  138  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  139  #ifdef CONFIG_NUMA_BALANCING
-31c9afa6db122a Sasha Levin           2014-10-09  140  		"numa_next_scan %lu numa_scan_offset %lu numa_scan_seq %d\n"
-31c9afa6db122a Sasha Levin           2014-10-09  141  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  142  		"tlb_flush_pending %d\n"
-b8eceeb99014cf Vlastimil Babka       2016-03-15 @143  		"def_flags: %#lx(%pGv)\n",
-31c9afa6db122a Sasha Levin           2014-10-09  144  
-7a9cdebdcc17e4 Linus Torvalds        2018-09-12  145  		mm, mm->mmap, (long long) mm->vmacache_seqnum, mm->task_size,
-31c9afa6db122a Sasha Levin           2014-10-09  146  #ifdef CONFIG_MMU
-31c9afa6db122a Sasha Levin           2014-10-09  147  		mm->get_unmapped_area,
-31c9afa6db122a Sasha Levin           2014-10-09  148  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  149  		mm->mmap_base, mm->mmap_legacy_base, mm->highest_vm_end,
-31c9afa6db122a Sasha Levin           2014-10-09  150  		mm->pgd, atomic_read(&mm->mm_users),
-31c9afa6db122a Sasha Levin           2014-10-09  151  		atomic_read(&mm->mm_count),
-af5b0f6a09e42c Kirill A. Shutemov    2017-11-15  152  		mm_pgtables_bytes(mm),
-31c9afa6db122a Sasha Levin           2014-10-09  153  		mm->map_count,
-53f4e528406789 Daniel Jordan         2019-08-14  154  		mm->hiwater_rss, mm->hiwater_vm, mm->total_vm,
-53f4e528406789 Daniel Jordan         2019-08-14  155  		atomic_long_read(&mm->locked_vm),
-84638335900f19 Konstantin Khlebnikov 2016-01-14  156  		mm->pinned_vm, mm->data_vm, mm->exec_vm, mm->stack_vm,
-31c9afa6db122a Sasha Levin           2014-10-09  157  		mm->start_code, mm->end_code, mm->start_data, mm->end_data,
-31c9afa6db122a Sasha Levin           2014-10-09  158  		mm->start_brk, mm->brk, mm->start_stack,
-31c9afa6db122a Sasha Levin           2014-10-09  159  		mm->arg_start, mm->arg_end, mm->env_start, mm->env_end,
-31c9afa6db122a Sasha Levin           2014-10-09  160  		mm->binfmt, mm->flags, mm->core_state,
-31c9afa6db122a Sasha Levin           2014-10-09  161  #ifdef CONFIG_AIO
-31c9afa6db122a Sasha Levin           2014-10-09  162  		mm->ioctx_table,
-31c9afa6db122a Sasha Levin           2014-10-09  163  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  164  #ifdef CONFIG_MEMCG
-31c9afa6db122a Sasha Levin           2014-10-09  165  		mm->owner,
-31c9afa6db122a Sasha Levin           2014-10-09  166  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  167  		mm->exe_file,
-31c9afa6db122a Sasha Levin           2014-10-09  168  #ifdef CONFIG_MMU_NOTIFIER
-31c9afa6db122a Sasha Levin           2014-10-09  169  		mm->mmu_notifier_mm,
-31c9afa6db122a Sasha Levin           2014-10-09  170  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  171  #ifdef CONFIG_NUMA_BALANCING
-31c9afa6db122a Sasha Levin           2014-10-09  172  		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
-31c9afa6db122a Sasha Levin           2014-10-09  173  #endif
-16af97dc5a8975 Nadav Amit            2017-08-10 @174  		atomic_read(&mm->tlb_flush_pending),
-b8eceeb99014cf Vlastimil Babka       2016-03-15 @175  		mm->def_flags, &mm->def_flags
-31c9afa6db122a Sasha Levin           2014-10-09  176  	);
-31c9afa6db122a Sasha Levin           2014-10-09  177  }
-31c9afa6db122a Sasha Levin           2014-10-09  178  
-
-:::::: The code at line 174 was first introduced by commit
-:::::: 16af97dc5a8975371a83d9e30a64038b48f40a2d mm: migrate: prevent racy access to tlb_flush_pending
-
-:::::: TO: Nadav Amit <nadav.amit@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   576	
+   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
+   578	{
+   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
+   580		int parsed_core_num = 0;
+   581		int i, ret;
+   582	
+   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
+   584		if (!cpc_pptr)
+   585			return -ENOMEM;
+   586		for_each_possible_cpu(i) {
+   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
+   588			if (!cpc_pptr[i]) {
+   589				ret = -ENOMEM;
+   590				goto out;
+   591			}
+   592		}
+   593	
+   594		/*
+   595		 * We can not use acpi_get_devices() to walk the processor devices
+   596		 * because some processor device is not present.
+   597		 */
+   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
+   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
+   600					  cpc_pptr, (void **)&parsed_core_num);
+   601		if (ret)
+   602			goto out;
+   603		if (parsed_core_num != num_possible_cpus()) {
+   604			ret = -EINVAL;
+   605			goto out;
+   606		}
+   607	
+   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
+   609	
+   610	out:
+   611		for_each_possible_cpu(i) {
+   612			cpc_ptr = cpc_pptr[i];
+   613			if (cpc_ptr)
+ > 614				kfree(cpc_ptr);
+   615		}
+   616		kfree(cpc_pptr);
+   617	
+   618		return ret;
+   619	}
+   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
+   621	
 
 -- 
 0-DAY CI Kernel Test Service
