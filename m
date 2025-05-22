@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2E1EC5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 04:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BD1149C4A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 04:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747888021; cv=none; b=oKavG5lHFEfmUCgYAW5y8cgTCKzEpJYUYYqFwwWfq8qa+9UuMZ1niCibgKihqCWAUaNHdx00QI9jozRoaVi/ObmStWahxPVcY/SzxCE0xirtNKCPSBVFPui2rOsLlecm7y4pQvlGFusUWKaOKdLmJLnIkyTPWZrST5RxVikPcUg=
+	t=1747888023; cv=none; b=gkzAUCFByyyrNs9jCxVCVM+1VtF8oRmTWmBnft2sa1aZa5DvQs3Jj6NNBoE6Rpi1t1xMcBaBsdBZCT0+3jC+u1Y+yz6Ep9e03VdBro87by5nHPpejxUgPhqDlo+l2CJNoLgkKI6iiiGR1ySLuxC+un5KTWmLSps1bhyK+8PXSyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747888021; c=relaxed/simple;
-	bh=BdSnkD/0xPH55/ngF741dSXIXHUULaGGCsu79IrTb6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VqeM47MQKN85HFXKN48W/aoroCTusIoYTy/NXe7KMZJEs8wFsTel4gCwX8Fa/nTwzOoAHD8K5QafH6m6vf422G/Vz79erFrOmIb839C4B1cdDwSEtC4bTF7K6BC1elFYPJxlO61u2Zv6HZ1rEhoXS9t9IGkLoxwhbGJif8J/pfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i2fdF2MU; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1747888023; c=relaxed/simple;
+	bh=pYPqpCs+wZJ2se/dDYL6AzIqkv5JEmLumwWmmFC+BEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kzXc/Ng6CjzrhaTsNP+mYbrXupa74DkaZR1sFh1lblePRoJxVOd2gntyBC+kSZCQQMBLn7CVOFcWCEsDpVbHqU8XSdG11i6QtjjXVSUkc54j8kjqsJjdCfO9mPHRkTviuDIPKB0lNzrQSuH+NXgQJmSDONF+8EBVANMCjvtq15Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLYrpJ3v; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i2fdF2MU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLYrpJ3v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747888019; x=1779424019;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BdSnkD/0xPH55/ngF741dSXIXHUULaGGCsu79IrTb6Q=;
-  b=i2fdF2MUwBMonOsrry5CyZTcx2H2VXP7onRIXDhbPvjz0ut0gm4ObnAF
-   HehLcGzmSs2CGM2beNXECuBp0WphO7RS98zsA+9CbFpA3ggwlS1lBn5K6
-   l0Yaqi2g4y8tpE2z8yt1QA5xZLVeW0nB3gkDWIwjF90I50PnkFt8w1zNX
-   IscuDJl1opsUkuiiPE7wFliMhk2h2Nn2ZHa0gfojWLo9XjQ+ky1eGRN5B
-   +I6E3jjVttI/IWzlqS98hqDruhIM3lC1ZoHTRAaI187zzeNzhMbhGhH+w
-   /5NG89qiOLjYlAfnTlPnoZLgFCh+eC908CrHyhg8R3mxCzpC5+GoaELvn
+  t=1747888021; x=1779424021;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pYPqpCs+wZJ2se/dDYL6AzIqkv5JEmLumwWmmFC+BEk=;
+  b=KLYrpJ3vN3ZGmEfFyBRrnqvGDbOLJx8EhCSzMORzpQ2xmqup7IfsoGH7
+   MtewPAH4a6SFyaSsy8IK2UHlj3NtRRYNAhmljqD85ZLcbltRu2B5efeFt
+   fZiFbNedZ4q1reZaDQBCjrRBvyCY1wbD0H/MLfClZ5tAD27TtXcJffhXU
+   bnOnD/ugWPGMyrHtYta73szZLcj8r+qutuMKeflf1XXftnMT2/hi05Iu7
+   K+BVQHnMj58f+tIpKyTBQKWgDmYUBFhkoyIpuKQJ+tQpDSi1j/c/gJjsR
+   tshF7qdn5kuEQ+Kll1BWjqFXR6XdNSrricxzXpLsencqSfZRJU+nMSOot
    Q==;
-X-CSE-ConnectionGUID: 3B3N+j6dRaasQUqCXExLHw==
-X-CSE-MsgGUID: dclLzkuBQBC6UEbG+EDtKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49798030"
+X-CSE-ConnectionGUID: kz9FMne9R4iREExQMeQftg==
+X-CSE-MsgGUID: m5omAeZxT7OZ6Wwu7hTmyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="37513940"
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="49798030"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 21:26:58 -0700
-X-CSE-ConnectionGUID: eX5/XHxIQmOVmEkNFMlPKg==
-X-CSE-MsgGUID: P1dwXoogQAmNF2D5Q6nM/A==
+   d="scan'208";a="37513940"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 21:27:00 -0700
+X-CSE-ConnectionGUID: 8O9WDd3fSp+bh4VeJDLIbA==
+X-CSE-MsgGUID: 9l6/JDfuTBK4xlf7CvUNrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="163662497"
+   d="scan'208";a="145265186"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 May 2025 21:26:57 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 21 May 2025 21:26:57 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHxWA-000OuO-2d;
+	id 1uHxWA-000OuK-2V;
 	Thu, 22 May 2025 04:26:54 +0000
-Date: Thu, 22 May 2025 12:25:56 +0800
+Date: Thu, 22 May 2025 12:25:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-2025-03 2/2]
- include/linux/compiler_types.h:140:35: error: invalid use of undefined type
- 'struct module'
-Message-ID: <202505221252.BCT03VHo-lkp@intel.com>
+To: Hugo Villeneuve <hugo@hugovil.com>, biju.das.jz@bp.renesas.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	hugo@hugovil.com, Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Chris Brandt <chris.brandt@renesas.com>
+Subject: Re: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host
+ transfers
+Message-ID: <202505221231.A6G8HqGd-lkp@intel.com>
+References: <20250520171034.3488482-2-hugo@hugovil.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +68,200 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250520171034.3488482-2-hugo@hugovil.com>
 
-Hi Jone,
+Hi Hugo,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15-2025-03
-head:   4ea0fcb5d1308f2f5a5dec0a3a5c8f1b261e00c7
-commit: 180f8b73199bd665c03ff43853170280fc82e02d [2/2] ANDROID: kernel: add module info for debug_kinfo
-config: arm-randconfig-r051-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221252.BCT03VHo-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221252.BCT03VHo-lkp@intel.com/reproduce)
+[auto build test ERROR on 7c1a9408ce5f34ded5a85db81cf80e0975901685]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hugo-Villeneuve/drm-rcar-du-rzg2l_mipi_dsi-Implement-host-transfers/20250521-011613
+base:   7c1a9408ce5f34ded5a85db81cf80e0975901685
+patch link:    https://lore.kernel.org/r/20250520171034.3488482-2-hugo%40hugovil.com
+patch subject: [PATCH 1/2] drm: rcar-du: rzg2l_mipi_dsi: Implement host transfers
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250522/202505221231.A6G8HqGd-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221231.A6G8HqGd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505221252.BCT03VHo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221231.A6G8HqGd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:0:0:
-   drivers/staging/android/debug_kinfo.c: In function 'debug_kinfo_probe':
->> include/linux/compiler_types.h:140:35: error: invalid use of undefined type 'struct module'
-    #define __compiler_offsetof(a, b) __builtin_offsetof(a, b)
-                                      ^
-   include/linux/stddef.h:17:32: note: in expansion of macro '__compiler_offsetof'
-    #define offsetof(TYPE, MEMBER) __compiler_offsetof(TYPE, MEMBER)
-                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/android/debug_kinfo.c:162:33: note: in expansion of macro 'offsetof'
-     info->mod_core_layout_offset = offsetof(struct module, core_layout);
-                                    ^~~~~~~~
->> include/linux/compiler_types.h:140:35: error: invalid use of undefined type 'struct module'
-    #define __compiler_offsetof(a, b) __builtin_offsetof(a, b)
-                                      ^
-   include/linux/stddef.h:17:32: note: in expansion of macro '__compiler_offsetof'
-    #define offsetof(TYPE, MEMBER) __compiler_offsetof(TYPE, MEMBER)
-                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/android/debug_kinfo.c:163:33: note: in expansion of macro 'offsetof'
-     info->mod_init_layout_offset = offsetof(struct module, init_layout);
-                                    ^~~~~~~~
->> include/linux/compiler_types.h:140:35: error: invalid use of undefined type 'struct module'
-    #define __compiler_offsetof(a, b) __builtin_offsetof(a, b)
-                                      ^
-   include/linux/stddef.h:17:32: note: in expansion of macro '__compiler_offsetof'
-    #define offsetof(TYPE, MEMBER) __compiler_offsetof(TYPE, MEMBER)
-                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/android/debug_kinfo.c:164:30: note: in expansion of macro 'offsetof'
-     info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
-                                 ^~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_read_response':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:684:20: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     684 |         datatype = FIELD_GET(RXRSS0R_DT, result);
+         |                    ^~~~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_host_transfer':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:742:26: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     742 |                 value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
+         |                          ^~~~~~~~~~
 
 
-vim +140 include/linux/compiler_types.h
+vim +/FIELD_GET +684 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 
-71391bdd2e9aab Xiaozhou Liu 2018-12-14  139  
-71391bdd2e9aab Xiaozhou Liu 2018-12-14 @140  #define __compiler_offsetof(a, b)	__builtin_offsetof(a, b)
-71391bdd2e9aab Xiaozhou Liu 2018-12-14  141  
-
-:::::: The code at line 140 was first introduced by commit
-:::::: 71391bdd2e9aab188f86bf1ecd9b232531ec7eea include/linux/compiler_types.h: don't pollute userspace with macro definitions
-
-:::::: TO: Xiaozhou Liu <liuxiaozhou@bytedance.com>
-:::::: CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+   661	
+   662	static ssize_t rzg2l_mipi_dsi_read_response(struct rzg2l_mipi_dsi *dsi,
+   663						    const struct mipi_dsi_msg *msg)
+   664	{
+   665		u8 *msg_rx = msg->rx_buf;
+   666		u16 size;
+   667		u8 datatype;
+   668		u32 result;
+   669	
+   670		result = rzg2l_mipi_dsi_link_read(dsi, RXRSS0R);
+   671		if (result & RXRSS0R_RXPKTDFAIL) {
+   672			dev_err(dsi->dev, "packet rx data did not save correctly\n");
+   673			return -EPROTO;
+   674		}
+   675	
+   676		if (result & RXRSS0R_RXFAIL) {
+   677			dev_err(dsi->dev, "packet rx failure\n");
+   678			return -EPROTO;
+   679		}
+   680	
+   681		if (!(result & RXRSS0R_RXSUC))
+   682			return -EPROTO;
+   683	
+ > 684		datatype = FIELD_GET(RXRSS0R_DT, result);
+   685	
+   686		switch (datatype) {
+   687		case 0:
+   688			dev_dbg(dsi->dev, "ACK\n");
+   689			return 0;
+   690		case MIPI_DSI_RX_END_OF_TRANSMISSION:
+   691			dev_dbg(dsi->dev, "EoTp\n");
+   692			return 0;
+   693		case MIPI_DSI_RX_ACKNOWLEDGE_AND_ERROR_REPORT:
+   694			dev_dbg(dsi->dev, "Acknowledge and error report: $%02x%02x\n",
+   695				(u8)FIELD_GET(RXRSS0R_DATA1, result),
+   696				(u8)FIELD_GET(RXRSS0R_DATA0, result));
+   697			return 0;
+   698		case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_1BYTE:
+   699		case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_1BYTE:
+   700			msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
+   701			return 1;
+   702		case MIPI_DSI_RX_DCS_SHORT_READ_RESPONSE_2BYTE:
+   703		case MIPI_DSI_RX_GENERIC_SHORT_READ_RESPONSE_2BYTE:
+   704			msg_rx[0] = FIELD_GET(RXRSS0R_DATA0, result);
+   705			msg_rx[1] = FIELD_GET(RXRSS0R_DATA1, result);
+   706			return 2;
+   707		case MIPI_DSI_RX_GENERIC_LONG_READ_RESPONSE:
+   708		case MIPI_DSI_RX_DCS_LONG_READ_RESPONSE:
+   709			size = FIELD_GET(RXRSS0R_WC, result);
+   710	
+   711			if (size > msg->rx_len) {
+   712				dev_err(dsi->dev, "rx buffer too small");
+   713				return -ENOSPC;
+   714			}
+   715	
+   716			memcpy(msg_rx, dsi->dcs_buf_virt, size);
+   717			return size;
+   718		default:
+   719			dev_err(dsi->dev, "unhandled response type: %02x\n", datatype);
+   720			return -EPROTO;
+   721		}
+   722	}
+   723	
+   724	static ssize_t rzg2l_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+   725						    const struct mipi_dsi_msg *msg)
+   726	{
+   727		struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+   728		struct mipi_dsi_packet packet;
+   729		bool need_bta;
+   730		u32 value;
+   731		int ret;
+   732	
+   733		ret = mipi_dsi_create_packet(&packet, msg);
+   734		if (ret < 0)
+   735			return ret;
+   736	
+   737		/* Terminate operation after this descriptor is finished */
+   738		value = SQCH0DSC0AR_NXACT_TERM;
+   739	
+   740		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
+   741			need_bta = true; /* Message with explicitly requested ACK */
+ > 742			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NON_READ);
+   743		} else if (msg->rx_buf && msg->rx_len > 0) {
+   744			need_bta = true; /* Read request */
+   745			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_READ);
+   746		} else {
+   747			need_bta = false;
+   748			value |= FIELD_PREP(SQCH0DSC0AR_BTA, SQCH0DSC0AR_BTA_NONE);
+   749		}
+   750	
+   751		/* Set transmission speed */
+   752		if (msg->flags & MIPI_DSI_MSG_USE_LPM)
+   753			value |= SQCH0DSC0AR_SPD_LOW;
+   754		else
+   755			value |= SQCH0DSC0AR_SPD_HIGH;
+   756	
+   757		/* Write TX packet header */
+   758		value |= FIELD_PREP(SQCH0DSC0AR_DT, packet.header[0]) |
+   759			FIELD_PREP(SQCH0DSC0AR_DATA0, packet.header[1]) |
+   760			FIELD_PREP(SQCH0DSC0AR_DATA1, packet.header[2]);
+   761	
+   762		if (mipi_dsi_packet_format_is_long(msg->type)) {
+   763			value |= SQCH0DSC0AR_FMT_LONG;
+   764	
+   765			if (packet.payload_length > RZG2L_DCS_BUF_SIZE) {
+   766				dev_err(dsi->dev, "Packet Tx payload size (%d) too large",
+   767					(unsigned int)packet.payload_length);
+   768				return -ENOSPC;
+   769			}
+   770	
+   771			/* Copy TX packet payload data to memory space */
+   772			memcpy(dsi->dcs_buf_virt, packet.payload, packet.payload_length);
+   773		} else {
+   774			value |= SQCH0DSC0AR_FMT_SHORT;
+   775		}
+   776	
+   777		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0AR, value);
+   778	
+   779		/*
+   780		 * Write: specify payload data source location, only used for
+   781		 *        long packet.
+   782		 * Read:  specify payload data storage location of response
+   783		 *        packet. Note: a read packet is always a short packet.
+   784		 *        If the response packet is a short packet or a long packet
+   785		 *        with WC = 0 (no payload), DTSEL is meaningless.
+   786		 */
+   787		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0BR, SQCH0DSC0BR_DTSEL_MEM_SPACE);
+   788	
+   789		/*
+   790		 * Set SQCHxSR.AACTFIN bit when descriptor actions are finished.
+   791		 * Read: set Rx result save slot number to 0 (ACTCODE).
+   792		 */
+   793		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0CR, SQCH0DSC0CR_FINACT);
+   794	
+   795		/* Set rx/tx payload data address, only relevant for long packet. */
+   796		rzg2l_mipi_dsi_link_write(dsi, SQCH0DSC0DR, (u32)dsi->dcs_buf_phys);
+   797	
+   798		/* Start sequence 0 operation */
+   799		value = rzg2l_mipi_dsi_link_read(dsi, SQCH0SET0R);
+   800		value |= SQCH0SET0R_START;
+   801		rzg2l_mipi_dsi_link_write(dsi, SQCH0SET0R, value);
+   802	
+   803		/* Wait for operation to finish */
+   804		ret = read_poll_timeout(rzg2l_mipi_dsi_link_read,
+   805					value, value & SQCH0SR_ADESFIN,
+   806					2000, 20000, false, dsi, SQCH0SR);
+   807		if (ret == 0) {
+   808			/* Success: clear status bit */
+   809			rzg2l_mipi_dsi_link_write(dsi, SQCH0SCR, SQCH0SCR_ADESFIN);
+   810	
+   811			if (need_bta)
+   812				ret = rzg2l_mipi_dsi_read_response(dsi, msg);
+   813			else
+   814				ret = packet.payload_length;
+   815		}
+   816	
+   817		return ret;
+   818	}
+   819	
 
 -- 
 0-DAY CI Kernel Test Service
