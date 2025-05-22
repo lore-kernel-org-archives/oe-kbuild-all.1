@@ -1,64 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832017083C;
-	Thu, 22 May 2025 02:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE548634F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 02:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747881589; cv=none; b=eF7K6KO9yyEZumYiOr8GNqSe7PzXW3PZ+WJAJ4A5dCeqEMY8TUk0uYF2aG8NEEX22Er71VQ3Y7c45dYjNqlD/g71/fRxdiKC4NRvQf1c+gZOskoV+WnLxf8reNv+CWEdI+oIyCoiH5PQQYufMncIIzbTwNpSCqCF3LkI83QJGHU=
+	t=1747881590; cv=none; b=nCT430sjxk7rgOFHJjvrFr6kFhp+AWr1sq+iTutXggAfvzkt9lCwwYVA53udAqBYz2qUp2UXdf+//TfbS4KaspM3/3ROkqs5gcCW3Y34eOJuGRLBQFJlNIKE49Fe1R5PpIF8FBKtqiRFwtwIlT61s6BddK3rS+Yzzko0NeeLvU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747881589; c=relaxed/simple;
-	bh=tJa218YJznchBKmH8pkjmRJlLbcFFReHZvXbiFmUK7M=;
+	s=arc-20240116; t=1747881590; c=relaxed/simple;
+	bh=phKHx9/7oTeLSJAqcd2GF16+Sb91wgmoZ1J7S96RqfI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KhMls2zvI1Vb4/tBC6KgNCRxkeQ7EotAVlKs3DyzDd0WIU7TktggaDdrKaiqLBgYEWjNWgxl99iUMS6rL+snq5AE2RFWIDsiVpp3cvjKuzK537ftzGOpG2HE2oh0+7cL9IRHOvmA4ogAM9mzj6dym/vB8AsaNNZ4rElk4eD+CaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RmnQAhMM; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=cCKoPuKJWZup1MyJ98FZqArpp+5l+eCQaY5OcnnsSWWNPKnkxbKp4X8sCqbq4PUKgSAhvrGJRrpMTQTrcnqbOPtP9MVKZrYyX9VZ5aE1XecoDHlf+KlIz0C4jO2CGvIauzEODM7e+MaIbPZEXjIwCuuLhlCown6mlK6jAT/ECa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hGWaOZYP; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmnQAhMM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGWaOZYP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1747881588; x=1779417588;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tJa218YJznchBKmH8pkjmRJlLbcFFReHZvXbiFmUK7M=;
-  b=RmnQAhMMo9NZEdgn9jnzPzXqe/UZtCdM0W9HII6Ln06E4PEvlB79Vr+5
-   DJmsEm4rqyQKp6/AnipIlPmTbVgQkDpVKwZBiGx/Bu7/qnaRi/bWAgvt7
-   xVGryhTZXe45uiepI6zysHYBLoE+PchkFN5H+Q8WxjxlGgZ6OTrs01I+p
-   59EnqFKJ29LHW0x6ZTLBcBIm2EIyGhvA3gVInRuXwcn1lfp7M0VMampgY
-   v0Yhb1pX0VRtXoASrqx/QW9GbEcoXmcE+5qG40vFqfenzka9+zWBpIzlc
-   mypEBoRBv3bn5mr+hFNMHSQ+2cJ4f+iGipx+0fdm0vtEoG4DY3aEwCfQn
+  bh=phKHx9/7oTeLSJAqcd2GF16+Sb91wgmoZ1J7S96RqfI=;
+  b=hGWaOZYPS8mhOq1jcVRe35XClHVc7EHhBsGLPRKsfOq0H1ln//JKcblV
+   2rAPQmOUKL6GO28ZJS2PuZz6/RXj2iv7cC7lVnUtU1/aPFBJ5ms+VsfGn
+   qZ/QH3CR1Os3aWGublG/B9/Q3pt3R/iX2W8xvdli6Th9icFOPBGK49Ops
+   K33IOq4EkVlbfXq60uT8N6NDhS3Shy7PZ7RAvpVbkpPHjJPZ/o56PRqfB
+   P0RyjXTUSt05fi61jpmUE90YYVureXsmPr4JdbE1Ibpa0wQaxy2mbzRdn
+   5lMZt5LfpY/YG/7sBfAij726iZnRjgoc4ry5hx9Rp/t0CvhBzRq/t5MJQ
    w==;
-X-CSE-ConnectionGUID: /+VdxM/1ScCdNx/hEl9E8g==
-X-CSE-MsgGUID: piycE7SzTdq0NG/pjOv/oQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49764032"
+X-CSE-ConnectionGUID: hDvzMX3ZQIuMWp73Gn+4rA==
+X-CSE-MsgGUID: 3tBd+yVNRviuGQFWqhCcFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="53685022"
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="49764032"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 19:39:47 -0700
-X-CSE-ConnectionGUID: kXgw0RPcSpyruLMDx5AROQ==
-X-CSE-MsgGUID: +TwBY0PnS5uvPayB96zIWQ==
+   d="scan'208";a="53685022"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 19:39:46 -0700
+X-CSE-ConnectionGUID: QAGoGIXEQUismPKRQwrypA==
+X-CSE-MsgGUID: gP37IznOTAuktSxZxhxCfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="140212392"
+   d="scan'208";a="163633867"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 May 2025 19:39:44 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 21 May 2025 19:39:44 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHvqP-000Oqm-1J;
+	id 1uHvqP-000Oqo-1N;
 	Thu, 22 May 2025 02:39:41 +0000
-Date: Thu, 22 May 2025 10:39:11 +0800
+Date: Thu, 22 May 2025 10:39:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Francis <David.Francis@amd.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	tvrtko.ursulin@igalia.com, Felix.Kuehling@amd.com,
-	David.YatSin@amd.com, Chris.Freehill@amd.com,
-	Christian.Koenig@amd.com, dcostantino@meta.com, sruffell@meta.com,
-	simona@ffwll.ch, mripard@kernel.org, tzimmermann@suse.de,
-	David Francis <David.Francis@amd.com>
-Subject: Re: [PATCH 2/3] drm/amdgpu: Adding amdgpu CRIU ioctl
-Message-ID: <202505221029.1z5ok2nQ-lkp@intel.com>
-References: <20250521140649.4058526-3-David.Francis@amd.com>
+To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Sabrina Dubroca <sd@queasysnail.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Antonio Quartulli <antonio@openvpn.net>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Simon Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>,
+	Oleksandr Natalenko <oleksandr@natalenko.name>
+Subject: Re: [PATCH net-next 1/3] ovpn: properly deconfigure UDP-tunnel
+Message-ID: <202505221029.XIguAT57-lkp@intel.com>
+References: <20250520233937.5161-2-antonio@openvpn.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,154 +68,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250521140649.4058526-3-David.Francis@amd.com>
+In-Reply-To: <20250520233937.5161-2-antonio@openvpn.net>
 
-Hi David,
+Hi Antonio,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on next-20250521]
-[cannot apply to drm-exynos/exynos-drm-next linus/master v6.15-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Francis/drm-amdgpu-Adding-amdgpu-CRIU-ioctl/20250521-230706
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20250521140649.4058526-3-David.Francis%40amd.com
-patch subject: [PATCH 2/3] drm/amdgpu: Adding amdgpu CRIU ioctl
-config: arm-randconfig-002-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221029.1z5ok2nQ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221029.1z5ok2nQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/ovpn-properly-deconfigure-UDP-tunnel/20250521-081355
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250520233937.5161-2-antonio%40openvpn.net
+patch subject: [PATCH net-next 1/3] ovpn: properly deconfigure UDP-tunnel
+config: sparc-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221029.XIguAT57-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221029.XIguAT57-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505221029.1z5ok2nQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221029.XIguAT57-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_criu.c:160:42: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
-     160 |                 bo_bucket->alloc_flags = bo->flags & (!AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE);
-         |                                                        ^
-   include/uapi/drm/amdgpu_drm.h:146:51: note: expanded from macro 'AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE'
-     146 | #define AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE  (1 << 9)
-         |                                                    ^
-   1 warning generated.
+   sparc-linux-ld: net/ipv4/udp_tunnel_core.o: in function `cleanup_udp_tunnel_sock':
+>> net/ipv4/udp_tunnel_core.c:122:(.text+0x880): undefined reference to `udpv6_encap_disable'
 
 
-vim +160 drivers/gpu/drm/amd/amdgpu/amdgpu_criu.c
+vim +122 net/ipv4/udp_tunnel_core.c
 
-   119	
-   120		struct amdgpu_vm *avm = &((struct amdgpu_fpriv *)data->driver_priv)->vm;
-   121		struct drm_amdgpu_criu_bo_bucket *bo_buckets;
-   122		struct drm_amdgpu_criu_vm_bucket *vm_buckets;
-   123		struct drm_gem_object *gobj;
-   124		int vm_priv_index = 0;
-   125		int bo_index = 0;
-   126		int num_bos = 0;
-   127		int fd, id, ret;
+   100	
+   101	void cleanup_udp_tunnel_sock(struct sock *sk)
+   102	{
+   103		/* Re-enable multicast loopback */
+   104		inet_set_bit(MC_LOOP, sk);
+   105	
+   106		/* Disable CHECKSUM_UNNECESSARY to CHECKSUM_COMPLETE conversion */
+   107		inet_dec_convert_csum(sk);
+   108	
+   109		rcu_assign_sk_user_data(sk, NULL);
+   110	
+   111		udp_sk(sk)->encap_type = 0;
+   112		udp_sk(sk)->encap_rcv = NULL;
+   113		udp_sk(sk)->encap_err_rcv = NULL;
+   114		udp_sk(sk)->encap_err_lookup = NULL;
+   115		udp_sk(sk)->encap_destroy = NULL;
+   116		udp_sk(sk)->gro_receive = NULL;
+   117		udp_sk(sk)->gro_complete = NULL;
+   118	
+   119		udp_clear_bit(ENCAP_ENABLED, sk);
+   120	#if IS_ENABLED(CONFIG_IPV6)
+   121		if (READ_ONCE(sk->sk_family) == PF_INET6)
+ > 122			udpv6_encap_disable();
+   123	#endif
+   124		udp_encap_disable();
+   125		udp_tunnel_cleanup_gro(sk);
+   126	}
+   127	EXPORT_SYMBOL_GPL(cleanup_udp_tunnel_sock);
    128	
-   129		spin_lock(&data->table_lock);
-   130		idr_for_each_entry(&data->object_idr, gobj, id)
-   131			num_bos += 1;
-   132		spin_unlock(&data->table_lock);
-   133	
-   134		if (args->num_bos != num_bos) {
-   135			ret = -EINVAL;
-   136			goto exit;
-   137		}
-   138	
-   139		bo_buckets = kvzalloc(num_bos * sizeof(*bo_buckets), GFP_KERNEL);
-   140		if (!bo_buckets) {
-   141			ret = -ENOMEM;
-   142			goto free_buckets;
-   143		}
-   144	
-   145		vm_buckets = kvzalloc(args->num_vms * sizeof(*vm_buckets), GFP_KERNEL);
-   146		if (!vm_buckets) {
-   147			ret = -ENOMEM;
-   148			goto free_vms;
-   149		}
-   150	
-   151		idr_for_each_entry(&data->object_idr, gobj, id) {
-   152			struct amdgpu_bo *bo = gem_to_amdgpu_bo(gobj);
-   153			struct drm_amdgpu_criu_bo_bucket *bo_bucket;
-   154			struct amdgpu_vm_bo_base *vm_bo_base;
-   155	
-   156			bo_bucket = &bo_buckets[bo_index];
-   157	
-   158			bo_bucket->size = amdgpu_bo_size(bo);
-   159			bo_bucket->offset = amdgpu_bo_mmap_offset(bo);
- > 160			bo_bucket->alloc_flags = bo->flags & (!AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE);
-   161			bo_bucket->preferred_domains = bo->preferred_domains;
-   162	
-   163			if (is_import(bo))
-   164				bo_bucket->flags |= AMDGPU_CRIU_BO_FLAG_IS_IMPORT;
-   165	
-   166			drm_gem_prime_handle_to_fd(dev, data, id, 0, &fd);
-   167			if (fd)
-   168				bo_bucket->dmabuf_fd = fd;
-   169	
-   170			vm_bo_base = bo->vm_bo;
-   171	
-   172			while (vm_bo_base) {
-   173				struct amdgpu_bo_va *bo_va = container_of(vm_bo_base, struct amdgpu_bo_va, base);
-   174				struct amdgpu_bo_va_mapping *mapping;
-   175	
-   176				if (vm_bo_base->vm == avm) {
-   177					list_for_each_entry(mapping, &bo_va->invalids, list) {
-   178						vm_buckets[vm_priv_index].start = mapping->start;
-   179						vm_buckets[vm_priv_index].last = mapping->last;
-   180						vm_buckets[vm_priv_index].offset = mapping->offset;
-   181						vm_buckets[vm_priv_index].flags = hardware_flags_to_uapi_flags(drm_to_adev(dev), mapping->flags);
-   182						vm_buckets[vm_priv_index].gem_handle = id;
-   183						vm_priv_index += 1;
-   184	
-   185						bo_bucket->addr = mapping->start * AMDGPU_GPU_PAGE_SIZE;
-   186					}
-   187					list_for_each_entry(mapping, &bo_va->valids, list) {
-   188						vm_buckets[vm_priv_index].start = mapping->start;
-   189						vm_buckets[vm_priv_index].last = mapping->last;
-   190						vm_buckets[vm_priv_index].offset = mapping->offset;
-   191						vm_buckets[vm_priv_index].flags = hardware_flags_to_uapi_flags(drm_to_adev(dev), mapping->flags);
-   192						vm_buckets[vm_priv_index].gem_handle = id;
-   193						vm_priv_index += 1;
-   194	
-   195						bo_bucket->addr = mapping->start * AMDGPU_GPU_PAGE_SIZE;
-   196					}
-   197				}
-   198	
-   199				vm_bo_base = vm_bo_base->next;
-   200			}
-   201	
-   202			bo_index += 1;
-   203		}
-   204	
-   205		ret = copy_to_user((void __user *)args->bos, bo_buckets, num_bos * sizeof(*bo_buckets));
-   206		if (ret) {
-   207			pr_debug("Failed to copy BO information to user\n");
-   208			ret = -EFAULT;
-   209			goto free_vms;
-   210		}
-   211	
-   212		ret = copy_to_user((void __user *)args->vms, vm_buckets, args->num_vms * sizeof(*vm_buckets));
-   213		if (ret) {
-   214			pr_debug("Failed to copy BO information to user\n");
-   215			ret = -EFAULT;
-   216			goto free_vms;
-   217		}
-   218	
-   219	free_vms:
-   220		kvfree(vm_buckets);
-   221	free_buckets:
-   222		kvfree(bo_buckets);
-   223	exit:
-   224	
-   225		return ret;
-   226	}
-   227	
 
 -- 
 0-DAY CI Kernel Test Service
