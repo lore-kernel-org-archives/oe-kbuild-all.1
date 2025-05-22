@@ -1,62 +1,50 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A8718C91F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 17:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17B718E050
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 17:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747936322; cv=none; b=qpWB2qVRxtejM9g0kKgKzaDCGMtKNLcoShyMW9u31WVc0D1B1ePvAHeiqpHaOZhfax2LlifMXVuFJSNDAebu4pk5KVrxLZPqKCLWn2Geg/xfJpxHufaSbqyF779A/xZq9FCut2SXrasvv0cTdBOekBTbEtXQvhcO+FC5v8ZVMiE=
+	t=1747936486; cv=none; b=IrRyXwoo0muf9rpLn1el2M8/FeR/JHDliF8UyaFrdGvg0rZokXV9HjHtI5wVeZdR+bCJhy6kCw1DX8gGtRPw0BEaUocgrNiWxsLQSsna8Y5MSNGRtSZ+LcVrv7YqMRdYxYVphvwDrzuldugNvIEqxsJEso8/PkHAvlM66HcEgZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747936322; c=relaxed/simple;
-	bh=Na405tLBQE2M4JgPZr2eDoKOSH0qTpUEu/oe9KHBawY=;
+	s=arc-20240116; t=1747936486; c=relaxed/simple;
+	bh=6iYj6KjW+ELKFU3/zjpRPGHct+q3gj4E5a6UrPhbwE4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aCerOQU0v1eEQ62kA/BDVTsI6S2gWgGNy8Quoni2gz4YPRPrDK58lPtr3hmOkJDTrtBINZIPja82/ZXAFqX/uBT1B38aGWOX7sRa81BXqn8aSX9akY9IMBRqYzkmo5jRKZrxU5XueOdRDogUZT2LSVCGQzT4jRhB4toAfBUHsrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=bFbv+es5; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
+	 In-Reply-To:Content-Type; b=lte76YVsysUsEfAKRb5PtNWhiu4AaADwSK72AV7P2Ua2fpOB1Ww0bMuzqCNx+1vs05gVV8JUzdDOn3pohjD7V2ggEk6s8y8pr4uGJwT67KWh6WcBsCitEV4RIFLi0fqNjpvHSqeywnXNdqLMoUJ5aivvbm7eV2ncaCDiCCi4voM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xqh77R7f; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="bFbv+es5"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ad5574b59c0so999314566b.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 10:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1747936319; x=1748541119; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Na405tLBQE2M4JgPZr2eDoKOSH0qTpUEu/oe9KHBawY=;
-        b=bFbv+es5h+aZmGQlGrdN8f2K+yJ4LqTr4+pO1+CeSPIL0At3pVLcoPuT0ZDSMLRm12
-         0/QnIg+5ipzaXEVR72MZh2I+i0kEqQYohh5KAkmJ3vozR06VksqCZlWvS/bTesoBBd5C
-         gzfMmHLtMzYWWXTn8X3FjM2stY8BrVvPQyyD0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747936319; x=1748541119;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Na405tLBQE2M4JgPZr2eDoKOSH0qTpUEu/oe9KHBawY=;
-        b=YmGyTFBI6x3i8C0coghB3hM1Ad+ySjX4b8ToWDBkRMl8++FSw9mkazdHv2nNRtXcWF
-         Wk4Uqrdw/x503G8BX885jf04AFGtNUkq79bB4RZBz7imy3Vjb7ry/2fnHhGa+fZufCsr
-         TsbcoN41uT7h9T+KU4vn+ZOmmfznzF/HJLQ9wk1h3worFk5wHBmUFUa5ghBZmF6BP48d
-         A0L9LnAiDnTMnB32eUI100iFfPpR1/qb0AmIWjfrjPMnqkOx5Yd9bebnZR6zSaTywmTg
-         bfFzu+2cHZxzLD3KtT1NTaX0kCMYn0e8xsSTu+7gAb6ExN5aTjcNdOt6JB0mJQpupm1k
-         4sgA==
-X-Gm-Message-State: AOJu0YxeOnGiPBC6UeerMfGLUH5PT7XNgFX2zJDlrKpj3CjxzLjWnVST
-	Fy9gX0KSvTx83D7J0awpVlPnWshgosfx6YmWULxOqOq03ra0zZk2RP5Dx1ZBkbblL0w=
-X-Gm-Gg: ASbGncsZQ80AmHl62AqoZSm6ZtK50/4Nc7tZyi8dZbbrFDnjGXDGhzynt9yFRMq9tB1
-	xC8u2oljRg7PhhSUv5gSJjL8hBNbf0OPXG2VlKFiDiCA3MNmk6gIgT0mPoAcCgymIO0W1io/Fc1
-	85ELwzdk8553QlGkPsnHDRaunznBYgrJ/cYj0UEUncNBA08T7u5PxXYd9qMYIQeprWzKhlSWaMU
-	Qds/GzUBCRIdK0RXyictYcLZDIS23AT7w8G7WqnxVkhdLm0JtXSn8d1OaJoaJLdRpaZBaoIBZls
-	Vyx1LTkKBWQbsmnqwEWa/LsAXG4HpRSmeLSlJo33zodIaLUCf03mM2MeCwfp7ff58djGqrUrh4o
-	t3GreV4YhzhAfVieA
-X-Google-Smtp-Source: AGHT+IFKZgwXCUTYpLcjUDx7t410Bco0xIZLm/OSG82CavP4uf8WvCP67Q6fkOArRMyQSNJuvppxzw==
-X-Received: by 2002:a17:907:d716:b0:ad2:55e4:4558 with SMTP id a640c23a62f3a-ad536ffbaf6mr2449232066b.56.1747936319031;
-        Thu, 22 May 2025 10:51:59 -0700 (PDT)
-Received: from [192.168.1.183] (host-92-26-98-202.as13285.net. [92.26.98.202])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04af1esm1100078866b.20.2025.05.22.10.51.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 10:51:58 -0700 (PDT)
-Message-ID: <005d4d4c-f385-42e0-8a30-62c6d77ff0f0@citrix.com>
-Date: Thu, 22 May 2025 18:51:57 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xqh77R7f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747936485; x=1779472485;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=6iYj6KjW+ELKFU3/zjpRPGHct+q3gj4E5a6UrPhbwE4=;
+  b=Xqh77R7fTa/jrlERa0egrCpepVwCcQmV4onQ/2y9svYGBPoUhNr1n2LN
+   R5utqco26VMOj/+kqbUlBH501cF8NoZNnS08luhVscHzBgewOUvJx/5+E
+   TIK4aoUz0m4PI145k8k1Yk78OCNr5orqyicJmLUB+m6ZSRAxCufd36WP3
+   iE2B7mtclS+rlQ8gsMlGd/VRTZSa8zOXdDtwKWw2kvDL+BH6q/OgIQ80+
+   QGBK90QmXQS1amGC6zi/yABUmlJ3g4EYwImWyYj9T0IpmBho7zytXdeWJ
+   xr+WuTZnMpiF0OVv5Sk15HFZsMzvGU8ikqFtIGsmlE31ixlw6xP3a10tW
+   A==;
+X-CSE-ConnectionGUID: zDtPpcCFSCuZeS19PFkyLg==
+X-CSE-MsgGUID: amK77IOyQLO74Zv2NNKsuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="60617927"
+X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
+   d="scan'208";a="60617927"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 10:54:44 -0700
+X-CSE-ConnectionGUID: CHND39/VT0ah7Y0TsDHyVA==
+X-CSE-MsgGUID: YpqOJa0ETreofnr10aAOgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
+   d="scan'208";a="141771299"
+Received: from msatwood-mobl.amr.corp.intel.com (HELO [10.125.109.120]) ([10.125.109.120])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 10:54:44 -0700
+Message-ID: <8342ee1c-5adc-4a6a-b4ee-f7d3b42a6528@intel.com>
+Date: Thu, 22 May 2025 10:54:43 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,110 +58,73 @@ To: Xin Li <xin@zytor.com>, kernel test robot <lkp@intel.com>,
  linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, mingo@redhat.com,
  bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- peterz@infradead.org, stable@vger.kernel.org
+ peterz@infradead.org, andrew.cooper3@citrix.com, stable@vger.kernel.org
 References: <20250522060549.2882444-1-xin@zytor.com>
  <202505230141.4YBHhrPI-lkp@intel.com>
  <83b013fb-2057-4097-ac8c-b5c38d019a0f@zytor.com>
-Content-Language: en-GB
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- xsFNBFLhNn8BEADVhE+Hb8i0GV6mihnnr/uiQQdPF8kUoFzCOPXkf7jQ5sLYeJa0cQi6Penp
- VtiFYznTairnVsN5J+ujSTIb+OlMSJUWV4opS7WVNnxHbFTPYZVQ3erv7NKc2iVizCRZ2Kxn
- srM1oPXWRic8BIAdYOKOloF2300SL/bIpeD+x7h3w9B/qez7nOin5NzkxgFoaUeIal12pXSR
- Q354FKFoy6Vh96gc4VRqte3jw8mPuJQpfws+Pb+swvSf/i1q1+1I4jsRQQh2m6OTADHIqg2E
- ofTYAEh7R5HfPx0EXoEDMdRjOeKn8+vvkAwhviWXTHlG3R1QkbE5M/oywnZ83udJmi+lxjJ5
- YhQ5IzomvJ16H0Bq+TLyVLO/VRksp1VR9HxCzItLNCS8PdpYYz5TC204ViycobYU65WMpzWe
- LFAGn8jSS25XIpqv0Y9k87dLbctKKA14Ifw2kq5OIVu2FuX+3i446JOa2vpCI9GcjCzi3oHV
- e00bzYiHMIl0FICrNJU0Kjho8pdo0m2uxkn6SYEpogAy9pnatUlO+erL4LqFUO7GXSdBRbw5
- gNt25XTLdSFuZtMxkY3tq8MFss5QnjhehCVPEpE6y9ZjI4XB8ad1G4oBHVGK5LMsvg22PfMJ
- ISWFSHoF/B5+lHkCKWkFxZ0gZn33ju5n6/FOdEx4B8cMJt+cWwARAQABzSlBbmRyZXcgQ29v
- cGVyIDxhbmRyZXcuY29vcGVyM0BjaXRyaXguY29tPsLBegQTAQgAJAIbAwULCQgHAwUVCgkI
- CwUWAgMBAAIeAQIXgAUCWKD95wIZAQAKCRBlw/kGpdefoHbdD/9AIoR3k6fKl+RFiFpyAhvO
- 59ttDFI7nIAnlYngev2XUR3acFElJATHSDO0ju+hqWqAb8kVijXLops0gOfqt3VPZq9cuHlh
- IMDquatGLzAadfFx2eQYIYT+FYuMoPZy/aTUazmJIDVxP7L383grjIkn+7tAv+qeDfE+txL4
- SAm1UHNvmdfgL2/lcmL3xRh7sub3nJilM93RWX1Pe5LBSDXO45uzCGEdst6uSlzYR/MEr+5Z
- JQQ32JV64zwvf/aKaagSQSQMYNX9JFgfZ3TKWC1KJQbX5ssoX/5hNLqxMcZV3TN7kU8I3kjK
- mPec9+1nECOjjJSO/h4P0sBZyIUGfguwzhEeGf4sMCuSEM4xjCnwiBwftR17sr0spYcOpqET
- ZGcAmyYcNjy6CYadNCnfR40vhhWuCfNCBzWnUW0lFoo12wb0YnzoOLjvfD6OL3JjIUJNOmJy
- RCsJ5IA/Iz33RhSVRmROu+TztwuThClw63g7+hoyewv7BemKyuU6FTVhjjW+XUWmS/FzknSi
- dAG+insr0746cTPpSkGl3KAXeWDGJzve7/SBBfyznWCMGaf8E2P1oOdIZRxHgWj0zNr1+ooF
- /PzgLPiCI4OMUttTlEKChgbUTQ+5o0P080JojqfXwbPAyumbaYcQNiH1/xYbJdOFSiBv9rpt
- TQTBLzDKXok86M7BTQRS4TZ/ARAAkgqudHsp+hd82UVkvgnlqZjzz2vyrYfz7bkPtXaGb9H4
- Rfo7mQsEQavEBdWWjbga6eMnDqtu+FC+qeTGYebToxEyp2lKDSoAsvt8w82tIlP/EbmRbDVn
- 7bhjBlfRcFjVYw8uVDPptT0TV47vpoCVkTwcyb6OltJrvg/QzV9f07DJswuda1JH3/qvYu0p
- vjPnYvCq4NsqY2XSdAJ02HrdYPFtNyPEntu1n1KK+gJrstjtw7KsZ4ygXYrsm/oCBiVW/OgU
- g/XIlGErkrxe4vQvJyVwg6YH653YTX5hLLUEL1NS4TCo47RP+wi6y+TnuAL36UtK/uFyEuPy
- wwrDVcC4cIFhYSfsO0BumEI65yu7a8aHbGfq2lW251UcoU48Z27ZUUZd2Dr6O/n8poQHbaTd
- 6bJJSjzGGHZVbRP9UQ3lkmkmc0+XCHmj5WhwNNYjgbbmML7y0fsJT5RgvefAIFfHBg7fTY/i
- kBEimoUsTEQz+N4hbKwo1hULfVxDJStE4sbPhjbsPCrlXf6W9CxSyQ0qmZ2bXsLQYRj2xqd1
- bpA+1o1j2N4/au1R/uSiUFjewJdT/LX1EklKDcQwpk06Af/N7VZtSfEJeRV04unbsKVXWZAk
- uAJyDDKN99ziC0Wz5kcPyVD1HNf8bgaqGDzrv3TfYjwqayRFcMf7xJaL9xXedMcAEQEAAcLB
- XwQYAQgACQUCUuE2fwIbDAAKCRBlw/kGpdefoG4XEACD1Qf/er8EA7g23HMxYWd3FXHThrVQ
- HgiGdk5Yh632vjOm9L4sd/GCEACVQKjsu98e8o3ysitFlznEns5EAAXEbITrgKWXDDUWGYxd
- pnjj2u+GkVdsOAGk0kxczX6s+VRBhpbBI2PWnOsRJgU2n10PZ3mZD4Xu9kU2IXYmuW+e5KCA
- vTArRUdCrAtIa1k01sPipPPw6dfxx2e5asy21YOytzxuWFfJTGnVxZZSCyLUO83sh6OZhJkk
- b9rxL9wPmpN/t2IPaEKoAc0FTQZS36wAMOXkBh24PQ9gaLJvfPKpNzGD8XWR5HHF0NLIJhgg
- 4ZlEXQ2fVp3XrtocHqhu4UZR4koCijgB8sB7Tb0GCpwK+C4UePdFLfhKyRdSXuvY3AHJd4CP
- 4JzW0Bzq/WXY3XMOzUTYApGQpnUpdOmuQSfpV9MQO+/jo7r6yPbxT7CwRS5dcQPzUiuHLK9i
- nvjREdh84qycnx0/6dDroYhp0DFv4udxuAvt1h4wGwTPRQZerSm4xaYegEFusyhbZrI0U9tJ
- B8WrhBLXDiYlyJT6zOV2yZFuW47VrLsjYnHwn27hmxTC/7tvG3euCklmkn9Sl9IAKFu29RSo
- d5bD8kMSCYsTqtTfT6W4A3qHGvIDta3ptLYpIAOD2sY3GYq2nf3Bbzx81wZK14JdDDHUX2Rs
- 6+ahAA==
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
+ oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
+ 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
+ ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
+ VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
+ iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
+ c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
+ pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
+ ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
+ QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
+ c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
+ LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
+ lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
+ MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
+ IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
+ aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
+ I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
+ E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
+ F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
+ CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
+ P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
+ 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
+ GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
+ MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
+ Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
+ lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
+ 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
+ qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
+ BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
+ 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
+ vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
+ FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
+ l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
+ yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
+ +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
+ asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
+ WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
+ sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
+ KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
+ MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
+ hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
+ vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
 In-Reply-To: <83b013fb-2057-4097-ac8c-b5c38d019a0f@zytor.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 22/05/2025 6:33 pm, Xin Li wrote:
-> On 5/22/2025 10:20 AM, kernel test robot wrote:
->> Hi Xin,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on 6a7c3c2606105a41dde81002c0037420bc1ddf00]
->>
->> url:   
->> https://github.com/intel-lab-lkp/linux/commits/Xin-Li-Intel/x86-fred-signal-Prevent-single-step-upon-ERETU-completion/20250522-140954
->> base:   6a7c3c2606105a41dde81002c0037420bc1ddf00
->> patch link:   
->> https://lore.kernel.org/r/20250522060549.2882444-1-xin%40zytor.com
->> patch subject: [PATCH v1 1/1] x86/fred/signal: Prevent single-step
->> upon ERETU completion
->> config: i386-buildonly-randconfig-003-20250522
->> (https://download.01.org/0day-ci/archive/20250523/202505230141.4YBHhrPI-lkp@intel.com/config)
->> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->> reproduce (this is a W=1 build):
->> (https://download.01.org/0day-ci/archive/20250523/202505230141.4YBHhrPI-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new
->> version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes:
->> https://lore.kernel.org/oe-kbuild-all/202505230141.4YBHhrPI-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>     In file included from arch/x86/kernel/signal_32.c:32:
->>     arch/x86/include/asm/sighandling.h: In function
->> 'prevent_single_step_upon_eretu':
+On 5/22/25 10:33, Xin Li wrote:
 >>>> arch/x86/include/asm/sighandling.h:44:21: error: 'struct pt_regs'
 >>>> has no member named 'fred_ss'
 >>        44 |                 regs->fred_ss.swevent = 0;
 >>           |                     ^~
 >>
->
+> 
 > Hmm, this statement is under IS_ENABLED(CONFIG_X86_FRED), which should
-> be a compile time FALSE with i386.  Why it is still being compiled?
 
-Because what the compiler is seeing is:
+The compiler still _compiles_ unreachable statements:
 
-if (0 && ...)
-    regs->fred_ss.swevent = 0;
+	if (0)
+		foo = bar.bar;
 
-and the bad field name is found at parse time, while the whole
-expression is only discarded during optimisation.
-
-The one thing you can't IS_ENABLED() around is conditional fields.  That
-needs to be full #ifdef.
-
-~Andrew
+An #ifdef will keep the compiler out completely, of course. That's
+probably the best thing in this case, especially since it'll be tucked
+away in a header.
