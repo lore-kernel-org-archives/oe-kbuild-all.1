@@ -1,59 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CD7236453
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 11:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC38289E3A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 11:29:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747912901; cv=none; b=uwi6KyVHtk6hrEN0jX+JdqNj9Zi/KgloTuDDTaoiXWWcNB68N4Ka2q551hAvV0SmBEKT51SvH//fzG9bSUmo6AJbLwVVX5SqPZW8LL+Q5jDxVRHqXGdOi9Rc0AU6QFXiKjc1NfnUOPXigBcX+/jvUcoVGJy4OClwAX/pTlH7PWs=
+	t=1747913385; cv=none; b=Q44AeLeKoMfraQ9Xnooe2nwWNQJAvvmQ20FdDQyrPhKs+oGHQDFzFDNKcPmyIDn5JVbMNL2XqZvYieTU/COKpPCbq1aUcxjVs+smXF1JH8xV1xJ914e7qCpHZc9P6ILkwtzYuMMORfnVdFJjX4rfjuWwPmPAQSw/FZPhVw0nXEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747912901; c=relaxed/simple;
-	bh=f1VSk8kjSvPfspbFnVDATNH/tAbi2YwK6c9qb9OE8Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=UIpSvpbdDkM6eLFU+QQOdbf0VdxBuH2TTyx89wCyKNzDQaCGq3vfU+fYAjTec+C+oKwmcw+SvghdMEn2j4FCl2UCFBbiwpy8BkhScouA/+snvPMVLW44GQdGztUuebsMMz2ip8B8kCCNUiYZC5ezF1XT+rAP3jZLrndoNBo90+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCc52wQh; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1747913385; c=relaxed/simple;
+	bh=kA/1F2Zfzqa6vgUg26NcIoNzYwbZOoIGvMHQ8DxxvUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r4Z/LEYFIKFMORyk1Pnxgg4ycmS1PMrWV2IiAOTodUIv9zDXOEQUWr/ltYTmRmXJ0ouP4uFvz8kXvEFnlTxRN6YfuSIaW0PzrrQuRwsNUKiZ8y35qyMJnU02ctWR+zihOmqBe+TNwLZKHbpVBATsNEafvaBiIiFTPPUkoUjEZYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FyemD12N; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCc52wQh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FyemD12N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747912899; x=1779448899;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=f1VSk8kjSvPfspbFnVDATNH/tAbi2YwK6c9qb9OE8Bo=;
-  b=eCc52wQhE4roVoqZQq3CH+nLHwmYMr7Oc+Bc4gsysDTZ0qxWStCz8Gyt
-   clZ1FtoWz///lnalWdVcc3ZHhOqYp+mFQQ6P3a09Dbh57+Ja7X0rnqO1C
-   FDFpPm7vkdzwDr/k+RLADmZjoGlLv47q50cArOW7P3mq6n2WnTdcEV7K8
-   P2i2ksPBvzeV20RH19nk8faHdbkEe5qW5fZh7NJGqDxA54OfC2nGObRV0
-   RIZrI6xPCsdLcWcM+VV1t355VBnh/vvpMVdEmXJnZhqXgmK3JuktBjDGb
-   o8Ti+o9rqPg0hZIaO9kSKtzCXk5eKI9kbVI/CyXpueQy7H8hp6jIAw8wK
-   A==;
-X-CSE-ConnectionGUID: FnMbWu5lTIyUQ9UF0XGWrg==
-X-CSE-MsgGUID: XFF/RwBzRM6DDDs44g7Bxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49050019"
+  t=1747913384; x=1779449384;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kA/1F2Zfzqa6vgUg26NcIoNzYwbZOoIGvMHQ8DxxvUc=;
+  b=FyemD12NUSzddYW6tTb+naE+TY25hTkrRTr6cRjBRoihYCmENYAX3zMp
+   KZ3gOjCefPD1htf1sS3NTw28CAOL2+Xv+C+H9B6HcZRZdrWFhfAlObgD0
+   sDTUU1gIzD64zUrwhP+4d9sC1404RHH2+ZIwDe1QubV0n2HPB3hz2IJvi
+   Xfv2jLPkEJ3xYlfKrZmDTgXWn9IeUFcFwhPHgG7FXLzTCN1FsbHJoOZ9+
+   l9bzv3Z+woNzJF2/60oedEhXt0PMzzobgM2SUov+CfvwIeuT39jud/iBi
+   sDULRCl39IlIklcS5P4lfBN55TBBNz6XNWwj2yEFOYz7kkf+uXE1VI2F7
+   Q==;
+X-CSE-ConnectionGUID: X07v8OXHQTGE9E5uzQZN/w==
+X-CSE-MsgGUID: VwSyki2XTvGP/ObjJjOQzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49051499"
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="49050019"
+   d="scan'208";a="49051499"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 04:21:38 -0700
-X-CSE-ConnectionGUID: qm6F4TDZTcWN9VZ4jUnO6Q==
-X-CSE-MsgGUID: qkUEDMlITTyZMKeEhrSaHw==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 04:29:43 -0700
+X-CSE-ConnectionGUID: alwEKqmtQ/S93/wdYInrtQ==
+X-CSE-MsgGUID: GuAsb9XpR8mMwN2bOSSLzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="141087547"
+   d="scan'208";a="141090681"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 May 2025 04:21:38 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 May 2025 04:29:38 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uI3zT-000PGi-0S;
-	Thu, 22 May 2025 11:21:35 +0000
-Date: Thu, 22 May 2025 19:20:59 +0800
+	id 1uI47D-000PHI-2i;
+	Thu, 22 May 2025 11:29:35 +0000
+Date: Thu, 22 May 2025 19:29:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maud Spierings via B4 Relay <devnull+maudspierings.gocontroll.com@kernel.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] iio: common: st_sensors: Fix use of uninitialize
- device structs
-Message-ID: <aC8Im5vGIbQTFtM6@99c60fc626cc>
+To: Claudiu <claudiu.beznea@tuxon.dev>, vkoul@kernel.org, kishon@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	p.zabel@pengutronix.de, geert+renesas@glider.be,
+	magnus.damm@gmail.com, yoshihiro.shimoda.uh@renesas.com,
+	kees@kernel.org, gustavoars@kernel.org, biju.das.jz@bp.renesas.com
+Cc: oe-kbuild-all@lists.linux.dev, claudiu.beznea@tuxon.dev,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-hardening@vger.kernel.org, john.madieu.xa@bp.renesas.com,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH v3 08/12] reset: rzg2l-usbphy-ctrl: Add support for USB
+ PWRRDY signal
+Message-ID: <202505221929.nUHscY04-lkp@intel.com>
+References: <20250521140943.3830195-9-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +71,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250522-st_iio_fix-v2-1-07a32655a996@gocontroll.com>
+In-Reply-To: <20250521140943.3830195-9-claudiu.beznea.uj@bp.renesas.com>
 
-Hi,
+Hi Claudiu,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on next-20250521]
+[cannot apply to geert-renesas-devel/next pza/reset/next robh/for-next linus/master pza/imx-drm/next v6.15-rc7 v6.15-rc6 v6.15-rc5 v6.15-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/soc-renesas-rz-sysc-Add-syscon-regmap-support/20250521-221703
+base:   next-20250521
+patch link:    https://lore.kernel.org/r/20250521140943.3830195-9-claudiu.beznea.uj%40bp.renesas.com
+patch subject: [PATCH v3 08/12] reset: rzg2l-usbphy-ctrl: Add support for USB PWRRDY signal
+config: sparc-randconfig-r111-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221929.nUHscY04-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.4.0
+reproduce: (https://download.01.org/0day-ci/archive/20250522/202505221929.nUHscY04-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2] iio: common: st_sensors: Fix use of uninitialize device structs
-Link: https://lore.kernel.org/stable/20250522-st_iio_fix-v2-1-07a32655a996%40gocontroll.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221929.nUHscY04-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "rz_sysc_get_signal_map" [drivers/reset/reset-rzg2l-usbphy-ctrl.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
