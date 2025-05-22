@@ -1,84 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4E11B0434
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 08:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B8125B66D;
+	Thu, 22 May 2025 08:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747901874; cv=none; b=eXEQBTcCJBRO8dqYewjkP/Qp3xm+B10e0O80OIerQ2h9x7Pki34A9x0yloQMO0fPqpYIujK6Mq2jQ+EK9hYr9nNYxF+VmwkSRtdgNWmz+afpYTDhVI1MphkkkvSWWAAV4Mz0MmmxxvbwxWXnEAK4fmvKoVhRctZweo+kDoL38Po=
+	t=1747901904; cv=none; b=s0jfylVxyvmdqvpROWQF1/cfqSVTq1uoCzFe7CFjICiqKkRq+xK2EdkqrfvESv5L8J7NiDPPb0tc4aZqAKCtT+jsV9ifd+OVDxyaii62VxeyiODi+8YDQtV8mVuWhdtCkhpt2SFSHS7DGUxrIGVgb7/NdrJd8r9HTztuY1xjBK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747901874; c=relaxed/simple;
-	bh=4E0jfNGbG88adiCbjhaZhgzq3/Jr1D4TGDnWOkR40xs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ffdvo3ZLxV29XJUOu7qeNjEO24ASBfVa3Y15ylEHCk0TgK3D/IXqb3s3lVgb/K7XXSWUJgEWx/ElidyhtCdlB4XzwTVloEEFhOLu5BsmFg79zBYp/j4rbPyUHXOeW6kvf32fgiMqgZJddjMdrAQOms09xXEbMLTpPObpxdPPZsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hw/aJGfM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747901904; c=relaxed/simple;
+	bh=Jii8DnROvN5RU5vMD8/YqabKiAH1HBT7oUkPtkeEBJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cw2vUI9wlNiivP31rF/UEb5Xt98UT6xX2p5KzHXeckK3RSZdinHMaJEv02sBhpwYQp5nuHHj6iR433RDZJz23P+91uW7Biw/Y0BV6OzXpoteNabGzQ5uy7dcHn/H2BGYxuxf5T1r25NgWSi+MjTOriKas6CHkWHK6fhrpAmV2+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LS9j2jWV; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hw/aJGfM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D577C4CEE4;
-	Thu, 22 May 2025 08:17:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747901874;
-	bh=4E0jfNGbG88adiCbjhaZhgzq3/Jr1D4TGDnWOkR40xs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hw/aJGfMnUtTud6NiQu3pHYJDwyuLKWVv7kEpdIgaq7LjAC/Ff8aElh8p9ayN+YpD
-	 UmjgH8bTG2IyE6vQDeESEV9TTEZLs9NMpodX/00sMKyVj/ZobubcSA+ee6S+Mo46uX
-	 4x8FvcKYfCVEBYopZ/B3hWyNfrtZSt41VQJMblIGgTH7FXCDAZK1/Gt+sBO+WSDa8a
-	 PkLcD0kZczIhXVefyUTFKDDhrXVgsSmOQMQPTArCI5WgVP4TC1H705YOwo4JrkiLN+
-	 XofTVlYaOa5OHEUoucC6WtQZkYlh93aWMqplCoStzu4XUMwLFXIsqVVdTFg1CGMNK3
-	 q0rRKD/JV+L5A==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uI17f-00HBlp-On;
-	Thu, 22 May 2025 09:17:51 +0100
-Date: Thu, 22 May 2025 09:17:51 +0100
-Message-ID: <86plg1dpow.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Jing Zhang <jingzhangos@google.com>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [arm-platforms:kvm-arm64/misc-6.16 7/7] arch/arm64/kvm/vgic/vgic-debug.c:365: warning: expecting prototype for vigc_its_iter_next(). Prototype was for vgic_its_iter_next() instead
-In-Reply-To: <202505221421.KAuWlmSr-lkp@intel.com>
-References: <202505221421.KAuWlmSr-lkp@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LS9j2jWV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747901903; x=1779437903;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Jii8DnROvN5RU5vMD8/YqabKiAH1HBT7oUkPtkeEBJk=;
+  b=LS9j2jWVsET+ZM0cyan1RaR+IhrhoG6wl1tUHB7xgD08BZyIpCdkVdue
+   Mky7Wl9RdKISeVS0CBpxi3J2ow7/nAwK1o3OVR2LwumufZtmCLD7yFKse
+   PtYoVD/dRsDzWDZ2dQixyARQFvV+KdpOagPR9hq65HkYh/aDxfOQ9zKjL
+   cu6uYuZWYeB5Q6NVajKXV0qFcNOT0RCL7192t6E3pVTAatZmdpXZkLjXz
+   cFhy1GhZdOiCatHOIGApNRe2eHTwrULEqjIEAz6V6aChQKtOHrhso0sin
+   OMR0CNgTluT4kJfqNaSuZHqWxqqSWzV+tyZJrSJzfNS21f/QFuxpK2bg+
+   g==;
+X-CSE-ConnectionGUID: jpu1a3AwTsWT+hCLiHKx1w==
+X-CSE-MsgGUID: LNWoOTgyQTmmBq7mVdxK4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="53718797"
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
+   d="scan'208";a="53718797"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 01:18:23 -0700
+X-CSE-ConnectionGUID: Tl/CSLl0SdGl4/VFYAnrCg==
+X-CSE-MsgGUID: +qfZfjn6QQW0k58uiDjvgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
+   d="scan'208";a="145628796"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 22 May 2025 01:18:19 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uI185-000P5c-0Q;
+	Thu, 22 May 2025 08:18:17 +0000
+Date: Thu, 22 May 2025 16:17:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Subject: Re: [PATCH net-next 1/8] virtio: introduce virtio_features_t
+Message-ID: <202505221621.MhvgnFni-lkp@intel.com>
+References: <9a1c198245370c3ec403f14d118cd841df0fcfee.1747822866.git.pabeni@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: lkp@intel.com, jingzhangos@google.com, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9a1c198245370c3ec403f14d118cd841df0fcfee.1747822866.git.pabeni@redhat.com>
 
-On Thu, 22 May 2025 07:44:03 +0100,
-kernel test robot <lkp@intel.com> wrote:
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/misc-6.16
-> head:   30deb51a677b96f0faf20373995fe0fb4a78b8b8
-> commit: 30deb51a677b96f0faf20373995fe0fb4a78b8b8 [7/7] KVM: arm64: vgic-its: Add debugfs interface to expose ITS tables
-> config: arm64-randconfig-002-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221421.KAuWlmSr-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 7.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221421.KAuWlmSr-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505221421.KAuWlmSr-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> arch/arm64/kvm/vgic/vgic-debug.c:365: warning: expecting prototype for vigc_its_iter_next(). Prototype was for vgic_its_iter_next() instead
+Hi Paolo,
 
-Now fixed. Thanks for the report.
+kernel test robot noticed the following build errors:
 
-	M.
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/virtio-introduce-virtio_features_t/20250521-183700
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/9a1c198245370c3ec403f14d118cd841df0fcfee.1747822866.git.pabeni%40redhat.com
+patch subject: [PATCH net-next 1/8] virtio: introduce virtio_features_t
+config: x86_64-buildonly-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221621.MhvgnFni-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221621.MhvgnFni-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221621.MhvgnFni-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/remoteproc/remoteproc_virtio.c:328:18: error: incompatible function pointer types initializing 'virtio_features_t (*)(struct virtio_device *)' (aka 'unsigned __int128 (*)(struct virtio_device *)') with an expression of type 'u64 (struct virtio_device *)' (aka 'unsigned long long (struct virtio_device *)') [-Wincompatible-function-pointer-types]
+     328 |         .get_features   = rproc_virtio_get_features,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +328 drivers/remoteproc/remoteproc_virtio.c
+
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20  326  
+9350393239153c drivers/remoteproc/remoteproc_virtio.c Stephen Hemminger 2013-02-10  327  static const struct virtio_config_ops rproc_virtio_config_ops = {
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20 @328  	.get_features	= rproc_virtio_get_features,
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20  329  	.finalize_features = rproc_virtio_finalize_features,
+b49503eaf9c74c drivers/remoteproc/remoteproc_virtio.c Jiri Pirko        2024-07-08  330  	.find_vqs	= rproc_virtio_find_vqs,
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20  331  	.del_vqs	= rproc_virtio_del_vqs,
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20  332  	.reset		= rproc_virtio_reset,
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20  333  	.set_status	= rproc_virtio_set_status,
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20  334  	.get_status	= rproc_virtio_get_status,
+92b38f851470f8 drivers/remoteproc/remoteproc_virtio.c Sjur Brændeland   2013-02-21  335  	.get		= rproc_virtio_get,
+92b38f851470f8 drivers/remoteproc/remoteproc_virtio.c Sjur Brændeland   2013-02-21  336  	.set		= rproc_virtio_set,
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20  337  };
+ac8954a413930d drivers/remoteproc/remoteproc_rpmsg.c  Ohad Ben-Cohen    2011-10-20  338  
 
 -- 
-Without deviation from the norm, progress is not possible.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
