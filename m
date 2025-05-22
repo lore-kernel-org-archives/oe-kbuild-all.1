@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC4723496B;
-	Thu, 22 May 2025 10:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E508E73477
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 10:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747908273; cv=none; b=oabsjKefxANrrLSywUQnO3qFtRWElORPqu9sU1pJCHpqCwPt6qY6g3Han5dlTZKLa7uBnJnRSZdc+zFvLV2NMGEemNezWYzzMV/duJFxeNgY3PQeLXQvUuLFZhoRW6W9EZwIBbISgXyfY1VqqhqDI1NeEdv+jH7K5fRUxvwdLNA=
+	t=1747908995; cv=none; b=V+dWhec3PVKpSY5HNNaiTT3rx62s6Z4d5iuLZLSJ4AumHHxKKB20pjm3x4/naLaJSMfxh72VF4WvEXpVJVZ8bTT44ysLv7iuHQsoGt2nlLjcHkPbbUHMGI96CwKeBAcmqs7409iLWWNBllNp1Q3ma4A0m0q9l0mt0ZjjH4ndUVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747908273; c=relaxed/simple;
-	bh=e4q4USOWC4kTCG4oKZoJVELWm/zy32zGiu+uPJ8gBTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OGY0lqG/LUQ6Cyg1fCLxr8qX3EW3yX6gDWJxeqbTfEOrz/bra5ZltKwZtiN7ZcFGDXQUjGBcDElmnzVTDpWDP1Tlz/1/QwnW1KILVsA49wjP2nluLG2C6inlZtnVY73XnQ9L6j1u2xhScVmmUI69CDwmknuaXGjQQktohdxV1IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fuRWi9br; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1747908995; c=relaxed/simple;
+	bh=lHCZYUvSaKJUE3D/xI/ja6g2dwYsIInnz9ujIe6XbYA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uoL+0hIgBwEz0y8BBDUSEnJo0vR7cEtPnIuZLOSHY/4HcdhhJyZcWVV3ju6sD9uplabHQTty48Tv4ic8s5x3h8fB+9hdZx5+3IZr2ZyS0hLc3PGeKzWPZWz3zQxkMTcxJqUyEvEZ45G7qDREU9rAgRdSZuELnJdzyo/ij4W1Os8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=boZ1h8X6; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fuRWi9br"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="boZ1h8X6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747908272; x=1779444272;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e4q4USOWC4kTCG4oKZoJVELWm/zy32zGiu+uPJ8gBTs=;
-  b=fuRWi9brYGbmaFN7oWDr0W7WTNq5XnbYIpSIMHjCXbJhYp/ZeKwp5mW1
-   EGtmIj/uDW0S3JTlLqCE6iM33SGjzbTKyojACQlYfgDDqLV80TtXqeked
-   +GsRrpNu9iKdKwe0RxHOBqGhwrUkfcE0YicwJcRCq9kRRo3SMIQZFo9M9
-   xovKPSPx5VCzPejOYy6dzOEHiH2wyjkkOBM4DwTzuE8d0SxyTdXXJ1tqK
-   RNjoQiFUTjwLohZzt8nxlHGo7QL9TFVRlA8Wj9PbqW3MWRLvbUIVebYN8
-   BseH/y4Fu7S8MPfv5e0PbQGVyIY65U3+DHRJPCbfRHUWVOJXVQgtYc8F6
-   w==;
-X-CSE-ConnectionGUID: qIwWW+oTTGWSPwMPKf1gHA==
-X-CSE-MsgGUID: yuWVfJAHRMOBTii021oe6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="52550905"
+  t=1747908992; x=1779444992;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lHCZYUvSaKJUE3D/xI/ja6g2dwYsIInnz9ujIe6XbYA=;
+  b=boZ1h8X6qHRqPGNVJbpvaUJy39aMnC7hqG2ZZWCE1263YjfaKV28LtIR
+   iL99aUo84H97np8lrl7VSQnxVocwfPPjSxbU82d3/qBI1Zn//biPRTGWM
+   ES3pGZo31nl5aLDfQqd7RiO4YmCKJuIPh7jvo8+C+AkwOXAYSHK+i8Ip0
+   gBCFwO381xg9/uILE30Azk+3zBnkbWLjqhj2ssH3Tz7Zxr73wxOMdwkgQ
+   2nP4rQOaWlkfPrPnmekoJ2dXbQQ1xiO5sj8QC8KzhNSGjwS03czaaPp9r
+   GmsM7XuMCvXUkFtaqkcfbpfdAYMf+PtLFEWJ6UUsv2yUXZsKMLhbXv3aO
+   A==;
+X-CSE-ConnectionGUID: v6ZxHmBUQq+eFBmOZ0ck+Q==
+X-CSE-MsgGUID: 3TZdPiiNS2uJ1TN3zQ7e3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="60167657"
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="52550905"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 03:04:31 -0700
-X-CSE-ConnectionGUID: ieyTy/dUQWixKmLebHzikw==
-X-CSE-MsgGUID: U1D0mFTwRAiyRLHzWLKeJQ==
+   d="scan'208";a="60167657"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 03:16:32 -0700
+X-CSE-ConnectionGUID: NKuA3txYSJmG+3eTCCivcw==
+X-CSE-MsgGUID: fcq9ob9PQn6kS87ImwR1fw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="177668686"
+   d="scan'208";a="145679878"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 May 2025 03:04:30 -0700
+  by orviesa005.jf.intel.com with ESMTP; 22 May 2025 03:16:31 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uI2mp-000PCW-29;
-	Thu, 22 May 2025 10:04:27 +0000
-Date: Thu, 22 May 2025 18:04:09 +0800
+	id 1uI2yT-000PDa-0i;
+	Thu, 22 May 2025 10:16:29 +0000
+Date: Thu, 22 May 2025 18:15:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/5] block: add support for copy offload
-Message-ID: <202505221702.EcgNFozB-lkp@intel.com>
-References: <20250521223107.709131-3-kbusch@meta.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 11/11] fs/jbd2/journal.c:1529:6:
+ warning: no previous prototype for function 'jbd2_proxy_exec_get'
+Message-ID: <202505221832.qw5wtL1C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,92 +61,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250521223107.709131-3-kbusch@meta.com>
 
-Hi Keith,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20250521]
-[cannot apply to linux-nvme/for-next brauner-vfs/vfs.all linus/master v6.15-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-new-sector-copy-api/20250522-063316
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20250521223107.709131-3-kbusch%40meta.com
-patch subject: [PATCH 2/5] block: add support for copy offload
-config: x86_64-buildonly-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221702.EcgNFozB-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221702.EcgNFozB-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   8c0e5d113e2a8ff250d4973be89da61edcab22d5
+commit: e93dbf3bd481cf9c55d08073d8b0865cf274707c [11/11] anolis: sched: introduce simplified proxy execution for jbd2_lock
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250522/202505221832.qw5wtL1C-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221832.qw5wtL1C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505221702.EcgNFozB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221832.qw5wtL1C-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/blk-integrity.c:29:31: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      29 |         struct bio_vec iv, ivprv = { NULL };
-         |                                      ^~~~
-         |                                      {   }
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   block/blk-integrity.c:69:31: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      69 |         struct bio_vec iv, ivprv = { NULL };
-         |                                      ^~~~
-         |                                      {   }
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   2 warnings generated.
+>> fs/jbd2/journal.c:1529:6: warning: no previous prototype for function 'jbd2_proxy_exec_get' [-Wmissing-prototypes]
+    1529 | void jbd2_proxy_exec_get(journal_t *journal)
+         |      ^
+   fs/jbd2/journal.c:1529:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1529 | void jbd2_proxy_exec_get(journal_t *journal)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +29 block/blk-integrity.c
+vim +/jbd2_proxy_exec_get +1529 fs/jbd2/journal.c
 
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  18  
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  19  /**
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  20   * blk_rq_count_integrity_sg - Count number of integrity scatterlist elements
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  21   * @q:		request queue
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  22   * @bio:	bio with integrity metadata attached
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  23   *
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  24   * Description: Returns the number of elements required in a
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  25   * scatterlist corresponding to the integrity metadata in a bio.
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  26   */
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  27  int blk_rq_count_integrity_sg(struct request_queue *q, struct bio *bio)
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  28  {
-d57a5f7c6605f1 Kent Overstreet    2013-11-23 @29  	struct bio_vec iv, ivprv = { NULL };
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  30  	unsigned int segments = 0;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  31  	unsigned int seg_size = 0;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23  32  	struct bvec_iter iter;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23  33  	int prev = 0;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  34  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23  35  	bio_for_each_integrity_vec(iv, bio, iter) {
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  36  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23  37  		if (prev) {
-3dccdae54fe836 Christoph Hellwig  2018-09-24  38  			if (!biovec_phys_mergeable(q, &ivprv, &iv))
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  39  				goto new_segment;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23  40  			if (seg_size + iv.bv_len > queue_max_segment_size(q))
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  41  				goto new_segment;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  42  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23  43  			seg_size += iv.bv_len;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  44  		} else {
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  45  new_segment:
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  46  			segments++;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23  47  			seg_size = iv.bv_len;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10  48  		}
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  49  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23  50  		prev = 1;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  51  		ivprv = iv;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  52  	}
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  53  
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  54  	return segments;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  55  }
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  56  
+  1524	
+  1525	/*
+  1526	 * When we enable proxy exec for journal, we call jbd2_proxy_exec_get().
+  1527	 * If we are the first one to enable, we'll also enable __jbd2_proxy_exec_enabled.
+  1528	 */
+> 1529	void jbd2_proxy_exec_get(journal_t *journal)
+  1530	{
+  1531		atomic_inc(&journal->proxy_exec_refcount);
+  1532	
+  1533		if (atomic_inc_not_zero(&jbd2_proxy_exec_count))
+  1534			return;
+  1535	
+  1536		mutex_lock(&jbd2_proxy_exec_mutex);
+  1537		if (!atomic_read(&jbd2_proxy_exec_count))
+  1538			static_branch_enable(&__jbd2_proxy_exec_enabled);
+  1539	
+  1540		/* Ensure the static branch is enabled before we increase jbd2_proxy_exec_count. */
+  1541		smp_mb__before_atomic();
+  1542		atomic_inc(&jbd2_proxy_exec_count);
+  1543		mutex_unlock(&jbd2_proxy_exec_mutex);
+  1544	}
+  1545	
 
 -- 
 0-DAY CI Kernel Test Service
