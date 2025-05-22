@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACCE19D8AC;
-	Thu, 22 May 2025 18:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9A11A0BC9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 18:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747936943; cv=none; b=DKzGa1EAT2ftGsg0w8NqH+mv4FWKZ+oTsm/NGnxAvq8bvKXFLkfcB4w6IKPXSxvyPrnTFG6Vx+NRA4V7tCYbhk//E/uc0jBBD0TP03vI1bx2LrVlduce1RQ1MbqPvxLafXobItgBWROTFRyN8zhTlTIv19jq2TN//KQQsLZqwH4=
+	t=1747937596; cv=none; b=Oo4JYNzK5xcvJQjZrUORal3o7kgkhORoXGuTEbuqXyDyhVCnzSqQqSsvK+wMoMgbQH18TWT/W06QmO1uNm4wAihb9N0u3cDmha7ITXTotERSVfds1g7ag9L/7ieBKL1lNYwAfM74NozaVIfPjqkogu9B7y2gv6zOQ3CE0WaH1dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747936943; c=relaxed/simple;
-	bh=NGL9Q+yiyPsTcMLEO4ykeXL4yWjfWlrct6vAjBHytOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jRNsKJlRtIrWhdbO+F/ynPID9BLwqnQGJUYO4Oy3Y4Tve4E2XUsxWw2K+QoWlys2x1BMoASa/z0/T3/Fm+563OX9FftwhZkImfbLbpw6UrC1zeg5D2JfkoETYvMet2asfpY32uTDh3lGlmfRg+8dOGwKVHYUh7CYoAgXC1O2FpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/vOtAFa; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1747937596; c=relaxed/simple;
+	bh=tOwPpYGFdGD2JRvumdnEAaypaSlpManYCkAoaKjaTYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lRsYvPw/HYZRgIbLRcQyxrcxSCXn6VylBKSwCNK91xzdcSi1UupJqVrVBNsdQ3CgQMsPQ7KjjPLDYMlRNf42DHJKnrqLyj+CFM4afdw4hG/omg6zTi1j+juBbMhd1QZHE+ZLu6jJBOUwz3Ga9hOJTjSnTqsC2ZsMnPL1q2ywKyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkZIdAz7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/vOtAFa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkZIdAz7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747936941; x=1779472941;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NGL9Q+yiyPsTcMLEO4ykeXL4yWjfWlrct6vAjBHytOY=;
-  b=m/vOtAFa0pnX/iDFC5fh0cs3BkaiYE3tQ+d5WAnqIyGPL8yxTNwbOOKW
-   UJxBdUy83dNm+09bX1Aep8j90/70C9o5Solg9+L4pzPMyALIAvEHaoU/+
-   BobRpl3+KDMh2ne8wk+qoqb2lSrr7iPdcoUdnDtE7QrcsKrrsKKBUbsgm
-   PDOTRSC9o0h49LBqgK2RE6kh4pNmM5O8qMEEj2ygj+0CxT3MkYZCqclZy
-   R5mAcG4yvIoDAGuo/SxNSr6DBT9Ut8b5mio1qR0TF9jlcAT/7RaUL3HC1
-   FRF1Yq4auAb/7Dp4R0BFlEJ4NQ7euTAe+dH6srpKcke44sC1JeeYmTDG6
-   A==;
-X-CSE-ConnectionGUID: i2ATIquhS6uq9LyNx+nGmA==
-X-CSE-MsgGUID: TnczvXPxSCmts66SlNaAAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50124689"
+  t=1747937595; x=1779473595;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tOwPpYGFdGD2JRvumdnEAaypaSlpManYCkAoaKjaTYU=;
+  b=JkZIdAz7FHJI8QTFRJwTNCQ2mOgk9HKrttAUTkZxJjuO2XJWAk487deM
+   NYzBYKCNfNPzJDo1gMXcVs8THFFUu4bQmoFBgbnCPmx4c+z4LbpY5Opdm
+   9lKOwU2xsjQo1sarbZFM4/0s52DNeJpSviVXnfsDsTbI9gD0Nt4bFVurZ
+   T/gHZF4NUprZmOkSvT//QX0IheVUcijNkkudTDU/yyjTa09CbtLLl2fr+
+   I9bShdicvVU1bYo6ng9T83Wy3uSSNs/QzwT8s0/eo7dXCRQc44d8Cy9kT
+   4vm9ffXi17bOpnFKjwF9T9ItSvAGne5AnXgSmyhy0guW8N9VY5gR6i314
+   w==;
+X-CSE-ConnectionGUID: ZpL1jeJ5S+6EKhIEkoNCnw==
+X-CSE-MsgGUID: ki3es4yXQ762F/l6QEnUFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="52610761"
 X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
-   d="scan'208";a="50124689"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 11:02:14 -0700
-X-CSE-ConnectionGUID: 588NjtyeRl+monhDHV1sAg==
-X-CSE-MsgGUID: C/2nmG+zQo2PkTHvWaWIhQ==
+   d="scan'208";a="52610761"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 11:13:14 -0700
+X-CSE-ConnectionGUID: AyDO0t1XREOilbiqKzMQEA==
+X-CSE-MsgGUID: 37sl845iTEqcXSdF2pJZhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
-   d="scan'208";a="177855485"
+   d="scan'208";a="163988474"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 May 2025 11:02:13 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 22 May 2025 11:13:13 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIAF8-000PZy-0s;
-	Thu, 22 May 2025 18:02:10 +0000
-Date: Fri, 23 May 2025 02:01:48 +0800
+	id 1uIAPn-000Pae-0k;
+	Thu, 22 May 2025 18:13:11 +0000
+Date: Fri, 23 May 2025 02:12:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geliang Tang <geliang@kernel.org>, mptcp@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Geliang Tang <tanggeliang@kylinos.cn>
-Subject: Re: [PATCH mptcp-next v2 2/2] Squash to "bpf: Export mptcp packet
- scheduler helpers"
-Message-ID: <202505230122.Yo10opZp-lkp@intel.com>
-References: <dfd9d56e608ea3f68297092c9e90134e4807d3d6.1747897261.git.tanggeliang@kylinos.cn>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:migration 10/22] mm/migrate.c:192: warning:
+ Function parameter or struct member 'dst' not described in
+ 'migrate_non_folio_page'
+Message-ID: <202505230233.bEeomDWR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,62 +62,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dfd9d56e608ea3f68297092c9e90134e4807d3d6.1747897261.git.tanggeliang@kylinos.cn>
 
-Hi Geliang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mptcp/export]
-[cannot apply to mptcp/export-net bpf-next/net bpf-next/master bpf/master linus/master v6.15-rc7 next-20250522]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/Revert-selftests-bpf-Add-mptcp_subflow-bpf_iter-subtest/20250522-150813
-base:   https://github.com/multipath-tcp/mptcp_net-next.git export
-patch link:    https://lore.kernel.org/r/dfd9d56e608ea3f68297092c9e90134e4807d3d6.1747897261.git.tanggeliang%40kylinos.cn
-patch subject: [PATCH mptcp-next v2 2/2] Squash to "bpf: Export mptcp packet scheduler helpers"
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250523/202505230122.Yo10opZp-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505230122.Yo10opZp-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux migration
+head:   d598167a1ec281079ea1f6a0f041fa2b1918001a
+commit: 19d9d3ad2c6e040da894b7ce0b8d610ad6d4fe8f [10/22] mm/migrate: factor out non-folio page handling into migrate_non_folio_page()
+config: x86_64-randconfig-008-20250522 (https://download.01.org/0day-ci/archive/20250523/202505230233.bEeomDWR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505230233.bEeomDWR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505230122.Yo10opZp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505230233.bEeomDWR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/mptcp/bpf.c:334:28: error: use of undeclared identifier 'bpf_mptcp_sched_ops'
-     334 |             prog->aux->st_ops != &bpf_mptcp_sched_ops)
-         |                                   ^
-   1 error generated.
+>> mm/migrate.c:192: warning: Function parameter or struct member 'dst' not described in 'migrate_non_folio_page'
+>> mm/migrate.c:192: warning: Function parameter or struct member 'src' not described in 'migrate_non_folio_page'
+>> mm/migrate.c:192: warning: Function parameter or struct member 'mode' not described in 'migrate_non_folio_page'
+>> mm/migrate.c:192: warning: Excess function parameter 'page' description in 'migrate_non_folio_page'
 
 
-vim +/bpf_mptcp_sched_ops +334 net/mptcp/bpf.c
+vim +192 mm/migrate.c
 
-   319	
-   320	static int bpf_mptcp_common_kfunc_filter(const struct bpf_prog *prog, u32 kfunc_id)
-   321	{
-   322		if (!btf_id_set8_contains(&bpf_mptcp_common_kfunc_ids, kfunc_id))
-   323			return 0;
-   324	
-   325		if (prog->type != BPF_PROG_TYPE_STRUCT_OPS)
-   326			return -EACCES;
-   327	
-   328		/* .filter is called sometimes before prog->aux->st_ops is set,
-   329		 * then prog->aux->st_ops is NULL. If return -EACCES in this case,
-   330		 * an error occur:
-   331		 * 	bug: bad parent state for iter next call
-   332		 */
-   333		if (prog->aux->st_ops &&
- > 334		    prog->aux->st_ops != &bpf_mptcp_sched_ops)
-   335			return -EACCES;
-   336	
-   337		return 0;
-   338	}
-   339	
+   163	
+   164	/**
+   165	 * migrate_non_folio_page - migrate a non-folio page
+   166	 * @page: The page.
+   167	 *
+   168	 * Migrate a non-folio page that was previously isolated with
+   169	 * isolated_non_folio_page().
+   170	 *
+   171	 * If the src page was already released by its owner, the src page is
+   172	 * un-isolated and migration succeeds; the migration core will be the
+   173	 * owner of both pages.
+   174	 *
+   175	 * If the src page was not released by its owner and the migration was
+   176	 * successful, the owner of the src page and the dst page are swapped and
+   177	 * the src page is un-isolated.
+   178	 *
+   179	 * If migration fails, the ownership stays unmodified and the src page
+   180	 * remains isolated: migration may be retried later or the page can be putback.
+   181	 *
+   182	 * TODO: migration core will treat both pages as folios and lock them before
+   183	 * this call to unlock them after this call. Further, the folio refcounts on
+   184	 * src and dst are also released by migration core. These pages will not be
+   185	 * folios in the future, so that must be reworked.
+   186	 *
+   187	 * Returns MIGRATEPAGE_SUCCESS on success, otherwise a negative error
+   188	 * code.
+   189	 */
+   190	static int migrate_non_folio_page(struct page *dst, struct page *src,
+   191			enum migrate_mode mode)
+ > 192	{
+   193		int rc = MIGRATEPAGE_SUCCESS;
+   194	
+   195		VM_WARN_ON_ONCE(!PageIsolated(src));
+   196		/* If the page was released by it's owner, there is nothing to do. */
+   197		if (PageMovable(src))
+   198			rc = page_movable_ops(src)->migrate_page(dst, src, mode);
+   199		if (rc == MIGRATEPAGE_SUCCESS)
+   200			ClearPageIsolated(src);
+   201		return rc;
+   202	}
+   203	
 
 -- 
 0-DAY CI Kernel Test Service
