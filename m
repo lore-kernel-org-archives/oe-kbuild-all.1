@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BB9279799
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 08:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED84424E4C6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 08:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747903168; cv=none; b=HeJogg0B5EXVEgDfnw7WgHJPJrTgT5ifPt9KiaPKc4yNeP79hi/LDrS/bhyNIEFHQ8pXbTdUMbRaSCoyUHXviR+LxEFqkCKAjZuq3pZjnIeOtgvwCXc+JphmzCiuuxXEoyR1lJeNWxIMk+HJsLhAa0yahUvI+gp9tNeVenhkfhE=
+	t=1747903886; cv=none; b=PPmOqo14kfRNrEZJn6VURxC+QASkDfGMjlPQWAWWF1tLFSNMM8UYHWMrNIH88L/5/JbByH9k4SAdvsm2iB6zcaXqB1cfCwXQQr5SzwE3rQqtNcrs2A6VKsqE+huspMr9EZywxqpF7svRZHyZZL8GFuG2kvFjv3umC0yF7vwRfNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747903168; c=relaxed/simple;
-	bh=9flE0QZImSW576+7I7BBU3UGpRsywlbNGBPZ1xv0BkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OfTgDOOOElLBqjW/uV9W8slkgm89CPOi54f+wDck6wkY497sXwImt4Sz4kgVDs4Fz5RatmhpGOfwdC+p+N+1K7KUd9l5iny8GMu7FmHbPt5v5hg461Tm41TM9R43lMGEa+mHAUoC0tUHOE2wZY8EtXr8TU4YxGGCLEq8M17W39w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VZ4xXI6e; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1747903886; c=relaxed/simple;
+	bh=0Du73fDLWsuJht8D9L73AXx7utVVz/rr0O4tyeymNwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lo+6ByIJGVHw8Zir0C0PXR9ilPGLst1BPi2bzPCPeD6GFHyaCy4hizBdVLMYILYVT2kJ8YBDCIkFLCJOirt6h6RanYK2FRAlkFeCZ07Nni0brUXWNzK+Gooe88HxgUXoCcVs84SR3Yl98bw2mJZU6woW2418FbH+oQnvJ6heUJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TAqr0/8V; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VZ4xXI6e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TAqr0/8V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747903165; x=1779439165;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9flE0QZImSW576+7I7BBU3UGpRsywlbNGBPZ1xv0BkI=;
-  b=VZ4xXI6e1D2zNhP2HLENM6b9OhNwd5ksrhp8/Jo3LaYeKP2Th1t44CMZ
-   26xTXu+HN1I89wN3alTHvOZ/mvW3uWJ9LjSnkii+9+/+HGSxALDji1r6g
-   QBaqbmCeeXzyLUII2jWUAZpr2g4Numct17o47P/STskq/bSN68SWZ436q
-   yuArzqdS8Ne4J0Rvbyb7IPPivHjFg8eS5Tjwv2H8ftJgY/iaxMiwLN6c0
-   p/J/qO6xywK0bUjzWYv6BWfR8Xv6jJ1ROE/EVgfI3iRhy5jBDjwnvetXi
-   /KCo3I6CvspvTmzhkGRfzydYrtXNxSJivi63eQ/N5d4RoUTAgTyC6r1ZM
-   Q==;
-X-CSE-ConnectionGUID: 7h1UEH98RAmU1DIwNxEJjw==
-X-CSE-MsgGUID: ILafTncLTNWgySZ94OMaLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="37533989"
+  t=1747903885; x=1779439885;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0Du73fDLWsuJht8D9L73AXx7utVVz/rr0O4tyeymNwg=;
+  b=TAqr0/8VOetkc4N3EkImddOEWwqYfsFwetXVW14wBiyKHg6i/VYgV9Ct
+   mHSzal6oGVwG15RAiAvp4GatOhYYvA0dQg4W+0J3Y9nonc+tJo/3kcCg/
+   96TjyvKgDDZd1aMBZYaJ9/jCY7sZK4JOLP6B37QPuPTD2afWP4mZVl8Vs
+   cwEAXuBjHCnGMJvAusc3lfBgwfAmM8YA7iLRkg4GrBIE3fDZonoP63X6L
+   UAewAhMIl+IhhqKyfjP/P+5DhkLVwg78I2iCiCpmolwLirnrqmnV7wdf9
+   NADoZF/eySHfFgYQqGaiNa35OCwzeYZVony6UQp6px3X5WkrbQSTUSrnr
+   g==;
+X-CSE-ConnectionGUID: tvC6NL5iS6CsBWMh62vusQ==
+X-CSE-MsgGUID: FsdpM+EyTVuB+wxjVxJHRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="61259227"
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="37533989"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 01:39:24 -0700
-X-CSE-ConnectionGUID: bBKy2rUhSF2IwwJ3cEGYFQ==
-X-CSE-MsgGUID: w2QEMPdUQIK9iojHz7bxoA==
+   d="scan'208";a="61259227"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 01:51:24 -0700
+X-CSE-ConnectionGUID: ig9EVJdhRDGDrBlgh2Qz9g==
+X-CSE-MsgGUID: XAq+DqQHS4iN7WCkNc3+6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="140262545"
+   d="scan'208";a="145638564"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 22 May 2025 01:39:22 -0700
+  by orviesa005.jf.intel.com with ESMTP; 22 May 2025 01:51:23 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uI1SR-000P6q-1B;
-	Thu, 22 May 2025 08:39:19 +0000
-Date: Thu, 22 May 2025 16:38:59 +0800
+	id 1uI1e4-000P7a-1l;
+	Thu, 22 May 2025 08:51:20 +0000
+Date: Thu, 22 May 2025 16:50:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [PATCH net-next 6/8] virtio_net: enable gso over UDP tunnel
- support.
-Message-ID: <202505221624.32GrJRU2-lkp@intel.com>
-References: <239bacdac9febd6f604f43fa8571aa2c44fd0f0b.1747822866.git.pabeni@redhat.com>
+To: Kees Cook <kees@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 12611/12618] crypto/scatterwalk.c:257:6: warning:
+ variable 'iv' set but not used
+Message-ID: <202505221606.UnGKiQ7T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,71 +61,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <239bacdac9febd6f604f43fa8571aa2c44fd0f0b.1747822866.git.pabeni@redhat.com>
 
-Hi Paolo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/virtio-introduce-virtio_features_t/20250521-183700
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/239bacdac9febd6f604f43fa8571aa2c44fd0f0b.1747822866.git.pabeni%40redhat.com
-patch subject: [PATCH net-next 6/8] virtio_net: enable gso over UDP tunnel support.
-config: i386-randconfig-011-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221624.32GrJRU2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221624.32GrJRU2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7bac2c97af4078d7a627500c9bcdd5b033f97718
+commit: bd8589c92d7f22712f27ff92f45defa2362123b5 [12611/12618] Merge branch 'for-next/kspp' of git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git
+config: microblaze-randconfig-r052-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221606.UnGKiQ7T-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221606.UnGKiQ7T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505221624.32GrJRU2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221606.UnGKiQ7T-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function '__virtio_test_bit',
-       inlined from 'virtio_has_feature' at include/linux/virtio_config.h:204:9,
-       inlined from 'virtnet_probe' at drivers/net/virtio_net.c:6805:7:
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_792' declared with attribute error: BUILD_BUG_ON failed: fbit >= VIRTIO_FEATURES_MAX
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/virtio_config.h:152:17: note: in expansion of macro 'BUILD_BUG_ON'
-     152 |                 BUILD_BUG_ON(fbit >= VIRTIO_FEATURES_MAX);
-         |                 ^~~~~~~~~~~~
+   In file included from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:7,
+                    from include/linux/highmem.h:5,
+                    from include/crypto/scatterwalk.h:15,
+                    from crypto/scatterwalk.c:12:
+   crypto/scatterwalk.c: In function 'skcipher_copy_iv':
+   include/linux/string.h:398:2: error: expected expression before 'do'
+     398 |  do {       \
+         |  ^~
+   crypto/scatterwalk.c:269:13: note: in expansion of macro 'memcpy'
+     269 |  walk->iv = memcpy(iv, walk->iv, walk->ivsize);
+         |             ^~~~~~
+>> crypto/scatterwalk.c:257:6: warning: variable 'iv' set but not used [-Wunused-but-set-variable]
+     257 |  u8 *iv;
+         |      ^~
 
 
-vim +/__compiletime_assert_792 +557 include/linux/compiler_types.h
+vim +/iv +257 crypto/scatterwalk.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+0f8d42bf128d34 Herbert Xu 2025-04-27  250  
+0f8d42bf128d34 Herbert Xu 2025-04-27  251  static int skcipher_copy_iv(struct skcipher_walk *walk)
+0f8d42bf128d34 Herbert Xu 2025-04-27  252  {
+0f8d42bf128d34 Herbert Xu 2025-04-27  253  	unsigned alignmask = walk->alignmask;
+0f8d42bf128d34 Herbert Xu 2025-04-27  254  	unsigned ivsize = walk->ivsize;
+0f8d42bf128d34 Herbert Xu 2025-04-27  255  	unsigned aligned_stride = ALIGN(walk->stride, alignmask + 1);
+0f8d42bf128d34 Herbert Xu 2025-04-27  256  	unsigned size;
+0f8d42bf128d34 Herbert Xu 2025-04-27 @257  	u8 *iv;
+0f8d42bf128d34 Herbert Xu 2025-04-27  258  
+0f8d42bf128d34 Herbert Xu 2025-04-27  259  	/* Min size for a buffer of stride + ivsize, aligned to alignmask */
+0f8d42bf128d34 Herbert Xu 2025-04-27  260  	size = aligned_stride + ivsize +
+0f8d42bf128d34 Herbert Xu 2025-04-27  261  	       (alignmask & ~(crypto_tfm_ctx_alignment() - 1));
+0f8d42bf128d34 Herbert Xu 2025-04-27  262  
+0f8d42bf128d34 Herbert Xu 2025-04-27  263  	walk->buffer = kmalloc(size, skcipher_walk_gfp(walk));
+0f8d42bf128d34 Herbert Xu 2025-04-27  264  	if (!walk->buffer)
+0f8d42bf128d34 Herbert Xu 2025-04-27  265  		return -ENOMEM;
+0f8d42bf128d34 Herbert Xu 2025-04-27  266  
+0f8d42bf128d34 Herbert Xu 2025-04-27  267  	iv = PTR_ALIGN(walk->buffer, alignmask + 1) + aligned_stride;
+0f8d42bf128d34 Herbert Xu 2025-04-27  268  
+0f8d42bf128d34 Herbert Xu 2025-04-27  269  	walk->iv = memcpy(iv, walk->iv, walk->ivsize);
+0f8d42bf128d34 Herbert Xu 2025-04-27  270  	return 0;
+0f8d42bf128d34 Herbert Xu 2025-04-27  271  }
+0f8d42bf128d34 Herbert Xu 2025-04-27  272  
+
+:::::: The code at line 257 was first introduced by commit
+:::::: 0f8d42bf128d349ad490e87d5574d211245e40f1 crypto: scatterwalk - Move skcipher walk and use it for memcpy_sglist
+
+:::::: TO: Herbert Xu <herbert@gondor.apana.org.au>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
