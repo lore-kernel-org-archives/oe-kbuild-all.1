@@ -1,124 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1952AEF5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 17:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A7818BBBB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 17:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747935073; cv=none; b=Y2yfZkRInBU+6eIODdOsGMvG6AP6zwMkoX+RVJhFkolTpx2oNixMU5K93+RDTseU792cp12AE7fpcB5yzFlABrZMngbjcMXu46eiCLDGS6W/nA67wE0/8QW8jGnnIw5parUHRnhHpzRXYldGzi9mdL2inlMjZXtXd/i/8PDweCM=
+	t=1747935244; cv=none; b=bZ9DFCwmCVeeWzHqSAt7il90vQNvlxBOOrvRNW94mVHXrV3vp4h+YJGRRwaKMOID5M8b34jGM8Uy+wmXnEnTaZIElOKtfRMxMREDi7XarrHZ+vru4SBCoNKs54pCLweJ45I4M5bFnqHsV81KMfEO6plQ3uRBxA/kH6CaHfA1tsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747935073; c=relaxed/simple;
-	bh=FDZrge4MRKKGUK+r5H8eOtTLZYT05xyB/1hgHre/+wY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o0ABc02P8OKRHbkY/j8KhXmn8jW7zCCSWMI9roAtMT6Cs/0sOcl6NxrAjmi80SHFGLXvsZjg7vb5zDzB9hvVCezmduH+/VL85o+1p0v1rmvnEY3igTn9xd4TwRTZWFEDSHz9gkhN5STNczv9tT1Em9SGzyEiH4mXAuL9OUBr8tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3SJnfWG; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747935244; c=relaxed/simple;
+	bh=kyEjFb/X6MFMPK9SDnmdY55VU+U7kclm6F3WTL6NvXs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y3Za8KpjeyF5gKtCQg7Elu05Uze9jfZoMw+hpu24p85aBQoVntOXXtn2pvDi2kf8Q+YQbUkD9mWT03A/O0kGSwjPQFysthgZl0QvxHGXfGxIBRpNS0dcOVVr0R7anC4A6hazbud+lI0Etgy4s/reOQ+a3xWTQ8Hzw5zWQ6M5WZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=h2YhO322; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3SJnfWG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747935071; x=1779471071;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FDZrge4MRKKGUK+r5H8eOtTLZYT05xyB/1hgHre/+wY=;
-  b=C3SJnfWGwHhuyzSbZoQ2pY7AdIklIJ4ybKELhScb2frxEWmngiH4z1E6
-   XVN/VzLoSa6/jiDVDKcP/9Q6VwY3j5hdR8HUfgeSRqp1UrVOcBpP2/dNS
-   WqbOSDjx2byZb2BiSraHhI7wKmvIPH3rzWuYwLjgtkByJh29lW4x9B5wm
-   1kMHSdQ6cgoDvmyG9lTZWwKiyojbvHYzar0Z5/1zdGv7Lag4M9ro1mpuy
-   VS1GMVji7OTW4N2MRq9Ygen6y5/dkqbY4IyyN3o2E4D0AE9UaUvw26Dpb
-   DdlorJV2RDraj7bzTzT/x7OWyG6d9kgizCkGbVCmBQRFqh/Iab87zXA/Y
-   A==;
-X-CSE-ConnectionGUID: 8Yzzlw1RSKyWlSm8+MOPVw==
-X-CSE-MsgGUID: mWKUZKTkTU+G7kbnB6BSTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="75373793"
-X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
-   d="scan'208";a="75373793"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 10:31:11 -0700
-X-CSE-ConnectionGUID: jYQEiqolSimjxAVmgGmJKw==
-X-CSE-MsgGUID: PYTQX11cTRGovXOGVaBEmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
-   d="scan'208";a="140771760"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 22 May 2025 10:31:10 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uI9l5-000PYu-3B;
-	Thu, 22 May 2025 17:31:07 +0000
-Date: Fri, 23 May 2025 01:30:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 37/43] fs/nfsd/filecache.c:762:undefined
- reference to `nfsd_handle_dir_event'
-Message-ID: <202505230136.JY4zY48t-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="h2YhO322"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 54MHXanw3087605
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 22 May 2025 10:33:37 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 54MHXanw3087605
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025042001; t=1747935218;
+	bh=mQqHwVKFb6dr1hLOfIrFDJS5wccc1ddOjmF9Hl44AOg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=h2YhO322mS6R8+/b50RFlBFg1Ax2mf4pU54cG87mgRjdVzZFyqBLJWyMiZQqw/OC3
+	 9ZZiPfsAgsDnVuPircVJFveyHpjqRqBBtPM9oyoGzsDthOS9CnlR/LHZO1Jbdu5rDv
+	 dWfT4PbefjWBojeNDSIdUe9lhpZVSgJRhtkvPLSdiauSG0QWlzi4899apE8UAh7aPi
+	 KkN6FoE2hn7Kx6ULFsdEibMyFlfsIwxS+oOu/17wFpOYhnLCAO0VkV/93J5NYzwhpU
+	 kOtmYvbFcjWxWjsdPW8TQFJl6v6ncVeVz8OekwSy8aodbwuO0/Ciirbw9KpSPd5+6q
+	 HsiRy0KJBr3fw==
+Message-ID: <83b013fb-2057-4097-ac8c-b5c38d019a0f@zytor.com>
+Date: Thu, 22 May 2025 10:33:36 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] x86/fred/signal: Prevent single-step upon ERETU
+ completion
+To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, peterz@infradead.org, andrew.cooper3@citrix.com,
+        stable@vger.kernel.org
+References: <20250522060549.2882444-1-xin@zytor.com>
+ <202505230141.4YBHhrPI-lkp@intel.com>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <202505230141.4YBHhrPI-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   0c6668479bba48114e5031d6fb3db53d80d8d6ad
-commit: f12b06e436e2fc09a2451fbc713d1a6fe5fccfb8 [37/43] nfsd: add notification handlers for dir events
-config: sh-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250523/202505230136.JY4zY48t-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505230136.JY4zY48t-lkp@intel.com/reproduce)
+On 5/22/2025 10:20 AM, kernel test robot wrote:
+> Hi Xin,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 6a7c3c2606105a41dde81002c0037420bc1ddf00]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Li-Intel/x86-fred-signal-Prevent-single-step-upon-ERETU-completion/20250522-140954
+> base:   6a7c3c2606105a41dde81002c0037420bc1ddf00
+> patch link:    https://lore.kernel.org/r/20250522060549.2882444-1-xin%40zytor.com
+> patch subject: [PATCH v1 1/1] x86/fred/signal: Prevent single-step upon ERETU completion
+> config: i386-buildonly-randconfig-003-20250522 (https://download.01.org/0day-ci/archive/20250523/202505230141.4YBHhrPI-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505230141.4YBHhrPI-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505230141.4YBHhrPI-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from arch/x86/kernel/signal_32.c:32:
+>     arch/x86/include/asm/sighandling.h: In function 'prevent_single_step_upon_eretu':
+>>> arch/x86/include/asm/sighandling.h:44:21: error: 'struct pt_regs' has no member named 'fred_ss'
+>        44 |                 regs->fred_ss.swevent = 0;
+>           |                     ^~
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505230136.JY4zY48t-lkp@intel.com/
+Hmm, this statement is under IS_ENABLED(CONFIG_X86_FRED), which should
+be a compile time FALSE with i386.  Why it is still being compiled?
 
-All errors (new ones prefixed by >>):
-
-   sh4-linux-ld: fs/nfsd/filecache.o: in function `nfsd_file_fsnotify_handle_event':
->> fs/nfsd/filecache.c:762:(.text+0x1120): undefined reference to `nfsd_handle_dir_event'
-
-
-vim +762 fs/nfsd/filecache.c
-
-65294c1f2c5e72 Jeff Layton             2019-08-18  734  
-65294c1f2c5e72 Jeff Layton             2019-08-18  735  static int
-b9a1b9772509cb Amir Goldstein          2020-07-22  736  nfsd_file_fsnotify_handle_event(struct fsnotify_mark *mark, u32 mask,
-b9a1b9772509cb Amir Goldstein          2020-07-22  737  				struct inode *inode, struct inode *dir,
-950cc0d2bef078 Amir Goldstein          2020-12-02  738  				const struct qstr *name, u32 cookie)
-65294c1f2c5e72 Jeff Layton             2019-08-18  739  {
-24dca90590509a Gabriel Krisman Bertazi 2021-10-25  740  	if (WARN_ON_ONCE(!inode))
-24dca90590509a Gabriel Krisman Bertazi 2021-10-25  741  		return 0;
-24dca90590509a Gabriel Krisman Bertazi 2021-10-25  742  
-65294c1f2c5e72 Jeff Layton             2019-08-18  743  	trace_nfsd_file_fsnotify_handle_event(inode, mask);
-65294c1f2c5e72 Jeff Layton             2019-08-18  744  
-f12b06e436e2fc Jeff Layton             2024-10-17  745  	if (dir)
-f12b06e436e2fc Jeff Layton             2024-10-17  746  		return nfsd_handle_dir_event(mask, inode, dir, name);
-f12b06e436e2fc Jeff Layton             2024-10-17  747  
-65294c1f2c5e72 Jeff Layton             2019-08-18  748  	/* Should be no marks on non-regular files */
-65294c1f2c5e72 Jeff Layton             2019-08-18  749  	if (!S_ISREG(inode->i_mode)) {
-65294c1f2c5e72 Jeff Layton             2019-08-18  750  		WARN_ON_ONCE(1);
-65294c1f2c5e72 Jeff Layton             2019-08-18  751  		return 0;
-65294c1f2c5e72 Jeff Layton             2019-08-18  752  	}
-65294c1f2c5e72 Jeff Layton             2019-08-18  753  
-65294c1f2c5e72 Jeff Layton             2019-08-18  754  	/* don't close files if this was not the last link */
-65294c1f2c5e72 Jeff Layton             2019-08-18  755  	if (mask & FS_ATTRIB) {
-65294c1f2c5e72 Jeff Layton             2019-08-18  756  		if (inode->i_nlink)
-65294c1f2c5e72 Jeff Layton             2019-08-18  757  			return 0;
-65294c1f2c5e72 Jeff Layton             2019-08-18  758  	}
-65294c1f2c5e72 Jeff Layton             2019-08-18  759  
-65294c1f2c5e72 Jeff Layton             2019-08-18  760  	nfsd_file_close_inode(inode);
-65294c1f2c5e72 Jeff Layton             2019-08-18  761  	return 0;
-65294c1f2c5e72 Jeff Layton             2019-08-18 @762  }
-65294c1f2c5e72 Jeff Layton             2019-08-18  763  
-
-:::::: The code at line 762 was first introduced by commit
-:::::: 65294c1f2c5e72b15b76e16c8c8cfd9359fc9f6f nfsd: add a new struct file caching facility to nfsd
-
-:::::: TO: Jeff Layton <jeff.layton@primarydata.com>
-:::::: CC: J. Bruce Fields <bfields@redhat.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
+     Xin
