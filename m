@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D981547F2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 03:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94565C2EF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 03:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747884294; cv=none; b=mnbIvSBIkyuisImbroFBDuEuGA9AKB5nK8zYurjf6z99vd/NKiyqjCxoUJxUt3IELMeSoj/uLOhvkDuau0BgscI++SCbNF9TK2YJWLSX3wnyyw+Oj+SRaIba5mI4FQJUDSwKhC/Ec0AUlHpoPGiKfJmPU9NjEahV7s8ubev0OBI=
+	t=1747884671; cv=none; b=B+UjaKsA1/kkgh8FuqLwX5uhFpf5MCxwTIUdaqnwvodF4oODXeGSJ8HQD2tEfl40dVovJiQI4g12mi4l4AT3Y7mnitgOQv9L1LH9arGB6I6x0byS7AH+iwtkDbL0hJb/wI/Ajv+wIWKGAJL6/WSVyAuHGUn37ME8PB+8Ahku9rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747884294; c=relaxed/simple;
-	bh=L+7TBPIkTfui3it7InxOMm0w/DrEMOms4ewMRJMvIIc=;
+	s=arc-20240116; t=1747884671; c=relaxed/simple;
+	bh=v1lLaQpFgFUtCVZvY2HwaLOsTzJf2/BY3Wn/Y47RM3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B2uE7vM71STi8dxTdAIB3l/ybXBV11EFPGZ+b7IcTIZQXAsTqWjiLRLFm/rksAaq7MtOVMRX/N1tzy87o9BJ2HdpoH9RokCLFzF1Tm2FSN94KE5b4WjDCR/0TKvZlmt+1CXOQzNwJ7fhtks6S1BF2oMZN/xnU+dn+4L5QEVTSpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+FqZAcZ; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=e2WeuhjJ+EittFbxyFpxcZsFPRwtJ/zdPOn/evyUsmK0kSv7+ik2Rst1Oe+Xf+xXzShFlPmxqbLUKxs+cYOFTGkkXs5ADginJjD4eXterrHV0puhRFHOjHtXmTxGT6aBzzNf/d2bHRXflBi0yXFpYVsbrQ7V98G/qHIDExyc/v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gEj1EqeM; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+FqZAcZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gEj1EqeM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747884293; x=1779420293;
+  t=1747884669; x=1779420669;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L+7TBPIkTfui3it7InxOMm0w/DrEMOms4ewMRJMvIIc=;
-  b=n+FqZAcZUETVNAjGwIIFXEEzuav1DCu5vYSqDy7hQ5SNl4t9qOGm7vqn
-   24w5CrLZPZxgSZ+rOifQBhBBkHI/F0KoOVdUY85WKr/SUSIY9Gt3hM9It
-   +pCB7KtlarRIk97L77W623uhimXevcA1J1hpK5hl3fo3xntVEEXB1eUR2
-   Iqh7ICAJ0zmRu/43cPadobNUF+1Zc46Jsk4zEwc840+F/4WzcsDDzhYiF
-   tZ6uSBZgNruouez7LfPqRmyZWJA8BaqNVdPKo1CYLndHHlnsNO8F42tft
-   PFSD8ffoR//wFYT9N5/iLRowIHbB46anq9/YT9G+o1/QZPcNiwDdMKMCY
-   A==;
-X-CSE-ConnectionGUID: Qf5LFW4IT2WBtY5mwuwbAQ==
-X-CSE-MsgGUID: xTBtI5G9RMGs5pQr6hBOjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="53696224"
+  bh=v1lLaQpFgFUtCVZvY2HwaLOsTzJf2/BY3Wn/Y47RM3w=;
+  b=gEj1EqeMTkAG/aLi6QrGTFj/DAHNzHUuGJhXC8xu8XQNsEp8Sh1DTfBw
+   sXbk1z9ho5XawyBiANoaHlzN0BDhYMeaGzVjeirMPad6zNW97T2b4MfmW
+   O54iyUZRa4yST9p/nNEEZEznUF7PCGIEJwBMceA+jOqOJcb/nfnRUBTqd
+   Yn0yKAmKYdyrkSsvrWjUuBrqUHn78+w9Qe59MSlq8y6ik8eYSW2wpRaFc
+   BtWbolupTBbHJ/RMpCQfQBhCcwxauiaLaL6u45h63jMGZ/Cq646g0/na+
+   1tAYra/eetC5eouEpRtoUmSZkWjZoTVflH+fIOaoriOLf7wIihqPsAM9o
+   w==;
+X-CSE-ConnectionGUID: bhxqrpcfQLOWPrwhvBgn5w==
+X-CSE-MsgGUID: hVH7YR06SquqbaZicM9B4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="60131455"
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="53696224"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 20:24:53 -0700
-X-CSE-ConnectionGUID: xd7+eJbVTY6F+v+s52H0Pg==
-X-CSE-MsgGUID: b1kzJrhVTiWWOvilvoYKEA==
+   d="scan'208";a="60131455"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 20:31:09 -0700
+X-CSE-ConnectionGUID: CdpjrnRnRMSskjz+xrrEtA==
+X-CSE-MsgGUID: Y41Uxrk8QkGUOGWskeT6Kg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="145107106"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 21 May 2025 20:24:51 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="141444401"
+Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
+  by fmviesa009.fm.intel.com with ESMTP; 21 May 2025 20:31:08 -0700
+Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHwY5-000Osq-0b;
-	Thu, 22 May 2025 03:24:49 +0000
-Date: Thu, 22 May 2025 11:23:50 +0800
+	id 1uHwe9-0001Df-2b;
+	Thu, 22 May 2025 03:31:05 +0000
+Date: Thu, 22 May 2025 11:30:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Michal Kubiak <michal.kubiak@intel.com>
-Subject: [alobakin:libeth 31/33] drivers/net/ethernet/intel/idpf/xsk.c:112:
- warning: expecting prototype for idpf_xsk_clean_xdpq(). Prototype was for
- idpf_xsk_sq_clean() instead
-Message-ID: <202505221105.XO4tGKp1-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-01 4/4]
+ arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dtb: psci (arm,psci-1.0):
+ 'cpu-cluster0', 'cpu0', 'cpu1', 'cpu2', 'cpu3', 'cpu4', 'cpu5', 'cpu6',
+ 'cpu7' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
+Message-ID: <202505221112.vmiuX5hp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,64 +64,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux libeth
-head:   902e1400f831488f8fdaa0e59fb2a9cf6c13639a
-commit: d321536c0622b0237c6ab555d297d7d3d18b18d8 [31/33] idpf: implement XSk xmit
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250522/202505221105.XO4tGKp1-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221105.XO4tGKp1-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-01
+head:   97728a1436424265258cd2b247753e19e79202d3
+commit: 4fb40b22e97ecea2d18a0c450c24388909e5b44c [4/4] arm64: dts: qcom: sc7180: Split up TF-A related PSCI configuration
+config: arm64-randconfig-2051-20250516 (https://download.01.org/0day-ci/archive/20250522/202505221112.vmiuX5hp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.3.dev27+g32749b3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221112.vmiuX5hp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505221105.XO4tGKp1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221112.vmiuX5hp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/net/ethernet/intel/idpf/xsk.c:112: warning: expecting prototype for idpf_xsk_clean_xdpq(). Prototype was for idpf_xsk_sq_clean() instead
-
-
-vim +112 drivers/net/ethernet/intel/idpf/xsk.c
-
-   106	
-   107	/**
-   108	 * idpf_xsk_clean_xdpq - clean an XSk Tx queue
-   109	 * @xdpq: XSk Tx queue
-   110	 */
-   111	void idpf_xsk_sq_clean(struct idpf_tx_queue *xdpq)
- > 112	{
-   113		struct libeth_xdpsq_napi_stats ss = { };
-   114		u32 ntc = xdpq->next_to_clean;
-   115		struct xdp_frame_bulk bq;
-   116		struct libeth_cq_pp cp = {
-   117			.dev	= xdpq->pool->dev,
-   118			.bq	= &bq,
-   119			.xss	= &ss,
-   120		};
-   121		u32 xsk_frames = 0;
-   122	
-   123		xdp_frame_bulk_init(&bq);
-   124		rcu_read_lock();
-   125	
-   126		while (ntc != xdpq->next_to_use) {
-   127			struct libeth_sqe *sqe = &xdpq->tx_buf[ntc];
-   128	
-   129			if (sqe->type)
-   130				libeth_xdp_complete_tx(sqe, &cp);
-   131			else
-   132				xsk_frames++;
-   133	
-   134			if (unlikely(++ntc == xdpq->desc_count))
-   135				ntc = 0;
-   136		}
-   137	
-   138		xdp_flush_frame_bulk(&bq);
-   139		rcu_read_unlock();
-   140	
-   141		if (xsk_frames)
-   142			xsk_tx_completed(xdpq->pool, xsk_frames);
-   143	}
-   144	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc7180.dtsi:3196.27-3267.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dtb: domain-idle-states: cluster-sleep-2: 'idle-state-name' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dtb: psci (arm,psci-1.0): 'cpu-cluster0', 'cpu0', 'cpu1', 'cpu2', 'cpu3', 'cpu4', 'cpu5', 'cpu6', 'cpu7' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain-'
+   	from schema $id: http://devicetree.org/schemas/arm/psci.yaml#
+   arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dtb: /soc@0/geniqup@ac0000/i2c@a8c000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
+   arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dtb: pmu@90b6300 (qcom,sc7180-cpu-bwmon): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sc7180-cpu-bwmon', 'qcom,sdm845-bwmon'] is too long
+   	'qcom,msm8998-bwmon' was expected
+   	'qcom,sc7180-cpu-bwmon' is not one of ['qcom,sc7280-cpu-bwmon', 'qcom,sc8280xp-cpu-bwmon', 'qcom,sdm845-cpu-bwmon', 'qcom,sm8550-cpu-bwmon']
+   	'qcom,sc7180-cpu-bwmon' is not one of ['qcom,sc8280xp-llcc-bwmon', 'qcom,sm8550-llcc-bwmon']
+   	'qcom,sc7280-llcc-bwmon' was expected
+   	'qcom,sdm845-llcc-bwmon' was expected
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,msm8998-bwmon.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
