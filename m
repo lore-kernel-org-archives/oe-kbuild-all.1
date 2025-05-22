@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5050C13957E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 03:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D981547F2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 May 2025 03:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747883574; cv=none; b=TCMIhBrfxlVnskNftiIxSB4m30RGWR1XdukspctNyanQWfMOzJtjZrjaRJI2bx7dVT/UG4qoL93NE8jJSbEqxvAtIX/0wATvymoyb5cbsdOuF3/DCP4q/fUVnYjBCj79YJyvJR+olyGziuJmbEtAgyAX4CGdYEqy5axG04jFB3Y=
+	t=1747884294; cv=none; b=mnbIvSBIkyuisImbroFBDuEuGA9AKB5nK8zYurjf6z99vd/NKiyqjCxoUJxUt3IELMeSoj/uLOhvkDuau0BgscI++SCbNF9TK2YJWLSX3wnyyw+Oj+SRaIba5mI4FQJUDSwKhC/Ec0AUlHpoPGiKfJmPU9NjEahV7s8ubev0OBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747883574; c=relaxed/simple;
-	bh=5/LiaP+uX/OsJwwbgqyM+MuEPY85wwD6eLPaxD/gW/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Igc0HzMVajk645mSRNKEkUAaIIA1+sdf/an97iCLyr32GpQUytag/cT5pvFsP+vfhemtN1U5yVhUQs/weNAMkRXgA8V7UePdgwSFqH9Z7uXs5ZoWUAHT024EJOSC/2YsS7wiWGp2L8tJZoeBzOqMllvEWcCqwGS5CTMSRx+sZnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMG928al; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1747884294; c=relaxed/simple;
+	bh=L+7TBPIkTfui3it7InxOMm0w/DrEMOms4ewMRJMvIIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B2uE7vM71STi8dxTdAIB3l/ybXBV11EFPGZ+b7IcTIZQXAsTqWjiLRLFm/rksAaq7MtOVMRX/N1tzy87o9BJ2HdpoH9RokCLFzF1Tm2FSN94KE5b4WjDCR/0TKvZlmt+1CXOQzNwJ7fhtks6S1BF2oMZN/xnU+dn+4L5QEVTSpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+FqZAcZ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMG928al"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+FqZAcZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747883572; x=1779419572;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5/LiaP+uX/OsJwwbgqyM+MuEPY85wwD6eLPaxD/gW/o=;
-  b=NMG928alRp4OyDLV7ObVfvCfjJMRRrqcZMP5e9vRWYbWZy87pXUKvwFK
-   f1HmCVLvofD2EgywWvtG8ScZI7KcMfYEGmmT6otQt2sb15b9QOdp9i9Yb
-   i07W7043bnS+NXtJliEfirXK8IZvJ2CBDFQp6GNVSfexwJU3gsZE2765U
-   4o1T6uWh3XPiVzuEmhWV762vpe7k8TMDectZCs9BZIHAIZzTsZwZoB7Dv
-   AHUu2CO3CdViiJxnKpyhXZ9ORrts5WBTM8DAr20NnE1YZNe9lYy+MJcDE
-   gMGc7gSWliDzo8wR4qfkyPRSmxtRqTUN3LxiecmBz/exqmMdB2c4VrGHX
+  t=1747884293; x=1779420293;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L+7TBPIkTfui3it7InxOMm0w/DrEMOms4ewMRJMvIIc=;
+  b=n+FqZAcZUETVNAjGwIIFXEEzuav1DCu5vYSqDy7hQ5SNl4t9qOGm7vqn
+   24w5CrLZPZxgSZ+rOifQBhBBkHI/F0KoOVdUY85WKr/SUSIY9Gt3hM9It
+   +pCB7KtlarRIk97L77W623uhimXevcA1J1hpK5hl3fo3xntVEEXB1eUR2
+   Iqh7ICAJ0zmRu/43cPadobNUF+1Zc46Jsk4zEwc840+F/4WzcsDDzhYiF
+   tZ6uSBZgNruouez7LfPqRmyZWJA8BaqNVdPKo1CYLndHHlnsNO8F42tft
+   PFSD8ffoR//wFYT9N5/iLRowIHbB46anq9/YT9G+o1/QZPcNiwDdMKMCY
    A==;
-X-CSE-ConnectionGUID: 29Lmp7CNSJybLYf2498ZcQ==
-X-CSE-MsgGUID: /Eo74hsETQGr6kmnpriaVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="72414848"
+X-CSE-ConnectionGUID: Qf5LFW4IT2WBtY5mwuwbAQ==
+X-CSE-MsgGUID: xTBtI5G9RMGs5pQr6hBOjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="53696224"
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="72414848"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 20:12:52 -0700
-X-CSE-ConnectionGUID: FuZxdP3RQWym+in8/eOzWA==
-X-CSE-MsgGUID: /6oOLcPMQtWU4RDqyGpVAw==
+   d="scan'208";a="53696224"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 20:24:53 -0700
+X-CSE-ConnectionGUID: xd7+eJbVTY6F+v+s52H0Pg==
+X-CSE-MsgGUID: b1kzJrhVTiWWOvilvoYKEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="177541262"
+   d="scan'208";a="145107106"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 May 2025 20:12:48 -0700
+  by orviesa003.jf.intel.com with ESMTP; 21 May 2025 20:24:51 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uHwMP-000OsC-0J;
-	Thu, 22 May 2025 03:12:45 +0000
-Date: Thu, 22 May 2025 11:12:35 +0800
+	id 1uHwY5-000Osq-0b;
+	Thu, 22 May 2025 03:24:49 +0000
+Date: Thu, 22 May 2025 11:23:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wentao Liang <vulab@iscas.ac.cn>, saeedm@nvidia.com, leon@kernel.org,
-	tariqt@nvidia.com, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
-Subject: Re: [PATCH v3] net/mlx5: Add error handling in
- mlx5_query_nic_vport_node_guid()
-Message-ID: <202505221016.r93lwUfJ-lkp@intel.com>
-References: <20250521132343.844-1-vulab@iscas.ac.cn>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Michal Kubiak <michal.kubiak@intel.com>
+Subject: [alobakin:libeth 31/33] drivers/net/ethernet/intel/idpf/xsk.c:112:
+ warning: expecting prototype for idpf_xsk_clean_xdpq(). Prototype was for
+ idpf_xsk_sq_clean() instead
+Message-ID: <202505221105.XO4tGKp1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,67 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250521132343.844-1-vulab@iscas.ac.cn>
 
-Hi Wentao,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-[also build test ERROR on net/main linus/master v6.15-rc7 next-20250521]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/net-mlx5-Add-error-handling-in-mlx5_query_nic_vport_node_guid/20250521-212557
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250521132343.844-1-vulab%40iscas.ac.cn
-patch subject: [PATCH v3] net/mlx5: Add error handling in mlx5_query_nic_vport_node_guid()
-config: loongarch-randconfig-002-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221016.r93lwUfJ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221016.r93lwUfJ-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux libeth
+head:   902e1400f831488f8fdaa0e59fb2a9cf6c13639a
+commit: d321536c0622b0237c6ab555d297d7d3d18b18d8 [31/33] idpf: implement XSk xmit
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250522/202505221105.XO4tGKp1-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221105.XO4tGKp1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505221016.r93lwUfJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221105.XO4tGKp1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlx5/core/vport.c: In function 'mlx5_query_nic_vport_node_guid':
->> drivers/net/ethernet/mellanox/mlx5/core/vport.c:474:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-     474 |         ret = mlx5_query_nic_vport_context(mdev, 0, out);
-         |         ^~~
-         |         net
-   drivers/net/ethernet/mellanox/mlx5/core/vport.c:474:9: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/ethernet/intel/idpf/xsk.c:112: warning: expecting prototype for idpf_xsk_clean_xdpq(). Prototype was for idpf_xsk_sq_clean() instead
 
 
-vim +474 drivers/net/ethernet/mellanox/mlx5/core/vport.c
+vim +112 drivers/net/ethernet/intel/idpf/xsk.c
 
-   463	
-   464	int mlx5_query_nic_vport_node_guid(struct mlx5_core_dev *mdev, u64 *node_guid)
-   465	{
-   466		u32 *out;
-   467		int outlen = MLX5_ST_SZ_BYTES(query_nic_vport_context_out);
-   468		int err;
-   469	
-   470		out = kvzalloc(outlen, GFP_KERNEL);
-   471		if (!out)
-   472			return -ENOMEM;
-   473	
- > 474		ret = mlx5_query_nic_vport_context(mdev, 0, out);
-   475		if (err)
-   476			goto out;
-   477	
-   478		*node_guid = MLX5_GET64(query_nic_vport_context_out, out,
-   479					nic_vport_context.node_guid);
-   480	out:
-   481		kvfree(out);
-   482	
-   483		return err;
-   484	}
-   485	EXPORT_SYMBOL_GPL(mlx5_query_nic_vport_node_guid);
-   486	
+   106	
+   107	/**
+   108	 * idpf_xsk_clean_xdpq - clean an XSk Tx queue
+   109	 * @xdpq: XSk Tx queue
+   110	 */
+   111	void idpf_xsk_sq_clean(struct idpf_tx_queue *xdpq)
+ > 112	{
+   113		struct libeth_xdpsq_napi_stats ss = { };
+   114		u32 ntc = xdpq->next_to_clean;
+   115		struct xdp_frame_bulk bq;
+   116		struct libeth_cq_pp cp = {
+   117			.dev	= xdpq->pool->dev,
+   118			.bq	= &bq,
+   119			.xss	= &ss,
+   120		};
+   121		u32 xsk_frames = 0;
+   122	
+   123		xdp_frame_bulk_init(&bq);
+   124		rcu_read_lock();
+   125	
+   126		while (ntc != xdpq->next_to_use) {
+   127			struct libeth_sqe *sqe = &xdpq->tx_buf[ntc];
+   128	
+   129			if (sqe->type)
+   130				libeth_xdp_complete_tx(sqe, &cp);
+   131			else
+   132				xsk_frames++;
+   133	
+   134			if (unlikely(++ntc == xdpq->desc_count))
+   135				ntc = 0;
+   136		}
+   137	
+   138		xdp_flush_frame_bulk(&bq);
+   139		rcu_read_unlock();
+   140	
+   141		if (xsk_frames)
+   142			xsk_tx_completed(xdpq->pool, xsk_frames);
+   143	}
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
