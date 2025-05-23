@@ -1,130 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF0620C038;
-	Fri, 23 May 2025 22:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B86199FA2;
+	Fri, 23 May 2025 22:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748037942; cv=none; b=nixuc7gCgwa/j7dT44XHZ8IB+768BG44bPuRyMjTqfNBEIVLHgvxrynwCYePS9lS9eCBCmAKd/oVZbcjtP8JwFpZKuhs4PbuKrcQ89vFpjpAKXFXk7qVmBO7g+29O38ObtbvI8nBEYq0Qxv77Ejvu812YWHRZYRhtt6SHD0ZZaI=
+	t=1748039227; cv=none; b=oC4e24rk7/pTH+YUxAqTCHcd18zK634Jwf3iLDr6d/GEBl74QDtoiW73QsH6AkrNaXhJVca9ppkQhTahRYEyYVegPKP3ZLbTRDbnCOnMgl5OVYcChmYgDftTQS3kneF7C4BQi+vS7zeZLmBRfIsStufIJ/CYNPqO2zn3zNWPRAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748037942; c=relaxed/simple;
-	bh=3SQ4b9mvlcSn5gq02pzro1J5w5A8mstVDIuSThnUHIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G+wWN24H4bYZhzAeAVqUcHUDfjm+/1M2lNZozQ4nrRo6a4yVLFHJCE22A/GUBw5owP94+9UX5eYFQXJyvIeJUAM0wXNtIXm0mNV1imFLWrva6NxDZIpfQVWZWgGnFHVogskbdd9hZ1pNoveRlMvbqr8mDF3VLH9ORD2SNLs8oMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qi9TNjH/; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1748039227; c=relaxed/simple;
+	bh=JrmjUcUuCdLrFyFZQZQSWsHwlooK3iF/M77Hw8oBD4M=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=cJMuclTghSr6TjF3LoRSy7nYAtrJ4t9pWRlGGr/oufMP8me6SSMgvVuvx45YuTTnPkHWLUecrLkIEWGB3wGrPeqil+tSQYLX6HhNdTY87tLRaA2kUw9cKYLH6ruZvtovOvGxvwHHkBAgxTV1f3/fVteXQe2B+fzTrYWjfFD3ojk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=MAUxf4uN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qi9TNjH/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748037941; x=1779573941;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3SQ4b9mvlcSn5gq02pzro1J5w5A8mstVDIuSThnUHIg=;
-  b=Qi9TNjH/waw5f9ygMDq1s4SoY5KScswo1IfzIrXFFTwnlSNO/GLLQQ1j
-   FTDoO5a6vXrUQgF/ADLlPDJEzpjzDieEtovwxf+9m7yHWVBFKCi4p+4VS
-   1987U5RtQMxoirEM1Njwj8IL3eMUZBoz7J9O9aASBPj+2HJYGLM4bN7v4
-   XMnGSkkYccVSKaUZImfoQalEAGJSvjHyNgt33EdzFW0cWD7st8nRgOHBd
-   AhLpTno9iFiXfUsOR7VjSb2GBhtEY7M8HonEkfcf0JG6o1CHaX+60zX3u
-   +0Ky0wbmRF5c6tPC9d1fyZlVFcSKBfhQ6JIQadrAoB2CmRjl1vafl4PBD
-   A==;
-X-CSE-ConnectionGUID: 0HAPINIGSGOSDcBUn0AvGA==
-X-CSE-MsgGUID: aWGgxsY8RdWT6s2Si4dhQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="61153570"
-X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="61153570"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 15:05:41 -0700
-X-CSE-ConnectionGUID: 8TFKGq4FSIyyrHHqNIV5uA==
-X-CSE-MsgGUID: oZA2c1PyRUCo6iWAFdZKTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="142274870"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 23 May 2025 15:05:37 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uIaWE-000Ql6-1e;
-	Fri, 23 May 2025 22:05:34 +0000
-Date: Sat, 24 May 2025 06:04:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>, intel-xe@lists.freedesktop.org,
-	linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	anshuman.gupta@intel.com, rafael@kernel.org, lenb@kernel.org,
-	bhelgaas@google.com, ilpo.jarvinen@linux.intel.com,
-	lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
-	varun.gupta@intel.com, ville.syrjala@linux.intel.com,
-	uma.shankar@intel.com
-Subject: Re: [PATCH v3 07/11] drm/xe/vrsr: Enable VRSR on default VGA boot
- device
-Message-ID: <202505240521.BnNwr31U-lkp@intel.com>
-References: <20250523190155.2623462-8-badal.nilawar@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="MAUxf4uN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A37D7C4CEE9;
+	Fri, 23 May 2025 22:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1748039225;
+	bh=JrmjUcUuCdLrFyFZQZQSWsHwlooK3iF/M77Hw8oBD4M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MAUxf4uN9muK+1RNCrui7Voj6noNO5+7v6fvwjsEVHyC7IHeZTMJXQqYkB4ZTxW7t
+	 rnrLj/H1ds7sl8o36C6RcGUOkVsxcecPnZxQAf+t6TTQoEt5z+CnCieabJYVyh1vFO
+	 Yw2uH9qwxW7uD+RpHuXhK/NJd3rZooMbIWmkyMqA=
+Date: Fri, 23 May 2025 15:27:05 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Yu Zhao <yuzhao@google.com>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Linux Memory
+ Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol
+ 'dirty'.
+Message-Id: <20250523152705.2ecae09e834c66e1327d6748@linux-foundation.org>
+In-Reply-To: <202505152339.fBOfDPsi-lkp@intel.com>
+References: <202505152339.fBOfDPsi-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250523190155.2623462-8-badal.nilawar@intel.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Badal,
+On Fri, 23 May 2025 13:47:54 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-kernel test robot noticed the following build warnings:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   088d13246a4672bc03aec664675138e3f5bff68c
+> commit: a52dcec56c5b96250f15efbd7de3d3ea6ce863d9 mm/mglru: fix PTE-mapped large folios
+> config: sparc-randconfig-r073-20250515 (https://download.01.org/0day-ci/archive/20250515/202505152339.fBOfDPsi-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 8.5.0
+> 
+> smatch warnings:
+> mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol 'dirty'.
+> mm/vmscan.c:3595 walk_pmd_range_locked() error: uninitialized symbol 'dirty'.
+> mm/vmscan.c:4215 lru_gen_look_around() error: uninitialized symbol 'dirty'.
+> 
+> ...
+>
+> bd74fdaea14602 Yu Zhao        2022-09-18  3484  	for (i = pte_index(start), addr = start; addr != end; i++, addr += PAGE_SIZE) {
+> bd74fdaea14602 Yu Zhao        2022-09-18  3485  		unsigned long pfn;
+> bd74fdaea14602 Yu Zhao        2022-09-18  3486  		struct folio *folio;
+> c33c794828f212 Ryan Roberts   2023-06-12  3487  		pte_t ptent = ptep_get(pte + i);
+> bd74fdaea14602 Yu Zhao        2022-09-18  3488  
+> bd74fdaea14602 Yu Zhao        2022-09-18  3489  		total++;
+> bd74fdaea14602 Yu Zhao        2022-09-18  3490  		walk->mm_stats[MM_LEAF_TOTAL]++;
+> bd74fdaea14602 Yu Zhao        2022-09-18  3491  
+> 1d4832becdc2cd Yu Zhao        2024-10-19  3492  		pfn = get_pte_pfn(ptent, args->vma, addr, pgdat);
+> bd74fdaea14602 Yu Zhao        2022-09-18  3493  		if (pfn == -1)
+> bd74fdaea14602 Yu Zhao        2022-09-18  3494  			continue;
+> bd74fdaea14602 Yu Zhao        2022-09-18  3495  
+> 798c0330c2ca07 Yu Zhao        2024-12-30  3496  		folio = get_pfn_folio(pfn, memcg, pgdat);
+> bd74fdaea14602 Yu Zhao        2022-09-18  3497  		if (!folio)
+> bd74fdaea14602 Yu Zhao        2022-09-18  3498  			continue;
+> bd74fdaea14602 Yu Zhao        2022-09-18  3499  
+> 1d4832becdc2cd Yu Zhao        2024-10-19  3500  		if (!ptep_clear_young_notify(args->vma, addr, pte + i))
+> 1d4832becdc2cd Yu Zhao        2024-10-19  3501  			continue;
+> bd74fdaea14602 Yu Zhao        2022-09-18  3502  
+> a52dcec56c5b96 Yu Zhao        2024-12-30  3503  		if (last != folio) {
+> a52dcec56c5b96 Yu Zhao        2024-12-30 @3504  			walk_update_folio(walk, last, gen, dirty);
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on next-20250523]
-[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge pci/next pci/for-linus linus/master v6.15-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Seems to be notabug because last==NULL on the first loop and in this
+case walk_update_folio() will immediately return without touching
+`dirty'.   But gee, I can't blame smatch from getting fooled by this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/PCI-ACPI-Add-D3cold-Aux-Power-Limit_DSM-method/20250524-030125
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250523190155.2623462-8-badal.nilawar%40intel.com
-patch subject: [PATCH v3 07/11] drm/xe/vrsr: Enable VRSR on default VGA boot device
-config: s390-randconfig-001-20250524 (https://download.01.org/0day-ci/archive/20250524/202505240521.BnNwr31U-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505240521.BnNwr31U-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505240521.BnNwr31U-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/xe/xe_irq.c:12:
->> drivers/gpu/drm/xe/display/xe_display.h:75:64: warning: non-void function does not return a value [-Wreturn-type]
-      75 | static inline bool xe_display_connected(struct xe_device *xe) {}
-         |                                                                ^
-   In file included from drivers/gpu/drm/xe/xe_irq.c:12:
-   In file included from drivers/gpu/drm/xe/display/xe_display.h:9:
-   In file included from drivers/gpu/drm/xe/xe_device.h:11:
-   In file included from drivers/gpu/drm/xe/xe_device_types.h:10:
-   include/linux/pci-acpi.h:143:12: warning: unused function 'pci_acpi_request_d3cold_aux_power' [-Wunused-function]
-     143 | static int pci_acpi_request_d3cold_aux_power(struct pci_dev *dev, u32 requested_power,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci-acpi.h:149:12: warning: unused function 'pci_acpi_add_perst_assertion_delay' [-Wunused-function]
-     149 | static int pci_acpi_add_perst_assertion_delay(struct pci_dev *dev, u32 delay_us)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
---
-   In file included from drivers/gpu/drm/xe/xe_pm.c:17:
->> drivers/gpu/drm/xe/display/xe_display.h:75:64: warning: non-void function does not return a value [-Wreturn-type]
-      75 | static inline bool xe_display_connected(struct xe_device *xe) {}
-         |                                                                ^
-   1 warning generated.
-
-
-vim +75 drivers/gpu/drm/xe/display/xe_display.h
-
-    74	
-  > 75	static inline bool xe_display_connected(struct xe_device *xe) {}
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+(oh look, mm/ has two walk_pte_range()s)
