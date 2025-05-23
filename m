@@ -1,88 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B86199FA2;
-	Fri, 23 May 2025 22:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7201C19CC28
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 22:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748039227; cv=none; b=oC4e24rk7/pTH+YUxAqTCHcd18zK634Jwf3iLDr6d/GEBl74QDtoiW73QsH6AkrNaXhJVca9ppkQhTahRYEyYVegPKP3ZLbTRDbnCOnMgl5OVYcChmYgDftTQS3kneF7C4BQi+vS7zeZLmBRfIsStufIJ/CYNPqO2zn3zNWPRAM=
+	t=1748041005; cv=none; b=juAKmT9kuNQ/ONA6hOnGLjZLMmiMYZASF91mOI8v4TYwJem2yHmH0NQrfTeR73E86aQKylGiWXr1tTOj9/JQxytlGUsS/MtonExl0gNkshBKQvx1tVax9Ilm+x8wVo/ug7kd92r14aZx90GSfcKV6YZ3qaLJ/zb3UgEgrsGzBd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748039227; c=relaxed/simple;
-	bh=JrmjUcUuCdLrFyFZQZQSWsHwlooK3iF/M77Hw8oBD4M=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=cJMuclTghSr6TjF3LoRSy7nYAtrJ4t9pWRlGGr/oufMP8me6SSMgvVuvx45YuTTnPkHWLUecrLkIEWGB3wGrPeqil+tSQYLX6HhNdTY87tLRaA2kUw9cKYLH6ruZvtovOvGxvwHHkBAgxTV1f3/fVteXQe2B+fzTrYWjfFD3ojk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=MAUxf4uN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748041005; c=relaxed/simple;
+	bh=TCBqiEY5hTJyZA/lfrU8nTSYyXNjAnrk7iVc2868Y44=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KJ29rW0UxE9lIZKVLw8YuknSfYPD4U0R7YkCUHXR/3a1ZNPgsZTW7xEiam8BkxHkzMoSc3lvhEkEIUMdSDsBi0KKfi3ZKCAIKUUpmpm8o4SL/naG/lZi06eSYcelj52x5PTn5RQZf6Y79714jXC3WX6z2TSaIxxOzZMyp4UTCUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQ2lgMe2; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="MAUxf4uN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A37D7C4CEE9;
-	Fri, 23 May 2025 22:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1748039225;
-	bh=JrmjUcUuCdLrFyFZQZQSWsHwlooK3iF/M77Hw8oBD4M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MAUxf4uN9muK+1RNCrui7Voj6noNO5+7v6fvwjsEVHyC7IHeZTMJXQqYkB4ZTxW7t
-	 rnrLj/H1ds7sl8o36C6RcGUOkVsxcecPnZxQAf+t6TTQoEt5z+CnCieabJYVyh1vFO
-	 Yw2uH9qwxW7uD+RpHuXhK/NJd3rZooMbIWmkyMqA=
-Date: Fri, 23 May 2025 15:27:05 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Yu Zhao <yuzhao@google.com>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Linux Memory
- Management List <linux-mm@kvack.org>
-Subject: Re: mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol
- 'dirty'.
-Message-Id: <20250523152705.2ecae09e834c66e1327d6748@linux-foundation.org>
-In-Reply-To: <202505152339.fBOfDPsi-lkp@intel.com>
-References: <202505152339.fBOfDPsi-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQ2lgMe2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748041003; x=1779577003;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TCBqiEY5hTJyZA/lfrU8nTSYyXNjAnrk7iVc2868Y44=;
+  b=EQ2lgMe2L+/yUFBSGuEBNe8R89mV2HQVCtffnyH9DMEVAfEoHLJvgnqs
+   Eo9vdCUCFAFnrQTAsITEenhAmYjj6Qn/ruG/O+otSpGGv9d/uVqKIBT3w
+   1pHj9GV9Lh9HwSgAA/BUXjfuNxEXlrvutu8Sa5djXNMLVnGwPM24rVOAt
+   Bra9swOVoDiyin8TxAzmuQOqrmQiXpaHb7DP3nB640bAiDipxuqTKP3yM
+   AB6AlYIpZUL0HwTj9fiGYBsNkdUJxqGlTxQvoa4vGVe4rvVvEPPCE3A/B
+   TlHX3QWLLOGs8QWLLjUspH/ZTlXZz11qL3cSZ3ma31Ho3ZNx9+z9B08Gg
+   g==;
+X-CSE-ConnectionGUID: Fzn9YxSmSP+OsgDTjJVagg==
+X-CSE-MsgGUID: 8xKJWJIYR4yrlu4udyJ4yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="67665000"
+X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
+   d="scan'208";a="67665000"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 15:56:42 -0700
+X-CSE-ConnectionGUID: horwYNjBQeuAZ7Pbw5sVKA==
+X-CSE-MsgGUID: V7yeRqvnR6y3UkVLfMXxiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
+   d="scan'208";a="146496637"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 23 May 2025 15:56:41 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uIbJe-000Qmq-2t;
+	Fri, 23 May 2025 22:56:38 +0000
+Date: Sat, 24 May 2025 06:56:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ajaykumar Hotchandani <ajaykumar.hotchandani@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, LUCI Bot <vijayendra.suman@oracle.com>,
+	Gerd Rausch <gerd.rausch@oracle.com>,
+	Somasundaram Krishnasamy <somasundaram.krishnasamy@oracle.com>,
+	William Kucharski <william.kucharski@oracle.com>
+Subject: [jlayton:uek-localio 1131/2262] versioncheck:
+ ./net/rds/rdma_transport.c: 42 linux/version.h not needed.
+Message-ID: <202505240637.tcvedAYr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 23 May 2025 13:47:54 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
+head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
+commit: b0128f3d2952cc4e4834681fe1d3129b73ee1924 [1131/2262] rds: disable APM support
+reproduce: (https://download.01.org/0day-ci/archive/20250524/202505240637.tcvedAYr-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   088d13246a4672bc03aec664675138e3f5bff68c
-> commit: a52dcec56c5b96250f15efbd7de3d3ea6ce863d9 mm/mglru: fix PTE-mapped large folios
-> config: sparc-randconfig-r073-20250515 (https://download.01.org/0day-ci/archive/20250515/202505152339.fBOfDPsi-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 8.5.0
-> 
-> smatch warnings:
-> mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol 'dirty'.
-> mm/vmscan.c:3595 walk_pmd_range_locked() error: uninitialized symbol 'dirty'.
-> mm/vmscan.c:4215 lru_gen_look_around() error: uninitialized symbol 'dirty'.
-> 
-> ...
->
-> bd74fdaea14602 Yu Zhao        2022-09-18  3484  	for (i = pte_index(start), addr = start; addr != end; i++, addr += PAGE_SIZE) {
-> bd74fdaea14602 Yu Zhao        2022-09-18  3485  		unsigned long pfn;
-> bd74fdaea14602 Yu Zhao        2022-09-18  3486  		struct folio *folio;
-> c33c794828f212 Ryan Roberts   2023-06-12  3487  		pte_t ptent = ptep_get(pte + i);
-> bd74fdaea14602 Yu Zhao        2022-09-18  3488  
-> bd74fdaea14602 Yu Zhao        2022-09-18  3489  		total++;
-> bd74fdaea14602 Yu Zhao        2022-09-18  3490  		walk->mm_stats[MM_LEAF_TOTAL]++;
-> bd74fdaea14602 Yu Zhao        2022-09-18  3491  
-> 1d4832becdc2cd Yu Zhao        2024-10-19  3492  		pfn = get_pte_pfn(ptent, args->vma, addr, pgdat);
-> bd74fdaea14602 Yu Zhao        2022-09-18  3493  		if (pfn == -1)
-> bd74fdaea14602 Yu Zhao        2022-09-18  3494  			continue;
-> bd74fdaea14602 Yu Zhao        2022-09-18  3495  
-> 798c0330c2ca07 Yu Zhao        2024-12-30  3496  		folio = get_pfn_folio(pfn, memcg, pgdat);
-> bd74fdaea14602 Yu Zhao        2022-09-18  3497  		if (!folio)
-> bd74fdaea14602 Yu Zhao        2022-09-18  3498  			continue;
-> bd74fdaea14602 Yu Zhao        2022-09-18  3499  
-> 1d4832becdc2cd Yu Zhao        2024-10-19  3500  		if (!ptep_clear_young_notify(args->vma, addr, pte + i))
-> 1d4832becdc2cd Yu Zhao        2024-10-19  3501  			continue;
-> bd74fdaea14602 Yu Zhao        2022-09-18  3502  
-> a52dcec56c5b96 Yu Zhao        2024-12-30  3503  		if (last != folio) {
-> a52dcec56c5b96 Yu Zhao        2024-12-30 @3504  			walk_update_folio(walk, last, gen, dirty);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505240637.tcvedAYr-lkp@intel.com/
 
-Seems to be notabug because last==NULL on the first loop and in this
-case walk_update_folio() will immediately return without touching
-`dirty'.   But gee, I can't blame smatch from getting fooled by this.
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./net/rds/af_rds.c: 39 linux/version.h not needed.
+>> ./net/rds/rdma_transport.c: 42 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 424: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-(oh look, mm/ has two walk_pte_range()s)
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
