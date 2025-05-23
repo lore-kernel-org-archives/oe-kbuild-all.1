@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED47B1FF1CF;
-	Fri, 23 May 2025 21:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4004A20C038
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 22:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748036447; cv=none; b=htujYQqPNXURhetAHOw9K1ooMvCTrYDyRh6O6VhOzf6kM1iz99PsB0wSj56xh0mYml+cYP21PpOEA6mx3GTZVTs6BMzKTfkuok0xCJ1hePLsMD9Owafk4Y+SOWeufjjfIQ4kVHnqnx5V2JWRr+L1JYSUONn/lKcKsBBy9sfO5vc=
+	t=1748037940; cv=none; b=B6879gRf3p/skiFIU5rv1HyLgZ9Xo/77RJsJPgn/1uxud7lNAx4AGDbcDARLFp1i1F9lxZsTCy9tqjJgakQc2PQGyrGyn51hPzEEEwODFPvf4DsFEsRty8Noxop1KTgwvwrZOH+Y1DYBOOojciJ7rG1JIC3zsihaeqqCY/dT6bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748036447; c=relaxed/simple;
-	bh=FUUWILj8JyJGfLu9IfPs12LltzXfUTkwo5W9rzyaZFM=;
+	s=arc-20240116; t=1748037940; c=relaxed/simple;
+	bh=nCYN858OrAv36YXsqsRBvFOzG9FQYRYT/tPerDnkXoo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FN3iLX7avrcUNduvLu4ZXdIKx3L4y+2/eWs+Wbmf0B+A1alkv/0dvQCcp4lErXIBpXnHUgQoNRrz+CDFY9MXZFBTleZjh+0ynKQe672Ng2QYcxXHvPLqo0jWIQSQpK3Z076O25Bi7OJUOzVlGHqDwcOz1fSaQgtY3Tqr2/vQgvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gYPwE8xv; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=FblTDt3GOczXjC3Rj8oghL3dLSZ4xQ9XhiG7mU3iXmm0TECBR9KtLzNDcsgkdpKEVoFgOxU9MadFmDQTVCYTFjNVLwbcjXqkXxvSLCHmHUrVctdFjMbkUscVDGcycgWDv70+MhB/HrvRJprpE4gOeDgl2OrV39cEpcof5FOj/dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OxEIbvMJ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYPwE8xv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OxEIbvMJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748036446; x=1779572446;
+  t=1748037938; x=1779573938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FUUWILj8JyJGfLu9IfPs12LltzXfUTkwo5W9rzyaZFM=;
-  b=gYPwE8xvQXU3SAWZr/ARVzBwcKTps81Y7GdN9mKEPkQHOdOD8GZtppIG
-   aztJCeni/Z9DJu8TFamNO8yLUBeg0Cnyps7n3ANxudZEGV4mlXPa5wCSC
-   yMq+79IuHk+l/axbqnHNFGgIZTAZavshSMnMkHfgl2zkQqxKC8/H7Bufu
-   2Ju1Xar0Rz5u5WdK3boYjpHzn5kp3zcukDEUsJZpLqiIiqKoV6GZvzJQD
-   SUeB6FQyDdvCc1QQZeS6Il6SOJoiMJJtwuw5h4dMCJe/sjpqKzS8XL2xG
-   2ulHJN2oWCABzMxSYrAIC7LLJXiiTxDeexKgxN6dYer4uqAk8AsrRoV2Y
-   A==;
-X-CSE-ConnectionGUID: b+UH4ZAKTWWYA//BMKHQcQ==
-X-CSE-MsgGUID: ZG+AdT4xTRihGpoagwnD2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50023782"
+  bh=nCYN858OrAv36YXsqsRBvFOzG9FQYRYT/tPerDnkXoo=;
+  b=OxEIbvMJDv6RDF+9p8TW1gbqnZJNrpJNjHFf8nvdqN1KtVhMgHIjj4oU
+   WoKT0QrxmBQvGlsgYt6a7Jb2y6GxDrGCECYp7D2D5Q17psLriE+CJO/4T
+   ifJrycIO5QEd20m/TD0L2jmIGt0l6SUPp8BXWkvzzCOFlDKS4wTTC5z1q
+   rJCUAkCyAivOGCSs/91OiNtbG5dhcQlu4mROXtMsE3aQweB9dxuLTgrGG
+   d2a4CR6zXo3yB1PMQq5xGHGv5GVGQkbf/qaTUR4BYaT7HQ5XpAEqJW9yj
+   +uGX1XpjvIlNM89yoXc+JCMRQGhkjwLyWmABDAuwAgIGCdw+1OH60TBS6
+   g==;
+X-CSE-ConnectionGUID: qE4vTbZhRIiXEnViWnumZg==
+X-CSE-MsgGUID: e/HflIAMTLSKQV4TFk1/QQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="67516354"
 X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="50023782"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 14:40:45 -0700
-X-CSE-ConnectionGUID: G1AVr872Q6OakJyyWEgfsA==
-X-CSE-MsgGUID: WGSyuGMDTLmSlrKne2BMFg==
+   d="scan'208";a="67516354"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 15:05:37 -0700
+X-CSE-ConnectionGUID: a8u8DNj0Tn6jxaz/CWLlxw==
+X-CSE-MsgGUID: XZMvYn6MQ5WoHxxyXEstBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="141164749"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 May 2025 14:40:44 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+   d="scan'208";a="141182459"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 23 May 2025 15:05:36 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIa89-0001ZU-0t;
-	Fri, 23 May 2025 21:40:41 +0000
-Date: Sat, 24 May 2025 05:40:15 +0800
+	id 1uIaWE-000QlA-1m;
+	Fri, 23 May 2025 22:05:34 +0000
+Date: Sat, 24 May 2025 06:04:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai Huang <kai.huang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Adrian Hunter <adrian.hunter@intel.com>
-Subject: [linux-next:master 517/13331] vmlinux.o: warning: objtool:
- tdh_vp_enter+0x8: call to tdx_tdvpr_pa() leaves .noinstr.text section
-Message-ID: <202505240530.5KktQ5mX-lkp@intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kees:dev/next-20250522/clang-kstack-erase 4/15]
+ vclock_gettime.c:undefined reference to `__sanitizer_cov_stack_depth'
+Message-ID: <202505240535.hGg8I7eH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,21 +62,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   484803582c77061b470ac64a634f25f89715be3f
-commit: 69e23faf82b4e7efe3581f9055a9c29d8d6ff9af [517/13331] x86/virt/tdx: Add SEAMCALL wrapper to enter/exit TDX guest
-config: x86_64-buildonly-randconfig-2003-20250524 (https://download.01.org/0day-ci/archive/20250524/202505240530.5KktQ5mX-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505240530.5KktQ5mX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git dev/next-20250522/clang-kstack-erase
+head:   681194c2c1e885a1eeaff640c0b3bcc071fea17d
+commit: f32454614318aeb0a1de6f8177bbcacec531bb94 [4/15] stackleak: Split KSTACK_ERASE_CFLAGS from GCC_PLUGINS_CFLAGS
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250524/202505240535.hGg8I7eH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505240535.hGg8I7eH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505240530.5KktQ5mX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505240535.hGg8I7eH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: tdh_vp_enter+0x8: call to tdx_tdvpr_pa() leaves .noinstr.text section
+>> ld: arch/x86/entry/vdso/vdso32/vclock_gettime.o: warning: relocation against `__sanitizer_cov_stack_depth' in read-only section `.text'
+   ld: arch/x86/entry/vdso/vdso32/vclock_gettime.o: in function `__cvdso_clock_gettime_data.constprop.0':
+>> vclock_gettime.c:(.text+0x22c): undefined reference to `__sanitizer_cov_stack_depth'
+   ld: arch/x86/entry/vdso/vdso32/vclock_gettime.o: in function `__cvdso_gettimeofday_data.constprop.0':
+   vclock_gettime.c:(.text+0x8e0): undefined reference to `__sanitizer_cov_stack_depth'
+   ld: arch/x86/entry/vdso/vdso32/vclock_gettime.o: in function `__cvdso_clock_gettime32_data.constprop.0':
+   vclock_gettime.c:(.text+0xf18): undefined reference to `__sanitizer_cov_stack_depth'
+>> ld: warning: creating DT_TEXTREL in a shared object
 
 -- 
 0-DAY CI Kernel Test Service
