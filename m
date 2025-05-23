@@ -1,102 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035EB1898E9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 05:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F492DCBF9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 06:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747979838; cv=none; b=jLxjqA/aQIorW9YDFOyQEMgtHpqqZdtHKg1979gp/yv2HfvewvdgQSF3kkaxaWQ5FSnNat+cgFFM4eHXwRKJBhPnoxoZAp2rvfJB6zYxjMOe27rvAEq0VELexzt4b05OlsGZ/y0XDL/83EEgsCUVSU+mGWj2qgVIi/YjJINU1Yc=
+	t=1747981467; cv=none; b=iClbaQLiqMIpqb0B/vpaY/hSadkWLEjVkhU13otpZ55oqN0m0pddULj914KfTNfYcbMbTTkF2Qi41ScVWJ3BdMMqRy8TyF3OznQtLQNSbnSXZ/QtFI3liWipYr7Ef93BdnHclgGKla8ehm0vuGzwPLKer0s78RZJPgYAwymMZ+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747979838; c=relaxed/simple;
-	bh=ESJrCbxd/qInCuGm4WLqEK2Zp0zlyPNnJVBmgJWxDgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mCXfroav6yPbbCcC5pdXuFKmYQbEds0CwqiIvzoAEtwqhJrt1DYLsNtyCg6wpVJU0HSao3A+LPjUOueOzIyNvNMSQMm1AuIA8A3Tjp+wK8jWW2MVNfUl9c3uAQ48DS82uTrtg48Pk4PIvha58sknXvhyyIi8Kc41NBM2W/Pzgu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hr1aammH; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747981467; c=relaxed/simple;
+	bh=vcbOFAtxUBDkEdAWJqQHqJrbVgEUXO+diVOFf+nGBKA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nE5pj/lQW4Au2dW204W7UeErgOwmLtG7zdvC5UOpqQ/7aXuxzyMUuXr3GmiVrJEepeoC+FexIMnsl/XMHwrAKbqfs72zWglvSxkl1FsDFqyNi8f48G/IIPU2BBUpbGLua/5xzk//ZvBAa6tkxVjBSrKcwLaH02yh5OonsfepoGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=XsCNw4n1; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hr1aammH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747979837; x=1779515837;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ESJrCbxd/qInCuGm4WLqEK2Zp0zlyPNnJVBmgJWxDgs=;
-  b=Hr1aammHXneE64HqdDRiMl5o99Jbd8GGoYNHs8La7/2CvCoKDsPA5ZNn
-   equp4nY/6mUrE8OkJKxTaJOwkRVY39yG7fHUzu5TPpGByDmV8rpy5zJ4p
-   k4u+3DVivCLU34SewjmFY6t0FtjFiUY/ntFAhc/UxdzqAqoBQCS3pBWTl
-   OwV3aJet93s73VjhMHP8iocBTabaZhOXr8W8YvrUyTLeeFuP3grsBRPZA
-   fioubAo029CBj1jp1GecHbXVyV5jfs+YW43qwSsn6RmwQUe5p20Xrztxh
-   GPUx1Ey+f9KwDfTFLJ3fCrPEt1xUijsrKpqdDi7MbofIwtiGRO4d1934T
-   A==;
-X-CSE-ConnectionGUID: WIjc5sUISJyMRlaN6yKR8Q==
-X-CSE-MsgGUID: Thu1qW36TkuuBgdYcuD+7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="61077121"
-X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; 
-   d="scan'208";a="61077121"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 22:57:16 -0700
-X-CSE-ConnectionGUID: Z8p3wuRwQVOkMi3xU4ULIw==
-X-CSE-MsgGUID: ImuLW6sMS1OdKDbc81iFeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; 
-   d="scan'208";a="171959863"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 22 May 2025 22:57:15 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uILP7-000Q4K-1l;
-	Fri, 23 May 2025 05:57:13 +0000
-Date: Fri, 23 May 2025 13:56:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 1/1]
- drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c:911:31: warning:
- 'vf_type_ib' defined but not used
-Message-ID: <202505231320.sjy69gfd-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="XsCNw4n1"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 54N6NUq83337630
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 22 May 2025 23:23:31 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 54N6NUq83337630
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025042001; t=1747981412;
+	bh=wnyZuODJByEqpzXIq2BlNFfzd2lgJUg6GSxaV1xq9rE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XsCNw4n1ssDTJReaTMTvbM2c7QkmubHLKX2tkB+DBrWGHejtY5GWbmWvIglLe9q3Z
+	 Qe2y0D6zeoxrz8lYv/X39uGcjQ89CjZ/3E0JHPt5V3JRCjN51u1P/WfGoGGVxRP0yh
+	 +OW3vegTptZjEzl6pzmCdWAVwzw9nyqnoi93zP133qMc40kU+gRcQAAcRD82SvdNc8
+	 m9+3WmGIHwTznMxjN4dGUxt50jDmETfD0zKwKay+YK5ecxaBfhy/GztcucAk+6GnHr
+	 f9x7KzsTJjr0Z1seSEHECNGFiks0CiVu8e0n8GIJzD5fgDFLIWz1exGL82FqCjjfhj
+	 NKRWfZ9d64tzQ==
+Message-ID: <98baeeed-345d-4ae9-9418-61df6c689516@zytor.com>
+Date: Thu, 22 May 2025 23:23:30 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] x86/fred/signal: Prevent single-step upon ERETU
+ completion
+To: Andrew Cooper <andrew.cooper3@citrix.com>,
+        kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, peterz@infradead.org, stable@vger.kernel.org
+References: <20250522060549.2882444-1-xin@zytor.com>
+ <202505230141.4YBHhrPI-lkp@intel.com>
+ <83b013fb-2057-4097-ac8c-b5c38d019a0f@zytor.com>
+ <005d4d4c-f385-42e0-8a30-62c6d77ff0f0@citrix.com>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <005d4d4c-f385-42e0-8a30-62c6d77ff0f0@citrix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   a8755c6c8b3f958e95ab5212817b06a08801fb1d
-commit: a8755c6c8b3f958e95ab5212817b06a08801fb1d [1/1] anolis: drivers: update Yunsilicon drivers to version 2412GA
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250523/202505231320.sjy69gfd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505231320.sjy69gfd-lkp@intel.com/reproduce)
+>>>      arch/x86/include/asm/sighandling.h: In function
+>>> 'prevent_single_step_upon_eretu':
+>>>>> arch/x86/include/asm/sighandling.h:44:21: error: 'struct pt_regs'
+>>>>> has no member named 'fred_ss'
+>>>         44 |                 regs->fred_ss.swevent = 0;
+>>>            |                     ^~
+>>>
+>>
+>> Hmm, this statement is under IS_ENABLED(CONFIG_X86_FRED), which should
+>> be a compile time FALSE with i386.  Why it is still being compiled?
+> 
+> Because what the compiler is seeing is:
+> 
+> if (0 && ...)
+>      regs->fred_ss.swevent = 0;
+> 
+> and the bad field name is found at parse time, while the whole
+> expression is only discarded during optimisation.
+> 
+> The one thing you can't IS_ENABLED() around is conditional fields.  That
+> needs to be full #ifdef.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505231320.sjy69gfd-lkp@intel.com/
+Thanks a lot for the explanation.  Just sent out v3 using #ifdef.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c:911:31: warning: 'vf_type_ib' defined but not used [-Wunused-const-variable=]
-     911 | static const struct kobj_type vf_type_ib = {
-         |                               ^~~~~~~~~~
-
-
-vim +/vf_type_ib +911 drivers/net/ethernet/yunsilicon/xsc/pci/sriov_sysfs.c
-
-64e8e83b98611a Liqiang 2025-01-21  910  
-64e8e83b98611a Liqiang 2025-01-21 @911  static const struct kobj_type vf_type_ib = {
-64e8e83b98611a Liqiang 2025-01-21  912  	.sysfs_ops     = &vf_sysfs_ops,
-64e8e83b98611a Liqiang 2025-01-21  913  	.default_groups = vf_ib_groups,
-64e8e83b98611a Liqiang 2025-01-21  914  };
-64e8e83b98611a Liqiang 2025-01-21  915  
-
-:::::: The code at line 911 was first introduced by commit
-:::::: 64e8e83b98611ae1073a82656af3222b9037d4b2 anolis: drivers: support for xsc drivers from Yunsilicon Technology
-
-:::::: TO: Liqiang <liq@yunsilicon.com>
-:::::: CC: Qinyun Tan <qinyuntan@linux.alibaba.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+     Xin
