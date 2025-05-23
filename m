@@ -1,159 +1,177 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1ECD22370F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 09:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82262223DFA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 09:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747993410; cv=none; b=GqShVlqDPb1POPmOCvufmbaMI71eR0RzP/KpKZ4aDfsvrQL4GPAN64z6z02R3NmaicR0KVTZPVUhI6EP8GgNcY2wQb3rt/w6qwJL0j4OfstYu8D7gAgNeSbjrtLVZnKvkAxEeDL6V4fZXCpIUqlltNjc+o58PGqBFYhj0E5tIEQ=
+	t=1747993463; cv=none; b=N2mSD03p+lcxuKp6mUYTGme3Oaf+9mTI0y68Z/FDySAk8ycn/iVBF2GsFEFqS1xluqHqr1j2EtQcyudUmin13d9mEM2PulECRn+G+ZP9U6mnA5BG/6qch9J+Q89c7T4b0f+fnDBlgzqEDpA/zQqrYjenZWAjpy00RxXJV+Zmf/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747993410; c=relaxed/simple;
-	bh=IB0K1uUNYimeg8wJMWrZHPGvEnLotCzFoA4V9I0lTC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lXlrvSWLxdtUPDAcVJBagt9+UNZXrRPJ5SJr17f2n0HIrY+AxzM3AKxM+ni2bdy5ZEtLdQhDOkgjUUoNVL6IcPsjwCEywDWRjyqtBJdtj1B8Mf5Fn8Sl45Sc8PSpGfUadY8P08ei149/wj5kklC+Tqn0NHF5cPS9IuIgwf4jA8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aQjAZH7I; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1747993463; c=relaxed/simple;
+	bh=ORiCYXX2+npBuaxXBl6BF2rywetWpqgFK7lleNfKm7Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jf5W4Tqz5pX5fJjxtV1gMWTB5TASL0gjoA9Y1mHKZHRlB4TdyXFOfMTtzudXW/0vRpS/yx5C8HbEnmSADL/ocJwp0C36KzWMwZj5hlCaKbl0iG++8dRphdMBzpWqGfxljf+OvEX0SQy6mOYY/TWeSaKd37otKE8XSCmbgAdQg0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UzycMOUR; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aQjAZH7I"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-441d1ed82faso69510685e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 02:43:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UzycMOUR"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-742c2ed0fe1so5976244b3a.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 02:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747993406; x=1748598206; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ASW4g2Stbx73gzooi+ihqxW33Cbhs7/VAI8mEaOvq4I=;
-        b=aQjAZH7IHrxTTeQw50xURB/Re9BpLWYkRYc+Uu1ArZBK9nzneS05tMnGvqe8dsFBJe
-         k9BhYbr/iN9jts2a4DygA1/DcC/U1XZoqb7k2yWQKqWq3ew3cIug0RgbIqvlK3wr+wOt
-         zda7sjFCdwX8IolPTa9whVdPXREZdPVzZCivEYR1neud0jWROsEyavk7F9HIDNEOux7U
-         3kb/iy5WuBobSfc6VGU2EeVgwLamF/SUJCVjyA3BtgtCiowys+8V73UMsjQuf7erK+3e
-         WHdQ51VTZIbfqk9JICQ/4fJotVHvPZ+puk5Yas5J9H21PSH13B9vOhynw9HWr5nn6R28
-         Wr8w==
+        d=gmail.com; s=20230601; t=1747993461; x=1748598261; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=g8/vi7y8OuYvTC1jd4K4hOxCAgA29QQePM/SNMh/GDY=;
+        b=UzycMOURB9wvS3Ryfn8ve2+awAGKlAuH6FUMovY7e0PKHL2w0Hrx/gVqfbmkd07Fm9
+         X9SBaEBak8J5xVNIEe04j0QKrf1shegHQqmV4empiuy/VNf2wtfq6YbCw2RX29HRlEjG
+         zAQ9Fh7lTXGb1xnYHiifBJOdNtNq3ihMl/EbaH1a4+Py/zOFx0PiD5N/tIuhQYtVnnSi
+         pdC+meyhet9wkbU62OdDUOrjiv7bSt5dgJGXTVk/7HX+ANEDvgS1d67bDqGlLUQ6qDlv
+         C4lGYu8jYfJns0vAlp9pM8GjGCmGR6knh+CWJeaajEp77JsEpTp2qD4WNLvLp3bJ95R9
+         rytA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747993406; x=1748598206;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ASW4g2Stbx73gzooi+ihqxW33Cbhs7/VAI8mEaOvq4I=;
-        b=dQ27OBDbEQ+Ij2+qlHBNH7yhKI+ZGtE4JNUP772f7zM3VLvoSvNqgtxY3W5f6yQj0a
-         vrAWzzIAcx9/B5xZqzQ+EoiLGZKVMrK6wTiulTxXG9YePgrCB/8IY76tOCrYSan1qD8V
-         N8vRulLWYuYTJp/2Nnm8a5t0m7qORXwfR+F+uk98j2fUVBhRZ4qG7DahhKdnGknCAxWq
-         O97KmO+dOyhW2L9dupFHRxF4usHLDs5a1IpRn4EyIF8+qwvOBcVjz+XfX0NhebWr9L2k
-         305Fz/Rrqt6euV2wQYm8c7vlhcLr9ztmqwj1ZtJPq1YiHepBQaq/QRBqiS1udh9XjS3G
-         nfuA==
-X-Forwarded-Encrypted: i=1; AJvYcCVdpSJUBoJXy0mIMicZfkCLPKP3YuQKsAMucaMrJF3F+Z8yB/p8Y7DlCc2PLs7SoRMhAe+2kqoODvTpFgEw@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkaGsoTd59zfgJBgR99QdAtPnYE//Bo3T3NjKVQWRvKF2mACah
-	/zPxhmBzTUOkO0vDoaGeG35TaHyQlqbZBnPE/zLZlf303dtomXjc7e7WL2q/RlvFKIg=
-X-Gm-Gg: ASbGnctBht5UlwEqOQc1EVpBh6tvFv0qeVzUEshtYKJfgDoZaFTe+KFJL5GyBTLmFkE
-	5uITPbTmrprxKCtfCFtKrsLiMw54qKhSDNTP8f9DeZGNRZOY68uZufS2o+tHpdK8pwGig6IRTIa
-	attWkU8Nnvbj3VOqYbWcGeW95dDMtIIRSyDqV+WUp08wEdQd9Ta/xlLM0fKXUpuB4wTe/S1EPQ0
-	IClT6zQNbzr+gCyLyeDiN8i/sq/ZzBLhifcCpayxrcmvA/BzIZIYsh8dA5OV1Xk9fzc4L5D1wpl
-	rPFNiLd2lM7dYmr8ThBcwzY3TrRUWKRZs7cmRHQoFagvFTaALw2mqtwe
-X-Google-Smtp-Source: AGHT+IG1YNLEDe44w/T8lljUWTbHZkAvqGZuDKj2vYHLa+eE3eKX2dF2LxR+S7PWrvYKdiPTMXE6nA==
-X-Received: by 2002:a05:6000:2282:b0:3a3:7bbc:d94e with SMTP id ffacd0b85a97d-3a37bbcdc22mr14556163f8f.6.1747993406070;
-        Fri, 23 May 2025 02:43:26 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a35ca62910sm26535095f8f.50.2025.05.23.02.43.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 02:43:25 -0700 (PDT)
-Date: Fri, 23 May 2025 12:43:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Benjamin Marzinski <bmarzins@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mikulas Patocka <mpatocka@redhat.com>
-Subject: [linux-next:master 10969/12618] drivers/md/dm-mpath.c:2104
- probe_active_paths() warn: mixing irqsave and irq
-Message-ID: <202505221209.UJOI2rXT-lkp@intel.com>
+        d=1e100.net; s=20230601; t=1747993461; x=1748598261;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g8/vi7y8OuYvTC1jd4K4hOxCAgA29QQePM/SNMh/GDY=;
+        b=IJZY01nV6wsl2P+rkHcki6CBSU4Z9lTurJwYyGF7G3Uis14JZ76eKQfeVQFy4HcI2b
+         s4S1DxnJ022aAC+mxD+Jmkt8W8fWBwHsWfJzJvi5vI3j0+2AH55cwAJNv0X9WV6bNNiR
+         58MFrw3TX1ZYECFJX5lzSRcFWPr2w+rV7QvxIvBldQVMMPVBp3RYKMsgpOg7HzdU4LZT
+         kb8dytzmE57IPaf1bgVX8jFA6DLtauIhU/tdU20JH91xT44yImE+FbFrI1ydQIpqaD3X
+         b6vq7otA6Wr5/bx7XdnV/YsaPGcoBMoejfAn2SgeG8d+duxh2hkAPXgcJIeM5enVLyVl
+         s7oA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlZamswkDbOIALUFFaXeJLYIOTmB65tW/KfKTeZEb7sHb4+3lOhT37sfVdok6adSxiSIsN/B7AgbAM/aYF@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvCc4AsRYQGrMTTG4PHeVeFJReVqVzkzt2CiKLtKngXXp4qrYK
+	4euKh1BJpBh91EXeUGtKosWW1GjwfTjYjyfl02quAMbsF8GJa9F2tpbt
+X-Gm-Gg: ASbGncvfWjNnHMduBufh8KnMaP3kMW2Nn7Ssf0DG2O6EdRdQRh8DT2OfdyqWQEjgSEN
+	Dw2Q06CeiCoxlG68qOgd8XdZPVTt3A/2WCieGZywoJ+kPTXxScUycO9uabsXSoAd6BGoZIBdFaF
+	fW1ddVxDMHn6rxz1Enly/v5yTYvVqI+HVclnkCpHXpH3AR9Da8oIxShHpfmBqd1zGfztWnIvPQF
+	VROu91vtNqwkS8yO55FqYz5EvLApLtlr5f9hJSzVVKengOSQiezLukYvrn9ZswIL1Ai5VUTZoah
+	+e1E27gPLp9QNWq6oyPZtAqru6Lc90ycL5cS8Iu5p8VUkJZtXuqRcryDfMC6qbFqGruMPPaaShw
+	0UCkNwJvpMPg7CIpoH7nBvAtz
+X-Google-Smtp-Source: AGHT+IE/sQH3ZW0UkNSF+9aZjlAJCbKRFBYOtpRaA2RS69otWpX7DsNz/DLWL0QdW+j2Nm/PHm34NA==
+X-Received: by 2002:a05:6a00:894:b0:740:a921:f6de with SMTP id d2e1a72fcca58-742a98e9c0cmr38825737b3a.23.1747993460624;
+        Fri, 23 May 2025 02:44:20 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970ba0csm12919783b3a.54.2025.05.23.02.44.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 02:44:20 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <0838e48b-c995-42f8-8803-18ed593a89ef@roeck-us.net>
+Date: Fri, 23 May 2025 02:44:17 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 6/7] hwmon: Add Nuvoton NCT6694 HWMON support
+To: Lee Jones <lee@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: a0282524688@gmail.com, linus.walleij@linaro.org, brgl@bgdev.pl,
+ andi.shyti@kernel.org, mkl@pengutronix.de, mailhol.vincent@wanadoo.fr,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, wim@linux-watchdog.org,
+ jdelvare@suse.com, alexandre.belloni@bootlin.com,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-can@vger.kernel.org, netdev@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
+ Ming Yu <tmyu0@nuvoton.com>
+References: <20250520020355.3885597-7-tmyu0@nuvoton.com>
+ <202505210555.mud6jZoi-lkp@intel.com> <20250523090004.GC1378991@google.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20250523090004.GC1378991@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7bac2c97af4078d7a627500c9bcdd5b033f97718
-commit: 5c977f1023156938915c57d362fddde8fad2b052 [10969/12618] dm-mpath: Don't grab work_mutex while probing paths
-config: i386-randconfig-141-20250521 (https://download.01.org/0day-ci/archive/20250522/202505221209.UJOI2rXT-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+On 5/23/25 02:00, Lee Jones wrote:
+> On Wed, 21 May 2025, kernel test robot wrote:
+> 
+>> Hi,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on andi-shyti/i2c/i2c-host]
+>> [also build test ERROR on mkl-can-next/testing groeck-staging/hwmon-next abelloni/rtc-next linus/master lee-mfd/for-mfd-fixes v6.15-rc7]
+>> [cannot apply to lee-mfd/for-mfd-next brgl/gpio/for-next next-20250516]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/a0282524688-gmail-com/mfd-Add-core-driver-for-Nuvoton-NCT6694/20250520-100732
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+>> patch link:    https://lore.kernel.org/r/20250520020355.3885597-7-tmyu0%40nuvoton.com
+>> patch subject: [PATCH v11 6/7] hwmon: Add Nuvoton NCT6694 HWMON support
+>> config: i386-randconfig-013-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210555.mud6jZoi-lkp@intel.com/config)
+>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210555.mud6jZoi-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202505210555.mud6jZoi-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>>> drivers/hwmon/nct6694-hwmon.c:12:10: fatal error: linux<mfd/core.h: No such file or directory
+>>        12 | #include <linux<mfd/core.h>
+> 
+> This suggests that the set wasn't even build (let alone run) tested!
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505221209.UJOI2rXT-lkp@intel.com/
+Apparently. Guess that slipped in when they updated the copyright in the driver.
+There is no other change since v9.
 
-smatch warnings:
-drivers/md/dm-mpath.c:2104 probe_active_paths() warn: mixing irqsave and irq
+Otherwise the code looks good, though. With that fixed:
 
-vim +2104 drivers/md/dm-mpath.c
-
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2095  static int probe_active_paths(struct multipath *m)
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2096  {
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2097  	struct pgpath *pgpath;
-5c977f10231569 Benjamin Marzinski 2025-05-15  2098  	struct priority_group *pg = NULL;
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2099  	unsigned long flags;
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2100  	int r = 0;
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2101  
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2102  	spin_lock_irqsave(&m->lock, flags);
-
-_irqsave() is for if we don't know if the caller has disabled IRQs or
-not.
-
-5c977f10231569 Benjamin Marzinski 2025-05-15  2103  	if (test_bit(MPATHF_DELAY_PG_SWITCH, &m->flags)) {
-5c977f10231569 Benjamin Marzinski 2025-05-15 @2104  		wait_event_lock_irq(m->probe_wait,
-5c977f10231569 Benjamin Marzinski 2025-05-15  2105  				    !test_bit(MPATHF_DELAY_PG_SWITCH, &m->flags),
-5c977f10231569 Benjamin Marzinski 2025-05-15  2106  				    m->lock);
-
-The wait_event_lock_irq() macro calls spin_unlock_irq(), so hopefully
-none of the callers of probe_active_paths() actually relied on having
-IRQs disabled.
-
-5c977f10231569 Benjamin Marzinski 2025-05-15  2107  		/*
-5c977f10231569 Benjamin Marzinski 2025-05-15  2108  		 * if we waited because a probe was already in progress,
-5c977f10231569 Benjamin Marzinski 2025-05-15  2109  		 * and it probed the current active pathgroup, don't
-5c977f10231569 Benjamin Marzinski 2025-05-15  2110  		 * reprobe. Just return the number of valid paths
-5c977f10231569 Benjamin Marzinski 2025-05-15  2111  		 */
-5c977f10231569 Benjamin Marzinski 2025-05-15  2112  		if (m->current_pg == m->last_probed_pg)
-5c977f10231569 Benjamin Marzinski 2025-05-15  2113  			goto skip_probe;
-5c977f10231569 Benjamin Marzinski 2025-05-15  2114  	}
-5c977f10231569 Benjamin Marzinski 2025-05-15  2115  	if (!m->current_pg || m->is_suspending ||
-5c977f10231569 Benjamin Marzinski 2025-05-15  2116  	    test_bit(MPATHF_QUEUE_IO, &m->flags))
-5c977f10231569 Benjamin Marzinski 2025-05-15  2117  		goto skip_probe;
-5c977f10231569 Benjamin Marzinski 2025-05-15  2118  	set_bit(MPATHF_DELAY_PG_SWITCH, &m->flags);
-5c977f10231569 Benjamin Marzinski 2025-05-15  2119  	pg = m->last_probed_pg = m->current_pg;
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2120  	spin_unlock_irqrestore(&m->lock, flags);
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2121  
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2122  	list_for_each_entry(pgpath, &pg->pgpaths, list) {
-5c977f10231569 Benjamin Marzinski 2025-05-15  2123  		if (pg != READ_ONCE(m->current_pg) ||
-5c977f10231569 Benjamin Marzinski 2025-05-15  2124  		    READ_ONCE(m->is_suspending))
-5c977f10231569 Benjamin Marzinski 2025-05-15  2125  			goto out;
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2126  		if (!pgpath->is_active)
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2127  			continue;
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2128  
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2129  		r = probe_path(pgpath);
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2130  		if (r < 0)
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2131  			goto out;
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2132  	}
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2133  
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2134  out:
-5c977f10231569 Benjamin Marzinski 2025-05-15  2135  	spin_lock_irqsave(&m->lock, flags);
-5c977f10231569 Benjamin Marzinski 2025-05-15  2136  	clear_bit(MPATHF_DELAY_PG_SWITCH, &m->flags);
-5c977f10231569 Benjamin Marzinski 2025-05-15  2137  	if (test_and_clear_bit(MPATHF_NEED_PG_SWITCH, &m->flags)) {
-5c977f10231569 Benjamin Marzinski 2025-05-15  2138  		m->current_pgpath = NULL;
-5c977f10231569 Benjamin Marzinski 2025-05-15  2139  		m->current_pg = NULL;
-5c977f10231569 Benjamin Marzinski 2025-05-15  2140  	}
-5c977f10231569 Benjamin Marzinski 2025-05-15  2141  skip_probe:
-5c977f10231569 Benjamin Marzinski 2025-05-15  2142  	if (r == 0 && !atomic_read(&m->nr_valid_paths))
-5c977f10231569 Benjamin Marzinski 2025-05-15  2143  		r = -ENOTCONN;
-5c977f10231569 Benjamin Marzinski 2025-05-15  2144  	spin_unlock_irqrestore(&m->lock, flags);
-5c977f10231569 Benjamin Marzinski 2025-05-15  2145  	if (pg)
-5c977f10231569 Benjamin Marzinski 2025-05-15  2146  		wake_up(&m->probe_wait);
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2147  	return r;
-7734fb4ad98c3f Kevin Wolf         2025-04-29  2148  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
