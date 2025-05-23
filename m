@@ -1,68 +1,68 @@
 Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30B5191F6D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 08:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF09118D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 08:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747989310; cv=none; b=GepWBNE6ELvtsRg1nUSzx5SaAj+q4B4qnRTH9rw9EQ5ErddfYvKSCZC9qW9jZ6yS6yoLzLOUn5QlAZv+SwSwGSST3t/Li5qBC7y1V4zFHKMV0hb6g5PT5SeM5PcXpJo9rFrdANg9SmdSugYFXMCB8ENorNphad4Dz2b927LHmh0=
+	t=1747989989; cv=none; b=LSyLo18lV70GqH3+A58GSFguxi/dRAy3bqlUY+NPMia6xNkZXA7RI657pXvV3CVQMccc7KB2RnOM20YaU6agun1Dka1fV2mEUt9lFoCRBfQFrlh0uPHcDo3rdhNdtvKLueO+sjH+i28lYGdv1e5niHi5tzXp3R/eBOq5KmzQGV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747989310; c=relaxed/simple;
-	bh=3TKCaIyB5/0opVLcNoQ1gcsKEomRJ1FYv7vspoTx96c=;
+	s=arc-20240116; t=1747989989; c=relaxed/simple;
+	bh=ijDpkVd9bIudM+80lAMzls0AJOXrudy0VseWNBzEp7I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ohUIs5ux98hIRkMFY8fpPKpiPFnTfblmWq8Jp0HXiSBuvoJbRNxGH0E7hM9JwMEgN/ctFz9uzKGmzejJ5KeU1JSDzBQ32sUektTAfY1nIOxqudVxKWysttsWN6NMWTc+w1pxMiWcmp0nwDrsvJxZoUoedTo9BVLxCOJXpKOZaK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UbjgkFWy; arc=none smtp.client-ip=209.85.128.46
+	 Content-Disposition:In-Reply-To; b=WKaXSP7m6QZ39owWYdp2MM0LXIp1qq1csoZvmfCjtp4DXeXdAbVYI2+rkxeKQthsCJQl9DTUKpSZgEzYoLvBvfnsGV2OLfn/ESraDRJXqolW0Rf1qt6Ipbycf9keTDQNvJ7twSQSGQopuOyZpoVZvIAyx3YzpenHde8GsTKAIxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ygS2WRGL; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UbjgkFWy"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-442f4a3a4d6so4038495e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 01:35:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ygS2WRGL"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so98543175e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 01:46:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747989307; x=1748594107; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1747989986; x=1748594786; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YbryJ7vGqluEKazlG50NrGVTXzGTh20PwbvTVePubi4=;
-        b=UbjgkFWyGYYxICDx2R1HUaebhHw8y8zNgR8wfLsktPRM/gxhChWrdp5L/va7xueSCZ
-         onLwPwzXnMmHruElPZMJXf8ZziQRZleocIr1hegoBg1J2vfvL/qSv037955RI+G8vHBS
-         BLP0B4Ub2dOdIFLHkykOM0BEqeu3gs81qIpXkkTFPGBX7zyga1j61kOXIHhyuoR36FYI
-         jjZwpqHFDGP/AB6LvULTCt6iVXaQQgqFCtEEjWyWi6u/qB5Veg7oZlsKLvFsvCKywkgo
-         emmOtL9o5q6H92vFucLhxswRL+4i/JRqNHKNa0L2t5vYjTIUdRE0yoqEx2wMb+cpLqr0
-         nUKQ==
+        bh=F9P7Rk/7XrTl/pDcnuGIJWrvqaFCK/IVU3Vt6Py9KfY=;
+        b=ygS2WRGLZGM1YN4WDaOZzLd9qIOKLxN6b0nwdgz5uqA+K00SJNg7OMoTmo1TV+DI0h
+         pD7l+vYCeyhYETE5ceLISYg/pnK7TCR3heAuGhKZOoR8KbamycTRgH5+kFak9wrGkcCq
+         7W+SulS9XVYSCZF7ZRj/HnDrjeVj/bhOK7dCuPqS+1osDvB/ISNnrke/62XgmY++sKaV
+         9KI/FF/R3KaRsV+fXQ6mAjqD6IaDDco1YsmOSogCsXBZg+4A5WByt1YcJn9+Pd/Tr+15
+         nRVsZJYAgepAHyN4z/AnUxcA1D6NjMvZEoG1lzLrEDoYpE3VwLQwUWmppay5i79MFwzE
+         ZBxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747989307; x=1748594107;
+        d=1e100.net; s=20230601; t=1747989986; x=1748594786;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YbryJ7vGqluEKazlG50NrGVTXzGTh20PwbvTVePubi4=;
-        b=h4XaB0sb/iBEhhpeYD3aCehcamfSYaJdAfw+YCYrDK3PcOmeuFBs/hbeEXiXE17TTS
-         AD0YcY4NxqSw4MUyKQpms6V3cCb42vtKtbFpQaml8bNU/MWVUAm70KlReAB0Dtv05o9V
-         YwmK2KXNkc1M/INuwQ9H42QrUtJ8iSD5vdrTj6sn2hO7kaL2/pl8BZs8yYNXZQXjr2Ur
-         fFIPT6ruELaTXUcPSkjYpgVPYhAqIQ8TDtG1s4B+zRKWdWAmLdAx9FC1iT1hnhdD/x1y
-         EJtLdD8Z6m77JPdV4DvjxeSyfbYbykOO0g/Wy0Y2X6OIMSYayxXb6VlYmEYh2X2GKh67
-         AQRw==
-X-Forwarded-Encrypted: i=1; AJvYcCVxBzyxgpc6uHQozQYsu+FPRSx+v6L52IFmEpd/E/4o/o+9g8ju+ht7mcQ+ZxEg2njE6W4Pcjr/4IjnWwU5@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmMbNpSzggzd2U0cGhTD4dDunhYNuPMmtp4o/Hs26sDfSoxDjI
-	JR8nXBz3YUrcqzj2r/4AVcjmhTmjnZTJOSobvJz7mzTXoOQZ2BXAm0EAHMijBSTH6pY=
-X-Gm-Gg: ASbGnctjeV6iO4MizmCjK0KohSx8FKd95qWbWjpkXOXdDl4nJ/LUYHoGNmaxV0IcNcQ
-	+0dD7hE+IDB4kXb7xnHrBR1BwjITxWuj5uMfTmL36fyyyQ5B4ekYF+hf9aJRQw7KaagQEF1cqLb
-	b+mDhVFY6sSrB1iCWdg0kcYK0mtoEuGnwQzS1/K1AGAtRm4+XOgjEgBmgtjuK1KvtVOGL4Utpt9
-	03c7Mjr5FQpS8+CmuySfk4dfVL55cRGkhLatLgScuSrHsufzn+pbaxPYBgaI/rCEk6THTyyKeT9
-	u3s62FlYNK/tLJ+gEx/q+wX2oZnQrcWNn+Dugs4bPvuZ8qqoJ5iCzJdT
-X-Google-Smtp-Source: AGHT+IGDLAMP6aDEKzjJ8nU1sJDp2T3vwd2IHZI+1NwlB0Wm65hoqonKY2iKdd6kvHgAkP8caUNfmA==
-X-Received: by 2002:a05:600c:43d4:b0:43c:ec72:3daf with SMTP id 5b1f17b1804b1-44b533c19b8mr15328325e9.14.1747989306976;
-        Fri, 23 May 2025 01:35:06 -0700 (PDT)
+        bh=F9P7Rk/7XrTl/pDcnuGIJWrvqaFCK/IVU3Vt6Py9KfY=;
+        b=panwnN3DBvVPDJ0EixuNfH2fFzII7mjfCy9TPzNHog70rRC+5V1cw8cwoT9gC+o68O
+         zBADu7u6Gqdu5sOVkyEEptSP2r/2ZDb1leu5vumDJjPkurR288b5i+pJcsyNO+FRGJnQ
+         +OznLxDeZFfxcq9UDvtEI+kLohNzL7Yyd1G5Ts6N61Mljf/tYbhvosV2RuAr0Yb8J3Oz
+         jJheHzLCxCFxUih+NjhYAOwPgTzeQDvAaD8NF7TQBMXXgGD4MlDG/FA2IW7irR/NUL3t
+         Q8JBup03uAeBmvPrU7D+UDDBTQWyHLbitFqL8RIcCN2DPj/pvtMPSSeJyg6CLgfrLLzT
+         GJgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCbPYFN0gJ1pGIK+WkhYbfDICWlNpSum5ugVf1M3suPtatFPgXVSQAnSqJWegcrslPdsWBcoxArRG6UpNL@lists.linux.dev
+X-Gm-Message-State: AOJu0YzgF8xP5nWFAwFxJnjsaBwlRb/3ds3Uv22so8NuYi0vvKQ2EBBw
+	FLIw/AnT0SRUln6dD8sRgLF2iP48ySNUHrzSy1K5rkuXDNT6AGnQ9KYU23IJDozWsww=
+X-Gm-Gg: ASbGncuLQYpwJKDq9OTvH2lTgetvye1hILgjYnBVEB4RrNoolzGHec1hRs36ue3b3Wd
+	zcOk2rH3/QQLHBXjlX5NhfTNCWHGEbUB3my6UA8CrbB0sGxmtDleQ9awliEQ5gXY3QBNlkGjULj
+	rAoz2votZHOGjBZOqqb+eoQMxqTYVsyebjbNEma7ezFIGS+qnx9i4nB6Oz3Xa32l3ON9+qrf/ak
+	PJu/x+0r6unzQd5Ia8Sw+IZjhNG/Mx7xliqBDTxHoPU4mJXQcu6GoQnmr6hbRVa/ovoBWEiSJV/
+	WJkbdCsHSDv+y3L3x+g9QEOkAbCfEtaPrReFPSK8V+RXGxpmA0rx61Gy
+X-Google-Smtp-Source: AGHT+IHEFaNidkq//G3ga+4pKK+ukGJTHJ6vlDpZIaMqQUQ94hnKE3vGPQwUUoj4CTDfpbQOR/PKlg==
+X-Received: by 2002:a05:600c:1e1c:b0:43c:fffc:7855 with SMTP id 5b1f17b1804b1-442feffb6damr312276505e9.15.1747989985840;
+        Fri, 23 May 2025 01:46:25 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a3648baa6asm23534815f8f.91.2025.05.23.01.35.06
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-447f6b295e7sm131290155e9.2.2025.05.23.01.46.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 01:35:06 -0700 (PDT)
-Date: Fri, 23 May 2025 11:35:03 +0300
+        Fri, 23 May 2025 01:46:25 -0700 (PDT)
+Date: Fri, 23 May 2025 11:46:22 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Anna Schumaker <anna@kernel.org>,
-	linux-nfs@vger.kernel.org, trond.myklebust@hammerspace.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, anna@kernel.org
-Subject: Re: [PATCH] NFS: Fixes for nfs4_proc_mkdir() error handling
-Message-ID: <202505181116.RhlCb75I-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 18/36] mmc: omap_hsmmc: Use devm_mmc_alloc_host()
+ helper
+Message-ID: <202505230421.P12fqPfB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,71 +71,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250516150010.61641-1-anna@kernel.org>
+In-Reply-To: <21ef0c9eb527c17b0892af03ee010bca38207ad2.1747877176.git.zhoubinbin@loongson.cn>
 
-Hi Anna,
+Hi Binbin,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Schumaker/NFS-Fixes-for-nfs4_proc_mkdir-error-handling/20250516-231124
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250516150010.61641-1-anna%40kernel.org
-patch subject: [PATCH] NFS: Fixes for nfs4_proc_mkdir() error handling
-config: i386-randconfig-141-20250517 (https://download.01.org/0day-ci/archive/20250518/202505181116.RhlCb75I-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mmc-alcor-Use-devm_mmc_alloc_host-helper/20250522-150218
+base:   61bd8e76021e779f7ba3c761919b533fb3f6f584
+patch link:    https://lore.kernel.org/r/21ef0c9eb527c17b0892af03ee010bca38207ad2.1747877176.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v2 18/36] mmc: omap_hsmmc: Use devm_mmc_alloc_host() helper
+config: arc-randconfig-r073-20250522 (https://download.01.org/0day-ci/archive/20250523/202505230421.P12fqPfB-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505181116.RhlCb75I-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505230421.P12fqPfB-lkp@intel.com/
 
 New smatch warnings:
-fs/nfs/nfs4proc.c:5277 nfs4_proc_mkdir() warn: passing zero to 'PTR_ERR'
+drivers/mmc/host/omap_hsmmc.c:1842 omap_hsmmc_probe() warn: passing zero to 'PTR_ERR'
 
-vim +/PTR_ERR +5277 fs/nfs/nfs4proc.c
+vim +/PTR_ERR +1842 drivers/mmc/host/omap_hsmmc.c
 
-8376583b84a193 NeilBrown           2025-02-27  5260  static struct dentry *nfs4_proc_mkdir(struct inode *dir, struct dentry *dentry,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  5261  				      struct iattr *sattr)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  5262  {
-dff25ddb48086a Andreas Gruenbacher 2016-12-02  5263  	struct nfs_server *server = NFS_SERVER(dir);
-0688e64bc60038 Trond Myklebust     2019-04-07  5264  	struct nfs4_exception exception = {
-0688e64bc60038 Trond Myklebust     2019-04-07  5265  		.interruptible = true,
-0688e64bc60038 Trond Myklebust     2019-04-07  5266  	};
-c528f70f504434 Trond Myklebust     2022-10-19  5267  	struct nfs4_label l, *label;
-8376583b84a193 NeilBrown           2025-02-27  5268  	struct dentry *alias;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  5269  	int err;
-a8a5da996df7d2 Aneesh Kumar K.V    2010-12-09  5270  
-aa9c2669626ca7 David Quigley       2013-05-22  5271  	label = nfs4_label_init_security(dir, dentry, sattr, &l);
-aa9c2669626ca7 David Quigley       2013-05-22  5272  
-dff25ddb48086a Andreas Gruenbacher 2016-12-02  5273  	if (!(server->attr_bitmask[2] & FATTR4_WORD2_MODE_UMASK))
-a8a5da996df7d2 Aneesh Kumar K.V    2010-12-09  5274  		sattr->ia_mode &= ~current_umask();
-^1da177e4c3f41 Linus Torvalds      2005-04-16  5275  	do {
-8376583b84a193 NeilBrown           2025-02-27  5276  		alias = _nfs4_proc_mkdir(dir, dentry, sattr, label);
-4c35d65f4c6f1e Anna Schumaker      2025-05-16 @5277  		err = PTR_ERR(alias);
-4c35d65f4c6f1e Anna Schumaker      2025-05-16  5278  		if (err > 0)
-4c35d65f4c6f1e Anna Schumaker      2025-05-16  5279  			err = 0;
+4dffd7a251172d Adrian Hunter          2009-09-22  1837  	spin_lock_init(&host->irq_lock);
+a45c6cb816474c Madhusudhan Chikkature 2009-01-23  1838  
+9618195e5a152d Balaji T K             2014-05-09  1839  	host->fclk = devm_clk_get(&pdev->dev, "fck");
+a45c6cb816474c Madhusudhan Chikkature 2009-01-23  1840  	if (IS_ERR(host->fclk)) {
+a45c6cb816474c Madhusudhan Chikkature 2009-01-23  1841  		host->fclk = NULL;
+                                                                        ^^^^^^^^^^^^^^^^^
+need to preserve "ret = PTR_ERR(host->fclk);" before setting this to
+NULL.
 
-This doesn't work.  Imagine we are on a 64bit system and
-_nfs4_proc_mkdir() returns a valid pointer.  It depends on if BIT(31)
-is set whether we return zero or a random negative number.
+229ab512b90f8f Binbin Zhou            2025-05-22 @1842  		return PTR_ERR(host->fclk);
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This needs to be:
-
-	err = PTR_ERR_OR_ZERO(alias);
-
-078ea3dfe396b1 Trond Myklebust     2013-08-12  5280  		trace_nfs4_mkdir(dir, &dentry->d_name, err);
-078ea3dfe396b1 Trond Myklebust     2013-08-12  5281  		err = nfs4_handle_exception(NFS_SERVER(dir), err,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  5282  				&exception);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  5283  	} while (exception.retry);
-aa9c2669626ca7 David Quigley       2013-05-22  5284  	nfs4_label_release_security(label);
-aa9c2669626ca7 David Quigley       2013-05-22  5285  
-4c35d65f4c6f1e Anna Schumaker      2025-05-16  5286  	if (err != 0)
-4c35d65f4c6f1e Anna Schumaker      2025-05-16  5287  		return ERR_PTR(err);
-8376583b84a193 NeilBrown           2025-02-27  5288  	return alias;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  5289  }
+a45c6cb816474c Madhusudhan Chikkature 2009-01-23  1843  	}
+a45c6cb816474c Madhusudhan Chikkature 2009-01-23  1844  
+9b68256cdef752 Paul Walmsley          2011-10-06  1845  	if (host->pdata->controller_flags & OMAP_HSMMC_BROKEN_MULTIBLOCK_READ) {
 
 -- 
 0-DAY CI Kernel Test Service
