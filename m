@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15312236EE;
-	Fri, 23 May 2025 06:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEA03D76
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 06:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747981762; cv=none; b=JhcpGqpi1pfezjHw0VhLA2xqmMCZC/SL+DPdVaNodVHIUngFJgW8y92nXVYqOFAZ3N2MWK3i9qIQ8XM2FYKsiOdKNBGltMvQ2T0TdvvaHgv9LIVwEXS+LiSrVp9758btvFUbduL917is56LGFZnlcZ2hWta0qStkDYdjjMdBUTc=
+	t=1747982962; cv=none; b=shgUQu7UPmuXN81joS7bY6h/mKbHNk1AMICQ5ulWcJKMTqu0zTDxJwMg2kiuZVozSIX/MTqtFE2iUBXYhAqRNfAlGODpSrEKY9AC9H0lnP2XNvzipHZWNNapxts1ugb/m+PnRyQLURQqUot/E8fD9Aku5K72xb8xDTfkNx50H9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747981762; c=relaxed/simple;
-	bh=RQ5KrYLB5wM0he00u4vva4Oc9ENN6xE57mG5WU5ptOM=;
+	s=arc-20240116; t=1747982962; c=relaxed/simple;
+	bh=OmZeruMkxN4L5sperNx+voKt1T2WXem13m8aTz010BE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TTKZRXuK5++VwQ7BZQ7ab900SYSqZ7wA6tvVjK0SUBmmo2wz8mc9oLkbOGC9mkrD5bkcIodgoXdY0VFBR5I4kigEB1MaD+vhzCUUNWE18DAkp/r4TwRQhKx7k59xIus1nfJ0nyZYwBCDT64gUmlTZB2+P288WtCpHwiMjG6tuFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E1LYRhbN; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uh9KiGAG/LF4CD9N/wJ9SdEQ1OXH2Y8qJx4cPGr8tTvltvbVhXxjeEDCHMad34dMbvdDXbG5f+YYWL4j4c7t+nrrkFiFQG08V78ml/Xtta7pNdCxs2H3k4nPPi4jQbaZl0f34F3rhU/uhZe8VlrJjCuX0sUsAMfe35NIsJq2B+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZycATlKh; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E1LYRhbN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZycATlKh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747981760; x=1779517760;
+  t=1747982961; x=1779518961;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RQ5KrYLB5wM0he00u4vva4Oc9ENN6xE57mG5WU5ptOM=;
-  b=E1LYRhbNGFrw93BVy2Eb1WlaA/Gw7Fnk30Okrl4E1oyJo4UST+t6iVAi
-   SBs6s3UE+BZYHK69OFfc+0SqlP9GSIop6d65BPyfFfHgvFmGSbVdB4Bkr
-   t+MMDDUDBzrk9oOrfK+B+5hMHcwdKSmWO4MAfWcHRehIenJGRc+OoHCFa
-   YoNoqNhPTZy7c6ZirNETAM1uNY5oZlgslPLanyHPhhbfdlZYU+pzEl1rb
-   JtsIgcvXlBwFyrwgU7MKu5mt5WfVVEWcVzXdtMWLWK0aXa8AlAxTHIrQ3
-   T2OhEMIXxPZ0neEMwuYA8+aJn6YjI7jkTXBY0qwcQxNWg4coyDL3+YO42
-   Q==;
-X-CSE-ConnectionGUID: YK1V5391RJuiQxk7piLEiA==
-X-CSE-MsgGUID: GZYw6T7ES2GY90lzq1qTug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49283377"
+  bh=OmZeruMkxN4L5sperNx+voKt1T2WXem13m8aTz010BE=;
+  b=ZycATlKhly3lq/NBNAKrwEFkGlYBpAr7nPBCYNAvurp01+IrJWt5kUg8
+   PxDxftS6jPhpHPLGUks2tXT17pZPmtA/kNHbTBf5jxNt+ZHI317rCcrl7
+   VgR0buj7Aze/T4qSQfaDYc4YwxhhCzb7zduDw4BHkg325qcMVe7da6ANw
+   0nsHNH2hSpyL8SdR9FP2fv/Vl4sY3CK/hJLM8qfmLS1Uf9uCjagr5aefM
+   qwsEg/0SWT+nOm2ZvWDmzWxJ76/qOrTtJftI3r7XMd3oHGWwq3PuThVlq
+   9ZdHVIvC7g7g5MVjW9OoTwwpyENa/MsRNF3rcpoGswixji9xHmxY53g7/
+   w==;
+X-CSE-ConnectionGUID: pQ8c6ztWQ/6kYtHzXu3CBA==
+X-CSE-MsgGUID: YkFH39w1TC6pg7WpL6jriw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49145879"
 X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; 
-   d="scan'208";a="49283377"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 23:29:19 -0700
-X-CSE-ConnectionGUID: ZuuhH2FNQ221X/l7fPSaiA==
-X-CSE-MsgGUID: XWpiShhdRhKfi1ufUQi4NA==
+   d="scan'208";a="49145879"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 23:49:21 -0700
+X-CSE-ConnectionGUID: XFR1Y1pHR3ibi7+zxAr/QA==
+X-CSE-MsgGUID: yNUZ46YlSFeEGWYHAjNp7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; 
-   d="scan'208";a="142034651"
+   d="scan'208";a="145845597"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 22 May 2025 23:29:18 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 May 2025 23:49:19 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uILu7-000Q4y-2t;
-	Fri, 23 May 2025 06:29:15 +0000
-Date: Fri, 23 May 2025 14:28:39 +0800
+	id 1uIMDV-000Q5s-1O;
+	Fri, 23 May 2025 06:49:17 +0000
+Date: Fri, 23 May 2025 14:49:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC v2 2/2] block: use mm_huge_zero_folio in
  __blkdev_issue_zero_pages()
-Message-ID: <202505231432.NPt3C4sm-lkp@intel.com>
+Message-ID: <202505231416.GECtFkXP-lkp@intel.com>
 References: <20250522090243.758943-3-p.raghav@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -68,39 +68,37 @@ In-Reply-To: <20250522090243.758943-3-p.raghav@samsung.com>
 Hi Pankaj,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on f1f6aceb82a55f87d04e2896ac3782162e7859bd]
+[auto build test WARNING on f1f6aceb82a55f87d04e2896ac3782162e7859bd]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Raghav/mm-add-THP_HUGE_ZERO_PAGE_ALWAYS-config-option/20250522-170442
 base:   f1f6aceb82a55f87d04e2896ac3782162e7859bd
 patch link:    https://lore.kernel.org/r/20250522090243.758943-3-p.raghav%40samsung.com
 patch subject: [RFC v2 2/2] block: use mm_huge_zero_folio in __blkdev_issue_zero_pages()
-config: arm-randconfig-001-20250523 (https://download.01.org/0day-ci/archive/20250523/202505231432.NPt3C4sm-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505231432.NPt3C4sm-lkp@intel.com/reproduce)
+config: arm-randconfig-003-20250523 (https://download.01.org/0day-ci/archive/20250523/202505231416.GECtFkXP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505231416.GECtFkXP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505231432.NPt3C4sm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505231416.GECtFkXP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> block/blk-lib.c:201:15: error: call to undeclared function 'mm_get_huge_zero_folio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           zero_folio = mm_get_huge_zero_folio(NULL);
-                        ^
-   block/blk-lib.c:201:15: note: did you mean 'mm_put_huge_zero_folio'?
-   include/linux/huge_mm.h:644:20: note: 'mm_put_huge_zero_folio' declared here
-   static inline void mm_put_huge_zero_folio(struct mm_struct *mm)
-                      ^
->> block/blk-lib.c:201:13: error: incompatible integer to pointer conversion assigning to 'struct folio *' from 'int' [-Wint-conversion]
-           zero_folio = mm_get_huge_zero_folio(NULL);
-                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   block/blk-lib.c: In function '__blkdev_issue_zero_pages':
+   block/blk-lib.c:201:15: error: implicit declaration of function 'mm_get_huge_zero_folio'; did you mean 'mm_put_huge_zero_folio'? [-Werror=implicit-function-declaration]
+     zero_folio = mm_get_huge_zero_folio(NULL);
+                  ^~~~~~~~~~~~~~~~~~~~~~
+                  mm_put_huge_zero_folio
+>> block/blk-lib.c:201:13: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     zero_folio = mm_get_huge_zero_folio(NULL);
+                ^
+   cc1: some warnings being treated as errors
 
 
-vim +/mm_get_huge_zero_folio +201 block/blk-lib.c
+vim +201 block/blk-lib.c
 
    194	
    195	static void __blkdev_issue_zero_pages(struct block_device *bdev,
