@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49BFF19ADBF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 03:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2077E2DCBF2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 04:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747972148; cv=none; b=kjIbAWP+jzcqpx0R14hU/DhQi/N1uodvlkciCv2AYr+3dcaTY2o636sWy3N4voLlUM09n2cNgj7qumC8HJdhO5OcOe53Sfc8/lHdpEo2HXqyFoU4Rhjuq23BSI2LWgm3pib5FDJEDun2r4n9OOaB0VPVm17IAG1R+Yi7et+78U0=
+	t=1747974071; cv=none; b=UHy+OzEYRRz78P16SP33b+Np4VaRkXt4FB842AwMwZ8jzsbukAAnlbHjnPm3j3rzyNzw2VlUgmryEjNSX0wsYG1/Rdz7UACHv9nFIy7fpaxbSI3Xed1wkM/cjA87ZsUihWx2n+Say5RmhohfB9F79RlKugJy373a51VbuMrn2yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747972148; c=relaxed/simple;
-	bh=W0I1h/EFOaXWHoneVKr55BZEEapiZElQ6WMainFSWps=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=osqcsJHT4t/tI588M4l1th7C/BMiym51P1oUKd+XAKtr89TKLU4ebXzN584CF1jiUOMFT1NMEXxPCcwd5aK6Tm+ZIiaeMpJNDwWiVlwDjak5eUd2rGgVSYornVnqzpw43Tu0gkEUz2nnJh+9xdVTXNV3TbzH/72HnqIzg1+7tmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrG+HFJM; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1747974071; c=relaxed/simple;
+	bh=K6NhS9oEWJ5+Spdg7JE4XG2bBkrUg6/E34jdie2qJEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s41cTVYK/9eBlyUrCQafV5ylVlDC1LIGvRs2T5ipdvlYKekM7nrdBKxnkkcmEFxKg4GGmSqnzSMb+ula4vm45PqQ+aO3HOnu7yTyVmLDaRaqILGIp2i6axUc2XBv5L25eqVCAEdVkX/VTQKWu9Rl445JWiRM/7XZVgooL+Seiqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2VTyLdE; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrG+HFJM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2VTyLdE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747972147; x=1779508147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W0I1h/EFOaXWHoneVKr55BZEEapiZElQ6WMainFSWps=;
-  b=VrG+HFJM91OCsbD6N9+HLYS3XnDpXuLdP6ll4N+DqJZEzElPR9XhT1EV
-   lmA+QNLHGN95GRAkmjFVvJkx0BBwwyt7oIY9E1/M1O5naca8DHLTJtTRR
-   cewSfhF8ElS1vVHAi4Q23pbJjo2gg53C439VYOBAydCqp/XLcPZDZQQ35
-   O8bI8mvtZNFrxYtH/zeiS/JERhN1Eci4W4lRiFSERjSmApyyAslUz3Jnw
-   f8Zq0nVcZ+77pR7/MJy8GXO1wPUYPtDk5BhbRZaii2S8kbfVI0Ho3Xmox
-   UeuqBQvumPVwQohKALtjase5wQoXU9V4puhwzqI6URcteAT5/O5NulpK+
-   g==;
-X-CSE-ConnectionGUID: 403WeLlhTZeXTTe9m7kEVQ==
-X-CSE-MsgGUID: Ck+hsP11Sv6LEK7AuAry3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49915780"
+  t=1747974069; x=1779510069;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K6NhS9oEWJ5+Spdg7JE4XG2bBkrUg6/E34jdie2qJEM=;
+  b=K2VTyLdEtmjgmrSEr7FSFx91C5sSQMGOaTx5pgCvYHDxs0T2IsUC8Wmm
+   HD73H122FO0cXgvyUIisbDfHP70FPL0tiyLJGg5sDQzdp4xQQwMvmKPtL
+   O7UEMyHf4XAw4s8pfeUQYsmN7cIJ2iudOPROGSX4/gTqQP+JJWo1+H+02
+   uKrPdCXN+LnsoiXKILutWWz8kS3sTj+A9U1ujEdflYs7n9JMfEHZWijqg
+   peYwWNA9QIewcJeTJjRkTBBrlcJC7cSWVGSDEtysjeP+pc1CV1+chPMfY
+   QWrbi7izRUS8ZlZHPh7+eBfmp5Y1LfWyS2BjnDVuYe3Lrh1OApuT5gp5B
+   Q==;
+X-CSE-ConnectionGUID: clqm/e+GT++Vw2B5z/IHcQ==
+X-CSE-MsgGUID: XoBEq2VyQZGiVh3hL3+SuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49900445"
 X-IronPort-AV: E=Sophos;i="6.15,307,1739865600"; 
-   d="scan'208";a="49915780"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 20:49:06 -0700
-X-CSE-ConnectionGUID: dkunbL94RdmQJVUYFsoLtw==
-X-CSE-MsgGUID: 2AmUQwVESvaXiXzhANKj0w==
+   d="scan'208";a="49900445"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 21:21:08 -0700
+X-CSE-ConnectionGUID: 6niGSxeiR26a5Y7NIs4z1Q==
+X-CSE-MsgGUID: IhG2arFxTwuOHge/kGZ+xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,307,1739865600"; 
-   d="scan'208";a="140747623"
+   d="scan'208";a="145644038"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 22 May 2025 20:49:02 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 May 2025 21:21:07 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIJP2-000PzW-0E;
-	Fri, 23 May 2025 03:49:00 +0000
-Date: Fri, 23 May 2025 11:48:20 +0800
+	id 1uIJu4-000Q28-3D;
+	Fri, 23 May 2025 04:21:04 +0000
+Date: Fri, 23 May 2025 12:20:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org, frankja@linux.ibm.com,
-	borntraeger@de.ibm.com, seiden@linux.ibm.com, nsg@linux.ibm.com,
-	nrb@linux.ibm.com, david@redhat.com, hca@linux.ibm.com,
-	agordeev@linux.ibm.com, svens@linux.ibm.com, gor@linux.ibm.com,
-	schlameuss@linux.ibm.com
-Subject: Re: [PATCH v3 3/4] KVM: s390: refactor and split some gmap helpers
-Message-ID: <202505231158.TssIVgKH-lkp@intel.com>
-References: <20250522132259.167708-4-imbrenda@linux.ibm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 2/2] ERROR: modpost:
+ "v4l2_m2m_get_vq" [drivers/media/test-drivers/vim2m.ko] undefined!
+Message-ID: <202505231242.txTmsvA2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,125 +61,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250522132259.167708-4-imbrenda@linux.ibm.com>
 
-Hi Claudio,
+Hi Will,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on kvms390/next]
-[also build test ERROR on s390/features kvm/queue kvm/next mst-vhost/linux-next linus/master v6.15-rc7 next-20250522]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudio-Imbrenda/s390-remove-unneeded-includes/20250522-212623
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git next
-patch link:    https://lore.kernel.org/r/20250522132259.167708-4-imbrenda%40linux.ibm.com
-patch subject: [PATCH v3 3/4] KVM: s390: refactor and split some gmap helpers
-config: s390-randconfig-001-20250523 (https://download.01.org/0day-ci/archive/20250523/202505231158.TssIVgKH-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505231158.TssIVgKH-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   085d10c030cc1153fab89379a096c5e0c83ee102
+commit: 558762106d6e6e046ab9af372b9cadf4222893d7 [2/2] Merge 8afc66e8d43b ("Merge tag 'kbuild-v6.1' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild") into android-mainline
+config: arm-randconfig-r133-20250523 (https://download.01.org/0day-ci/archive/20250523/202505231242.txTmsvA2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250523/202505231242.txTmsvA2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505231158.TssIVgKH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505231242.txTmsvA2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   arch/s390/mm/gmap_helpers.c: In function 'ptep_zap_swap_entry':
->> arch/s390/mm/gmap_helpers.c:26:7: error: implicit declaration of function 'non_swap_entry'; did you mean 'init_wait_entry'? [-Werror=implicit-function-declaration]
-     if (!non_swap_entry(entry))
-          ^~~~~~~~~~~~~~
-          init_wait_entry
->> arch/s390/mm/gmap_helpers.c:28:11: error: implicit declaration of function 'is_migration_entry'; did you mean 'list_first_entry'? [-Werror=implicit-function-declaration]
-     else if (is_migration_entry(entry))
-              ^~~~~~~~~~~~~~~~~~
-              list_first_entry
->> arch/s390/mm/gmap_helpers.c:29:33: error: implicit declaration of function 'pfn_swap_entry_folio'; did you mean 'filemap_dirty_folio'? [-Werror=implicit-function-declaration]
-      dec_mm_counter(mm, mm_counter(pfn_swap_entry_folio(entry)));
-                                    ^~~~~~~~~~~~~~~~~~~~
-                                    filemap_dirty_folio
-   arch/s390/mm/gmap_helpers.c:29:33: warning: passing argument 1 of 'mm_counter' makes pointer from integer without a cast [-Wint-conversion]
-      dec_mm_counter(mm, mm_counter(pfn_swap_entry_folio(entry)));
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/s390/mm/gmap_helpers.c:9:
-   include/linux/mm.h:2725:44: note: expected 'struct folio *' but argument is of type 'int'
-    static inline int mm_counter(struct folio *folio)
-                                 ~~~~~~~~~~~~~~^~~~~
->> arch/s390/mm/gmap_helpers.c:30:2: error: implicit declaration of function 'free_swap_and_cache'; did you mean 'free_pgd_range'? [-Werror=implicit-function-declaration]
-     free_swap_and_cache(entry);
-     ^~~~~~~~~~~~~~~~~~~
-     free_pgd_range
-   arch/s390/mm/gmap_helpers.c: In function 'gmap_helper_zap_one_page':
->> arch/s390/mm/gmap_helpers.c:60:27: error: implicit declaration of function 'pte_to_swp_entry'; did you mean 'ptep_zap_swap_entry'? [-Werror=implicit-function-declaration]
-      ptep_zap_swap_entry(mm, pte_to_swp_entry(*ptep));
-                              ^~~~~~~~~~~~~~~~
-                              ptep_zap_swap_entry
->> arch/s390/mm/gmap_helpers.c:60:27: error: incompatible type for argument 2 of 'ptep_zap_swap_entry'
-      ptep_zap_swap_entry(mm, pte_to_swp_entry(*ptep));
-                              ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/mm/gmap_helpers.c:24:67: note: expected 'swp_entry_t' {aka 'struct <anonymous>'} but argument is of type 'int'
-    static void ptep_zap_swap_entry(struct mm_struct *mm, swp_entry_t entry)
-                                                          ~~~~~~~~~~~~^~~~~
-   cc1: some warnings being treated as errors
+ERROR: modpost: "v4l2_m2m_unregister_media_controller" [drivers/media/test-drivers/vim2m.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_get_vq" [drivers/media/test-drivers/vim2m.ko] undefined!
+ERROR: modpost: "v4l2_m2m_release" [drivers/media/test-drivers/vim2m.ko] undefined!
+ERROR: modpost: "v4l2_m2m_buf_queue" [drivers/media/test-drivers/vim2m.ko] undefined!
+ERROR: modpost: "v4l2_m2m_buf_remove" [drivers/media/test-drivers/vim2m.ko] undefined!
+ERROR: modpost: "v4l2_m2m_ctx_init" [drivers/media/test-drivers/vim2m.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_buf_copy_metadata" [drivers/media/test-drivers/vim2m.ko] undefined!
+ERROR: modpost: "v4l2_m2m_next_buf" [drivers/media/test-drivers/vim2m.ko] undefined!
+ERROR: modpost: "v4l2_m2m_job_finish" [drivers/media/test-drivers/vim2m.ko] undefined!
+ERROR: modpost: "v4l2_m2m_init" [drivers/media/test-drivers/vim2m.ko] undefined!
+WARNING: modpost: suppressed 14 unresolved symbol warnings because there were too many)
 
-
-vim +26 arch/s390/mm/gmap_helpers.c
-
-    14	
-    15	/**
-    16	 * ptep_zap_swap_entry() - discard a swap entry.
-    17	 * @mm: the mm
-    18	 * @entry: the swap entry that needs to be zapped
-    19	 *
-    20	 * Discards the given swap entry. If the swap entry was an actual swap
-    21	 * entry (and not a migration entry, for example), the actual swapped
-    22	 * page is also discarded from swap.
-    23	 */
-    24	static void ptep_zap_swap_entry(struct mm_struct *mm, swp_entry_t entry)
-    25	{
-  > 26		if (!non_swap_entry(entry))
-    27			dec_mm_counter(mm, MM_SWAPENTS);
-  > 28		else if (is_migration_entry(entry))
-  > 29			dec_mm_counter(mm, mm_counter(pfn_swap_entry_folio(entry)));
-  > 30		free_swap_and_cache(entry);
-    31	}
-    32	
-    33	/**
-    34	 * gmap_helper_zap_one_page() - discard a page if it was swapped.
-    35	 * @mm: the mm
-    36	 * @vmaddr: the userspace virtual address that needs to be discarded
-    37	 *
-    38	 * If the given address maps to a swap entry, discard it.
-    39	 *
-    40	 * Context: needs to be called while holding the mmap lock.
-    41	 */
-    42	void gmap_helper_zap_one_page(struct mm_struct *mm, unsigned long vmaddr)
-    43	{
-    44		struct vm_area_struct *vma;
-    45		spinlock_t *ptl;
-    46		pte_t *ptep;
-    47	
-    48		mmap_assert_locked(mm);
-    49	
-    50		/* Find the vm address for the guest address */
-    51		vma = vma_lookup(mm, vmaddr);
-    52		if (!vma || is_vm_hugetlb_page(vma))
-    53			return;
-    54	
-    55		/* Get pointer to the page table entry */
-    56		ptep = get_locked_pte(mm, vmaddr, &ptl);
-    57		if (unlikely(!ptep))
-    58			return;
-    59		if (pte_swap(*ptep))
-  > 60			ptep_zap_swap_entry(mm, pte_to_swp_entry(*ptep));
-    61		pte_unmap_unlock(ptep, ptl);
-    62	}
-    63	EXPORT_SYMBOL_GPL(gmap_helper_zap_one_page);
-    64	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_TTM
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
