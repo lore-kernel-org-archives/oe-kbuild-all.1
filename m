@@ -1,79 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32092F3E;
-	Fri, 23 May 2025 09:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D670F226D1D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 09:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747993550; cv=none; b=Raiq7H7v6Lqmaj6FjkYCPJJUwe13aMu4FA72OvdTt6IOtV4PwvdVCFbCyalBQ98+uL9capvwO0i5RMo4NHx/xrdZoz2KIIelXQaYdyuCpxRaeBSVtKlIcGy59EnspRmxp0+f7ymB66SVSF2tbs2YeiEw2d2nWXjefOLO8vUi1EY=
+	t=1747993571; cv=none; b=u0aKAq2kd8fyZWsKffSZt4XpSPCxBryWZkXXuAwRbEE3ckN2SGyM9hzOlZV6q8haNQIwwkDJUA7wSRgFfMMHNe9DU4XnTy3pya14Y26mkB5yMWlUUPkCAi/nrEWL5jFbRv+uRtNkBvbp01deWxRpEY/f/gHcBE5YeaqyyUKsOwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747993550; c=relaxed/simple;
-	bh=kKOD2Oafk+hlT9ZqnuwStPAAuPkDKIZ5LUIxpVuhGSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a5aybfFrUbB9jXT4+RVYz1eJ6jziiOjbf9J4OcjpEcgYMztjYH0USOTjNSiMrrU3ijrso5dWOEyRrjNY/BxlaZdRY47pMuaGOMeGApR8wJz+0CFINXi/Px/PbjoiUFvt5FagkC9uRcKok/JQZ1fIkWyV1nbPJGu8QNK5uULJxTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=egH+u985; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747993571; c=relaxed/simple;
+	bh=g0CqvvMKzLeMKYjz7hRE+LMOROw08soSCEk9jR0MjeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=lHGk/XMI971C25N2I9rbfanwsXUSCWzsDS7kWL5aLAZH6Q0IlEG3RV5MdOra5yOWOtEu/8WWXhayWPCkds3ku9CnNi8macLAkwc18+B8cIBGM8Y1lrrWkEt3IMZB6qrRJIp9cxu+5jDRy/rqGTAxEmyW6dE/C2/9oegkEidC12c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mfktvs2K; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egH+u985"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747993549; x=1779529549;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kKOD2Oafk+hlT9ZqnuwStPAAuPkDKIZ5LUIxpVuhGSA=;
-  b=egH+u985HpQE9cqtLJ6HY3RY3Bt0HrCSOnR93Ybd/jcDblNrM1pG55MS
-   pm7TlF0mxgNmtEylQ5iUXR3yGSGG275tXq6BE+WAVEoQUO6waEm+qkojJ
-   WWrMa0KXQAqHqtWkpweFbwUy3Q/JZKBd9NOEpmIiB7zKH+K0ioKgTv3ra
-   wM1zIFzoDcYO8zt+0Y1WNkEitIOw+/aLgkCBIrrxCGh5uEMfcyda6IyYV
-   FhRHPQltgR15OTky6dsFTLk1u3geWu7YU0s1r49Yc1OQbwTPkqr7W8HIt
-   K0t1RlMetctyBdL72kTUy7w/7YUBbhz8zhRqnw8uPwbR3lB2522H1wRk1
-   Q==;
-X-CSE-ConnectionGUID: qh6I1hfFQYGtV+C+uzyIyQ==
-X-CSE-MsgGUID: ng0X6QzDRxWMrg/o7jfR7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49162390"
-X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; 
-   d="scan'208";a="49162390"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 02:45:42 -0700
-X-CSE-ConnectionGUID: fkYlBhpkStyt3SelK8rBiw==
-X-CSE-MsgGUID: q5su1r/yRIOFRYU0HMlPbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,308,1739865600"; 
-   d="scan'208";a="172047497"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 23 May 2025 02:45:36 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uIOy5-000QGM-1o;
-	Fri, 23 May 2025 09:45:33 +0000
-Date: Fri, 23 May 2025 17:44:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus =?iso-8859-1?Q?L=FCssing?= <linus.luessing@c0d3.blue>,
-	bridge@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	openwrt-devel@lists.openwrt.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>, Ivan Vecera <ivecera@redhat.com>,
-	Jiri Pirko <jiri@resnulli.us>, Vladimir Oltean <olteanv@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>, Jonathan Corbet <corbet@lwn.net>,
-	Simon Horman <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Xiao Liang <shaw.leon@gmail.com>,
-	Markus Stockhausen <markus.stockhausen@gmx.de>,
-	Jan Hoffmann <jan.christian.hoffmann@gmail.com>,
-	Birger Koblitz <git@birger-koblitz.de>,
-	=?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>,
-	Linus =?iso-8859-1?Q?L=FCssing?= <linus.luessing@c0d3.blue>
-Subject: Re: [PATCH net-next 5/5] net: dsa: forward bridge/switchdev mcast
- active notification
-Message-ID: <202505231753.V7E84RiN-lkp@intel.com>
-References: <20250522195952.29265-6-linus.luessing@c0d3.blue>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mfktvs2K"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-441c99459e9so59297285e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 02:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747993566; x=1748598366; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=foNTOHpzt5e+CVfMRgO4/fjIO/6hBNq5r7JEJPhTgRc=;
+        b=Mfktvs2KkEzfCs382k/F6w6u4BMQlAbhZ4gejUhEJPsKINSRHWzQLdCbQNGz4plkkN
+         do6tRRMxMjgvMWTDVc+imPmb9ETAiAT3Lt+YgIYPGncOiwgi3y0TdHrtiQECV+RtmI76
+         uHVda9R2GHYX9OA8FS2cn/Xg4300ahvJ/m/b4IuHLEmFaonJi3+0Fn8M7HtgA50QEw2I
+         9DyN4cEgM6mDbpJsuaNLUQiUuXnnh5CtUz83B1ncRTSHdf0ZLuBKJzx7YQTfYvnlz0fq
+         KNHSgujHOvy898n8b2K9nooRBzgx62aS62ePvmw20SVzBEMJCewZ50F9uCbAz5XJDB2X
+         Cpfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747993566; x=1748598366;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=foNTOHpzt5e+CVfMRgO4/fjIO/6hBNq5r7JEJPhTgRc=;
+        b=d2BqnmdKP3Kj3o0USRPaTVzzPmsxELfvcudqaXj8T6c0Ee+eVPc/TUZKmbgK4iq9AT
+         xdspLDa6pf9Q3p11QbgXZs0bZEmYA6qsOxNCqESKUEjSalNw0CrmbxEyJb6kndt7ZWGw
+         KnvEE9zqCNEnQVoXoGAlUPZC5+tbfRrkNwK5aPgsxAVMDP2o66zQpdcUqHnaQlha0VMx
+         EM/E9InfVMLLitP7jYcnfkmDYNIXFMiOvgHuO0R9bNP4kXjRJ9qMXRaObnRdrD0s2aK6
+         /A+AfQ8lUw5qZpdlWgaZ05h2V7PQ1N1HO0NZlDJgS9qwjorfzTWstAnx8OFU6GrvaUd2
+         wQow==
+X-Forwarded-Encrypted: i=1; AJvYcCVvsWppzhi5f9Dofniz/Iy8bC6srqRl3dNMMDZ09+/TDrS9QEvx/qjh5EzZyX8Bbg1rkcQs8SbeSScMH3Pl@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw06EXAt3+7G9L92geFMJimlSJ9U8xGZqQBDsfHSBmblROprqU4
+	aNCDU4O5EbPr8YCXZA/9lhQ6f8y8C140jeTmTxI7Tu+qTsh9iSIloCKkI6pVcIvjtP8=
+X-Gm-Gg: ASbGnctoIE9vUrWwcFioNUeCjOIrwkpLJBqSK/pTHCa+5DpM4I61CCSKrxj3eRk6zWu
+	bR71otLyFkUJ4KecBJee3BwmjbIY2uEjDty5lHX7pNoScYY3UFq2CQ7D1aKmo9nTUUrq5HB8v45
+	Q90mYv2yW+4lOcOe3vftNWy7HSxdptdAl/zZRZl49uhDlzxB0dihvMKY8cFgmEKxAN0/3mjqRtR
+	+LdqURolGTG4BwFMjPzJEv57pmCszxFc/v7Z2DnQutPs0pUaY1gFnYY+vESCmnvqudtcKarfegA
+	uDKDXwvbhJZ84CEVDx8DjP4v7peVvWKbRRUjnAzf8N7P+/wjR9YAIYG4
+X-Google-Smtp-Source: AGHT+IFeXuzRSP3te/4kJrabY82cymAda1Ah/IMjxYAHTLxROVr9nV9wVlqZWpQQfGQ7Ndx2j/Asnw==
+X-Received: by 2002:a05:600c:3114:b0:43c:fa24:8721 with SMTP id 5b1f17b1804b1-442fd6445bdmr296392075e9.17.1747993566028;
+        Fri, 23 May 2025 02:46:06 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-447f6f062fcsm131130745e9.15.2025.05.23.02.46.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 May 2025 02:46:05 -0700 (PDT)
+Date: Fri, 23 May 2025 12:46:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Wentao Liang <vulab@iscas.ac.cn>,
+	andi.shyti@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] i2c: qup: Add error handling in qup_i2c_xfer_v2()
+Message-ID: <202505221445.quJVHqSz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,130 +74,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250522195952.29265-6-linus.luessing@c0d3.blue>
+In-Reply-To: <20250519141918.2522-1-vulab@iscas.ac.cn>
 
-Hi Linus,
+Hi Wentao,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net/main]
-[also build test ERROR on linus/master v6.15-rc7 next-20250523]
-[cannot apply to net-next/main horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-L-ssing/net-bridge-mcast-explicitly-track-active-state/20250523-040914
-base:   net/main
-patch link:    https://lore.kernel.org/r/20250522195952.29265-6-linus.luessing%40c0d3.blue
-patch subject: [PATCH net-next 5/5] net: dsa: forward bridge/switchdev mcast active notification
-config: s390-randconfig-001-20250523 (https://download.01.org/0day-ci/archive/20250523/202505231753.V7E84RiN-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250523/202505231753.V7E84RiN-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/i2c-qup-Add-error-handling-in-qup_i2c_xfer_v2/20250519-222137
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20250519141918.2522-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] i2c: qup: Add error handling in qup_i2c_xfer_v2()
+config: powerpc64-randconfig-r071-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221445.quJVHqSz-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505231753.V7E84RiN-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505221445.quJVHqSz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/i2c/busses/i2c-qup.c:1621 qup_i2c_xfer_v2() error: uninitialized symbol 'err'.
 
-   net/dsa/user.c: In function 'dsa_user_port_attr_set':
->> net/dsa/user.c:661:3: error: a label can only be part of a statement and a declaration is not a statement
-      const bool *handled = ctx;
-      ^~~~~
-   net/dsa/user.c: In function 'dsa_user_switchdev_event':
-   net/dsa/user.c:3770:3: error: a label can only be part of a statement and a declaration is not a statement
-      struct switchdev_notifier_port_attr_info *item = ptr;
-      ^~~~~~
-   net/dsa/user.c: In function 'dsa_user_switchdev_blocking_event':
-   net/dsa/user.c:3813:3: error: a label can only be part of a statement and a declaration is not a statement
-      struct switchdev_notifier_port_attr_info *item = ptr;
-      ^~~~~~
+vim +/err +1621 drivers/i2c/busses/i2c-qup.c
 
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1565  static int qup_i2c_xfer_v2(struct i2c_adapter *adap,
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1566  			   struct i2c_msg msgs[],
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1567  			   int num)
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1568  {
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1569  	struct qup_i2c_dev *qup = i2c_get_adapdata(adap);
+61f647e9d36d67 Wentao Liang          2025-05-19  1570  	int ret, err, idx = 0;
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1571  
+fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1572  	qup->bus_err = 0;
+fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1573  	qup->qup_err = 0;
+fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1574  
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1575  	ret = pm_runtime_get_sync(qup->dev);
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1576  	if (ret < 0)
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1577  		goto out;
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1578  
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1579  	ret = qup_i2c_determine_mode_v2(qup, msgs, num);
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1580  	if (ret)
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1581  		goto out;
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1582  
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1583  	writel(1, qup->base + QUP_SW_RESET);
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1584  	ret = qup_i2c_poll_state(qup, QUP_RESET_STATE);
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1585  	if (ret)
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1586  		goto out;
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1587  
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1588  	/* Configure QUP as I2C mini core */
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1589  	writel(I2C_MINI_CORE | I2C_N_VAL_V2, qup->base + QUP_CONFIG);
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1590  	writel(QUP_V2_TAGS_EN, qup->base + QUP_I2C_MASTER_GEN);
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1591  
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1592  	if (qup_i2c_poll_state_i2c_master(qup)) {
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1593  		ret = -EIO;
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1594  		goto out;
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1595  	}
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1596  
+eb422b539c1f39 Abhishek Sahu         2018-03-12  1597  	if (qup->use_dma) {
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1598  		reinit_completion(&qup->xfer);
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1599  		ret = qup_i2c_bam_xfer(adap, &msgs[0], num);
+eb422b539c1f39 Abhishek Sahu         2018-03-12  1600  		qup->use_dma = false;
+9cedf3b2f09946 Sricharan Ramabadhran 2016-02-22  1601  	} else {
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1602  		qup_i2c_conf_mode_v2(qup);
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1603  
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1604  		for (idx = 0; idx < num; idx++) {
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1605  			qup->msg = &msgs[idx];
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1606  			qup->is_last = idx == (num - 1);
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1607  
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1608  			ret = qup_i2c_xfer_v2_msg(qup, idx,
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1609  					!!(msgs[idx].flags & I2C_M_RD));
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1610  			if (ret)
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1611  				break;
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1612  		}
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1613  		qup->msg = NULL;
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1614  	}
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1615  
+f74187932d30e4 Sricharan Ramabadhran 2016-01-19  1616  	if (!ret)
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1617  		ret = qup_i2c_bus_active(qup, ONE_BYTE);
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1618  
+7545c7dba169c4 Abhishek Sahu         2018-03-12  1619  	if (!ret)
+61f647e9d36d67 Wentao Liang          2025-05-19  1620  		err = qup_i2c_change_state(qup, QUP_RESET_STATE);
 
-vim +661 net/dsa/user.c
+if ret was already set then err isn't initialized.
 
-   598	
-   599	static int dsa_user_port_attr_set(struct net_device *dev, const void *ctx,
-   600					  const struct switchdev_attr *attr,
-   601					  struct netlink_ext_ack *extack)
-   602	{
-   603		struct dsa_port *dp = dsa_user_to_port(dev);
-   604		int ret;
-   605	
-   606		if (ctx && ctx != dp && attr->id != SWITCHDEV_ATTR_ID_BRIDGE_MC_ACTIVE)
-   607			return 0;
-   608	
-   609		switch (attr->id) {
-   610		case SWITCHDEV_ATTR_ID_PORT_STP_STATE:
-   611			if (!dsa_port_offloads_bridge_port(dp, attr->orig_dev))
-   612				return -EOPNOTSUPP;
-   613	
-   614			ret = dsa_port_set_state(dp, attr->u.stp_state, true);
-   615			break;
-   616		case SWITCHDEV_ATTR_ID_PORT_MST_STATE:
-   617			if (!dsa_port_offloads_bridge_port(dp, attr->orig_dev))
-   618				return -EOPNOTSUPP;
-   619	
-   620			ret = dsa_port_set_mst_state(dp, &attr->u.mst_state, extack);
-   621			break;
-   622		case SWITCHDEV_ATTR_ID_BRIDGE_VLAN_FILTERING:
-   623			if (!dsa_port_offloads_bridge_dev(dp, attr->orig_dev))
-   624				return -EOPNOTSUPP;
-   625	
-   626			ret = dsa_port_vlan_filtering(dp, attr->u.vlan_filtering,
-   627						      extack);
-   628			break;
-   629		case SWITCHDEV_ATTR_ID_BRIDGE_AGEING_TIME:
-   630			if (!dsa_port_offloads_bridge_dev(dp, attr->orig_dev))
-   631				return -EOPNOTSUPP;
-   632	
-   633			ret = dsa_port_ageing_time(dp, attr->u.ageing_time);
-   634			break;
-   635		case SWITCHDEV_ATTR_ID_BRIDGE_MST:
-   636			if (!dsa_port_offloads_bridge_dev(dp, attr->orig_dev))
-   637				return -EOPNOTSUPP;
-   638	
-   639			ret = dsa_port_mst_enable(dp, attr->u.mst, extack);
-   640			break;
-   641		case SWITCHDEV_ATTR_ID_PORT_PRE_BRIDGE_FLAGS:
-   642			if (!dsa_port_offloads_bridge_port(dp, attr->orig_dev))
-   643				return -EOPNOTSUPP;
-   644	
-   645			ret = dsa_port_pre_bridge_flags(dp, attr->u.brport_flags,
-   646							extack);
-   647			break;
-   648		case SWITCHDEV_ATTR_ID_PORT_BRIDGE_FLAGS:
-   649			if (!dsa_port_offloads_bridge_port(dp, attr->orig_dev))
-   650				return -EOPNOTSUPP;
-   651	
-   652			ret = dsa_port_bridge_flags(dp, attr->u.brport_flags, extack);
-   653			break;
-   654		case SWITCHDEV_ATTR_ID_VLAN_MSTI:
-   655			if (!dsa_port_offloads_bridge_dev(dp, attr->orig_dev))
-   656				return -EOPNOTSUPP;
-   657	
-   658			ret = dsa_port_vlan_msti(dp, &attr->u.vlan_msti);
-   659			break;
-   660		case SWITCHDEV_ATTR_ID_BRIDGE_MC_ACTIVE:
- > 661			const bool *handled = ctx;
-   662	
-   663			if (!dsa_port_offloads_bridge_dev(dp, attr->orig_dev))
-   664				return -EOPNOTSUPP;
-   665	
-   666			ret = dsa_port_bridge_mdb_active(dp, attr->u.mc_active, extack,
-   667							 *handled);
-   668			break;
-   669		default:
-   670			ret = -EOPNOTSUPP;
-   671			break;
-   672		}
-   673	
-   674		return ret;
-   675	}
-   676	
+61f647e9d36d67 Wentao Liang          2025-05-19 @1621  	if (err)
+                                                            ^^^
+Uninitialized.  In production obviously the only sane choice is
+CONFIG_INIT_STACK_ALL_ZERO but I really encourage developers to set
+CONFIG_INIT_STACK_ALL_PATTERN=y so that we catch these sorts of
+bugs in testing.
+
+61f647e9d36d67 Wentao Liang          2025-05-19  1622  		return err;
+f74187932d30e4 Sricharan Ramabadhran 2016-01-19  1623  
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1624  	if (ret == 0)
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1625  		ret = num;
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1626  out:
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1627  	pm_runtime_mark_last_busy(qup->dev);
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1628  	pm_runtime_put_autosuspend(qup->dev);
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1629  
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1630  	return ret;
+191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1631  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
