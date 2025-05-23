@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71E92957C1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 May 2025 16:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF084120B;
+	Fri, 23 May 2025 16:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748016913; cv=none; b=Bgim5m4irhhrnTk8x2AXf5b8jJxqrjTTh/PX9ZkbDghP4/Mrqt+XnCG1X45NhRiFfoBGElDNm9v00jjW4bJ453gWjXn5onMwiVbtJ9nHoEt1Hyd/BRQNv23pLzBg+AHFmOqnWRrSKdGziJ3sF+Dv1z/tvrWqy0t+08InCJRHbSA=
+	t=1748018310; cv=none; b=Y052z/yczU8NF8QlyaraElJNpti/Nk5SL/OAoYY/C4DUEinQdwLqvNHEFxvvKzkqx5soGXzKjR86mFbFR3+VsKOmWbzq/gyDQjbEjJhqhyhibchzIUHNwcLXQ9852aoDgeknrCVGgVG69nEY6P9tmpbr2JcwHBfbV7CfSuTmtlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748016913; c=relaxed/simple;
-	bh=ccqYB3moyXSHuRmSk6nUOIehpTOU7Bgusnp6DQsyxag=;
+	s=arc-20240116; t=1748018310; c=relaxed/simple;
+	bh=HrRqZ3z9algFA+rzVPcUIWUy8j5aB8T+U6MVf1o87+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d8BIY4rBVyWyAn20KgoNssOLvjFn5UCM0/XJaaxDxDztFTAEj1dGmgDDfnDnI2KACwl91ASwCNKRTYfPb7VaZ+6I0S02wWEGdzxHOFFDhNqNG/hQOd+Q7jbkIRuMk3KpXfxioRHcGR7iOBIY1p7ffCyorbm97eBEH5Lx3Pugyes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CvvNiCBR; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=jcMbZUcWTLik0Cshyz+MzT/qbeco5BAt1BVb3hEMkRlYnPlRaAQJv1RtGx7aDaAaRmgr1Vgb0QRlF+D1Lb8jeO+ohZWkZUk9REXVe9wKNcLH1kQm1O8mohl7Xv4Av5RK0ScabnpEOHOcZMXSGE0/Suril72OoCWwY2jpVLwSHD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBlIl/hW; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CvvNiCBR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBlIl/hW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748016912; x=1779552912;
+  t=1748018308; x=1779554308;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ccqYB3moyXSHuRmSk6nUOIehpTOU7Bgusnp6DQsyxag=;
-  b=CvvNiCBRcgMCulstrVw4zClpWmjLgCivIMykdvI57kEIyJghL1mezotP
-   YELyCyfLh7zqb1hYQ+28HYXKROZ7mswpBKcthPNOfvcnUGGHFC0iYRuaj
-   sAArxPj2Hx6h8HGe7t7wtT/J3OUrCOMy0d2PSJU5j5S+yH6EMaNSPCt+0
-   MDVCDTCnp/Ad8zGjI65wrmWFEtIoV/mucZZ1NeGR63TpCqw4fBvIMaoP+
-   QB7mbv5fD7IkGpvPDiEhvEHXDJHpB6ywkm+1PTEH4fsWM2BJAjRJG7HZT
-   N2u+Il9a6i+wb1lUnx4qe/sYGe+eSf1D8vSZeV4HTh9F5p4xgi6CJ5v07
+  bh=HrRqZ3z9algFA+rzVPcUIWUy8j5aB8T+U6MVf1o87+w=;
+  b=VBlIl/hW7N/veh/mM0kvQ1rq7HIh6zW/zMok63Xkjl9i5xm5Xa9r7LrE
+   YKEbrl/4iq8rzzMVK+Uhe7+9Urwxj54O0dTaer78os43GLkfuTrPzsPNV
+   wBK0oCpoaVmcuWEG+D1al8qEpbthAY8YONR5Xz4UcNsdJ6tBObtKuYw6T
+   XNeJ7JmXt1CHqS8G5BLQOmXFKqTldaCra0hVDwzpEUqPZdNt01gAg1YzA
+   H8J3db+aRBpJ1pZtPVBIKukeyzyy8dQhJ/tt8SsmmsyDy8m1/uJgLQ73m
+   GS3I2ok3Sl3iG1IAXtwuQiXqxa5flf7BPKL1eXgpQ0/G3sm6M8xrr+HFh
    g==;
-X-CSE-ConnectionGUID: 4crK3igdSbaXJ6kYjb2E5A==
-X-CSE-MsgGUID: REgHbYPaQBWybBBDeZDNmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50075200"
+X-CSE-ConnectionGUID: YbQkn3U9TdmlOrUN8goZTw==
+X-CSE-MsgGUID: j3htmVooQzaMbggOHHL1dA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="67642129"
 X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="50075200"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 09:15:11 -0700
-X-CSE-ConnectionGUID: /222zuOySGqT4H1iFwXHOw==
-X-CSE-MsgGUID: LAymT71xRL+JM3gWhG7pIg==
+   d="scan'208";a="67642129"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 09:38:27 -0700
+X-CSE-ConnectionGUID: ee/54DF8S/mif2719jjHJA==
+X-CSE-MsgGUID: WgDBmkwsTVuUhtnD5QDUzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="146176902"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 May 2025 09:15:10 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="172106683"
+Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
+  by orviesa002.jf.intel.com with ESMTP; 23 May 2025 09:38:25 -0700
+Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIV36-000QZM-0G;
-	Fri, 23 May 2025 16:15:08 +0000
-Date: Sat, 24 May 2025 00:14:53 +0800
+	id 1uIVPa-0001Xz-2p;
+	Fri, 23 May 2025 16:38:22 +0000
+Date: Sat, 24 May 2025 00:37:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:master 47/272] fs/bcachefs/fsck.c:2202:25:
- sparse: sparse: incorrect type in initializer (different base types)
-Message-ID: <202505240043.i8Z86QBJ-lkp@intel.com>
+To: Benjamin Berg <benjamin.berg@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>
+Subject: arch/um/kernel/um_arch.c:336:16: warning: result of comparison of
+ constant 4294967296 with expression of type 'typeof (task_size)' (aka
+ 'unsigned long') is always false
+Message-ID: <202505240038.q8Dcx2LG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,194 +65,217 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/koverstreet/bcachefs master
-head:   0ce02abdcc71ff27c3be49a4dc78d56c66c3a209
-commit: 010c89468134d1991b87122379f86feae23d512f [47/272] bcachefs: Check for casefolded dirents in non casefolded dirs
-config: sparc-randconfig-r112-20250523 (https://download.01.org/0day-ci/archive/20250524/202505240043.i8Z86QBJ-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 10.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250524/202505240043.i8Z86QBJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3d0ebc36b0b3e8486ceb6e08e8ae173aaa6d1221
+commit: 830003c73d190259e45d0a99a0e3d14cb73e0af0 um: Limit TASK_SIZE to the addressable range
+date:   8 months ago
+config: um-randconfig-2006-20250515 (https://download.01.org/0day-ci/archive/20250524/202505240038.q8Dcx2LG-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505240038.q8Dcx2LG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505240043.i8Z86QBJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505240038.q8Dcx2LG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/fsck.c: note: in included file:
-   fs/bcachefs/bcachefs.h:1009:9: sparse: sparse: array of flexible structures
->> fs/bcachefs/fsck.c:2202:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] subvol @@     got restricted __le32 @@
-   fs/bcachefs/fsck.c:2202:25: sparse:     expected unsigned int [usertype] subvol
-   fs/bcachefs/fsck.c:2202:25: sparse:     got restricted __le32
->> fs/bcachefs/fsck.c:2205:30: sparse: sparse: restricted __le32 degrades to integer
->> fs/bcachefs/fsck.c:2206:30: sparse: sparse: restricted __le64 degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +2202 fs/bcachefs/fsck.c
+   In file included from arch/um/kernel/um_arch.c:9:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from arch/um/kernel/um_arch.c:19:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from arch/um/kernel/um_arch.c:19:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from arch/um/kernel/um_arch.c:19:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> arch/um/kernel/um_arch.c:336:16: warning: result of comparison of constant 4294967296 with expression of type 'typeof (task_size)' (aka 'unsigned long') is always false [-Wtautological-constant-out-of-range-compare]
+     336 |         if (task_size > (unsigned long long) PTRS_PER_PGD * PGDIR_SIZE)
+         |             ~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   14 warnings generated.
 
-  2131	
-  2132	static int check_dirent(struct btree_trans *trans, struct btree_iter *iter,
-  2133				struct bkey_s_c k,
-  2134				struct bch_hash_info *hash_info,
-  2135				struct inode_walker *dir,
-  2136				struct inode_walker *target,
-  2137				struct snapshots_seen *s)
-  2138	{
-  2139		struct bch_fs *c = trans->c;
-  2140		struct inode_walker_entry *i;
-  2141		struct printbuf buf = PRINTBUF;
-  2142		int ret = 0;
-  2143	
-  2144		ret = bch2_check_key_has_snapshot(trans, iter, k);
-  2145		if (ret) {
-  2146			ret = ret < 0 ? ret : 0;
-  2147			goto out;
-  2148		}
-  2149	
-  2150		ret = snapshots_seen_update(c, s, iter->btree_id, k.k->p);
-  2151		if (ret)
-  2152			goto err;
-  2153	
-  2154		if (k.k->type == KEY_TYPE_whiteout)
-  2155			goto out;
-  2156	
-  2157		if (dir->last_pos.inode != k.k->p.inode && dir->have_inodes) {
-  2158			ret = check_subdir_dirents_count(trans, dir);
-  2159			if (ret)
-  2160				goto err;
-  2161		}
-  2162	
-  2163		i = walk_inode(trans, dir, k);
-  2164		ret = PTR_ERR_OR_ZERO(i);
-  2165		if (ret < 0)
-  2166			goto err;
-  2167	
-  2168		ret = check_key_has_inode(trans, iter, dir, i, k);
-  2169		if (ret)
-  2170			goto err;
-  2171	
-  2172		if (!i)
-  2173			goto out;
-  2174	
-  2175		if (dir->first_this_inode)
-  2176			*hash_info = bch2_hash_info_init(c, &i->inode);
-  2177		dir->first_this_inode = false;
-  2178	
-  2179		ret = bch2_str_hash_check_key(trans, s, &bch2_dirent_hash_desc, hash_info, iter, k);
-  2180		if (ret < 0)
-  2181			goto err;
-  2182		if (ret) {
-  2183			/* dirent has been deleted */
-  2184			ret = 0;
-  2185			goto out;
-  2186		}
-  2187	
-  2188		if (k.k->type != KEY_TYPE_dirent)
-  2189			goto out;
-  2190	
-  2191		struct bkey_s_c_dirent d = bkey_s_c_to_dirent(k);
-  2192	
-  2193		/* check casefold */
-  2194		if (fsck_err_on(d.v->d_casefold != !!hash_info->cf_encoding,
-  2195				trans, dirent_casefold_mismatch,
-  2196				"dirent casefold does not match dir casefold\n%s",
-  2197				(printbuf_reset(&buf),
-  2198				 bch2_bkey_val_to_text(&buf, c, k),
-  2199				 buf.buf))) {
-  2200			struct qstr name = bch2_dirent_get_name(d);
-  2201			u32 subvol = d.v->d_type == DT_SUBVOL
-> 2202				? d.v->d_parent_subvol
-  2203				: 0;
-  2204			u64 target = d.v->d_type == DT_SUBVOL
-> 2205				? d.v->d_child_subvol
-> 2206				: d.v->d_inum;
-  2207			u64 dir_offset;
-  2208	
-  2209			ret =   bch2_hash_delete_at(trans,
-  2210						    bch2_dirent_hash_desc, hash_info, iter,
-  2211						    BTREE_UPDATE_internal_snapshot_node) ?:
-  2212				bch2_dirent_create_snapshot(trans, subvol,
-  2213							    d.k->p.inode, d.k->p.snapshot,
-  2214							    hash_info,
-  2215							    d.v->d_type,
-  2216							    &name,
-  2217							    target,
-  2218							    &dir_offset,
-  2219							    BTREE_ITER_with_updates|
-  2220							    BTREE_UPDATE_internal_snapshot_node|
-  2221							    STR_HASH_must_create) ?:
-  2222				bch2_trans_commit(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc);
-  2223	
-  2224			/* might need another check_dirents pass */
-  2225			goto out;
-  2226		}
-  2227	
-  2228		if (d.v->d_type == DT_SUBVOL) {
-  2229			ret = check_dirent_to_subvol(trans, iter, d);
-  2230			if (ret)
-  2231				goto err;
-  2232		} else {
-  2233			ret = get_visible_inodes(trans, target, s, le64_to_cpu(d.v->d_inum));
-  2234			if (ret)
-  2235				goto err;
-  2236	
-  2237			if (fsck_err_on(!target->inodes.nr,
-  2238					trans, dirent_to_missing_inode,
-  2239					"dirent points to missing inode:\n%s",
-  2240					(printbuf_reset(&buf),
-  2241					 bch2_bkey_val_to_text(&buf, c, k),
-  2242					 buf.buf))) {
-  2243				ret = bch2_fsck_remove_dirent(trans, d.k->p);
-  2244				if (ret)
-  2245					goto err;
-  2246			}
-  2247	
-  2248			darray_for_each(target->inodes, i) {
-  2249				ret = bch2_check_dirent_target(trans, iter, d, &i->inode, true);
-  2250				if (ret)
-  2251					goto err;
-  2252			}
-  2253	
-  2254			darray_for_each(target->deletes, i)
-  2255				if (fsck_err_on(!snapshot_list_has_id(&s->ids, *i),
-  2256						trans, dirent_to_overwritten_inode,
-  2257						"dirent points to inode overwritten in snapshot %u:\n%s",
-  2258						*i,
-  2259						(printbuf_reset(&buf),
-  2260						 bch2_bkey_val_to_text(&buf, c, k),
-  2261						 buf.buf))) {
-  2262					struct btree_iter delete_iter;
-  2263					bch2_trans_iter_init(trans, &delete_iter,
-  2264							     BTREE_ID_dirents,
-  2265							     SPOS(k.k->p.inode, k.k->p.offset, *i),
-  2266							     BTREE_ITER_intent);
-  2267					ret =   bch2_btree_iter_traverse(trans, &delete_iter) ?:
-  2268						bch2_hash_delete_at(trans, bch2_dirent_hash_desc,
-  2269								  hash_info,
-  2270								  &delete_iter,
-  2271								  BTREE_UPDATE_internal_snapshot_node);
-  2272					bch2_trans_iter_exit(trans, &delete_iter);
-  2273					if (ret)
-  2274						goto err;
-  2275	
-  2276				}
-  2277		}
-  2278	
-  2279		ret = bch2_trans_commit(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc);
-  2280		if (ret)
-  2281			goto err;
-  2282	
-  2283		for_each_visible_inode(c, s, dir, d.k->p.snapshot, i) {
-  2284			if (d.v->d_type == DT_DIR)
-  2285				i->count++;
-  2286			i->i_size += bkey_bytes(d.k);
-  2287		}
-  2288	out:
-  2289	err:
-  2290	fsck_err:
-  2291		printbuf_exit(&buf);
-  2292		bch_err_fn(c, ret);
-  2293		return ret;
-  2294	}
-  2295	
+
+vim +336 arch/um/kernel/um_arch.c
+
+   304	
+   305	int __init linux_main(int argc, char **argv)
+   306	{
+   307		unsigned long avail, diff;
+   308		unsigned long virtmem_size, max_physmem;
+   309		unsigned long stack;
+   310		unsigned int i;
+   311		int add;
+   312	
+   313		for (i = 1; i < argc; i++) {
+   314			if ((i == 1) && (argv[i][0] == ' '))
+   315				continue;
+   316			add = 1;
+   317			uml_checksetup(argv[i], &add);
+   318			if (add)
+   319				add_arg(argv[i]);
+   320		}
+   321		if (have_root == 0)
+   322			add_arg(DEFAULT_COMMAND_LINE_ROOT);
+   323	
+   324		if (have_console == 0)
+   325			add_arg(DEFAULT_COMMAND_LINE_CONSOLE);
+   326	
+   327		host_task_size = os_get_top_address();
+   328		/* reserve a few pages for the stubs */
+   329		stub_start = host_task_size - STUB_DATA_PAGES * PAGE_SIZE;
+   330		/* another page for the code portion */
+   331		stub_start -= PAGE_SIZE;
+   332		host_task_size = stub_start;
+   333	
+   334		/* Limit TASK_SIZE to what is addressable by the page table */
+   335		task_size = host_task_size;
+ > 336		if (task_size > (unsigned long long) PTRS_PER_PGD * PGDIR_SIZE)
+   337			task_size = PTRS_PER_PGD * PGDIR_SIZE;
+   338	
+   339		/*
+   340		 * TASK_SIZE needs to be PGDIR_SIZE aligned or else exit_mmap craps
+   341		 * out
+   342		 */
+   343		task_size = task_size & PGDIR_MASK;
+   344	
+   345		/* OS sanity checks that need to happen before the kernel runs */
+   346		os_early_checks();
+   347	
+   348		get_host_cpu_features(parse_host_cpu_flags, parse_cache_line);
+   349	
+   350		brk_start = (unsigned long) sbrk(0);
+   351	
+   352		/*
+   353		 * Increase physical memory size for exec-shield users
+   354		 * so they actually get what they asked for. This should
+   355		 * add zero for non-exec shield users
+   356		 */
+   357	
+   358		diff = UML_ROUND_UP(brk_start) - UML_ROUND_UP(&_end);
+   359		if (diff > 1024 * 1024) {
+   360			os_info("Adding %ld bytes to physical memory to account for "
+   361				"exec-shield gap\n", diff);
+   362			physmem_size += UML_ROUND_UP(brk_start) - UML_ROUND_UP(&_end);
+   363		}
+   364	
+   365		uml_physmem = (unsigned long) __binary_start & PAGE_MASK;
+   366	
+   367		/* Reserve up to 4M after the current brk */
+   368		uml_reserved = ROUND_4M(brk_start) + (1 << 22);
+   369	
+   370		setup_machinename(init_utsname()->machine);
+   371	
+   372		physmem_size = (physmem_size + PAGE_SIZE - 1) & PAGE_MASK;
+   373		iomem_size = (iomem_size + PAGE_SIZE - 1) & PAGE_MASK;
+   374	
+   375		max_physmem = TASK_SIZE - uml_physmem - iomem_size - MIN_VMALLOC;
+   376	
+   377		if (physmem_size + iomem_size > max_physmem) {
+   378			physmem_size = max_physmem - iomem_size;
+   379			os_info("Physical memory size shrunk to %llu bytes\n",
+   380				physmem_size);
+   381		}
+   382	
+   383		high_physmem = uml_physmem + physmem_size;
+   384		end_iomem = high_physmem + iomem_size;
+   385		high_memory = (void *) end_iomem;
+   386	
+   387		start_vm = VMALLOC_START;
+   388	
+   389		virtmem_size = physmem_size;
+   390		stack = (unsigned long) argv;
+   391		stack &= ~(1024 * 1024 - 1);
+   392		avail = stack - start_vm;
+   393		if (physmem_size > avail)
+   394			virtmem_size = avail;
+   395		end_vm = start_vm + virtmem_size;
+   396	
+   397		if (virtmem_size < physmem_size)
+   398			os_info("Kernel virtual memory size shrunk to %lu bytes\n",
+   399				virtmem_size);
+   400	
+   401		os_flush_stdout();
+   402	
+   403		return start_uml();
+   404	}
+   405	
 
 -- 
 0-DAY CI Kernel Test Service
