@@ -1,60 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5F42DCC0C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 08:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F437E9;
+	Sat, 24 May 2025 08:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748074298; cv=none; b=EZDA07s1S/eJSUDEDXxNGz5epg19gWCvIysOFtrj0WcQI2hMHZzn5AFDt0EqQdD0BkpZfxGEqXLrpe5VGmJhrSltB2m2ohVuSM6jKOdLMIXdvbSr0LsCpHL+BfgJQ4f1DS5N3J5JsKfBAWSyw4hUoieWiUpNMjOER02acwuFJVc=
+	t=1748074898; cv=none; b=P4FAh6MTa7EL6CQ+AUyrqTUgOUP5CZB3QB6eS2GlwaZjPQFffyN0msazCbE0P8POA7mxzN6hSQUQ4+xctPJkaebRQPj3wU9J+HYiI6SIglxUDxx3KYFa4TZaAiZONk4U/nYKFE1IXCO+3Ir3+MNTSdGnA8d+rqTgiAtDUWpTio8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748074298; c=relaxed/simple;
-	bh=cF5W/wuudPJOLCmwg3acUYMvtph2jSiIIh9WYjoTLcc=;
+	s=arc-20240116; t=1748074898; c=relaxed/simple;
+	bh=2HfHbAFa+MA/nfQ79YxX2caqzVg8CqZ+O+es5dEUMe4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LIjQvRaEDKpaa7CqpkeBFTjv141kGjJ4Azq0GLZkUD4nhCXrHd0+X29lcDUfYRRC5GWcaZrOzZGwuUsVTHsfqp9wZHeS3TgSOVZVke9AwM7WKDfu4hV8+N+HNlvwH7+qa5jEUkW3CB5qMR/GIokSSXDTjbVLCG1SvVHISOwbwcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FoDlCsNr; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=iSUdZFA0bJZcYgiOYFU8uPC3ABbSeyXANhcgQGiADjwE2J/BOjZmK7hhI4ckB2FAQ1ctM+XLzxGn+pQrM8ZXU+6tsDywH8rgz6yIYK7XhVAcSaD3oaZozvm4Lgoje8W9M5cuNPwS0JEx3ex4Uc406XRlFi97ksNX0DxcBBLXCPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g91w2Trv; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FoDlCsNr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g91w2Trv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748074295; x=1779610295;
+  t=1748074896; x=1779610896;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cF5W/wuudPJOLCmwg3acUYMvtph2jSiIIh9WYjoTLcc=;
-  b=FoDlCsNrGj3SikK/41VetateKhBwuESHbMtA8McwKPyn7RwXYc8zIm9g
-   Ri90Fahrmyj9T0bej+Z56zjHfk/GOcoKw8tWQftPPlskws3BCadAj67uI
-   3sutt49pie73eJv2kHIOUr2cmJHP+fDvknScI87rcG5s+sdMBL+ecruDA
-   aDoF2ci4SAEx6JqkGaJDEFn94rXN8HvJNZ5W3xzoVgHjrK6N5Vdc16Ijy
-   IS4jJAC+w72Q9CVs5vaSEqoZ2ew/KM8Y5T4JXW5HuuyTQNIfL1K40uwyW
-   +y9EvWTHKbqbQa99iWxwSrsb8rSICy7izrwZ3gXFDlBaJrUycRoRK0Vvb
-   w==;
-X-CSE-ConnectionGUID: Rtws7rNeTi+fXx1z5hAiTg==
-X-CSE-MsgGUID: 77WOOQv1Rbu2lr87GOO+Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50005054"
+  bh=2HfHbAFa+MA/nfQ79YxX2caqzVg8CqZ+O+es5dEUMe4=;
+  b=g91w2TrvM4N6OKn9DHXQBV5y4e8/BZdMnj/1P1D5n4K+tYrDNCIvNRzY
+   PRr1vK4WEsjchcZCpDmmMBqgnqAGSO8R8OawLK0RT6ygmKNoBL3F4VlCG
+   o36p4IMt4KAWG4foLVNoH9D1RkaqiaAGRI7zyrM7jPFnhwcsthTWz7n6i
+   lRNTH9VsOaDY2KOFv+Fg2VwejBkhuChYE4rBTJU+F4eOQh0TQUhMP/5x6
+   7dV2imaR4W12Zq/mxl9zky5qKUZZPd4wfGLw08BqTO5EGlUqWszDnxyzO
+   s+7ywyRapZZEntUtQiAVGHXgIchk+SlkkRRJtr6KoMTu3qBCSgfYDqtBV
+   Q==;
+X-CSE-ConnectionGUID: Brj/P39VR923P47ERvnCpQ==
+X-CSE-MsgGUID: LfOu+ax2R+Gf82Sf7027bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50005308"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="50005054"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 01:11:34 -0700
-X-CSE-ConnectionGUID: ZGk5CyblQ1uu949NQ+ohsQ==
-X-CSE-MsgGUID: dA0MKkZoQomA3GOlyA7c9Q==
+   d="scan'208";a="50005308"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 01:21:36 -0700
+X-CSE-ConnectionGUID: VJ3VjTwARASe5w6kfFfGHA==
+X-CSE-MsgGUID: 1+ZJHOCkSPu91eJWyBvGLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="142424375"
+   d="scan'208";a="146205957"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 May 2025 01:11:34 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 May 2025 01:21:34 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIjyd-000R2y-0j;
-	Sat, 24 May 2025 08:11:31 +0000
-Date: Sat, 24 May 2025 16:11:09 +0800
+	id 1uIk8K-000R3K-0f;
+	Sat, 24 May 2025 08:21:32 +0000
+Date: Sat, 24 May 2025 16:21:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Jordan <daniel.m.jordan@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, LUCI Bot <vijayendra.suman@oracle.com>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>
-Subject: [jlayton:uek-localio 2093/2262] kernel/padata.c:586: warning:
- Function parameter or struct member 'key' not described in
- '__padata_do_multithreaded'
-Message-ID: <202505241637.u6SaSz8X-lkp@intel.com>
+To: Gautham Ananthakrishna <gautham.ananthakrishna@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	LUCI Bot <vijayendra.suman@oracle.com>,
+	Stephen Brennan <stephen.s.brennan@oracle.com>
+Subject: [jlayton:uek-localio 2037/2262] fs/dcache.c:1531:15: error: call to
+ undeclared function 'get_nr_dentry'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202505241641.cjNXyGVb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,126 +67,139 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
 head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
-commit: 1559dccd6e0120f6955950e5af55cf40317834fa [2093/2262] vfio/type1: parallelize vfio_pin_map_dma()
-config: x86_64-buildonly-randconfig-002-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241637.u6SaSz8X-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241637.u6SaSz8X-lkp@intel.com/reproduce)
+commit: fbc8f7ca2ebf9db96aa3263c657ea2840840bdec [2037/2262] fs/dcache: Estimate the number of negative dentries to prune per filesystem
+config: hexagon-randconfig-002-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241641.cjNXyGVb-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241641.cjNXyGVb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241637.u6SaSz8X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241641.cjNXyGVb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/padata.c:586: warning: Function parameter or struct member 'key' not described in '__padata_do_multithreaded'
->> kernel/padata.c:586: warning: Function parameter or struct member 'map_name' not described in '__padata_do_multithreaded'
+   In file included from fs/dcache.c:31:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:23:
+   In file included from include/linux/writeback.h:13:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   include/linux/highmem.h:265:2: error: call to undeclared function 'clear_user_page_uncached'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     265 |         clear_user_page_uncached(addr, vaddr, page);
+         |         ^
+   include/linux/highmem.h:265:2: note: did you mean 'clear_user_highpage_uncached'?
+   include/linux/highmem.h:261:20: note: 'clear_user_highpage_uncached' declared here
+     261 | static inline void clear_user_highpage_uncached(struct page *page, unsigned long vaddr)
+         |                    ^
+     262 | {
+     263 |         void *addr = kmap_atomic(page);
+     264 | 
+     265 |         clear_user_page_uncached(addr, vaddr, page);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~
+         |         clear_user_highpage_uncached
+   fs/dcache.c:1530:19: error: call to undeclared function 'get_nr_dentry_negative'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1530 |         long count_neg = get_nr_dentry_negative();
+         |                          ^
+>> fs/dcache.c:1531:15: error: call to undeclared function 'get_nr_dentry'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1531 |         long count = get_nr_dentry();
+         |                      ^
+   fs/dcache.c:1531:15: note: did you mean 'retain_dentry'?
+   fs/dcache.c:944:20: note: 'retain_dentry' declared here
+     944 | static inline bool retain_dentry(struct dentry *dentry, bool locked)
+         |                    ^
+   fs/dcache.c:1616:10: error: call to undeclared function 'get_nr_dentry_negative'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1616 |         count = get_nr_dentry_negative();
+         |                 ^
+   fs/dcache.c:1610:7: warning: variable 'last_n_neg' set but not used [-Wunused-but-set-variable]
+    1610 |         long last_n_neg, excess, count;
+         |              ^
+   1 warning and 4 errors generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PADATA
-   Depends on [n]: SMP [=n]
-   Selected by [y]:
-   - VFIO_IOMMU_TYPE1 [=y] && VFIO [=y] && VFIO_CONTAINER [=y]
 
+vim +/get_nr_dentry +1531 fs/dcache.c
 
-vim +586 kernel/padata.c
-
-4fed4673cdab8af Daniel Jordan                              2020-05-26  574  
-004ed42638f4428 Daniel Jordan                              2020-06-03  575  /**
-66082b964b79e0e Daniel Jordan                              2020-05-26  576   * __padata_do_multithreaded - run a multithreaded job
-004ed42638f4428 Daniel Jordan                              2020-06-03  577   * @job: Description of the job.
-004ed42638f4428 Daniel Jordan                              2020-06-03  578   *
-004ed42638f4428 Daniel Jordan                              2020-06-03  579   * See the definition of struct padata_mt_job for more details.
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  580   *
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  581   * Return: 0 for success or a client-specific nonzero error code.
-004ed42638f4428 Daniel Jordan                              2020-06-03  582   */
-66082b964b79e0e Daniel Jordan                              2020-05-26  583  int __padata_do_multithreaded(struct padata_mt_job *job,
-66082b964b79e0e Daniel Jordan                              2020-05-26  584  			      struct lock_class_key *key,
-66082b964b79e0e Daniel Jordan                              2020-05-26  585  			      const char *map_name)
-004ed42638f4428 Daniel Jordan                              2020-06-03 @586  {
-004ed42638f4428 Daniel Jordan                              2020-06-03  587  	/* In case threads finish at different times. */
-004ed42638f4428 Daniel Jordan                              2020-06-03  588  	static const unsigned long load_balance_factor = 4;
-004ed42638f4428 Daniel Jordan                              2020-06-03  589  	struct padata_work my_work, *pw;
-004ed42638f4428 Daniel Jordan                              2020-06-03  590  	struct padata_mt_job_state ps;
-004ed42638f4428 Daniel Jordan                              2020-06-03  591  	LIST_HEAD(works);
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  592  	int nworks, nid, ret;
-95a5dd954cc60cd Daniel Jordan                              2020-05-26  593  	static atomic_t last_used_nid;
-004ed42638f4428 Daniel Jordan                              2020-06-03  594  
-004ed42638f4428 Daniel Jordan                              2020-06-03  595  	if (job->size == 0)
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  596  		return 0;
-004ed42638f4428 Daniel Jordan                              2020-06-03  597  
-004ed42638f4428 Daniel Jordan                              2020-06-03  598  	/* Ensure at least one thread when size < min_chunk. */
-f84155ca851849e Anthony Yznaga                             2023-02-22  599  	nworks = max(job->size / max(job->min_chunk, job->align), 1ul);
-004ed42638f4428 Daniel Jordan                              2020-06-03  600  	nworks = min(nworks, job->max_threads);
-004ed42638f4428 Daniel Jordan                              2020-06-03  601  
-004ed42638f4428 Daniel Jordan                              2020-06-03  602  	if (nworks == 1) {
-004ed42638f4428 Daniel Jordan                              2020-06-03  603  		/* Single thread, no coordination needed, cut to the chase. */
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  604  		ret = job->thread_fn(job->start, job->start + job->size,
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  605  				     job->fn_arg);
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  606  		return ret;
-004ed42638f4428 Daniel Jordan                              2020-06-03  607  	}
-004ed42638f4428 Daniel Jordan                              2020-06-03  608  
-004ed42638f4428 Daniel Jordan                              2020-06-03  609  	spin_lock_init(&ps.lock);
-004ed42638f4428 Daniel Jordan                              2020-06-03  610  	init_completion(&ps.completion);
-4fed4673cdab8af Daniel Jordan                              2020-05-26  611  	INIT_LIST_HEAD(&ps.failed_works);
-66082b964b79e0e Daniel Jordan                              2020-05-26  612  	lockdep_init_map(&ps.lockdep_map, map_name, key, 0);
-004ed42638f4428 Daniel Jordan                              2020-06-03  613  	ps.job		  = job;
-004ed42638f4428 Daniel Jordan                              2020-06-03  614  	ps.nworks	  = padata_work_alloc_mt(nworks, &ps, &works);
-004ed42638f4428 Daniel Jordan                              2020-06-03  615  	ps.nworks_fini	  = 0;
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  616  	ps.error	  = 0;
-4fed4673cdab8af Daniel Jordan                              2020-05-26  617  	ps.position	  = job->start;
-4fed4673cdab8af Daniel Jordan                              2020-05-26  618  	ps.remaining_size = job->size;
-004ed42638f4428 Daniel Jordan                              2020-06-03  619  
-004ed42638f4428 Daniel Jordan                              2020-06-03  620  	/*
-004ed42638f4428 Daniel Jordan                              2020-06-03  621  	 * Chunk size is the amount of work a helper does per call to the
-004ed42638f4428 Daniel Jordan                              2020-06-03  622  	 * thread function.  Load balance large jobs between threads by
-004ed42638f4428 Daniel Jordan                              2020-06-03  623  	 * increasing the number of chunks, guarantee at least the minimum
-004ed42638f4428 Daniel Jordan                              2020-06-03  624  	 * chunk size from the caller, and honor the caller's alignment.
-24cc57d8faaa406 Kamlesh Gurudasani                         2024-08-22  625  	 * Ensure chunk_size is at least 1 to prevent divide-by-0
-24cc57d8faaa406 Kamlesh Gurudasani                         2024-08-22  626  	 * panic in padata_mt_helper().
-004ed42638f4428 Daniel Jordan                              2020-06-03  627  	 */
-004ed42638f4428 Daniel Jordan                              2020-06-03  628  	ps.chunk_size = job->size / (ps.nworks * load_balance_factor);
-004ed42638f4428 Daniel Jordan                              2020-06-03  629  	ps.chunk_size = max(ps.chunk_size, job->min_chunk);
-24cc57d8faaa406 Kamlesh Gurudasani                         2024-08-22  630  	ps.chunk_size = max(ps.chunk_size, 1ul);
-004ed42638f4428 Daniel Jordan                              2020-06-03  631  	ps.chunk_size = roundup(ps.chunk_size, job->align);
-004ed42638f4428 Daniel Jordan                              2020-06-03  632  
-66082b964b79e0e Daniel Jordan                              2020-05-26  633  	lock_map_acquire(&ps.lockdep_map);
-66082b964b79e0e Daniel Jordan                              2020-05-26  634  	lock_map_release(&ps.lockdep_map);
-66082b964b79e0e Daniel Jordan                              2020-05-26  635  
-004ed42638f4428 Daniel Jordan                              2020-06-03  636  	list_for_each_entry(pw, &works, pw_list)
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  637  		if (job->numa_aware) {
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  638  			int old_node = atomic_read(&last_used_nid);
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  639  
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  640  			do {
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  641  				nid = next_node_in(old_node, node_states[N_CPU]);
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  642  			} while (!atomic_try_cmpxchg(&last_used_nid, &old_node, nid));
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  643  			queue_work_node(nid, system_unbound_wq, &pw->pw_work);
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  644  		} else {
-004ed42638f4428 Daniel Jordan                              2020-06-03  645  			queue_work(system_unbound_wq, &pw->pw_work);
-eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  646  		}
-004ed42638f4428 Daniel Jordan                              2020-06-03  647  
-004ed42638f4428 Daniel Jordan                              2020-06-03  648  	/* Use the current thread, which saves starting a workqueue worker. */
-004ed42638f4428 Daniel Jordan                              2020-06-03  649  	padata_work_init(&my_work, padata_mt_helper, &ps, PADATA_WORK_ONSTACK);
-4fed4673cdab8af Daniel Jordan                              2020-05-26  650  	INIT_LIST_HEAD(&my_work.pw_list);
-004ed42638f4428 Daniel Jordan                              2020-06-03  651  	padata_mt_helper(&my_work.pw_work);
-004ed42638f4428 Daniel Jordan                              2020-06-03  652  
-004ed42638f4428 Daniel Jordan                              2020-06-03  653  	/* Wait for all the helpers to finish. */
-004ed42638f4428 Daniel Jordan                              2020-06-03  654  	wait_for_completion(&ps.completion);
-004ed42638f4428 Daniel Jordan                              2020-06-03  655  
-4fed4673cdab8af Daniel Jordan                              2020-05-26  656  	if (ps.error && job->undo_fn)
-4fed4673cdab8af Daniel Jordan                              2020-05-26  657  		padata_undo(&ps, &works, &my_work);
-4fed4673cdab8af Daniel Jordan                              2020-05-26  658  
-004ed42638f4428 Daniel Jordan                              2020-06-03  659  	destroy_work_on_stack(&my_work.pw_work);
-004ed42638f4428 Daniel Jordan                              2020-06-03  660  	padata_works_free(&works);
-b10c8ee9594b63f Daniel Jordan                              2020-05-26  661  	return ps.error;
-004ed42638f4428 Daniel Jordan                              2020-06-03  662  }
-004ed42638f4428 Daniel Jordan                              2020-06-03  663  
-
-:::::: The code at line 586 was first introduced by commit
-:::::: 004ed42638f4428e70ead59d170f3d17ff761a0f padata: add basic support for multithreaded jobs
-
-:::::: TO: Daniel Jordan <daniel.m.jordan@oracle.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  1521	
+  1522	/*
+  1523	 * Prune dentries from a super block.
+  1524	 */
+  1525	static void prune_negative_one_sb(struct super_block *sb, void *arg)
+  1526	{
+  1527		unsigned long freed = 0, scan_once = 0, this_sb_freed = 0;
+  1528		long limit, lower_limit, this_sb_dentries, excess, prune_this_sb = 0;
+  1529		int this_sb_pc = 0;
+  1530		long count_neg = get_nr_dentry_negative();
+> 1531		long count = get_nr_dentry();
+  1532		struct prune_negative_ctrl *ctrl = arg;
+  1533		LIST_HEAD(dispose);
+  1534	
+  1535		limit = neg_dentry_nfree_init + ctrl->prune_ncpus * neg_dentry_percpu_limit;
+  1536	
+  1537		/*
+  1538		 * If the -ve dentry count is within the limit
+  1539		 * and a prune is not on then do nothing.
+  1540		 */
+  1541		if (limit >= count_neg && !(ndblk.nprune_on))
+  1542			return;
+  1543	
+  1544		/*
+  1545		 * Set the prune on when the -ve
+  1546		 * dentry count crosses the limit.
+  1547		 */
+  1548		if (!(ndblk.nprune_on) && (count_neg > limit))
+  1549			ndblk.nprune_on = 1;
+  1550	
+  1551		/*
+  1552		 * Add extra 30% so that once pruning starts,
+  1553		 * it continues until we reach 70% of the limit.
+  1554		 */
+  1555		lower_limit = ctrl->prune_ncpus * (neg_dentry_percpu_limit -
+  1556					((neg_dentry_percpu_limit * 30)/ 100));
+  1557		/*
+  1558		 * Set the prune off when the -ve dentry
+  1559		 * count reaches the lower limit.
+  1560		 */
+  1561		if (count_neg <= lower_limit) {
+  1562			ndblk.nprune_on = 0;
+  1563			return;
+  1564		}
+  1565	
+  1566		/*
+  1567		 * Dentry to prune from this super block's LRU should be
+  1568		 * proportional to the ratio of dentries present in this
+  1569		 * SB's LRU to the total dentries present in the system.
+  1570		 * Also, try to skip inmemory filesystems.
+  1571		 */
+  1572		this_sb_dentries = list_lru_elems(&sb->s_dentry_lru);
+  1573		if (!this_sb_dentries)
+  1574			return;
+  1575		this_sb_pc = (this_sb_dentries * 100) / count;
+  1576		if (!this_sb_pc)
+  1577			this_sb_pc = 1;
+  1578	
+  1579		excess = count_neg - lower_limit;
+  1580		prune_this_sb = (excess * this_sb_pc) / 100;
+  1581		if (!prune_this_sb)
+  1582			return; /* Negligible, skip this sb */
+  1583	
+  1584		if (ctrl->prune_percent) {
+  1585			if (prune_this_sb > NEG_WALKING_CAP)
+  1586				scan_once = NEG_WALKING_CAP;
+  1587			else
+  1588				scan_once = prune_this_sb;
+  1589	
+  1590			freed = list_lru_walk_all_nodes(&sb->s_dentry_lru,
+  1591						dentry_negative_lru_isolate,
+  1592						&dispose, this_sb_dentries, scan_once);
+  1593			if (freed) {
+  1594				shrink_dentry_list(&dispose);
+  1595				this_sb_freed += freed;
+  1596			}
+  1597			ctrl->prune_count += this_sb_freed;
+  1598		}
+  1599	}
+  1600	
 
 -- 
 0-DAY CI Kernel Test Service
