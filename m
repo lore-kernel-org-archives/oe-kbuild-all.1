@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD716F4ED
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 09:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7CF4A01;
+	Sat, 24 May 2025 09:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748077420; cv=none; b=u/vXKrDNFjO70ABvFYTl8h41/RNeBTtL66QlaqdmlOhyiFkVvkIxqUx/G09i4/3+xO1DUe3K25Rb7dFRIFcwaU5/cdYlvtAKgSIbKTEISV9fK6TzGLbTfd25q6daDANONHr4mSPgl/FGIgoOfPOTsSc+Nl5yyjcHXplx+H/qMdM=
+	t=1748078082; cv=none; b=uQTkeFZCqeQ29779ye5fw7t3ajDirpYuvSth/v9xITdLRMkqq3kAlDvjnYkoNAG6VuWsYWZLuHYNcZq6btAAMNjCWinPsyFY7dlY1OO2AG8RQSY+cxgXA1SyVGrPgUZDmFrbvdy+LHwHuIQPT1IxADEByh471FkDxJw5tjxbPHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748077420; c=relaxed/simple;
-	bh=JODdN0ccs0MZXyrkNWBncStKhn3SxBkf32oRwBI5eTc=;
+	s=arc-20240116; t=1748078082; c=relaxed/simple;
+	bh=kdOW+nIUgF2g3N9MSSsOb5oWhaYxWhlKowhrF/fB+Bs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hpr+rwlovxoxcP+72oGDej3A1gTzqkzPXvSwq+XARviszZ2lHv4FnAa1nx/MSu2Bf5tQxgXV4xgB0iL2p3KHQsdJXjq1pF7iZgznEvbPg4EFpbIzHvYKpx0Yxezn5LqQF9BjgZcva1Z0H4iRJ3D4sAC82XuJ64Z7WszP2R2eoA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gm1LXgG0; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=cQqsv06Jf4u+mHFwg03BnYQUuVyTHdu3tWaX4fBScXfuCRPntfmHAMBflqXIovQsPrRsQIP3Qn9Z649XjwVc4ghdvjJZIuBYUhOEPymZCfHD8c86M+PWZ4EG6k9x0BaMycS5Uqo7/IlmRMZwYYruWwPGxjYybivTx+eBa7mOoKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XrkAEnHH; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gm1LXgG0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XrkAEnHH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748077419; x=1779613419;
+  t=1748078080; x=1779614080;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JODdN0ccs0MZXyrkNWBncStKhn3SxBkf32oRwBI5eTc=;
-  b=Gm1LXgG07OenVJFosTZQdM1Tc3ZoUJfwkRQ6f7chx8goMX0yDb9aJqiT
-   Neslh4wQlaijKYVJQ+yxbvhjYagNSxvGFchey4pblnBYynPVwfx4aBoxN
-   VUUPCD3B07IRECldGUaIt4SDpm4dVcVtYEfIusvkn5tTaW8ozjU+bcPo6
-   a+5vLguu0cFXbNqzn51uiuMJWqLrK6a170ZOqeRn+Lkqwrb4+88oEAYby
-   rW8uYMMiF2p9+NubLWbZzbwzkL0hwKFhq6IZNNmP43R7UHJHrwtquy7pC
-   Fwzsg7V4TiSVysW/RR18xyifp2d+OtcyzxJYPbPz2wQHJArMs1SJ/aAqC
+  bh=kdOW+nIUgF2g3N9MSSsOb5oWhaYxWhlKowhrF/fB+Bs=;
+  b=XrkAEnHHqIkgKP+gBDfR6xP3YPr5M8o8h8C5ee0mzWvHN0DqaQBnrKRg
+   Wj6zJvlPQxFZhR2xLUHNedLWJt/TxuCeGgri8y2skPv39gZKj20+FEQ8B
+   fR0fQffZyID5ekepkAl9g8nr2aWUeXKnVR9JMvXKub46xi5fipLe5iQYS
+   0iF1PmvtenBxdSelmB4PVZNa3NG8o0fqfCaFYUbLPC0H0rB14jWW5SPji
+   ZjPOo+GfPZjuxPjNr4HTkbUkeaS50TBoV8Pki+ui0b+DwxyzbrMfkTiQY
+   Wg9f8it/JWb2h1YtlBkv12Ocj/m0fWG2l1hGwPJxl2YZjCdMUji/UaA+D
    A==;
-X-CSE-ConnectionGUID: AZ/PbmITRUuAlrAvbtZGEQ==
-X-CSE-MsgGUID: jEWdw6uNSbWJLby6JHpMCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="61529898"
+X-CSE-ConnectionGUID: pUq4Cq0zQ8e6outlJ3PESQ==
+X-CSE-MsgGUID: oocyumpxTomPD6ayfLMsIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50177523"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="61529898"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 02:03:38 -0700
-X-CSE-ConnectionGUID: DeiWNAslTh6UKeHlurwFbA==
-X-CSE-MsgGUID: X3TGzdOmTsGvvlprtmQYKQ==
+   d="scan'208";a="50177523"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 02:14:40 -0700
+X-CSE-ConnectionGUID: UAU4JZQHSd6qQWVGx2PIyg==
+X-CSE-MsgGUID: f/vqoHtiQV6WJyLVr18OEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="145451707"
+   d="scan'208";a="141413159"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 May 2025 02:03:37 -0700
+  by orviesa010.jf.intel.com with ESMTP; 24 May 2025 02:14:38 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIkn1-000R4O-0F;
-	Sat, 24 May 2025 09:03:35 +0000
-Date: Sat, 24 May 2025 17:03:30 +0800
+	id 1uIkxf-000R4o-3A;
+	Sat, 24 May 2025 09:14:35 +0000
+Date: Sat, 24 May 2025 17:13:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 43/45] fs/nfsd/nfs4state.c:9708:38: warning:
- format '%ld' expects argument of type 'long int', but argument 2 has type
- 'int'
-Message-ID: <202505241639.cBZR074e-lkp@intel.com>
+To: Greg Jumper <greg.jumper@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	LUCI Bot <vijayendra.suman@oracle.com>,
+	Alan Maguire <alan.maguire@oracle.com>
+Subject: [jlayton:uek-localio 1944/2262] net/rds/send.c:1380:18: warning:
+ variable 'rns' set but not used
+Message-ID: <202505241704.Id3nau5v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,134 +64,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   9269fcb6b78c95611f229f90e3d7d82520580e88
-commit: aae085e8fb728d651e71ab540c8c695af221db51 [43/45] DEBUG: trace_printks all over the place
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250524/202505241639.cBZR074e-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241639.cBZR074e-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
+head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
+commit: 09b27477265df03926c91a3c5294bc2b582f2472 [1944/2262] Revert "Revert "net/rds: Track "rds" module statistics per network namespace""
+config: arm-randconfig-003-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241704.Id3nau5v-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241704.Id3nau5v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241639.cBZR074e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241704.Id3nau5v-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7,
-                    from fs/nfsd/nfs4state.c:36:
-   fs/nfsd/nfs4state.c: In function 'nfsd_handle_dir_event':
->> fs/nfsd/nfs4state.c:9708:38: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'int' [-Wformat=]
-    9708 |                         trace_printk("encoded remove4 is %ld bytes long\n", (u8 *)stream->p - p);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~
-         |                                                                                             |
-         |                                                                                             int
-   include/linux/kernel.h:238:47: note: in definition of macro '__trace_printk_check_format'
-     238 |                 ____trace_printk_check_format(fmt, ##args);             \
-         |                                               ^~~
-   include/linux/kernel.h:275:17: note: in expansion of macro 'do_trace_printk'
-     275 |                 do_trace_printk(fmt, ##__VA_ARGS__);    \
-         |                 ^~~~~~~~~~~~~~~
-   fs/nfsd/nfs4state.c:9708:25: note: in expansion of macro 'trace_printk'
-    9708 |                         trace_printk("encoded remove4 is %ld bytes long\n", (u8 *)stream->p - p);
-         |                         ^~~~~~~~~~~~
-   fs/nfsd/nfs4state.c:9708:60: note: format string is defined here
-    9708 |                         trace_printk("encoded remove4 is %ld bytes long\n", (u8 *)stream->p - p);
-         |                                                          ~~^
-         |                                                            |
-         |                                                            long int
-         |                                                          %d
-   fs/nfsd/nfs4state.c:9708:38: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-    9708 |                         trace_printk("encoded remove4 is %ld bytes long\n", (u8 *)stream->p - p);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~
-         |                                                                                             |
-         |                                                                                             int
-   include/linux/kernel.h:291:43: note: in definition of macro 'do_trace_printk'
-     291 |                 __trace_printk(_THIS_IP_, fmt, ##args);                 \
-         |                                           ^~~
-   fs/nfsd/nfs4state.c:9708:25: note: in expansion of macro 'trace_printk'
-    9708 |                         trace_printk("encoded remove4 is %ld bytes long\n", (u8 *)stream->p - p);
-         |                         ^~~~~~~~~~~~
-   fs/nfsd/nfs4state.c:9708:60: note: format string is defined here
-    9708 |                         trace_printk("encoded remove4 is %ld bytes long\n", (u8 *)stream->p - p);
-         |                                                          ~~^
-         |                                                            |
-         |                                                            long int
-         |                                                          %d
+   In file included from net/rds/send.c:38:
+   net/rds/rds.h:1030:22: error: no member named 'net' in 'possible_net_t'
+    1030 |                         return sk->sk_net.net->ns.inum;
+         |                                ~~~~~~~~~~ ^
+>> net/rds/send.c:1380:18: warning: variable 'rns' set but not used [-Wunused-but-set-variable]
+    1380 |         struct rds_net *rns;
+         |                         ^
+   1 warning and 1 error generated.
 
 
-vim +9708 fs/nfsd/nfs4state.c
+vim +/rns +1380 net/rds/send.c
 
-  9645	
-  9646	int
-  9647	nfsd_handle_dir_event(u32 mask, const struct inode *dir, const void *data,
-  9648			      int data_type, const struct qstr *name)
-  9649	{
-  9650		struct inode *inode = fsnotify_data_inode(data, data_type);
-  9651		struct file_lock_context *ctx;
-  9652		struct file_lock_core *flc;
-  9653	
-  9654		trace_nfsd_file_fsnotify_handle_dir_event(inode, dir, mask);
-  9655	
-  9656		ctx = locks_inode_context(dir);
-  9657		if (!ctx || list_empty(&ctx->flc_lease)) {
-  9658			trace_printk("no ctx or list_empty\n");
-  9659			return 0;
-  9660		}
-  9661	
-  9662		/*
-  9663		 * FIXME: Do getattr against @inode, and then generate an fattr4. Use that as the
-  9664		 * ne_attrs in the notify_entry4's.
-  9665		 */
-  9666		spin_lock(&ctx->flc_lock);
-  9667		list_for_each_entry(flc, &ctx->flc_lease, flc_list) {
-  9668			struct file_lease *fl = container_of(flc, struct file_lease, c);
-  9669			struct nfs4_delegation *dp = flc->flc_owner;
-  9670			struct nfsd4_cb_notify *ncn = &dp->dl_cb_notify;
-  9671			struct nfsd4_notify_spool *nns = ncn->ncn_gather;
-  9672			struct xdr_stream *stream = &nns->nns_stream;
-  9673			static uint32_t zerobm = 0;
-  9674	
-  9675			trace_printk("considering fl=%p\n", fl);
-  9676			if (fl->fl_lmops != &nfsd_dir_lease_mng_ops) {
-  9677				trace_printk("fl_lmops doesn't match\n");
-  9678				continue;
-  9679			}
-  9680	
-  9681			/* If no buffer or slots are available, give up and break the deleg */
-  9682			if (!nns || nns->nns_idx >= NFSD4_NOTIFY_SPOOL_SZ) {
-  9683				trace_printk("no buffer");
-  9684				nfsd_break_deleg_cb(fl);
-  9685				continue;
-  9686			}
-  9687	
-  9688			if (mask & FS_DELETE) {
-  9689				static uint32_t notify_remove_bitmap = BIT(NOTIFY4_REMOVE_ENTRY);
-  9690				struct notify4 *ent = &nns->nns_ent[nns->nns_idx];
-  9691				struct notify_remove4 nr = { };
-  9692				u8 *p = (u8 *)(stream->p);
-  9693	
-  9694				if (!(flc->flc_flags & FL_IGN_DIR_DELETE)) {
-  9695					trace_printk("FL_IGN_DIR_DELETE not set\n");
-  9696					continue;
-  9697				}
-  9698	
-  9699				nr.nrm_old_entry.ne_file.len = name->len;
-  9700				nr.nrm_old_entry.ne_file.data = (char *)name->name;
-  9701				nr.nrm_old_entry.ne_attrs.attrmask.count = 1;
-  9702				nr.nrm_old_entry.ne_attrs.attrmask.element = &zerobm;
-  9703				if (!xdrgen_encode_notify_remove4(stream, &nr)) {
-  9704					pr_warn("nfsd: unable to marshal notify_remove4 to xdr stream\n");
-  9705					continue;
-  9706				}
-  9707	
-> 9708				trace_printk("encoded remove4 is %ld bytes long\n", (u8 *)stream->p - p);
+  1360	
+  1361	int rds_sendmsg(struct socket *sock, struct msghdr *msg, size_t payload_len)
+  1362	{
+  1363		struct sock *sk = sock->sk;
+  1364		struct rds_sock *rs = rds_sk_to_rs(sk);
+  1365	#if IS_ENABLED(CONFIG_IPV6)
+  1366		struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *)msg->msg_name;
+  1367	#endif
+  1368		struct sockaddr_in *usin = (struct sockaddr_in *)msg->msg_name;
+  1369		__be16 dport;
+  1370		struct rds_message *rm = NULL;
+  1371		struct rds_connection *conn = NULL;
+  1372		char *reason = NULL;
+  1373		int ret = 0;
+  1374		int queued = 0;
+  1375		int nonblock = msg->msg_flags & MSG_DONTWAIT;
+  1376		long timeo = sock_sndtimeo(sk, nonblock);
+  1377		size_t total_payload_len = payload_len, rdma_payload_len = 0;
+  1378		struct rds_conn_path *cpath = NULL;
+  1379		struct rs_buf_info *bufi;
+> 1380		struct rds_net *rns;
+  1381		struct in6_addr daddr;
+  1382		__u32 scope_id = 0;
+  1383		int namelen;
+  1384		bool no_space;
+  1385		unsigned long flags;
+  1386		struct rds_iov_vector_arr iov_arr = {};
+  1387		struct rds_iov_vector *iov;
+  1388		int i;
+  1389	
+  1390		/* expect 1 RDMA CMSG per rds_sendmsg. can still grow if more needed. */
+  1391		iov_arr.iva_incr = 1;
+  1392	
+  1393		/* Mirror Linux UDP mirror of BSD error message compatibility */
+  1394		/* XXX: Perhaps MSG_MORE someday */
+  1395		if (msg->msg_flags & ~(MSG_DONTWAIT | MSG_CMSG_COMPAT | MSG_NOSIGNAL)) {
+  1396			pr_debug_ratelimited("%s: msg_flags 0x%08X\n", __func__, msg->msg_flags);
+  1397			ret = -EOPNOTSUPP;
+  1398			reason = "invalid msg_flags";
+  1399			goto out;
+  1400		}
+  1401		namelen = msg->msg_namelen;
+  1402		if (namelen != 0) {
+  1403			if (namelen < sizeof(*usin)) {
+  1404				reason = "invalid IPv4 namelen";
+  1405				ret = -EINVAL;
+  1406				goto out;
+  1407			}
+  1408			switch (usin->sin_family) {
+  1409			case AF_INET:
+  1410				if (usin->sin_addr.s_addr == htonl(INADDR_ANY) ||
+  1411				    usin->sin_addr.s_addr == htonl(INADDR_BROADCAST) ||
+  1412				    IN_MULTICAST(ntohl(usin->sin_addr.s_addr))) {
+  1413					reason = "invalid IPv4 addr";
+  1414					ret = -EINVAL;
+  1415					goto out;
+  1416				}
+  1417				ipv6_addr_set_v4mapped(usin->sin_addr.s_addr, &daddr);
+  1418				dport = usin->sin_port;
+  1419				break;
+  1420	
 
 -- 
 0-DAY CI Kernel Test Service
