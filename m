@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B99119DF48;
-	Sat, 24 May 2025 04:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0866539A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 04:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748061011; cv=none; b=ZWMOL0F1rkf/0ftK71YS3pe2t0JuznzrvwUc+cXev/ibuUGzj5LWOzqSRbMMdn8L1zaW/177BHB+Fee3F36lIbTs8+L2tf6PiThZv/NebGRRx8TC8vxJj1figlqA/wMQGEXdr2DXkJR31JE7KJggr2agZjTnwgTeqdFOcQgaodo=
+	t=1748061079; cv=none; b=i6Yk+XiCyX/hQqSOf92GemgW8k+FhooF/ImJ0y98ggE5eg3NDhPt0/ISfavQxLkmyvsv5V8e9rLNzw1Futnlv7DbbCSZsYHnpm7DR4Rt4LuxjKUDrwM3u2SRqy4/+7Q11RCkkLW+UXN0cz4sJdHd2F0vrokHWX++S1zM9xavx0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748061011; c=relaxed/simple;
-	bh=lmioRTC+vWdchSKwww8oJ8zM6TW/i18Dpt27s0mNqB4=;
+	s=arc-20240116; t=1748061079; c=relaxed/simple;
+	bh=Dzx2ejkA9fRb6K9KzUfSvoayxe977aw7jzxWSQjTkdc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cnkBiRV/J4F4ky86bKnQdqihTfu/Utqli581TxnsH74kB1JlYlMLpHnZjtwTgalDMtMQT89mjjXkoNd/QTi+WQcvOHP+x/utf71TdkjOvvUfV0VCwnZVA5imk4hiTKTnyt+q+bRozuQ/nPexFDAV99lQxVGn4Zkn8JVaWh5Yz8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZGJPtwxv; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=IT8swIsyMwhpuzt6cXVLIVXOvfumYngpJI+BIn9SehSZ/EHlOByy6XdecKN7WIuANwHDVs54vpeCa3Lfm3J9wadZc6rYxJyxqoYRZjUPyAapuhsKUIwtyYQ/oGt722xngVvlDJdxkE4oPiS45x9FRcibrsOv1QG8POIijB9OPzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b85pZstC; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZGJPtwxv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b85pZstC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748061010; x=1779597010;
+  t=1748061078; x=1779597078;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lmioRTC+vWdchSKwww8oJ8zM6TW/i18Dpt27s0mNqB4=;
-  b=ZGJPtwxvR6jAclOnMwQ6YNkKxHKxRYWbPU5G6gMy1lWpZNjH5e9KIl6h
-   Iikf/TzzL66Gk58UHq7+mi4YcZabuT915lML1fttaN72BdRK3QnNvZnSj
-   zhWdMW7ftiZdspWXzPsUUkO5vF1KWZH6gDtwOH1eAzMxi5feJ4XZ5+ZMf
-   KIrtmci3QOwTpw4DbLnzQqfTKTdZaDgAX6lzMpTTwnsWLlEgrIfDe8dfQ
-   zw7FBbK+6qcg4Vl3rqLMw2JFADoAvegDg4zNf+83f6YV70eSoeabgTmxR
-   qBfKIyiDbl61PeEtF680tNdOHlio9/Bd3UU1vopGcc49n9fhfgv6W3kNy
-   g==;
-X-CSE-ConnectionGUID: +PU8tlPgS+uPLhQ2KW2qAA==
-X-CSE-MsgGUID: lgeQTWx5RoyUwXkJw1ACdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="53924051"
+  bh=Dzx2ejkA9fRb6K9KzUfSvoayxe977aw7jzxWSQjTkdc=;
+  b=b85pZstCgMMrJvjQdZUnnH872mawaiEkhGFg61sP9LOO1PIqPwN2JGjS
+   Cb2f3q6kKZHwyH9L7oYQhxAhhMuLJvFgxaAKgs+W+D1bzvM8fKkVfSweX
+   3Y6/6oZRJKson3KpVY4UzGNEKirHqRRugexcsPoqTlR+xXFRp+ijYctKi
+   FNHYT3Y0anO/44S1pGG3yN6vsYlohQ9unzTH4Nqa6wl2iNfRinYdZzw9/
+   5HCED1TvyDwZ5l8Zskz+1b1/oOEuryWaOApnKjF3KVrRcKzPcy6DuoOEm
+   rtWwZgWgFJ5+FvD55vMZRe6OUNKWM3J2Yp1c1cB/CN+dEvDpq17/HS7g7
+   w==;
+X-CSE-ConnectionGUID: 1xSzZO3BQgGN09pXxPxIyQ==
+X-CSE-MsgGUID: q4lqrqWTQVGYWDtCd8WUGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50266933"
 X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="53924051"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 21:30:09 -0700
-X-CSE-ConnectionGUID: ZQ2VdN/YSCaZIOgrxE4LGQ==
-X-CSE-MsgGUID: 8xuFLMeuRy+ygcN15LXCYw==
+   d="scan'208";a="50266933"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 21:31:17 -0700
+X-CSE-ConnectionGUID: kf9VxUd8Q0eYCEkBv5LJqA==
+X-CSE-MsgGUID: +Nsoo2i9RkqEfBbOENt2gQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="142370336"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by orviesa008.jf.intel.com with ESMTP; 23 May 2025 21:30:07 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+   d="scan'208";a="141978124"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 23 May 2025 21:31:15 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIgWL-0001bM-1C;
-	Sat, 24 May 2025 04:30:05 +0000
-Date: Sat, 24 May 2025 12:30:01 +0800
+	id 1uIgXR-000Qwa-0e;
+	Sat, 24 May 2025 04:31:13 +0000
+Date: Sat, 24 May 2025 12:30:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
-Subject: drivers/gpu/drm/vc4/vc4_drv.c:303:8: warning: cast to smaller
- integer type 'enum vc4_gen' from 'const void *'
-Message-ID: <202505241244.A9oll6Fa-lkp@intel.com>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, LUCI Bot <vijayendra.suman@oracle.com>,
+	Kris Van Hees <kris.van.hees@oracle.com>,
+	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
+	Alan Maguire <alan.maguire@oracle.com>
+Subject: [jlayton:uek-localio 2010/2262] ld: warning: CTF linking failed;
+ output will have no CTF section: Type name must not be empty.
+Message-ID: <202505241218.KKoHv1jp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,154 +65,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4856ebd997159f198e3177e515bda01143727463
-commit: 56aa4c374dbf86d90b7c5aabdc8facbdd3321477 drm/vc4: Use of_device_get_match_data to set generation
-date:   6 months ago
-config: x86_64-buildonly-randconfig-2001-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241244.A9oll6Fa-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241244.A9oll6Fa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
+head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
+commit: 6b54a5f98028f22335751515ce25c05c82b21c54 [2010/2262] ctf: generate CTF information for the kernel
+config: x86_64-buildonly-randconfig-004-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241218.KKoHv1jp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241218.KKoHv1jp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241244.A9oll6Fa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241218.KKoHv1jp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/vc4/vc4_drv.c:27:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/vc4/vc4_drv.c:303:8: warning: cast to smaller integer type 'enum vc4_gen' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-     303 |         gen = (enum vc4_gen)of_device_get_match_data(dev);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +303 drivers/gpu/drm/vc4/vc4_drv.c
-
-   288	
-   289	static int vc4_drm_bind(struct device *dev)
-   290	{
-   291		struct platform_device *pdev = to_platform_device(dev);
-   292		const struct drm_driver *driver;
-   293		struct rpi_firmware *firmware = NULL;
-   294		struct drm_device *drm;
-   295		struct vc4_dev *vc4;
-   296		struct device_node *node;
-   297		struct drm_crtc *crtc;
-   298		enum vc4_gen gen;
-   299		int ret = 0;
-   300	
-   301		dev->coherent_dma_mask = DMA_BIT_MASK(32);
-   302	
- > 303		gen = (enum vc4_gen)of_device_get_match_data(dev);
-   304	
-   305		if (gen > VC4_GEN_4)
-   306			driver = &vc5_drm_driver;
-   307		else
-   308			driver = &vc4_drm_driver;
-   309	
-   310		node = of_find_matching_node_and_match(NULL, vc4_dma_range_matches,
-   311						       NULL);
-   312		if (node) {
-   313			ret = of_dma_configure(dev, node, true);
-   314			of_node_put(node);
-   315	
-   316			if (ret)
-   317				return ret;
-   318		}
-   319	
-   320		vc4 = devm_drm_dev_alloc(dev, driver, struct vc4_dev, base);
-   321		if (IS_ERR(vc4))
-   322			return PTR_ERR(vc4);
-   323		vc4->gen = gen;
-   324		vc4->dev = dev;
-   325	
-   326		drm = &vc4->base;
-   327		platform_set_drvdata(pdev, drm);
-   328	
-   329		if (gen == VC4_GEN_4) {
-   330			ret = drmm_mutex_init(drm, &vc4->bin_bo_lock);
-   331			if (ret)
-   332				goto err;
-   333	
-   334			ret = vc4_bo_cache_init(drm);
-   335			if (ret)
-   336				goto err;
-   337		}
-   338	
-   339		ret = drmm_mode_config_init(drm);
-   340		if (ret)
-   341			goto err;
-   342	
-   343		if (gen == VC4_GEN_4) {
-   344			ret = vc4_gem_init(drm);
-   345			if (ret)
-   346				goto err;
-   347		}
-   348	
-   349		node = of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
-   350		if (node) {
-   351			firmware = rpi_firmware_get(node);
-   352			of_node_put(node);
-   353	
-   354			if (!firmware) {
-   355				ret = -EPROBE_DEFER;
-   356				goto err;
-   357			}
-   358		}
-   359	
-   360		ret = aperture_remove_all_conflicting_devices(driver->name);
-   361		if (ret)
-   362			goto err;
-   363	
-   364		if (firmware) {
-   365			ret = rpi_firmware_property(firmware,
-   366						    RPI_FIRMWARE_NOTIFY_DISPLAY_DONE,
-   367						    NULL, 0);
-   368			if (ret)
-   369				drm_warn(drm, "Couldn't stop firmware display driver: %d\n", ret);
-   370	
-   371			rpi_firmware_put(firmware);
-   372		}
-   373	
-   374		ret = component_bind_all(dev, drm);
-   375		if (ret)
-   376			goto err;
-   377	
-   378		ret = devm_add_action_or_reset(dev, vc4_component_unbind_all, vc4);
-   379		if (ret)
-   380			goto err;
-   381	
-   382		ret = vc4_plane_create_additional_planes(drm);
-   383		if (ret)
-   384			goto err;
-   385	
-   386		ret = vc4_kms_load(drm);
-   387		if (ret < 0)
-   388			goto err;
-   389	
-   390		drm_for_each_crtc(crtc, drm)
-   391			vc4_crtc_disable_at_boot(crtc);
-   392	
-   393		ret = drm_dev_register(drm, 0);
-   394		if (ret < 0)
-   395			goto err;
-   396	
-   397		drm_client_setup_with_fourcc(drm, DRM_FORMAT_RGB565);
-   398	
-   399		return 0;
-   400	
-   401	err:
-   402		platform_set_drvdata(pdev, NULL);
-   403		return ret;
-   404	}
-   405	
+   CTF error: drivers/dma/dw/pci.c (0): while emitting deduplicated forward, error emitting target type from input type 21
+   CTF error: deduplicating link type emission failed for drivers/dma/dw/pci.c
+>> ld: warning: CTF linking failed; output will have no CTF section: Type name must not be empty.
 
 -- 
 0-DAY CI Kernel Test Service
