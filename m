@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880D31DED66
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 12:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6B216F0FE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 12:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748088715; cv=none; b=n7M69t3j1q/xRx7ldGWbeR4mO23Cd0/wSv1VZb0FFI9VKkqEKpIwMRKZ2qoySWMaK6GzJzRwq5uN2M2+BoSzkKCUMd7SRPpU1MIESX+MrR7CbTYpKY9aEeFd6dHKEUmeL7J9oOyphcgyAQflwOj9qwTLMbiwgjRIqf7P7loiLcE=
+	t=1748091180; cv=none; b=ZZNrWI/BgczIetEsEdFaqDd+4umxvEWX7RAWpzGhgwJJFh2XJtE2+p4d6U6ERBD4IPDlNTe2oA+cPn9aVhesz4S/44leDSgSfnRoWQQ/KK/V/K6QU/ZpAFG6kU1fnwbNuYjSq5zwWdUEcr7mksZbcDWII1qr1qk36qm9oqVToUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748088715; c=relaxed/simple;
-	bh=Ci5DoOih9MqstjOJ+bxNXoyO42bodu8rzJlZfn6FH3E=;
+	s=arc-20240116; t=1748091180; c=relaxed/simple;
+	bh=F5X8f7Ol2g6q60kTT41bWjS2GPogjhZ4e4wv0jXVsrc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lRsj3GnPJ56Z6JE+vfpyJK+nNKGLEb1quPGIHRxQ1zLwUIGIg8ea/ui4VDceUbe23chfswt2qgZLryJLjMLaTqc72ejrJmuFPc4Mn+npjciOElNEI/UUuulTz21N6fpayCmy/odXA74yU+DPwP1scHnc/sIa/IVxjpWifR+mBKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EYNpOY/M; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=dtWDg5mSAQG5yHggFVRksUTCS1EMcryYfK9RBad1tzcgm3u7EaUwj3HsUyXPuPdCek3Yg/rbrOuhLQCc6dJbwcs6OLHafRYW9ypeULAHGW2MpkcpXg3fBF8YzCks3wgzo1sqHdWsxGer5aM5LZCqs8T2TvNBJ5B9iUPMd4mIhKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dXJoBet3; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYNpOY/M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXJoBet3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748088713; x=1779624713;
+  t=1748091177; x=1779627177;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ci5DoOih9MqstjOJ+bxNXoyO42bodu8rzJlZfn6FH3E=;
-  b=EYNpOY/MRAayqH+vh89boCzP3k//jZFkhbGKDxArHpnHyEl9Mtiawwxg
-   3N1uBq8HGGbLqkv6dKjpLxocW1VfEx2g35JaIfmQT30PcFGbAc0MUvbil
-   6iyuoKdhXVy1oF6mPtC1kln+Onqcd6fkfYVxuYUaer08q2iXgcK7mD/hp
-   PeKHITLWaJzwOvpBqeIcu+MHDOrpGQnYZHd8eELfELMnbQcDejEhqnVV9
-   DMcS7JF1t5rjT5DxdGhbg7P2yBZ3L8yA8eY14JYREfMwg0VqqtHghOAAK
-   vvcaaumZBK7XiW1Vgiafb4BrEHaBpxeUM43lqm6tjspQ9y7Eo6nCz0EmN
-   A==;
-X-CSE-ConnectionGUID: HAaAEtj/Q8K3ekxNPcaN9A==
-X-CSE-MsgGUID: OHrwEykBS2WGDN29JR6bRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="61481197"
+  bh=F5X8f7Ol2g6q60kTT41bWjS2GPogjhZ4e4wv0jXVsrc=;
+  b=dXJoBet3PwINZ+1cO7v4klyaUxOvm8+h6Aefxv02s2VMhn0hfOXz/7wL
+   CZR3DaMnfqFRyNJt9ewCG+dY1EnCJ/wEUSBwlsikm3pagdMh9Qmd3dHpv
+   AHwKKHzYe3lzCY0C+sV7PkFxq6nhlc/JRCLo0//l9Y1rKbUCs0u/WnVYV
+   ka9Cenf8sFsfT81L2/eNNaBvomDET2JoPQSrOLqiLMzdHaVth+ZyERrXM
+   6+yT0KBm3UksK6jpJscac9XMXVO1Qf3dpqklUIxgv9cwRWlvOF9dRidCk
+   1yohFtK/U+QwtKvhZ1RK/IutoXhY7YqFDbsizRyR1ey+RLDNb/F/rAx8B
+   Q==;
+X-CSE-ConnectionGUID: YfjOFkzsSiCPvGJTZqdyuA==
+X-CSE-MsgGUID: 0LuQRoSBSBWpl8CrUUcKMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="49245567"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="61481197"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 05:11:53 -0700
-X-CSE-ConnectionGUID: SAQgcoTkQeuLV710oDqZAA==
-X-CSE-MsgGUID: fCpLjRfdTtG6Xfs7O2St3g==
+   d="scan'208";a="49245567"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 05:52:56 -0700
+X-CSE-ConnectionGUID: 38PsfmIPSiatfTx46nf1sQ==
+X-CSE-MsgGUID: XvvkD0BcTuG9Y5e3+/5iQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="145496812"
+   d="scan'208";a="142497128"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 May 2025 05:11:51 -0700
+  by orviesa008.jf.intel.com with ESMTP; 24 May 2025 05:52:55 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uInjB-000RBT-2o;
-	Sat, 24 May 2025 12:11:49 +0000
-Date: Sat, 24 May 2025 20:11:27 +0800
+	id 1uIoMv-000RD2-0n;
+	Sat, 24 May 2025 12:52:53 +0000
+Date: Sat, 24 May 2025 20:52:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ingo Molnar <mingo@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	x86@kernel.org
-Subject: [tip:master 747/770] include/linux/perf_regs.h:40:16: error:
- 'PERF_SAMPLE_REGS_ABI_NONE' undeclared
-Message-ID: <202505242058.6AYU4Wd3-lkp@intel.com>
+Subject: [tip:master 747/770] arch/powerpc/include/asm/perf_event.h:47:0:
+ warning: "PERF_REG_EXTENDED_MASK" redefined
+Message-ID: <202505242035.SN55pavs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,45 +66,116 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
 head:   4df0681d0b0244368a8a0982b24ceb536c3b5165
 commit: a7872f778554c4849d59def8dfe0d295328e5e10 [747/770] perf/headers: Clean up <linux/perf_event.h> a bit
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250524/202505242058.6AYU4Wd3-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505242058.6AYU4Wd3-lkp@intel.com/reproduce)
+config: powerpc-randconfig-002-20250524 (https://download.01.org/0day-ci/archive/20250524/202505242035.SN55pavs-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505242035.SN55pavs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505242058.6AYU4Wd3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505242035.SN55pavs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/perf_event.h:33,
+   In file included from include/linux/perf_event.h:33:0,
+                    from kernel/events/ring_buffer.c:11:
+   include/linux/perf_regs.h:16:32: error: expected identifier or '(' before numeric constant
+    #define PERF_REG_EXTENDED_MASK 0
+                                   ^
+   arch/powerpc/include/asm/perf_event.h:46:12: note: in expansion of macro 'PERF_REG_EXTENDED_MASK'
+    extern u64 PERF_REG_EXTENDED_MASK;
+               ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/perf_event.h:50:0,
+                    from kernel/events/ring_buffer.c:11:
+>> arch/powerpc/include/asm/perf_event.h:47:0: warning: "PERF_REG_EXTENDED_MASK" redefined
+    #define PERF_REG_EXTENDED_MASK PERF_REG_EXTENDED_MASK
+    
+   In file included from include/linux/perf_event.h:33:0,
+                    from kernel/events/ring_buffer.c:11:
+   include/linux/perf_regs.h:16:0: note: this is the location of the previous definition
+    #define PERF_REG_EXTENDED_MASK 0
+    
+   cc1: warning: unrecognized command line option '-Wno-unterminated-string-initialization'
+--
+   In file included from include/linux/perf_event.h:33:0,
                     from include/linux/trace_events.h:10,
                     from include/trace/syscall.h:7,
                     from include/linux/syscalls.h:94,
-                    from init/main.c:21:
-   include/linux/perf_regs.h: In function 'perf_reg_abi':
->> include/linux/perf_regs.h:40:16: error: 'PERF_SAMPLE_REGS_ABI_NONE' undeclared (first use in this function)
-      40 |         return PERF_SAMPLE_REGS_ABI_NONE;
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_regs.h:40:16: note: each undeclared identifier is reported only once for each function it appears in
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-unterminated-string-initialization' may have been intended to silence earlier diagnostics
+                    from kernel/events/core.c:34:
+   include/linux/perf_regs.h:16:32: error: expected identifier or '(' before numeric constant
+    #define PERF_REG_EXTENDED_MASK 0
+                                   ^
+   arch/powerpc/include/asm/perf_event.h:46:12: note: in expansion of macro 'PERF_REG_EXTENDED_MASK'
+    extern u64 PERF_REG_EXTENDED_MASK;
+               ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/perf_event.h:50:0,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:94,
+                    from kernel/events/core.c:34:
+>> arch/powerpc/include/asm/perf_event.h:47:0: warning: "PERF_REG_EXTENDED_MASK" redefined
+    #define PERF_REG_EXTENDED_MASK PERF_REG_EXTENDED_MASK
+    
+   In file included from include/linux/perf_event.h:33:0,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:94,
+                    from kernel/events/core.c:34:
+   include/linux/perf_regs.h:16:0: note: this is the location of the previous definition
+    #define PERF_REG_EXTENDED_MASK 0
+    
+   In file included from include/linux/perf_event.h:50:0,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:94,
+                    from kernel/events/core.c:34:
+   kernel/events/core.c: In function 'has_extended_regs':
+   arch/powerpc/include/asm/perf_event.h:47:32: error: 'PERF_REG_EXTENDED_MASK' undeclared (first use in this function); did you mean 'PERF_REG_EXTENDED_MAX'?
+    #define PERF_REG_EXTENDED_MASK PERF_REG_EXTENDED_MASK
+                                   ^
+   kernel/events/core.c:12500:41: note: in expansion of macro 'PERF_REG_EXTENDED_MASK'
+     return (event->attr.sample_regs_user & PERF_REG_EXTENDED_MASK) ||
+                                            ^~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/perf_event.h:47:32: note: each undeclared identifier is reported only once for each function it appears in
+    #define PERF_REG_EXTENDED_MASK PERF_REG_EXTENDED_MASK
+                                   ^
+   kernel/events/core.c:12500:41: note: in expansion of macro 'PERF_REG_EXTENDED_MASK'
+     return (event->attr.sample_regs_user & PERF_REG_EXTENDED_MASK) ||
+                                            ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:12502:1: warning: control reaches end of non-void function [-Wreturn-type]
+    }
+    ^
+   kernel/events/core.c: At top level:
+   cc1: warning: unrecognized command line option '-Wno-unterminated-string-initialization'
 
 
-vim +/PERF_SAMPLE_REGS_ABI_NONE +40 include/linux/perf_regs.h
+vim +/PERF_REG_EXTENDED_MASK +47 arch/powerpc/include/asm/perf_event.h
 
-4018994f3d87852 Jiri Olsa       2012-08-07  37  
-4018994f3d87852 Jiri Olsa       2012-08-07  38  static inline u64 perf_reg_abi(struct task_struct *task)
-4018994f3d87852 Jiri Olsa       2012-08-07  39  {
-4018994f3d87852 Jiri Olsa       2012-08-07 @40  	return PERF_SAMPLE_REGS_ABI_NONE;
-4018994f3d87852 Jiri Olsa       2012-08-07  41  }
-88a7c26af8dab2f Andy Lutomirski 2015-01-04  42  
+a6460b03f945ee Sandipan Das        2018-12-06  29  
+75382aa72f0682 Anton Blanchard     2012-06-26  30  /*
+75382aa72f0682 Anton Blanchard     2012-06-26  31   * Overload regs->result to specify whether we should use the MSR (result
+75382aa72f0682 Anton Blanchard     2012-06-26  32   * is zero) or the SIAR (result is non zero).
+75382aa72f0682 Anton Blanchard     2012-06-26  33   */
+b0f82b81fe6bbc Frederic Weisbecker 2010-05-20  34  #define perf_arch_fetch_caller_regs(regs, __ip)			\
+b0f82b81fe6bbc Frederic Weisbecker 2010-05-20  35  	do {							\
+75382aa72f0682 Anton Blanchard     2012-06-26  36  		(regs)->result = 0;				\
+b0f82b81fe6bbc Frederic Weisbecker 2010-05-20  37  		(regs)->nip = __ip;				\
+3d13e839e801e0 Michael Ellerman    2020-02-20  38  		(regs)->gpr[1] = current_stack_frame();		\
+b0f82b81fe6bbc Frederic Weisbecker 2010-05-20  39  		asm volatile("mfmsr %0" : "=r" ((regs)->msr));	\
+b0f82b81fe6bbc Frederic Weisbecker 2010-05-20  40  	} while (0)
+333804dc3b7a92 Madhavan Srinivasan 2018-12-09  41  
+333804dc3b7a92 Madhavan Srinivasan 2018-12-09  42  /* To support perf_regs sier update */
+333804dc3b7a92 Madhavan Srinivasan 2018-12-09  43  extern bool is_sier_available(void);
+e79b76e03b712e Athira Rajeev       2021-02-03  44  extern unsigned long get_pmcs_ext_regs(int idx);
+781fa4811d9531 Anju T Sudhakar     2020-08-07  45  /* To define perf extended regs mask value */
+781fa4811d9531 Anju T Sudhakar     2020-08-07  46  extern u64 PERF_REG_EXTENDED_MASK;
+781fa4811d9531 Anju T Sudhakar     2020-08-07 @47  #define PERF_REG_EXTENDED_MASK	PERF_REG_EXTENDED_MASK
 
-:::::: The code at line 40 was first introduced by commit
-:::::: 4018994f3d8785275ef0e7391b75c3462c029e56 perf: Add ability to attach user level registers dump to sample
+:::::: The code at line 47 was first introduced by commit
+:::::: 781fa4811d95314c1965c0c3337c9ac36ef26093 powerpc/perf: Add support for outputting extended regs in perf intr_regs
 
-:::::: TO: Jiri Olsa <jolsa@redhat.com>
-:::::: CC: Arnaldo Carvalho de Melo <acme@redhat.com>
+:::::: TO: Anju T Sudhakar <anju@linux.vnet.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
