@@ -1,61 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F234214AD2D;
-	Sat, 24 May 2025 07:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37891DE891
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 07:28:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748071714; cv=none; b=tbSuMgFDcDKwqDk+MexaHS6XBdbyZZFv8vXnV74beINwR3XQLzUAOmiSbAxRQcNv0s9oZkxiMQCA/OycFNOQJMob87V1askhyWpWyn5grSoMlZf9pk1NySJ/oTHGzAhFui0sjiWhYENmfi++OKekWHzYzwpo18mWZ+dJqPrtUwk=
+	t=1748071716; cv=none; b=lEnwg0Si4vC6tfyY+JMAiiaCDb3bgbuiTVUFMD6skIbdZ4sRHpFylyf11XoXdoKcafwMoxBqqk2mTMfUDPmfrh0jx/lyEiGjCyzGxT++u6dCnLh4nVFJ53tbGtDLl8d6jp2MsyKmH6Lbn6AhraR/ompnX7DLTwN20WlVqGW3S8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748071714; c=relaxed/simple;
-	bh=CCBGy39Ite/sXX18GB/h4Kkhg+kNyDou21OusBlurOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KhhBwC4K2IWL+d+KDoUWA4RmF303Qrqmx/E86bLIbhz9SX3dbxMpANO4F07tQzQcknKc/UCW4Rl6daJK+aVuiRfcy6iZo8wlOaD4lSMLL34XrXOS1SqwFNFiaOZgUsCnNVKq9KYfBejRtXp/quYh5Y3oJ0oMV5YgcPtxh03RdYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lSzva/k8; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1748071716; c=relaxed/simple;
+	bh=08Ha9ZQm/alwbTSKW0NzYSY0G7SJtdgIjtObu/iwA7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NYzsT/oLswEJQaXVC6NB2SGmgZsvRBEkCzExXdeXc4avypJCbDV7xONhDv1YQlMZ78rXPmdkhpcYuUOeskk0t3UR5v5kKdGEsFizpJHGex9MfF0ZxHiP4xt5TPm/TyEmYXT4Av+6MxgimTuW3RzamK5F4F2R1dsQFjyQduQmiv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bdtUCsrr; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lSzva/k8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bdtUCsrr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748071713; x=1779607713;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CCBGy39Ite/sXX18GB/h4Kkhg+kNyDou21OusBlurOM=;
-  b=lSzva/k8wV2R0AH7gtabE4W4BJ/KEpVicNByQClfE1aSHzxQRbhmJSNb
-   01NNgoHA3zyiQgD4jijagF76IhyxwvbsyzkooOLzTRiEZ+UL0Cr3z30tb
-   Yxsi0n9zqPvfkXTHFXh5jA+tL0itp4dXIBgYhcjAy6jawQizWeYuElbjk
-   xUWc5p8DeDHRUCp5GvvyNCAXmB+O50cR4ZhXvdVp6QGWtZWuB6IQxn7WQ
-   VNyGM3RBSwuuUM/uWDnKg72dwxULimfZHeJF0OULJv2lHRoSkliLZhcki
-   IHC40QYEYTzx1QgpKon80v6vjwO0qx/CQqn6HohWEA+3eGuVQy1Nxl1oN
-   Q==;
-X-CSE-ConnectionGUID: P5+C08nKSOy/I4CPoeUjTw==
-X-CSE-MsgGUID: 4eLaoyfEQvq6iHUOWbU8dQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50271783"
+  t=1748071715; x=1779607715;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=08Ha9ZQm/alwbTSKW0NzYSY0G7SJtdgIjtObu/iwA7I=;
+  b=bdtUCsrrFeMd7/8lD/z5AckFs2OGQZotraxrQM3ft8MDFRjSi9Bt/ymx
+   Z1ig1mC385+Q4AdIYP+I7v865zI2m3sPCv/teFH3UpSVW8FoQL9+fiRN0
+   r645hgQ+Pl7F1LifLXDBaDOYRpNyUbRQhLSbqjRBsavNQRqZzE+jpuoyc
+   thsPP3Q1XZQq7PmG8OC9kh0e/ZFzROaVQpTlJCjw69y4UKXzgHVAeyD2l
+   VzXI8e+UgCeXkiwSf3GJQX8izBQsPq1bD+EEZRJet6uW023XVClNlCGED
+   oYog3eKePN4a6+YK3YZH1T961/uMvWrQ4HWsmTbBYYScVmoOPF4UuAxfP
+   w==;
+X-CSE-ConnectionGUID: H4nu72g3SGei38EN12WLbQ==
+X-CSE-MsgGUID: Jri5wz1PR4uJ71fP9Q/Lww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50271785"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="50271783"
+   d="scan'208";a="50271785"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 00:28:32 -0700
-X-CSE-ConnectionGUID: Rvg0zNqPTFa2KvaLSSu/kQ==
-X-CSE-MsgGUID: jprCS8/CROufPBuFvuERyA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 00:28:34 -0700
+X-CSE-ConnectionGUID: E2J9CX0ERb6Kjnh+WjoNBg==
+X-CSE-MsgGUID: Oi0FgC3LQQ++LyK+M10u1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="141381352"
+   d="scan'208";a="141381350"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 24 May 2025 00:28:30 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIjIx-000R1M-34;
+	id 1uIjIx-000R1I-2w;
 	Sat, 24 May 2025 07:28:27 +0000
-Date: Sat, 24 May 2025 15:28:26 +0800
+Date: Sat, 24 May 2025 15:28:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gautham Ananthakrishna <gautham.ananthakrishna@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	LUCI Bot <vijayendra.suman@oracle.com>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>
-Subject: [jlayton:uek-localio 2035/2262] fs/dcache.c:1524:15: error: call to
- undeclared function 'get_nr_dentry_negative'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202505241556.znrmDJD9-lkp@intel.com>
+To: mhkelley58@gmail.com, simona@ffwll.ch, deller@gmx.de,
+	haiyangz@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, weh@microsoft.com, tzimmermann@suse.de,
+	hch@lst.de, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 3/4] fbdev/deferred-io: Support contiguous kernel
+ memory framebuffers
+Message-ID: <202505241553.VSXoFOvX-lkp@intel.com>
+References: <20250523161522.409504-4-mhklinux@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,100 +68,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250523161522.409504-4-mhklinux@outlook.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
-head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
-commit: e1acd9346cb93ba4b4d1547147c6815e229bdbdb [2035/2262] fs/dcache: schedule only one instance of negative dentry shrinker
-config: hexagon-randconfig-002-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241556.znrmDJD9-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241556.znrmDJD9-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.15-rc7 next-20250523]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mhkelley58-gmail-com/mm-Export-vmf_insert_mixed_mkwrite/20250524-001707
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250523161522.409504-4-mhklinux%40outlook.com
+patch subject: [PATCH v3 3/4] fbdev/deferred-io: Support contiguous kernel memory framebuffers
+config: arm-randconfig-001-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241553.VSXoFOvX-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241553.VSXoFOvX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241556.znrmDJD9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241553.VSXoFOvX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from fs/dcache.c:31:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:23:
-   In file included from include/linux/writeback.h:13:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   include/linux/highmem.h:265:2: error: call to undeclared function 'clear_user_page_uncached'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     265 |         clear_user_page_uncached(addr, vaddr, page);
-         |         ^
-   include/linux/highmem.h:265:2: note: did you mean 'clear_user_highpage_uncached'?
-   include/linux/highmem.h:261:20: note: 'clear_user_highpage_uncached' declared here
-     261 | static inline void clear_user_highpage_uncached(struct page *page, unsigned long vaddr)
-         |                    ^
-     262 | {
-     263 |         void *addr = kmap_atomic(page);
-     264 | 
-     265 |         clear_user_page_uncached(addr, vaddr, page);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~
-         |         clear_user_highpage_uncached
->> fs/dcache.c:1524:15: error: call to undeclared function 'get_nr_dentry_negative'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1524 |         long count = get_nr_dentry_negative();
-         |                      ^
-   fs/dcache.c:1584:10: error: call to undeclared function 'get_nr_dentry_negative'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1584 |         count = get_nr_dentry_negative();
-         |                 ^
-   fs/dcache.c:1577:7: warning: variable 'last_n_neg' set but not used [-Wunused-but-set-variable]
-    1577 |         long last_n_neg, excess, count;
-         |              ^
-   fs/dcache.c:1578:16: warning: variable 'start' set but not used [-Wunused-but-set-variable]
-    1578 |         unsigned long start;
-         |                       ^
-   2 warnings and 3 errors generated.
-
-
-vim +/get_nr_dentry_negative +1524 fs/dcache.c
-
-  1516	
-  1517	/*
-  1518	 * Prune dentries from a super block.
-  1519	 */
-  1520	static void prune_negative_one_sb(struct super_block *sb, void *arg)
-  1521	{
-  1522		unsigned long freed, scan;
-  1523		long limit;
-> 1524		long count = get_nr_dentry_negative();
-  1525		struct prune_negative_ctrl *ctrl = arg;
-  1526		LIST_HEAD(dispose);
-  1527	
-  1528		/*
-  1529		 * Try to spread the scan over 5 iterations if the number is
-  1530		 * reasonable. If the overshoot is less than 25%, spread the
-  1531		 * spread the pruning across 5 iterations, not to impact
-  1532		 * the performance. Otherwise, prune aggrressively.
-  1533		 * Add an extra 1% as a minimum and to increase the chance
-  1534		 * that the after operation dentry count stays below the limit.
-  1535		 */
-  1536		limit = neg_dentry_nfree_init + ctrl->prune_ncpus * (neg_dentry_percpu_limit -
-  1537					(neg_dentry_percpu_limit / 100));
-  1538	
-  1539		if (limit >= count || limit < 4) /* Haven't crossed the limit yet */
-  1540			return;
-  1541	
-  1542		if ((count-limit) < (limit / 4))
-  1543			scan = (count - limit) / (ctrl->prune_nsupers * 5);
-  1544		else
-  1545			scan = (count - limit) / ctrl->prune_nsupers;
-  1546	
-  1547		if (ctrl->prune_percent) {
-  1548			freed = list_lru_walk(&sb->s_dentry_lru, dentry_negative_lru_isolate,
-  1549				&dispose, scan);
-  1550	
-  1551			if (freed) {
-  1552				shrink_dentry_list(&dispose);
-  1553				ctrl->prune_count += freed;
-  1554			}
-  1555		}
-  1556	}
-  1557	
+>> ERROR: modpost: "vmf_insert_pfn" [drivers/video/fbdev/core/fb.ko] undefined!
+>> ERROR: modpost: "vmf_insert_mixed_mkwrite" [drivers/video/fbdev/core/fb.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
