@@ -1,65 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531031DF258
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 21:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179BB38F91;
+	Sat, 24 May 2025 21:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748123504; cv=none; b=iOskGHyformY89alfDu6DfkmYPXI8fGUE94h7q6LWjwyw6NQpHC9Rm80Ec13u1hUQp3BhpqfbdIUogah4cwvjLfvIqNef3bmJbpJENZdEFDSqyN2X1F1Jwps/ktmwzV6Iy/+3Gf1u8n0i+IYv5DP70FExIkyPepiJqVYNVAatjM=
+	t=1748123568; cv=none; b=cYGheigYOLZLAooBRfLi2qw9H5iYeiahW/nt/K1rvsWs/j5f5OnQS+ZcWBf4IIGp+hmMyoHsKMxKoXFMjxzr2tBLKc9Ui8wli+U5oo29zuOJCiKaiHC930CVzDmLaIzUrI8Qm75Lnhpk4YQDHfnGY/0R/iXwVXjpdEZjrZa4oJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748123504; c=relaxed/simple;
-	bh=g39d9JHRR+ysYFLAUlmlFCphyI2Zuyqr/nbGPJ/VLF8=;
+	s=arc-20240116; t=1748123568; c=relaxed/simple;
+	bh=F+x5c1Z2I16wMlNL6SkuqAGs4Sn3WQSSAHfo6jV6BUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CbEyMIcHPJesrLY4ga52JeyJ8I2ENoAzumBuFERyLYWzE/sNA+VyZkzReXr94lBfREReZKj30gfngOB0Row05yeuD/vrrpKcPT+TAV7zA8pLYbnHQ06nhOEs9rzIZDXpJMls6IsytLmHaIptNp13+bgTbY0t0QEwXYFh2HbVrUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpQvJ5Fl; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z+3L8SW/7r9jr4JbQEvYWyOoj872bR1JePGBv/l8w8HgjEwnI8wZwnf9gjQHqkrciA01cHVmX6m7S6BMITYNZre3mfk+UyrgHfxCeKtS012WeXpvEYNu2gKWt1EgzciTgROp9lJ7KhmDwMVdBIVX65v484gDma0niGBNV4yrfcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dkv3bmiB; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpQvJ5Fl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dkv3bmiB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748123502; x=1779659502;
+  t=1748123567; x=1779659567;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=g39d9JHRR+ysYFLAUlmlFCphyI2Zuyqr/nbGPJ/VLF8=;
-  b=BpQvJ5Fl5Hc3Otqi67dhGz58nLcGuMddJzTg6xwx3vzPDNAtt/Q8yegj
-   NaZ8nHZ0sSS7TjLpB+zc/zurglKzXGdOla54NAiddDk2hthF5LygLbwaf
-   n1Z56t2P+PbYHYbY7axs93MJtIUqxeFlmjn+GHqS477VNhWAYtHCcxqtu
-   aiMQrUy/V9lUqdRx6ZFMBno8OrMfVFF63h5jjJWELcC68jVwVbCEK/q/E
-   7W8Z5WnZtZ0WC3Lb42uHDkvuSFc8Y/IjgFPObVQ/Tc8fCuucQ6Ptdrpcl
-   XwrKBK/jocK4BsyXZAne1RTIgU15KQQ5SLKZ1BDi87GGGUAzzXipKDyWG
+  bh=F+x5c1Z2I16wMlNL6SkuqAGs4Sn3WQSSAHfo6jV6BUs=;
+  b=Dkv3bmiBsiYxbgLJKc7kZ6O3CSwfkME7u0agsA3IFerwzNcMRC3OtYma
+   gj2Yc7GZJwzWrLTilYpd3k+LmL8goRg71BQsEE/bGKfbfhUQSNlm8P9TZ
+   iRPaUH52xKD08hHe0owN8zIixLxShVLexsYIjiqZjB6fXucaMEzqKgdBm
+   lA2Wec0e2De/huy8wN+NeKJuBrOpp5ESlY5DOKXI7WX2dWdBQGIYYJ0yc
+   RXOorQdXNJlar5VnhAvKHtkrS7aQQ6be3yj4KV9iAiHgO9tBpz8/2JaOX
+   tHd18H2ybTvWBt9Y18OZSVQP+DUJAAMQrUow3yx12N698H8v5SFKPpwUo
    g==;
-X-CSE-ConnectionGUID: /t9fkt4wQ7K3JFANE4r53Q==
-X-CSE-MsgGUID: rOJifVh2RFy3vTe/vyeTLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="61496269"
+X-CSE-ConnectionGUID: /1vlQuR2Q1a1kAYcQ3JVzw==
+X-CSE-MsgGUID: P+njruAmT1ee2xI6THw5qQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="50065377"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="61496269"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 14:51:42 -0700
-X-CSE-ConnectionGUID: fA/mF9yATwi4WsKTQNS57Q==
-X-CSE-MsgGUID: m1DNvvEMS/GIG0PRBODSXw==
+   d="scan'208";a="50065377"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 14:52:46 -0700
+X-CSE-ConnectionGUID: IYBj/fliRuKrsjTP3G7iMQ==
+X-CSE-MsgGUID: rLSHQfO+Rh62UrX/U/PE9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="178837550"
+   d="scan'208";a="146687469"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 May 2025 14:51:39 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 May 2025 14:52:39 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIwmG-000RTc-1l;
-	Sat, 24 May 2025 21:51:36 +0000
-Date: Sun, 25 May 2025 05:51:12 +0800
+	id 1uIwnE-000RTk-27;
+	Sat, 24 May 2025 21:52:36 +0000
+Date: Sun, 25 May 2025 05:51:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	cassel@kernel.org, wilfred.mallawa@wdc.com,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH 2/2] PCI: Rename host_bridge::reset_slot() to
- host_bridge::reset_root_port()
-Message-ID: <202505250525.2csmeURe-lkp@intel.com>
-References: <20250524185304.26698-3-manivannan.sadhasivam@linaro.org>
+To: Tamir Duberstein <tamird@gmail.com>,
+	Michal Rostecki <vadorovsky@protonmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v10 2/5] rust: support formatting of foreign types
+Message-ID: <202505250501.xjOH8Kco-lkp@intel.com>
+References: <20250524-cstr-core-v10-2-6412a94d9d75@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,73 +87,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250524185304.26698-3-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20250524-cstr-core-v10-2-6412a94d9d75@gmail.com>
 
-Hi Manivannan,
+Hi Tamir,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on next-20250523]
-[cannot apply to pci/for-linus linus/master v6.15-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on cbeaa41dfe26b72639141e87183cb23e00d4b0dd]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/PCI-Save-and-restore-root-port-config-space-in-pcibios_reset_secondary_bus/20250525-025535
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250524185304.26698-3-manivannan.sadhasivam%40linaro.org
-patch subject: [PATCH 2/2] PCI: Rename host_bridge::reset_slot() to host_bridge::reset_root_port()
-config: csky-randconfig-002-20250525 (https://download.01.org/0day-ci/archive/20250525/202505250525.2csmeURe-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250525/202505250525.2csmeURe-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/rust-retitle-Example-section-as-Examples/20250525-043544
+base:   cbeaa41dfe26b72639141e87183cb23e00d4b0dd
+patch link:    https://lore.kernel.org/r/20250524-cstr-core-v10-2-6412a94d9d75%40gmail.com
+patch subject: [PATCH v10 2/5] rust: support formatting of foreign types
+config: riscv-randconfig-002-20250525 (https://download.01.org/0day-ci/archive/20250525/202505250501.xjOH8Kco-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250525/202505250501.xjOH8Kco-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505250525.2csmeURe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505250501.xjOH8Kco-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/dwc/pcie-dw-rockchip.c: In function 'rockchip_pcie_host_init':
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:32: error: 'rockchip_pcie_rc_reset_slot' undeclared (first use in this function); did you mean 'rockchip_pcie_rc_reset_root_port'?
-     264 |  pp->bridge->reset_root_port = rockchip_pcie_rc_reset_slot;
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                rockchip_pcie_rc_reset_root_port
-   drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:32: note: each undeclared identifier is reported only once for each function it appears in
-   At top level:
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:703:12: warning: 'rockchip_pcie_rc_reset_root_port' defined but not used [-Wunused-function]
-     703 | static int rockchip_pcie_rc_reset_root_port(struct pci_host_bridge *bridge,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +264 drivers/pci/controller/dwc/pcie-dw-rockchip.c
-
-   244	
-   245	static int rockchip_pcie_host_init(struct dw_pcie_rp *pp)
-   246	{
-   247		struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-   248		struct rockchip_pcie *rockchip = to_rockchip_pcie(pci);
-   249		struct device *dev = rockchip->pci.dev;
-   250		int irq, ret;
-   251	
-   252		irq = of_irq_get_byname(dev->of_node, "legacy");
-   253		if (irq < 0)
-   254			return irq;
-   255	
-   256		ret = rockchip_pcie_init_irq_domain(rockchip);
-   257		if (ret < 0)
-   258			dev_err(dev, "failed to init irq domain\n");
-   259	
-   260		irq_set_chained_handler_and_data(irq, rockchip_pcie_intx_handler,
-   261						 rockchip);
-   262	
-   263		rockchip_pcie_enable_l0s(pci);
- > 264		pp->bridge->reset_root_port = rockchip_pcie_rc_reset_slot;
-   265	
-   266		return 0;
-   267	}
-   268	
+   ***
+   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
+   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
+   *** unless patched (like Debian's).
+   ***   Your bindgen version:  0.65.1
+   ***   Your libclang version: 21.0.0
+   ***
+   ***
+   *** Please see Documentation/rust/quick-start.rst for details
+   *** on how to set up the Rust support.
+   ***
+>> error: expected identifier, found keyword `use`
+   --> rust/macros/fmt.rs:110:40
+   |
+   110 | ) -> impl Iterator<Item = TokenTree> + use<'a, T> {
+   |                                        ^^^ expected identifier, found keyword
+--
+>> error[E0405]: cannot find trait `r#use` in this scope
+   --> rust/macros/fmt.rs:110:40
+   |
+   110 | ) -> impl Iterator<Item = TokenTree> + use<'a, T> {
+   |                                        ^^^ not found in this scope
 
 -- 
 0-DAY CI Kernel Test Service
