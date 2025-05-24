@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A19419E806
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 10:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B088D1E1A05
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 10:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748083130; cv=none; b=NJPI5vI+mahyr30rmbU6FWdkpZZvQ06Inf5HRxgvj0VjAq4tabOEhOSoGx7QLc+89NsX2/t7wTrsVrB+eAwwp5uYqNWX6/hHEY2XoQ3sIRo+yRmjB16YccNl0cTfDwTC8DsiBlxNSrhHK8C7OMXwiPEuxOt6Ce/kMSFjG2arTE0=
+	t=1748084392; cv=none; b=j6soKpSmMi5AW5w5du0aeNeAsHMrjg0JCIWdA1KHH6XfWYwdd5X0RdTyyCma7HLhdTzCjBp0j/GFot1I7B7mHhDVOvLX2gbEwIMqA3buQhyelW1IEvIRbQRjtcPiIXUIMlBiWcrZL7Uj/c0bd9vLaj4CHZkQJ3xExax8kOQ+LQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748083130; c=relaxed/simple;
-	bh=w0ztAwm2SS6DntgH3AkJ7TYsAhTHFUoYE04KAS7e2NQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XQEiIKfBtY9XO7LezJzJv22Ks85FkEkP4jxW02pMgrCkN5XMNy6rOPzktrBL21mGltmkZABYrjEhZwdO2hPoJQRpwtxvjj6dwka0QaNZcXibZIu3BWuzhSvD3F17aJTEO56yeaVzwFki8IfKGwwaxhvIdoHUDCaaACuhHN2h3Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6Pchtyz; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1748084392; c=relaxed/simple;
+	bh=am5CZEL1GEppvkfskPtSLJbGMlXiDh88jJ3Sw8xP1P4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aReJM3QjIighwV4kMg1SUgVY4gkGFeQW5oiT4Kq85LtOzBjfLRpjbk4NLTUgoxUNIfmIMpqIaCTQu3gG6PDcJH591zjO1GTTWmHCTcfd+FpHDG7TpUAOXf00yJ0AyihVsiX9IwUFV4+DmMAipkPaBDP94C0v3yBTBeCH8LQ2Gjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmwZttNc; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6Pchtyz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmwZttNc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748083129; x=1779619129;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w0ztAwm2SS6DntgH3AkJ7TYsAhTHFUoYE04KAS7e2NQ=;
-  b=a6PchtyzpsOl/9dbkdi5ILQyKSNp1FxyTSKICXtvjzTzEORvaaJyu71t
-   yKf53DY0Bkja7JAoM0+fY39JdLWSs1Hr7XyuFvuRNsjXJ2H41pghh2cL8
-   7olQHvaBIqx0YoSC8CxjVAsjPioGPkOsDfV2DdbNwkU3dbJJMZ+yiXBJT
-   6nL1H5TF1R5q4dLXfZ8prCRZed/fvLBXME95aAEXELSMxo03Sm7uh32gq
-   6WZkCVzVP1cPvH6KhHVls8uSMyKMVNWn9xefh8FpXryGCr22UrKcnXvaO
-   vfFaFMcFFo+6t9FwS8SkJrU/eP6Tzkr99Klp3FP7caKwJ8qxQzQV5pOY7
-   Q==;
-X-CSE-ConnectionGUID: jv7t9mykS5CBNgqmPxBcjw==
-X-CSE-MsgGUID: 6BanZwjvR8u29Jhl6t0jMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="72652025"
+  t=1748084391; x=1779620391;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=am5CZEL1GEppvkfskPtSLJbGMlXiDh88jJ3Sw8xP1P4=;
+  b=UmwZttNcnl2Zt83w+7d6ouTmtfLt1x45j1Y2Igb/NvLCrGnJqoSq3JFa
+   Pvsu6Lx0HCXh6lqWLwceJfvpMyGW+9FmfLpSkSp0WzQC5Sktok4knD6A5
+   CN/he9kKSM1TswA930TD6bhtFq7/2DI8qDI7j7g+b+k60Ig04/XF7YunL
+   wbCsryUxR8nC0MJ7r7rHK7cEf1Iofq2fjH2zJlZTCAHdegeC/9yXgHoO/
+   x09sw0y7fScabf7WVaROIt2mblox+iS9L6uNezTWLuiKkR+DJ708NL3s7
+   Z1ktNIZnTEz9Mt5w1gNMRGsWRQaZs0FemcjTaHXZLPWLwkTw07UHZAnud
+   g==;
+X-CSE-ConnectionGUID: VLoKM/toSSCTUngaf4NSfg==
+X-CSE-MsgGUID: FP9MhYXrSWaTl8cZPSci6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="61532496"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="72652025"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 03:38:46 -0700
-X-CSE-ConnectionGUID: L6MiDR4KQt68urOiQLKNiw==
-X-CSE-MsgGUID: TlUf6AFiQAy1DhFcP94k5g==
+   d="scan'208";a="61532496"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 03:59:50 -0700
+X-CSE-ConnectionGUID: aEIjQGFITtieISE43Lb8Wg==
+X-CSE-MsgGUID: dDtghmnrRTmokGr6y73H6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="146712946"
+   d="scan'208";a="146509247"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 May 2025 03:38:45 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 May 2025 03:59:46 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uImH4-000R7e-16;
-	Sat, 24 May 2025 10:38:42 +0000
-Date: Sat, 24 May 2025 18:38:11 +0800
+	id 1uImbQ-000R8u-1K;
+	Sat, 24 May 2025 10:59:44 +0000
+Date: Sat, 24 May 2025 18:59:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gautham Ananthakrishna <gautham.ananthakrishna@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, LUCI Bot <vijayendra.suman@oracle.com>,
-	Srivathsa Dara <srivathsa.d.dara@oracle.com>,
-	Junxiao Bi <junxiao.bi@oracle.com>
-Subject: [jlayton:uek-localio 2040/2262] fs/dcache.c:187:13: warning:
- 'neg_dentry_limit_old' defined but not used
-Message-ID: <202505241802.5Xrzbygo-lkp@intel.com>
+To: Elaine Zhang <zhangqing@rock-chips.com>, mkl@pengutronix.de,
+	kernel@pengutronix.de, mailhol.vincent@wanadoo.fr, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+	cl@rock-chips.com, kever.yang@rock-chips.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-can@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] net: can: rockchip: Refactor the
+ rkcanfd_devtype_data structure
+Message-ID: <202505241818.tw02Bia6-lkp@intel.com>
+References: <20250523075422.4010083-3-zhangqing@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,51 +69,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250523075422.4010083-3-zhangqing@rock-chips.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
-head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
-commit: 56fb39c6c0754b15e8d1fb813aec18a9e6835158 [2040/2262] fs/dcache: allow fractional values in fs.negative-dentry-limit
-config: x86_64-buildonly-randconfig-001-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241802.5Xrzbygo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241802.5Xrzbygo-lkp@intel.com/reproduce)
+Hi Elaine,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mkl-can-next/testing]
+[also build test WARNING on robh/for-next linus/master v6.15-rc7 next-20250523]
+[cannot apply to rockchip/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elaine-Zhang/dt-bindings-can-rockchip_canfd-add-rk3576-CAN-FD-controller/20250523-211340
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git testing
+patch link:    https://lore.kernel.org/r/20250523075422.4010083-3-zhangqing%40rock-chips.com
+patch subject: [PATCH v5 2/4] net: can: rockchip: Refactor the rkcanfd_devtype_data structure
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250524/202505241818.tw02Bia6-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241818.tw02Bia6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241802.5Xrzbygo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241818.tw02Bia6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/dcache.c: In function 'negative_dentry_limit_overshot':
-   fs/dcache.c:508:17: error: implicit declaration of function 'get_nr_dentry_negative' [-Werror=implicit-function-declaration]
-     508 |         count = get_nr_dentry_negative();
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   fs/dcache.c: In function 'prune_negative_one_sb':
-   fs/dcache.c:1559:22: error: implicit declaration of function 'get_nr_dentry'; did you mean 'retain_dentry'? [-Werror=implicit-function-declaration]
-    1559 |         long count = get_nr_dentry();
-         |                      ^~~~~~~~~~~~~
-         |                      retain_dentry
-   fs/dcache.c: In function 'prune_negative_dentry':
-   fs/dcache.c:1640:14: warning: variable 'last_n_neg' set but not used [-Wunused-but-set-variable]
-    1640 |         long last_n_neg, count;
-         |              ^~~~~~~~~~
-   fs/dcache.c: At top level:
-   fs/dcache.c:191:12: warning: 'neg_dentry_pc_old' defined but not used [-Wunused-variable]
-     191 | static int neg_dentry_pc_old;
-         |            ^~~~~~~~~~~~~~~~~
->> fs/dcache.c:187:13: warning: 'neg_dentry_limit_old' defined but not used [-Wunused-variable]
-     187 | static char neg_dentry_limit_old[NEG_DENTRY_LIMIT_BUFLEN] = {'0', '\0'};
-         |             ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/net/can/rockchip/rockchip_canfd-core.c:25:
+>> drivers/net/can/rockchip/rockchip_canfd.h:439:29: warning: 'priv' defined but not used [-Wunused-variable]
+     439 | static struct rkcanfd_priv *priv;
+         |                             ^~~~
 
 
-vim +/neg_dentry_limit_old +187 fs/dcache.c
+vim +/priv +439 drivers/net/can/rockchip/rockchip_canfd.h
 
-   186	
- > 187	static char neg_dentry_limit_old[NEG_DENTRY_LIMIT_BUFLEN] = {'0', '\0'};
-   188	char neg_dentry_limit[NEG_DENTRY_LIMIT_BUFLEN] = {'0', '\0'};
-   189	EXPORT_SYMBOL_GPL(neg_dentry_limit);
-   190	
+   438	
+ > 439	static struct rkcanfd_priv *priv;
+   440	
 
 -- 
 0-DAY CI Kernel Test Service
