@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206541DDA3E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 06:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CAF43146;
+	Sat, 24 May 2025 06:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748069252; cv=none; b=sxng7sBwip78q9QJZ+8MZnNdk9306rp1YBk1+0xKK8XvPWe5qTv6zJzHVBIPu+Njaf42TaTUfKDCRi0dzDFdCSsXb9KUfaZqWH8CFxdy56c5c6wRowLwLeu3XooW/qMhu5DSqi5e/PM/wjlW4BmRcoxACXclV7uP+Irq/LLCoc8=
+	t=1748069851; cv=none; b=iYxicXWDHG/qMlu40+9+RJvPa3vB/CYYdEcTwOgJecRwZ4IpxKT3d+LUXXoiqlmq41jX1FISavNQMyWrlXczzeIalTHNttR91aCg+utHwQkFclNxo1lBtjBuxezFzR6p/KcSrG49M6hzQ3VSZRQZlmD5u8LrXtjloQzQzWcahR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748069252; c=relaxed/simple;
-	bh=CSmbbc/wcCxcroA3BnxJ+Zhlnnq2+mjudFz/ONZwtQI=;
+	s=arc-20240116; t=1748069851; c=relaxed/simple;
+	bh=l0A5a8HXherzkDx/ksg6lzJUsTttfFnyl/ZM2Ly+DPA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EKJG3/lZQ1+H6Dv2C1/yUSByPAYzVWil/F3hsEcVDPsK1jPId4IaS0QIu/PymJNkq8O5NIXY7JLodpOzrq362c6ZUXinI5FNZRluvDoEmv8tTNSM+jCoTx3fJ8sNsjGPmor33a323C4clMWVV9csinz6xybSy0/rgVK+A3v5G3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VqS5hCvW; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=kue4eSUCGsCA82PwL0o96mlU8FTD5OPgcY2j2NvyGj8fJFlkXoWa4kLQif+Cq2aUwh8RIiPxnOtSdGlv86l46pVHac8LKmaj+pPJpifSMrFFXubEBZpqHJjbT5iqx1OFlxlRMEf6YBQVPJZRAGiLV8FHEqNmFDhrqQZphtX1kME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vm3ptAQp; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VqS5hCvW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vm3ptAQp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748069250; x=1779605250;
+  t=1748069849; x=1779605849;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CSmbbc/wcCxcroA3BnxJ+Zhlnnq2+mjudFz/ONZwtQI=;
-  b=VqS5hCvWAK8axR+WpJlehPH+sAZ0CvitrKu8RYebRFmSkfcWwJwWTeVb
-   TLP+uob8bjpNxfZfz1hyn9fWllhWSXI9nFKwuvU32qnRUetZSefUdE/Vq
-   +VDMnLov5q9bBl08dP0vW4Zbijl+kzn15nsv4pwfZxeBQtkeBRQikAj5H
-   mU3wVilZ4qb9aIb/SiDCprw5Ds986vQD4/iqq/Jgd5tu1EQERm0EAtxk9
-   B6kYhN4bfjbI2H8U9ql82Z/lES60yzCapOLcWhsBRjxevXUFgP2Otsr/c
-   BDQwEnhluE3hY+33reIBXbk9a54acKzCWOAWosX/zx0cJqyUfmUpspr69
+  bh=l0A5a8HXherzkDx/ksg6lzJUsTttfFnyl/ZM2Ly+DPA=;
+  b=Vm3ptAQpo4oq9gzF0B/fZIAXAWE8rNggaBNZuEd3qdL9Bl/MR/wbagOe
+   BzyR7gSUVe8ZxkRxTShBlJ2QA6g3TJopkobTtTsxBOvyDWm+N0zzrnCla
+   0fsJeUvsQAqAgC6+jKycbkpUka3eU6JogQu5Wgk46R5u0MX8PlIH/K4Jf
+   gHstuQXtdnSoONn/fqBS0nGxJMcbzDhRwDcjVSDJFKc+hIZFo9+fCvq/q
+   CReqGRosZBxFkd74mi+5yZtxLsQ+eVBQWk6Eo/i8SC7HR3pExxQDymc4P
+   g+FgjCU38V8skQtDlBRWozJ+680u8l4ZmjxoOFI9chlX82bGdyyZKUz98
    w==;
-X-CSE-ConnectionGUID: FqKeS1fsS/yKdBU9d6gRNw==
-X-CSE-MsgGUID: R9mfI1HfRUSYw08N7cPKUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50232038"
-X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="50232038"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 23:47:27 -0700
-X-CSE-ConnectionGUID: YZLsgqOQS+eOLzDTqk7O5w==
-X-CSE-MsgGUID: m1wEcEHyRAGDcmn0miptjw==
+X-CSE-ConnectionGUID: 8ZxTLFGqSxyDZpLN6YBBFw==
+X-CSE-MsgGUID: +YuHaTLJRwKiFKGSEvb7qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50116986"
+X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
+   d="scan'208";a="50116986"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 23:57:29 -0700
+X-CSE-ConnectionGUID: FJlTl8yWTX6qQSdKY7N2Gg==
+X-CSE-MsgGUID: ZOdLTrHBTwai/wTMCaggRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="146180842"
+X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
+   d="scan'208";a="146648762"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 May 2025 23:47:27 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 May 2025 23:57:28 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIifE-000Qzs-0k;
-	Sat, 24 May 2025 06:47:24 +0000
-Date: Sat, 24 May 2025 14:46:25 +0800
+	id 1uIiov-000R0G-0N;
+	Sat, 24 May 2025 06:57:25 +0000
+Date: Sat, 24 May 2025 14:56:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prasad Singamsetty <prasad.singamsetty@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, LUCI Bot <vijayendra.suman@oracle.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Alan Maguire <alan.maguire@oracle.com>
-Subject: [jlayton:uek-localio 2225/2262] block/blk-core.c:536:1: warning:
- 'noipa' attribute directive ignored
-Message-ID: <202505241449.VhrSIDvB-lkp@intel.com>
+To: Ankur Arora <ankur.a.arora@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	LUCI Bot <vijayendra.suman@oracle.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Subject: [jlayton:uek-localio 2024/2262] arch/x86/kernel/cpu/intel.c:568:34:
+ warning: result of comparison of constant 1615 with expression of type
+ '__u8' (aka 'unsigned char') is always false
+Message-ID: <202505241420.0BIAggEz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,51 +67,121 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
 head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
-commit: 58a4b07014f944ef8b49da2fb31bb54c454f20be [2225/2262] block: prevent calls to should_fail_bio() optimized by gcc
-config: arm-randconfig-001-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241449.VhrSIDvB-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241449.VhrSIDvB-lkp@intel.com/reproduce)
+commit: ae99e2e456aca980ec40e20ac1ca7e079330f058 [2024/2262] x86/cpu/intel: enable X86_FEATURE_NT_GOOD on Intel Broadwellx
+config: x86_64-buildonly-randconfig-006-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241420.0BIAggEz-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241420.0BIAggEz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241449.VhrSIDvB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241420.0BIAggEz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bvec.h:10:0,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/bio.h:10,
-                    from block/blk-core.c:17:
-   include/linux/highmem.h: In function 'clear_user_highpage_uncached':
-   include/linux/highmem.h:265:2: error: implicit declaration of function 'clear_user_page_uncached'; did you mean 'clear_user_highpage_uncached'? [-Werror=implicit-function-declaration]
-     clear_user_page_uncached(addr, vaddr, page);
-     ^~~~~~~~~~~~~~~~~~~~~~~~
-     clear_user_highpage_uncached
-   block/blk-core.c: At top level:
->> block/blk-core.c:536:1: warning: 'noipa' attribute directive ignored [-Wattributes]
-    {
-    ^
-   cc1: some warnings being treated as errors
+>> arch/x86/kernel/cpu/intel.c:568:34: warning: result of comparison of constant 1615 with expression of type '__u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
+     568 |         if (c->x86 == 6 && c->x86_model == INTEL_BROADWELL_X)
+         |                            ~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/noipa +536 block/blk-core.c
+vim +568 arch/x86/kernel/cpu/intel.c
 
-721c7fc701c71f Ilya Dryomov       2018-01-11  534  
-58a4b07014f944 Prasad Singamsetty 2025-04-02  535  static noinline __attribute__((noipa)) int should_fail_bio(struct bio *bio)
-30abb3a67f4b2a Howard McLauchlan  2018-02-06 @536  {
-309dca309fc39a Christoph Hellwig  2021-01-24  537  	if (should_fail_request(bdev_whole(bio->bi_bdev), bio->bi_iter.bi_size))
-30abb3a67f4b2a Howard McLauchlan  2018-02-06  538  		return -EIO;
-30abb3a67f4b2a Howard McLauchlan  2018-02-06  539  	return 0;
-30abb3a67f4b2a Howard McLauchlan  2018-02-06  540  }
-30abb3a67f4b2a Howard McLauchlan  2018-02-06  541  ALLOW_ERROR_INJECTION(should_fail_bio, ERRNO);
-30abb3a67f4b2a Howard McLauchlan  2018-02-06  542  
-
-:::::: The code at line 536 was first introduced by commit
-:::::: 30abb3a67f4b2aa160feeb3c0b771f730cbcca67 block: Add should_fail_bio() for bpf error injection
-
-:::::: TO: Howard McLauchlan <hmclauchlan@fb.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+   523	
+   524	static void init_intel(struct cpuinfo_x86 *c)
+   525	{
+   526		early_init_intel(c);
+   527	
+   528		intel_workarounds(c);
+   529	
+   530		init_intel_cacheinfo(c);
+   531	
+   532		if (c->cpuid_level > 9) {
+   533			unsigned eax = cpuid_eax(10);
+   534			/* Check for version and the number of counters */
+   535			if ((eax & 0xff) && (((eax>>8) & 0xff) > 1))
+   536				set_cpu_cap(c, X86_FEATURE_ARCH_PERFMON);
+   537		}
+   538	
+   539		if (cpu_has(c, X86_FEATURE_XMM2))
+   540			set_cpu_cap(c, X86_FEATURE_LFENCE_RDTSC);
+   541	
+   542		if (boot_cpu_has(X86_FEATURE_DS)) {
+   543			unsigned int l1, l2;
+   544	
+   545			rdmsr(MSR_IA32_MISC_ENABLE, l1, l2);
+   546			if (!(l1 & MSR_IA32_MISC_ENABLE_BTS_UNAVAIL))
+   547				set_cpu_cap(c, X86_FEATURE_BTS);
+   548			if (!(l1 & MSR_IA32_MISC_ENABLE_PEBS_UNAVAIL))
+   549				set_cpu_cap(c, X86_FEATURE_PEBS);
+   550		}
+   551	
+   552		if (boot_cpu_has(X86_FEATURE_CLFLUSH) &&
+   553		    (c->x86_vfm == INTEL_CORE2_DUNNINGTON ||
+   554		     c->x86_vfm == INTEL_NEHALEM_EX ||
+   555		     c->x86_vfm == INTEL_WESTMERE_EX))
+   556			set_cpu_bug(c, X86_BUG_CLFLUSH_MONITOR);
+   557	
+   558		if (boot_cpu_has(X86_FEATURE_MWAIT) &&
+   559		    (c->x86_vfm == INTEL_ATOM_GOLDMONT ||
+   560		     c->x86_vfm == INTEL_LUNARLAKE_M))
+   561			set_cpu_bug(c, X86_BUG_MONITOR);
+   562	
+   563	#ifdef CONFIG_X86_64
+   564		if (c->x86 == 15)
+   565			c->x86_cache_alignment = c->x86_clflush_size * 2;
+   566		if (c->x86 == 6)
+   567			set_cpu_cap(c, X86_FEATURE_REP_GOOD);
+ > 568		if (c->x86 == 6 && c->x86_model == INTEL_BROADWELL_X)
+   569			set_cpu_cap(c, X86_FEATURE_NT_GOOD);
+   570	#else
+   571		/*
+   572		 * Names for the Pentium II/Celeron processors
+   573		 * detectable only by also checking the cache size.
+   574		 * Dixon is NOT a Celeron.
+   575		 */
+   576		if (c->x86 == 6) {
+   577			unsigned int l2 = c->x86_cache_size;
+   578			char *p = NULL;
+   579	
+   580			switch (c->x86_model) {
+   581			case 5:
+   582				if (l2 == 0)
+   583					p = "Celeron (Covington)";
+   584				else if (l2 == 256)
+   585					p = "Mobile Pentium II (Dixon)";
+   586				break;
+   587	
+   588			case 6:
+   589				if (l2 == 128)
+   590					p = "Celeron (Mendocino)";
+   591				else if (c->x86_stepping == 0 || c->x86_stepping == 5)
+   592					p = "Celeron-A";
+   593				break;
+   594	
+   595			case 8:
+   596				if (l2 == 128)
+   597					p = "Celeron (Coppermine)";
+   598				break;
+   599			}
+   600	
+   601			if (p)
+   602				strcpy(c->x86_model_id, p);
+   603		}
+   604	#endif
+   605	
+   606		/* Work around errata */
+   607		srat_detect_node(c);
+   608	
+   609		init_ia32_feat_ctl(c);
+   610	
+   611		init_intel_misc_features(c);
+   612	
+   613		split_lock_init();
+   614	
+   615		intel_init_thermal(c);
+   616	}
+   617	
 
 -- 
 0-DAY CI Kernel Test Service
