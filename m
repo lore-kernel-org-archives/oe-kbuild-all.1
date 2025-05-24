@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4952F2A;
-	Sat, 24 May 2025 08:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5F42DCC0C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 08:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748073639; cv=none; b=eVK6lT4GobtL7Yk/qdY92B39mexjAvuDToBY4155DmbUA0/hjkbEGVFh6Qa93IL5K/gmeSYehY6ju4MxltdrbOngvHk+51vdsX5VBEHmqWU6aMOVxMfSvTxWwZLX4WrUbdvYuIHoumiAoI9+SejZZIaHXRv4sq25nO7Yuvyz0ck=
+	t=1748074298; cv=none; b=EZDA07s1S/eJSUDEDXxNGz5epg19gWCvIysOFtrj0WcQI2hMHZzn5AFDt0EqQdD0BkpZfxGEqXLrpe5VGmJhrSltB2m2ohVuSM6jKOdLMIXdvbSr0LsCpHL+BfgJQ4f1DS5N3J5JsKfBAWSyw4hUoieWiUpNMjOER02acwuFJVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748073639; c=relaxed/simple;
-	bh=8h4Sda7ZZVDCmzh5vBGFoBFlnQlDuOJ32LiYd1ofcVQ=;
+	s=arc-20240116; t=1748074298; c=relaxed/simple;
+	bh=cF5W/wuudPJOLCmwg3acUYMvtph2jSiIIh9WYjoTLcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YWfg/c9PETepFqdsMhdm7+dxVMfRyGW9sg21z6/KzUq2L2qfa19w9qvxvo0EP/47XdB6SW612lOMbt+T/in6SXS59noWMYzRBARkZqvPzyn5s5t/jn6c7aNt6Km7aVgp0oXenCPrtgKfzpcMKFn+LWZKNM1LFC6FD+MckZdYNcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ch1K6zot; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=LIjQvRaEDKpaa7CqpkeBFTjv141kGjJ4Azq0GLZkUD4nhCXrHd0+X29lcDUfYRRC5GWcaZrOzZGwuUsVTHsfqp9wZHeS3TgSOVZVke9AwM7WKDfu4hV8+N+HNlvwH7+qa5jEUkW3CB5qMR/GIokSSXDTjbVLCG1SvVHISOwbwcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FoDlCsNr; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ch1K6zot"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FoDlCsNr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748073637; x=1779609637;
+  t=1748074295; x=1779610295;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8h4Sda7ZZVDCmzh5vBGFoBFlnQlDuOJ32LiYd1ofcVQ=;
-  b=Ch1K6zot52uPav1+vGjGJyokN2vhwMJbqGmdF/DvJfGVd2bFceg5aOVm
-   xrQILTsZ/axwAyabOPK7HC4cmQgQuB4xcz0m5uHYITil4OgutZguzvasM
-   Lkz24yLkfpPbY+CXtN5lg1NaMCvvLG+itPo8+UnfhS44x5MpVtGPHfjZ5
-   hP45+K23a+zV6qojmw0AOCnG5u4h6TWg5+eS9VRweRr/kuiSOqwD8xLwP
-   m6v/ukudwO7r4W4pArJ8CESqLm95NGKC4rgBpHfXZgA2WwHJx8UlLeJH8
-   MXgTs6kRpvJVjWNO5mjGGZwLMamqEI+O3KDuANIannShYxXBTCD7WaEQ+
+  bh=cF5W/wuudPJOLCmwg3acUYMvtph2jSiIIh9WYjoTLcc=;
+  b=FoDlCsNrGj3SikK/41VetateKhBwuESHbMtA8McwKPyn7RwXYc8zIm9g
+   Ri90Fahrmyj9T0bej+Z56zjHfk/GOcoKw8tWQftPPlskws3BCadAj67uI
+   3sutt49pie73eJv2kHIOUr2cmJHP+fDvknScI87rcG5s+sdMBL+ecruDA
+   aDoF2ci4SAEx6JqkGaJDEFn94rXN8HvJNZ5W3xzoVgHjrK6N5Vdc16Ijy
+   IS4jJAC+w72Q9CVs5vaSEqoZ2ew/KM8Y5T4JXW5HuuyTQNIfL1K40uwyW
+   +y9EvWTHKbqbQa99iWxwSrsb8rSICy7izrwZ3gXFDlBaJrUycRoRK0Vvb
    w==;
-X-CSE-ConnectionGUID: tX0oOAUvQFKkEdUWRHMt1A==
-X-CSE-MsgGUID: XXoeG1v3TzCHFgHZBOVJEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49376998"
+X-CSE-ConnectionGUID: Rtws7rNeTi+fXx1z5hAiTg==
+X-CSE-MsgGUID: 77WOOQv1Rbu2lr87GOO+Zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50005054"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="49376998"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 01:00:34 -0700
-X-CSE-ConnectionGUID: viqMJeQHQii88Crok3CCTw==
-X-CSE-MsgGUID: 0Rc10P8YSCKBBYUfVKzjLQ==
+   d="scan'208";a="50005054"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 01:11:34 -0700
+X-CSE-ConnectionGUID: ZGk5CyblQ1uu949NQ+ohsQ==
+X-CSE-MsgGUID: dA0MKkZoQomA3GOlyA7c9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="141390367"
+   d="scan'208";a="142424375"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 May 2025 01:00:32 -0700
+  by orviesa008.jf.intel.com with ESMTP; 24 May 2025 01:11:34 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIjny-000R2m-1M;
-	Sat, 24 May 2025 08:00:30 +0000
-Date: Sat, 24 May 2025 15:59:56 +0800
+	id 1uIjyd-000R2y-0j;
+	Sat, 24 May 2025 08:11:31 +0000
+Date: Sat, 24 May 2025 16:11:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Westgaard Ry <hans.westgaard.ry@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	LUCI Bot <vijayendra.suman@oracle.com>,
-	=?iso-8859-1?Q?H=E5kon?= Bugge <haakon.bugge@oracle.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [jlayton:uek-localio 1790/2262] net/rds/rdma.c:596:27: warning:
- variable 'local_vec' set but not used
-Message-ID: <202505241500.l5ICS3KH-lkp@intel.com>
+To: Daniel Jordan <daniel.m.jordan@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, LUCI Bot <vijayendra.suman@oracle.com>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>
+Subject: [jlayton:uek-localio 2093/2262] kernel/padata.c:586: warning:
+ Function parameter or struct member 'key' not described in
+ '__padata_do_multithreaded'
+Message-ID: <202505241637.u6SaSz8X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,179 +66,126 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
 head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
-commit: 26ecf98be5bc33038c1bb44213e4ffa9fe06e5a3 [1790/2262] rds: copy_from_user only once per rds_sendmsg system call
-config: arm-randconfig-003-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241500.l5ICS3KH-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241500.l5ICS3KH-lkp@intel.com/reproduce)
+commit: 1559dccd6e0120f6955950e5af55cf40317834fa [2093/2262] vfio/type1: parallelize vfio_pin_map_dma()
+config: x86_64-buildonly-randconfig-002-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241637.u6SaSz8X-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241637.u6SaSz8X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241500.l5ICS3KH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241637.u6SaSz8X-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from net/rds/rdma.c:38:
-   In file included from net/rds/trace.h:19:
-   net/rds/rds.h:940:22: error: no member named 'net' in 'possible_net_t'
-     940 |                         return sk->sk_net.net->ns.inum;
-         |                                ~~~~~~~~~~ ^
->> net/rds/rdma.c:596:27: warning: variable 'local_vec' set but not used [-Wunused-but-set-variable]
-     596 |         struct rds_iovec __user *local_vec;
-         |                                  ^
-   1 warning and 1 error generated.
+>> kernel/padata.c:586: warning: Function parameter or struct member 'key' not described in '__padata_do_multithreaded'
+>> kernel/padata.c:586: warning: Function parameter or struct member 'map_name' not described in '__padata_do_multithreaded'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PADATA
+   Depends on [n]: SMP [=n]
+   Selected by [y]:
+   - VFIO_IOMMU_TYPE1 [=y] && VFIO [=y] && VFIO_CONTAINER [=y]
 
 
-vim +/local_vec +596 net/rds/rdma.c
+vim +586 kernel/padata.c
 
-b55cdb771fa421 Andy Grover       2012-02-03  582  
-b55cdb771fa421 Andy Grover       2012-02-03  583  /*
-b55cdb771fa421 Andy Grover       2012-02-03  584   * The application asks for a RDMA transfer.
-b55cdb771fa421 Andy Grover       2012-02-03  585   * Extract all arguments and set up the rdma_op
-b55cdb771fa421 Andy Grover       2012-02-03  586   */
-784360a037ded7 Ka-Cheong Poon    2020-10-09  587  static int rds_cmsg_rdma_args(struct rds_sock *rs, struct rds_message *rm,
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  588  			      struct cmsghdr *cmsg, struct rds_iov_vector *iov)
-b55cdb771fa421 Andy Grover       2012-02-03  589  {
-b55cdb771fa421 Andy Grover       2012-02-03  590  	struct rds_rdma_args *args;
-b55cdb771fa421 Andy Grover       2012-02-03  591  	struct rm_rdma_op *op = &rm->rdma;
-6d337b99d35943 Dan Carpenter     2010-09-18  592  	int nr_pages;
-45de215356daa1 Gerd Rausch       2025-04-16  593  	unsigned int nr_bytes;
-45de215356daa1 Gerd Rausch       2025-04-16  594  	struct page **pages = NULL;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  595  	struct rds_iovec *vec;
-45de215356daa1 Gerd Rausch       2025-04-16 @596  	struct rds_iovec __user *local_vec;
-45de215356daa1 Gerd Rausch       2025-04-16  597  	unsigned int i, j;
-b55cdb771fa421 Andy Grover       2012-02-03  598  	int ret = 0;
-b55cdb771fa421 Andy Grover       2012-02-03  599  
-b55cdb771fa421 Andy Grover       2012-02-03  600  	if (cmsg->cmsg_len < CMSG_LEN(sizeof(struct rds_rdma_args))
-b55cdb771fa421 Andy Grover       2012-02-03  601  	    || rm->rdma.op_active)
-b55cdb771fa421 Andy Grover       2012-02-03  602  		return -EINVAL;
-fc8162e3c034af Andy Grover       2010-10-28  603  
-b55cdb771fa421 Andy Grover       2012-02-03  604  	args = CMSG_DATA(cmsg);
-fc8162e3c034af Andy Grover       2010-10-28  605  
-761f0801f71ca0 Ka-Cheong Poon    2017-10-20  606  	if (ipv6_addr_any(&rs->rs_bound_addr)) {
-45de215356daa1 Gerd Rausch       2025-04-16  607  		ret = -ENOTCONN; /* XXX not a great errno */
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  608  		goto out_ret;
-fc8162e3c034af Andy Grover       2010-10-28  609  	}
-fc8162e3c034af Andy Grover       2010-10-28  610  
-45de215356daa1 Gerd Rausch       2025-04-16  611  	if (args->nr_local > (u64)UINT_MAX) {
-45de215356daa1 Gerd Rausch       2025-04-16  612  		ret = -EMSGSIZE;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  613  		goto out_ret;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  614  	}
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  615  	if (iov->iv_entries != args->nr_local) {
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  616  		ret = -EINVAL;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  617  		goto out_ret;
-fc8162e3c034af Andy Grover       2010-10-28  618  	}
-fc8162e3c034af Andy Grover       2010-10-28  619  
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  620  	nr_pages = iov->iv_tot_pages;
-b55cdb771fa421 Andy Grover       2012-02-03  621  	pages = kcalloc(nr_pages, sizeof(struct page *), GFP_KERNEL);
-b55cdb771fa421 Andy Grover       2012-02-03  622  	if (!pages) {
-45de215356daa1 Gerd Rausch       2025-04-16  623  		ret = -ENOMEM;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  624  		goto out_ret;
-45de215356daa1 Gerd Rausch       2025-04-16  625  	}
-2eafa1746f1787 Hans Westgaard Ry 2020-01-15  626  
-b55cdb771fa421 Andy Grover       2012-02-03  627  	op->op_write = !!(args->flags & RDS_RDMA_READWRITE);
-b55cdb771fa421 Andy Grover       2012-02-03  628  	op->op_fence = !!(args->flags & RDS_RDMA_FENCE);
-b55cdb771fa421 Andy Grover       2012-02-03  629  	op->op_notify = !!(args->flags & RDS_RDMA_NOTIFY_ME);
-b55cdb771fa421 Andy Grover       2012-02-03  630  	op->op_silent = !!(args->flags & RDS_RDMA_SILENT);
-df1f937209703c Bang Nguyen       2012-04-13  631  	op->op_remote_complete = !!(args->flags & RDS_RDMA_REMOTE_COMPLETE);
-b55cdb771fa421 Andy Grover       2012-02-03  632  	op->op_active = 1;
-b55cdb771fa421 Andy Grover       2012-02-03  633  	op->op_recverr = rs->rs_recverr;
-eff5f53bef75c0 Andy Grover       2009-02-24  634  	WARN_ON(!nr_pages);
-b55cdb771fa421 Andy Grover       2012-02-03  635  	op->op_sg = rds_message_alloc_sgs(rm, nr_pages);
-eff5f53bef75c0 Andy Grover       2009-02-24  636  
-5bb487dd85f8a8 Bang Nguyen       2012-12-27  637  	if (op->op_notify || op->op_recverr || rds_async_send_enabled) {
-eff5f53bef75c0 Andy Grover       2009-02-24  638  		/* We allocate an uninitialized notifier here, because
-eff5f53bef75c0 Andy Grover       2009-02-24  639  		 * we don't want to do that in the completion handler. We
-eff5f53bef75c0 Andy Grover       2009-02-24  640  		 * would have to use GFP_ATOMIC there, and don't want to deal
-eff5f53bef75c0 Andy Grover       2009-02-24  641  		 * with failed allocations.
-eff5f53bef75c0 Andy Grover       2009-02-24  642  		 */
-f544722b07d772 Bang Nguyen       2012-02-19  643  		op->op_notifier = kzalloc(sizeof(struct rds_notifier), GFP_KERNEL);
-b55cdb771fa421 Andy Grover       2012-02-03  644  		if (!op->op_notifier) {
-eff5f53bef75c0 Andy Grover       2009-02-24  645  			ret = -ENOMEM;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  646  			goto out_pages;
-eff5f53bef75c0 Andy Grover       2009-02-24  647  		}
-b55cdb771fa421 Andy Grover       2012-02-03  648  		op->op_notifier->n_user_token = args->user_token;
-f544722b07d772 Bang Nguyen       2012-02-19  649  		op->op_notifier->n_status = RDS_RDMA_SEND_SUCCESS;
-eff5f53bef75c0 Andy Grover       2009-02-24  650  	}
-eff5f53bef75c0 Andy Grover       2009-02-24  651  
-eff5f53bef75c0 Andy Grover       2009-02-24  652  	/* The cookie contains the R_Key of the remote memory region, and
-eff5f53bef75c0 Andy Grover       2009-02-24  653  	 * optionally an offset into it. This is how we implement RDMA into
-eff5f53bef75c0 Andy Grover       2009-02-24  654  	 * unaligned memory.
-eff5f53bef75c0 Andy Grover       2009-02-24  655  	 * When setting up the RDMA, we need to add that offset to the
-eff5f53bef75c0 Andy Grover       2009-02-24  656  	 * destination address (which is really an offset into the MR)
-eff5f53bef75c0 Andy Grover       2009-02-24  657  	 * FIXME: We may want to move this into ib_rdma.c
-eff5f53bef75c0 Andy Grover       2009-02-24  658  	 */
-b55cdb771fa421 Andy Grover       2012-02-03  659  	op->op_rkey = rds_rdma_cookie_key(args->cookie);
-b55cdb771fa421 Andy Grover       2012-02-03  660  	op->op_remote_addr = args->remote_vec.addr + rds_rdma_cookie_offset(args->cookie);
-eff5f53bef75c0 Andy Grover       2009-02-24  661  
-eff5f53bef75c0 Andy Grover       2009-02-24  662  	nr_bytes = 0;
-eff5f53bef75c0 Andy Grover       2009-02-24  663  
-eff5f53bef75c0 Andy Grover       2009-02-24  664  	rdsdebug("RDS: rdma prepare nr_local %llu rva %llx rkey %x\n",
-eff5f53bef75c0 Andy Grover       2009-02-24  665  	       (unsigned long long)args->nr_local,
-eff5f53bef75c0 Andy Grover       2009-02-24  666  	       (unsigned long long)args->remote_vec.addr,
-b55cdb771fa421 Andy Grover       2012-02-03  667  	       op->op_rkey);
-b55cdb771fa421 Andy Grover       2012-02-03  668  
-b55cdb771fa421 Andy Grover       2012-02-03  669  	local_vec = (struct rds_iovec __user *)(unsigned long) args->local_vec_addr;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  670  	vec = iov->iv_vec;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  671  	for (i = 0; i < args->nr_local; i++, vec++) {
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  672  		/* don't need to check, rds_rdma_pages() verified nr will be +nonzero */
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  673  		unsigned int nr = iov->iv_nr_pages[i];
-eff5f53bef75c0 Andy Grover       2009-02-24  674  
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  675  		rs->rs_user_addr  = vec->addr;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  676  		rs->rs_user_bytes = vec->bytes;
-eff5f53bef75c0 Andy Grover       2009-02-24  677  
-eff5f53bef75c0 Andy Grover       2009-02-24  678  		/* If it's a WRITE operation, we want to pin the pages for reading.
-eff5f53bef75c0 Andy Grover       2009-02-24  679  		 * If it's a READ operation, we need to pin the pages for writing.
-eff5f53bef75c0 Andy Grover       2009-02-24  680  		 */
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  681  		ret = rds_pin_pages(vec->addr, nr, pages, !op->op_write);
-45de215356daa1 Gerd Rausch       2025-04-16  682  		if (ret < 0)
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  683  			goto out_pages;
-eff5f53bef75c0 Andy Grover       2009-02-24  684  
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  685  		nr_bytes += vec->bytes;
-eff5f53bef75c0 Andy Grover       2009-02-24  686  
-eff5f53bef75c0 Andy Grover       2009-02-24  687  		for (j = 0; j < nr; j++) {
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  688  			unsigned int offset = vec->addr & ~PAGE_MASK;
-b55cdb771fa421 Andy Grover       2012-02-03  689  			struct scatterlist *sg;
-eff5f53bef75c0 Andy Grover       2009-02-24  690  
-b55cdb771fa421 Andy Grover       2012-02-03  691  			sg = &op->op_sg[op->op_nents + j];
-eff5f53bef75c0 Andy Grover       2009-02-24  692  			sg_set_page(sg, pages[j],
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  693  					min_t(unsigned int, vec->bytes, PAGE_SIZE - offset),
-eff5f53bef75c0 Andy Grover       2009-02-24  694  					offset);
-eff5f53bef75c0 Andy Grover       2009-02-24  695  
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  696  			vec->addr  += sg->length;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  697  			vec->bytes -= sg->length;
-eff5f53bef75c0 Andy Grover       2009-02-24  698  		}
-eff5f53bef75c0 Andy Grover       2009-02-24  699  
-b55cdb771fa421 Andy Grover       2012-02-03  700  		op->op_nents += nr;
-eff5f53bef75c0 Andy Grover       2009-02-24  701  	}
-eff5f53bef75c0 Andy Grover       2009-02-24  702  
-eff5f53bef75c0 Andy Grover       2009-02-24  703  	if (nr_bytes > args->remote_vec.bytes) {
-eff5f53bef75c0 Andy Grover       2009-02-24  704  		rdsdebug("RDS nr_bytes %u remote_bytes %u do not match\n",
-eff5f53bef75c0 Andy Grover       2009-02-24  705  				nr_bytes,
-eff5f53bef75c0 Andy Grover       2009-02-24  706  				(unsigned int) args->remote_vec.bytes);
-eff5f53bef75c0 Andy Grover       2009-02-24  707  		ret = -EINVAL;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  708  		goto out_pages;
-eff5f53bef75c0 Andy Grover       2009-02-24  709  	}
-b55cdb771fa421 Andy Grover       2012-02-03  710  	op->op_bytes = nr_bytes;
-eff5f53bef75c0 Andy Grover       2009-02-24  711  
-45de215356daa1 Gerd Rausch       2025-04-16  712  	ret = 0;
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  713  out_pages:
-eff5f53bef75c0 Andy Grover       2009-02-24  714  	kfree(pages);
-26ecf98be5bc33 Hans Westgaard Ry 2022-03-21  715  out_ret:
-b55cdb771fa421 Andy Grover       2012-02-03  716  	if (ret)
-eff5f53bef75c0 Andy Grover       2009-02-24  717  		rds_rdma_free_op(op);
-45de215356daa1 Gerd Rausch       2025-04-16  718  
-45de215356daa1 Gerd Rausch       2025-04-16  719  	rds_stats_inc(s_send_rdma);
-b55cdb771fa421 Andy Grover       2012-02-03  720  
-b55cdb771fa421 Andy Grover       2012-02-03  721  	return ret;
-eff5f53bef75c0 Andy Grover       2009-02-24  722  }
-eff5f53bef75c0 Andy Grover       2009-02-24  723  
+4fed4673cdab8af Daniel Jordan                              2020-05-26  574  
+004ed42638f4428 Daniel Jordan                              2020-06-03  575  /**
+66082b964b79e0e Daniel Jordan                              2020-05-26  576   * __padata_do_multithreaded - run a multithreaded job
+004ed42638f4428 Daniel Jordan                              2020-06-03  577   * @job: Description of the job.
+004ed42638f4428 Daniel Jordan                              2020-06-03  578   *
+004ed42638f4428 Daniel Jordan                              2020-06-03  579   * See the definition of struct padata_mt_job for more details.
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  580   *
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  581   * Return: 0 for success or a client-specific nonzero error code.
+004ed42638f4428 Daniel Jordan                              2020-06-03  582   */
+66082b964b79e0e Daniel Jordan                              2020-05-26  583  int __padata_do_multithreaded(struct padata_mt_job *job,
+66082b964b79e0e Daniel Jordan                              2020-05-26  584  			      struct lock_class_key *key,
+66082b964b79e0e Daniel Jordan                              2020-05-26  585  			      const char *map_name)
+004ed42638f4428 Daniel Jordan                              2020-06-03 @586  {
+004ed42638f4428 Daniel Jordan                              2020-06-03  587  	/* In case threads finish at different times. */
+004ed42638f4428 Daniel Jordan                              2020-06-03  588  	static const unsigned long load_balance_factor = 4;
+004ed42638f4428 Daniel Jordan                              2020-06-03  589  	struct padata_work my_work, *pw;
+004ed42638f4428 Daniel Jordan                              2020-06-03  590  	struct padata_mt_job_state ps;
+004ed42638f4428 Daniel Jordan                              2020-06-03  591  	LIST_HEAD(works);
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  592  	int nworks, nid, ret;
+95a5dd954cc60cd Daniel Jordan                              2020-05-26  593  	static atomic_t last_used_nid;
+004ed42638f4428 Daniel Jordan                              2020-06-03  594  
+004ed42638f4428 Daniel Jordan                              2020-06-03  595  	if (job->size == 0)
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  596  		return 0;
+004ed42638f4428 Daniel Jordan                              2020-06-03  597  
+004ed42638f4428 Daniel Jordan                              2020-06-03  598  	/* Ensure at least one thread when size < min_chunk. */
+f84155ca851849e Anthony Yznaga                             2023-02-22  599  	nworks = max(job->size / max(job->min_chunk, job->align), 1ul);
+004ed42638f4428 Daniel Jordan                              2020-06-03  600  	nworks = min(nworks, job->max_threads);
+004ed42638f4428 Daniel Jordan                              2020-06-03  601  
+004ed42638f4428 Daniel Jordan                              2020-06-03  602  	if (nworks == 1) {
+004ed42638f4428 Daniel Jordan                              2020-06-03  603  		/* Single thread, no coordination needed, cut to the chase. */
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  604  		ret = job->thread_fn(job->start, job->start + job->size,
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  605  				     job->fn_arg);
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  606  		return ret;
+004ed42638f4428 Daniel Jordan                              2020-06-03  607  	}
+004ed42638f4428 Daniel Jordan                              2020-06-03  608  
+004ed42638f4428 Daniel Jordan                              2020-06-03  609  	spin_lock_init(&ps.lock);
+004ed42638f4428 Daniel Jordan                              2020-06-03  610  	init_completion(&ps.completion);
+4fed4673cdab8af Daniel Jordan                              2020-05-26  611  	INIT_LIST_HEAD(&ps.failed_works);
+66082b964b79e0e Daniel Jordan                              2020-05-26  612  	lockdep_init_map(&ps.lockdep_map, map_name, key, 0);
+004ed42638f4428 Daniel Jordan                              2020-06-03  613  	ps.job		  = job;
+004ed42638f4428 Daniel Jordan                              2020-06-03  614  	ps.nworks	  = padata_work_alloc_mt(nworks, &ps, &works);
+004ed42638f4428 Daniel Jordan                              2020-06-03  615  	ps.nworks_fini	  = 0;
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  616  	ps.error	  = 0;
+4fed4673cdab8af Daniel Jordan                              2020-05-26  617  	ps.position	  = job->start;
+4fed4673cdab8af Daniel Jordan                              2020-05-26  618  	ps.remaining_size = job->size;
+004ed42638f4428 Daniel Jordan                              2020-06-03  619  
+004ed42638f4428 Daniel Jordan                              2020-06-03  620  	/*
+004ed42638f4428 Daniel Jordan                              2020-06-03  621  	 * Chunk size is the amount of work a helper does per call to the
+004ed42638f4428 Daniel Jordan                              2020-06-03  622  	 * thread function.  Load balance large jobs between threads by
+004ed42638f4428 Daniel Jordan                              2020-06-03  623  	 * increasing the number of chunks, guarantee at least the minimum
+004ed42638f4428 Daniel Jordan                              2020-06-03  624  	 * chunk size from the caller, and honor the caller's alignment.
+24cc57d8faaa406 Kamlesh Gurudasani                         2024-08-22  625  	 * Ensure chunk_size is at least 1 to prevent divide-by-0
+24cc57d8faaa406 Kamlesh Gurudasani                         2024-08-22  626  	 * panic in padata_mt_helper().
+004ed42638f4428 Daniel Jordan                              2020-06-03  627  	 */
+004ed42638f4428 Daniel Jordan                              2020-06-03  628  	ps.chunk_size = job->size / (ps.nworks * load_balance_factor);
+004ed42638f4428 Daniel Jordan                              2020-06-03  629  	ps.chunk_size = max(ps.chunk_size, job->min_chunk);
+24cc57d8faaa406 Kamlesh Gurudasani                         2024-08-22  630  	ps.chunk_size = max(ps.chunk_size, 1ul);
+004ed42638f4428 Daniel Jordan                              2020-06-03  631  	ps.chunk_size = roundup(ps.chunk_size, job->align);
+004ed42638f4428 Daniel Jordan                              2020-06-03  632  
+66082b964b79e0e Daniel Jordan                              2020-05-26  633  	lock_map_acquire(&ps.lockdep_map);
+66082b964b79e0e Daniel Jordan                              2020-05-26  634  	lock_map_release(&ps.lockdep_map);
+66082b964b79e0e Daniel Jordan                              2020-05-26  635  
+004ed42638f4428 Daniel Jordan                              2020-06-03  636  	list_for_each_entry(pw, &works, pw_list)
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  637  		if (job->numa_aware) {
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  638  			int old_node = atomic_read(&last_used_nid);
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  639  
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  640  			do {
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  641  				nid = next_node_in(old_node, node_states[N_CPU]);
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  642  			} while (!atomic_try_cmpxchg(&last_used_nid, &old_node, nid));
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  643  			queue_work_node(nid, system_unbound_wq, &pw->pw_work);
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  644  		} else {
+004ed42638f4428 Daniel Jordan                              2020-06-03  645  			queue_work(system_unbound_wq, &pw->pw_work);
+eb52286634f0424 Gang Li Subject: padata: dispatch works on 2024-03-06  646  		}
+004ed42638f4428 Daniel Jordan                              2020-06-03  647  
+004ed42638f4428 Daniel Jordan                              2020-06-03  648  	/* Use the current thread, which saves starting a workqueue worker. */
+004ed42638f4428 Daniel Jordan                              2020-06-03  649  	padata_work_init(&my_work, padata_mt_helper, &ps, PADATA_WORK_ONSTACK);
+4fed4673cdab8af Daniel Jordan                              2020-05-26  650  	INIT_LIST_HEAD(&my_work.pw_list);
+004ed42638f4428 Daniel Jordan                              2020-06-03  651  	padata_mt_helper(&my_work.pw_work);
+004ed42638f4428 Daniel Jordan                              2020-06-03  652  
+004ed42638f4428 Daniel Jordan                              2020-06-03  653  	/* Wait for all the helpers to finish. */
+004ed42638f4428 Daniel Jordan                              2020-06-03  654  	wait_for_completion(&ps.completion);
+004ed42638f4428 Daniel Jordan                              2020-06-03  655  
+4fed4673cdab8af Daniel Jordan                              2020-05-26  656  	if (ps.error && job->undo_fn)
+4fed4673cdab8af Daniel Jordan                              2020-05-26  657  		padata_undo(&ps, &works, &my_work);
+4fed4673cdab8af Daniel Jordan                              2020-05-26  658  
+004ed42638f4428 Daniel Jordan                              2020-06-03  659  	destroy_work_on_stack(&my_work.pw_work);
+004ed42638f4428 Daniel Jordan                              2020-06-03  660  	padata_works_free(&works);
+b10c8ee9594b63f Daniel Jordan                              2020-05-26  661  	return ps.error;
+004ed42638f4428 Daniel Jordan                              2020-06-03  662  }
+004ed42638f4428 Daniel Jordan                              2020-06-03  663  
 
-:::::: The code at line 596 was first introduced by commit
-:::::: 45de215356daa1d42d3b51f53cd6833192451a11 net/rds: Rewind RDS to 8cbd9606a636 in order to rebase UEK commits on top of it
+:::::: The code at line 586 was first introduced by commit
+:::::: 004ed42638f4428e70ead59d170f3d17ff761a0f padata: add basic support for multithreaded jobs
 
-:::::: TO: Gerd Rausch <gerd.rausch@oracle.com>
-:::::: CC: LUCI Bot <vijayendra.suman@oracle.com>
+:::::: TO: Daniel Jordan <daniel.m.jordan@oracle.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
