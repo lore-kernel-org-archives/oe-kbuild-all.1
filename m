@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5402DCBFE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 06:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496571BD9CE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 06:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748067267; cv=none; b=K03CEZHA4ElVYKW+A5Y8ZYxyxlC8yR+z8ohWhv3b9Mhb+ll7vQLCXzs4sCESRBvz3PKH2N0LYb4osYOQXkUFMFvTgQGXNK7KmVYZUZ/jrZtmeNt/BgrMFD4w2s3wGKGLNSNbVkGoqOVUJ9HhY7hW3NdoZcQu2x8Xn34TPpyJW2U=
+	t=1748068588; cv=none; b=e7Qm2WvjDOeBcqcHzNdx6tN1IDDQ6DmJHhGRG+aE09vGIUCXIdtqEcu51BqinqoROCaZF6f+4OWgifo6H2v9yn2vnfzMFCmJOwkRmTtWPJBPG7VE5mmobNvjfrEmmkDpTUib7GqN0FxgBGi52+BuCSfoPHkfqf23NSQTSfkvhZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748067267; c=relaxed/simple;
-	bh=faYRy0E9pwLkZA/1CUU/a9bly7DETH67mefiTUUKsB0=;
+	s=arc-20240116; t=1748068588; c=relaxed/simple;
+	bh=snynyCbScmyyIcdddYcqon29QdVeucKv/hUHwfNLrBk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QoA2nmzqKMwpv1saLmTmWVG+d/DQG3cPmOAVcoDZBDVv0nyqd8LyM9+6IrHn1mn+9HESHwUwZo8p+iWVOfd/a+08brHTJy5TGSC1vO8miNDpDpOYtwPEi+f2r2jteD9O7zv+GjbgYvqTPQUCHdw2T4PzA0Ttb1TBuP+irugHTZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UabV/qBn; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=XC/W0x4MW9C1JEgQLIPtlyURHr2HWVg2ow/ba6C+NIvA3I3REB1P8NBJqwOXctgyfHkr5Hk1vvrBXbcEqRnO7/Dl7urZiIR5Ic4KdS0Tzpww3LUazWoS63qpNh4jMETBXeWW3kCbkow+VppxRF9UKSvbhu2JmIA6M9qmI7r7qoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJFwlvDB; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UabV/qBn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJFwlvDB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748067266; x=1779603266;
+  t=1748068588; x=1779604588;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=faYRy0E9pwLkZA/1CUU/a9bly7DETH67mefiTUUKsB0=;
-  b=UabV/qBnOgCRBbCIibXr/4wRNxkdZRGCp/PRmeAv475gUzWIpdqSCFsM
-   F1ORFqy8HzufRICYk1gllGbkhujKGQ3EyMfI2uopVHz+RtzSrlgaClBIL
-   622U4yoEw9vxoGBemXXZufCU4xoWGZy3nKj/ZE1aDD7s6WF5pTd8z9EL9
-   GCuZ63CSLwyX5d1NJAzKUwNcpqY4qaxrXleMyiCTTPFMG5BoFWbtWCfUz
-   qs5QByVKUDUMrhAQdtU8ID3nJEO+GzHbjHQDwXoZIlOe73whcSFB409Gz
-   IU2aDlIwFB4T1QnuxxQXa8gJW5gEyAZR7xw+TBcbgCZN9rz7nCiDDGlGJ
+  bh=snynyCbScmyyIcdddYcqon29QdVeucKv/hUHwfNLrBk=;
+  b=TJFwlvDBL5CEh6TqbM0sf1kCxBuvGzwvs4VDk6wlxbRvauZWuk0/95Lo
+   2Xq9kAc4/MlVvJhOUEHBPgT+cqxBSnuMtbKyAE8/b+rfjc2vx+KhxqfDi
+   /qn48/At2c6/6JN20nHLZNYBFFlPytV8/Tg87VvE61Qv53fYGj0dpG20t
+   1IFVQGJqFc62HyJw33I3couqi8DWw1qLga5XT9tci5fpA0zYOUfedS4jA
+   0HwC4udap8CG/bWwsPDAi5j3/BXGsCHLFBuhBSlMPFRJL9ahqpeLhNi3u
+   8sJy/Jth3eEf00dHGY2od8G6WhrX2ZZlTmXHWYjBNd7P3KTAI2UD3vtSZ
    Q==;
-X-CSE-ConnectionGUID: dNnJOV4JSzCKZoBknoPwNQ==
-X-CSE-MsgGUID: E2qBvK5vRPOIAKFu6tHf8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50002282"
+X-CSE-ConnectionGUID: 3+mMzigtQQChJb4yJ7Ub9Q==
+X-CSE-MsgGUID: H8cczIvqTKeQ6jaNifCaWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="72646302"
 X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="50002282"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 23:14:25 -0700
-X-CSE-ConnectionGUID: IG/T/rjNTci5Ext8UF8C0w==
-X-CSE-MsgGUID: Cxh22LT1QCycCTL1PNNj8Q==
+   d="scan'208";a="72646302"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 23:36:27 -0700
+X-CSE-ConnectionGUID: WHuzWYMiQSGj4Pi3BwzhAA==
+X-CSE-MsgGUID: Po5NifVHQzW+29KZF4IY4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="146312147"
+   d="scan'208";a="142404277"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 May 2025 23:14:24 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 May 2025 23:36:25 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIi9F-000Qyq-2p;
-	Sat, 24 May 2025 06:14:21 +0000
-Date: Sat, 24 May 2025 14:14:16 +0800
+	id 1uIiUZ-000QzQ-1W;
+	Sat, 24 May 2025 06:36:23 +0000
+Date: Sat, 24 May 2025 14:36:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ankur Arora <ankur.a.arora@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev, LUCI Bot <vijayendra.suman@oracle.com>,
 	Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Subject: [jlayton:uek-localio 2022/2262] include/linux/highmem.h:265:2:
- error: implicit declaration of function 'clear_user_page_uncached'; did you
- mean 'clear_user_highpage_uncached'?
-Message-ID: <202505241453.sZ2V66eQ-lkp@intel.com>
+Subject: [jlayton:uek-localio 2023/2262] mm/memory.c:6938:3: error: implicit
+ declaration of function 'clear_page_uncached_flush'; did you mean
+ 'clear_page_guard'?
+Message-ID: <202505241445.4dEeoXP2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,56 +66,58 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
 head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
-commit: 52d04c3d020deba9a0461bf9d8bcf748ec2eb3ad [2022/2262] x86/clear_page: add clear_page_uncached()
-config: s390-randconfig-002-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241453.sZ2V66eQ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241453.sZ2V66eQ-lkp@intel.com/reproduce)
+commit: defc802af1f519dd356334f3bd1eac8651eff77a [2023/2262] mm, clear_huge_page: use clear_page_uncached() for gigantic pages
+config: sparc64-randconfig-001-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241445.4dEeoXP2-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241445.4dEeoXP2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241453.sZ2V66eQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241445.4dEeoXP2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    In file included from include/linux/bvec.h:10,
-                    from include/linux/skbuff.h:17,
-                    from include/linux/if_ether.h:19,
-                    from arch/s390/include/asm/diag.h:12,
-                    from arch/s390/include/asm/kvm_para.h:25,
-                    from include/uapi/linux/kvm_para.h:37,
-                    from include/linux/kvm_para.h:5,
-                    from include/linux/kvm_host.h:41,
-                    from arch/s390/kernel/asm-offsets.c:11:
+                    from include/linux/blk_types.h:10,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:23,
+                    from include/linux/swap.h:9,
+                    from include/linux/mm_inline.h:8,
+                    from mm/memory.c:44:
    include/linux/highmem.h: In function 'clear_user_highpage_uncached':
->> include/linux/highmem.h:265:2: error: implicit declaration of function 'clear_user_page_uncached'; did you mean 'clear_user_highpage_uncached'? [-Werror=implicit-function-declaration]
+   include/linux/highmem.h:265:2: error: implicit declaration of function 'clear_user_page_uncached'; did you mean 'clear_user_highpage_uncached'? [-Werror=implicit-function-declaration]
      clear_user_page_uncached(addr, vaddr, page);
      ^~~~~~~~~~~~~~~~~~~~~~~~
      clear_user_highpage_uncached
+   mm/memory.c: In function 'folio_zero_user':
+>> mm/memory.c:6938:3: error: implicit declaration of function 'clear_page_uncached_flush'; did you mean 'clear_page_guard'? [-Werror=implicit-function-declaration]
+      clear_page_uncached_flush();
+      ^~~~~~~~~~~~~~~~~~~~~~~~~
+      clear_page_guard
    cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:102: arch/s390/kernel/asm-offsets.s] Error 1 shuffle=1628510533
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1270: prepare0] Error 2 shuffle=1628510533
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1628510533
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1628510533
-   make: Target 'prepare' not remade because of errors.
 
 
-vim +265 include/linux/highmem.h
+vim +6938 mm/memory.c
 
-   259	
-   260	#ifndef clear_user_highpage_uncached
-   261	static inline void clear_user_highpage_uncached(struct page *page, unsigned long vaddr)
-   262	{
-   263		void *addr = kmap_atomic(page);
-   264	
- > 265		clear_user_page_uncached(addr, vaddr, page);
-   266		kunmap_atomic(addr);
-   267	}
-   268	#endif
-   269	
+  6926	
+  6927	/**
+  6928	 * folio_zero_user - Zero a folio which will be mapped to userspace.
+  6929	 * @folio: The folio to zero.
+  6930	 * @addr_hint: The address will be accessed or the base address if uncelar.
+  6931	 */
+  6932	void folio_zero_user(struct folio *folio, unsigned long addr_hint)
+  6933	{
+  6934		unsigned int nr_pages = folio_nr_pages(folio);
+  6935	
+  6936		if (unlikely(nr_pages > MAX_ORDER_NR_PAGES)) {
+  6937			clear_gigantic_page(folio, addr_hint, nr_pages);
+> 6938			clear_page_uncached_flush();
+  6939		} else {
+  6940			process_huge_page(addr_hint, nr_pages, clear_subpage, folio);
+  6941		}
+  6942	}
+  6943	
 
 -- 
 0-DAY CI Kernel Test Service
