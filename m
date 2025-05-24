@@ -1,61 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F7972636;
-	Sat, 24 May 2025 10:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DD01DDC2C;
+	Sat, 24 May 2025 10:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748081806; cv=none; b=QG6gcH+TKt/LfC5WFcemPXdA2+6xUdAvuRnqiCq3Ar9oRvvbYSJXNTvkoPSEaLS3et02ikno7hdn51iccd32kmvFqlnUf1hGBQDF0fWnh+6m2o0OGPImh8uSGKnHEcmGsjm2NbsI1GforECB6Mrj1ZZmWwHnVMz13PXPgVfNZ1M=
+	t=1748082531; cv=none; b=MA8b6QX3g7VppnhW2sy0QVAVwxnDx3Sytimoj/U6kf9aqeZHMOB30QD+JZbo5lBtIz1R1G3o6mMrt53z1QPkb1+NHZezObh1o9TV4YO2BTd009R4BAA5sAnkQBmqnF4o06aYRC4aqqaTiQ1nG6Wds+mjbCXapHf1RiVLK8fkcbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748081806; c=relaxed/simple;
-	bh=tkgsikOFEBAvQEbcmRSmb8lXKUmtZtHNpC4Z2oD5TB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tuDGr9dPZ+o0xcQ5SOnFZQ1HwncIfCaCl7RtCwtRuPkp3LrzRhL76PDhs6gAfm0vnIxkMywDA+J/QQwh1WDwqLQjgVul3k5gZxRCrXQcE5Cu3A0wFWAjzY1DaPeePs75vS/Ul/hEwG7PUgh1EERG/8CP2UJVgN1Iw9L5Kw4BJ4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crac2sEl; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1748082531; c=relaxed/simple;
+	bh=psdi4796Sb+q+ePNVBR6xRLzzJYOhgE+dtwY5fCMdYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Je2LL8vHmN9En4i9jToY2fOsBGcA9zJQ9H58eAde487yzwFHOXkQ2NsJkVn65xKI2UZT0tB3U7LBCO+Vplb4HNV0juBFo0M5DeBXd9LSpLJ32bqWoS6EK5m+d+0+hLet2RejZhBU2oSYog18Z6IeB0NTF7WAewFcL4WkHidKPuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZtM6fS9l; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crac2sEl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZtM6fS9l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748081805; x=1779617805;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tkgsikOFEBAvQEbcmRSmb8lXKUmtZtHNpC4Z2oD5TB8=;
-  b=crac2sElUDXoEQerxK020OIN7bhrYpVidZRWeP9PftFbLkmvjDxc7gPe
-   zHTPUodfUHi6EPoJtreqVlGtUa+1MMT6SICDExLpE4fO89zKehGoSWGIE
-   jesX1Q/9iXCHSKXBHq8tu6MOxrw3+cutVIR3szEnoUqrh2fK3x2DXBTcb
-   G8rUdTB06FCJBVaqrRi8R9XSgqYVqJWm00A4T3oWslozn1OpAByj0DqUO
-   J1Q47Ed2ODrVJdMGToMY5pcs7Z/CSufhy3/n6+j6OoO0AN+GTv9L/eNGu
-   LjR4lTX1OiNQhhkJwLnEV9pQ4sChSUhs+pz1azx37SXiAogzs9xMMB3yQ
+  t=1748082530; x=1779618530;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=psdi4796Sb+q+ePNVBR6xRLzzJYOhgE+dtwY5fCMdYo=;
+  b=ZtM6fS9l8BJMhYzGEdUEcL8LN6TrurOnSeTStwBtpfb7oGhyvjP0SjBe
+   6wK4bpS8AcFEWWkFzhBbrUgswAVc1TWrDIyYN6EDhJ/Hea0VTJ/epXEcO
+   MmDaEdkL9ELqt0fFSUqGZrAq1z5gzeHi4oM7mVs98cPoqlxaaTs11wtA4
+   wP+bJAUFK0xUzosZ2Df7unQlRnDhGIBaiEfggzLDdlkqzQIcl15d6kmlL
+   UVld0/ShV3+qyxPfNdG8Fpp0SLj7dDZ/rJmCbIiatFeHUKZaL6VHhzO6x
+   dq1lCht1F4MGq6EWICtczqRt8hgJ8sLQJii83xtKCdM1HOyNHfBrZOrXU
    A==;
-X-CSE-ConnectionGUID: 7+Yu/Mz1SvqCZF6E2njiUw==
-X-CSE-MsgGUID: 7oQ9ZuXBSu6wftryy5sE8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="61478091"
+X-CSE-ConnectionGUID: rm6FqWo9QzKNB+1f34wVFA==
+X-CSE-MsgGUID: AjCJsgePQf6SAsXmCltPTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49380013"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="61478091"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 03:16:44 -0700
-X-CSE-ConnectionGUID: pgbIEnXgSy29jOaEakjaoQ==
-X-CSE-MsgGUID: UScw3lF5QJibLUHEzTVxOA==
+   d="scan'208";a="49380013"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 03:28:49 -0700
+X-CSE-ConnectionGUID: eWF/ujWEQS+zyKJZ6wq/dA==
+X-CSE-MsgGUID: Ja1jVy7xQqW7Dr0Hl6XBLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="164742513"
+   d="scan'208";a="141381290"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 May 2025 03:16:43 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 May 2025 03:28:44 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIlvk-000R6q-2D;
-	Sat, 24 May 2025 10:16:40 +0000
-Date: Sat, 24 May 2025 18:16:38 +0800
+	id 1uIm7N-000R7C-22;
+	Sat, 24 May 2025 10:28:41 +0000
+Date: Sat, 24 May 2025 18:27:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sharath Srinivasan <sharath.srinivasan@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	LUCI Bot <vijayendra.suman@oracle.com>,
-	Gerd Rausch <gerd.rausch@oracle.com>
-Subject: [jlayton:uek-localio 1954/2262] net/rds/rds.h:1279:41: warning:
- result of comparison of constant 9223372036854775807 with expression of type
- 'unsigned long' is always true
-Message-ID: <202505241812.Se3iJnIA-lkp@intel.com>
+To: Sean Anderson <sean.anderson@linux.dev>, netdev@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Lei Wei <quic_leiwei@quicinc.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Simon Horman <horms@kernel.org>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Vineeth Karumanchi <vineeth.karumanchi@amd.com>,
+	linux-kernel@vger.kernel.org,
+	Sean Anderson <sean.anderson@linux.dev>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>, imx@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [net-next PATCH v5 05/10] net: pcs: lynx: Convert to an MDIO
+ driver
+Message-ID: <202505241840.ILpzEabZ-lkp@intel.com>
+References: <20250523203339.1993685-6-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,121 +81,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250523203339.1993685-6-sean.anderson@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
-head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
-commit: 73a9aa78a055a18eac4ee5e4b143b40a4e5e5fcc [1954/2262] net/rds: mod reconnect delay on sendmsg()
-config: arm-randconfig-003-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241812.Se3iJnIA-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241812.Se3iJnIA-lkp@intel.com/reproduce)
+Hi Sean,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/dt-bindings-net-Add-Xilinx-PCS/20250524-043901
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250523203339.1993685-6-sean.anderson%40linux.dev
+patch subject: [net-next PATCH v5 05/10] net: pcs: lynx: Convert to an MDIO driver
+config: x86_64-kismet-CONFIG_OF_DYNAMIC-CONFIG_FSL_FMAN-0-0 (https://download.01.org/0day-ci/archive/20250524/202505241840.ILpzEabZ-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250524/202505241840.ILpzEabZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241812.Se3iJnIA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241840.ILpzEabZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from net/rds/tcp_stats.c:37:
-   net/rds/rds.h:1034:22: error: no member named 'net' in 'possible_net_t'
-    1034 |                         return sk->sk_net.net->ns.inum;
-         |                                ~~~~~~~~~~ ^
->> net/rds/rds.h:1279:41: warning: result of comparison of constant 9223372036854775807 with expression of type 'unsigned long' is always true [-Wtautological-constant-out-of-range-compare]
-    1279 |                    (cp->cp_up_or_down_w.timer.expires < KTIME_MAX) &&
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
-   1 warning and 1 error generated.
---
-   In file included from net/rds/tcp.c:40:
-   net/rds/rds.h:1034:22: error: no member named 'net' in 'possible_net_t'
-    1034 |                         return sk->sk_net.net->ns.inum;
-         |                                ~~~~~~~~~~ ^
->> net/rds/rds.h:1279:41: warning: result of comparison of constant 9223372036854775807 with expression of type 'unsigned long' is always true [-Wtautological-constant-out-of-range-compare]
-    1279 |                    (cp->cp_up_or_down_w.timer.expires < KTIME_MAX) &&
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
-   In file included from net/rds/tcp.c:40:
-   In file included from net/rds/rds.h:12:
-   include/uapi/linux/rds.h:280:18: warning: field peer_addr within 'struct rds6_info_tcp_socket' is less aligned than 'struct in6_addr' and is usually due to 'struct rds6_info_tcp_socket' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-     280 |         struct in6_addr peer_addr;
-         |                         ^
-   2 warnings and 1 error generated.
---
-   In file included from net/rds/cong.c:38:
-   net/rds/rds.h:1034:22: error: no member named 'net' in 'possible_net_t'
-    1034 |                         return sk->sk_net.net->ns.inum;
-         |                                ~~~~~~~~~~ ^
->> net/rds/rds.h:1279:41: warning: result of comparison of constant 9223372036854775807 with expression of type 'unsigned long' is always true [-Wtautological-constant-out-of-range-compare]
-    1279 |                    (cp->cp_up_or_down_w.timer.expires < KTIME_MAX) &&
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
-   net/rds/cong.c:264:21: error: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'const void *' [-Wint-conversion]
-     264 |                             virt_to_page(page_addrs[i]),
-         |                                          ^~~~~~~~~~~~~
-   arch/arm/include/asm/memory.h:384:53: note: expanded from macro 'virt_to_page'
-     384 | #define virt_to_page(kaddr)     pfn_to_page(virt_to_pfn(kaddr))
-         |                                                         ^~~~~
-   include/asm-generic/memory_model.h:52:27: note: expanded from macro '__pfn_to_page'
-      52 | ({      unsigned long __pfn = (pfn);                    \
-         |                                ^~~
-   arch/arm/include/asm/memory.h:290:53: note: passing argument to parameter 'p' here
-     290 | static inline unsigned long virt_to_pfn(const void *p)
-         |                                                     ^
-   1 warning and 2 errors generated.
---
-   In file included from net/rds/rdma.c:38:
-   In file included from net/rds/trace.h:19:
-   net/rds/rds.h:1034:22: error: no member named 'net' in 'possible_net_t'
-    1034 |                         return sk->sk_net.net->ns.inum;
-         |                                ~~~~~~~~~~ ^
->> net/rds/rds.h:1279:41: warning: result of comparison of constant 9223372036854775807 with expression of type 'unsigned long' is always true [-Wtautological-constant-out-of-range-compare]
-    1279 |                    (cp->cp_up_or_down_w.timer.expires < KTIME_MAX) &&
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
-   net/rds/rdma.c:603:27: warning: variable 'local_vec' set but not used [-Wunused-but-set-variable]
-     603 |         struct rds_iovec __user *local_vec;
-         |                                  ^
-   2 warnings and 1 error generated.
---
-   In file included from net/rds/send.c:38:
-   net/rds/rds.h:1034:22: error: no member named 'net' in 'possible_net_t'
-    1034 |                         return sk->sk_net.net->ns.inum;
-         |                                ~~~~~~~~~~ ^
->> net/rds/rds.h:1279:41: warning: result of comparison of constant 9223372036854775807 with expression of type 'unsigned long' is always true [-Wtautological-constant-out-of-range-compare]
-    1279 |                    (cp->cp_up_or_down_w.timer.expires < KTIME_MAX) &&
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
-   net/rds/send.c:1380:18: warning: variable 'rns' set but not used [-Wunused-but-set-variable]
-    1380 |         struct rds_net *rns;
-         |                         ^
-   2 warnings and 1 error generated.
-
-
-vim +1279 net/rds/rds.h
-
-  1267	
-  1268	static inline bool rds_cond_queue_reconnect_work(struct rds_conn_path *cp, unsigned long delay)
-  1269	{
-  1270		unsigned long mod_delay = max(delay,
-  1271					      msecs_to_jiffies(rds_sysctl_reconnect_max_jiffies));
-  1272	
-  1273		if (!test_and_set_bit(RDS_RECONNECT_PENDING, &cp->cp_flags)) {
-  1274			rds_queue_delayed_work(cp, cp->cp_wq, &cp->cp_up_or_down_w,
-  1275					       delay, "reconnect work");
-  1276			return true;
-  1277		} else if (!test_bit(RDS_SHUTDOWN_WORK_QUEUED, &cp->cp_flags) &&
-  1278			   (cp->cp_up_or_down_w.timer.expires > 0) &&
-> 1279			   (cp->cp_up_or_down_w.timer.expires < KTIME_MAX) &&
-  1280			   time_after(cp->cp_up_or_down_w.timer.expires,
-  1281				      jiffies + mod_delay)) {
-  1282			/* mod_delayed_work due to an immediate sendmsg()
-  1283			 * by always allowing shortening the delay,
-  1284			 * if the existing reconnect timer expires later
-  1285			 * than reconnect_max_delay_ms (1s).
-  1286			 */
-  1287			rds_mod_delayed_work(cp, cp->cp_wq, &cp->cp_up_or_down_w,
-  1288					     mod_delay, "reconnect work");
-  1289			return true;
-  1290		} else {
-  1291			return false;
-  1292		}
-  1293	}
-  1294	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for OF_DYNAMIC when selected by FSL_FMAN
+   WARNING: unmet direct dependencies detected for OF_DYNAMIC
+     Depends on [n]: OF [=n]
+     Selected by [y]:
+     - FSL_FMAN [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y] && (FSL_SOC || ARCH_LAYERSCAPE || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
