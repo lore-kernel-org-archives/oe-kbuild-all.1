@@ -1,78 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DD01DDC2C;
-	Sat, 24 May 2025 10:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE522DCBFE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 May 2025 10:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748082531; cv=none; b=MA8b6QX3g7VppnhW2sy0QVAVwxnDx3Sytimoj/U6kf9aqeZHMOB30QD+JZbo5lBtIz1R1G3o6mMrt53z1QPkb1+NHZezObh1o9TV4YO2BTd009R4BAA5sAnkQBmqnF4o06aYRC4aqqaTiQ1nG6Wds+mjbCXapHf1RiVLK8fkcbg=
+	t=1748083128; cv=none; b=qXBQoG3ZeVnIA2wSloHED6DiMD0OI5j5dqL+7C+zBFFJ28pISgaZpXBNwxfhiu+NNd5tPGiY44eEQcNAnvv/sIHm1fxWpFTldRcVFKNcq5EqXF314bxdK6KFurcFAcB0fRwKmnWF/s822UDQwrzQYlGM88nxzUlB8q0SQ37Z+hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748082531; c=relaxed/simple;
-	bh=psdi4796Sb+q+ePNVBR6xRLzzJYOhgE+dtwY5fCMdYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Je2LL8vHmN9En4i9jToY2fOsBGcA9zJQ9H58eAde487yzwFHOXkQ2NsJkVn65xKI2UZT0tB3U7LBCO+Vplb4HNV0juBFo0M5DeBXd9LSpLJ32bqWoS6EK5m+d+0+hLet2RejZhBU2oSYog18Z6IeB0NTF7WAewFcL4WkHidKPuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZtM6fS9l; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1748083128; c=relaxed/simple;
+	bh=AVxoQ/zEeyAc69VejbYbWGa+y6eoYjH7q6Y5yttg6T8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z7xwlpWHP4kzO5S/218pfYTiRoKxTptJn8k0F1o4Hb9dEgv+LBfbkiYWLN5qYEVLcB14mNyxs2U5r+4SeB53Pgp7QV5pfv7tSG0blpmd+BKby6uNaXXIR2drVFWm8IK4tjDnz4Mj+bYxIcXnf/Sy6GoGlKosvPLhxBbeSV+pgSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mnuYUDbd; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZtM6fS9l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mnuYUDbd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748082530; x=1779618530;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=psdi4796Sb+q+ePNVBR6xRLzzJYOhgE+dtwY5fCMdYo=;
-  b=ZtM6fS9l8BJMhYzGEdUEcL8LN6TrurOnSeTStwBtpfb7oGhyvjP0SjBe
-   6wK4bpS8AcFEWWkFzhBbrUgswAVc1TWrDIyYN6EDhJ/Hea0VTJ/epXEcO
-   MmDaEdkL9ELqt0fFSUqGZrAq1z5gzeHi4oM7mVs98cPoqlxaaTs11wtA4
-   wP+bJAUFK0xUzosZ2Df7unQlRnDhGIBaiEfggzLDdlkqzQIcl15d6kmlL
-   UVld0/ShV3+qyxPfNdG8Fpp0SLj7dDZ/rJmCbIiatFeHUKZaL6VHhzO6x
-   dq1lCht1F4MGq6EWICtczqRt8hgJ8sLQJii83xtKCdM1HOyNHfBrZOrXU
-   A==;
-X-CSE-ConnectionGUID: rm6FqWo9QzKNB+1f34wVFA==
-X-CSE-MsgGUID: AjCJsgePQf6SAsXmCltPTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49380013"
+  t=1748083127; x=1779619127;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AVxoQ/zEeyAc69VejbYbWGa+y6eoYjH7q6Y5yttg6T8=;
+  b=mnuYUDbdBsxTCP8uHGZPGK3PntIOHsp/1fy5vKLROoauYiHiMJNdKEEr
+   FJMEDEsJGr+DREGssOVrY4dWHhrnW9Sad3Kcy4D+WnNcbr0zkEFq3DZKx
+   fDBCW0x/EMwRSKpeptu+TV6+zG69kTWXR0/CIJXV3Beie4ziNKQAmlTHJ
+   e1JaFpALfS+NXbjKJtWtCpLmYe8XRwAoeszQv6dFedQP2UTPKLLoCzYrL
+   3G8WiNVqxlP2NoVbn1RQdoQp5Md4Ouc8egADhwdEi2qqLbmCrJoe9UAfQ
+   E57TfbypoZGEOK3TTBPQES4kZmE/LmYLNy0sJGV3/4W9ZCtLZycegsyI2
+   Q==;
+X-CSE-ConnectionGUID: 29We/2v5TYexcdXrY/DzrA==
+X-CSE-MsgGUID: xKVOL4Y8SMiDsZKoZZJnQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="72652023"
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="49380013"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 03:28:49 -0700
-X-CSE-ConnectionGUID: eWF/ujWEQS+zyKJZ6wq/dA==
-X-CSE-MsgGUID: Ja1jVy7xQqW7Dr0Hl6XBLA==
+   d="scan'208";a="72652023"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 03:38:46 -0700
+X-CSE-ConnectionGUID: L+3YX7bOQY6T59+KDI7oiA==
+X-CSE-MsgGUID: FRj7EQUNRbucZWaPvmH07A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,311,1739865600"; 
-   d="scan'208";a="141381290"
+   d="scan'208";a="146712943"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 May 2025 03:28:44 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 May 2025 03:38:45 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIm7N-000R7C-22;
-	Sat, 24 May 2025 10:28:41 +0000
-Date: Sat, 24 May 2025 18:27:51 +0800
+	id 1uImH4-000R7h-19;
+	Sat, 24 May 2025 10:38:42 +0000
+Date: Sat, 24 May 2025 18:38:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Anderson <sean.anderson@linux.dev>, netdev@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Lei Wei <quic_leiwei@quicinc.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Simon Horman <horms@kernel.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Vineeth Karumanchi <vineeth.karumanchi@amd.com>,
-	linux-kernel@vger.kernel.org,
-	Sean Anderson <sean.anderson@linux.dev>,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>, imx@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [net-next PATCH v5 05/10] net: pcs: lynx: Convert to an MDIO
- driver
-Message-ID: <202505241840.ILpzEabZ-lkp@intel.com>
-References: <20250523203339.1993685-6-sean.anderson@linux.dev>
+To: Steve Sistare <steven.sistare@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, LUCI Bot <vijayendra.suman@oracle.com>,
+	Khalid Aziz <khalid.aziz@oracle.com>
+Subject: [jlayton:uek-localio 2105/2262] mm/madvise.c:40:24: error:
+ 'MADV_DOEXEC' undeclared here (not in a function); did you mean 'MADV_FREE'?
+Message-ID: <202505241856.mhrziT8K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,32 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250523203339.1993685-6-sean.anderson@linux.dev>
 
-Hi Sean,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/dt-bindings-net-Add-Xilinx-PCS/20250524-043901
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250523203339.1993685-6-sean.anderson%40linux.dev
-patch subject: [net-next PATCH v5 05/10] net: pcs: lynx: Convert to an MDIO driver
-config: x86_64-kismet-CONFIG_OF_DYNAMIC-CONFIG_FSL_FMAN-0-0 (https://download.01.org/0day-ci/archive/20250524/202505241840.ILpzEabZ-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250524/202505241840.ILpzEabZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
+head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
+commit: b8a7c9a5a584f5317230c28782d4fe94f78730ff [2105/2262] mm: madv_doexec_flag sysctl
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20250524/202505241856.mhrziT8K-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241856.mhrziT8K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505241840.ILpzEabZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505241856.mhrziT8K-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for OF_DYNAMIC when selected by FSL_FMAN
-   WARNING: unmet direct dependencies detected for OF_DYNAMIC
-     Depends on [n]: OF [=n]
-     Selected by [y]:
-     - FSL_FMAN [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_FREESCALE [=y] && (FSL_SOC || ARCH_LAYERSCAPE || COMPILE_TEST [=y])
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/pagemap.h:11,
+                    from mm/madvise.c:10:
+   include/linux/highmem.h: In function 'clear_user_highpage_uncached':
+   include/linux/highmem.h:265:9: error: implicit declaration of function 'clear_user_page_uncached'; did you mean 'clear_user_highpage_uncached'? [-Wimplicit-function-declaration]
+     265 |         clear_user_page_uncached(addr, vaddr, page);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         clear_user_highpage_uncached
+   mm/madvise.c: At top level:
+>> mm/madvise.c:40:24: error: 'MADV_DOEXEC' undeclared here (not in a function); did you mean 'MADV_FREE'?
+      40 | int madv_doexec_flag = MADV_DOEXEC;
+         |                        ^~~~~~~~~~~
+         |                        MADV_FREE
+   mm/madvise.c: In function 'madvise_vma_behavior':
+   mm/madvise.c:1322:14: error: 'MADV_DONTEXEC' undeclared (first use in this function); did you mean 'MADV_DONTNEED'?
+    1322 |         case MADV_DONTEXEC:
+         |              ^~~~~~~~~~~~~
+         |              MADV_DONTNEED
+   mm/madvise.c:1322:14: note: each undeclared identifier is reported only once for each function it appears in
+   mm/madvise.c: In function 'madvise_behavior_valid':
+   mm/madvise.c:1463:14: error: 'MADV_DONTEXEC' undeclared (first use in this function); did you mean 'MADV_DONTNEED'?
+    1463 |         case MADV_DONTEXEC:
+         |              ^~~~~~~~~~~~~
+         |              MADV_DONTNEED
+
+
+vim +40 mm/madvise.c
+
+    39	
+  > 40	int madv_doexec_flag = MADV_DOEXEC;
+    41	
 
 -- 
 0-DAY CI Kernel Test Service
