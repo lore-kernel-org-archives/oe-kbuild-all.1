@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BEC1DF26B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 May 2025 13:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7E914F121
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 May 2025 14:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748179735; cv=none; b=iHL09uaMdeJRygZqIFN1FnU82efIOqpubBKa2q4om7dBfxDkd6tJowxqKboXW5/6O4UdpTmxmdOoXMh3srBs/ctGbZei0nDjilwIE4NYwq2biFU5xVaWjnpNeuVqVhsTimzGa08qrf6e6WvLL/K61G4CAEYs4HynJPJNoHEvgBY=
+	t=1748182856; cv=none; b=csbDdefGh9sF1Ow0ta97e/c3w8h1FmYSNzpzguEuytKlsC0Zyjbfrw1KZ9XJjmHgOfmesOpA0ttUwIdG/Cqlv5ivNY5UtYF/VeFd5G2MmcJB2+SCgngXTufqFtO/DfQTn8dd0YOpcfaP9MMkpJRT37TiJQa+GgBToX10s7PyXg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748179735; c=relaxed/simple;
-	bh=zgP0WvUVk0EyOxWqJtWUylni9ScXVYHpKVhMXiLCehA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OIjAMh1CrWtEY/q/HIsOf+SE5dUJrOhKLesHaqZLlVj+f70bH0dPxSnr4rTChhX+a3vJoTA3umrIgACC+KSXnOicA1Qp/VyOjwQGMwY07n0pbpkzbyYS6GhFr/WEwlm7CnK/xGY68fCHuCUzkdsX1mz9HACsI+7UiOzizZI8WoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VCoFiOjl; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1748182856; c=relaxed/simple;
+	bh=NkgnxlMGIw1zt4PsdRJpSwsO2DsZxBcE6frKDC2B7zE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jfHBdS8C0vAGRZsrONEcgtGQWdJIM5DmqGkYryraMJiOjTUbnrvOlzcECz57Pzim06+Mi2kPac4jye9Po9dBEkEKX/XkQWLC2CIUpXoCFA5weE9OG67TLOBY7tBTOy8/0aQcCC1fP0lIMIo480Uy0zaDaS3oRhjIMIw9NoKju5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvMh95Rs; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCoFiOjl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvMh95Rs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748179734; x=1779715734;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zgP0WvUVk0EyOxWqJtWUylni9ScXVYHpKVhMXiLCehA=;
-  b=VCoFiOjlXr9UQ0pZOGmj3CeNCOt1E4ose07bw716JJ0TCiKV29cg8Cpm
-   VO/VXzZ0xtj/tjA2nFBakXhL0MDMJrz4LbSgSe7CYOCZUzRN7ZZtmKvc8
-   HP//PCvtOcVSNbc8Pa76WPJu0M19LH8fKZwjl4DEPiEvOqFWfI6dvMoLf
-   HzgUVjHRyowakKilOtoo/iqbtLqQPv7eUQoQMDe59GyVb+BegSxFOdljX
-   A5QA2ej7KdXUh6VlhnFU5mCUu+xfqcJTFDaFy5+yS5LIVY1nxlHf51XkT
-   9c4EW8EZ1aVypukvceP4rO8fHm2tuaUCsOfM+3NqKlwYwhBVXsEQVqywf
+  t=1748182855; x=1779718855;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NkgnxlMGIw1zt4PsdRJpSwsO2DsZxBcE6frKDC2B7zE=;
+  b=AvMh95RssBhXtbP7s9Nc199pcGniRnwh9fb4c8+blD2/ZyTgx9kDbOkC
+   3i1PoHt05xuqKpeY+6ZIXwq+MY8uFed5+oaMJAqABG/Kc/zMRsAjD+ofS
+   EKlSqs7UD7padEPrwYtBSZutme1KLV1no+uPyNBKUVAcH5NkNTZMzYpm4
+   kCF/tx/i9c+Ui2L4+MMmGgH4o4u2dQgL+/fpDN+yBdQ36ji7RoGdlni1K
+   XUvRZfqA5vzR680Yg1IImecQMr/R4ZTJs3PQNgb7l2vjX6zAwkDLzypOY
+   EL1BWpjaIPpotUYeZQZ6S0yoDzMz4NQ4t5twe6h2rTtKX/KZltlJWT5OF
    w==;
-X-CSE-ConnectionGUID: VhCKBaB5T56WVdyRPfBVsw==
-X-CSE-MsgGUID: hJZxFablRxKFSwD7Bp8Yug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="53824102"
+X-CSE-ConnectionGUID: 7IOPij4sT/i5iyXgUkgveA==
+X-CSE-MsgGUID: p9oKhxHXQLitHd6AC8HJkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="50327314"
 X-IronPort-AV: E=Sophos;i="6.15,313,1739865600"; 
-   d="scan'208";a="53824102"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 06:28:53 -0700
-X-CSE-ConnectionGUID: ATnCZY7XQECv1sPWjZZL7g==
-X-CSE-MsgGUID: ckdh9z1PTZqY4Wh7Bpd7Zg==
+   d="scan'208";a="50327314"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 07:20:54 -0700
+X-CSE-ConnectionGUID: X/L7NLTbQY2UsSkljlpPLQ==
+X-CSE-MsgGUID: YRO/uBAASpy26x8lE3UVYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,313,1739865600"; 
-   d="scan'208";a="141807838"
+   d="scan'208";a="165170910"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 25 May 2025 06:28:49 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 May 2025 07:20:52 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJBPC-000Rpo-2x;
-	Sun, 25 May 2025 13:28:46 +0000
-Date: Sun, 25 May 2025 21:28:46 +0800
+	id 1uJCDa-000Rqe-1w;
+	Sun, 25 May 2025 14:20:50 +0000
+Date: Sun, 25 May 2025 22:20:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suraj Gupta <suraj.gupta2@amd.com>, vkoul@kernel.org,
-	michal.simek@amd.com, radhey.shyam.pandey@amd.com,
-	thomas.gessler@brueckmann-gmbh.de
-Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	harini.katakam@amd.com
-Subject: Re: [PATCH 2/2] dmaengine: xilinx_dma: Add support to
- configure/report coalesce parameters from/to client using AXI DMA
-Message-ID: <202505252153.Nm1BzFUq-lkp@intel.com>
-References: <20250525101617.1168991-3-suraj.gupta2@amd.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org
+Subject: [geert-m68k:atari-drm-wip-rebasing 17/17]
+ drivers/gpu/drm/atari/atari_drm.c:3605: warning: Function parameter or
+ struct member 'conn' not described in 'atari_drm_conn_mode_valid'
+Message-ID: <202505252258.NK6eVqzV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,237 +62,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250525101617.1168991-3-suraj.gupta2@amd.com>
 
-Hi Suraj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on vkoul-dmaengine/next]
-[also build test ERROR on xilinx-xlnx/master soc/for-next linus/master v6.15-rc7 next-20250523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Gupta/dmaengine-Add-support-to-configure-and-read-IRQ-coalescing-parameters/20250525-181817
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20250525101617.1168991-3-suraj.gupta2%40amd.com
-patch subject: [PATCH 2/2] dmaengine: xilinx_dma: Add support to configure/report coalesce parameters from/to client using AXI DMA
-config: i386-buildonly-randconfig-004-20250525 (https://download.01.org/0day-ci/archive/20250525/202505252153.Nm1BzFUq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250525/202505252153.Nm1BzFUq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git atari-drm-wip-rebasing
+head:   c9e868e85b8e39710359f076a7c22c0659838e51
+commit: c9e868e85b8e39710359f076a7c22c0659838e51 [17/17] drm: atari: Update to v6.15-rc1
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250525/202505252258.NK6eVqzV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250525/202505252258.NK6eVqzV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505252153.Nm1BzFUq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505252258.NK6eVqzV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:28,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/scatterlist.h:8,
-                    from include/linux/dmapool.h:14,
-                    from drivers/dma/xilinx/xilinx_dma.c:37:
-   drivers/dma/xilinx/xilinx_dma.c: In function 'xilinx_dma_start_transfer':
->> drivers/dma/xilinx/xilinx_dma.c:1594:28: error: implicit declaration of function 'FIELD_MAX' [-Werror=implicit-function-declaration]
-    1594 |         timer = min(timer, FIELD_MAX(XILINX_DMA_DMACR_DELAY_MASK));
-         |                            ^~~~~~~~~
-   include/linux/minmax.h:92:49: note: in definition of macro '__careful_cmp_once'
-      92 |         __auto_type ux = (x); __auto_type uy = (y);     \
-         |                                                 ^
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/dma/xilinx/xilinx_dma.c:1594:17: note: in expansion of macro 'min'
-    1594 |         timer = min(timer, FIELD_MAX(XILINX_DMA_DMACR_DELAY_MASK));
-         |                 ^~~
-   In file included from <command-line>:
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_299' declared with attribute error: min(timer, FIELD_MAX((((int)(sizeof(struct { int:(-!!(__builtin_choose_expr((sizeof(int) == sizeof(*(8 ? ((void *)((long)((24) > (31)) * 0l)) : (int *)8))), (24) > (31), false))); }))) + (((~((0UL))) << (24)) & (~((0UL)) >> (32 - 1 - (31))))))) signedness error
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/dma/xilinx/xilinx_dma.c:1594:17: note: in expansion of macro 'min'
-    1594 |         timer = min(timer, FIELD_MAX(XILINX_DMA_DMACR_DELAY_MASK));
-         |                 ^~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/kernel.h:28,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/scatterlist.h:8,
-                    from include/linux/dmapool.h:14,
-                    from xilinx_dma.c:37:
-   xilinx_dma.c: In function 'xilinx_dma_start_transfer':
-   xilinx_dma.c:1594:28: error: implicit declaration of function 'FIELD_MAX' [-Werror=implicit-function-declaration]
-    1594 |         timer = min(timer, FIELD_MAX(XILINX_DMA_DMACR_DELAY_MASK));
-         |                            ^~~~~~~~~
-   include/linux/minmax.h:92:49: note: in definition of macro '__careful_cmp_once'
-      92 |         __auto_type ux = (x); __auto_type uy = (y);     \
-         |                                                 ^
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   xilinx_dma.c:1594:17: note: in expansion of macro 'min'
-    1594 |         timer = min(timer, FIELD_MAX(XILINX_DMA_DMACR_DELAY_MASK));
-         |                 ^~~
-   In file included from <command-line>:
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_299' declared with attribute error: min(timer, FIELD_MAX((((int)(sizeof(struct { int:(-!!(__builtin_choose_expr((sizeof(int) == sizeof(*(8 ? ((void *)((long)((24) > (31)) * 0l)) : (int *)8))), (24) > (31), false))); }))) + (((~((0UL))) << (24)) & (~((0UL)) >> (32 - 1 - (31))))))) signedness error
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   xilinx_dma.c:1594:17: note: in expansion of macro 'min'
-    1594 |         timer = min(timer, FIELD_MAX(XILINX_DMA_DMACR_DELAY_MASK));
-         |                 ^~~
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/atari/atari_drm.c:3605: warning: Function parameter or struct member 'conn' not described in 'atari_drm_conn_mode_valid'
+>> drivers/gpu/drm/atari/atari_drm.c:3605: warning: Function parameter or struct member 'mode' not described in 'atari_drm_conn_mode_valid'
+>> drivers/gpu/drm/atari/atari_drm.c:3970: warning: Function parameter or struct member 'pipe' not described in 'atari_drm_pipe_mode_valid'
+>> drivers/gpu/drm/atari/atari_drm.c:3970: warning: Function parameter or struct member 'mode' not described in 'atari_drm_pipe_mode_valid'
+>> drivers/gpu/drm/atari/atari_drm.c:4019: warning: Function parameter or struct member 'crtc' not described in 'atari_drm_pipe_mode_fixup'
+>> drivers/gpu/drm/atari/atari_drm.c:4019: warning: Function parameter or struct member 'mode' not described in 'atari_drm_pipe_mode_fixup'
+>> drivers/gpu/drm/atari/atari_drm.c:4019: warning: Function parameter or struct member 'adjusted_mode' not described in 'atari_drm_pipe_mode_fixup'
 
 
-vim +/FIELD_MAX +1594 drivers/dma/xilinx/xilinx_dma.c
+vim +3605 drivers/gpu/drm/atari/atari_drm.c
 
-  1539	
-  1540	/**
-  1541	 * xilinx_dma_start_transfer - Starts DMA transfer
-  1542	 * @chan: Driver specific channel struct pointer
-  1543	 */
-  1544	static void xilinx_dma_start_transfer(struct xilinx_dma_chan *chan)
-  1545	{
-  1546		struct xilinx_dma_tx_descriptor *head_desc, *tail_desc;
-  1547		struct xilinx_axidma_tx_segment *tail_segment;
-  1548		struct dma_slave_config *slave_cfg = &chan->slave_cfg;
-  1549		u64 clk_rate;
-  1550		u32 reg, usec, timer;
-  1551	
-  1552		if (chan->err)
-  1553			return;
-  1554	
-  1555		if (list_empty(&chan->pending_list))
-  1556			return;
-  1557	
-  1558		if (!chan->idle)
-  1559			return;
-  1560	
-  1561		head_desc = list_first_entry(&chan->pending_list,
-  1562					     struct xilinx_dma_tx_descriptor, node);
-  1563		tail_desc = list_last_entry(&chan->pending_list,
-  1564					    struct xilinx_dma_tx_descriptor, node);
-  1565		tail_segment = list_last_entry(&tail_desc->segments,
-  1566					       struct xilinx_axidma_tx_segment, node);
-  1567	
-  1568		reg = dma_ctrl_read(chan, XILINX_DMA_REG_DMACR);
-  1569	
-  1570		reg &= ~XILINX_DMA_CR_COALESCE_MAX;
-  1571		reg  &= ~XILINX_DMA_CR_DELAY_MAX;
-  1572	
-  1573		/* Use dma_slave_config if it has valid values */
-  1574		if (slave_cfg->coalesce_cnt &&
-  1575		    slave_cfg->coalesce_cnt <= XILINX_DMA_COALESCE_MAX)
-  1576			reg |= slave_cfg->coalesce_cnt <<
-  1577				XILINX_DMA_CR_COALESCE_SHIFT;
-  1578		else if (chan->desc_pendingcount <= XILINX_DMA_COALESCE_MAX)
-  1579			reg |= chan->desc_pendingcount <<
-  1580					  XILINX_DMA_CR_COALESCE_SHIFT;
-  1581	
-  1582		if (slave_cfg->coalesce_usecs <= XILINX_DMA_DMACR_DELAY_MAX)
-  1583			usec = slave_cfg->coalesce_usecs;
-  1584		else
-  1585			usec = chan->irq_delay;
-  1586	
-  1587		/* Scale with SG clock rate rather than being a fixed number of
-  1588		 * clock cycles.
-  1589		 * 1 Timeout Interval = 125 * (clock period of SG clock)
-  1590		 */
-  1591		clk_rate = clk_get_rate(chan->xdev->rx_clk);
-  1592		timer = DIV64_U64_ROUND_CLOSEST((u64)usec * clk_rate,
-  1593						XILINX_DMA_DELAY_SCALE);
-> 1594		timer = min(timer, FIELD_MAX(XILINX_DMA_DMACR_DELAY_MASK));
-  1595		reg |= timer << XILINX_DMA_CR_DELAY_SHIFT;
-  1596	
-  1597		dma_ctrl_write(chan, XILINX_DMA_REG_DMACR, reg);
-  1598	
-  1599		if (chan->has_sg)
-  1600			xilinx_write(chan, XILINX_DMA_REG_CURDESC,
-  1601				     head_desc->async_tx.phys);
-  1602	
-  1603		xilinx_dma_start(chan);
-  1604	
-  1605		if (chan->err)
-  1606			return;
-  1607	
-  1608		/* Start the transfer */
-  1609		if (chan->has_sg) {
-  1610			if (chan->cyclic)
-  1611				xilinx_write(chan, XILINX_DMA_REG_TAILDESC,
-  1612					     chan->cyclic_seg_v->phys);
-  1613			else
-  1614				xilinx_write(chan, XILINX_DMA_REG_TAILDESC,
-  1615					     tail_segment->phys);
-  1616		} else {
-  1617			struct xilinx_axidma_tx_segment *segment;
-  1618			struct xilinx_axidma_desc_hw *hw;
-  1619	
-  1620			segment = list_first_entry(&head_desc->segments,
-  1621						   struct xilinx_axidma_tx_segment,
-  1622						   node);
-  1623			hw = &segment->hw;
-  1624	
-  1625			xilinx_write(chan, XILINX_DMA_REG_SRCDSTADDR,
-  1626				     xilinx_prep_dma_addr_t(hw->buf_addr));
-  1627	
-  1628			/* Start the transfer */
-  1629			dma_ctrl_write(chan, XILINX_DMA_REG_BTT,
-  1630				       hw->control & chan->xdev->max_buffer_len);
-  1631		}
-  1632	
-  1633		list_splice_tail_init(&chan->pending_list, &chan->active_list);
-  1634		chan->desc_pendingcount = 0;
-  1635		chan->idle = false;
-  1636	}
-  1637	
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3568  
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3569  /**
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3570   * atari_drm_conn_mode_valid
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3571   *
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3572   * Callback to validate a mode for a connector, irrespective of the
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3573   * specific display configuration.
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3574   *
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3575   * This callback is used by the probe helpers to filter the mode list
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3576   * (which is usually derived from the EDID data block from the sink).
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3577   * See e.g. drm_helper_probe_single_connector_modes().
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3578   *
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3579   * This function is optional.
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3580   *
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3581   * NOTE:
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3582   *
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3583   * This only filters the mode list supplied to userspace in the
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3584   * GETCONNECTOR IOCTL. Compared to &drm_encoder_helper_funcs.mode_valid,
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3585   * &drm_crtc_helper_funcs.mode_valid and &drm_bridge_funcs.mode_valid,
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3586   * which are also called by the atomic helpers from
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3587   * drm_atomic_helper_check_modeset(). This allows userspace to force and
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3588   * ignore sink constraint (like the pixel clock limits in the screen's
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3589   * EDID), which is useful for e.g. testing, or working around a broken
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3590   * EDID. Any source hardware constraint (which always need to be
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3591   * enforced) therefore should be checked in one of the above callbacks,
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3592   * and not this one here.
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3593   *
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3594   * To avoid races with concurrent connector state updates, the helper
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3595   * libraries always call this with the &drm_mode_config.connection_mutex
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3596   * held. Because of this it's safe to inspect &drm_connector->state.
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3597   *
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3598   * RETURNS:
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3599   *
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3600   * Either &drm_mode_status.MODE_OK or one of the failure reasons in &enum
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3601   * drm_mode_status.
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3602   */
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3603  static enum drm_mode_status atari_drm_conn_mode_valid(
+c9e868e85b8e39 drivers/gpu/drm/atari/atari_drm.c Geert Uytterhoeven 2025-03-31  3604  	struct drm_connector *conn, const struct drm_display_mode *mode)
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02 @3605  {
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3606  	// FIXME
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3607  	return MODE_OK;
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3608  }
+14323db4a7a707 drivers/gpu/drm/tiny/atari_drm.c  Geert Uytterhoeven 2020-11-02  3609  
+
+:::::: The code at line 3605 was first introduced by commit
+:::::: 14323db4a7a7073486cbf0fda8f8a7a31ae822d2 drm: atari: Add a DRM driver for Atari graphics hardware
+
+:::::: TO: Geert Uytterhoeven <geert@linux-m68k.org>
+:::::: CC: Geert Uytterhoeven <geert@linux-m68k.org>
 
 -- 
 0-DAY CI Kernel Test Service
