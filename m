@@ -1,76 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDA02A1C9;
-	Sun, 25 May 2025 11:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A3A1F0995
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 May 2025 12:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748171747; cv=none; b=k/zfrrPwbHqVT6V3ZFCwTx6RKH8VZNO4vgb8eS2x5gf8hiTz6aJJeOR5uLPGu2fYe34zwtFd+bY/K87zfiqDN7fsCgbJ+arpyMQC+cTmYgh/6zN0h1J/grEOHvtJdZEK67kzh7gZ4+OIU3t5grY3x+RfPuF1fTj3ePntmPaTGCg=
+	t=1748176068; cv=none; b=jjPrfVVDMVvB6J7WuXhH8KX8yKHZzTYPXR/3N8+uoccL3aGmuSlqualooWSGHAho4yJW6NANRTtaAdWaCQorXVh1b72af+eL2Qx17OawITXv74qlrbSHVw3n8d+kOFOKExU/MfeR/T/4xhhHX+qxscu8pNHQKtMlke50eP/NAIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748171747; c=relaxed/simple;
-	bh=OT/JUaxbumpSuUDNK8SNN2PlfsW6Ib3r801CZFNEln8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aPhNcyWJdNfQoxZMQF0rqhqPUoHsFgMDP+OIn6yR8Y/uAEd10Hkm5DFpYl5kj6TC2wz3dnaxXE0lIqsN8aSYPbyBkTC0TgYpYIa4wWO9Ftq/JzRr0ylTUaP/3XtBkCCEOvW+s9NvhkLVbDqB+NGMmeDrgIyPxGFDX5Lo2HIdEbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6b1/aui; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1748176068; c=relaxed/simple;
+	bh=YtKvaTFgQGc9ijcdk34CFyip+Rd77/IvITXaxuFYGGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SuqS1ddV4j1a5dLgUce8pQzitTelBbz5GhyKm3qdaBnNpvhUQKB5cd8tZHCvEkIvPJXf+rfWJT0KZ/VXzqO51gFN93F+5y2hlPkYiY3KxA5Px1JvuzlTk9zwfauC19epngSC2RBLBFtYi7+kuvtCslPH93nrXy21rifFNua1AUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URKpiIcJ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6b1/aui"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URKpiIcJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748171745; x=1779707745;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OT/JUaxbumpSuUDNK8SNN2PlfsW6Ib3r801CZFNEln8=;
-  b=C6b1/auiGUIREOLEP+HI8XWgHPIr/MFBVgv8Zy3Dr17oOlp4palbQKpF
-   ZBfo6C4ScL2wJUC7opYxu/8Px1Ce5ROAoCETFFltTDZ+ftvr1VxSDHWoT
-   ybA8vb8eyBy+4V8pkFP2mFBovRJoOJRVfq5ap5rA+v39pYCoEQ8jugQ0J
-   744yyT3Ht7gQmkSGJTnj4O5gVOz7Q9MpKwlPKLlePAHWVpZz509qcgCSH
-   hKs+8g97xRnbQ3E6BTaswUxZqUB8wYUCnoyfj/pc23n5Na7O6FcHsEvIQ
-   5YVqhD3mNvi/3JX1+6WzBtMoc7PznA77rtoLI2tLgAtgYbALg+/nSyo9T
+  t=1748176067; x=1779712067;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YtKvaTFgQGc9ijcdk34CFyip+Rd77/IvITXaxuFYGGk=;
+  b=URKpiIcJt1Lm2sLVSW3ORU58K6Fb8TfcWJ0eCaZTRCQrCI1RhB2II9GI
+   +i3pAZ2ZTASkI0Tld4S6dslaHWwmuXrNUFheynHOqt0CCsgZPKqIRD11G
+   OanH61l9WjMNekq3QwdYPScEZ2etWj8+m5x0tEBOUW3uSE1+VpN1yXnJy
+   8Q8D1D/EokKgUvF/zLf6JX8OowpYTjKrfRxNOoMusEs8+YreqLnnQO87k
+   wRDRUXV7F0iA9t3jiMYrGk0N7vsH4nJUP+5BFf7TswmC4x7ADZ4caiDk/
+   0yioq/jfudSwb1FJUlbJIooz22qN8mvM5vxkCLrc7G8ula/+i7QL4bSVV
    g==;
-X-CSE-ConnectionGUID: ckVgSwd1Q2WvTL3yI6YWPA==
-X-CSE-MsgGUID: AuQhAXWTSwSWZSCzcnSbmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="37786211"
+X-CSE-ConnectionGUID: OG9Y5vk1QH6ElJzhB5WqfQ==
+X-CSE-MsgGUID: UDBVVSvvTPCfpuPWigp4cw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="60824042"
 X-IronPort-AV: E=Sophos;i="6.15,313,1739865600"; 
-   d="scan'208";a="37786211"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 04:15:45 -0700
-X-CSE-ConnectionGUID: i7C2EKR5RrafQ/zVUiR9kQ==
-X-CSE-MsgGUID: M0vn/PrRSPOp27HiRFbiMg==
+   d="scan'208";a="60824042"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 05:27:46 -0700
+X-CSE-ConnectionGUID: VbUc+XSuSY638wSByRJJag==
+X-CSE-MsgGUID: 6d/3bb1RTF2O04E+XcIFFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,313,1739865600"; 
-   d="scan'208";a="142488463"
+   d="scan'208";a="141826690"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 May 2025 04:15:40 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 May 2025 05:27:45 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJ9KL-000Rma-2F;
-	Sun, 25 May 2025 11:15:37 +0000
-Date: Sun, 25 May 2025 19:14:52 +0800
+	id 1uJAS6-000RoW-2D;
+	Sun, 25 May 2025 12:27:42 +0000
+Date: Sun, 25 May 2025 20:27:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: xur@google.com, Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Eric Naim <dnaim@cachyos.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Rafael Aquini <aquini@redhat.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Stafford Horne <shorne@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Teresa Johnson <tejohnson@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v3] kbuild: distributed build support for Clang ThinLTO
-Message-ID: <202505251836.qXs81x9F-lkp@intel.com>
-References: <20250521213534.3159514-1-xur@google.com>
+To: Sven Peter <sven@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sven:wip/smc-hid 21/22] drivers/input/misc/macsmc-hid.c:39:3:
+ warning: label followed by a declaration is a C23 extension
+Message-ID: <202505252031.4arFJwis-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,107 +61,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250521213534.3159514-1-xur@google.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on masahiroy-kbuild/fixes linus/master v6.15-rc7 next-20250523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/xur-google-com/kbuild-distributed-build-support-for-Clang-ThinLTO/20250522-053726
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20250521213534.3159514-1-xur%40google.com
-patch subject: [PATCH v3] kbuild: distributed build support for Clang ThinLTO
-config: arm64-randconfig-r131-20250525 (https://download.01.org/0day-ci/archive/20250525/202505251836.qXs81x9F-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce: (https://download.01.org/0day-ci/archive/20250525/202505251836.qXs81x9F-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git wip/smc-hid
+head:   85195bb074dd61b098eb62a878369dd5c4815832
+commit: ee13e23037b7b78af00901c86613bf572b53baf3 [21/22] Input: macsmc-hid: New driver to handle the Apple Mac SMC buttons/lid
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250525/202505252031.4arFJwis-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250525/202505252031.4arFJwis-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505251836.qXs81x9F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505252031.4arFJwis-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/sparse-vmemmap.c:442:21: sparse: sparse: cast to non-scalar
->> mm/sparse-vmemmap.c:442:21: sparse: sparse: cast from non-scalar
-   mm/sparse-vmemmap.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:339:16: sparse: sparse: cast from non-scalar
+All warnings (new ones prefixed by >>):
 
-vim +442 mm/sparse-vmemmap.c
+>> drivers/input/misc/macsmc-hid.c:39:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+      39 |                 u8 button = (event >> 8) & 0xff;
+         |                 ^
+   drivers/input/misc/macsmc-hid.c:76:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+      76 |                 u8 lid_state = !!((event >> 8) & 0xff);
+         |                 ^
+   2 warnings generated.
 
-2045a3b8911b6e Feiyang Chen 2022-10-27  415  
-2045a3b8911b6e Feiyang Chen 2022-10-27  416  int __meminit vmemmap_populate_hugepages(unsigned long start, unsigned long end,
-2045a3b8911b6e Feiyang Chen 2022-10-27  417  					 int node, struct vmem_altmap *altmap)
-2045a3b8911b6e Feiyang Chen 2022-10-27  418  {
-2045a3b8911b6e Feiyang Chen 2022-10-27  419  	unsigned long addr;
-2045a3b8911b6e Feiyang Chen 2022-10-27  420  	unsigned long next;
-2045a3b8911b6e Feiyang Chen 2022-10-27  421  	pgd_t *pgd;
-2045a3b8911b6e Feiyang Chen 2022-10-27  422  	p4d_t *p4d;
-2045a3b8911b6e Feiyang Chen 2022-10-27  423  	pud_t *pud;
-2045a3b8911b6e Feiyang Chen 2022-10-27  424  	pmd_t *pmd;
-2045a3b8911b6e Feiyang Chen 2022-10-27  425  
-2045a3b8911b6e Feiyang Chen 2022-10-27  426  	for (addr = start; addr < end; addr = next) {
-2045a3b8911b6e Feiyang Chen 2022-10-27  427  		next = pmd_addr_end(addr, end);
-2045a3b8911b6e Feiyang Chen 2022-10-27  428  
-2045a3b8911b6e Feiyang Chen 2022-10-27  429  		pgd = vmemmap_pgd_populate(addr, node);
-2045a3b8911b6e Feiyang Chen 2022-10-27  430  		if (!pgd)
-2045a3b8911b6e Feiyang Chen 2022-10-27  431  			return -ENOMEM;
-2045a3b8911b6e Feiyang Chen 2022-10-27  432  
-2045a3b8911b6e Feiyang Chen 2022-10-27  433  		p4d = vmemmap_p4d_populate(pgd, addr, node);
-2045a3b8911b6e Feiyang Chen 2022-10-27  434  		if (!p4d)
-2045a3b8911b6e Feiyang Chen 2022-10-27  435  			return -ENOMEM;
-2045a3b8911b6e Feiyang Chen 2022-10-27  436  
-2045a3b8911b6e Feiyang Chen 2022-10-27  437  		pud = vmemmap_pud_populate(p4d, addr, node);
-2045a3b8911b6e Feiyang Chen 2022-10-27  438  		if (!pud)
-2045a3b8911b6e Feiyang Chen 2022-10-27  439  			return -ENOMEM;
-2045a3b8911b6e Feiyang Chen 2022-10-27  440  
-2045a3b8911b6e Feiyang Chen 2022-10-27  441  		pmd = pmd_offset(pud, addr);
-2045a3b8911b6e Feiyang Chen 2022-10-27 @442  		if (pmd_none(READ_ONCE(*pmd))) {
-2045a3b8911b6e Feiyang Chen 2022-10-27  443  			void *p;
-2045a3b8911b6e Feiyang Chen 2022-10-27  444  
-2045a3b8911b6e Feiyang Chen 2022-10-27  445  			p = vmemmap_alloc_block_buf(PMD_SIZE, node, altmap);
-2045a3b8911b6e Feiyang Chen 2022-10-27  446  			if (p) {
-2045a3b8911b6e Feiyang Chen 2022-10-27  447  				vmemmap_set_pmd(pmd, p, node, addr, next);
-2045a3b8911b6e Feiyang Chen 2022-10-27  448  				continue;
-2045a3b8911b6e Feiyang Chen 2022-10-27  449  			} else if (altmap) {
-2045a3b8911b6e Feiyang Chen 2022-10-27  450  				/*
-2045a3b8911b6e Feiyang Chen 2022-10-27  451  				 * No fallback: In any case we care about, the
-2045a3b8911b6e Feiyang Chen 2022-10-27  452  				 * altmap should be reasonably sized and aligned
-2045a3b8911b6e Feiyang Chen 2022-10-27  453  				 * such that vmemmap_alloc_block_buf() will always
-2045a3b8911b6e Feiyang Chen 2022-10-27  454  				 * succeed. For consistency with the PTE case,
-2045a3b8911b6e Feiyang Chen 2022-10-27  455  				 * return an error here as failure could indicate
-2045a3b8911b6e Feiyang Chen 2022-10-27  456  				 * a configuration issue with the size of the altmap.
-2045a3b8911b6e Feiyang Chen 2022-10-27  457  				 */
-2045a3b8911b6e Feiyang Chen 2022-10-27  458  				return -ENOMEM;
-2045a3b8911b6e Feiyang Chen 2022-10-27  459  			}
-2045a3b8911b6e Feiyang Chen 2022-10-27  460  		} else if (vmemmap_check_pmd(pmd, node, addr, next))
-2045a3b8911b6e Feiyang Chen 2022-10-27  461  			continue;
-2045a3b8911b6e Feiyang Chen 2022-10-27  462  		if (vmemmap_populate_basepages(addr, next, node, altmap))
-2045a3b8911b6e Feiyang Chen 2022-10-27  463  			return -ENOMEM;
-2045a3b8911b6e Feiyang Chen 2022-10-27  464  	}
-2045a3b8911b6e Feiyang Chen 2022-10-27  465  	return 0;
-2045a3b8911b6e Feiyang Chen 2022-10-27  466  }
-2045a3b8911b6e Feiyang Chen 2022-10-27  467  
+
+vim +39 drivers/input/misc/macsmc-hid.c
+
+    31	
+    32	static int macsmc_hid_event(struct notifier_block *nb, unsigned long event, void *data)
+    33	{
+    34		struct macsmc_hid *smchid = container_of(nb, struct macsmc_hid, nb);
+    35		u16 type = event >> 16;
+    36	
+    37		switch (type) {
+    38		case SMC_EV_BTN:
+  > 39			u8 button = (event >> 8) & 0xff;
+    40			u8 state = !!(event & 0xff);
+    41			switch (button) {
+    42			case BTN_POWER:
+    43			case BTN_TOUCHID:
+    44				if (smchid->wakeup_mode) {
+    45					if (state) {
+    46						dev_info(smchid->dev, "Button wakeup\n");
+    47						pm_wakeup_hard_event(smchid->dev);
+    48					}
+    49				} else {
+    50					input_report_key(smchid->input, KEY_POWER, state);
+    51					input_sync(smchid->input);
+    52				}
+    53				break;
+    54			case BTN_POWER_HELD2:
+    55				/*
+    56				 * If we get here, we have about 4 seconds before forced shutdown.
+    57				 * Try to do an emergency shutdown to make sure the NVMe cache is
+    58				 * flushed. macOS actually does this by panicing (!)...
+    59				 */
+    60				if (state) {
+    61					dev_crit(smchid->dev, "Triggering forced shutdown!\n");
+    62					if (kernel_can_power_off())
+    63						kernel_power_off();
+    64					else /* Missing macsmc-reboot driver? */
+    65						kernel_restart("SMC power button triggered restart");
+    66				}
+    67				break;
+    68			case BTN_POWER_HELD1: /* power button held down; ignore */
+    69				break;
+    70			default:
+    71				dev_warn(smchid->dev, "Unknown SMC button event: %04lx\n", event & 0xffff);
+    72				break;
+    73			}
+    74			return NOTIFY_OK;
+    75		case SMC_EV_LID:
+    76			u8 lid_state = !!((event >> 8) & 0xff);
+    77			if (smchid->wakeup_mode && !lid_state) {
+    78				dev_info(smchid->dev, "Lid wakeup\n");
+    79				pm_wakeup_hard_event(smchid->dev);
+    80			}
+    81			input_report_switch(smchid->input, SW_LID, lid_state);
+    82			input_sync(smchid->input);
+    83			return NOTIFY_OK;
+    84		}
+    85	
+    86		return NOTIFY_DONE;
+    87	}
+    88	
 
 -- 
 0-DAY CI Kernel Test Service
