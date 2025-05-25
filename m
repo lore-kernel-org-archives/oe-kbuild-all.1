@@ -1,338 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CA54C6D;
-	Sun, 25 May 2025 01:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748135817; cv=none; b=oytbK8fuZ58Tat5TwyRQpZPujA1D2MlVUfH1u6jnnOqDJtqOAEEYxGX2GWOIqu9shtodZu2cXKCuqZh7LgbswuIQXIoOmnSngpScjqNHLB5rcnXc7nNyncuD52zm/JCxtH0b0/CINTnILBCgIInM1+eRT72hcCuSjPhjvt+5PJo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748135817; c=relaxed/simple;
-	bh=kLF44fNoY1Up8ATz6BFbOYUlwvZFgTBE27MImIwFWHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kdxnWTtmRQwM6naoN3UshgWA3SCe5O7ZJpUXsehhg3z7fN98E640BSIzFv00BZQo2A6+jJtoQ04eJoJ23ZhPe5TimHCXa8Z2E95OPtMVD4jf5Y20FIbwIJNZgGSOo61/iCw7/GCgW4noCniy1FIGOaWetlYObFlRadtC7NIEWfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LadvMZeD; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756A07081F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 May 2025 02:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748139151; cv=fail; b=lf6ntOnl5izbnRGjav5WpmlL63CSxAxnfEfdjRs/kBhzhKu4WYBFn81hw5CLR+E5jzelR3j2zvm3N/oUko28Qh9lv76SPwy/jfLcRePTkVgX3C82sVAnQdAJadrRT/GGQCmCEMGrGiJkB3FewIy1/xhNin1w8dUbEwToWVh38nU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748139151; c=relaxed/simple;
+	bh=3oyA8q9xtDK1sC57rFlmla8H3Lw3+86b5poB3Ep2RKs=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=WPHD1SPqkKMC73gzFd/GUeIvPoZr760Xyudtzzdiwt6LyBARPhAMhblFlFgd9jc7nMr/3IyjGnPGkOYicpmdXBUn8BqQ857W5lpCrSo8p+bWW6KGk37X1lx3mNhYXF81m4NXqngtZvQGJkGmhSnsV3Zj1Rl4Cp0/baktnWBJZ9o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jGGM6psR; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LadvMZeD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGGM6psR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748135815; x=1779671815;
+  t=1748139149; x=1779675149;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kLF44fNoY1Up8ATz6BFbOYUlwvZFgTBE27MImIwFWHE=;
-  b=LadvMZeDIoRIHOrJUKFeMESVVCU1X9XeMxmableGJ4WWeGw98wO/cmz8
-   UK9v+QfmmVBrt/vITzklNKY5+1S19x5X0EYebVrkA1EEscqksK552VC+X
-   JUID27JpmbAjNwymuzS7gqt7cCOxqkPs/2zFyvW+3LF3EmwnXQeE29Lkl
-   sUJibIEfnqh0Bu/KmlEaI+lFIz2QpnncnxB/jPZ2WJTCZ3LI9eMkRMcDF
-   wUoP0pvDEztZHJuKTqvvce/2j9X9WUwPaDav9eZdgYUjzwbU3n4rMQ881
-   FkWmsArLuIOSOMwwa9++Vu7qXmqGJVrYEzczajCdTA8vTsI7HghLZMI4B
-   Q==;
-X-CSE-ConnectionGUID: WGWq3tu2S5ifqzg2NDSfBA==
-X-CSE-MsgGUID: VQ8TsF+DT0+p7u+9hVrFSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="49851886"
+  bh=3oyA8q9xtDK1sC57rFlmla8H3Lw3+86b5poB3Ep2RKs=;
+  b=jGGM6psRJKYnMsDM7q7JfKdSgmjmlFWn6666TqrCqs6l9T/BCRMMJG02
+   /QU+gYeXJ1mYh6OUGIpQCN9mO42R1DJWUK0FD4JIc2ZF5FamB4bNactgx
+   TMjftSBD55zeCM1f82vBrQtUQUIDHek4kO4m8503vDJaOvlSRMuYEwzMU
+   1Vope4/vaWxnFvCacqXgfNXj32fuSksdCc8fmSh+BfPCKFJOpPcfTb0/I
+   0axvp1GY//gBUvqY//yDP2ke1NBpdP83W6nwYIFizy6szk0LFCwTz+ROl
+   QxJCmmuyTaizbtUxsuqYpSdI2rMZa2KxUB5Qr40x6zAD74d3gaW/SWppl
+   A==;
+X-CSE-ConnectionGUID: 4St80fJ7QhOgdOdhEzLTNQ==
+X-CSE-MsgGUID: zJnRJ468R+2hG8Inaxo7dA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="50072204"
 X-IronPort-AV: E=Sophos;i="6.15,312,1739865600"; 
-   d="scan'208";a="49851886"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 18:16:55 -0700
-X-CSE-ConnectionGUID: UtSDnrU/Tom1JHIfTpI4GQ==
-X-CSE-MsgGUID: QT0xuTSwRdWJ+czEIyGgOw==
+   d="scan'208";a="50072204"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 19:12:29 -0700
+X-CSE-ConnectionGUID: 5KSeivkTQZypsHu+AA8X2Q==
+X-CSE-MsgGUID: 3DGFarUASaqe3nNmPr588A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,312,1739865600"; 
-   d="scan'208";a="146745472"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 May 2025 18:16:53 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uIzyt-000RY8-02;
-	Sun, 25 May 2025 01:16:51 +0000
-Date: Sun, 25 May 2025 09:15:57 +0800
+   d="scan'208";a="141799856"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 19:12:28 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Sat, 24 May 2025 19:12:27 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Sat, 24 May 2025 19:12:27 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.51) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Sat, 24 May 2025 19:12:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T2rJqfUryGqGbbB9o7nQW5dc7Dl3wTUCntyOylllnhETJXDDPKxRTQKuWEkNi4P70ov39YaWQuCWrUta5ibIvDV/129VZ/X1RNlHqFf6by0In90WgYsa4Vu+BPvgBAK4E9uc2tvJXIkejmDFftlWljnZ4+KU52+MalWXP+RPVd3fjmRsHKXzqK7Zip3NSVS5bxhDw8Ntp8JIkiPIxgANv2R84JSoUeGUwvnhujuju/05aFfImHQ+yfwkNJclgseAjhUKfjlHOteFai/o6PFsHzjfJxkfTqca1b1xJD1luHa8Kqzgg0SIsY+XNLCGqZ1EZ7F8VwIHlmGdFytfTDFORg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZZvVXzdxaS7RGMO1Lb4G/aeWVIbfmvuHir6+f0eK6jA=;
+ b=UeB5jj7R+Y+Q0Ev89pZtEgvDkkaywPGKHF6Vy2WXycfn6jut4eU6rpHQdO7da7O9OhBykoLvppHCHZbGGCjODo2PSWY8eVfg3IC6pwxM0d2vm5IFZI59tLhUq4g5AkswHlmZ90TCyG3X5Y5OaOaMBZpLScN0lFNEz4PQ7LUAw2TByfRWrVg3yMcp/skLMKAz0v+ZxLb6Zw4gCgvPIClgB7p26JFHsucQmeR9nEn+X0AAhgEOo1aS9Npi403pKsMeyFoq8ia47+xZzUeF5nXqLUysGXGQGOrLg7omMmMtwcOTf/SvI7+hqyfchMyyey/6CRsqIUG6Q268nxaG40Jzbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
+ by IA1PR11MB6418.namprd11.prod.outlook.com (2603:10b6:208:3aa::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.22; Sun, 25 May
+ 2025 02:12:24 +0000
+Received: from PH0PR11MB5674.namprd11.prod.outlook.com
+ ([fe80::77d3:dfb2:3bd:e02a]) by PH0PR11MB5674.namprd11.prod.outlook.com
+ ([fe80::77d3:dfb2:3bd:e02a%6]) with mapi id 15.20.8769.021; Sun, 25 May 2025
+ 02:12:24 +0000
+Date: Sun, 25 May 2025 10:12:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 287/288]
- fs/bcachefs/error.c:498:5: error: cannot jump from this goto statement to
- its label
-Message-ID: <202505250930.YdB8S34n-lkp@intel.com>
+To: Somasundaram Krishnasamy <somasundaram.krishnasamy@oracle.com>
+CC: <oe-kbuild-all@lists.linux.dev>, LUCI Bot <vijayendra.suman@oracle.com>,
+	Jack Vogel <jack.vogel@oracle.com>
+Subject: [jlayton:uek-localio 2095/2262] clang diag: warning: unknown warning
+ option '-Werror=frame-larger-than=2048'; did you mean
+ '-Werror=frame-larger-than='?
+Message-ID: <aDJ8fu/mf9OPewow@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0162.apcprd04.prod.outlook.com (2603:1096:4::24)
+ To PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5674:EE_|IA1PR11MB6418:EE_
+X-MS-Office365-Filtering-Correlation-Id: 657d73f6-aae8-479a-9cdd-08dd9b31965f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?s9scYIRsmvTsNvHodOL7bmzEgAX2JZHP9Y7B22VJBF7bCiskX3c4Fx8ltGYj?=
+ =?us-ascii?Q?6rD7UzG71Os7dBhoEBI0aIalNRH09FymSyZPNqSNWa+eJpJpVLj71XIe1daJ?=
+ =?us-ascii?Q?33+tJcilvBmkfsV+glSqAWF9kscVAxhYsvPtQ8fJb9mCmMQJLe+lls4dLQMQ?=
+ =?us-ascii?Q?m4WMSIM9ijCT6RulqUGRzW0JFsXc49HXB5CuwiEzv5NTDhNtzrM36miAkvQ2?=
+ =?us-ascii?Q?9ginJjA5D7LY+ef6tBpsXgCOJyYfYL/G38v6CUuE1v1SSK7cg7w/YhAeTuIy?=
+ =?us-ascii?Q?AoCHRtfsa7NByHgDrW7sx3ZUUCSTj1wsOdulYt22hxIdtBHoo5VxTxEKFNi7?=
+ =?us-ascii?Q?Mj1ab1OaNG53IdO0zqYMRZ54VbCJEDJPyFysM49MR/DxYLzvzyQ9P6EatMtv?=
+ =?us-ascii?Q?KUszfhLIhINSXl+Z8fFMt6jcL9XtZqcYEp83sl5RKMOEwhIg4ipfZjpBLW7P?=
+ =?us-ascii?Q?RbYari80oDeKDDeIcM0Yzx2KGW6MCfR79WGmplY9FD4jQd5Np4QXfrzz7qVn?=
+ =?us-ascii?Q?f5n87547GYZsE3zpnbp6CProDbM11YcTGXqSJsH9dLyysDg2GqGh3fNqXcLR?=
+ =?us-ascii?Q?Ett3a9kLdJ3oY2lC87QFwSnrJYT9sXNSJIdg8tMapkAvgkSZWMQGJsDBRZy4?=
+ =?us-ascii?Q?0WveMltufMTXGUI/zpBXH0leeWtQx+L3O3TfmcZA/R3KNqs7tR8AN06jM2yI?=
+ =?us-ascii?Q?G2D4CBclXWDA5vQJ304shp3bOT40wwlDS+4BiQPLC0glGYuORda82Pm9LZlv?=
+ =?us-ascii?Q?FdVXbqtaVBOsk0h2dtqdxqlV1/g9AELoVMBoD7YK/BnGnYKkJzUTPuuzQ/UT?=
+ =?us-ascii?Q?GFrQTm2sN5SQy9+1s1jSaFVQCOmNrV9mh/CWPZwFubllfk7FQv8R7EEFQucE?=
+ =?us-ascii?Q?feIvKgutebEa8/Z0A/X10RrnruMlagsBWL4uuOafAQjhbRBOvoQjYkdXZ6Gm?=
+ =?us-ascii?Q?1qOTQhxzb2daSZB38TefsgkaRwJzf+TqRykdnSQxsgZL0BfsIJzFcqJuWnoZ?=
+ =?us-ascii?Q?HFv2kAR8XMBbZfmExlQPLaMO1umpmjoDau4WNPHIuoB7t3rqqW1Dja6G6ggz?=
+ =?us-ascii?Q?jUYGJKAihpMpnwT9pV0RHM89rJ8hIK5o3urDhtCBiGaPdYmNOKX8Hux0nutQ?=
+ =?us-ascii?Q?itGnAbqbIf52OZjJqLLxHPYD/0stfBU17IRlK8ibBju4ibqv7//2D6Nz5thq?=
+ =?us-ascii?Q?Qi6f+CVY3giKLQbG/0FdTrC6p7MO07tULy1xs3OhkfsF6AOknHDbXBnwyP5Y?=
+ =?us-ascii?Q?Z9Yhwxx6PjGY4lvDOM+jlalulStXXvFnpkqwpYu3fptLHqabtMhXKcC2xZ6B?=
+ =?us-ascii?Q?00lo2MKS+r7133OW2Pvz8cLfrZWk9AgsbwBWNiuvuOG6ywX4EOkco6CTQLcF?=
+ =?us-ascii?Q?ox9jCwzD9yaWcGnTONOc/QSO9NSj?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5674.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5NOOGNlDxaRp3v/ijuyuOo0tTjOZCwlnzHXcIPID0M7OgT8qIZsrD2QtvNXP?=
+ =?us-ascii?Q?Z6VCzvbX35knku2smf9LSxk8QFPpSP2lS3XG0uqL02zKatfUUJcdhZB7TWY7?=
+ =?us-ascii?Q?6QujI8FUeKAJ3vvV+SYT+k6Y9YeAcQ8iaTsySP4LGtPBh94enjhrJ9d92rhq?=
+ =?us-ascii?Q?dRf95NX76M/KH18s1G5WN2/RUu9D1+85ZwEHAROqYTqM5KUJYrFtTs7gS2gN?=
+ =?us-ascii?Q?uvOpU+HTVTx4adq3fBKy9RT6+8kMubxyptRx9xelncagD1pTAVlcAkiLAVsM?=
+ =?us-ascii?Q?tGgE1gROz1EpNHGSBJ3183DDzWNsQeCA+49LMaId0X73zsisC2j/BJ3rztlf?=
+ =?us-ascii?Q?xheQAOo6WOHsalfxJv9mAO1wi5jdo/49gGrGJy2eM8Kah6s+uTG1LG5VY6SN?=
+ =?us-ascii?Q?39wzuP5dtXcQ8+A4qFG/U1DkYDGSO2sizQnI+M+2h+WrAl8KA3HOQMHzYguu?=
+ =?us-ascii?Q?jT3tKOvfM2Dm4TrZrk0Gv7OHfudfqiy4cbT9M4VXaIFiD7oC+yUPWlV/6010?=
+ =?us-ascii?Q?QAvo9ji20KArHXp+UxeLYgKhWrsXk7OGzZ6QeNjbMqh3dV/4OLIJGyq4NXZT?=
+ =?us-ascii?Q?WLT0UcFg2EbIXboKs0m6WfqV67+KQfKAmyLlO9U7Z90I0mMc7oRb3qGQLPIF?=
+ =?us-ascii?Q?G2cdECC57zYf8zzrsNQx5GgqJXh3hBfCASMEYkxcptK1nrniEUIxfCcHPyc1?=
+ =?us-ascii?Q?1sZ3J/GIzjWPsLaXbLJoL059K16tB6GkmOaVxfHXXNxThlA47jL4tDRbjGJa?=
+ =?us-ascii?Q?lC4MnIqfPB/qBd0tsgFuchp+4Bb548aO1XyIaeVMoydIejxRoRz/fPl3ySfH?=
+ =?us-ascii?Q?87L5H3ZcBrbcbhKRkAgIUOE3f1bmbPWEkBGkY3pl4ESatxO+j4A8WPbKvMms?=
+ =?us-ascii?Q?Ytx7KQl7FbbHPakzMglFYsyS5w/gapWgmr1AkmtbawUwoxGUU9ggQjRA/qrg?=
+ =?us-ascii?Q?49IBvuo9tebbkEIuQaMbFDeLmOSTZuUGHePXql6h0xl0U4gftYbitl/fAG63?=
+ =?us-ascii?Q?nKfeOG22Opb5K4ncBDWwbdrWRRrxTfautXs5MzyJaiQ++lg9Qg7zFhPoHP53?=
+ =?us-ascii?Q?1w7t7fHGTq6aXUCI46Lu6j34TEmUHAPnhVKx6aRWyPzvRMWrbV8tEJMUaZCN?=
+ =?us-ascii?Q?9op1RmXArvX7bJvdZLainNJXcwuk6UF6+CBPXGqHLx4Gef/IU4JdjJTB1EVg?=
+ =?us-ascii?Q?3jSDbYFXpZJ2sMFN3P87ian9ALdwRevVBnjJRndnU2oMR8RZSXMHYkJwHLe5?=
+ =?us-ascii?Q?q/i8UOLddNrBFn741lACOYB9hBvUMwrT1DdwVBytGXjMY/WPIB9wsPT9ARR0?=
+ =?us-ascii?Q?3PDzqoV6h+I/8TmanxeKgq17nD8mseZXhey3eJ72VbHVXFO5HNhA/qJleFGj?=
+ =?us-ascii?Q?1up7EtffXAP/3FSUOaEI6bKA2+eQqXgrAnfj2Fy7iztsQx10kjbxpFPDZxZT?=
+ =?us-ascii?Q?nwZfKlW5Us2s8OeULpazqC3tl29IGv7hMwKwf0H7RfoleIRgYNfKSyTHAWUU?=
+ =?us-ascii?Q?Sds9ygMFq3Pi2ngbVwzfaVMjeQup9Z49CMOE0WMFPXwK/wVPMm0gkjvaRr7R?=
+ =?us-ascii?Q?rmcAHQGKSlGNZrCtle4HNaYSKxyApjisQEychhSR?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 657d73f6-aae8-479a-9cdd-08dd9b31965f
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5674.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2025 02:12:24.0419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HbpNoBY9vbifM+sIaxEuAwEvRHg6ehphPgVxAr3PVQG/Y03Dr0fQpxHnjfnSu9Xjq/p5tN4qqeltKwgkncVBNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6418
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   8d1f7c458d82ff70eff7b2bcf24d93fb9babe73b
-commit: 42e60caee7636d5aacc7d759ce69c8869371a7ac [287/288] bcachefs: Replace mutex_lock() with guards
-config: arm-randconfig-001-20250525 (https://download.01.org/0day-ci/archive/20250525/202505250930.YdB8S34n-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250525/202505250930.YdB8S34n-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git uek-localio
+head:   65b0dc6bb1f5c18e63d8ee9ea1cca997456a81a9
+commit: 489bb69303b3421ba3e8af23d77f998ebfbbe698 [2095/2262] kbuild: Convert stack frame size larger than warning to error.
+:::::: branch date: 24 hours ago
+:::::: commit date: 5 weeks ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250524/202505242337.1y2UM9bX-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505242337.1y2UM9bX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505250930.YdB8S34n-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505242337.1y2UM9bX-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/error.c:498:5: error: cannot jump from this goto statement to its label
-     498 |                                 goto err;
-         |                                 ^
-   fs/bcachefs/error.c:503:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     503 |         guard(mutex)(&c->fsck_error_msgs_lock);
-         |         ^
-   include/linux/cleanup.h:319:15: note: expanded from macro 'guard'
-     319 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:50:1: note: expanded from here
-      50 | __UNIQUE_ID_guard709
-         | ^
-   1 error generated.
---
->> fs/bcachefs/xattr.c:539:4: error: cannot jump from this goto statement to its label
-     539 |                         goto err;
-         |                         ^
-   fs/bcachefs/xattr.c:565:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     565 |         guard(mutex)(&inode->ei_update_lock);
-         |         ^
-   include/linux/cleanup.h:319:15: note: expanded from macro 'guard'
-     319 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:143:1: note: expanded from here
-     143 | __UNIQUE_ID_guard727
-         | ^
-   fs/bcachefs/xattr.c:535:4: error: cannot jump from this goto statement to its label
-     535 |                         goto err;
-         |                         ^
-   fs/bcachefs/xattr.c:565:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     565 |         guard(mutex)(&inode->ei_update_lock);
-         |         ^
-   include/linux/cleanup.h:319:15: note: expanded from macro 'guard'
-     319 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:143:1: note: expanded from here
-     143 | __UNIQUE_ID_guard727
-         | ^
-   2 errors generated.
---
->> fs/bcachefs/super.c:1120:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-    1120 |                 guard(mutex)(&c->sb_lock);
-         |                 ^
-   include/linux/cleanup.h:319:2: note: expanded from macro 'guard'
-     319 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:258:2: note: expanded from macro 'CLASS'
-     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |         ^
-   <scratch space>:138:1: note: expanded from here
-     138 | class_mutex_t
-         | ^
-   1 warning generated.
---
->> fs/bcachefs/buckets.c:1234:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-    1234 |         guard(mutex)(&c->sectors_available_lock);
-         |         ^
-   include/linux/cleanup.h:319:2: note: expanded from macro 'guard'
-     319 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:258:2: note: expanded from macro 'CLASS'
-     258 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |         ^
-   <scratch space>:122:1: note: expanded from here
-     122 | class_mutex_t
-         | ^
-   1 warning generated.
-
-
-vim +498 fs/bcachefs/error.c
-
-1ece53237e83ed Kent Overstreet 2025-03-26  485  
-9c5d38bba03425 Kent Overstreet 2023-02-16  486  	va_start(args, fmt);
-9c5d38bba03425 Kent Overstreet 2023-02-16  487  	prt_vprintf(out, fmt, args);
-9c5d38bba03425 Kent Overstreet 2023-02-16  488  	va_end(args);
-9c5d38bba03425 Kent Overstreet 2023-02-16  489  
-19391b92947c75 Kent Overstreet 2024-03-28  490  	/* Custom fix/continue/recreate/etc.? */
-19391b92947c75 Kent Overstreet 2024-03-28  491  	if (out->buf[out->pos - 1] == '?') {
-19391b92947c75 Kent Overstreet 2024-03-28  492  		const char *p = strrchr(out->buf, ',');
-19391b92947c75 Kent Overstreet 2024-03-28  493  		if (p) {
-19391b92947c75 Kent Overstreet 2024-03-28  494  			out->pos = p - out->buf;
-19391b92947c75 Kent Overstreet 2024-03-28  495  			action = kstrdup(p + 2, GFP_KERNEL);
-19391b92947c75 Kent Overstreet 2024-03-28  496  			if (!action) {
-19391b92947c75 Kent Overstreet 2024-03-28  497  				ret = -ENOMEM;
-19391b92947c75 Kent Overstreet 2024-03-28 @498  				goto err;
-19391b92947c75 Kent Overstreet 2024-03-28  499  			}
-19391b92947c75 Kent Overstreet 2024-03-28  500  		}
-19391b92947c75 Kent Overstreet 2024-03-28  501  	}
-19391b92947c75 Kent Overstreet 2024-03-28  502  
-42e60caee7636d Kent Overstreet 2025-05-24  503  	guard(mutex)(&c->fsck_error_msgs_lock);
-7337f9f14e0e2d Kent Overstreet 2025-03-28  504  	bool repeat = false, print = true, suppress = false;
-7337f9f14e0e2d Kent Overstreet 2025-03-28  505  	bool inconsistent = false, exiting = false;
-7337f9f14e0e2d Kent Overstreet 2025-03-28  506  	struct fsck_err_state *s =
-7337f9f14e0e2d Kent Overstreet 2025-03-28  507  		count_fsck_err_locked(c, err, buf.buf, &repeat, &print, &suppress);
-7337f9f14e0e2d Kent Overstreet 2025-03-28  508  	if (repeat) {
-9c5d38bba03425 Kent Overstreet 2023-02-16  509  		ret = s->ret;
-42e60caee7636d Kent Overstreet 2025-05-24  510  		goto err;
-9c5d38bba03425 Kent Overstreet 2023-02-16  511  	}
-9c5d38bba03425 Kent Overstreet 2023-02-16  512  
-052210c3fa1f8a Kent Overstreet 2024-11-28  513  	if ((flags & FSCK_AUTOFIX) &&
-33dfafa90285c0 Kent Overstreet 2024-06-19  514  	    (c->opts.errors == BCH_ON_ERROR_continue ||
-33dfafa90285c0 Kent Overstreet 2024-06-19  515  	     c->opts.errors == BCH_ON_ERROR_fix_safe)) {
-33dfafa90285c0 Kent Overstreet 2024-06-19  516  		prt_str(out, ", ");
-052210c3fa1f8a Kent Overstreet 2024-11-28  517  		if (flags & FSCK_CAN_FIX) {
-33dfafa90285c0 Kent Overstreet 2024-06-19  518  			prt_actioning(out, action);
-33dfafa90285c0 Kent Overstreet 2024-06-19  519  			ret = -BCH_ERR_fsck_fix;
-052210c3fa1f8a Kent Overstreet 2024-11-28  520  		} else {
-052210c3fa1f8a Kent Overstreet 2024-11-28  521  			prt_str(out, ", continuing");
-052210c3fa1f8a Kent Overstreet 2024-11-28  522  			ret = -BCH_ERR_fsck_ignore;
-052210c3fa1f8a Kent Overstreet 2024-11-28  523  		}
-052210c3fa1f8a Kent Overstreet 2024-11-28  524  
-052210c3fa1f8a Kent Overstreet 2024-11-28  525  		goto print;
-367cad09664aaf Kent Overstreet 2025-05-10  526  	} else if (!test_bit(BCH_FS_in_fsck, &c->flags)) {
-dbb9936b0dc905 Kent Overstreet 2022-09-25  527  		if (c->opts.errors != BCH_ON_ERROR_continue ||
-dbb9936b0dc905 Kent Overstreet 2022-09-25  528  		    !(flags & (FSCK_CAN_FIX|FSCK_CAN_IGNORE))) {
-e5a3b8cf3330a7 Kent Overstreet 2025-04-28  529  			prt_str_indented(out, ", shutting down\n"
-e5a3b8cf3330a7 Kent Overstreet 2025-04-28  530  					 "error not marked as autofix and not in fsck\n"
-e5a3b8cf3330a7 Kent Overstreet 2025-04-28  531  					 "run fsck, and forward to devs so error can be marked for self-healing");
-22f51621335837 Kent Overstreet 2022-10-09  532  			inconsistent = true;
-b00750c2e5f09b Kent Overstreet 2025-03-28  533  			print = true;
-dbb9936b0dc905 Kent Overstreet 2022-09-25  534  			ret = -BCH_ERR_fsck_errors_not_fixed;
-dbb9936b0dc905 Kent Overstreet 2022-09-25  535  		} else if (flags & FSCK_CAN_FIX) {
-19391b92947c75 Kent Overstreet 2024-03-28  536  			prt_str(out, ", ");
-19391b92947c75 Kent Overstreet 2024-03-28  537  			prt_actioning(out, action);
-dbb9936b0dc905 Kent Overstreet 2022-09-25  538  			ret = -BCH_ERR_fsck_fix;
-dbb9936b0dc905 Kent Overstreet 2022-09-25  539  		} else {
-dbb9936b0dc905 Kent Overstreet 2022-09-25  540  			prt_str(out, ", continuing");
-dbb9936b0dc905 Kent Overstreet 2022-09-25  541  			ret = -BCH_ERR_fsck_ignore;
-dbb9936b0dc905 Kent Overstreet 2022-09-25  542  		}
-a0f8faea5f47d6 Kent Overstreet 2023-07-11  543  	} else if (c->opts.fix_errors == FSCK_FIX_exit) {
-dbb9936b0dc905 Kent Overstreet 2022-09-25  544  		prt_str(out, ", exiting");
-dbb9936b0dc905 Kent Overstreet 2022-09-25  545  		ret = -BCH_ERR_fsck_errors_not_fixed;
-0bc166ff564f9e Kent Overstreet 2019-03-28  546  	} else if (flags & FSCK_CAN_FIX) {
-853b7393c20d5e Kent Overstreet 2023-04-15  547  		int fix = s && s->fix
-853b7393c20d5e Kent Overstreet 2023-04-15  548  			? s->fix
-853b7393c20d5e Kent Overstreet 2023-04-15  549  			: c->opts.fix_errors;
-853b7393c20d5e Kent Overstreet 2023-04-15  550  
-a0f8faea5f47d6 Kent Overstreet 2023-07-11  551  		if (fix == FSCK_FIX_ask) {
-dbb9936b0dc905 Kent Overstreet 2022-09-25  552  			print = false;
-853b7393c20d5e Kent Overstreet 2023-04-15  553  
-8b105909182fed Kent Overstreet 2024-11-28  554  			ret = do_fsck_ask_yn(c, trans, out, action);
-8b105909182fed Kent Overstreet 2024-11-28  555  			if (ret < 0)
-42e60caee7636d Kent Overstreet 2025-05-24  556  				goto err;
-853b7393c20d5e Kent Overstreet 2023-04-15  557  
-8b105909182fed Kent Overstreet 2024-11-28  558  			if (ret >= YN_ALLNO && s)
-8b105909182fed Kent Overstreet 2024-11-28  559  				s->fix = ret == YN_ALLNO
-a0f8faea5f47d6 Kent Overstreet 2023-07-11  560  					? FSCK_FIX_no
-a0f8faea5f47d6 Kent Overstreet 2023-07-11  561  					: FSCK_FIX_yes;
-853b7393c20d5e Kent Overstreet 2023-04-15  562  
-8b105909182fed Kent Overstreet 2024-11-28  563  			ret = ret & 1
-dbb9936b0dc905 Kent Overstreet 2022-09-25  564  				? -BCH_ERR_fsck_fix
-dbb9936b0dc905 Kent Overstreet 2022-09-25  565  				: -BCH_ERR_fsck_ignore;
-a0f8faea5f47d6 Kent Overstreet 2023-07-11  566  		} else if (fix == FSCK_FIX_yes ||
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  567  			   (c->opts.nochanges &&
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  568  			    !(flags & FSCK_CAN_IGNORE))) {
-19391b92947c75 Kent Overstreet 2024-03-28  569  			prt_str(out, ", ");
-19391b92947c75 Kent Overstreet 2024-03-28  570  			prt_actioning(out, action);
-dbb9936b0dc905 Kent Overstreet 2022-09-25  571  			ret = -BCH_ERR_fsck_fix;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  572  		} else {
-19391b92947c75 Kent Overstreet 2024-03-28  573  			prt_str(out, ", not ");
-19391b92947c75 Kent Overstreet 2024-03-28  574  			prt_actioning(out, action);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  575  		}
-eb73e7773fd665 Kent Overstreet 2024-10-28  576  	} else if (!(flags & FSCK_CAN_IGNORE)) {
-dbb9936b0dc905 Kent Overstreet 2022-09-25  577  		prt_str(out, " (repair unimplemented)");
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  578  	}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  579  
-dbb9936b0dc905 Kent Overstreet 2022-09-25  580  	if (ret == -BCH_ERR_fsck_ignore &&
-a0f8faea5f47d6 Kent Overstreet 2023-07-11  581  	    (c->opts.fix_errors == FSCK_FIX_exit ||
-dbb9936b0dc905 Kent Overstreet 2022-09-25  582  	     !(flags & FSCK_CAN_IGNORE)))
-dbb9936b0dc905 Kent Overstreet 2022-09-25  583  		ret = -BCH_ERR_fsck_errors_not_fixed;
-dbb9936b0dc905 Kent Overstreet 2022-09-25  584  
-367cad09664aaf Kent Overstreet 2025-05-10  585  	if (test_bit(BCH_FS_in_fsck, &c->flags) &&
-492e24d7604a1b Kent Overstreet 2024-10-01  586  	    (ret != -BCH_ERR_fsck_fix &&
-052210c3fa1f8a Kent Overstreet 2024-11-28  587  	     ret != -BCH_ERR_fsck_ignore)) {
-052210c3fa1f8a Kent Overstreet 2024-11-28  588  		exiting = true;
-492e24d7604a1b Kent Overstreet 2024-10-01  589  		print = true;
-052210c3fa1f8a Kent Overstreet 2024-11-28  590  	}
-052210c3fa1f8a Kent Overstreet 2024-11-28  591  print:
-1ece53237e83ed Kent Overstreet 2025-03-26  592  	prt_newline(out);
-1ece53237e83ed Kent Overstreet 2025-03-26  593  
-1ece53237e83ed Kent Overstreet 2025-03-26  594  	if (inconsistent)
-b00750c2e5f09b Kent Overstreet 2025-03-28  595  		__bch2_inconsistent_error(c, out);
-1ece53237e83ed Kent Overstreet 2025-03-26  596  	else if (exiting)
-1ece53237e83ed Kent Overstreet 2025-03-26  597  		prt_printf(out, "Unable to continue, halting\n");
-7337f9f14e0e2d Kent Overstreet 2025-03-28  598  	else if (suppress)
-1ece53237e83ed Kent Overstreet 2025-03-26  599  		prt_printf(out, "Ratelimiting new instances of previous error\n");
-1ece53237e83ed Kent Overstreet 2025-03-26  600  
-96f37eabe7a5cb Kent Overstreet 2023-12-31  601  	if (print) {
-b00750c2e5f09b Kent Overstreet 2025-03-28  602  		/* possibly strip an empty line, from printbuf_indent_add */
-b00750c2e5f09b Kent Overstreet 2025-03-28  603  		while (out->pos && out->buf[out->pos - 1] == ' ')
-b00750c2e5f09b Kent Overstreet 2025-03-28  604  			--out->pos;
-b00750c2e5f09b Kent Overstreet 2025-03-28  605  		printbuf_nul_terminate(out);
-b00750c2e5f09b Kent Overstreet 2025-03-28  606  
-96f37eabe7a5cb Kent Overstreet 2023-12-31  607  		if (bch2_fs_stdio_redirect(c))
-b00750c2e5f09b Kent Overstreet 2025-03-28  608  			bch2_print(c, "%s", out->buf);
-96f37eabe7a5cb Kent Overstreet 2023-12-31  609  		else
-ebf561b2083d79 Kent Overstreet 2025-04-15  610  			bch2_print_str(c, KERN_ERR, out->buf);
-96f37eabe7a5cb Kent Overstreet 2023-12-31  611  	}
-dbb9936b0dc905 Kent Overstreet 2022-09-25  612  
-9c5d38bba03425 Kent Overstreet 2023-02-16  613  	if (s)
-9c5d38bba03425 Kent Overstreet 2023-02-16  614  		s->ret = ret;
-9c5d38bba03425 Kent Overstreet 2023-02-16  615  
-eb73e7773fd665 Kent Overstreet 2024-10-28  616  	/*
-eb73e7773fd665 Kent Overstreet 2024-10-28  617  	 * We don't yet track whether the filesystem currently has errors, for
-eb73e7773fd665 Kent Overstreet 2024-10-28  618  	 * log_fsck_err()s: that would require us to track for every error type
-eb73e7773fd665 Kent Overstreet 2024-10-28  619  	 * which recovery pass corrects it, to get the fsck exit status correct:
-eb73e7773fd665 Kent Overstreet 2024-10-28  620  	 */
-eb73e7773fd665 Kent Overstreet 2024-10-28  621  	if (flags & FSCK_CAN_FIX) {
-dbb9936b0dc905 Kent Overstreet 2022-09-25  622  		if (ret == -BCH_ERR_fsck_fix) {
-3c471b65889aa2 Kent Overstreet 2023-11-26  623  			set_bit(BCH_FS_errors_fixed, &c->flags);
-0bc166ff564f9e Kent Overstreet 2019-03-28  624  		} else {
-3c471b65889aa2 Kent Overstreet 2023-11-26  625  			set_bit(BCH_FS_errors_not_fixed, &c->flags);
-3c471b65889aa2 Kent Overstreet 2023-11-26  626  			set_bit(BCH_FS_error, &c->flags);
-0bc166ff564f9e Kent Overstreet 2019-03-28  627  		}
-eb73e7773fd665 Kent Overstreet 2024-10-28  628  	}
-19391b92947c75 Kent Overstreet 2024-03-28  629  err:
-19391b92947c75 Kent Overstreet 2024-03-28  630  	if (action != action_orig)
-19391b92947c75 Kent Overstreet 2024-03-28  631  		kfree(action);
-19391b92947c75 Kent Overstreet 2024-03-28  632  	printbuf_exit(&buf);
-dbb9936b0dc905 Kent Overstreet 2022-09-25  633  	return ret;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  634  }
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  635  
-
-:::::: The code at line 498 was first introduced by commit
-:::::: 19391b92947c75267cdacb1acefe8ad0d278a9dd bcachefs: allow for custom action in fsck error messages
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+   warning: unknown warning option '-Werror=frame-larger-than=2048'; did you mean '-Werror=frame-larger-than='? [-Wunknown-warning-option]
+>> clang diag: warning: unknown warning option '-Werror=frame-larger-than=2048'; did you mean '-Werror=frame-larger-than='? [-Wunknown-warning-option]
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
