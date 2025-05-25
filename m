@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB34F849C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 May 2025 03:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E04F9D9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 May 2025 04:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748143205; cv=none; b=mLsBiKen1Nes51DXLNK5qSfjJEyUOGF72DTz2UH6SMuBa9i30hyy2dNyW6VSg+x7Z4+ZW/9FHLWuiNSaAnYsjilqryuwW41cOEqKCHz7qTWj//ZWm0TunsFU4y+/I3T9EhqdX1eDnTh/oaSL8E0r5V2nSjYolCHglpDDIFPQGg4=
+	t=1748145674; cv=none; b=dT+CSCCQKZZtyxAvYFsPJG9yv2l+TMYoCFR81s41HKRtHvq12Q9BOzyHnpHnUPQsFwxTNu2EyUakRtAerkxpkzxOh31iCuFzG1kG2jK9QvJk8u/O5JSq7um2YvZtDNjTfYWHcjoPUrnf/k4V/jd0fpCKdeMiME0O6lVzDvBQ5f8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748143205; c=relaxed/simple;
-	bh=MaivS75AzaDqvuRe8TXKW/cd/L6q+EpQvkw0HYU30qo=;
+	s=arc-20240116; t=1748145674; c=relaxed/simple;
+	bh=YA0LoK92G2GdkwK98JBcLGfwwDBL6VKkpIVm3CTkCCg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d0Al27EnaGAv1BU8U7w1P5y0GHDe4Tn2J5icgjbFqXlG55glgU1QGXWwwKk72X3m6yUKxN44NL3Po7C4jLt0nPrYk3Rwx74qp9A+HXbsOBzJ732YJXtOVCePhyBe0KPYVT45UlLOWFaXUVKOc+kaUBacYow8sTB4TGUoEKh6GI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YiAdAUFk; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=dZo7itOL0K2HvUsuvxv7L9m5f59qxNVLS1jGj6w9SAmkGjogU90Vzk2KR+b2GF/W32Hwn6IyjHM72+GRggXbbM3F9IgpyXukpKLnRc9v1Zs1hu/bkAGO8UooG4lTY25STaWBGKtlzccchNGNaxW4z421rXBnqaVm1lSul/ve0dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+ttZ8qy; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YiAdAUFk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+ttZ8qy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748143204; x=1779679204;
+  t=1748145671; x=1779681671;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MaivS75AzaDqvuRe8TXKW/cd/L6q+EpQvkw0HYU30qo=;
-  b=YiAdAUFkRz0EdE7KQETyUGl694Ms421qA0isM26bESLczgl1G2VUq3Gy
-   Kv5gdvlXhNQisctGk2EL/olslrcp4ekk17X10TWcLkqAfACXTvWHlnjA+
-   qXJKl3pmYvokUWcGFEoPpCIa7i9yOTrh+57GZEbsiF27NZDhuon7idO/G
-   5lxnKKeYFrCVFXt3D8yr5IKpjKXpMvbpLG7WB5Vbqs1Ps/9okuApfQ+7b
-   YQehbnDh5VmeUKIoWjuWuu4eVwR1rd1STYhQqvH2SM1Vi+NrE2EGkZjni
-   T4ogY7F1LFqcGaN5dRxlwEyl46Du6iPul4Es/B9OQe/JRnVUl1boM4J86
-   w==;
-X-CSE-ConnectionGUID: amG8zT0mTuyw40W8eFwmrw==
-X-CSE-MsgGUID: A11cp3YiQz6AQ7JzVAXAow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="50310913"
+  bh=YA0LoK92G2GdkwK98JBcLGfwwDBL6VKkpIVm3CTkCCg=;
+  b=S+ttZ8qy3rl4X6F2m1PtnUomwxaFdM865k1a/QYaTZBSgiBah0Ca1CM+
+   qkbH1tFCJxSSEwJMbfipkT4fmSwRGMO6vjWFVhcofXrCJz3LmSNZRQXEE
+   S/DewaIMairhRVmNQUseL941WJXEU596TGxM/uV7zgrWaZIjqzNHHSLZK
+   OtA99Lr2kF26jXlyIAjlhQolt3bvdW39BobCdP8+XBof/W0+Mv+etizla
+   BeMPVUSg0V1OKSQMHNf25icPHWGfhPH8V0XWni57UasHuqyYdxmoK+mna
+   bITIGbeBVeSMu+5sJO+fmIdgrz63hg7j8FlvkeLRk2hlKxGVN5wMacgCm
+   A==;
+X-CSE-ConnectionGUID: Ebp/2nvUTkqZFU4LzNMsEw==
+X-CSE-MsgGUID: OLwj1HpQR9yvRPFOiJ2big==
+X-IronPort-AV: E=McAfee;i="6700,10204,11443"; a="50075939"
 X-IronPort-AV: E=Sophos;i="6.15,312,1739865600"; 
-   d="scan'208";a="50310913"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 20:20:03 -0700
-X-CSE-ConnectionGUID: QMqv0iBCRf2ssgnNBRYoZw==
-X-CSE-MsgGUID: IS0pDXVvRXmx44791F+iZA==
+   d="scan'208";a="50075939"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2025 21:01:10 -0700
+X-CSE-ConnectionGUID: E9hXB7JrQ2G5G0GWQtb50Q==
+X-CSE-MsgGUID: BUBIn0J2QkycuCd2XBgB8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,312,1739865600"; 
-   d="scan'208";a="142782365"
+   d="scan'208";a="146636242"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 May 2025 20:20:02 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 May 2025 21:01:06 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJ1u4-000Raq-1H;
-	Sun, 25 May 2025 03:20:00 +0000
-Date: Sun, 25 May 2025 11:19:05 +0800
+	id 1uJ2Xn-000Rbw-38;
+	Sun, 25 May 2025 04:01:03 +0000
+Date: Sun, 25 May 2025 12:00:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:container 12/15] security/keys/container.c:160:52:
- sparse: sparse: incorrect type in argument 2 (different address spaces)
-Message-ID: <202505251146.ZhAbY3Lx-lkp@intel.com>
+Subject: [dhowells-fs:container 13/15] security/keys/container.c:260:19:
+ sparse: sparse: incompatible types in comparison expression (different
+ address spaces):
+Message-ID: <202505251156.6MwZxmnN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,80 +65,64 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git container
 head:   e934156b00c64a64a048108513ab445a232c2120
-commit: 1b61c8044bc4e4388e4eb1236a1564ed278dd0ba [12/15] containers: Allow a daemon to intercept request_key upcalls in a container
-config: arm64-randconfig-r133-20250525 (https://download.01.org/0day-ci/archive/20250525/202505251146.ZhAbY3Lx-lkp@intel.com/config)
+commit: 4c687c8a6028c2d7224a8d8b6e404a5f9c981c43 [13/15] keys: Provide a keyctl to query a request_key authentication key
+config: arm64-randconfig-r133-20250525 (https://download.01.org/0day-ci/archive/20250525/202505251156.6MwZxmnN-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce: (https://download.01.org/0day-ci/archive/20250525/202505251146.ZhAbY3Lx-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20250525/202505251156.6MwZxmnN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505251146.ZhAbY3Lx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505251156.6MwZxmnN-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> security/keys/container.c:160:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected char const [noderef] __user *_type @@     got char const *_type @@
+   security/keys/container.c:160:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected char const [noderef] __user *_type @@     got char const *_type @@
    security/keys/container.c:160:52: sparse:     expected char const [noderef] __user *_type
    security/keys/container.c:160:52: sparse:     got char const *_type
    security/keys/container.c:132:6: sparse: sparse: symbol 'keyctl_container_intercept' redeclared with different type (incompatible argument 2 (different address spaces)):
    security/keys/container.c:132:6: sparse:    long extern [addressable] [signed] [toplevel] keyctl_container_intercept( ... )
    security/keys/container.c: note: in included file:
-   security/keys/internal.h:366:6: sparse: note: previously declared as:
-   security/keys/internal.h:366:6: sparse:    long extern [addressable] [signed] [toplevel] keyctl_container_intercept( ... )
+   security/keys/internal.h:367:6: sparse: note: previously declared as:
+   security/keys/internal.h:367:6: sparse:    long extern [addressable] [signed] [toplevel] keyctl_container_intercept( ... )
+>> security/keys/container.c:260:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   security/keys/container.c:260:19: sparse:    struct key [noderef] __rcu *
+   security/keys/container.c:260:19: sparse:    struct key *
 
-vim +160 security/keys/container.c
+vim +260 security/keys/container.c
 
-   127	
-   128	/*
-   129	 * Add or remove (if dest_keyring==0) a request_key upcall intercept trap upon
-   130	 * a container.  If _type points to a string of "*" that matches all types.
-   131	 */
-   132	long keyctl_container_intercept(int containerfd,
-   133					const char *_type,
-   134					unsigned int ns_id,
-   135					key_serial_t dest_ring_id)
-   136	{
-   137		struct container *c;
-   138		struct fd f;
-   139		char type[32] = "";
-   140		long ret;
-   141	
-   142		if (containerfd < 0 || ns_id < 0)
-   143			return -EINVAL;
-   144		if (dest_ring_id && !_type)
-   145			return -EINVAL;
-   146	
-   147		f = fdget(containerfd);
-   148		if (fd_empty(f))
-   149			return -EBADF;
-   150		ret = -EINVAL;
-   151		if (!is_container_file(fd_file(f)))
-   152			goto out_fd;
-   153	
-   154		c = fd_file(f)->private_data;
-   155	
-   156		/* Find out what type we're dealing with (can be NULL to make removal
-   157		 * remove everything).
-   158		 */
-   159		if (_type) {
- > 160			ret = key_get_type_from_user(type, _type, sizeof(type));
-   161			if (ret < 0)
-   162				goto out_fd;
-   163		}
-   164	
-   165		/* TODO: Get the namespace to filter on */
-   166	
-   167		/* We add a filter if a destination keyring has been specified. */
-   168		if (dest_ring_id) {
-   169			ret = key_create_intercept(c, type, dest_ring_id);
-   170		} else {
-   171			ret = key_del_intercept(c, _type ? type : NULL);
-   172		}
-   173	
-   174	out_fd:
-   175		fdput(f);
-   176		return ret;
-   177	}
-   178	
+   228	
+   229	/*
+   230	 * Query information about a request_key_auth key.
+   231	 */
+   232	long keyctl_query_request_key_auth(key_serial_t auth_id,
+   233					   struct keyctl_query_request_key_auth __user *_data)
+   234	{
+   235		struct keyctl_query_request_key_auth data;
+   236		struct request_key_auth *rka;
+   237		struct key *session, *reg_keyring;
+   238		key_ref_t authkey_ref, usession_ref;
+   239		uid_t uid;
+   240		char buf[20];
+   241		int ret = 0;
+   242	
+   243		if (auth_id <= 0 || !_data)
+   244			return -EINVAL;
+   245	
+   246		authkey_ref = lookup_user_key(auth_id, 0, KEY_NEED_SEARCH);
+   247		if (IS_ERR(authkey_ref))
+   248			return PTR_ERR(authkey_ref);
+   249		rka = get_request_key_auth(key_ref_to_ptr(authkey_ref));
+   250	
+   251		memset(&data, 0, sizeof(data));
+   252		strncpy(data.operation, rka->op, sizeof(data.operation));
+   253		data.fsuid		= from_kuid(current_user_ns(), rka->cred->fsuid);
+   254		data.fsgid		= from_kgid(current_user_ns(), rka->cred->fsgid);
+   255		data.target_key		= rka->target_key->serial;
+   256		data.thread_keyring	= key_serial(rka->cred->thread_keyring);
+   257		data.process_keyring	= key_serial(rka->cred->process_keyring);
+   258	
+   259		rcu_read_lock();
+ > 260		session = rcu_dereference(rka->cred->session_keyring);
 
 -- 
 0-DAY CI Kernel Test Service
