@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017A121579F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78FC14E2F2
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 11:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748516594; cv=none; b=RrNWOgWD6pY7lgBu7jWwEjzNkqriF0wMdT6FJkvLqHWjF0goURQxz9woSU2tQr1XpFZ/hIzjDaIKcT8oXL0PJv7VfldcWDr7nIq7VcNXpslmllhLPbkMao7DfKWtz9wY90tvQodj/kgnmc+3GvLpmeYZaljVWJR+Yd5FCLGeulI=
+	t=1748516595; cv=none; b=nYwICBOAxUdelfFnuFZ6wiTb5LOf5VCNHbwWjhbxWVtVa7cDQzlFVYFBPB/SsNU9L1e1yCLwBh1SA9HT9aBuKmoO1sRXkM35vxwagLNSEPX7cuQ9VTrpJqm0C9TJbbRSFZpd+UyMMqNWjsrbI+IcGpW+XYCC5mx6XP6rZX4/+Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748516594; c=relaxed/simple;
-	bh=pg5U0pCMgukkmYgLjEu4jazcDbVd553OUJssWuIK1Xs=;
+	s=arc-20240116; t=1748516595; c=relaxed/simple;
+	bh=dXa8dCTZjvz2YsBmfMUrVHx6XbKjDtw2JEPgUJ35Cvk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cfsRFR900WOpBSqq3xYXQjfVwafkfWEUbo8uz+sMveKStIUOZv206IK2VYNlXhUMWYGpO63336IFfZ3dG42TyVct6E+mTyM8RxZUjD1CPVeM1mlg8Sz0N90WB5Qzuc5P/J2Dgt88z/W6ekP1V0nIC7RCMMwu4xRebXdsqPLmRP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O5OypPkX; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=JnfZmx2UxFxXfp357rGJsFQ72pigrxSDO4fA3tPazyTzS99lQ34nPvbD2KruU4Qm+e0gArU/mJMJVBFghna7oyz9artlZLufio6GbcioGDQRFU/A88JYVFfSD7tscZNx0nX/RNl9vamo3lwEDBQVX/u7fBP8wfDlerHjvb3QFdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyZJ3Dgi; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O5OypPkX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyZJ3Dgi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1748516592; x=1780052592;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pg5U0pCMgukkmYgLjEu4jazcDbVd553OUJssWuIK1Xs=;
-  b=O5OypPkXlVrPrYgXTaRErH19llXBEonHfDrCwOgw1w6VExes88CjCgx1
-   QWHrz71qiegCbwcy/9K7ewZ4dKD4pWOZPpDxKXlyV5/OszSUwJaNIyXxk
-   SIiWjulQoHcCTFyW9JEf8/1Dxw9tnpDM2IMw9tFBEuqoFGCDbXWkKgFJe
-   cfv0afu3hn4OA3KLs1m15dhBWiX/8SPNE4LBgkloaMWzA9x6EadW68Klo
-   chhv/CULGlt2gb8yEfpdc+QLGuLpOR6kZAqk+cVuemIdXUAAp6RXaX+uO
-   AgM8IWodOgsj7W5mYUwdKFo6kjh/vEs2sXd1dHuGJJuzzXsQ5bhJqmIHH
-   w==;
-X-CSE-ConnectionGUID: XSX38VbbQz6xt1dOLZuzXQ==
-X-CSE-MsgGUID: JPp914WFQG2uJw8VKSqloQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="54369589"
+  bh=dXa8dCTZjvz2YsBmfMUrVHx6XbKjDtw2JEPgUJ35Cvk=;
+  b=QyZJ3DgiHPICo3HQgpAyVmnx9f0Q1t2MEfd5kUqX6FNiueUSZGR0bPBS
+   6cygYtc9tcgfsGmioGDcYLHzUfV8Zc0dXYknG/TY3mCvqvCGQoq5CPLI4
+   IL01Y5I8jGREvNezmb0pbDZNi6HPIct4wg5t8f5dKWpv4AbLmqDdApSts
+   SLn7sXMygbJXB5rSad4d1ibg9pi1lc3l5bDN/EoM19pEZ1rBdexyyWA6g
+   HOc4nRco1gb8dUpiApHIpO0ub5rf+WCO3S9BBPHCvLziTQ+rWjNE9kBVa
+   aT3srH3eB63UWW9roKq3LS54XxwvW8Zl2i1pkBDA6JZKS2RF8CU0Qq6QG
+   g==;
+X-CSE-ConnectionGUID: kGn7V4/MTeGm8KtmF+Kb4g==
+X-CSE-MsgGUID: wtWIaHnATkagjpHljZpPsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="60830481"
 X-IronPort-AV: E=Sophos;i="6.15,192,1739865600"; 
-   d="scan'208";a="54369589"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 04:03:11 -0700
-X-CSE-ConnectionGUID: GkxNT4qXT+6z7kQMoy3t8A==
-X-CSE-MsgGUID: uqfnwTT6TyqRnCtemOwBzA==
+   d="scan'208";a="60830481"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 04:03:12 -0700
+X-CSE-ConnectionGUID: bK9MwsDMSZeAE/Atf1BOhQ==
+X-CSE-MsgGUID: DhmMUivORGe3cn2S0pQVZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,192,1739865600"; 
-   d="scan'208";a="148303609"
+   d="scan'208";a="143864439"
 Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 May 2025 04:03:10 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 May 2025 04:03:09 -0700
 Received: from kbuild by b69e6467d450 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKb2R-0000Fm-27;
+	id 1uKb2R-0000FP-0m;
 	Thu, 29 May 2025 11:03:07 +0000
-Date: Mon, 26 May 2025 22:32:08 +0800
+Date: Tue, 27 May 2025 00:16:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 0/1] include/linux/hugetlb.h:261:1: warning:
- no return statement in function returning non-void
-Message-ID: <202505262230.SfyFTC92-lkp@intel.com>
+Subject: [bytedance:5.15-velinux 0/1]
+ drivers/gpu/drm/../../accel/drm_accel.c:66:29: error: invalid use of
+ undefined type 'struct drm_master'
+Message-ID: <202505270000.o3b4eTZL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,34 +65,55 @@ Content-Disposition: inline
 
 tree:   https://github.com/bytedance/kernel.git 5.15-velinux
 head:   de277dab626c9ece4c9cf99ec9c56f23b298a042
-commit: ae1584fe66d0d69c4ae034d6afa8abc3c8948614 [0/1] hugetlb: simplify hugetlb handling in follow_page_mask
-config: x86_64-buildonly-randconfig-2001-20250514 (https://download.01.org/0day-ci/archive/20250526/202505262230.SfyFTC92-lkp@intel.com/config)
+commit: 43a99aec6db468c17dbaf10f804fa54275bd3047 [0/1] accel: add dedicated minor for accelerator devices
+config: x86_64-buildonly-randconfig-2001-20250514 (https://download.01.org/0day-ci/archive/20250527/202505270000.o3b4eTZL-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250526/202505262230.SfyFTC92-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505270000.o3b4eTZL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505262230.SfyFTC92-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505270000.o3b4eTZL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the bytedance/5.15-velinux HEAD de277dab626c9ece4c9cf99ec9c56f23b298a042 builds fine.
+      It only hurts bisectability.
 
-   In file included from arch/x86/kernel/setup.c:21:
-   include/linux/hugetlb.h: In function 'hugetlb_follow_page_mask':
->> include/linux/hugetlb.h:261:1: warning: no return statement in function returning non-void [-Wreturn-type]
-     261 | }
-         | ^
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/../../accel/drm_accel.c: In function 'accel_name_info':
+>> drivers/gpu/drm/../../accel/drm_accel.c:66:29: error: invalid use of undefined type 'struct drm_master'
+      66 |         if (master && master->unique)
+         |                             ^~
+   drivers/gpu/drm/../../accel/drm_accel.c:67:51: error: invalid use of undefined type 'struct drm_master'
+      67 |                 seq_printf(m, " master=%s", master->unique);
+         |                                                   ^~
 
 
-vim +261 include/linux/hugetlb.h
+vim +66 drivers/gpu/drm/../../accel/drm_accel.c
 
-   256	
-   257	static inline struct page *hugetlb_follow_page_mask(struct vm_area_struct *vma,
-   258					unsigned long address, unsigned int flags)
-   259	{
-   260		BUILD_BUG(); /* should never be compiled in if !CONFIG_HUGETLB_PAGE*/
- > 261	}
-   262	
+    53	
+    54	static int accel_name_info(struct seq_file *m, void *data)
+    55	{
+    56		struct drm_info_node *node = (struct drm_info_node *) m->private;
+    57		struct drm_minor *minor = node->minor;
+    58		struct drm_device *dev = minor->dev;
+    59		struct drm_master *master;
+    60	
+    61		mutex_lock(&dev->master_mutex);
+    62		master = dev->master;
+    63		seq_printf(m, "%s", dev->driver->name);
+    64		if (dev->dev)
+    65			seq_printf(m, " dev=%s", dev_name(dev->dev));
+  > 66		if (master && master->unique)
+    67			seq_printf(m, " master=%s", master->unique);
+    68		if (dev->unique)
+    69			seq_printf(m, " unique=%s", dev->unique);
+    70		seq_puts(m, "\n");
+    71		mutex_unlock(&dev->master_mutex);
+    72	
+    73		return 0;
+    74	}
+    75	
 
 -- 
 0-DAY CI Kernel Test Service
