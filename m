@@ -1,67 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695AC7082D;
-	Mon, 26 May 2025 09:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8361FFC46
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 May 2025 12:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748253033; cv=none; b=RrljF/CexShG+UG+I80wApOloszCoEMhuQTtq4S9ft95FXv/d4M+uVMS0PBYZFsxCiHGB9p9+HB54Qqt1bmkAmex6rSBkb8YbjKrtwBaEUmhL7P8jTU9T4tk/QF/zUqMB7QcB+iBXSuThlLtHTA4cQ8SQx9zoTXAIhmOgdpQjqk=
+	t=1748262770; cv=none; b=pZbctTJn5BhM6Hbb9reY1VWdX4Gbx8g5A2zlmfIrhOJFKWWTgMizfHeTopwE7nCOecnC2FD3CasD6WPSaXVsLFuXFl9aLkLmJii8MSpPYC+OL067iYZf79Z+KknBkiKzBTf1/VMtky++QG7il9t1bU2n8jEHcTZ1JYxC5fuXKWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748253033; c=relaxed/simple;
-	bh=k8W9IMWqlg3awBaLy/B4M+WCIrs4yjbjsrjIkPtZEqs=;
+	s=arc-20240116; t=1748262770; c=relaxed/simple;
+	bh=LyJ+ndHdNNArdfM2pwhYm9icCIe3xNaf4LRyeL/e41U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f3YwQQ81VNUJG5bShBB8OMCEgkd6t/9EKrx3B7Ru72urCfASkTc9flnEoCr+WGk9z2UL5vet+prDeG2fY5b8i1vgcO12iyckFnj+2o5EOnPRWok1Qoz9AQD/gklGn+pwuUht5MuosjZAi5PSh4sBAcVKzrhbUD8Jy9aDtNes9uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JGQyd2ay; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gmzLtqXw3NMtcBIZQvSjGFr03loUyxKhxXuOSKgs+H4cr/o6S7a/2oXmHJ976gefN7MJI61WponE3zq1y8z5W9mK+5awZYanl8htmkkpBD67MAmr4alu7QcIzrrEW9kuLZZR0VNZyWxZTrwHBfcLD3Jdh9Urzh3CU2Gb8S+x1Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TXesNs6K; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JGQyd2ay"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748253032; x=1779789032;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k8W9IMWqlg3awBaLy/B4M+WCIrs4yjbjsrjIkPtZEqs=;
-  b=JGQyd2aySsQUUbsbYe/RXMM+5awI02pYLTF6LCvgAlFWb7wAj63ND1h+
-   tDp4GE8tdPwhPO/zoThWmOG8us04xsRCqtD3GoO/kxmybr/rV8zF9+YK8
-   PRF6dsfZCjXWfLsiJpv8z9Ri8L18Ps5xXQmgMxjfacdYhFTxZ8ADziZK/
-   bCzudKhXT4ic33fclcyfdkCxSbm9GqX4s2giqZ44w8soSZ0L5EexUGMzd
-   oL9RRGZIvgHbkMcZL3BLg+A5EMUFdPIw+uvonJWosx68fbJGv5+27L72Z
-   zTTnJ2bWPRAbCo74j/YtpoVsb0QfBKkqZILi71SRRfApoEv4nJvv3RIlU
-   A==;
-X-CSE-ConnectionGUID: fMKHE0xRReuimaUEgaxVrA==
-X-CSE-MsgGUID: yhaGy5QuQxOo+6IjQJGJtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="60881383"
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="60881383"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 02:50:31 -0700
-X-CSE-ConnectionGUID: /5J6CnMpQbeq8ptkzvtP9Q==
-X-CSE-MsgGUID: 8o5re7M0REW+IMUDEjJ8Sg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="147526393"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 May 2025 02:50:27 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uJUTQ-000SHY-0V;
-	Mon, 26 May 2025 09:50:24 +0000
-Date: Mon, 26 May 2025 17:49:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: yangtengteng@bytedance.com, edumazet@google.com, kuniyu@amazon.com,
-	pabeni@redhat.com, willemb@google.com, davem@davemloft.net,
-	kuba@kernel.org, horms@kernel.org, wuyun.abel@bytedance.com,
-	shakeel.butt@linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	zhoufeng.zf@bytedance.com, wangdongdong.6@bytedance.com,
-	zhangrui.rod@bytedance.com, yangzhenze@bytedance.com,
-	yangtengteng@bytedance.com
-Subject: Re: [PATCH net-next] Fix sock_exceed_buf_limit not being triggered
- in __sk_mem_raise_allocated
-Message-ID: <202505261743.n48LBgti-lkp@intel.com>
-References: <20250526064619.5412-1-yangtengteng@bytedance.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TXesNs6K"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-442e9c00bf4so15181165e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 26 May 2025 05:32:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748262766; x=1748867566; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cX5NeMJ07Z7hPjhpKLdgFWf1Bt2nqdKYkwaeZMAZl5w=;
+        b=TXesNs6K9VO/CAcEybCx7GxQxEw4NJ8m2pqi+sznuwA/3d/9ocR5z6GoHNG0pyhYIc
+         ICAjwI6u96OyVMYuEpJJ0WOwxxTIq0JD+ElZzuEE4yzzq5u4OAFAzg9hUNInSq4VFK3Z
+         V7UEgefvtb6Zcyljq+c7wn/k3N4XNzOekiuTkNsg5TWfo5J4m91Wo2NEX9HmsAMd8Z8A
+         mOTpZy4D8wJJBTcVKSzSDqTMFz1q9oXe/2F/j4Pk8P0YUcNw5QTe4NHZa0mol69Wryv8
+         Gj5OFUSjXloIuVsgw7/wMSZm45D88D4f1VqulQBLCYdrudZ1xGV/WgM7xiV+ECavZwG2
+         G9Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748262766; x=1748867566;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cX5NeMJ07Z7hPjhpKLdgFWf1Bt2nqdKYkwaeZMAZl5w=;
+        b=A/sSre21pNvAiIBm0NPm2oeGOihYuWc41UPTycqpsnrAbyVPQliqc3+KFeKpNYA82l
+         aP6JUuaC/FwzsqKuxMD0DjBKd01W281sosphNRGQ7IyinCTGhub2Kt1L4WlA8IKzNzyb
+         hgU3JlmuoG/VTpzf6gPvmPDiuo6it78R+PSoeqU8a5KmVRyGNXWALhhWSVVXBvQxZTHA
+         1ffIQL1nPaGJGlSZHiQhenevFVz7m48jiNBZ0R3wZvyVWk72nvj/yDB2/19m5pNRgPLO
+         HlrwbqbWYM3lR6t+NXwrTtv2giNfKgb5ql6TxRjKzoO0dJzjjdQOgmGQ8XOOCseJwkZX
+         pM1w==
+X-Forwarded-Encrypted: i=1; AJvYcCU+0l1r46SWhOfCC1fzYLu/ew6itouroAjvRNImxx7gN4ZHl13PGYJu8ZjRM3n+KYgy//7XkcDdAVKK5uQ9@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcP+Or+ZcpUg1kjR61PxF3k8xZXVlsoy+bFrDHT/Rm0QL99leh
+	wvyAzms3nE/h23KcD2MuLc6y4pJK9syaF8Vc/Rm4I2WwRmtWA/cQ5qQYKShr12Hgrhc=
+X-Gm-Gg: ASbGncu+zZcp0FaQD5ULEC3a20YgxtepurY5vlxcIdDbJaMCNXwKmm9EUZxHvtHpOcw
+	TtSZThJ1S8NI661oMXjMvYvd4aZCHsxcDlc4LY9ioV3aPNyKk5O8fELzGxyNnyqFgVGFb/nZxq6
+	wHTaziyrmfYCKyxDiQY83aDpqS8BhqSmoN8YeJ7XFvYIK4+aCh4idaUgsEgKa7pD/JOHUaaJ4/k
+	pY3xMHnJ1Nux3BJmTbzenkNU2WFsI+JYzLdyxnix1J/aRUQa3mIwo3XHqbaD2GYM/iFhSEN+H43
+	JLzvpU+Hdw1D0gjhaCciWVarQ/1k/umKfcMt9hbdDV6g5DyIBgXDq3nw
+X-Google-Smtp-Source: AGHT+IF6jnHUeJLMem7dFDtWplrd9BhhtwxXTTdVE3bJLYOHTU+Nm8qMT01la8e5pMTT4rhXoGFI1w==
+X-Received: by 2002:a05:600c:4e4d:b0:43c:f3e4:d6f6 with SMTP id 5b1f17b1804b1-44c94c2a5famr86772495e9.31.1748262766419;
+        Mon, 26 May 2025 05:32:46 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4dc7e69c8sm1707374f8f.95.2025.05.26.05.32.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 May 2025 05:32:46 -0700 (PDT)
+Date: Mon, 26 May 2025 15:32:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild@lists.linux.dev, Yu Zhao <yuzhao@google.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol
+ 'dirty'.
+Message-ID: <aDRfak8sX1Pf53Pg@stanley.mountain>
+References: <202505152339.fBOfDPsi-lkp@intel.com>
+ <20250523152705.2ecae09e834c66e1327d6748@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,161 +75,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250526064619.5412-1-yangtengteng@bytedance.com>
+In-Reply-To: <20250523152705.2ecae09e834c66e1327d6748@linux-foundation.org>
 
-Hi,
+On Fri, May 23, 2025 at 03:27:05PM -0700, Andrew Morton wrote:
+> On Fri, 23 May 2025 13:47:54 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   088d13246a4672bc03aec664675138e3f5bff68c
+> > commit: a52dcec56c5b96250f15efbd7de3d3ea6ce863d9 mm/mglru: fix PTE-mapped large folios
+> > config: sparc-randconfig-r073-20250515 (https://download.01.org/0day-ci/archive/20250515/202505152339.fBOfDPsi-lkp@intel.com/config)
+> > compiler: sparc64-linux-gcc (GCC) 8.5.0
+> > 
+> > smatch warnings:
+> > mm/vmscan.c:3504 walk_pte_range() error: uninitialized symbol 'dirty'.
+> > mm/vmscan.c:3595 walk_pmd_range_locked() error: uninitialized symbol 'dirty'.
+> > mm/vmscan.c:4215 lru_gen_look_around() error: uninitialized symbol 'dirty'.
+> > 
+> > ...
+> >
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3484  	for (i = pte_index(start), addr = start; addr != end; i++, addr += PAGE_SIZE) {
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3485  		unsigned long pfn;
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3486  		struct folio *folio;
+> > c33c794828f212 Ryan Roberts   2023-06-12  3487  		pte_t ptent = ptep_get(pte + i);
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3488  
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3489  		total++;
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3490  		walk->mm_stats[MM_LEAF_TOTAL]++;
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3491  
+> > 1d4832becdc2cd Yu Zhao        2024-10-19  3492  		pfn = get_pte_pfn(ptent, args->vma, addr, pgdat);
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3493  		if (pfn == -1)
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3494  			continue;
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3495  
+> > 798c0330c2ca07 Yu Zhao        2024-12-30  3496  		folio = get_pfn_folio(pfn, memcg, pgdat);
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3497  		if (!folio)
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3498  			continue;
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3499  
+> > 1d4832becdc2cd Yu Zhao        2024-10-19  3500  		if (!ptep_clear_young_notify(args->vma, addr, pte + i))
+> > 1d4832becdc2cd Yu Zhao        2024-10-19  3501  			continue;
+> > bd74fdaea14602 Yu Zhao        2022-09-18  3502  
+> > a52dcec56c5b96 Yu Zhao        2024-12-30  3503  		if (last != folio) {
+> > a52dcec56c5b96 Yu Zhao        2024-12-30 @3504  			walk_update_folio(walk, last, gen, dirty);
+> 
+> Seems to be notabug because last==NULL on the first loop and in this
+> case walk_update_folio() will immediately return without touching
+> `dirty'.   But gee, I can't blame smatch from getting fooled by this.
 
-kernel test robot noticed the following build errors:
+That's true, but if walk_update_folio() we not inlined then we would
+still consider this a bug.  It's undefined behavior in the C standard
+to pass uninitialized variables to a function call and also the UBSan
+checker will detected it as a read at runtime.
 
-[auto build test ERROR on net-next/main]
+In production systems the compiler is going to set
+"bool dirty = false;" at the start of the function because everyone
+runs with CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y.  Should I send a patch
+which does that explicitly?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/yangtengteng-bytedance-com/Fix-sock_exceed_buf_limit-not-being-triggered-in-__sk_mem_raise_allocated/20250526-144725
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250526064619.5412-1-yangtengteng%40bytedance.com
-patch subject: [PATCH net-next] Fix sock_exceed_buf_limit not being triggered in __sk_mem_raise_allocated
-config: i386-buildonly-randconfig-002-20250526 (https://download.01.org/0day-ci/archive/20250526/202505261743.n48LBgti-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250526/202505261743.n48LBgti-lkp@intel.com/reproduce)
+regards,
+dan carpenter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505261743.n48LBgti-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> net/core/sock.c:3284:67: error: expected ')'
-    3284 |                 charged = mem_cgroup_charge_skmem(memcg, amt, gfp_memcg_charge();
-         |                                                                                 ^
-   net/core/sock.c:3284:36: note: to match this '('
-    3284 |                 charged = mem_cgroup_charge_skmem(memcg, amt, gfp_memcg_charge();
-         |                                                  ^
-   1 error generated.
-
-
-vim +3284 net/core/sock.c
-
-  3257	
-  3258	/**
-  3259	 *	__sk_mem_raise_allocated - increase memory_allocated
-  3260	 *	@sk: socket
-  3261	 *	@size: memory size to allocate
-  3262	 *	@amt: pages to allocate
-  3263	 *	@kind: allocation type
-  3264	 *
-  3265	 *	Similar to __sk_mem_schedule(), but does not update sk_forward_alloc.
-  3266	 *
-  3267	 *	Unlike the globally shared limits among the sockets under same protocol,
-  3268	 *	consuming the budget of a memcg won't have direct effect on other ones.
-  3269	 *	So be optimistic about memcg's tolerance, and leave the callers to decide
-  3270	 *	whether or not to raise allocated through sk_under_memory_pressure() or
-  3271	 *	its variants.
-  3272	 */
-  3273	int __sk_mem_raise_allocated(struct sock *sk, int size, int amt, int kind)
-  3274	{
-  3275		struct mem_cgroup *memcg = mem_cgroup_sockets_enabled ? sk->sk_memcg : NULL;
-  3276		struct proto *prot = sk->sk_prot;
-  3277		bool charged = true;
-  3278		long allocated;
-  3279	
-  3280		sk_memory_allocated_add(sk, amt);
-  3281		allocated = sk_memory_allocated(sk);
-  3282	
-  3283		if (memcg) {
-> 3284			charged = mem_cgroup_charge_skmem(memcg, amt, gfp_memcg_charge();
-  3285			if (!charged)
-  3286				goto suppress_allocation;
-  3287		}
-  3288	
-  3289		/* Under limit. */
-  3290		if (allocated <= sk_prot_mem_limits(sk, 0)) {
-  3291			sk_leave_memory_pressure(sk);
-  3292			return 1;
-  3293		}
-  3294	
-  3295		/* Under pressure. */
-  3296		if (allocated > sk_prot_mem_limits(sk, 1))
-  3297			sk_enter_memory_pressure(sk);
-  3298	
-  3299		/* Over hard limit. */
-  3300		if (allocated > sk_prot_mem_limits(sk, 2))
-  3301			goto suppress_allocation;
-  3302	
-  3303		/* Guarantee minimum buffer size under pressure (either global
-  3304		 * or memcg) to make sure features described in RFC 7323 (TCP
-  3305		 * Extensions for High Performance) work properly.
-  3306		 *
-  3307		 * This rule does NOT stand when exceeds global or memcg's hard
-  3308		 * limit, or else a DoS attack can be taken place by spawning
-  3309		 * lots of sockets whose usage are under minimum buffer size.
-  3310		 */
-  3311		if (kind == SK_MEM_RECV) {
-  3312			if (atomic_read(&sk->sk_rmem_alloc) < sk_get_rmem0(sk, prot))
-  3313				return 1;
-  3314	
-  3315		} else { /* SK_MEM_SEND */
-  3316			int wmem0 = sk_get_wmem0(sk, prot);
-  3317	
-  3318			if (sk->sk_type == SOCK_STREAM) {
-  3319				if (sk->sk_wmem_queued < wmem0)
-  3320					return 1;
-  3321			} else if (refcount_read(&sk->sk_wmem_alloc) < wmem0) {
-  3322					return 1;
-  3323			}
-  3324		}
-  3325	
-  3326		if (sk_has_memory_pressure(sk)) {
-  3327			u64 alloc;
-  3328	
-  3329			/* The following 'average' heuristic is within the
-  3330			 * scope of global accounting, so it only makes
-  3331			 * sense for global memory pressure.
-  3332			 */
-  3333			if (!sk_under_global_memory_pressure(sk))
-  3334				return 1;
-  3335	
-  3336			/* Try to be fair among all the sockets under global
-  3337			 * pressure by allowing the ones that below average
-  3338			 * usage to raise.
-  3339			 */
-  3340			alloc = sk_sockets_allocated_read_positive(sk);
-  3341			if (sk_prot_mem_limits(sk, 2) > alloc *
-  3342			    sk_mem_pages(sk->sk_wmem_queued +
-  3343					 atomic_read(&sk->sk_rmem_alloc) +
-  3344					 sk->sk_forward_alloc))
-  3345				return 1;
-  3346		}
-  3347	
-  3348	suppress_allocation:
-  3349	
-  3350		if (kind == SK_MEM_SEND && sk->sk_type == SOCK_STREAM) {
-  3351			sk_stream_moderate_sndbuf(sk);
-  3352	
-  3353			/* Fail only if socket is _under_ its sndbuf.
-  3354			 * In this case we cannot block, so that we have to fail.
-  3355			 */
-  3356			if (sk->sk_wmem_queued + size >= sk->sk_sndbuf) {
-  3357				/* Force charge with __GFP_NOFAIL */
-  3358				if (memcg && !charged) {
-  3359					mem_cgroup_charge_skmem(memcg, amt,
-  3360						gfp_memcg_charge() | __GFP_NOFAIL);
-  3361				}
-  3362				return 1;
-  3363			}
-  3364		}
-  3365	
-  3366		if (kind == SK_MEM_SEND || (kind == SK_MEM_RECV && charged))
-  3367			trace_sock_exceed_buf_limit(sk, prot, allocated, kind);
-  3368	
-  3369		sk_memory_allocated_sub(sk, amt);
-  3370	
-  3371		if (memcg && charged)
-  3372			mem_cgroup_uncharge_skmem(memcg, amt);
-  3373	
-  3374		return 0;
-  3375	}
-  3376	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
