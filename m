@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF7B136E;
-	Mon, 26 May 2025 00:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9950120330
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 May 2025 00:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748219804; cv=none; b=ZzXWb5Yrl+ScqVhDdq2yXTlZrxbg+975ekj9iZX+DN+fqPOSkDzSNXAW3EJoLGIX55Uh7SvdBYjmhqq3yiwIwTjsp+B5I9fIfvy+WpEqQ4Qm6yhSq5Bm2I7cWYIt6CYfuMWZJwhZjTARrsw140Us7ezFr+ziNeun11wW5JBbt0o=
+	t=1748219805; cv=none; b=ixbzgVgoLYootkBUgCosFECBdRjsjnwMkL0Gk9mtvXwKfzF+P7h2EPQZqXNAuZFzqICLVNy7UlNttM9qfUzNru8TSRvIaX4grISN/nCiVtFovw3uzs4pHlLVXZekvGjgTzmI2ZG/WhE382gCAy/F6ba5UIZsd5KHgJ+WbShiA8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748219804; c=relaxed/simple;
-	bh=wl/rwo4cvQ99cnE05I2raSPH9l4FYD/NCeJACTJObSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WhiI/SkjryBi/LsnPAZV4j3m6yT2vEMHgu2WJcZBh2sn0sihqGbQYawhbWooSSQp894K2qWpWKBrq52bvkbr2ql9+ykzqbXdJ9QJeJoCwntY579IBCj92vGZ0QGhvh0w9AZOcsunDgAtqNZiD+ZXI3+ep28wO/eaPQd7Mlwm72k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Izl+UCqh; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1748219805; c=relaxed/simple;
+	bh=PWmxnlgfXVQMFwih64+oIqpx6GC1/1WEm1ZUh1+lD90=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D6bSqgZJyWYffF6+EwvIg3rPp3cSNpipXUCLssUq+59HP5dvO0OT6hFEtVKCZPptvLf7q08k30xGbbhjLpNR4fXaWebi+m0OtGhY/Dl4FtVDS5tLS3rcB+RxmYM8cE0k+syhbQkq7YTSgACkql6KRblBgAd5N4qENr9MYSnAqAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kBJfRQh0; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Izl+UCqh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kBJfRQh0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748219803; x=1779755803;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wl/rwo4cvQ99cnE05I2raSPH9l4FYD/NCeJACTJObSY=;
-  b=Izl+UCqh5ulXZXt6rTPoOPAAkD0auYZs3Q27Xmk5NmHDdmI9I0GIBcN5
-   UPIF0qN2PQxWugVncT2fKMSbcwl8YZ9V46qoKogHFRt0aOYEbxIRXygCm
-   bEjRQ8SuLfYBj48Bc4dbl0w2AK8TpdDzMkYkAj2uzCzFECUVRxCIF0tMX
-   kX+6t0LpZdqYOEUG3VSoXET6sDWF9fNjU0Es2rSEe9NC6EGGbMmEiwVed
-   tTxSNNzzwKQWqsZwJMBrFRJlWSbxF8vXU/1qtQYkOFj3V/WpO3sORK/Tb
-   PTcSTBtR6a0z7qLW8yow6ZY3WEJrw8QA5T7hFSn81vRTCFFjpqe0Oe3wG
-   g==;
-X-CSE-ConnectionGUID: he5heWQtQI+kkaIMqhXwZw==
-X-CSE-MsgGUID: Kd3FouSMRMmS+ijPFucxkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="49436904"
+  t=1748219804; x=1779755804;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PWmxnlgfXVQMFwih64+oIqpx6GC1/1WEm1ZUh1+lD90=;
+  b=kBJfRQh0+loaa5T0ceu3/6IaKZhkqhBu3aFlfvUVrHLu4IRaShePm3jL
+   uK4bTg29PwB9plVozCr67m1hCgGwvylHnoJC3omygkeg/kCkASP2mn8Xq
+   wmruw/s3XtkQQRJbT5IJWjgRnnx4H5bLyZ/luWrXvHmhbbizu1r+DhfUn
+   /A4yF5SXW1wCe8n/6J2UouN4OSPJ/BcYZD/Ra4BxeqDOomRW5Wj5SBHHo
+   G41DHmnrkPy2Y7agx7l8wD5+5bLDkLW3btB/X2FxhTbBH+/os5JrPmgGC
+   X5AQzWTdvCb8KO6t09oN2B4+lCZ1Qaxydlt/iowPgdICepQJdWN19BMuv
+   A==;
+X-CSE-ConnectionGUID: Urz+x8J1QJWE0aXs5zSSrA==
+X-CSE-MsgGUID: lBPimtJ4RnOAdwyyh64UAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="67739673"
 X-IronPort-AV: E=Sophos;i="6.15,314,1739865600"; 
-   d="scan'208";a="49436904"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 17:36:40 -0700
-X-CSE-ConnectionGUID: oeiHjjWpSW+3wNom9pM9gg==
-X-CSE-MsgGUID: k1c2gdXkRJ2f/1FEj8LT/A==
+   d="scan'208";a="67739673"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 17:36:43 -0700
+X-CSE-ConnectionGUID: nxxMPxjcSEOwAFrehzbeGA==
+X-CSE-MsgGUID: B4+C7AphS5OWTk0wdO38Sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,314,1739865600"; 
-   d="scan'208";a="143074889"
+   d="scan'208";a="142594031"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 May 2025 17:36:39 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 25 May 2025 17:36:39 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJLpU-000S34-3C;
+	id 1uJLpU-000S32-36;
 	Mon, 26 May 2025 00:36:36 +0000
-Date: Mon, 26 May 2025 08:36:20 +0800
+Date: Mon, 26 May 2025 08:36:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 11584/13331] error[E0599]: no function or
- associated item named `from_of_cpumask` found for struct
- `rust_doctest_kernel_alloc_kbox_rs_4::kernel::opp::Table` in the current
- scope
-Message-ID: <202505260856.ZQWHW2xT-lkp@intel.com>
+To: Suraj Gupta <suraj.gupta2@amd.com>, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, vkoul@kernel.org, michal.simek@amd.com,
+	sean.anderson@linux.dev, radhey.shyam.pandey@amd.com,
+	horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	git@amd.com, harini.katakam@amd.com
+Subject: Re: [PATCH net-next] net: xilinx: axienet: Configure and report
+ coalesce parameters in DMAengine flow
+Message-ID: <202505260804.Mhztve8t-lkp@intel.com>
+References: <20250525102217.1181104-1-suraj.gupta2@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +69,173 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250525102217.1181104-1-suraj.gupta2@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   176e917e010cb7dcc605f11d2bc33f304292482b
-commit: 2207856ff0bc8d953d6e89bda70b8978c2de8bab [11584/13331] rust: cpufreq: Add initial abstractions for cpufreq framework
-config: x86_64-buildonly-randconfig-003-20250526 (https://download.01.org/0day-ci/archive/20250526/202505260856.ZQWHW2xT-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250526/202505260856.ZQWHW2xT-lkp@intel.com/reproduce)
+Hi Suraj,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Gupta/net-xilinx-axienet-Configure-and-report-coalesce-parameters-in-DMAengine-flow/20250525-182400
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250525102217.1181104-1-suraj.gupta2%40amd.com
+patch subject: [PATCH net-next] net: xilinx: axienet: Configure and report coalesce parameters in DMAengine flow
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250526/202505260804.Mhztve8t-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250526/202505260804.Mhztve8t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505260856.ZQWHW2xT-lkp@intel.com/
-
-Note: the linux-next/master HEAD 176e917e010cb7dcc605f11d2bc33f304292482b builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505260804.Mhztve8t-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0599]: no function or associated item named `from_of_cpumask` found for struct `rust_doctest_kernel_alloc_kbox_rs_4::kernel::opp::Table` in the current scope
-   --> rust/doctests_kernel_generated.rs:4025:32
-   |
-   4025 |     let mut opp_table = Table::from_of_cpumask(dev, mask)?;
-   |                                ^^^^^^^^^^^^^^^ function or associated item not found in `Table`
-   |
-   note: if you're trying to build a new `rust_doctest_kernel_alloc_kbox_rs_4::kernel::opp::Table` consider using one of the following associated functions:
-   rust_doctest_kernel_alloc_kbox_rs_4::kernel::opp::Table::from_raw_table
-   rust_doctest_kernel_alloc_kbox_rs_4::kernel::opp::Table::from_dev
-   --> rust/kernel/opp.rs:559:5
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_init_dmaengine':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1524:18: error: 'struct dma_slave_config' has no member named 'coalesce_cnt'
+    1524 |         tx_config.coalesce_cnt = XAXIDMAENGINE_DFT_TX_THRESHOLD;
+         |                  ^
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1525:18: error: 'struct dma_slave_config' has no member named 'coalesce_usecs'
+    1525 |         tx_config.coalesce_usecs = XAXIDMAENGINE_DFT_TX_USEC;
+         |                  ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1526:18: error: 'struct dma_slave_config' has no member named 'coalesce_cnt'
+    1526 |         rx_config.coalesce_cnt = XAXIDMAENGINE_DFT_RX_THRESHOLD;
+         |                  ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1527:18: error: 'struct dma_slave_config' has no member named 'coalesce_usecs'
+    1527 |         rx_config.coalesce_usecs =  XAXIDMAENGINE_DFT_RX_USEC;
+         |                  ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_ethtools_get_coalesce':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2196:61: error: 'struct dma_slave_caps' has no member named 'coalesce_cnt'
+    2196 |                 ecoalesce->tx_max_coalesced_frames = tx_caps.coalesce_cnt;
+         |                                                             ^
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2197:55: error: 'struct dma_slave_caps' has no member named 'coalesce_usecs'
+    2197 |                 ecoalesce->tx_coalesce_usecs = tx_caps.coalesce_usecs;
+         |                                                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2198:61: error: 'struct dma_slave_caps' has no member named 'coalesce_cnt'
+    2198 |                 ecoalesce->rx_max_coalesced_frames = rx_caps.coalesce_cnt;
+         |                                                             ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2199:55: error: 'struct dma_slave_caps' has no member named 'coalesce_usecs'
+    2199 |                 ecoalesce->rx_coalesce_usecs = rx_caps.coalesce_usecs;
+         |                                                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_ethtools_set_coalesce':
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2270:23: error: 'struct dma_slave_config' has no member named 'coalesce_cnt'
+    2270 |                 tx_cfg.coalesce_cnt = ecoalesce->tx_max_coalesced_frames;
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2271:23: error: 'struct dma_slave_config' has no member named 'coalesce_usecs'
+    2271 |                 tx_cfg.coalesce_usecs = ecoalesce->tx_coalesce_usecs;
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2272:23: error: 'struct dma_slave_config' has no member named 'coalesce_cnt'
+    2272 |                 rx_cfg.coalesce_cnt = ecoalesce->rx_max_coalesced_frames;
+         |                       ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2273:23: error: 'struct dma_slave_config' has no member named 'coalesce_usecs'
+    2273 |                 rx_cfg.coalesce_usecs = ecoalesce->rx_coalesce_usecs;
+         |                       ^
+
+
+vim +1524 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+
+  1494	
+  1495	/**
+  1496	 * axienet_init_dmaengine - init the dmaengine code.
+  1497	 * @ndev:       Pointer to net_device structure
+  1498	 *
+  1499	 * Return: 0, on success.
+  1500	 *          non-zero error value on failure
+  1501	 *
+  1502	 * This is the dmaengine initialization code.
+  1503	 */
+  1504	static int axienet_init_dmaengine(struct net_device *ndev)
+  1505	{
+  1506		struct axienet_local *lp = netdev_priv(ndev);
+  1507		struct skbuf_dma_descriptor *skbuf_dma;
+  1508		struct dma_slave_config tx_config, rx_config;
+  1509		int i, ret;
+  1510	
+  1511		lp->tx_chan = dma_request_chan(lp->dev, "tx_chan0");
+  1512		if (IS_ERR(lp->tx_chan)) {
+  1513			dev_err(lp->dev, "No Ethernet DMA (TX) channel found\n");
+  1514			return PTR_ERR(lp->tx_chan);
+  1515		}
+  1516	
+  1517		lp->rx_chan = dma_request_chan(lp->dev, "rx_chan0");
+  1518		if (IS_ERR(lp->rx_chan)) {
+  1519			ret = PTR_ERR(lp->rx_chan);
+  1520			dev_err(lp->dev, "No Ethernet DMA (RX) channel found\n");
+  1521			goto err_dma_release_tx;
+  1522		}
+  1523	
+> 1524		tx_config.coalesce_cnt = XAXIDMAENGINE_DFT_TX_THRESHOLD;
+> 1525		tx_config.coalesce_usecs = XAXIDMAENGINE_DFT_TX_USEC;
+> 1526		rx_config.coalesce_cnt = XAXIDMAENGINE_DFT_RX_THRESHOLD;
+> 1527		rx_config.coalesce_usecs =  XAXIDMAENGINE_DFT_RX_USEC;
+  1528	
+  1529		ret = dmaengine_slave_config(lp->tx_chan, &tx_config);
+  1530		if (ret) {
+  1531			dev_err(lp->dev, "Failed to configure Tx coalesce parameters\n");
+  1532			goto err_dma_release_tx;
+  1533		}
+  1534		ret = dmaengine_slave_config(lp->rx_chan, &rx_config);
+  1535		if (ret) {
+  1536			dev_err(lp->dev, "Failed to configure Rx coalesce parameters\n");
+  1537			goto err_dma_release_tx;
+  1538		}
+  1539	
+  1540		lp->tx_ring_tail = 0;
+  1541		lp->tx_ring_head = 0;
+  1542		lp->rx_ring_tail = 0;
+  1543		lp->rx_ring_head = 0;
+  1544		lp->tx_skb_ring = kcalloc(TX_BD_NUM_MAX, sizeof(*lp->tx_skb_ring),
+  1545					  GFP_KERNEL);
+  1546		if (!lp->tx_skb_ring) {
+  1547			ret = -ENOMEM;
+  1548			goto err_dma_release_rx;
+  1549		}
+  1550		for (i = 0; i < TX_BD_NUM_MAX; i++) {
+  1551			skbuf_dma = kzalloc(sizeof(*skbuf_dma), GFP_KERNEL);
+  1552			if (!skbuf_dma) {
+  1553				ret = -ENOMEM;
+  1554				goto err_free_tx_skb_ring;
+  1555			}
+  1556			lp->tx_skb_ring[i] = skbuf_dma;
+  1557		}
+  1558	
+  1559		lp->rx_skb_ring = kcalloc(RX_BUF_NUM_DEFAULT, sizeof(*lp->rx_skb_ring),
+  1560					  GFP_KERNEL);
+  1561		if (!lp->rx_skb_ring) {
+  1562			ret = -ENOMEM;
+  1563			goto err_free_tx_skb_ring;
+  1564		}
+  1565		for (i = 0; i < RX_BUF_NUM_DEFAULT; i++) {
+  1566			skbuf_dma = kzalloc(sizeof(*skbuf_dma), GFP_KERNEL);
+  1567			if (!skbuf_dma) {
+  1568				ret = -ENOMEM;
+  1569				goto err_free_rx_skb_ring;
+  1570			}
+  1571			lp->rx_skb_ring[i] = skbuf_dma;
+  1572		}
+  1573		/* TODO: Instead of BD_NUM_DEFAULT use runtime support */
+  1574		for (i = 0; i < RX_BUF_NUM_DEFAULT; i++)
+  1575			axienet_rx_submit_desc(ndev);
+  1576		dma_async_issue_pending(lp->rx_chan);
+  1577	
+  1578		return 0;
+  1579	
+  1580	err_free_rx_skb_ring:
+  1581		for (i = 0; i < RX_BUF_NUM_DEFAULT; i++)
+  1582			kfree(lp->rx_skb_ring[i]);
+  1583		kfree(lp->rx_skb_ring);
+  1584	err_free_tx_skb_ring:
+  1585		for (i = 0; i < TX_BD_NUM_MAX; i++)
+  1586			kfree(lp->tx_skb_ring[i]);
+  1587		kfree(lp->tx_skb_ring);
+  1588	err_dma_release_rx:
+  1589		dma_release_channel(lp->rx_chan);
+  1590	err_dma_release_tx:
+  1591		dma_release_channel(lp->tx_chan);
+  1592		return ret;
+  1593	}
+  1594	
 
 -- 
 0-DAY CI Kernel Test Service
