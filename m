@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94578BA33
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 May 2025 22:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF035145B25
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 May 2025 23:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748297871; cv=none; b=sSJcBov0WJssFrc3esSm3juw00xV5ZTYCRBAWJOrDDmZKS3Fi2Dld4EgutmshQzyoPs6QxdZ8qIGmuF9e41v2Y4xkCSi8F4ZwSHPtMQV1jKronbTPstqj5LHcXbYuI+oYlMMAWvovvg2YYUGBnqxKbW9A+oQVYDV6xXErBr4HHg=
+	t=1748301597; cv=none; b=QGcgg55Q2den2xL9p6+wnU477RcnS+7iKbMPhmwH3lIkW/goBzx4Q5PrO7i4/8m3hTvuizyXpkAIe581pLyy6fnvsZdSQGdXoJ4MHVHKjmQ0ZuaGkQ3k02iWwYH3tIZPrI3nE0POPN0zrI9tPaYyaXoLqfLlZOV5ydIQwo5nEWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748297871; c=relaxed/simple;
-	bh=4D+AotAhkqyyq603rPCeRmywsUD0Aj+0e+3KhZu56IM=;
+	s=arc-20240116; t=1748301597; c=relaxed/simple;
+	bh=OK5Hm5sBBRXM6th202eiTVUUVKEb60IJNquK8yuj7gg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QcREDikP2At5n9Yldrp0Qid5X/pxs7I0Rdkx6vv1WIzLhLAXGtcJtT0mthv2uJIji9WpOfMTElr+0rxSIUCMwUE2hLMxum17usOjzoeDBtcOveLaTbZ5ynmZuvxi2KaTuqR3XcrP2MIZUpO7+2cP+/sr9TW8sEl18GJLs1S5v14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQ4IVtBU; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=ZIPTBXGhidgCx4wmm+Xb5dkYDWy5L+nnow8h7Hmu2eQYcviHcXOco/w5dqToqc3/rqTe7SOS3pc2OKpnQKDS/P6lIBbz74TUCy2uJ6zZKba5uMKr8addqNZ+olZFVbKNANY1vK5psCERlfqN8Q7ulB9YFWVlNdZaLxBoNgNZijk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EabfL67u; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQ4IVtBU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EabfL67u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748297870; x=1779833870;
+  t=1748301595; x=1779837595;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4D+AotAhkqyyq603rPCeRmywsUD0Aj+0e+3KhZu56IM=;
-  b=PQ4IVtBUDLDqYs1jCekLY6dTp6VgQvMsDgDkcSnzpb6vRjWnkvT8tpoG
-   gtvhydJL5Tj0gpoXcZjdP6V1IAc5qDcKM+4egOpsrZly3e4yyVkzeJ7qO
-   ppvc7OHeIwwRFK+jqI+8IJ4vE8IWKGoXS4al8+pxKXJHiiU6eOkjJK4zg
-   RfvZ/NgAclYIi0lu/tyKIRnpsiwuZWaGe1IL/+nbZndu/97opesMSpFcC
-   GGtk6Ra/dJBQuxKLEraQfbjcq0RWdXxRguoGi0EPRN83g75sGKTvVmNPA
-   zEZ1O1oA8JSFz/9nJyrQyi308xGILA2vPDv2TrLekDX/iOxnIwFZbcDhm
-   Q==;
-X-CSE-ConnectionGUID: N22xoqxGRzmS/Hxs9Wql5w==
-X-CSE-MsgGUID: rnsORDXhRq2HMzO70SsSBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="50384345"
+  bh=OK5Hm5sBBRXM6th202eiTVUUVKEb60IJNquK8yuj7gg=;
+  b=EabfL67uOD6Y4glas2cY/T3ZFQeC/6bV/GvNCN342zMCTwGOLgsn3OJG
+   fMzyp4OWGHPnlz0tRjtiXZ98u2fXqYM+luv5MxoDXmqYAaM+okb0Pc0JC
+   LcRVJ/WGqEJFXzXZa2gJVjA1tijtu0dERTrtkWWNTboyrC3PIwWqf/a12
+   cJa9ygDog18PX0ikYms3e/NVoqdYOHr1Wef5ip7xPBIQdv8I8RgYgxeLN
+   wHe9QiEQ7xnBDfuY7Ndqawn+BqADVJJbafF5NCX+AIYSCE/5bCI8nKRRv
+   9wlMcSvPm9PxHNzgXMMi1Gh543A/bT3mmHuFPRAucxZ8JRBoIAyslU5kX
+   A==;
+X-CSE-ConnectionGUID: wMQKo3vhSO+hh1mNDIUJ4A==
+X-CSE-MsgGUID: i1W6ik8MQX2nThBMqlME/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="60906983"
 X-IronPort-AV: E=Sophos;i="6.15,316,1739865600"; 
-   d="scan'208";a="50384345"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 15:17:49 -0700
-X-CSE-ConnectionGUID: F0mTqo3VS0GzVAdFgb41WQ==
-X-CSE-MsgGUID: WatK2GHVQXSgZFIK1oZ2gQ==
+   d="scan'208";a="60906983"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 16:19:54 -0700
+X-CSE-ConnectionGUID: RLcm1BU2R7a4Hl1PYmmgdg==
+X-CSE-MsgGUID: Id48GNU6QjihNC/56kOD9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,316,1739865600"; 
-   d="scan'208";a="143124224"
+   d="scan'208";a="142550546"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 26 May 2025 15:17:48 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 May 2025 16:19:53 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJg8f-000SjQ-0T;
-	Mon, 26 May 2025 22:17:45 +0000
-Date: Tue, 27 May 2025 06:17:02 +0800
+	id 1uJh6l-000SkK-0w;
+	Mon, 26 May 2025 23:19:51 +0000
+Date: Tue, 27 May 2025 07:19:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qiu-ji Chen <chenqiuji666@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: drivers/dma/mediatek/mtk-cqdma.c:453:1-18: ERROR: nested
- lock+irqsave that reuses flags from line 452.
-Message-ID: <202505270641.MStzJUfU-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 104/104]
+ arch/arm64/boot/dts/mediatek/mt8196.dtsi:7:10: fatal error:
+ 'dt-bindings/clock/mmdvfs-clk.h' file not found
+Message-ID: <202505270753.F7I7aVZL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,61 +63,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   49fffac983ac52aea0ab94914be3f56bcf92d5dc
-commit: 157ae5ffd76a2857ccb4b7ce40bc5a344ca00395 dmaengine: mediatek: Fix a possible deadlock error in mtk_cqdma_tx_status()
-date:   12 days ago
-config: hexagon-randconfig-r061-20250526 (https://download.01.org/0day-ci/archive/20250527/202505270641.MStzJUfU-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   00e2b7e08c550ff321daba7b9956795d281bdd98
+commit: a44ecdcc67718b1e8736d6e99b3ae554df5a944b [104/104] CHROMIUM: arm64: dts: mediatek: mt8196: add mmdvfs node
+config: arm64-randconfig-003-20250527 (https://download.01.org/0day-ci/archive/20250527/202505270753.F7I7aVZL-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505270753.F7I7aVZL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505270641.MStzJUfU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505270753.F7I7aVZL-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dma/mediatek/mtk-cqdma.c:453:1-18: ERROR: nested lock+irqsave that reuses flags from line 452.
+Note: the chrome-os/chromeos-6.6 HEAD 00e2b7e08c550ff321daba7b9956795d281bdd98 builds fine.
+      It only hurts bisectability.
 
-vim +453 drivers/dma/mediatek/mtk-cqdma.c
+All errors (new ones prefixed by >>):
 
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  436  
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  437  static enum dma_status mtk_cqdma_tx_status(struct dma_chan *c,
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  438  					   dma_cookie_t cookie,
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  439  					   struct dma_tx_state *txstate)
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  440  {
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  441  	struct mtk_cqdma_vchan *cvc = to_cqdma_vchan(c);
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  442  	struct mtk_cqdma_vdesc *cvd;
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  443  	struct virt_dma_desc *vd;
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  444  	enum dma_status ret;
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  445  	unsigned long flags;
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  446  	size_t bytes = 0;
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  447  
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  448  	ret = dma_cookie_status(c, cookie, txstate);
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  449  	if (ret == DMA_COMPLETE || !txstate)
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  450  		return ret;
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  451  
-157ae5ffd76a285 Qiu-ji Chen  2025-05-08 @452  	spin_lock_irqsave(&cvc->pc->lock, flags);
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18 @453  	spin_lock_irqsave(&cvc->vc.lock, flags);
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  454  	vd = mtk_cqdma_find_active_desc(c, cookie);
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  455  	spin_unlock_irqrestore(&cvc->vc.lock, flags);
-157ae5ffd76a285 Qiu-ji Chen  2025-05-08  456  	spin_unlock_irqrestore(&cvc->pc->lock, flags);
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  457  
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  458  	if (vd) {
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  459  		cvd = to_cqdma_vdesc(vd);
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  460  		bytes = cvd->residue;
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  461  	}
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  462  
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  463  	dma_set_residue(txstate, bytes);
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  464  
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  465  	return ret;
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  466  }
-b1f01e48df5a345 Shun-Chih Yu 2018-10-18  467  
+   In file included from arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dts:7:
+   In file included from arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia.dtsi:7:
+   In file included from arch/arm64/boot/dts/mediatek/mt8196-rauru.dtsi:6:
+>> arch/arm64/boot/dts/mediatek/mt8196.dtsi:7:10: fatal error: 'dt-bindings/clock/mmdvfs-clk.h' file not found
+   #include <dt-bindings/clock/mmdvfs-clk.h>
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-:::::: The code at line 453 was first introduced by commit
-:::::: b1f01e48df5a3454b88c5ff1eb4501f685351c67 dmaengine: mediatek: Add MediaTek Command-Queue DMA controller for MT6765 SoC
+dtcheck warnings: (new ones prefixed by >>)
+>> In file included from arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dts:7:
+>> In file included from arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia.dtsi:7:
+>> In file included from arch/arm64/boot/dts/mediatek/mt8196-rauru.dtsi:6:
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:7:10: fatal error: 'dt-bindings/clock/mmdvfs-clk.h' file not found
+   #include <dt-bindings/clock/mmdvfs-clk.h>
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-:::::: TO: Shun-Chih Yu <shun-chih.yu@mediatek.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+vim +7 arch/arm64/boot/dts/mediatek/mt8196.dtsi
+
+   > 7	#include <dt-bindings/clock/mmdvfs-clk.h>
+     8	#include <dt-bindings/clock/mt8196-clk.h>
+     9	#include <dt-bindings/interconnect/mtk,emi.h>
+    10	#include <dt-bindings/interrupt-controller/arm-gic.h>
+    11	#include <dt-bindings/interrupt-controller/irq.h>
+    12	#include <dt-bindings/mailbox/mediatek,mt8196-gce.h>
+    13	#include <dt-bindings/memory/mtk-smi-user.h>
+    14	#include <dt-bindings/memory/mt8196-larb-port.h>
+    15	#include <dt-bindings/phy/phy.h>
+    16	#include <dt-bindings/pinctrl/mt8196-pinfunc.h>
+    17	#include <dt-bindings/power/mt8196-power.h>
+    18	#include <dt-bindings/reset/ti-syscon.h>
+    19	#include <dt-bindings/spmi/spmi.h>
+    20	
 
 -- 
 0-DAY CI Kernel Test Service
