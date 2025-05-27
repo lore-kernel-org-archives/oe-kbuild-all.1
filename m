@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE243AD5A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 16:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0135627F73D;
+	Tue, 27 May 2025 16:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748364102; cv=none; b=CXWXmy9lB7IapGu51BTSjzFyBroRIRkZBKjLl74X6LuOmaOKmVYXjKNITqKYolMM4IgKt9Ce0xmFEuuZLnBkgmDwEK3Mhpj03XKz4GgMPDASOjwMhbBhXTLVHB2f0ChREpcXalHm9NyDd6VnlN2EJ1zTI/0FK8gTrMoFrvSuCxA=
+	t=1748364103; cv=none; b=i8CZPQ9EobYLi8lJ+VQzJgBptvX0mf3Ea7Hj73COloveIixPRImsWP/jKaXbygfBRIAMcB4R2Gw6q4OhwmIrIPVWdKd1GoqJS82jDLl+USnj7/XXyOKifcAPWLtPwYfcf0UpmR1wY5p7nA7hNwi4mcvBbfaLftWFBuMiu/ByJKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748364102; c=relaxed/simple;
-	bh=3vpDXIkoIRGs9DKDGews/RdCQh2OkBeBAsrgvspXYQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UFrxtl402Oviavw6UNZFDDNJ/e9SJZXjXq6LV34YMGlMarHPcfhuWWG3+QJEZZGRikWKp0pBiGSeFSR3NkSB5nesCD6UrZacNtynQVdl0+ZEBOPn3LAXwNs3qJnH1taD1gk6LpknY1tORyh2EzcaHJ6A8uDahrVKjExLJwt88DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0gZgt2D; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1748364103; c=relaxed/simple;
+	bh=ukJPA0XtU32Ecq35Tu9JsOdKWxywwRz0NHZNFe5yJx8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7KfmB82+BxSlv/uQWzjrBc5J7AzQ8BoYqHS61J8L4g05y6leHdfvMi7b9onzCLyhKs/J5b2hd5DpkcUGuT242knkHrYo+L+sw4Z3jZjxqoAe49t0MntFgWo5JtC7gFsFYm2Qh6KGhiWgd1PCbJL8bZH+UcTm1isHTf7wZuXDf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JbmMUYcz; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0gZgt2D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JbmMUYcz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748364101; x=1779900101;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3vpDXIkoIRGs9DKDGews/RdCQh2OkBeBAsrgvspXYQg=;
-  b=Q0gZgt2D8KeHtzeaEf8bRc1/2dOMui0oNyRscsUYaVL5vzmNhyX6V3T9
-   LI0qxuTRLPzijWmZbVrNFzomXumA6CUNv2t9F1xbs4Dc83+1mDFiCRD1w
-   oz7IYvmv6e5/n1Z0KQHYVpWY112qONYA2BcOG1LsOzyEU8z/BYjZDLDRK
-   b/h1meOXMsTMIbmyHepE+L9eaFY7FHouu7gmoDpDyRl96n/pPSgg1bBar
-   EBZDp5TYNmyNIKQUABW8FdsxybA0Rw7zwX9TOxVc4obvSyATkFHLcncUV
-   sxwWlOCI9YTyB2dvs4rPAnu1vDoJ3Hc0PS4ptgGnQAv8FDSuT3Pz2Gr9X
-   Q==;
-X-CSE-ConnectionGUID: aUBpjp+SRVmIIdQRJIKRZw==
-X-CSE-MsgGUID: AOaM7gLBTdWm5xjn5P3x0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="50061668"
+  t=1748364102; x=1779900102;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ukJPA0XtU32Ecq35Tu9JsOdKWxywwRz0NHZNFe5yJx8=;
+  b=JbmMUYczHbFHGYIWD/HSI+sEX5giZ+m8Q2bAzeT6Nn5nkYTRDmJBFlzO
+   Mi3v7muNF8l64jxGoIatr6z6O5Pi3/e5YN+wODtjsYCJUhrct7g8jLvR2
+   HKbNva6looji4svNj0ssgRD3J2MM8I/66IrG+927d5KSJPXxamsZh08vH
+   7XR7Bqt0D/3jgr9z8VhlogrFihf9J/1dytIqfId8Qz0rejlXL80q02Tcy
+   d1jl91OSW38DVf/MmN5dzl81GrwHYwrC7qOPByefjAGCItm0BYRmltTET
+   +Yvx9Xt3NZett910T9isLtREEoDaCBVr+vhAeaIyi15QgDuTDnwpB1/Mj
+   w==;
+X-CSE-ConnectionGUID: OMGOOR0kQSqZ0CtptSZsjA==
+X-CSE-MsgGUID: HKZcLOpCTwaCITsD9ZZCMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="75753533"
 X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; 
-   d="scan'208";a="50061668"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 09:41:39 -0700
-X-CSE-ConnectionGUID: UQ8Q2wRGS220fdP4kdt35w==
-X-CSE-MsgGUID: QIDX5pb1ReOWUXuAX5Jrrg==
+   d="scan'208";a="75753533"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 09:41:40 -0700
+X-CSE-ConnectionGUID: DUtYUoYfTRmWnZZqVBzNsA==
+X-CSE-MsgGUID: J7RjXSH3Qi+n5+GKbPS0xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; 
-   d="scan'208";a="143338810"
+   d="scan'208";a="148028416"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 May 2025 09:41:37 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 May 2025 09:41:37 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJxMs-000TM6-2c;
+	id 1uJxMs-000TLs-2K;
 	Tue, 27 May 2025 16:41:34 +0000
-Date: Wed, 28 May 2025 00:41:24 +0800
+Date: Wed, 28 May 2025 00:41:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2304/2304] mm/page_cache_limit.c:94:5: warning:
- no previous prototype for 'cache_limit_mbytes_sysctl_handler'
-Message-ID: <202505280023.4g7q598y-lkp@intel.com>
+To: Chaoyi Chen <kernel@airkyi.com>, Sandy Huang <hjc@rock-chips.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Subject: Re: [PATCH v3] drm/rockchip: cdn-dp: Convert to drm bridge
+Message-ID: <202505280026.8VDl0TWN-lkp@intel.com>
+References: <20250527081447.304-1-kernel@airkyi.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,103 +73,181 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250527081447.304-1-kernel@airkyi.com>
 
-Hi Ze,
+Hi Chaoyi,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   35c5792a71f249ce79eba3cbb546d1ece7c4f3ee
-commit: 7d1031b36ebd6c273d9aad316fd9e3e2daa01a85 [2304/2304] mm: support pagecache limit
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250528/202505280023.4g7q598y-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280023.4g7q598y-lkp@intel.com/reproduce)
+[auto build test ERROR on rockchip/for-next]
+[also build test ERROR on linus/master v6.15 next-20250527]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/drm-rockchip-cdn-dp-Convert-to-drm-bridge/20250527-161941
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20250527081447.304-1-kernel%40airkyi.com
+patch subject: [PATCH v3] drm/rockchip: cdn-dp: Convert to drm bridge
+config: i386-buildonly-randconfig-002-20250527 (https://download.01.org/0day-ci/archive/20250528/202505280026.8VDl0TWN-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280026.8VDl0TWN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505280023.4g7q598y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505280026.8VDl0TWN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/page_cache_limit.c:61:5: warning: no previous prototype for 'cache_reclaim_enable_handler' [-Wmissing-prototypes]
-      61 | int cache_reclaim_enable_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/page_cache_limit.c:77:5: warning: no previous prototype for 'cache_reclaim_sysctl_handler' [-Wmissing-prototypes]
-      77 | int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/page_cache_limit.c:94:5: warning: no previous prototype for 'cache_limit_mbytes_sysctl_handler' [-Wmissing-prototypes]
-      94 | int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:783:17: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
+     783 |                 DRM_DEV_ERROR(bridge->dev, "Invalid format %d\n", daifmt->fmt);
+         |                               ^~~~~~~~~~~
+   include/drm/drm_print.h:504:17: note: expanded from macro 'DRM_DEV_ERROR'
+     504 |         drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
+         |                        ^~~
+   include/drm/drm_print.h:488:42: note: passing argument to parameter 'dev' here
+     488 | void drm_dev_printk(const struct device *dev, const char *level,
+         |                                          ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:844:3: error: field designator 'dp_audio_prepare' does not refer to any field in type 'const struct drm_bridge_funcs'; did you mean 'hdmi_audio_prepare'?
+     844 |         .dp_audio_prepare = cdn_dp_audio_prepare,
+         |          ^~~~~~~~~~~~~~~~
+         |          hdmi_audio_prepare
+   include/drm/drm_bridge.h:702:8: note: 'hdmi_audio_prepare' declared here
+     702 |         int (*hdmi_audio_prepare)(struct drm_connector *connector,
+         |               ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:845:3: error: field designator 'dp_audio_mute_stream' does not refer to any field in type 'const struct drm_bridge_funcs'; did you mean 'hdmi_audio_mute_stream'?
+     845 |         .dp_audio_mute_stream = cdn_dp_audio_mute_stream,
+         |          ^~~~~~~~~~~~~~~~~~~~
+         |          hdmi_audio_mute_stream
+   include/drm/drm_bridge.h:728:8: note: 'hdmi_audio_mute_stream' declared here
+     728 |         int (*hdmi_audio_mute_stream)(struct drm_connector *connector,
+         |               ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:846:3: error: field designator 'dp_audio_shutdown' does not refer to any field in type 'const struct drm_bridge_funcs'; did you mean 'hdmi_audio_shutdown'?
+     846 |         .dp_audio_shutdown = cdn_dp_audio_shutdown,
+         |          ^~~~~~~~~~~~~~~~~
+         |          hdmi_audio_shutdown
+   include/drm/drm_bridge.h:716:9: note: 'hdmi_audio_shutdown' declared here
+     716 |         void (*hdmi_audio_shutdown)(struct drm_connector *connector,
+         |                ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:1011:4: error: use of undeclared identifier 'DRM_BRIDGE_OP_DP_AUDIO'
+    1011 |                         DRM_BRIDGE_OP_DP_AUDIO;
+         |                         ^
+>> drivers/gpu/drm/rockchip/cdn-dp-core.c:1046:9: error: use of undeclared label 'err_free_connector'
+    1046 |                         goto err_free_connector;
+         |                              ^
+   drivers/gpu/drm/rockchip/cdn-dp-core.c:1114:7: error: call to undeclared function 'devm_drm_bridge_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1114 |         dp = devm_drm_bridge_alloc(dev, struct cdn_dp_device, bridge,
+         |              ^
+   drivers/gpu/drm/rockchip/cdn-dp-core.c:1114:7: note: did you mean 'devm_drm_bridge_add'?
+   include/drm/drm_bridge.h:945:5: note: 'devm_drm_bridge_add' declared here
+     945 | int devm_drm_bridge_add(struct device *dev, struct drm_bridge *bridge);
+         |     ^
+   drivers/gpu/drm/rockchip/cdn-dp-core.c:1114:34: error: expected expression
+    1114 |         dp = devm_drm_bridge_alloc(dev, struct cdn_dp_device, bridge,
+         |                                         ^
+   drivers/gpu/drm/rockchip/cdn-dp-core.c:1114:56: error: use of undeclared identifier 'bridge'
+    1114 |         dp = devm_drm_bridge_alloc(dev, struct cdn_dp_device, bridge,
+         |                                                               ^
+   9 errors generated.
 
 
-vim +/cache_limit_mbytes_sysctl_handler +94 mm/page_cache_limit.c
+vim +783 drivers/gpu/drm/rockchip/cdn-dp-core.c
 
-    60	
-  > 61	int cache_reclaim_enable_handler(struct ctl_table *table, int write,
-    62				void *buffer, size_t *length, loff_t *ppos)
-    63	{
-    64		int ret;
-    65	
-    66		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-    67		if (ret || !write)
-    68			return ret;
-    69	
-    70		if (should_periodical_reclaim())
-    71			schedule_delayed_work(&shepherd, round_jiffies_relative(
-    72				(unsigned long)vm_cache_reclaim_s * HZ));
-    73	
-    74		return 0;
-    75	}
-    76	
-    77	int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
-    78			void *buffer, size_t *length, loff_t *ppos)
-    79	{
-    80		int ret;
-    81	
-    82		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-    83		if (ret || !write)
-    84			return ret;
-    85	
-    86		if (should_periodical_reclaim())
-    87			mod_delayed_work(system_unbound_wq, &shepherd,
-    88					round_jiffies_relative(
-    89					(unsigned long)vm_cache_reclaim_s * HZ));
-    90	
-    91		return ret;
-    92	}
-    93	
-  > 94	int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
-    95			void __user *buffer, size_t *length, loff_t *ppos)
-    96	{
-    97		int ret;
-    98		unsigned long vm_cache_limit_mbytes_max;
-    99		unsigned long origin_mbytes = vm_cache_limit_mbytes;
-   100		int nr_retries = MAX_RECLAIM_RETRIES;
-   101	
-   102		vm_cache_limit_mbytes_max = totalram_pages() >> (20 - PAGE_SHIFT);
-   103		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
-   104		if (ret || !write)
-   105			return ret;
-   106	
-   107		if (vm_cache_limit_mbytes > vm_cache_limit_mbytes_max) {
-   108			vm_cache_limit_mbytes = origin_mbytes;
-   109			return -EINVAL;
-   110		}
-   111	
-   112		if (write) {
-   113			while (should_reclaim_page_cache() && page_cache_over_limit() &&
-   114					nr_retries--) {
-   115				if (signal_pending(current))
-   116					return -EINTR;
-   117	
-   118				shrink_memory(node_reclaim_num(), false);
-   119			}
-   120		}
-   121	
-   122		return 0;
-   123	}
-   124	
+   755	
+   756	static int cdn_dp_audio_prepare(struct drm_connector *connector,
+   757					struct drm_bridge *bridge,
+   758					struct hdmi_codec_daifmt *daifmt,
+   759					struct hdmi_codec_params *params)
+   760	{
+   761		struct cdn_dp_device *dp = bridge_to_dp(bridge);
+   762		struct audio_info audio = {
+   763			.sample_width = params->sample_width,
+   764			.sample_rate = params->sample_rate,
+   765			.channels = params->channels,
+   766		};
+   767		int ret;
+   768	
+   769		mutex_lock(&dp->lock);
+   770		if (!dp->active) {
+   771			ret = -ENODEV;
+   772			goto out;
+   773		}
+   774	
+   775		switch (daifmt->fmt) {
+   776		case HDMI_I2S:
+   777			audio.format = AFMT_I2S;
+   778			break;
+   779		case HDMI_SPDIF:
+   780			audio.format = AFMT_SPDIF;
+   781			break;
+   782		default:
+ > 783			DRM_DEV_ERROR(bridge->dev, "Invalid format %d\n", daifmt->fmt);
+   784			ret = -EINVAL;
+   785			goto out;
+   786		}
+   787	
+   788		ret = cdn_dp_audio_config(dp, &audio);
+   789		if (!ret)
+   790			dp->audio_info = audio;
+   791	
+   792	out:
+   793		mutex_unlock(&dp->lock);
+   794		return ret;
+   795	}
+   796	
+   797	static void cdn_dp_audio_shutdown(struct drm_connector *connector,
+   798					  struct drm_bridge *bridge)
+   799	{
+   800		struct cdn_dp_device *dp = bridge_to_dp(bridge);
+   801		int ret;
+   802	
+   803		mutex_lock(&dp->lock);
+   804		if (!dp->active)
+   805			goto out;
+   806	
+   807		ret = cdn_dp_audio_stop(dp, &dp->audio_info);
+   808		if (!ret)
+   809			dp->audio_info.format = AFMT_UNUSED;
+   810	out:
+   811		mutex_unlock(&dp->lock);
+   812	}
+   813	
+   814	static int cdn_dp_audio_mute_stream(struct drm_connector *connector,
+   815					    struct drm_bridge *bridge,
+   816					    bool enable, int direction)
+   817	{
+   818		struct cdn_dp_device *dp = bridge_to_dp(bridge);
+   819		int ret;
+   820	
+   821		mutex_lock(&dp->lock);
+   822		if (!dp->active) {
+   823			ret = -ENODEV;
+   824			goto out;
+   825		}
+   826	
+   827		ret = cdn_dp_audio_mute(dp, enable);
+   828	
+   829	out:
+   830		mutex_unlock(&dp->lock);
+   831		return ret;
+   832	}
+   833	
+   834	static const struct drm_bridge_funcs cdn_dp_bridge_funcs = {
+   835		.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+   836		.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+   837		.atomic_reset = drm_atomic_helper_bridge_reset,
+   838		.detect = cdn_dp_bridge_detect,
+   839		.edid_read = cdn_dp_bridge_edid_read,
+   840		.atomic_enable = cdn_dp_bridge_atomic_enable,
+   841		.atomic_disable = cdn_dp_bridge_atomic_disable,
+   842		.mode_valid = cdn_dp_bridge_mode_valid,
+   843	
+ > 844		.dp_audio_prepare = cdn_dp_audio_prepare,
+ > 845		.dp_audio_mute_stream = cdn_dp_audio_mute_stream,
+ > 846		.dp_audio_shutdown = cdn_dp_audio_shutdown,
+   847	};
+   848	
 
 -- 
 0-DAY CI Kernel Test Service
