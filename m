@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712B8136347
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 04:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42036198A2F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 05:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748321068; cv=none; b=QZY/yKVcFVbO8uFxxAG6ynI4+MqzBT3DQG/UvOTbKSsum7FDESzn1cmJhhlbnaPcNvXI42iuDnyhXx0c3oYLPmuN2anqI/e4w+MGlFvkf4XPbIamoW8q7a1sM7OUXvcyWcITGefitCi5MTwiFJEaFYj4cudfH+AZ6bMW+8cSUTM=
+	t=1748324073; cv=none; b=nl1/mCxgE1Xlkc3aCPE5nYrw6pXRAFbA6MyWjMT7iNOqSaMuJ5xO1iIv6TJ7GmcUKCduvDZP8ecb6m0VeUDLHGHfANtLhRjNGb4RkxrOVBBavLr5qLXj/p+yeY56qMOtxHDBwTT9c/DTr4UskEAvBHWoSOJXfOFphH5LksHkO9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748321068; c=relaxed/simple;
-	bh=giKuITiVksW186WMg0XL7H5IE5QcAgzPJYq314QujKo=;
+	s=arc-20240116; t=1748324073; c=relaxed/simple;
+	bh=0Uigl6U6U1Q0op5XLQZ78k0Eb2sWB0T3ncuGXFWaFqA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BraWZEN5ykf65a5eW4jhO+m0s28Di61y+XR3mFshhz+SS73DTle9a4VBhFrzEHJQpD1tM1giTSAszXgeniZIIZijEhZ4OSRRs0tvzhvUqq4sTEpqSIFcTuw8cM3CtARm0ccWKfoMQDTq1oWq57BzbCoGDXucfaX5cyDwd5Dfqa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYpXOLtj; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=bUy8fijHpHrjQgOUshwNMZJ05UpgzfGuA5GqI83uw/TU0NhFgRm5+KP5TwuoDQsxeFLGjAr/UGdrt/QhG1MSxM3BJmAjASmThHW3t0/+cEKXkLrM2u0FSEpxFoTX88/a+o2YTvwIQn6ymLU5NRiSzChs4gEoG3phqNpeuteXtt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQrs0hsW; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYpXOLtj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQrs0hsW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748321066; x=1779857066;
+  t=1748324071; x=1779860071;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=giKuITiVksW186WMg0XL7H5IE5QcAgzPJYq314QujKo=;
-  b=PYpXOLtjTk5X6yfszGBGYJFmwjGh8DsXZO2IDj9ilICbqqEV35gJQ1K5
-   9aKCVrVaZFdeY1RReTvuyFU4te5NSPGWlhiCD19pPc44hHW3b26Zx+whs
-   ThZcokkfLox1B3ZXJR+usjxCNW31FG1X3fAnXcPQ81e84y6lJmf18qLAP
-   NY9a7e8MY5qj12Dv0FyzjWgaD1fp5fRGADzL5gYn4vI76SvKgRqGuUc3P
-   psBjh3JlOWgwdHRrQ5GiQwBwVFfqHf4WTJX/VfFR+a4FrcXgEThbnPj3U
-   TWrGSnf6VokI+pn9+9JzSmJWm+wFSI+wNoXNsV+cAkIhNwViFuEwiZys3
-   A==;
-X-CSE-ConnectionGUID: tYq9LkhOTvKPHf14gGYqMA==
-X-CSE-MsgGUID: 3/XLorGMTUKB/7JUhNBuJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="54097969"
+  bh=0Uigl6U6U1Q0op5XLQZ78k0Eb2sWB0T3ncuGXFWaFqA=;
+  b=mQrs0hsWqs/XHmXE7ZxzO6j6W1MsrA9Lus6zJ5/NAH0IUPhT58Fp5bIS
+   8p8oVzUzCHfXnKKhVxZhupKQNWtsA8sAKovEbtk3YEHTYx0pmTomHJhL9
+   O7o/iRRfUhymUpP7VDUMWuDKbdfEjSmcJt/UwyCqjLHr/0s9cdLbXZPCJ
+   qSeR6xmM4YHYQs8CyVcyUGSytO8bIqgUcydMhX2dfvtWtyyDH6/+/Sbrw
+   YtC6iu5n5KeDoTatXxtC4A2D779jwf7COzIClLgKRweC8A7TqlZD2djnK
+   81cvQNex+vsS7SgjBAIPahf5JX6KKOHSdBtXW1NddIJ0x0GVj/Kiwimuj
+   Q==;
+X-CSE-ConnectionGUID: DdJF9EpxQIakHIM5UXiHXg==
+X-CSE-MsgGUID: z9jXa0EfSjW0wmb7sDaMpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="49407628"
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="54097969"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 21:44:26 -0700
-X-CSE-ConnectionGUID: 1oSQINRxTYqlddSBlixpQA==
-X-CSE-MsgGUID: ysc1Ye/EQeyovnA3XeHVLg==
+   d="scan'208";a="49407628"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 22:34:30 -0700
+X-CSE-ConnectionGUID: ibYtHObdQ+e4UVmr77QlEA==
+X-CSE-MsgGUID: f/A/fYu9Q0qLm0/xckOn6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="142993679"
+   d="scan'208";a="179834191"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 26 May 2025 21:44:24 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 May 2025 22:34:29 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJmAo-000St6-2r;
-	Tue, 27 May 2025 04:44:22 +0000
-Date: Tue, 27 May 2025 12:43:27 +0800
+	id 1uJmxG-000SuG-2s;
+	Tue, 27 May 2025 05:34:26 +0000
+Date: Tue, 27 May 2025 13:34:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Joel Fernandes <joelagnelf@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 1/1] WARNING:
- vmlinux.o(.text.unlikely+0x10b84): Section mismatch in reference from the
- function gic_smp_init() to the function .init.text:set_smp_ipi_range()
-Message-ID: <202505271254.Ge57x0WH-lkp@intel.com>
+Subject: [jfern:nova/sequencer 31/34] Diff in drivers/gpu/nova-core/diag.rs
+ at line 1:
+Message-ID: <202505271323.ZH5yf8CJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +62,330 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   71d0515397de96c7ff0dd2c6be6e2af7a113e997
-commit: 5f824b386b4038f7059c781a67edd8cc4c66eeed [1/1] BACKPORT: irqchip/gic-v3: Configure SGIs as standard interrupts
-config: arm64-randconfig-r111-20250527 (https://download.01.org/0day-ci/archive/20250527/202505271254.Ge57x0WH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250527/202505271254.Ge57x0WH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/sequencer
+head:   6c4aa76c21a517b9b2d25dacff4c821bf8bd335e
+commit: d3f21d42225bb48cfd2087537df9eb0e5a267bac [31/34] JOEL: debug: Add a parser for nocat records
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250527/202505271323.ZH5yf8CJ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271323.ZH5yf8CJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505271254.Ge57x0WH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505271323.ZH5yf8CJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> WARNING: vmlinux.o(.text.unlikely+0x10b84): Section mismatch in reference from the function gic_smp_init() to the function .init.text:set_smp_ipi_range()
-   The function gic_smp_init() references
-   the function __init set_smp_ipi_range().
-   This is often because gic_smp_init lacks a __init
-   annotation or the annotation of set_smp_ipi_range is wrong.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/diag.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+    //! GSP Diagnostic Module - NOCAT Record Parser
+   -//! 
+   -//! This module handles parsing and displaying NOCAT (NVIDIA Operational Critical 
+   +//!
+   +//! This module handles parsing and displaying NOCAT (NVIDIA Operational Critical
+    //! Assessment and Triage) records received from the GSP firmware.
+    
+   -use kernel::prelude::*;
+   -use kernel::{pr_info, pr_err, pr_warn};
+    use core::ffi::c_void;
+   +use kernel::prelude::*;
+   +use kernel::{pr_err, pr_info, pr_warn};
+    
+    /// Maximum string length for NOCAT fields
+    const NOCAT_JOURNAL_MAX_STR_LEN: usize = 65;
+   Diff in drivers/gpu/nova-core/diag.rs at line 62:
+    /// RPC structure for GSP_POST_NOCAT_RECORD event
+    #[repr(C)]
+    pub struct RpcGspPostNocatRecord {
+   -    pub data: u32,  // This is actually the start of the NOCAT record data
+   +    pub data: u32, // This is actually the start of the NOCAT record data
+    }
+    
+    impl NocatJournalInsertRecord {
+   Diff in drivers/gpu/nova-core/diag.rs at line 71:
+            if data.is_null() {
+                return Err(EINVAL);
+            }
+   -        
+   +
+            // The NOCAT record starts at the data field
+            let record = &*(data as *const Self);
+            Ok(record)
+   Diff in drivers/gpu/nova-core/diag.rs at line 78:
+        }
+   -    
+   +
+        /// Convert source field to string
+        fn source_as_str(&self) -> Result<&str> {
+            // Find null terminator or use full length
+   Diff in drivers/gpu/nova-core/diag.rs at line 83:
+   -        let len = self.source.iter()
+   +        let len = self
+   +            .source
+   +            .iter()
+                .position(|&c| c == 0)
+                .unwrap_or(NOCAT_JOURNAL_MAX_STR_LEN);
+   -        
+   -        core::str::from_utf8(&self.source[..len])
+   -            .map_err(|_| EINVAL)
+   +
+   +        core::str::from_utf8(&self.source[..len]).map_err(|_| EINVAL)
+        }
+   -    
+   +
+        /// Convert faulting engine field to string
+        fn faulting_engine_as_str(&self) -> Result<&str> {
+            // Find null terminator or use full length
+   Diff in drivers/gpu/nova-core/diag.rs at line 94:
+   -        let len = self.faulting_engine.iter()
+   +        let len = self
+   +            .faulting_engine
+   +            .iter()
+                .position(|&c| c == 0)
+                .unwrap_or(NOCAT_JOURNAL_MAX_STR_LEN);
+   -        
+   -        core::str::from_utf8(&self.faulting_engine[..len])
+   -            .map_err(|_| EINVAL)
+   +
+   +        core::str::from_utf8(&self.faulting_engine[..len]).map_err(|_| EINVAL)
+        }
+   -    
+   +
+        /// Dump the NOCAT record to kernel log
+        pub fn dump(&self) {
+            pr_info!("=== GSP NOCAT Record ===\n");
+   Diff in drivers/gpu/nova-core/diag.rs at line 105:
+            pr_info!("Timestamp: {:#x}\n", self.timestamp);
+   -        pr_info!("Record Type: {:?} ({})\n", 
+   -            NocatRecordType::from(self.rec_type), self.rec_type);
+   +        pr_info!(
+   +            "Record Type: {:?} ({})\n",
+   +            NocatRecordType::from(self.rec_type),
+   +            self.rec_type
+   +        );
+            pr_info!("Flags: {:#x}\n", self.flags);
+   -        
+   +
+            if self.bugcheck != 0 {
+                pr_err!("Bugcheck Code: {:#x}\n", self.bugcheck);
+            }
+   Diff in drivers/gpu/nova-core/diag.rs at line 113:
+   -        
+   +
+            if let Ok(source) = self.source_as_str() {
+                if !source.is_empty() {
+                    pr_info!("Source: {}\n", source);
+   Diff in drivers/gpu/nova-core/diag.rs at line 117:
+--
+   Diff in drivers/gpu/nova-core/gsp.rs at line 25:
+    use crate::regs::NV_PGSP_FALCON_ENGINE;
+    use crate::regs::NV_PGSP_QUEUE_HEAD;
+    
+   +pub(crate) mod diag;
+    pub(crate) mod fb;
+    pub(crate) mod sequencer;
+   -pub(crate) mod diag;
+    
+    pub(crate) const GSP_PAGE_SHIFT: usize = 12;
+    pub(crate) const GSP_PAGE_SIZE: usize = 1 << GSP_PAGE_SHIFT;
+   Diff in drivers/gpu/nova-core/gsp.rs at line 342:
+            ptr
+        }
+    
+   -    fn send<A: GspMessageElement>(
+   -        self: &mut Self,
+   -        function: u32,
+   -        args: &A,
+   -    ) -> Result<()> {
+   +    fn send<A: GspMessageElement>(self: &mut Self, function: u32, args: &A) -> Result<()> {
+            let mut msg = GspMsgHeader {
+                auth_tag_buffer: [0; 16],
+                aad_buffer: [0; 16],
+   Diff in drivers/gpu/nova-core/gsp.rs at line 447:
+    
+            let result = match rpc.function {
+                fw::NV_VGPU_MSG_EVENT_GSP_RUN_CPU_SEQUENCER => {
+   -                let args_vec: &[u8] = unsafe { core::slice::from_raw_parts(args_ptr as *mut u8, size as usize) };
+   +                let args_vec: &[u8] =
+   +                    unsafe { core::slice::from_raw_parts(args_ptr as *mut u8, size as usize) };
+    
+                    // Create and run the GSP sequencer
+   -                match sequencer::GspSequencer::new(args_vec, self.bar, self.sec2_falcon,
+   -                                                   self.gsp_falcon, self.libos_dma_handle,
+   -                                                   self.fw) {
+   +                match sequencer::GspSequencer::new(
+   +                    args_vec,
+   +                    self.bar,
+   +                    self.sec2_falcon,
+   +                    self.gsp_falcon,
+   +                    self.libos_dma_handle,
+   +                    self.fw,
+   +                ) {
+                        Ok(sequencer) => {
+                            if let Err(e) = sequencer.run() {
+                                pr_info!("Error running CPU sequencer: {:?}\n", e);
+   Diff in drivers/gpu/nova-core/gsp.rs at line 459:
+                            }
+   -                    },
+   +                    }
+                        Err(e) => {
+                            pr_info!("Error creating CPU sequencer: {:?}\n", e);
+                        }
+   Diff in drivers/gpu/nova-core/gsp.rs at line 466:
+                }
+                fw::NV_VGPU_MSG_EVENT_GSP_POST_NOCAT_RECORD => {
+                    pr_info!("Received GSP_POST_NOCAT_RECORD event\n");
+   -                
+   +
+                    // Parse and display the NOCAT record
+                    if let Err(e) = diag::parse_nocat_record(args_ptr) {
+                        pr_err!("Failed to parse NOCAT record: {:?}\n", e);
+   Diff in drivers/gpu/nova-core/gsp.rs at line 473:
+                    }
+   -                
+   +
+                    // Return a dummy result for now
+                    GspCmdq::create_result::<NoArgs>(args_ptr, 0)
+                }
+   Diff in drivers/gpu/nova-core/gsp.rs at line 775:
+    
+    impl GspMessageElement for fw::GspSystemInfo {}
+    
+   -fn set_system_info<'a>(
+   -    dev: &pci::Device<device::Bound>,
+   -    cmdq: &mut GspCmdq<'a>,
+   -) -> Result {
+   +fn set_system_info<'a>(dev: &pci::Device<device::Bound>, cmdq: &mut GspCmdq<'a>) -> Result {
+        let mut info = unsafe { MaybeUninit::<fw::GspSystemInfo>::zeroed().assume_init() };
+    
+        info.gpuPhysAddr = dev.resource_start(0)?;
+   Diff in drivers/gpu/nova-core/regs.rs at line 135:
+        31:0    value as u32;
+    });
+    
+   -
+    // Used to store version information about the firmware running
+    // on the Falcon processor.
+    register!(NV_PFALCON_FALCON_OS @ +0x00000080 {
+   Diff in drivers/gpu/nova-core/gpu.rs at line 329:
+            dev_info!(pdev.as_ref(), "WPR2: {:#x}-{:#x}\n", wpr2_lo, wpr2_hi);
+    
+            let wpr_meta = gsp::build_wpr_meta(pdev.as_ref(), &fw, &fb_layout)?;
+   -        let mut libos = crate::gsp::GspSharedMemObjects::new(pdev, &bar, &gsp_falcon, &sec2_falcon, &fw)?;
+   +        let mut libos =
+   +            crate::gsp::GspSharedMemObjects::new(pdev, &bar, &gsp_falcon, &sec2_falcon, &fw)?;
+            let libos_handle = libos.libos.dma_handle();
+            let wpr_handle = wpr_meta.dma_handle();
+    
+>> Diff in drivers/gpu/nova-core/diag.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+    //! GSP Diagnostic Module - NOCAT Record Parser
+   -//! 
+   -//! This module handles parsing and displaying NOCAT (NVIDIA Operational Critical 
+   +//!
+   +//! This module handles parsing and displaying NOCAT (NVIDIA Operational Critical
+    //! Assessment and Triage) records received from the GSP firmware.
+    
+   -use kernel::prelude::*;
+   -use kernel::{pr_info, pr_err, pr_warn};
+    use core::ffi::c_void;
+   +use kernel::prelude::*;
+   +use kernel::{pr_err, pr_info, pr_warn};
+    
+    /// Maximum string length for NOCAT fields
+    const NOCAT_JOURNAL_MAX_STR_LEN: usize = 65;
+   Diff in drivers/gpu/nova-core/diag.rs at line 62:
+    /// RPC structure for GSP_POST_NOCAT_RECORD event
+    #[repr(C)]
+    pub struct RpcGspPostNocatRecord {
+   -    pub data: u32,  // This is actually the start of the NOCAT record data
+   +    pub data: u32, // This is actually the start of the NOCAT record data
+    }
+    
+    impl NocatJournalInsertRecord {
+   Diff in drivers/gpu/nova-core/diag.rs at line 71:
+            if data.is_null() {
+                return Err(EINVAL);
+            }
+   -        
+   +
+            // The NOCAT record starts at the data field
+            let record = &*(data as *const Self);
+            Ok(record)
+   Diff in drivers/gpu/nova-core/diag.rs at line 78:
+        }
+   -    
+   +
+        /// Convert source field to string
+        fn source_as_str(&self) -> Result<&str> {
+            // Find null terminator or use full length
+   Diff in drivers/gpu/nova-core/diag.rs at line 83:
+   -        let len = self.source.iter()
+   +        let len = self
+   +            .source
+   +            .iter()
+                .position(|&c| c == 0)
+                .unwrap_or(NOCAT_JOURNAL_MAX_STR_LEN);
+   -        
+   -        core::str::from_utf8(&self.source[..len])
+   -            .map_err(|_| EINVAL)
+   +
+   +        core::str::from_utf8(&self.source[..len]).map_err(|_| EINVAL)
+        }
+   -    
+   +
+        /// Convert faulting engine field to string
+        fn faulting_engine_as_str(&self) -> Result<&str> {
+            // Find null terminator or use full length
+   Diff in drivers/gpu/nova-core/diag.rs at line 94:
+   -        let len = self.faulting_engine.iter()
+   +        let len = self
+   +            .faulting_engine
+   +            .iter()
+                .position(|&c| c == 0)
+                .unwrap_or(NOCAT_JOURNAL_MAX_STR_LEN);
+   -        
+   -        core::str::from_utf8(&self.faulting_engine[..len])
+   -            .map_err(|_| EINVAL)
+   +
+   +        core::str::from_utf8(&self.faulting_engine[..len]).map_err(|_| EINVAL)
+        }
+   -    
+   +
+        /// Dump the NOCAT record to kernel log
+        pub fn dump(&self) {
+            pr_info!("=== GSP NOCAT Record ===\n");
+   Diff in drivers/gpu/nova-core/diag.rs at line 105:
+            pr_info!("Timestamp: {:#x}\n", self.timestamp);
+   -        pr_info!("Record Type: {:?} ({})\n", 
+   -            NocatRecordType::from(self.rec_type), self.rec_type);
+   +        pr_info!(
+   +            "Record Type: {:?} ({})\n",
+   +            NocatRecordType::from(self.rec_type),
+   +            self.rec_type
+   +        );
+            pr_info!("Flags: {:#x}\n", self.flags);
+   -        
+   +
+            if self.bugcheck != 0 {
+                pr_err!("Bugcheck Code: {:#x}\n", self.bugcheck);
+            }
+   Diff in drivers/gpu/nova-core/diag.rs at line 113:
+   -        
+   +
+            if let Ok(source) = self.source_as_str() {
+                if !source.is_empty() {
+                    pr_info!("Source: {}\n", source);
+   Diff in drivers/gpu/nova-core/diag.rs at line 117:
+..
 
 -- 
 0-DAY CI Kernel Test Service
