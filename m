@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46D527A900
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 16:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1D83C01
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 17:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748364765; cv=none; b=AX8kKO+uDT7wEZczIw+Nfj2ySUJ65cVW/7xfts+kk/kAg0vCiv0nsR+gRvPEkgaRMvvL3kv0nrlteYGU/Mo+IpBk2Y8rNwNvU8h8BfikdOEWMv4X5+w+JdkDJ2OD1s8pe0ugmSF9G+gufCPGTos/SRvvt3S/KjGlnLVXp9DV1NQ=
+	t=1748367278; cv=none; b=iIZkLwOn9kF6GW7hJoa2HnTZRNK+3S276IMiLZCdw+AVJ4k3BsIJUfPFScuGYIdNEUIrJnppptv55HGt4vvmmztQ++UWx39vJ+ozkGmx0DWH5YTzHPZpV6QEDSTZANOCjb+wcJ29EeyDKAXbd9YnGoeDn9jAEPfmhBlWCWtS80E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748364765; c=relaxed/simple;
-	bh=c7frD8WUm5ARaKNL4/LoIQfJdFWjkZqhzxUyqJAtc2U=;
+	s=arc-20240116; t=1748367278; c=relaxed/simple;
+	bh=/SgtuekCV/4IfLgI/WpGQltS/FPaa6jaoVWVjVnF0Vs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fhJMn6LKMd0ttx0BkOXylc8JEDdN21ZqSKBEdIWBNvGS+H/69YlTMOZrRbRqD4vNgSvrqi82mpmmAXF4sVI5Qbn1Ep3SALPJ+NdrAmAlAi2RtfOBnrCOkTJvcSb64rvR3jMModThvv/iqajNE+UG2z1afQeEPUSh19r3MXX6huE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lp50+f39; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=MdU7fWmDaSqwkamrA1PhOBtHHW6oeIAbruDkMgNWki59Xt25giiynVyCavg3E07cyXKGdRZUbdguUnUkPWTpsmZeKaxiohXTJKUTKXfiba8GfZI3QodO9LaV1Kua2DqtiS8FAxw6hb0yTcIYBa7XuBO7BxIWbqA4tIV3mUPEZWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OW62rOjB; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lp50+f39"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OW62rOjB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748364764; x=1779900764;
+  t=1748367277; x=1779903277;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c7frD8WUm5ARaKNL4/LoIQfJdFWjkZqhzxUyqJAtc2U=;
-  b=lp50+f39lgLpzZsh8ymfvLhouruY4F3Okp9jhSnhDFrwbdLLLJ7qQTG2
-   6J7zoXc4AWZFz3AsPUyssuTKE0Z4EZVqaA3NsHI/uGk/MUVVk0RvzONEI
-   XYgLl/kqJAf1bdFVuIxOTV25R5YqOjRw0ElymzfN3N9XWpYS1DNB3UKSB
-   Yo+5PqsU7mXl4mqu7UOvvEjsL+F045AybZq/3gPAEEaQUNM89duaV3WQ7
-   doHuZgjmH+tVCTUbkvF1ws8dYGEbt2ArMYm1maPaJ0DDTkfWmfWV1kKom
-   8+bZlABWDxGSgDQ/XjG2zDY9SmwPcepATw4OwDx5LgiJB14r3tZHDE45R
-   w==;
-X-CSE-ConnectionGUID: qmu54FomQ2+zXTDf9k99Bg==
-X-CSE-MsgGUID: ctlKWWcwTUqyr2rty0ZJ6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="61025700"
-X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; 
-   d="scan'208";a="61025700"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 09:52:42 -0700
-X-CSE-ConnectionGUID: dUcHlMDqR3Wx+WjS7FR2qQ==
-X-CSE-MsgGUID: 2BmXeJ0iQiysTLSDRIgBZQ==
+  bh=/SgtuekCV/4IfLgI/WpGQltS/FPaa6jaoVWVjVnF0Vs=;
+  b=OW62rOjBR0FzyDzocYSbK+dpRZblsfxYEpBwwB97ag4vgQZrdbxrYw0H
+   kGZRRB5FFjj5qE8Zk8W7VaPXbh2X9vuujCwHRPk9R0iDJeatzd3hVA8xG
+   90ZxireGz55hfKNVf3KMazcQ57wdH2FOytya3jSjYZcsUP7OLRQ41qE/J
+   I41vMKa9bWgRRq200vmAQzs2mfuyFvZtDIkUU/l04akWA1iOEi6++KeLd
+   6CLNiKiFP2q6IXLdedLANVm1LQRS/5sr6MvPCOn6iJpX2tj8JfM347tXq
+   d5jIPkD1CUcTt1n+AFv5HJr1DbvsiVHy/uG/mREukGZZVtQq+vaGNiBq+
+   g==;
+X-CSE-ConnectionGUID: USJ6vA1vS1qxDCz9chDIdQ==
+X-CSE-MsgGUID: 3Rb4zHaYSK+4QoG2cjTuow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="72908107"
+X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
+   d="scan'208";a="72908107"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 10:34:20 -0700
+X-CSE-ConnectionGUID: m2JCg1VzQ2OmXfPnyTJ8PA==
+X-CSE-MsgGUID: VIoO5/V0Qs+GOL63kGpuGQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; 
-   d="scan'208";a="143862950"
+X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
+   d="scan'208";a="147940313"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 May 2025 09:52:40 -0700
+  by orviesa004.jf.intel.com with ESMTP; 27 May 2025 10:34:02 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJxXa-000TU4-1U;
-	Tue, 27 May 2025 16:52:38 +0000
-Date: Wed, 28 May 2025 00:51:47 +0800
+	id 1uJyBa-000UHk-1h;
+	Tue, 27 May 2025 17:33:58 +0000
+Date: Wed, 28 May 2025 01:33:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 0/3]
- include/trace/events/swiotlb.h:15:23: error: variable has incomplete type
- 'enum SWIOTLB_NO_FORCE'
-Message-ID: <202505280044.QvthRVFm-lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: [linux-next:master 10187/13594] drivers/pci/pcie/ptm.c:498:25:
+ error: redefinition of 'pcie_ptm_create_debugfs'
+Message-ID: <202505280148.rGiCfv4x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,150 +63,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Isaac,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   2b7d7bb68588fa99fafdee5d1108566d3d0cffa3
-commit: 77c20b4cbcd0dca8e114cbcdcdaac61f3fb9555d [0/3] iommu/dma: Trace bounce buffer usage when mapping buffers
-config: i386-buildonly-randconfig-003-20250527 (https://download.01.org/0day-ci/archive/20250528/202505280044.QvthRVFm-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280044.QvthRVFm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fefff2755f2aa4125dce2a1edfe7e545c7c621f2
+commit: 132833405e61463d47d6badff1b8080b09b5808e [10187/13594] PCI: Add debugfs support for exposing PTM context
+config: alpha-randconfig-r071-20250527 (https://download.01.org/0day-ci/archive/20250528/202505280148.rGiCfv4x-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280148.rGiCfv4x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505280044.QvthRVFm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505280148.rGiCfv4x-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
->> include/trace/events/swiotlb.h:15:23: error: variable has incomplete type 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                                     ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
->> include/trace/events/swiotlb.h:15:23: error: variable has incomplete type 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                                     ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
->> drivers/iommu/dma-iommu.c:821:42: error: argument type 'enum SWIOTLB_NO_FORCE' is incomplete
-     821 |                 trace_swiotlb_bounced(dev, phys, size, swiotlb_force);
-         |                                                        ^~~~~~~~~~~~~
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^~~~~~~~~~~~~~~~
-   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   7 warnings and 3 errors generated.
+>> drivers/pci/pcie/ptm.c:498:25: error: redefinition of 'pcie_ptm_create_debugfs'
+     498 | struct pci_ptm_debugfs *pcie_ptm_create_debugfs(struct device *dev, void *pdata,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pci/pcie/ptm.c:11:
+   include/linux/pci.h:1910:2: note: previous definition of 'pcie_ptm_create_debugfs' with type 'struct pci_ptm_debugfs *(struct device *, void *, const struct pcie_ptm_ops *)'
+    1910 | *pcie_ptm_create_debugfs(struct device *dev, void *pdata,
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/pcie/ptm.c:546:6: error: redefinition of 'pcie_ptm_destroy_debugfs'
+     546 | void pcie_ptm_destroy_debugfs(struct pci_ptm_debugfs *ptm_debugfs)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:1913:1: note: previous definition of 'pcie_ptm_destroy_debugfs' with type 'void(struct pci_ptm_debugfs *)'
+    1913 | pcie_ptm_destroy_debugfs(struct pci_ptm_debugfs *ptm_debugfs) { }
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +15 include/trace/events/swiotlb.h
+vim +/pcie_ptm_create_debugfs +498 drivers/pci/pcie/ptm.c
 
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  11  
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  12  	TP_PROTO(struct device *dev,
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  13  		 dma_addr_t dev_addr,
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  14  		 size_t size,
-ae7871be189cb4 Geert Uytterhoeven 2016-12-16 @15  		 enum swiotlb_force swiotlb_force),
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  16  
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  17  	TP_ARGS(dev, dev_addr, size, swiotlb_force),
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  18  
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  19  	TP_STRUCT__entry(
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  20  		__string(	dev_name,	dev_name(dev)		)
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  21  		__field(	u64,	dma_mask			)
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  22  		__field(	dma_addr_t,	dev_addr		)
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  23  		__field(	size_t,	size				)
-ae7871be189cb4 Geert Uytterhoeven 2016-12-16  24  		__field(	enum swiotlb_force,	swiotlb_force	)
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  25  	),
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  26  
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  27  	TP_fast_assign(
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  28  		__assign_str(dev_name, dev_name(dev));
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  29  		__entry->dma_mask = (dev->dma_mask ? *dev->dma_mask : 0);
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  30  		__entry->dev_addr = dev_addr;
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  31  		__entry->size = size;
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  32  		__entry->swiotlb_force = swiotlb_force;
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  33  	),
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  34  
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  35  	TP_printk("dev_name: %s dma_mask=%llx dev_addr=%llx "
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  36  		"size=%zu %s",
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  37  		__get_str(dev_name),
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  38  		__entry->dma_mask,
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  39  		(unsigned long long)__entry->dev_addr,
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  40  		__entry->size,
-ae7871be189cb4 Geert Uytterhoeven 2016-12-16  41  		__print_symbolic(__entry->swiotlb_force,
-ae7871be189cb4 Geert Uytterhoeven 2016-12-16  42  			{ SWIOTLB_NORMAL,	"NORMAL" },
-fff5d99225107f Geert Uytterhoeven 2016-12-16  43  			{ SWIOTLB_FORCE,	"FORCE" },
-fff5d99225107f Geert Uytterhoeven 2016-12-16  44  			{ SWIOTLB_NO_FORCE,	"NO_FORCE" }))
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  45  );
-2b2b614dd24e4e Zoltan Kiss        2013-09-04  46  
-
-:::::: The code at line 15 was first introduced by commit
-:::::: ae7871be189cb41184f1e05742b4a99e2c59774d swiotlb: Convert swiotlb_force from int to enum
-
-:::::: TO: Geert Uytterhoeven <geert+renesas@glider.be>
-:::::: CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+   479	
+   480	#define pcie_ptm_create_debugfs_file(pdata, mode, attr)			\
+   481		do {								\
+   482			if (ops->attr##_visible && ops->attr##_visible(pdata))	\
+   483				debugfs_create_file(#attr, mode, ptm_debugfs->debugfs, \
+   484						    ptm_debugfs, &attr##_fops);	\
+   485		} while (0)
+   486	
+   487	/*
+   488	 * pcie_ptm_create_debugfs() - Create debugfs entries for the PTM context
+   489	 * @dev: PTM capable component device
+   490	 * @pdata: Private data of the PTM capable component device
+   491	 * @ops: PTM callback structure
+   492	 *
+   493	 * Create debugfs entries for exposing the PTM context of the PTM capable
+   494	 * components such as Root Complex and Endpoint controllers.
+   495	 *
+   496	 * Return: Pointer to 'struct pci_ptm_debugfs' if success, NULL otherwise.
+   497	 */
+ > 498	struct pci_ptm_debugfs *pcie_ptm_create_debugfs(struct device *dev, void *pdata,
+   499				  const struct pcie_ptm_ops *ops)
+   500	{
+   501		struct pci_ptm_debugfs *ptm_debugfs;
+   502		char *dirname;
+   503		int ret;
+   504	
+   505		/* Caller must provide check_capability() callback */
+   506		if (!ops->check_capability)
+   507			return NULL;
+   508	
+   509		/* Check for PTM capability before creating debugfs attrbutes */
+   510		ret = ops->check_capability(pdata);
+   511		if (!ret) {
+   512			dev_dbg(dev, "PTM capability not present\n");
+   513			return NULL;
+   514		}
+   515	
+   516		ptm_debugfs = kzalloc(sizeof(*ptm_debugfs), GFP_KERNEL);
+   517		if (!ptm_debugfs)
+   518			return NULL;
+   519	
+   520		dirname = devm_kasprintf(dev, GFP_KERNEL, "pcie_ptm_%s", dev_name(dev));
+   521		if (!dirname)
+   522			return NULL;
+   523	
+   524		ptm_debugfs->debugfs = debugfs_create_dir(dirname, NULL);
+   525		ptm_debugfs->pdata = pdata;
+   526		ptm_debugfs->ops = ops;
+   527		mutex_init(&ptm_debugfs->lock);
+   528	
+   529		pcie_ptm_create_debugfs_file(pdata, 0644, context_update);
+   530		pcie_ptm_create_debugfs_file(pdata, 0644, context_valid);
+   531		pcie_ptm_create_debugfs_file(pdata, 0444, local_clock);
+   532		pcie_ptm_create_debugfs_file(pdata, 0444, master_clock);
+   533		pcie_ptm_create_debugfs_file(pdata, 0444, t1);
+   534		pcie_ptm_create_debugfs_file(pdata, 0444, t2);
+   535		pcie_ptm_create_debugfs_file(pdata, 0444, t3);
+   536		pcie_ptm_create_debugfs_file(pdata, 0444, t4);
+   537	
+   538		return ptm_debugfs;
+   539	}
+   540	EXPORT_SYMBOL_GPL(pcie_ptm_create_debugfs);
+   541	
+   542	/*
+   543	 * pcie_ptm_destroy_debugfs() - Destroy debugfs entries for the PTM context
+   544	 * @ptm_debugfs: Pointer to the PTM debugfs struct
+   545	 */
+ > 546	void pcie_ptm_destroy_debugfs(struct pci_ptm_debugfs *ptm_debugfs)
 
 -- 
 0-DAY CI Kernel Test Service
