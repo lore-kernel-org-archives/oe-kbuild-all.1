@@ -1,174 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DEFFC0B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 00:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9326EFC0B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 00:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748306524; cv=none; b=Me+otCzr2P42ZjWcuhNaJlAnHPSlZ0H6GprE/n7fVZ0pdLmlL+LXxM6Jv5pfLgx9hi5T0pDcRDKa6Jj7XRynezIv+X7SYHQAFtvV8wsoRitMsR1AnELU6StFYuWX4IVuTcsgT6wINvoPKPnclXmUZDptqS17Co8DctdiWGgeX78=
+	t=1748306527; cv=none; b=tH5MpRExN0AjBtXSyuEsxerE/Ec0gYRWWfwW468oPJXlDi/TA/B3MTWpRpELjZRIXwY3JcVrJSU5cBcm4/jTWE0DxEekOZDPinqr9Trhk1+u+Q6QsFYP8+MQfuJboCz1j08Es55wfr0BItOzyb+m2WONpYilbij1W/CQohKCW1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748306524; c=relaxed/simple;
-	bh=koTTMpCnx2yU+RxxlY9kENsOZAnnE0YvRuXb43qdjv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RmXN0GOcDwxeFMp4OjJf4EceevDkb7znuZudN8HUNyX9SCVrYgidTlVOcLmDST79yzqaNANOfQ1KmNmkKX2ktdiP+hLxoQz2AUAP8P7fV/mFZ0qo3JqV1UC8GtwKnPVYbWkF4kDgo0a5LNLKc9OUfN/3Fj2zT/yFbTrS+VNRyz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a4o9JB5t; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1748306527; c=relaxed/simple;
+	bh=b7WCTdDzsY3ib50iL9lMmkLXGXoRC2TsAT18weiNeMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PVAdHqU0nfz3OTtecEWIxM+MT8j6tHogfZcar5nf4VOQSnNehZCA7M1nTol9ZoLOq8l1kE8N+Gif5YqVtIfK5WCm841D55EkAJAX0/bwm0Fe3Zs0dZF53xxYpDgOzL4AfhYekZWMqiKnIdSqF0B6y+EMIFJttVVPmnA2M8b99Dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aOuAdOtS; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a4o9JB5t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aOuAdOtS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748306522; x=1779842522;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=koTTMpCnx2yU+RxxlY9kENsOZAnnE0YvRuXb43qdjv8=;
-  b=a4o9JB5tluXVPbVPxS0uh7MBmbkd1NpBuKV5+sKJIqZSv+QAmrsC7Px3
-   gfYBiRiuC4R130iE8q3iRSgbFYZRWjow9d3fBLDaoHG3CK2qzzoC9vNfz
-   1rYusiRDCfM3WFBym4biXF6wRhL+pLqC6LsAn04Fxzc4qGbfd6xgLwPYI
-   NrsvpO9d2D96nKpFGpJWP50jBpGn1yZkx9s3+VmQfFcwt6vwSVHNZj8w5
-   YtgpCxpiie6uRhSzCaUVW4P2tSiwq8/lk2wwrARnIa2TLyvWvYV6SUFW9
-   eswjd5Dw8jztRXwnnB9t7ZJ2RmV3UG9EUWHyAE8Ab9hOOAxeAAvT87hI1
-   A==;
-X-CSE-ConnectionGUID: xwY2Y4GxR2ybrYhYfDy3AA==
-X-CSE-MsgGUID: CMP3xPaERC68+RLBX2jmSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="75673356"
+  t=1748306525; x=1779842525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=b7WCTdDzsY3ib50iL9lMmkLXGXoRC2TsAT18weiNeMI=;
+  b=aOuAdOtSg0GlpjXGXelG/tzC6x/hDbIn9s4rnfquLaZHLDSbtbRUwn3W
+   wOArn8qLHkiecnYwxg6dLVTxt9t4nqSiqOqhw/DEQnTVX48OYr6wQxkUD
+   zoXgZuS0KW6sQcnLTzUj8QJLl+XtfM9ttKDOrTZ36VeA8CuNHUqXXC5KG
+   iIA3IHcrBJ13JAeDp2lAjeztW7Nlg7gR1PUq0mm7aOX9vKhsgojwc/ita
+   PxhGkH1l2hewI9pzVI+GuKWwfPRPJQMpg4RzDqNF966sDdX3NkqupmAlY
+   FkzMLYqlQWkLg6klk5i+zsKeev+HopS3ZpT6G8eNOWN6s2yCoI3HciOxN
+   Q==;
+X-CSE-ConnectionGUID: +NSXtgpZS8+/siACTSOFuA==
+X-CSE-MsgGUID: Imgp439uRbSu7ExveuWQpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="50163173"
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="75673356"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 17:42:01 -0700
-X-CSE-ConnectionGUID: UeiGnD57QhKOjNoWfAWjtg==
-X-CSE-MsgGUID: mukzv6VNTg2azyYqBY9sFg==
+   d="scan'208";a="50163173"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 17:42:05 -0700
+X-CSE-ConnectionGUID: eTTSD+LqToKvDzQ0EUascQ==
+X-CSE-MsgGUID: 0VpP+OZISlmWiR6xJdGwjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="165751814"
+   d="scan'208";a="147454221"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 May 2025 17:42:00 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 May 2025 17:42:00 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJiOE-000Slt-1U;
+	id 1uJiOE-000Slo-0w;
 	Tue, 27 May 2025 00:41:58 +0000
-Date: Tue, 27 May 2025 08:41:20 +0800
+Date: Tue, 27 May 2025 08:41:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sven:wip/smc-hid 21/22] drivers/input/misc/macsmc-hid.c:39:3:
- error: expected expression
-Message-ID: <202505270847.kK2FpmSF-lkp@intel.com>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	linux-pci@vger.kernel.org, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Michal Wajdeczko <michal.wajdeczko@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Matt Roper <matthew.d.roper@intel.com>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Subject: Re: [PATCH v8 5/6] PCI: Allow drivers to control VF BAR size
+Message-ID: <202505270842.rZMzTQh6-lkp@intel.com>
+References: <20250526214257.3481760-6-michal.winiarski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250526214257.3481760-6-michal.winiarski@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git wip/smc-hid
-head:   85195bb074dd61b098eb62a878369dd5c4815832
-commit: ee13e23037b7b78af00901c86613bf572b53baf3 [21/22] Input: macsmc-hid: New driver to handle the Apple Mac SMC buttons/lid
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20250527/202505270847.kK2FpmSF-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505270847.kK2FpmSF-lkp@intel.com/reproduce)
+Hi Michał,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus drm-xe/drm-xe-next drm-exynos/exynos-drm-next linus/master v6.15 next-20250526]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Winiarski/PCI-IOV-Restore-VF-resizable-BAR-state-after-reset/20250527-054652
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250526214257.3481760-6-michal.winiarski%40intel.com
+patch subject: [PATCH v8 5/6] PCI: Allow drivers to control VF BAR size
+config: csky-randconfig-002-20250527 (https://download.01.org/0day-ci/archive/20250527/202505270842.rZMzTQh6-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505270842.rZMzTQh6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505270847.kK2FpmSF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505270842.rZMzTQh6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/input/misc/macsmc-hid.c:39:3: error: expected expression
-                   u8 button = (event >> 8) & 0xff;
-                   ^
->> drivers/input/misc/macsmc-hid.c:41:11: error: use of undeclared identifier 'button'
-                   switch (button) {
-                           ^
-   drivers/input/misc/macsmc-hid.c:76:3: error: expected expression
-                   u8 lid_state = !!((event >> 8) & 0xff);
-                   ^
->> drivers/input/misc/macsmc-hid.c:77:31: error: use of undeclared identifier 'lid_state'; did you mean 'node_state'?
-                   if (smchid->wakeup_mode && !lid_state) {
-                                               ^~~~~~~~~
-                                               node_state
-   include/linux/nodemask.h:427:28: note: 'node_state' declared here
-   static __always_inline int node_state(int node, enum node_states state)
-                              ^
-   drivers/input/misc/macsmc-hid.c:77:31: warning: address of function 'node_state' will always evaluate to 'true' [-Wpointer-bool-conversion]
-                   if (smchid->wakeup_mode && !lid_state) {
-                                              ~^~~~~~~~~
-   drivers/input/misc/macsmc-hid.c:77:31: note: prefix with the address-of operator to silence this warning
-                   if (smchid->wakeup_mode && !lid_state) {
-                                               ^
-                                               &
-   drivers/input/misc/macsmc-hid.c:81:46: error: use of undeclared identifier 'lid_state'; did you mean 'node_state'?
-                   input_report_switch(smchid->input, SW_LID, lid_state);
-                                                              ^~~~~~~~~
-                                                              node_state
-   include/linux/nodemask.h:427:28: note: 'node_state' declared here
-   static __always_inline int node_state(int node, enum node_states state)
-                              ^
-   1 warning and 5 errors generated.
+   In file included from ./arch/csky/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/kernel.h:27,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/pci.h:35,
+                    from drivers/pci/iov.c:13:
+   drivers/pci/iov.c: In function 'pci_iov_vf_bar_get_sizes':
+   include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   drivers/pci/iov.c:1383:9: note: in expansion of macro 'do_div'
+    1383 |         do_div(vf_len, num_vfs);
+         |         ^~~~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/bitfield.h:10,
+                    from drivers/pci/iov.c:10:
+   include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   drivers/pci/iov.c:1383:9: note: in expansion of macro 'do_div'
+    1383 |         do_div(vf_len, num_vfs);
+         |         ^~~~~~
+>> include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    resource_size_t * {aka unsigned int *}
+   drivers/pci/iov.c:1383:9: note: in expansion of macro 'do_div'
+    1383 |         do_div(vf_len, num_vfs);
+         |         ^~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'resource_size_t *' {aka 'unsigned int *'}
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +39 drivers/input/misc/macsmc-hid.c
+vim +/__div64_32 +199 include/asm-generic/div64.h
 
-    31	
-    32	static int macsmc_hid_event(struct notifier_block *nb, unsigned long event, void *data)
-    33	{
-    34		struct macsmc_hid *smchid = container_of(nb, struct macsmc_hid, nb);
-    35		u16 type = event >> 16;
-    36	
-    37		switch (type) {
-    38		case SMC_EV_BTN:
-  > 39			u8 button = (event >> 8) & 0xff;
-    40			u8 state = !!(event & 0xff);
-  > 41			switch (button) {
-    42			case BTN_POWER:
-    43			case BTN_TOUCHID:
-    44				if (smchid->wakeup_mode) {
-    45					if (state) {
-    46						dev_info(smchid->dev, "Button wakeup\n");
-    47						pm_wakeup_hard_event(smchid->dev);
-    48					}
-    49				} else {
-    50					input_report_key(smchid->input, KEY_POWER, state);
-    51					input_sync(smchid->input);
-    52				}
-    53				break;
-    54			case BTN_POWER_HELD2:
-    55				/*
-    56				 * If we get here, we have about 4 seconds before forced shutdown.
-    57				 * Try to do an emergency shutdown to make sure the NVMe cache is
-    58				 * flushed. macOS actually does this by panicing (!)...
-    59				 */
-    60				if (state) {
-    61					dev_crit(smchid->dev, "Triggering forced shutdown!\n");
-    62					if (kernel_can_power_off())
-    63						kernel_power_off();
-    64					else /* Missing macsmc-reboot driver? */
-    65						kernel_restart("SMC power button triggered restart");
-    66				}
-    67				break;
-    68			case BTN_POWER_HELD1: /* power button held down; ignore */
-    69				break;
-    70			default:
-    71				dev_warn(smchid->dev, "Unknown SMC button event: %04lx\n", event & 0xffff);
-    72				break;
-    73			}
-    74			return NOTIFY_OK;
-    75		case SMC_EV_LID:
-    76			u8 lid_state = !!((event >> 8) & 0xff);
-  > 77			if (smchid->wakeup_mode && !lid_state) {
-    78				dev_info(smchid->dev, "Lid wakeup\n");
-    79				pm_wakeup_hard_event(smchid->dev);
-    80			}
-    81			input_report_switch(smchid->input, SW_LID, lid_state);
-    82			input_sync(smchid->input);
-    83			return NOTIFY_OK;
-    84		}
-    85	
-    86		return NOTIFY_DONE;
-    87	}
-    88	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  176  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  177  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  178   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  179   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  180  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  181  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  182  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  183  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  184  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  185  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  186  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  187  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  188  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  189  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  190  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  191  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  192  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  193  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  194  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  195  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  196  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  197  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  198  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @199  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  200  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  201  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  202   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  203  
 
 -- 
 0-DAY CI Kernel Test Service
