@@ -1,75 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216C019F43A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 21:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E3D1E1DE2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 22:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748381319; cv=none; b=sqg3r9OzPw1nIzDpZLBThm7ujMRh3+FgvR2Sa8LMQHWGanDUT6k+rT9TQES3dKCJJdhFH+zRgwedTr9mSWJhTZ1NYlqtrgZaeYp3eXfqQrSvOoXSzyMPNFA2O7qwPgy3/3pZ5tDM3NcwBCCBQq4Z0npLUwcBBzfA2UAZ24Ib5RI=
+	t=1748383239; cv=none; b=fGBi6gNvPSl2HwrRK5BM5XxachXhyphFO9y7U6NUWwzWm6vfJBFja04AKTJGmJeMOxc5BCKeoRYkRMWiTUlqRU0VbCAQr5iU/Je6S2QhVqENLitpxbWSVW7DfRurGkpasElv404N9kkvDfnysghcETcVHlf1qI8zG1APBtUtI5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748381319; c=relaxed/simple;
-	bh=pvfxwe5X86PEZiMzFXgJ3ebwhN+gbHIPHFzJHUdFvdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hKYINL7+8lIXClObe8A20L1uds7ebsdqjwQwO8w7/U6W5PukDUgLFgLKLrRMUvx6Fe6yj6/10Hffs6J62ZuLzTSLmBl0lR08c4gCkJNf590i+8PifDZAu5Brx2tIfDpmKNi7oEkL1SSmN7UOhA5nLbVCvIVkfJFiAZH6vHmsuE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnSfeSmr; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1748383239; c=relaxed/simple;
+	bh=cG4ZcvcUqfASCm3MjXSGN45hxzsmlzSpCXV6S+TJ7iw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CwCdUUUaJAtsiZvY0xbcV9b8+gUNYxhF5LXKylPPmO8SMUxzniQNYbu/pZk7zJICMxjL+a+imyE3It2SCA6pDmwtFcW7nQE/Bawd4Uo+Qce8OTAexpPrrhw31+vBI3VyxZCNYag9mdAlbGrzXF6TDYfj4DqMG2hj2ECzEiuHFZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RUKaCheX; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnSfeSmr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUKaCheX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748381319; x=1779917319;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pvfxwe5X86PEZiMzFXgJ3ebwhN+gbHIPHFzJHUdFvdU=;
-  b=dnSfeSmrFVBleqKy+QQ4QUHjlBfj4lfhLBtTSp2AIo4h1M5S1Ga6rEkH
-   zzUB0lQZvgFM70JjKar+XlJBNH7xOJYwXWw0rgEROyBQP+rjkABLk6kzZ
-   /ZM+c9/eECrU+CzA/S9+R8bKOgc8/dwsE9e89H0AgdoGENWAwmuhSNL13
-   S2XVm+TYCuJtv2GlfEwHElslOFXpGVE4J+SdW3Y7qXPjkYA591rckNv42
-   kWbUcidKSFNto8tzfBS49vo+/MugHDFoktcqKM6bV8BrlDBI1hh9Ow402
-   M8Sl4vxzbDXuj9U/PpZWKAzHzN7RnofobmXMf/PQIRUgfxAIwSlDzhpo6
-   A==;
-X-CSE-ConnectionGUID: JmlNbjhySHiF/VObcHDDSA==
-X-CSE-MsgGUID: PM7LgkzXRQmyzjnSyfu7wA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="50390358"
+  t=1748383238; x=1779919238;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cG4ZcvcUqfASCm3MjXSGN45hxzsmlzSpCXV6S+TJ7iw=;
+  b=RUKaCheXZPRcUjkQvIAiFyTx40ZagJ1mmzgdsSk0Ulx2qisWxD1H0bAB
+   JBKSCevs7VCajZ6ikLNCAyv+aPvlu0Pbb53D3CMBh6Q/k/VdQpVxQGrTn
+   oCtETHr5QeFqfWD6S+yp33Wgh4YmqU6vA2gpc01uaT8Qqg5V3RLRFwzzt
+   nJkg02NfmzzSC41feQvRa19nAGX4H8yG+FWdNSuOMnSAQPxnQBopm5f4k
+   DvXcV5MVPQ0pcE5gjbcz+0+gUCfYgH6hoTqFvvM7rhoeJIz6Vwk3W3PEG
+   CnOZhPBnGU8EwjFg1RxtGoKvONPDDkNkyKFpTVQocbwiU4n1yQCAhWSwk
+   g==;
+X-CSE-ConnectionGUID: pD6KyC+NRwyboRysKjKdPQ==
+X-CSE-MsgGUID: 9qd5NXhXR4m9Y9+qEcJHIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="61053328"
 X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
-   d="scan'208";a="50390358"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 14:28:38 -0700
-X-CSE-ConnectionGUID: hfdT22DnS6m7rAqHRMUh6Q==
-X-CSE-MsgGUID: dv0lT3O0QW2I1eH/5eXZTg==
+   d="scan'208";a="61053328"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 15:00:37 -0700
+X-CSE-ConnectionGUID: NaXXucrjQvu6NCXIM2bGiw==
+X-CSE-MsgGUID: sMsAlhZiSiOrUXP/Zm0T5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
-   d="scan'208";a="143953217"
+   d="scan'208";a="143338347"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 May 2025 14:28:33 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 27 May 2025 15:00:35 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uK1qZ-000V1c-1Y;
-	Tue, 27 May 2025 21:28:31 +0000
-Date: Wed, 28 May 2025 05:28:14 +0800
+	id 1uK2LZ-000V2U-2M;
+	Tue, 27 May 2025 22:00:33 +0000
+Date: Wed, 28 May 2025 05:59:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v5 09/12] tee: add Qualcomm TEE driver
-Message-ID: <202505280538.DVSrdWK7-lkp@intel.com>
-References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-9-024e3221b0b9@oss.qualcomm.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@kernel.org>
+Subject: [mingo-tip:WIP.sched/core 20/43] kernel/sched/core.c:3866:undefined
+ reference to `__smp_call_single_queue'
+Message-ID: <202505280555.fVSODtNV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,101 +61,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-9-024e3221b0b9@oss.qualcomm.com>
 
-Hi Amirreza,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3be1a7a31fbda82f3604b6c31e4f390110de1b46]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250527-151020
-base:   3be1a7a31fbda82f3604b6c31e4f390110de1b46
-patch link:    https://lore.kernel.org/r/20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-9-024e3221b0b9%40oss.qualcomm.com
-patch subject: [PATCH v5 09/12] tee: add Qualcomm TEE driver
-config: i386-randconfig-062-20250528 (https://download.01.org/0day-ci/archive/20250528/202505280538.DVSrdWK7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280538.DVSrdWK7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.sched/core
+head:   731a8585a149733b0b5d8d2d80385810e2cc7791
+commit: 9575f83b90508bfb5a891d2997589bddb0202dcd [20/43] sched/smp: Make SMP unconditional
+config: csky-randconfig-002-20250528 (https://download.01.org/0day-ci/archive/20250528/202505280555.fVSODtNV-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280555.fVSODtNV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505280538.DVSrdWK7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505280555.fVSODtNV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/tee/qcomtee/call.c:227:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *uaddr @@     got void *[noderef] uaddr @@
-   drivers/tee/qcomtee/call.c:227:38: sparse:     expected void [noderef] __user *uaddr
-   drivers/tee/qcomtee/call.c:227:38: sparse:     got void *[noderef] uaddr
+All errors (new ones prefixed by >>):
 
-vim +227 drivers/tee/qcomtee/call.c
+   csky-linux-ld: kernel/sched/core.o: in function `__ttwu_queue_wakelist':
+>> kernel/sched/core.c:3866:(.text+0x6d76): undefined reference to `__smp_call_single_queue'
+   csky-linux-ld: kernel/sched/core.o: in function `ttwu_queue':
+   kernel/sched/core.c:3973:(.text+0x6dbc): undefined reference to `__smp_call_single_queue'
 
-   203	
-   204	/**
-   205	 * qcomtee_params_to_args() - Convert TEE parameters to QTEE arguments.
-   206	 * @u: QTEE arguments.
-   207	 * @params: TEE parameters.
-   208	 * @num_params: number of elements in the parameter array.
-   209	 * @ctx: context in which the conversion should happen.
-   210	 *
-   211	 * It assumes @u has at least @num_params + 1 entries and has been initialized
-   212	 * with %QCOMTEE_ARG_TYPE_INV as &struct qcomtee_arg.type.
-   213	 *
-   214	 * Return: On success, returns 0; on failure, returns < 0.
-   215	 */
-   216	static int qcomtee_params_to_args(struct qcomtee_arg *u,
-   217					  struct tee_param *params, int num_params,
-   218					  struct tee_context *ctx)
-   219	{
-   220		int i;
-   221	
-   222		for (i = 0; i < num_params; i++) {
-   223			switch (params[i].attr) {
-   224			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
-   225			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-   226				u[i].flags = QCOMTEE_ARG_FLAGS_UADDR;
- > 227				u[i].b.uaddr = params[i].u.ubuf.uaddr;
-   228				u[i].b.size = params[i].u.ubuf.size;
-   229	
-   230				if (params[i].attr ==
-   231				    TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT)
-   232					u[i].type = QCOMTEE_ARG_TYPE_IB;
-   233				else /* TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT */
-   234					u[i].type = QCOMTEE_ARG_TYPE_OB;
-   235	
-   236				break;
-   237			case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
-   238				u[i].type = QCOMTEE_ARG_TYPE_IO;
-   239				if (qcomtee_objref_to_arg(&u[i], &params[i], ctx))
-   240					goto out_failed;
-   241	
-   242				break;
-   243			case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
-   244				u[i].type = QCOMTEE_ARG_TYPE_OO;
-   245				u[i].o = NULL_QCOMTEE_OBJECT;
-   246				break;
-   247			default:
-   248				goto out_failed;
-   249			}
-   250		}
-   251	
-   252		return 0;
-   253	
-   254	out_failed:
-   255		/* Undo qcomtee_objref_to_arg(). */
-   256		for (i--; i >= 0; i--) {
-   257			if (u[i].type != QCOMTEE_ARG_TYPE_IO)
-   258				continue;
-   259	
-   260			qcomtee_user_object_set_notify(u[i].o, false);
-   261			if (typeof_qcomtee_object(u[i].o) == QCOMTEE_OBJECT_TYPE_CB)
-   262				qcomtee_object_put(u[i].o);
-   263	
-   264			qcomtee_object_put(u[i].o);
-   265		}
-   266	
-   267		return -EINVAL;
-   268	}
-   269	
+
+vim +3866 kernel/sched/core.c
+
+ca38062e57e977 kernel/sched.c      Suresh Siddha  2011-10-03  3852  
+ca38062e57e977 kernel/sched.c      Suresh Siddha  2011-10-03  3853  /*
+2ebb1771755060 kernel/sched/core.c Mel Gorman     2020-05-24  3854   * Queue a task on the target CPUs wake_list and wake the CPU via IPI if
+2ebb1771755060 kernel/sched/core.c Mel Gorman     2020-05-24  3855   * necessary. The wakee CPU on receipt of the IPI will queue the task
+2ebb1771755060 kernel/sched/core.c Mel Gorman     2020-05-24  3856   * via sched_ttwu_wakeup() for activation so the wakee incurs the cost
+2ebb1771755060 kernel/sched/core.c Mel Gorman     2020-05-24  3857   * of the wakeup instead of the waker.
+ca38062e57e977 kernel/sched.c      Suresh Siddha  2011-10-03  3858   */
+2ebb1771755060 kernel/sched/core.c Mel Gorman     2020-05-24  3859  static void __ttwu_queue_wakelist(struct task_struct *p, int cpu, int wake_flags)
+317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3860  {
+e3baac47f0e82c kernel/sched/core.c Peter Zijlstra 2014-06-04  3861  	struct rq *rq = cpu_rq(cpu);
+e3baac47f0e82c kernel/sched/core.c Peter Zijlstra 2014-06-04  3862  
+b7e7ade34e6188 kernel/sched/core.c Peter Zijlstra 2016-05-23  3863  	p->sched_remote_wakeup = !!(wake_flags & WF_MIGRATED);
+b7e7ade34e6188 kernel/sched/core.c Peter Zijlstra 2016-05-23  3864  
+126c2092e5c8b2 kernel/sched/core.c Peter Zijlstra 2020-05-26  3865  	WRITE_ONCE(rq->ttwu_pending, 1);
+8c4890d1c3358f kernel/sched/core.c Peter Zijlstra 2020-06-22 @3866  	__smp_call_single_queue(cpu, &p->wake_entry.llist);
+317f394160e9be kernel/sched.c      Peter Zijlstra 2011-04-05  3867  }
+d6aa8f85f16379 kernel/sched.c      Peter Zijlstra 2011-05-26  3868  
+
+:::::: The code at line 3866 was first introduced by commit
+:::::: 8c4890d1c3358fb8023d46e1e554c41d54f02878 smp, irq_work: Continue smp_call_function*() and irq_work*() integration
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Borislav Petkov <bp@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
