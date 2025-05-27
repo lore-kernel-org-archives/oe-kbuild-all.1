@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782BB139D0A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 10:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1044315C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 10:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748340118; cv=none; b=nRoYOn3TCc4RORj/HeDJEIf0mb7a83nL3+8YM3G1u9vW5wDy7NdDLrU3I6iX7B+nO6u6MCh2L0UTHtjU4w28CO0ciMCTkgkacrClzIXLyzn/0c+hnnd6vc+VpdlXeQasEoRgR58s2nzMiZeiBqm+B/rjQRuxpJOaaDiFtBplqLI=
+	t=1748341921; cv=none; b=uqdHfi9rao3tfQ/xwkMNcNliO0GEDSlgBcaBNdIsjr9DQ4uE7uKz0VDrHqxWphNbsrc6z04zhDXOO1VNXSOuf+Sjh+O/GrRxO/gpMcObw62b9wM4ZhyNozkZukoOT5yVLU8R73nei8RdyWQ7h7jDcd+M2DhIIEPcCYOQD7JuoRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748340118; c=relaxed/simple;
-	bh=zx9SMKIOMacTDSXxzVZpAYuLy7yPsHnIxficb4Zudmk=;
+	s=arc-20240116; t=1748341921; c=relaxed/simple;
+	bh=fimqVoEvpNyJd448Fb+owi1ncpeM+t6y9gGCX5h9hmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oa4YA1Wd3300TrSmgRnXinGA6EnM59a0O/TTFbdD+1NuPrf1uWUGc0VwUqMYAJWXYQ1fRK7VGapcl0KCxu/DPUPwUCo+6LAUzu08P5dioWjEgLl5xVHmhpu5DpM0FW9GJw0hB0o/zEtOvVzz34pXnsLAi5oCjtNB5FTAA+Eb7nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZD/acssz; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=QJmclkIpKeXBpuvdiWQ++sgb5JdqgMcoZPt9vhXPrKQ1WgulXWYp/pKZb5ayYZ4LHoA+qQfUh3u2Nt+JrwIaC7mVu+9n0QO5STBpZfMCikot9wEezsdOjKGIA2sVSJBYLZQq7bX6nuazymr5viNICzW2JPXp6GcjikujxNTK15Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OZgl4Qg0; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZD/acssz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OZgl4Qg0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748340117; x=1779876117;
+  t=1748341920; x=1779877920;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zx9SMKIOMacTDSXxzVZpAYuLy7yPsHnIxficb4Zudmk=;
-  b=ZD/acssz213ACqB+J9znD3Mzzif/UelUw4dtalhrPzITeMbpD4QCgmXN
-   8IJqxKaeP9eusvb/a+5YBqe5vd390etmtEgkWdA/ZvNVOIYe65usIAW+g
-   l8cmDFzQK0JeK1dTxiERfQDlZFQbXyfEi6TUfTPxPisCCPZx0p0fCQ9pg
-   vFgq9BXpMJmlUUsu0AQbE6aB1OyFSs14XQXChx9mYRaQN7ixOPgXa/ecT
-   E3ix43LUSiBRZxReC42x1GG0bPiCpBP5gkAnK4Ma2lpIPq95OD3q7oHxI
-   r5WR20kXtc7qqzGYn4uFEGzrdaQSTXPtTTdy03ORx3vXAxb2pLGcRAh1y
-   A==;
-X-CSE-ConnectionGUID: N5wQdvs1Q3+OUC/NP8hBew==
-X-CSE-MsgGUID: yASsddPtRhij1K9KQHK2hA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="60953447"
+  bh=fimqVoEvpNyJd448Fb+owi1ncpeM+t6y9gGCX5h9hmU=;
+  b=OZgl4Qg0eyuphFV1giJ4D1l/9cdIWXpl4Kirz0A6omZqfDsGujZG+8vn
+   X9Ce0MDeo1aQnotY9OVGdTT+TH2YzJ2AVvLrIpp6MD9z4M74cZOZkgh4k
+   6WCP36LYOcu8DbTDpvhY6ens9lEIFCCKXxH0Op9JnYbC3jaVvNj7iT5rp
+   A8lcoKMW7SHsGNgQcKCZl+7+j9lkGLilr5tK8JmrIKUzpLflcrAR0fLuL
+   r3Tt4YFn96uEFO6MYfRS7Q80pSozPoOE4JeqfjRKTADZyIJrXInbGZKkQ
+   cDJJ9FH99eNl06MXIA3RYhBFmi51fX4D4+GiIn30jUqYwwpJkcVYCMU+i
+   Q==;
+X-CSE-ConnectionGUID: Mo6oLS0USo2sjWFMc/HWBw==
+X-CSE-MsgGUID: 9R8b6tjfT7+tPlG9b7zFTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="50022467"
 X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; 
-   d="scan'208";a="60953447"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 03:01:56 -0700
-X-CSE-ConnectionGUID: RRQZ7YkbTKiAK1x0+OdIfA==
-X-CSE-MsgGUID: 35Oam1XlTS+Zkv2kH1FFBQ==
+   d="scan'208";a="50022467"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 03:31:59 -0700
+X-CSE-ConnectionGUID: Vy2WCs1nT7SWPjXm6fkWzg==
+X-CSE-MsgGUID: 0wly3PQPRwy830GoGTEAiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; 
-   d="scan'208";a="142599908"
+   d="scan'208";a="165951954"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 May 2025 03:01:54 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 May 2025 03:31:58 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJr84-000T6G-1v;
-	Tue, 27 May 2025 10:01:52 +0000
-Date: Tue, 27 May 2025 18:01:16 +0800
+	id 1uJrb9-000T7M-3A;
+	Tue, 27 May 2025 10:31:55 +0000
+Date: Tue, 27 May 2025 18:31:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Himanshu Chauhan <hchauhan@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_defconfig_v1 54/77]
- arch/riscv/kernel/hw_breakpoint.c:634:17: warning: assignment to 'struct
- sbi_dbtr_shmem_entry *' from 'int' makes pointer from integer without a cast
-Message-ID: <202505271712.BcHHXCiC-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 133/133]
+ drivers/soc/mediatek/mtk-mmdvfs-v3.c:428:29: warning: unused variable
+ 'mtk_mmdvfs_req_ops'
+Message-ID: <202505271815.zIQZy03f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,150 +63,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_defconfig_v1
-head:   bd9f757ef4bfde0edc1b68dd9af6e35e1f999fb3
-commit: 6c28c1fa733b31e13c67fe27dbe07da70e0eed58 [54/77] riscv: Introduce support for hardware break/watchpoints
-config: riscv-randconfig-r052-20250527 (https://download.01.org/0day-ci/archive/20250527/202505271712.BcHHXCiC-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271712.BcHHXCiC-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   00e2b7e08c550ff321daba7b9956795d281bdd98
+commit: 4d3162e27617a05f29587c0d2850e1be07ce5a28 [133/133] CHROMIUM: remoteproc: vcp: support MMDVFS and MMQOS feature requirement
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250527/202505271815.zIQZy03f-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271815.zIQZy03f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505271712.BcHHXCiC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505271815.zIQZy03f-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-                    from arch/riscv/kernel/hw_breakpoint.c:6:
-   arch/riscv/kernel/hw_breakpoint.c:454:22: error: dereferencing pointer to incomplete type 'struct sbi_dbtr_id_msg'
-     idx = le_to_cpu(recv->idx);
-                         ^~
-   include/uapi/linux/byteorder/little_endian.h:33:51: note: in definition of macro '__le64_to_cpu'
-    #define __le64_to_cpu(x) ((__force __u64)(__le64)(x))
-                                                      ^
-   arch/riscv/include/asm/hw_breakpoint.h:17:19: note: in expansion of macro 'le64_to_cpu'
-    #define le_to_cpu le64_to_cpu
-                      ^~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:454:8: note: in expansion of macro 'le_to_cpu'
-     idx = le_to_cpu(recv->idx);
-           ^~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:433:16: warning: unused variable 'ret' [-Wunused-variable]
-     struct sbiret ret;
-                   ^~~
-   arch/riscv/kernel/hw_breakpoint.c: In function 'arch_uninstall_hw_breakpoint':
-   arch/riscv/kernel/hw_breakpoint.c:482:16: error: storage size of 'ret' isn't known
-     struct sbiret ret;
-                   ^~~
-   arch/riscv/kernel/hw_breakpoint.c:499:18: error: 'SBI_EXT_DBTR' undeclared (first use in this function)
-     ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_UNINSTALL,
-                     ^~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:499:32: error: 'SBI_EXT_DBTR_TRIG_UNINSTALL' undeclared (first use in this function); did you mean 'RV_DBTR_TRIG_MCONTROL'?
-     ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_UNINSTALL,
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                   RV_DBTR_TRIG_MCONTROL
-   arch/riscv/kernel/hw_breakpoint.c:482:16: warning: unused variable 'ret' [-Wunused-variable]
-     struct sbiret ret;
-                   ^~~
-   arch/riscv/kernel/hw_breakpoint.c: In function 'arch_enable_hw_breakpoint':
-   arch/riscv/kernel/hw_breakpoint.c:507:16: error: storage size of 'ret' isn't known
-     struct sbiret ret;
-                   ^~~
-   arch/riscv/kernel/hw_breakpoint.c:523:18: error: 'SBI_EXT_DBTR' undeclared (first use in this function)
-     ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_ENABLE,
-                     ^~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:523:32: error: 'SBI_EXT_DBTR_TRIG_ENABLE' undeclared (first use in this function); did you mean 'RV_DBTR_TRIG_NONE'?
-     ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_ENABLE,
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-                                   RV_DBTR_TRIG_NONE
-   arch/riscv/kernel/hw_breakpoint.c:507:16: warning: unused variable 'ret' [-Wunused-variable]
-     struct sbiret ret;
-                   ^~~
-   In file included from include/asm-generic/percpu.h:7,
-                    from ./arch/riscv/include/generated/asm/percpu.h:1,
-                    from include/linux/irqflags.h:19,
-                    from arch/riscv/include/asm/bitops.h:14,
-                    from include/linux/bitops.h:68,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/riscv/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/alloc_tag.h:11,
-                    from include/linux/percpu.h:5,
-                    from include/asm-generic/local64.h:5,
-                    from ./arch/riscv/include/generated/asm/local64.h:1,
-                    from include/linux/perf_event.h:26,
-                    from include/linux/hw_breakpoint.h:5,
-                    from arch/riscv/kernel/hw_breakpoint.c:6:
-   arch/riscv/kernel/hw_breakpoint.c: In function 'arch_update_hw_breakpoint':
-   include/linux/percpu-defs.h:220:52: error: invalid use of undefined type 'struct sbi_dbtr_shmem_entry'
-     const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL; \
-                                                       ^
-   include/linux/percpu-defs.h:251:2: note: in expansion of macro '__verify_pcpu_ptr'
-     __verify_pcpu_ptr(ptr);      \
-     ^~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:536:39: note: in expansion of macro 'this_cpu_ptr'
-     struct sbi_dbtr_shmem_entry *shmem = this_cpu_ptr(sbi_dbtr_shmem);
-                                          ^~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:539:16: error: storage size of 'ret' isn't known
-     struct sbiret ret;
-                   ^~~
-   arch/riscv/kernel/hw_breakpoint.c:558:6: error: dereferencing pointer to incomplete type 'struct sbi_dbtr_data_msg'
-     xmit->tdata1 = cpu_to_le(bp->tdata1);
-         ^~
-   arch/riscv/kernel/hw_breakpoint.c:562:18: error: 'SBI_EXT_DBTR' undeclared (first use in this function)
-     ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_UPDATE,
-                     ^~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:562:32: error: 'SBI_EXT_DBTR_TRIG_UPDATE' undeclared (first use in this function); did you mean 'RV_DBTR_TRIG_LEGACY'?
-     ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_UPDATE,
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-                                   RV_DBTR_TRIG_LEGACY
-   arch/riscv/kernel/hw_breakpoint.c:539:16: warning: unused variable 'ret' [-Wunused-variable]
-     struct sbiret ret;
-                   ^~~
-   arch/riscv/kernel/hw_breakpoint.c: In function 'arch_disable_hw_breakpoint':
-   arch/riscv/kernel/hw_breakpoint.c:574:16: error: storage size of 'ret' isn't known
-     struct sbiret ret;
-                   ^~~
-   arch/riscv/kernel/hw_breakpoint.c:589:18: error: 'SBI_EXT_DBTR' undeclared (first use in this function)
-     ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_DISABLE,
-                     ^~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:589:32: error: 'SBI_EXT_DBTR_TRIG_DISABLE' undeclared (first use in this function)
-     ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_DISABLE,
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/hw_breakpoint.c:574:16: warning: unused variable 'ret' [-Wunused-variable]
-     struct sbiret ret;
-                   ^~~
-   arch/riscv/kernel/hw_breakpoint.c: In function 'arch_hw_breakpoint_init':
->> arch/riscv/kernel/hw_breakpoint.c:634:17: warning: assignment to 'struct sbi_dbtr_shmem_entry *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     sbi_dbtr_shmem = __alloc_percpu(sizeof(*sbi_dbtr_shmem) * dbtr_total_num,
-                    ^
-   cc1: some warnings being treated as errors
+   In file included from drivers/soc/mediatek/mtk-mmdvfs-v3.c:9:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2194:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:481:6: warning: no previous prototype for function 'vmm_notify_work_func' [-Wmissing-prototypes]
+     481 | void vmm_notify_work_func(struct work_struct *work)
+         |      ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:481:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     481 | void vmm_notify_work_func(struct work_struct *work)
+         | ^
+         | static 
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:535:5: warning: no previous prototype for function 'vmm_avs_debug_dump' [-Wmissing-prototypes]
+     535 | int vmm_avs_debug_dump(char *buf, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:535:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     535 | int vmm_avs_debug_dump(char *buf, const struct kernel_param *kp)
+         | ^
+         | static 
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:692:5: warning: no previous prototype for function 'mmdvfs_vmm_ceil_step' [-Wmissing-prototypes]
+     692 | int mmdvfs_vmm_ceil_step(const char *val, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:692:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     692 | int mmdvfs_vmm_ceil_step(const char *val, const struct kernel_param *kp)
+         | ^
+         | static 
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:717:5: warning: no previous prototype for function 'mmdvfs_rst_clk_rate' [-Wmissing-prototypes]
+     717 | int mmdvfs_rst_clk_rate(const char *val, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:717:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     717 | int mmdvfs_rst_clk_rate(const char *val, const struct kernel_param *kp)
+         | ^
+         | static 
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:756:5: warning: no previous prototype for function 'mmdvfs_get_vcp_log' [-Wmissing-prototypes]
+     756 | int mmdvfs_get_vcp_log(char *buf, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     756 | int mmdvfs_get_vcp_log(char *buf, const struct kernel_param *kp)
+         | ^
+         | static 
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:784:5: warning: no previous prototype for function 'mmdvfs_set_vcp_log' [-Wmissing-prototypes]
+     784 | int mmdvfs_set_vcp_log(const char *val, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:784:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     784 | int mmdvfs_set_vcp_log(const char *val, const struct kernel_param *kp)
+         | ^
+         | static 
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:813:5: warning: no previous prototype for function 'mmdvfs_get_vmrc_log' [-Wmissing-prototypes]
+     813 | int mmdvfs_get_vmrc_log(char *buf, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:813:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     813 | int mmdvfs_get_vmrc_log(char *buf, const struct kernel_param *kp)
+         | ^
+         | static 
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:841:5: warning: no previous prototype for function 'mmdvfs_set_vmrc_log' [-Wmissing-prototypes]
+     841 | int mmdvfs_set_vmrc_log(const char *val, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:841:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     841 | int mmdvfs_set_vmrc_log(const char *val, const struct kernel_param *kp)
+         | ^
+         | static 
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:428:29: warning: unused variable 'mtk_mmdvfs_req_ops' [-Wunused-const-variable]
+     428 | static const struct clk_ops mtk_mmdvfs_req_ops = {
+         |                             ^~~~~~~~~~~~~~~~~~
+   13 warnings generated.
 
 
-vim +634 arch/riscv/kernel/hw_breakpoint.c
+vim +/mtk_mmdvfs_req_ops +428 drivers/soc/mediatek/mtk-mmdvfs-v3.c
 
-   613	
-   614	static int __init arch_hw_breakpoint_init(void)
-   615	{
-   616		unsigned int cpu;
-   617		int rc = 0;
-   618	
-   619		for_each_possible_cpu(cpu)
-   620			raw_spin_lock_init(&per_cpu(ecall_lock, cpu));
-   621	
-   622		if (!dbtr_init)
-   623			init_sbi_dbtr();
-   624	
-   625		if (dbtr_total_num) {
-   626			pr_info("%s: total number of type %d triggers: %u\n",
-   627				__func__, dbtr_type, dbtr_total_num);
-   628		} else {
-   629			pr_info("%s: No hardware triggers available\n", __func__);
-   630			goto out;
-   631		}
-   632	
-   633		/* Allocate per-cpu shared memory */
- > 634		sbi_dbtr_shmem = __alloc_percpu(sizeof(*sbi_dbtr_shmem) * dbtr_total_num,
+1cc9e9ca2d2e26a Yunfei Dong 2024-09-03  427  
+1cc9e9ca2d2e26a Yunfei Dong 2024-09-03 @428  static const struct clk_ops mtk_mmdvfs_req_ops = {
+1cc9e9ca2d2e26a Yunfei Dong 2024-09-03  429  	.set_rate	= mtk_mmdvfs_set_rate,
+1cc9e9ca2d2e26a Yunfei Dong 2024-09-03  430  	.round_rate	= mtk_mmdvfs_round_rate,
+1cc9e9ca2d2e26a Yunfei Dong 2024-09-03  431  	.recalc_rate	= mtk_mmdvfs_recalc_rate,
+1cc9e9ca2d2e26a Yunfei Dong 2024-09-03  432  };
+1cc9e9ca2d2e26a Yunfei Dong 2024-09-03  433  
+
+:::::: The code at line 428 was first introduced by commit
+:::::: 1cc9e9ca2d2e26a6b7e9b650ba61a261506201ee CHROMIUM: mmdvfs: add basic driver to support mmdvfs
+
+:::::: TO: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
