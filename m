@@ -1,59 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD5C1D54FA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 06:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683E41F55FA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 06:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748327802; cv=none; b=f2sBs19SnHpDtOVjz7trtgeiI50qiB9B0aMrD5bGre01gEPuE89VkLPsgDgqBKgZEbNGtQ7dI4iRTMEeEMRzXMGZ1nXwjH9/1OLz3tSjJS39j+rGQ3G7ebSex5nyIelkLd7TE3Oj3FfZ1nk71jYnkCTNH1YEpe7wpkikxtpSdXU=
+	t=1748328464; cv=none; b=geEtTUGWCP7NiVf6v41iL50q8fC6y9K4ApUIk44Ue+pp6iyvXk2FAOxbBrBAHGJ3K3AXIRnbaoGUj/W6MGSDZJtLYJx/pG9RqChbkEcxXbekPn6KccKc51M14qN1bujfE6oi6oshNYO9yu+NBzJGbxj3vKCXPR2Eofow9fX5mJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748327802; c=relaxed/simple;
-	bh=+YuohgUg7g2Lp5AXvEWa6NAW7pKxJFSB3KGRaGx/hM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UZMLF1aW8r/JMQciIO4THUpUGFzxeqLiThPBIfeaGwnWZQRS5MRvLVW2beDRGkBrHbDHtLsqa9IiwFHyiZmZiJ6Jc1S6Rju0M9R3bfWHvHQqwVdNXR/4YY9wtm76HxD7NnDSBbRVkwqdUBZdNJkGr7nxW3v3mLXxMjgCwvr3qWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gG3+mn52; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1748328464; c=relaxed/simple;
+	bh=I4wzHzDJ+8zZKxQvV9AlV/3OFAijXL/3idDMRGdsPps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ahrN+E87VA3aL3Yw4YtNzco3+dI63cHEoxgcL8PVzWzG4qr4UWvjpNFVFR7fSce1LIOAHWrhURNT9X6ucGBfmeqdCyeF4ajiMqIl8KElHxqhmE5jvN9ewjH3QV1WgGqTdp7xk+a/hwyWOS36OR35wGUvOK5KaHTi7rcbmw/k+Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dRhTprsx; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gG3+mn52"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dRhTprsx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748327800; x=1779863800;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+YuohgUg7g2Lp5AXvEWa6NAW7pKxJFSB3KGRaGx/hM4=;
-  b=gG3+mn52J63ZEwhI+MZa7pSiqABn57hpLxjKwhrggwzmw11HsOJmpuh3
-   JCVInK6a9smajw3G2ywK2lqtINxSPKkKo8VfH4Hxf5LMrp2A5s1g4waaM
-   fVsL7Zy2lbfsuSj4QmuePwgE4UofkpJQMfefrfhoSy+xAaHqkkZPCF7Nv
-   sNKjZU/biBybcTaZixMdmZu43MDcuii1Buh78YE0W9gTYN2/NrodDBIAr
-   TDTeC9Xv16kRcX7dM4dkSKhzxbGdu8bVn1YM2WJC8WdSqrBBpaKeNZAGJ
-   3K/MD9CpL/tHjp+rYg+kZYDpUbskdmJoBG5D9WegehaSrbCIuv65Trfkt
-   Q==;
-X-CSE-ConnectionGUID: le1ftIyaT3q+xx+Myq5MgA==
-X-CSE-MsgGUID: OjXBzfynS9iXjVMgT9Yf/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="53957505"
+  t=1748328462; x=1779864462;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I4wzHzDJ+8zZKxQvV9AlV/3OFAijXL/3idDMRGdsPps=;
+  b=dRhTprsxluo5a7j4+RAAGFlePZGM/7qYFtG54xar2yXI8bVxOHOoaJ4Y
+   0DQAmaYwE+4IfJhc3l3v6odhVJ0m2SRCj9rpCyGCADuwBrfrXWpYWokd+
+   Rce3W1XISHUbjnpH5w7eHci24Z/5CHmDaphGjQnGN7Hxp7cuWVPEXEOh3
+   QlrlSYdjImWkLkI3fJ/dO6rlAu++b4QnHoE9dXmMcAPEtnu60sl/ojO+s
+   a9nNc3QaDwRfUr2zR+axv2wttIqHk52mGw/WNTKJXYzY9xcKYd3mybjdg
+   Jxk44SE72jxOC+7D8l/OZPOBSa/w9/Sjlt+JBpkbQdaKjAKPOGPKjJVXV
+   w==;
+X-CSE-ConnectionGUID: PyTlhihVRfeNzxYOVV5zjw==
+X-CSE-MsgGUID: oFnouZXmRGmtRvutTADTzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="53958180"
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="53957505"
+   d="scan'208";a="53958180"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 23:36:37 -0700
-X-CSE-ConnectionGUID: c554XoYbS4OeHk/z/Fs2qg==
-X-CSE-MsgGUID: VuhnkBilTAGhn+J7Ji/fAQ==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 23:47:42 -0700
+X-CSE-ConnectionGUID: 1hBslaCfT9C9WHYXTGbumw==
+X-CSE-MsgGUID: EgBudyivS7SiG4jfkgBRVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="179859123"
+   d="scan'208";a="179862687"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 May 2025 23:36:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 May 2025 23:47:38 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJnvO-000Sy6-0h;
-	Tue, 27 May 2025 06:36:34 +0000
-Date: Tue, 27 May 2025 14:36:23 +0800
+	id 1uJo63-000Sym-0W;
+	Tue, 27 May 2025 06:47:35 +0000
+Date: Tue, 27 May 2025 14:46:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 133/133]
- drivers/soc/mediatek/mtk-mmdvfs-v3.c:481:6: warning: no previous prototype
- for function 'vmm_notify_work_func'
-Message-ID: <202505271455.WmEBLxW4-lkp@intel.com>
+To: Subbaraya Sundeep <sbhatta@marvell.com>, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saikrishnag@marvell.com,
+	gakula@marvell.com, hkelam@marvell.com, sgoutham@marvell.com,
+	lcherian@marvell.com, bbhushan2@marvell.com, jerinj@marvell.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Subbaraya Sundeep <sbhatta@marvell.com>
+Subject: Re: [net PATCH] octeontx2-pf: Avoid typecasts by simplifying
+ otx2_atomic64_add macro
+Message-ID: <202505271459.ZZab1GQF-lkp@intel.com>
+References: <1748274232-20835-1-git-send-email-sbhatta@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,251 +68,271 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1748274232-20835-1-git-send-email-sbhatta@marvell.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   00e2b7e08c550ff321daba7b9956795d281bdd98
-commit: 1cc9e9ca2d2e26a6b7e9b650ba61a261506201ee [133/133] CHROMIUM: mmdvfs: add basic driver to support mmdvfs
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250527/202505271455.WmEBLxW4-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271455.WmEBLxW4-lkp@intel.com/reproduce)
+Hi Subbaraya,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Subbaraya-Sundeep/octeontx2-pf-Avoid-typecasts-by-simplifying-otx2_atomic64_add-macro/20250526-234505
+base:   net/main
+patch link:    https://lore.kernel.org/r/1748274232-20835-1-git-send-email-sbhatta%40marvell.com
+patch subject: [net PATCH] octeontx2-pf: Avoid typecasts by simplifying otx2_atomic64_add macro
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250527/202505271459.ZZab1GQF-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271459.ZZab1GQF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505271455.WmEBLxW4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505271459.ZZab1GQF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/soc/mediatek/mtk-mmdvfs-v3.c:9:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2194:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:132:24: error: no member named 'vcp_is_suspending' in 'struct mtk_vcp_of_data'
-     132 |         if (vcp_device->data->vcp_is_suspending(vcp_device))
-         |             ~~~~~~~~~~~~~~~~  ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:274:20: error: no member named 'ipi_ops' in 'struct mtk_vcp_device'
-     274 |         ret = vcp_device->ipi_ops->ipi_send(vcp_ipi_dev,
-         |               ~~~~~~~~~~  ^
->> drivers/soc/mediatek/mtk-mmdvfs-v3.c:481:6: warning: no previous prototype for function 'vmm_notify_work_func' [-Wmissing-prototypes]
-     481 | void vmm_notify_work_func(struct work_struct *work)
-         |      ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:481:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     481 | void vmm_notify_work_func(struct work_struct *work)
-         | ^
-         | static 
->> drivers/soc/mediatek/mtk-mmdvfs-v3.c:535:5: warning: no previous prototype for function 'vmm_avs_debug_dump' [-Wmissing-prototypes]
-     535 | int vmm_avs_debug_dump(char *buf, const struct kernel_param *kp)
-         |     ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:535:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     535 | int vmm_avs_debug_dump(char *buf, const struct kernel_param *kp)
-         | ^
-         | static 
->> drivers/soc/mediatek/mtk-mmdvfs-v3.c:692:5: warning: no previous prototype for function 'mmdvfs_vmm_ceil_step' [-Wmissing-prototypes]
-     692 | int mmdvfs_vmm_ceil_step(const char *val, const struct kernel_param *kp)
-         |     ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:692:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     692 | int mmdvfs_vmm_ceil_step(const char *val, const struct kernel_param *kp)
-         | ^
-         | static 
->> drivers/soc/mediatek/mtk-mmdvfs-v3.c:717:5: warning: no previous prototype for function 'mmdvfs_rst_clk_rate' [-Wmissing-prototypes]
-     717 | int mmdvfs_rst_clk_rate(const char *val, const struct kernel_param *kp)
-         |     ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:717:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     717 | int mmdvfs_rst_clk_rate(const char *val, const struct kernel_param *kp)
-         | ^
-         | static 
->> drivers/soc/mediatek/mtk-mmdvfs-v3.c:756:5: warning: no previous prototype for function 'mmdvfs_get_vcp_log' [-Wmissing-prototypes]
-     756 | int mmdvfs_get_vcp_log(char *buf, const struct kernel_param *kp)
-         |     ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     756 | int mmdvfs_get_vcp_log(char *buf, const struct kernel_param *kp)
-         | ^
-         | static 
->> drivers/soc/mediatek/mtk-mmdvfs-v3.c:784:5: warning: no previous prototype for function 'mmdvfs_set_vcp_log' [-Wmissing-prototypes]
-     784 | int mmdvfs_set_vcp_log(const char *val, const struct kernel_param *kp)
-         |     ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:784:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     784 | int mmdvfs_set_vcp_log(const char *val, const struct kernel_param *kp)
-         | ^
-         | static 
->> drivers/soc/mediatek/mtk-mmdvfs-v3.c:813:5: warning: no previous prototype for function 'mmdvfs_get_vmrc_log' [-Wmissing-prototypes]
-     813 | int mmdvfs_get_vmrc_log(char *buf, const struct kernel_param *kp)
-         |     ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:813:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     813 | int mmdvfs_get_vmrc_log(char *buf, const struct kernel_param *kp)
-         | ^
-         | static 
->> drivers/soc/mediatek/mtk-mmdvfs-v3.c:841:5: warning: no previous prototype for function 'mmdvfs_set_vmrc_log' [-Wmissing-prototypes]
-     841 | int mmdvfs_set_vmrc_log(const char *val, const struct kernel_param *kp)
-         |     ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:841:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     841 | int mmdvfs_set_vmrc_log(const char *val, const struct kernel_param *kp)
-         | ^
-         | static 
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1581:23: error: no member named 'vcp_get_sram_virt' in 'struct mtk_vcp_of_data'; did you mean 'vcp_get_mem_virt'?
-    1581 |                                 vcp_device->data->vcp_get_sram_virt(vcp_device) +
-         |                                                   ^~~~~~~~~~~~~~~~~
-         |                                                   vcp_get_mem_virt
-   include/linux/remoteproc/mtk_vcp_public.h:97:18: note: 'vcp_get_mem_virt' declared here
-      97 |         void __iomem *(*vcp_get_mem_virt)(enum vcp_reserve_mem_id_t id);
-         |                         ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1693:68: error: use of undeclared identifier 'MMDVFS_MMUP_MEM_ID'; did you mean 'MMDVFS_MMUP_FEATURE_ID'?
-    1693 |         mmdvfs_dev->mmdvfs_mmup_iova = vcp_device->data->vcp_get_mem_iova(MMDVFS_MMUP_MEM_ID);
-         |                                                                           ^~~~~~~~~~~~~~~~~~
-         |                                                                           MMDVFS_MMUP_FEATURE_ID
-   include/linux/remoteproc/mtk_vcp_public.h:38:2: note: 'MMDVFS_MMUP_FEATURE_ID' declared here
-      38 |         MMDVFS_MMUP_FEATURE_ID,
-         |         ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1693:68: warning: implicit conversion from enumeration type 'enum feature_id' to different enumeration type 'enum vcp_reserve_mem_id_t' [-Wenum-conversion]
-    1693 |         mmdvfs_dev->mmdvfs_mmup_iova = vcp_device->data->vcp_get_mem_iova(MMDVFS_MMUP_MEM_ID);
-         |                                        ~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~~
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1694:74: error: use of undeclared identifier 'MMDVFS_MMUP_MEM_ID'; did you mean 'MMDVFS_MMUP_FEATURE_ID'?
-    1694 |         mmdvfs_dev->mmdvfs_mmup_va = (void *)vcp_device->data->vcp_get_mem_virt(MMDVFS_MMUP_MEM_ID);
-         |                                                                                 ^~~~~~~~~~~~~~~~~~
-         |                                                                                 MMDVFS_MMUP_FEATURE_ID
-   include/linux/remoteproc/mtk_vcp_public.h:38:2: note: 'MMDVFS_MMUP_FEATURE_ID' declared here
-      38 |         MMDVFS_MMUP_FEATURE_ID,
-         |         ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1694:74: warning: implicit conversion from enumeration type 'enum feature_id' to different enumeration type 'enum vcp_reserve_mem_id_t' [-Wenum-conversion]
-    1694 |         mmdvfs_dev->mmdvfs_mmup_va = (void *)vcp_device->data->vcp_get_mem_virt(MMDVFS_MMUP_MEM_ID);
-         |                                              ~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~~
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1696:67: error: use of undeclared identifier 'MMDVFS_VCP_MEM_ID'; did you mean 'MMDVFS_VCP_FEATURE_ID'?
-    1696 |         mmdvfs_dev->mmdvfs_vcp_iova = vcp_device->data->vcp_get_mem_iova(MMDVFS_VCP_MEM_ID);
-         |                                                                          ^~~~~~~~~~~~~~~~~
-         |                                                                          MMDVFS_VCP_FEATURE_ID
-   include/linux/remoteproc/mtk_vcp_public.h:39:2: note: 'MMDVFS_VCP_FEATURE_ID' declared here
-      39 |         MMDVFS_VCP_FEATURE_ID,
-         |         ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1696:67: warning: implicit conversion from enumeration type 'enum feature_id' to different enumeration type 'enum vcp_reserve_mem_id_t' [-Wenum-conversion]
-    1696 |         mmdvfs_dev->mmdvfs_vcp_iova = vcp_device->data->vcp_get_mem_iova(MMDVFS_VCP_MEM_ID);
-         |                                       ~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1697:73: error: use of undeclared identifier 'MMDVFS_VCP_MEM_ID'; did you mean 'MMDVFS_VCP_FEATURE_ID'?
-    1697 |         mmdvfs_dev->mmdvfs_vcp_va = (void *)vcp_device->data->vcp_get_mem_virt(MMDVFS_VCP_MEM_ID);
-         |                                                                                ^~~~~~~~~~~~~~~~~
-         |                                                                                MMDVFS_VCP_FEATURE_ID
-   include/linux/remoteproc/mtk_vcp_public.h:39:2: note: 'MMDVFS_VCP_FEATURE_ID' declared here
-      39 |         MMDVFS_VCP_FEATURE_ID,
-         |         ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1697:73: warning: implicit conversion from enumeration type 'enum feature_id' to different enumeration type 'enum vcp_reserve_mem_id_t' [-Wenum-conversion]
-    1697 |         mmdvfs_dev->mmdvfs_vcp_va = (void *)vcp_device->data->vcp_get_mem_virt(MMDVFS_VCP_MEM_ID);
-         |                                             ~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~
-   16 warnings and 7 errors generated.
+   In file included from drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:22:
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h: In function 'otx2_aura_allocptr':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                    ^
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c: In function 'otx2_q_intr_handler':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1314:23: note: in expansion of macro 'otx2_atomic64_add'
+    1314 |                 val = otx2_atomic64_add((qidx << 44), ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1314:23: note: in expansion of macro 'otx2_atomic64_add'
+    1314 |                 val = otx2_atomic64_add((qidx << 44), ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1353:23: note: in expansion of macro 'otx2_atomic64_add'
+    1353 |                 val = otx2_atomic64_add((qidx << 44), ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1353:23: note: in expansion of macro 'otx2_atomic64_add'
+    1353 |                 val = otx2_atomic64_add((qidx << 44), ptr);
+         |                       ^~~~~~~~~~~~~~~~~
 --
->> drivers/soc/mediatek/mtk-mmdvfs-v3-user.c:34:5: warning: no previous prototype for function 'mmdvfs_user_set_rate' [-Wmissing-prototypes]
-      34 | int mmdvfs_user_set_rate(u8 idx, u64 freq)
-         |     ^
-   drivers/soc/mediatek/mtk-mmdvfs-v3-user.c:34:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      34 | int mmdvfs_user_set_rate(u8 idx, u64 freq)
+   In file included from drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:17:
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h: In function 'otx2_aura_allocptr':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                    ^
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c: In function 'otx2_nix_rq_op_stats':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:34:24: note: in expansion of macro 'otx2_atomic64_add'
+      34 |         stats->bytes = otx2_atomic64_add(incr, ptr);
+         |                        ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:34:24: note: in expansion of macro 'otx2_atomic64_add'
+      34 |         stats->bytes = otx2_atomic64_add(incr, ptr);
+         |                        ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:37:23: note: in expansion of macro 'otx2_atomic64_add'
+      37 |         stats->pkts = otx2_atomic64_add(incr, ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:37:23: note: in expansion of macro 'otx2_atomic64_add'
+      37 |         stats->pkts = otx2_atomic64_add(incr, ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c: In function 'otx2_nix_sq_op_stats':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:47:24: note: in expansion of macro 'otx2_atomic64_add'
+      47 |         stats->bytes = otx2_atomic64_add(incr, ptr);
+         |                        ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:47:24: note: in expansion of macro 'otx2_atomic64_add'
+      47 |         stats->bytes = otx2_atomic64_add(incr, ptr);
+         |                        ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:50:23: note: in expansion of macro 'otx2_atomic64_add'
+      50 |         stats->pkts = otx2_atomic64_add(incr, ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:50:23: note: in expansion of macro 'otx2_atomic64_add'
+      50 |         stats->pkts = otx2_atomic64_add(incr, ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c: In function 'otx2_sqb_flush':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:873:23: note: in expansion of macro 'otx2_atomic64_add'
+     873 |                 val = otx2_atomic64_add(incr, ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c:873:23: note: in expansion of macro 'otx2_atomic64_add'
+     873 |                 val = otx2_atomic64_add(incr, ptr);
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h: In function 'otx2_aura_allocptr':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:805:1: warning: control reaches end of non-void function [-Wreturn-type]
+     805 | }
          | ^
-         | static 
-   1 warning generated.
+--
+   In file included from drivers/net/ethernet/marvell/octeontx2/nic/otx2_txrx.c:18:
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h: In function 'otx2_aura_allocptr':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                    ^
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/net/ethernet/marvell/octeontx2/nic/cn10k.h:11,
+                    from drivers/net/ethernet/marvell/octeontx2/nic/qos_sq.c:11:
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h: In function 'otx2_aura_allocptr':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                    ^
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/qos_sq.c: In function 'otx2_qos_sqb_flush':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+   drivers/net/ethernet/marvell/octeontx2/nic/qos_sq.c:159:15: note: in expansion of macro 'otx2_atomic64_add'
+     159 |         val = otx2_atomic64_add(incr, ptr);
+         |               ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/qos_sq.c:159:15: note: in expansion of macro 'otx2_atomic64_add'
+     159 |         val = otx2_atomic64_add(incr, ptr);
+         |               ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h: In function 'otx2_aura_allocptr':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:805:1: warning: control reaches end of non-void function [-Wreturn-type]
+     805 | }
+         | ^
+--
+   In file included from drivers/net/ethernet/marvell/octeontx2/nic/otx2_xsk.c:13:
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h: In function 'otx2_aura_allocptr':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:52: warning: dereferencing 'void *' pointer
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                    ^
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:751:57: error: invalid use of void expression
+     751 | #define otx2_atomic64_add(incr, ptr)            ({ *ptr += incr; })
+         |                                                         ^~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:804:16: note: in expansion of macro 'otx2_atomic64_add'
+     804 |         return otx2_atomic64_add(incr, ptr);
+         |                ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:805:1: warning: control reaches end of non-void function [-Wreturn-type]
+     805 | }
+         | ^
 
 
-vim +/vmm_notify_work_func +481 drivers/soc/mediatek/mtk-mmdvfs-v3.c
+vim +751 drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
 
-   480	
- > 481	void vmm_notify_work_func(struct work_struct *work)
-   482	{
-   483		struct mmdvfs_vmm_notify_work *vmm_notify_work =
-   484			container_of(work, struct mmdvfs_vmm_notify_work, vmm_notify_work);
-   485	
-   486		mtk_mmdvfs_enable_vcp(vmm_notify_work->enable, VCP_PWR_USR_MMDVFS_GENPD);
-   487		kfree(vmm_notify_work);
-   488	}
-   489	
-   490	int mtk_mmdvfs_genpd_notify(const u8 idx, const bool enable)
-   491	{
-   492		struct mtk_mmdvfs_dev *mmdvfs_dev = mtk_mmdvfs_get_drv_data();
-   493		struct mmdvfs_vmm_notify_work *work;
-   494	
-   495		if (IS_ERR_OR_NULL(mmdvfs_dev))
-   496			return -ENODEV;
-   497	
-   498		if (!mmdvfs_is_init_done())
-   499			return 0;
-   500	
-   501		mmdvfs_vcp_ipi_send(mmdvfs_dev, FUNC_VMM_GENPD_NOTIFY, idx, enable ? 1 : 0, NULL);
-   502	
-   503		if (!mmdvfs_dev->vmm_notify_wq)
-   504			return 0;
-   505	
-   506		work = kzalloc(sizeof(*work), GFP_KERNEL);
-   507		if (!work)
-   508			return -ENOMEM;
-   509	
-   510		work->enable = enable;
-   511		INIT_WORK(&work->vmm_notify_work, vmm_notify_work_func);
-   512		queue_work(mmdvfs_dev->vmm_notify_wq, &work->vmm_notify_work);
-   513	
-   514		return 0;
-   515	}
-   516	EXPORT_SYMBOL_GPL(mtk_mmdvfs_genpd_notify);
-   517	
-   518	int mtk_mmdvfs_set_avs(const u8 idx, const u32 aging, const u32 fresh)
-   519	{
-   520		struct mtk_mmdvfs_dev *mmdvfs_dev = mtk_mmdvfs_get_drv_data();
-   521		u32 data[2] = {aging, fresh};
-   522		int ret;
-   523	
-   524		if (IS_ERR_OR_NULL(mmdvfs_dev))
-   525			return -ENODEV;
-   526	
-   527		ret = mmdvfs_vcp_ipi_send(mmdvfs_dev, FUNC_VMM_AVS_UPDATE, idx, MMDVFS_MAX_OPP, (u32 *)&data);
-   528		mtk_mmdvfs_debug(mmdvfs_dev->pdev, LOG_PWR, "ret:%d idx:%u aging:%u fresh:%u",
-   529				 ret, idx, aging, fresh);
-   530	
-   531		return ret;
-   532	}
-   533	EXPORT_SYMBOL_GPL(mtk_mmdvfs_set_avs);
-   534	
- > 535	int vmm_avs_debug_dump(char *buf, const struct kernel_param *kp)
-   536	{
-   537		int len = 0;
-   538		u32 avs, i;
-   539	
-   540		if (!MEM_BASE)
-   541			return 0;
-   542	
-   543		/* power opp */
-   544		len += scnprintf(buf + len, PAGE_SIZE - len, "efuse_low:%#x, efuse_high:%#x\n",
-   545				readl(MEM_VMM_EFUSE_LOW), readl(MEM_VMM_EFUSE_HIGH));
-   546		for (i = 0; i < 8; i++)
-   547			len += scnprintf(buf + len, PAGE_SIZE - len, "opp_level%u: %u\n", i,
-   548					readl(MEM_VMM_OPP_VOLT(i)));
-   549	
-   550		i = readl(MEM_REC_VMM_DBG_CNT);
-   551		if (i > 0)
-   552			i = (i - 1) % MEM_REC_CNT_MAX;
-   553	
-   554		avs = readl(MEM_REC_VMM_AVS(i));
-   555		len += scnprintf(buf + len, PAGE_SIZE - len,
-   556				"temp:%#x volt:%u zone:%u opp_level:%u vde_on:%u isp_on:%u\n",
-   557				readl(MEM_REC_VMM_TEMP(i)), readl(MEM_REC_VMM_VOLT(i)),
-   558				avs & 0xff, (avs >> 8) & 0xff, (avs >> 16) & 0x1, (avs >> 17) & 0x1);
-   559	
-   560		return len;
-   561	}
-   562	
+caa2da34fd25a3 Sunil Goutham     2020-01-27  748  
+caa2da34fd25a3 Sunil Goutham     2020-01-27  749  #else
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  750  #define otx2_write128(lo, hi, addr)		writeq((hi) | (lo), addr)
+caa2da34fd25a3 Sunil Goutham     2020-01-27 @751  #define otx2_atomic64_add(incr, ptr)		({ *ptr += incr; })
+caa2da34fd25a3 Sunil Goutham     2020-01-27  752  #endif
+caa2da34fd25a3 Sunil Goutham     2020-01-27  753  
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  754  static inline void __cn10k_aura_freeptr(struct otx2_nic *pfvf, u64 aura,
+ef6c8da71eaffe Geetha sowjanya   2021-09-01  755  					u64 *ptrs, u64 num_ptrs)
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  756  {
+ef6c8da71eaffe Geetha sowjanya   2021-09-01  757  	struct otx2_lmt_info *lmt_info;
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  758  	u64 size = 0, count_eot = 0;
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  759  	u64 tar_addr, val = 0;
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  760  
+ef6c8da71eaffe Geetha sowjanya   2021-09-01  761  	lmt_info = per_cpu_ptr(pfvf->hw.lmt_info, smp_processor_id());
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  762  	tar_addr = (__force u64)otx2_get_regaddr(pfvf, NPA_LF_AURA_BATCH_FREE0);
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  763  	/* LMTID is same as AURA Id */
+ef6c8da71eaffe Geetha sowjanya   2021-09-01  764  	val = (lmt_info->lmt_id & 0x7FF) | BIT_ULL(63);
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  765  	/* Set if [127:64] of last 128bit word has a valid pointer */
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  766  	count_eot = (num_ptrs % 2) ? 0ULL : 1ULL;
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  767  	/* Set AURA ID to free pointer */
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  768  	ptrs[0] = (count_eot << 32) | (aura & 0xFFFFF);
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  769  	/* Target address for LMTST flush tells HW how many 128bit
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  770  	 * words are valid from NPA_LF_AURA_BATCH_FREE0.
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  771  	 *
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  772  	 * tar_addr[6:4] is LMTST size-1 in units of 128b.
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  773  	 */
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  774  	if (num_ptrs > 2) {
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  775  		size = (sizeof(u64) * num_ptrs) / 16;
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  776  		if (!count_eot)
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  777  			size++;
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  778  		tar_addr |=  ((size - 1) & 0x7) << 4;
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  779  	}
+c5d731c54a1767 Geetha sowjanya   2022-01-21  780  	dma_wmb();
+ef6c8da71eaffe Geetha sowjanya   2021-09-01  781  	memcpy((u64 *)lmt_info->lmt_addr, ptrs, sizeof(u64) * num_ptrs);
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  782  	/* Perform LMTST flush */
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  783  	cn10k_lmt_flush(val, tar_addr);
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  784  }
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  785  
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  786  static inline void cn10k_aura_freeptr(void *dev, int aura, u64 buf)
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  787  {
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  788  	struct otx2_nic *pfvf = dev;
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  789  	u64 ptrs[2];
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  790  
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  791  	ptrs[1] = buf;
+55ba18dc62deff Kevin Hao         2023-01-18  792  	get_cpu();
+ef6c8da71eaffe Geetha sowjanya   2021-09-01  793  	/* Free only one buffer at time during init and teardown */
+ef6c8da71eaffe Geetha sowjanya   2021-09-01  794  	__cn10k_aura_freeptr(pfvf, aura, ptrs, 2);
+55ba18dc62deff Kevin Hao         2023-01-18  795  	put_cpu();
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  796  }
+4c236d5dc8b862 Geetha sowjanya   2021-02-11  797  
+caa2da34fd25a3 Sunil Goutham     2020-01-27  798  /* Alloc pointer from pool/aura */
+caa2da34fd25a3 Sunil Goutham     2020-01-27  799  static inline u64 otx2_aura_allocptr(struct otx2_nic *pfvf, int aura)
+caa2da34fd25a3 Sunil Goutham     2020-01-27  800  {
+22f5790bc6ba33 Subbaraya Sundeep 2025-05-26  801  	void __iomem *ptr = otx2_get_regaddr(pfvf, NPA_LF_AURA_OP_ALLOCX(0));
+caa2da34fd25a3 Sunil Goutham     2020-01-27  802  	u64 incr = (u64)aura | BIT_ULL(63);
+caa2da34fd25a3 Sunil Goutham     2020-01-27  803  
+caa2da34fd25a3 Sunil Goutham     2020-01-27 @804  	return otx2_atomic64_add(incr, ptr);
+caa2da34fd25a3 Sunil Goutham     2020-01-27 @805  }
+caa2da34fd25a3 Sunil Goutham     2020-01-27  806  
 
 -- 
 0-DAY CI Kernel Test Service
