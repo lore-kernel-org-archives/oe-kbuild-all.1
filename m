@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C2926989D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 12:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8117717BA6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 12:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748348113; cv=none; b=pLiHRvg61TQIFr7YPUyF6om0EaQjG0vXvTzeF2sLydRarW5FWgHmvCXUplNKULKhA3uhQlyBmszHkdUJAi1+gaSKsm19mIKA1H4QT3iPqbb7/wZ3JuaD56HpTW5jDYFLqcEUlAdpIIsM1mlRnMR/KNLbOP2gg/6GXgG8+Srlkx0=
+	t=1748349315; cv=none; b=gqnX/wWJ6zZ6oJJvtKz5xq9NCJwUovjvHMA3a4CIOLK/zZKEcTpvOXD1Zz4QCOkwTuIao3AHlpwUxlajpfeNBMYoEKEg4y3bkiGsc756yHwFE95jUcJtfZvEv0nW3f613Exd/4h1sjDyvw0w1dC9O7eWcG+T58g9BjJ1pufMXOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748348113; c=relaxed/simple;
-	bh=iy/jdVOFj/GSAv1x/zbjOzl0SMMglkeFqv6vN0bcSQM=;
+	s=arc-20240116; t=1748349315; c=relaxed/simple;
+	bh=fO0hE1GXEVvVnMx/+4SfDnLFgWeyva6jw1KnApT7t2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zh729y6AaJAYFRymn0zGjHDooCx7Aa3zmSSpqE3YnrDr9eeQWXPm073stSFlUT7bAGFivt3yYxcmpBjqx8JWfXmF6XhFfThwqP9NCYqhEKIqKsbTUB9wyvAQUJvu97V/zdqCygKuW/oFEUJMxUxdhv/J4mWNciVrg9Snzqk86fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5mNckDg; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=g5uJYCh1XlL+1iM2C7jDMNZi+K6mPl6mApSMKtcUCyfwKLKwWkmg/1HQnejFe5rGARE2kKrjTtozg2gmi6D5qm5yk7wSeAYUsdfBceCq1UcGJLj9p7a8JeA38LapnTssHS36/P/b113CJRay2DR9PeLgw9bgxM8GHk8yJnbXZQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KSjRyBku; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5mNckDg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSjRyBku"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748348112; x=1779884112;
+  t=1748349313; x=1779885313;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iy/jdVOFj/GSAv1x/zbjOzl0SMMglkeFqv6vN0bcSQM=;
-  b=b5mNckDgh3kTbbR9DVcYJU+uWdbySIiWEX4qZKf/Uxb0LknkvUPnE06t
-   a+UqJVf8f5HLgKStQmaWZBw97HS38jQF/RPzpQjAPA8YlW/3hOXlldd3g
-   XYtrXGTcPrc2KCNmM+cmL1imrzbhf3AQ5wEmpAvKgjCd5VQJ1lsngwTk9
-   FEQvwhvV5GD5de2K40pS1IIXd7nQm42jQuW70vGUFamt4bfW+2YeQraRY
-   sCGUETbndbgbfOIUy5FUu1Jggf559lm/8YsG3r7fb/xrXW0DVc9CAwQS0
-   4SgYkQN/qWAIqZPj+m1DbQNTyazzbvBzq6tYkNSVy+vt45JOaYblexMkX
-   g==;
-X-CSE-ConnectionGUID: 505SkvADQV6ZjTDMDcY+Vg==
-X-CSE-MsgGUID: GiY7TascSpSS2QCoJ4OcKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="37959366"
+  bh=fO0hE1GXEVvVnMx/+4SfDnLFgWeyva6jw1KnApT7t2A=;
+  b=KSjRyBkuuNdlP7Pd9shmBO8EgMGTH7oylUEzg0pUmE7ks+ugAm1Bc2RV
+   5i00NFOXhUjaXwz3vYoGTIuKwoLPPhAHe6+E0w5jCYwWq6bJnM8NL0NMd
+   ObRCG1XK94ZZ55o78BWuZfRWJ0FWTmlCLmphGs0VPkNepp69OTuFC5ibJ
+   Xk3q5MWdqPcmZ7CUOstLDdDJS1C6nrpVw729Q6KsjxMCZ4Uhbpud6sI2z
+   gmMdCf0IcqWHNVKT7j7ZD2qKfdWCslF13ACFwZMTImhmFXlqSSIa+OOKJ
+   EluWOAJ/PkyXe17496AT6YCRoZYma8bweE/7SlooWFLtqQmmdgSQ+4t+Z
+   w==;
+X-CSE-ConnectionGUID: Uy4ksNkPTyiKpm6HLtQJEQ==
+X-CSE-MsgGUID: 16CQ7AWZRnCbKeDpw/aCmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="60587972"
 X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; 
-   d="scan'208";a="37959366"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 05:15:11 -0700
-X-CSE-ConnectionGUID: cOUe2SBwRlWeVbBTQKarKw==
-X-CSE-MsgGUID: ey+C6W90QaWpyoWwFF/A2g==
+   d="scan'208";a="60587972"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 05:35:13 -0700
+X-CSE-ConnectionGUID: NLB77F5pSuOw/sLVhAsrgg==
+X-CSE-MsgGUID: 777RLlRGSmOJ2LrYr7E0/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,318,1739865600"; 
-   d="scan'208";a="143762311"
+   d="scan'208";a="179996022"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 May 2025 05:15:10 -0700
+  by orviesa001.jf.intel.com with ESMTP; 27 May 2025 05:35:12 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJtD1-000TBM-2r;
-	Tue, 27 May 2025 12:15:07 +0000
-Date: Tue, 27 May 2025 20:14:17 +0800
+	id 1uJtWP-000TCy-2v;
+	Tue, 27 May 2025 12:35:09 +0000
+Date: Tue, 27 May 2025 20:34:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Himanshu Chauhan <hchauhan@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_defconfig_v1 61/77]
- arch/riscv/include/asm/io.h:34:19: error: implicit declaration of function
- 'ioremap_prot'; did you mean 'ioremap_wt'?
-Message-ID: <202505272041.K796220K-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/23] mm/shmem.c:2541:12:
+ warning: no previous prototype for 'shmem_fault'
+Message-ID: <202505272057.xxUI5Tvk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,44 +62,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_defconfig_v1
-head:   bd9f757ef4bfde0edc1b68dd9af6e35e1f999fb3
-commit: 7edc82b9a1b5d8dfab77c5ac582cd28b6ebbaef6 [61/77] riscv: Define ioremap_cache for RISC-V
-config: riscv-randconfig-r052-20250527 (https://download.01.org/0day-ci/archive/20250527/202505272041.K796220K-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505272041.K796220K-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   4cfcf654e0b4c7a13c03d5e834171ca2e4ac3274
+commit: 5c1d7ef6718a61393212b8f7971d146d6e1c8e8f [0/23] ANDROID: 16K: Handle pgoff > file_size for shmem and file backed VMAs
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250527/202505272057.xxUI5Tvk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505272057.xxUI5Tvk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505272041.K796220K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505272057.xxUI5Tvk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/io.h:12,
-                    from kernel/iomem.c:4:
-   kernel/iomem.c: In function 'arch_memremap_wb':
->> arch/riscv/include/asm/io.h:34:19: error: implicit declaration of function 'ioremap_prot'; did you mean 'ioremap_wt'? [-Werror=implicit-function-declaration]
-     ((__force void *)ioremap_prot((addr), (size), PAGE_KERNEL))
-                      ^~~~~~~~~~~~
-   kernel/iomem.c:13:25: note: in expansion of macro 'ioremap_cache'
-     return (__force void *)ioremap_cache(offset, size);
-                            ^~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:34:3: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     ((__force void *)ioremap_prot((addr), (size), PAGE_KERNEL))
-      ^
-   kernel/iomem.c:13:25: note: in expansion of macro 'ioremap_cache'
-     return (__force void *)ioremap_cache(offset, size);
-                            ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> mm/shmem.c:2541:12: warning: no previous prototype for 'shmem_fault' [-Wmissing-prototypes]
+    2541 | vm_fault_t shmem_fault(struct vm_fault *vmf)
+         |            ^~~~~~~~~~~
 
 
-vim +34 arch/riscv/include/asm/io.h
+vim +/shmem_fault +2541 mm/shmem.c
 
-    32	
-    33	#define ioremap_cache(addr, size)					\
-  > 34		((__force void *)ioremap_prot((addr), (size), PAGE_KERNEL))
-    35	
+  2540	
+> 2541	vm_fault_t shmem_fault(struct vm_fault *vmf)
+  2542	{
+  2543		struct inode *inode = file_inode(vmf->vma->vm_file);
+  2544		gfp_t gfp = mapping_gfp_mask(inode->i_mapping);
+  2545		struct folio *folio = NULL;
+  2546		vm_fault_t ret = 0;
+  2547		int err;
+  2548	
+  2549		/*
+  2550		 * Trinity finds that probing a hole which tmpfs is punching can
+  2551		 * prevent the hole-punch from ever completing: noted in i_private.
+  2552		 */
+  2553		if (unlikely(inode->i_private)) {
+  2554			ret = shmem_falloc_wait(vmf, inode);
+  2555			if (ret)
+  2556				return ret;
+  2557		}
+  2558	
+  2559		WARN_ON_ONCE(vmf->page != NULL);
+  2560		err = shmem_get_folio_gfp(inode, vmf->pgoff, 0, &folio, SGP_CACHE,
+  2561					  gfp, vmf, &ret);
+  2562		if (err)
+  2563			return vmf_error(err);
+  2564		if (folio) {
+  2565			vmf->page = folio_file_page(folio, vmf->pgoff);
+  2566			ret |= VM_FAULT_LOCKED;
+  2567		}
+  2568		return ret;
+  2569	}
+  2570	
 
 -- 
 0-DAY CI Kernel Test Service
