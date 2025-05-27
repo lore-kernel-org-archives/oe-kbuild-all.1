@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3928F5E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 03:32:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630B81B413D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 03:42:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748316742; cv=none; b=YTvfLE4xt76vipNV+FjDrAfm0VdjoMpkiGMWKlguDM7YiR3KS2DA8/sDfWQY96z72s7cwa/UBjoP1JHk3qWn7iDYorq+R+xPyASVhicCbJ0qwj1LDGZeaYUgCVA/NCmJL4WTRnmvy+usTee6870g3af0ML85vBRv/rePpCmNUmo=
+	t=1748317344; cv=none; b=BK2JhKtp4nhvA/jxE+Xrbm+nRwcYEMb7p0+F2N3bgNlS3ckhCP0hfpNliGrNknLat7oZIRzFnCPtylZknYojPh76iQEMQDzuj2oKjgAMv1srGQVlTZ9b6+MJyvallvgB+iU82jdv61fzFC7S/S4eDEjA2nBjIqboL5jXp4D9f3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748316742; c=relaxed/simple;
-	bh=hGBEoFsOBqhB83G+ZfkEDMjkH90VoRY6l0ziksQ/zjo=;
+	s=arc-20240116; t=1748317344; c=relaxed/simple;
+	bh=Wmyn531Tf2TTv+Ecpk+FB7W7RXg3tj8kYtaffpe8EL8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SwEyopkSTLhQlsNheWSoS2pQzkx2F92/hEZ2Zj7mar7jDHY4t9NSzpHrQnx8OEa887DuBrdfLoA5L4/mOmA7Kxm7/FQ9ORANZJ33Op5iYXFfovCqScI2qH5PnAUdpJTPh5JTEP98caEvJWGMd+48SbalHYiNk6aLHfSnGzzq24w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsUe/ZAG; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=SzUHJVDe+DvKj0zQeU2Ah3c5oO0rv5rJ5TIU3xMq4VCx2EHSxM+fuYip38XNk0C++cInUdc8YdLHVTpS1q7F0ItJBUKP2gas+52q9/L/In82Cfmh9sODi7d4uYqH0x+V3n9HYAd+qpyKuWzjfi4TK5OtM7E22uJSa6zn2bzIXqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3DfwDug; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsUe/ZAG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3DfwDug"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748316741; x=1779852741;
+  t=1748317343; x=1779853343;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hGBEoFsOBqhB83G+ZfkEDMjkH90VoRY6l0ziksQ/zjo=;
-  b=OsUe/ZAGid9SoSW4Z4jIkcC8ey9h7Vhei8YeEQjB5CZZeqpOyeZre1db
-   sy1/axSdX0vrgeMlNGi7Gj4mEX7vRGFisTSMmpLWJGJOYcKwFHvWnX3Rw
-   bpSglfurVqHCi89lcVfU1QV7AmQSite0517kwjYN9iBj/heCdy7HouYN8
-   czc6DfDLcCRzSDxlr+gZg90J+rRsaPHZkVYBw5jzZM5FdfUurm4RLTZnn
-   TGiELFOQS/odnkWbE+ctHpDutI4KKtZGKeBv4q/xoDAU71y49YaGApNhY
-   pCfdPYcdrgimpJWUlsE1iruMVTo6rgkyWu1SCPrBoPC2i7mypD0/WKULK
-   Q==;
-X-CSE-ConnectionGUID: /swgHOAsTBaEL2FEIsZoDw==
-X-CSE-MsgGUID: W/TQowMUSIaimNZNDCU9RA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="49540897"
+  bh=Wmyn531Tf2TTv+Ecpk+FB7W7RXg3tj8kYtaffpe8EL8=;
+  b=E3DfwDugoRxN38tyZLRdRGvkOn6bXtrLoR9NhGC6NyTsnIED8durRxcc
+   UF9HvuStQ+ULSh7IKF0WZsKKI+wwt57P4IOnKxdkHvEcaF0FoaNniFS1L
+   wWun5PFPXJ7tE8yQ3Lz5qApOCW7ntvhH5/C92BWjh5GQSib4VpFGhMl5o
+   lU7AVfAfOYizSahnFx8GYNes5a2LiLd/3cChZlyjY32XkNUePRJmPkobA
+   SSDek/wjYSrNfXON08jtwuTib5NvYFqW3JwTLg1Psl1C7rEuGyxctDrcV
+   H/27tpZLz6PETzZmoLsOK1SgAJ8eJ2sVkKF9GEjl6Qmtrteo420NFtJDq
+   g==;
+X-CSE-ConnectionGUID: zY36UsZYSwa5XJsPvRgPPA==
+X-CSE-MsgGUID: lKHkJiyHTnGQp3xoqfI3og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="49541488"
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="49540897"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 20:32:20 -0700
-X-CSE-ConnectionGUID: mcoEP2VfQkCZqga3fAInXA==
-X-CSE-MsgGUID: TpYSpsnSQzqv+P5c/TavOw==
+   d="scan'208";a="49541488"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 20:42:22 -0700
+X-CSE-ConnectionGUID: VqPRiFygQNCzAf8RFRrs1A==
+X-CSE-MsgGUID: 1IJsDkYZTHq++0QagcCNgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="173506041"
+   d="scan'208";a="147500507"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 May 2025 20:32:19 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 May 2025 20:42:20 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJl33-000SrI-1j;
-	Tue, 27 May 2025 03:32:17 +0000
-Date: Tue, 27 May 2025 11:31:19 +0800
+	id 1uJlCk-000Srq-2N;
+	Tue, 27 May 2025 03:42:18 +0000
+Date: Tue, 27 May 2025 11:41:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 133/133]
- drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c:233:6:
- warning: no previous prototype for 'mtk_vcodec_dec_enable_dvfs'
-Message-ID: <202505271126.2PctcHm8-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-5.10 8/8]
+ drivers/gpu/drm/drm_modes.c:772:6: warning: comparison of distinct pointer
+ types ('typeof (mode->clock) *' (aka 'const int *') and 'typeof (num) *'
+ (aka 'unsigned int *'))
+Message-ID: <202505271145.ki3Qds5a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,43 +64,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   00e2b7e08c550ff321daba7b9956795d281bdd98
-commit: 622d2b38b47c46cd9c5d33e14c31ea3e36e996ed [133/133] CHROMIUM: mediatek: decoder: calling pm interface change freq and vol
-config: arm64-randconfig-001-20250527 (https://download.01.org/0day-ci/archive/20250527/202505271126.2PctcHm8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271126.2PctcHm8-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   c91b41e6a4cc972b62dc7c0f433436091b4028e5
+commit: c91b41e6a4cc972b62dc7c0f433436091b4028e5 [8/8] drm/modes: Avoid divide by zero harder in drm_mode_vrefresh()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250527/202505271145.ki3Qds5a-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271145.ki3Qds5a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505271126.2PctcHm8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505271145.ki3Qds5a-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c:233:6: warning: no previous prototype for 'mtk_vcodec_dec_enable_dvfs' [-Wmissing-prototypes]
-    void mtk_vcodec_dec_enable_dvfs(struct mtk_vcodec_dec_ctx *ctx, int hw_idx)
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c:239:6: warning: no previous prototype for 'mtk_vcodec_dec_disable_dvfs' [-Wmissing-prototypes]
-    void mtk_vcodec_dec_disable_dvfs(struct mtk_vcodec_dec_ctx *ctx, int hw_idx)
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_modes.c:772:6: warning: comparison of distinct pointer types ('typeof (mode->clock) *' (aka 'const int *') and 'typeof (num) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+     772 |         if (check_mul_overflow(mode->clock, num, &num))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/overflow.h:88:15: note: expanded from macro 'check_mul_overflow'
+      88 |         (void) (&__a == &__b);                  \
+         |                 ~~~~ ^  ~~~~
+>> drivers/gpu/drm/drm_modes.c:772:6: warning: comparison of distinct pointer types ('typeof (mode->clock) *' (aka 'const int *') and 'typeof (&num)' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+     772 |         if (check_mul_overflow(mode->clock, num, &num))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/overflow.h:89:15: note: expanded from macro 'check_mul_overflow'
+      89 |         (void) (&__a == __d);                   \
+         |                 ~~~~ ^  ~~~
+>> drivers/gpu/drm/drm_modes.c:775:6: warning: comparison of distinct pointer types ('typeof (mode->htotal * mode->vtotal) *' (aka 'int *') and 'typeof (den) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+     775 |         if (check_mul_overflow(mode->htotal * mode->vtotal, den, &den))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/overflow.h:88:15: note: expanded from macro 'check_mul_overflow'
+      88 |         (void) (&__a == &__b);                  \
+         |                 ~~~~ ^  ~~~~
+>> drivers/gpu/drm/drm_modes.c:775:6: warning: comparison of distinct pointer types ('typeof (mode->htotal * mode->vtotal) *' (aka 'int *') and 'typeof (&den)' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+     775 |         if (check_mul_overflow(mode->htotal * mode->vtotal, den, &den))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/overflow.h:89:15: note: expanded from macro 'check_mul_overflow'
+      89 |         (void) (&__a == __d);                   \
+         |                 ~~~~ ^  ~~~
+   4 warnings generated.
 
 
-vim +/mtk_vcodec_dec_enable_dvfs +233 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
+vim +772 drivers/gpu/drm/drm_modes.c
 
-   232	
- > 233	void mtk_vcodec_dec_enable_dvfs(struct mtk_vcodec_dec_ctx *ctx, int hw_idx)
-   234	{
-   235		mtk_vdec_dvfs_begin_inst(ctx, hw_idx);
-   236		vcodec_pmqos_helper_update(ctx, hw_idx);
-   237	}
-   238	
- > 239	void mtk_vcodec_dec_disable_dvfs(struct mtk_vcodec_dec_ctx *ctx, int hw_idx)
-   240	{
-   241		mtk_vdec_dvfs_end_inst(ctx, hw_idx);
-   242		vcodec_pmqos_helper_update(ctx, hw_idx);
-   243	}
-   244	
+   749	
+   750	/**
+   751	 * drm_mode_vrefresh - get the vrefresh of a mode
+   752	 * @mode: mode
+   753	 *
+   754	 * Returns:
+   755	 * @modes's vrefresh rate in Hz, rounded to the nearest integer. Calculates the
+   756	 * value first if it is not yet set.
+   757	 */
+   758	int drm_mode_vrefresh(const struct drm_display_mode *mode)
+   759	{
+   760		unsigned int num = 1, den = 1;
+   761	
+   762		if (mode->htotal == 0 || mode->vtotal == 0)
+   763			return 0;
+   764	
+   765		if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+   766			num *= 2;
+   767		if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
+   768			den *= 2;
+   769		if (mode->vscan > 1)
+   770			den *= mode->vscan;
+   771	
+ > 772		if (check_mul_overflow(mode->clock, num, &num))
+   773			return 0;
+   774	
+ > 775		if (check_mul_overflow(mode->htotal * mode->vtotal, den, &den))
+   776			return 0;
+   777	
+   778		return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(num, 1000), den);
+   779	}
+   780	EXPORT_SYMBOL(drm_mode_vrefresh);
+   781	
 
 -- 
 0-DAY CI Kernel Test Service
