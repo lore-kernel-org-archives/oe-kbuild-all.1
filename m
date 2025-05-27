@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA841F4736
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 06:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD5C1D54FA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 May 2025 06:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748327801; cv=none; b=iU8cHxYDvuypAibSnfVi5g+n2NR/mMj4mJeC5SpsWgEwwkXqL5KWXx45YJKMb98W+v2Bw1A8MzRsTN3Ka7Abg8fiWncYmKTP7pFmbVx1bnxq0UgJ1r81Poxvs01ruouIa++60GMgTIb29Y71u1Ap33iZ0WR0YEeMYp4JbY7hDoo=
+	t=1748327802; cv=none; b=f2sBs19SnHpDtOVjz7trtgeiI50qiB9B0aMrD5bGre01gEPuE89VkLPsgDgqBKgZEbNGtQ7dI4iRTMEeEMRzXMGZ1nXwjH9/1OLz3tSjJS39j+rGQ3G7ebSex5nyIelkLd7TE3Oj3FfZ1nk71jYnkCTNH1YEpe7wpkikxtpSdXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748327801; c=relaxed/simple;
-	bh=e4SOuvgnMgVliVPRXZAdDnZV9v6eBX6FBF+FCdGGqAI=;
+	s=arc-20240116; t=1748327802; c=relaxed/simple;
+	bh=+YuohgUg7g2Lp5AXvEWa6NAW7pKxJFSB3KGRaGx/hM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h5BNx1gy4Hix8HY3hGBYfSNM7TGGy8IlYFSY4xvO4TKrCc5R41Yh4ulfUjXxu9uGXQIG7bM4cXx2N2jsipDwTh8FHjelRDWh0kz7FvOetD8UZ51mN2ROBQ4m2nLUti0M7hh+DmSaUIo6hyncnfXieKxnGziZHqBtXbjyrsA6NQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZqNDiw+S; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=UZMLF1aW8r/JMQciIO4THUpUGFzxeqLiThPBIfeaGwnWZQRS5MRvLVW2beDRGkBrHbDHtLsqa9IiwFHyiZmZiJ6Jc1S6Rju0M9R3bfWHvHQqwVdNXR/4YY9wtm76HxD7NnDSBbRVkwqdUBZdNJkGr7nxW3v3mLXxMjgCwvr3qWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gG3+mn52; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqNDiw+S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gG3+mn52"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1748327800; x=1779863800;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e4SOuvgnMgVliVPRXZAdDnZV9v6eBX6FBF+FCdGGqAI=;
-  b=ZqNDiw+SQnyZNVNSqIWuiq13ozIRT4zmksyoe+40Zpq0SRYaKmSRyZMC
-   S1iMB8Uyx2Oc0cCRM7AERZE8NLpEmlmOZ3HYY/gWIYO9vYxP6rpPmB3ib
-   mQZ+lK+SiL6nTgw9bin7vff8mAb51aZIu3hf2fbIoOOHsT02DGRmf+RI5
-   WgL2Qe5oCltvBG8iP6ywSF/txSkxZMz2AwrrCr72M/VanU9UWHN+Jn7un
-   LO3btuVel93+b0JwK4ilB6Xww9zqBUF5dKaoccWTe3/XeD9l/TeOD/6m4
-   d1ElWdx/Don89nAJjGSm/eOhuWP20RtrZO4n18t/2MHTEexlNVScJckL4
-   w==;
-X-CSE-ConnectionGUID: PJ86mp0+T+q2ulnQOEy1pA==
-X-CSE-MsgGUID: BK59j/bvTDCQa9NvE7pIaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="53957502"
+  bh=+YuohgUg7g2Lp5AXvEWa6NAW7pKxJFSB3KGRaGx/hM4=;
+  b=gG3+mn52J63ZEwhI+MZa7pSiqABn57hpLxjKwhrggwzmw11HsOJmpuh3
+   JCVInK6a9smajw3G2ywK2lqtINxSPKkKo8VfH4Hxf5LMrp2A5s1g4waaM
+   fVsL7Zy2lbfsuSj4QmuePwgE4UofkpJQMfefrfhoSy+xAaHqkkZPCF7Nv
+   sNKjZU/biBybcTaZixMdmZu43MDcuii1Buh78YE0W9gTYN2/NrodDBIAr
+   TDTeC9Xv16kRcX7dM4dkSKhzxbGdu8bVn1YM2WJC8WdSqrBBpaKeNZAGJ
+   3K/MD9CpL/tHjp+rYg+kZYDpUbskdmJoBG5D9WegehaSrbCIuv65Trfkt
+   Q==;
+X-CSE-ConnectionGUID: le1ftIyaT3q+xx+Myq5MgA==
+X-CSE-MsgGUID: OjXBzfynS9iXjVMgT9Yf/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11445"; a="53957505"
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="53957502"
+   d="scan'208";a="53957505"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 23:36:37 -0700
-X-CSE-ConnectionGUID: HvsPUwb3TWe9pP3A79CbRg==
-X-CSE-MsgGUID: dsagU8oVTW2br4SMyzN/sQ==
+X-CSE-ConnectionGUID: c554XoYbS4OeHk/z/Fs2qg==
+X-CSE-MsgGUID: VuhnkBilTAGhn+J7Ji/fAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,317,1739865600"; 
-   d="scan'208";a="179859122"
+   d="scan'208";a="179859123"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 26 May 2025 23:36:36 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJnvO-000Sy4-0e;
+	id 1uJnvO-000Sy6-0h;
 	Tue, 27 May 2025 06:36:34 +0000
-Date: Tue, 27 May 2025 14:36:24 +0800
+Date: Tue, 27 May 2025 14:36:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 0/2]
- drivers/media/i2c/ov2680.c:572:9: error: implicit declaration of function
- 'v4l2_subdev_get_try_format'
-Message-ID: <202505271408.rcFdwGjV-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 133/133]
+ drivers/soc/mediatek/mtk-mmdvfs-v3.c:481:6: warning: no previous prototype
+ for function 'vmm_notify_work_func'
+Message-ID: <202505271455.WmEBLxW4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,76 +63,250 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Hans,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   f7dbe96d1c3986af0f08e71cdecbc6c6d73ee18f
-commit: dbb717b4ee68489000c5b0470a20ac71dd4075c8 [0/2] media: ov2680: Remove VIDEO_V4L2_SUBDEV_API ifdef-s
-config: x86_64-randconfig-121-20250527 (https://download.01.org/0day-ci/archive/20250527/202505271408.rcFdwGjV-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271408.rcFdwGjV-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   00e2b7e08c550ff321daba7b9956795d281bdd98
+commit: 1cc9e9ca2d2e26a6b7e9b650ba61a261506201ee [133/133] CHROMIUM: mmdvfs: add basic driver to support mmdvfs
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250527/202505271455.WmEBLxW4-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250527/202505271455.WmEBLxW4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505271408.rcFdwGjV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505271455.WmEBLxW4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/ov2680.c:572:9: error: implicit declaration of function 'v4l2_subdev_get_try_format' [-Werror,-Wimplicit-function-declaration]
-     572 |                 fmt = v4l2_subdev_get_try_format(&sensor->sd, sd_state,
-         |                       ^
-   drivers/media/i2c/ov2680.c:572:7: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
-     572 |                 fmt = v4l2_subdev_get_try_format(&sensor->sd, sd_state,
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     573 |                                                  format->pad);
-         |                                                  ~~~~~~~~~~~~
-   drivers/media/i2c/ov2680.c:614:13: error: implicit declaration of function 'v4l2_subdev_get_try_format' [-Werror,-Wimplicit-function-declaration]
-     614 |                 try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-         |                           ^
-   drivers/media/i2c/ov2680.c:614:11: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
-     614 |                 try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-         |                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+   In file included from drivers/soc/mediatek/mtk-mmdvfs-v3.c:9:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2194:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:132:24: error: no member named 'vcp_is_suspending' in 'struct mtk_vcp_of_data'
+     132 |         if (vcp_device->data->vcp_is_suspending(vcp_device))
+         |             ~~~~~~~~~~~~~~~~  ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:274:20: error: no member named 'ipi_ops' in 'struct mtk_vcp_device'
+     274 |         ret = vcp_device->ipi_ops->ipi_send(vcp_ipi_dev,
+         |               ~~~~~~~~~~  ^
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:481:6: warning: no previous prototype for function 'vmm_notify_work_func' [-Wmissing-prototypes]
+     481 | void vmm_notify_work_func(struct work_struct *work)
+         |      ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:481:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     481 | void vmm_notify_work_func(struct work_struct *work)
+         | ^
+         | static 
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:535:5: warning: no previous prototype for function 'vmm_avs_debug_dump' [-Wmissing-prototypes]
+     535 | int vmm_avs_debug_dump(char *buf, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:535:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     535 | int vmm_avs_debug_dump(char *buf, const struct kernel_param *kp)
+         | ^
+         | static 
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:692:5: warning: no previous prototype for function 'mmdvfs_vmm_ceil_step' [-Wmissing-prototypes]
+     692 | int mmdvfs_vmm_ceil_step(const char *val, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:692:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     692 | int mmdvfs_vmm_ceil_step(const char *val, const struct kernel_param *kp)
+         | ^
+         | static 
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:717:5: warning: no previous prototype for function 'mmdvfs_rst_clk_rate' [-Wmissing-prototypes]
+     717 | int mmdvfs_rst_clk_rate(const char *val, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:717:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     717 | int mmdvfs_rst_clk_rate(const char *val, const struct kernel_param *kp)
+         | ^
+         | static 
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:756:5: warning: no previous prototype for function 'mmdvfs_get_vcp_log' [-Wmissing-prototypes]
+     756 | int mmdvfs_get_vcp_log(char *buf, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     756 | int mmdvfs_get_vcp_log(char *buf, const struct kernel_param *kp)
+         | ^
+         | static 
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:784:5: warning: no previous prototype for function 'mmdvfs_set_vcp_log' [-Wmissing-prototypes]
+     784 | int mmdvfs_set_vcp_log(const char *val, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:784:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     784 | int mmdvfs_set_vcp_log(const char *val, const struct kernel_param *kp)
+         | ^
+         | static 
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:813:5: warning: no previous prototype for function 'mmdvfs_get_vmrc_log' [-Wmissing-prototypes]
+     813 | int mmdvfs_get_vmrc_log(char *buf, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:813:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     813 | int mmdvfs_get_vmrc_log(char *buf, const struct kernel_param *kp)
+         | ^
+         | static 
+>> drivers/soc/mediatek/mtk-mmdvfs-v3.c:841:5: warning: no previous prototype for function 'mmdvfs_set_vmrc_log' [-Wmissing-prototypes]
+     841 | int mmdvfs_set_vmrc_log(const char *val, const struct kernel_param *kp)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:841:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     841 | int mmdvfs_set_vmrc_log(const char *val, const struct kernel_param *kp)
+         | ^
+         | static 
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1581:23: error: no member named 'vcp_get_sram_virt' in 'struct mtk_vcp_of_data'; did you mean 'vcp_get_mem_virt'?
+    1581 |                                 vcp_device->data->vcp_get_sram_virt(vcp_device) +
+         |                                                   ^~~~~~~~~~~~~~~~~
+         |                                                   vcp_get_mem_virt
+   include/linux/remoteproc/mtk_vcp_public.h:97:18: note: 'vcp_get_mem_virt' declared here
+      97 |         void __iomem *(*vcp_get_mem_virt)(enum vcp_reserve_mem_id_t id);
+         |                         ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1693:68: error: use of undeclared identifier 'MMDVFS_MMUP_MEM_ID'; did you mean 'MMDVFS_MMUP_FEATURE_ID'?
+    1693 |         mmdvfs_dev->mmdvfs_mmup_iova = vcp_device->data->vcp_get_mem_iova(MMDVFS_MMUP_MEM_ID);
+         |                                                                           ^~~~~~~~~~~~~~~~~~
+         |                                                                           MMDVFS_MMUP_FEATURE_ID
+   include/linux/remoteproc/mtk_vcp_public.h:38:2: note: 'MMDVFS_MMUP_FEATURE_ID' declared here
+      38 |         MMDVFS_MMUP_FEATURE_ID,
+         |         ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1693:68: warning: implicit conversion from enumeration type 'enum feature_id' to different enumeration type 'enum vcp_reserve_mem_id_t' [-Wenum-conversion]
+    1693 |         mmdvfs_dev->mmdvfs_mmup_iova = vcp_device->data->vcp_get_mem_iova(MMDVFS_MMUP_MEM_ID);
+         |                                        ~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~~
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1694:74: error: use of undeclared identifier 'MMDVFS_MMUP_MEM_ID'; did you mean 'MMDVFS_MMUP_FEATURE_ID'?
+    1694 |         mmdvfs_dev->mmdvfs_mmup_va = (void *)vcp_device->data->vcp_get_mem_virt(MMDVFS_MMUP_MEM_ID);
+         |                                                                                 ^~~~~~~~~~~~~~~~~~
+         |                                                                                 MMDVFS_MMUP_FEATURE_ID
+   include/linux/remoteproc/mtk_vcp_public.h:38:2: note: 'MMDVFS_MMUP_FEATURE_ID' declared here
+      38 |         MMDVFS_MMUP_FEATURE_ID,
+         |         ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1694:74: warning: implicit conversion from enumeration type 'enum feature_id' to different enumeration type 'enum vcp_reserve_mem_id_t' [-Wenum-conversion]
+    1694 |         mmdvfs_dev->mmdvfs_mmup_va = (void *)vcp_device->data->vcp_get_mem_virt(MMDVFS_MMUP_MEM_ID);
+         |                                              ~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~~
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1696:67: error: use of undeclared identifier 'MMDVFS_VCP_MEM_ID'; did you mean 'MMDVFS_VCP_FEATURE_ID'?
+    1696 |         mmdvfs_dev->mmdvfs_vcp_iova = vcp_device->data->vcp_get_mem_iova(MMDVFS_VCP_MEM_ID);
+         |                                                                          ^~~~~~~~~~~~~~~~~
+         |                                                                          MMDVFS_VCP_FEATURE_ID
+   include/linux/remoteproc/mtk_vcp_public.h:39:2: note: 'MMDVFS_VCP_FEATURE_ID' declared here
+      39 |         MMDVFS_VCP_FEATURE_ID,
+         |         ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1696:67: warning: implicit conversion from enumeration type 'enum feature_id' to different enumeration type 'enum vcp_reserve_mem_id_t' [-Wenum-conversion]
+    1696 |         mmdvfs_dev->mmdvfs_vcp_iova = vcp_device->data->vcp_get_mem_iova(MMDVFS_VCP_MEM_ID);
+         |                                       ~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1697:73: error: use of undeclared identifier 'MMDVFS_VCP_MEM_ID'; did you mean 'MMDVFS_VCP_FEATURE_ID'?
+    1697 |         mmdvfs_dev->mmdvfs_vcp_va = (void *)vcp_device->data->vcp_get_mem_virt(MMDVFS_VCP_MEM_ID);
+         |                                                                                ^~~~~~~~~~~~~~~~~
+         |                                                                                MMDVFS_VCP_FEATURE_ID
+   include/linux/remoteproc/mtk_vcp_public.h:39:2: note: 'MMDVFS_VCP_FEATURE_ID' declared here
+      39 |         MMDVFS_VCP_FEATURE_ID,
+         |         ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3.c:1697:73: warning: implicit conversion from enumeration type 'enum feature_id' to different enumeration type 'enum vcp_reserve_mem_id_t' [-Wenum-conversion]
+    1697 |         mmdvfs_dev->mmdvfs_vcp_va = (void *)vcp_device->data->vcp_get_mem_virt(MMDVFS_VCP_MEM_ID);
+         |                                             ~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~
+   16 warnings and 7 errors generated.
+--
+>> drivers/soc/mediatek/mtk-mmdvfs-v3-user.c:34:5: warning: no previous prototype for function 'mmdvfs_user_set_rate' [-Wmissing-prototypes]
+      34 | int mmdvfs_user_set_rate(u8 idx, u64 freq)
+         |     ^
+   drivers/soc/mediatek/mtk-mmdvfs-v3-user.c:34:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      34 | int mmdvfs_user_set_rate(u8 idx, u64 freq)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/v4l2_subdev_get_try_format +572 drivers/media/i2c/ov2680.c
+vim +/vmm_notify_work_func +481 drivers/soc/mediatek/mtk-mmdvfs-v3.c
 
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  558  
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  559  static int ov2680_get_fmt(struct v4l2_subdev *sd,
-0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  560  			  struct v4l2_subdev_state *sd_state,
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  561  			  struct v4l2_subdev_format *format)
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  562  {
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  563  	struct ov2680_dev *sensor = to_ov2680_dev(sd);
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  564  	struct v4l2_mbus_framefmt *fmt = NULL;
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  565  
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  566  	if (format->pad != 0)
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  567  		return -EINVAL;
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  568  
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  569  	mutex_lock(&sensor->lock);
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  570  
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  571  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-0d346d2a6f54f0 Tomi Valkeinen   2021-06-10 @572  		fmt = v4l2_subdev_get_try_format(&sensor->sd, sd_state,
-0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  573  						 format->pad);
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  574  	} else {
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  575  		fmt = &sensor->fmt;
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  576  	}
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  577  
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  578  	format->format = *fmt;
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  579  
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  580  	mutex_unlock(&sensor->lock);
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  581  
-dbb717b4ee6848 Hans de Goede    2023-08-03  582  	return 0;
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  583  }
-3ee47cad3e6955 Rui Miguel Silva 2018-07-03  584  
-
-:::::: The code at line 572 was first introduced by commit
-:::::: 0d346d2a6f54f06f36b224fd27cd6eafe8c83be9 media: v4l2-subdev: add subdev-wide state struct
-
-:::::: TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+   480	
+ > 481	void vmm_notify_work_func(struct work_struct *work)
+   482	{
+   483		struct mmdvfs_vmm_notify_work *vmm_notify_work =
+   484			container_of(work, struct mmdvfs_vmm_notify_work, vmm_notify_work);
+   485	
+   486		mtk_mmdvfs_enable_vcp(vmm_notify_work->enable, VCP_PWR_USR_MMDVFS_GENPD);
+   487		kfree(vmm_notify_work);
+   488	}
+   489	
+   490	int mtk_mmdvfs_genpd_notify(const u8 idx, const bool enable)
+   491	{
+   492		struct mtk_mmdvfs_dev *mmdvfs_dev = mtk_mmdvfs_get_drv_data();
+   493		struct mmdvfs_vmm_notify_work *work;
+   494	
+   495		if (IS_ERR_OR_NULL(mmdvfs_dev))
+   496			return -ENODEV;
+   497	
+   498		if (!mmdvfs_is_init_done())
+   499			return 0;
+   500	
+   501		mmdvfs_vcp_ipi_send(mmdvfs_dev, FUNC_VMM_GENPD_NOTIFY, idx, enable ? 1 : 0, NULL);
+   502	
+   503		if (!mmdvfs_dev->vmm_notify_wq)
+   504			return 0;
+   505	
+   506		work = kzalloc(sizeof(*work), GFP_KERNEL);
+   507		if (!work)
+   508			return -ENOMEM;
+   509	
+   510		work->enable = enable;
+   511		INIT_WORK(&work->vmm_notify_work, vmm_notify_work_func);
+   512		queue_work(mmdvfs_dev->vmm_notify_wq, &work->vmm_notify_work);
+   513	
+   514		return 0;
+   515	}
+   516	EXPORT_SYMBOL_GPL(mtk_mmdvfs_genpd_notify);
+   517	
+   518	int mtk_mmdvfs_set_avs(const u8 idx, const u32 aging, const u32 fresh)
+   519	{
+   520		struct mtk_mmdvfs_dev *mmdvfs_dev = mtk_mmdvfs_get_drv_data();
+   521		u32 data[2] = {aging, fresh};
+   522		int ret;
+   523	
+   524		if (IS_ERR_OR_NULL(mmdvfs_dev))
+   525			return -ENODEV;
+   526	
+   527		ret = mmdvfs_vcp_ipi_send(mmdvfs_dev, FUNC_VMM_AVS_UPDATE, idx, MMDVFS_MAX_OPP, (u32 *)&data);
+   528		mtk_mmdvfs_debug(mmdvfs_dev->pdev, LOG_PWR, "ret:%d idx:%u aging:%u fresh:%u",
+   529				 ret, idx, aging, fresh);
+   530	
+   531		return ret;
+   532	}
+   533	EXPORT_SYMBOL_GPL(mtk_mmdvfs_set_avs);
+   534	
+ > 535	int vmm_avs_debug_dump(char *buf, const struct kernel_param *kp)
+   536	{
+   537		int len = 0;
+   538		u32 avs, i;
+   539	
+   540		if (!MEM_BASE)
+   541			return 0;
+   542	
+   543		/* power opp */
+   544		len += scnprintf(buf + len, PAGE_SIZE - len, "efuse_low:%#x, efuse_high:%#x\n",
+   545				readl(MEM_VMM_EFUSE_LOW), readl(MEM_VMM_EFUSE_HIGH));
+   546		for (i = 0; i < 8; i++)
+   547			len += scnprintf(buf + len, PAGE_SIZE - len, "opp_level%u: %u\n", i,
+   548					readl(MEM_VMM_OPP_VOLT(i)));
+   549	
+   550		i = readl(MEM_REC_VMM_DBG_CNT);
+   551		if (i > 0)
+   552			i = (i - 1) % MEM_REC_CNT_MAX;
+   553	
+   554		avs = readl(MEM_REC_VMM_AVS(i));
+   555		len += scnprintf(buf + len, PAGE_SIZE - len,
+   556				"temp:%#x volt:%u zone:%u opp_level:%u vde_on:%u isp_on:%u\n",
+   557				readl(MEM_REC_VMM_TEMP(i)), readl(MEM_REC_VMM_VOLT(i)),
+   558				avs & 0xff, (avs >> 8) & 0xff, (avs >> 16) & 0x1, (avs >> 17) & 0x1);
+   559	
+   560		return len;
+   561	}
+   562	
 
 -- 
 0-DAY CI Kernel Test Service
