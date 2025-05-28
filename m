@@ -1,59 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F511FBEBE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 15:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D528C2C7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 15:58:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748447906; cv=none; b=RJFbUHQug6b+A7XS5Dohn7NpEK0exE2B3jMzB2yisdQrpFaNlVSKXQI8wH8z1GoAkCIZBWoSeV5Fwye5nhT6oZ8TOxhhf8DGcfENIp3quzWGryva7M0Jc+N4nzfOD653IPGIStv/Vn/urwK60GjZ4j1aev0jxXUIq/HyxycTLE4=
+	t=1748447908; cv=none; b=qes4K8W2NzqLnmQXiCZk4m+RBWWSAb3lLsBO7GcFgTTjZZ15K/Y3pz0azAu5KLAw+JN/Iab3RiZyjPXOVzuVeM7TULK2DW4S7cs654+8aoXkVXtJAVPxisZalsp3Q0Jm84g1Yhwl+GuzpihRwWudCGE81CuMlbOQemkrv5VriIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748447906; c=relaxed/simple;
-	bh=+YQ6bFTRShlTr9+AMlnPXr44HmzUXhD3XwTIfe4cEu0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WDE/2/jFJAFuBN2xYcTKxhR9Uj5qW8JsJSPQXLlw8OjkgT3If5L+Upu3iDfUsRsBKaKYnXtr7NlhRc+rmxbJvoJlAhMrq7uYdDMVQqUnUSXIDgxkefQpLSpUuDpaMv5pUl4yz3K2AHgYBNKRrp8oULeiSsMI+M4XjDpl8APYiN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QV/XfXP8; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1748447908; c=relaxed/simple;
+	bh=NIZUO6nfWzxOmDFR7kuS4TIBoOtvv4jh2sd4GzavqT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D+uHYdfNyzZtR9pEl0o+3RxHD2x+ykFc6FQwuK0MxAHEFFTS2D/LOVD2KrLYuzDFa0GtRAl3emJQFdQCh+4/cDNnkSzk5YOCAcgOWi9hJ/A1UdpSDEpcEiYkF6YtIDJQi0ZhDTDfV9xqVaCKaejqx6v4i/rrJ5Xahj00c2cVNnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCysbWM4; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QV/XfXP8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCysbWM4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748447905; x=1779983905;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+YQ6bFTRShlTr9+AMlnPXr44HmzUXhD3XwTIfe4cEu0=;
-  b=QV/XfXP8JRPLE6daJzuewEgkQyuwBU/k4bRIUgjZ+wjFx8pQGwk8r5Im
-   IOT47JCRoxAlhWZk3Dnk2W5M3EDTRMHT9MkmMFzQ12WmU8BgKpLsNGid7
-   B0WW/xSIKh92AR9bc8kWS2TsNUUawjIIPSvubIvkoJFDEh96PZ9MLgkFb
-   NBd2R2Z5G4KovM5OfPPlUlBRf1H5guOKDSJF9z8ec2xI4XKDoI1zskgCf
-   Db6xwiVL1dVVRgE+HvN7v6fof0qKKsFn047ujloIGsuKjNLdejRrZ3Nr6
-   g4K5gCDYTDQJIAp8/WYD8H4P7FDAY6/2GviTFJP2UQQG1w2Ms5APLuJR5
+  t=1748447907; x=1779983907;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NIZUO6nfWzxOmDFR7kuS4TIBoOtvv4jh2sd4GzavqT4=;
+  b=DCysbWM40eK3MCPQIwVeULDAyj+rq+nR/xsAyWitWrBqnly44wa7tfNL
+   j86AY4R09RNfeuAdBhYqdCJDpx7AOoXMhrZeR0Q/wyNHR2mwKJoTsRzil
+   zyIG50dLisWea8PLOPOVWX+F5y0epHQhOQ6RG2crhDRnqI/tBya3/y4A1
+   BiklQRWuEZrfZB9soza2G6f76L5sRccn3/sxRyw1Vy1Eaqbwo9e2zphXb
+   Jyb9kog5acpmcoR8onJBRqqlWlCDzzFoLie1kwubD1ixtoLfM97+0YmMU
+   49TKq4hUzWWqgqsuKi2JVRwO9wa+dkZKWZqI4zTXtKi3NSDxfhDSDO1Eo
    w==;
-X-CSE-ConnectionGUID: vAzm2vrMR0+8EFe5GiPHUw==
-X-CSE-MsgGUID: tR4hSK3GSDuJlsD+cWXtww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67897060"
+X-CSE-ConnectionGUID: FSQ9BLBNQqKM8tapd3//Xg==
+X-CSE-MsgGUID: +OIqey7FQXKeLUpiw+oTrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67897071"
 X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="67897060"
+   d="scan'208";a="67897071"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 08:58:24 -0700
-X-CSE-ConnectionGUID: +RdJimNWTnuYrEXN11zjrg==
-X-CSE-MsgGUID: sKPbBqrBR9OkWP5V64lQ6Q==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 08:58:27 -0700
+X-CSE-ConnectionGUID: 8KS9rMUsR8uWNQsowgjXnQ==
+X-CSE-MsgGUID: bU31e17nRDSY4Nv7jkm57w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="144248094"
+   d="scan'208";a="144248096"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 28 May 2025 08:58:22 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKJAZ-000Vp0-2q;
+	id 1uKJAZ-000Vou-2c;
 	Wed, 28 May 2025 15:58:19 +0000
-Date: Wed, 28 May 2025 23:57:52 +0800
+Date: Wed, 28 May 2025 23:57:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2329/2329]
- security/integrity/ima/ima_virtcca.c:30:5: warning: no previous prototype
- for 'ima_virtcca_init'
-Message-ID: <202505282351.rMVzfHVV-lkp@intel.com>
+To: Tamir Duberstein <tamird@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
+Subject: Re: [PATCH] rust: replace length checks with match
+Message-ID: <202505282330.oOHtt60s-lkp@intel.com>
+References: <20250527-idiomatic-match-slice-v1-1-34b0b1d1d58c@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,97 +73,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250527-idiomatic-match-slice-v1-1-34b0b1d1d58c@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ecedb4219f373697a260948e7bfe781c40318682
-commit: 24ac42fb86c6acfcb89b76d3b2fd6fba9bfd89de [2329/2329] ima: rot: Adapt VirtCCA into Rot
-config: arm64-randconfig-003-20250529 (https://download.01.org/0day-ci/archive/20250528/202505282351.rMVzfHVV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505282351.rMVzfHVV-lkp@intel.com/reproduce)
+Hi Tamir,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bfc3cd87559bc593bb32bb1482f9cae3308b6398]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/rust-replace-length-checks-with-match/20250528-001121
+base:   bfc3cd87559bc593bb32bb1482f9cae3308b6398
+patch link:    https://lore.kernel.org/r/20250527-idiomatic-match-slice-v1-1-34b0b1d1d58c%40gmail.com
+patch subject: [PATCH] rust: replace length checks with match
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250528/202505282330.oOHtt60s-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505282330.oOHtt60s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505282351.rMVzfHVV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505282330.oOHtt60s-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> security/integrity/ima/ima_virtcca.c:30:5: warning: no previous prototype for 'ima_virtcca_init' [-Wmissing-prototypes]
-    int ima_virtcca_init(struct ima_rot *rot)
-        ^~~~~~~~~~~~~~~~
->> security/integrity/ima/ima_virtcca.c:59:5: warning: no previous prototype for 'ima_calc_virtcca_boot_aggregate' [-Wmissing-prototypes]
-    int ima_calc_virtcca_boot_aggregate(struct ima_digest_data *hash)
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> security/integrity/ima/ima_virtcca.c:81:5: warning: no previous prototype for 'ima_virtcca_extend' [-Wmissing-prototypes]
-    int ima_virtcca_extend(struct tpm_digest *digests_arg, const void *args)
-        ^~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
-   WARNING: unmet direct dependencies detected for RESCTRL_FS
-   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
-   Selected by [y]:
-   - ARM64_MPAM [=y]
-
-
-vim +/ima_virtcca_init +30 security/integrity/ima/ima_virtcca.c
-
-    29	
-  > 30	int ima_virtcca_init(struct ima_rot *rot)
-    31	{
-    32		int rc;
-    33	
-    34		if (!is_virtcca_cvm_world() || tsi_get_version() == SMCCC_RET_NOT_SUPPORTED)
-    35			return -ENODEV;
-    36	
-    37		rc = ima_virtcca_init_algo();
-    38		if (rc)
-    39			return rc;
-    40	
-    41		if (virtcca_algo != ima_hash_algo) {
-    42			pr_info("VirtCCA's algo (%s) is different from ima_hash_algo (%s)\n",
-    43					hash_algo_name[virtcca_algo], hash_algo_name[ima_hash_algo]);
-    44	
-    45			rot->allocated_banks = kcalloc(1, sizeof(*rot->allocated_banks), GFP_KERNEL);
-    46			if (!rot->allocated_banks)
-    47				return -ENOMEM;
-    48	
-    49			rot->nr_allocated_banks = 1;
-    50			rot->allocated_banks[0].alg_id = (virtcca_algo == HASH_ALGO_SHA512) ?
-    51							 TPM_ALG_SHA512 : TPM_ALG_SHA256;
-    52			rot->allocated_banks[0].digest_size = hash_digest_size[virtcca_algo];
-    53			rot->allocated_banks[0].crypto_id = virtcca_algo;
-    54		}
-    55	
-    56		return 0;
-    57	}
-    58	
-  > 59	int ima_calc_virtcca_boot_aggregate(struct ima_digest_data *hash)
-    60	{
-    61		unsigned long result;
-    62		struct virtcca_cvm_measurement cm = { 0 };
-    63	
-    64		hash->algo = virtcca_algo;
-    65		hash->length = hash_digest_size[virtcca_algo];
-    66	
-    67		/* Read the measurement result of RIM as the boot aggregate */
-    68		cm.index = RIM_MEASUREMENT_SLOT;
-    69	
-    70		result = tsi_measurement_read(&cm);
-    71		if (result != TSI_SUCCESS) {
-    72			pr_err("Error reading cvm measurement 0 for boot aggregate\n");
-    73			return -EFAULT;
-    74		}
-    75	
-    76		memcpy(hash->digest, cm.value, hash->length);
-    77	
-    78		return 0;
-    79	}
-    80	
-  > 81	int ima_virtcca_extend(struct tpm_digest *digests_arg, const void *args)
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j24 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in scripts/rustdoc_test_gen.rs at line 90:
+                "No path candidates found for `{file}`. This is likely a bug in the build system, or \
+                some files went away while compiling."
+            ),
+   -        [valid_path] => {
+   -            valid_path.to_str().unwrap()
+   -        }
+   +        [valid_path] => valid_path.to_str().unwrap(),
+            valid_paths => {
+                eprintln!("Several path candidates found:");
+                for path in valid_paths {
+   make[2]: *** [Makefile:1826: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
