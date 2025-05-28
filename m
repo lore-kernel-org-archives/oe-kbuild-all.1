@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0645202C26;
-	Wed, 28 May 2025 11:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68740283FD8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 11:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748432097; cv=none; b=px0Cz0aLE+dYZhgdHKPtWIzRHdfUzEt+i1KU3OhhXOn6sUBPtIKkLAx6T903YdSdIhrHAsdKqMlxbn4ACdIcM5/RESjuxYHa2SNwZuIiJ1qAVp+JAxzEZG5z62SysVicjrC4AMKvjP0OWV8XQEnKWkKLyh57r1xHygRNseeJxHg=
+	t=1748433423; cv=none; b=h5p+EMtXHlXTwuxncErCpurPEgiVK7KhjgsT6Ly1Gch3nQPXsizKmhIYj7jcrFL73C/xKxw0SZDo4Ok/1v5suJB1lJjj3xPJHCAUJkX/iUOL/5WgVtT7j4tU+DXRcPK96O1wxjyQwcrMB9EQ1eOGLnFL9MxFW/zPfTgx1X/1NFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748432097; c=relaxed/simple;
-	bh=HSxCbgRLZhJCIcQQOJEc5MtOOGLMy3xGR4PMKG3DHvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pIc8kAKys4DXy9AXqqHkBcgq0zw3shGPknULi3XCsEBX8BcrO/grfb24D9XTjo39y7HB2OJ9gy+Sheaolsygu3UNM2pDLnGR7fwJWcUcF6BmscddR3pgSSUXgNW7MpQcVZeOr2t/TIlFUZMtdX8ejsO19bfOqU+1u5jRrq0yp6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ULHOQ+80; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1748433423; c=relaxed/simple;
+	bh=kze7PqNxqyeEFeyPKHfFqjm0TZE/rWvmQabBnSrxldE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uFyCWCFC2jm9sUnDPpeM9o8gAXHs1jDvdFKfgchj051PWOoXpEXl5FEp1FUweI7p0LhTSnC6U7fz0N4a6w+8vxhBayzKJnJNMy0Y/zZVQMfpHBw2k5IcKlwT4zKanfdQa8u501wZdhjOHbKsbaxXn+YCtxquzUtEwvLMAQ+mNuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7M2ATWn; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ULHOQ+80"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7M2ATWn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748432096; x=1779968096;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HSxCbgRLZhJCIcQQOJEc5MtOOGLMy3xGR4PMKG3DHvg=;
-  b=ULHOQ+80tetHTnpZPtjnLc0M30Ar3/v/USsIGMgo3zdgJ75ofW9x+y8w
-   VZLhEWHCOE8UN440lRtGQy3xtjjz1qXd2ZFjnt91hLd7Z7IuXrqAOzfaH
-   uezoU1u8rqpGqTv+WGjRvvFbAsn7ck4yeTV40xfa9VeytSLFXvq/AMhlv
-   ljvcah/vKyTLKFKzHDPr7l1nTfh1eukMKz9nxlbut7URh36odIc5HVLuq
-   lCRRiskDrR+/aPHL4hL5l4HdHGtiVunMeMWc+MEupxlaRoQMiGVNOqVNC
-   n4jwzGqfSL0lMBh9ALccQ/MSN4iWFk5xxbjHs7LZwAn1dmt+xaiQkzXyg
-   A==;
-X-CSE-ConnectionGUID: 91olu1NySWCTtOrUYxrvVQ==
-X-CSE-MsgGUID: jmUO7K+VQyGmN+qbfbLrcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="50152789"
+  t=1748433422; x=1779969422;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kze7PqNxqyeEFeyPKHfFqjm0TZE/rWvmQabBnSrxldE=;
+  b=E7M2ATWnQNL09Nb58TMlVruqC6hEp2i+eCIgNuu1oog7DNKk2oAMfv/x
+   jftV5mdsQG2HttXo/Isvjx85GkwdcBXkx6gB34Gyik5gtDLO6d2WTrF0C
+   QGX2L8/KdnhFNUBuREYYyO+I2u0WQldNy9yGXvANNlyi/Cy/N9UpKF05P
+   NvNVdgxsCy3j8IL+Z9faowINKGYzJV92EUgm9zlO495DixG9K2A3o6rfU
+   9VlJ9sjTzNMjPiHOQLXG3+nOp2OJhzzPJTCVnQt6bSZGU2avDijrLvR2C
+   WeG+y21q4CtOXW2Q8sniGentBC21gvRxBxV1bg8x9eH/fMb6aksFfFaE7
+   Q==;
+X-CSE-ConnectionGUID: 2gZz4/eSTqeUe4L31xEcDw==
+X-CSE-MsgGUID: KkHLsq6SQrGbE7/dYTLQfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="61803641"
 X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="50152789"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 04:34:56 -0700
-X-CSE-ConnectionGUID: gOecNs2RRlqmVkcs8m6llw==
-X-CSE-MsgGUID: BHUyzIPHSy6OcTM3fSV+GQ==
+   d="scan'208";a="61803641"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 04:57:01 -0700
+X-CSE-ConnectionGUID: h5qP67ydQay1kMWrM31+gw==
+X-CSE-MsgGUID: ot0z6ICVQDOebMQlNNH5fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="174209022"
+   d="scan'208";a="143861056"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 28 May 2025 04:34:53 -0700
+  by orviesa007.jf.intel.com with ESMTP; 28 May 2025 04:57:00 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKF3a-000VcS-22;
-	Wed, 28 May 2025 11:34:50 +0000
-Date: Wed, 28 May 2025 19:34:35 +0800
+	id 1uKFOz-000VdU-0H;
+	Wed, 28 May 2025 11:56:57 +0000
+Date: Wed, 28 May 2025 19:56:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Menglong Dong <menglong8.dong@gmail.com>, alexei.starovoitov@gmail.com,
-	rostedt@goodmis.org, jolsa@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bpf@vger.kernel.org, Menglong Dong <dongml2@chinatelecom.cn>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 14/25] bpf: tracing: add multi-link support
-Message-ID: <202505281947.qIShGsJU-lkp@intel.com>
-References: <20250528034712.138701-15-dongml2@chinatelecom.cn>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2818/2818]
+ ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field
+ 'call_used' has incomplete type 'pt_solution'
+Message-ID: <202505281944.fdZnA0qa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,61 +62,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250528034712.138701-15-dongml2@chinatelecom.cn>
 
-Hi Menglong,
+Hi Kees,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/add-per-function-metadata-storage-support/20250528-115819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250528034712.138701-15-dongml2%40chinatelecom.cn
-patch subject: [PATCH bpf-next 14/25] bpf: tracing: add multi-link support
-config: arm-randconfig-002-20250528 (https://download.01.org/0day-ci/archive/20250528/202505281947.qIShGsJU-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505281947.qIShGsJU-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   d03fdb99fa55811842f0129f5228be8e8213494f
+commit: f72cad446f70dd9383453a5ef36ada358c589f8f [2818/2818] gcc-plugins: Reorganize gimple includes for GCC 13
+config: arm64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250528/202505281944.fdZnA0qa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 5.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505281944.fdZnA0qa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505281947.qIShGsJU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505281944.fdZnA0qa-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/bpf/syscall.c:3727:2: error: call to undeclared function 'bpf_gtrampoline_unlink_prog'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3727 |         bpf_gtrampoline_unlink_prog(&multi_link->link);
-         |         ^
-   kernel/bpf/syscall.c:3727:2: note: did you mean 'bpf_trampoline_unlink_prog'?
-   include/linux/bpf.h:1492:19: note: 'bpf_trampoline_unlink_prog' declared here
-    1492 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-         |                   ^
->> kernel/bpf/syscall.c:3995:8: error: call to undeclared function 'bpf_gtrampoline_link_prog'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3995 |         err = bpf_gtrampoline_link_prog(&link->link);
-         |               ^
-   kernel/bpf/syscall.c:3995:8: note: did you mean 'bpf_trampoline_link_prog'?
-   include/linux/bpf.h:1486:19: note: 'bpf_trampoline_link_prog' declared here
-    1486 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
-         |                   ^
-   kernel/bpf/syscall.c:4001:3: error: call to undeclared function 'bpf_gtrampoline_unlink_prog'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4001 |                 bpf_gtrampoline_unlink_prog(&link->link);
-         |                 ^
-   3 errors generated.
-
-
-vim +/bpf_gtrampoline_unlink_prog +3727 kernel/bpf/syscall.c
-
-  3721	
-  3722	static void bpf_tracing_multi_link_release(struct bpf_link *link)
-  3723	{
-  3724		struct bpf_tracing_multi_link *multi_link =
-  3725			container_of(link, struct bpf_tracing_multi_link, link.link);
-  3726	
-> 3727		bpf_gtrampoline_unlink_prog(&multi_link->link);
-  3728		__bpf_tracing_multi_link_release(multi_link);
-  3729	}
-  3730	
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
+                    from scripts/gcc-plugins/gcc-common.h:9,
+                    from scripts/gcc-plugins/stackleak_plugin.c:30:
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
+         |                     ^
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
+                    from scripts/gcc-plugins/gcc-common.h:9,
+                    from scripts/gcc-plugins/sancov_plugin.c:22:
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
+         |                     ^
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
+                    from scripts/gcc-plugins/gcc-common.h:9,
+                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
+         |                     ^
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from scripts/gcc-plugins/gcc-common.h:113:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
+     283 |   struct pt_solution call_used;
+         |                      ^~~~~~~~~
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
+     283 |   struct pt_solution call_used;
+         |          ^~~~~~~~~~~
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
+     284 |   struct pt_solution call_clobbered;
+         |                      ^~~~~~~~~~~~~~
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
+     283 |   struct pt_solution call_used;
+         |          ^~~~~~~~~~~
+   In file included from scripts/gcc-plugins/gcc-common.h:113:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
+     283 |   struct pt_solution call_used;
+         |                      ^~~~~~~~~
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
+     283 |   struct pt_solution call_used;
+         |          ^~~~~~~~~~~
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
+     284 |   struct pt_solution call_clobbered;
+         |                      ^~~~~~~~~~~~~~
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
+     283 |   struct pt_solution call_used;
+         |          ^~~~~~~~~~~
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
+    2556 |   return lhs && !is_gimple_reg (lhs);
+         |                  ^~~~~~~~~~~~~
+         |                  is_gimple_assign
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
+    2556 |   return lhs && !is_gimple_reg (lhs);
+         |                  ^~~~~~~~~~~~~
+         |                  is_gimple_assign
+   In file included from scripts/gcc-plugins/gcc-common.h:113:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
+     283 |   struct pt_solution call_used;
+         |                      ^~~~~~~~~
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
+     283 |   struct pt_solution call_used;
+         |          ^~~~~~~~~~~
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
+     284 |   struct pt_solution call_clobbered;
+         |                      ^~~~~~~~~~~~~~
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
+     283 |   struct pt_solution call_used;
+         |          ^~~~~~~~~~~
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
+    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+         |          gimple_call_set_fndecl
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
+    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+         |          gimple_call_set_fndecl
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
+    2556 |   return lhs && !is_gimple_reg (lhs);
+         |                  ^~~~~~~~~~~~~
+         |                  is_gimple_assign
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
+    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+         |          gimple_call_set_fndecl
+   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/stackleak_plugin.so] Error 1 shuffle=1096673560
+   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/sancov_plugin.so] Error 1 shuffle=1096673560
+   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/randomize_layout_plugin.so] Error 1 shuffle=1096673560
+   make[3]: Target '__build' not remade because of errors.
+   make[2]: *** [scripts/Makefile.build:503: scripts/gcc-plugins] Error 2 shuffle=1096673560
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1235: scripts] Error 2 shuffle=1096673560
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:194: __sub-make] Error 2 shuffle=1096673560
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
