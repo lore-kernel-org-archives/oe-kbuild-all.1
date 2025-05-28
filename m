@@ -1,89 +1,143 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53161E5B82
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 03:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDC51DC997
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 04:45:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748404387; cv=none; b=NSn02+Rr/HhXfJc/I537xjYIt7RS3evzcoWbD6QR+r04ByN7maJRTExeMzi83de2TQrjqnYs31r0QgvV9s6HtT6EECZ1wF/D9/p+h+fAC1mVvZk0ib1tYP2BO73Ur13WgXS+dnDSlx7pwDgwSbdmWjHAI0YtjxlfHOfWd70Vjro=
+	t=1748407511; cv=none; b=CsQGfvqWtWpW9mqUEmjfzmxDE050t5hIviHS16/Z/IFma5brG+m2jvlgG2705boOhy0m0IFC69J/lFLJYZWVYE6Cvu0uIAdoHI5joyo9XhEH2tBQvxAoJ547bYJxLlB8KQ86gfnSgv8fDtL2uaQOlKxCMNVMSsgCIQGDP/hFAWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748404387; c=relaxed/simple;
-	bh=HaXa9kj7ad1p4uNDmTX7GmDvO3/0Bq83Td596CvVNgI=;
+	s=arc-20240116; t=1748407511; c=relaxed/simple;
+	bh=FXCuoLNhhgsllrEYqsjY/ZCCunLQDgEK825TQXkYAXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bSPX+QZRjPBqSD2e7v9O1FGLBKRpFkbG+OnuLdvrtJzFYRPd0elOT0kVnTxooZbpWsDeeowzEw10uvC43FolpLLNVsiOi/XiXWwQBw3Z5uKHAtGKpsA6h0mUCrPlPxixSAilUL7LQ6oM9tZL6EhFs+T5QFhfBdobDoFMFpkB8es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsosKwSy; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=jtKKveJIAhKQKvfx9G2kyIDfjN8BnVcPLTcu3cathqWvvxtMbjHWaHGwp7nYQoGSA6102ZEFR8+aimwU64fi+N2hrKzACQmZQTOEMOIaXv/Dt60rCy64GPC0oxdl0LbuyRkuX9nQRcqyMQwvNaawGhwiyKe8dKFJpya+IfkOjGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cgw9gElB; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsosKwSy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cgw9gElB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748404385; x=1779940385;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HaXa9kj7ad1p4uNDmTX7GmDvO3/0Bq83Td596CvVNgI=;
-  b=hsosKwSyvJn6bqLynF9NYjXZirFzJa3BlmyjlxhKmxPOKxKisNtL/Eg6
-   G3pJ0HEZn2f9M4MWdHFTeTFIZqIK9OQSCtepw+mK7a+Srdqqa32qEBqYV
-   J2zstbhOZyG/2QDHwiqrxEosavO6tyVUB2OSIqNO2ZEuiuD4meedI5OeI
-   w4isNYv27S9cSsbqBLncpHjIR5xxf7r6mWf/Mz2UHXhTRfcDOU936itM4
-   9FFtWHSNUxzeBVBgtTLa/0mKyPUWVTuHeIQxVrLgAwKA8Dch9YCpUcr4Z
-   9ppGcRGFHyCzYgl3Gylro6ut29BsaFwpWttdGSFwquUXUnNWwJPIPFWlL
-   A==;
-X-CSE-ConnectionGUID: jJ2VxW9KQYuRo3AajPpc7A==
-X-CSE-MsgGUID: w3wiXtl9TACdKvUrS2Qmxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="38036616"
+  t=1748407509; x=1779943509;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FXCuoLNhhgsllrEYqsjY/ZCCunLQDgEK825TQXkYAXY=;
+  b=Cgw9gElBN9raKwwRX1xd99PK1xP+qNfYK7rTj5rpO7R7dlvw4Ifyj/CE
+   xRvUneT4T6sFYngYvF+g9gTCwObNrTxY/kq3COC8BOLHyH561vsfapAVx
+   xJDyum7fA+MfyVzd1qZPUv7fw20bTaCyQiZIebjEw352SyhBixTqwiwIk
+   WdYDgSDpAcGkxMB4IVOPKK3oKxlkE9rzPSTbXqidsmxcE5B8V9S9RAtYJ
+   92o3EvFNH0Hrp1QIvxik+c8W3pyYd/ohSUdpLP/MvGf2MomEN4q2DgMph
+   +uPB3k6aFspMUcfSwki9qyUcbkrLTGnbfL4R5YVM75jRnbSIAyCkEI6vh
+   Q==;
+X-CSE-ConnectionGUID: pn1eilzGSaSeAh+bN74X6Q==
+X-CSE-MsgGUID: BFNdTYdiQRK6+M7tC4s4kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="38040051"
 X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
-   d="scan'208";a="38036616"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 20:53:04 -0700
-X-CSE-ConnectionGUID: 9HqFWvH5QFysnJYemV64Ig==
-X-CSE-MsgGUID: uDvrW9TPSWqn0T135yfkRw==
+   d="scan'208";a="38040051"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 21:45:08 -0700
+X-CSE-ConnectionGUID: SGYkssWZTqaTJf6/xDMgZA==
+X-CSE-MsgGUID: UBr1P/zWTxiY7OLb7Ev5XQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
-   d="scan'208";a="148228342"
+   d="scan'208";a="142939058"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 May 2025 20:53:03 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 May 2025 21:45:07 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uK7qf-000VFg-1d;
-	Wed, 28 May 2025 03:53:01 +0000
-Date: Wed, 28 May 2025 11:52:30 +0800
+	id 1uK8f3-000VHE-23;
+	Wed, 28 May 2025 04:45:05 +0000
+Date: Wed, 28 May 2025 12:44:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2311/2311] kismet: WARNING: unmet direct
- dependencies detected for MOTORCOMM_PHY when selected by YT6801
-Message-ID: <202505281128.MTV3LnwY-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 0/385] mm/memory.c:1709: warning:
+ Function parameter or member 'mm_wr_locked' not described in 'unmap_vmas'
+Message-ID: <202505281225.C6p64N0b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   571552c7fb136e86f4279b2e96292270085255e5
-commit: 6460d9d3c42d1357c8292d7be5c26cb7b84e84d7 [2311/2311] yt6801: Add Motorcomm yt6801 PCIe driver
-config: loongarch-kismet-CONFIG_MOTORCOMM_PHY-CONFIG_YT6801-0-0 (https://download.01.org/0day-ci/archive/20250528/202505281128.MTV3LnwY-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250528/202505281128.MTV3LnwY-lkp@intel.com/reproduce)
+Hi Suren,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   ed91d589b2844cb67999b23119f18a01d3c1cedc
+commit: 2ff3b23c7fde9ad4a23158d219b9e9a5a0e90982 [0/385] UPSTREAM: mm: introduce __vm_flags_mod and use it in untrack_pfn
+config: x86_64-buildonly-randconfig-003-20250528 (https://download.01.org/0day-ci/archive/20250528/202505281225.C6p64N0b-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505281225.C6p64N0b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505281128.MTV3LnwY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505281225.C6p64N0b-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for MOTORCOMM_PHY when selected by YT6801
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-     Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-     Selected by [y]:
-     - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
-   
-   WARNING: unmet direct dependencies detected for MOTORCOMM_PHY
-     Depends on [n]: NETDEVICES [=y] && PHYLIB [=n]
-     Selected by [y]:
-     - YT6801 [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MOTORCOMM [=y] && PCI [=y] && NET [=y]
+All warnings (new ones prefixed by >>):
+
+   mm/memory.c:1709: warning: Function parameter or member 'start_t' not described in 'unmap_vmas'
+   mm/memory.c:1709: warning: Function parameter or member 'end_t' not described in 'unmap_vmas'
+>> mm/memory.c:1709: warning: Function parameter or member 'mm_wr_locked' not described in 'unmap_vmas'
+
+
+vim +1709 mm/memory.c
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1685  
+f5cc4eef9987d0 Al Viro            2012-03-05  1686  /**
+f5cc4eef9987d0 Al Viro            2012-03-05  1687   * unmap_vmas - unmap a range of memory covered by a list of vma's
+f5cc4eef9987d0 Al Viro            2012-03-05  1688   * @tlb: address of the caller's struct mmu_gather
+763ecb035029f5 Liam R. Howlett    2022-09-06  1689   * @mt: the maple tree
+f5cc4eef9987d0 Al Viro            2012-03-05  1690   * @vma: the starting vma
+f5cc4eef9987d0 Al Viro            2012-03-05  1691   * @start_addr: virtual address at which to start unmapping
+f5cc4eef9987d0 Al Viro            2012-03-05  1692   * @end_addr: virtual address at which to end unmapping
+f5cc4eef9987d0 Al Viro            2012-03-05  1693   *
+f5cc4eef9987d0 Al Viro            2012-03-05  1694   * Unmap all pages in the vma list.
+f5cc4eef9987d0 Al Viro            2012-03-05  1695   *
+f5cc4eef9987d0 Al Viro            2012-03-05  1696   * Only addresses between `start' and `end' will be unmapped.
+f5cc4eef9987d0 Al Viro            2012-03-05  1697   *
+f5cc4eef9987d0 Al Viro            2012-03-05  1698   * The VMA list must be sorted in ascending virtual address order.
+f5cc4eef9987d0 Al Viro            2012-03-05  1699   *
+f5cc4eef9987d0 Al Viro            2012-03-05  1700   * unmap_vmas() assumes that the caller will flush the whole unmapped address
+f5cc4eef9987d0 Al Viro            2012-03-05  1701   * range after unmap_vmas() returns.  So the only responsibility here is to
+f5cc4eef9987d0 Al Viro            2012-03-05  1702   * ensure that any thus-far unmapped pages are flushed before unmap_vmas()
+f5cc4eef9987d0 Al Viro            2012-03-05  1703   * drops the lock and schedules.
+f5cc4eef9987d0 Al Viro            2012-03-05  1704   */
+763ecb035029f5 Liam R. Howlett    2022-09-06  1705  void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
+f5cc4eef9987d0 Al Viro            2012-03-05  1706  		struct vm_area_struct *vma, unsigned long start_addr,
+e9fdabfc2aeb27 Liam R. Howlett    2023-04-28  1707  		unsigned long end_addr, unsigned long start_t,
+2ff3b23c7fde9a Suren Baghdasaryan 2023-01-26  1708  		unsigned long end_t, bool mm_wr_locked)
+f5cc4eef9987d0 Al Viro            2012-03-05 @1709  {
+ac46d4f3c43241 Jérôme Glisse      2018-12-28  1710  	struct mmu_notifier_range range;
+999dad824c39ed Peter Xu           2022-05-12  1711  	struct zap_details details = {
+04ada095dcfc4a Mike Kravetz       2022-11-14  1712  		.zap_flags = ZAP_FLAG_DROP_MARKER | ZAP_FLAG_UNMAP,
+999dad824c39ed Peter Xu           2022-05-12  1713  		/* Careful - we need to zap private pages too! */
+999dad824c39ed Peter Xu           2022-05-12  1714  		.even_cows = true,
+999dad824c39ed Peter Xu           2022-05-12  1715  	};
+e9fdabfc2aeb27 Liam R. Howlett    2023-04-28  1716  	MA_STATE(mas, mt, start_t, start_t);
+f5cc4eef9987d0 Al Viro            2012-03-05  1717  
+6f4f13e8d9e27c Jérôme Glisse      2019-05-13  1718  	mmu_notifier_range_init(&range, MMU_NOTIFY_UNMAP, 0, vma, vma->vm_mm,
+6f4f13e8d9e27c Jérôme Glisse      2019-05-13  1719  				start_addr, end_addr);
+ac46d4f3c43241 Jérôme Glisse      2018-12-28  1720  	mmu_notifier_invalidate_range_start(&range);
+763ecb035029f5 Liam R. Howlett    2022-09-06  1721  	do {
+2ff3b23c7fde9a Suren Baghdasaryan 2023-01-26  1722  		unmap_single_vma(tlb, vma, start_addr, end_addr, &details,
+2ff3b23c7fde9a Suren Baghdasaryan 2023-01-26  1723  				 mm_wr_locked);
+e9fdabfc2aeb27 Liam R. Howlett    2023-04-28  1724  	} while ((vma = mas_find(&mas, end_t - 1)) != NULL);
+ac46d4f3c43241 Jérôme Glisse      2018-12-28  1725  	mmu_notifier_invalidate_range_end(&range);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1726  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1727  
+
+:::::: The code at line 1709 was first introduced by commit
+:::::: f5cc4eef9987d0b517364d01e290d6438e47ee5d VM: make zap_page_range() callers that act on a single VMA use separate helper
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
