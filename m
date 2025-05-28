@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654C428C852
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 16:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2099528C2A9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 17:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748449412; cv=none; b=bpqkj4q8vJOmRjPSveqZKOVtuqohKt29PeZWMJminnS4TdevCPIEMSvw+B6Wuj5s6Ac4nWU25tTuZ0G4Eivu3B+kNg27NOFjHTbNajF9r13LRjV+V4dTQmZ09zCDnKQHSKRzjyVtnQNXgxQmpgmNKF6CmaBZvSj/9NWd1gkMEbE=
+	t=1748452595; cv=none; b=CeowxBEYksrjmGZY6bAFmfyEAnQ2gMA8Sxibp9Fo3fSNdtGzsx90vpuhWGUDIus5xbnpMmgxhDkdoDHZE/tPs47ASX5MWxKS2+dfKe6GRpYNCvXmLF0tGwszGgpROlQRarL+dPM71073H067kt+rL8qP8Ldnz6HOx7QeEhLOrDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748449412; c=relaxed/simple;
-	bh=cuyrb+k5/OZVTifVBSYnbWi26a1IZ56MqnHdcIIT5/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZD/Znva7mI/D0nWu+ZuO1OTLPC3PS3L5n710y7YNHRR0ufMowMLo9lwWfFc4P9oqCc+1BHnL3HF/kba0v1x9aimAWa9XwZi+pGbXy9Twco0uhAXJnFOmEZEYhipPLa3SIcKysnuzvB6EP0uXyqqc2e9jxLt6A3xCf27Dqtg1ElU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KT0aTuo3; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1748452595; c=relaxed/simple;
+	bh=tduqZ/CJFhWFzmrr9fOX8JQcbOdcRL7V1rEr/cybqDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bQ4LezrpiK1V025mJ+uOWThCQT4HACdf3yX29i6ejf7nBLQrDffdHLQ1aWtViAo1ZD2O5s12jwP/IzdGHVZk1/yBC7iA1yOOeixekG9fzDyKGAQRS02Y9wt1xsiiOwfxyT6R2DlwTENLqHsKgVUiJCINATp5yRh0yZOqpRTJIaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T6oD2Tpl; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KT0aTuo3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T6oD2Tpl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748449411; x=1779985411;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cuyrb+k5/OZVTifVBSYnbWi26a1IZ56MqnHdcIIT5/g=;
-  b=KT0aTuo3RDkDd2zmcztFTSfZr/txcrc74vYIRdnWYl/QlapiXOZy3vM/
-   W0xZtHHH1vj0K1TeYBrH9i6y3DhXGkLgJCSjYleZtPS//3kgVSEM2/FlO
-   D8JpLZqlVfQSuHR33AT4cmVOnK1n6AQD+A2Cr28XCWWng8/5cpndMVdU9
-   wpIIBbyM+UFqYdffhLYTMjlMuORIJ47M+LMAelQRzAXwPqyGo8k6ABnVV
-   8t02Dbpi7No55Kr/hdr0c5hb2vNGp8gxANZx4O9sti75GVj6QGiNnvdZW
-   O1urVSqUVv7KF/yaKYN5NLbo+6HPDQO9TVgnBEzDDRNILn4WYbQdWdy9/
-   Q==;
-X-CSE-ConnectionGUID: Z3kXtC2LRqGyp8G4EQuJ7A==
-X-CSE-MsgGUID: Sqw8bqnASESGQmnfJ1IhSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="75873563"
+  t=1748452593; x=1779988593;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tduqZ/CJFhWFzmrr9fOX8JQcbOdcRL7V1rEr/cybqDQ=;
+  b=T6oD2Tpljlr/0cKboFi0Zv3OHgp4c+FUTHEvl0E01N9tPyxt2eOLEFFS
+   BK/378maThlyP5pvPNBY9gGCg+q1bwT2wuBz42+tkRFofC6ppQrb0kh2/
+   W8VzXEzbVzY6D0kGe9WptvsFjrXbzrs5OzykZTxr2A4s6Jt5GYWGu00fW
+   AGqrj3hwZ0WWTwaE8r5da7xMnRhjkE+Zhb/mn2hVLoRtax3wDZoTsPevr
+   YHobva1LuXNTsywFKZcWsqpGZHKbH1rx4GMpO1EJGL/ebdkOKBZm7bW3Y
+   jzKw+nw8NXgiQ2fCsg7Yt2Oyi0HkbSe1RktlhaD8jrax0E1mjfgOrW4K0
+   A==;
+X-CSE-ConnectionGUID: gOt2lVEuSaGrIwsSRABuWw==
+X-CSE-MsgGUID: uSRCbNj2SQCA+WmNFXA9bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="50595968"
 X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="75873563"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 09:23:30 -0700
-X-CSE-ConnectionGUID: rNRhxPlZTPqf4Kgi9QflkA==
-X-CSE-MsgGUID: oIw3JplNSjaYtPOevmeJtA==
+   d="scan'208";a="50595968"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 10:16:32 -0700
+X-CSE-ConnectionGUID: 1rOaaxqtRBumgUEGscoxvA==
+X-CSE-MsgGUID: mogsiH3aQIOBKClT1Gum5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="143285594"
+   d="scan'208";a="143212840"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 May 2025 09:23:25 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 May 2025 10:16:31 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKJYo-000VrE-3D;
-	Wed, 28 May 2025 16:23:23 +0000
-Date: Thu, 29 May 2025 00:22:37 +0800
+	id 1uKKOD-000Vvo-0H;
+	Wed, 28 May 2025 17:16:29 +0000
+Date: Thu, 29 May 2025 01:15:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
-	eballetbo@gmail.com, abelvesa@linux.com, b38343@freescale.com,
-	yibin.gong@nxp.com, Abel Vesa <abelvesa@kernel.org>
-Subject: Re: [PATCH v3 4/6] input: pf1550: add onkey support
-Message-ID: <202505290028.2lbquDkW-lkp@intel.com>
-References: <20250527-pf1550-v3-4-45f69453cd51@savoirfairelinux.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2329/2329] arch/arm64/kvm/virtcca_cvm.c:810:5:
+ warning: no previous prototype for 'virtcca_get_tmi_version'
+Message-ID: <202505290152.me3JXaGE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,95 +61,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250527-pf1550-v3-4-45f69453cd51@savoirfairelinux.com>
 
-Hi Samuel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0a4b866d08c6adaea2f4592d31edac6deeb4dcbd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Kayode-via-B4-Relay/dt-bindings-mfd-add-pf1550/20250528-062840
-base:   0a4b866d08c6adaea2f4592d31edac6deeb4dcbd
-patch link:    https://lore.kernel.org/r/20250527-pf1550-v3-4-45f69453cd51%40savoirfairelinux.com
-patch subject: [PATCH v3 4/6] input: pf1550: add onkey support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250529/202505290028.2lbquDkW-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505290028.2lbquDkW-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   66b0cef2a959be1562a528e3d8cc260dc3803e61
+commit: 86b9cab8c4752eb46e3ec038325aee5686805c69 [2329/2329] VirtCCA: an interface to retrieve the TMI version is added
+config: arm64-randconfig-004-20250529 (https://download.01.org/0day-ci/archive/20250529/202505290152.me3JXaGE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505290152.me3JXaGE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505290028.2lbquDkW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505290152.me3JXaGE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/input/misc/pf1550-onkey.c:153:12: warning: 'pf1550_onkey_resume' defined but not used [-Wunused-function]
-     153 | static int pf1550_onkey_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~
->> drivers/input/misc/pf1550-onkey.c:126:12: warning: 'pf1550_onkey_suspend' defined but not used [-Wunused-function]
-     126 | static int pf1550_onkey_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/virtcca_cvm.c:810:5: warning: no previous prototype for 'virtcca_get_tmi_version' [-Wmissing-prototypes]
+    u64 virtcca_get_tmi_version(void)
+        ^~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
+   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
+   Selected by [y]:
+   - ARM64 [=y]
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+   Selected by [y]:
+   - ARM64_MPAM [=y]
 
 
-vim +/pf1550_onkey_resume +153 drivers/input/misc/pf1550-onkey.c
+vim +/virtcca_get_tmi_version +810 arch/arm64/kvm/virtcca_cvm.c
 
-   125	
- > 126	static int pf1550_onkey_suspend(struct device *dev)
-   127	{
-   128		struct platform_device *pdev = to_platform_device(dev);
-   129		struct onkey_drv_data *onkey = platform_get_drvdata(pdev);
-   130		struct irq_domain *domain;
-   131		unsigned int virq;
-   132		int i;
-   133	
-   134		domain = regmap_irq_get_domain(onkey->pf1550->irq_data_onkey);
-   135	
-   136		if (!device_may_wakeup(&pdev->dev)) {
-   137			regmap_write(onkey->pf1550->regmap,
-   138				     PF1550_PMIC_REG_ONKEY_INT_MASK0,
-   139				     ONKEY_IRQ_PUSHI | ONKEY_IRQ_1SI | ONKEY_IRQ_2SI |
-   140				     ONKEY_IRQ_3SI | ONKEY_IRQ_4SI | ONKEY_IRQ_8SI);
-   141		} else {
-   142			for (i = 0; i < PF1550_ONKEY_IRQ_NR; i++) {
-   143				virq = irq_find_mapping(domain, i);
-   144	
-   145				if (virq)
-   146					enable_irq_wake(virq);
-   147			}
-   148		}
-   149	
-   150		return 0;
-   151	}
-   152	
- > 153	static int pf1550_onkey_resume(struct device *dev)
-   154	{
-   155		struct platform_device *pdev = to_platform_device(dev);
-   156		struct onkey_drv_data *onkey = platform_get_drvdata(pdev);
-   157		struct irq_domain *domain;
-   158		unsigned int virq;
-   159		int i;
-   160	
-   161		domain = regmap_irq_get_domain(onkey->pf1550->irq_data_onkey);
-   162	
-   163		if (!device_may_wakeup(&pdev->dev)) {
-   164			regmap_write(onkey->pf1550->regmap,
-   165				     PF1550_PMIC_REG_ONKEY_INT_MASK0,
-   166				     ~((u8)(ONKEY_IRQ_PUSHI | ONKEY_IRQ_1SI |
-   167				     ONKEY_IRQ_2SI | ONKEY_IRQ_3SI | ONKEY_IRQ_4SI |
-   168				     ONKEY_IRQ_8SI)));
-   169		} else {
-   170			for (i = 0; i < PF1550_ONKEY_IRQ_NR; i++) {
-   171				virq = irq_find_mapping(domain, i);
-   172	
-   173				if (virq)
-   174					disable_irq_wake(virq);
-   175			}
-   176		}
-   177	
-   178		return 0;
-   179	}
-   180	
+   809	
+ > 810	u64 virtcca_get_tmi_version(void)
+   811	{
+   812		u64 res = tmi_version();
+   813	
+   814		if (res == SMCCC_RET_NOT_SUPPORTED)
+   815			return 0;
+   816		return res;
+   817	}
+   818	
 
 -- 
 0-DAY CI Kernel Test Service
