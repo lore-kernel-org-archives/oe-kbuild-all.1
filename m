@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D58D1F463E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 18:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5391862
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 19:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748458726; cv=none; b=jqh7Z4O29imHzz1p3XxDZj/PtCZWfRG3Ty0NiHXPQA0CU1BrOuau/G/rhAUEPSqGyMRC5WRDTNKtycTAfQNWus71qhEGm3wXSKWi8TyZlxgjkvzB8nMmfgYIJ7pmmfR9WiLpwcmrc5wYEzJhWRgNzFqLHL225nyMEKqsV91kmR4=
+	t=1748461849; cv=none; b=CVtPfS6m3SdcjEpAEbDSZPCPQYGKzFnI+jMSZFa8wEn6DvDARzFF/I2KM27HFBwC8H/Sm1onYuAc5/vUhdOILNmyrL8ABRqGHfKYdhepmiUUOZgezpzgrwe3FDBKSnziqqi1L8lHEmXVrNwfVJko97KpmPLBUjQ3u4hO2zI3hj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748458726; c=relaxed/simple;
-	bh=Ae41KHFy/Ma5t82tw8d1O2hxTNN7zEJUAv231DBCA4c=;
+	s=arc-20240116; t=1748461849; c=relaxed/simple;
+	bh=IHk1seflRMDbgIP7lasH9tExZ0XtGJqWDRHYOTT2stE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iHIVmCfIHPXV1ihQvo7MaLTZxOfxRVTLpqBbGkg3hkABK2XsN7HdCGuX508ncTZBCmz38S7n0PVYASn0irxnoLQUbErVHeN+vF7BnMB4CMBaJWC/1YjgsuGZxiQ0dkIkgpdPKFuotl0GKvYsMEhYWr7WUzZxo3zTiM8y+5Wee3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ntXFBSB3; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=iuh2yidtsAIR1hEM+abJrOtB+BwT0A0P+KHNxGY6cjppc321YwsvWi+G2txlUZvlh/+q+uudQZJSCET2YYtQf94iKXnTrBFBGaicU2hXKD6lBIc6AIjFlucjHNGcChNOPseBcYkh05tIJ4K8px5nPrqdfMuZlA/cKUWVj2ZZUmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S8QfqE9w; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ntXFBSB3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8QfqE9w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748458724; x=1779994724;
+  t=1748461847; x=1779997847;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ae41KHFy/Ma5t82tw8d1O2hxTNN7zEJUAv231DBCA4c=;
-  b=ntXFBSB3Ss4xkfExMgSILZC58bPgjKku5ADFpwwLI8pQwDnSN21tujVL
-   utIwdNYLKs63dUjPH0rOd0cxRnqsQugTGerWAruMAtqRJfXUscPvJgT0G
-   YZzg+Xf9breEPrOnmOW8N4MIed2MrvTUXcdID1eOoMjofknHEBkbSaOGg
-   3WjpoII6awPqgE/+dQx7HPL3PqSJqhoEEaU1fKi6xw0kzkZ5Du4EFSvH/
-   2Z+L/iTIuyDXouPDmKz++nCGpvLnslUYyvGvrmkjo7K+WUOZ+dyYCDvpP
-   nphHc/KH2tQGtywMeEyAxPMmiBMLoSSqZHMlcM+PQBd0fuu1Hm0vi90ye
-   w==;
-X-CSE-ConnectionGUID: wD01dp8bR0a02hdtOKy0Qw==
-X-CSE-MsgGUID: mYkuMkVMS+C5d2tGPY5aQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67916888"
+  bh=IHk1seflRMDbgIP7lasH9tExZ0XtGJqWDRHYOTT2stE=;
+  b=S8QfqE9w7G5YtJ4JmphvzybInEVSNCbBJnx0Jw2FN9HHbXegfJcxgHFb
+   jV9EZTSCppApUfh4C8LCjrwDevKP6T124PTKWSMsVytRrRQno3GF+DM20
+   XbE54/ar6t7DUvnmUprlHDEm3daHZp/3Xfj7UHoKh0OzffzcCwdLP1/3c
+   g4nhsmJ+5gp+ZxIAHOvw7S7C5F+UbvU/Ghx3sTV7o4CF6mc6+44cQYg4o
+   8zi6aRRuVtjQa5qMtbkNWebCXIl0OQuZy9rXq4qDpvZ0aAWZsZ4BGVAi+
+   PZrrhl0gL5uVEKKnIpcqbC1CN3ZuDDJS3ethKvuIMbhPClB7SgdF1XERF
+   g==;
+X-CSE-ConnectionGUID: NYnb2d4ZTRu6W4ntIXrqQQ==
+X-CSE-MsgGUID: JLWNSG87QO2aDSuFKRIN7A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="50657989"
 X-IronPort-AV: E=Sophos;i="6.15,322,1739865600"; 
-   d="scan'208";a="67916888"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 11:58:43 -0700
-X-CSE-ConnectionGUID: tw7IlApzQBeIreGhs4FrrQ==
-X-CSE-MsgGUID: y31rEaavTZGLFp6Std8CTA==
+   d="scan'208";a="50657989"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 12:50:46 -0700
+X-CSE-ConnectionGUID: renvQIqIR3eEZZ1FIbgrMw==
+X-CSE-MsgGUID: dil7/+fPRqWPum0+aVs5fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,322,1739865600"; 
-   d="scan'208";a="143234060"
+   d="scan'208";a="144324582"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 May 2025 11:58:41 -0700
+  by orviesa008.jf.intel.com with ESMTP; 28 May 2025 12:50:45 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKLz4-000VzM-0u;
-	Wed, 28 May 2025 18:58:38 +0000
-Date: Thu, 29 May 2025 02:58:15 +0800
+	id 1uKMnS-000W1g-2t;
+	Wed, 28 May 2025 19:50:42 +0000
+Date: Thu, 29 May 2025 03:49:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
+To: Dongjin Kim <tobetter@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2329/2329] include/trace/events/kmem.h:441:10:
- error: passing argument 2 of '__traceiter_spe_boost_spe_record' from
- incompatible pointer type
-Message-ID: <202505290250.Bj46FlhO-lkp@intel.com>
+Subject: [tobetter:odroid-6.15.y 12/42]
+ drivers/gpu/drm/meson/meson_viu.c:81:13: warning:
+ 'meson_viu_set_g12a_osd1_matrix' defined but not used
+Message-ID: <202505290349.mO4VCacC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,698 +63,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   66b0cef2a959be1562a528e3d8cc260dc3803e61
-commit: c99ab2e30089c85721b1d05b616cfb7daacf32d6 [2329/2329] arm-spe: Export boost SPE sampling info via tracefs tracepoint
-config: arm64-randconfig-003-20250529 (https://download.01.org/0day-ci/archive/20250529/202505290250.Bj46FlhO-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-6.15.y
+head:   62efa5294148d0ccb18203491839df4fb9dc18d1
+commit: 22f24b89950763af305e8dbf488b023540767619 [12/42] (DO NOT MERGE) ODROID-COMMON: drm/meson: not load RGB709 to YUV709 coefficient
+config: arm64-randconfig-004-20250529 (https://download.01.org/0day-ci/archive/20250529/202505290349.mO4VCacC-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505290250.Bj46FlhO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505290349.mO4VCacC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505290250.Bj46FlhO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505290349.mO4VCacC-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   include/linux/tracepoint.h:434:4: note: in expansion of macro 'PARAMS'
-       PARAMS(void *__data, proto))
-       ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:416:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(mm_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:417:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h:417:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:281:40: note: in definition of macro '__DECLARE_TRACE'
-     unregister_trace_##name(void (*probe)(data_proto), void *data) \
-                                           ^~~~~~~~~~
-   include/linux/tracepoint.h:434:4: note: in expansion of macro 'PARAMS'
-       PARAMS(void *__data, proto))
-       ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:416:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(mm_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:417:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h:417:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:287:46: note: in definition of macro '__DECLARE_TRACE'
-     check_trace_callback_type_##name(void (*cb)(data_proto)) \
-                                                 ^~~~~~~~~~
-   include/linux/tracepoint.h:434:4: note: in expansion of macro 'PARAMS'
-       PARAMS(void *__data, proto))
-       ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:416:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(mm_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:417:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:252:32: note: in definition of macro '__DECLARE_TRACE'
-     extern int __traceiter_##name(data_proto);   \
-                                   ^~~~~~~~~~
-   include/linux/tracepoint.h:434:4: note: in expansion of macro 'PARAMS'
-       PARAMS(void *__data, proto))
-       ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:255:34: note: in definition of macro '__DECLARE_TRACE'
-     static inline void trace_##name(proto)    \
-                                     ^~~~~
-   include/linux/tracepoint.h:432:24: note: in expansion of macro 'PARAMS'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-                           ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h: In function 'trace_spe_boost_spe_record':
->> include/trace/events/kmem.h:441:10: error: passing argument 2 of '__traceiter_spe_boost_spe_record' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     TP_ARGS(record),
-             ^~~~~~
-   include/linux/tracepoint.h:177:62: note: in definition of macro '__DO_TRACE_CALL'
-    #define __DO_TRACE_CALL(name, args) __traceiter_##name(NULL, args)
-                                                                 ^~~~
-   include/linux/tracepoint.h:217:25: note: in expansion of macro 'TP_ARGS'
-      __DO_TRACE_CALL(name, TP_ARGS(args));   \
-                            ^~~~~~~
-   include/linux/tracepoint.h:258:4: note: in expansion of macro '__DO_TRACE'
-       __DO_TRACE(name,    \
-       ^~~~~~~~~~
-   include/linux/tracepoint.h:259:5: note: in expansion of macro 'TP_ARGS'
-        TP_ARGS(args),    \
-        ^~~~~~~
-   include/linux/tracepoint.h:432:2: note: in expansion of macro '__DECLARE_TRACE'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-     ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:432:39: note: in expansion of macro 'PARAMS'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-                                          ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:37: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                                        ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:441:2: note: in expansion of macro 'TP_ARGS'
-     TP_ARGS(record),
-     ^~~~~~~
-   include/trace/events/kmem.h:439:39: note: expected 'struct mem_sampling_record *' but argument is of type 'struct mem_sampling_record *'
-     TP_PROTO(struct mem_sampling_record *record),
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   include/linux/tracepoint.h:252:32: note: in definition of macro '__DECLARE_TRACE'
-     extern int __traceiter_##name(data_proto);   \
-                                   ^~~~~~~~~~
-   include/linux/tracepoint.h:434:4: note: in expansion of macro 'PARAMS'
-       PARAMS(void *__data, proto))
-       ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h: At top level:
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:229:44: note: in definition of macro '__DECLARE_TRACE_RCU'
-     static inline void trace_##name##_rcuidle(proto)  \
-                                               ^~~~~
-   include/linux/tracepoint.h:265:28: note: in expansion of macro 'PARAMS'
-     __DECLARE_TRACE_RCU(name, PARAMS(proto), PARAMS(args),  \
-                               ^~~~~~
-   include/linux/tracepoint.h:432:2: note: in expansion of macro '__DECLARE_TRACE'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-     ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:432:24: note: in expansion of macro 'PARAMS'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-                           ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h: In function 'trace_spe_boost_spe_record_rcuidle':
->> include/trace/events/kmem.h:441:10: error: passing argument 2 of '__traceiter_spe_boost_spe_record' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     TP_ARGS(record),
-             ^~~~~~
-   include/linux/tracepoint.h:177:62: note: in definition of macro '__DO_TRACE_CALL'
-    #define __DO_TRACE_CALL(name, args) __traceiter_##name(NULL, args)
-                                                                 ^~~~
-   include/linux/tracepoint.h:217:25: note: in expansion of macro 'TP_ARGS'
-      __DO_TRACE_CALL(name, TP_ARGS(args));   \
-                            ^~~~~~~
-   include/linux/tracepoint.h:232:4: note: in expansion of macro '__DO_TRACE'
-       __DO_TRACE(name,    \
-       ^~~~~~~~~~
-   include/linux/tracepoint.h:233:5: note: in expansion of macro 'TP_ARGS'
-        TP_ARGS(args),    \
-        ^~~~~~~
-   include/linux/tracepoint.h:265:2: note: in expansion of macro '__DECLARE_TRACE_RCU'
-     __DECLARE_TRACE_RCU(name, PARAMS(proto), PARAMS(args),  \
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:265:43: note: in expansion of macro 'PARAMS'
-     __DECLARE_TRACE_RCU(name, PARAMS(proto), PARAMS(args),  \
-                                              ^~~~~~
-   include/linux/tracepoint.h:432:2: note: in expansion of macro '__DECLARE_TRACE'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-     ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:432:39: note: in expansion of macro 'PARAMS'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-                                          ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:37: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                                        ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:441:2: note: in expansion of macro 'TP_ARGS'
-     TP_ARGS(record),
-     ^~~~~~~
-   include/trace/events/kmem.h:439:39: note: expected 'struct mem_sampling_record *' but argument is of type 'struct mem_sampling_record *'
-     TP_PROTO(struct mem_sampling_record *record),
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   include/linux/tracepoint.h:252:32: note: in definition of macro '__DECLARE_TRACE'
-     extern int __traceiter_##name(data_proto);   \
-                                   ^~~~~~~~~~
-   include/linux/tracepoint.h:434:4: note: in expansion of macro 'PARAMS'
-       PARAMS(void *__data, proto))
-       ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h: At top level:
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:268:38: note: in definition of macro '__DECLARE_TRACE'
-     register_trace_##name(void (*probe)(data_proto), void *data) \
-                                         ^~~~~~~~~~
-   include/linux/tracepoint.h:434:4: note: in expansion of macro 'PARAMS'
-       PARAMS(void *__data, proto))
-       ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:274:43: note: in definition of macro '__DECLARE_TRACE'
-     register_trace_prio_##name(void (*probe)(data_proto), void *data,\
-                                              ^~~~~~~~~~
-   include/linux/tracepoint.h:434:4: note: in expansion of macro 'PARAMS'
-       PARAMS(void *__data, proto))
-       ^~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:22: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-                         ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
---
-     ^~~~~~~~~~~~
-   include/trace/events/kmem.h:416:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(mm_spe_record,
-    ^~~~~~~~~~~
-   include/linux/tracepoint.h:306:7: note: previous declaration of '__probestub_mm_spe_record' was here
-     void __probestub_##_name(void *__data, proto);   \
-          ^~~~~~~~~~~~
-   include/linux/tracepoint.h:341:2: note: in expansion of macro 'DEFINE_TRACE_FN'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-     ^~~~~~~~~~~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/events/kmem.h:416:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(mm_spe_record,
-    ^~~~~~~~~~~
-   In file included from <command-line>:
-   include/linux/static_call_types.h:15:34: error: conflicting types for '__SCT__tp_func_mm_spe_record'
-    #define STATIC_CALL_TRAMP_PREFIX __SCT__
-                                     ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-    #define ___PASTE(a,b) a##b
-                          ^
-   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
-    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-                                     ^~~~~~~
-   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call_types.h:39:22: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     extern typeof(func) STATIC_CALL_TRAMP(name);
-                         ^~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:298:2: note: in expansion of macro 'DECLARE_STATIC_CALL'
-     DECLARE_STATIC_CALL(name, _func);    \
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:304:2: note: in expansion of macro '__DEFINE_STATIC_CALL'
-     __DEFINE_STATIC_CALL(name, _func, _func)
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:338:2: note: in expansion of macro 'DEFINE_STATIC_CALL'
-     DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);
-     ^~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:341:2: note: in expansion of macro 'DEFINE_TRACE_FN'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-     ^~~~~~~~~~~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/events/kmem.h:416:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(mm_spe_record,
-    ^~~~~~~~~~~
-   include/linux/static_call_types.h:15:34: note: previous declaration of '__SCT__tp_func_mm_spe_record' was here
-    #define STATIC_CALL_TRAMP_PREFIX __SCT__
-                                     ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-    #define ___PASTE(a,b) a##b
-                          ^
-   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
-    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-                                     ^~~~~~~
-   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call_types.h:39:22: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     extern typeof(func) STATIC_CALL_TRAMP(name);
-                         ^~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:253:2: note: in expansion of macro 'DECLARE_STATIC_CALL'
-     DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name); \
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:432:2: note: in expansion of macro '__DECLARE_TRACE'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-     ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/kmem.h:416:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(mm_spe_record,
-    ^~~~~~~~~~~
-   In file included from include/trace/events/kmem.h:9,
-                    from mm/slab_common.c:35:
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:305:40: note: in definition of macro 'DEFINE_TRACE_FN'
-     int __traceiter_##_name(void *__data, proto);   \
-                                           ^~~~~
-   include/linux/tracepoint.h:341:36: note: in expansion of macro 'PARAMS'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-                                       ^~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/define_trace.h:28:21: note: in expansion of macro 'PARAMS'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-                        ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
->> include/linux/tracepoint.h:305:6: error: conflicting types for '__traceiter_spe_boost_spe_record'
-     int __traceiter_##_name(void *__data, proto);   \
-         ^~~~~~~~~~~~
-   include/linux/tracepoint.h:341:2: note: in expansion of macro 'DEFINE_TRACE_FN'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-     ^~~~~~~~~~~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/linux/tracepoint.h:252:13: note: previous declaration of '__traceiter_spe_boost_spe_record' was here
-     extern int __traceiter_##name(data_proto);   \
-                ^~~~~~~~~~~~
-   include/linux/tracepoint.h:432:2: note: in expansion of macro '__DECLARE_TRACE'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-     ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:306:41: note: in definition of macro 'DEFINE_TRACE_FN'
-     void __probestub_##_name(void *__data, proto);   \
-                                            ^~~~~
-   include/linux/tracepoint.h:341:36: note: in expansion of macro 'PARAMS'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-                                       ^~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/define_trace.h:28:21: note: in expansion of macro 'PARAMS'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-                        ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:319:40: note: in definition of macro 'DEFINE_TRACE_FN'
-     int __traceiter_##_name(void *__data, proto)   \
-                                           ^~~~~
-   include/linux/tracepoint.h:341:36: note: in expansion of macro 'PARAMS'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-                                       ^~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/define_trace.h:28:21: note: in expansion of macro 'PARAMS'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-                        ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/linux/tracepoint.h:319:6: error: conflicting types for '__traceiter_spe_boost_spe_record'
-     int __traceiter_##_name(void *__data, proto)   \
-         ^~~~~~~~~~~~
-   include/linux/tracepoint.h:341:2: note: in expansion of macro 'DEFINE_TRACE_FN'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-     ^~~~~~~~~~~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/linux/tracepoint.h:252:13: note: previous declaration of '__traceiter_spe_boost_spe_record' was here
-     extern int __traceiter_##name(data_proto);   \
-                ^~~~~~~~~~~~
-   include/linux/tracepoint.h:432:2: note: in expansion of macro '__DECLARE_TRACE'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-     ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:335:41: note: in definition of macro 'DEFINE_TRACE_FN'
-     void __probestub_##_name(void *__data, proto)   \
-                                            ^~~~~
-   include/linux/tracepoint.h:341:36: note: in expansion of macro 'PARAMS'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-                                       ^~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/define_trace.h:28:21: note: in expansion of macro 'PARAMS'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-                        ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
->> include/linux/tracepoint.h:335:7: error: conflicting types for '__probestub_spe_boost_spe_record'
-     void __probestub_##_name(void *__data, proto)   \
-          ^~~~~~~~~~~~
-   include/linux/tracepoint.h:341:2: note: in expansion of macro 'DEFINE_TRACE_FN'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-     ^~~~~~~~~~~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/linux/tracepoint.h:306:7: note: previous declaration of '__probestub_spe_boost_spe_record' was here
-     void __probestub_##_name(void *__data, proto);   \
-          ^~~~~~~~~~~~
-   include/linux/tracepoint.h:341:2: note: in expansion of macro 'DEFINE_TRACE_FN'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-     ^~~~~~~~~~~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   In file included from <command-line>:
->> include/linux/static_call_types.h:15:34: error: conflicting types for '__SCT__tp_func_spe_boost_spe_record'
-    #define STATIC_CALL_TRAMP_PREFIX __SCT__
-                                     ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-    #define ___PASTE(a,b) a##b
-                          ^
-   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
-    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-                                     ^~~~~~~
-   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call_types.h:39:22: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     extern typeof(func) STATIC_CALL_TRAMP(name);
-                         ^~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:298:2: note: in expansion of macro 'DECLARE_STATIC_CALL'
-     DECLARE_STATIC_CALL(name, _func);    \
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:304:2: note: in expansion of macro '__DEFINE_STATIC_CALL'
-     __DEFINE_STATIC_CALL(name, _func, _func)
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:338:2: note: in expansion of macro 'DEFINE_STATIC_CALL'
-     DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);
-     ^~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:341:2: note: in expansion of macro 'DEFINE_TRACE_FN'
-     DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-     ^~~~~~~~~~~~~~~
-   include/trace/define_trace.h:28:2: note: in expansion of macro 'DEFINE_TRACE'
-     DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/linux/static_call_types.h:15:34: note: previous declaration of '__SCT__tp_func_spe_boost_spe_record' was here
-    #define STATIC_CALL_TRAMP_PREFIX __SCT__
-                                     ^~~~~~~
-   include/linux/compiler_types.h:74:23: note: in definition of macro '___PASTE'
-    #define ___PASTE(a,b) a##b
-                          ^
-   include/linux/static_call_types.h:18:34: note: in expansion of macro '__PASTE'
-    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-                                     ^~~~~~~
-   include/linux/static_call_types.h:18:42: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
-    #define STATIC_CALL_TRAMP(name)  __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call_types.h:39:22: note: in expansion of macro 'STATIC_CALL_TRAMP'
-     extern typeof(func) STATIC_CALL_TRAMP(name);
-                         ^~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:253:2: note: in expansion of macro 'DECLARE_STATIC_CALL'
-     DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name); \
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:432:2: note: in expansion of macro '__DECLARE_TRACE'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-     ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:566:2: note: in expansion of macro 'DECLARE_TRACE'
-     DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/events/kmem.h:529,
-                    from mm/slab_common.c:35:
-   include/trace/events/kmem.h:417:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:274:58: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     struct trace_event_data_offsets_##call *__data_offsets, proto) \
-                                                             ^~~~~
-   include/trace/trace_events.h:41:9: note: in expansion of macro 'PARAMS'
-            PARAMS(proto),         \
-            ^~~~~~
-   include/trace/events/kmem.h:416:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(mm_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:417:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   include/trace/events/kmem.h:439:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:274:58: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     struct trace_event_data_offsets_##call *__data_offsets, proto) \
-                                                             ^~~~~
-   include/trace/trace_events.h:41:9: note: in expansion of macro 'PARAMS'
-            PARAMS(proto),         \
-            ^~~~~~
-   include/trace/events/kmem.h:438:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(spe_boost_spe_record,
-    ^~~~~~~~~~~
-   include/trace/events/kmem.h:439:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(struct mem_sampling_record *record),
-     ^~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/events/kmem.h:529,
-                    from mm/slab_common.c:35:
-   include/trace/events/kmem.h:417:18: warning: 'struct mem_sampling_record' declared inside parameter list will not be visible outside of this definition or declaration
-     TP_PROTO(struct mem_sampling_record *record),
-                     ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:399:47: note: in definition of macro '__DECLARE_EVENT_CLASS'
-    do_trace_event_raw_event_##call(void *__data, proto)   \
-..
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
-   Selected by [y]:
-   - ARM64 [=y]
-   WARNING: unmet direct dependencies detected for RESCTRL_FS
-   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
-   Selected by [y]:
-   - ARM64_MPAM [=y]
+>> drivers/gpu/drm/meson/meson_viu.c:81:13: warning: 'meson_viu_set_g12a_osd1_matrix' defined but not used [-Wunused-function]
+    static void meson_viu_set_g12a_osd1_matrix(struct meson_drm *priv,
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__traceiter_spe_boost_spe_record +441 include/trace/events/kmem.h
+vim +/meson_viu_set_g12a_osd1_matrix +81 drivers/gpu/drm/meson/meson_viu.c
 
-   437	
-   438	TRACE_EVENT(spe_boost_spe_record,
-   439		TP_PROTO(struct mem_sampling_record *record),
-   440	
- > 441		TP_ARGS(record),
-   442	
-   443		TP_STRUCT__entry(
-   444			__field(u64, boost_spe_pa1)
-   445			__field(u64, boost_spe_pa2)
-   446			__field(u64, boost_spe_pa3)
-   447			__field(u64, boost_spe_pa4)
-   448			__field(u64, boost_spe_pa5)
-   449			__field(u64, boost_spe_pa6)
-   450			__field(u64, boost_spe_pa7)
-   451			__field(u64, boost_spe_pa8)
-   452		),
-   453	
-   454		TP_fast_assign(
-   455			__entry->boost_spe_pa1 = record->boost_spe_addr[0];
-   456			__entry->boost_spe_pa2 = record->boost_spe_addr[1];
-   457			__entry->boost_spe_pa3 = record->boost_spe_addr[2];
-   458			__entry->boost_spe_pa4 = record->boost_spe_addr[3];
-   459			__entry->boost_spe_pa5 = record->boost_spe_addr[4];
-   460			__entry->boost_spe_pa6 = record->boost_spe_addr[5];
-   461			__entry->boost_spe_pa7 = record->boost_spe_addr[6];
-   462			__entry->boost_spe_pa8 = record->boost_spe_addr[7];
-   463		),
-   464	
-   465		TP_printk("boost_spe_addr[0]=0x%llx boost_spe_addr[1]=0x%llx tlb_addr[2]=0x%llx tlb_addr[3]=0x%llx tlb_addr[4]=0x%llx tlb_addr[5]=0x%llx tlb_addr[6]=0x%llx tlb_addr[7]=0x%llx",
-   466			__entry->boost_spe_pa1, __entry->boost_spe_pa2,
-   467			__entry->boost_spe_pa3, __entry->boost_spe_pa4,
-   468			__entry->boost_spe_pa5, __entry->boost_spe_pa6,
-   469			__entry->boost_spe_pa7, __entry->boost_spe_pa8)
-   470	);
-   471	#endif /* CONFIG_ARM_SPE_MEM_SAMPLING */
-   472	
-   473	
+bbbe775ec5b5da Neil Armstrong 2016-11-10   80  
+2ccb8433ebe8dc YueHaibing     2019-04-13  @81  static void meson_viu_set_g12a_osd1_matrix(struct meson_drm *priv,
+2ccb8433ebe8dc YueHaibing     2019-04-13   82  					   int *m, bool csc_on)
+728883948b0d3c Neil Armstrong 2019-03-25   83  {
+728883948b0d3c Neil Armstrong 2019-03-25   84  	/* VPP WRAP OSD1 matrix */
+728883948b0d3c Neil Armstrong 2019-03-25   85  	writel(((m[0] & 0xfff) << 16) | (m[1] & 0xfff),
+728883948b0d3c Neil Armstrong 2019-03-25   86  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_PRE_OFFSET0_1));
+728883948b0d3c Neil Armstrong 2019-03-25   87  	writel(m[2] & 0xfff,
+728883948b0d3c Neil Armstrong 2019-03-25   88  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_PRE_OFFSET2));
+728883948b0d3c Neil Armstrong 2019-03-25   89  	writel(((m[3] & 0x1fff) << 16) | (m[4] & 0x1fff),
+728883948b0d3c Neil Armstrong 2019-03-25   90  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF00_01));
+728883948b0d3c Neil Armstrong 2019-03-25   91  	writel(((m[5] & 0x1fff) << 16) | (m[6] & 0x1fff),
+728883948b0d3c Neil Armstrong 2019-03-25   92  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF02_10));
+728883948b0d3c Neil Armstrong 2019-03-25   93  	writel(((m[7] & 0x1fff) << 16) | (m[8] & 0x1fff),
+728883948b0d3c Neil Armstrong 2019-03-25   94  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF11_12));
+728883948b0d3c Neil Armstrong 2019-03-25   95  	writel(((m[9] & 0x1fff) << 16) | (m[10] & 0x1fff),
+728883948b0d3c Neil Armstrong 2019-03-25   96  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF20_21));
+6463d3930ba5b6 Stuart Menefy  2022-09-08   97  	writel((m[11] & 0x1fff),
+728883948b0d3c Neil Armstrong 2019-03-25   98  		priv->io_base +	_REG(VPP_WRAP_OSD1_MATRIX_COEF22));
+728883948b0d3c Neil Armstrong 2019-03-25   99  
+728883948b0d3c Neil Armstrong 2019-03-25  100  	writel(((m[18] & 0xfff) << 16) | (m[19] & 0xfff),
+728883948b0d3c Neil Armstrong 2019-03-25  101  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_OFFSET0_1));
+728883948b0d3c Neil Armstrong 2019-03-25  102  	writel(m[20] & 0xfff,
+728883948b0d3c Neil Armstrong 2019-03-25  103  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_OFFSET2));
+728883948b0d3c Neil Armstrong 2019-03-25  104  
+728883948b0d3c Neil Armstrong 2019-03-25  105  	writel_bits_relaxed(BIT(0), csc_on ? BIT(0) : 0,
+728883948b0d3c Neil Armstrong 2019-03-25  106  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_EN_CTRL));
+728883948b0d3c Neil Armstrong 2019-03-25  107  }
+728883948b0d3c Neil Armstrong 2019-03-25  108  
+
+:::::: The code at line 81 was first introduced by commit
+:::::: 2ccb8433ebe8dc99ed7cd0e3b8ff6976dcc05e3d drm/meson: Make some functions static
+
+:::::: TO: YueHaibing <yuehaibing@huawei.com>
+:::::: CC: Neil Armstrong <narmstrong@baylibre.com>
 
 -- 
 0-DAY CI Kernel Test Service
