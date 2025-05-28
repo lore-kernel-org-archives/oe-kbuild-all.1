@@ -1,73 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D6127585B;
-	Wed, 28 May 2025 09:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18692741D1;
+	Wed, 28 May 2025 09:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748423445; cv=none; b=r/v4NbwY6JJyFSSwXPAwTSZDAH020MKr2ljfHfyJcKIEtHChDP2rj265bY5mAjr6kEKW+89xG4KbzwL4HIsv/pMnZN2uilTW3aFfUgYxKW9eJkv08JcxI1kZLGdH40BmgaKLBg3OwWeRxmd7hXtYsUUep3/J73IwdY6gt5yWnno=
+	t=1748423499; cv=none; b=r59pGB1BVgaXKaHbtehkAQHPD70M+BP0RfIE07vxknChSF0TnxQnOy9SdZGeC6vqtVxAKqP7d2/NbAcgWh+KesLYR2Eh7XytfALkSnA591ydXts9l6kP8DVrRBQrBtzULD7YjGBO91Ds1ncOik4gB2oCsRqVwbOsd7LRNFDHlVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748423445; c=relaxed/simple;
-	bh=af5JUKcthRKAQgniGzokaJiKen7a00vYt3vsaVOT2BQ=;
+	s=arc-20240116; t=1748423499; c=relaxed/simple;
+	bh=/vFKPh1GQHh0XWIVc4hvR0PFnGcJUo/nTfkkPEZSCHw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajBEFArkZQ5gEO7pxIDLB61fkFRWgAjlj6u8Y8j+puv6Se1TOF4K3/ZwZdkR3CDGgYvDv0y97ysMJ289wlOoTH2dsFXB9u9VsxzMTA9TaOXyDJMmqPq+GPS5pCi8Qv6BQZ+B+C6SMvJ7cJdiArNESfXMQZ3Pg0XyOJzhGOrjkS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDQqpOGv; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uUg5DYj657Od/HbRfFtdeNJ2LAVNCcrdSJ290Vg+jtg99mUcrV55WrRsnkgYsnoAR0hhWiT2PZKFGKDsIvKpcjXsCgi6SDVkWIAo6UEBhX0HsxSQjTjTzyH6Yjp+ldYhG2bg6iwPVqqBX/jsR13GcKuOs7ut9Fl3nBk3oWKgClQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=XiYGsPpB; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDQqpOGv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748423442; x=1779959442;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=af5JUKcthRKAQgniGzokaJiKen7a00vYt3vsaVOT2BQ=;
-  b=BDQqpOGvazRQYzXDMeBL8ZZPmcDXvDpvLFZPj+Lb/kyQopBbrFS7R4Jh
-   iw0N3esyK0cTLifD0WqjMJ69VcInRmVZgATrIJu4WI2WdJscMc2WG5ywC
-   lIMvP32W0stfJBf1Qd/oX+WjOEGcP1tdFI4qA18MMV+HHwOaU7A5QfPUH
-   lZKrQ1xR8T/bnCYr67INx593XyJRCQQThjrzEcT2g7vkPV55Zg6NO7P+I
-   00j6A+bLxsTV1vOytN83FGf6tIS9iJTB89gUE0aDC8bq5Xu81GeebVa2+
-   OZksV10TUFZ+ZdYhSTD+Xvs6Hr1xxY5atpo/rD/A0bPrak3x8uNheAKbj
-   g==;
-X-CSE-ConnectionGUID: K1jZgAsASGeqh6q4EquRmw==
-X-CSE-MsgGUID: qISxqiMfSRWuWMY+9uC3HA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="50326607"
-X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
-   d="scan'208";a="50326607"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 02:10:41 -0700
-X-CSE-ConnectionGUID: Ig1TGYOjTf2XVusvXjCvvQ==
-X-CSE-MsgGUID: 8Uw5VHDBRgSXHe3hgjU49g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
-   d="scan'208";a="143012443"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 May 2025 02:10:37 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uKCnz-000VTk-01;
-	Wed, 28 May 2025 09:10:35 +0000
-Date: Wed, 28 May 2025 17:10:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Burak Emir <bqe@google.com>, Yury Norov <yury.norov@gmail.com>,
-	Kees Cook <kees@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Burak Emir <bqe@google.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v9 4/5] rust: add find_bit_benchmark_rust module.
-Message-ID: <202505281613.EHiMAdkN-lkp@intel.com>
-References: <20250526150141.3407433-5-bqe@google.com>
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="XiYGsPpB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=/hsewaW5gU0vrr/tJ3ygObI/8cfPfFw3hytDh49lKGQ=; b=XiYGsPpBuaWC3YQZni+30nSzjA
+	xGxLsD0LdOE6O8C/2gdpedsoyGm07jG917zdcMvwPGa+fz2AdxxdzgiWcEUWwnr5Y6HcG4uPPYidN
+	3uLWTJCGj745hWOOCq3ALwXH6CCokZxLUpMFhgYdgm7N3AdZ9WsFkyYLCLKZpFLouunI6530ZZJyZ
+	xgwH+45vviAp7kuM0mN0zkQOQK1OrOOhb2JXvT7QxHyB/8qp5nlsISoVOmKLGTXzzXryuZCwM2QJG
+	o4HwnH7ah9B0SATr1cgppuhBS7WPIT1M58/UIPY7xF5oxSydl5deo4UcsUg4zTS1Usrrf5KzKesRw
+	D1Qv6Lwg==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1uKCoi-009OwC-1g;
+	Wed, 28 May 2025 17:11:21 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 28 May 2025 17:11:20 +0800
+Date: Wed, 28 May 2025 17:11:20 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Ashish Kalra <ashish.kalra@amd.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+Subject: Re: [linux-next:master 1170/9308] drivers/crypto/ccp/sev-dev.c:1312
+ __sev_platform_init_locked() error: we previously assumed 'error' could be
+ null (see line 1297)
+Message-ID: <aDbTOBjTo0Le7T5a@gondor.apana.org.au>
+References: <202505071746.eWOx5QgC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,36 +53,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250526150141.3407433-5-bqe@google.com>
+In-Reply-To: <202505071746.eWOx5QgC-lkp@intel.com>
 
-Hi Burak,
+On Wed, May 07, 2025 at 02:09:22PM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   0a00723f4c2d0b273edd0737f236f103164a08eb
+> commit: 9770b428b1a28360663f1f5e524ee458b4cf454b [1170/9308] crypto: ccp - Move dev_info/err messages for SEV/SNP init and shutdown
+> config: x86_64-randconfig-161-20250430 (https://download.01.org/0day-ci/archive/20250507/202505071746.eWOx5QgC-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202505071746.eWOx5QgC-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/crypto/ccp/sev-dev.c:1312 __sev_platform_init_locked() error: we previously assumed 'error' could be null (see line 1297)
 
-kernel test robot noticed the following build errors:
+Ashish, please fix this or I will revert the commit listed above.
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on kees/for-next/hardening kees/for-next/pstore kees/for-next/kspp linus/master v6.15]
-[cannot apply to rust/rust-next next-20250527]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Burak-Emir/rust-add-bindings-for-bitmap-h/20250526-230435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20250526150141.3407433-5-bqe%40google.com
-patch subject: [PATCH v9 4/5] rust: add find_bit_benchmark_rust module.
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250528/202505281613.EHiMAdkN-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505281613.EHiMAdkN-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505281613.EHiMAdkN-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> error[E0463]: can't find crate for `core`
-
+Thanks,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
