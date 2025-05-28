@@ -1,97 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C791C683;
-	Wed, 28 May 2025 15:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58DF278761
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 15:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748445632; cv=none; b=pNOrmf0IDlAHhVy61ToTlqEdz84HXQ7HJmTFSQtmpdnpM69+D+qKNwWUNHkwQuyqwKFKDSdEtzg0fFioNlw6B7C4R0vo/cPHqbkfMNJpdKtDztkXVuKLYdQSZHjhUex0cld1ye1SYhMTvSNUmZBLp+TtBQTjzoEzcGS73LXfBLo=
+	t=1748446584; cv=none; b=YtDotVI2Sex9EVlb6ox3nUNIn93TOlvO1hiUhnOMHlFE7CEuuKlXLfU0Xit5fOdpTW0N9MpZNhyYLWRS1U3JJxoVuvzdxPnYEaMOAWMG6aFkdFZXCLkKYL1VDxcjEDKZRgZZfjS9qMSMECCyrle7sNtxBzyZGeMwypwmS6mHMi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748445632; c=relaxed/simple;
-	bh=7kMewkxZlUWW4+bCvliPeiqKR3NQUaJBPhldiiPxuUc=;
+	s=arc-20240116; t=1748446584; c=relaxed/simple;
+	bh=NyxJjdO0uqLgRbXeG3fMSXDtDw3lT9wwstsorauv94E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sViWfoybSEpG10zeyfYvmppR2LdFZCAIfk5fyqJ/tljJnZGXXfjzTRGx3kMPQsvBo6z6yr3mOjWnw2q/mTTvFGZNYUOmjs216sqsgIsoEjINs4eHie6/SGtOqJofQ0Rjxez12XKtG52ajcSHFVPfugJ22RrcPoHeF+y5QBrkVdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfeYWw+I; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=k6q6IV0S+pBdczslEJKPuYhBH+yJTSbsoaeT2mhmSSvDrZ8zsZXIlFUvLxM4ZSZOfgFexDiKzoZ1mY0G8CDFOcehRDzARGgEyKdo+oBejEQNciuVwWI8gMqyXTs8L5UKBLUfYOgA8mls9wjhO88oqSk6qeMglx23i4AlF5lHDD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=libzENgz; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfeYWw+I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7212BC4CEE3;
-	Wed, 28 May 2025 15:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748445631;
-	bh=7kMewkxZlUWW4+bCvliPeiqKR3NQUaJBPhldiiPxuUc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IfeYWw+ItskaFQwbqlhdYRfDg3VkTIxXU90vLe/qmizxzp5EsO+aJWvlyMoiW6EzG
-	 21Tk/v/SMF6BWyf6rE2urLh0bw61JxRpmqCAT5XOw2FVZDIWTVltl62/PRYGdxfrmA
-	 Lk92FECvg5yOFI4wL3CsaPqdKK5V9LU2cC3qX5D//RhfwCAnKQ9vR6MXcpEFhsmIQQ
-	 CkPzXubek1qLQ+RjCM2vLVRDOAAgDj+TkqZpUxbV2EulTn68c+zW2GogWUdM7wlO1X
-	 /c++aadK9dZjmFdx8XcM/KxoXHNq7TKK+wSx23GRkkrZBn7gTgbQzMFWg7KRK7eKbl
-	 KDvthTtS8hxeg==
-Date: Wed, 28 May 2025 17:20:26 +0200
-From: Alexey Gladkov <legion@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 5/6] kbuild: Move modules.builtin.modinfo to another
- makefile
-Message-ID: <aDcpuudVTzuzMESp@example.org>
-References: <1910073cfee59df4a3edb7f724214eeb4b8a3faa.1748335606.git.legion@kernel.org>
- <aDcNzoM9NF3SN+WH@rli9-mobl>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="libzENgz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748446583; x=1779982583;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=NyxJjdO0uqLgRbXeG3fMSXDtDw3lT9wwstsorauv94E=;
+  b=libzENgzVfyjEj0jizhiCOsdiGQZqTZLhyIwQt1pV97WXDEnanIRKSK/
+   XgTOuaySKZ4HuU0xR/iY75ezSfANsGTB01GSE3eotrho12Bp9vpEybkAo
+   OVb4OHmwiM5Zid4BtQ/Abs+HbFTKTvJZQtPL1dpL838EDy8AZ98Vtcsz6
+   4si2W4BJuTKQ9KXZ295vRjCVpgWNCTG3Fj0fhW+o7aW6X7MXxMEmkoWci
+   tUvy3ufRbF7V2C8yiHmixHSBOYmjwRS5wQ4BBXc/QK+dnmr7el1F56JdI
+   8eBPy/v9Yf1RsKfqUPhnKAcuerUTg3b4X/OMFqK8IhWfj3KqBnMdmr5mU
+   Q==;
+X-CSE-ConnectionGUID: 8j8LRR05TequQbW/buF46A==
+X-CSE-MsgGUID: rEbe5pFxQSm7vfkJWlu8ww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="67894314"
+X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
+   d="scan'208";a="67894314"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 08:36:22 -0700
+X-CSE-ConnectionGUID: ZOSc//TGTDiNqLFdZkNVow==
+X-CSE-MsgGUID: 4kneYjTAQt+FRNP8RxgZhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
+   d="scan'208";a="147154189"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 28 May 2025 08:36:19 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uKIpE-000VnY-2r;
+	Wed, 28 May 2025 15:36:16 +0000
+Date: Wed, 28 May 2025 23:36:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Subject: Re: [PATCH v4 4/9] =?iso-8859-1?Q?MAINTAIN?=
+ =?iso-8859-1?Q?ERS=3A_add_Cl=E9ment?= Le Goffic as STM32 HDP maintainer
+Message-ID: <202505282333.T9mzfGT8-lkp@intel.com>
+References: <20250528-hdp-upstream-v4-4-7e9b3ad2036d@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <aDcNzoM9NF3SN+WH@rli9-mobl>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250528-hdp-upstream-v4-4-7e9b3ad2036d@foss.st.com>
 
-On Wed, May 28, 2025 at 09:21:18PM +0800, kernel test robot wrote:
-> Hi Alexey,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on masahiroy-kbuild/for-next]
-> [also build test ERROR on masahiroy-kbuild/fixes linus/master v6.15 next-20250528]
-> [cannot apply to mkp-scsi/for-next jejb-scsi/for-next mcgrof/modules-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Gladkov/scsi-Define-MODULE_DEVICE_TABLE-only-if-necessary/20250528-020814
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-> patch link:    https://lore.kernel.org/r/1910073cfee59df4a3edb7f724214eeb4b8a3faa.1748335606.git.legion%40kernel.org
-> patch subject: [PATCH v3 5/6] kbuild: Move modules.builtin.modinfo to another makefile
-> :::::: branch date: 19 hours ago
-> :::::: commit date: 19 hours ago
-> config: x86_64-randconfig-003-20250528 (https://download.01.org/0day-ci/archive/20250528/202505282010.7mkEeiON-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505282010.7mkEeiON-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202505282010.7mkEeiON-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> make[3]: *** No rule to make target 'modules.builtin.modinfo', needed by '/tmp/kernel/x86_64-randconfig-003-20250528/clang-20/0f04dfcaa62efc3a521b20ba0b39b2a78c4389db/lib/modules/6.15.0-rc7-00019-g0f04dfcaa62e/modules.builtin.modinfo'.
-> >> make[3]: *** No rule to make target 'modules.builtin', needed by '/tmp/kernel/x86_64-randconfig-003-20250528/clang-20/0f04dfcaa62efc3a521b20ba0b39b2a78c4389db/lib/modules/6.15.0-rc7-00019-g0f04dfcaa62e/modules.builtin'.
->    make[3]: Target '__modinst' not remade because of errors.
->    make[2]: *** [Makefile:1909: modules_install] Error 2 shuffle=3457807955
->    make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3457807955
->    make[1]: Target 'modules_install' not remade because of errors.
->    make: *** [Makefile:248: __sub-make] Error 2 shuffle=3457807955
->    make: Target 'modules_install' not remade because of errors.
+Hi Clément,
 
-Original patch series was for v6.15:
+kernel test robot noticed the following build warnings:
 
-base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca 
+[auto build test WARNING on a08b2b34239e63bd839078de98911d3653cdab83]
 
-But I separately tried testing the patchset with the brunch [1] and the
-attached config and could not reproduce the problem.
+url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/gpio-mmio-add-BGPIOF_NO_INPUT-flag-for-GPO-gpiochip/20250528-213620
+base:   a08b2b34239e63bd839078de98911d3653cdab83
+patch link:    https://lore.kernel.org/r/20250528-hdp-upstream-v4-4-7e9b3ad2036d%40foss.st.com
+patch subject: [PATCH v4 4/9] MAINTAINERS: add Clément Le Goffic as STM32 HDP maintainer
+reproduce: (https://download.01.org/0day-ci/archive/20250528/202505282333.T9mzfGT8-lkp@intel.com/reproduce)
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/commit/?h=for-next&id=40617439d572645207c1866dfb086de0be438a14
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505282333.T9mzfGT8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl-hdp.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
+   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
+   make[1]: *** [Makefile:1799: htmldocs] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
 
 -- 
-Rgrds, legion
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
