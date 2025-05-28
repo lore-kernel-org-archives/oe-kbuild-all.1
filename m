@@ -1,75 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E8828E8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 00:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADBD7FD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 00:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748390693; cv=none; b=HaqTVU5pSzpnnkzoqMVrTqzR5GllCCrpT20paArKS4O4mVphs7LySDAfBOE1ifncl+qR4qUGRmDCAzf0RMm+AT73lIIChi+Y/CT6zWY+hPtPxktixCH/zsJq9ElJZ5zXmBGaSJ3krkGA+EBcnE8pMh8JsEEZ58hs/Gu6H5aPyQQ=
+	t=1748392551; cv=none; b=EvQ1PpVPI0Vy2u80VSzNX9SRm69SAsIwB78CFED5H09KKMPUoj7wNtUIAbMlqMet+ETpfygU3xopzLZpslMiNMlvlnsHd4xBMZku6AfoJTtX40AWWN5QJFQ2rRoOFQo1U7QNhmvv31Oquzalb/RvCMGlsy+anLG0s9PVMiBCnMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748390693; c=relaxed/simple;
-	bh=0EUqTd8s0a0nZiI7FjdMX0MsV8D/5MPI3MWQmgodAv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SEcNyrQj/+wsU8nvMTiAZkF9JbKc7Pa7XAvsoboNrUfsCSBw6dy2sgosfdgXe7k/p6jbnJh9vXoVOv6LvzUt5EoI3AmtRdoo3NJsKMOjyISQvIV5BG3jSo3vTHheFXZi4MuqpxhuSwEXqt/ivXlzOTsGrEjrlaWB1LhhNYg0aCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcbBXaPj; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1748392551; c=relaxed/simple;
+	bh=U5KOXbTTsfMlTjiNbNor6HBIl3q0hjFdLLlwK63Gk0k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jge63hKQEg+acT1UBvFDE1BsyYpFlNFuXXVojkk6IhIHsV4kHJFh/mAeQQK5sj5OPYMKFL9dO4iUc7bEAtVkFJr1q92wo+Wzfe+Xl8D0qICT2qjOmXSGsveaksJRbt9cS72k48cC4uCbmUfdDeBDsGFXLajbCOaSjbnAMspnz9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QjszEKXK; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcbBXaPj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QjszEKXK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748390692; x=1779926692;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0EUqTd8s0a0nZiI7FjdMX0MsV8D/5MPI3MWQmgodAv4=;
-  b=jcbBXaPjvJIKSKhtMlglepA+P0FFY2uE3QPLFKJVfad3WV7NLxSkm9h8
-   s/LlbZ62+NgBRNygv1bwKV2iok2DELpwl2QpWd3XOs9OHpN0NYbXTv9X7
-   Z+ylx21rKD/ICit8N3lwQJFGY7jzXQhqhxyqfL/I2mNpFak6ZkBUIDiXC
-   5VrN29Sufw03glJWqIj33kW4f1tWkdKfibGe81ITK24Hs6+xmDNj32Oz+
-   HVLfLLP1yrxozzWJLi6dnuGlvCEFjnxlzmImIk21Xh1tTEQeDb5qs6/FQ
-   f8Z6seJOsg8M+5vVNSDQIOKrnO/hh9vt/zWX3x0hVrNLqSgVtfXISuxV7
-   A==;
-X-CSE-ConnectionGUID: 57jEgWmmT/aWc2OzatHyyA==
-X-CSE-MsgGUID: aU+WkO+5Q4aM6WmqF6zjVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="75791713"
+  t=1748392549; x=1779928549;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U5KOXbTTsfMlTjiNbNor6HBIl3q0hjFdLLlwK63Gk0k=;
+  b=QjszEKXK7VwV90+R1XhbTOsGLGkJWTV4tVKRt8w04bfmOAQ83tcyMY+I
+   kWDUIa2bmVTUkn9tHJ0sDf/O9hJtIycl7aswHRN0/wfxJ8cpZqVtMUrQm
+   7Hmqxg5SndU8lmwa7XkOfpByD0BUIym2vuQS3QfTnzdpSGpiSNXlVE8H5
+   AJ3xZwAbFcrUJtIKuk72oUxxE3skhv4yNni7J/Ic65mmug6KxVuCbcGcq
+   /4GeNYlDh1teDdzE/QsCugXk6hZZuQsRbuTkpKMThkAg0zB/NJW0IfZ4o
+   7wEnb7NVAYQfYaGzL/4HjaQM2rKfbmYs7OwoInQRTiDl+PmfkGPQ7OItN
+   g==;
+X-CSE-ConnectionGUID: tAN8UYTUQjW4WClFjXOlHA==
+X-CSE-MsgGUID: wv6zQlx5St+UePUqU0cL4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="60655514"
 X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
-   d="scan'208";a="75791713"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 17:04:51 -0700
-X-CSE-ConnectionGUID: Z0dzMtooSOi3rlQ5YDayog==
-X-CSE-MsgGUID: w/x9uTQuS320aQAasX4eig==
+   d="scan'208";a="60655514"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 17:35:49 -0700
+X-CSE-ConnectionGUID: 1x+d4n+eRH2stSw5wMe15g==
+X-CSE-MsgGUID: KHD0fpdHQf2x1rwW8rrapg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
-   d="scan'208";a="147790475"
+   d="scan'208";a="142958145"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 27 May 2025 17:04:46 -0700
+  by orviesa006.jf.intel.com with ESMTP; 27 May 2025 17:35:48 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uK4Hk-000V6u-00;
-	Wed, 28 May 2025 00:04:44 +0000
-Date: Wed, 28 May 2025 08:04:27 +0800
+	id 1uK4ll-000V7c-37;
+	Wed, 28 May 2025 00:35:45 +0000
+Date: Wed, 28 May 2025 08:35:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v5 03/12] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-Message-ID: <202505280721.abBn0GaE-lkp@intel.com>
-References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/sequencer 34/46] Diff in drivers/gpu/nova-core/gpu.rs at
+ line 329:
+Message-ID: <202505280858.h5ue8jB4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,139 +61,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
 
-Hi Amirreza,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3be1a7a31fbda82f3604b6c31e4f390110de1b46]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250527-151020
-base:   3be1a7a31fbda82f3604b6c31e4f390110de1b46
-patch link:    https://lore.kernel.org/r/20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9%40oss.qualcomm.com
-patch subject: [PATCH v5 03/12] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-config: arm64-randconfig-r121-20250527 (https://download.01.org/0day-ci/archive/20250528/202505280721.abBn0GaE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250528/202505280721.abBn0GaE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/sequencer
+head:   b48f53d28bffb259ca376c30ab62b72e69bd0234
+commit: e6066bb619788776e76a1d79497925d909d33a57 [34/46] nova-core: gsp: Pass data structures we need to cmdq
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250528/202505280858.h5ue8jB4-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280858.h5ue8jB4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505280721.abBn0GaE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505280858.h5ue8jB4-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/tee/tee_core.c:393:48: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] uaddr @@     got void [noderef] __user * @@
-   drivers/tee/tee_core.c:393:48: sparse:     expected void *[noderef] uaddr
-   drivers/tee/tee_core.c:393:48: sparse:     got void [noderef] __user *
->> drivers/tee/tee_core.c:396:56: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *addr @@     got void *[noderef] uaddr @@
-   drivers/tee/tee_core.c:396:56: sparse:     expected void const [noderef] __user *addr
-   drivers/tee/tee_core.c:396:56: sparse:     got void *[noderef] uaddr
-   drivers/tee/tee_core.c:785:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] uaddr @@     got void [noderef] __user * @@
-   drivers/tee/tee_core.c:785:41: sparse:     expected void *[noderef] uaddr
-   drivers/tee/tee_core.c:785:41: sparse:     got void [noderef] __user *
-   drivers/tee/tee_core.c:788:56: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *addr @@     got void *[noderef] uaddr @@
-   drivers/tee/tee_core.c:788:56: sparse:     expected void const [noderef] __user *addr
-   drivers/tee/tee_core.c:788:56: sparse:     got void *[noderef] uaddr
-   drivers/tee/tee_core.c:396:46: sparse: sparse: dereference of noderef expression
-   drivers/tee/tee_core.c:396:46: sparse: sparse: dereference of noderef expression
-   drivers/tee/tee_core.c:677:37: sparse: sparse: dereference of noderef expression
-   drivers/tee/tee_core.c:788:46: sparse: sparse: dereference of noderef expression
-   drivers/tee/tee_core.c:788:46: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +396 drivers/tee/tee_core.c
-
-   361	
-   362	static int params_from_user(struct tee_context *ctx, struct tee_param *params,
-   363				    size_t num_params,
-   364				    struct tee_ioctl_param __user *uparams)
-   365	{
-   366		size_t n;
-   367	
-   368		for (n = 0; n < num_params; n++) {
-   369			struct tee_shm *shm;
-   370			struct tee_ioctl_param ip;
-   371	
-   372			if (copy_from_user(&ip, uparams + n, sizeof(ip)))
-   373				return -EFAULT;
-   374	
-   375			/* All unused attribute bits has to be zero */
-   376			if (ip.attr & ~TEE_IOCTL_PARAM_ATTR_MASK)
-   377				return -EINVAL;
-   378	
-   379			params[n].attr = ip.attr;
-   380			switch (ip.attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
-   381			case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
-   382			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
-   383				break;
-   384			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
-   385			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
-   386				params[n].u.value.a = ip.a;
-   387				params[n].u.value.b = ip.b;
-   388				params[n].u.value.c = ip.c;
-   389				break;
-   390			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
-   391			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-   392			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
-   393				params[n].u.ubuf.uaddr = u64_to_user_ptr(ip.a);
-   394				params[n].u.ubuf.size = ip.b;
-   395	
- > 396				if (!access_ok(params[n].u.ubuf.uaddr,
-   397					       params[n].u.ubuf.size))
-   398					return -EFAULT;
-   399	
-   400				break;
-   401			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
-   402			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
-   403			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-   404				/*
-   405				 * If a NULL pointer is passed to a TA in the TEE,
-   406				 * the ip.c IOCTL parameters is set to TEE_MEMREF_NULL
-   407				 * indicating a NULL memory reference.
-   408				 */
-   409				if (ip.c != TEE_MEMREF_NULL) {
-   410					/*
-   411					 * If we fail to get a pointer to a shared
-   412					 * memory object (and increase the ref count)
-   413					 * from an identifier we return an error. All
-   414					 * pointers that has been added in params have
-   415					 * an increased ref count. It's the callers
-   416					 * responibility to do tee_shm_put() on all
-   417					 * resolved pointers.
-   418					 */
-   419					shm = tee_shm_get_from_id(ctx, ip.c);
-   420					if (IS_ERR(shm))
-   421						return PTR_ERR(shm);
-   422	
-   423					/*
-   424					 * Ensure offset + size does not overflow
-   425					 * offset and does not overflow the size of
-   426					 * the referred shared memory object.
-   427					 */
-   428					if ((ip.a + ip.b) < ip.a ||
-   429					    (ip.a + ip.b) > shm->size) {
-   430						tee_shm_put(shm);
-   431						return -EINVAL;
-   432					}
-   433				} else if (ctx->cap_memref_null) {
-   434					/* Pass NULL pointer to OP-TEE */
-   435					shm = NULL;
-   436				} else {
-   437					return -EINVAL;
-   438				}
-   439	
-   440				params[n].u.memref.shm_offs = ip.a;
-   441				params[n].u.memref.size = ip.b;
-   442				params[n].u.memref.shm = shm;
-   443				break;
-   444			default:
-   445				/* Unknown attribute */
-   446				return -EINVAL;
-   447			}
-   448		}
-   449		return 0;
-   450	}
-   451	
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/gpu.rs at line 329:
+            dev_info!(pdev.as_ref(), "WPR2: {:#x}-{:#x}\n", wpr2_lo, wpr2_hi);
+    
+            let wpr_meta = gsp::build_wpr_meta(pdev.as_ref(), &fw, &fb_layout)?;
+   -        let mut libos = crate::gsp::GspSharedMemObjects::new(pdev, &bar, &gsp_falcon, &sec2_falcon, &fw)?;
+   +        let mut libos =
+   +            crate::gsp::GspSharedMemObjects::new(pdev, &bar, &gsp_falcon, &sec2_falcon, &fw)?;
+            let libos_handle = libos.libos.dma_handle();
+            let wpr_handle = wpr_meta.dma_handle();
+    
+   Diff in drivers/gpu/nova-core/gsp.rs at line 340:
+            ptr
+        }
+    
+   -    fn send<A: GspMessageElement>(
+   -        self: &mut Self,
+   -        function: u32,
+   -        args: &A,
+   -    ) -> Result<()> {
+   +    fn send<A: GspMessageElement>(self: &mut Self, function: u32, args: &A) -> Result<()> {
+            let mut msg = GspMsgHeader {
+                auth_tag_buffer: [0; 16],
+                aad_buffer: [0; 16],
+   Diff in drivers/gpu/nova-core/gsp.rs at line 739:
+    
+    impl GspMessageElement for fw::GspSystemInfo {}
+    
+   -fn set_system_info<'a>(
+   -    dev: &pci::Device<device::Bound>,
+   -    cmdq: &mut GspCmdq<'a>,
+   -) -> Result {
+   +fn set_system_info<'a>(dev: &pci::Device<device::Bound>, cmdq: &mut GspCmdq<'a>) -> Result {
+        let mut info = unsafe { MaybeUninit::<fw::GspSystemInfo>::zeroed().assume_init() };
+    
+        info.gpuPhysAddr = dev.resource_start(0)?;
+>> Diff in drivers/gpu/nova-core/gpu.rs at line 329:
+            dev_info!(pdev.as_ref(), "WPR2: {:#x}-{:#x}\n", wpr2_lo, wpr2_hi);
+    
+            let wpr_meta = gsp::build_wpr_meta(pdev.as_ref(), &fw, &fb_layout)?;
+   -        let mut libos = crate::gsp::GspSharedMemObjects::new(pdev, &bar, &gsp_falcon, &sec2_falcon, &fw)?;
+   +        let mut libos =
+   +            crate::gsp::GspSharedMemObjects::new(pdev, &bar, &gsp_falcon, &sec2_falcon, &fw)?;
+            let libos_handle = libos.libos.dma_handle();
+            let wpr_handle = wpr_meta.dma_handle();
+    
+   Diff in drivers/gpu/nova-core/gsp.rs at line 340:
+            ptr
+        }
+    
+   -    fn send<A: GspMessageElement>(
+   -        self: &mut Self,
+   -        function: u32,
+   -        args: &A,
+   -    ) -> Result<()> {
+   +    fn send<A: GspMessageElement>(self: &mut Self, function: u32, args: &A) -> Result<()> {
+            let mut msg = GspMsgHeader {
+                auth_tag_buffer: [0; 16],
+                aad_buffer: [0; 16],
+   Diff in drivers/gpu/nova-core/gsp.rs at line 739:
+    
+    impl GspMessageElement for fw::GspSystemInfo {}
+    
+   -fn set_system_info<'a>(
+   -    dev: &pci::Device<device::Bound>,
+   -    cmdq: &mut GspCmdq<'a>,
+   -) -> Result {
+   +fn set_system_info<'a>(dev: &pci::Device<device::Bound>, cmdq: &mut GspCmdq<'a>) -> Result {
+        let mut info = unsafe { MaybeUninit::<fw::GspSystemInfo>::zeroed().assume_init() };
+    
+        info.gpuPhysAddr = dev.resource_start(0)?;
+   make[2]: *** [Makefile:1828: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
