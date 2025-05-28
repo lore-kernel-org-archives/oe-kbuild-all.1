@@ -1,63 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7BA2857F8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 12:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4265C285411
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 12:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748435887; cv=none; b=UYYqQsvjLsAp+gHsievBNTzOtHxTvdUwPzBkoBuMOv7AoekLJCyQXTVGK+6FM/j2giYxgnhpQZnqK6iIzbQlxAJaiHdhFl3BHvo0Ox5vuxSt8uSH4aFr6E6t8+7qTTU7hNtTFiKvyK7raKxVdzz8omTiJr0FHcGS/42GPcUqCFc=
+	t=1748435932; cv=none; b=NFfNrmf6RvGGzNT/0xp3YrmAOKEZ8EsXp9xG+pPlk/Q6DnJ+ndDYMpTv7w9oTpkO2zikLthb0jgV7mF17gwfh1aauRwTeJCqUXTjHARhJZfAxGXcCreA5zPkorRoDW/99FUkqgeAMlYwMRmTSkgm2BpsrRUq7qF8tZRPwXTKMIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748435887; c=relaxed/simple;
-	bh=Q6eFNenEbUSMPvsXNE7r/lVO7A6gafRRqlJCsQalJhI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ucgleSmKTzT+sFDPiLjKNrqji97MxTjffQgv5AbHtEfYH6PKPO4NPfEm5JtmSw0HJFkzjplDG0vkLESaXvhtX5GJUdgazDC8CmMEVYXRG36LIK9i7cLVxgRQ9r4AlARn6F03dNkWK40zOcf9Y7UpuShGiXWPZFPNMRorfDmhHJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJSHP0KY; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1748435932; c=relaxed/simple;
+	bh=ju3RtnokbA7A2UpoirX5Uxklb3q8HutkwlYj/qhvN10=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s7ULpjJFRy1CPHnojIgoLGuaIoJ/i5Sdk0f6tOpvuqRXXdrUXr03BjLWOsMGvZc6K8n66NL/h7TAzqtdOoyRYBY0cLd1cm1xPOyUseNgDyMm4A+tzZD6bQP9Rtvm05drJgjpnlE0RRVRI3f9gVNdgsjLuzl3zh5fWz3KPUfa62k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uF8j5KT7; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJSHP0KY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748435885; x=1779971885;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q6eFNenEbUSMPvsXNE7r/lVO7A6gafRRqlJCsQalJhI=;
-  b=FJSHP0KYYC9bV61WLG8uDOhvlRY3rj27A/d5HUvIqyJGrqnZNX63fsDL
-   wuQR6OLQHh5F0HVh0gnKEeGOPa/yP4ptAfr6bD/CitXiFEnmygdBf1hap
-   rp4S4Cw8yKgwWOSFMbNgPMTh8D/agPJ2c/2IYbIIHb/lS6ZSJDbztwsZb
-   OG6l85YO2njFOQ1aUDWkUQ4xgiBScZlHncKSvW38dgTQ7ZyDYtLLA7aiU
-   hHtuEyceNZBm6jdL96l/5EmiTjlHyjkwZgvMMuLgtNQXAjWiHHiYnb9wu
-   pxII4T7rECPKLo+eXXmJwm1Syen7lfpNMe1T9qEyYgTUFbOMe6sL2ZsnA
-   Q==;
-X-CSE-ConnectionGUID: NBULMOtDTuiesg+2V9g7xw==
-X-CSE-MsgGUID: gVVamYWNSMOQKJD6XtGFuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="61515071"
-X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="61515071"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 05:38:05 -0700
-X-CSE-ConnectionGUID: dWG2Y8gcR9qAt78LRWW/gg==
-X-CSE-MsgGUID: EblxoR5XTA+d0Mjfjr1QFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,321,1739865600"; 
-   d="scan'208";a="147988445"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 May 2025 05:38:03 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uKG2i-000Vem-2d;
-	Wed, 28 May 2025 12:38:00 +0000
-Date: Wed, 28 May 2025 20:37:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Menglong Dong <menglong8.dong@gmail.com>, alexei.starovoitov@gmail.com,
-	rostedt@goodmis.org, jolsa@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	Menglong Dong <dongml2@chinatelecom.cn>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next 15/25] ftrace: factor out
- __unregister_ftrace_direct
-Message-ID: <202505282037.xt8RiXkG-lkp@intel.com>
-References: <20250528034712.138701-16-dongml2@chinatelecom.cn>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uF8j5KT7"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so50656115e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 May 2025 05:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748435928; x=1749040728; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Bmn+1O/aRx+WwdyfshbTtYQBtqZnfPAw0fwztmDmaHc=;
+        b=uF8j5KT7MJOCI+V4gR7VwtSsYJMb4OkQ8yt3lQ3RG/iomt8pIIaEKvDaI0mYxKXnKV
+         6foqSU85VQpMHUVZW4nbEHjXEyGVRA0+CoJQaidvMTmvuYu/4bW5iVATeimo9e/DEYmK
+         zt17PhLhWxdZESB8esHSSQT8fGk3ZqaiVNXuZfzWdbzUGwWhUbBMsFXSrVqPNGBTeDva
+         sHElJSoJItNqEUPTiDmm9k45eezHqILbug71PtKS56pgPrkOes87sav5gJVViYF8LmUy
+         dxUvzLqY62NTG587F1lH5YLR1L8/yJQgp2dlrMiv9YM+CQVsCY0zwUVAsR/jQl4yVSn2
+         6sAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748435928; x=1749040728;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bmn+1O/aRx+WwdyfshbTtYQBtqZnfPAw0fwztmDmaHc=;
+        b=AsVC2Ed/rH8RgdY/LYeQfENoAvg6Ja3GWG02BJl77vezjQTt6v0gMuDbGBkzV5i8Ow
+         zz6WTMb9LJMwmAP9Bua9vcUbbatwr2taL9ozWr0VpwSAVkgD2jrxcIqnNcCx6dfaGFTV
+         HA171KySRbdSO5c55VR0ZjVUqVQMh2KfNbKyZLtGK/YcOBOFyITZy8eYFbrzcQmhzkQW
+         NYxDxfDgcXicYyH0woAF6RHNxNE4/KBSVaL+4pBBfCspQH+NglRYpacmtmdZrxFanLlq
+         9zN8djcJ5Hw/xdq/gYpy7isQUupHAagUP/ik7tiYK6Otw/q9ja/MRokOJEEQE9F1OoxA
+         jR2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVPTWZMmSGLcKhOjudb70+fLCnREpvjaMz7Zaz4WmOcFw/MueoQENP8b10naRbe6+ynAh6kyMgZyxyCIL/q@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyb+U5OrWm5JUho1PyEBQE2Z2UNM4Pm9sDnGrW/Pp9dUSdnjoMJ
+	Uwiieq+kXr3ueQup/gbVwybQG9edwteBIrp99jB0PIN5PX5Sm2GkUv8wypSRbKPUISE=
+X-Gm-Gg: ASbGncvDrT8ERXu4D9fa1IIomXh1crGWFfInIqQQQHwTxkFymW/hB2rH1n5nSxB1Mcr
+	raSETdz/GSxDy9AOtUTXFoHWukpdCT/WNKExbMQZyF1E+jlAIoJNj6zQikwrasfKWY/YkrNtjLf
+	1y7nmq94MbormYzSEuedr8srVqwR6pN2r9RZ07M3f9itFk97gMOqC0y01UbMjqvpRDWVSa/fZEA
+	uXdjBkxerfrvjcAcSaCz6vZYFDnQQYDtjjWCJ+rXjRE3MiWQSK3Ih4bxfYbjXBUKx5PXCJuEQ/+
+	ynWfgMrSdFA/ekJA4bO/1v3YCt6T1jYQXRfnKcw6RFa2H+KFjJkLt55g
+X-Google-Smtp-Source: AGHT+IFm59x7f6pu6CLgOgMTUagz8wqklQWLZb6ivdMsWNTwKAex5w1y/Kl+UxsRtj4zRMUvrUEtYw==
+X-Received: by 2002:a05:6000:2313:b0:3a4:e67d:371b with SMTP id ffacd0b85a97d-3a4e67d376fmr3270561f8f.29.1748435928428;
+        Wed, 28 May 2025 05:38:48 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4eace3a76sm1377222f8f.98.2025.05.28.05.38.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 05:38:47 -0700 (PDT)
+Date: Wed, 28 May 2025 15:38:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jeff Layton <jlayton@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:rpc-numa 1/2] net/sunrpc/svc.c:761
+ svc_pool_wake_idle_thread() error: uninitialized symbol 'rqstp'.
+Message-ID: <202505282030.8lexZF9u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,44 +70,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250528034712.138701-16-dongml2@chinatelecom.cn>
 
-Hi Menglong,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/add-per-function-metadata-storage-support/20250528-115819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250528034712.138701-16-dongml2%40chinatelecom.cn
-patch subject: [PATCH bpf-next 15/25] ftrace: factor out __unregister_ftrace_direct
-config: sparc-randconfig-001-20250528 (https://download.01.org/0day-ci/archive/20250528/202505282037.xt8RiXkG-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505282037.xt8RiXkG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git rpc-numa
+head:   4fb548fc918eae3b330e50c56bae2a0b02b9b157
+commit: a0d4dce2778e63a6410a5606d50a17426a4251fd [1/2] sunrpc: new tracepoints around thread wakeups
+config: riscv-randconfig-r073-20250528 (https://download.01.org/0day-ci/archive/20250528/202505282030.8lexZF9u-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505282037.xt8RiXkG-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505282030.8lexZF9u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+net/sunrpc/svc.c:761 svc_pool_wake_idle_thread() error: uninitialized symbol 'rqstp'.
 
->> kernel/trace/ftrace.c:116:12: warning: '__unregister_ftrace_direct' declared 'static' but never defined [-Wunused-function]
-     116 | static int __unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long addr,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> kernel/trace/ftrace.c:6053: warning: expecting prototype for unregister_ftrace_direct(). Prototype was for __unregister_ftrace_direct() instead
+vim +/rqstp +761 net/sunrpc/svc.c
 
+2a4557452aacf9 NeilBrown   2023-07-31  740  void svc_pool_wake_idle_thread(struct svc_pool *pool)
+850bac3ae4a636 Chuck Lever 2023-07-10  741  {
+850bac3ae4a636 Chuck Lever 2023-07-10  742  	struct svc_rqst	*rqstp;
+9bd4161c591710 NeilBrown   2023-09-11  743  	struct llist_node *ln;
+850bac3ae4a636 Chuck Lever 2023-07-10  744  
+850bac3ae4a636 Chuck Lever 2023-07-10  745  	rcu_read_lock();
+5b80147e0c7018 NeilBrown   2023-09-11  746  	ln = READ_ONCE(pool->sp_idle_threads.first);
+9bd4161c591710 NeilBrown   2023-09-11  747  	if (ln) {
+9bd4161c591710 NeilBrown   2023-09-11  748  		rqstp = llist_entry(ln, struct svc_rqst, rq_idle);
+850bac3ae4a636 Chuck Lever 2023-07-10  749  		WRITE_ONCE(rqstp->rq_qtime, ktime_get());
+5b80147e0c7018 NeilBrown   2023-09-11  750  		if (!task_is_running(rqstp->rq_task)) {
+850bac3ae4a636 Chuck Lever 2023-07-10  751  			wake_up_process(rqstp->rq_task);
+a0d4dce2778e63 Jeff Layton 2025-05-27  752  			trace_svc_pool_thread_wake(pool, rqstp->rq_task->pid);
+5b80147e0c7018 NeilBrown   2023-09-11  753  			percpu_counter_inc(&pool->sp_threads_woken);
+a0d4dce2778e63 Jeff Layton 2025-05-27  754  		} else {
+a0d4dce2778e63 Jeff Layton 2025-05-27  755  			trace_svc_pool_thread_running(pool, rqstp->rq_task->pid);
+5b80147e0c7018 NeilBrown   2023-09-11  756  		}
+5b80147e0c7018 NeilBrown   2023-09-11  757  		rcu_read_unlock();
+2a4557452aacf9 NeilBrown   2023-07-31  758  		return;
+850bac3ae4a636 Chuck Lever 2023-07-10  759  	}
 
-vim +116 kernel/trace/ftrace.c
+ln is unintialized on else path.
 
-   114	
-   115	static void ftrace_update_trampoline(struct ftrace_ops *ops);
- > 116	static int __unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long addr,
-   117					      bool free_filters);
-   118	
+850bac3ae4a636 Chuck Lever 2023-07-10  760  	rcu_read_unlock();
+a0d4dce2778e63 Jeff Layton 2025-05-27 @761  	trace_svc_pool_thread_noidle(pool, rqstp->rq_task->pid);
+                                                                                   ^^^^^^^
+Dereference.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
