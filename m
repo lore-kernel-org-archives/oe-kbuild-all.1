@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8981A4E9D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 18:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD8B22F776
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 18:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748541651; cv=none; b=fGO2DUJghF6TTNmgN9La+ky7d6f+5ueJPUOgiZ2l64d0rrFu2z53WTJHhAhItBEHr2MVXC/klsD/56LncPx9NlvAjzt/ATPdlh9Ql4Y/LxPsjwD1u+amB+J6WvWCrtFp2B9HHsIaYTYIgbAh9ze3C4u3Ikarsumqk8A1RKJIUV4=
+	t=1748542845; cv=none; b=kfcKWI6Ejk+HCDiQ5DxLz26puOtL4rD9Gb5b2X3qouzSPJbAGKIZeSiEQsFaoIVvSvkgdGWgomSqNNVvDc2SCuPVAZ85LCYCIqBJTzBVRZ4NnXxpwMAi0Rno8AHkskoNB+w5Ez2cyhPwQnyX1d2RiQ6u1C8jn5ixFQe2jiaeMHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748541651; c=relaxed/simple;
-	bh=2BScaSoXpzwDAEUI/iw4F3ZwvW0/AWsXB3E9/5Nx000=;
+	s=arc-20240116; t=1748542845; c=relaxed/simple;
+	bh=+hvz/a3m11mkmjl7SwismqyjO76nlVePoXucrdxMwMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bskp0tTIUbxfxAKsMFWkgGgkkh7sTyhGCuvRmfJLgq/c8ulQbCnzo85v1WNA4gH/9hvYUc55GHIO70rvRJhQeS3ny9iXMzwPcNS8cu+R/iR+m2hu0G66iYZWHx4UBZETjKnIxnvGWcdiIwFx7LC/lBkPYPm7T0XfumEvger/b9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YcqP+2Ys; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=F7Byh9zA+Yv6d3iZmIf45xpacYhrJ7ZS+CRfV7rWdDO7v56mz881edcRRNmv2GnMFHC1Y4+pWmRO86i5ZeEblvqznOZyRhNGVGIsAGhiyqu6u0HQDcJjbaGm7lp9R3mVXGiX9s7wnCLReYZHyMh9sJbsm5sMTGTObtbLF4Rz55A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eqTCYeAk; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcqP+2Ys"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eqTCYeAk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748541650; x=1780077650;
+  t=1748542843; x=1780078843;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2BScaSoXpzwDAEUI/iw4F3ZwvW0/AWsXB3E9/5Nx000=;
-  b=YcqP+2YszKVMQoKDdAn2vH/Pn8YdhVm5gGI3+4Pw7tjRm9/zaofWZ5Cd
-   lFKM0O72fmccSLJ/vrnzdzSMx0q5kFk4W6c824P3BIpm366f4yG8CW9sl
-   0NnwNg0qceHySA8wsEqLQ2RsNSjrG3ZnWi+osdj+yzrFNQxIxj7H2UbM0
-   LaB6N/ELBId8YZjoSwzbT1CwHDkaaKw4omqzJtepo97e1PUDPKLWAhXvy
-   jKv2DxsoeX0kYv3wjlelip5GnsUT0ND0AxcM8WruWH9oyY93fsajNhM+P
-   GV6B01Eu/g4sNg/ZI1554ZxKDGny5DYOSAsHfbUBcMl/Zib3P1Ty9h9kV
+  bh=+hvz/a3m11mkmjl7SwismqyjO76nlVePoXucrdxMwMY=;
+  b=eqTCYeAkNZIXSX7LhsLQUqJ6gzuTKR76tRTeqBNAMKvRxlUTA/3ngrHQ
+   UU+0nQvUZ7kBYUxz/uSkWf3iZzjodAhPxweLMAcP+8sbGR5sAyvMRwOAo
+   ag7R1ZFucVF0xk6XnrmV3wJoKBwKydv1DryruMkQ1IuN9eJbzHkgIV9mC
+   CwCdGUgxYINY1upEhy4QLX3T55tTwE4eJFl1alSepNgAPHUTv/HUt9NiU
+   p6mQQzyV75Dqr9BxnoxgRtUKM7ct3jrYcvUphLYhLfPgKYsG/nmfS4RW1
+   89JoAp1YK8o9V4FbRjb0awxFIwzcgfK/tb0J8IslZzz4L3kga9u/tDkyM
    w==;
-X-CSE-ConnectionGUID: Jm7n4rywQnWikorqTKVKWQ==
-X-CSE-MsgGUID: D6krTAW4QjmrQjMresoc2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="73152839"
+X-CSE-ConnectionGUID: 8rVhiWZaSWuY9zd2FUrF3A==
+X-CSE-MsgGUID: xyTkcgBMQ36F8XjMsxBPKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="54420912"
 X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
-   d="scan'208";a="73152839"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 11:00:49 -0700
-X-CSE-ConnectionGUID: YtUiqIbURweJuGw3OIppkg==
-X-CSE-MsgGUID: 6tCpEaGzQ0iWnmLGQR6ZhQ==
+   d="scan'208";a="54420912"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 11:20:42 -0700
+X-CSE-ConnectionGUID: mNvQoD2hSpu9nyRNhK87NA==
+X-CSE-MsgGUID: 8/kAyZnyRjGHhjQkr+mfDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
-   d="scan'208";a="148790808"
+   d="scan'208";a="148426552"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 May 2025 11:00:42 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 May 2025 11:20:42 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKhYU-000Wy0-0E;
-	Thu, 29 May 2025 18:00:38 +0000
-Date: Fri, 30 May 2025 01:59:55 +0800
+	id 1uKhrr-000Wyc-1N;
+	Thu, 29 May 2025 18:20:39 +0000
+Date: Fri, 30 May 2025 02:20:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?J=2E_Neusch=E4fer?= <j.ne@posteo.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Subject: arch/powerpc/boot/dts/mpc8313erdb.dtb: timer@500 (fsl,mpc8313-gtm):
- 'clock-frequency' is a required property
-Message-ID: <202505300136.HOpO5P6y-lkp@intel.com>
+To: Matthias Fend <matthias.fend@emfend.at>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>
+Subject: [linux-next:master 12568/13944] ld.lld: error: undefined symbol:
+ v4l2_flash_release
+Message-ID: <202505300252.CfOCcEHg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,42 +62,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90b83efa6701656e02c86e7df2cb1765ea602d07
-commit: eb7bc6920153a7d025c0b0001d5a6462fe08034f dt-bindings: timer: Convert fsl,gtm to YAML
-date:   13 days ago
-config: powerpc-randconfig-051-20250529 (https://download.01.org/0day-ci/archive/20250530/202505300136.HOpO5P6y-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505300136.HOpO5P6y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2a628f951ed54c30a232230b5b58349d2a8dbb11
+commit: b338a2ae9b316df1d81b5289badcc8cbbbfe1b2b [12568/13944] leds: tps6131x: Add support for Texas Instruments TPS6131X flash LED driver
+config: hexagon-randconfig-r054-20250529 (https://download.01.org/0day-ci/archive/20250530/202505300252.CfOCcEHg-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505300252.CfOCcEHg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505300136.HOpO5P6y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505300252.CfOCcEHg-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: ethernet@24000 (gianfar): Unevaluated properties are not allowed ('sleep' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: ethernet@25000 (gianfar): Unevaluated properties are not allowed ('sleep' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: serial@4500 (fsl,ns16550): Unevaluated properties are not allowed ('cell-index', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: serial@4600 (fsl,ns16550): Unevaluated properties are not allowed ('cell-index', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8313-pmc', 'fsl,mpc8349-pmc']
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: /soc8313@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8313-pmc', 'fsl,mpc8349-pmc']
->> arch/powerpc/boot/dts/mpc8313erdb.dtb: timer@500 (fsl,mpc8313-gtm): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,gtm.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: timer@600 (fsl,mpc8313-gtm): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/timer/fsl,gtm.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: sleep-nexus (simple-bus): $nodename:0: 'sleep-nexus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: pci@e0008500 (fsl,mpc8349-pci): Unevaluated properties are not allowed ('cell-index' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,mpc8xxx-pci.yaml#
-   arch/powerpc/boot/dts/mpc8313erdb.dtb: dma@82a8 (fsl,mpc8313-dma): dma-channel@0:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8313-dma-channel', 'fsl,elo-dma-channel'] is too long
-   	'fsl,mpc8313-dma-channel' is not one of ['fsl,mpc8315-dma-channel', 'fsl,mpc8323-dma-channel', 'fsl,mpc8347-dma-channel', 'fsl,mpc8349-dma-channel', 'fsl,mpc8360-dma-channel', 'fsl,mpc8377-dma-channel', 'fsl,mpc8378-dma-channel', 'fsl,mpc8379-dma-channel']
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: v4l2_flash_release
+   >>> referenced by leds-tps6131x.c
+   >>>               drivers/leds/flash/leds-tps6131x.o:(tps6131x_remove) in archive vmlinux.a
+   >>> referenced by leds-tps6131x.c
+   >>>               drivers/leds/flash/leds-tps6131x.o:(tps6131x_remove) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: v4l2_flash_init
+   >>> referenced by leds-tps6131x.c
+   >>>               drivers/leds/flash/leds-tps6131x.o:(tps6131x_v4l2_setup) in archive vmlinux.a
+   >>> referenced by leds-tps6131x.c
+   >>>               drivers/leds/flash/leds-tps6131x.o:(tps6131x_v4l2_setup) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
