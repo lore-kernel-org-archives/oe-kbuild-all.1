@@ -1,125 +1,104 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA9C2566DF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 06:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79243C8EB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 07:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748500616; cv=none; b=e/te+uosgTeey9DirntqLqysGtixkR9h/NxuVRh4/MDlssCon3bU3nCQQs1Yi5KoEzeU2Omi7SnX5YXbA0idlud9sLDlgWPAm4G76Z0pt4DxVO8mYanmvjZVwQrf1jxNU4xKhu8gkr6ODC57NxJs2AvcGEQRcs5CWSq8cjsxHA8=
+	t=1748503785; cv=none; b=lW1IB61/NJMFCpygiwttcEUKcxQvunh1DO1u0ABoeoYubPAl3xxWirH6ZZgJpH9QXM5iHHdlfrWCrkgPHO1jnur6Cam/CeeO2Wo5qS8EoG/6ejX8iXiHoKQ4om3/JDEdz+bNHf2LCJhk2bHz3YgRWXSDwC/KyJ3uDIWa5d29vxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748500616; c=relaxed/simple;
-	bh=B3JaLtFtqu40LGnOcKtzZBziOjGYImFrUGlkaaAIyRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mOYDo81lZuvvHEykwqtRjueyjfcALKBdTtyuENaGizc0jiL+lFtoi8/sIxGYMjujCvPgP4n80MQx/SCgnPEM/qNsEl63+0FBFpGbzawZUVlVcbQi6co7rtj+mhiRj4v6ErxziG3H2GcJsBupKauMgcCmbDPbksvlTA7yzt+Dxr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1uKWse-00053S-PV; Thu, 29 May 2025 08:36:44 +0200
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1uKWsd-000iG1-35;
-	Thu, 29 May 2025 08:36:43 +0200
-Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 2F11A41BE59;
-	Thu, 29 May 2025 06:36:43 +0000 (UTC)
-Date: Thu, 29 May 2025 08:36:41 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-can@vger.kernel.org
-Subject: Re: [mkl-can-next:b4/can-xl 6/11]
- drivers/net/can/xilinx_can.c:518:7: error: call to undeclared function
- 'can_tdc_is_enabled'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <20250529-tactful-placid-bullfinch-e5e792-mkl@pengutronix.de>
-References: <202505291443.O21tBseZ-lkp@intel.com>
+	s=arc-20240116; t=1748503785; c=relaxed/simple;
+	bh=80K2xmvN47BEAENQV7j6iSo8iupPg8RrLXiMCl25eVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pNGQua7ItHOPV3MnL5BBnfW0l8DgRIlyHLhq4KPy5TWpWzZ0HUd/Bh5wJv9NlVXsOZkQZLe8guHjO+TSpcp6Ye1NJbzRbg2ubfr+Pat8NOxJGyFwnwtIrK7bOTx46g1UMmV/Zw7umUKdzUjasrpary9cxCQi9BtE1PvCpN8BN20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1sdmaJj; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1sdmaJj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748503784; x=1780039784;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=80K2xmvN47BEAENQV7j6iSo8iupPg8RrLXiMCl25eVk=;
+  b=D1sdmaJjIWeW3Ra61YFvuaVo/RRRBq3gm+DQ+fUUMoJpohxFfoI6y3ih
+   yIng7+1bnYrl4dzrxrfDiy8FnFs5bIjpiumo3qbRbf+7NyNn4UEXibkRL
+   dO6PMRtSr/kqHfNSmCgZkTisYoTReONygg9gldk4HqiYQo/AYBzfpX0Tk
+   B+40FQwRRlty7RsZlr96GGLRrnsVVmBg1aY2mq51+kFreIzDLWgAI3PbU
+   2pwnZnr/4gSKtHE5usUuA0BoqnPfjM2dJWUOPbzmDuOpQt7BYDqKCtXKU
+   E9cgUcD0ieqkg/QNMKa4Btm0vgNdqluooIjcwgVIPQRPH3YJ6ZGWFG1mN
+   A==;
+X-CSE-ConnectionGUID: kzcZwseDSSGavKDLHm3UJA==
+X-CSE-MsgGUID: cXV+Ub30TmywtSzRuWOioQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="60813742"
+X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
+   d="scan'208";a="60813742"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 00:29:44 -0700
+X-CSE-ConnectionGUID: OiKz5AjLQ1eC1iLPIP4Npw==
+X-CSE-MsgGUID: PMnZAiA4SSqF0aCOYz31nA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
+   d="scan'208";a="143504663"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 29 May 2025 00:29:43 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uKXhs-000WQq-09;
+	Thu, 29 May 2025 07:29:40 +0000
+Date: Thu, 29 May 2025 15:28:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Martin KaFai Lau <martin.lau@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Martin KaFai Lau <martin.lau@linux.dev>
+Subject: [martin-lau-bpf-next:sk_storage.inline.v1 1/1] net/core/sock.c:
+ net/bpf_sk_storage.h is included more than once.
+Message-ID: <202505291532.AGLTUoUn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6sjjnrsshstua36b"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202505291443.O21tBseZ-lkp@intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/martin.lau/bpf-next.git sk_storage.inline.v1
+head:   5b7437eee884fb452d5e1eaeefc648cccb39e0ef
+commit: 5b7437eee884fb452d5e1eaeefc648cccb39e0ef [1/1] [DONT PUSH]: WIP bpf local storage reserve
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
---6sjjnrsshstua36b
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [mkl-can-next:b4/can-xl 6/11]
- drivers/net/can/xilinx_can.c:518:7: error: call to undeclared function
- 'can_tdc_is_enabled'; ISO C99 and later do not support implicit function
- declarations
-MIME-Version: 1.0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505291532.AGLTUoUn-lkp@intel.com/
 
-On 29.05.2025 14:15:06, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-nex=
-t.git b4/can-xl
-> head:   7861c36608b1d1f26b010a9c465c048137d9d156
-> commit: 48f48b8238cc98e533eaeda03271a101ccdac359 [6/11] can: netlink: add=
- CAN XL support
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/202=
-50529/202505291443.O21tBseZ-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
-708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250529/202505291443.O21tBseZ-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505291443.O21tBseZ-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
-> >> drivers/net/can/xilinx_can.c:518:7: error: call to undeclared function=
- 'can_tdc_is_enabled'; ISO C99 and later do not support implicit function d=
-eclarations [-Wimplicit-function-declaration]
->      518 |                 if (can_tdc_is_enabled(&priv->can)) {
->          |                     ^
+includecheck warnings: (new ones prefixed by >>)
+>> net/core/sock.c: net/bpf_sk_storage.h is included more than once.
 
-Good bot! Fixed.
+vim +138 net/core/sock.c
 
-Marc
+   123	
+   124	#include <linux/netdevice.h>
+   125	#include <net/protocol.h>
+   126	#include <linux/skbuff.h>
+   127	#include <linux/skbuff_ref.h>
+   128	#include <net/net_namespace.h>
+   129	#include <net/request_sock.h>
+   130	#include <net/sock.h>
+   131	#include <net/proto_memory.h>
+   132	#include <linux/net_tstamp.h>
+   133	#include <net/xfrm.h>
+   134	#include <linux/ipsec.h>
+   135	#include <net/cls_cgroup.h>
+   136	#include <net/netprio_cgroup.h>
+   137	#include <linux/sock_diag.h>
+ > 138	#include <net/bpf_sk_storage.h>
+   139	
+   140	#include <linux/filter.h>
+   141	#include <net/sock_reuseport.h>
+ > 142	#include <net/bpf_sk_storage.h>
+   143	
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---6sjjnrsshstua36b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmg4AHYACgkQDHRl3/mQ
-kZw+WggAlQUVs6jJjVer7DADb/otS6dO2Z6g15x+532y0FySPB4Lczrp8gcjkAYD
-Db8A58d7loL0PDqncIF2gXk/+biJ1su+fOrloqJ7XdlbwTsXSfZwwmzEULzaN45K
-yxNyqT9vRrTfXAZswfDCGJMUd3aGOCKLq24m0MYv80hwbgdWWXWPmouPzd95AuT/
-c5x2VbnvkNR7AAv7R2hBLK4Gto/NXBWGDHrlM+pQeALmKi6GPuIC8Pnv+g3gyViT
-tN0fN9hTD7pxSZKMnCQoxeAUbL4dSQK+Sc2sUkski27pvQ9ua5M30QMUORmAdf50
-z9pSdmTDWuSfrIecZfYaUTEiIC6Qbw==
-=3WNM
------END PGP SIGNATURE-----
-
---6sjjnrsshstua36b--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
