@@ -1,70 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEE5230273
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 18:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FE24C9D;
+	Thu, 29 May 2025 18:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748542849; cv=none; b=ldvimEGxO/vwAS2xhbV/GtD8u/TFRhDoSpudHdHVJiDmTAHcCIijOZ6aZM/O1oAZuvn45U27F5+d+JfqPMBty/YAStUZI9s7qX9flcLDx/QTgkD+UJc/baChLn6mpZMtcMKpkWhiyE4xSC72pLEp254m/fIjGFhqV5fdvC/xPYo=
+	t=1748543507; cv=none; b=UDcGpsUrdbZDLsAmIod/xl/gp7CG9bG9YhgohQ6+KWuKxnntH1MdWoMF1RtiUpBSMTKIKpaMYtJh+iIsb8gEglxD8PuuMf5/7ByTT6jIrf2bO510vx2R1tfuOePRqLo7dv81v5aNFYAIisCsmqkFrnJJp5dWoBKVOnDk+8cy1/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748542849; c=relaxed/simple;
-	bh=GrYdPthuuV4voe6ZYw1AGGyhQX9V5TzLF3ORYCvQhnA=;
+	s=arc-20240116; t=1748543507; c=relaxed/simple;
+	bh=tvdb9zj58cvDAS6PCxKYpi5glIKRt4zKu2kRcZVy9DQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oFB4bYEiQ7N/8qQq5rkFz66LOjvz1JIUc1NVh2yKU2ovep9LqAdDIuBmkuOo9k2hieDyCp1vPa5XTRKZfc6B3OOec7uF56wLUYgTO4+aIftbDr/fnZjc5qqOyLhYZhBh2yKBDaA3T7c6Eamuc0GVKSBNJvJdBmAT/BUYLgcN0Z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FblRZD3W; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=haB4F+/pySYPtvptMGCGkY0NuSRa5der7TPpD3CkaQ6EvKxKPbZFib50vDKX9F4PQRsjdyM/4iIwIvSvYhDf3jXsUd+Y+048GI0iL7YM+iZHxwGWCPEYdMuOQFK/PcIHNOJneY6EHBVFKEB0lSGTEe9/5i07MiRthnMDUtaxj64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fiZMtIuU; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FblRZD3W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fiZMtIuU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748542848; x=1780078848;
+  t=1748543507; x=1780079507;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GrYdPthuuV4voe6ZYw1AGGyhQX9V5TzLF3ORYCvQhnA=;
-  b=FblRZD3WHWW3z+0BM39HDBfQUzQYBTzOKiONIP9wwWAxqdxiVbAL1spa
-   OyC5QDRXiTmX/d+v8LSJ7h7BtS1YtBCo4XWCoJwjpj8c/KwVDDrMKLycO
-   So9ug5Js88FYyhuUT3kbbrX8XZu2dMJdLar+Fb3+AVjG4AmtXD0Li8hhF
-   JZjnwuIfZuImGaP+z3wQMN97UoYJjW9gQ8NykYDpoalSE+Q9ORo9DGO85
-   NlAho+SqZb0v88IhJrP3e7jPr8L7so5lFB2p+ByN+mRzb6f80zR0C3Ltz
-   brL74gPwcEc7hteTozIzN0SZRHim8RpZJj9clNwdpZiuJy1LaCFQq4iLL
+  bh=tvdb9zj58cvDAS6PCxKYpi5glIKRt4zKu2kRcZVy9DQ=;
+  b=fiZMtIuUAgKTAU+2dTe4YGP6XcXKtGy2hMhBJxrY4SXWRSlnsgGrdBoj
+   FowGOaVgRmqeK/XyqUp0zj/8jXu4ffa+Or4JbnB9brsbaV59GLxUcPicP
+   J0yG9F/yieFrwv9VvrgzYBoTetEY3VPehoni7bgJsGzQ3wqbs/kQwWh1Y
+   jqJVZu5qRYTq68MKv+PetG6v+xgdcj5SOaioic/IVfT0I6zZYgU6ynGDe
+   GphrDmM0AAAq6cax7WgFsqKBcKIGuQ9kCoE2inLi3mBsJJyWWMqiX0+S+
+   t+fzFzuMoqUYNH21H4vZ8wxRhshrMGJOquXPiCWk1myAc5rj1v1npzi3A
    g==;
-X-CSE-ConnectionGUID: yXZG59EWSqyhkVZA1ByTiA==
-X-CSE-MsgGUID: UAdz/Po2R/KzBWCkxk1bRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="50724871"
+X-CSE-ConnectionGUID: HG5Xd/WUQYODn6sa3ag+/Q==
+X-CSE-MsgGUID: r1651gf6RvmBe6fFcZdHqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="50769475"
 X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
-   d="scan'208";a="50724871"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 11:20:47 -0700
-X-CSE-ConnectionGUID: 3nNr2650ReKeeInqckBaSw==
-X-CSE-MsgGUID: s+hh8iSeQZGl5OUH0OMUlw==
+   d="scan'208";a="50769475"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 11:31:46 -0700
+X-CSE-ConnectionGUID: bRKXYJWESgqIGlos4DB4sA==
+X-CSE-MsgGUID: 68CCrVNmQRKAO7a4zuL43Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
-   d="scan'208";a="148795686"
+   d="scan'208";a="143472020"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 May 2025 11:20:41 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 May 2025 11:31:42 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKhrr-000Wya-1G;
-	Thu, 29 May 2025 18:20:39 +0000
-Date: Fri, 30 May 2025 02:20:28 +0800
+	id 1uKi2W-000Wz6-14;
+	Thu, 29 May 2025 18:31:40 +0000
+Date: Fri, 30 May 2025 02:30:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jayesh Choudhary <j-choudhary@ti.com>, dianders@chromium.org,
-	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
-	dri-devel@lists.freedesktop.org, tomi.valkeinen@ideasonboard.com,
-	andyshrk@163.com
-Cc: oe-kbuild-all@lists.linux.dev, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, lumag@kernel.org, lyude@redhat.com,
-	andy.yan@rock-chips.com, mordan@ispras.ru, linux@treblig.org,
-	viro@zeniv.linux.org.uk, a-bhatia1@ti.com, javierm@redhat.com,
-	linux-kernel@vger.kernel.org, devarsht@ti.com, j-choudhary@ti.com
-Subject: Re: [PATCH v3 1/5] drm/bridge: cadence: cdns-mhdp8546-core: Remove
- legacy support for connector initialisation in bridge
-Message-ID: <202505300201.2s6r12yc-lkp@intel.com>
-References: <20250529142517.188786-2-j-choudhary@ti.com>
+To: Frank Li <Frank.Li@nxp.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] dt-bindings: display: convert himax, hx8357d.txt to
+ yaml format
+Message-ID: <202505300219.7v1CVviw-lkp@intel.com>
+References: <20250529164822.777908-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,54 +73,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250529142517.188786-2-j-choudhary@ti.com>
+In-Reply-To: <20250529164822.777908-1-Frank.Li@nxp.com>
 
-Hi Jayesh,
+Hi Frank,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-exynos/exynos-drm-next]
+[auto build test WARNING on robh/for-next]
 [also build test WARNING on linus/master v6.15 next-20250529]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jayesh-Choudhary/drm-bridge-cadence-cdns-mhdp8546-core-Remove-legacy-support-for-connector-initialisation-in-bridge/20250529-222734
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250529142517.188786-2-j-choudhary%40ti.com
-patch subject: [PATCH v3 1/5] drm/bridge: cadence: cdns-mhdp8546-core: Remove legacy support for connector initialisation in bridge
-config: riscv-randconfig-002-20250530 (https://download.01.org/0day-ci/archive/20250530/202505300201.2s6r12yc-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505300201.2s6r12yc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-display-convert-himax-hx8357d-txt-to-yaml-format/20250530-004954
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250529164822.777908-1-Frank.Li%40nxp.com
+patch subject: [PATCH 1/1] dt-bindings: display: convert himax, hx8357d.txt to yaml format
+reproduce: (https://download.01.org/0day-ci/archive/20250530/202505300219.7v1CVviw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505300201.2s6r12yc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505300219.7v1CVviw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c: In function 'cdns_mhdp_hpd_work':
->> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2210:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    2210 |  int ret;
-         |      ^~~
-
-
-vim +/ret +2210 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2204  
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2205  static void cdns_mhdp_hpd_work(struct work_struct *work)
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2206  {
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2207  	struct cdns_mhdp_device *mhdp = container_of(work,
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2208  						     struct cdns_mhdp_device,
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2209  						     hpd_work);
-6a3608eae6d33a Parshuram Thombare 2021-04-10 @2210  	int ret;
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2211  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2212  	ret = cdns_mhdp_update_link_status(mhdp);
-f25484d2ec5e5a Jayesh Choudhary   2025-05-29  2213  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2214  	drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2215  }
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2216  
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/himax,hx8357d.txt
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
