@@ -1,160 +1,142 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1766121A92F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 14:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6701D6DC5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 15:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748528562; cv=none; b=OZrkR9/VGRtzRoLut1W3brgS+LfimX1nelvxck3mFkNo3WEhAM7TYwfObl9Z5hlytZ5pDbgrsn+DjAIAZ/+dBEcubKJkug09sMEGpZo+s47rG6Sj+Jh8jKzXmbWMQ8lrnAFAPrVdFA2lKU0LJIRI3hmHNZcvcunC1FabIDS0o2w=
+	t=1748531133; cv=none; b=R7Ittmhv3hEefi+x4OJajbgCaCb8jLKiP/+WuxQ2Ymcqli3eMnYL0w25fC29hVbLEyVze7YvSUomMan5PxCgjz0HfYlFKMIQy3NOmoCjqEfF2pz73Mw4AsfXONHann9sxWKTV/C4+1hxNNR9XmXHP3BkYvgeqdKtMlHfuaWv+8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748528562; c=relaxed/simple;
-	bh=SJeJDn0eb10YU45ltQlXDHBzhwugvkDPZfzcXcshxjo=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=o+u5djsoJOJ6c1NvuZEZ1X4uOYLzLf824Rl5FADrsxERqh9DlNMUZKvQ97uRcaiPru8PofGbeKmTreESpB+FyWgNIYmnKaYtgHz2Y6xl61Wbw5zKXR7ZOED5srxXGnk1tJR+TSeutrMnTr2KMBA/Ir1l5hSpi4it6511p0YitQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=be84Z0qb; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1748531133; c=relaxed/simple;
+	bh=S2kKEOrydWMz6ngpURpxYC/wsqCkoDvEdaHjRnS2fyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=axaYrSloZZWdx2pqW9gDMF225bUpfcvpuS7hnav7NFvIdtE11m9prMkFxZDG+9nYo5lpG1E9GDrABV1jq5RgGoe9ikfdeiaUgPtIwm2kpV+K5mB1jrMIUxMeiP7TZv54EbpqohnHDJqr1XCMBb8pVJgMZkJKxcCccBhL67z12MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fRMDjLAq; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="be84Z0qb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748528559;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tOfUOHsT5A2N3sIIw2kS94sCl5daw9Gv4uw0XwOhtn0=;
-	b=be84Z0qbnZ2n4ybegvNev1mpETzfKo49aUxtc32Sv8pJV0A5i0gmLnCNZb9hzEy5DQTzfc
-	/uCX55seoBxrUR7Pllt0SljSmKV7n6UY/pschT62U2IIyxHs4qdZGfRPGZ+ba8EwVJ0OT+
-	vyNDqmCP2uXKmBq4ciFpBecI9FrPXBE=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-110-QToTBfK4ME6BckVAbmEjKg-1; Thu,
- 29 May 2025 10:22:36 -0400
-X-MC-Unique: QToTBfK4ME6BckVAbmEjKg-1
-X-Mimecast-MFC-AGG-ID: QToTBfK4ME6BckVAbmEjKg_1748528555
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A14771956095;
-	Thu, 29 May 2025 14:22:35 +0000 (UTC)
-Received: from [10.22.80.20] (unknown [10.22.80.20])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D3A1F1955D88;
-	Thu, 29 May 2025 14:22:33 +0000 (UTC)
-Date: Thu, 29 May 2025 16:22:29 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-cc: oe-kbuild@lists.linux.dev, Benjamin Marzinski <bmarzins@redhat.com>, 
-    lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 10969/12618] drivers/md/dm-mpath.c:2104
- probe_active_paths() warn: mixing irqsave and irq
-In-Reply-To: <202505221209.UJOI2rXT-lkp@intel.com>
-Message-ID: <440f7ce7-da6a-da3d-b314-aaf4525c0a4d@redhat.com>
-References: <202505221209.UJOI2rXT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fRMDjLAq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748531131; x=1780067131;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S2kKEOrydWMz6ngpURpxYC/wsqCkoDvEdaHjRnS2fyM=;
+  b=fRMDjLAqi60GBUQ/Su5H85gbCaiv8Q+BdS//dESWr+j0dpGi7R4Merci
+   67qhC0A+mIrZbp8qRo1xQMQr4Zyzo721iAtaNyv/sik5VebKR3WmmzuZE
+   IO+v7IHsGaUtcYKwY9i08F8fTrtEGy6Nhpi+7q0bc4C803sfiiaHo5U2b
+   LDCBVHl5xfKPf5BoF6d+n8+udKGfPVnDsZ45ukOQz6+V/shBzKXpTlR0s
+   WgoxQwa/s0aXJQbit6Ebb9VbbrYUSrQ6HkE+L83cvIBK91FaMhP5M86Vn
+   1f41EHJtyeSX7fkxa9lED179IIHjTXFo67t7rBXfsco40PWGPanpe/IAA
+   A==;
+X-CSE-ConnectionGUID: xsqH3vDFQsmV0VyJiBDYjQ==
+X-CSE-MsgGUID: abg0rKDcRMWbWnMCYGCtFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="54403263"
+X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
+   d="scan'208";a="54403263"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 08:04:26 -0700
+X-CSE-ConnectionGUID: s8QOdOCcQhyLYEWtbjceFg==
+X-CSE-MsgGUID: jX3ULlzbSfK6ISMXV4T3Dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
+   d="scan'208";a="144570745"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 29 May 2025 08:04:23 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uKent-000Wnc-0w;
+	Thu, 29 May 2025 15:04:21 +0000
+Date: Thu, 29 May 2025 23:03:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Riana Tauro <riana.tauro@intel.com>
+Subject: drivers/gpu/drm/xe/xe_device_sysfs.c:118:66-71: WARNING: conversion
+ to bool not needed here
+Message-ID: <202505292205.MoljmkjQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: IxhIAeLjQ2XezPQP6v4-JsbvsuTKWbFVQIuilXxqQCw_1748528555
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   90b83efa6701656e02c86e7df2cb1765ea602d07
+commit: 0e414bf7ad012e55c8a0aa4e91f68cb1cf5801ff drm/xe: Expose PCIe link downgrade attributes
+date:   3 weeks ago
+config: loongarch-randconfig-r053-20250529 (https://download.01.org/0day-ci/archive/20250529/202505292205.MoljmkjQ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
-This was already fixed in the commit 
-050a3e71ce24c6f18d70679d68056f76375ff51c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505292205.MoljmkjQ-lkp@intel.com/
 
-Mikulas
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_device_sysfs.c:118:66-71: WARNING: conversion to bool not needed here
 
-On Fri, 23 May 2025, Dan Carpenter wrote:
+vim +118 drivers/gpu/drm/xe/xe_device_sysfs.c
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   7bac2c97af4078d7a627500c9bcdd5b033f97718
-> commit: 5c977f1023156938915c57d362fddde8fad2b052 [10969/12618] dm-mpath: Don't grab work_mutex while probing paths
-> config: i386-randconfig-141-20250521 (https://download.01.org/0day-ci/archive/20250522/202505221209.UJOI2rXT-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202505221209.UJOI2rXT-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/md/dm-mpath.c:2104 probe_active_paths() warn: mixing irqsave and irq
-> 
-> vim +2104 drivers/md/dm-mpath.c
-> 
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2095  static int probe_active_paths(struct multipath *m)
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2096  {
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2097  	struct pgpath *pgpath;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2098  	struct priority_group *pg = NULL;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2099  	unsigned long flags;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2100  	int r = 0;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2101  
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2102  	spin_lock_irqsave(&m->lock, flags);
-> 
-> _irqsave() is for if we don't know if the caller has disabled IRQs or
-> not.
-> 
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2103  	if (test_bit(MPATHF_DELAY_PG_SWITCH, &m->flags)) {
-> 5c977f10231569 Benjamin Marzinski 2025-05-15 @2104  		wait_event_lock_irq(m->probe_wait,
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2105  				    !test_bit(MPATHF_DELAY_PG_SWITCH, &m->flags),
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2106  				    m->lock);
-> 
-> The wait_event_lock_irq() macro calls spin_unlock_irq(), so hopefully
-> none of the callers of probe_active_paths() actually relied on having
-> IRQs disabled.
-> 
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2107  		/*
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2108  		 * if we waited because a probe was already in progress,
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2109  		 * and it probed the current active pathgroup, don't
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2110  		 * reprobe. Just return the number of valid paths
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2111  		 */
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2112  		if (m->current_pg == m->last_probed_pg)
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2113  			goto skip_probe;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2114  	}
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2115  	if (!m->current_pg || m->is_suspending ||
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2116  	    test_bit(MPATHF_QUEUE_IO, &m->flags))
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2117  		goto skip_probe;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2118  	set_bit(MPATHF_DELAY_PG_SWITCH, &m->flags);
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2119  	pg = m->last_probed_pg = m->current_pg;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2120  	spin_unlock_irqrestore(&m->lock, flags);
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2121  
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2122  	list_for_each_entry(pgpath, &pg->pgpaths, list) {
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2123  		if (pg != READ_ONCE(m->current_pg) ||
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2124  		    READ_ONCE(m->is_suspending))
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2125  			goto out;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2126  		if (!pgpath->is_active)
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2127  			continue;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2128  
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2129  		r = probe_path(pgpath);
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2130  		if (r < 0)
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2131  			goto out;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2132  	}
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2133  
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2134  out:
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2135  	spin_lock_irqsave(&m->lock, flags);
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2136  	clear_bit(MPATHF_DELAY_PG_SWITCH, &m->flags);
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2137  	if (test_and_clear_bit(MPATHF_NEED_PG_SWITCH, &m->flags)) {
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2138  		m->current_pgpath = NULL;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2139  		m->current_pg = NULL;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2140  	}
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2141  skip_probe:
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2142  	if (r == 0 && !atomic_read(&m->nr_valid_paths))
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2143  		r = -ENOTCONN;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2144  	spin_unlock_irqrestore(&m->lock, flags);
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2145  	if (pg)
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2146  		wake_up(&m->probe_wait);
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2147  	return r;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2148  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+    67	
+    68	/**
+    69	 * DOC: PCIe Gen5 Limitations
+    70	 *
+    71	 * Default link speed of discrete GPUs is determined by configuration parameters
+    72	 * stored in their flash memory, which are subject to override through user
+    73	 * initiated firmware updates. It has been observed that devices configured with
+    74	 * PCIe Gen5 as their default link speed can come across link quality issues due
+    75	 * to host or motherboard limitations and may have to auto-downgrade their link
+    76	 * to PCIe Gen4 speed when faced with unstable link at Gen5, which makes
+    77	 * firmware updates rather risky on such setups. It is required to ensure that
+    78	 * the device is capable of auto-downgrading its link to PCIe Gen4 speed before
+    79	 * pushing the firmware image with PCIe Gen5 as default configuration. This can
+    80	 * be done by reading ``auto_link_downgrade_capable`` sysfs entry, which will
+    81	 * denote if the device is capable of auto-downgrading its link to PCIe Gen4
+    82	 * speed with boolean output value of ``0`` or ``1``, meaning `incapable` or
+    83	 * `capable` respectively.
+    84	 *
+    85	 * .. code-block:: shell
+    86	 *
+    87	 *    $ cat /sys/bus/pci/devices/<bdf>/auto_link_downgrade_capable
+    88	 *
+    89	 * Pushing the firmware image with PCIe Gen5 as default configuration on a auto
+    90	 * link downgrade incapable device and facing link instability due to host or
+    91	 * motherboard limitations can result in driver failing to bind to the device,
+    92	 * making further firmware updates impossible with RMA being the only last
+    93	 * resort.
+    94	 *
+    95	 * Link downgrade status of auto link downgrade capable devices is available
+    96	 * through ``auto_link_downgrade_status`` sysfs entry with boolean output value
+    97	 * of ``0`` or ``1``, where ``0`` means no auto-downgrading was required during
+    98	 * link training (which is the optimal scenario) and ``1`` means the device has
+    99	 * auto-downgraded its link to PCIe Gen4 speed due to unstable Gen5 link.
+   100	 *
+   101	 * .. code-block:: shell
+   102	 *
+   103	 *    $ cat /sys/bus/pci/devices/<bdf>/auto_link_downgrade_status
+   104	 */
+   105	
+   106	static ssize_t
+   107	auto_link_downgrade_capable_show(struct device *dev, struct device_attribute *attr, char *buf)
+   108	{
+   109		struct pci_dev *pdev = to_pci_dev(dev);
+   110		struct xe_device *xe = pdev_to_xe_device(pdev);
+   111		u32 cap, val;
+   112	
+   113		xe_pm_runtime_get(xe);
+   114		val = xe_mmio_read32(xe_root_tile_mmio(xe), BMG_PCIE_CAP);
+   115		xe_pm_runtime_put(xe);
+   116	
+   117		cap = REG_FIELD_GET(LINK_DOWNGRADE, val);
+ > 118		return sysfs_emit(buf, "%u\n", cap == DOWNGRADE_CAPABLE ? true : false);
+   119	}
+   120	static DEVICE_ATTR_ADMIN_RO(auto_link_downgrade_capable);
+   121	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
