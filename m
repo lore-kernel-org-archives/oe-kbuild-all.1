@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EC321770B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 09:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F22721B9FE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 09:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748509317; cv=none; b=DH1xISAB/mQpH6WdFms7qFh/zq5uRw1D4qBoZeywQRjDcVEdrGY8Cp5AXBc0pzWV0B23L+KJYBCd3tY/IdCWykxYY3QVDafdZbPQiySF/1h1rnH5/lZ+ufmx9bV068t7/U9ePX5qzgq2C//zRUf6UZ6vSDwed43oVI3lg3dD+3s=
+	t=1748510578; cv=none; b=btuOd07/WS+QeJeUG6QtspmaScgCTW8V4dlmsSWhPvhSk0AwiPIKCGA7kwDzUZMqUQPRP/dO8+tJfnW2fE2J3bfopkEN1+z6yExGGNFCAfLUT0wpSea43H/446ujVuvVo2FQJXMu4d3566nK9vqHSiKdMqw+VOs8mY1P0k3XPPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748509317; c=relaxed/simple;
-	bh=uDyFhHrJMQ3DA75C8NhvmC8nT5htnOC/HW4+jrk8ycU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fgZc2oaetT93RodR766v7Qqot985LPGgcakbv5jLtjIadBAPgogp3kYanff6xYEb3VSeGyC9WcBxaCIrldze0vYlqndv19fzHR3WX0CDOOHthzvzRT30NgEnmykFw6bI0E5doKokCJfvTNflD7l0QL8azAtykcWy0ZrId9Y6Ano=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CU7WNWhR; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1748510578; c=relaxed/simple;
+	bh=i3CAwiCoEjbFznMoQgq/hG6fd2mUML8gqX6vftdQ8DM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GJm+OhHFpRn/4eB1bc5+xioCnSPasKLDgFmjyusvw3c8rwLr8ClSdmw6FYo4UADMZxRSqO9SNbmwQMmOOppgXZCUlrruO7/nYop/Gkue2+Ze+pgDpopvxHbLp3Ryvqmqw+Wvx5FVdM5lnBJmjpxqbMMpVP/itSL4dwEuTMYZPtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHl4OHCJ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CU7WNWhR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHl4OHCJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748509315; x=1780045315;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uDyFhHrJMQ3DA75C8NhvmC8nT5htnOC/HW4+jrk8ycU=;
-  b=CU7WNWhRSuJVVzguMGh+jwTzM9aXLijSsK9di1rfGLBX2HNDgKMnqTE1
-   5dkgqwSTkRJPGO8RxeRGoAkKCo1U3vBtyANfE8FQ/gHJWFTP34/61BMLN
-   I7LKGyd51rGa51Pf587fC8icRwNPEwdRj0QQQTXQqFn5PAyLGxlMwBklG
-   oKWP5pOkgEEeInOk7R1co8yIkAKnc3rMvy9sgYo1brWELqUV2UlsPP6MG
-   KV2kf8Xk7LlF3sNbMPFCvdxPFtjFsrEGwKln/vrUyH8ulBK83woLf658z
-   q8BWtUcWzkwVx4vsCcqWcpqk7TtmJ1RVEa++Sz7Z9GNTDb57oewN/ytwl
-   w==;
-X-CSE-ConnectionGUID: dOd5SEBzSmKU9A3pII8WRQ==
-X-CSE-MsgGUID: q32uCTABSxCNdPXWeDr4gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="50259822"
+  t=1748510576; x=1780046576;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=i3CAwiCoEjbFznMoQgq/hG6fd2mUML8gqX6vftdQ8DM=;
+  b=dHl4OHCJt0E+iRoAOfPhRtCeCmII7MubxSpoJd9LmVh15KNXAhM0R4qr
+   xrAWPBmeBDS7qyvZcwkPWUCXCdSrRDuuYz4B4Z0bDTTYqg2jqw6AA5d9d
+   homDscqP4Mzx3nb8owuchnEe21lllK+B9JcM9i3lMKrt2/+w+qTvRzof+
+   3o0oEDQjkjjhz6Hfvc7+vDRiqu0Zg611+O3sU/u6+0MsJqFJf6jA0qY3T
+   IfFCi1BTHpJnBPyjSSFgfNNINxrhGT9wawKozUbBkepW5AV+PODYA4Krv
+   5s4T1j25L9XnhC3udqI7JWXq42hb3NUhSXLGzTTvOIiqhLaVmQ77Cfsy8
+   A==;
+X-CSE-ConnectionGUID: 550tNkjjRweOyQXg41sopw==
+X-CSE-MsgGUID: T2UVW7kcT3S21IGpQD3INw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="54361427"
 X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
-   d="scan'208";a="50259822"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 02:01:54 -0700
-X-CSE-ConnectionGUID: DKqkQhCCRVKEQJP21n79NQ==
-X-CSE-MsgGUID: Eky3ZLaIQ9KoZ7qVyNqzaA==
+   d="scan'208";a="54361427"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 02:22:55 -0700
+X-CSE-ConnectionGUID: 7upNn49tQPG7cPBFS1RClw==
+X-CSE-MsgGUID: dtQC3ucUR0CdobThUdO6iQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
-   d="scan'208";a="143836185"
+   d="scan'208";a="143475369"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 May 2025 02:01:50 -0700
+  by orviesa010.jf.intel.com with ESMTP; 29 May 2025 02:22:53 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKZ92-000WVi-2G;
-	Thu, 29 May 2025 09:01:48 +0000
-Date: Thu, 29 May 2025 17:01:23 +0800
+	id 1uKZTO-000WWm-2F;
+	Thu, 29 May 2025 09:22:50 +0000
+Date: Thu, 29 May 2025 17:21:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2331/2331]
- drivers/crypto/ccp/hygon/vpsp.c:588:10: sparse: sparse: symbol
- 'allow_default_vid' was not declared. Should it be static?
-Message-ID: <202505291615.pbSUmoIC-lkp@intel.com>
+To: Dharma Balasubiramani <dharma.b@microchip.com>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	William Breathitt Gray <wbg@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dharma Balasubiramani <dharma.b@microchip.com>
+Subject: Re: [PATCH 2/2] counter: microchip-tcb-capture: Add DMA support for
+ TC_RAB register reads
+Message-ID: <202505291723.WYIWqmvP-lkp@intel.com>
+References: <20250528-mchp-tcb-dma-v1-2-083a41fb7b51@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,39 +70,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250528-mchp-tcb-dma-v1-2-083a41fb7b51@microchip.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   d6c09e6ce9d7651c2136ae254cbc3c9845fd0317
-commit: e2861aaa47961017ada7f66de11104bbf3b85eb1 [2331/2331] crypto: ccp: move vpsp-related functions to vpsp.c
-config: x86_64-randconfig-121-20250529 (https://download.01.org/0day-ci/archive/20250529/202505291615.pbSUmoIC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505291615.pbSUmoIC-lkp@intel.com/reproduce)
+Hi Dharma,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on fefff2755f2aa4125dce2a1edfe7e545c7c621f2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dharma-Balasubiramani/counter-microchip-tcb-capture-Retrieve-and-map-parent-base-address/20250528-141627
+base:   fefff2755f2aa4125dce2a1edfe7e545c7c621f2
+patch link:    https://lore.kernel.org/r/20250528-mchp-tcb-dma-v1-2-083a41fb7b51%40microchip.com
+patch subject: [PATCH 2/2] counter: microchip-tcb-capture: Add DMA support for TC_RAB register reads
+config: arm-randconfig-r121-20250529 (https://download.01.org/0day-ci/archive/20250529/202505291723.WYIWqmvP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250529/202505291723.WYIWqmvP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505291615.pbSUmoIC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505291723.WYIWqmvP-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/crypto/ccp/hygon/vpsp.c:72:1: sparse: sparse: symbol 'g_hbuf_wrap' was not declared. Should it be static?
-   drivers/crypto/ccp/hygon/vpsp.c:559:1: sparse: sparse: symbol 'vpsp_rwlock' was not declared. Should it be static?
->> drivers/crypto/ccp/hygon/vpsp.c:588:10: sparse: sparse: symbol 'allow_default_vid' was not declared. Should it be static?
->> drivers/crypto/ccp/hygon/vpsp.c:589:6: sparse: sparse: symbol 'vpsp_set_default_vid_permission' was not declared. Should it be static?
+>> drivers/counter/microchip-tcb-capture.c:140:16: sparse: sparse: cast to restricted __le32
 
-vim +/allow_default_vid +588 drivers/crypto/ccp/hygon/vpsp.c
+vim +140 drivers/counter/microchip-tcb-capture.c
 
-   582	
-   583	/**
-   584	 * When 'allow_default_vid' is set to 1,
-   585	 * QEMU is allowed to use 'vid 0' by default
-   586	 * in the absence of a valid 'vid' setting.
-   587	 */
- > 588	uint32_t allow_default_vid = 1;
- > 589	void vpsp_set_default_vid_permission(uint32_t is_allow)
-   590	{
-   591		allow_default_vid = is_allow;
-   592	}
-   593	
+   101	
+   102	static int mchp_tc_dma_transfer(struct mchp_tc_data *priv, u32 *val)
+   103	{
+   104		struct dma_async_tx_descriptor *desc;
+   105		struct device *dev = &priv->pdev->dev;
+   106		dma_cookie_t cookie;
+   107		int ret;
+   108	
+   109		ret = dmaengine_slave_config(priv->dma.chan, &priv->dma.slave_cfg);
+   110		if (ret) {
+   111			dev_err(dev, "DMA slave_config failed (%d)\n", ret);
+   112			return ret;
+   113		}
+   114	
+   115		desc = dmaengine_prep_dma_memcpy(priv->dma.chan,
+   116						 priv->dma.addr,
+   117						 priv->dma.slave_cfg.src_addr,
+   118						 sizeof(u32),
+   119						 DMA_CTRL_ACK | DMA_PREP_INTERRUPT);
+   120		if (!desc) {
+   121			dev_err(dev, "DMA prep descriptor failed\n");
+   122			return -ENOMEM;
+   123		}
+   124	
+   125		cookie = dmaengine_submit(desc);
+   126		if (dma_submit_error(cookie)) {
+   127			dev_err(dev, "DMA submit error (%d)\n", cookie);
+   128			return cookie ?: -EIO;
+   129		}
+   130	
+   131		dma_async_issue_pending(priv->dma.chan);
+   132	
+   133		ret = dma_sync_wait(priv->dma.chan, cookie);
+   134		if (ret) {
+   135			dev_err(dev, "DMA transfer timed out (%d)\n", ret);
+   136			return ret;
+   137		}
+   138	
+   139		/* Retrieve the 32-bit value the engine just copied */
+ > 140		*val = le32_to_cpu(*(u32 *)priv->dma.buf);
+   141	
+   142		return 0;
+   143	}
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
