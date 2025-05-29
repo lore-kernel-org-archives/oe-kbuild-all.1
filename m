@@ -1,60 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7E222B8A2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 15:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33049193062
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 15:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748532331; cv=none; b=Gt8cEaWADudINXaPXTKbCzMCV1Ctbw4amSdgZhki9WtBsBvpN5wZdVtyzdRTZGMdhbKS2eD4iMrcBfG+plmTEfnXuBAPPnH8PwW2u1X8fvO9IbRPsUt/OenFAARzAanLhDMWLLeRTT40DjWLLM4XJ2OgjnjkaymxiLQO3vnbrvQ=
+	t=1748532946; cv=none; b=lvdnsdZ3d8vXoKtYfSaKab3ypeklGEab/zSAmlMSFcgChFAwH+vmlN5gsUNwYY/DKMpFd9c3QOTUDHB5lJ9dhG7xS70R03A8y22u0lfuCdEP2SAHARkvsj2VKofYzap4f8DBVVAkNq/hzgvGVC0fFzXTtG9ZZRA+Jiho6WTb4ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748532331; c=relaxed/simple;
-	bh=KULnnT/1YtzcS4WLIrpP3uW67wwC/8kBMou2p8sPrRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j0UWh+A02Bk1qpmIwR+AVNP5xNYT4I3n5o5/EAr/XZe/hrDpM+4xPqU8keFIwxOPix9KwWewf7tQMGvcUYwYfmJ7HAHtc+CAhEVrFWXUEAG/n5KB8aI66w4A+Wg4oYaPbHgDHxyogdgdoLg32Q3dImPHBHFX+98Yu6zV/6j30yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYC+Q/sb; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1748532946; c=relaxed/simple;
+	bh=GPdqafqU2tPrO3Kwr1heLn8rpZD1wUwbKicBkAIdz60=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zi7CB5WKOiB2ykRINh101o4ADPKQdVEpMX39CLxGyq6JMGHizoQPujPGnDcgkKLbzc9OkoRmaIbx4D0G2420iCBt6OjTj+Y0siXn9ibOK76phjR12ymlZu1bjO6gKah1KY1m+AG1BMyhI8Q2bMPAiIUJfh2Bzfd3bhYJITOxZeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGc0FvTY; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYC+Q/sb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGc0FvTY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748532330; x=1780068330;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KULnnT/1YtzcS4WLIrpP3uW67wwC/8kBMou2p8sPrRw=;
-  b=JYC+Q/sboEVGpoCZ55cc3dS1tSh8X81I7+XWhqxtGrX9fqqKjWK8OjNH
-   dbnFhHsb0zDf0Ivz+WKrtkB1ZKSd5LZ+vvPnbyiYpDdl7+ypMdT9U/fXg
-   nwNKPykd1cL5thvkRQR/L2VzCvGsE9INNBR/u8+A+CBroL6kuwJLiLHAI
-   vYWVkfwt/rYK49A2/3MWfHvE0E0hGdiyZ0B58FTU2bp8S8E+WlOBmQrpe
-   1fuWgyXzXjX346wTEEPS/4/j7RmM1u+IjVjcPbiR12PXQVTqYB0SwI+tH
-   iXWHq/TzvpDiGlBv5xfHqPiHApP3VhzILW0jSieYWls+TNmAYhRdQRzB1
-   w==;
-X-CSE-ConnectionGUID: EDqsAPRWTWaOSn2V0VWFJQ==
-X-CSE-MsgGUID: xZySXDwkT8CJcrkKRNOc7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="54264015"
+  t=1748532945; x=1780068945;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GPdqafqU2tPrO3Kwr1heLn8rpZD1wUwbKicBkAIdz60=;
+  b=OGc0FvTY9ShVbHD44XIAyC0V/Qsmq57bwilebHX/U+PyNASwnjjKkAvD
+   zqsuEGR9itlIUjOZ98gXM0BIjHHf7hg4pR+MiquKBoyoaqK6hFCaBgmcw
+   njatS5ye09FyDQNV7L8ZkRNIPs1wUPLoN0VTlbmRQ2xJwrEaYf26QbQgG
+   AkXSXX7JwVjkBNYBMOHQHsh2vJ3fQYCdvYEHMbRbVK8zSwvToM22CwwrX
+   VbGv0IhA7eNGJdYDfIsw4154etEpFy49uqR0i1vR/Ij/1ll5Y+skKmXlO
+   5jJHhJ6fYV2zi9BGGxObqxZVHl1CZJn2kM4mDd5bytltXQeQr/KNnEszA
+   A==;
+X-CSE-ConnectionGUID: O8kW8ScSSjmT8ql2P4g3Kw==
+X-CSE-MsgGUID: wkDmSM88StWB0s72uSoexQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="50302761"
 X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
-   d="scan'208";a="54264015"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 08:25:27 -0700
-X-CSE-ConnectionGUID: H6MvIOMsRWGX85alUtRX1w==
-X-CSE-MsgGUID: SYQMI00jQMWmHrVodl3elA==
+   d="scan'208";a="50302761"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 08:35:32 -0700
+X-CSE-ConnectionGUID: W1hnYaAwS2CKSIOXxah0vw==
+X-CSE-MsgGUID: Hz/Y3PS0ShSJB8EDBEqtNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
-   d="scan'208";a="166768281"
+   d="scan'208";a="148887384"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 May 2025 08:25:25 -0700
+  by orviesa005.jf.intel.com with ESMTP; 29 May 2025 08:35:26 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKf8F-000Wou-06;
-	Thu, 29 May 2025 15:25:23 +0000
-Date: Thu, 29 May 2025 23:24:34 +0800
+	id 1uKfHv-000WpE-2L;
+	Thu, 29 May 2025 15:35:23 +0000
+Date: Thu, 29 May 2025 23:34:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: arch/arm64/boot/dts/amd/amd-overdrive-rev-b0.dtb: ccp@e0100000
- (amd,ccp-seattle-v1a): 'iommus' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202505292349.2V7lrii5-lkp@intel.com>
+To: Pingfan Liu <piliu@redhat.com>, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Pingfan Liu <piliu@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jeremy Linton <jeremy.linton@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Simon Horman <horms@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Philipp Rudo <prudo@redhat.com>, Viktor Malik <vmalik@redhat.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>, Baoquan He <bhe@redhat.com>,
+	Dave Young <dyoung@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	kexec@lists.infradead.org, bpf@vger.kernel.org
+Subject: Re: [PATCHv3 9/9] arm64/kexec: Add PE image format support
+Message-ID: <202505292305.zHTx5StD-lkp@intel.com>
+References: <20250529041744.16458-10-piliu@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +80,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250529041744.16458-10-piliu@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90b83efa6701656e02c86e7df2cb1765ea602d07
-commit: aa238d34d3a98253f019e8c2e1cef0309b487fef dt-bindings: crypto: Convert amd,ccp-seattle-v1a to DT schema
-date:   10 days ago
-config: arm64-randconfig-052-20250529 (https://download.01.org/0day-ci/archive/20250529/202505292349.2V7lrii5-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505292349.2V7lrii5-lkp@intel.com/reproduce)
+Hi Pingfan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/net]
+[also build test ERROR on bpf/master arm64/for-next/core v6.15]
+[cannot apply to bpf-next/master linus/master next-20250529]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pingfan-Liu/kexec_file-Make-kexec_image_load_default-global-visible/20250529-122124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20250529041744.16458-10-piliu%40redhat.com
+patch subject: [PATCHv3 9/9] arm64/kexec: Add PE image format support
+config: arm64-randconfig-004-20250529 (https://download.01.org/0day-ci/archive/20250529/202505292305.zHTx5StD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505292305.zHTx5StD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505292349.2V7lrii5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505292305.zHTx5StD-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b0.dtb: /: failed to match any schema with compatible: ['amd,seattle-overdrive', 'amd,seattle']
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b0.dtb: /: failed to match any schema with compatible: ['amd,seattle-overdrive', 'amd,seattle']
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b0.dtb: sata@e0300000 (snps,dwc-ahci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/snps,dwc-ahci.yaml#
->> arch/arm64/boot/dts/amd/amd-overdrive-rev-b0.dtb: ccp@e0100000 (amd,ccp-seattle-v1a): 'iommus' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/amd,ccp-seattle-v1a.yaml#
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b0.dtb: /bus/ethernet@e0700000: failed to match any schema with compatible: ['amd,xgbe-seattle-v1a']
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b0.dtb: /bus/ethernet@e0900000: failed to match any schema with compatible: ['amd,xgbe-seattle-v1a']
---
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b1.dtb: /: failed to match any schema with compatible: ['amd,seattle-overdrive', 'amd,seattle']
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b1.dtb: /: failed to match any schema with compatible: ['amd,seattle-overdrive', 'amd,seattle']
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b1.dtb: sata@e0300000 (snps,dwc-ahci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/snps,dwc-ahci.yaml#
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b1.dtb: sata@e0d00000 (snps,dwc-ahci): Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/snps,dwc-ahci.yaml#
->> arch/arm64/boot/dts/amd/amd-overdrive-rev-b1.dtb: ccp@e0100000 (amd,ccp-seattle-v1a): 'iommus' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/amd,ccp-seattle-v1a.yaml#
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b1.dtb: /bus/ethernet@e0700000: failed to match any schema with compatible: ['amd,xgbe-seattle-v1a']
-   arch/arm64/boot/dts/amd/amd-overdrive-rev-b1.dtb: /bus/ethernet@e0900000: failed to match any schema with compatible: ['amd,xgbe-seattle-v1a']
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/kexec_bpf/kexec_pe_parser_bpf.lskel.h:6,
+                    from kernel/kexec_pe_image.c:25:
+   tools/lib/bpf/skel_internal.h: In function 'skel_finalize_map_data':
+   tools/lib/bpf/skel_internal.h:155:15: error: implicit declaration of function 'bpf_map_get'; did you mean 'bpf_map_put'? [-Werror=implicit-function-declaration]
+     155 |         map = bpf_map_get(fd);
+         |               ^~~~~~~~~~~
+         |               bpf_map_put
+   tools/lib/bpf/skel_internal.h:155:13: warning: assignment to 'struct bpf_map *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     155 |         map = bpf_map_get(fd);
+         |             ^
+   kernel/kexec_pe_image.c: In function 'kexec_bpf_prog_run_init':
+>> kernel/kexec_pe_image.c:283:16: error: implicit declaration of function 'register_btf_fmodret_id_set'; did you mean 'register_btf_kfunc_id_set'? [-Werror=implicit-function-declaration]
+     283 |         return register_btf_fmodret_id_set(&kexec_modify_return_set);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                register_btf_kfunc_id_set
+   kernel/kexec_pe_image.c: In function 'pe_image_load':
+   kernel/kexec_pe_image.c:325:44: warning: variable 'cmdline_sz' set but not used [-Wunused-but-set-variable]
+     325 |         unsigned long linux_sz, initrd_sz, cmdline_sz, bpf_sz;
+         |                                            ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for KEXEC_PE_IMAGE
+   Depends on [n]: KEXEC_FILE [=y] && DEBUG_INFO_BTF [=n] && BPF_SYSCALL [=n]
+   Selected by [y]:
+   - ARCH_SELECTS_KEXEC_FILE [=y] && KEXEC_FILE [=y]
+
+
+vim +283 kernel/kexec_pe_image.c
+
+536de0ba3b982c Pingfan Liu 2025-05-29  280  
+536de0ba3b982c Pingfan Liu 2025-05-29  281  static int __init kexec_bpf_prog_run_init(void)
+536de0ba3b982c Pingfan Liu 2025-05-29  282  {
+536de0ba3b982c Pingfan Liu 2025-05-29 @283  	return register_btf_fmodret_id_set(&kexec_modify_return_set);
+536de0ba3b982c Pingfan Liu 2025-05-29  284  }
+536de0ba3b982c Pingfan Liu 2025-05-29  285  late_initcall(kexec_bpf_prog_run_init);
+536de0ba3b982c Pingfan Liu 2025-05-29  286  
 
 -- 
 0-DAY CI Kernel Test Service
