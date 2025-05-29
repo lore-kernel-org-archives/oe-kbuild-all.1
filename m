@@ -1,126 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F52010E3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 06:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA9C2566DF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 May 2025 06:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748499940; cv=none; b=LCbGxuNZcMRmD8GiEiD6ef/uZRkeqbjw48MSVMEvpicEN4iMgw7ubyHiLDkQff8nQK7aaRm5kJz6SKXvb3f0xedHbelkaHVXOtRll6kFMpvgfAzbp6eC+4Mvb9EYuJz3iIvuchK8aeJ6WoXGSYAu1R0ADH8dcI3Mo8toCypDcLQ=
+	t=1748500616; cv=none; b=e/te+uosgTeey9DirntqLqysGtixkR9h/NxuVRh4/MDlssCon3bU3nCQQs1Yi5KoEzeU2Omi7SnX5YXbA0idlud9sLDlgWPAm4G76Z0pt4DxVO8mYanmvjZVwQrf1jxNU4xKhu8gkr6ODC57NxJs2AvcGEQRcs5CWSq8cjsxHA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748499940; c=relaxed/simple;
-	bh=aar1zJELZDYeBucUXJtNs6otcc48zCELE3fGNA/GRXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MXc8iBbGMFNtbDdBVrcR0o0S/kxqjLxh31hRXtgZ2gxMmzToJ/pfMKfVUxMBcDszjGnnYOY3ZpHhzHybN6txjxT68j2XHSkkVQ5CjgiD8EhE+pRcyIXEM8nEPFvEqg32ICbri8/g+/K+qOm2f8HYIvNLtGprr56rR7WEkG9E+do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ey6qfXln; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ey6qfXln"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748499938; x=1780035938;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aar1zJELZDYeBucUXJtNs6otcc48zCELE3fGNA/GRXA=;
-  b=ey6qfXlnZJOLBS/cfkW7EYB8IwqMnlnG/vz5D9vVgNOaDEn2FLlU0fnK
-   8eFoiUcRPUX9NvMnp9ACwfIsAPRmdLjklDwW0py7L98B+TuqvFSCuUxQL
-   waWM6JmC3NhOFRrP9kp0xiH/RkTG25iX5w5CqaybS/FcuPu+Zb7cmsQnu
-   su2/F2/NXCGGrv7KVbFYK5ObbAO7rNTufGFNCndR1Wf0yjBMYmRQ//Lto
-   yAsURIYgeXHei2uxcmKWH5BnJr7583f3mCfxQ/B9QM7td6Ary30WKUlUe
-   C4ZVt5xyLWliIr6S8e6vn+Vyn1yfzeI9FEVMFda6ASjztuJ8wAaicD8T+
-   w==;
-X-CSE-ConnectionGUID: lJVnw95RR3imQKIR/nrhoA==
-X-CSE-MsgGUID: 4N1inHfkQLKs3sM2OzypZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="68097679"
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
-   d="scan'208";a="68097679"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 23:25:38 -0700
-X-CSE-ConnectionGUID: 3wH8P4vuRAulzWl7aGpP0A==
-X-CSE-MsgGUID: Pxmtn1qqRDy9v110C4Lh0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
-   d="scan'208";a="143453840"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 May 2025 23:25:36 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uKWhq-000WOC-1g;
-	Thu, 29 May 2025 06:25:34 +0000
-Date: Thu, 29 May 2025 14:25:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinqian Yang <yangjinqian1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2331/2331]
- arch/arm64/kvm/hisilicon/hisi_virt.h:116:13: warning:
- 'hisi_ipiv_enable_per_vm' defined but not used
-Message-ID: <202505291449.qcY77e1i-lkp@intel.com>
+	s=arc-20240116; t=1748500616; c=relaxed/simple;
+	bh=B3JaLtFtqu40LGnOcKtzZBziOjGYImFrUGlkaaAIyRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mOYDo81lZuvvHEykwqtRjueyjfcALKBdTtyuENaGizc0jiL+lFtoi8/sIxGYMjujCvPgP4n80MQx/SCgnPEM/qNsEl63+0FBFpGbzawZUVlVcbQi6co7rtj+mhiRj4v6ErxziG3H2GcJsBupKauMgcCmbDPbksvlTA7yzt+Dxr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1uKWse-00053S-PV; Thu, 29 May 2025 08:36:44 +0200
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1uKWsd-000iG1-35;
+	Thu, 29 May 2025 08:36:43 +0200
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 2F11A41BE59;
+	Thu, 29 May 2025 06:36:43 +0000 (UTC)
+Date: Thu, 29 May 2025 08:36:41 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Oliver Hartkopp <socketcan@hartkopp.net>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-can@vger.kernel.org
+Subject: Re: [mkl-can-next:b4/can-xl 6/11]
+ drivers/net/can/xilinx_can.c:518:7: error: call to undeclared function
+ 'can_tdc_is_enabled'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <20250529-tactful-placid-bullfinch-e5e792-mkl@pengutronix.de>
+References: <202505291443.O21tBseZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6sjjnrsshstua36b"
 Content-Disposition: inline
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   66b0cef2a959be1562a528e3d8cc260dc3803e61
-commit: cd77c03a1ee1bcae1ffbde74afcc32a0a1bb0273 [2331/2331] KVM: arm64: Implement PV_SGI related calls
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250529/202505291449.qcY77e1i-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505291449.qcY77e1i-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505291449.qcY77e1i-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/arm64/kvm/arm.c:53:
->> arch/arm64/kvm/hisilicon/hisi_virt.h:116:13: warning: 'hisi_ipiv_enable_per_vm' defined but not used [-Wunused-function]
-     116 | static void hisi_ipiv_enable_per_vm(struct kvm_vcpu *vcpu) {}
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hisilicon/hisi_virt.h:112:13: warning: 'hisi_ipiv_supported_per_vm' defined but not used [-Wunused-function]
-     112 | static bool hisi_ipiv_supported_per_vm(struct kvm_vcpu *vcpu)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In-Reply-To: <202505291443.O21tBseZ-lkp@intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
 
-vim +/hisi_ipiv_enable_per_vm +116 arch/arm64/kvm/hisilicon/hisi_virt.h
+--6sjjnrsshstua36b
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [mkl-can-next:b4/can-xl 6/11]
+ drivers/net/can/xilinx_can.c:518:7: error: call to undeclared function
+ 'can_tdc_is_enabled'; ISO C99 and later do not support implicit function
+ declarations
+MIME-Version: 1.0
 
-    89	
-    90	int kvm_sched_affinity_vcpu_init(struct kvm_vcpu *vcpu);
-    91	void kvm_sched_affinity_vcpu_destroy(struct kvm_vcpu *vcpu);
-    92	int kvm_sched_affinity_vm_init(struct kvm *kvm);
-    93	void kvm_sched_affinity_vm_destroy(struct kvm *kvm);
-    94	void kvm_tlbi_dvmbm_vcpu_load(struct kvm_vcpu *vcpu);
-    95	void kvm_tlbi_dvmbm_vcpu_put(struct kvm_vcpu *vcpu);
-    96	void kvm_hisi_reload_lsudvmbm(struct kvm *kvm);
-    97	#else
-    98	static inline void probe_hisi_cpu_type(void) {}
-    99	static inline bool hisi_ncsnp_supported(void)
-   100	{
-   101		return false;
-   102	}
-   103	static inline bool hisi_dvmbm_supported(void)
-   104	{
-   105		return false;
-   106	}
-   107	#ifdef CONFIG_ARM64_HISI_IPIV
-   108	static inline bool hisi_ipiv_supported(void)
-   109	{
-   110		return false;
-   111	}
- > 112	static bool hisi_ipiv_supported_per_vm(struct kvm_vcpu *vcpu)
-   113	{
-   114		return false;
-   115	}
- > 116	static void hisi_ipiv_enable_per_vm(struct kvm_vcpu *vcpu) {}
-   117	static inline void ipiv_gicd_init(void) {}
-   118	#endif /* CONFIG_ARM64_HISI_IPIV */
-   119	static inline void kvm_get_pg_cfg(void) {}
-   120	
+On 29.05.2025 14:15:06, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-nex=
+t.git b4/can-xl
+> head:   7861c36608b1d1f26b010a9c465c048137d9d156
+> commit: 48f48b8238cc98e533eaeda03271a101ccdac359 [6/11] can: netlink: add=
+ CAN XL support
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/202=
+50529/202505291443.O21tBseZ-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
+708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250529/202505291443.O21tBseZ-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505291443.O21tBseZ-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> >> drivers/net/can/xilinx_can.c:518:7: error: call to undeclared function=
+ 'can_tdc_is_enabled'; ISO C99 and later do not support implicit function d=
+eclarations [-Wimplicit-function-declaration]
+>      518 |                 if (can_tdc_is_enabled(&priv->can)) {
+>          |                     ^
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Good bot! Fixed.
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--6sjjnrsshstua36b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmg4AHYACgkQDHRl3/mQ
+kZw+WggAlQUVs6jJjVer7DADb/otS6dO2Z6g15x+532y0FySPB4Lczrp8gcjkAYD
+Db8A58d7loL0PDqncIF2gXk/+biJ1su+fOrloqJ7XdlbwTsXSfZwwmzEULzaN45K
+yxNyqT9vRrTfXAZswfDCGJMUd3aGOCKLq24m0MYv80hwbgdWWXWPmouPzd95AuT/
+c5x2VbnvkNR7AAv7R2hBLK4Gto/NXBWGDHrlM+pQeALmKi6GPuIC8Pnv+g3gyViT
+tN0fN9hTD7pxSZKMnCQoxeAUbL4dSQK+Sc2sUkski27pvQ9ua5M30QMUORmAdf50
+z9pSdmTDWuSfrIecZfYaUTEiIC6Qbw==
+=3WNM
+-----END PGP SIGNATURE-----
+
+--6sjjnrsshstua36b--
