@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF0A21D3EC;
-	Fri, 30 May 2025 11:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6CD224AFE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 12:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748605819; cv=none; b=YXJZWaBu4ecSDUnS/0RPUV/DVAA28znB0TfJ969WGQrbzfTrUEh7Bekc+aaMoxQcYQCYk33QF2jn2Gbz6loYGGTXIlIzUeEsB4VecvDsWb1VZG4X375R/LloYU4hPfv7WO5pDgChSxccZIhaPEABDHKRmjjyrCY5knnWrb+2tuY=
+	t=1748607080; cv=none; b=SoLGXZccqzw3f7xarWhC3AH9IncwogT3RLtBgncgMVNDiDBFiIyL7D6Wd1MiZjfwIurSXvY+I3iuNpoUChtosjEg4c5UQE4OUmRa0/KxGRe7HRwG1f2Sf29cq6hhtCcPgnJtiPzBXPSrXTH9OqRa0l911L1XFhEkJYtSFc/i1YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748605819; c=relaxed/simple;
-	bh=fz3ZQSWr7CY1akxZLr471YVGDzGqo++bGWSlgdU6ahw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A7x2oyhduiHEVSZg//1S5nWsi53Xvivml/XbwTkfp0jn91eWuuL36AhbCdC3i7QRfwBvq3MSf09gHZ0ktLJIqRBh+OSV7XNheOpHhttaTnOfqRDSz02BcDNekyB1Ok39dfwS9+rGY1JH+2PU4V9LtsSyuuArqo8xnLhiA6t+LjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePLDMET0; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1748607080; c=relaxed/simple;
+	bh=x9ob60+XPhEWHScLvWaOrj3Qw2IhHGlFqEMinixYDRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=taWgxPh0DhsTeMPjZh9zZxaYkuGwWqZqxUhp5udMYDDQRLDO3dy5pgNOVmw3nnZqgb3zrwkOIdojY0pDyfu0t9K3KHZHqU5hxQ97xo+YJL0ClrfC9BnkGXGf9yOEYNQCaKi7HCO0NA1UD4vR+ridIEbZwO4sbm6gx70zxiRMGmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H3v724du; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePLDMET0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H3v724du"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748605818; x=1780141818;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fz3ZQSWr7CY1akxZLr471YVGDzGqo++bGWSlgdU6ahw=;
-  b=ePLDMET0IoI8Ue0dAHLJUJQx3aqTnlFFryrDrdvP7jdfd0ikCVfrZfAI
-   jvYStHp8H4+j3QCyURZaS9JXC3uYeI92DZdbN3oSnnLD/Yfwwthb5NEZU
-   Lo3Y7l3MzTxxG+9mTj6q6/mS+7GOgoNVQyIaK1maGUYvMfMIpGonI+eSw
-   Z83VvsojGz6QJM1ruELKsXvnszJ10lXu4LgySgQdWlMIbu+Xo45LwGdao
-   HK0CJCDkkH1ofRZZa1+cSejBvPQp9t01iL3XAojMTcFEbltZF+6nvXro5
-   ulGWjHj+PZe7Gd3YLWo/3dRHJdZp16dXgnOOAQaBkiGEwYUkbZiNeqUdc
+  t=1748607078; x=1780143078;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=x9ob60+XPhEWHScLvWaOrj3Qw2IhHGlFqEMinixYDRY=;
+  b=H3v724du8CjVU8RgjSUVNWkOag0xOSKFbjn/n/x9u/TqT25w9lJzeIDo
+   OUX0xhXoSBKoJu14wAFAutldx0zqheUdpqxX6ylqVLfjbK5Ad4+0Mr9Z5
+   jeJKnSS5H/cp8M5i6Yxk0tmUfgRWmcCtYdlYSP34+CMYcvsE2yhiyFWsF
+   CUk1xLUgomL8DY4uF1QHYh8NjZude7uoiv52nxP9efAq7ub+Kzw2CudwE
+   bW7/uNChNru3xHyYMZgkC/P9NjJZpmgz1Gbo0BCHq9aznGcfv2CP9IFr1
+   nrmujaGacTwHVB8Ee2wdt9kZPqlv8OdSMfhSXrWLgz2x3JNhPa8lHdhVT
    Q==;
-X-CSE-ConnectionGUID: dw1bOt1oSFWFthi9OEp3Vw==
-X-CSE-MsgGUID: jFLeibD2SeWReltogeYZ4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="50565717"
+X-CSE-ConnectionGUID: 5rM9k1kHRbmlJhh9JuKdiQ==
+X-CSE-MsgGUID: jcSd+G1HQB+4ttoWhh51tQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="50617496"
 X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="50565717"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 04:50:15 -0700
-X-CSE-ConnectionGUID: Mdc9ZpEFTCq33nDfnQxj5g==
-X-CSE-MsgGUID: Gu9Gr+uqRoC3L7F7Kr3HGQ==
+   d="scan'208";a="50617496"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 05:11:14 -0700
+X-CSE-ConnectionGUID: GNYtvRPlR6u9/ALv7iB5oQ==
+X-CSE-MsgGUID: OriCMBqhQsi33Heeh9sAig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="174858935"
+   d="scan'208";a="167050502"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 May 2025 04:50:11 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 May 2025 05:11:13 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKyFV-000Xbw-1S;
-	Fri, 30 May 2025 11:50:09 +0000
-Date: Fri, 30 May 2025 19:49:28 +0800
+	id 1uKyZq-000XcW-35;
+	Fri, 30 May 2025 12:11:10 +0000
+Date: Fri, 30 May 2025 20:10:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hilda Wu <hildawu@realtek.com>, marcel@holtmann.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	luiz.dentz@gmail.com, linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org, max.chou@realtek.com,
-	alex_lu@realsil.com.cn
-Subject: Re: [PATCH 2/2] Bluetooth: btrtl: Add enhanced download support
-Message-ID: <202505301910.8q5W0vf5-lkp@intel.com>
-References: <20250529124816.4186320-3-hildawu@realtek.com>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1654/1654]
+ include/linux/uaccess.h:112:17: warning: 'kmask' may be used uninitialized
+Message-ID: <202505302048.Z79haowV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,115 +61,238 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250529124816.4186320-3-hildawu@realtek.com>
 
-Hi Hilda,
+Hi Oleg,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v6.15 next-20250530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hilda-Wu/Bluetooth-btrtl-Firmware-format-v3-support/20250529-205020
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20250529124816.4186320-3-hildawu%40realtek.com
-patch subject: [PATCH 2/2] Bluetooth: btrtl: Add enhanced download support
-config: i386-buildonly-randconfig-004-20250530 (https://download.01.org/0day-ci/archive/20250530/202505301910.8q5W0vf5-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505301910.8q5W0vf5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   8eff3fb546d3baa728542fd40cdbad086cd9227c
+commit: b77633c8236f2383f8d994249b40ed1bd3d012c0 [1654/1654] signal: simplify set_user_sigmask/restore_user_sigmask
+config: arm64-randconfig-004-20250530 (https://download.01.org/0day-ci/archive/20250530/202505302048.Z79haowV-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505302048.Z79haowV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505301910.8q5W0vf5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505302048.Z79haowV-lkp@intel.com/
+
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
 All warnings (new ones prefixed by >>):
 
->> drivers/bluetooth/btrtl.c:1339:7: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-    1338 |                 bt_dev_err(hdev, "got invalid cmd complete, %u %lu", skb->len,
-         |                                                                ~~~
-         |                                                                %u
-    1339 |                            sizeof(*ev));
-         |                            ^~~~~~~~~~~
-   include/net/bluetooth/bluetooth.h:280:42: note: expanded from macro 'bt_dev_err'
-     280 |         BT_ERR("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
-         |                       ~~~                       ^~~~~~~~~~~
-   include/net/bluetooth/bluetooth.h:265:45: note: expanded from macro 'BT_ERR'
-     265 | #define BT_ERR(fmt, ...)        bt_err(fmt "\n", ##__VA_ARGS__)
-         |                                        ~~~         ^~~~~~~~~~~
-   drivers/bluetooth/btrtl.c:2071:1: error: function definition is not allowed here
-    2071 | {
-         | ^
-   drivers/bluetooth/btrtl.c:2113:1: error: function definition is not allowed here
-    2113 | {
-         | ^
-   drivers/bluetooth/btrtl.c:2172:1: error: function definition is not allowed here
-    2172 | {
-         | ^
-   drivers/bluetooth/btrtl.c:2199:1: error: function definition is not allowed here
-    2199 | {
-         | ^
-   drivers/bluetooth/btrtl.c:2219:1: error: function definition is not allowed here
-    2219 | {
-         | ^
-   drivers/bluetooth/btrtl.c:2246:1: error: function definition is not allowed here
-    2246 | {
-         | ^
-   drivers/bluetooth/btrtl.c:2286:1: error: function definition is not allowed here
-    2286 | {
-         | ^
-   drivers/bluetooth/btrtl.c:2404:48: error: expected '}'
-    2404 | MODULE_FIRMWARE("rtl_bt/rtl8922au_config.bin");
-         |                                                ^
-   drivers/bluetooth/btrtl.c:1878:1: note: to match this '{'
-    1878 | {
-         | ^
-   1 warning and 8 errors generated.
+         | ^~~~~~~~~~~
+   In file included from include/asm-generic/termios.h:6,
+                    from ./arch/arm64/include/generated/uapi/asm/termios.h:1,
+                    from include/uapi/linux/termios.h:6,
+                    from include/linux/tty.h:7,
+                    from kernel/signal.c:23:
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from '__do_sys_sigaltstack' at kernel/signal.c:3635:13,
+       inlined from '__se_sys_sigaltstack' at kernel/signal.c:3631:1:
+   include/linux/uaccess.h:112:17: warning: 'new' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/compiler.h:251,
+                    from include/asm-generic/bug.h:5,
+                    from arch/arm64/include/asm/bug.h:37,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/gfp.h:5,
+                    from include/linux/slab.h:15,
+                    from kernel/signal.c:13:
+   include/linux/kasan-checks.h: In function '__se_sys_sigaltstack':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3633:17: note: 'new' declared here
+    3633 |         stack_t new, old;
+         |                 ^~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'do_compat_sigaltstack' at kernel/signal.c:3678:7:
+   include/linux/uaccess.h:112:17: warning: 'uss32' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'do_compat_sigaltstack':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3677:32: note: 'uss32' declared here
+    3677 |                 compat_stack_t uss32;
+         |                                ^~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from '__do_sys_rt_tgsigqueueinfo' at kernel/signal.c:3496:6,
+       inlined from '__se_sys_rt_tgsigqueueinfo' at kernel/signal.c:3491:1:
+   include/linux/uaccess.h:112:17: warning: 'info' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function '__se_sys_rt_tgsigqueueinfo':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3494:19: note: 'info' declared here
+    3494 |         siginfo_t info;
+         |                   ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from '__do_sys_rt_sigqueueinfo' at kernel/signal.c:3454:6,
+       inlined from '__se_sys_rt_sigqueueinfo' at kernel/signal.c:3450:1:
+   include/linux/uaccess.h:112:17: warning: 'info' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function '__se_sys_rt_sigqueueinfo':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3453:19: note: 'info' declared here
+    3453 |         siginfo_t info;
+         |                   ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from '__do_sys_sigprocmask' at kernel/signal.c:3783:7,
+       inlined from '__se_sys_sigprocmask' at kernel/signal.c:3774:1:
+   include/linux/uaccess.h:112:17: warning: 'new_set' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function '__se_sys_sigprocmask':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3777:31: note: 'new_set' declared here
+    3777 |         old_sigset_t old_set, new_set;
+         |                               ^~~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from '__do_sys_rt_sigprocmask' at kernel/signal.c:2887:7,
+       inlined from '__se_sys_rt_sigprocmask' at kernel/signal.c:2874:1:
+   include/linux/uaccess.h:112:17: warning: 'new_set' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function '__se_sys_rt_sigprocmask':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:2877:27: note: 'new_set' declared here
+    2877 |         sigset_t old_set, new_set;
+         |                           ^~~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'set_user_sigmask' at kernel/signal.c:2836:6:
+>> include/linux/uaccess.h:112:17: warning: 'kmask' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'set_user_sigmask':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:2830:18: note: 'kmask' declared here
+    2830 |         sigset_t kmask;
+         |                  ^~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from '__do_sys_rt_sigtimedwait' at kernel/signal.c:3281:6,
+       inlined from '__se_sys_rt_sigtimedwait' at kernel/signal.c:3268:1:
+   include/linux/uaccess.h:112:17: warning: 'these' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function '__se_sys_rt_sigtimedwait':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3272:18: note: 'these' declared here
+    3272 |         sigset_t these;
+         |                  ^~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'copy_siginfo_from_user32' at kernel/signal.c:3125:6:
+   include/linux/uaccess.h:112:17: warning: 'from' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'copy_siginfo_from_user32':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3123:31: note: 'from' declared here
+    3123 |         struct compat_siginfo from;
+         |                               ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'restore_altstack' at kernel/signal.c:3648:6:
+   include/linux/uaccess.h:112:17: warning: 'new' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'restore_altstack':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3647:17: note: 'new' declared here
+    3647 |         stack_t new;
+         |                 ^~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from '__do_sys_rt_sigaction' at kernel/signal.c:3834:13,
+       inlined from '__se_sys_rt_sigaction' at kernel/signal.c:3822:1,
+       inlined from '__arm64_sys_rt_sigaction' at kernel/signal.c:3822:1:
+   include/linux/uaccess.h:112:17: warning: 'new_sa' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function '__arm64_sys_rt_sigaction':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:3827:28: note: 'new_sa' declared here
+    3827 |         struct k_sigaction new_sa, old_sa;
+         |                            ^~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from '__do_sys_rt_sigsuspend' at kernel/signal.c:4053:6,
+       inlined from '__se_sys_rt_sigsuspend' at kernel/signal.c:4045:1,
+       inlined from '__arm64_sys_rt_sigsuspend' at kernel/signal.c:4045:1:
+   include/linux/uaccess.h:112:17: warning: 'newset' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function '__arm64_sys_rt_sigsuspend':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/signal.c:4047:18: note: 'newset' declared here
+    4047 |         sigset_t newset;
+         |                  ^~~~~~
 
 
-vim +1339 drivers/bluetooth/btrtl.c
+vim +/kmask +112 include/linux/uaccess.h
 
-  1322	
-  1323	static int btrtl_enhanced_download_mode_enable(struct hci_dev *hdev,
-  1324						struct btrtl_device_info *btrtl_dev)
-  1325	{
-  1326		struct hci_rp_enhanced_download_mode *ev;
-  1327		struct sk_buff *skb;
-  1328		u16 opcode = 0xfc1f;
-  1329		u8 val = 1;
-  1330		int ret = -EINVAL;
-  1331	
-  1332		skb = __hci_cmd_sync(hdev, opcode, 1, &val, HCI_CMD_TIMEOUT);
-  1333		if (IS_ERR(skb)) {
-  1334			bt_dev_err(hdev, "send %04x error (%lu)", opcode, PTR_ERR(skb));
-  1335			return -EIO;
-  1336		}
-  1337		if (skb->len != sizeof(*ev)) {
-  1338			bt_dev_err(hdev, "got invalid cmd complete, %u %lu", skb->len,
-> 1339				   sizeof(*ev));
-  1340			goto err;
-  1341		}
-  1342		ev = (struct hci_rp_enhanced_download_mode *)skb->data;
-  1343		if (ev->status) {
-  1344			bt_dev_err(hdev, "got invalid status 0x%02x", ev->status);
-  1345			goto err;
-  1346		}
-  1347		btrtl_dev->handle = le16_to_cpu(ev->handle);
-  1348		btrtl_dev->acldata_pkt_len = le16_to_cpu(ev->acldata_pkt_len);
-  1349		kfree_skb(skb);
-  1350	
-  1351		bt_dev_info(hdev, "enhanced download mode enabled, handle %04x, acl %u",
-  1352			    btrtl_dev->handle, btrtl_dev->acldata_pkt_len);
-  1353	
-  1354		return 0;
-  1355	err:
-  1356		kfree_skb(skb);
-  1357		return ret;
-  1358	}
-  1359	
+d597580d373774 Al Viro        2017-03-20  104  
+d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
+d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
+d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  108  {
+d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
+9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
+4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
+9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
+d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
+9c5f6908de03a4 Al Viro        2017-06-29  114  	}
+d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
+d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
+d597580d373774 Al Viro        2017-03-20  117  	return res;
+d597580d373774 Al Viro        2017-03-20  118  }
+d597580d373774 Al Viro        2017-03-20  119  #else
+d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
+d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
+d597580d373774 Al Viro        2017-03-20  122  #endif
+d597580d373774 Al Viro        2017-03-20  123  
+
+:::::: The code at line 112 was first introduced by commit
+:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
