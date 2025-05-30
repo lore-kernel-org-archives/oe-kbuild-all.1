@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76D9155C87
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 06:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67E21F8AC5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 06:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748585626; cv=none; b=f+9Js3xKBxt1EazaizHdA9sb0weciY8mbS3zSXqt6Ng5DJ4m/6MNWzTsfuMAVCohFTNegXTBIboMefKGQNi5AzybhpmgEFzCf7chs8jWSsbqaXrHXxfAdWqI0sObepZmcwE056CWAEfVwbDIdNkobGTo7E1maJ6cp2sJO35IdrA=
+	t=1748586288; cv=none; b=CoRZ2JLK9hx1TPEWnx1SBrHJJU8tWq9VbprJMB7uPZOKHe6j1NCkH5cP3A4HWkG7p+d7PDax3u+2LapEcfek2dD/n5wvoLSNy/DTUuJj0QpBnLn9YKmXpr5pGln5pPAcuGUx75RTHEx1GbhB1DZsb5tu9T5lKLcJxm5MNpp+4ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748585626; c=relaxed/simple;
-	bh=n3TrehFCVXhr3pKqBGhdRlCs3qwfrKgW6sB8lFBM+xE=;
+	s=arc-20240116; t=1748586288; c=relaxed/simple;
+	bh=iJlkg452yrtou/r1VwGRIrfnqrioKqw12Q5uF1IVYCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V+h4CqgnAepDKdixff62kFYNXyWTSS5toQrmwVamCsS8ka6kPM/fkrzL0S9wRnxbVhWwklxEYxcJ20Asz78T9SYG3Gq2qzkemM4qSt5ABLeSjnhV/GDd6yOQHYQzl8dl11L9EXCjkA6sYQDTSybwUes/VoR4IxiUWFY75+rIIEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgVbOHUj; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=t96WOM12Ag8H+mfZa9M16d0mcDOyOcFo/lvoPojMV1kGXWxqKd92k5NvapHnAdMW/fdDPC41TIBuL78Zlu1Ss6dfZicMN+1IaC0nGUOJ/bbAhs7D2ifakgIlg86fduTTtv90LfjnQxy/sZB5ZJ/omJ4xxUZJSfA7o8oT+nACvGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JN409767; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgVbOHUj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JN409767"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748585625; x=1780121625;
+  t=1748586286; x=1780122286;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n3TrehFCVXhr3pKqBGhdRlCs3qwfrKgW6sB8lFBM+xE=;
-  b=IgVbOHUjbuV21U0ACfB36iWDcQmNMBcTeqF5iOFUVV6Y1ekmYzfgIYlC
-   zDzi7zCUsN2kIW4SFk00q9ogpj+7n8Lp2SxjP/sVr8XUblzymbHpkKzWx
-   tbws3Fu3eJVSA3UDDMTdVP/jENGZRkPAxawp/J7fafJmAoIxTIK1DGmPe
-   s4fPBbrLMlr3EDuJuZ/B14fXF/h05x+Ybv9zDm1R5boEFURx3rqXsJYDQ
-   MsQCd7jp4DMI3WZTcO22wjin9gNytM8tcL+6fecz9ijL656Uh8O4ZMjiV
-   iaE1Pg+KaqYfuh9HJ1+CIQo7Eevx8mv1l4oLxRzJhuPTZrdPvFhkOcuUr
-   Q==;
-X-CSE-ConnectionGUID: wuJnK65qScaRVKELknDm9Q==
-X-CSE-MsgGUID: a68LC0OoQdy5cInCxQ8rHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="38293934"
+  bh=iJlkg452yrtou/r1VwGRIrfnqrioKqw12Q5uF1IVYCc=;
+  b=JN409767UQv4G39mW8rVZemsqhWaPfJRUsf1oFicEW4/mVJ6pK3H+IVF
+   Wop01NqTnray5FhDFTzsPY6KOcQywlfgPT7uezsrm8aPmOIWJJsKrAxnf
+   iflShwbE+K8qX1zBLjbdL6lDJ5R9xai81IvhLIu+0hF85neecPTdD6rIz
+   XC6ELPmQO2/AO5unhv97LyAq4zEH+0lNHl+6THupggCB4nDry+UdNWejR
+   UfPBZ9QagBFH+6VcIsXL2usvqC6Ujgnh1D85k21cNza9nhfHIsTo4SLwp
+   +aj7EnJei8P5f9LSmlVdJmVKiE80aIa15c6PFztpPhwi2rRtgf+Ut64R5
+   w==;
+X-CSE-ConnectionGUID: qIld74WyQhCDfEXk5PdAyw==
+X-CSE-MsgGUID: owqDUUwdRdmMobQy4J9zXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="50815513"
 X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="38293934"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 23:13:44 -0700
-X-CSE-ConnectionGUID: 0xW4JbxaTC+Uo1WhvWueTQ==
-X-CSE-MsgGUID: 5np8uI99RHW+/tXJFkibIg==
+   d="scan'208";a="50815513"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 23:24:46 -0700
+X-CSE-ConnectionGUID: DGDoL9crSIGZhHzqNjK+Cg==
+X-CSE-MsgGUID: z1+Z475RR/OdOGQFloqy5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="144766212"
+   d="scan'208";a="143608939"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 May 2025 23:13:44 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 May 2025 23:24:44 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKszs-000XPE-36;
-	Fri, 30 May 2025 06:13:40 +0000
-Date: Fri, 30 May 2025 14:13:37 +0800
+	id 1uKtAX-000XPc-2r;
+	Fri, 30 May 2025 06:24:41 +0000
+Date: Fri, 30 May 2025 14:24:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Jia Qingtong <jiaqingtong@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 138/138]
- drivers/soc/mediatek/mtk-dpc.c:470:24: sparse: sparse: symbol
- 'mtk_dpc_driver' was not declared. Should it be static?
-Message-ID: <202505301435.vTHMKFDA-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2938/2938]
+ drivers/irqchip/irq-gic-v3-its.c:504:6: warning: no previous prototype for
+ 'build_devid_pools'
+Message-ID: <202505301434.xq8uzhGR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,39 +63,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   c76c68baa3b1801d81033deae4c36dd8dfe350f5
-commit: 073720863458cfc81c898a81e68932cd296b3e37 [138/138] CHROMIUM: drm/mediatek: add display MMDVFS and MMQoS Support
-config: arm-randconfig-r121-20250529 (https://download.01.org/0day-ci/archive/20250530/202505301435.vTHMKFDA-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250530/202505301435.vTHMKFDA-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   b5ec139da1a4916dfc9644ee3d9426dbd6f23c13
+commit: af552f9d957def499065ed6e194bcd5f0c75dbc5 [2938/2938] irqchip/gic-v3-its: Move build_devid_pools from its to acpi iort init
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250530/202505301434.xq8uzhGR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505301434.xq8uzhGR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505301435.vTHMKFDA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505301434.xq8uzhGR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/mediatek/mtk-dpc.c:470:24: sparse: sparse: symbol 'mtk_dpc_driver' was not declared. Should it be static?
---
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c:877:73: sparse: sparse: Using plain integer as NULL pointer
-   drivers/gpu/drm/mediatek/mtk_drm_drv.c:359:10: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/mediatek/mtk_drm_drv.c:363:10: sparse:   also defined here
+All warnings (new ones prefixed by >>):
 
-vim +/mtk_dpc_driver +470 drivers/soc/mediatek/mtk-dpc.c
+>> drivers/irqchip/irq-gic-v3-its.c:504:6: warning: no previous prototype for 'build_devid_pools' [-Wmissing-prototypes]
+     504 | void build_devid_pools(void)
+         |      ^~~~~~~~~~~~~~~~~
 
-   469	
- > 470	struct platform_driver mtk_dpc_driver = {
-   471		.probe = mtk_dpc_probe,
-   472		.remove = mtk_dpc_remove,
-   473		.driver = {
-   474			.name = "mediatek-disp-dpc",
-   475			.owner = THIS_MODULE,
-   476			.of_match_table = mtk_dpc_driver_dt_match,
-   477		},
-   478	};
-   479	module_platform_driver(mtk_dpc_driver);
-   480	
+
+vim +/build_devid_pools +504 drivers/irqchip/irq-gic-v3-its.c
+
+   500	
+   501	/*
+   502	 * Currently we only build *one* devid pool.
+   503	 */
+ > 504	void build_devid_pools(void)
+   505	{
+   506		struct its_node *its;
+   507	
+   508		its = list_first_entry(&its_nodes, struct its_node, entry);
+   509		if (readl_relaxed(its->base + GITS_IIDR) != 0x00051736)
+   510			return;
+   511	
+   512		if (!probe_devid_pool_one())
+   513			rsv_devid_pool_cap = true;
+   514	
+   515		if (rsv_devid_pool_cap)
+   516			pr_info("ITS: reserved device id pools enabled\n");
+   517	}
+   518	
 
 -- 
 0-DAY CI Kernel Test Service
