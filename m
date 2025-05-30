@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DD6205E16
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 22:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AEE28C01B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 23:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748645531; cv=none; b=gFbQHunzw4YhJLh/IC7sr/eXkRlYFynHvLLphvbcHjlbrgSVqJ6aGXsKiZ10k5Er74si/6djyGNvbJQPPGlFqzl0pVStPJYV+j/KD2W03ulI0kRvSa3cx+d1yX8VjkzPEW5tuSa4ol2RFM479ndKAOb3z/x1/A3ah+mQjLzJTko=
+	t=1748647332; cv=none; b=IXG30/ghoy+0G0Ak2v89REwrT4ga870v55D1IzUCoob3k45UoUNFDTU1Nruuv9dvg4yELI8CC+xWKR1dtSgWmsZZzCqDuX8lbAnIORA//tXMqwp1ZQFmXgclB+ARc+hy43vZdTXSVHnjknSkvTgYg1VSZR0PUilapK+5XEArYnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748645531; c=relaxed/simple;
-	bh=g828fULsQmu2BigqglB+Hnua8OaCFQKORXL1McqY7Fc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BeyXXcMPOSPfkNtZbva9C/a7UEIytZ4JuaqaNK8/3RJCUf73CslmfkCndG+eDJXA3eMJyo3FPrU7tvlyP1+kzHtb6sKawV+laYPzIVcsc6pRjY77Q6hEg9UN/LlO7XM/BkHg22kpLKxrIQYNqL6nkUZHnQ4VpuY5F6jOWo8r1n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ENSdN4Vb; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1748647332; c=relaxed/simple;
+	bh=u5QPujAxahr3lgKkWm19elD7yswC9DeG1bmDQxztD4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cc4weU/GPMctK3mstierszKuhq+PaBgMwvfPXQuTSoGsKCKm4yQniXkc1GmhmYrdluSTphn504yXs8lE3LzDUgDlhF3qeM2xXkwiL7uC7YllYvdpXDg8/lprvrwWTuA2QIxOv+AwymuOqDHsiUHakvmZzavHtSgn6I1/NR3bb9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k0kaKnFC; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ENSdN4Vb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k0kaKnFC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748645528; x=1780181528;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=g828fULsQmu2BigqglB+Hnua8OaCFQKORXL1McqY7Fc=;
-  b=ENSdN4Vbs5J8FAlUVZfVa5w2YzOh27K5/wh8UrIWWXJTFx1YzxDtsF/k
-   RKsNG/WFhb49K+XQe6Ih19X7FRas0sgZMIo6GWiHXLmHLuGiu0UZ5EpTk
-   +f8yYbMe+zmOawRXnzo1QG8A8vrATmxoR0pMkAOnV98GQgLx4V9xrou5s
-   XuTJPDFzQrRkbOfI2Qbkc+t9B8qCND/glNutf7I2gXmWhWmFHS6uoWCSX
-   No+9fhQuWHCe6gABQv+KTyOOH8LiaHwlqtzpxkUkNvKgBSEcCJF9r0kgo
-   ki0JZ0ERF85O0Y/oQk22Pqv5AHMtrbTDmB00ARO3rrDfgLq9ZRcE4FjI+
-   A==;
-X-CSE-ConnectionGUID: 3xZh2vVBRbSnxUphDVdZ4A==
-X-CSE-MsgGUID: Q+tkaSMWSomQZP0giGuhWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="38376036"
+  t=1748647331; x=1780183331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u5QPujAxahr3lgKkWm19elD7yswC9DeG1bmDQxztD4c=;
+  b=k0kaKnFCvGV78ximktRG/6JwhkmVCy56OnBwQT60bK/mm9I3oR15qzyf
+   rJMN92Z0B8VpI/LXrPazh/Bco5H0tajVwaRhvH/3Bc33jfzHOma9NcQE1
+   S2vGDgXfvUJN3edP3aZsdGvDMeITMHBagPN5Xbg5xIXve1F0Bmj1cRrDE
+   rOZC308fHTIqVm8mjyoK4PuzOu/0A29b5YyNnj7PCV1fNL7HvC7ApEU99
+   4mQfsMe3aDiIACGmDQgJDoegRp+CHb+SLQPaf53eAVQFINDabOuFHNVrR
+   cgeJzyWQ83wq0C+QE6gJ9++eALVglkQ1nYxdlIegrJiBvZWWr4XYoHD60
+   g==;
+X-CSE-ConnectionGUID: 0m7Rs0ZtRVOG5x1biiB8Jg==
+X-CSE-MsgGUID: qKMW3JU1SC23PMUUnixF1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="54545617"
 X-IronPort-AV: E=Sophos;i="6.16,197,1744095600"; 
-   d="scan'208";a="38376036"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 15:52:07 -0700
-X-CSE-ConnectionGUID: /pt50DGlSMehQAivjLa41w==
-X-CSE-MsgGUID: 18HvyROaQI+vNyEtSZupqw==
+   d="scan'208";a="54545617"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 16:22:10 -0700
+X-CSE-ConnectionGUID: Ryipz7i6Rr29OwdvhxkT1A==
+X-CSE-MsgGUID: kg7DH605RG2+dEWiylfPvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,197,1744095600"; 
-   d="scan'208";a="181202811"
+   d="scan'208";a="143987977"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 May 2025 15:52:06 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 May 2025 16:22:08 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uL8a3-000Y1s-1q;
-	Fri, 30 May 2025 22:52:03 +0000
-Date: Sat, 31 May 2025 06:51:10 +0800
+	id 1uL937-000Y2W-26;
+	Fri, 30 May 2025 23:22:05 +0000
+Date: Sat, 31 May 2025 07:21:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [linux-next:master 11460/13986]
- arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359):
- '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202505310609.5RZg4pDn-lkp@intel.com>
+To: Harsh Jain <h.jain@amd.com>, herbert@gondor.apana.org.au,
+	davem@davemloft.net, linux-crypto@vger.kernel.org,
+	devicetree@vger.kernel.org, mounika.botcha@amd.com,
+	sarat.chand.savitala@amd.com, mohan.dhanawade@amd.com,
+	michal.simek@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, Harsh Jain <h.jain@amd.com>
+Subject: Re: [PATCH 2/3] crypto: xilinx: Add TRNG driver for Versal
+Message-ID: <202505310740.bRheYmxs-lkp@intel.com>
+References: <20250529113116.669667-3-h.jain@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,624 +66,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250529113116.669667-3-h.jain@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   3a83b350b5be4b4f6bd895eecf9a92080200ee5d
-commit: cfe035d8662cfbd6edff9bd89c4b516bbb34c350 [11460/13986] arm64: dts: =
-mt6359: Rename RTC node to match binding expectations
-config: arm64-randconfig-052-20250529 (https://download.01.org/0day-ci/arch=
-ive/20250531/202505310609.5RZg4pDn-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f81=
-9f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20250531/202505310609.5RZg4pDn-lkp@intel.com/reproduce)
+Hi Harsh,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v6.15 next-20250530]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Jain/dt-bindings-crypto-Add-node-for-True-Random-Number-Generator/20250529-193255
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20250529113116.669667-3-h.jain%40amd.com
+patch subject: [PATCH 2/3] crypto: xilinx: Add TRNG driver for Versal
+config: arc-randconfig-r053-20250531 (https://download.01.org/0day-ci/archive/20250531/202505310740.bRheYmxs-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505310740.bRheYmxs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505310609.5RZg4pDn-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505310740.bRheYmxs-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359): '#s=
-ound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000 (mediatek,=
-mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000 (mediatek,=
-mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: scp@10720000 (mediatek,mt81=
-88-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: scp@10720000 (mediatek,mt81=
-88-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: scp@10720000 (mediatek,mt81=
-88-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
-graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@103200=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@103300=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
-graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@103200=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@103300=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
-graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@103200=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@103300=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
-graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@103200=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@103300=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
-graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@103200=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@103300=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
-graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@103200=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@103300=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
-graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@103200=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@103300=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi:1256.7-1264.4: Warning (=
-graph_child_address): /soc/syscon@1c01d000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@103200=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@103300=
-00 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: scp@10720000 (=
-mediatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic (mediate=
-k,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-=
-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: syscon@112100=
-00 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any of the reg=
-exes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
-dsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pc=
-m (mediatek,mt8192-audio): clock-names:3: 'aud_infra_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pc=
-m (mediatek,mt8192-audio): clock-names:4: 'aud_infra_26m_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pc=
-m (mediatek,mt8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk', 'aud=
-_dac_predis_clk', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk', 'a=
-ud_apll24m_clk', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_tdm_clk=
-', 'aud_tml_clk', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk', 'aud=
-_adc_hires_tml', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3rd_dac=
-_predis_clk', 'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_clk', =
-'aud_infra_26m_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpll_d4_=
-d4', 'top_mux_aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck', 'top=
-_mux_aud_eng1', 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 'top_i2=
-s0_m_sel', 'top_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_i2s4_=
-m_sel', 'top_i2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s8_m_s=
-el', 'top_i2s9_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll12_di=
-v2', 'top_apll12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apll12_d=
-iv5', 'top_apll12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_apll12_=
-div9', 'top_mux_audio_h', 'top_clk26m_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pc=
-m (mediatek,mt8192-audio): clocks: [[59, 0], [59, 7], [59, 8], [59, 6], [59=
-, 21], [59, 1], [59, 2], [59, 4], [59, 3], [59, 5], [59, 9], [59, 10], [59,=
- 18], [59, 19], [59, 20], [59, 22], [59, 23], [59, 24], [59, 25], [59, 26],=
- [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22=
-, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, =
-60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], =
-[22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147],=
- [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is t=
-oo long
---
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: pmic (media=
-tek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctr=
-l-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: syscon@1121=
-0000 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
-dsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names:3: 'aud_infra_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names:4: 'aud_infra_26m_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk', 'a=
-ud_dac_predis_clk', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk', =
-'aud_apll24m_clk', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_tdm_c=
-lk', 'aud_tml_clk', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk', 'a=
-ud_adc_hires_tml', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3rd_d=
-ac_predis_clk', 'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_clk'=
-, 'aud_infra_26m_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpll_d=
-4_d4', 'top_mux_aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck', 't=
-op_mux_aud_eng1', 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 'top_=
-i2s0_m_sel', 'top_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_i2s=
-4_m_sel', 'top_i2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s8_m=
-_sel', 'top_i2s9_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll12_=
-div2', 'top_apll12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apll12=
-_div5', 'top_apll12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_apll1=
-2_div9', 'top_mux_audio_h', 'top_clk26m_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clocks: [[56, 0], [56, 7], [56, 8], [56, 6], [=
-56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10], [5=
-6, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56, 26=
-], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [=
-22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22=
-, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67]=
-, [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147=
-], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is=
- too long
---
->> arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: pmic (mediatek,mt6359): '#s=
-ound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: syscon@11210000 (mediatek,m=
-t8192-audsys): 'mt8192-afe-pcm' does not match any of the regexes: '^pinctr=
-l-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
-dsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: mt8192-afe-pcm (mediatek,mt=
-8192-audio): clock-names:3: 'aud_infra_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: mt8192-afe-pcm (mediatek,mt=
-8192-audio): clock-names:4: 'aud_infra_26m_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: mt8192-afe-pcm (mediatek,mt=
-8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk', 'aud_dac_predis_cl=
-k', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk', 'aud_apll24m_clk=
-', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_tdm_clk', 'aud_tml_cl=
-k', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk', 'aud_adc_hires_tml=
-', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3rd_dac_predis_clk', =
-'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_clk', 'aud_infra_26m=
-_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpll_d4_d4', 'top_mux_=
-aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck', 'top_mux_aud_eng1'=
-, 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 'top_i2s0_m_sel', 'to=
-p_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_i2s4_m_sel', 'top_i=
-2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s8_m_sel', 'top_i2s9=
-_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll12_div2', 'top_apll=
-12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apll12_div5', 'top_apl=
-l12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_apll12_div9', 'top_mu=
-x_audio_h', 'top_clk26m_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: mt8192-afe-pcm (mediatek,mt=
-8192-audio): clocks: [[45, 0], [45, 7], [45, 8], [45, 6], [45, 21], [45, 1]=
-, [45, 2], [45, 4], [45, 3], [45, 5], [45, 9], [45, 10], [45, 18], [45, 19]=
-, [45, 20], [45, 22], [45, 23], [45, 24], [45, 25], [45, 26], [23, 47], [23=
-, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 10=
-5], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61],=
- [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22,=
- 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [2=
-2, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1513.7-1521.4: Warning (=
-graph_child_address): /soc/syscon@1c01a000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic (mediatek,m=
-t6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-=
-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: infra-iommu@1031=
-5000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4=
-, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic@34 (mediate=
-k,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
-k,rt5682s): 'DBVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.ya=
-ml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
-k,rt5682s): 'LDO1-IN-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.ya=
-ml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
-k,rt5682s): Unevaluated properties are not allowed ('VBAT-supply' was unexp=
-ected)
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1513.7-1521.4: Warning (=
-graph_child_address): /soc/syscon@1c01a000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: infra-iommu@10=
-315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796,=
- 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic@34 (media=
-tek,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: codec@1a (real=
-tek,rt5682i): 'DBVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: codec@1a (real=
-tek,rt5682i): 'LDO1-IN-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: edp-tx@1c50000=
-0 (mediatek,mt8195-edp-tx): Unevaluated properties are not allowed ('aux-bu=
-s' was unexpected)
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1513.7-1521.4: Warning (=
-graph_child_address): /soc/syscon@1c01a000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: infra-iommu@10=
-315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796,=
- 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic@34 (media=
-tek,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: codec@1a (real=
-tek,rt5682i): 'DBVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: codec@1a (real=
-tek,rt5682i): 'LDO1-IN-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: edp-tx@1c50000=
-0 (mediatek,mt8195-edp-tx): Unevaluated properties are not allowed ('aux-bu=
-s' was unexpected)
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi:1513.7-1521.4: Warning (=
-graph_child_address): /soc/syscon@1c01a000/port: graph node has single chil=
-d node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic (mediatek=
-,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[=
-0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: infra-iommu@10=
-315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796,=
- 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic@34 (media=
-tek,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a (real=
-tek,rt5682s): 'DBVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.ya=
-ml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a (real=
-tek,rt5682s): 'LDO1-IN-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.ya=
-ml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a (real=
-tek,rt5682s): Unevaluated properties are not allowed ('VBAT-supply' was une=
-xpected)
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pmic (mediatek,mt6359): '#=
-sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: infra-iommu@10315000 (medi=
-atek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, =
-797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
---
-   arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi:1245.7-1253.4: War=
-ning (graph_child_address): /soc/syscon@1c01d000/port: graph node has singl=
-e child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic (mediatek,mt=
-6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9=
-]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10320000 =
-(mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10330000 =
-(mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: scp@10720000 (med=
-iatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: scp@10720000 (med=
-iatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: scp@10720000 (med=
-iatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dts:1119.7-1127.4: Wa=
-rning (graph_child_address): /soc/syscon@1c01a000/port: graph node has sing=
-le child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,m=
-t6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-=
-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@1031=
-5000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4=
-, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/dsi@1c00800=
-0/panel@0: failed to match any schema with compatible: ['startek,kd070fhfid=
-078', 'himax,hx8279']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/dsi@1c00800=
-0/panel@0: failed to match any schema with compatible: ['startek,kd070fhfid=
-078', 'himax,hx8279']
---
-   arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi:1245.7-1253.4: War=
-ning (graph_child_address): /soc/syscon@1c01d000/port: graph node has singl=
-e child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pmic (mediatek,mt=
-6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9=
-]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000 =
-(mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000 =
-(mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: scp@10720000 (med=
-iatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: scp@10720000 (med=
-iatek,mt8188-scp-dual): reg: [[0, 275906560, 0, 917504]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: scp@10720000 (med=
-iatek,mt8188-scp-dual): reg-names: ['cfg'] is too short
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: pmic (med=
-iatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinc=
-trl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: infra-iom=
-mu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0,=
- 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: regulator=
- (mediatek,mt6360-regulator): 'BUCK1', 'BUCK2', 'LDO1', 'LDO2', 'LDO3', 'LD=
-O5', 'LDO6', 'LDO7' do not match any of the regexes: '^buck[12]$', '^ldo[12=
-3567]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6360-regulat=
-or.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3335.22-3347.5: Warning (avoid_=
-unnecessary_addr_size): /soc/dsi@1c008000: unnecessary #address-cells/#size=
--cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /mt8195-sound: fa=
-iled to match any schema with compatible: ['mediatek,mt8195_mt6359']
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: pmic (mediatek,mt=
-6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9=
-]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: infra-iommu@10315=
-000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4,=
- 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
+All errors (new ones prefixed by >>):
 
---=20
+   In file included from <command-line>:
+   drivers/crypto/xilinx/xilinx-trng.c: In function 'xtrng_hwrng_trng_read':
+>> include/linux/compiler_types.h:557:38: error: call to '__compiletime_assert_299' declared with attribute error: min(ret, (max - i)) signedness error
+     557 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:538:4: note: in definition of macro '__compiletime_assert'
+     538 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:557:2: note: in expansion of macro '_compiletime_assert'
+     557 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |  BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+         |  ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
+      98 |  __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |  ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y) __careful_cmp(min, x, y)
+         |                   ^~~~~~~~~~~~~
+   drivers/crypto/xilinx/xilinx-trng.c:300:25: note: in expansion of macro 'min'
+     300 |   memcpy(data + i, buf, min(ret, (max - i)));
+         |                         ^~~
+--
+   In file included from <command-line>:
+   xilinx-trng.c: In function 'xtrng_hwrng_trng_read':
+>> include/linux/compiler_types.h:557:38: error: call to '__compiletime_assert_299' declared with attribute error: min(ret, (max - i)) signedness error
+     557 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:538:4: note: in definition of macro '__compiletime_assert'
+     538 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:557:2: note: in expansion of macro '_compiletime_assert'
+     557 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |  BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+         |  ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
+      98 |  __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |  ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y) __careful_cmp(min, x, y)
+         |                   ^~~~~~~~~~~~~
+   xilinx-trng.c:300:25: note: in expansion of macro 'min'
+     300 |   memcpy(data + i, buf, min(ret, (max - i)));
+         |                         ^~~
+
+
+vim +/__compiletime_assert_299 +557 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
