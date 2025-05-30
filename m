@@ -1,146 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC7C27815E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 19:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D1E2367A8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 20:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748632494; cv=none; b=TiwJPyQHFKJZTsKMA5b6ThE/1uUDZYUDVBdUslUPt0FNMBlV4SJ9mtrciabKoxtI+lZQuQkpEx2PYJqMJo32ixTCoNK2Pxj2pv4dbUx2Mo6T1RxO9yMhIlvdSZXfg7WcvjAUz8pTmiaZUUV9A7Vy7PKeYVtXkqrgq7eumrR4PN4=
+	t=1748636337; cv=none; b=P+cBWO+bhSIKe6M31DFqOfszLVGV6sWMYuZ4tJCQ/L38uqxWC2EQlbYS8D+sTbJieCwBPfX0E0XBDOATY7Op7AtFS9MGCsrE832CbsP3XO9dwq/BQVF3vTDRuCy7mFxc1R161KYUJ0MAjKnuYC85yHKbtxxdOxn0hszoi9rFSoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748632494; c=relaxed/simple;
-	bh=o94uNCWV71Npa/D7DFRsizf1ZwcH4B1mlc/EOztA0Kw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h6LpffOtx/qZ8FWjRQyY+b5trOY51FPuTf0eyDuuxGbyx+hu5vhFJxqNWHjuwh5aL/Pv4bUkmNDgjSUCP1dAiaplwklv/XTDdJUdoVfgOlPZ9iIJn6XmqNXYun0M/viUClDw9ApbaPCbPVfBaI0EYPZ76hIvekcTrReibH1Syd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DIGW7bet; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1748636337; c=relaxed/simple;
+	bh=TsgzG3Siem+ZVZDw0dpx4KwtjEDzRLPVNTomrJNMVxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jHQ6ygPWMrXTH2jawvroiSMV+f24LJoqDR+GDp4b6UNtgWSa5CXy6hshwNtX0vBfjVAjvP6k32pa08eqAJk758zHgeekkT1edlWsiv8uwJMCvtMr3WuouV/dtCP44vqSkcJt6YW+vD7MpR/+GCzYMS7BXbf0AZGu6YuwuEb1S6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rty9AqU2; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DIGW7bet"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rty9AqU2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748632493; x=1780168493;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=o94uNCWV71Npa/D7DFRsizf1ZwcH4B1mlc/EOztA0Kw=;
-  b=DIGW7betdw4A7LfDhL/nZ09cFVNkcL3zzyxQv6c0eaho2zAMwdbjvV41
-   jpWx87BBaIXP4ON9hnj3FPhlNc3jxYDjXCWPLbQyDsrvxe9hL4Ia8eCVn
-   Ao8NKm8zC4ZIv4qwgVUe7f77kKO+VZ2CnUhV+73IrfROMM6o9mzcGutG/
-   nEHndllsdpCIscCl2duuPtU9EdQaEmkFnf7DQUDToYQlLdUsQBwGxq3RM
-   DeF6YI/94uWGLFKmjaIdiOpSjHKFo89H5TB6ZHnSjcU9lPckqWA6YYXIA
-   a7zOVOINoyBCd65xKAZHr52ke4McGizgkTZQaqJhWCbwFrpg+p3hzsVUZ
-   g==;
-X-CSE-ConnectionGUID: TI034hKERZivTA3i3foYgQ==
-X-CSE-MsgGUID: OG8g+VM0Qo2bzhobCCGy0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="60991994"
+  t=1748636337; x=1780172337;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=TsgzG3Siem+ZVZDw0dpx4KwtjEDzRLPVNTomrJNMVxM=;
+  b=Rty9AqU2N89H1HgpxLFtEL7h0sFGHKo8WJA4H4n8d+1IboC04tmnzEav
+   mEM+XVje5cp6yvw3Ha04VaTpuFcuHnB/y/lqha6rz/grzKmkWbDS0dT54
+   wn5C4XQXtBhk6eyW3RKM/3tp3CNgseiB1eVdgy06TeNlZcYGGu/io2B21
+   hEYCPyztQnXrKocb+YW1Bk+wPhTMM0vf0UfsoUCn4kFrjQECDw+75AYpZ
+   SPaHnOr5tFz8awJvpY46T0VWZvoH+N8cC9YOOLAOjoHJF3HZ1pNYvanVd
+   fNHb2JHnjHUIBcRjNv7rBzsdUsk52rR+HXyw4ygSTLgG26/F7LCWjqyiA
+   Q==;
+X-CSE-ConnectionGUID: BUf1O7pRS0mg2LlhVzGSGA==
+X-CSE-MsgGUID: n9vqXOuRRzeW8/WFt8FS3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="50789605"
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="60991994"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 12:14:53 -0700
-X-CSE-ConnectionGUID: eS2mBj5fQZS6qe3p2T0onQ==
-X-CSE-MsgGUID: y9qpQ4EUTiiGK7G8smW0bg==
+   d="scan'208";a="50789605"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 13:18:56 -0700
+X-CSE-ConnectionGUID: uxk+OHYnQA2jvHA7IeTLpw==
+X-CSE-MsgGUID: F/kbG2q6SZ6xu/N6tM6EKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="147843228"
+   d="scan'208";a="167149943"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 30 May 2025 12:14:50 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 May 2025 13:18:54 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uL5Bm-000Xtw-2y;
-	Fri, 30 May 2025 19:14:46 +0000
-Date: Sat, 31 May 2025 03:14:27 +0800
+	id 1uL6Bo-000XwC-05;
+	Fri, 30 May 2025 20:18:52 +0000
+Date: Sat, 31 May 2025 04:18:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>,
-	jonas.gorski@gmail.com, florian.fainelli@broadcom.com,
-	andrew@lunn.ch, olteanv@gmail.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dgcbueu@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>
-Subject: Re: [PATCH] net: dsa: b53: support legacy FCS tags
-Message-ID: <202505310308.8veTfz2G-lkp@intel.com>
-References: <20250530155618.273567-4-noltari@gmail.com>
+To: Kairui Song <ryncsn@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] mm: userfaultfd: fix race of userfaultfd_move and swap
+ cache
+Message-ID: <aDoSlYVIa8rtJupb@679c1d4e5b58>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250530155618.273567-4-noltari@gmail.com>
+In-Reply-To: <20250530201710.81365-1-ryncsn@gmail.com>
 
-Hi Álvaro,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on net-next/main]
-[also build test ERROR on net/main linus/master v6.15 next-20250530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/lvaro-Fern-ndez-Rojas/net-dsa-b53-support-legacy-FCS-tags/20250530-235844
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250530155618.273567-4-noltari%40gmail.com
-patch subject: [PATCH] net: dsa: b53: support legacy FCS tags
-config: sparc-randconfig-001-20250531 (https://download.01.org/0day-ci/archive/20250531/202505310308.8veTfz2G-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505310308.8veTfz2G-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505310308.8veTfz2G-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/net/dsa/b53/b53_common.c: In function 'b53_get_tag_protocol':
->> drivers/net/dsa/b53/b53_common.c:2267:23: error: 'DSA_TAG_PROTO_BRCM_LEGACY_FCS' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_BRCM_LEGACY'?
-      dev->tag_protocol = DSA_TAG_PROTO_BRCM_LEGACY_FCS;
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                          DSA_TAG_PROTO_BRCM_LEGACY
-   drivers/net/dsa/b53/b53_common.c:2267:23: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +2267 drivers/net/dsa/b53/b53_common.c
-
-  2254	
-  2255	enum dsa_tag_protocol b53_get_tag_protocol(struct dsa_switch *ds, int port,
-  2256						   enum dsa_tag_protocol mprot)
-  2257	{
-  2258		struct b53_device *dev = ds->priv;
-  2259	
-  2260		if (!b53_can_enable_brcm_tags(ds, port, mprot)) {
-  2261			dev->tag_protocol = DSA_TAG_PROTO_NONE;
-  2262			goto out;
-  2263		}
-  2264	
-  2265		/* Older models require different 6 byte tags */
-  2266		if (is5325(dev) || is5365(dev)) {
-> 2267			dev->tag_protocol = DSA_TAG_PROTO_BRCM_LEGACY_FCS;
-  2268			goto out;
-  2269		} else if (is63xx(dev)) {
-  2270			dev->tag_protocol = DSA_TAG_PROTO_BRCM_LEGACY;
-  2271			goto out;
-  2272		}
-  2273	
-  2274		/* Broadcom BCM58xx chips have a flow accelerator on Port 8
-  2275		 * which requires us to use the prepended Broadcom tag type
-  2276		 */
-  2277		if (dev->chip_id == BCM58XX_DEVICE_ID && port == B53_CPU_PORT) {
-  2278			dev->tag_protocol = DSA_TAG_PROTO_BRCM_PREPEND;
-  2279			goto out;
-  2280		}
-  2281	
-  2282		dev->tag_protocol = DSA_TAG_PROTO_BRCM;
-  2283	out:
-  2284		return dev->tag_protocol;
-  2285	}
-  2286	EXPORT_SYMBOL(b53_get_tag_protocol);
-  2287	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] mm: userfaultfd: fix race of userfaultfd_move and swap cache
+Link: https://lore.kernel.org/stable/20250530201710.81365-1-ryncsn%40gmail.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
